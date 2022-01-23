@@ -3,16 +3,18 @@ using System.Numerics;
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Emv.Codecs;
+using Play.Ber.Emv.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Emv.DataElements.Exceptions;
 
 namespace ___TEMP.Play.Emv.Security;
 
 /// <summary>
 ///     List of data objects (tag and length) to be passed to the ICC in the INTERNAL AUTHENTICATE command
 /// </summary>
-public record DynamicDataAuthenticationDataObjectList : PrimitiveValue, IEqualityComparer<DynamicDataAuthenticationDataObjectList>
+public record DynamicDataAuthenticationDataObjectList : DataElement<byte[]>, IEqualityComparer<DynamicDataAuthenticationDataObjectList>
 {
     #region Static Metadata
 
@@ -21,18 +23,10 @@ public record DynamicDataAuthenticationDataObjectList : PrimitiveValue, IEqualit
 
     #endregion
 
-    #region Instance Values
-
-    private readonly BigInteger _Value;
-
-    #endregion
-
     #region Constructor
 
-    public DynamicDataAuthenticationDataObjectList(BigInteger value)
-    {
-        _Value = value;
-    }
+    public DynamicDataAuthenticationDataObjectList(ReadOnlySpan<byte> value) : base(value.ToArray())
+    { }
 
     #endregion
 
@@ -57,28 +51,20 @@ public record DynamicDataAuthenticationDataObjectList : PrimitiveValue, IEqualit
 
     #region Serialization
 
-    public static DynamicDataAuthenticationDataObjectList Decode(ReadOnlyMemory<byte> value, BerCodec codec)
+    public static DynamicDataAuthenticationDataObjectList Decode(ReadOnlyMemory<byte> value)
     {
-        return Decode(value.Span, codec);
+        return Decode(value.Span);
     }
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
-    public static DynamicDataAuthenticationDataObjectList Decode(ReadOnlySpan<byte> value, BerCodec codec)
+    public static DynamicDataAuthenticationDataObjectList Decode(ReadOnlySpan<byte> value)
     {
         const ushort maxByteLength = 252;
 
-        if (value.Length > maxByteLength)
-        {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(DynamicDataAuthenticationDataObjectList)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be less than {maxByteLength} bytes in length");
-        }
+        Check.Primitive.ForMaximumLength(value, maxByteLength, Tag);
 
-        DecodedResult<BigInteger> result = codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new
-                InvalidOperationException($"The {nameof(DynamicDataAuthenticationDataObjectList)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
-
-        return new DynamicDataAuthenticationDataObjectList(result.Value);
+        return new DynamicDataAuthenticationDataObjectList(value);
     }
 
     public override byte[] EncodeValue(BerCodec codec)

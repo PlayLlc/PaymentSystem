@@ -26,8 +26,8 @@ internal class Check
         {
             if (value.Length != length)
             {
-                throw new ArgumentOutOfRangeException(
-                    $"The Primitive Value with the Tag {tag.ToString()} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {length} bytes in length");
+                throw new
+                    ArgumentOutOfRangeException($"The Primitive Value with the Tag {tag.ToString()} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {length} bytes in length");
             }
         }
 
@@ -35,8 +35,8 @@ internal class Check
         {
             if (value != length)
             {
-                throw new ArgumentOutOfRangeException(
-                    $"The Primitive Value with the Tag {tag.ToString()} could not be initialized because the char length provided was out of range. The char length was {value} but must be {length} bytes in length");
+                throw new
+                    ArgumentOutOfRangeException($"The Primitive Value with the Tag {tag.ToString()} could not be initialized because the char length provided was out of range. The char length was {value} but must be {length} bytes in length");
             }
         }
 
@@ -51,8 +51,8 @@ internal class Check
         {
             if (value.Length != length)
             {
-                throw new ArgumentOutOfRangeException(
-                    $"The Primitive Value with the Tag {tag.ToString()} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {length} bytes in length");
+                throw new
+                    ArgumentOutOfRangeException($"The Primitive Value with the Tag {tag.ToString()} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {length} bytes in length");
             }
         }
 
@@ -67,8 +67,8 @@ internal class Check
         {
             if (value.Length != length)
             {
-                throw new ArgumentOutOfRangeException(
-                    $"The Primitive Value with the Tag {tag.ToString()} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {length} bytes in length");
+                throw new
+                    ArgumentOutOfRangeException($"The Primitive Value with the Tag {tag.ToString()} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {length} bytes in length");
             }
         }
 
@@ -83,8 +83,8 @@ internal class Check
         {
             if (value.Count() != length)
             {
-                throw new ArgumentOutOfRangeException(
-                    $"The Primitive Value with the Tag {tag.ToString()} could not be initialized because the byte length provided was out of range. The byte length was {value.Count()} but must be {length} bytes in length");
+                throw new
+                    ArgumentOutOfRangeException($"The Primitive Value with the Tag {tag.ToString()} could not be initialized because the byte length provided was out of range. The byte length was {value.Count()} but must be {length} bytes in length");
             }
         }
 
@@ -94,13 +94,13 @@ internal class Check
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
         /// <param name="maxLength"></param>
-        /// <param name="name"></param>
-        public static void ForMaximumLength<T>(IEnumerable<T> value, int maxLength, string name) where T : struct
+        /// <param name="tag"></param>
+        public static void ForMaximumLength<T>(IEnumerable<T> value, int maxLength, Tag tag) where T : struct
         {
             if (value.Count() > maxLength)
             {
-                throw new ArgumentOutOfRangeException(name,
-                    $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
+                throw new
+                    ArgumentOutOfRangeException($"The primitive value with the Tag {tag} was expected to have a maximum length of {maxLength} but did not");
             }
         }
 
@@ -110,13 +110,13 @@ internal class Check
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
         /// <param name="maxLength"></param>
-        /// <param name="name"></param>
-        public static void ForMaximumLength<T>(ReadOnlySpan<T> value, int maxLength, string name) where T : struct
+        /// <param name="tag"></param>
+        public static void ForMaximumLength<T>(ReadOnlySpan<T> value, int maxLength, Tag tag) where T : struct
         {
             if (value.Length > maxLength)
             {
-                throw new ArgumentOutOfRangeException(name,
-                    $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
+                throw new
+                    ArgumentOutOfRangeException($"The primitive value with the Tag {tag} was expected to have a maximum length of {maxLength} but did not");
             }
         }
 

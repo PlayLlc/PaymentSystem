@@ -1,4 +1,7 @@
-﻿using Play.Emv.DataElements;
+﻿using System;
+using System.Collections.Immutable;
+
+using Play.Emv.DataElements;
 using Play.Emv.DataElements.CertificateAuthority;
 using Play.Icc.FileSystem.DedicatedFiles;
 
@@ -30,6 +33,34 @@ public interface ICertificateAuthorityDatabase
     ///     can be found then the return value will be false
     /// </summary>
     public bool TryGet(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex index, out CaPublicKeyCertificate? result);
+
+    #endregion
+}
+
+public class CertificateAuthorityDatabase : ICertificateAuthorityDatabase
+{
+    #region Instance Values
+
+    private readonly ImmutableSortedDictionary<CaPublicKeyCertificateIdentifier, CaPublicKeyCertificate> _CertificateMap;
+
+    #endregion
+
+    #region Instance Members
+
+    public bool IsRevoked(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex caPublicKeyIndex)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void PurgeRevokedCertificates()
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool TryGet(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex index, out CaPublicKeyCertificate? result)
+    {
+        throw new NotImplementedException();
+    }
 
     #endregion
 }
