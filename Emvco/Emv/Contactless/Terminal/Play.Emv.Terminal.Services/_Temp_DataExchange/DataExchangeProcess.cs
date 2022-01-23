@@ -7,8 +7,6 @@ using Play.Emv.Terminal.Contracts.SignalIn;
 
 namespace Play.Emv.Terminal.Services._Temp_DataExchange
 {
-
-
     internal class DataExchangeProcess : CommandProcessingQueue
     {
         #region Constructor
