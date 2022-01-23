@@ -23,17 +23,10 @@ namespace Play.Emv.Terminal.Services._Temp_DataExchange
             Enqueue((dynamic) request);
         }
 
-        private async Task Handle(QueryTerminalRequest request)
-        {
-            throw new NotImplementedException();
+        private async Task Handle(QueryTerminalRequest request) => throw new NotImplementedException();
 
-            //await Task.Run(() => { _TerminalStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
-        }
-
-        protected override Task Handle(dynamic command)
-        {
-            return Handle(command);
-        }
+        //await Task.Run(() => { _TerminalStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
+        protected override Task Handle(dynamic command) => Handle(command);
 
         #endregion
     }
