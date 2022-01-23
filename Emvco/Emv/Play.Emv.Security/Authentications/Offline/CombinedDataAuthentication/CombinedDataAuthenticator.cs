@@ -1,15 +1,15 @@
 ﻿using System;
 
-using ___TEMP.Play.Emv.Security.Certificates.Chip;
-using ___TEMP.Play.Emv.Security.Cryptograms;
-
 using Play.Ber.Codecs;
 using Play.Emv.DataElements;
 using Play.Emv.DataElements.CertificateAuthority;
+using Play.Emv.Security.Certificates.Chip;
+using Play.Emv.Security.Cryptograms;
+using Play.Emv.Security.Messages.CDA;
 using Play.Encryption.Encryption.Hashing;
 using Play.Encryption.Encryption.Signing;
 
-namespace ___TEMP.Play.Emv.Security.Authentications.Dynamic.CombinedDataAuthentication;
+namespace Play.Emv.Security.Authentications.Offline.CombinedDataAuthentication;
 
 internal class CombinedDataAuthenticator : IAuthenticateCombinedData
 {

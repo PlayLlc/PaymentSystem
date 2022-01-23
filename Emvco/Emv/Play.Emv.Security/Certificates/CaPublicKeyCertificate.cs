@@ -4,10 +4,12 @@ using System.Security.Cryptography;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
+using Play.Emv.DataElements;
+using Play.Emv.DataElements.CertificateAuthority;
 using Play.Globalization.Time;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace Play.Emv.DataElements.CertificateAuthority;
+namespace Play.Emv.Security.Certificates;
 
 public class CaPublicKeyCertificate : PublicKeyCertificate
 {

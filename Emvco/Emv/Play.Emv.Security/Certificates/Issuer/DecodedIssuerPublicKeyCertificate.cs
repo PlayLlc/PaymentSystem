@@ -2,7 +2,7 @@
 using Play.Emv.DataElements.CertificateAuthority;
 using Play.Globalization.Time;
 
-namespace ___TEMP.Play.Emv.Security.Certificates.Issuer;
+namespace Play.Emv.Security.Certificates.Issuer;
 
 public class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
 {

@@ -6,7 +6,7 @@ using Play.Codecs;
 using Play.Emv.DataElements.CertificateAuthority;
 using Play.Encryption.Encryption.Signing;
 
-namespace ___TEMP.Play.Emv.Security.Authentications.Static.Signed;
+namespace Play.Emv.Security.Authentications.Static.Signed;
 
 internal class DecodedSignedStaticApplicationData : DecodedSignature
 {

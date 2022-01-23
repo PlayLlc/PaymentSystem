@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 
-using ___TEMP.Play.Emv.Security.Certificates.Chip;
-using ___TEMP.Play.Emv.Security.Cryptograms;
-
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Emv.DataObjects;
 using Play.Emv.DataElements;
+using Play.Emv.Security.Authentications.Offline.CombinedDataAuthentication;
+using Play.Emv.Security.Certificates.Chip;
+using Play.Emv.Security.Cryptograms;
 
-namespace ___TEMP.Play.Emv.Security.Authentications.Dynamic.CombinedDataAuthentication;
+namespace Play.Emv.Security.Messages.CDA;
 
 /// <summary>
 ///     Command for authenticating the dynamic signature for the second GENERATE AC command using the CDA flag

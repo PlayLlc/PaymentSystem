@@ -9,7 +9,7 @@ using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.DataElements.CertificateAuthority;
 
-namespace ___TEMP.Play.Emv.Security.Certificates.Chip;
+namespace Play.Emv.Security.Certificates.Chip;
 
 /// <summary>
 ///     ICC Public Key Exponent used for the verification of the Signed Dynamic Application Data

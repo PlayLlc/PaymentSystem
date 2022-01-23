@@ -1,14 +1,17 @@
 ﻿using ___TEMP.Play.Emv.Security.Authentications;
-using ___TEMP.Play.Emv.Security.Authentications.Dynamic.CombinedDataAuthentication;
-using ___TEMP.Play.Emv.Security.Authentications.Dynamic.DynamicDataAuthentication;
-using ___TEMP.Play.Emv.Security.Authentications.Static;
 
 using Play.Ber.Emv;
 using Play.Emv.DataElements;
+using Play.Emv.Security.Authentications.Offline.CombinedDataAuthentication;
+using Play.Emv.Security.Authentications.Offline.DynamicDataAuthentication;
+using Play.Emv.Security.Authentications.Static;
+using Play.Emv.Security.Messages.CDA;
+using Play.Emv.Security.Messages.DDA;
+using Play.Emv.Security.Messages.Static;
 using Play.Encryption.Encryption.Hashing;
 using Play.Encryption.Encryption.Signing;
 
-namespace ___TEMP.Play.Emv.Security.__Services;
+namespace Play.Emv.Security;
 
 public class AuthenticationService : IAuthenticateOfflineData, IResolveAuthenticationType
 {

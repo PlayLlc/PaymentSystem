@@ -7,7 +7,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Icc.SecureMessaging;
 
-namespace ___TEMP.Play.Emv.Security.Cryptograms;
+namespace Play.Emv.Security.Cryptograms;
 
 /// <summary>
 ///     Cryptogram returned by the ICC in response of the GENERATE AC command

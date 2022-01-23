@@ -5,7 +5,7 @@ using Play.Ber.InternalFactories;
 using Play.Emv.DataElements;
 using Play.Icc.Emv;
 
-namespace ___TEMP.Play.Emv.Security.Checksum;
+namespace Play.Emv.Security.Checksum;
 
 public class GetChallengeResponseFactory : TemplateFactory<GetChallengeResponseMessage>
 {

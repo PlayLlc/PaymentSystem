@@ -4,8 +4,9 @@ using System.Linq;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Ber.DataObjects;
+using Play.Emv.DataElements;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Security.Authentications.Static;
 
 public class StaticDataToBeAuthenticated
 {

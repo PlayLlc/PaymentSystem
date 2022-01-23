@@ -1,11 +1,10 @@
-﻿using ___TEMP.Play.Emv.Security.Certificates.Chip;
-using ___TEMP.Play.Emv.Security.Certificates.Issuer;
-
-using Play.Emv.DataElements;
-using Play.Emv.DataElements.CertificateAuthority;
+﻿using Play.Emv.DataElements;
+using Play.Emv.Security.Authentications.Static;
+using Play.Emv.Security.Certificates.Chip;
+using Play.Emv.Security.Certificates.Issuer;
 using Play.Encryption.Encryption.Signing;
 
-namespace ___TEMP.Play.Emv.Security.Certificates;
+namespace Play.Emv.Security.Certificates;
 
 internal partial class CertificateFactory
 {

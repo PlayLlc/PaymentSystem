@@ -5,6 +5,7 @@ using Play.Emv.Configuration;
 using Play.Emv.DataElements;
 using Play.Emv.DataElements.CertificateAuthority;
 using Play.Emv.Kernel.Databases;
+using Play.Emv.Security.Certificates;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Kernel2.Databases;
@@ -28,8 +29,10 @@ public class Kernel2CertificateAuthorityDatabase : ICertificateAuthorityDatabase
 
     #region Instance Members
 
-    public bool IsRevoked(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex caPublicKeyIndex) =>
-        _CertificateMap[rid]!.IsRevoked(caPublicKeyIndex);
+    public bool IsRevoked(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex caPublicKeyIndex)
+    {
+        return _CertificateMap[rid]!.IsRevoked(caPublicKeyIndex);
+    }
 
     public void PurgeRevokedCertificates()
     {

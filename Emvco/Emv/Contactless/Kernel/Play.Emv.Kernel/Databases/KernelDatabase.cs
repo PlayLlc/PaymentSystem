@@ -7,6 +7,7 @@ using Play.Ber.Identifiers;
 using Play.Emv.DataElements;
 using Play.Emv.DataElements.CertificateAuthority;
 using Play.Emv.Kernel.DataExchange;
+using Play.Emv.Security.Certificates;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Transactions;
@@ -46,8 +47,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (IsActive())
         {
-            throw new InvalidOperationException(
-                $"Could not retrieve the {nameof(DataExchangeKernelService)} because the {nameof(KernelDatabase)} is not active");
+            throw new
+                InvalidOperationException($"Could not retrieve the {nameof(DataExchangeKernelService)} because the {nameof(KernelDatabase)} is not active");
         }
 
         return _KernelSession!.GetDataExchangeKernelService();
@@ -72,8 +73,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (IsActive())
         {
-            throw new InvalidOperationException(
-                $"A command to initialize the Kernel Database was invoked but the {nameof(KernelDatabase)} is already active");
+            throw new
+                InvalidOperationException($"A command to initialize the Kernel Database was invoked but the {nameof(KernelDatabase)} is already active");
         }
 
         _KernelSession = new KernelSession(kernelSessionId, _TerminalEndpoint, this, kernelEndpoint);
@@ -99,8 +100,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new InvalidOperationException(
-                $"The method {nameof(Get)} cannot be accessed because {nameof(KernelDatabase)} is not active");
+            throw new
+                InvalidOperationException($"The method {nameof(Get)} cannot be accessed because {nameof(KernelDatabase)} is not active");
         }
 
         return _TlvDatabase.Get(tag);
@@ -123,8 +124,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new InvalidOperationException(
-                $"The method {nameof(IsPresent)} cannot be accessed because {nameof(KernelDatabase)} is not active");
+            throw new
+                InvalidOperationException($"The method {nameof(IsPresent)} cannot be accessed because {nameof(KernelDatabase)} is not active");
         }
 
         return _TlvDatabase.IsPresent(tag);
@@ -142,8 +143,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new InvalidOperationException(
-                $"The method {nameof(IsPresentAndNotEmpty)} cannot be accessed because {nameof(KernelDatabase)} is not active");
+            throw new
+                InvalidOperationException($"The method {nameof(IsPresentAndNotEmpty)} cannot be accessed because {nameof(KernelDatabase)} is not active");
         }
 
         return _TlvDatabase.IsPresentAndNotEmpty(tag);
@@ -158,8 +159,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new InvalidOperationException(
-                $"The method {nameof(IsRevoked)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            throw new
+                InvalidOperationException($"The method {nameof(IsRevoked)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         return _CertificateAuthorityDatabase!.IsRevoked(rid, caPublicKeyIndex);
@@ -189,8 +190,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new InvalidOperationException(
-                $"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            throw new
+                InvalidOperationException($"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         return _CertificateAuthorityDatabase.TryGet(rid, index, out result);
@@ -206,8 +207,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new InvalidOperationException(
-                $"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            throw new
+                InvalidOperationException($"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         return _TlvDatabase.TryGet(tag, out result);
@@ -217,8 +218,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new InvalidOperationException(
-                $"The method {nameof(GetKernelSession)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            throw new
+                InvalidOperationException($"The method {nameof(GetKernelSession)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         return _KernelSession!;
@@ -232,8 +233,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new InvalidOperationException(
-                $"The method {nameof(TryGetKernelSessionId)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            throw new
+                InvalidOperationException($"The method {nameof(TryGetKernelSessionId)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         result = _KernelSession!.GetKernelSessionId();
@@ -252,8 +253,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new InvalidOperationException(
-                $"The method {nameof(Update)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            throw new
+                InvalidOperationException($"The method {nameof(Update)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         _TlvDatabase.Update(value);
@@ -269,8 +270,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new InvalidOperationException(
-                $"The method {nameof(UpdateRange)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            throw new
+                InvalidOperationException($"The method {nameof(UpdateRange)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         _TlvDatabase.UpdateRange(values);
@@ -280,22 +281,57 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new InvalidOperationException(
-                $"The method {nameof(Initialize)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            throw new
+                InvalidOperationException($"The method {nameof(Initialize)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         _TlvDatabase.Update(new DatabaseValue(tag));
     }
 
-    public void Update(Level1Error value) => _KernelSession!.Update(value);
-    public void Update(Level2Error value) => _KernelSession!.Update(value);
-    public void Update(Level3Error value) => _KernelSession!.Update(value);
-    public void Update(OutcomeParameterSet.Builder value) => _KernelSession!.Update(value);
-    public void Update(UserInterfaceRequestData.Builder value) => _KernelSession!.Update(value);
-    public void Reset(OutcomeParameterSet value) => _KernelSession!.Reset(value);
-    public void Reset(UserInterfaceRequestData value) => _KernelSession!.Reset(value);
-    public void Reset(ErrorIndication value) => _KernelSession!.Reset(value);
-    protected bool IsActive() => _KernelSession != null;
+    public void Update(Level1Error value)
+    {
+        _KernelSession!.Update(value);
+    }
+
+    public void Update(Level2Error value)
+    {
+        _KernelSession!.Update(value);
+    }
+
+    public void Update(Level3Error value)
+    {
+        _KernelSession!.Update(value);
+    }
+
+    public void Update(OutcomeParameterSet.Builder value)
+    {
+        _KernelSession!.Update(value);
+    }
+
+    public void Update(UserInterfaceRequestData.Builder value)
+    {
+        _KernelSession!.Update(value);
+    }
+
+    public void Reset(OutcomeParameterSet value)
+    {
+        _KernelSession!.Reset(value);
+    }
+
+    public void Reset(UserInterfaceRequestData value)
+    {
+        _KernelSession!.Reset(value);
+    }
+
+    public void Reset(ErrorIndication value)
+    {
+        _KernelSession!.Reset(value);
+    }
+
+    protected bool IsActive()
+    {
+        return _KernelSession != null;
+    }
 
     #endregion
 }

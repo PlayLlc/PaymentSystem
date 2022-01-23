@@ -9,7 +9,7 @@ using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Core.Extensions;
 
-namespace ___TEMP.Play.Emv.Security.Checksum;
+namespace Play.Emv.Security.Checksum;
 
 /// <summary>
 ///     Description: The POS Cardholder Interaction Information informs the Kernel about the indicators set in the mobile

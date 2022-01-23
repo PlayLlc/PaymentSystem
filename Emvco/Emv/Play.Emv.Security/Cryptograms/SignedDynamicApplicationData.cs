@@ -9,7 +9,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 
-namespace ___TEMP.Play.Emv.Security.Cryptograms;
+namespace Play.Emv.Security.Cryptograms;
 
 /// <summary>
 ///     Digital signature on critical application parameters for DDA or CDA

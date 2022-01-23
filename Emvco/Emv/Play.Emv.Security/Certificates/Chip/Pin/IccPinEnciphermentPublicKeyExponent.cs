@@ -8,7 +8,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 
-namespace ___TEMP.Play.Emv.Security.Certificates.Chip.Pin;
+namespace Play.Emv.Security.Certificates.Chip.Pin;
 
 /// <summary>
 ///     ICC PIN Encipherment Public Key Exponent used for PIN encipherment

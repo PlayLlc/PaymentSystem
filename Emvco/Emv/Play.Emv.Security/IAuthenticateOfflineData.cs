@@ -1,7 +1,7 @@
-﻿using ___TEMP.Play.Emv.Security.Authentications.Dynamic.CombinedDataAuthentication;
-using ___TEMP.Play.Emv.Security.Authentications.Dynamic.DynamicDataAuthentication;
+﻿using Play.Emv.Security.Messages.CDA;
+using Play.Emv.Security.Messages.DDA;
 
-namespace ___TEMP.Play.Emv.Security.Authentications;
+namespace Play.Emv.Security;
 
 public interface IAuthenticateOfflineData
 {

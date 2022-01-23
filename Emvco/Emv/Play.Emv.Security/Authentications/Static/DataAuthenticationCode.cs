@@ -8,7 +8,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 
-namespace ___TEMP.Play.Emv.Security.Authentications.Static;
+namespace Play.Emv.Security.Authentications.Static;
 
 /// <summary>
 ///     An issuer assigned value that is retained by the terminal during the verification process of the Signed Static

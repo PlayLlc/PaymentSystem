@@ -1,4 +1,4 @@
-﻿namespace ___TEMP.Play.Emv.Security.__Services;
+﻿namespace Play.Emv.Security;
 
 // I'm doing this wrong. The DOL should be filled from the Kernel side via a DEK
 //public class ApplicationCryptogramGenerator : IGenerateApplicationCryptogramResponse

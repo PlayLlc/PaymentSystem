@@ -1,10 +1,9 @@
-﻿using ___TEMP.Play.Emv.Security.Certificates.Chip;
-using ___TEMP.Play.Emv.Security.Cryptograms;
-
-using Play.Ber.Emv.DataObjects;
+﻿using Play.Ber.Emv.DataObjects;
 using Play.Emv.DataElements;
+using Play.Emv.Security.Certificates.Chip;
+using Play.Emv.Security.Cryptograms;
 
-namespace ___TEMP.Play.Emv.Security.Authentications.Dynamic.DynamicDataAuthentication;
+namespace Play.Emv.Security.Messages.DDA;
 
 public class AuthenticateDynamicDataCommand
 {

@@ -11,7 +11,7 @@ using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.DataElements.CertificateAuthority;
 
-namespace ___TEMP.Play.Emv.Security.Certificates.Issuer;
+namespace Play.Emv.Security.Certificates.Issuer;
 
 /// <summary>
 ///     Issuer public key exponent used for the verification of the Signed Static Application Data and the ICC Public Key

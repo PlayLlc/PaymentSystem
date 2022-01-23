@@ -1,6 +1,6 @@
 ﻿using Play.Emv.DataElements;
 
-namespace ___TEMP.Play.Emv.Security.Authentications.Static;
+namespace Play.Emv.Security.Messages.Static;
 
 public class AuthenticateStaticDataResponse
 {

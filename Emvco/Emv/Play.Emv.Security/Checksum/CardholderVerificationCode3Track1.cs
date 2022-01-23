@@ -8,7 +8,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 
-namespace ___TEMP.Play.Emv.Security.Checksum;
+namespace Play.Emv.Security.Checksum;
 
 /// <summary>
 ///     Description: The CVC3 (Track1) is a 2-byte cryptogram returned by the Card in the response to the COMPUTE

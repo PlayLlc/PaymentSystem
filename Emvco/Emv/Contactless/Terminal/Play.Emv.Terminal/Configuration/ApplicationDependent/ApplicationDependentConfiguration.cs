@@ -1,6 +1,5 @@
-﻿using ___TEMP.Play.Emv.Security.__Contracts;
-
-using Play.Emv.Configuration;
+﻿using Play.Emv.Configuration;
+using Play.Emv.Security.Certificates;
 
 namespace Play.Emv.Terminal.Configuration.ApplicationDependent;
 

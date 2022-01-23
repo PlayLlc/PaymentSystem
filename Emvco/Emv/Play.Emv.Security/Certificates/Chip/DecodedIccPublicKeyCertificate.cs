@@ -2,7 +2,7 @@
 using Play.Emv.DataElements.CertificateAuthority;
 using Play.Globalization.Time;
 
-namespace ___TEMP.Play.Emv.Security.Certificates.Chip;
+namespace Play.Emv.Security.Certificates.Chip;
 
 public class DecodedIccPublicKeyCertificate : PublicKeyCertificate
 {

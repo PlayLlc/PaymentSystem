@@ -4,7 +4,7 @@ using Play.Emv.DataElements;
 using Play.Emv.DataElements.CertificateAuthority;
 using Play.Encryption.Encryption.Signing;
 
-namespace ___TEMP.Play.Emv.Security.Authentications.Dynamic.CombinedDataAuthentication;
+namespace Play.Emv.Security.Authentications.Offline.CombinedDataAuthentication;
 
 internal class DecodedSignedDynamicApplicationDataCda : DecodedSignature
 {

@@ -2,7 +2,7 @@
 
 using Play.Emv.DataElements;
 
-namespace ___TEMP.Play.Emv.Security.__Services;
+namespace Play.Emv.Security;
 
 public interface IResolveAuthenticationType
 {

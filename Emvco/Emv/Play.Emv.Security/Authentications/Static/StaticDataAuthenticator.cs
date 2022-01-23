@@ -1,17 +1,17 @@
 ﻿using System;
 
-using ___TEMP.Play.Emv.Security.Authentications.Static.Signed;
-using ___TEMP.Play.Emv.Security.Certificates;
-using ___TEMP.Play.Emv.Security.Certificates.Issuer;
-
 using Play.Ber.Exceptions;
 using Play.Emv.DataElements;
 using Play.Emv.DataElements.CertificateAuthority;
+using Play.Emv.Security.Authentications.Static.Signed;
+using Play.Emv.Security.Certificates;
+using Play.Emv.Security.Certificates.Issuer;
+using Play.Emv.Security.Messages.Static;
 using Play.Encryption.Encryption.Signing;
 using Play.Icc.Emv;
 using Play.Icc.Messaging.Apdu;
 
-namespace ___TEMP.Play.Emv.Security.Authentications.Static;
+namespace Play.Emv.Security.Authentications.Static;
 
 internal class StaticDataAuthenticator
 {

@@ -1,14 +1,13 @@
 ﻿using System;
 
-using ___TEMP.Play.Emv.Security.Checksum;
-
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Emv.DataElements;
+using Play.Emv.Security.Checksum;
 using Play.Emv.Templates.ResponseMessages;
 
-namespace ___TEMP.Play.Emv.Security.Cryptograms;
+namespace Play.Emv.Security.Cryptograms;
 
 public class GenerateAcResponseMessage : ResponseMessageTemplate
 {

@@ -2,9 +2,8 @@
 using System.Linq;
 
 using Play.Core.Exceptions;
-using Play.Emv.DataElements.CertificateAuthority;
 
-namespace ___TEMP.Play.Emv.Security.__Contracts;
+namespace Play.Emv.Security.Certificates;
 
 public class SecurityConfiguration
 {

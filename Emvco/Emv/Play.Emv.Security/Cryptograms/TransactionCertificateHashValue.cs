@@ -9,7 +9,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 
-namespace ___TEMP.Play.Emv.Security.Cryptograms;
+namespace Play.Emv.Security.Cryptograms;
 
 /// <summary>
 ///     Result of a hash function specified in Book 2, Annex B3.1

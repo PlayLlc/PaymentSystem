@@ -4,7 +4,7 @@ using System.Collections.Immutable;
 
 using Play.Core;
 
-namespace ___TEMP.Play.Emv.Security.Certificates;
+namespace Play.Emv.Security.Certificates;
 
 public sealed record CertificateFormat : EnumObject<byte>, IEqualityComparer<CertificateFormat>
 {

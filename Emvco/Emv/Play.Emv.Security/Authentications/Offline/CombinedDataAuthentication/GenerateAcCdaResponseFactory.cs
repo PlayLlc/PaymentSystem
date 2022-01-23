@@ -1,14 +1,13 @@
 ﻿using System;
 
-using ___TEMP.Play.Emv.Security.Checksum;
-using ___TEMP.Play.Emv.Security.Cryptograms;
-
 using Play.Ber.Emv;
 using Play.Ber.InternalFactories;
 using Play.Emv.DataElements;
+using Play.Emv.Security.Checksum;
+using Play.Emv.Security.Cryptograms;
 using Play.Icc.Emv;
 
-namespace ___TEMP.Play.Emv.Security.Authentications.Dynamic.CombinedDataAuthentication;
+namespace Play.Emv.Security.Authentications.Offline.CombinedDataAuthentication;
 
 public class GenerateAcCdaResponseFactory : TemplateFactory<GenerateAcCdaResponseMessage>
 {

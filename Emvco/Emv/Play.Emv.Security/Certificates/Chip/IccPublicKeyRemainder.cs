@@ -9,7 +9,7 @@ using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.DataElements.CertificateAuthority;
 
-namespace ___TEMP.Play.Emv.Security.Certificates.Chip;
+namespace Play.Emv.Security.Certificates.Chip;
 
 /// <summary>
 ///     Remaining digits of the ICC Public Key Modulus

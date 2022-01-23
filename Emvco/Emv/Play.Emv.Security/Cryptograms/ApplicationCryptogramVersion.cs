@@ -5,7 +5,7 @@ using System.Collections.Immutable;
 using Play.Core;
 using Play.Core.Extensions;
 
-namespace ___TEMP.Play.Emv.Security.Cryptograms;
+namespace Play.Emv.Security.Cryptograms;
 
 public record ApplicationCryptogramVersion : EnumObject<byte>, IEqualityComparer<ApplicationCryptogramVersion>
 {

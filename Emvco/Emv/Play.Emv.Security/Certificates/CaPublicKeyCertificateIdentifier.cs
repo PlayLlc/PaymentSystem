@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
+using Play.Emv.DataElements;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace Play.Emv.DataElements.CertificateAuthority;
+namespace Play.Emv.Security.Certificates;
 
 /// <summary>
 ///     A composite key that uniquely identifies a certificate for an Issuer

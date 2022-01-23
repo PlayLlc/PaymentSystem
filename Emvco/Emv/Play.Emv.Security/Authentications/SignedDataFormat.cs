@@ -4,7 +4,7 @@ using System.Collections.Immutable;
 
 using Play.Core;
 
-namespace ___TEMP.Play.Emv.Security.Authentications;
+namespace Play.Emv.Security.Authentications;
 
 public sealed record SignedDataFormat : EnumObject<byte>, IEqualityComparer<SignedDataFormat>
 {

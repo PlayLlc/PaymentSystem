@@ -10,7 +10,7 @@ using Play.Ber.InternalFactories;
 using Play.Core.Extensions;
 using Play.Emv.DataElements;
 
-namespace ___TEMP.Play.Emv.Security.Cryptograms;
+namespace Play.Emv.Security.Cryptograms;
 
 /// <summary>
 ///     Indicates the type of cryptogram and the actions to be performed by the terminal

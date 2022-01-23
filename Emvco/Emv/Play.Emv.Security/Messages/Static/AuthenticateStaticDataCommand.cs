@@ -1,11 +1,11 @@
-﻿using ___TEMP.Play.Emv.Security.Authentications.Static.Signed;
-using ___TEMP.Play.Emv.Security.Certificates.Issuer;
-
-using Play.Ber.DataObjects;
+﻿using Play.Ber.DataObjects;
 using Play.Emv.DataElements;
-using Play.Emv.DataElements.CertificateAuthority;
+using Play.Emv.Security.Authentications.Static;
+using Play.Emv.Security.Authentications.Static.Signed;
+using Play.Emv.Security.Certificates;
+using Play.Emv.Security.Certificates.Issuer;
 
-namespace ___TEMP.Play.Emv.Security.Authentications.Static;
+namespace Play.Emv.Security.Messages.Static;
 
 public class AuthenticateStaticDataCommand
 {

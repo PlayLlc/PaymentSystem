@@ -6,7 +6,7 @@ using Play.Ber.Identifiers;
 using Play.Emv.DataElements;
 using Play.Emv.Templates.ResponseMessages;
 
-namespace ___TEMP.Play.Emv.Security.Checksum;
+namespace Play.Emv.Security.Checksum;
 
 public class GetChallengeResponseMessage : ResponseMessageTemplate
 {

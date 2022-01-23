@@ -1,10 +1,9 @@
 ﻿using System;
 
-using ___TEMP.Play.Emv.Security.Cryptograms;
-
 using Play.Emv.DataElements;
+using Play.Emv.Security.Cryptograms;
 
-namespace ___TEMP.Play.Emv.Security.Authentications.Dynamic.CombinedDataAuthentication;
+namespace Play.Emv.Security.Messages.CDA;
 
 public class AuthenticateCombinedDataResponse
 {

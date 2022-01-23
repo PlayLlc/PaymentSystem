@@ -1,12 +1,11 @@
 ﻿using System;
 
-using ___TEMP.Play.Emv.Security.Cryptograms;
-
 using Play.Codecs;
 using Play.Emv.DataElements;
+using Play.Emv.Security.Cryptograms;
 using Play.Encryption.Encryption.Hashing;
 
-namespace ___TEMP.Play.Emv.Security.Authentications.Dynamic.CombinedDataAuthentication;
+namespace Play.Emv.Security.Authentications.Offline.CombinedDataAuthentication;
 
 internal class IccDynamicData
 {

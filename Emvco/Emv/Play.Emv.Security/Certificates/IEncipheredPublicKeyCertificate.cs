@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ___TEMP.Play.Emv.Security.Certificates;
+namespace Play.Emv.Security.Certificates;
 
 public interface IEncipheredPublicKeyCertificate
 {

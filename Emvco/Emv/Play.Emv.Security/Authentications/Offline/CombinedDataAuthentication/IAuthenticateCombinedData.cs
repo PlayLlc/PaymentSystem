@@ -1,4 +1,6 @@
-﻿namespace ___TEMP.Play.Emv.Security.Authentications.Dynamic.CombinedDataAuthentication;
+﻿using Play.Emv.Security.Messages.CDA;
+
+namespace Play.Emv.Security.Authentications.Offline.CombinedDataAuthentication;
 
 public interface IAuthenticateCombinedData
 {

@@ -3,6 +3,7 @@ using System.Linq;
 
 using Play.Core.Exceptions;
 using Play.Emv.DataElements.CertificateAuthority;
+using Play.Emv.Security.Certificates;
 
 namespace ___TEMP.Play.Emv.Security.__Contracts;
 
