@@ -41,8 +41,7 @@ public class Outcome
     }
 
     public Outcome(OutcomeParameterSet outcomeParameterSet)
-    {
-        CheckCore.ForNull(outcomeParameterSet, nameof(outcomeParameterSet));
+    { 
         _OutcomeParameterSet = outcomeParameterSet;
     }
 

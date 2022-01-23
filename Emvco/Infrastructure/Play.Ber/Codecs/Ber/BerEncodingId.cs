@@ -17,8 +17,7 @@ public readonly record struct BerEncodingId
     #region Constructor
 
     internal BerEncodingId(Type value)
-    {
-        CheckCore.ForNull(value, nameof(value));
+    { 
 
         if (!value.IsSubclassOf(typeof(BerPrimitiveCodec)))
         {

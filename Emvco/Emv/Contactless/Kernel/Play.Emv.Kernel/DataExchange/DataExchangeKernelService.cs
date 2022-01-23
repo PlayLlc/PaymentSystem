@@ -20,6 +20,8 @@ public class DataExchangeKernelService
     #region Instance Values
 
     protected readonly IQueryTlvDatabase _TlvDatabase;
+
+    private readonly KernelSessionId _KernelSessionId;
     private readonly ISendTerminalQueryResponse _KernelEndpoint;
     private readonly IHandleTerminalRequests _TerminalEndpoint;
     private readonly DataExchangeKernelLock _Lock = new();
@@ -29,13 +31,15 @@ public class DataExchangeKernelService
     #region Constructor
 
     public DataExchangeKernelService(
+        KernelSessionId kernelSessionId,
         IHandleTerminalRequests terminalEndpoint,
         KernelDatabase kernelDatabase,
         ISendTerminalQueryResponse kernelEndpoint)
     {
+        _KernelSessionId = kernelSessionId;
         _TerminalEndpoint = terminalEndpoint;
-        _TlvDatabase = kernelDatabase;
         _KernelEndpoint = kernelEndpoint;
+        _TlvDatabase = kernelDatabase;
     }
 
     #endregion

@@ -18,9 +18,9 @@ public class Kernel2Session : KernelSession
 
     public Kernel2Session(
         KernelSessionId kernelSessionId,
-        IHandleTerminalRequests terminalRequests,
+        IHandleTerminalRequests terminalEndpoint,
         KernelDatabase kernelDatabase,
-        ISendTerminalQueryResponse kernelEndpoint) : base(kernelSessionId, terminalRequests, kernelDatabase, kernelEndpoint)
+        ISendTerminalQueryResponse kernelEndpoint) : base(kernelSessionId, terminalEndpoint, kernelDatabase, kernelEndpoint)
     {
         _Kernel2SessionConfiguration = new Kernel2SessionConfiguration();
     }

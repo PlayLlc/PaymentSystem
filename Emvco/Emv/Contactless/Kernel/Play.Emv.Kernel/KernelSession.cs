@@ -24,35 +24,52 @@ public class KernelSession
 
     public KernelSession(
         KernelSessionId kernelSessionId,
-        IHandleTerminalRequests terminalRequests,
+        IHandleTerminalRequests terminalEndpoint,
         KernelDatabase kernelDatabase,
         ISendTerminalQueryResponse kernelEndpoint)
     {
         _KernelSessionId = kernelSessionId;
         _KernelDatabase = kernelDatabase;
-        _DataExchangeKernelService = new DataExchangeKernelService(kernelSessionId, terminalRequests, kernelDatabase, kernelEndpoint);
+        _DataExchangeKernelService = new DataExchangeKernelService(kernelSessionId, terminalEndpoint, kernelDatabase, kernelEndpoint);
     }
 
     #endregion
 
     #region Instance Members
 
-    public DataExchangeKernelService GetDataExchangeKernelService() => _DataExchangeKernelService;
+    public DataExchangeKernelService GetDataExchangeKernelService()
+    {
+        return _DataExchangeKernelService;
+    }
 
     #endregion
 
     #region Read
 
-    public KernelSessionId GetKernelSessionId() => _KernelSessionId;
-    public TransactionSessionId GetTransactionSessionId() => _KernelSessionId.GetTransactionSessionId();
+    public KernelSessionId GetKernelSessionId()
+    {
+        return _KernelSessionId;
+    }
 
-    public Outcome GetOutcome() =>
-        new(GetErrorIndication(), GetOutcomeParameterSet(), GetDataRecord(), GetDiscretionaryData(), GetUserInterfaceRequestData());
+    public TransactionSessionId GetTransactionSessionId()
+    {
+        return _KernelSessionId.GetTransactionSessionId();
+    }
 
-    private ErrorIndication GetErrorIndication() => ErrorIndication.Decode(_KernelDatabase.Get(ErrorIndication.Tag).EncodeValue().AsSpan());
+    public Outcome GetOutcome()
+    {
+        return new(GetErrorIndication(), GetOutcomeParameterSet(), GetDataRecord(), GetDiscretionaryData(), GetUserInterfaceRequestData());
+    }
 
-    private OutcomeParameterSet GetOutcomeParameterSet() =>
-        OutcomeParameterSet.Decode(_KernelDatabase.Get(OutcomeParameterSet.Tag).EncodeValue().AsSpan());
+    private ErrorIndication GetErrorIndication()
+    {
+        return ErrorIndication.Decode(_KernelDatabase.Get(ErrorIndication.Tag).EncodeValue().AsSpan());
+    }
+
+    private OutcomeParameterSet GetOutcomeParameterSet()
+    {
+        return OutcomeParameterSet.Decode(_KernelDatabase.Get(OutcomeParameterSet.Tag).EncodeValue().AsSpan());
+    }
 
     private UserInterfaceRequestData? GetUserInterfaceRequestData()
     {
@@ -97,9 +114,20 @@ public class KernelSession
         _KernelDatabase.Update(new ErrorIndication(GetErrorIndication(), value));
     }
 
-    public void Reset(OutcomeParameterSet value) => _KernelDatabase.Update(value);
-    public void Reset(UserInterfaceRequestData value) => _KernelDatabase.Update(value);
-    public void Reset(ErrorIndication value) => _KernelDatabase.Update(value);
+    public void Reset(OutcomeParameterSet value)
+    {
+        _KernelDatabase.Update(value);
+    }
+
+    public void Reset(UserInterfaceRequestData value)
+    {
+        _KernelDatabase.Update(value);
+    }
+
+    public void Reset(ErrorIndication value)
+    {
+        _KernelDatabase.Update(value);
+    }
 
     public void Update(OutcomeParameterSet.Builder value)
     {

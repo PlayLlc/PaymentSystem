@@ -1,5 +1,4 @@
-﻿using Play.Core.Exceptions;
-using Play.Emv.DataElements;
+﻿using Play.Emv.DataElements;
 using Play.Globalization.Currency;
 
 namespace Play.Emv.Configuration;
@@ -17,7 +16,6 @@ public class DisplayMessage
 
     public DisplayMessage(MessageIdentifier identifier, string message)
     {
-        CheckCore.ForNull(message, nameof(message));
         _Message = message;
         _Identifier = identifier;
     }
@@ -26,8 +24,15 @@ public class DisplayMessage
 
     #region Instance Members
 
-    public string Display() => _Message;
-    public virtual string Display(Money amount) => string.Format(_Message, amount);
+    public string Display()
+    {
+        return _Message;
+    }
+
+    public virtual string Display(Money amount)
+    {
+        return string.Format(_Message, amount);
+    }
 
     #endregion
 }

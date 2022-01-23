@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
-using Play.Core.Exceptions;
 
 namespace Play.Ber.InternalFactories;
 
@@ -19,8 +18,6 @@ internal sealed class ValueFactory
 
     public ValueFactory(IDictionary<BerEncodingId, BerPrimitiveCodec> berPrimitiveCodecMap)
     {
-        CheckCore.ForNull(berPrimitiveCodecMap, nameof(berPrimitiveCodecMap));
-
         _BerPrimitiveCodecMap = berPrimitiveCodecMap;
     }
 
@@ -39,8 +36,8 @@ internal sealed class ValueFactory
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(berEncodingId, out BerPrimitiveCodec? codec))
         {
-            throw new BerInternalException(
-                $"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {berEncodingId.GetFullyQualifiedName()} and with Id: [{berEncodingId}]");
+            throw new
+                BerInternalException($"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {berEncodingId.GetFullyQualifiedName()} and with Id: [{berEncodingId}]");
         }
 
         return codec.GetByteCount(value);
@@ -57,8 +54,8 @@ internal sealed class ValueFactory
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(berEncodingId, out BerPrimitiveCodec? codec))
         {
-            throw new BerConfigurationException(
-                $"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {berEncodingId.GetFullyQualifiedName()} and with Id: [{berEncodingId}]");
+            throw new
+                BerConfigurationException($"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {berEncodingId.GetFullyQualifiedName()} and with Id: [{berEncodingId}]");
         }
 
         return _BerPrimitiveCodecMap[berEncodingId].GetByteCount(value);
@@ -69,8 +66,8 @@ internal sealed class ValueFactory
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(berEncodingId, out BerPrimitiveCodec? codec))
         {
-            throw new BerConfigurationException(
-                $"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {berEncodingId.GetFullyQualifiedName()} and with Id: [{berEncodingId}]");
+            throw new
+                BerConfigurationException($"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {berEncodingId.GetFullyQualifiedName()} and with Id: [{berEncodingId}]");
         }
 
         return codec!.Encode(value);
@@ -81,8 +78,8 @@ internal sealed class ValueFactory
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(berEncodingId, out BerPrimitiveCodec? codec))
         {
-            throw new BerConfigurationException(
-                $"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {berEncodingId.GetFullyQualifiedName()} and with Id: [{berEncodingId}]");
+            throw new
+                BerConfigurationException($"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {berEncodingId.GetFullyQualifiedName()} and with Id: [{berEncodingId}]");
         }
 
         return codec!.Encode(value);
@@ -93,8 +90,8 @@ internal sealed class ValueFactory
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(berEncodingId, out BerPrimitiveCodec? codec))
         {
-            throw new BerConfigurationException(
-                $"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {berEncodingId.GetFullyQualifiedName()} and with Id: [{berEncodingId}]");
+            throw new
+                BerConfigurationException($"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {berEncodingId.GetFullyQualifiedName()} and with Id: [{berEncodingId}]");
         }
 
         return codec!.Encode(value, length);
@@ -105,8 +102,8 @@ internal sealed class ValueFactory
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(berEncodingId, out BerPrimitiveCodec? codec))
         {
-            throw new BerConfigurationException(
-                $"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {berEncodingId.GetFullyQualifiedName()} and with Id: [{berEncodingId}]");
+            throw new
+                BerConfigurationException($"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {berEncodingId.GetFullyQualifiedName()} and with Id: [{berEncodingId}]");
         }
 
         return codec!.Encode(value, length);
@@ -126,8 +123,8 @@ internal sealed class ValueFactory
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(berEncodingId, out BerPrimitiveCodec? codec))
         {
-            throw new InvalidOperationException(
-                $"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {berEncodingId.GetFullyQualifiedName()} and with Id: [{berEncodingId}]");
+            throw new
+                InvalidOperationException($"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {berEncodingId.GetFullyQualifiedName()} and with Id: [{berEncodingId}]");
         }
 
         return codec!.Decode(value);
