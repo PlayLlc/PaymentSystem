@@ -54,26 +54,19 @@ internal class TerminalQueryResolver
         return new TagLengthValue(tag, ReadOnlySpan<byte>.Empty);
     }
 
-    private TagLengthValue GetPunatcTrack2(TerminalStateMachine.TerminalSessionLock sessionLock)
-    {
+    private TagLengthValue GetPunatcTrack2(TerminalStateMachine.TerminalSessionLock sessionLock) =>
+
         // HACK: Resolve this before implementing Magstripe
-        return new TagLengthValue(PunatcTrack2.Tag, ReadOnlySpan<byte>.Empty);
-    }
+        new TagLengthValue(PunatcTrack2.Tag, ReadOnlySpan<byte>.Empty);
 
-    private TagLengthValue GetAmountAuthorizedNumeric(TerminalStateMachine.TerminalSessionLock sessionLock)
-    {
-        return sessionLock.Session!.Transaction.GetAmountAuthorizedNumeric().AsTagLengthValue();
-    }
+    private TagLengthValue GetAmountAuthorizedNumeric(TerminalStateMachine.TerminalSessionLock sessionLock) =>
+        sessionLock.Session!.Transaction.GetAmountAuthorizedNumeric().AsTagLengthValue();
 
-    private TagLengthValue GetAmountOtherNumeric(TerminalStateMachine.TerminalSessionLock sessionLock)
-    {
-        return sessionLock.Session!.Transaction.GetAmountOtherNumeric().AsTagLengthValue();
-    }
+    private TagLengthValue GetAmountOtherNumeric(TerminalStateMachine.TerminalSessionLock sessionLock) =>
+        sessionLock.Session!.Transaction.GetAmountOtherNumeric().AsTagLengthValue();
 
-    private TagLengthValue GetTerminalCountryCode(TerminalStateMachine.TerminalSessionLock sessionLock)
-    {
-        return sessionLock.Session!.Transaction.GetTerminalCountryCode().AsTagLengthValue();
-    }
+    private TagLengthValue GetTerminalCountryCode(TerminalStateMachine.TerminalSessionLock sessionLock) =>
+        sessionLock.Session!.Transaction.GetTerminalCountryCode().AsTagLengthValue();
 
     private TagLengthValue GetTerminalVerificationResults(TerminalStateMachine.TerminalSessionLock sessionLock)
     {
@@ -92,30 +85,20 @@ internal class TerminalQueryResolver
         return sessionLock.Session!.Transaction.GetTerminalVerificationResults().AsTagLengthValue();
     }
 
-    private TagLengthValue GetTransactionCurrencyCode(TerminalStateMachine.TerminalSessionLock sessionLock)
-    {
-        return sessionLock.Session!.Transaction.GetTransactionCurrencyCode().AsTagLengthValue();
-    }
+    private TagLengthValue GetTransactionCurrencyCode(TerminalStateMachine.TerminalSessionLock sessionLock) =>
+        sessionLock.Session!.Transaction.GetTransactionCurrencyCode().AsTagLengthValue();
 
-    private TagLengthValue GetTransactionDate(TerminalStateMachine.TerminalSessionLock sessionLock)
-    {
-        return sessionLock.Session!.Transaction.GetTransactionDate().AsTagLengthValue();
-    }
+    private TagLengthValue GetTransactionDate(TerminalStateMachine.TerminalSessionLock sessionLock) =>
+        sessionLock.Session!.Transaction.GetTransactionDate().AsTagLengthValue();
 
-    private TagLengthValue GetTransactionType(TerminalStateMachine.TerminalSessionLock sessionLock)
-    {
-        return sessionLock.Session!.Transaction.GetTransactionType().AsTagLengthValue();
-    }
+    private TagLengthValue GetTransactionType(TerminalStateMachine.TerminalSessionLock sessionLock) =>
+        sessionLock.Session!.Transaction.GetTransactionType().AsTagLengthValue();
 
-    private TagLengthValue GetUnpredictableNumber(TerminalStateMachine.TerminalSessionLock sessionLock)
-    {
-        return new UnpredictableNumber().AsTagLengthValue();
-    }
+    private TagLengthValue GetUnpredictableNumber(TerminalStateMachine.TerminalSessionLock sessionLock) =>
+        new UnpredictableNumber().AsTagLengthValue();
 
-    private TagLengthValue GetMerchantNameAndLocation(TerminalStateMachine.TerminalSessionLock sessionLock)
-    {
-        return sessionLock.Session!.TerminalConfiguration.GetMerchantNameAndLocation();
-    }
+    private TagLengthValue GetMerchantNameAndLocation(TerminalStateMachine.TerminalSessionLock sessionLock) =>
+        sessionLock.Session!.TerminalConfiguration.GetMerchantNameAndLocation();
 
     #endregion
 }
