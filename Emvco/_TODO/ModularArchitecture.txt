@@ -11,3 +11,5 @@ Decouple Configuration
 		- PersistentValues
 	d) Play.Emv.Pcd
 		- PcdProtocolConfig
+2) Internalize everything that doesn't need to be public
+	Play.Security

@@ -8,15 +8,13 @@
 
   <ItemGroup>
     <Compile Remove="Cryptograms\_TEMP\**" />
-    <Compile Remove="Encryption\Checksum\**" />
     <EmbeddedResource Remove="Cryptograms\_TEMP\**" />
-    <EmbeddedResource Remove="Encryption\Checksum\**" />
     <None Remove="Cryptograms\_TEMP\**" />
-    <None Remove="Encryption\Checksum\**" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Emv\Play.Emv\Play.Emv.csproj" />
+    <ProjectReference Include="..\Infrastructure\Play.Encryption\Play.Encryption.csproj" />
   </ItemGroup>
 
 </Project>

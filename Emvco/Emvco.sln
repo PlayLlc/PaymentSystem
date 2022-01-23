@@ -160,6 +160,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_TODO", "_TODO", "{0E71B2BA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "___TEMP.Play.Emv.Security", "___TEMP.Play.Emv.Security\___TEMP.Play.Emv.Security.csproj", "{38C9875B-957D-4211-9D1B-CABDABA2BADD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Encryption", "Infrastructure\Play.Encryption\Play.Encryption.csproj", "{7A4390AC-7C1F-4E4C-8CAD-6ED6AA79984E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -386,6 +388,10 @@ Global
 		{38C9875B-957D-4211-9D1B-CABDABA2BADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38C9875B-957D-4211-9D1B-CABDABA2BADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38C9875B-957D-4211-9D1B-CABDABA2BADD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A4390AC-7C1F-4E4C-8CAD-6ED6AA79984E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A4390AC-7C1F-4E4C-8CAD-6ED6AA79984E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A4390AC-7C1F-4E4C-8CAD-6ED6AA79984E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A4390AC-7C1F-4E4C-8CAD-6ED6AA79984E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -461,6 +467,7 @@ Global
 		{3683E86F-0A42-4CA0-9A52-472AB2C48D14} = {D7CA87CA-8340-4E2C-A2ED-5CE46EEC455B}
 		{2B470913-7193-45E5-AEAC-0643A7669475} = {D7CA87CA-8340-4E2C-A2ED-5CE46EEC455B}
 		{38C9875B-957D-4211-9D1B-CABDABA2BADD} = {4AB74B06-60FD-45F7-B46A-809A7A5DC33F}
+		{7A4390AC-7C1F-4E4C-8CAD-6ED6AA79984E} = {D7CA87CA-8340-4E2C-A2ED-5CE46EEC455B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E9927CF8-C10C-47E1-87FD-7ACEEBCD340D}

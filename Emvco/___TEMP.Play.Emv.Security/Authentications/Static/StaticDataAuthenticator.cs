@@ -1,11 +1,11 @@
 ﻿using ___TEMP.Play.Emv.Security.Authentications.Static.Signed;
 using ___TEMP.Play.Emv.Security.Certificates;
 using ___TEMP.Play.Emv.Security.Certificates.Issuer;
-using ___TEMP.Play.Emv.Security.Encryption.Signing;
 
 using Play.Ber.Exceptions;
 using Play.Emv.DataElements;
 using Play.Emv.DataElements.CertificateAuthority;
+using Play.Encryption.Encryption.Signing;
 using Play.Icc.Emv;
 using Play.Icc.Messaging.Apdu;
 
@@ -22,7 +22,7 @@ internal class StaticDataAuthenticator
 
     #region Constructor
 
-    public StaticDataAuthenticator(ISignatureService signatureService)
+    public StaticDataAuthenticator(SignatureService signatureService)
     {
         _SignedStaticApplicationDataDecoder = new SignedStaticApplicationDataDecoder(signatureService);
         _CertificateFactory = new CertificateFactory(signatureService);

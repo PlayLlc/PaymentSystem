@@ -1,9 +1,9 @@
 ﻿using ___TEMP.Play.Emv.Security.Certificates.Chip;
 using ___TEMP.Play.Emv.Security.Certificates.Issuer;
-using ___TEMP.Play.Emv.Security.Encryption.Signing;
 
 using Play.Emv.DataElements;
 using Play.Emv.DataElements.CertificateAuthority;
+using Play.Encryption.Encryption.Signing;
 
 namespace ___TEMP.Play.Emv.Security.Certificates;
 
@@ -11,13 +11,13 @@ internal partial class CertificateFactory
 {
     #region Instance Values
 
-    protected readonly ISignatureService _SignatureService;
+    protected readonly SignatureService _SignatureService;
 
     #endregion
 
     #region Constructor
 
-    public CertificateFactory(ISignatureService signatureService)
+    public CertificateFactory(SignatureService signatureService)
     {
         _SignatureService = signatureService;
     }

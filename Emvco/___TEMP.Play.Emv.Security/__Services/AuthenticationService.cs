@@ -2,15 +2,15 @@
 using ___TEMP.Play.Emv.Security.Authentications.Dynamic.CombinedDataAuthentication;
 using ___TEMP.Play.Emv.Security.Authentications.Dynamic.DynamicDataAuthentication;
 using ___TEMP.Play.Emv.Security.Authentications.Static;
-using ___TEMP.Play.Emv.Security.Encryption.Hashing;
-using ___TEMP.Play.Emv.Security.Encryption.Signing;
 
 using Play.Ber.Emv;
 using Play.Emv.DataElements;
+using Play.Encryption.Encryption.Hashing;
+using Play.Encryption.Encryption.Signing;
 
 namespace ___TEMP.Play.Emv.Security.__Services;
 
-public class AuthenticationService
+public class AuthenticationService : IAuthenticateOfflineData, IResolveAuthenticationType
 {
     #region Instance Values
 
@@ -49,7 +49,7 @@ public class AuthenticationService
     /// <remarks>
     ///     Book 3 Section 10.3
     /// </remarks>
-    public static AuthenticationType GetAuthenticationMethod(
+    public AuthenticationType GetAuthenticationMethod(
         TerminalCapabilities terminalCapabilities,
         ApplicationInterchangeProfile applicationInterchangeProfile)
     {

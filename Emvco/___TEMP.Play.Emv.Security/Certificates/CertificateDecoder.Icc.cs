@@ -1,12 +1,12 @@
 ﻿using ___TEMP.Play.Emv.Security.Certificates.Chip;
 using ___TEMP.Play.Emv.Security.Certificates.Issuer;
-using ___TEMP.Play.Emv.Security.Encryption.Signing;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs.Strings;
 using Play.Emv.DataElements;
 using Play.Emv.DataElements.CertificateAuthority;
+using Play.Encryption.Encryption.Signing;
 using Play.Globalization.Time;
 
 namespace ___TEMP.Play.Emv.Security.Certificates;
@@ -53,12 +53,12 @@ internal partial class CertificateFactory
 
         private static ShortDateValue GetCertificateExpirationDate(Message1 message1)
         {
-            return new(_NumericCodec.GetUInt16(message1[new Range(11, 13)]));
+            return new ShortDateValue(_NumericCodec.GetUInt16(message1[new Range(11, 13)]));
         }
 
         private static CertificateSerialNumber GetCertificateSerialNumber(Message1 message1)
         {
-            return new(message1[new Range(13, 16)]);
+            return new CertificateSerialNumber(message1[new Range(13, 16)]);
         }
 
         // TODO: The remainder and exponent will be coming from the TLV Database. No need to pass those with the
@@ -99,12 +99,12 @@ internal partial class CertificateFactory
 
         private static Range GetLeftmostIssuerPublicKeyRange(DecodedIssuerPublicKeyCertificate issuerPublicKeyCertificate)
         {
-            return new(20, issuerPublicKeyCertificate.GetPublicKeyModulus().GetByteCount() - 42);
+            return new Range(20, issuerPublicKeyCertificate.GetPublicKeyModulus().GetByteCount() - 42);
         }
 
         private static PrimaryAccountNumber GetPrimaryAccountNumber(Message1 message1)
         {
-            return new(message1[new Range(1, 11)]);
+            return new PrimaryAccountNumber(message1[new Range(1, 11)]);
         }
 
         private static PublicKeyAlgorithmIndicator GetPublicKeyAlgorithmIndicator(Message1 message1)
@@ -166,7 +166,7 @@ internal partial class CertificateFactory
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
         private static bool IsValid(
-            ISignatureService signatureService,
+            SignatureService signatureService,
             DecodedIssuerPublicKeyCertificate issuerPublicKeyCertificate,
             DecodedSignature decodedSignature,
             IccPublicKeyCertificate encipheredCertificate,
@@ -214,7 +214,7 @@ internal partial class CertificateFactory
         /// </remarks>
         /// <exception cref="InvalidOperationException"></exception>
         public static bool TryCreate(
-            ISignatureService signatureService,
+            SignatureService signatureService,
             StaticDataToBeAuthenticated staticDataToBeAuthenticated,
             PrimaryAccountNumber primaryAccountNumber,
             DecodedIssuerPublicKeyCertificate publicKeyCertificate,

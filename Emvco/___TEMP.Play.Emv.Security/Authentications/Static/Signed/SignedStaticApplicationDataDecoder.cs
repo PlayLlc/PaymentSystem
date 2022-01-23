@@ -1,8 +1,7 @@
-﻿using ___TEMP.Play.Emv.Security.Encryption.Signing;
-
-using Microsoft.Toolkit.HighPerformance.Buffers;
+﻿using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Emv.DataElements;
+using Play.Encryption.Encryption.Signing;
 
 namespace ___TEMP.Play.Emv.Security.Authentications.Static.Signed;
 
@@ -10,13 +9,13 @@ internal class SignedStaticApplicationDataDecoder
 {
     #region Instance Values
 
-    private readonly ISignatureService _SignatureService;
+    private readonly SignatureService _SignatureService;
 
     #endregion
 
     #region Constructor
 
-    public SignedStaticApplicationDataDecoder(ISignatureService signatureService)
+    public SignedStaticApplicationDataDecoder(SignatureService signatureService)
     {
         _SignatureService = signatureService;
     }

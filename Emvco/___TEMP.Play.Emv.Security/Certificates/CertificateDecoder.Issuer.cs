@@ -1,5 +1,4 @@
 ﻿using ___TEMP.Play.Emv.Security.Certificates.Issuer;
-using ___TEMP.Play.Emv.Security.Encryption.Signing;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
@@ -7,6 +6,7 @@ using Play.Ber.Emv.Codecs;
 using Play.Codecs.Strings;
 using Play.Emv.DataElements;
 using Play.Emv.DataElements.CertificateAuthority;
+using Play.Encryption.Encryption.Signing;
 using Play.Globalization.Time;
 
 namespace ___TEMP.Play.Emv.Security.Certificates;
@@ -56,12 +56,12 @@ internal partial class CertificateFactory
 
         private static ShortDateValue GetCertificateExpirationDate(Message1 message1)
         {
-            return new(_NumericCodec.GetUInt16(message1[new Range(5, 7)]));
+            return new ShortDateValue(_NumericCodec.GetUInt16(message1[new Range(5, 7)]));
         }
 
         private static CertificateSerialNumber GetCertificateSerialNumber(Message1 message1)
         {
-            return new(message1[new Range(7, 10)]);
+            return new CertificateSerialNumber(message1[new Range(7, 10)]);
         }
 
         // TODO: The remainder and exponent will be coming from the TLV Database. No need to pass those with the
@@ -94,7 +94,7 @@ internal partial class CertificateFactory
 
         private static IssuerIdentificationNumber GetIssuerIdentificationNumber(Message1 message1)
         {
-            return new(_CompressedNumericCodec.DecodeUInt32(message1[new Range(1, 5)]));
+            return new IssuerIdentificationNumber(_CompressedNumericCodec.DecodeUInt32(message1[new Range(1, 5)]));
         }
 
         private static byte GetIssuerPublicKeyExponentLength(Message1 message1)
@@ -109,7 +109,7 @@ internal partial class CertificateFactory
 
         private static Range GetLeftmostIssuerPublicKeyRange(CaPublicKeyCertificate caPublicKeyCertificate)
         {
-            return new(15, caPublicKeyCertificate.GetPublicKeyModulus().GetByteCount() - 36);
+            return new Range(15, caPublicKeyCertificate.GetPublicKeyModulus().GetByteCount() - 36);
         }
 
         private static PublicKeyAlgorithmIndicator GetPublicKeyAlgorithmIndicator(Message1 message1)
@@ -174,7 +174,7 @@ internal partial class CertificateFactory
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
         private static bool IsValid(
-            ISignatureService signatureService,
+            SignatureService signatureService,
             CaPublicKeyCertificate caPublicKeyCertificate,
             DecodedSignature decodedSignature,
             PublicKeyExponent publicKeyExponent,
@@ -219,7 +219,7 @@ internal partial class CertificateFactory
         /// </remarks>
         /// <exception cref="InvalidOperationException"></exception>
         public static bool TryCreate(
-            ISignatureService signatureService,
+            SignatureService signatureService,
             CaPublicKeyCertificate publicKeyCertificate,
             IssuerPublicKeyCertificate encipheredCertificate,
             IssuerPublicKeyExponent encipheredPublicKeyExponent,

@@ -1,9 +1,8 @@
-using ___TEMP.Play.Emv.Security.Encryption.Signing;
-
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs;
 using Play.Emv.DataElements.CertificateAuthority;
+using Play.Encryption.Encryption.Signing;
 
 namespace ___TEMP.Play.Emv.Security.Authentications.Static.Signed;
 
@@ -51,7 +50,7 @@ internal class DecodedSignedStaticApplicationData : DecodedSignature
 
     public DataAuthenticationCode GetDataAuthenticationCode()
     {
-        return new(PlayEncoding.UnsignedInteger.GetUInt16(_Message1.AsByteArray()[3..4]));
+        return new DataAuthenticationCode(PlayEncoding.UnsignedInteger.GetUInt16(_Message1.AsByteArray()[3..4]));
     }
 
     public HashAlgorithmIndicator GetHashAlgorithmIndicator()
