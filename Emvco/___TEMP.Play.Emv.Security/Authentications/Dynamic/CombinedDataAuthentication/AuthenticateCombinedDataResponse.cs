@@ -1,11 +1,9 @@
-﻿using System;
+﻿using ___TEMP.Play.Emv.Security.Cryptograms;
+using ___TEMP.Play.Emv.Security.Messaging;
 
-using Play.Ber.DataObjects;
 using Play.Emv.DataElements;
-using Play.Emv.Security.Cryptograms;
-using Play.Emv.Security.Messaging;
 
-namespace Play.Emv.Security.Authentications;
+namespace ___TEMP.Play.Emv.Security.Authentications.Dynamic.CombinedDataAuthentication;
 
 public class AuthenticateCombinedDataResponse : SecurityResponse
 {
@@ -28,13 +26,13 @@ public class AuthenticateCombinedDataResponse : SecurityResponse
         _IccDynamicNumber = iccDynamicNumber;
     }
 
-    public AuthenticateCombinedDataResponse(TerminalVerificationResult terminalVerificationResult, ErrorIndication errorIndication) : base(
-        terminalVerificationResult, errorIndication)
+    public AuthenticateCombinedDataResponse(TerminalVerificationResult terminalVerificationResult, ErrorIndication errorIndication) :
+        base(terminalVerificationResult, errorIndication)
     {
         if (!terminalVerificationResult.IsCombinationDataAuthenticationFailedSet())
         {
-            throw new InvalidOperationException(
-                $"The object {nameof(AuthenticateCombinedData1Command)} could not be initialized. The {nameof(TerminalVerificationResult)} was expected to indicate the authentication failed but did not. If the authentication passed then please use the other constructor");
+            throw new
+                InvalidOperationException($"The object {nameof(AuthenticateCombinedData1Command)} could not be initialized. The {nameof(TerminalVerificationResult)} was expected to indicate the authentication failed but did not. If the authentication passed then please use the other constructor");
         }
 
         _ApplicationCryptogram = null;

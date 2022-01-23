@@ -1,10 +1,7 @@
-﻿using System;
-
-using Play.Emv.DataElements;
+﻿using Play.Emv.DataElements;
 using Play.Emv.DataElements.CertificateAuthority;
-using Play.Emv.Security.Contracts;
 
-namespace Play.Emv.Security.Encryption.Signing;
+namespace ___TEMP.Play.Emv.Security.Encryption.Signing;
 
 internal interface ISignatureService
 {

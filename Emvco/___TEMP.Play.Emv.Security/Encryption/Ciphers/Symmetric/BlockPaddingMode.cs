@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.Security.Cryptography;
 
 using Play.Core;
 
-namespace Play.Emv.Security.Encryption.Ciphers;
+namespace ___TEMP.Play.Emv.Security.Encryption.Ciphers.Symmetric;
 
 /// <summary>
 ///     Specifies the type of padding to add when the message block is shorter than the block size
@@ -55,14 +53,24 @@ public sealed record BlockPaddingMode : EnumObject<byte>, IEqualityComparer<Bloc
 
     #region Instance Members
 
-    public PaddingMode AsPaddingMode() => (PaddingMode) _Value;
-    public static bool TryGet(byte value, out BlockPaddingMode? result) => _ValueObjectMap.TryGetValue(value, out result);
+    public PaddingMode AsPaddingMode()
+    {
+        return (PaddingMode) _Value;
+    }
+
+    public static bool TryGet(byte value, out BlockPaddingMode? result)
+    {
+        return _ValueObjectMap.TryGetValue(value, out result);
+    }
 
     #endregion
 
     #region Equality
 
-    public bool Equals(BlockPaddingMode? other) => other is not null && (_Value == other._Value);
+    public bool Equals(BlockPaddingMode? other)
+    {
+        return other is not null && (_Value == other._Value);
+    }
 
     public bool Equals(BlockPaddingMode? x, BlockPaddingMode? y)
     {
@@ -75,8 +83,15 @@ public sealed record BlockPaddingMode : EnumObject<byte>, IEqualityComparer<Bloc
         return x.Equals(y);
     }
 
-    public int GetHashCode(BlockPaddingMode other) => other.GetHashCode();
-    public override int GetHashCode() => unchecked(_Value.GetHashCode() * 31771);
+    public int GetHashCode(BlockPaddingMode other)
+    {
+        return other.GetHashCode();
+    }
+
+    public override int GetHashCode()
+    {
+        return unchecked(_Value.GetHashCode() * 31771);
+    }
 
     #endregion
 }

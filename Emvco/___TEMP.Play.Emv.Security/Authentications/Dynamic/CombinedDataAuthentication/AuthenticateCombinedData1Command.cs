@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using ___TEMP.Play.Emv.Security.Certificates.Chip;
+using ___TEMP.Play.Emv.Security.Cryptograms;
+using ___TEMP.Play.Emv.Security.Messaging;
 
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Emv.DataObjects;
 using Play.Emv.DataElements;
-using Play.Emv.Security.Certificates.Chip;
-using Play.Emv.Security.Cryptograms;
-using Play.Emv.Security.Messaging;
 
-namespace Play.Emv.Security.Authentications;
+namespace ___TEMP.Play.Emv.Security.Authentications.Dynamic.CombinedDataAuthentication;
 
 /// <summary>
 ///     Command for authenticating the dynamic signature for the first GENERATE AC command using the CDA flag
@@ -46,8 +45,15 @@ public class AuthenticateCombinedData1Command : SecurityCommand
 
     #region Instance Members
 
-    public GenerateAcCdaResponseMessage GetGenerateAcCdaResponseMessage() => _GenerateAcCdaResponseMessage;
-    public DecodedIccPublicKeyCertificate GetIccPublicKeyCertificate() => _IccPublicKeyCertificate;
+    public GenerateAcCdaResponseMessage GetGenerateAcCdaResponseMessage()
+    {
+        return _GenerateAcCdaResponseMessage;
+    }
+
+    public DecodedIccPublicKeyCertificate GetIccPublicKeyCertificate()
+    {
+        return _IccPublicKeyCertificate;
+    }
 
     public byte[] GetTransactionDataHashCodeInput(BerCodec codec)
     {
@@ -67,7 +73,10 @@ public class AuthenticateCombinedData1Command : SecurityCommand
         return buffer.ToArray();
     }
 
-    public UnpredictableNumber GetUnpredictableNumber() => _UnpredictableNumber;
+    public UnpredictableNumber GetUnpredictableNumber()
+    {
+        return _UnpredictableNumber;
+    }
 
     #endregion
 }

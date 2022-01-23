@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Play.Emv.Security.Encryption;
+﻿namespace ___TEMP.Play.Emv.Security.Encryption;
 
 public interface IFormatPlainText
 {

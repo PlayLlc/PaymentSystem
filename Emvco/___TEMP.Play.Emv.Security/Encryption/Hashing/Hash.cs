@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Play.Emv.Security.Encryption;
+﻿namespace ___TEMP.Play.Emv.Security.Encryption.Hashing;
 
 internal class Hash : IEquatable<Hash>, IEqualityComparer<Hash>
 {
@@ -24,7 +21,7 @@ internal class Hash : IEquatable<Hash>, IEqualityComparer<Hash>
         if (value.Length != Length)
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} must be {Length} bytes in length to instantiate a {nameof(Hash)} object");
+                                                  $"The argument {nameof(value)} must be {Length} bytes in length to instantiate a {nameof(Hash)} object");
         }
 
         _Value = value.ToArray();
@@ -34,8 +31,15 @@ internal class Hash : IEquatable<Hash>, IEqualityComparer<Hash>
 
     #region Instance Members
 
-    public ReadOnlySpan<byte> AsReadOnlySpan() => _Value;
-    public int GetByteCount() => Length;
+    public ReadOnlySpan<byte> AsReadOnlySpan()
+    {
+        return _Value;
+    }
+
+    public int GetByteCount()
+    {
+        return Length;
+    }
 
     #endregion
 
@@ -66,8 +70,15 @@ internal class Hash : IEquatable<Hash>, IEqualityComparer<Hash>
         return x.Equals(y);
     }
 
-    public override bool Equals(object? other) => other is Hash hash && Equals(hash);
-    public int GetHashCode(Hash other) => other.GetHashCode();
+    public override bool Equals(object? other)
+    {
+        return other is Hash hash && Equals(hash);
+    }
+
+    public int GetHashCode(Hash other)
+    {
+        return other.GetHashCode();
+    }
 
     public override int GetHashCode()
     {
@@ -88,8 +99,15 @@ internal class Hash : IEquatable<Hash>, IEqualityComparer<Hash>
 
     #region Operator Overrides
 
-    public static bool operator ==(Hash left, Hash right) => left.Equals(right);
-    public static bool operator !=(Hash left, Hash right) => !left.Equals(right);
+    public static bool operator ==(Hash left, Hash right)
+    {
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(Hash left, Hash right)
+    {
+        return !left.Equals(right);
+    }
 
     #endregion
 }

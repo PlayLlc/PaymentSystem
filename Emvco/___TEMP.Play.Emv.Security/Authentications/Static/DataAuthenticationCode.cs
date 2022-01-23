@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Emv.Codecs;
@@ -8,7 +5,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 
-namespace Play.Emv.Security.Authentications.Static;
+namespace ___TEMP.Play.Emv.Security.Authentications.Static;
 
 /// <summary>
 ///     An issuer assigned value that is retained by the terminal during the verification process of the Signed Static
@@ -40,16 +37,34 @@ public record DataAuthenticationCode : PrimitiveValue, IEqualityComparer<DataAut
 
     #region Instance Members
 
-    public byte[] AsBytes() => new[] {(byte) (_Value >> 8), (byte) _Value};
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public byte[] AsBytes()
+    {
+        return new[] {(byte) (_Value >> 8), (byte) _Value};
+    }
+
+    public override BerEncodingId GetBerEncodingId()
+    {
+        return BerEncodingId;
+    }
+
+    public override Tag GetTag()
+    {
+        return Tag;
+    }
+
+    public override ushort GetValueByteCount(BerCodec codec)
+    {
+        return codec.GetByteCount(GetBerEncodingId(), _Value);
+    }
 
     #endregion
 
     #region Serialization
 
-    public static DataAuthenticationCode Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    public static DataAuthenticationCode Decode(ReadOnlyMemory<byte> value, BerCodec codec)
+    {
+        return Decode(value.Span, codec);
+    }
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
@@ -59,19 +74,26 @@ public record DataAuthenticationCode : PrimitiveValue, IEqualityComparer<DataAut
 
         if (value.Length != byteLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(DataAuthenticationCode)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(DataAuthenticationCode)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<ushort> result = codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(DataAuthenticationCode)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(DataAuthenticationCode)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new DataAuthenticationCode(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec)
+    {
+        return codec.EncodeValue(BerEncodingId, _Value);
+    }
+
+    public override byte[] EncodeValue(BerCodec codec, int length)
+    {
+        return codec.EncodeValue(BerEncodingId, _Value, length);
+    }
 
     #endregion
 
@@ -88,7 +110,10 @@ public record DataAuthenticationCode : PrimitiveValue, IEqualityComparer<DataAut
         return x.Equals(y);
     }
 
-    public int GetHashCode(DataAuthenticationCode obj) => obj.GetHashCode();
+    public int GetHashCode(DataAuthenticationCode obj)
+    {
+        return obj.GetHashCode();
+    }
 
     #endregion
 }

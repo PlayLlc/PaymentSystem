@@ -1,12 +1,10 @@
-﻿using System;
+﻿using ___TEMP.Play.Emv.Security.Encryption.Signing;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Emv.DataElements;
-using Play.Emv.Security.Contracts;
-using Play.Emv.Security.Encryption.Signing;
 
-namespace Play.Emv.Security.Authentications.Static.Signed;
+namespace ___TEMP.Play.Emv.Security.Authentications.Static.Signed;
 
 internal class SignedStaticApplicationDataDecoder
 {
@@ -54,7 +52,7 @@ internal class SignedStaticApplicationDataDecoder
             new(_SignatureService.Decrypt(signedStaticApplicationData.AsByteArray(), issuerPublicKeyCertificate));
 
         if (!_SignatureService.IsSignatureValid(decodedSignature.GetHashAlgorithmIndicator(), staticDataToBeAuthenticated,
-            decodedSignature))
+                                                decodedSignature))
             return false;
 
         return true;

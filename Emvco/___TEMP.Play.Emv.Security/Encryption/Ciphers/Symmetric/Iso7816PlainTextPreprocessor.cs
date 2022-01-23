@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Play.Emv.Security.Encryption.Ciphers;
+﻿namespace ___TEMP.Play.Emv.Security.Encryption.Ciphers.Symmetric;
 
 public class Iso7816PlainTextPreprocessor : IPreprocessPlainText
 {
@@ -21,7 +19,10 @@ public class Iso7816PlainTextPreprocessor : IPreprocessPlainText
 
     #region Instance Members
 
-    public byte[] Preprocess(ReadOnlySpan<byte> plainText) => _Formatter.Format(plainText);
+    public byte[] Preprocess(ReadOnlySpan<byte> plainText)
+    {
+        return _Formatter.Format(plainText);
+    }
 
     #endregion
 }

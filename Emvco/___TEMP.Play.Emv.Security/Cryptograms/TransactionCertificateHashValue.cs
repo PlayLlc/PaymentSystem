@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Numerics;
 
 using Play.Ber.Codecs;
@@ -9,7 +7,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 
-namespace Play.Emv.Security.Cryptograms;
+namespace ___TEMP.Play.Emv.Security.Cryptograms;
 
 /// <summary>
 ///     Result of a hash function specified in Book 2, Annex B3.1
@@ -40,15 +38,29 @@ public record TransactionCertificateHashValue : PrimitiveValue, IEqualityCompare
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override BerEncodingId GetBerEncodingId()
+    {
+        return BerEncodingId;
+    }
+
+    public override Tag GetTag()
+    {
+        return Tag;
+    }
+
+    public override ushort GetValueByteCount(BerCodec codec)
+    {
+        return codec.GetByteCount(GetBerEncodingId(), _Value);
+    }
 
     #endregion
 
     #region Serialization
 
-    public static TransactionCertificateHashValue Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    public static TransactionCertificateHashValue Decode(ReadOnlyMemory<byte> value, BerCodec codec)
+    {
+        return Decode(value.Span, codec);
+    }
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
@@ -58,19 +70,26 @@ public record TransactionCertificateHashValue : PrimitiveValue, IEqualityCompare
 
         if (value.Length != byteLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(TransactionCertificateHashValue)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(TransactionCertificateHashValue)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<BigInteger> result = codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(TransactionCertificateHashValue)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(TransactionCertificateHashValue)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new TransactionCertificateHashValue(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec)
+    {
+        return codec.EncodeValue(BerEncodingId, _Value);
+    }
+
+    public override byte[] EncodeValue(BerCodec codec, int length)
+    {
+        return codec.EncodeValue(BerEncodingId, _Value, length);
+    }
 
     #endregion
 
@@ -87,7 +106,10 @@ public record TransactionCertificateHashValue : PrimitiveValue, IEqualityCompare
         return x.Equals(y);
     }
 
-    public int GetHashCode(TransactionCertificateHashValue obj) => obj.GetHashCode();
+    public int GetHashCode(TransactionCertificateHashValue obj)
+    {
+        return obj.GetHashCode();
+    }
 
     #endregion
 }

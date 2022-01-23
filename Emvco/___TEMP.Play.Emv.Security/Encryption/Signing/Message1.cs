@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 
 using Play.Core.Exceptions;
 
-namespace Play.Emv.Security.Encryption.Signing;
+namespace ___TEMP.Play.Emv.Security.Encryption.Signing;
 
 internal class Message1 : IEnumerable
 {
@@ -25,10 +24,25 @@ internal class Message1 : IEnumerable
 
     #region Instance Members
 
-    public byte[] AsByteArray() => _Value;
-    public Span<byte> AsSpan() => _Value.AsSpan();
-    public int GetByteCount() => _Value.Length;
-    public IEnumerator GetEnumerator() => _Value.GetEnumerator();
+    public byte[] AsByteArray()
+    {
+        return _Value;
+    }
+
+    public Span<byte> AsSpan()
+    {
+        return _Value.AsSpan();
+    }
+
+    public int GetByteCount()
+    {
+        return _Value.Length;
+    }
+
+    public IEnumerator GetEnumerator()
+    {
+        return _Value.GetEnumerator();
+    }
 
     #endregion
 

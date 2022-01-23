@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Emv.Codecs;
@@ -10,7 +7,7 @@ using Play.Ber.InternalFactories;
 using Play.Core.Extensions;
 using Play.Emv.DataElements;
 
-namespace Play.Emv.Security.Cryptograms;
+namespace ___TEMP.Play.Emv.Security.Cryptograms;
 
 /// <summary>
 ///     Indicates the type of cryptogram and the actions to be performed by the terminal
@@ -41,7 +38,10 @@ public record CryptogramInformationData : PrimitiveValue, IEqualityComparer<Cryp
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override BerEncodingId GetBerEncodingId()
+    {
+        return BerEncodingId;
+    }
 
     /// <summary>
     ///     GetCryptogramType
@@ -52,27 +52,40 @@ public record CryptogramInformationData : PrimitiveValue, IEqualityComparer<Cryp
     {
         if (!CryptogramType.TryGet(_Value, out CryptogramType? result))
         {
-            throw new InvalidOperationException(
-                $"The {nameof(CryptogramInformationData)} expected a {nameof(CryptogramType)} but none could be found");
+            throw new
+                InvalidOperationException($"The {nameof(CryptogramInformationData)} expected a {nameof(CryptogramType)} but none could be found");
         }
 
         return result!;
     }
 
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override Tag GetTag()
+    {
+        return Tag;
+    }
+
+    public override ushort GetValueByteCount(BerCodec codec)
+    {
+        return codec.GetByteCount(GetBerEncodingId(), _Value);
+    }
 
     /// <summary>
     ///     Value signifying whether a Combined Data Authentication Signature has been requested by the ICC
     /// </summary>
     /// <returns></returns>
-    public bool IsCdaSignatureRequested() => _Value.IsBitSet(Bits.Five);
+    public bool IsCdaSignatureRequested()
+    {
+        return _Value.IsBitSet(Bits.Five);
+    }
 
     #endregion
 
     #region Serialization
 
-    public static CryptogramInformationData Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    public static CryptogramInformationData Decode(ReadOnlyMemory<byte> value, BerCodec codec)
+    {
+        return Decode(value.Span, codec);
+    }
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
@@ -82,19 +95,26 @@ public record CryptogramInformationData : PrimitiveValue, IEqualityComparer<Cryp
 
         if (value.Length != byteLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(CryptogramInformationData)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(CryptogramInformationData)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<byte> result = codec.Decode(BerEncodingId, value) as DecodedResult<byte>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(CryptogramInformationData)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(CryptogramInformationData)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new CryptogramInformationData(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec)
+    {
+        return codec.EncodeValue(BerEncodingId, _Value);
+    }
+
+    public override byte[] EncodeValue(BerCodec codec, int length)
+    {
+        return codec.EncodeValue(BerEncodingId, _Value, length);
+    }
 
     #endregion
 
@@ -111,7 +131,10 @@ public record CryptogramInformationData : PrimitiveValue, IEqualityComparer<Cryp
         return x.Equals(y);
     }
 
-    public int GetHashCode(CryptogramInformationData obj) => obj.GetHashCode();
+    public int GetHashCode(CryptogramInformationData obj)
+    {
+        return obj.GetHashCode();
+    }
 
     #endregion
 }

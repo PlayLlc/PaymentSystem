@@ -1,12 +1,13 @@
-﻿using System;
-
-namespace Play.Emv.Security.Encryption.Ciphers;
+﻿namespace ___TEMP.Play.Emv.Security.Encryption.Ciphers.Symmetric;
 
 public class DefaultPlainTextPreprocessor : IPreprocessPlainText
 {
     #region Instance Members
 
-    public byte[] Preprocess(ReadOnlySpan<byte> plainText) => plainText.ToArray();
+    public byte[] Preprocess(ReadOnlySpan<byte> plainText)
+    {
+        return plainText.ToArray();
+    }
 
     #endregion
 }

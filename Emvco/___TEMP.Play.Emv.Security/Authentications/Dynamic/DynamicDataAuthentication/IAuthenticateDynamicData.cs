@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.Security.Authentications.DynamicDataAuthentication;
+﻿namespace ___TEMP.Play.Emv.Security.Authentications.Dynamic.DynamicDataAuthentication;
 
 public interface IAuthenticateDynamicData
 {

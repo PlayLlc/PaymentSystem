@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ___TEMP.Play.Emv.Security.Checksum;
+using ___TEMP.Play.Emv.Security.Cryptograms;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
@@ -6,11 +7,9 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Emv.DataElements;
-using Play.Emv.Security.Checksum;
-using Play.Emv.Security.Cryptograms;
 using Play.Emv.Templates.ResponseMessages;
 
-namespace Play.Emv.Security.Authentications;
+namespace ___TEMP.Play.Emv.Security.Authentications.Dynamic.CombinedDataAuthentication;
 
 public class GenerateAcCdaResponseMessage : ResponseMessageTemplate
 {
@@ -54,7 +53,10 @@ public class GenerateAcCdaResponseMessage : ResponseMessageTemplate
 
     #region Instance Members
 
-    public override Tag[] GetChildTags() => _ChildTags;
+    public override Tag[] GetChildTags()
+    {
+        return _ChildTags;
+    }
 
     protected override IEncodeBerDataObjects?[] GetChildren()
     {
@@ -65,17 +67,28 @@ public class GenerateAcCdaResponseMessage : ResponseMessageTemplate
         };
     }
 
-    public CryptogramInformationData GetCryptogramInformationData() => _CryptogramInformationData;
-    public SignedDynamicApplicationData GetSignedDynamicApplicationData() => _SignedDynamicApplicationData;
-    public override Tag GetTag() => Tag;
+    public CryptogramInformationData GetCryptogramInformationData()
+    {
+        return _CryptogramInformationData;
+    }
+
+    public SignedDynamicApplicationData GetSignedDynamicApplicationData()
+    {
+        return _SignedDynamicApplicationData;
+    }
+
+    public override Tag GetTag()
+    {
+        return Tag;
+    }
 
     public byte[] GetTransactionDataHashData(BerCodec codec)
     {
         using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate((_CryptogramInformationData.GetValueByteCount(codec)
-                + _ApplicationTransactionCounter.GetValueByteCount(codec)
-                + _SignedDynamicApplicationData.GetValueByteCount(codec)
-                + _IssuerApplicationData?.GetValueByteCount(codec))
-            ?? 0);
+                                                                       + _ApplicationTransactionCounter.GetValueByteCount(codec)
+                                                                       + _SignedDynamicApplicationData.GetValueByteCount(codec)
+                                                                       + _IssuerApplicationData?.GetValueByteCount(codec))
+                                                                   ?? 0);
         Span<byte> buffer = spanOwner.Span;
 
         int offset = 0;
@@ -111,30 +124,44 @@ public class GenerateAcCdaResponseMessage : ResponseMessageTemplate
 
     #region Serialization
 
-    public override byte[] EncodeTagLengthValue(BerCodec codec) => throw new NotImplementedException();
+    public override byte[] EncodeTagLengthValue(BerCodec codec)
+    {
+        throw new NotImplementedException();
+    }
 
-    public override byte[] EncodeValue(BerCodec codec) =>
-        _IssuerApplicationData == null
+    public override byte[] EncodeValue(BerCodec codec)
+    {
+        return _IssuerApplicationData == null
             ? codec.EncodeTagLengthValue(this, _CryptogramInformationData, _ApplicationTransactionCounter, _SignedDynamicApplicationData)
             : codec.EncodeTagLengthValue(this, _CryptogramInformationData, _ApplicationTransactionCounter, _SignedDynamicApplicationData,
-                _IssuerApplicationData);
+                                         _IssuerApplicationData);
+    }
 
     #endregion
 
     #region Equality
 
-    public override bool Equals(object? obj) => obj is GenerateAcCdaResponseMessage generateAcResponse && Equals(generateAcResponse);
-    public override bool Equals(ConstructedValue? other) => other is GenerateAcCdaResponseMessage message && Equals(message);
+    public override bool Equals(object? obj)
+    {
+        return obj is GenerateAcCdaResponseMessage generateAcResponse && Equals(generateAcResponse);
+    }
 
-    public bool Equals(GenerateAcCdaResponseMessage other) =>
-        (GetTag() == other.GetTag())
-        && _CryptogramInformationData.Equals(other._CryptogramInformationData)
-        && _ApplicationTransactionCounter.Equals(other._ApplicationTransactionCounter)
-        && _SignedDynamicApplicationData.Equals(other._SignedDynamicApplicationData)
-        && _IssuerApplicationData!.Equals(other._IssuerApplicationData)
-        && PosCardholderInteractionInformation.EqualsStatic(_PosCardholderInteractionInformation,
-            other._PosCardholderInteractionInformation)
-        && IssuerApplicationData.EqualsStatic(_IssuerApplicationData, other._IssuerApplicationData);
+    public override bool Equals(ConstructedValue? other)
+    {
+        return other is GenerateAcCdaResponseMessage message && Equals(message);
+    }
+
+    public bool Equals(GenerateAcCdaResponseMessage other)
+    {
+        return (GetTag() == other.GetTag())
+            && _CryptogramInformationData.Equals(other._CryptogramInformationData)
+            && _ApplicationTransactionCounter.Equals(other._ApplicationTransactionCounter)
+            && _SignedDynamicApplicationData.Equals(other._SignedDynamicApplicationData)
+            && _IssuerApplicationData!.Equals(other._IssuerApplicationData)
+            && PosCardholderInteractionInformation.EqualsStatic(_PosCardholderInteractionInformation,
+                                                                other._PosCardholderInteractionInformation)
+            && IssuerApplicationData.EqualsStatic(_IssuerApplicationData, other._IssuerApplicationData);
+    }
 
     public override bool Equals(ConstructedValue? x, ConstructedValue? y)
     {
@@ -147,7 +174,10 @@ public class GenerateAcCdaResponseMessage : ResponseMessageTemplate
         return x.Equals(y);
     }
 
-    public bool Equals(GenerateAcCdaResponseMessage x, GenerateAcCdaResponseMessage y) => x.Equals(y);
+    public bool Equals(GenerateAcCdaResponseMessage x, GenerateAcCdaResponseMessage y)
+    {
+        return x.Equals(y);
+    }
 
     public override int GetHashCode()
     {
@@ -162,7 +192,10 @@ public class GenerateAcCdaResponseMessage : ResponseMessageTemplate
         }
     }
 
-    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
+    public override int GetHashCode(ConstructedValue obj)
+    {
+        return obj.GetHashCode();
+    }
 
     #endregion
 }

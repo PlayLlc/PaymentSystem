@@ -1,13 +1,11 @@
-using System;
+using ___TEMP.Play.Emv.Security.Encryption.Signing;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs;
 using Play.Emv.DataElements.CertificateAuthority;
-using Play.Emv.Security.Contracts;
-using Play.Emv.Security.Encryption.Signing;
 
-namespace Play.Emv.Security.Authentications.Static.Signed;
+namespace ___TEMP.Play.Emv.Security.Authentications.Static.Signed;
 
 internal class DecodedSignedStaticApplicationData : DecodedSignature
 {
@@ -21,11 +19,14 @@ internal class DecodedSignedStaticApplicationData : DecodedSignature
     #region Constructor
 
     public DecodedSignedStaticApplicationData(DecodedSignature decodedSignature) : base(decodedSignature.GetLeadingByte(),
-        decodedSignature.GetMessage1(), decodedSignature.GetHash(), decodedSignature.GetTrailingByte())
+                                                                                        decodedSignature.GetMessage1(),
+                                                                                        decodedSignature.GetHash(),
+                                                                                        decodedSignature.GetTrailingByte())
     { }
 
     private DecodedSignedStaticApplicationData(byte leadingByte, Message1 message1, byte[] hash, byte trailingByte) : base(leadingByte,
-        message1, hash, trailingByte)
+                                                                                                                           message1, hash,
+                                                                                                                           trailingByte)
     { }
 
     #endregion
@@ -48,7 +49,10 @@ internal class DecodedSignedStaticApplicationData : DecodedSignature
         return buffer.ToArray();
     }
 
-    public DataAuthenticationCode GetDataAuthenticationCode() => new(PlayEncoding.UnsignedInteger.GetUInt16(_Message1.AsByteArray()[3..4]));
+    public DataAuthenticationCode GetDataAuthenticationCode()
+    {
+        return new(PlayEncoding.UnsignedInteger.GetUInt16(_Message1.AsByteArray()[3..4]));
+    }
 
     public HashAlgorithmIndicator GetHashAlgorithmIndicator()
     {
@@ -58,8 +62,15 @@ internal class DecodedSignedStaticApplicationData : DecodedSignature
         return result!;
     }
 
-    public byte[] GetPadPattern() => _Message1.AsByteArray()[5..(GetByteCount() - 26)];
-    public byte GetSignedDataFormat() => _Message1[1];
+    public byte[] GetPadPattern()
+    {
+        return _Message1.AsByteArray()[5..(GetByteCount() - 26)];
+    }
+
+    public byte GetSignedDataFormat()
+    {
+        return _Message1[1];
+    }
 
     #endregion
 }

@@ -1,11 +1,11 @@
-﻿using Play.Ber.Emv.DataObjects;
-using Play.Emv.DataElements;
-using Play.Emv.Security.Certificates.Chip;
-using Play.Emv.Security.Contracts;
-using Play.Emv.Security.Cryptograms;
-using Play.Emv.Security.Messaging;
+﻿using ___TEMP.Play.Emv.Security.Certificates.Chip;
+using ___TEMP.Play.Emv.Security.Cryptograms;
+using ___TEMP.Play.Emv.Security.Messaging;
 
-namespace Play.Emv.Security.Authentications.DynamicDataAuthentication;
+using Play.Ber.Emv.DataObjects;
+using Play.Emv.DataElements;
+
+namespace ___TEMP.Play.Emv.Security.Authentications.Dynamic.DynamicDataAuthentication;
 
 public class AuthenticateDynamicDataCommand : SecurityCommand
 {
@@ -36,9 +36,20 @@ public class AuthenticateDynamicDataCommand : SecurityCommand
 
     #region Instance Members
 
-    public DataObjectListResult GetDataObjectListResult() => _DataObjectListResult;
-    public PublicKeyCertificate GetIssuerPublicKeyCertificate() => _IccPublicKeyCertificate;
-    public SignedDynamicApplicationData GetSignedDynamicApplicationData() => _SignedDynamicApplicationData;
+    public DataObjectListResult GetDataObjectListResult()
+    {
+        return _DataObjectListResult;
+    }
+
+    public PublicKeyCertificate GetIssuerPublicKeyCertificate()
+    {
+        return _IccPublicKeyCertificate;
+    }
+
+    public SignedDynamicApplicationData GetSignedDynamicApplicationData()
+    {
+        return _SignedDynamicApplicationData;
+    }
 
     #endregion
 }

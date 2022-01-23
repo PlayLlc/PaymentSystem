@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Play.Emv.Security.Authentications;
+﻿namespace ___TEMP.Play.Emv.Security.Authentications;
 
 public interface IAuthenticateOfflineData
 {

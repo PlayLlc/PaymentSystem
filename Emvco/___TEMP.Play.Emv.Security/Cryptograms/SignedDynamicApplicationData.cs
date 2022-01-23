@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Numerics;
 
 using Play.Ber.Codecs;
@@ -9,7 +7,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 
-namespace Play.Emv.Security.Cryptograms;
+namespace ___TEMP.Play.Emv.Security.Cryptograms;
 
 /// <summary>
 ///     Digital signature on critical application parameters for DDA or CDA
@@ -40,31 +38,60 @@ public record SignedDynamicApplicationData : PrimitiveValue, IEqualityComparer<S
 
     #region Instance Members
 
-    public byte[] AsByteArray() => _Value.ToByteArray();
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
-    public ushort GetByteCount() => (ushort) _Value.GetByteCount();
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public byte[] AsByteArray()
+    {
+        return _Value.ToByteArray();
+    }
+
+    public override BerEncodingId GetBerEncodingId()
+    {
+        return BerEncodingId;
+    }
+
+    public ushort GetByteCount()
+    {
+        return (ushort) _Value.GetByteCount();
+    }
+
+    public override Tag GetTag()
+    {
+        return Tag;
+    }
+
+    public override ushort GetValueByteCount(BerCodec codec)
+    {
+        return codec.GetByteCount(GetBerEncodingId(), _Value);
+    }
 
     #endregion
 
     #region Serialization
 
-    public static SignedDynamicApplicationData Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    public static SignedDynamicApplicationData Decode(ReadOnlyMemory<byte> value, BerCodec codec)
+    {
+        return Decode(value.Span, codec);
+    }
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
     public static SignedDynamicApplicationData Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         DecodedResult<BigInteger> result = codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(SignedDynamicApplicationData)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(SignedDynamicApplicationData)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new SignedDynamicApplicationData(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec)
+    {
+        return codec.EncodeValue(BerEncodingId, _Value);
+    }
+
+    public override byte[] EncodeValue(BerCodec codec, int length)
+    {
+        return codec.EncodeValue(BerEncodingId, _Value, length);
+    }
 
     #endregion
 
@@ -81,7 +108,10 @@ public record SignedDynamicApplicationData : PrimitiveValue, IEqualityComparer<S
         return x.Equals(y);
     }
 
-    public int GetHashCode(SignedDynamicApplicationData obj) => obj.GetHashCode();
+    public int GetHashCode(SignedDynamicApplicationData obj)
+    {
+        return obj.GetHashCode();
+    }
 
     #endregion
 }

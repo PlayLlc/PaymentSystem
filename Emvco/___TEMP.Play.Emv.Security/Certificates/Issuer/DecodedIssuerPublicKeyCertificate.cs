@@ -1,9 +1,8 @@
 ﻿using Play.Emv.DataElements;
 using Play.Emv.DataElements.CertificateAuthority;
-using Play.Emv.Security.Contracts;
 using Play.Globalization.Time;
 
-namespace Play.Emv.Security.Certificates.Issuer;
+namespace ___TEMP.Play.Emv.Security.Certificates.Issuer;
 
 public class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
 {
@@ -28,7 +27,7 @@ public class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
         PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator,
         DateRange validityPeriod,
         PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber, hashAlgorithmIndicator, publicKeyAlgorithmIndicator, validityPeriod,
-        publicKeyInfo)
+                                            publicKeyInfo)
     {
         _IssuerIdentificationNumber = issuerIdentificationNumber;
     }
@@ -37,8 +36,15 @@ public class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
 
     #region Instance Members
 
-    public CertificateFormat GetCertificateFormat() => _CertificateFormat;
-    public IssuerIdentificationNumber GetIssuerIdentificationNumber() => _IssuerIdentificationNumber;
+    public CertificateFormat GetCertificateFormat()
+    {
+        return _CertificateFormat;
+    }
+
+    public IssuerIdentificationNumber GetIssuerIdentificationNumber()
+    {
+        return _IssuerIdentificationNumber;
+    }
 
     #endregion
 }

@@ -1,9 +1,7 @@
-﻿using System.Threading.Tasks;
-
-using Play.Ber.Emv.DataObjects;
+﻿using Play.Ber.Emv.DataObjects;
 using Play.Emv.DataElements;
 
-namespace Play.Emv.Security.Cryptograms;
+namespace ___TEMP.Play.Emv.Security.Cryptograms;
 
 // TODO: Move the Generate Application Cryptogram CAPDU to the Play.Emv.Card layer
 public interface IGenerateApplicationCryptogramResponse

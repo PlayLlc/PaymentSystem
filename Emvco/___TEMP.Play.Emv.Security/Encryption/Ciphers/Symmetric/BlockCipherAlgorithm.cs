@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 
 using Play.Core;
 
-namespace Play.Emv.Security.Encryption.Ciphers;
+namespace ___TEMP.Play.Emv.Security.Encryption.Ciphers.Symmetric;
 
 /// <summary>
 ///     Specifies the block cipher mode to use for encryption
@@ -50,7 +48,7 @@ public sealed record BlockCipherAlgorithm : EnumObject<byte>, IEqualityComparer<
 
         _ValueObjectMap =
             new Dictionary<byte, BlockCipherAlgorithm> {{tripleDes, TripleDes}, {aes, Aes}}.ToImmutableSortedDictionary(a => a.Key,
-                b => b.Value);
+                                                                                                                        b => b.Value);
     }
 
     private BlockCipherAlgorithm(byte value) : base(value)
@@ -60,13 +58,19 @@ public sealed record BlockCipherAlgorithm : EnumObject<byte>, IEqualityComparer<
 
     #region Instance Members
 
-    public static bool TryGet(byte value, out BlockCipherAlgorithm? result) => _ValueObjectMap.TryGetValue(value, out result);
+    public static bool TryGet(byte value, out BlockCipherAlgorithm? result)
+    {
+        return _ValueObjectMap.TryGetValue(value, out result);
+    }
 
     #endregion
 
     #region Equality
 
-    public bool Equals(BlockCipherAlgorithm? other) => other is not null && (_Value == other._Value);
+    public bool Equals(BlockCipherAlgorithm? other)
+    {
+        return other is not null && (_Value == other._Value);
+    }
 
     public bool Equals(BlockCipherAlgorithm? x, BlockCipherAlgorithm? y)
     {
@@ -79,8 +83,15 @@ public sealed record BlockCipherAlgorithm : EnumObject<byte>, IEqualityComparer<
         return x.Equals(y);
     }
 
-    public int GetHashCode(BlockCipherAlgorithm other) => other.GetHashCode();
-    public override int GetHashCode() => unchecked(_Value.GetHashCode() * 31771);
+    public int GetHashCode(BlockCipherAlgorithm other)
+    {
+        return other.GetHashCode();
+    }
+
+    public override int GetHashCode()
+    {
+        return unchecked(_Value.GetHashCode() * 31771);
+    }
 
     #endregion
 }

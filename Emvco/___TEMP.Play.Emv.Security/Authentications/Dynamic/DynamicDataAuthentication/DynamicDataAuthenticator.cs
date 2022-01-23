@@ -1,11 +1,11 @@
-﻿using Play.Ber.Emv.DataObjects;
+﻿using ___TEMP.Play.Emv.Security.Cryptograms;
+using ___TEMP.Play.Emv.Security.Encryption.Signing;
+
+using Play.Ber.Emv.DataObjects;
 using Play.Core.Extensions;
 using Play.Emv.DataElements;
-using Play.Emv.Security.Contracts;
-using Play.Emv.Security.Cryptograms;
-using Play.Emv.Security.Encryption.Signing;
 
-namespace Play.Emv.Security.Authentications.DynamicDataAuthentication;
+namespace ___TEMP.Play.Emv.Security.Authentications.Dynamic.DynamicDataAuthentication;
 
 internal class DynamicDataAuthenticator : IAuthenticateDynamicData
 {
@@ -70,26 +70,36 @@ internal class DynamicDataAuthenticator : IAuthenticateDynamicData
     /// <remarks>
     ///     Book 2 Section 6.6.2 Step 4
     /// </remarks>
-    private bool IsSignedDataFormatValid(SignedDataFormat signedDataFormat) => signedDataFormat == SignedDataFormat._3;
+    private bool IsSignedDataFormatValid(SignedDataFormat signedDataFormat)
+    {
+        return signedDataFormat == SignedDataFormat._3;
+    }
 
     private bool IsSignedDataValid(
         DecodedSignedDynamicApplicationDataDda decodedSignature,
-        DataObjectListResult dynamicDataObjectListResult) =>
-        _SignatureService.IsSignatureValid(decodedSignature.GetHashAlgorithmIndicator(),
-            ReconstructDynamicDataToBeSigned(decodedSignature, dynamicDataObjectListResult), decodedSignature);
+        DataObjectListResult dynamicDataObjectListResult)
+    {
+        return _SignatureService.IsSignatureValid(decodedSignature.GetHashAlgorithmIndicator(),
+                                                  ReconstructDynamicDataToBeSigned(decodedSignature, dynamicDataObjectListResult),
+                                                  decodedSignature);
+    }
 
     private byte[] ReconstructDynamicDataToBeSigned(
         DecodedSignedDynamicApplicationDataDda signedDataDda,
-        DataObjectListResult dynamicDataObjectListResult) =>
-        signedDataDda.GetMessage1().AsSpan().ConcatArrays(dynamicDataObjectListResult.AsByteArray());
+        DataObjectListResult dynamicDataObjectListResult)
+    {
+        return signedDataDda.GetMessage1().AsSpan().ConcatArrays(dynamicDataObjectListResult.AsByteArray());
+    }
 
     /// <remarks>
     ///     Book 2 Section 6.6.2 Step 2
     /// </remarks>
     private DecodedSignedDynamicApplicationDataDda RecoverSignedDynamicApplicationData(
         PublicKeyCertificate issuerPublicKeyCertificate,
-        SignedDynamicApplicationData encipheredData) =>
-        new(_SignatureService.Decrypt(encipheredData.AsByteArray(), issuerPublicKeyCertificate));
+        SignedDynamicApplicationData encipheredData)
+    {
+        return new(_SignatureService.Decrypt(encipheredData.AsByteArray(), issuerPublicKeyCertificate));
+    }
 
     #endregion
 }

@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.Security.Encryption.Signing;
+﻿namespace ___TEMP.Play.Emv.Security.Encryption.Signing;
 
 internal static class SignatureSpecifications
 {

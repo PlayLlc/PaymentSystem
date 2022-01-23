@@ -1,11 +1,11 @@
-﻿using Play.Emv.DataElements;
-using Play.Emv.DataElements.CertificateAuthority;
-using Play.Emv.Security.Authentications.Static.Signed;
-using Play.Emv.Security.Certificates.Issuer;
-using Play.Emv.Security.Contracts;
-using Play.Emv.Security.Messaging;
+﻿using ___TEMP.Play.Emv.Security.Authentications.Static.Signed;
+using ___TEMP.Play.Emv.Security.Certificates.Issuer;
+using ___TEMP.Play.Emv.Security.Messaging;
 
-namespace Play.Emv.Security.Authentications;
+using Play.Emv.DataElements;
+using Play.Emv.DataElements.CertificateAuthority;
+
+namespace ___TEMP.Play.Emv.Security.Authentications;
 
 public class AuthenticationCommand : SecurityCommand
 {
@@ -48,12 +48,35 @@ public class AuthenticationCommand : SecurityCommand
 
     #region Instance Members
 
-    public CaPublicKeyCertificate GetCaPublicKeyCertificate() => _CaPublicKeyCertificate;
-    public IssuerPublicKeyCertificate GetIssuerPublicKeyCertificate() => _IssuerPublicKeyCertificate;
-    public IssuerPublicKeyExponent GetIssuerPublicKeyExponent() => _IssuerPublicKeyExponent;
-    public IssuerPublicKeyRemainder GetIssuerPublicKeyRemainder() => _IssuerPublicKeyRemainder;
-    public SignedStaticApplicationData GetSignedStaticApplicationData() => _SignedStaticApplicationData;
-    public StaticDataToBeAuthenticated GetStaticDataToBeAuthenticated() => _StaticDataToBeAuthenticated;
+    public CaPublicKeyCertificate GetCaPublicKeyCertificate()
+    {
+        return _CaPublicKeyCertificate;
+    }
+
+    public IssuerPublicKeyCertificate GetIssuerPublicKeyCertificate()
+    {
+        return _IssuerPublicKeyCertificate;
+    }
+
+    public IssuerPublicKeyExponent GetIssuerPublicKeyExponent()
+    {
+        return _IssuerPublicKeyExponent;
+    }
+
+    public IssuerPublicKeyRemainder GetIssuerPublicKeyRemainder()
+    {
+        return _IssuerPublicKeyRemainder;
+    }
+
+    public SignedStaticApplicationData GetSignedStaticApplicationData()
+    {
+        return _SignedStaticApplicationData;
+    }
+
+    public StaticDataToBeAuthenticated GetStaticDataToBeAuthenticated()
+    {
+        return _StaticDataToBeAuthenticated;
+    }
 
     #endregion
 }

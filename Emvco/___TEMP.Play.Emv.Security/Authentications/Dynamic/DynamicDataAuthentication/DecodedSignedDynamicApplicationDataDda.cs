@@ -1,15 +1,18 @@
-﻿using Play.Emv.DataElements.CertificateAuthority;
-using Play.Emv.Security.Contracts;
-using Play.Emv.Security.Encryption.Signing;
+﻿using ___TEMP.Play.Emv.Security.Authentications.Dynamic.CombinedDataAuthentication;
+using ___TEMP.Play.Emv.Security.Encryption.Signing;
 
-namespace Play.Emv.Security.Authentications.DynamicDataAuthentication;
+using Play.Emv.DataElements.CertificateAuthority;
+
+namespace ___TEMP.Play.Emv.Security.Authentications.Dynamic.DynamicDataAuthentication;
 
 internal class DecodedSignedDynamicApplicationDataDda : DecodedSignature
 {
     #region Constructor
 
     public DecodedSignedDynamicApplicationDataDda(DecodedSignature decodedSignature) : base(decodedSignature.GetLeadingByte(),
-        decodedSignature.GetMessage1(), decodedSignature.GetHash(), decodedSignature.GetTrailingByte())
+                                                                                            decodedSignature.GetMessage1(),
+                                                                                            decodedSignature.GetHash(),
+                                                                                            decodedSignature.GetTrailingByte())
     { }
 
     #endregion
@@ -24,9 +27,20 @@ internal class DecodedSignedDynamicApplicationDataDda : DecodedSignature
         return result!;
     }
 
-    public IccDynamicData GetIccDynamicData() => new(_Message1[2..GetIccDynamicDataLength()].ToArray());
-    public byte GetIccDynamicDataLength() => _Message1[2];
-    public byte[] GetPadPattern() => _Message1[(GetIccDynamicDataLength() + 2)..].ToArray();
+    public IccDynamicData GetIccDynamicData()
+    {
+        return new(_Message1[2..GetIccDynamicDataLength()].ToArray());
+    }
+
+    public byte GetIccDynamicDataLength()
+    {
+        return _Message1[2];
+    }
+
+    public byte[] GetPadPattern()
+    {
+        return _Message1[(GetIccDynamicDataLength() + 2)..].ToArray();
+    }
 
     public SignedDataFormat GetSignedDataFormat()
     {

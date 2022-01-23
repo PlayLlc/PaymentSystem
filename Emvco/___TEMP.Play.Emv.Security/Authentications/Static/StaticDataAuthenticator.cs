@@ -1,16 +1,15 @@
-﻿using System;
+﻿using ___TEMP.Play.Emv.Security.Authentications.Static.Signed;
+using ___TEMP.Play.Emv.Security.Certificates;
+using ___TEMP.Play.Emv.Security.Certificates.Issuer;
+using ___TEMP.Play.Emv.Security.Encryption.Signing;
 
+using Play.Ber.Exceptions;
 using Play.Emv.DataElements;
 using Play.Emv.DataElements.CertificateAuthority;
-using Play.Emv.Security.Authentications.Static.Signed;
-using Play.Emv.Security.Certificates;
-using Play.Emv.Security.Certificates.Issuer;
-using Play.Emv.Security.Contracts;
-using Play.Emv.Security.Encryption.Signing;
 using Play.Icc.Emv;
 using Play.Icc.Messaging.Apdu;
 
-namespace Play.Emv.Security.Authentications.Static;
+namespace ___TEMP.Play.Emv.Security.Authentications.Static;
 
 internal class StaticDataAuthenticator
 {
@@ -39,7 +38,7 @@ internal class StaticDataAuthenticator
         terminalVerificationResult.SetStaticDataAuthenticationFailed();
 
         return new AuthenticateStaticDataResponse(terminalVerificationResult,
-            new ErrorIndication(Level2Error.TerminalDataError, StatusWords.NotAvailable));
+                                                  new ErrorIndication(Level2Error.TerminalDataError, StatusWords.NotAvailable));
     }
 
     // another option would be to pass a reference value of the outcome to each private
@@ -56,7 +55,7 @@ internal class StaticDataAuthenticator
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerException"></exception>
     public AuthenticateStaticDataResponse Authenticate(AuthenticateStaticDataCommand command)
     {
         if (command.GetCaPublicKeyCertificate().IsRevoked())
@@ -66,12 +65,12 @@ internal class StaticDataAuthenticator
             return HandleStaticDataAuthenticationFailedResponse();
 
         if (!_CertificateFactory.TryCreate(command.GetCaPublicKeyCertificate(), command.GetIssuerPublicKeyCertificate(),
-            command.GetIssuerPublicKeyExponent(), command.GetIssuerPublicKeyRemainder(),
-            out DecodedIssuerPublicKeyCertificate? decodedIssuerCertificate))
+                                           command.GetIssuerPublicKeyExponent(), command.GetIssuerPublicKeyRemainder(),
+                                           out DecodedIssuerPublicKeyCertificate? decodedIssuerCertificate))
             return HandleStaticDataAuthenticationFailedResponse();
 
         if (!IsStaticDataToBeAuthenticatedValid(decodedIssuerCertificate!, command.GetSignedStaticApplicationData(),
-            command.GetStaticDataToBeAuthenticated().AsByteArray()))
+                                                command.GetStaticDataToBeAuthenticated().AsByteArray()))
             return HandleStaticDataAuthenticationFailedResponse();
 
         return new AuthenticateStaticDataResponse(TerminalVerificationResult.Create(), ErrorIndication.Default);
@@ -98,9 +97,11 @@ internal class StaticDataAuthenticator
     private bool IsStaticDataToBeAuthenticatedValid(
         DecodedIssuerPublicKeyCertificate decodedCertificateResult,
         SignedStaticApplicationData signedStaticApplicationData,
-        ReadOnlySpan<byte> staticDataToBeAuthenticated) =>
-        _SignedStaticApplicationDataDecoder.IsValid(decodedCertificateResult!, signedStaticApplicationData,
-            staticDataToBeAuthenticated.ToArray());
+        ReadOnlySpan<byte> staticDataToBeAuthenticated)
+    {
+        return _SignedStaticApplicationDataDecoder.IsValid(decodedCertificateResult!, signedStaticApplicationData,
+                                                           staticDataToBeAuthenticated.ToArray());
+    }
 
     #endregion
 }

@@ -1,15 +1,15 @@
-﻿using Play.Ber.DataObjects;
-using Play.Emv.DataElements;
-using Play.Emv.Security.Messaging;
+﻿using ___TEMP.Play.Emv.Security.Messaging;
 
-namespace Play.Emv.Security.Authentications.DynamicDataAuthentication;
+using Play.Emv.DataElements;
+
+namespace ___TEMP.Play.Emv.Security.Authentications.Dynamic.DynamicDataAuthentication;
 
 public class AuthenticateDynamicDataResponse : SecurityResponse
 {
     #region Constructor
 
-    public AuthenticateDynamicDataResponse(TerminalVerificationResult terminalVerificationResult, ErrorIndication errorIndication) : base(
-        terminalVerificationResult, errorIndication)
+    public AuthenticateDynamicDataResponse(TerminalVerificationResult terminalVerificationResult, ErrorIndication errorIndication) :
+        base(terminalVerificationResult, errorIndication)
     { }
 
     #endregion

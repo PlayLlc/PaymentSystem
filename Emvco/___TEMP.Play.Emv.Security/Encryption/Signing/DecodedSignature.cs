@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Play.Core.Exceptions;
 
-using Play.Core.Exceptions;
-
-namespace Play.Emv.Security.Encryption.Signing;
+namespace ___TEMP.Play.Emv.Security.Encryption.Signing;
 
 internal class DecodedSignature
 {
@@ -51,11 +49,30 @@ internal class DecodedSignature
         return result.ToArray();
     }
 
-    public int GetByteCount() => _Message1.GetByteCount() + _Hash.Length + 2;
-    public byte[] GetHash() => _Hash;
-    public byte GetLeadingByte() => _LeadingByte;
-    public Message1 GetMessage1() => _Message1;
-    public byte GetTrailingByte() => _TrailingByte;
+    public int GetByteCount()
+    {
+        return _Message1.GetByteCount() + _Hash.Length + 2;
+    }
+
+    public byte[] GetHash()
+    {
+        return _Hash;
+    }
+
+    public byte GetLeadingByte()
+    {
+        return _LeadingByte;
+    }
+
+    public Message1 GetMessage1()
+    {
+        return _Message1;
+    }
+
+    public byte GetTrailingByte()
+    {
+        return _TrailingByte;
+    }
 
     private static void Validate(byte leadingByte, Message1 message1, ReadOnlySpan<byte> hash, byte trailingByte)
     {
@@ -79,7 +96,7 @@ internal class DecodedSignature
         if (leadingByte != SignatureSpecifications.LeadingByte)
         {
             throw new ArgumentOutOfRangeException(nameof(leadingByte),
-                $"The value {SignatureSpecifications.LeadingByte} was expected but {leadingByte} was received instead");
+                                                  $"The value {SignatureSpecifications.LeadingByte} was expected but {leadingByte} was received instead");
         }
     }
 
@@ -93,7 +110,7 @@ internal class DecodedSignature
         if (trailing != SignatureSpecifications.TrailingByte)
         {
             throw new ArgumentOutOfRangeException(nameof(trailing),
-                $"The value {SignatureSpecifications.TrailingByte} was expected but {trailing} was received instead");
+                                                  $"The value {SignatureSpecifications.TrailingByte} was expected but {trailing} was received instead");
         }
     }
 

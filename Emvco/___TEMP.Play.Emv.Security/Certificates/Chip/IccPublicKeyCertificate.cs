@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Numerics;
 
 using Play.Ber.Codecs;
@@ -9,7 +7,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 
-namespace Play.Emv.Security.Certificates.Chip;
+namespace ___TEMP.Play.Emv.Security.Certificates.Chip;
 
 /// <summary>
 ///     ICC Public Key certified by the issuer
@@ -40,31 +38,60 @@ public record IccPublicKeyCertificate : PrimitiveValue, IEqualityComparer<IccPub
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
-    public ushort GetByteCount() => (ushort) _Value.GetByteCount();
-    public ReadOnlySpan<byte> GetEncipherment() => _Value.ToByteArray().AsSpan();
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => GetByteCount();
+    public override BerEncodingId GetBerEncodingId()
+    {
+        return BerEncodingId;
+    }
+
+    public ushort GetByteCount()
+    {
+        return (ushort) _Value.GetByteCount();
+    }
+
+    public ReadOnlySpan<byte> GetEncipherment()
+    {
+        return _Value.ToByteArray().AsSpan();
+    }
+
+    public override Tag GetTag()
+    {
+        return Tag;
+    }
+
+    public override ushort GetValueByteCount(BerCodec codec)
+    {
+        return GetByteCount();
+    }
 
     #endregion
 
     #region Serialization
 
-    public static IccPublicKeyCertificate Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    public static IccPublicKeyCertificate Decode(ReadOnlyMemory<byte> value, BerCodec codec)
+    {
+        return Decode(value.Span, codec);
+    }
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
     public static IccPublicKeyCertificate Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         DecodedResult<BigInteger> result = codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(IccPublicKeyCertificate)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(IccPublicKeyCertificate)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new IccPublicKeyCertificate(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec)
+    {
+        return codec.EncodeValue(BerEncodingId, _Value);
+    }
+
+    public override byte[] EncodeValue(BerCodec codec, int length)
+    {
+        return codec.EncodeValue(BerEncodingId, _Value, length);
+    }
 
     #endregion
 
@@ -81,7 +108,10 @@ public record IccPublicKeyCertificate : PrimitiveValue, IEqualityComparer<IccPub
         return x.Equals(y);
     }
 
-    public int GetHashCode(IccPublicKeyCertificate obj) => obj.GetHashCode();
+    public int GetHashCode(IccPublicKeyCertificate obj)
+    {
+        return obj.GetHashCode();
+    }
 
     #endregion
 }

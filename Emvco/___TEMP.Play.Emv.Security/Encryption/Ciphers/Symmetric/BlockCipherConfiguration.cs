@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.Security.Encryption.Ciphers;
+﻿namespace ___TEMP.Play.Emv.Security.Encryption.Ciphers.Symmetric;
 
 public class BlockCipherConfiguration
 {
@@ -32,11 +32,30 @@ public class BlockCipherConfiguration
 
     #region Instance Members
 
-    public BlockCipherMode GetBlockCipherMode() => _CipherMode;
-    public BlockPaddingMode GetBlockPaddingMode() => _PaddingMode;
-    public BlockSize GetBlockSize() => _BlockSize;
-    public KeySize GetKeySize() => _KeySize;
-    public IPreprocessPlainText GetPreprocessor() => _Preprocessor ?? new DefaultPlainTextPreprocessor();
+    public BlockCipherMode GetBlockCipherMode()
+    {
+        return _CipherMode;
+    }
+
+    public BlockPaddingMode GetBlockPaddingMode()
+    {
+        return _PaddingMode;
+    }
+
+    public BlockSize GetBlockSize()
+    {
+        return _BlockSize;
+    }
+
+    public KeySize GetKeySize()
+    {
+        return _KeySize;
+    }
+
+    public IPreprocessPlainText GetPreprocessor()
+    {
+        return _Preprocessor ?? new DefaultPlainTextPreprocessor();
+    }
 
     #endregion
 }

@@ -1,11 +1,10 @@
-﻿using System;
+﻿using ___TEMP.Play.Emv.Security.Cryptograms;
+using ___TEMP.Play.Emv.Security.Encryption.Hashing;
 
 using Play.Codecs;
 using Play.Emv.DataElements;
-using Play.Emv.Security.Cryptograms;
-using Play.Emv.Security.Encryption;
 
-namespace Play.Emv.Security.Authentications;
+namespace ___TEMP.Play.Emv.Security.Authentications.Dynamic.CombinedDataAuthentication;
 
 internal class IccDynamicData
 {
@@ -26,11 +25,30 @@ internal class IccDynamicData
 
     #region Instance Members
 
-    public ApplicationCryptogram GetCryptogram() => new(_Value[(GetIccDynamicNumberLength() + 2)..(GetIccDynamicNumberLength() + 10)]);
-    public CryptogramInformationData GetCryptogramInformationData() => new(_Value[GetIccDynamicNumberLength() + 1]);
-    public IccDynamicNumber GetIccDynamicNumber() => new(PlayEncoding.UnsignedBinary.GetUInt64(_Value[1..GetIccDynamicNumberLength()]));
-    public byte GetIccDynamicNumberLength() => _Value[0];
-    public Hash GetTransactionDataHashCode() => new(_Value[(GetIccDynamicNumberLength() + 10)..Hash.Length]);
+    public ApplicationCryptogram GetCryptogram()
+    {
+        return new(_Value[(GetIccDynamicNumberLength() + 2)..(GetIccDynamicNumberLength() + 10)]);
+    }
+
+    public CryptogramInformationData GetCryptogramInformationData()
+    {
+        return new(_Value[GetIccDynamicNumberLength() + 1]);
+    }
+
+    public IccDynamicNumber GetIccDynamicNumber()
+    {
+        return new(PlayEncoding.UnsignedBinary.GetUInt64(_Value[1..GetIccDynamicNumberLength()]));
+    }
+
+    public byte GetIccDynamicNumberLength()
+    {
+        return _Value[0];
+    }
+
+    public Hash GetTransactionDataHashCode()
+    {
+        return new(_Value[(GetIccDynamicNumberLength() + 10)..Hash.Length]);
+    }
 
     #endregion
 }

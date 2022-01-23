@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.Security.Messaging;
+﻿namespace ___TEMP.Play.Emv.Security.Messaging;
 
 public class SecurityCommand
 { }

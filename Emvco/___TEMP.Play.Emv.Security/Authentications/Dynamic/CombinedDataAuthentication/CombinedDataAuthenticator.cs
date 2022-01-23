@@ -1,15 +1,13 @@
-﻿using System;
+﻿using ___TEMP.Play.Emv.Security.Certificates.Chip;
+using ___TEMP.Play.Emv.Security.Cryptograms;
+using ___TEMP.Play.Emv.Security.Encryption.Hashing;
+using ___TEMP.Play.Emv.Security.Encryption.Signing;
 
 using Play.Ber.Codecs;
 using Play.Emv.DataElements;
 using Play.Emv.DataElements.CertificateAuthority;
-using Play.Emv.Security.Certificates.Chip;
-using Play.Emv.Security.Contracts;
-using Play.Emv.Security.Cryptograms;
-using Play.Emv.Security.Encryption;
-using Play.Emv.Security.Encryption.Signing;
 
-namespace Play.Emv.Security.Authentications;
+namespace ___TEMP.Play.Emv.Security.Authentications.Dynamic.CombinedDataAuthentication;
 
 internal class CombinedDataAuthenticator : IAuthenticateCombinedData
 {
@@ -34,13 +32,17 @@ internal class CombinedDataAuthenticator : IAuthenticateCombinedData
 
     #region Instance Members
 
-    public AuthenticateCombinedDataResponse Authenticate(AuthenticateCombinedData1Command command) =>
-        Authenticate(command.GetIccPublicKeyCertificate(), command.GetUnpredictableNumber(), command.GetGenerateAcCdaResponseMessage(),
-            command.GetTransactionDataHashCodeInput(_BerCodec));
+    public AuthenticateCombinedDataResponse Authenticate(AuthenticateCombinedData1Command command)
+    {
+        return Authenticate(command.GetIccPublicKeyCertificate(), command.GetUnpredictableNumber(),
+                            command.GetGenerateAcCdaResponseMessage(), command.GetTransactionDataHashCodeInput(_BerCodec));
+    }
 
-    public AuthenticateCombinedDataResponse Authenticate(AuthenticateCombinedData2Command command) =>
-        Authenticate(command.GetIccPublicKeyCertificate(), command.GetUnpredictableNumber(), command.GetGenerateAcCdaResponseMessage(),
-            command.GetTransactionDataHashCodeInput(_BerCodec));
+    public AuthenticateCombinedDataResponse Authenticate(AuthenticateCombinedData2Command command)
+    {
+        return Authenticate(command.GetIccPublicKeyCertificate(), command.GetUnpredictableNumber(),
+                            command.GetGenerateAcCdaResponseMessage(), command.GetTransactionDataHashCodeInput(_BerCodec));
+    }
 
     private AuthenticateCombinedDataResponse Authenticate(
         DecodedIccPublicKeyCertificate iccPublicKeyCertificate,
@@ -52,7 +54,8 @@ internal class CombinedDataAuthenticator : IAuthenticateCombinedData
             return CreateCombinedAuthenticationFailedResponse();
 
         DecodedSignedDynamicApplicationDataCda decodedSignature = RecoverSignedDynamicApplicationData(iccPublicKeyCertificate,
-            generateAcCdaResponseMessage.GetSignedDynamicApplicationData());
+                                                                                                      generateAcCdaResponseMessage
+                                                                                                          .GetSignedDynamicApplicationData());
 
         if (!IsSignedDataValid(decodedSignature, unpredictableNumber))
             return CreateCombinedAuthenticationFailedResponse();
@@ -64,11 +67,12 @@ internal class CombinedDataAuthenticator : IAuthenticateCombinedData
             return CreateCombinedAuthenticationFailedResponse();
 
         if (!IsTransactionDataHashCodeValid(decodedSignature.GetHashAlgorithmIndicator(), transactionDataHashCodeInput,
-            decodedSignature.GetIccDynamicData().GetTransactionDataHashCode()))
+                                            decodedSignature.GetIccDynamicData().GetTransactionDataHashCode()))
             return CreateCombinedAuthenticationFailedResponse();
 
         return new AuthenticateCombinedDataResponse(TerminalVerificationResult.Create(), ErrorIndication.Default,
-            decodedSignature.GetIccDynamicData().GetCryptogram(), decodedSignature.GetIccDynamicData().GetIccDynamicNumber());
+                                                    decodedSignature.GetIccDynamicData().GetCryptogram(),
+                                                    decodedSignature.GetIccDynamicData().GetIccDynamicNumber());
     }
 
     /// <remarks>
@@ -84,9 +88,11 @@ internal class CombinedDataAuthenticator : IAuthenticateCombinedData
 
     private bool IsCryptogramInformationDataValid(
         DecodedSignedDynamicApplicationDataCda decodedSignedDynamicApplicationDataCda,
-        GenerateAcCdaResponseMessage generateAcCdaResponseMessage) =>
-        decodedSignedDynamicApplicationDataCda.GetIccDynamicData().GetCryptogramInformationData()
-        == generateAcCdaResponseMessage.GetCryptogramInformationData();
+        GenerateAcCdaResponseMessage generateAcCdaResponseMessage)
+    {
+        return decodedSignedDynamicApplicationDataCda.GetIccDynamicData().GetCryptogramInformationData()
+            == generateAcCdaResponseMessage.GetCryptogramInformationData();
+    }
 
     /// <remarks>
     ///     Book 2 Section 6.6.2 Step 1
@@ -104,30 +110,42 @@ internal class CombinedDataAuthenticator : IAuthenticateCombinedData
     /// <remarks>
     ///     Book 2 Section 6.6.2 Step 4
     /// </remarks>
-    private bool IsSignedDataFormatValid(SignedDataFormat signedDataFormat) => signedDataFormat == SignedDataFormat._5;
+    private bool IsSignedDataFormatValid(SignedDataFormat signedDataFormat)
+    {
+        return signedDataFormat == SignedDataFormat._5;
+    }
 
-    private bool IsSignedDataValid(DecodedSignedDynamicApplicationDataCda decodedSignature, UnpredictableNumber unpredictableNumber) =>
-        _SignatureService.IsSignatureValid(decodedSignature.GetHashAlgorithmIndicator(),
-            ReconstructDynamicDataToBeSigned(decodedSignature, unpredictableNumber), decodedSignature);
+    private bool IsSignedDataValid(DecodedSignedDynamicApplicationDataCda decodedSignature, UnpredictableNumber unpredictableNumber)
+    {
+        return _SignatureService.IsSignatureValid(decodedSignature.GetHashAlgorithmIndicator(),
+                                                  ReconstructDynamicDataToBeSigned(decodedSignature, unpredictableNumber),
+                                                  decodedSignature);
+    }
 
     private bool IsTransactionDataHashCodeValid(
         HashAlgorithmIndicator hashAlgorithmIndicator,
         ReadOnlySpan<byte> transactionDataHashCodeInput,
-        Hash transactionDataHashCode) =>
-        transactionDataHashCode == _HashAlgorithmProvider.Generate(transactionDataHashCodeInput, hashAlgorithmIndicator);
+        Hash transactionDataHashCode)
+    {
+        return transactionDataHashCode == _HashAlgorithmProvider.Generate(transactionDataHashCodeInput, hashAlgorithmIndicator);
+    }
 
     private byte[] ReconstructDynamicDataToBeSigned(
         DecodedSignedDynamicApplicationDataCda decodedSignedDynamicApplicationData,
-        UnpredictableNumber unpredictableNumber) =>
-        decodedSignedDynamicApplicationData.GetSignatureHashPlainText(unpredictableNumber);
+        UnpredictableNumber unpredictableNumber)
+    {
+        return decodedSignedDynamicApplicationData.GetSignatureHashPlainText(unpredictableNumber);
+    }
 
     /// <remarks>
     ///     Book 2 Section 6.6.2 Step 2
     /// </remarks>
     private DecodedSignedDynamicApplicationDataCda RecoverSignedDynamicApplicationData(
         PublicKeyCertificate issuerPublicKeyCertificate,
-        SignedDynamicApplicationData encipheredData) =>
-        new(_SignatureService.Decrypt(encipheredData.AsByteArray(), issuerPublicKeyCertificate));
+        SignedDynamicApplicationData encipheredData)
+    {
+        return new(_SignatureService.Decrypt(encipheredData.AsByteArray(), issuerPublicKeyCertificate));
+    }
 
     #endregion
 

@@ -1,7 +1,6 @@
-﻿using Play.Ber.DataObjects;
-using Play.Emv.DataElements;
+﻿using Play.Emv.DataElements;
 
-namespace Play.Emv.Security.Messaging;
+namespace ___TEMP.Play.Emv.Security.Messaging;
 
 public class SecurityResponse
 {
@@ -24,7 +23,10 @@ public class SecurityResponse
 
     #region Instance Members
 
-    public TerminalVerificationResult GetTerminalVerificationResult() => _TerminalVerificationResult;
+    public TerminalVerificationResult GetTerminalVerificationResult()
+    {
+        return _TerminalVerificationResult;
+    }
 
     #endregion
 }

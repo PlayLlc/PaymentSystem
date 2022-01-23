@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 
 using Play.Core;
 
-namespace Play.Emv.Security.Authentications;
+namespace ___TEMP.Play.Emv.Security.Authentications;
 
 public record AuthenticationType : EnumObject<byte>
 {
@@ -31,8 +30,7 @@ public record AuthenticationType : EnumObject<byte>
         CombinedDataAuthentication = new AuthenticationType(combinedDataAuthentication);
         _ValueObjectMap = new Dictionary<byte, AuthenticationType>
         {
-            {staticDataAuthentication, StaticDataAuthentication},
-            {dynamicDataAuthentication, DynamicDataAuthentication},
+            {staticDataAuthentication, StaticDataAuthentication}, {dynamicDataAuthentication, DynamicDataAuthentication},
             {combinedDataAuthentication, CombinedDataAuthentication}
         }.ToImmutableSortedDictionary();
     }
@@ -44,22 +42,38 @@ public record AuthenticationType : EnumObject<byte>
 
     #region Instance Members
 
-    public static bool TryGet(byte value, out AuthenticationType result) => _ValueObjectMap.TryGetValue(value, out result);
+    public static bool TryGet(byte value, out AuthenticationType result)
+    {
+        return _ValueObjectMap.TryGetValue(value, out result);
+    }
 
     #endregion
 
     #region Equality
 
-    public bool Equals(AuthenticationType x, AuthenticationType y) => x.Equals(y);
-    public override int GetHashCode() => 470621 * _Value.GetHashCode();
-    public int GetHashCode(AuthenticationType obj) => obj.GetHashCode();
+    public bool Equals(AuthenticationType x, AuthenticationType y)
+    {
+        return x.Equals(y);
+    }
+
+    public override int GetHashCode()
+    {
+        return 470621 * _Value.GetHashCode();
+    }
+
+    public int GetHashCode(AuthenticationType obj)
+    {
+        return obj.GetHashCode();
+    }
 
     #endregion
 
     #region Operator Overrides
 
-    public static explicit operator byte(AuthenticationType registeredApplicationProviderIndicators) =>
-        registeredApplicationProviderIndicators._Value;
+    public static explicit operator byte(AuthenticationType registeredApplicationProviderIndicators)
+    {
+        return registeredApplicationProviderIndicators._Value;
+    }
 
     #endregion
 }

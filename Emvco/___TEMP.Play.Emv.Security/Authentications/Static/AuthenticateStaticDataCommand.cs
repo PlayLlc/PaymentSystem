@@ -1,11 +1,11 @@
-﻿using Play.Ber.DataObjects;
+﻿using ___TEMP.Play.Emv.Security.Authentications.Static.Signed;
+using ___TEMP.Play.Emv.Security.Certificates.Issuer;
+
+using Play.Ber.DataObjects;
 using Play.Emv.DataElements;
 using Play.Emv.DataElements.CertificateAuthority;
-using Play.Emv.Security.Authentications.Static.Signed;
-using Play.Emv.Security.Certificates.Issuer;
-using Play.Emv.Security.Contracts;
 
-namespace Play.Emv.Security.Authentications.Static;
+namespace ___TEMP.Play.Emv.Security.Authentications.Static;
 
 public class AuthenticateStaticDataCommand : AuthenticationCommand
 {
@@ -19,9 +19,10 @@ public class AuthenticateStaticDataCommand : AuthenticationCommand
         IssuerPublicKeyExponent issuerPublicKeyExponent,
         IssuerPublicKeyRemainder issuerPublicKeyRemainder,
         ApplicationInterchangeProfile applicationInterchangeProfile,
-        StaticDataAuthenticationTagList staticDataAuthenticationTagList) : base(
-        new StaticDataToBeAuthenticated(applicationFileLocatorResult, staticDataAuthenticationTagList, applicationInterchangeProfile),
-        signedStaticApplicationData, caPublicKeyCertificate, issuerPublicKeyCertificate, issuerPublicKeyExponent, issuerPublicKeyRemainder)
+        StaticDataAuthenticationTagList staticDataAuthenticationTagList) :
+        base(new StaticDataToBeAuthenticated(applicationFileLocatorResult, staticDataAuthenticationTagList, applicationInterchangeProfile),
+             signedStaticApplicationData, caPublicKeyCertificate, issuerPublicKeyCertificate, issuerPublicKeyExponent,
+             issuerPublicKeyRemainder)
     { }
 
     #endregion

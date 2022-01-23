@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Play.Emv.Security.Encryption.Ciphers;
+﻿namespace ___TEMP.Play.Emv.Security.Encryption.Ciphers.Symmetric;
 
 public interface IBlockCipher
 {

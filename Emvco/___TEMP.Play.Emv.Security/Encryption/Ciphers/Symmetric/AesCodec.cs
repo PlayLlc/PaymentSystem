@@ -1,10 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
-namespace Play.Emv.Security.Encryption.Ciphers;
+namespace ___TEMP.Play.Emv.Security.Encryption.Ciphers.Symmetric;
 
 internal class AesCodec : IBlockCipher
 {
@@ -29,13 +27,13 @@ internal class AesCodec : IBlockCipher
         if (configuration.GetKeySize().GetBitSize() == KeySize._64)
         {
             throw new ArgumentOutOfRangeException(nameof(configuration),
-                $"Valid {nameof(KeySize)} values for {nameof(AesCodec)} are {KeySize._128}, {KeySize._192}, and {KeySize._256}");
+                                                  $"Valid {nameof(KeySize)} values for {nameof(AesCodec)} are {KeySize._128}, {KeySize._192}, and {KeySize._256}");
         }
 
         if (configuration.GetBlockSize() != BlockSize._16)
         {
             throw new ArgumentOutOfRangeException(nameof(configuration),
-                $"Valid {nameof(BlockSize)} values for {nameof(TripleDesCodec)} are {BlockSize._8}");
+                                                  $"Valid {nameof(BlockSize)} values for {nameof(TripleDesCodec)} are {BlockSize._8}");
         }
 
         _PlainTextPreprocessor = configuration.GetPreprocessor();
@@ -75,18 +73,24 @@ internal class AesCodec : IBlockCipher
         return buffer.ToArray();
     }
 
-    private AesCryptoServiceProvider GetAesProvider(ReadOnlySpan<byte> key) =>
-        new()
+    private AesCryptoServiceProvider GetAesProvider(ReadOnlySpan<byte> key)
+    {
+        return new()
         {
-            BlockSize = _BlockSize,
-            KeySize = _KeySize,
-            Key = key.ToArray(),
-            Mode = _CipherMode.AsCipherMode(),
+            BlockSize = _BlockSize, KeySize = _KeySize, Key = key.ToArray(), Mode = _CipherMode.AsCipherMode(),
             Padding = _PaddingMode.AsPaddingMode()
         };
+    }
 
-    public BlockCipherAlgorithm GetAlgorithm() => BlockCipherAlgorithm.Aes;
-    public KeySize GetKeySize() => _KeySize;
+    public BlockCipherAlgorithm GetAlgorithm()
+    {
+        return BlockCipherAlgorithm.Aes;
+    }
+
+    public KeySize GetKeySize()
+    {
+        return _KeySize;
+    }
 
     public byte[] Sign(ReadOnlySpan<byte> message, ReadOnlySpan<byte> key)
     {
@@ -101,7 +105,10 @@ internal class AesCodec : IBlockCipher
         return memoryStream.ToArray();
     }
 
-    public BlockCipherMode GetCipherMode() => _CipherMode;
+    public BlockCipherMode GetCipherMode()
+    {
+        return _CipherMode;
+    }
 
     #endregion
 }

@@ -1,17 +1,22 @@
-﻿using System;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 
 using Play.Emv.DataElements.CertificateAuthority;
-using Play.Emv.Security.Contracts;
 
-namespace Play.Emv.Security.Encryption;
+namespace ___TEMP.Play.Emv.Security.Encryption.Hashing;
 
 internal class Sha1HashGenerator : IHashGenerator
 {
     #region Instance Members
 
-    public Hash Generate(ReadOnlySpan<byte> clearText) => new(SHA1.HashData(clearText));
-    public HashAlgorithmIndicator GetHashAlgorithmIndicator() => HashAlgorithmIndicator.Sha1;
+    public Hash Generate(ReadOnlySpan<byte> clearText)
+    {
+        return new(SHA1.HashData(clearText));
+    }
+
+    public HashAlgorithmIndicator GetHashAlgorithmIndicator()
+    {
+        return HashAlgorithmIndicator.Sha1;
+    }
 
     #endregion
 }

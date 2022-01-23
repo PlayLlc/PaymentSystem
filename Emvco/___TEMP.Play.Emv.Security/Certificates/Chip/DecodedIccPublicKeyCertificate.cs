@@ -1,9 +1,8 @@
 ﻿using Play.Emv.DataElements;
 using Play.Emv.DataElements.CertificateAuthority;
-using Play.Emv.Security.Contracts;
 using Play.Globalization.Time;
 
-namespace Play.Emv.Security.Certificates.Chip;
+namespace ___TEMP.Play.Emv.Security.Certificates.Chip;
 
 public class DecodedIccPublicKeyCertificate : PublicKeyCertificate
 {
@@ -28,7 +27,7 @@ public class DecodedIccPublicKeyCertificate : PublicKeyCertificate
         HashAlgorithmIndicator hashAlgorithmIndicator,
         PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator,
         PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber, hashAlgorithmIndicator, publicKeyAlgorithmIndicator, validityPeriod,
-        publicKeyInfo)
+                                            publicKeyInfo)
     {
         _PrimaryAccountNumber = applicationNumber;
     }
@@ -37,8 +36,15 @@ public class DecodedIccPublicKeyCertificate : PublicKeyCertificate
 
     #region Instance Members
 
-    public CertificateFormat GetCertificateFormat() => _CertificateFormat;
-    public PrimaryAccountNumber GetPrimaryAccountNumber() => _PrimaryAccountNumber;
+    public CertificateFormat GetCertificateFormat()
+    {
+        return _CertificateFormat;
+    }
+
+    public PrimaryAccountNumber GetPrimaryAccountNumber()
+    {
+        return _PrimaryAccountNumber;
+    }
 
     #endregion
 }

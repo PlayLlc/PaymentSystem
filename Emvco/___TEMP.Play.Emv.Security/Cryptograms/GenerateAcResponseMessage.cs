@@ -1,13 +1,12 @@
-﻿using System;
+﻿using ___TEMP.Play.Emv.Security.Checksum;
 
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Emv.DataElements;
-using Play.Emv.Security.Checksum;
 using Play.Emv.Templates.ResponseMessages;
 
-namespace Play.Emv.Security.Cryptograms;
+namespace ___TEMP.Play.Emv.Security.Cryptograms;
 
 public class GenerateAcResponseMessage : ResponseMessageTemplate
 {
@@ -51,7 +50,10 @@ public class GenerateAcResponseMessage : ResponseMessageTemplate
 
     #region Instance Members
 
-    public override Tag[] GetChildTags() => _ChildTags;
+    public override Tag[] GetChildTags()
+    {
+        return _ChildTags;
+    }
 
     protected override IEncodeBerDataObjects?[] GetChildren()
     {
@@ -62,7 +64,10 @@ public class GenerateAcResponseMessage : ResponseMessageTemplate
         };
     }
 
-    public override Tag GetTag() => Tag;
+    public override Tag GetTag()
+    {
+        return Tag;
+    }
 
     public override ushort GetValueByteCount(BerCodec codec)
     {
@@ -80,19 +85,27 @@ public class GenerateAcResponseMessage : ResponseMessageTemplate
 
     #region Serialization
 
-    public override byte[] EncodeTagLengthValue(BerCodec codec) => throw new NotImplementedException();
+    public override byte[] EncodeTagLengthValue(BerCodec codec)
+    {
+        throw new NotImplementedException();
+    }
 
-    public override byte[] EncodeValue(BerCodec codec) =>
-        _IssuerApplicationData == null
+    public override byte[] EncodeValue(BerCodec codec)
+    {
+        return _IssuerApplicationData == null
             ? codec.EncodeTagLengthValue(this, _CryptogramInformationData, _ApplicationTransactionCounter, _ApplicationCryptogram)
             : codec.EncodeTagLengthValue(this, _CryptogramInformationData, _ApplicationTransactionCounter, _ApplicationCryptogram,
-                _IssuerApplicationData);
+                                         _IssuerApplicationData);
+    }
 
     #endregion
 
     #region Equality
 
-    public override bool Equals(object? obj) => obj is GenerateAcResponseMessage generateAcResponse && Equals(generateAcResponse);
+    public override bool Equals(object? obj)
+    {
+        return obj is GenerateAcResponseMessage generateAcResponse && Equals(generateAcResponse);
+    }
 
     public override bool Equals(ConstructedValue? x, ConstructedValue? y)
     {
@@ -105,19 +118,27 @@ public class GenerateAcResponseMessage : ResponseMessageTemplate
         return x.Equals(y);
     }
 
-    public bool Equals(GenerateAcResponseMessage x, GenerateAcResponseMessage y) => x.Equals(y);
+    public bool Equals(GenerateAcResponseMessage x, GenerateAcResponseMessage y)
+    {
+        return x.Equals(y);
+    }
 
-    public bool Equals(GenerateAcResponseMessage other) =>
-        (GetTag() == other.GetTag())
-        && _CryptogramInformationData.Equals(other._CryptogramInformationData)
-        && _ApplicationTransactionCounter.Equals(other._ApplicationTransactionCounter)
-        && _ApplicationCryptogram.Equals(other._ApplicationCryptogram)
-        && _IssuerApplicationData!.Equals(other._IssuerApplicationData)
-        && PosCardholderInteractionInformation.EqualsStatic(_PosCardholderInteractionInformation,
-            other._PosCardholderInteractionInformation)
-        && IssuerApplicationData.EqualsStatic(_IssuerApplicationData, other._IssuerApplicationData);
+    public bool Equals(GenerateAcResponseMessage other)
+    {
+        return (GetTag() == other.GetTag())
+            && _CryptogramInformationData.Equals(other._CryptogramInformationData)
+            && _ApplicationTransactionCounter.Equals(other._ApplicationTransactionCounter)
+            && _ApplicationCryptogram.Equals(other._ApplicationCryptogram)
+            && _IssuerApplicationData!.Equals(other._IssuerApplicationData)
+            && PosCardholderInteractionInformation.EqualsStatic(_PosCardholderInteractionInformation,
+                                                                other._PosCardholderInteractionInformation)
+            && IssuerApplicationData.EqualsStatic(_IssuerApplicationData, other._IssuerApplicationData);
+    }
 
-    public override bool Equals(ConstructedValue? other) => other is GenerateAcResponseMessage m && Equals(m);
+    public override bool Equals(ConstructedValue? other)
+    {
+        return other is GenerateAcResponseMessage m && Equals(m);
+    }
 
     public override int GetHashCode()
     {
@@ -132,7 +153,10 @@ public class GenerateAcResponseMessage : ResponseMessageTemplate
         }
     }
 
-    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
+    public override int GetHashCode(ConstructedValue obj)
+    {
+        return obj.GetHashCode();
+    }
 
     #endregion
 }

@@ -1,11 +1,14 @@
-﻿using Play.Ber.Emv;
-using Play.Emv.DataElements;
-using Play.Emv.Security.Authentications.DynamicDataAuthentication;
-using Play.Emv.Security.Authentications.Static;
-using Play.Emv.Security.Encryption;
-using Play.Emv.Security.Encryption.Signing;
+﻿using ___TEMP.Play.Emv.Security.Authentications;
+using ___TEMP.Play.Emv.Security.Authentications.Dynamic.CombinedDataAuthentication;
+using ___TEMP.Play.Emv.Security.Authentications.Dynamic.DynamicDataAuthentication;
+using ___TEMP.Play.Emv.Security.Authentications.Static;
+using ___TEMP.Play.Emv.Security.Encryption.Hashing;
+using ___TEMP.Play.Emv.Security.Encryption.Signing;
 
-namespace Play.Emv.Security.Authentications;
+using Play.Ber.Emv;
+using Play.Emv.DataElements;
+
+namespace ___TEMP.Play.Emv.Security.__Services;
 
 public class AuthenticationService
 {
@@ -39,7 +42,8 @@ public class AuthenticationService
         SignatureService? signatureService = new();
 
         return new AuthenticationService(new StaticDataAuthenticator(signatureService), new DynamicDataAuthenticator(signatureService),
-            new CombinedDataAuthenticator(new HashAlgorithmProvider(), signatureService, EmvCodec.GetBerCodec()));
+                                         new CombinedDataAuthenticator(new HashAlgorithmProvider(), signatureService,
+                                                                       EmvCodec.GetBerCodec()));
     }
 
     /// <remarks>
@@ -64,17 +68,25 @@ public class AuthenticationService
         return AuthenticationType.None;
     }
 
-    public AuthenticateDynamicDataResponse Authenticate(AuthenticateDynamicDataCommand command) =>
-        _DynamicDataAuthenticator.Authenticate(command);
+    public AuthenticateDynamicDataResponse Authenticate(AuthenticateDynamicDataCommand command)
+    {
+        return _DynamicDataAuthenticator.Authenticate(command);
+    }
 
-    public AuthenticateCombinedDataResponse Authenticate(AuthenticateCombinedData1Command command) =>
-        _CombinedDataAuthenticator.Authenticate(command);
+    public AuthenticateCombinedDataResponse Authenticate(AuthenticateCombinedData1Command command)
+    {
+        return _CombinedDataAuthenticator.Authenticate(command);
+    }
 
-    public AuthenticateCombinedDataResponse Authenticate(AuthenticateCombinedData2Command command) =>
-        _CombinedDataAuthenticator.Authenticate(command);
+    public AuthenticateCombinedDataResponse Authenticate(AuthenticateCombinedData2Command command)
+    {
+        return _CombinedDataAuthenticator.Authenticate(command);
+    }
 
-    public AuthenticateStaticDataResponse Authenticate(AuthenticateStaticDataCommand command) =>
-        _StaticDataAuthenticator.Authenticate(command);
+    public AuthenticateStaticDataResponse Authenticate(AuthenticateStaticDataCommand command)
+    {
+        return _StaticDataAuthenticator.Authenticate(command);
+    }
 
     #endregion
 }

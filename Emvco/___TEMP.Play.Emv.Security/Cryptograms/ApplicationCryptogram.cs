@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-
 using Play.Ber.Codecs;
 using Play.Ber.Emv.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Icc.SecureMessaging;
 
-namespace Play.Emv.Security.Cryptograms;
+namespace ___TEMP.Play.Emv.Security.Cryptograms;
 
 /// <summary>
 ///     Cryptogram returned by the ICC in response of the GENERATE AC command
@@ -29,7 +26,7 @@ public record ApplicationCryptogram : CryptographicChecksum, IEqualityComparer<A
         if (value.Length != _ByteCount)
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} must be {_ByteCount} bytes in size to initialize a {nameof(ApplicationCryptogram)}");
+                                                  $"The argument {nameof(value)} must be {_ByteCount} bytes in size to initialize a {nameof(ApplicationCryptogram)}");
         }
     }
 
@@ -37,14 +34,24 @@ public record ApplicationCryptogram : CryptographicChecksum, IEqualityComparer<A
 
     #region Instance Members
 
-    public new BerEncodingId GetBerEncodingId() => BerEncodingId;
-    public new Tag GetTag() => Tag;
+    public new BerEncodingId GetBerEncodingId()
+    {
+        return BerEncodingId;
+    }
+
+    public new Tag GetTag()
+    {
+        return Tag;
+    }
 
     #endregion
 
     #region Serialization
 
-    public static ApplicationCryptogram Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    public static ApplicationCryptogram Decode(ReadOnlyMemory<byte> value, BerCodec codec)
+    {
+        return Decode(value.Span, codec);
+    }
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
@@ -52,14 +59,17 @@ public record ApplicationCryptogram : CryptographicChecksum, IEqualityComparer<A
     {
         if (value.Length != _ByteCount)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(ApplicationCryptogram)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteCount} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(ApplicationCryptogram)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteCount} bytes in length");
         }
 
         return new ApplicationCryptogram(value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => _Value;
+    public override byte[] EncodeValue(BerCodec codec)
+    {
+        return _Value;
+    }
 
     public override byte[] EncodeValue(BerCodec codec, int length)
     {
@@ -92,7 +102,10 @@ public record ApplicationCryptogram : CryptographicChecksum, IEqualityComparer<A
         return x.Equals(y);
     }
 
-    public int GetHashCode(ApplicationCryptogram obj) => obj.GetHashCode();
+    public int GetHashCode(ApplicationCryptogram obj)
+    {
+        return obj.GetHashCode();
+    }
 
     #endregion
 }

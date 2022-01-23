@@ -1,12 +1,10 @@
-﻿using System;
-
-using Play.Ber.Codecs;
+﻿using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Emv.DataElements;
 using Play.Emv.Templates.ResponseMessages;
 
-namespace Play.Emv.Security.Checksum;
+namespace ___TEMP.Play.Emv.Security.Checksum;
 
 public class GetChallengeResponseMessage : ResponseMessageTemplate
 {
@@ -47,7 +45,10 @@ public class GetChallengeResponseMessage : ResponseMessageTemplate
 
     #region Instance Members
 
-    public override Tag[] GetChildTags() => _ChildTags;
+    public override Tag[] GetChildTags()
+    {
+        return _ChildTags;
+    }
 
     protected override IEncodeBerDataObjects?[] GetChildren()
     {
@@ -58,7 +59,10 @@ public class GetChallengeResponseMessage : ResponseMessageTemplate
         };
     }
 
-    public override Tag GetTag() => Tag;
+    public override Tag GetTag()
+    {
+        return Tag;
+    }
 
     public override ushort GetValueByteCount(BerCodec codec)
     {
@@ -75,20 +79,30 @@ public class GetChallengeResponseMessage : ResponseMessageTemplate
 
     #region Serialization
 
-    public override byte[] EncodeTagLengthValue(BerCodec codec) => throw new NotImplementedException();
+    public override byte[] EncodeTagLengthValue(BerCodec codec)
+    {
+        throw new NotImplementedException();
+    }
 
-    public override byte[] EncodeValue(BerCodec codec) =>
-        codec.EncodeTagLengthValue(this, _ApplicationTransactionCounter, _CardholderVerificationCode3Track1,
-            _CardholderVerificationCode3Track2, _PosCardholderInteractionInformation);
+    public override byte[] EncodeValue(BerCodec codec)
+    {
+        return codec.EncodeTagLengthValue(this, _ApplicationTransactionCounter, _CardholderVerificationCode3Track1,
+                                          _CardholderVerificationCode3Track2, _PosCardholderInteractionInformation);
+    }
 
     #endregion
 
     #region Equality
 
-    public override bool Equals(ConstructedValue? other) => throw new NotImplementedException();
+    public override bool Equals(ConstructedValue? other)
+    {
+        throw new NotImplementedException();
+    }
 
-    public override bool Equals(object? obj) =>
-        obj is GetChallengeResponseMessage getChallengeResponseMessage && Equals(getChallengeResponseMessage);
+    public override bool Equals(object? obj)
+    {
+        return obj is GetChallengeResponseMessage getChallengeResponseMessage && Equals(getChallengeResponseMessage);
+    }
 
     public override bool Equals(ConstructedValue? x, ConstructedValue? y)
     {
@@ -101,7 +115,10 @@ public class GetChallengeResponseMessage : ResponseMessageTemplate
         return x.Equals(y);
     }
 
-    public bool Equals(GetChallengeResponseMessage x, GetChallengeResponseMessage y) => x.Equals(y);
+    public bool Equals(GetChallengeResponseMessage x, GetChallengeResponseMessage y)
+    {
+        return x.Equals(y);
+    }
 
     public bool Equals(GetChallengeResponseMessage other)
     {
@@ -118,7 +135,7 @@ public class GetChallengeResponseMessage : ResponseMessageTemplate
             return false;
 
         if (!PosCardholderInteractionInformation.EqualsStatic(_PosCardholderInteractionInformation,
-            other._PosCardholderInteractionInformation))
+                                                              other._PosCardholderInteractionInformation))
             return false;
 
         return true;
@@ -136,7 +153,10 @@ public class GetChallengeResponseMessage : ResponseMessageTemplate
         }
     }
 
-    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
+    public override int GetHashCode(ConstructedValue obj)
+    {
+        return obj.GetHashCode();
+    }
 
     #endregion
 }

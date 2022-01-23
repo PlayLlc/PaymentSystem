@@ -1,10 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
-namespace Play.Emv.Security.Encryption.Ciphers;
+namespace ___TEMP.Play.Emv.Security.Encryption.Ciphers.Symmetric;
 
 /// <summary>
 ///     An 8 block cypher that applies the DES algorithm three times to each block
@@ -32,13 +30,13 @@ public class TripleDesCodec : IBlockCipher
         if (configuration.GetKeySize() != KeySize._128)
         {
             throw new ArgumentOutOfRangeException(nameof(configuration),
-                $"Valid {nameof(KeySize)} values for {nameof(TripleDesCodec)} are {KeySize._128}");
+                                                  $"Valid {nameof(KeySize)} values for {nameof(TripleDesCodec)} are {KeySize._128}");
         }
 
         if (configuration.GetBlockSize() != BlockSize._8)
         {
             throw new ArgumentOutOfRangeException(nameof(configuration),
-                $"Valid {nameof(BlockSize)} values for {nameof(TripleDesCodec)} are {BlockSize._8}");
+                                                  $"Valid {nameof(BlockSize)} values for {nameof(TripleDesCodec)} are {BlockSize._8}");
         }
 
         _Preprocessor = configuration.GetPreprocessor();
@@ -77,19 +75,24 @@ public class TripleDesCodec : IBlockCipher
         return buffer.ToArray();
     }
 
-    public BlockCipherAlgorithm GetAlgorithm() => BlockCipherAlgorithm.Aes;
+    public BlockCipherAlgorithm GetAlgorithm()
+    {
+        return BlockCipherAlgorithm.Aes;
+    }
 
-    private TripleDESCryptoServiceProvider GetDesProvider(ReadOnlySpan<byte> key) =>
-        new()
+    private TripleDESCryptoServiceProvider GetDesProvider(ReadOnlySpan<byte> key)
+    {
+        return new()
         {
-            BlockSize = _BlockSize,
-            KeySize = _KeySize,
-            Key = key.ToArray(),
-            Mode = _CipherMode.AsCipherMode(),
+            BlockSize = _BlockSize, KeySize = _KeySize, Key = key.ToArray(), Mode = _CipherMode.AsCipherMode(),
             Padding = _PaddingMode.AsPaddingMode()
         };
+    }
 
-    public KeySize GetKeySize() => _KeySize;
+    public KeySize GetKeySize()
+    {
+        return _KeySize;
+    }
 
     public byte[] Sign(ReadOnlySpan<byte> message, ReadOnlySpan<byte> key)
     {
@@ -104,7 +107,10 @@ public class TripleDesCodec : IBlockCipher
         return memoryStream.ToArray();
     }
 
-    public BlockCipherMode GetCipherMode() => _CipherMode;
+    public BlockCipherMode GetCipherMode()
+    {
+        return _CipherMode;
+    }
 
     #endregion
 }

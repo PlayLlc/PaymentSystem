@@ -1,8 +1,6 @@
-﻿using System;
+﻿using ___TEMP.Play.Emv.Security.Encryption.Ciphers.Symmetric;
 
-using Play.Emv.Security.Encryption.Ciphers;
-
-namespace Play.Emv.Security.Encryption;
+namespace ___TEMP.Play.Emv.Security.Encryption;
 
 public class Iso7816PaddingFormatter : IFormatPlainText
 {
@@ -36,7 +34,10 @@ public class Iso7816PaddingFormatter : IFormatPlainText
         return buffer.ToArray();
     }
 
-    private bool IsPaddingValid(ReadOnlySpan<byte> value) => (value.Length % _BlockSize) == 0;
+    private bool IsPaddingValid(ReadOnlySpan<byte> value)
+    {
+        return (value.Length % _BlockSize) == 0;
+    }
 
     #endregion
 }

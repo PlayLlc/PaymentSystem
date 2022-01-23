@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Emv\Contactless\Security\Play.Emv.Security.Contracts\Play.Emv.Security.Contracts.csproj" />
     <ProjectReference Include="..\Emv\Play.Emv\Play.Emv.csproj" />
   </ItemGroup>
 

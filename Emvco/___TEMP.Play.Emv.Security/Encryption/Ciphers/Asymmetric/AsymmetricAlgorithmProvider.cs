@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 
 using Play.Emv.DataElements;
 using Play.Emv.DataElements.CertificateAuthority;
-using Play.Emv.Security.Contracts;
 
-namespace Play.Emv.Security.Encryption.Ciphers;
+namespace ___TEMP.Play.Emv.Security.Encryption.Ciphers.Asymmetric;
 
 internal class AsymmetricAlgorithmProvider
 {
@@ -27,17 +24,19 @@ internal class AsymmetricAlgorithmProvider
 
     #region Instance Members
 
-    private ImmutableSortedDictionary<PublicKeyAlgorithmIndicator, IAsymmetricCodec> CreateAsymmetricAlgorithmMap() =>
-        new Dictionary<PublicKeyAlgorithmIndicator, IAsymmetricCodec> {{PublicKeyAlgorithmIndicator.Rsa, new RsaCodec()}}
+    private ImmutableSortedDictionary<PublicKeyAlgorithmIndicator, IAsymmetricCodec> CreateAsymmetricAlgorithmMap()
+    {
+        return new Dictionary<PublicKeyAlgorithmIndicator, IAsymmetricCodec> {{PublicKeyAlgorithmIndicator.Rsa, new RsaCodec()}}
             .ToImmutableSortedDictionary();
+    }
 
     public byte[] Decrypt(ReadOnlySpan<byte> cipherText, PublicKeyCertificate publicKeyCertificate)
     {
         if (!_AsymmetricAlgorithmMap.TryGetValue(publicKeyCertificate.GetPublicKeyAlgorithmIndicator(),
-            out IAsymmetricCodec? asymmetricCodec))
+                                                 out IAsymmetricCodec? asymmetricCodec))
         {
             throw new ArgumentOutOfRangeException(nameof(publicKeyCertificate),
-                $"There was no {nameof(IAsymmetricCodec)} available for the argument {nameof(publicKeyCertificate)} with the {nameof(PublicKeyAlgorithmIndicator)} value of {publicKeyCertificate.GetPublicKeyAlgorithmIndicator()}");
+                                                  $"There was no {nameof(IAsymmetricCodec)} available for the argument {nameof(publicKeyCertificate)} with the {nameof(PublicKeyAlgorithmIndicator)} value of {publicKeyCertificate.GetPublicKeyAlgorithmIndicator()}");
         }
 
         return asymmetricCodec.Sign(cipherText, publicKeyCertificate.GetPublicKeyInfo());
@@ -46,10 +45,10 @@ internal class AsymmetricAlgorithmProvider
     public byte[] Sign(ReadOnlySpan<byte> clearText, PublicKeyCertificate publicKeyCertificate)
     {
         if (!_AsymmetricAlgorithmMap.TryGetValue(publicKeyCertificate.GetPublicKeyAlgorithmIndicator(),
-            out IAsymmetricCodec? asymmetricCodec))
+                                                 out IAsymmetricCodec? asymmetricCodec))
         {
             throw new ArgumentOutOfRangeException(nameof(publicKeyCertificate),
-                $"There was no {nameof(IAsymmetricCodec)} available for the argument {nameof(publicKeyCertificate)} with the {nameof(PublicKeyAlgorithmIndicator)} value of {publicKeyCertificate.GetPublicKeyAlgorithmIndicator()}");
+                                                  $"There was no {nameof(IAsymmetricCodec)} available for the argument {nameof(publicKeyCertificate)} with the {nameof(PublicKeyAlgorithmIndicator)} value of {publicKeyCertificate.GetPublicKeyAlgorithmIndicator()}");
         }
 
         return asymmetricCodec.Sign(clearText, publicKeyCertificate.GetPublicKeyInfo());

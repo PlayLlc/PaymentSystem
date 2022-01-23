@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ___TEMP.Play.Emv.Security.Certificates.Issuer;
+using ___TEMP.Play.Emv.Security.Encryption.Signing;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
@@ -6,12 +7,9 @@ using Play.Ber.Emv.Codecs;
 using Play.Codecs.Strings;
 using Play.Emv.DataElements;
 using Play.Emv.DataElements.CertificateAuthority;
-using Play.Emv.Security.Certificates.Issuer;
-using Play.Emv.Security.Contracts;
-using Play.Emv.Security.Encryption.Signing;
 using Play.Globalization.Time;
 
-namespace Play.Emv.Security.Certificates;
+namespace ___TEMP.Play.Emv.Security.Certificates;
 
 internal partial class CertificateFactory
 {
@@ -53,13 +51,18 @@ internal partial class CertificateFactory
             PublicKeyInfo publicKeyInfo = new(publicKeyModulus, publicKeyExponent);
 
             return new DecodedIssuerPublicKeyCertificate(issuerIdentificationNumber, serialNumber, hashAlgorithm,
-                publicKeyAlgorithmIndicator, validityPeriod, publicKeyInfo);
+                                                         publicKeyAlgorithmIndicator, validityPeriod, publicKeyInfo);
         }
 
-        private static ShortDateValue GetCertificateExpirationDate(Message1 message1) =>
-            new(_NumericCodec.GetUInt16(message1[new Range(5, 7)]));
+        private static ShortDateValue GetCertificateExpirationDate(Message1 message1)
+        {
+            return new(_NumericCodec.GetUInt16(message1[new Range(5, 7)]));
+        }
 
-        private static CertificateSerialNumber GetCertificateSerialNumber(Message1 message1) => new(message1[new Range(7, 10)]);
+        private static CertificateSerialNumber GetCertificateSerialNumber(Message1 message1)
+        {
+            return new(message1[new Range(7, 10)]);
+        }
 
         // TODO: The remainder and exponent will be coming from the TLV Database. No need to pass those with the
         // TODO: command. You can pass the ITlvDatabase and query when it's relevant
@@ -84,19 +87,35 @@ internal partial class CertificateFactory
             return buffer.ToArray();
         }
 
-        private static HashAlgorithmIndicator GetHashAlgorithmIndicator(Message1 message1) => HashAlgorithmIndicator.Get(message1[11]);
+        private static HashAlgorithmIndicator GetHashAlgorithmIndicator(Message1 message1)
+        {
+            return HashAlgorithmIndicator.Get(message1[11]);
+        }
 
-        private static IssuerIdentificationNumber GetIssuerIdentificationNumber(Message1 message1) =>
-            new(_CompressedNumericCodec.DecodeUInt32(message1[new Range(1, 5)]));
+        private static IssuerIdentificationNumber GetIssuerIdentificationNumber(Message1 message1)
+        {
+            return new(_CompressedNumericCodec.DecodeUInt32(message1[new Range(1, 5)]));
+        }
 
-        private static byte GetIssuerPublicKeyExponentLength(Message1 message1) => message1[14];
-        private static byte GetIssuerPublicKeyLength(Message1 message1) => message1[13];
+        private static byte GetIssuerPublicKeyExponentLength(Message1 message1)
+        {
+            return message1[14];
+        }
 
-        private static Range GetLeftmostIssuerPublicKeyRange(CaPublicKeyCertificate caPublicKeyCertificate) =>
-            new(15, caPublicKeyCertificate.GetPublicKeyModulus().GetByteCount() - 36);
+        private static byte GetIssuerPublicKeyLength(Message1 message1)
+        {
+            return message1[13];
+        }
 
-        private static PublicKeyAlgorithmIndicator GetPublicKeyAlgorithmIndicator(Message1 message1) =>
-            PublicKeyAlgorithmIndicator.Get(message1[12]);
+        private static Range GetLeftmostIssuerPublicKeyRange(CaPublicKeyCertificate caPublicKeyCertificate)
+        {
+            return new(15, caPublicKeyCertificate.GetPublicKeyModulus().GetByteCount() - 36);
+        }
+
+        private static PublicKeyAlgorithmIndicator GetPublicKeyAlgorithmIndicator(Message1 message1)
+        {
+            return PublicKeyAlgorithmIndicator.Get(message1[12]);
+        }
 
         /// <exception cref="InvalidOperationException"></exception>
         private static PublicKeyModulus GetPublicKeyModulus(
@@ -119,7 +138,10 @@ internal partial class CertificateFactory
             return new PublicKeyModulus(message1[GetLeftmostIssuerPublicKeyRange(caPublicKeyCertificate)]);
         }
 
-        private static bool IsCertificateFormatValid(Message1 message1) => message1[0] == CertificateFormat.Issuer;
+        private static bool IsCertificateFormatValid(Message1 message1)
+        {
+            return message1[0] == CertificateFormat.Issuer;
+        }
 
         private static bool IsExpiryDateValid(Message1 message1)
         {
@@ -130,11 +152,15 @@ internal partial class CertificateFactory
                 <= new DateTime(expiryDate.Year, expiryDate.Month, DateTime.DaysInMonth(expiryDate.Year, expiryDate.Month));
         }
 
-        private static bool IsIssuerPublicKeyAlgorithmIndicatorValid(Message1 message1) =>
-            PublicKeyAlgorithmIndicator.Exists((byte) GetPublicKeyAlgorithmIndicator(message1));
+        private static bool IsIssuerPublicKeyAlgorithmIndicatorValid(Message1 message1)
+        {
+            return PublicKeyAlgorithmIndicator.Exists((byte) GetPublicKeyAlgorithmIndicator(message1));
+        }
 
-        private static bool IsIssuerPublicKeySplit(CaPublicKeyCertificate caPublicKeyCertificate, Message1 message1) =>
-            GetIssuerPublicKeyLength(message1) > caPublicKeyCertificate.GetPublicKeyModulus().GetByteCount();
+        private static bool IsIssuerPublicKeySplit(CaPublicKeyCertificate caPublicKeyCertificate, Message1 message1)
+        {
+            return GetIssuerPublicKeyLength(message1) > caPublicKeyCertificate.GetPublicKeyModulus().GetByteCount();
+        }
 
         /// <summary>
         ///     IsValid
@@ -167,8 +193,8 @@ internal partial class CertificateFactory
 
             // Step 2, 3, 5, 6, 7
             if (!signatureService.IsSignatureValid(GetHashAlgorithmIndicator(decodedSignature.GetMessage1()),
-                GetConcatenatedValuesForHash(caPublicKeyCertificate, decodedSignature.GetMessage1(), publicKeyRemainder, publicKeyExponent),
-                decodedSignature))
+                                                   GetConcatenatedValuesForHash(caPublicKeyCertificate, decodedSignature.GetMessage1(),
+                                                                                publicKeyRemainder, publicKeyExponent), decodedSignature))
                 return false;
 
             // Step 4
@@ -206,7 +232,7 @@ internal partial class CertificateFactory
                 DecodedSignature decodedSignature = signatureService.Decrypt(encipherment, publicKeyCertificate);
 
                 if (!IsValid(signatureService, publicKeyCertificate, decodedSignature, encipheredPublicKeyExponent.AsPublicKeyExponent(),
-                    enciphermentPublicKeyRemainder.AsPublicKeyRemainder(), encipherment.Length))
+                             enciphermentPublicKeyRemainder.AsPublicKeyRemainder(), encipherment.Length))
                 {
                     result = null;
 
@@ -214,7 +240,7 @@ internal partial class CertificateFactory
                 }
 
                 result = Create(publicKeyCertificate, enciphermentPublicKeyRemainder.AsPublicKeyRemainder(),
-                    encipheredPublicKeyExponent.AsPublicKeyExponent(), decodedSignature.GetMessage1());
+                                encipheredPublicKeyExponent.AsPublicKeyExponent(), decodedSignature.GetMessage1());
 
                 return true;
             }

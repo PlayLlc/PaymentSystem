@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Play.Emv.Security.Encryption.Ciphers;
+﻿namespace ___TEMP.Play.Emv.Security.Encryption.Ciphers.Symmetric;
 
 /// <summary>
 ///     Allows preprocessing of the plain text message before it is enciphered by a block cipher

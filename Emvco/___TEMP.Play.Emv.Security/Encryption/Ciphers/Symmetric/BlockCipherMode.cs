@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.Security.Cryptography;
 
 using Play.Core;
 
-namespace Play.Emv.Security.Encryption.Ciphers;
+namespace ___TEMP.Play.Emv.Security.Encryption.Ciphers.Symmetric;
 
 /// <summary>
 ///     Specifies the block cipher mode to use for encryption
@@ -53,14 +51,24 @@ public sealed record BlockCipherMode : EnumObject<byte>, IEqualityComparer<Block
 
     #region Instance Members
 
-    public CipherMode AsCipherMode() => (CipherMode) _Value;
-    public static bool TryGet(byte value, out BlockCipherMode? result) => _ValueObjectMap.TryGetValue(value, out result);
+    public CipherMode AsCipherMode()
+    {
+        return (CipherMode) _Value;
+    }
+
+    public static bool TryGet(byte value, out BlockCipherMode? result)
+    {
+        return _ValueObjectMap.TryGetValue(value, out result);
+    }
 
     #endregion
 
     #region Equality
 
-    public bool Equals(BlockCipherMode? other) => other is not null && (_Value == other._Value);
+    public bool Equals(BlockCipherMode? other)
+    {
+        return other is not null && (_Value == other._Value);
+    }
 
     public bool Equals(BlockCipherMode? x, BlockCipherMode? y)
     {
@@ -73,8 +81,15 @@ public sealed record BlockCipherMode : EnumObject<byte>, IEqualityComparer<Block
         return x.Equals(y);
     }
 
-    public int GetHashCode(BlockCipherMode other) => other.GetHashCode();
-    public override int GetHashCode() => unchecked(_Value.GetHashCode() * 31771);
+    public int GetHashCode(BlockCipherMode other)
+    {
+        return other.GetHashCode();
+    }
+
+    public override int GetHashCode()
+    {
+        return unchecked(_Value.GetHashCode() * 31771);
+    }
 
     #endregion
 }

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 
 using Play.Core;
 using Play.Core.Extensions;
 
-namespace Play.Emv.Security.Cryptograms;
+namespace ___TEMP.Play.Emv.Security.Cryptograms;
 
 public record ApplicationCryptogramVersion : EnumObject<byte>, IEqualityComparer<ApplicationCryptogramVersion>
 {
@@ -42,7 +40,10 @@ public record ApplicationCryptogramVersion : EnumObject<byte>, IEqualityComparer
 
     #region Instance Members
 
-    public static bool TryGet(byte value, out ApplicationCryptogramVersion result) => _ValueObjectMap.TryGetValue(value, out result);
+    public static bool TryGet(byte value, out ApplicationCryptogramVersion result)
+    {
+        return _ValueObjectMap.TryGetValue(value, out result);
+    }
 
     #endregion
 
@@ -59,7 +60,10 @@ public record ApplicationCryptogramVersion : EnumObject<byte>, IEqualityComparer
         return x.Equals(y);
     }
 
-    public int GetHashCode(ApplicationCryptogramVersion other) => other.GetHashCode();
+    public int GetHashCode(ApplicationCryptogramVersion other)
+    {
+        return other.GetHashCode();
+    }
 
     public override int GetHashCode()
     {
@@ -88,21 +92,31 @@ public record ApplicationCryptogramVersion : EnumObject<byte>, IEqualityComparer
         return right._Value == left;
     }
 
-    public static explicit operator byte(ApplicationCryptogramVersion applicationCryptogramVersion) => applicationCryptogramVersion._Value;
+    public static explicit operator byte(ApplicationCryptogramVersion applicationCryptogramVersion)
+    {
+        return applicationCryptogramVersion._Value;
+    }
 
     public static explicit operator ApplicationCryptogramVersion(byte cryptogramVersion)
     {
         if (!TryGet(cryptogramVersion, out ApplicationCryptogramVersion result))
         {
             throw new ArgumentOutOfRangeException(nameof(cryptogramVersion),
-                $"The {nameof(ApplicationCryptogramVersion)} could not be found from the number supplied to the argument: {cryptogramVersion}");
+                                                  $"The {nameof(ApplicationCryptogramVersion)} could not be found from the number supplied to the argument: {cryptogramVersion}");
         }
 
         return result;
     }
 
-    public static bool operator !=(ApplicationCryptogramVersion left, byte right) => !(left == right);
-    public static bool operator !=(byte left, ApplicationCryptogramVersion right) => !(left == right);
+    public static bool operator !=(ApplicationCryptogramVersion left, byte right)
+    {
+        return !(left == right);
+    }
+
+    public static bool operator !=(byte left, ApplicationCryptogramVersion right)
+    {
+        return !(left == right);
+    }
 
     #endregion
 }
