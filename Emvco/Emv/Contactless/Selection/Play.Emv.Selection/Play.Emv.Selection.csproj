@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Display\Play.Emv.Display.Contracts\Play.Emv.Display.Contracts.csproj" />
-    <ProjectReference Include="..\..\Play.Emv\Play.Emv.csproj" />
     <ProjectReference Include="..\Play.Emv.Selection.Contracts\Play.Emv.Selection.Contracts.csproj" />
   </ItemGroup>
 

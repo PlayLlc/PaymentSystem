@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Play.Emv\Play.Emv.csproj" />
+    <ProjectReference Include="..\..\..\Play.Emv\Play.Emv.csproj" />
     <ProjectReference Include="..\Play.Emv.Kernel\Play.Emv.Kernel.csproj" />
   </ItemGroup>
 

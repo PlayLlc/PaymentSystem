@@ -9,9 +9,8 @@
     <ProjectReference Include="..\..\Infrastructure\Play.Events\Play.Events.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Play.Globalization\Play.Globalization.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Play.Messaging\Play.Messaging.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\Play.Random\Play.Random.csproj" />
-    <ProjectReference Include="..\Emv\Play.Emv.DataElements\Play.Emv.DataElements.csproj" />
-    <ProjectReference Include="..\Emv\Play.Emv.Templates\Play.Emv.Templates.csproj" />
+    <ProjectReference Include="..\Play.Emv.DataElements\Play.Emv.DataElements.csproj" />
+    <ProjectReference Include="..\Play.Emv.Templates\Play.Emv.Templates.csproj" />
   </ItemGroup>
 
   <ItemGroup>

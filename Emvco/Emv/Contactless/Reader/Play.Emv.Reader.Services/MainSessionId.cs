@@ -1,4 +1,4 @@
-﻿using Play.Random;
+﻿using Play.Randoms;
 
 namespace Play.Emv.Reader.Services;
 
@@ -21,8 +21,15 @@ public readonly record struct MainSessionId
 
     #region Equality
 
-    public bool Equals(MainSessionId x, MainSessionId y) => x._Value == y._Value;
-    public int GetHashCode(MainSessionId obj) => obj._Value.GetHashCode();
+    public bool Equals(MainSessionId x, MainSessionId y)
+    {
+        return x._Value == y._Value;
+    }
+
+    public int GetHashCode(MainSessionId obj)
+    {
+        return obj._Value.GetHashCode();
+    }
 
     #endregion
 }

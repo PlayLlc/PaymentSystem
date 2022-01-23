@@ -1,4 +1,4 @@
-﻿using Play.Random;
+﻿using Play.Randoms;
 
 namespace Play.Emv.Terminal.Services;
 
@@ -21,8 +21,15 @@ internal readonly record struct TerminalSessionId
 
     #region Equality
 
-    public bool Equals(TerminalSessionId x, TerminalSessionId y) => x._Value == y._Value;
-    public int GetHashCode(TerminalSessionId obj) => obj._Value.GetHashCode();
+    public bool Equals(TerminalSessionId x, TerminalSessionId y)
+    {
+        return x._Value == y._Value;
+    }
+
+    public int GetHashCode(TerminalSessionId obj)
+    {
+        return obj._Value.GetHashCode();
+    }
 
     #endregion
 }

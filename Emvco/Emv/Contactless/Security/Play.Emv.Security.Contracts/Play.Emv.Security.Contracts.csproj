@@ -14,11 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Play.Emv\Play.Emv.csproj" />
+    <Folder Include="CertificateAuthority\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CertificateAuthority\" />
+    <ProjectReference Include="..\..\..\Play.Emv\Play.Emv.csproj" />
   </ItemGroup>
 
 </Project>

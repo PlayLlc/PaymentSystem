@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Play.Emv\Play.Emv.csproj" />
+    <Folder Include="Issuer\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Issuer\" />
+    <ProjectReference Include="..\..\..\Play.Emv\Play.Emv.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@
 using System.Text;
 
 using Play.Core.Specifications;
-using Play.Random;
+using Play.Randoms;
 
 namespace Play.Events;
 
@@ -28,7 +28,7 @@ public abstract class EventBase : IEquatable<EventBase>
         if (!eventType.IsAssignableFrom(typeof(EventBase)))
         {
             throw new ArgumentOutOfRangeException(nameof(eventType),
-                $"The argument {nameof(eventType)} was expected to inherit {nameof(EventBase)}");
+                                                  $"The argument {nameof(eventType)} was expected to inherit {nameof(EventBase)}");
         }
 
         string fullName = eventType.AssemblyQualifiedName!;

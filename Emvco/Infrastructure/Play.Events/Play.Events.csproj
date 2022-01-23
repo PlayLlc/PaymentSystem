@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Play.Core\Play.Core.csproj" />
-    <ProjectReference Include="..\Play.Random\Play.Random.csproj" />
+    <ProjectReference Include="..\Play.Randoms\Play.Randoms.csproj" />
   </ItemGroup>
 
 </Project>

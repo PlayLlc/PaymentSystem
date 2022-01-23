@@ -21,7 +21,7 @@ using Play.Emv.Terminal.Contracts.SignalOut;
 using Play.Emv.Transactions;
 using Play.Icc.Emv;
 using Play.Messaging;
-using Play.Random;
+using Play.Randoms;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
@@ -67,7 +67,10 @@ public class Idle : KernelState
 
     #endregion
 
-    public override KernelStateId GetKernelStateId() => KernelStateId;
+    public override KernelStateId GetKernelStateId()
+    {
+        return KernelStateId;
+    }
 
     public override KernelState Handle(StopKernelRequest signal)
     {
@@ -78,7 +81,7 @@ public class Idle : KernelState
         _KernelDatabase.GetKernelSession().Update(Level3Error.Stop);
 
         _KernelEndpoint.Send(new OutKernelResponse(signal.GetCorrelationId(), signal.GetKernelSessionId(),
-            _KernelDatabase.GetKernelSession().GetOutcome()));
+                                                   _KernelDatabase.GetKernelSession().GetOutcome()));
 
         return _KernelStateResolver.GetKernelState(KernelStateId);
     }
@@ -310,8 +313,23 @@ public class Idle : KernelState
             _KernelDatabase.GetDataExchanger().Enqueue(DekRequestType.DataNeeded, TagsToWriteAfterGenAc.Tag);
     }
 
-    public override KernelState Handle(QueryKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-    public override KernelState Handle(UpdateKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-    public override KernelState Handle(QueryPcdResponse signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-    public override KernelState Handle(QueryTerminalResponse signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+    public override KernelState Handle(QueryKernelRequest signal)
+    {
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+    }
+
+    public override KernelState Handle(UpdateKernelRequest signal)
+    {
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+    }
+
+    public override KernelState Handle(QueryPcdResponse signal)
+    {
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+    }
+
+    public override KernelState Handle(QueryTerminalResponse signal)
+    {
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+    }
 }

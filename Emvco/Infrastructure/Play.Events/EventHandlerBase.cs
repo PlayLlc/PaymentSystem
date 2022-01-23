@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Play.Random;
+using Play.Randoms;
 
 namespace Play.Events;
 
@@ -24,17 +24,32 @@ public abstract class EventHandlerBase<T> : IEquatable<EventHandlerBase<T>>, IEq
 
     #region Instance Members
 
-    public void Unsubscribe(IPlayEventBus eventBus) => eventBus.Unsubscribe(GetSubscriptionCorrelationId());
-    public EventHandlerId GetEventHandlerId() => _EventHandlerId;
+    public void Unsubscribe(IPlayEventBus eventBus)
+    {
+        eventBus.Unsubscribe(GetSubscriptionCorrelationId());
+    }
+
+    public EventHandlerId GetEventHandlerId()
+    {
+        return _EventHandlerId;
+    }
+
     public abstract EventTypeId GetEventTypeId();
     public abstract void Handle(EventBase @event); // where T : EventBase;
-    public SubscriptionId GetSubscriptionCorrelationId() => new(_EventHandlerId, GetEventTypeId());
+
+    public SubscriptionId GetSubscriptionCorrelationId()
+    {
+        return new(_EventHandlerId, GetEventTypeId());
+    }
 
     #endregion
 
     #region Equality
 
-    public override bool Equals(object? other) => other is EventHandlerBase<T> handler && Equals(handler);
+    public override bool Equals(object? other)
+    {
+        return other is EventHandlerBase<T> handler && Equals(handler);
+    }
 
     public bool Equals(EventHandlerBase<T>? other)
     {
@@ -55,8 +70,15 @@ public abstract class EventHandlerBase<T> : IEquatable<EventHandlerBase<T>>, IEq
         return x.Equals(y);
     }
 
-    public override int GetHashCode() => 149 * _EventHandlerId;
-    public int GetHashCode(EventHandlerBase<T> obj) => obj.GetHashCode();
+    public override int GetHashCode()
+    {
+        return 149 * _EventHandlerId;
+    }
+
+    public int GetHashCode(EventHandlerBase<T> obj)
+    {
+        return obj.GetHashCode();
+    }
 
     #endregion
 }

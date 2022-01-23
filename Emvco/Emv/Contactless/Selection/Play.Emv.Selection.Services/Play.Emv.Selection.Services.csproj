@@ -10,7 +10,6 @@
     <ProjectReference Include="..\..\Display\Play.Emv.Display.Contracts\Play.Emv.Display.Contracts.csproj" />
     <ProjectReference Include="..\..\Kernel\Play.Emv.Kernel.Contracts\Play.Emv.Kernel.Contracts.csproj" />
     <ProjectReference Include="..\..\Pcd\Play.Emv.Pcd.Contracts\Play.Emv.Pcd.Contracts.csproj" />
-    <ProjectReference Include="..\..\Play.Emv\Play.Emv.csproj" />
     <ProjectReference Include="..\Play.Emv.Selection\Play.Emv.Selection.csproj" />
   </ItemGroup>
 

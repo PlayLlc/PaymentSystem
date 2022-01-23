@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Play.Codecs\Play.Codecs.csproj" />
-    <ProjectReference Include="..\Play.Core\Play.Core.csproj" />
   </ItemGroup>
 
 </Project>

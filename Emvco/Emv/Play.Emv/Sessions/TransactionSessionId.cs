@@ -1,5 +1,5 @@
 ﻿using Play.Emv.DataElements;
-using Play.Random;
+using Play.Randoms;
 
 namespace Play.Emv.Sessions;
 
@@ -25,17 +25,39 @@ public readonly struct TransactionSessionId
 
     #region Instance Members
 
-    private static ulong GetConstructorValueTransactionType(TransactionType transactionType) => (ulong) transactionType << (7 * 8);
-    public TransactionType GetTransactionType() => new((byte) (_Value >> (7 * 8)));
+    private static ulong GetConstructorValueTransactionType(TransactionType transactionType)
+    {
+        return (ulong) transactionType << (7 * 8);
+    }
+
+    public TransactionType GetTransactionType()
+    {
+        return new((byte) (_Value >> (7 * 8)));
+    }
 
     #endregion
 
     #region Equality
 
-    public bool Equals(TransactionSessionId transactionSessionId) => transactionSessionId._Value == _Value;
-    public bool Equals(TransactionSessionId x, TransactionSessionId y) => x.Equals(y);
-    public override bool Equals(object? obj) => obj is TransactionSessionId transactionSessionId && Equals(transactionSessionId);
-    public int GetHashCode(TransactionSessionId other) => other.GetHashCode();
+    public bool Equals(TransactionSessionId transactionSessionId)
+    {
+        return transactionSessionId._Value == _Value;
+    }
+
+    public bool Equals(TransactionSessionId x, TransactionSessionId y)
+    {
+        return x.Equals(y);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is TransactionSessionId transactionSessionId && Equals(transactionSessionId);
+    }
+
+    public int GetHashCode(TransactionSessionId other)
+    {
+        return other.GetHashCode();
+    }
 
     public override int GetHashCode()
     {
@@ -48,9 +70,20 @@ public readonly struct TransactionSessionId
 
     #region Operator Overrides
 
-    public static bool operator ==(TransactionSessionId left, TransactionSessionId right) => left._Value == right._Value;
-    public static explicit operator ulong(TransactionSessionId value) => value._Value;
-    public static bool operator !=(TransactionSessionId left, TransactionSessionId right) => !(left == right);
+    public static bool operator ==(TransactionSessionId left, TransactionSessionId right)
+    {
+        return left._Value == right._Value;
+    }
+
+    public static explicit operator ulong(TransactionSessionId value)
+    {
+        return value._Value;
+    }
+
+    public static bool operator !=(TransactionSessionId left, TransactionSessionId right)
+    {
+        return !(left == right);
+    }
 
     #endregion
 }

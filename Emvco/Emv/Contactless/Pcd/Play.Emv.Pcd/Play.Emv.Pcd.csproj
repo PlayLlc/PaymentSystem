@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Play.Emv\Play.Emv.csproj" />
     <ProjectReference Include="..\..\Issuer\Play.Emv.Issuer.Contracts\Play.Emv.Issuer.Contracts.csproj" />
-    <ProjectReference Include="..\..\Play.Emv\Play.Emv.csproj" />
     <ProjectReference Include="..\Play.Emv.Pcd.Contracts\Play.Emv.Pcd.Contracts.csproj" />
   </ItemGroup>
 
