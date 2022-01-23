@@ -1,7 +1,5 @@
 ﻿using System;
 
-using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
 using Play.Emv.Configuration;
 using Play.Emv.DataElements;
 using Play.Emv.Display.Contracts;
@@ -13,10 +11,9 @@ using Play.Emv.Reader.Contracts;
 using Play.Emv.Reader.Contracts.SignalIn;
 using Play.Emv.Reader.Contracts.SignalOut;
 using Play.Emv.Sessions;
+using Play.Emv.Terminal.___Temp;
 using Play.Emv.Terminal.Configuration;
-using Play.Emv.Terminal.Contracts.Messages.Commands;
 using Play.Emv.Terminal.Contracts.SignalIn;
-using Play.Emv.Terminal.Contracts.SignalOut;
 using Play.Emv.Transactions;
 using Play.Globalization.Time;
 
@@ -26,7 +23,8 @@ internal class TerminalStateMachine
 {
     #region Instance Values
 
-    private readonly SelectionSessionLock _TerminalSessionLock = new();
+    private readonly TerminalSessionLock _TerminalSessionLock = new();
+    private readonly TerminalConfiguration _TerminalConfiguration;
     private readonly IHandleDisplayRequests _DisplayEndpoint;
     private readonly IHandleKernelRequests _KernelEndpoint;
     private readonly IHandleReaderRequests _ReaderEndpoint;
@@ -40,6 +38,7 @@ internal class TerminalStateMachine
     #region Constructor
 
     public TerminalStateMachine(
+        TerminalConfiguration terminalConfiguration,
         IHandleDisplayRequests displayEndpoint,
         IHandleKernelRequests kernelEndpoint,
         IHandleReaderRequests readerEndpoint,
@@ -48,6 +47,7 @@ internal class TerminalStateMachine
         ITerminalConfigurationRepository terminalConfigurationRepository,
         ISendTerminalResponses terminalEndpoint)
     {
+        _TerminalConfiguration = terminalConfiguration;
         _DisplayEndpoint = displayEndpoint;
         _KernelEndpoint = kernelEndpoint;
         _ReaderEndpoint = readerEndpoint;
@@ -82,7 +82,9 @@ internal class TerminalStateMachine
                                           systemConfiguration.GetLanguagePreference(), systemConfiguration.GetTerminalCountryCode(),
                                           new TransactionDate(DateTimeUtc.Now()));
 
-            _TerminalSessionLock.Session = new TerminalSession(new TerminalSessionId(), transaction, new TerminalVerificationResults(0));
+            _TerminalSessionLock.Session = new TerminalSession(transaction, _TerminalConfiguration,
+                                                               new DataExchangeTerminalService(transaction.GetTransactionSessionId(),
+                                                                _TerminalEndpoint, _KernelEndpoint));
 
             // HACK: Develop logic for passing TagsToRead and DataToSend along with the ACT signal below
 
@@ -106,25 +108,23 @@ internal class TerminalStateMachine
                     RequestOutOfSyncException($"The {nameof(QueryTerminalRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{request.GetTransactionSessionId()}] but the current {nameof(ChannelType.Terminal)} session has a {nameof(TransactionSessionId)} of: [{_TerminalSessionLock.Session.GetTransactionSessionId()}]");
             }
 
-            // TODO: I'm not sure if this is correct. We might need to request data from the reader database first. That would mean we would have to send a QueryReaderRequest and wait for a response callback before sending back the data the kernel needs. If that's the case we would need to store the correlation information in the session. Hammer out the finer details here 
+            _TerminalSessionLock.Session.DataExchangeTerminalService.Enqueue(request.GetDataNeeded());
 
-            TagLengthValue[] requestedData = RetrieveNeededData(request.GetDataNeeded().AsTagArray(), _TerminalSessionLock);
-
-            _TerminalEndpoint.Send(new QueryTerminalResponse(default, new DataToSend(requestedData), request.GetDataExchangeKernelId()));
+            // HACK: Terminal exits, but the DET service needs to run run on another process and retrieve the requested data independently
         }
     }
 
-    public void Handle(OutReaderResponse hello)
+    public void Handle(OutReaderResponse response)
     {
         throw new NotImplementedException();
     }
 
-    public void Handle(QueryKernelResponse hello)
+    public void Handle(QueryKernelResponse response)
     {
         throw new NotImplementedException();
     }
 
-    public void Handle(StopReaderAcknowledgedResponse hello)
+    public void Handle(StopReaderAcknowledgedResponse response)
     {
         throw new NotImplementedException();
     }
@@ -133,84 +133,9 @@ internal class TerminalStateMachine
 
     #region Private Helper Methods
 
-    private TagLengthValue[] RetrieveNeededData(Tag[] dataNeeded, SelectionSessionLock sessionLock)
-    {
-        TagLengthValue[] buffer = new TagLengthValue[dataNeeded.Length];
-
-        for (int i = 0; i < dataNeeded.Length; i++)
-        {
-            if (TryProcessCommonTerminalService(dataNeeded[i], sessionLock, out TagLengthValue? result))
-            {
-                buffer[i] = result!;
-
-                continue;
-            }
-
-            //0x9F, 0x66, 0x04, // PUNATC(Track2)
-            //0x9F, 0x02, 0x06, // Amount Authorized (Numeric)
-            //0x9F, 0x03, 0x06, // Amount Other (Numeric)
-            //0x9F, 0x1A, 0x02, // Terminal Country Code
-            //0x95, 0x05, // Terminal Verification Results
-
-            //0x5F, 0x2A, 0x02, // Transaction Currency Code
-            //0x9A, 0x03, // Transaction Date
-            //0x9C, 0x01, // Transaction Type
-
-            //0x9F, 0x37, 0x04, // Unpredictable Number
-            //0x9F, 0x4E, 0x14 // Merchant Name and Location
-
-            // HACK: Continue looking for the requested data. Do we retrieve the data from the Reader Database's Persistent values? Probably so. How do we do that concurrently when the signals are enqueue and the data is sent with a callback? Do we query the reader with a correlation value, the KernelSessionId would probably be good enough for this. Confirm this is correct
-
-            buffer[i] = new TagLengthValue(dataNeeded[i], Array.Empty<byte>());
-        }
-
-        return buffer;
-    }
-
-    private bool TryProcessCommonTerminalService(Tag tag, SelectionSessionLock sessionLock, out TagLengthValue? result)
-    {
-        if (tag == TerminalVerificationResults.Tag)
-        {
-            result = PerformTerminalRiskManagement(sessionLock);
-
-            return true;
-        }
-
-        // TODO: Find out where Terminal Action Analysis needs to take place. Is it requested by a tag in DEK with DataNeeded?
-        // ...etc
-
-        result = null;
-
-        return true;
-    }
-
-    private TagLengthValue PerformTerminalRiskManagement(SelectionSessionLock sessionLock)
-    {
-        throw new NotImplementedException();
-    }
-
-    private void PerformTerminalActionAnalysis(TerminalSession session)
-    {
-        // BUG: Flesh out the entire flow of Authentication. Use Play.Emv.Security to inject the needed services
-
-        TerminalActionAnalysisResponse terminalActionAnalysisResponse =
-            _TerminalActionAnalysisService.Process(new TerminalActionAnalysisCommand(session.TerminalVerificationResults, default, default,
-                                                                                     default));
-
-        // IGenerateApplicationCryptogramResponse.Generate(
-        //          CryptogramType cryptogramType,
-        //          bool isCdaRequested,
-        //          DataObjectListResult cardRiskManagementDataObjectListResult,
-        //          DataObjectListResult dataStorageDataObjectListResult);
-
-        // etc..
-
-        throw new NotImplementedException();
-    }
-
     #endregion
 
-    public class SelectionSessionLock
+    public class TerminalSessionLock
     {
         #region Instance Values
 

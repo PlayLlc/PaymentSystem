@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Emv.DataObjects;
@@ -9,11 +8,8 @@ using Play.Emv.DataElements;
 using Play.Emv.DataExchange;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Contracts.SignalIn;
-using Play.Emv.Kernel.Contracts.SignalOut;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Sessions;
-using Play.Emv.Terminal.Contracts;
-using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Emv.Terminal.Contracts.SignalOut;
 using Play.Emv.Terminal.Services;
 using Play.Messaging;
@@ -255,17 +251,17 @@ public class DataExchangeTerminalService
         }
     }
 
-    public void Enqueue(DetRequestType type, DataExchangeRequest listItems)
+    public void Enqueue(DataExchangeRequest listItems)
     {
         lock (_Lock)
         {
-            if (!_Lock.Requests.ContainsKey(type))
+            if (!_Lock.Requests.ContainsKey(listItems.GetTag()))
             {
                 throw new
-                    InvalidOperationException($"The {nameof(DataExchangeTerminalService)} could not Enqueue the List Item with the {nameof(Tag)}: [{(Tag) type}] because the List does not exist");
+                    InvalidOperationException($"The {nameof(DataExchangeTerminalService)} could not Enqueue the List Item {listItems.GetType().Name} could not enqueue because the List does not exist");
             }
 
-            _Lock.Requests[type].Enqueue(listItems);
+            _Lock.Requests[listItems.GetTag()].Enqueue(listItems);
         }
     }
 

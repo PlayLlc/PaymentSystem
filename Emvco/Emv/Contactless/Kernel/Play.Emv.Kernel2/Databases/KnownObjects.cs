@@ -126,8 +126,8 @@ public sealed record KnownObjects : EnumObject<Tag>
     public static readonly KnownObjects PosCardholderInteractionInformation;
     public static readonly KnownObjects PositionOfCardVerificationCode3Track1;
     public static readonly KnownObjects PositionOfCardVerificationCode3Track2;
-    public static readonly KnownObjects PositionOfUnpredictableNumberAndApplicationTransactionCounterTrack1;
-    public static readonly KnownObjects PositionOfUnpredictableNumberAndApplicationTransactionCounterTrack2;
+    public static readonly KnownObjects PunatcTrack1;
+    public static readonly KnownObjects PunatcTrack2;
     public static readonly KnownObjects PostGenApplicationCryptogramPutDataStatus;
     public static readonly KnownObjects PreGenApplicationCryptogramPutDataStatus;
     public static readonly KnownObjects ProceedToFirstWriteFlag;
@@ -316,8 +316,8 @@ public sealed record KnownObjects : EnumObject<Tag>
         const uint posCardholderInteractionInformation = 0xDF4B;
         const uint positionOfCardVerificationCode3Track1 = 0x9F62;
         const uint positionOfCardVerificationCode3Track2 = 0x9F65;
-        const uint positionOfUnpredictableNumberAndApplicationTransactionCounterTrack1 = 0x9F63;
-        const uint positionOfUnpredictableNumberAndApplicationTransactionCounterTrack2 = 0x9F66;
+        const uint punatcTrack1 = 0x9F63;
+        const uint punatcTrack2 = 0x9F66;
         const uint postGenApplicationCryptogramPutDataStatus = 0xDF810E;
         const uint preGenApplicationCryptogramPutDataStatus = 0xDF810F;
         const uint proceedToFirstWriteFlag = 0xDF8110;
@@ -493,8 +493,8 @@ public sealed record KnownObjects : EnumObject<Tag>
         PosCardholderInteractionInformation = new KnownObjects(0xDF4B);
         PositionOfCardVerificationCode3Track1 = new KnownObjects(0x9F62);
         PositionOfCardVerificationCode3Track2 = new KnownObjects(0x9F65);
-        PositionOfUnpredictableNumberAndApplicationTransactionCounterTrack1 = new KnownObjects(0x9F63);
-        PositionOfUnpredictableNumberAndApplicationTransactionCounterTrack2 = new KnownObjects(0x9F66);
+        PunatcTrack1 = new KnownObjects(0x9F63);
+        PunatcTrack2 = new KnownObjects(0x9F66);
         PostGenApplicationCryptogramPutDataStatus = new KnownObjects(0xDF810E);
         PreGenApplicationCryptogramPutDataStatus = new KnownObjects(0xDF810F);
         ProceedToFirstWriteFlag = new KnownObjects(0xDF8110);
@@ -561,93 +561,53 @@ public sealed record KnownObjects : EnumObject<Tag>
 
         _ValueObjectMap = new Dictionary<Tag, KnownObjects>
         {
-            {accountType, AccountType},
-            {acquirerIdentifier, AcquirerIdentifier},
-            {additionalTerminalCapabilities, AdditionalTerminalCapabilities},
-            {amountAuthorizedNumeric, AmountAuthorizedNumeric},
-            {amountOther, AmountOther},
-            {applicationCapabilitiesInformation, ApplicationCapabilitiesInformation},
-            {applicationCryptogram, ApplicationCryptogram},
-            {applicationCurrencyCode, ApplicationCurrencyCode},
-            {applicationCurrencyExponent, ApplicationCurrencyExponent},
-            {applicationEffectiveDate, ApplicationEffectiveDate},
-            {applicationExpirationDate, ApplicationExpirationDate},
-            {applicationFileLocator, ApplicationFileLocator},
-            {applicationInterchangeProfile, ApplicationInterchangeProfile},
-            {applicationLabel, ApplicationLabel},
-            {applicationPAN, ApplicationPAN},
-            {applicationPANSequenceNumber, ApplicationPANSequenceNumber},
-            {applicationPreferredName, ApplicationPreferredName},
-            {applicationPriorityIndicator, ApplicationPriorityIndicator},
-            {applicationTransactionCounter, ApplicationTransactionCounter},
-            {applicationUsageControl, ApplicationUsageControl},
+            {accountType, AccountType}, {acquirerIdentifier, AcquirerIdentifier},
+            {additionalTerminalCapabilities, AdditionalTerminalCapabilities}, {amountAuthorizedNumeric, AmountAuthorizedNumeric},
+            {amountOther, AmountOther}, {applicationCapabilitiesInformation, ApplicationCapabilitiesInformation},
+            {applicationCryptogram, ApplicationCryptogram}, {applicationCurrencyCode, ApplicationCurrencyCode},
+            {applicationCurrencyExponent, ApplicationCurrencyExponent}, {applicationEffectiveDate, ApplicationEffectiveDate},
+            {applicationExpirationDate, ApplicationExpirationDate}, {applicationFileLocator, ApplicationFileLocator},
+            {applicationInterchangeProfile, ApplicationInterchangeProfile}, {applicationLabel, ApplicationLabel},
+            {applicationPAN, ApplicationPAN}, {applicationPANSequenceNumber, ApplicationPANSequenceNumber},
+            {applicationPreferredName, ApplicationPreferredName}, {applicationPriorityIndicator, ApplicationPriorityIndicator},
+            {applicationTransactionCounter, ApplicationTransactionCounter}, {applicationUsageControl, ApplicationUsageControl},
             {applicationVersionNumberCard, ApplicationVersionNumberCard},
-            {applicationVersionNumberReader, ApplicationVersionNumberReader},
-            {balanceReadAfterGenAC, BalanceReadAfterGenAC},
+            {applicationVersionNumberReader, ApplicationVersionNumberReader}, {balanceReadAfterGenAC, BalanceReadAfterGenAC},
             {cardRiskManagementDataObjectList1, CardRiskManagementDataObjectsList1},
             {cardRiskManagementDataObjectList1RelatedData, CardRiskManagementDataObjectsList1RelatedData},
-            {cryptogramInformationData, CryptogramInformationData},
-            {cvc3Track1, Cvc3Track1},
-            {cvc3Track2, Cvc3Track2},
-            {cvmCapabilityCvmRequired, CvmCapabilityCvmRequired},
-            {cvmCapabilityNoCvmRequired, CvmCapabilityNoCvmRequired},
-            {cvmList, CvmList},
-            {cvmResults, CvmResults},
-            {dataNeeded, DataNeeded},
-            {dataRecord, DataRecord},
+            {cryptogramInformationData, CryptogramInformationData}, {cvc3Track1, Cvc3Track1}, {cvc3Track2, Cvc3Track2},
+            {cvmCapabilityCvmRequired, CvmCapabilityCvmRequired}, {cvmCapabilityNoCvmRequired, CvmCapabilityNoCvmRequired},
+            {cvmList, CvmList}, {cvmResults, CvmResults}, {dataNeeded, DataNeeded}, {dataRecord, DataRecord},
             {dataRecoveryDataObjectList, DataRecoveryDataObjectsList},
             {dataRecoveryDataObjectListRelatedData, DataRecoveryDataObjectsListRelatedData},
             {dataStorageApplicationCryptogramType, DataStorageApplicationCryptogramType},
-            {dataStorageAvailability, DataStorageAvailability},
-            {dataStorageDataObjectList, DataStorageDataObjectsList},
-            {dataStorageDigestH, DataStorageDigestH},
-            {dataStorageId, DataStorageId},
-            {dataStorageInputCard, DataStorageInputCard},
-            {dataStorageInputTerm, DataStorageInputTerm},
-            {dataStorageOperatorDataSetCard, DataStorageOperatorDataSetCard},
+            {dataStorageAvailability, DataStorageAvailability}, {dataStorageDataObjectList, DataStorageDataObjectsList},
+            {dataStorageDigestH, DataStorageDigestH}, {dataStorageId, DataStorageId}, {dataStorageInputCard, DataStorageInputCard},
+            {dataStorageInputTerm, DataStorageInputTerm}, {dataStorageOperatorDataSetCard, DataStorageOperatorDataSetCard},
             {dataStorageOperatorDataSetInfo, DataStorageOperatorDataSetInfo},
             {dataStorageOperatorDataSetInfoForReader, DataStorageOperatorDataSetInfoForReader},
             {dataStorageOperatorDataSetTerm, DataStorageOperatorDataSetTerm},
             {dataStorageRequestedOperatorId, DataStorageRequestedOperatorId},
-            {dataStorageSlotManagementControl, DataStorageSlotManagementControl},
-            {dataStorageSummary1, DataStorageSummary1},
-            {dataStorageSummary2, DataStorageSummary2},
-            {dataStorageSummary3, DataStorageSummary3},
-            {dataStorageSummaryStatus, DataStorageSummaryStatus},
-            {dataStorageUnpredictableNumber, DataStorageUnpredictableNumber},
-            {dataStorageVnTerm, DataStorageVnTerm},
-            {dataToSend, DataToSend},
-            {ddCardTrack1, DdCardTrack1},
-            {ddCardTrack2, DdCardTrack2},
-            {dedicatedFileName, DedicatedFileName},
-            {defaultUdol, DefaultUdol},
+            {dataStorageSlotManagementControl, DataStorageSlotManagementControl}, {dataStorageSummary1, DataStorageSummary1},
+            {dataStorageSummary2, DataStorageSummary2}, {dataStorageSummary3, DataStorageSummary3},
+            {dataStorageSummaryStatus, DataStorageSummaryStatus}, {dataStorageUnpredictableNumber, DataStorageUnpredictableNumber},
+            {dataStorageVnTerm, DataStorageVnTerm}, {dataToSend, DataToSend}, {ddCardTrack1, DdCardTrack1},
+            {ddCardTrack2, DdCardTrack2}, {dedicatedFileName, DedicatedFileName}, {defaultUdol, DefaultUdol},
             {deviceEstimatedTransmissionTimeForRelayResistanceRAPDU, DeviceEstimatedTransmissionTimeForRelayResistanceRAPDU},
-            {deviceRelayResistanceEntropy, DeviceRelayResistanceEntropy},
-            {discretionaryData, DiscretionaryData},
+            {deviceRelayResistanceEntropy, DeviceRelayResistanceEntropy}, {discretionaryData, DiscretionaryData},
             {errorIndication, ErrorIndication},
             {fileControlInformationIssuerDiscretionaryData, FileControlInformationIssuerDiscretionaryData},
             {fileControlInformationProprietaryTemplate, FileControlInformationProprietaryTemplate},
-            {fileControlInformationTemplate, FileControlInformationTemplate},
-            {holdTimeValue, HoldTimeValue},
-            {iccDynamicNumber, IccDynamicNumber},
-            {iccPublicKeyCertificate, IccPublicKeyCertificate},
-            {iccPublicKeyExponent, IccPublicKeyExponent},
-            {iccPublicKeyRemainder, IccPublicKeyRemainder},
-            {integratedDataStorageStatus, IntegratedDataStorageStatus},
-            {interfaceDeviceSerialNumber, InterfaceDeviceSerialNumber},
-            {issuerActionCodeDefault, IssuerActionCodeDefault},
-            {issuerActionCodeDenial, IssuerActionCodeDenial},
-            {issuerActionCodeOnline, IssuerActionCodeOnline},
-            {issuerApplicationData, IssuerApplicationData},
-            {issuerCodeTableIndex, IssuerCodeTableIndex},
-            {issuerCountryCode, IssuerCountryCode},
-            {issuerPublicKeyCertificate, IssuerPublicKeyCertificate},
-            {issuerPublicKeyExponent, IssuerPublicKeyExponent},
-            {issuerPublicKeyRemainder, IssuerPublicKeyRemainder},
-            {kernelConfiguration, KernelConfiguration},
-            {kernelID, KernelId},
-            {languagePreference, LanguagePreference},
-            {logEntry, LogEntry},
+            {fileControlInformationTemplate, FileControlInformationTemplate}, {holdTimeValue, HoldTimeValue},
+            {iccDynamicNumber, IccDynamicNumber}, {iccPublicKeyCertificate, IccPublicKeyCertificate},
+            {iccPublicKeyExponent, IccPublicKeyExponent}, {iccPublicKeyRemainder, IccPublicKeyRemainder},
+            {integratedDataStorageStatus, IntegratedDataStorageStatus}, {interfaceDeviceSerialNumber, InterfaceDeviceSerialNumber},
+            {issuerActionCodeDefault, IssuerActionCodeDefault}, {issuerActionCodeDenial, IssuerActionCodeDenial},
+            {issuerActionCodeOnline, IssuerActionCodeOnline}, {issuerApplicationData, IssuerApplicationData},
+            {issuerCodeTableIndex, IssuerCodeTableIndex}, {issuerCountryCode, IssuerCountryCode},
+            {issuerPublicKeyCertificate, IssuerPublicKeyCertificate}, {issuerPublicKeyExponent, IssuerPublicKeyExponent},
+            {issuerPublicKeyRemainder, IssuerPublicKeyRemainder}, {kernelConfiguration, KernelConfiguration}, {kernelID, KernelId},
+            {languagePreference, LanguagePreference}, {logEntry, LogEntry},
             {magstripeApplicationVersionNumberReader, MagstripeApplicationVersionNumberReader},
             {magstripeCvmCapabilityCVMRequired, MagstripeCvmCapabilityCvmRequired},
             {magstripeCvmCapabilityNoCVMRequired, MagstripeCvmCapabilityNoCvmRequired},
@@ -656,93 +616,55 @@ public sealed record KnownObjects : EnumObject<Tag>
             {maxNumberofTornTransactionLogRecords, MaxNumberOfTornTransactionLogRecords},
             {maxTimeForProcessingRelayResistanceAPDU, MaxTimeForProcessingRelayResistanceApdu},
             {measuredRelayResistanceProcessingTime, MeasuredRelayResistanceProcessingTime},
-            {merchantCategoryCode, MerchantCategoryCode},
-            {merchantCustomData, MerchantCustomData},
-            {merchantIdentifier, MerchantIdentifier},
-            {merchantNameandLocation, MerchantNameandLocation},
-            {messageHoldTime, MessageHoldTime},
-            {minimumRelayResistanceGracePeriod, MinimumRelayResistanceGracePeriod},
+            {merchantCategoryCode, MerchantCategoryCode}, {merchantCustomData, MerchantCustomData},
+            {merchantIdentifier, MerchantIdentifier}, {merchantNameandLocation, MerchantNameandLocation},
+            {messageHoldTime, MessageHoldTime}, {minimumRelayResistanceGracePeriod, MinimumRelayResistanceGracePeriod},
             {minTimeForProcessingRelayResistanceAPDU, MinTimeForProcessingRelayResistanceApdu},
             {mobileSupportIndicator, MobileSupportIndicator},
             {nApplicationTransactionCounterTrack1, NApplicationTransactionCounterTrack1},
             {nApplicationTransactionCounterTrack2, NApplicationTransactionCounterTrack2},
-            {offlineAccumulatorBalance, OfflineAccumulatorBalance},
-            {outcomeParameterSet, OutcomeParameterSet},
-            {paymentAccountReference, PaymentAccountReference},
-            {phoneMessageTable, PhoneMessageTable},
+            {offlineAccumulatorBalance, OfflineAccumulatorBalance}, {outcomeParameterSet, OutcomeParameterSet},
+            {paymentAccountReference, PaymentAccountReference}, {phoneMessageTable, PhoneMessageTable},
             {posCardholderInteractionInformation, PosCardholderInteractionInformation},
             {positionOfCardVerificationCode3Track1, PositionOfCardVerificationCode3Track1},
-            {positionOfCardVerificationCode3Track2, PositionOfCardVerificationCode3Track2},
-            {
-                positionOfUnpredictableNumberAndApplicationTransactionCounterTrack1,
-                PositionOfUnpredictableNumberAndApplicationTransactionCounterTrack1
-            },
-            {
-                positionOfUnpredictableNumberAndApplicationTransactionCounterTrack2,
-                PositionOfUnpredictableNumberAndApplicationTransactionCounterTrack2
-            },
-            {postGenApplicationCryptogramPutDataStatus, PostGenApplicationCryptogramPutDataStatus},
+            {positionOfCardVerificationCode3Track2, PositionOfCardVerificationCode3Track2}, {punatcTrack1, PunatcTrack1},
+            {punatcTrack2, PunatcTrack2}, {postGenApplicationCryptogramPutDataStatus, PostGenApplicationCryptogramPutDataStatus},
             {preGenApplicationCryptogramPutDataStatus, PreGenApplicationCryptogramPutDataStatus},
-            {proceedToFirstWriteFlag, ProceedToFirstWriteFlag},
-            {processingDataObjectList, ProcessingDataObjectsList},
+            {proceedToFirstWriteFlag, ProceedToFirstWriteFlag}, {processingDataObjectList, ProcessingDataObjectsList},
             {processingDataObjectListRelatedData, ProcessingDataObjectsListRelatedData},
-            {protectedDataEnvelope1, ProtectedDataEnvelope1},
-            {protectedDataEnvelope2, ProtectedDataEnvelope2},
-            {protectedDataEnvelope3, ProtectedDataEnvelope3},
-            {protectedDataEnvelope4, ProtectedDataEnvelope4},
-            {protectedDataEnvelope5, ProtectedDataEnvelope5},
-            {readerContactlessFloorLimit, ReaderContactlessFloorLimit},
+            {protectedDataEnvelope1, ProtectedDataEnvelope1}, {protectedDataEnvelope2, ProtectedDataEnvelope2},
+            {protectedDataEnvelope3, ProtectedDataEnvelope3}, {protectedDataEnvelope4, ProtectedDataEnvelope4},
+            {protectedDataEnvelope5, ProtectedDataEnvelope5}, {readerContactlessFloorLimit, ReaderContactlessFloorLimit},
             {readerContactlessTransactionLimitNoOndeviceCvm, ReaderContactlessTransactionLimitNoOnDeviceCvm},
             {readerContactlessTransactionLimitOndeviceCvm, ReaderContactlessTransactionLimitOnDeviceCvm},
-            {readerCvmRequiredLimit, ReaderCvmRequiredLimit},
-            {readRecordResponseMessageTemplate, ReadRecordResponseMessageTemplate},
+            {readerCvmRequiredLimit, ReaderCvmRequiredLimit}, {readRecordResponseMessageTemplate, ReadRecordResponseMessageTemplate},
             {referenceControlParameter, ReferenceControlParameter},
             {relayResistanceAccuracyThreshold, RelayResistanceAccuracyThreshold},
             {relayResistanceProtocolCounter, RelayResistanceProtocolCounter},
             {relayResistanceTransmissionTimeMismatchThreshold, RelayResistanceTransmissionTimeMismatchThreshold},
             {responseMessageTemplateFormat1, ResponseMessageTemplateFormat1},
-            {responseMessageTemplateFormat2, ResponseMessageTemplateFormat2},
-            {securityCapability, SecurityCapability},
-            {serviceCode, ServiceCode},
-            {signedDynamicApplicationData, SignedDynamicApplicationData},
-            {staticDataAuthenticationTagList, StaticDataAuthenticationTagList},
-            {tagsToRead, TagsToRead},
+            {responseMessageTemplateFormat2, ResponseMessageTemplateFormat2}, {securityCapability, SecurityCapability},
+            {serviceCode, ServiceCode}, {signedDynamicApplicationData, SignedDynamicApplicationData},
+            {staticDataAuthenticationTagList, StaticDataAuthenticationTagList}, {tagsToRead, TagsToRead},
             {tagsToWriteAfterGenApplicationCryptogram, TagsToWriteAfterGenApplicationCryptogram},
             {tagsToWriteBeforeGenApplicationCryptogram, TagsToWriteBeforeGenApplicationCryptogram},
-            {terminalActionCodeDefault, TerminalActionCodeDefault},
-            {terminalActionCodeDenial, TerminalActionCodeDenial},
-            {terminalActionCodeOnline, TerminalActionCodeOnline},
-            {terminalCapabilities, TerminalCapabilities},
+            {terminalActionCodeDefault, TerminalActionCodeDefault}, {terminalActionCodeDenial, TerminalActionCodeDenial},
+            {terminalActionCodeOnline, TerminalActionCodeOnline}, {terminalCapabilities, TerminalCapabilities},
             {terminalCountryCode, TerminalCountryCode},
             {terminalExpectedTransmissionTimeForRelayResistanceCAPDU, TerminalExpectedTransmissionTimeForRelayResistanceCApdu},
             {terminalExpectedTransmissionTimeForRelayResistanceRAPDU, TerminalExpectedTransmissionTimeForRelayResistanceRApdu},
-            {terminalIdentification, TerminalIdentification},
-            {terminalRelayResistanceEntropy, TerminalRelayResistanceEntropy},
-            {terminalRiskManagementData, TerminalRiskManagementData},
-            {terminalVerificationResults, TerminalVerificationResults},
-            {thirdPartyData, ThirdPartyData},
-            {timeOutValue, TimeOutValue},
-            {tornRecord, TornRecord},
-            {track1Data, Track1Data},
-            {track1DiscretionaryData, Track1DiscretionaryData},
-            {track2Data, Track2Data},
-            {track2DiscretionaryData, Track2DiscretionaryData},
-            {track2EquivalentData, Track2EquivalentData},
-            {transactionCategoryCode, TransactionCategoryCode},
-            {transactionCurrencyCode, TransactionCurrencyCode},
-            {transactionCurrencyExponent, TransactionCurrencyExponent},
-            {transactionDate, TransactionDate},
-            {transactionTime, TransactionTime},
-            {transactionType, TransactionType},
-            {unpredictableNumber, UnpredictableNumber},
-            {unpredictableNumber, UnpredictableNumber},
-            {unpredictableNumberDataObjectList, UnpredictableNumberDataObjectsList},
-            {unprotectedDataEnvelope1, UnprotectedDataEnvelope1},
-            {unprotectedDataEnvelope2, UnprotectedDataEnvelope2},
-            {unprotectedDataEnvelope3, UnprotectedDataEnvelope3},
-            {unprotectedDataEnvelope4, UnprotectedDataEnvelope4},
-            {unprotectedDataEnvelope5, UnprotectedDataEnvelope5},
-            {userInterfaceRequestData, UserInterfaceRequestData},
+            {terminalIdentification, TerminalIdentification}, {terminalRelayResistanceEntropy, TerminalRelayResistanceEntropy},
+            {terminalRiskManagementData, TerminalRiskManagementData}, {terminalVerificationResults, TerminalVerificationResults},
+            {thirdPartyData, ThirdPartyData}, {timeOutValue, TimeOutValue}, {tornRecord, TornRecord}, {track1Data, Track1Data},
+            {track1DiscretionaryData, Track1DiscretionaryData}, {track2Data, Track2Data},
+            {track2DiscretionaryData, Track2DiscretionaryData}, {track2EquivalentData, Track2EquivalentData},
+            {transactionCategoryCode, TransactionCategoryCode}, {transactionCurrencyCode, TransactionCurrencyCode},
+            {transactionCurrencyExponent, TransactionCurrencyExponent}, {transactionDate, TransactionDate},
+            {transactionTime, TransactionTime}, {transactionType, TransactionType}, {unpredictableNumber, UnpredictableNumber},
+            {unpredictableNumber, UnpredictableNumber}, {unpredictableNumberDataObjectList, UnpredictableNumberDataObjectsList},
+            {unprotectedDataEnvelope1, UnprotectedDataEnvelope1}, {unprotectedDataEnvelope2, UnprotectedDataEnvelope2},
+            {unprotectedDataEnvelope3, UnprotectedDataEnvelope3}, {unprotectedDataEnvelope4, UnprotectedDataEnvelope4},
+            {unprotectedDataEnvelope5, UnprotectedDataEnvelope5}, {userInterfaceRequestData, UserInterfaceRequestData},
             {cardDataInputCapability, CardDataInputCapability}
         }.ToImmutableSortedDictionary();
     }
@@ -754,16 +676,34 @@ public sealed record KnownObjects : EnumObject<Tag>
 
     #region Instance Members
 
-    public int CompareTo(KnownObjects other) => _Value._Value.CompareTo(other._Value);
-    public static bool Exists(Tag value) => _ValueObjectMap.ContainsKey(value);
-    public static IEnumerator<Tag> GetEnumerator() => _ValueObjectMap.Values.Select(a => (Tag) a).GetEnumerator();
-    public static bool TryGet(Tag value, out KnownObjects result) => _ValueObjectMap.TryGetValue(value, out result);
+    public int CompareTo(KnownObjects other)
+    {
+        return _Value._Value.CompareTo(other._Value);
+    }
+
+    public static bool Exists(Tag value)
+    {
+        return _ValueObjectMap.ContainsKey(value);
+    }
+
+    public static IEnumerator<Tag> GetEnumerator()
+    {
+        return _ValueObjectMap.Values.Select(a => (Tag) a).GetEnumerator();
+    }
+
+    public static bool TryGet(Tag value, out KnownObjects result)
+    {
+        return _ValueObjectMap.TryGetValue(value, out result);
+    }
 
     #endregion
 
     #region Equality
 
-    public bool Equals(KnownObjects? other) => !(other is null) && (_Value == other._Value);
+    public bool Equals(KnownObjects? other)
+    {
+        return !(other is null) && (_Value == other._Value);
+    }
 
     public bool Equals(KnownObjects x, KnownObjects y)
     {
@@ -783,21 +723,26 @@ public sealed record KnownObjects : EnumObject<Tag>
         return hash + (_Value.GetHashCode() * 3);
     }
 
-    public int GetHashCode(KnownObjects obj) => obj.GetHashCode();
+    public int GetHashCode(KnownObjects obj)
+    {
+        return obj.GetHashCode();
+    }
 
     #endregion
 
     #region Operator Overrides
 
-    public static explicit operator Tag(KnownObjects registeredApplicationProviderIndicators) =>
-        registeredApplicationProviderIndicators._Value;
+    public static explicit operator Tag(KnownObjects registeredApplicationProviderIndicators)
+    {
+        return registeredApplicationProviderIndicators._Value;
+    }
 
     public static explicit operator KnownObjects(Tag registeredApplicationProviderIndicator)
     {
         if (!TryGet(registeredApplicationProviderIndicator, out KnownObjects result))
         {
             throw new ArgumentOutOfRangeException(nameof(registeredApplicationProviderIndicator),
-                $"The {nameof(KnownObjects)} could not be found from the number supplied to the argument: {registeredApplicationProviderIndicator}");
+                                                  $"The {nameof(KnownObjects)} could not be found from the number supplied to the argument: {registeredApplicationProviderIndicator}");
         }
 
         return result;

@@ -11,9 +11,7 @@ namespace Play.Emv.DataElements;
 /// <summary>
 ///     Description: Status of the different functions from the Terminal perspective. The Terminal Verification Results is
 ///     coded according to Annex C.5 of [EMV Book 3]. BitCount that have been reserved for use by contactless
-///     specifications
-///     are
-///     defined as shown.
+///     specifications are defined as shown.
 /// </summary>
 public record TerminalVerificationResults : DataElement<ulong>, IEqualityComparer<TerminalVerificationResults>
 {
@@ -37,44 +35,174 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
 
     #region Instance Members
 
-    public bool ApplicationNotYetEffective() => _Value.IsBitSet(30);
-    public bool CardAppearsOnTerminalExceptionFile() => _Value.IsBitSet(37);
-    public bool CardholderVerificationWasNotSuccessful() => _Value.IsBitSet(24);
-    public bool CombinationDataAuthenticationFailed() => _Value.IsBitSet(35);
-    public bool DefaultTransactionCertificateDataObjectListUsed() => _Value.IsBitSet(8);
-    public bool DynamicDataAuthenticationFailed() => _Value.IsBitSet(36);
-    public bool ExpiredApplication() => _Value.IsBitSet(31);
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
-    public bool IccAndTerminalHaveDifferentApplicationVersions() => _Value.IsBitSet(32);
-    public bool IccDataMissing() => _Value.IsBitSet(38);
-    public bool IssuerAuthenticationFailed() => _Value.IsBitSet(7);
-    public bool LowerConsecutiveOfflineLimitExceeded() => _Value.IsBitSet(15);
-    public bool MerchantForcedTransactionOnline() => _Value.IsBitSet(12);
-    public bool NewCard() => _Value.IsBitSet(28);
-    public bool OfflineDataAuthenticationWasNotPerformed() => _Value.IsBitSet(40);
-    public bool OnlinePinEntered() => _Value.IsBitSet(19);
-    public bool PinEntryRequiredAndPinPadNotPresentOrNotWorking() => _Value.IsBitSet(21);
-    public bool PinEntryRequiredPinPadPresentButPinWasNotEntered() => _Value.IsBitSet(20);
-    public bool PinTryLimitExceeded() => _Value.IsBitSet(22);
-    public bool RelayResistanceThresholdExceeded() => _Value.IsBitSet(4);
-    public bool RelayResistanceTimeLimitsExceeded() => _Value.IsBitSet(3);
-    public bool RequestedServiceNotAllowedForCardProduct() => _Value.IsBitSet(29);
-    public bool ScriptProcessingFailedAfterFinalGenerateAc() => _Value.IsBitSet(5);
-    public bool ScriptProcessingFailedBeforeFinalGenerateAc() => _Value.IsBitSet(6);
-    public void SetBits(TerminalVerificationResult terminalVerificationResult) => _Value.SetBits((ulong) terminalVerificationResult);
-    public bool StaticDataAuthenticationFailed() => _Value.IsBitSet(39);
-    public bool TransactionExceedsFloorLimit() => _Value.IsBitSet(16);
-    public bool TransactionSelectedRandomlyForOnlineProcessing() => _Value.IsBitSet(13);
-    public bool UnrecognizedCvm() => _Value.IsBitSet(23);
-    public bool UpperConsecutiveOfflineLimitExceeded() => _Value.IsBitSet(14);
+    public bool ApplicationNotYetEffective()
+    {
+        return _Value.IsBitSet(30);
+    }
+
+    public bool CardAppearsOnTerminalExceptionFile()
+    {
+        return _Value.IsBitSet(37);
+    }
+
+    public bool CardholderVerificationWasNotSuccessful()
+    {
+        return _Value.IsBitSet(24);
+    }
+
+    public bool CombinationDataAuthenticationFailed()
+    {
+        return _Value.IsBitSet(35);
+    }
+
+    public bool DefaultTransactionCertificateDataObjectListUsed()
+    {
+        return _Value.IsBitSet(8);
+    }
+
+    public bool DynamicDataAuthenticationFailed()
+    {
+        return _Value.IsBitSet(36);
+    }
+
+    public bool ExpiredApplication()
+    {
+        return _Value.IsBitSet(31);
+    }
+
+    public override BerEncodingId GetBerEncodingId()
+    {
+        return BerEncodingId;
+    }
+
+    public override Tag GetTag()
+    {
+        return Tag;
+    }
+
+    public override ushort GetValueByteCount(BerCodec codec)
+    {
+        return codec.GetByteCount(GetBerEncodingId(), _Value);
+    }
+
+    public bool IccAndTerminalHaveDifferentApplicationVersions()
+    {
+        return _Value.IsBitSet(32);
+    }
+
+    public bool IccDataMissing()
+    {
+        return _Value.IsBitSet(38);
+    }
+
+    public bool IssuerAuthenticationFailed()
+    {
+        return _Value.IsBitSet(7);
+    }
+
+    public bool LowerConsecutiveOfflineLimitExceeded()
+    {
+        return _Value.IsBitSet(15);
+    }
+
+    public bool MerchantForcedTransactionOnline()
+    {
+        return _Value.IsBitSet(12);
+    }
+
+    public bool NewCard()
+    {
+        return _Value.IsBitSet(28);
+    }
+
+    public bool OfflineDataAuthenticationWasNotPerformed()
+    {
+        return _Value.IsBitSet(40);
+    }
+
+    public bool OnlinePinEntered()
+    {
+        return _Value.IsBitSet(19);
+    }
+
+    public bool PinEntryRequiredAndPinPadNotPresentOrNotWorking()
+    {
+        return _Value.IsBitSet(21);
+    }
+
+    public bool PinEntryRequiredPinPadPresentButPinWasNotEntered()
+    {
+        return _Value.IsBitSet(20);
+    }
+
+    public bool PinTryLimitExceeded()
+    {
+        return _Value.IsBitSet(22);
+    }
+
+    public bool RelayResistanceThresholdExceeded()
+    {
+        return _Value.IsBitSet(4);
+    }
+
+    public bool RelayResistanceTimeLimitsExceeded()
+    {
+        return _Value.IsBitSet(3);
+    }
+
+    public bool RequestedServiceNotAllowedForCardProduct()
+    {
+        return _Value.IsBitSet(29);
+    }
+
+    public bool ScriptProcessingFailedAfterFinalGenerateAc()
+    {
+        return _Value.IsBitSet(5);
+    }
+
+    public bool ScriptProcessingFailedBeforeFinalGenerateAc()
+    {
+        return _Value.IsBitSet(6);
+    }
+
+    public void SetBits(TerminalVerificationResult terminalVerificationResult)
+    {
+        _Value.SetBits((ulong) terminalVerificationResult);
+    }
+
+    public bool StaticDataAuthenticationFailed()
+    {
+        return _Value.IsBitSet(39);
+    }
+
+    public bool TransactionExceedsFloorLimit()
+    {
+        return _Value.IsBitSet(16);
+    }
+
+    public bool TransactionSelectedRandomlyForOnlineProcessing()
+    {
+        return _Value.IsBitSet(13);
+    }
+
+    public bool UnrecognizedCvm()
+    {
+        return _Value.IsBitSet(23);
+    }
+
+    public bool UpperConsecutiveOfflineLimitExceeded()
+    {
+        return _Value.IsBitSet(14);
+    }
 
     #endregion
 
     #region Serialization
 
-    public static TerminalVerificationResults Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    public static TerminalVerificationResults Decode(ReadOnlyMemory<byte> value, BerCodec codec)
+    {
+        return Decode(value.Span, codec);
+    }
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
@@ -82,18 +210,21 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
     {
         if (value.Length != _ByteLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(TerminalVerificationResults)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(TerminalVerificationResults)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
         }
 
         DecodedResult<ulong> result = codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(TerminalVerificationResults)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(TerminalVerificationResults)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new TerminalVerificationResults(result.Value);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(BerEncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue()
+    {
+        return _Codec.EncodeValue(BerEncodingId, _Value, _ByteLength);
+    }
 
     #endregion
 
@@ -110,19 +241,30 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
         return x.Equals(y);
     }
 
-    public int GetHashCode(TerminalVerificationResults obj) => obj.GetHashCode();
+    public int GetHashCode(TerminalVerificationResults obj)
+    {
+        return obj.GetHashCode();
+    }
 
     #endregion
 
     #region Operator Overrides
 
-    public static explicit operator ulong(TerminalVerificationResults value) => value._Value;
-
-    #endregion
+    public static explicit operator ulong(TerminalVerificationResults value)
+    {
+        return value._Value;
+    }
 
     //public RelayResistancePerformed GetRelayResistancePerformed()
     //{
     //    const byte bitOffset = 1;
     //    return RelayResistancePerformed.Get((byte) (_Value >> bitOffset));
     //}
+
+    public static TerminalVerificationResults operator |(TerminalVerificationResults left, TerminalVerificationResults right)
+    {
+        return new(left._Value | right._Value);
+    }
+
+    #endregion
 }

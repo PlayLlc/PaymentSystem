@@ -1,0 +1,9 @@
+======================================================================================
+The Data Exchange Services need to be running on a separate process than the state
+machines. That will allow the state machine to enqueue the Data Exchange Service
+and the Data Exchange Service will serve the response on its own time as it resolves
+the requested data
+======================================================================================
+UnpredictableNumber is currently being generated pretty half hazardously. Review the
+requirements before Certification
+======================================================================================

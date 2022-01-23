@@ -26,8 +26,8 @@ public class TransactionProfile : IEquatable<TransactionProfile>, IEqualityCompa
 
     /// <summary>
     ///     Option within the terminal related to the checking of a single unit of currency.A single unit of currency has the
-    ///     value of
-    ///     1 of the(major) unit of currency as defined in [ISO 4217]. As an example a single unit of currency for Euro is
+    ///     value of 1 of the(major) unit of currency as defined in [ISO 4217]. As an example a single unit of currency for
+    ///     Euro is
     ///     1.00.
     /// </summary>
     private readonly bool _IsStatusCheckSupported;

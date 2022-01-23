@@ -32,11 +32,30 @@ internal class TerminalProcess : CommandProcessingQueue
 
     #region Instance Members
 
-    internal void Enqueue(ActivateTerminalRequest request) => Enqueue((dynamic) request);
-    internal void Enqueue(QueryTerminalRequest request) => Enqueue((dynamic) request);
-    internal void Enqueue(OutReaderResponse request) => Enqueue((dynamic) request);
-    internal void Enqueue(QueryKernelResponse request) => Enqueue((dynamic) request);
-    internal void Enqueue(StopReaderAcknowledgedResponse request) => Enqueue((dynamic) request);
+    internal void Enqueue(ActivateTerminalRequest request)
+    {
+        Enqueue((dynamic) request);
+    }
+
+    internal void Enqueue(QueryTerminalRequest request)
+    {
+        Enqueue((dynamic) request);
+    }
+
+    internal void Enqueue(OutReaderResponse request)
+    {
+        Enqueue((dynamic) request);
+    }
+
+    internal void Enqueue(QueryKernelResponse request)
+    {
+        Enqueue((dynamic) request);
+    }
+
+    internal void Enqueue(StopReaderAcknowledgedResponse request)
+    {
+        Enqueue((dynamic) request);
+    }
 
     private async Task Handle(ActivateTerminalRequest request)
     {
@@ -63,7 +82,10 @@ internal class TerminalProcess : CommandProcessingQueue
         await Task.Run(() => { _TerminalStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
-    protected override Task Handle(dynamic command) => Handle(command);
+    protected override Task Handle(dynamic command)
+    {
+        return Handle(command);
+    }
 
     #endregion
 }

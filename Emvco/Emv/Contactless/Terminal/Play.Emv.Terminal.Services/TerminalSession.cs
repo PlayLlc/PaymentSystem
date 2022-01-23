@@ -1,17 +1,21 @@
-﻿using Play.Emv.DataElements;
+﻿using Play.Emv.Configuration;
 using Play.Emv.Sessions;
+using Play.Emv.Terminal.___Temp;
 using Play.Emv.Transactions;
 
 namespace Play.Emv.Terminal.Services;
 
 internal record TerminalSession(
-    TerminalSessionId TerminalSessionId,
     Transaction Transaction,
-    TerminalVerificationResults TerminalVerificationResults)
+    TerminalConfiguration TerminalConfiguration,
+    DataExchangeTerminalService DataExchangeTerminalService)
 {
     #region Instance Members
 
-    public TransactionSessionId GetTransactionSessionId() => Transaction.GetTransactionSessionId();
+    public TransactionSessionId GetTransactionSessionId()
+    {
+        return Transaction.GetTransactionSessionId();
+    }
 
     #endregion
 }

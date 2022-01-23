@@ -22,6 +22,7 @@ public class Outcome
     private ErrorIndication _ErrorIndication;
     private OutcomeParameterSet _OutcomeParameterSet;
     private UserInterfaceRequestData? _UserInterfaceRequestData;
+    private TerminalVerificationResults _TerminalVerificationResults;
 
     #endregion
 
@@ -37,23 +38,29 @@ public class Outcome
         OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
         _OutcomeParameterSet = builder.Complete();
         _ErrorIndication = new ErrorIndication();
+        _TerminalVerificationResults = new TerminalVerificationResults(0);
     }
 
     public Outcome(OutcomeParameterSet outcomeParameterSet)
     {
         _OutcomeParameterSet = outcomeParameterSet;
+        _TerminalVerificationResults = new TerminalVerificationResults(0);
     }
 
     public Outcome(OutcomeParameterSet outcomeParameterSet, UserInterfaceRequestData userInterfaceRequestData)
     {
         _OutcomeParameterSet = outcomeParameterSet;
         _UserInterfaceRequestData = userInterfaceRequestData;
+
+        _TerminalVerificationResults = new TerminalVerificationResults(0);
     }
 
     public Outcome(OutcomeParameterSet outcomeParameterSet, DiscretionaryData discretionaryData)
     {
         _OutcomeParameterSet = outcomeParameterSet;
         _DiscretionaryData = discretionaryData;
+
+        _TerminalVerificationResults = new TerminalVerificationResults(0);
     }
 
     public Outcome(OutcomeParameterSet outcomeParameterSet, DiscretionaryData discretionaryData, DataRecord dataRecord)
@@ -61,6 +68,8 @@ public class Outcome
         _OutcomeParameterSet = outcomeParameterSet;
         _DiscretionaryData = discretionaryData;
         _DataRecord = dataRecord;
+
+        _TerminalVerificationResults = new TerminalVerificationResults(0);
     }
 
     public Outcome(
@@ -71,6 +80,8 @@ public class Outcome
         _OutcomeParameterSet = outcomeParameterSet;
         _DiscretionaryData = discretionaryData;
         _UserInterfaceRequestData = userInterfaceRequestData;
+
+        _TerminalVerificationResults = new TerminalVerificationResults(0);
     }
 
     public Outcome(
@@ -80,10 +91,12 @@ public class Outcome
         DiscretionaryData? discretionaryData = null,
         UserInterfaceRequestData? userInterfaceRequestData = null)
     {
+        _ErrorIndication = errorIndication;
         _OutcomeParameterSet = outcomeParameterSet;
         _DiscretionaryData = discretionaryData;
         _UserInterfaceRequestData = userInterfaceRequestData;
         _DataRecord = dataRecord;
+        _TerminalVerificationResults = new TerminalVerificationResults(0);
     }
 
     #endregion
@@ -92,7 +105,11 @@ public class Outcome
 
     public TagLengthValue[] AsTagLengthValueArray()
     {
-        List<TagLengthValue> buffer = new() {_ErrorIndication!.AsTagLengthValue(), _OutcomeParameterSet!.AsTagLengthValue()};
+        List<TagLengthValue> buffer = new()
+        {
+            _ErrorIndication!.AsTagLengthValue(), _OutcomeParameterSet!.AsTagLengthValue(),
+            _TerminalVerificationResults.AsTagLengthValue()
+        };
 
         if (_DataRecord != null)
             buffer.Add(_DataRecord!.AsTagLengthValue());
@@ -164,6 +181,11 @@ public class Outcome
         return GetStatusOutcome() == StatusOutcome.SelectNext;
     }
 
+    public TerminalVerificationResults GetTerminalVerificationResults()
+    {
+        return _TerminalVerificationResults;
+    }
+
     public bool IsTryAgain()
     {
         return GetStatusOutcome() == StatusOutcome.TryAgain;
@@ -197,6 +219,16 @@ public class Outcome
     public void Update(Level3Error level3Error)
     {
         _ErrorIndication = new ErrorIndication(_ErrorIndication, level3Error);
+    }
+
+    public void Update(TerminalVerificationResult value)
+    {
+        _TerminalVerificationResults |= new TerminalVerificationResults(value);
+    }
+
+    public void Reset(TerminalVerificationResults value)
+    {
+        _TerminalVerificationResults = value;
     }
 
     public void Reset(OutcomeParameterSet outcomeParameterSet)

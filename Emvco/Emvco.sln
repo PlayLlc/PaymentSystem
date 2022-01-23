@@ -134,9 +134,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Terminal.Services", "Emv\Contactless\Terminal\Play.Emv.Terminal.Services\Play.Emv.Terminal.Services.csproj", "{792A2149-F745-4F68-A3EC-2688B2ED6179}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2E4E332F-6AE9-4B51-8B22-7DEA72CFE311}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\Emv\Contactless\_Emv\.editorconfig = ..\..\Emv\Contactless\_Emv\.editorconfig
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Globalization", "Infrastructure\Play.Globalization\Play.Globalization.csproj", "{DC42BCD8-37A2-482D-9FC8-20703F31E4D3}"
 EndProject
@@ -148,6 +145,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_TODO", "_TODO", "{0E71B2BA
 	ProjectSection(SolutionItems) = preProject
 		_TODO\Cleanup.txt = _TODO\Cleanup.txt
 		_TODO\ModularArchitecture.txt = _TODO\ModularArchitecture.txt
+		Warning.txt = Warning.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Encryption", "Infrastructure\Play.Encryption\Play.Encryption.csproj", "{7A4390AC-7C1F-4E4C-8CAD-6ED6AA79984E}"

@@ -12,8 +12,7 @@ namespace Play.Emv.Terminal.Configuration.Transaction;
 
 /// <summary>
 ///     Code defining the common currency used by the terminal in case the Transaction Currency Code is different from the
-///     Application Currency
-///     Code
+///     Application Currency Code
 /// </summary>
 public record TransactionReferenceCurrencyCode : PrimitiveValue, IEqualityComparer<TransactionReferenceCurrencyCode>
 {
@@ -41,15 +40,29 @@ public record TransactionReferenceCurrencyCode : PrimitiveValue, IEqualityCompar
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override BerEncodingId GetBerEncodingId()
+    {
+        return BerEncodingId;
+    }
+
+    public override Tag GetTag()
+    {
+        return Tag;
+    }
+
+    public override ushort GetValueByteCount(BerCodec codec)
+    {
+        return codec.GetByteCount(GetBerEncodingId(), _Value);
+    }
 
     #endregion
 
     #region Serialization
 
-    public static TransactionReferenceCurrencyCode Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    public static TransactionReferenceCurrencyCode Decode(ReadOnlyMemory<byte> value, BerCodec codec)
+    {
+        return Decode(value.Span, codec);
+    }
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
@@ -60,25 +73,32 @@ public record TransactionReferenceCurrencyCode : PrimitiveValue, IEqualityCompar
 
         if (value.Length != byteLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(TransactionReferenceCurrencyCode)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(TransactionReferenceCurrencyCode)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<ushort> result = codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(TransactionReferenceCurrencyCode)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(TransactionReferenceCurrencyCode)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         if (result.CharCount != charLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(TransactionReferenceCurrencyCode)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(TransactionReferenceCurrencyCode)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
         }
 
         return new TransactionReferenceCurrencyCode(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec)
+    {
+        return codec.EncodeValue(BerEncodingId, _Value);
+    }
+
+    public override byte[] EncodeValue(BerCodec codec, int length)
+    {
+        return codec.EncodeValue(BerEncodingId, _Value, length);
+    }
 
     #endregion
 
@@ -95,7 +115,10 @@ public record TransactionReferenceCurrencyCode : PrimitiveValue, IEqualityCompar
         return x.Equals(y);
     }
 
-    public int GetHashCode(TransactionReferenceCurrencyCode obj) => obj.GetHashCode();
+    public int GetHashCode(TransactionReferenceCurrencyCode obj)
+    {
+        return obj.GetHashCode();
+    }
 
     #endregion
 }
