@@ -8,7 +8,7 @@ using Play.Ber.InternalFactories;
 namespace Play.Emv.DataElements;
 
 /// <summary>
-///     Counter maintained by the application in the ICC (incrementing the ATC is managed by the ICC)
+///     Indicates the results of the last CVM performed
 /// </summary>
 public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
 {

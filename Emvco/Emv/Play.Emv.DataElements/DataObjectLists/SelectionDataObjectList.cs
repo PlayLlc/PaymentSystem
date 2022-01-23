@@ -14,7 +14,8 @@ namespace Play.Emv.DataElements;
 ///     objects:
 ///     • Amount, Authorized Numeric (tag'9F02')
 ///     • POI Information (tag '8B')
-///     • Terminal Country Code (tag '9F1A') Transaction Currency Code (tag '5F2A')
+///     • Terminal Country Code (tag '9F1A')
+///     • Transaction Currency Code (tag '5F2A')
 /// </summary>
 public record SelectionDataObjectList : DataObjectList, IEqualityComparer<SelectionDataObjectList>
 {

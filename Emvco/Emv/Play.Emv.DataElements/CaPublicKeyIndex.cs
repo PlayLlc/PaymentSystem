@@ -1,5 +1,3 @@
-using System.Collections.Immutable;
-
 using Play.Ber.Codecs;
 using Play.Ber.Emv.Codecs;
 using Play.Ber.Emv.DataObjects;
@@ -11,23 +9,21 @@ using Play.Emv.DataElements.Exceptions;
 namespace Play.Emv.DataElements;
 
 /// <summary>
-///     Contains a binary number that indicates which of the application�s certification authority public keys and its
-///     associated
-///     algorithm is to be used
+///     Contains a binary number that indicates which of the application's certification authority public keys and its
+///     associated algorithm is to be used
 /// </summary>
 public record CaPublicKeyIndex : DataElement<byte>, IEqualityComparer<CaPublicKeyIndex>
 {
     #region Static Metadata
 
-    private static readonly ImmutableSortedDictionary<byte, CaPublicKeyIndex> _ValueObjectMap;
     public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly CaPublicKeyIndex Five;
     public static readonly CaPublicKeyIndex Four;
     public static readonly CaPublicKeyIndex One;
     public static readonly CaPublicKeyIndex Six;
-    public static readonly Tag Tag = 0x9F22;
     public static readonly CaPublicKeyIndex Three;
     public static readonly CaPublicKeyIndex Two;
+    public static readonly Tag Tag = 0x8F;
     private const byte _ByteLength = 1;
 
     #endregion
@@ -49,9 +45,6 @@ public record CaPublicKeyIndex : DataElement<byte>, IEqualityComparer<CaPublicKe
         Four = new CaPublicKeyIndex(four);
         Five = new CaPublicKeyIndex(five);
         Six = new CaPublicKeyIndex(six);
-        _ValueObjectMap =
-            new Dictionary<byte, CaPublicKeyIndex> {{one, One}, {two, Two}, {three, Three}, {four, Four}, {five, Five}, {six, Six}}
-                .ToImmutableSortedDictionary();
     }
 
     public CaPublicKeyIndex(byte value) : base(value)

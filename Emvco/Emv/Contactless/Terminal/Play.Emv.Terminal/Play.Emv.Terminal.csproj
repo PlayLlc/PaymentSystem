@@ -21,4 +21,8 @@
     <ProjectReference Include="..\Play.Emv.Terminal.Contracts\Play.Emv.Terminal.Contracts.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Configuration\Transaction\" />
+  </ItemGroup>
+
 </Project>

@@ -60,10 +60,14 @@ public readonly record struct DateTimeUtc
 
     #region Operator Overrides
 
+    public static bool operator >(DateTime left, DateTimeUtc right) => left > right._Value;
+    public static bool operator <(DateTime left, DateTimeUtc right) => left < right._Value;
+    public static bool operator >(DateTimeUtc left, DateTime right) => left._Value > right;
+    public static bool operator <(DateTimeUtc left, DateTime right) => left._Value < right;
     public static bool operator ==(DateTime left, DateTimeUtc right) => right.Equals(left);
     public static bool operator !=(DateTime left, DateTimeUtc right) => !right.Equals(left);
-    public static bool operator ==(DateTimeUtc left, DateTime right) => left.Equals(left);
-    public static bool operator !=(DateTimeUtc left, DateTime right) => !left.Equals(left);
+    public static bool operator ==(DateTimeUtc left, DateTime right) => left.Equals(right);
+    public static bool operator !=(DateTimeUtc left, DateTime right) => !left.Equals(right);
     public static implicit operator DateTime(DateTimeUtc value) => value._Value;
 
     #endregion

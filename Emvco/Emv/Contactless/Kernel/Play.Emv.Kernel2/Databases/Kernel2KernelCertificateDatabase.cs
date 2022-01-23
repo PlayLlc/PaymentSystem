@@ -3,7 +3,6 @@ using System.Linq;
 
 using Play.Emv.Configuration;
 using Play.Emv.DataElements;
-using Play.Emv.Kernel.Databases;
 using Play.Emv.Security.Certificates;
 using Play.Icc.FileSystem.DedicatedFiles;
 

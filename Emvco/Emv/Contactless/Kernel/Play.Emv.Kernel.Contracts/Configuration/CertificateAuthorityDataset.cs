@@ -42,15 +42,10 @@ public class CertificateAuthorityDataset
     ///     Get
     /// </summary>
     /// <param name="index"></param>
+    /// <param name="result"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public CaPublicKeyCertificate Get(CaPublicKeyIndex index)
-    {
-        if (!_CaMap.TryGetValue(index, out CaPublicKeyCertificate? result))
-            throw new InvalidOperationException($"The argument {nameof(index)} had a value of {(byte) index} which was not available");
-
-        return result!;
-    }
+    public bool TryGet(CaPublicKeyIndex index, out CaPublicKeyCertificate? result) => _CaMap.TryGetValue(index, out result);
 
     /// <returns>
     ///     <see cref="RegisteredApplicationProviderIndicator" />

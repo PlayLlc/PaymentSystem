@@ -90,6 +90,10 @@ public readonly struct ShortDateValue
 
     #region Operator Overrides
 
+    public static bool operator >(ShortDateValue x, DateTimeUtc y) => x._Value > y;
+    public static bool operator <(ShortDateValue x, DateTimeUtc y) => x._Value < y;
+    public static bool operator >(DateTimeUtc x, ShortDateValue y) => x > y._Value;
+    public static bool operator <(DateTimeUtc x, ShortDateValue y) => x < y._Value;
     public static bool operator ==(ShortDateValue x, ShortDateValue y) => x.Equals(y);
     public static bool operator ==(ShortDateValue x, DateTime y) => x.Equals(y);
     public static bool operator ==(DateTime x, ShortDateValue y) => y.Equals(x);
@@ -108,6 +112,7 @@ public readonly struct ShortDateValue
     public static bool operator <=(ShortDateValue x, ShortDateValue y) => x._Value <= y._Value;
     public static bool operator <=(ShortDateValue x, DateTime y) => x._Value <= y;
     public static bool operator <=(DateTime x, ShortDateValue y) => x <= y._Value;
+    public static implicit operator DateTime(ShortDateValue value) => value._Value;
 
     #endregion
 }

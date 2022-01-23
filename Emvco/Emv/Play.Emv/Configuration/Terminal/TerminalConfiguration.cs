@@ -3,6 +3,7 @@
 using Play.Ber.DataObjects;
 using Play.Core.Math;
 using Play.Emv.DataElements;
+using Play.Emv.Terminal.Configuration.Transaction;
 using Play.Globalization;
 using Play.Globalization.Currency;
 
@@ -25,6 +26,10 @@ public abstract record TerminalConfiguration
     private readonly TransactionCurrencyCode _TransactionCurrencyCode;
     private readonly ApplicationVersionNumberTerminal _ApplicationVersionNumberTerminal;
     private readonly TerminalRiskManagementData _TerminalRiskManagementData;
+    private readonly PoiInformation _PoiInformation;
+    private readonly AdditionalTerminalCapabilities _AdditionalTerminalCapabilities;
+    private readonly TransactionReferenceCurrencyCode _TransactionReferenceCurrencyCode;
+    private readonly TransactionReferenceCurrencyExponent _TransactionReferenceCurrencyExponent;
     private readonly Percentage _BiasedRandomSelectionPercentage;
     private readonly Percentage _RandomSelectionTargetPercentage;
     private readonly ulong _ThresholdValueForBiasedRandomSelection;
@@ -50,7 +55,11 @@ public abstract record TerminalConfiguration
         TerminalRiskManagementData terminalRiskManagementData,
         Percentage biasedRandomSelectionPercentage,
         Percentage randomSelectionTargetPercentage,
-        ulong thresholdValueForBiasedRandomSelection)
+        ulong thresholdValueForBiasedRandomSelection,
+        PoiInformation poiInformation,
+        AdditionalTerminalCapabilities additionalTerminalCapabilities,
+        TransactionReferenceCurrencyCode transactionReferenceCurrencyCode,
+        TransactionReferenceCurrencyExponent transactionReferenceCurrencyExponent)
     {
         _TerminalIdentification = terminalIdentification;
         _TransactionCurrencyCode = transactionCurrencyCode;
@@ -68,6 +77,10 @@ public abstract record TerminalConfiguration
         _BiasedRandomSelectionPercentage = biasedRandomSelectionPercentage;
         _RandomSelectionTargetPercentage = randomSelectionTargetPercentage;
         _ThresholdValueForBiasedRandomSelection = thresholdValueForBiasedRandomSelection;
+        _PoiInformation = poiInformation;
+        _AdditionalTerminalCapabilities = additionalTerminalCapabilities;
+        _TransactionReferenceCurrencyCode = transactionReferenceCurrencyCode;
+        _TransactionReferenceCurrencyExponent = transactionReferenceCurrencyExponent;
 
         _TagLengthValues.Add(_TerminalIdentification);
         _TagLengthValues.Add(_TransactionCurrencyCode);
@@ -82,17 +95,26 @@ public abstract record TerminalConfiguration
         _TagLengthValues.Add(_ApplicationVersionNumberTerminal);
         _TagLengthValues.Add(_MerchantNameAndLocation);
         _TagLengthValues.Add(_TerminalRiskManagementData);
+        _TagLengthValues.Add(_PoiInformation);
+        _TagLengthValues.Add(_AdditionalTerminalCapabilities);
+        _TagLengthValues.Add(_TransactionReferenceCurrencyCode);
+        _TagLengthValues.Add(_TransactionReferenceCurrencyExponent);
     }
 
     #endregion
 
     #region Instance Members
 
+    public TerminalCapabilities GetTerminalCapabilities() => _TerminalCapabilities;
+    public TransactionReferenceCurrencyCode GetTransactionReferenceCurrencyCode() => _TransactionReferenceCurrencyCode;
+    public TransactionReferenceCurrencyExponent GetTransactionReferenceCurrencyExponent() => _TransactionReferenceCurrencyExponent;
+    public AdditionalTerminalCapabilities GetAdditionalTerminalCapabilities() => _AdditionalTerminalCapabilities;
+    public PoiInformation GetPoiInformation() => _PoiInformation;
+
     // HACK: This is not implemented. Find how we're supposed to store the random and biased percentages and biased threshold value
     public TerminalRiskConfiguration GetTerminalRiskConfiguration(CultureProfile culture) =>
-        new TerminalRiskConfiguration(culture, _TerminalRiskManagementData, _BiasedRandomSelectionPercentage,
-                                      new Money(_ThresholdValueForBiasedRandomSelection, culture), _RandomSelectionTargetPercentage,
-                                      _TerminalFloorLimit);
+        new(culture, _TerminalRiskManagementData, _BiasedRandomSelectionPercentage,
+            new Money(_ThresholdValueForBiasedRandomSelection, culture), _RandomSelectionTargetPercentage, _TerminalFloorLimit);
 
     public MerchantNameAndLocation GetMerchantNameAndLocation() => _MerchantNameAndLocation;
     public ApplicationVersionNumberTerminal AsApplicationVersionNumberTerminal() => _ApplicationVersionNumberTerminal;

@@ -13,3 +13,19 @@ Decouple Configuration
 		- PcdProtocolConfig
 2) Internalize everything that doesn't need to be public
 	Play.Security
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Decouple custom DTO objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1) Kernel can receive all of the information in Transaction.cs from DET requests
+	a) Start to remove the Transaction object and rely on DET to receive data and
+	update
+	
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Proprietary TLV Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+Create proprietary TLV objects for configuration objects that need to be passed
+between boundaries. Take a look at this website for guidance and make sure the
+Tags you create are correct for proprietary
+https://www.eftlab.com/knowledge-base/145-emv-nfc-tags/
+
+-Kernel 2 Reader Capabilities

@@ -19,7 +19,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 {
     #region Instance Values
 
-    protected readonly ICertificateAuthorityDatabase _CertificateAuthorityDatabase;
+    protected readonly IKernelCertificateDatabase _KernelCertificateDatabase;
     protected readonly ITlvDatabase _TlvDatabase;
     protected IHandleTerminalRequests _TerminalEndpoint;
     protected KernelSession? _KernelSession;
@@ -31,11 +31,11 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     protected KernelDatabase(
         IHandleTerminalRequests terminalEndpoint,
         ITlvDatabase tlvDatabase,
-        ICertificateAuthorityDatabase certificateAuthorityDatabase)
+        IKernelCertificateDatabase kernelCertificateDatabase)
     {
         _TerminalEndpoint = terminalEndpoint;
         _TlvDatabase = tlvDatabase;
-        _CertificateAuthorityDatabase = certificateAuthorityDatabase;
+        _KernelCertificateDatabase = kernelCertificateDatabase;
     }
 
     #endregion
@@ -87,7 +87,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     public virtual void Deactivate()
     {
         _TlvDatabase.Clear();
-        _CertificateAuthorityDatabase.PurgeRevokedCertificates();
+        _KernelCertificateDatabase.PurgeRevokedCertificates();
         _KernelSession = null;
     }
 
@@ -162,11 +162,11 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
                 InvalidOperationException($"The method {nameof(IsRevoked)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
-        return _CertificateAuthorityDatabase!.IsRevoked(rid, caPublicKeyIndex);
+        return _KernelCertificateDatabase!.IsRevoked(rid, caPublicKeyIndex);
     }
 
     /// <summary>
-    ///     Updates the <see cref="ICertificateAuthorityDatabase" /> by removing any <see cref="CaPublicKeyCertificate" />
+    ///     Updates the <see cref="IKernelCertificateDatabase" /> by removing any <see cref="CaPublicKeyCertificate" />
     ///     that has expired since the last time they were checked
     /// </summary>
     public virtual void PurgeRevokedCertificates()
@@ -174,7 +174,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         if (!IsActive())
             return;
 
-        _CertificateAuthorityDatabase.PurgeRevokedCertificates();
+        _KernelCertificateDatabase.PurgeRevokedCertificates();
     }
 
     /// <summary>
@@ -193,7 +193,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
                 InvalidOperationException($"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
-        return _CertificateAuthorityDatabase.TryGet(rid, index, out result);
+        return _KernelCertificateDatabase.TryGet(rid, index, out result);
     }
 
     /// <summary>

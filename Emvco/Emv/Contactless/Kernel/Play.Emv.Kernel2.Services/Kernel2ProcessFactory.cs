@@ -25,7 +25,7 @@ public class Kernel2ProcessFactory
         CertificateAuthorityDataset[] certificates)
     {
         Kernel2Database kernel2Database = new(kernel2Configuration, terminalEndpoint, new Kernel2TlvDatabase(kernel2PersistentValues),
-                                              new Kernel2CertificateAuthorityDatabase(certificates));
+                                              new Kernel2KernelCertificateDatabase(certificates));
 
         Kernel2StateResolver kernel2StateResolver =
             Kernel2StateResolver.Create(tornTransactionCleaner, kernel2Database, terminalEndpoint, kernelEndpoint, pcdEndpoint);
