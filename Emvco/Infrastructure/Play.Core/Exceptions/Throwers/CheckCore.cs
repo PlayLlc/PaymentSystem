@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Play.Core.Exceptions;
-//TODO create more meaningful messages, and make sure they are localized in a resource file
 
 /// <summary>
 ///     Helpers for enforcing conditions and throwing when those conditions are not met
@@ -144,7 +143,7 @@ public class CheckCore
         if (value.Count() > maxLength)
         {
             throw new ArgumentOutOfRangeException(name,
-                $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
+                                                  $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
         }
     }
 
@@ -160,7 +159,7 @@ public class CheckCore
         if (value.Length > maxLength)
         {
             throw new ArgumentOutOfRangeException(name,
-                $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
+                                                  $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
         }
     }
 
@@ -176,7 +175,7 @@ public class CheckCore
         if (value.Length > maxLength)
         {
             throw new ArgumentOutOfRangeException(name,
-                $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
+                                                  $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
         }
     }
 
@@ -192,7 +191,7 @@ public class CheckCore
         if (value.Length > maxLength)
         {
             throw new ArgumentOutOfRangeException(name,
-                $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
+                                                  $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
         }
     }
 
@@ -208,7 +207,7 @@ public class CheckCore
         if (value.Length < minLength)
         {
             throw new ArgumentOutOfRangeException(name,
-                $"The argument {name} was expected to have a minimum length of {minLength} but did not");
+                                                  $"The argument {name} was expected to have a minimum length of {minLength} but did not");
         }
     }
 
@@ -224,7 +223,7 @@ public class CheckCore
         if (value.Count() < minLength)
         {
             throw new ArgumentOutOfRangeException(name,
-                $"The argument {name} was expected to have a minimum length of {minLength} but did not");
+                                                  $"The argument {name} was expected to have a minimum length of {minLength} but did not");
         }
     }
 
@@ -240,7 +239,7 @@ public class CheckCore
         if (value.Length < minLength)
         {
             throw new ArgumentOutOfRangeException(name,
-                $"The argument {name} was expected to have a minimum length of {minLength} but did not");
+                                                  $"The argument {name} was expected to have a minimum length of {minLength} but did not");
         }
     }
 
@@ -256,19 +255,8 @@ public class CheckCore
         if (value.Length < minLength)
         {
             throw new ArgumentOutOfRangeException(name,
-                $"The argument {name} was expected to have a minimum length of {minLength} but did not");
+                                                  $"The argument {name} was expected to have a minimum length of {minLength} but did not");
         }
-    }
-
-    //TODO: Is this a waste for c# 9.0 when nullable reference types are enabled?
-    /// <summary>
-    ///     Throws an ArgumentNullException if the given value is null, otherwise
-    ///     return the value to the caller.
-    /// </summary>
-    public static void ForNull<T>(T value, string name) where T : class
-    {
-        if (value is null)
-            throw new ArgumentNullException(name);
     }
 
     /// <summary>

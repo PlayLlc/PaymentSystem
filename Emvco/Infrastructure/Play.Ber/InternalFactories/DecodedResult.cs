@@ -1,9 +1,6 @@
 ﻿namespace Play.Ber.InternalFactories;
 
-// TODO: I don't like this at all
-
-// TODO: This is a shitty implementation - you shouldn't have to expose metadata to the client and make them
-// TODO: do a magic trick in order to decode something
+// TODO: This is a shitty implementation - you shouldn't have to expose metadata to the client and make them do a magic trick in order to decode something
 
 public record DecodedResult<T> : DecodedMetadata
 {

@@ -68,18 +68,19 @@ internal class TerminalStateMachine
         {
             if (_TerminalSessionLock.Session != null)
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(ActivateTerminalRequest)} can't be processed because the {nameof(ChannelType.Terminal)} already has an active session in progress");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(ActivateTerminalRequest)} can't be processed because the {nameof(ChannelType.Terminal)} already has an active session in progress");
             }
 
             // HACK: This won't change unless it's a cloud kernel implementation. Find a better strategy
             TerminalConfiguration systemConfiguration =
                 _TerminalConfigurationRepository.GeTerminalConfiguration(request.GetTerminalIdentification(),
-                    request.GetAcquirerIdentifier(), request.GetMerchantIdentifier());
+                                                                         request.GetAcquirerIdentifier(), request.GetMerchantIdentifier());
 
             Transaction transaction = new(new TransactionSessionId(request.GetTransactionType()), request.GetAmountAuthorizedNumeric(),
-                request.GetAmountOtherNumeric(), request.GetTransactionType(), systemConfiguration.GetLanguagePreference(),
-                systemConfiguration.GetTerminalCountryCode(), new TransactionDate(DateTimeUtc.Now()));
+                                          request.GetAmountOtherNumeric(), request.GetTransactionType(),
+                                          systemConfiguration.GetLanguagePreference(), systemConfiguration.GetTerminalCountryCode(),
+                                          new TransactionDate(DateTimeUtc.Now()));
 
             _TerminalSessionLock.Session = new TerminalSession(new TerminalSessionId(), transaction, new TerminalVerificationResults(0));
 
@@ -95,14 +96,14 @@ internal class TerminalStateMachine
         {
             if (_TerminalSessionLock.Session == null)
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(QueryTerminalRequest)} can't be processed because the {nameof(ChannelType.Terminal)} doesn't currently have an active session");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(QueryTerminalRequest)} can't be processed because the {nameof(ChannelType.Terminal)} doesn't currently have an active session");
             }
 
             if (_TerminalSessionLock.Session.GetTransactionSessionId() != request.GetTransactionSessionId())
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(QueryTerminalRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{request.GetTransactionSessionId()}] but the current {nameof(ChannelType.Terminal)} session has a {nameof(TransactionSessionId)} of: [{_TerminalSessionLock.Session.GetTransactionSessionId()}]");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(QueryTerminalRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{request.GetTransactionSessionId()}] but the current {nameof(ChannelType.Terminal)} session has a {nameof(TransactionSessionId)} of: [{_TerminalSessionLock.Session.GetTransactionSessionId()}]");
             }
 
             // TODO: I'm not sure if this is correct. We might need to request data from the reader database first. That would mean we would have to send a QueryReaderRequest and wait for a response callback before sending back the data the kernel needs. If that's the case we would need to store the correlation information in the session. Hammer out the finer details here 
@@ -145,6 +146,19 @@ internal class TerminalStateMachine
                 continue;
             }
 
+            //0x9F, 0x66, 0x04, // PUNATC(Track2)
+            //0x9F, 0x02, 0x06, // Amount Authorized (Numeric)
+            //0x9F, 0x03, 0x06, // Amount Other (Numeric)
+            //0x9F, 0x1A, 0x02, // Terminal Country Code
+            //0x95, 0x05, // Terminal Verification Results
+
+            //0x5F, 0x2A, 0x02, // Transaction Currency Code
+            //0x9A, 0x03, // Transaction Date
+            //0x9C, 0x01, // Transaction Type
+
+            //0x9F, 0x37, 0x04, // Unpredictable Number
+            //0x9F, 0x4E, 0x14 // Merchant Name and Location
+
             // HACK: Continue looking for the requested data. Do we retrieve the data from the Reader Database's Persistent values? Probably so. How do we do that concurrently when the signals are enqueue and the data is sent with a callback? Do we query the reader with a correlation value, the KernelSessionId would probably be good enough for this. Confirm this is correct
 
             buffer[i] = new TagLengthValue(dataNeeded[i], Array.Empty<byte>());
@@ -170,15 +184,10 @@ internal class TerminalStateMachine
         return true;
     }
 
-    private TagLengthValue PerformTerminalRiskManagement(SelectionSessionLock sessionLock) =>
-        throw
-
-            // BUG: Validate and fix the code commented out below
-            //TerminalVerificationResult terminalVerificationResult = _TerminalRiskManager.Process(new TerminalRiskManagementCommand());
-            //TerminalVerificationResults update = new TerminalVerificationResults(terminalVerificationResult);
-            //sessionLock.Session = sessionLock!.Session with {TerminalVerificationResults = update};
-            //return update.AsTagLengthValue();
-            new NotImplementedException();
+    private TagLengthValue PerformTerminalRiskManagement(SelectionSessionLock sessionLock)
+    {
+        throw new NotImplementedException();
+    }
 
     private void PerformTerminalActionAnalysis(TerminalSession session)
     {
@@ -186,7 +195,7 @@ internal class TerminalStateMachine
 
         TerminalActionAnalysisResponse terminalActionAnalysisResponse =
             _TerminalActionAnalysisService.Process(new TerminalActionAnalysisCommand(session.TerminalVerificationResults, default, default,
-                default));
+                                                                                     default));
 
         // IGenerateApplicationCryptogramResponse.Generate(
         //          CryptogramType cryptogramType,

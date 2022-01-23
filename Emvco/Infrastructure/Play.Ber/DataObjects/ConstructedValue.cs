@@ -9,13 +9,15 @@ using Play.Ber.Lengths;
 namespace Play.Ber.DataObjects;
 
 public abstract class ConstructedValue : IEncodeBerDataObjects, IRetrieveConstructedValueMetadata, IEqualityComparer<ConstructedValue>,
-    IEquatable<ConstructedValue>
+                                         IEquatable<ConstructedValue>
 {
     #region Instance Members
 
-    // TODO: Okay, so I even confused myself. So encoding Primitives returns encoded content octets, but
-    // TODO: encoded constructed returns the entire raw TLV.... I'm an idiot
-    public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
+    public TagLengthValue AsTagLengthValue(BerCodec codec)
+    {
+        return new(GetTag(), EncodeValue(codec));
+    }
+
     public abstract Tag GetTag();
 
     /// <summary>

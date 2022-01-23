@@ -27,7 +27,7 @@ public class DecodedSignature
 
     public DecodedSignature(byte leadingByte, Message1 message1, byte[] hash, byte trailingByte)
     {
-        Validate(leadingByte, message1, hash, trailingByte);
+        Validate(leadingByte, hash, trailingByte);
         _LeadingByte = leadingByte;
         _Message1 = message1;
         _Hash = hash;
@@ -74,10 +74,9 @@ public class DecodedSignature
         return _TrailingByte;
     }
 
-    private static void Validate(byte leadingByte, Message1 message1, ReadOnlySpan<byte> hash, byte trailingByte)
+    private static void Validate(byte leadingByte, ReadOnlySpan<byte> hash, byte trailingByte)
     {
         ValidateLeadingByte(leadingByte);
-        ValidateMessage1(message1);
         ValidateHash(hash);
         ValidateTrailingByte(trailingByte);
     }
@@ -98,11 +97,6 @@ public class DecodedSignature
             throw new ArgumentOutOfRangeException(nameof(leadingByte),
                                                   $"The value {SignatureSpecifications.LeadingByte} was expected but {leadingByte} was received instead");
         }
-    }
-
-    private static void ValidateMessage1(Message1 message1)
-    {
-        CheckCore.ForNull(message1, nameof(message1));
     }
 
     private static void ValidateTrailingByte(byte trailing)

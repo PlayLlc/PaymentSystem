@@ -9,9 +9,7 @@ using Play.Globalization.Currency;
 
 namespace Play.Emv.Terminal.Common.Services.RiskManagement.Terminal;
 
-// TODO: Not sure if we're supposed to cross reference the sequence number and only check that, or if we're supposed to be
-// TODO: stopping some kind of rapid attack. Both would make sense separately but checking sequence wouldn't make sense for
-// TODO: risk
+// TODO: Not sure if we're supposed to cross reference the sequence number and only check that, or if we're supposed to be stopping some kind of rapid attack. Both would make sense separately but checking sequence wouldn't make sense for risk
 /// <summary>
 ///     Terminal risk management is that portion of risk management performed by the terminal to protect the acquirer,
 ///     issuer, and system from fraud.
@@ -135,7 +133,9 @@ internal class TerminalRiskManager : IManageTerminalRisk
             return false;
 
         return await _PercentageSelectionQueue.IsRandomSelection(GetTransactionTargetPercentage(amountAuthorizedNumeric, terminalFloorLimit,
-                biasedRandomSelectionThreshold, biasedRandomSelectionMaximumTargetPercentage, randomSelectionTargetPercentage))
+                                                                                                biasedRandomSelectionThreshold,
+                                                                                                biasedRandomSelectionMaximumTargetPercentage,
+                                                                                                randomSelectionTargetPercentage))
             .ConfigureAwait(false);
     }
 
@@ -228,27 +228,30 @@ internal class TerminalRiskManager : IManageTerminalRisk
             return CreateFloorLimitExceededResponse();
 
         if (await IsRandomSelection(command.GetAmountAuthorizedNumeric(), command.GetTerminalFloorLimit(),
-                command.GetRandomSelectionTargetPercentage()).ConfigureAwait(false))
+                                    command.GetRandomSelectionTargetPercentage())
+            .ConfigureAwait(false))
             return CreateRandomlySelectedForOnlineProcessResponse();
 
         if (await IsBiasedRandomSelection(command.GetAmountAuthorizedNumeric(), command.GetBiasedRandomSelectionThreshold(),
-            command.GetTerminalFloorLimit(), command.GetBiasedRandomSelectionMaximumPercentage(),
-            command.GetRandomSelectionTargetPercentage()))
+                                          command.GetTerminalFloorLimit(), command.GetBiasedRandomSelectionMaximumPercentage(),
+                                          command.GetRandomSelectionTargetPercentage()))
             return CreateRandomlySelectedForOnlineProcessResponse();
 
         if (!command.IsVelocityCheckSupported())
             return new TerminalRiskManagementResponse(TerminalVerificationResult.Create(), TransactionStatusResult.NotAvailable);
 
         if (!DoesVelocityCheckHaveRequiredItems(command.GetApplicationTransactionCount(),
-            command.GetLastOnlineApplicationTransactionCount()))
+                                                command.GetLastOnlineApplicationTransactionCount()))
             return CreateVelocityCheckDoesNotHaveRequiredItemsResponse();
 
         if (IsLowerVelocityThresholdExceeded(command.GetLowerConsecutiveOfflineLimit()!.Value,
-            command.GetApplicationTransactionCount()!.Value, command.GetLastOnlineApplicationTransactionCount()!.Value))
+                                             command.GetApplicationTransactionCount()!.Value,
+                                             command.GetLastOnlineApplicationTransactionCount()!.Value))
             return CreateVelocityLowerThresholdExceededResponse();
 
         if (IsUpperVelocityThresholdExceeded(command.GetUpperConsecutiveOfflineLimit()!.Value,
-            command.GetApplicationTransactionCount()!.Value, command.GetLastOnlineApplicationTransactionCount()!.Value))
+                                             command.GetApplicationTransactionCount()!.Value,
+                                             command.GetLastOnlineApplicationTransactionCount()!.Value))
             return CreateVelocityUpperThresholdExceededResponse();
 
         return new TerminalRiskManagementResponse(TerminalVerificationResult.Create(), TransactionStatusResult.NotAvailable);

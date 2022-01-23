@@ -12,7 +12,7 @@ public readonly struct NumericCurrencyCode
 
     public NumericCurrencyCode(ushort value)
     {
-        // TODO: Let's get some kind of validation that doesn't cause circular references
+        // HACK: This validation causes circular references. Let's try and create an EnumObject or something similar that allows some validation logic
 
         //if (!CurrencyCodeRepository.IsValid(value))
         //{
@@ -26,10 +26,25 @@ public readonly struct NumericCurrencyCode
 
     #region Equality
 
-    public bool Equals(NumericCurrencyCode other) => _Value == other._Value;
-    public bool Equals(NumericCurrencyCode x, NumericCurrencyCode y) => x.Equals(y);
-    public override bool Equals(object? obj) => obj is NumericCurrencyCode Currency && Equals(Currency);
-    public int GetHashCode(NumericCurrencyCode obj) => obj.GetHashCode();
+    public bool Equals(NumericCurrencyCode other)
+    {
+        return _Value == other._Value;
+    }
+
+    public bool Equals(NumericCurrencyCode x, NumericCurrencyCode y)
+    {
+        return x.Equals(y);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is NumericCurrencyCode Currency && Equals(Currency);
+    }
+
+    public int GetHashCode(NumericCurrencyCode obj)
+    {
+        return obj.GetHashCode();
+    }
 
     public override int GetHashCode()
     {
@@ -48,9 +63,20 @@ public readonly struct NumericCurrencyCode
 
     #region Operator Overrides
 
-    public static bool operator ==(NumericCurrencyCode left, NumericCurrencyCode right) => left.Equals(right);
-    public static explicit operator ushort(NumericCurrencyCode value) => value._Value;
-    public static bool operator !=(NumericCurrencyCode left, NumericCurrencyCode right) => !left.Equals(right);
+    public static bool operator ==(NumericCurrencyCode left, NumericCurrencyCode right)
+    {
+        return left.Equals(right);
+    }
+
+    public static explicit operator ushort(NumericCurrencyCode value)
+    {
+        return value._Value;
+    }
+
+    public static bool operator !=(NumericCurrencyCode left, NumericCurrencyCode right)
+    {
+        return !left.Equals(right);
+    }
 
     #endregion
 }

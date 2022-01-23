@@ -57,10 +57,7 @@ public class StaticDataToBeAuthenticated
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     public byte[] AsByteArray()
     {
-        // TODO: According to BOOK 3 Section 10.3 - might need to iterate through each result and ensure that the
-        // TODO: Record Result Template Format that returned is of tag 0x70. We would also need to strip some of the
-        // TODO: primitives down to the TLV encoded Value field if the SFI is 11-30. We can do that by passing a
-        // TODO: RecordResult Factory - or can take care of this at a higher level process
+        // TODO: According to BOOK 3 Section 10.3 - might need to iterate through each result and ensure that the Record Result Template Format that returned is of tag 0x70. We would also need to strip some of the primitives down to the TLV encoded Value field if the SFI is 11-30. We can do that by passing a RecordResult Factory - or can take care of this at a higher level process
 
         using SpanOwner<byte> spanOwner =
             SpanOwner<byte>.Allocate((int) (_ApplicationFileLocatorResults.Sum(a => a.GetTagLengthValueByteCount())

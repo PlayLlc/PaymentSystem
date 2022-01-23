@@ -17,11 +17,12 @@ public readonly struct Alpha3CurrencyCode
 
     public Alpha3CurrencyCode(ReadOnlySpan<char> value)
     {
-        if (!CurrencyCodeRepository.IsValid(value))
-        {
-            throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} must be 3 digits or less according to ISO 4217");
-        }
+        // HACK: This validation causes circular references. Let's try and create an EnumObject or something similar that allows some validation logic
+        //if (!CurrencyCodeRepository.IsValid(value))
+        //{
+        //    throw new ArgumentOutOfRangeException(nameof(value),
+        //        $"The argument {nameof(value)} must be 3 digits or less according to ISO 4217");
+        //}
 
         _FirstChar = (byte) value[0];
         _SecondChar = (byte) value[1];
@@ -32,18 +33,34 @@ public readonly struct Alpha3CurrencyCode
 
     #region Instance Members
 
-    public char[] AsCharArray() => new[] {(char) _FirstChar, (char) _SecondChar, (char) _ThirdChar};
-    public ReadOnlySpan<char> AsReadOnlySpan() => AsCharArray();
-    public string AsString() => new(AsReadOnlySpan());
+    public char[] AsCharArray()
+    {
+        return new[] {(char) _FirstChar, (char) _SecondChar, (char) _ThirdChar};
+    }
+
+    public ReadOnlySpan<char> AsReadOnlySpan()
+    {
+        return AsCharArray();
+    }
+
+    public string AsString()
+    {
+        return new(AsReadOnlySpan());
+    }
 
     #endregion
 
     #region Equality
 
-    public override bool Equals(object? obj) => obj is Alpha3CurrencyCode countryCodeAlpha2 && Equals(countryCodeAlpha2);
+    public override bool Equals(object? obj)
+    {
+        return obj is Alpha3CurrencyCode countryCodeAlpha2 && Equals(countryCodeAlpha2);
+    }
 
-    public bool Equals(Alpha3CurrencyCode other) =>
-        (_FirstChar == other._FirstChar) && (_SecondChar == other._SecondChar) && (_ThirdChar == other._ThirdChar);
+    public bool Equals(Alpha3CurrencyCode other)
+    {
+        return (_FirstChar == other._FirstChar) && (_SecondChar == other._SecondChar) && (_ThirdChar == other._ThirdChar);
+    }
 
     public bool Equals(ReadOnlySpan<char> other)
     {
@@ -53,7 +70,10 @@ public readonly struct Alpha3CurrencyCode
         return (_FirstChar == (byte) other[0]) && (_SecondChar == (byte) other[1]) && (_ThirdChar == (byte) other[2]);
     }
 
-    public bool Equals(Alpha3CurrencyCode x, Alpha3CurrencyCode y) => x.Equals(y);
+    public bool Equals(Alpha3CurrencyCode x, Alpha3CurrencyCode y)
+    {
+        return x.Equals(y);
+    }
 
     public override int GetHashCode()
     {
@@ -66,9 +86,20 @@ public readonly struct Alpha3CurrencyCode
 
     #region Operator Overrides
 
-    public static bool operator ==(Alpha3CurrencyCode left, Alpha3CurrencyCode right) => left.Equals(right);
-    public static bool operator ==(ReadOnlySpan<char> left, Alpha3CurrencyCode right) => right.Equals(left);
-    public static bool operator ==(Alpha3CurrencyCode left, ReadOnlySpan<char> right) => left.Equals(right);
+    public static bool operator ==(Alpha3CurrencyCode left, Alpha3CurrencyCode right)
+    {
+        return left.Equals(right);
+    }
+
+    public static bool operator ==(ReadOnlySpan<char> left, Alpha3CurrencyCode right)
+    {
+        return right.Equals(left);
+    }
+
+    public static bool operator ==(Alpha3CurrencyCode left, ReadOnlySpan<char> right)
+    {
+        return left.Equals(right);
+    }
 
     public static explicit operator string(Alpha3CurrencyCode value)
     {
@@ -80,9 +111,20 @@ public readonly struct Alpha3CurrencyCode
         return new string(buffer);
     }
 
-    public static bool operator !=(Alpha3CurrencyCode left, Alpha3CurrencyCode right) => !left.Equals(right);
-    public static bool operator !=(ReadOnlySpan<char> left, Alpha3CurrencyCode right) => !right.Equals(left);
-    public static bool operator !=(Alpha3CurrencyCode left, ReadOnlySpan<char> right) => !left.Equals(right);
+    public static bool operator !=(Alpha3CurrencyCode left, Alpha3CurrencyCode right)
+    {
+        return !left.Equals(right);
+    }
+
+    public static bool operator !=(ReadOnlySpan<char> left, Alpha3CurrencyCode right)
+    {
+        return !right.Equals(left);
+    }
+
+    public static bool operator !=(Alpha3CurrencyCode left, ReadOnlySpan<char> right)
+    {
+        return !left.Equals(right);
+    }
 
     #endregion
 }

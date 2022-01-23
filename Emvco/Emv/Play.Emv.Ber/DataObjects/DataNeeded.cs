@@ -44,19 +44,31 @@ public record DataNeeded : DataExchangeRequest
         return x.Equals(y);
     }
 
-    public int GetHashCode(DataNeeded obj) => obj.GetHashCode();
+    public int GetHashCode(DataNeeded obj)
+    {
+        return obj.GetHashCode();
+    }
 
     #endregion
 
     #region Instance Members
 
-    public Tag[] AsTagArray() => _Value.ToArray();
-    public override Tag GetTag() => Tag;
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public Tag[] AsTagArray()
+    {
+        return _Value.ToArray();
+    }
 
-    /// TODO: What? Book C-2 section 3.6.2 says "The process continues until
-    /// TODO: all records have been read" so unless there's some optimization reason that i find out about later
-    /// TODO: there's not really a use for this
+    public override Tag GetTag()
+    {
+        return Tag;
+    }
+
+    public override BerEncodingId GetBerEncodingId()
+    {
+        return BerEncodingId;
+    }
+
+    /// TODO: What? Book C-2 section 3.6.2 says "The process continues until all records have been read" so unless there's some optimization reason that i find out about later there's not really a use for this
 
     //public override Tag GetNextAvailableTagFromCard() => throw new NotImplementedException();
 
