@@ -26,7 +26,7 @@ public record QueryKernelRequest : RequestSignal, IExchangeDataWithTheTerminal
 
     #region Constructor
 
-    public QueryKernelRequest(TagsToRead tagsToRead, DataExchangeTerminalId dataExchangeTerminalId) : base(MessageTypeId, ChannelTypeId)
+    public QueryKernelRequest(DataExchangeTerminalId dataExchangeTerminalId, TagsToRead tagsToRead) : base(MessageTypeId, ChannelTypeId)
     {
         _TagsToRead = tagsToRead;
         _DataExchangeTerminalId = dataExchangeTerminalId;
@@ -36,8 +36,15 @@ public record QueryKernelRequest : RequestSignal, IExchangeDataWithTheTerminal
 
     #region Instance Members
 
-    public DataExchangeTerminalId GetDataExchangeTerminalId() => _DataExchangeTerminalId;
-    public TagsToRead GeTagsToRead() => _TagsToRead;
+    public DataExchangeTerminalId GetDataExchangeTerminalId()
+    {
+        return _DataExchangeTerminalId;
+    }
+
+    public TagsToRead GetTagsToRead()
+    {
+        return _TagsToRead;
+    }
 
     #endregion
 }
