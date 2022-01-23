@@ -158,6 +158,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_TODO", "_TODO", "{0E71B2BA
 		_TODO\ModularArchitecture.txt = _TODO\ModularArchitecture.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "___TEMP.Play.Emv.Security", "___TEMP.Play.Emv.Security\___TEMP.Play.Emv.Security.csproj", "{38C9875B-957D-4211-9D1B-CABDABA2BADD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -380,6 +382,10 @@ Global
 		{2B470913-7193-45E5-AEAC-0643A7669475}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B470913-7193-45E5-AEAC-0643A7669475}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B470913-7193-45E5-AEAC-0643A7669475}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38C9875B-957D-4211-9D1B-CABDABA2BADD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38C9875B-957D-4211-9D1B-CABDABA2BADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38C9875B-957D-4211-9D1B-CABDABA2BADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38C9875B-957D-4211-9D1B-CABDABA2BADD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -454,6 +460,7 @@ Global
 		{DC42BCD8-37A2-482D-9FC8-20703F31E4D3} = {D7CA87CA-8340-4E2C-A2ED-5CE46EEC455B}
 		{3683E86F-0A42-4CA0-9A52-472AB2C48D14} = {D7CA87CA-8340-4E2C-A2ED-5CE46EEC455B}
 		{2B470913-7193-45E5-AEAC-0643A7669475} = {D7CA87CA-8340-4E2C-A2ED-5CE46EEC455B}
+		{38C9875B-957D-4211-9D1B-CABDABA2BADD} = {4AB74B06-60FD-45F7-B46A-809A7A5DC33F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E9927CF8-C10C-47E1-87FD-7ACEEBCD340D}
