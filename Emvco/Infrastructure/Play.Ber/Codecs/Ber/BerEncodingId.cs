@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Play.Ber.Exceptions;
-using Play.Core.Exceptions;
 
 namespace Play.Ber.Codecs;
 
@@ -17,12 +16,12 @@ public readonly record struct BerEncodingId
     #region Constructor
 
     internal BerEncodingId(Type value)
-    { 
-
+    {
         if (!value.IsSubclassOf(typeof(BerPrimitiveCodec)))
         {
-            throw new BerFormatException(new ArgumentOutOfRangeException(
-                $"The {nameof(BerEncodingId)} can only be initialized if the argument {nameof(value)} is derived from {nameof(BerPrimitiveCodec)}"));
+            throw new
+                BerFormatException(new
+                                       ArgumentOutOfRangeException($"The {nameof(BerEncodingId)} can only be initialized if the argument {nameof(value)} is derived from {nameof(BerPrimitiveCodec)}"));
         }
 
         _FullyQualifiedName = value.FullName!;
@@ -33,7 +32,10 @@ public readonly record struct BerEncodingId
 
     #region Instance Members
 
-    public string GetFullyQualifiedName() => _FullyQualifiedName;
+    public string GetFullyQualifiedName()
+    {
+        return _FullyQualifiedName;
+    }
 
     private static ulong GetHashedId(ReadOnlySpan<char> value)
     {
@@ -54,7 +56,10 @@ public readonly record struct BerEncodingId
 
     #region Operator Overrides
 
-    public static implicit operator ulong(BerEncodingId tag) => tag._Id;
+    public static implicit operator ulong(BerEncodingId tag)
+    {
+        return tag._Id;
+    }
 
     #endregion
 }

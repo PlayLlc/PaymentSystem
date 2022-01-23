@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
-using Play.Core.Exceptions;
 using Play.Emv.DataElements;
 using Play.Globalization.Time;
 using Play.Icc.Emv;
@@ -41,7 +40,7 @@ public class Outcome
     }
 
     public Outcome(OutcomeParameterSet outcomeParameterSet)
-    { 
+    {
         _OutcomeParameterSet = outcomeParameterSet;
     }
 
@@ -105,12 +104,37 @@ public class Outcome
         return buffer.ToArray();
     }
 
-    public FieldOffRequestOutcome GetFieldOffRequestOutcome() => _OutcomeParameterSet.GetFieldOffRequestOutcome();
-    public StartOutcome GetStartOutcome() => _OutcomeParameterSet.GetStartOutcome();
-    public StatusOutcome GetStatusOutcome() => _OutcomeParameterSet.GetStatusOutcome();
-    public Milliseconds GetTimeout() => _OutcomeParameterSet.GetTimeout();
-    public bool IsErrorPresent() => _ErrorIndication.IsErrorPresent();
-    public bool IsRestart() => IsRestartedByEntryPoint(); // etc
+    public FieldOffRequestOutcome GetFieldOffRequestOutcome()
+    {
+        return _OutcomeParameterSet.GetFieldOffRequestOutcome();
+    }
+
+    public StartOutcome GetStartOutcome()
+    {
+        return _OutcomeParameterSet.GetStartOutcome();
+    }
+
+    public StatusOutcome GetStatusOutcome()
+    {
+        return _OutcomeParameterSet.GetStatusOutcome();
+    }
+
+    public Milliseconds GetTimeout()
+    {
+        return _OutcomeParameterSet.GetTimeout();
+    }
+
+    public bool IsErrorPresent()
+    {
+        return _ErrorIndication.IsErrorPresent();
+    }
+
+    public bool IsRestart()
+    {
+        return IsRestartedByEntryPoint();
+
+        // etc
+    }
 
     /// <summary>
     ///     This flag indicates if the transaction should reprocess. The <see cref="StatusOutcome" /> will determine
@@ -135,11 +159,30 @@ public class Outcome
         return false;
     }
 
-    public bool IsSelectNext() => GetStatusOutcome() == StatusOutcome.SelectNext;
-    public bool IsTryAgain() => GetStatusOutcome() == StatusOutcome.TryAgain;
-    public bool IsUiRequestOnOutcomePresent() => _OutcomeParameterSet.IsUiRequestOnOutcomePresent();
-    public bool IsUiRequestOnRestartPresent() => _OutcomeParameterSet.IsUiRequestOnRestartPresent();
-    public void Reset(ErrorIndication errorIndication) => _ErrorIndication = errorIndication;
+    public bool IsSelectNext()
+    {
+        return GetStatusOutcome() == StatusOutcome.SelectNext;
+    }
+
+    public bool IsTryAgain()
+    {
+        return GetStatusOutcome() == StatusOutcome.TryAgain;
+    }
+
+    public bool IsUiRequestOnOutcomePresent()
+    {
+        return _OutcomeParameterSet.IsUiRequestOnOutcomePresent();
+    }
+
+    public bool IsUiRequestOnRestartPresent()
+    {
+        return _OutcomeParameterSet.IsUiRequestOnRestartPresent();
+    }
+
+    public void Reset(ErrorIndication errorIndication)
+    {
+        _ErrorIndication = errorIndication;
+    }
 
     public void Update(Level1Error level1Error)
     {
@@ -156,8 +199,15 @@ public class Outcome
         _ErrorIndication = new ErrorIndication(_ErrorIndication, level3Error);
     }
 
-    public void Reset(OutcomeParameterSet outcomeParameterSet) => _OutcomeParameterSet = outcomeParameterSet;
-    public void Reset(UserInterfaceRequestData userInterfaceRequestData) => _UserInterfaceRequestData = userInterfaceRequestData;
+    public void Reset(OutcomeParameterSet outcomeParameterSet)
+    {
+        _OutcomeParameterSet = outcomeParameterSet;
+    }
+
+    public void Reset(UserInterfaceRequestData userInterfaceRequestData)
+    {
+        _UserInterfaceRequestData = userInterfaceRequestData;
+    }
 
     public bool TryGetUserInterfaceRequestData(out UserInterfaceRequestData? result)
     {
@@ -173,7 +223,10 @@ public class Outcome
         return true;
     }
 
-    public void Update(OutcomeParameterSet.Builder outcomeParameterSet) => _OutcomeParameterSet |= outcomeParameterSet.Complete();
+    public void Update(OutcomeParameterSet.Builder outcomeParameterSet)
+    {
+        _OutcomeParameterSet |= outcomeParameterSet.Complete();
+    }
 
     public void Update(UserInterfaceRequestData.Builder userInterfaceRequestData)
     {
@@ -187,8 +240,15 @@ public class Outcome
         _UserInterfaceRequestData = _UserInterfaceRequestData |= userInterfaceRequestData.Complete();
     }
 
-    public OutcomeParameterSet GetOutcomeParameterSet() => _OutcomeParameterSet;
-    public DiscretionaryData? GetDiscretionaryData() => _DiscretionaryData;
+    public OutcomeParameterSet GetOutcomeParameterSet()
+    {
+        return _OutcomeParameterSet;
+    }
+
+    public DiscretionaryData? GetDiscretionaryData()
+    {
+        return _DiscretionaryData;
+    }
 
     public bool TryGetDiscretionaryData(out DiscretionaryData? result)
     {
