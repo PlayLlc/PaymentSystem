@@ -1,5 +1,4 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 using System.Runtime.CompilerServices;
 
 using Play.Ber.Codecs;
@@ -31,17 +30,51 @@ public class NumericCodec : BerPrimitiveCodec
 
     #region Instance Members
 
-    public override BerEncodingId GetIdentifier() => Identifier;
-    public override bool IsValid(ReadOnlySpan<byte> value) => _Numeric.IsValid(value);
-    public override byte[] Encode<T>(T value) => _Numeric.GetBytes(value);
-    public override byte[] Encode<T>(T value, int length) => _Numeric.GetBytes(value, length);
-    public override byte[] Encode<T>(T[] value) => _Numeric.GetBytes(value);
-    public override byte[] Encode<T>(T[] value, int length) => _Numeric.GetBytes(value, length);
-    public byte[] Encode(ReadOnlySpan<char> value) => _Numeric.GetBytes(value, value.Length);
-    public byte[] Encode(ReadOnlySpan<char> value, int length) => _Numeric.GetBytes(value, length);
+    public override BerEncodingId GetIdentifier()
+    {
+        return Identifier;
+    }
+
+    public override bool IsValid(ReadOnlySpan<byte> value)
+    {
+        return _Numeric.IsValid(value);
+    }
+
+    public override byte[] Encode<T>(T value)
+    {
+        return _Numeric.GetBytes(value);
+    }
+
+    public override byte[] Encode<T>(T value, int length)
+    {
+        return _Numeric.GetBytes(value, length);
+    }
+
+    public override byte[] Encode<T>(T[] value)
+    {
+        return _Numeric.GetBytes(value);
+    }
+
+    public override byte[] Encode<T>(T[] value, int length)
+    {
+        return _Numeric.GetBytes(value, length);
+    }
+
+    public byte[] Encode(ReadOnlySpan<char> value)
+    {
+        return _Numeric.GetBytes(value, value.Length);
+    }
+
+    public byte[] Encode(ReadOnlySpan<char> value, int length)
+    {
+        return _Numeric.GetBytes(value, length);
+    }
 
     // TODO: why are you boxing you dweeb?
-    public override ushort GetByteCount<T>(T value) => checked((ushort) Unsafe.SizeOf<T>());
+    public override ushort GetByteCount<T>(T value)
+    {
+        return checked((ushort) Unsafe.SizeOf<T>());
+    }
 
     public override ushort GetByteCount<T>(T[] value)
     {
@@ -51,8 +84,15 @@ public class NumericCodec : BerPrimitiveCodec
         throw new NotImplementedException();
     }
 
-    private static bool IsNibbleValid(byte value) => value is >= 0 and <= 9;
-    private static bool IsValid(byte value) => _Numeric.IsValid(value);
+    private static bool IsNibbleValid(byte value)
+    {
+        return value is >= 0 and <= 9;
+    }
+
+    private static bool IsValid(byte value)
+    {
+        return _Numeric.IsValid(value);
+    }
 
     private static void Validate(byte value)
     {

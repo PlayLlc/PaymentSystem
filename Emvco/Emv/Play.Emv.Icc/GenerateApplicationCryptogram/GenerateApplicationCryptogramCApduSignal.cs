@@ -1,6 +1,4 @@
-﻿using System;
-
-using Play.Ber.Emv.DataObjects;
+﻿using Play.Ber.Emv.DataObjects;
 using Play.Core.Extensions;
 using Play.Icc.Messaging.Apdu;
 
@@ -10,12 +8,12 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
 {
     #region Constructor
 
-    protected GenerateApplicationCryptogramCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class,
-        instruction, parameter1, parameter2)
+    protected GenerateApplicationCryptogramCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) :
+        base(@class, instruction, parameter1, parameter2)
     { }
 
-    protected GenerateApplicationCryptogramCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint? le) : base(
-        @class, instruction, parameter1, parameter2, le)
+    protected GenerateApplicationCryptogramCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint? le) :
+        base(@class, instruction, parameter1, parameter2, le)
     { }
 
     protected GenerateApplicationCryptogramCApduSignal(
@@ -42,8 +40,10 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
     public static GenerateApplicationCryptogramCApduSignal Create(
         CryptogramType cryptogramType,
         bool isCdaRequested,
-        DataObjectListResult cardRiskManagementDataObjectListResult) =>
-        Create(cryptogramType, isCdaRequested, cardRiskManagementDataObjectListResult.AsCommandTemplate());
+        DataObjectListResult cardRiskManagementDataObjectListResult)
+    {
+        return Create(cryptogramType, isCdaRequested, cardRiskManagementDataObjectListResult.AsCommandTemplate());
+    }
 
     public static GenerateApplicationCryptogramCApduSignal Create(
         CryptogramType cryptogramType,
@@ -51,8 +51,9 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
         DataObjectListResult cardRiskManagementDataObjectListResult,
         DataObjectListResult dataStorageDataObjectListResult)
     {
-        CommandTemplate? commandTemplate = new(cardRiskManagementDataObjectListResult.AsByteArray().AsSpan()
-            .ConcatArrays(dataStorageDataObjectListResult.AsByteArray()));
+        CommandTemplate? commandTemplate = new(cardRiskManagementDataObjectListResult.AsByteArray()
+                                                   .AsSpan()
+                                                   .ConcatArrays(dataStorageDataObjectListResult.AsByteArray()));
 
         return Create(cryptogramType, isCdaRequested, commandTemplate);
     }
@@ -72,7 +73,7 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
             return CreateArqc(isCdaRequested, commandTemplate);
 
         throw new ArgumentOutOfRangeException(nameof(cryptogramType),
-            $"The {nameof(CryptogramType)} value: {cryptogramType} could not be recognized");
+                                              $"The {nameof(CryptogramType)} value: {cryptogramType} could not be recognized");
     }
 
     /// <summary>
@@ -85,9 +86,11 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
     ///     rules defined in section 4.1.4.
     /// </param>
     /// <returns></returns>
-    private static GenerateApplicationCryptogramCApduSignal CreateAac(CommandTemplate transactionRelatedData) =>
-        new(new Class(Messaging.Apdu.SecureMessaging.NotRecognized, LogicalChannel.BasicChannel), Instruction.CardBlock, 0, 0,
-            transactionRelatedData.EncodeValue());
+    private static GenerateApplicationCryptogramCApduSignal CreateAac(CommandTemplate transactionRelatedData)
+    {
+        return new(new Class(Messaging.Apdu.SecureMessaging.NotRecognized, LogicalChannel.BasicChannel), Instruction.CardBlock, 0, 0,
+                   transactionRelatedData.EncodeValue());
+    }
 
     /// <summary>
     ///     Creates a Command APDU to request a Application Request Cryptogram
@@ -106,9 +109,10 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
     {
         byte referenceControlParameter = (byte) (0b10000000 | (byte) (isCdaSignatureRequested ? 0b10000 : 0));
 
-        return new GenerateApplicationCryptogramCApduSignal(
-            new Class(Messaging.Apdu.SecureMessaging.NotRecognized, LogicalChannel.BasicChannel), Instruction.CardBlock,
-            referenceControlParameter, 0, transactionRelatedData.EncodeValue());
+        return new
+            GenerateApplicationCryptogramCApduSignal(new Class(Messaging.Apdu.SecureMessaging.NotRecognized, LogicalChannel.BasicChannel),
+                                                     Instruction.CardBlock, referenceControlParameter, 0,
+                                                     transactionRelatedData.EncodeValue());
     }
 
     /// <summary>
@@ -128,9 +132,10 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
     {
         byte referenceControlParameter = (byte) (0b01000000 | (byte) (isCdaSignatureRequested ? 0b10000 : 0));
 
-        return new GenerateApplicationCryptogramCApduSignal(
-            new Class(Messaging.Apdu.SecureMessaging.NotRecognized, LogicalChannel.BasicChannel), Instruction.CardBlock,
-            referenceControlParameter, 0, transactionRelatedData.EncodeValue());
+        return new
+            GenerateApplicationCryptogramCApduSignal(new Class(Messaging.Apdu.SecureMessaging.NotRecognized, LogicalChannel.BasicChannel),
+                                                     Instruction.CardBlock, referenceControlParameter, 0,
+                                                     transactionRelatedData.EncodeValue());
     }
 
     #endregion

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-using Play.Ber.Identifiers;
+﻿using Play.Ber.Identifiers;
 
 namespace Play.Ber.Emv.DataObjects;
 

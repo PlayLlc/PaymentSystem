@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 using Play.Ber.Codecs;
 using Play.Ber.InternalFactories;
@@ -18,21 +17,59 @@ public class VariableCodec : BerPrimitiveCodec
 
     #region Instance Members
 
-    public override BerEncodingId GetIdentifier() => Identifier;
-    public override bool IsValid(ReadOnlySpan<byte> value) => _OctetStringCodec.IsValid(value);
-    protected override void Validate(ReadOnlySpan<byte> value) => _OctetStringCodec.IsValid(value);
-    public override byte[] Encode<T>(T value) => throw new NotImplementedException();
-    public override byte[] Encode<T>(T value, int length) => throw new NotImplementedException();
-    public override byte[] Encode<T>(T[] value) => _OctetStringCodec.Encode(value);
-    public override byte[] Encode<T>(T[] value, int length) => _OctetStringCodec.Encode(value, length);
-    public override ushort GetByteCount<T>(T value) => throw new NotImplementedException();
-    public override ushort GetByteCount<T>(T[] value) => (ushort) (value.Length * Unsafe.SizeOf<T>());
+    public override BerEncodingId GetIdentifier()
+    {
+        return Identifier;
+    }
+
+    public override bool IsValid(ReadOnlySpan<byte> value)
+    {
+        return _OctetStringCodec.IsValid(value);
+    }
+
+    protected override void Validate(ReadOnlySpan<byte> value)
+    {
+        _OctetStringCodec.IsValid(value);
+    }
+
+    public override byte[] Encode<T>(T value)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override byte[] Encode<T>(T value, int length)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override byte[] Encode<T>(T[] value)
+    {
+        return _OctetStringCodec.Encode(value);
+    }
+
+    public override byte[] Encode<T>(T[] value, int length)
+    {
+        return _OctetStringCodec.Encode(value, length);
+    }
+
+    public override ushort GetByteCount<T>(T value)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override ushort GetByteCount<T>(T[] value)
+    {
+        return (ushort) (value.Length * Unsafe.SizeOf<T>());
+    }
 
     #endregion
 
     #region Serialization
 
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => _OctetStringCodec.Decode(value);
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        return _OctetStringCodec.Decode(value);
+    }
 
     #endregion
 }

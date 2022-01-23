@@ -1,6 +1,5 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Emv;
-using Play.Emv.Configuration;
 using Play.Emv.DataElements;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Outcomes;
@@ -77,8 +76,8 @@ public class CombinationSelector
     {
         if (preProcessingIndicators.TryGetValue(compositeKey, out PreProcessingIndicator? result))
         {
-            throw new InvalidOperationException(
-                $"A {nameof(PreProcessingIndicator)} was expected to be found for the {nameof(CombinationCompositeKey)} but none was found");
+            throw new
+                InvalidOperationException($"A {nameof(PreProcessingIndicator)} was expected to be found for the {nameof(CombinationCompositeKey)} but none was found");
         }
 
         return Combination.Create(directoryEntry, result!);
@@ -94,7 +93,8 @@ public class CombinationSelector
         Action<OutSelectionResponse> callback)
     {
         OutSelectionResponse outSelectionResponse = new(correlationId, combinationOutcome.Combination.GetCombinationCompositeKey(),
-            transaction, preProcessingIndicatorResult.GetTerminalTransactionQualifiers(), appletFci);
+                                                        transaction, preProcessingIndicatorResult.GetTerminalTransactionQualifiers(),
+                                                        appletFci);
 
         callback.Invoke(outSelectionResponse);
     }
@@ -149,14 +149,16 @@ public class CombinationSelector
         if (sendPoiInformationResponse.GetStatusWords() == StatusWords._9000)
         {
             ProcessStep2(transactionSessionId, candidateList, preProcessingIndicators, outcome, transactionType,
-                FileControlInformationPpse.Decode(sendPoiInformationResponse.GetData()));
+                         FileControlInformationPpse.Decode(sendPoiInformationResponse.GetData()));
         }
         else
             ProcessStep3(transactionSessionId, candidateList, outcome);
     }
 
-    private bool IsMatchingAid(DedicatedFileName applicationDedicatedFileName, PreProcessingIndicators preProcessingIndicators) =>
-        preProcessingIndicators.IsMatchingAid(applicationDedicatedFileName);
+    private bool IsMatchingAid(DedicatedFileName applicationDedicatedFileName, PreProcessingIndicators preProcessingIndicators)
+    {
+        return preProcessingIndicators.IsMatchingAid(applicationDedicatedFileName);
+    }
 
     private bool IsMatchingDomesticKernelIdentifier(PreProcessingIndicators preProcessingIndicators, KernelIdentifier kernelIdentifier)
     {
@@ -219,7 +221,7 @@ public class CombinationSelector
             }
 
             CombinationCompositeKey combinationKey = new(directoryEntry.GetApplicationDedicatedFileName().AsDedicatedFileName(),
-                kernelIdentifier!.AsKernelId(), transactionType);
+                                                         kernelIdentifier!.AsKernelId(), transactionType);
 
             combinations.Add(CreateCombination(preProcessingIndicators, combinationKey, directoryEntry));
         }
@@ -258,7 +260,7 @@ public class CombinationSelector
                 ProcessStep1A(transactionSessionId, ppseFileControlInformation);
 
             ProcessStep2(transactionSessionId, candidateList, preProcessingIndicators, outcome, transactionType,
-                ppseFileControlInformation);
+                         ppseFileControlInformation);
 
             return;
         }
@@ -266,7 +268,10 @@ public class CombinationSelector
         ProcessStep3(transactionSessionId, candidateList, outcome);
     }
 
-    private void ProcessStep1(TransactionSessionId transactionSessionId) => SelectPpse(transactionSessionId);
+    private void ProcessStep1(TransactionSessionId transactionSessionId)
+    {
+        SelectPpse(transactionSessionId);
+    }
 
     private void ProcessStep1A(TransactionSessionId transactionSessionId, FileControlInformationPpse fileControlInformationTemplatePpse)
     {
@@ -308,9 +313,11 @@ public class CombinationSelector
     ///     When the Proximity Coupling Device sends the <see cref="SelectApplicationDefinitionFileInfoResponse" />
     ///     callback, the processing will continue at <see cref="ProcessAppletResponse" />
     /// </remarks>
-    private void SelectApplicationFileControlInformation(TransactionSessionId transactionSessionId, Combination combination) =>
-        _PcdEndpoint.Request(
-            SelectApplicationDefinitionFileInfoCommand.Create(transactionSessionId, combination.GetApplicationIdentifier()));
+    private void SelectApplicationFileControlInformation(TransactionSessionId transactionSessionId, Combination combination)
+    {
+        _PcdEndpoint.Request(SelectApplicationDefinitionFileInfoCommand.Create(transactionSessionId,
+                                                                               combination.GetApplicationIdentifier()));
+    }
 
     /// <exception cref="InvalidOperationException">Ignore.</exception>
     private Combination SelectCombination(CandidateList candidateList)

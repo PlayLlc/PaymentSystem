@@ -5,7 +5,6 @@ using Play.Emv.Kernel.Contracts.SignalOut;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Reader.Contracts;
 using Play.Emv.Reader.Contracts.SignalIn;
 using Play.Emv.Reader.Contracts.SignalOut;
 using Play.Emv.Selection.Contracts;
@@ -51,8 +50,15 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
 
     #region Instance Members
 
-    public ChannelTypeId GetChannelTypeId() => ChannelIdentifier.GetChannelTypeId();
-    public ChannelIdentifier GetChannelIdentifier() => ChannelIdentifier;
+    public ChannelTypeId GetChannelTypeId()
+    {
+        return ChannelIdentifier.GetChannelTypeId();
+    }
+
+    public ChannelIdentifier GetChannelIdentifier()
+    {
+        return ChannelIdentifier;
+    }
 
     #region Requests
 
@@ -61,11 +67,30 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
         throw new InvalidMessageRoutingException(message, this);
     }
 
-    public void Request(AbortReaderRequest message) => _MainProcess.Enqueue(message);
-    public void Request(ActivateReaderRequest message) => _MainProcess.Enqueue(message);
-    public void Request(QueryReaderRequest message) => _MainProcess.Enqueue(message);
-    public void Request(StopReaderRequest message) => _MainProcess.Enqueue(message);
-    public void Request(UpdateReaderRequest message) => _MainProcess.Enqueue(message);
+    public void Request(AbortReaderRequest message)
+    {
+        _MainProcess.Enqueue(message);
+    }
+
+    public void Request(ActivateReaderRequest message)
+    {
+        _MainProcess.Enqueue(message);
+    }
+
+    public void Request(QueryReaderRequest message)
+    {
+        _MainProcess.Enqueue(message);
+    }
+
+    public void Request(StopReaderRequest message)
+    {
+        _MainProcess.Enqueue(message);
+    }
+
+    public void Request(UpdateReaderRequest message)
+    {
+        _MainProcess.Enqueue(message);
+    }
 
     #endregion
 
@@ -124,8 +149,10 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
         ICreateEndpointClient messageRouter,
         IHandleDisplayRequests displayEndpoint,
         IHandleSelectionRequests selectionEndpoint,
-        KernelRetriever kernelRetriever) =>
-        new(activateReaderRequest, messageRouter, displayEndpoint, selectionEndpoint, kernelRetriever);
+        KernelRetriever kernelRetriever)
+    {
+        return new(activateReaderRequest, messageRouter, displayEndpoint, selectionEndpoint, kernelRetriever);
+    }
 
     public void Dispose()
     {

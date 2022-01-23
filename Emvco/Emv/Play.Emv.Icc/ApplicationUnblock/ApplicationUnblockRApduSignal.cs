@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Play.Icc.Emv.ApplicationUnblock;
+﻿namespace Play.Icc.Emv.ApplicationUnblock;
 
 public class ApplicationUnblockRApduSignal : RApduSignal
 {
@@ -13,10 +11,11 @@ public class ApplicationUnblockRApduSignal : RApduSignal
 
     #region Instance Members
 
-    public override Level1Error GetLevel1Error() =>
-
+    public override Level1Error GetLevel1Error()
+    {
         // Check out Status Words
         throw new NotImplementedException();
+    }
 
     #endregion
 }

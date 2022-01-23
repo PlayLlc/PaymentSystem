@@ -3,14 +3,12 @@
 using Play.Emv.DataElements;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
-using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Contracts.SignalIn;
 using Play.Emv.Kernel.Contracts.SignalOut;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Reader.Contracts.SignalIn;
-using Play.Emv.Reader.Contracts.SignalOut;
 using Play.Emv.Selection.Contracts;
 using Play.Emv.Selection.Contracts.SignalIn;
 using Play.Emv.Selection.Contracts.SignalOut;
@@ -56,8 +54,8 @@ internal class MainStateMachine
         {
             if (_MainSessionLock.Session != null)
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(ActivateReaderRequest)} can't be processed because the {nameof(TransactionSessionId)}: [{_MainSessionLock.Session!.GetTransactionSessionId()}] is currently processing");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(ActivateReaderRequest)} can't be processed because the {nameof(TransactionSessionId)}: [{_MainSessionLock.Session!.GetTransactionSessionId()}] is currently processing");
             }
 
             _MainSessionLock.Session = new MainSession(request.GetCorrelationId(), request.GetTransaction(), request.GetTagsToRead(), null);
@@ -71,14 +69,14 @@ internal class MainStateMachine
         {
             if (_MainSessionLock.Session == null)
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(OutSelectionResponse)} can't be processed because the transaction is no longer processing");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(OutSelectionResponse)} can't be processed because the transaction is no longer processing");
             }
 
             if (_MainSessionLock.Session.KernelSessionId != null)
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(OutSelectionResponse)} can't be processed because an active Kernel still exists for this session");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(OutSelectionResponse)} can't be processed because an active Kernel still exists for this session");
             }
 
             KernelSessionId kernelSessionId = new(request.GetKernelId(), _MainSessionLock.Session.GetTransactionSessionId());
@@ -86,8 +84,10 @@ internal class MainStateMachine
             _MainSessionLock.Session = _MainSessionLock.Session with {KernelSessionId = kernelSessionId};
 
             ActivateKernelRequest activateKernelRequest = new(kernelSessionId, request.GetCombinationCompositeKey(),
-                request.GetTransaction(), _MainSessionLock?.Session.TagsToRead, request.GetTerminalTransactionQualifiers(),
-                request.GetApplicationFileInformationResponse(), request.GetApplicationFileInformationResponse().GetStatusWords());
+                                                              request.GetTransaction(), _MainSessionLock?.Session.TagsToRead,
+                                                              request.GetTerminalTransactionQualifiers(),
+                                                              request.GetApplicationFileInformationResponse(),
+                                                              request.GetApplicationFileInformationResponse().GetStatusWords());
 
             _KernelRetriever.Enqueue(activateKernelRequest);
         }
@@ -99,15 +99,15 @@ internal class MainStateMachine
         {
             if (_MainSessionLock.Session == null)
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(OutKernelResponse)} can't be processed because the transaction is no longer processing");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(OutKernelResponse)} can't be processed because the transaction is no longer processing");
             }
 
             if (!_MainSessionLock.TryGetKernelSessionId(out KernelSessionId? kernelSessionId))
             {
                 // The lifetime of the Kernel is managed here Process M. The active kernel should not have stopped at this point
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(OutKernelResponse)} can't be processed because the Kernel is no longer active");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(OutKernelResponse)} can't be processed because the Kernel is no longer active");
             }
 
             _OutcomeProcessor.Process(_MainSessionLock.Session.ActSignalCorrelationId, _MainSessionLock.Session.Transaction);
@@ -126,8 +126,8 @@ internal class MainStateMachine
         {
             if (_MainSessionLock.Session == null)
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(OutKernelResponse)} can't be processed because the transaction is no longer processing");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(OutKernelResponse)} can't be processed because the transaction is no longer processing");
             }
 
             // HACK: Send STOP signal if Selection process is active

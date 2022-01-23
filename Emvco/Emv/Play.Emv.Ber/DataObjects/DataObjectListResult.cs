@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Play.Ber.DataObjects;
+﻿using Play.Ber.DataObjects;
 
 namespace Play.Ber.Emv.DataObjects;
 
@@ -30,7 +26,10 @@ public class DataObjectListResult : IEqualityComparer<DataObjectListResult>, IEq
 
     #region Instance Members
 
-    public byte[] AsByteArray() => _Value.SelectMany(a => a.EncodeTagLengthValue()).ToArray();
+    public byte[] AsByteArray()
+    {
+        return _Value.SelectMany(a => a.EncodeTagLengthValue()).ToArray();
+    }
 
     /// <summary>
     ///     AsCommandTemplate
@@ -46,14 +45,24 @@ public class DataObjectListResult : IEqualityComparer<DataObjectListResult>, IEq
         return new CommandTemplate(buffer.ToArray());
     }
 
-    public TagLengthValue[] AsTagLengthValueArray() => _Value;
-    public int ByteCount() => _Value.Length;
+    public TagLengthValue[] AsTagLengthValueArray()
+    {
+        return _Value;
+    }
+
+    public int ByteCount()
+    {
+        return _Value.Length;
+    }
 
     #endregion
 
     #region Equality
 
-    public override bool Equals(object? other) => other is DataObjectListResult dataObjectListResult && Equals(dataObjectListResult);
+    public override bool Equals(object? other)
+    {
+        return other is DataObjectListResult dataObjectListResult && Equals(dataObjectListResult);
+    }
 
     public bool Equals(DataObjectListResult x, DataObjectListResult y)
     {
@@ -96,7 +105,10 @@ public class DataObjectListResult : IEqualityComparer<DataObjectListResult>, IEq
         }
     }
 
-    public int GetHashCode(DataObjectListResult obj) => obj.GetHashCode();
+    public int GetHashCode(DataObjectListResult obj)
+    {
+        return obj.GetHashCode();
+    }
 
     #endregion
 }

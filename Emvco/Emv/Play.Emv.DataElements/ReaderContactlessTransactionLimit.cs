@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Ber.Codecs;
-using Play.Ber.DataObjects;
+﻿using Play.Ber.Codecs;
 using Play.Ber.Emv.Codecs;
 using Play.Ber.Emv.DataObjects;
 using Play.Ber.Identifiers;
@@ -37,16 +30,31 @@ public abstract record ReaderContactlessTransactionLimit : DataElement<ulong>
 
     #region Instance Members
 
-    public Money AsMoney(CultureProfile cultureProfile) => new(_Value, cultureProfile);
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public Money AsMoney(CultureProfile cultureProfile)
+    {
+        return new(_Value, cultureProfile);
+    }
+
+    public override BerEncodingId GetBerEncodingId()
+    {
+        return BerEncodingId;
+    }
+
     public abstract override Tag GetTag();
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+
+    public override ushort GetValueByteCount(BerCodec codec)
+    {
+        return codec.GetByteCount(GetBerEncodingId(), _Value);
+    }
 
     #endregion
 
     #region Serialization
 
-    public new byte[] EncodeValue() => EncodeValue(_ByteLength);
+    public new byte[] EncodeValue()
+    {
+        return EncodeValue(_ByteLength);
+    }
 
     #endregion
 
@@ -63,7 +71,10 @@ public abstract record ReaderContactlessTransactionLimit : DataElement<ulong>
         return x.Equals(y);
     }
 
-    public int GetHashCode(ReaderContactlessTransactionLimit obj) => obj.GetHashCode();
+    public int GetHashCode(ReaderContactlessTransactionLimit obj)
+    {
+        return obj.GetHashCode();
+    }
 
     #endregion
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
@@ -23,31 +21,14 @@ public class CompressedNumericCodec : BerPrimitiveCodec
 
     private static readonly ImmutableSortedDictionary<byte, char> _CharMap = new Dictionary<byte, char>
     {
-        {48, '0'},
-        {49, '1'},
-        {50, '2'},
-        {51, '3'},
-        {52, '4'},
-        {53, '5'},
-        {54, '6'},
-        {55, '7'},
-        {56, '8'},
-        {57, '9'},
-        {70, 'F'}
+        {48, '0'}, {49, '1'}, {50, '2'}, {51, '3'}, {52, '4'}, {53, '5'}, {54, '6'}, {55, '7'},
+        {56, '8'}, {57, '9'}, {70, 'F'}
     }.ToImmutableSortedDictionary();
 
     private static readonly ImmutableSortedDictionary<byte, char> _CharValueMap = new Dictionary<byte, char>
     {
-        {48, '0'},
-        {49, '1'},
-        {50, '2'},
-        {51, '3'},
-        {52, '4'},
-        {53, '5'},
-        {54, '6'},
-        {55, '7'},
-        {56, '8'},
-        {57, '9'}
+        {48, '0'}, {49, '1'}, {50, '2'}, {51, '3'}, {52, '4'}, {53, '5'}, {54, '6'}, {55, '7'},
+        {56, '8'}, {57, '9'}
     }.ToImmutableSortedDictionary();
 
     private static KeyValuePair<byte, char> _PaddingKey;
@@ -61,10 +42,25 @@ public class CompressedNumericCodec : BerPrimitiveCodec
 
     #region Instance Members
 
-    public override BerEncodingId GetIdentifier() => Identifier;
-    public override bool IsValid(ReadOnlySpan<byte> value) => IsNumericEncodingValid(value[..^GetPaddingIndexFromEnd(value)]);
-    public override byte[] Encode<T>(T[] value) => throw new NotImplementedException();
-    public override byte[] Encode<T>(T[] value, int length) => throw new NotImplementedException();
+    public override BerEncodingId GetIdentifier()
+    {
+        return Identifier;
+    }
+
+    public override bool IsValid(ReadOnlySpan<byte> value)
+    {
+        return IsNumericEncodingValid(value[..^GetPaddingIndexFromEnd(value)]);
+    }
+
+    public override byte[] Encode<T>(T[] value)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override byte[] Encode<T>(T[] value, int length)
+    {
+        throw new NotImplementedException();
+    }
 
     public override byte[] Encode<T>(T value)
     {
@@ -371,8 +367,15 @@ public class CompressedNumericCodec : BerPrimitiveCodec
         return buffer.ToArray();
     }
 
-    public override ushort GetByteCount<T>(T value) => checked((ushort) Unsafe.SizeOf<T>());
-    public override ushort GetByteCount<T>(T[] value) => throw new NotImplementedException();
+    public override ushort GetByteCount<T>(T value)
+    {
+        return checked((ushort) Unsafe.SizeOf<T>());
+    }
+
+    public override ushort GetByteCount<T>(T[] value)
+    {
+        throw new NotImplementedException();
+    }
 
     public BigInteger DecodeBigInteger(ReadOnlySpan<byte> value)
     {
@@ -442,8 +445,8 @@ public class CompressedNumericCodec : BerPrimitiveCodec
         {
             if (!_CharMap.ContainsKey(value[i]))
             {
-                throw new EmvEncodingFormatException(
-                    $"The argument could not be parsed. The argument contained the value: [{value[i]}], which is an invalid {nameof(CompressedNumeric)} encoding");
+                throw new
+                    EmvEncodingFormatException($"The argument could not be parsed. The argument contained the value: [{value[i]}], which is an invalid {nameof(CompressedNumeric)} encoding");
             }
         }
 

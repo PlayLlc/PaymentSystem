@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Play.Ber.Emv.DataObjects;
+﻿namespace Play.Ber.Emv.DataObjects;
 
 public abstract record DataExchangeList<T> : DataElement<T[]>
 {
@@ -22,10 +19,25 @@ public abstract record DataExchangeList<T> : DataElement<T[]>
 
     #region Instance Members
 
-    public T[] AsArray() => _Value.Count == 0 ? Array.Empty<T>() : _Value.ToArray();
-    public void Clear() => _Value.Clear();
-    public int Count() => _Value.Count;
-    public bool IsEmpty() => Count() == 0;
+    public T[] AsArray()
+    {
+        return _Value.Count == 0 ? Array.Empty<T>() : _Value.ToArray();
+    }
+
+    public void Clear()
+    {
+        _Value.Clear();
+    }
+
+    public int Count()
+    {
+        return _Value.Count;
+    }
+
+    public bool IsEmpty()
+    {
+        return Count() == 0;
+    }
 
     public void Enqueue(T item)
     {

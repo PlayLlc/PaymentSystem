@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Microsoft.Toolkit.HighPerformance.Buffers;
+﻿using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Emv.Exceptions;
@@ -148,12 +144,35 @@ public abstract record DataObjectList : DataElement<byte[]>
         return new DataObjectListResult(result.ToArray());
     }
 
-    public virtual CommandTemplate AsCommandTemplate(IQueryTlvDatabase database) => AsDataObjectListResult(database).AsCommandTemplate();
-    public virtual CommandTemplate AsCommandTemplate(TagLengthValue[] values) => AsDataObjectListResult(values).AsCommandTemplate();
-    public bool Contains(Tag tag) => DataObjects.Any(a => a.GetTag() == tag);
-    public int GetByteCount() => DataObjects.Sum(a => a.GetTagLengthByteCount());
-    public int GetCommandTemplateByteCount() => DataObjects.Sum(a => a.GetLengthByteCount());
-    public TagLength[] GetRequestedItems() => DataObjects;
+    public virtual CommandTemplate AsCommandTemplate(IQueryTlvDatabase database)
+    {
+        return AsDataObjectListResult(database).AsCommandTemplate();
+    }
+
+    public virtual CommandTemplate AsCommandTemplate(TagLengthValue[] values)
+    {
+        return AsDataObjectListResult(values).AsCommandTemplate();
+    }
+
+    public bool Contains(Tag tag)
+    {
+        return DataObjects.Any(a => a.GetTag() == tag);
+    }
+
+    public int GetByteCount()
+    {
+        return DataObjects.Sum(a => a.GetTagLengthByteCount());
+    }
+
+    public int GetCommandTemplateByteCount()
+    {
+        return DataObjects.Sum(a => a.GetLengthByteCount());
+    }
+
+    public TagLength[] GetRequestedItems()
+    {
+        return DataObjects;
+    }
 
     private void ValidateCommandTemplate(TagLengthValue[] value)
     {
@@ -161,8 +180,9 @@ public abstract record DataObjectList : DataElement<byte[]>
         {
             if (DataObjects.All(a => a.GetTag() != value[i].GetTag()))
             {
-                throw new EmvEncodingFormatException(new ArgumentOutOfRangeException(
-                    $"The argument {nameof(value)} did not contain a value for the requested object with the tag: {DataObjects[i].GetTag()}"));
+                throw new
+                    EmvEncodingFormatException(new
+                                                   ArgumentOutOfRangeException($"The argument {nameof(value)} did not contain a value for the requested object with the tag: {DataObjects[i].GetTag()}"));
             }
         }
     }

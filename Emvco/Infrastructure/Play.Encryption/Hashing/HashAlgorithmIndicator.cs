@@ -1,7 +1,4 @@
-﻿using System.Collections.Immutable;
-using System.Diagnostics.CodeAnalysis;
-
-using Play.Core;
+﻿using Play.Core;
 
 namespace Play.Emv.DataElements.CertificateAuthority;
 

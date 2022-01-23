@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 using Play.Ber.Codecs;
 using Play.Ber.InternalFactories;
@@ -21,8 +20,15 @@ public class AlphaNumericSpecialCodec : BerPrimitiveCodec
 
     #region Instance Members
 
-    public override BerEncodingId GetIdentifier() => Identifier;
-    public override bool IsValid(ReadOnlySpan<byte> value) => _AlphanumericSpecial.IsValid(value);
+    public override BerEncodingId GetIdentifier()
+    {
+        return Identifier;
+    }
+
+    public override bool IsValid(ReadOnlySpan<byte> value)
+    {
+        return _AlphanumericSpecial.IsValid(value);
+    }
 
     /// <exception cref="EncodingException"></exception>
     protected override void Validate(ReadOnlySpan<byte> value)
@@ -49,11 +55,21 @@ public class AlphaNumericSpecialCodec : BerPrimitiveCodec
         throw new NotImplementedException();
     }
 
-    public override byte[] Encode<T>(T value) => throw new NotImplementedException();
-    public override byte[] Encode<T>(T value, int length) => throw new NotImplementedException();
+    public override byte[] Encode<T>(T value)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override byte[] Encode<T>(T value, int length)
+    {
+        throw new NotImplementedException();
+    }
 
     /// <exception cref="EncodingException"></exception>
-    public byte[] Encode(ReadOnlySpan<char> value) => _AlphanumericSpecial.GetBytes(value);
+    public byte[] Encode(ReadOnlySpan<char> value)
+    {
+        return _AlphanumericSpecial.GetBytes(value);
+    }
 
     /// <exception cref="EncodingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value, int length)
@@ -72,8 +88,15 @@ public class AlphaNumericSpecialCodec : BerPrimitiveCodec
         return _AlphanumericSpecial.GetBytes(value)[..length];
     }
 
-    public byte[] Encode(string value) => _AlphanumericSpecial.GetBytes(value);
-    public override ushort GetByteCount<T>(T value) => throw new NotImplementedException();
+    public byte[] Encode(string value)
+    {
+        return _AlphanumericSpecial.GetBytes(value);
+    }
+
+    public override ushort GetByteCount<T>(T value)
+    {
+        throw new NotImplementedException();
+    }
 
     public override ushort GetByteCount<T>(T[] value)
     {

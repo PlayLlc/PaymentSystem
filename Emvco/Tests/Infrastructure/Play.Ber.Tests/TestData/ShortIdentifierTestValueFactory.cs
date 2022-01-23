@@ -18,38 +18,35 @@ internal class ShortIdentifierTestValueFactory
         ClassType.Application, ClassType.ContextSpecific, ClassType.Private, ClassType.Universal
     };
 
-    private static readonly List<DataObjectType> _DataObjectTypeValues = new()
-    {
-        DataObjectType.Primitive, DataObjectType.Constructed
-    };
+    private static readonly List<DataObjectType> _DataObjectTypeValues = new() {DataObjectType.Primitive, DataObjectType.Constructed};
 
     #endregion
 
     #region Instance Members
 
-    public static byte CreateByte(System.Random random)
+    public static byte CreateByte(Random random)
     {
         return ((byte) random.Next(0, byte.MaxValue)).GetMaskedValue(LongIdentifier.LongIdentifierFlag)
             .SetBits((byte) random.Next(0, ShortIdentifier.TagNumber.MaxValue));
     }
 
-    public static Tag Create(System.Random random)
+    public static Tag Create(Random random)
     {
         return new Tag(((byte) random.Next(0, byte.MaxValue)).GetMaskedValue(LongIdentifier.LongIdentifierFlag)
                        .SetBits((byte) random.Next(0, ShortIdentifier.TagNumber.MaxValue)));
     }
 
-    public static ClassType GetClassType(System.Random random)
+    public static ClassType GetClassType(Random random)
     {
         return _ClassTypeValues.ElementAt(random.Next(0, _ClassTypeValues.Count - 1));
     }
 
-    public static DataObjectType GetDataObjectType(System.Random random)
+    public static DataObjectType GetDataObjectType(Random random)
     {
         return _DataObjectTypeValues.ElementAt(random.Next(0, _DataObjectTypeValues.Count - 1));
     }
 
-    public static byte GetTagNumber(System.Random random)
+    public static byte GetTagNumber(Random random)
     {
         return ((byte) random.Next(0, ShortIdentifier.TagNumber.MaxValue)).GetMaskedValue(0b11100000);
     }

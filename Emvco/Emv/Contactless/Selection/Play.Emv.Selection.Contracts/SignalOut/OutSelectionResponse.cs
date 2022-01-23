@@ -1,10 +1,8 @@
 ﻿using Play.Emv.DataElements;
-using Play.Emv.Kernel.Contracts;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
 using Play.Emv.Transactions;
-using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Messaging;
 
 namespace Play.Emv.Selection.Contracts.SignalOut;
@@ -48,12 +46,35 @@ public record OutSelectionResponse : ResponseSignal
 
     //public CombinationCompositeKey GetCombinationCompositeKey() => _CombinationCompositeKey;
     //public DedicatedFileName GetApplicationId() => _ApplicationId;
-    public SelectApplicationDefinitionFileInfoResponse GetApplicationFileInformationResponse() => _ApplicationFileInformationResponse;
-    public KernelId GetKernelId() => _CombinationCompositeKey.GetKernelId();
-    public Transaction GetTransaction() => _Transaction;
-    public CombinationCompositeKey GetCombinationCompositeKey() => _CombinationCompositeKey;
-    public TerminalTransactionQualifiers GetTerminalTransactionQualifiers() => _TerminalTransactionQualifiers;
-    public TransactionSessionId GetTransactionSessionId() => _Transaction.GetTransactionSessionId();
+    public SelectApplicationDefinitionFileInfoResponse GetApplicationFileInformationResponse()
+    {
+        return _ApplicationFileInformationResponse;
+    }
+
+    public KernelId GetKernelId()
+    {
+        return _CombinationCompositeKey.GetKernelId();
+    }
+
+    public Transaction GetTransaction()
+    {
+        return _Transaction;
+    }
+
+    public CombinationCompositeKey GetCombinationCompositeKey()
+    {
+        return _CombinationCompositeKey;
+    }
+
+    public TerminalTransactionQualifiers GetTerminalTransactionQualifiers()
+    {
+        return _TerminalTransactionQualifiers;
+    }
+
+    public TransactionSessionId GetTransactionSessionId()
+    {
+        return _Transaction.GetTransactionSessionId();
+    }
 
     #endregion
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Microsoft.Toolkit.HighPerformance.Buffers;
+﻿using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Ber.Codecs;
 using Play.Ber.Emv.Codecs;
@@ -20,7 +17,10 @@ public class EmvCodec : BerCodec
     {
         {AlphabeticCodec.Identifier, new AlphabeticCodec()},
         {AlphaNumericCodec.Identifier, new AlphaNumericCodec()},
-        {AlphaNumericSpecialCodec.Identifier, new AlphaNumericSpecialCodec()},
+        {
+            AlphaNumericSpecialCodec.Identifier,
+            new AlphaNumericSpecialCodec()
+        },
         {CompressedNumericCodec.Identifier, new CompressedNumericCodec()},
         {NumericCodec.Identifier, new NumericCodec()},
         {UnsignedBinaryCodec.Identifier, new UnsignedBinaryCodec()},
@@ -41,7 +41,10 @@ public class EmvCodec : BerCodec
 
     #region Instance Members
 
-    public static EmvCodec GetBerCodec() => _Codec;
+    public static EmvCodec GetBerCodec()
+    {
+        return _Codec;
+    }
 
     /// <summary>
     ///     Parses a sequence of metadata containing concatenated Tag-Length values and returns an array

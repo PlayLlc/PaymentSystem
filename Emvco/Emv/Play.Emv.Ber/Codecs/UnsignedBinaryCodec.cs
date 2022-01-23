@@ -1,5 +1,4 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 using System.Runtime.CompilerServices;
 
 using Play.Ber.Codecs;
@@ -24,8 +23,15 @@ public class UnsignedBinaryCodec : BerPrimitiveCodec
 
     #region Instance Members
 
-    public override BerEncodingId GetIdentifier() => Identifier;
-    public override bool IsValid(ReadOnlySpan<byte> value) => true;
+    public override BerEncodingId GetIdentifier()
+    {
+        return Identifier;
+    }
+
+    public override bool IsValid(ReadOnlySpan<byte> value)
+    {
+        return true;
+    }
 
     public override byte[] Encode<T>(T value)
     {
@@ -61,16 +67,55 @@ public class UnsignedBinaryCodec : BerPrimitiveCodec
         return Encode(Unsafe.As<T, BigInteger>(ref value), length);
     }
 
-    public override byte[] Encode<T>(T[] value) where T : struct => Encode(Unsafe.As<T[], byte[]>(ref value));
-    public byte[] Encode(byte[] value) => value;
-    public override byte[] Encode<T>(T[] value, int length) where T : struct => Encode(Unsafe.As<T[], byte[]>(ref value), length);
-    public byte[] Encode(byte value) => new[] {value};
-    public byte[] Encode(ushort value) => _UnsignedIntegerCodec.GetBytes(value, true);
-    public byte[] Encode(uint value) => _UnsignedIntegerCodec.GetBytes(value, true);
-    public byte[] Encode(uint value, int length) => _UnsignedIntegerCodec.GetBytes(value)[(Specs.Integer.UInt32.ByteSize - length)..];
-    public byte[] Encode(ulong value) => _UnsignedIntegerCodec.GetBytes(value, true);
-    public byte[] Encode(ulong value, int length) => _UnsignedIntegerCodec.GetBytes(value)[(Specs.Integer.UInt64.ByteSize - length)..];
-    public byte[] Encode(BigInteger value) => _UnsignedIntegerCodec.GetBytes(value);
+    public override byte[] Encode<T>(T[] value) where T : struct
+    {
+        return Encode(Unsafe.As<T[], byte[]>(ref value));
+    }
+
+    public byte[] Encode(byte[] value)
+    {
+        return value;
+    }
+
+    public override byte[] Encode<T>(T[] value, int length) where T : struct
+    {
+        return Encode(Unsafe.As<T[], byte[]>(ref value), length);
+    }
+
+    public byte[] Encode(byte value)
+    {
+        return new[] {value};
+    }
+
+    public byte[] Encode(ushort value)
+    {
+        return _UnsignedIntegerCodec.GetBytes(value, true);
+    }
+
+    public byte[] Encode(uint value)
+    {
+        return _UnsignedIntegerCodec.GetBytes(value, true);
+    }
+
+    public byte[] Encode(uint value, int length)
+    {
+        return _UnsignedIntegerCodec.GetBytes(value)[(Specs.Integer.UInt32.ByteSize - length)..];
+    }
+
+    public byte[] Encode(ulong value)
+    {
+        return _UnsignedIntegerCodec.GetBytes(value, true);
+    }
+
+    public byte[] Encode(ulong value, int length)
+    {
+        return _UnsignedIntegerCodec.GetBytes(value)[(Specs.Integer.UInt64.ByteSize - length)..];
+    }
+
+    public byte[] Encode(BigInteger value)
+    {
+        return _UnsignedIntegerCodec.GetBytes(value);
+    }
 
     public byte[] Encode(BigInteger value, int length)
     {
@@ -102,11 +147,14 @@ public class UnsignedBinaryCodec : BerPrimitiveCodec
         if (byteSize <= Specs.Integer.UInt64.ByteSize)
             return checked((ushort) Unsafe.As<T, ulong>(ref value).GetMostSignificantByte());
 
-        throw new InternalEmvEncodingException(
-            $"The {nameof(UnsignedBinaryCodec)} could not find the byte count for a type of {typeof(T)}");
+        throw
+            new InternalEmvEncodingException($"The {nameof(UnsignedBinaryCodec)} could not find the byte count for a type of {typeof(T)}");
     }
 
-    public override ushort GetByteCount<T>(T[] value) => checked((ushort) value.Length);
+    public override ushort GetByteCount<T>(T[] value)
+    {
+        return checked((ushort) value.Length);
+    }
 
     protected override void Validate(ReadOnlySpan<byte> value)
     { }

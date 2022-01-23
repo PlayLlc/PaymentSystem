@@ -8,7 +8,7 @@ public partial class TagTests
 {
     #region Static Metadata
 
-    private static readonly System.Random _Random = new();
+    private static readonly Random _Random = new();
     private static readonly TagLengthFactory _TagFactory;
 
     #endregion

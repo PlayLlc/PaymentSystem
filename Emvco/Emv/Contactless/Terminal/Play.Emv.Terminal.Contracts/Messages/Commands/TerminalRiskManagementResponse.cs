@@ -1,5 +1,4 @@
-﻿using Play.Ber.DataObjects;
-using Play.Emv.DataElements;
+﻿using Play.Emv.DataElements;
 
 namespace Play.Emv.Terminal.Contracts.Messages.Commands;
 
@@ -38,7 +37,10 @@ public class TerminalRiskManagementResponse
 
     #region Instance Members
 
-    public TerminalVerificationResult GetTerminalVerificationResult() => _TerminalVerificationResult;
+    public TerminalVerificationResult GetTerminalVerificationResult()
+    {
+        return _TerminalVerificationResult;
+    }
 
     #endregion
 }

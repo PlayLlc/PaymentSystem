@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 using Play.Ber.Codecs;
 using Play.Ber.Emv.Exceptions;
@@ -22,13 +21,26 @@ public class AlphabeticCodec : BerPrimitiveCodec
 
     #region Instance Members
 
-    public override BerEncodingId GetIdentifier() => Identifier;
+    public override BerEncodingId GetIdentifier()
+    {
+        return Identifier;
+    }
 
     /// <exception cref="EncodingException"></exception>
-    public override bool IsValid(ReadOnlySpan<byte> value) => _Alphabetic.IsValid(value);
+    public override bool IsValid(ReadOnlySpan<byte> value)
+    {
+        return _Alphabetic.IsValid(value);
+    }
 
-    public override byte[] Encode<T>(T value) => throw new NotImplementedException();
-    public override byte[] Encode<T>(T value, int length) => throw new NotImplementedException();
+    public override byte[] Encode<T>(T value)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override byte[] Encode<T>(T value, int length)
+    {
+        throw new NotImplementedException();
+    }
 
     /// <exception cref="EncodingException"></exception>
     public override byte[] Encode<T>(T[] value)
@@ -49,7 +61,10 @@ public class AlphabeticCodec : BerPrimitiveCodec
     }
 
     /// <exception cref="EncodingException"></exception>
-    public byte[] Encode(ReadOnlySpan<char> value) => _Alphabetic.GetBytes(value);
+    public byte[] Encode(ReadOnlySpan<char> value)
+    {
+        return _Alphabetic.GetBytes(value);
+    }
 
     /// <exception cref="EncodingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value, int length)
@@ -68,8 +83,15 @@ public class AlphabeticCodec : BerPrimitiveCodec
         return _Alphabetic.GetBytes(value)[..length];
     }
 
-    public byte[] Encode(string value) => Encode(value.AsSpan());
-    public override ushort GetByteCount<T>(T value) => throw new NotImplementedException();
+    public byte[] Encode(string value)
+    {
+        return Encode(value.AsSpan());
+    }
+
+    public override ushort GetByteCount<T>(T value)
+    {
+        throw new NotImplementedException();
+    }
 
     public override ushort GetByteCount<T>(T[] value)
     {
@@ -100,7 +122,10 @@ public class AlphabeticCodec : BerPrimitiveCodec
     #region Serialization
 
     /// <exception cref="EncodingException"></exception>
-    public override DecodedResult<char[]> Decode(ReadOnlySpan<byte> value) => new(_Alphabetic.GetChars(value), value.Length);
+    public override DecodedResult<char[]> Decode(ReadOnlySpan<byte> value)
+    {
+        return new(_Alphabetic.GetChars(value), value.Length);
+    }
 
     #endregion
 }

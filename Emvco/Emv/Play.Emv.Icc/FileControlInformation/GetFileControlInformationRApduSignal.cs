@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Play.Icc.Emv.FileControlInformation;
+﻿namespace Play.Icc.Emv.FileControlInformation;
 
 public class GetFileControlInformationRApduSignal : RApduSignal
 {
@@ -13,10 +11,11 @@ public class GetFileControlInformationRApduSignal : RApduSignal
 
     #region Instance Members
 
-    public override Level1Error GetLevel1Error() =>
-
+    public override Level1Error GetLevel1Error()
+    {
         // Check out Status Words
         throw new NotImplementedException();
+    }
 
     #endregion
 }

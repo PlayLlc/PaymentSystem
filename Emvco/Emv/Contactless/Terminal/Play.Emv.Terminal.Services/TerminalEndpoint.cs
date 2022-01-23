@@ -1,6 +1,5 @@
 ﻿using System;
 
-using Play.Emv.Configuration;
 using Play.Emv.Kernel.Contracts.SignalOut;
 using Play.Emv.Messaging;
 using Play.Emv.Reader.Contracts.SignalOut;
@@ -43,8 +42,15 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
 
     #region Instance Members
 
-    public ChannelTypeId GetChannelTypeId() => ChannelType.Selection;
-    public ChannelIdentifier GetChannelIdentifier() => ChannelIdentifier;
+    public ChannelTypeId GetChannelTypeId()
+    {
+        return ChannelType.Selection;
+    }
+
+    public ChannelIdentifier GetChannelIdentifier()
+    {
+        return ChannelIdentifier;
+    }
 
     #region Requests
 
@@ -58,14 +64,24 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
             throw new UnhandledRequestException(message);
     }
 
-    public void Request(ActivateTerminalRequest message) => _TerminalProcess.Enqueue(message);
-    public void Request(QueryTerminalRequest message) => _TerminalProcess.Enqueue(message);
+    public void Request(ActivateTerminalRequest message)
+    {
+        _TerminalProcess.Enqueue(message);
+    }
+
+    public void Request(QueryTerminalRequest message)
+    {
+        _TerminalProcess.Enqueue(message);
+    }
 
     #endregion
 
     #region Responses
 
-    void ISendTerminalResponses.Send(QueryTerminalResponse message) => _EndpointClient.Send(message);
+    void ISendTerminalResponses.Send(QueryTerminalResponse message)
+    {
+        _EndpointClient.Send(message);
+    }
 
     #endregion
 
@@ -84,16 +100,29 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
             throw new InvalidMessageRoutingException(message, this);
     }
 
-    void IHandleResponsesToTerminal.Handle(OutReaderResponse message) => _TerminalProcess.Enqueue(message);
-    void IHandleResponsesToTerminal.Handle(QueryKernelResponse message) => _TerminalProcess.Enqueue(message);
-    void IHandleResponsesToTerminal.Handle(StopReaderAcknowledgedResponse message) => _TerminalProcess.Enqueue(message);
+    void IHandleResponsesToTerminal.Handle(OutReaderResponse message)
+    {
+        _TerminalProcess.Enqueue(message);
+    }
+
+    void IHandleResponsesToTerminal.Handle(QueryKernelResponse message)
+    {
+        _TerminalProcess.Enqueue(message);
+    }
+
+    void IHandleResponsesToTerminal.Handle(StopReaderAcknowledgedResponse message)
+    {
+        _TerminalProcess.Enqueue(message);
+    }
 
     #endregion
 
     public static TerminalEndpoint Create(
         ITerminalConfigurationRepository terminalConfigurationRepository,
-        ICreateEndpointClient messageRouter) =>
-        new(terminalConfigurationRepository, messageRouter);
+        ICreateEndpointClient messageRouter)
+    {
+        return new(terminalConfigurationRepository, messageRouter);
+    }
 
     public void Dispose()
     {

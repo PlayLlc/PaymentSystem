@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 using Play.Ber.Codecs;
 using Play.Ber.Emv.Exceptions;
@@ -23,8 +22,15 @@ public class AlphaNumericCodec : BerPrimitiveCodec
 
     #region Instance Members
 
-    public override BerEncodingId GetIdentifier() => Identifier;
-    public override bool IsValid(ReadOnlySpan<byte> value) => _AlphaNumeric.IsValid(value);
+    public override BerEncodingId GetIdentifier()
+    {
+        return Identifier;
+    }
+
+    public override bool IsValid(ReadOnlySpan<byte> value)
+    {
+        return _AlphaNumeric.IsValid(value);
+    }
 
     public override byte[] Encode<T>(T value)
     {
@@ -63,7 +69,10 @@ public class AlphaNumericCodec : BerPrimitiveCodec
     }
 
     /// <exception cref="EncodingException"></exception>
-    public static byte[] Encode(ReadOnlySpan<char> value) => _AlphaNumeric.GetBytes(value);
+    public static byte[] Encode(ReadOnlySpan<char> value)
+    {
+        return _AlphaNumeric.GetBytes(value);
+    }
 
     /// <exception cref="EncodingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value, int length)
@@ -82,8 +91,15 @@ public class AlphaNumericCodec : BerPrimitiveCodec
         return _AlphaNumeric.GetBytes(value)[..length];
     }
 
-    public byte[] Encode(string value) => Encode(value.AsSpan());
-    public override ushort GetByteCount<T>(T value) => 1;
+    public byte[] Encode(string value)
+    {
+        return Encode(value.AsSpan());
+    }
+
+    public override ushort GetByteCount<T>(T value)
+    {
+        return 1;
+    }
 
     public override ushort GetByteCount<T>(T[] value)
     {
@@ -104,7 +120,10 @@ public class AlphaNumericCodec : BerPrimitiveCodec
 
     #region Serialization
 
-    public override DecodedResult<char[]> Decode(ReadOnlySpan<byte> value) => new(_AlphaNumeric.GetChars(value), value.Length);
+    public override DecodedResult<char[]> Decode(ReadOnlySpan<byte> value)
+    {
+        return new(_AlphaNumeric.GetChars(value), value.Length);
+    }
 
     #endregion
 }

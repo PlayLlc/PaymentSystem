@@ -1,6 +1,4 @@
-﻿using System;
-
-using Play.Icc.Messaging.Apdu.ReadRecord;
+﻿using Play.Icc.Messaging.Apdu.ReadRecord;
 
 namespace Play.Icc.Emv.ReadRecord;
 
@@ -9,15 +7,16 @@ public class ReadRecordCApduSignal : CApduSignal
     #region Constructor
 
     protected ReadRecordCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class, instruction, parameter1,
-        parameter2)
+                                                                                                            parameter2)
     { }
 
     protected ReadRecordCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint? le) : base(@class, instruction,
-        parameter1, parameter2, le)
+                                                                                                                      parameter1,
+                                                                                                                      parameter2, le)
     { }
 
-    protected ReadRecordCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) : base(@class,
-        instruction, parameter1, parameter2, data)
+    protected ReadRecordCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) :
+        base(@class, instruction, parameter1, parameter2, data)
     { }
 
     protected ReadRecordCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint? le) :
@@ -40,7 +39,7 @@ public class ReadRecordCApduSignal : CApduSignal
         ReadRecordApduCommand cApdu = ReadRecordApduCommand.ReadRecord(shortFileIdentifier, recordNumber);
 
         return new ReadRecordCApduSignal(cApdu.GetClass(), cApdu.GetInstruction(), cApdu.GetParameter1(), cApdu.GetParameter2(),
-            cApdu.GetLe());
+                                         cApdu.GetLe());
     }
 
     /// <summary>
@@ -51,7 +50,7 @@ public class ReadRecordCApduSignal : CApduSignal
         ReadRecordApduCommand cApdu = ReadRecordApduCommand.ReadRecord(recordNumber);
 
         return new ReadRecordCApduSignal(cApdu.GetClass(), cApdu.GetInstruction(), cApdu.GetParameter1(), cApdu.GetParameter2(),
-            cApdu.GetData(), cApdu.GetLe());
+                                         cApdu.GetData(), cApdu.GetLe());
     }
 
     #endregion

@@ -1,5 +1,4 @@
 ﻿using Play.Emv.DataElements;
-using Play.Emv.DataExchange;
 using Play.Emv.Messaging;
 using Play.Emv.Sessions;
 using Play.Messaging;
@@ -35,8 +34,15 @@ public record CleanKernelRequest : RequestSignal
 
     #region Instance Members
 
-    public TransactionSessionId GetTransactionSessionId() => _KernelSessionId.GetTransactionSessionId();
-    public ShortKernelId GetShortKernelId() => _KernelSessionId.GetKernelId();
+    public TransactionSessionId GetTransactionSessionId()
+    {
+        return _KernelSessionId.GetTransactionSessionId();
+    }
+
+    public ShortKernelId GetShortKernelId()
+    {
+        return _KernelSessionId.GetKernelId();
+    }
 
     #endregion
 }

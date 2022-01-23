@@ -1,6 +1,4 @@
-﻿using System;
-
-using Play.Ber.Emv.DataObjects;
+﻿using Play.Ber.Emv.DataObjects;
 
 namespace Play.Icc.Emv.ComputeCryptographicChecksum;
 
@@ -8,12 +6,12 @@ public class ComputeCryptographicChecksumCApduSignal : CApduSignal
 {
     #region Constructor
 
-    public ComputeCryptographicChecksumCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class,
-        instruction, parameter1, parameter2)
+    public ComputeCryptographicChecksumCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) :
+        base(@class, instruction, parameter1, parameter2)
     { }
 
-    public ComputeCryptographicChecksumCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint le) : base(@class,
-        instruction, parameter1, parameter2, le)
+    public ComputeCryptographicChecksumCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint le) :
+        base(@class, instruction, parameter1, parameter2, le)
     { }
 
     public ComputeCryptographicChecksumCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data)
@@ -40,9 +38,11 @@ public class ComputeCryptographicChecksumCApduSignal : CApduSignal
     ///     The result from an Unpredictable Number Data Object List
     /// </param>
     /// <returns></returns>
-    public static ComputeCryptographicChecksumCApduSignal Create(DataObjectListResult unpredictableNumberDataObjectListResult) =>
-        new(new Class(Messaging.Apdu.SecureMessaging.Proprietary), Instruction.ComputeCryptographicChecksum, 0x8E, 0x80,
-            unpredictableNumberDataObjectListResult.AsCommandTemplate().EncodeValue(), 0);
+    public static ComputeCryptographicChecksumCApduSignal Create(DataObjectListResult unpredictableNumberDataObjectListResult)
+    {
+        return new(new Class(Messaging.Apdu.SecureMessaging.Proprietary), Instruction.ComputeCryptographicChecksum, 0x8E, 0x80,
+                   unpredictableNumberDataObjectListResult.AsCommandTemplate().EncodeValue(), 0);
+    }
 
     #endregion
 }

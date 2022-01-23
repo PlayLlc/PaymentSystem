@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-using Play.Ber.DataObjects;
+﻿using Play.Ber.DataObjects;
 
 namespace Play.Ber.Emv.DataObjects;
 
@@ -20,7 +18,10 @@ public abstract record DataExchangeResponse : DataExchangeList<TagLengthValue>
         Enqueue(item._Value.ToArray());
     }
 
-    public TagLengthValue[] AsTagLengthValues() => _Value.ToArray();
+    public TagLengthValue[] AsTagLengthValues()
+    {
+        return _Value.ToArray();
+    }
 
     #endregion
 

@@ -1,8 +1,6 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Emv.Configuration;
 using Play.Emv.DataElements;
-using Play.Emv.Display;
-using Play.Emv.Kernel.Databases;
 
 namespace Play.Emv.Reader.Services;
 

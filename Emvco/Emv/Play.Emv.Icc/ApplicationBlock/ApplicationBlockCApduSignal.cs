@@ -1,6 +1,4 @@
-﻿using System;
-
-using Play.Ber.Emv.DataObjects;
+﻿using Play.Ber.Emv.DataObjects;
 
 namespace Play.Icc.Emv.ApplicationBlock;
 
@@ -9,15 +7,16 @@ public class ApplicationBlockCApduSignal : CApduSignal
     #region Constructor
 
     public ApplicationBlockCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class, instruction,
-        parameter1, parameter2)
+                                                                                                               parameter1, parameter2)
     { }
 
     public ApplicationBlockCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint le) : base(@class, instruction,
-        parameter1, parameter2, le)
+                                                                                                                        parameter1,
+                                                                                                                        parameter2, le)
     { }
 
-    public ApplicationBlockCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) : base(
-        @class, instruction, parameter1, parameter2, data)
+    public ApplicationBlockCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) :
+        base(@class, instruction, parameter1, parameter2, data)
     { }
 
     public ApplicationBlockCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint le) :
@@ -47,11 +46,11 @@ public class ApplicationBlockCApduSignal : CApduSignal
             && (secureMessaging != Messaging.Apdu.SecureMessaging.Proprietary))
         {
             throw new ArgumentOutOfRangeException(nameof(secureMessaging),
-                $"The argument {nameof(secureMessaging)} was an unexpected value. The valid values are {nameof(Messaging.Apdu.SecureMessaging.Authenticated)} and {nameof(Messaging.Apdu.SecureMessaging.Proprietary)}");
+                                                  $"The argument {nameof(secureMessaging)} was an unexpected value. The valid values are {nameof(Messaging.Apdu.SecureMessaging.Authenticated)} and {nameof(Messaging.Apdu.SecureMessaging.Proprietary)}");
         }
 
         return new ApplicationBlockCApduSignal(new Class(secureMessaging), Instruction.ApplicationBlock, 0, 0,
-            messageAuthenticationCode.EncodeValue());
+                                               messageAuthenticationCode.EncodeValue());
     }
 
     #endregion

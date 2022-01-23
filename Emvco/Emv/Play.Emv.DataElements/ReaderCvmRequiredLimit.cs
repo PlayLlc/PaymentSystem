@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Ber.Codecs;
+﻿using Play.Ber.Codecs;
 using Play.Ber.Emv.Codecs;
 using Play.Ber.Emv.DataObjects;
 using Play.Ber.Exceptions;
@@ -41,15 +34,29 @@ public record ReaderCvmRequiredLimit : DataElement<ulong>, IEqualityComparer<Rea
 
     #region Instance Members
 
-    public Money AsMoney(CultureProfile cultureProfile) => new(_Value, cultureProfile);
-    public override Tag GetTag() => Tag;
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public Money AsMoney(CultureProfile cultureProfile)
+    {
+        return new(_Value, cultureProfile);
+    }
+
+    public override Tag GetTag()
+    {
+        return Tag;
+    }
+
+    public override BerEncodingId GetBerEncodingId()
+    {
+        return BerEncodingId;
+    }
 
     #endregion
 
     #region Serialization
 
-    public static ReaderCvmRequiredLimit Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public static ReaderCvmRequiredLimit Decode(ReadOnlyMemory<byte> value)
+    {
+        return Decode(value.Span);
+    }
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
@@ -65,7 +72,10 @@ public record ReaderCvmRequiredLimit : DataElement<ulong>, IEqualityComparer<Rea
         return new ReaderCvmRequiredLimit(result.Value);
     }
 
-    public new byte[] EncodeValue() => EncodeValue(_ByteLength);
+    public new byte[] EncodeValue()
+    {
+        return EncodeValue(_ByteLength);
+    }
 
     #endregion
 
@@ -82,7 +92,10 @@ public record ReaderCvmRequiredLimit : DataElement<ulong>, IEqualityComparer<Rea
         return x.Equals(y);
     }
 
-    public int GetHashCode(ReaderCvmRequiredLimit obj) => obj.GetHashCode();
+    public int GetHashCode(ReaderCvmRequiredLimit obj)
+    {
+        return obj.GetHashCode();
+    }
 
     #endregion
 }
