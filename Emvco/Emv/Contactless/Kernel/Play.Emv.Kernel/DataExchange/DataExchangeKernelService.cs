@@ -68,7 +68,7 @@ public class DataExchangeKernelService
 
     #region Responses
 
-    public void RespondToTerminal(CorrelationId correlationId, DekResponseType type, KernelSessionId kernelSessionId)
+    public void RespondToTerminal(CorrelationId correlationId, DekResponseType type)
     {
         lock (_Lock)
         {
@@ -78,8 +78,8 @@ public class DataExchangeKernelService
             // TODO: I'm pretty sure we're only supposed to be sending DataToSend. If that's correct, then let's fix this method so that's the only list we're able to send to the terminal
 
             QueryKernelResponse queryKernelResponse = new(correlationId, new DataToSend(_Lock.Responses[type].AsArray()),
-                                                          new DataExchangeTerminalId(kernelSessionId.GetKernelId(),
-                                                                                     kernelSessionId.GetTransactionSessionId()));
+                                                          new DataExchangeTerminalId(_KernelSessionId.GetKernelId(),
+                                                                                     _KernelSessionId.GetTransactionSessionId()));
 
             _KernelEndpoint.Send(queryKernelResponse);
             _Lock.Responses[type].Clear();
@@ -168,14 +168,14 @@ public class DataExchangeKernelService
 
     #region Requests
 
-    public void QueryTerminal(KernelSessionId kernelSessionId)
+    public void QueryTerminal()
     {
         lock (_Lock)
         {
             if (!_Lock.Responses.ContainsKey(DekRequestType.DataNeeded))
                 return;
 
-            QueryTerminalRequest queryKernelResponse = new(new DataExchangeKernelId(kernelSessionId.GetKernelId(), kernelSessionId),
+            QueryTerminalRequest queryKernelResponse = new(new DataExchangeKernelId(_KernelSessionId.GetKernelId(), _KernelSessionId),
                                                            (DataNeeded) _Lock.Requests[DekRequestType.DataNeeded]);
 
             _TerminalEndpoint.Request(queryKernelResponse);
