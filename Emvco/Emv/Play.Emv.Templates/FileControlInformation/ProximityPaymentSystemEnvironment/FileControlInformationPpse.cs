@@ -4,7 +4,6 @@ using Play.Ber.Emv.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Core.Exceptions;
 using Play.Emv.DataElements;
 using Play.Icc.FileSystem.DedicatedFiles;
 
@@ -14,7 +13,7 @@ public class FileControlInformationPpse : FileControlInformationTemplate
 {
     #region Static Metadata
 
-    public static readonly Tag[] ChildTags = new[] {DedicatedFileName.Tag, FileControlInformationProprietaryTemplate.Tag};
+    public static readonly Tag[] ChildTags = {DedicatedFileName.Tag, FileControlInformationProprietaryTemplate.Tag};
 
     #endregion
 
@@ -31,8 +30,6 @@ public class FileControlInformationPpse : FileControlInformationTemplate
         DedicatedFileName? dedicatedFileName,
         FileControlInformationProprietaryPpse fileControlInformationProprietaryPpsePpse)
     {
-        CheckCore.ForNull(fileControlInformationProprietaryPpsePpse, nameof(fileControlInformationProprietaryPpsePpse));
-
         _DedicatedFileName = dedicatedFileName;
         _FileControlInformationProprietaryPpse = fileControlInformationProprietaryPpsePpse;
     }
@@ -41,21 +38,30 @@ public class FileControlInformationPpse : FileControlInformationTemplate
 
     #region Instance Members
 
-    public override Tag[] GetChildTags() => ChildTags;
+    public override Tag[] GetChildTags()
+    {
+        return ChildTags;
+    }
 
-    public CommandTemplate AsCommandTemplate(
-        BerCodec codec,
-        PoiInformation poiInformation,
-        TagLengthValue[] selectionDataObjectListValues) =>
-        _FileControlInformationProprietaryPpse.AsCommandTemplate(poiInformation, selectionDataObjectListValues);
+    public CommandTemplate AsCommandTemplate(BerCodec codec, PoiInformation poiInformation, TagLengthValue[] selectionDataObjectListValues)
+    {
+        return _FileControlInformationProprietaryPpse.AsCommandTemplate(poiInformation, selectionDataObjectListValues);
+    }
 
-    public CommandTemplate AsCommandTemplate(IQueryTlvDatabase database) =>
-        _FileControlInformationProprietaryPpse.AsCommandTemplate(database);
+    public CommandTemplate AsCommandTemplate(IQueryTlvDatabase database)
+    {
+        return _FileControlInformationProprietaryPpse.AsCommandTemplate(database);
+    }
 
-    public ApplicationDedicatedFileName[] GetApplicationDedicatedFileNames() =>
-        _FileControlInformationProprietaryPpse.GetApplicationDedicatedFileNames();
+    public ApplicationDedicatedFileName[] GetApplicationDedicatedFileNames()
+    {
+        return _FileControlInformationProprietaryPpse.GetApplicationDedicatedFileNames();
+    }
 
-    public TagLength[] GetDataObjectsRequestedByCard() => _FileControlInformationProprietaryPpse.GetDataObjectsRequestedByCard();
+    public TagLength[] GetDataObjectsRequestedByCard()
+    {
+        return _FileControlInformationProprietaryPpse.GetDataObjectsRequestedByCard();
+    }
 
     public bool TryGetDedicatedFileName(out DedicatedFileName? result)
     {
@@ -71,14 +77,31 @@ public class FileControlInformationPpse : FileControlInformationTemplate
         return true;
     }
 
-    public List<DirectoryEntry> GetDirectoryEntries() => _FileControlInformationProprietaryPpse.GetDirectoryEntries();
-    public override FileControlInformationProprietaryPpse GetFileControlInformationProprietary() => _FileControlInformationProprietaryPpse;
-    public override Tag GetTag() => Tag;
-    public bool IsDirectoryEntryListEmpty() => _FileControlInformationProprietaryPpse.IsDirectoryEntryListEmpty();
+    public List<DirectoryEntry> GetDirectoryEntries()
+    {
+        return _FileControlInformationProprietaryPpse.GetDirectoryEntries();
+    }
 
-    public bool IsPointOfInteractionApduCommandRequested() =>
-        _FileControlInformationProprietaryPpse.GetFileControlInformationIssuerDiscretionaryData()
+    public override FileControlInformationProprietaryPpse GetFileControlInformationProprietary()
+    {
+        return _FileControlInformationProprietaryPpse;
+    }
+
+    public override Tag GetTag()
+    {
+        return Tag;
+    }
+
+    public bool IsDirectoryEntryListEmpty()
+    {
+        return _FileControlInformationProprietaryPpse.IsDirectoryEntryListEmpty();
+    }
+
+    public bool IsPointOfInteractionApduCommandRequested()
+    {
+        return _FileControlInformationProprietaryPpse.GetFileControlInformationIssuerDiscretionaryData()
             .IsPointOfInteractionApduCommandRequested();
+    }
 
     protected override IEncodeBerDataObjects?[] GetChildren()
     {
@@ -89,7 +112,10 @@ public class FileControlInformationPpse : FileControlInformationTemplate
 
     #region Serialization
 
-    public static FileControlInformationPpse Decode(ReadOnlyMemory<byte> rawBer) => Decode(_Codec.DecodeChildren(rawBer));
+    public static FileControlInformationPpse Decode(ReadOnlyMemory<byte> rawBer)
+    {
+        return Decode(_Codec.DecodeChildren(rawBer));
+    }
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
@@ -100,9 +126,9 @@ public class FileControlInformationPpse : FileControlInformationTemplate
 
         FileControlInformationProprietaryPpse fciProprietaryPpse =
             _Codec.AsConstructed(FileControlInformationProprietaryPpse.Decode, FileControlInformationProprietaryTemplate.Tag,
-                encodedTlvSiblings)
-            ?? throw new InvalidOperationException(
-                $"A problem occurred while decoding {nameof(FileControlInformationPpse)}. A {nameof(FileControlInformationProprietaryPpse)} was expected but could not be found");
+                                 encodedTlvSiblings)
+            ?? throw new
+                InvalidOperationException($"A problem occurred while decoding {nameof(FileControlInformationPpse)}. A {nameof(FileControlInformationProprietaryPpse)} was expected but could not be found");
 
         return new FileControlInformationPpse(dedicatedFileName, fciProprietaryPpse);
     }
@@ -111,13 +137,18 @@ public class FileControlInformationPpse : FileControlInformationTemplate
 
     #region Equality
 
-    public override bool Equals(object? obj) => obj is FileControlInformationPpse fci && Equals(fci);
-    public override bool Equals(ConstructedValue? other) => other is FileControlInformationPpse ppse && Equals(ppse);
+    public override bool Equals(object? obj)
+    {
+        return obj is FileControlInformationPpse fci && Equals(fci);
+    }
+
+    public override bool Equals(ConstructedValue? other)
+    {
+        return other is FileControlInformationPpse ppse && Equals(ppse);
+    }
 
     public bool Equals(FileControlInformationPpse other)
     {
-        CheckCore.ForNull(other, nameof(other));
-
         return (_DedicatedFileName != null)
             && _DedicatedFileName.Equals(other._DedicatedFileName)
             && _FileControlInformationProprietaryPpse.Equals(other._FileControlInformationProprietaryPpse);
@@ -134,7 +165,10 @@ public class FileControlInformationPpse : FileControlInformationTemplate
         return x.Equals(y);
     }
 
-    public bool Equals(FileControlInformationPpse x, FileControlInformationPpse y) => x.Equals(y);
+    public bool Equals(FileControlInformationPpse x, FileControlInformationPpse y)
+    {
+        return x.Equals(y);
+    }
 
     public override int GetHashCode()
     {
@@ -150,7 +184,10 @@ public class FileControlInformationPpse : FileControlInformationTemplate
         }
     }
 
-    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
+    public override int GetHashCode(ConstructedValue obj)
+    {
+        return obj.GetHashCode();
+    }
 
     #endregion
 }

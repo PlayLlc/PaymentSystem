@@ -101,12 +101,12 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
         _EndpointClient.Send(message);
     }
 
-    public void Send(QueryReaderResponse message)
+    void ISendReaderResponses.Send(QueryReaderResponse message)
     {
         _EndpointClient.Send(message);
     }
 
-    public void Send(StopReaderAcknowledgedResponse message)
+    void ISendReaderResponses.Send(StopReaderAcknowledgedResponse message)
     {
         _EndpointClient.Send(message);
     }
@@ -151,7 +151,7 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
         IHandleSelectionRequests selectionEndpoint,
         KernelRetriever kernelRetriever)
     {
-        return new(activateReaderRequest, messageRouter, displayEndpoint, selectionEndpoint, kernelRetriever);
+        return new MainEndpoint(activateReaderRequest, messageRouter, displayEndpoint, selectionEndpoint, kernelRetriever);
     }
 
     public void Dispose()

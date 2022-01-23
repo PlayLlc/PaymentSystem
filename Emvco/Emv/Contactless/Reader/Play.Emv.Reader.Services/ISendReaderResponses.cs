@@ -4,6 +4,6 @@ namespace Play.Emv.Reader.Services;
 
 internal interface ISendReaderResponses : ISendReaderOutSignal
 {
-    public void Send(QueryReaderResponse message);
-    public void Send(StopReaderAcknowledgedResponse message);
+    internal void Send(QueryReaderResponse message);
+    internal void Send(StopReaderAcknowledgedResponse message);
 }

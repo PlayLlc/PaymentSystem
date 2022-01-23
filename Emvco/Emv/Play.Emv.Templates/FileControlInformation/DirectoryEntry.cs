@@ -5,7 +5,6 @@ using Play.Ber.Emv.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Core.Exceptions;
 using Play.Emv.DataElements;
 
 namespace Play.Emv.Templates.FileControlInformation;
@@ -16,7 +15,7 @@ public class DirectoryEntry : Template
 
     public static readonly Tag Tag = 0x61;
 
-    public static Tag[] ChildTags = new[]
+    public static Tag[] ChildTags =
     {
         ApplicationDedicatedFileName.Tag, ApplicationLabel.Tag, ApplicationPriorityIndicator.Tag, ExtendedSelection.Tag,
         KernelIdentifier.Tag
@@ -43,8 +42,6 @@ public class DirectoryEntry : Template
         KernelIdentifier? kernelIdentifier,
         ExtendedSelection? extendedSelection)
     {
-        CheckCore.ForNull(applicationDedicatedFileName, nameof(ApplicationDedicatedFileName));
-
         _ApplicationDedicatedFileName = applicationDedicatedFileName;
         _ApplicationLabel = applicationLabel;
         _ApplicationPriorityIndicator = applicationPriorityIndicator;
@@ -56,14 +53,23 @@ public class DirectoryEntry : Template
 
     #region Instance Members
 
-    public override Tag[] GetChildTags() => ChildTags;
-    public ApplicationDedicatedFileName GetApplicationDedicatedFileName() => _ApplicationDedicatedFileName;
+    public override Tag[] GetChildTags()
+    {
+        return ChildTags;
+    }
+
+    public ApplicationDedicatedFileName GetApplicationDedicatedFileName()
+    {
+        return _ApplicationDedicatedFileName;
+    }
 
     //public bool ApplicationCannotBeSelectedWithoutConfirmationByTheCardholder() =>
     //    _ApplicationPriorityIndicator.ApplicationCannotBeSelectedWithoutConfirmationByTheCardholder();
 
-    public ApplicationPriorityRank GetApplicationPriorityRank() =>
-        _ApplicationPriorityIndicator?.GetApplicationPriorityRank() ?? ApplicationPriorityRank.Fifteenth;
+    public ApplicationPriorityRank GetApplicationPriorityRank()
+    {
+        return _ApplicationPriorityIndicator?.GetApplicationPriorityRank() ?? ApplicationPriorityRank.Fifteenth;
+    }
 
     public bool TryGetKernelIdentifier(out KernelIdentifier? result)
     {
@@ -79,8 +85,15 @@ public class DirectoryEntry : Template
         return true;
     }
 
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => GetValueByteCount();
+    public override Tag GetTag()
+    {
+        return Tag;
+    }
+
+    public override ushort GetValueByteCount(BerCodec codec)
+    {
+        return GetValueByteCount();
+    }
 
     public bool TrGetExtendedSelection(out ExtendedSelection? extendedSelection)
     {
@@ -161,8 +174,10 @@ public class DirectoryEntry : Template
 
     private static bool TryGetDefaultKernelIdentifier(
         ApplicationDedicatedFileName applicationDedicatedFileName,
-        out KernelIdentifier kernelIdentifier) =>
-        KernelIdentifier.TryGetDefaultKernelIdentifier(applicationDedicatedFileName, out kernelIdentifier);
+        out KernelIdentifier kernelIdentifier)
+    {
+        return KernelIdentifier.TryGetDefaultKernelIdentifier(applicationDedicatedFileName, out kernelIdentifier);
+    }
 
     protected override IEncodeBerDataObjects?[] GetChildren()
     {
@@ -176,7 +191,10 @@ public class DirectoryEntry : Template
 
     #region Serialization
 
-    public static DirectoryEntry Decode(ReadOnlyMemory<byte> value) => Decode(_Codec.DecodeChildren(value));
+    public static DirectoryEntry Decode(ReadOnlyMemory<byte> value)
+    {
+        return Decode(_Codec.DecodeChildren(value));
+    }
 
     /// <exception cref="BerException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -188,14 +206,14 @@ public class DirectoryEntry : Template
 
         ApplicationDedicatedFileName applicationDedicatedFileName =
             encodedTlvSiblings.TryGetValueOctetsOfChild(ApplicationDedicatedFileName.Tag,
-                out ReadOnlyMemory<byte> rawApplicationDedicatedFileName)
+                                                        out ReadOnlyMemory<byte> rawApplicationDedicatedFileName)
                 ? ApplicationDedicatedFileName.Decode(rawApplicationDedicatedFileName)
-                : throw new InvalidOperationException(
-                    $"A problem occurred while decoding {nameof(DirectoryEntry)}. A {nameof(ApplicationDedicatedFileName)} was expected but could not be found");
+                : throw new
+                    InvalidOperationException($"A problem occurred while decoding {nameof(DirectoryEntry)}. A {nameof(ApplicationDedicatedFileName)} was expected but could not be found");
 
         ApplicationPriorityIndicator applicationPriorityIndicator =
             encodedTlvSiblings.TryGetValueOctetsOfChild(ApplicationPriorityIndicator.Tag,
-                out ReadOnlyMemory<byte> rawApplicationPriorityIndicator)
+                                                        out ReadOnlyMemory<byte> rawApplicationPriorityIndicator)
                 ? ApplicationPriorityIndicator.Decode(rawApplicationPriorityIndicator)
                 : new ApplicationPriorityIndicator(0);
 
@@ -212,19 +230,20 @@ public class DirectoryEntry : Template
             kernelIdentifier = kernelIdDefault;
 
         return new DirectoryEntry(applicationDedicatedFileName, applicationPriorityIndicator, applicationLabel, kernelIdentifier,
-            extendedSelection);
+                                  extendedSelection);
     }
 
     #endregion
 
     #region Equality
 
-    public override bool Equals(object? obj) => obj is DirectoryEntry fci && Equals(fci);
+    public override bool Equals(object? obj)
+    {
+        return obj is DirectoryEntry fci && Equals(fci);
+    }
 
     public bool Equals(DirectoryEntry other)
     {
-        CheckCore.ForNull(other, nameof(other));
-
         return _ApplicationDedicatedFileName.Equals(other._ApplicationDedicatedFileName)
             && (_ApplicationLabel?.Equals(other!._ApplicationLabel) ?? (other!._ApplicationLabel == null))
             && _ApplicationPriorityIndicator.Equals(other!._ApplicationPriorityIndicator)
@@ -232,8 +251,15 @@ public class DirectoryEntry : Template
             && (_ExtendedSelection?.Equals(_ExtendedSelection, other._ExtendedSelection) ?? (other._ExtendedSelection == null));
     }
 
-    public override bool Equals(ConstructedValue? other) => other is DirectoryEntry directoryEntry && Equals(directoryEntry);
-    public override bool Equals(ConstructedValue? x, ConstructedValue? y) => Equals(x as DirectoryEntry, y as DirectoryEntry);
+    public override bool Equals(ConstructedValue? other)
+    {
+        return other is DirectoryEntry directoryEntry && Equals(directoryEntry);
+    }
+
+    public override bool Equals(ConstructedValue? x, ConstructedValue? y)
+    {
+        return Equals(x as DirectoryEntry, y as DirectoryEntry);
+    }
 
     public static bool Equals(DirectoryEntry? x, DirectoryEntry? y)
     {
@@ -264,7 +290,10 @@ public class DirectoryEntry : Template
         }
     }
 
-    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
+    public override int GetHashCode(ConstructedValue obj)
+    {
+        return obj.GetHashCode();
+    }
 
     #endregion
 }

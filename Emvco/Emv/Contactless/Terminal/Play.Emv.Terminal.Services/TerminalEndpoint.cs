@@ -57,9 +57,9 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
     public void Request(RequestMessage message)
     {
         if (message is ActivateTerminalRequest activatePcdRequest)
-            Request((ActivateTerminalRequest) activatePcdRequest);
+            Request(activatePcdRequest);
         else if (message is QueryTerminalRequest queryPcdRequest)
-            Request((QueryTerminalRequest) queryPcdRequest);
+            Request(queryPcdRequest);
         else
             throw new UnhandledRequestException(message);
     }
@@ -78,7 +78,7 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
 
     #region Responses
 
-    void ISendTerminalResponses.Send(QueryTerminalResponse message)
+    public void Send(QueryTerminalResponse message)
     {
         _EndpointClient.Send(message);
     }
@@ -121,7 +121,7 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
         ITerminalConfigurationRepository terminalConfigurationRepository,
         ICreateEndpointClient messageRouter)
     {
-        return new(terminalConfigurationRepository, messageRouter);
+        return new TerminalEndpoint(terminalConfigurationRepository, messageRouter);
     }
 
     public void Dispose()

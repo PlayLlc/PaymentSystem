@@ -2,7 +2,6 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Core.Exceptions;
 using Play.Emv.DataElements;
 
 namespace Play.Emv.Templates.ResponseMessages;
@@ -11,7 +10,7 @@ public class ProcessingOptions : ResponseMessageTemplate
 {
     #region Static Metadata
 
-    public static Tag[] ChildTags = new[] {ApplicationFileLocator.Tag, ApplicationInterchangeProfile.Tag};
+    public static Tag[] ChildTags = {ApplicationFileLocator.Tag, ApplicationInterchangeProfile.Tag};
 
     #endregion
 
@@ -35,16 +34,24 @@ public class ProcessingOptions : ResponseMessageTemplate
         _ApplicationFileLocator =
             ApplicationFileLocator.Decode(values.First(a => a.GetTag() == ApplicationFileLocator.Tag).EncodeValue().AsMemory());
         _ApplicationInterchangeProfile =
-            ApplicationInterchangeProfile.Decode(
-                values.First(a => a.GetTag() == ApplicationInterchangeProfile.Tag).EncodeValue().AsMemory());
+            ApplicationInterchangeProfile.Decode(values.First(a => a.GetTag() == ApplicationInterchangeProfile.Tag)
+                                                     .EncodeValue()
+                                                     .AsMemory());
     }
 
     #endregion
 
     #region Instance Members
 
-    public override Tag GetTag() => Tag;
-    public override Tag[] GetChildTags() => ChildTags;
+    public override Tag GetTag()
+    {
+        return Tag;
+    }
+
+    public override Tag[] GetChildTags()
+    {
+        return ChildTags;
+    }
 
     protected override IEncodeBerDataObjects[] GetChildren()
     {
@@ -55,7 +62,10 @@ public class ProcessingOptions : ResponseMessageTemplate
 
     #region Serialization
 
-    public static ProcessingOptions Decode(ReadOnlyMemory<byte> rawBer) => Decode(_Codec.DecodeChildren(rawBer));
+    public static ProcessingOptions Decode(ReadOnlyMemory<byte> rawBer)
+    {
+        return Decode(_Codec.DecodeChildren(rawBer));
+    }
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
@@ -63,13 +73,13 @@ public class ProcessingOptions : ResponseMessageTemplate
     {
         ApplicationFileLocator applicationFileLocator =
             _Codec.AsPrimitive(ApplicationFileLocator.Decode, ApplicationFileLocator.Tag, encodedTlvSiblings)
-            ?? throw new InvalidOperationException(
-                $"A problem occurred while decoding {nameof(ProcessingOptions)}. A {nameof(ApplicationFileLocator)} was expected but could not be found");
+            ?? throw new
+                InvalidOperationException($"A problem occurred while decoding {nameof(ProcessingOptions)}. A {nameof(ApplicationFileLocator)} was expected but could not be found");
 
         ApplicationInterchangeProfile applicationInterchangeProfile =
             _Codec.AsPrimitive(ApplicationInterchangeProfile.Decode, ApplicationInterchangeProfile.Tag, encodedTlvSiblings)
-            ?? throw new InvalidOperationException(
-                $"A problem occurred while decoding {nameof(ProcessingOptions)}. A {nameof(ApplicationInterchangeProfile)} was expected but could not be found");
+            ?? throw new
+                InvalidOperationException($"A problem occurred while decoding {nameof(ProcessingOptions)}. A {nameof(ApplicationInterchangeProfile)} was expected but could not be found");
 
         return new ProcessingOptions(applicationFileLocator, applicationInterchangeProfile);
     }
@@ -78,7 +88,10 @@ public class ProcessingOptions : ResponseMessageTemplate
 
     #region Equality
 
-    public override bool Equals(object? obj) => obj is ProcessingOptions processingOptions && Equals(processingOptions);
+    public override bool Equals(object? obj)
+    {
+        return obj is ProcessingOptions processingOptions && Equals(processingOptions);
+    }
 
     public override bool Equals(ConstructedValue? x, ConstructedValue? y)
     {
@@ -91,17 +104,21 @@ public class ProcessingOptions : ResponseMessageTemplate
         return x.Equals(y);
     }
 
-    public bool Equals(ProcessingOptions x, ProcessingOptions y) => x.Equals(y);
+    public bool Equals(ProcessingOptions x, ProcessingOptions y)
+    {
+        return x.Equals(y);
+    }
 
     public bool Equals(ProcessingOptions other)
     {
-        CheckCore.ForNull(other, nameof(other));
-
         return _ApplicationFileLocator.Equals(other._ApplicationFileLocator)
             && _ApplicationInterchangeProfile.Equals(other._ApplicationInterchangeProfile);
     }
 
-    public override bool Equals(ConstructedValue? other) => other is ProcessingOptions processingOptions && Equals(processingOptions);
+    public override bool Equals(ConstructedValue? other)
+    {
+        return other is ProcessingOptions processingOptions && Equals(processingOptions);
+    }
 
     public override int GetHashCode()
     {
@@ -111,7 +128,10 @@ public class ProcessingOptions : ResponseMessageTemplate
         }
     }
 
-    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
+    public override int GetHashCode(ConstructedValue obj)
+    {
+        return obj.GetHashCode();
+    }
 
     #endregion
 }
