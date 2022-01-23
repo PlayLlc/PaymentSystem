@@ -24,7 +24,7 @@ public readonly record struct DataExchangeTerminalId
 
     #region Instance Members
 
-    public KernelId GetShortKernelId()
+    public KernelId GetKernelId()
     {
         return KernelId;
     }

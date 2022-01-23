@@ -39,11 +39,30 @@ public record UpdateKernelRequest : RequestSignal, IExchangeDataWithTheTerminal
 
     #region Instance Members
 
-    public TagLengthValue[] GeTagLengthValueArray() => _DataToSend.AsTagLengthValueArray();
-    public DataToSend GetDataToSend() => _DataToSend;
-    public DataExchangeTerminalId GetDataExchangeTerminalId() => _DataExchangeTerminalId;
-    public TransactionSessionId GetTransactionSessionId() => _DataExchangeTerminalId.GetTransactionSessionId();
-    public ShortKernelId GetShortKernelId() => _DataExchangeTerminalId.GetShortKernelId();
+    public TagLengthValue[] GeTagLengthValueArray()
+    {
+        return _DataToSend.AsTagLengthValueArray();
+    }
+
+    public DataToSend GetDataToSend()
+    {
+        return _DataToSend;
+    }
+
+    public DataExchangeTerminalId GetDataExchangeTerminalId()
+    {
+        return _DataExchangeTerminalId;
+    }
+
+    public TransactionSessionId GetTransactionSessionId()
+    {
+        return _DataExchangeTerminalId.GetTransactionSessionId();
+    }
+
+    public KernelId GetShortKernelId()
+    {
+        return _DataExchangeTerminalId.GetKernelId();
+    }
 
     #endregion
 }
