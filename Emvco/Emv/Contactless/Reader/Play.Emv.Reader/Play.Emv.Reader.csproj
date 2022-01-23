@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Display\Play.Emv.Display.Contracts\Play.Emv.Display.Contracts.csproj" />
+    <ProjectReference Include="..\..\Kernel\Play.Emv.Kernel.Contracts\Play.Emv.Kernel.Contracts.csproj" />
+    <ProjectReference Include="..\..\Selection\Play.Emv.Selection.Contracts\Play.Emv.Selection.Contracts.csproj" />
+    <ProjectReference Include="..\Play.Emv.Reader.Contracts\Play.Emv.Reader.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

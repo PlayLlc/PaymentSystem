@@ -1,0 +1,1 @@
+﻿namespace Play.Emv.Kernel2.Configuration;

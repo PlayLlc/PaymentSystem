@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Infrastructure\Play.Messaging\Play.Messaging.csproj" />
+    <ProjectReference Include="..\..\Security\Play.Emv.Security.Contracts\Play.Emv.Security.Contracts.csproj" />
+    <ProjectReference Include="..\..\Terminal\Play.Emv.Terminal.Contracts\Play.Emv.Terminal.Contracts.csproj" />
+    <ProjectReference Include="..\Play.Emv.Kernel.Contracts\Play.Emv.Kernel.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

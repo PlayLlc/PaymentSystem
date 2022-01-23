@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Issuer\Play.Emv.Issuer.Contracts\Play.Emv.Issuer.Contracts.csproj" />
+    <ProjectReference Include="..\..\Play.Emv\Play.Emv.csproj" />
+    <ProjectReference Include="..\Play.Emv.Pcd.Contracts\Play.Emv.Pcd.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

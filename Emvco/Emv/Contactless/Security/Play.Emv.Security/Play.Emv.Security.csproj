@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Cryptograms\_TEMP\**" />
+    <Compile Remove="Encryption\Checksum\**" />
+    <Compile Remove="SecureMessaging\**" />
+    <EmbeddedResource Remove="Cryptograms\_TEMP\**" />
+    <EmbeddedResource Remove="Encryption\Checksum\**" />
+    <EmbeddedResource Remove="SecureMessaging\**" />
+    <None Remove="Cryptograms\_TEMP\**" />
+    <None Remove="Encryption\Checksum\**" />
+    <None Remove="SecureMessaging\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Play.Emv\Play.Emv.csproj" />
+    <ProjectReference Include="..\Play.Emv.Security.Contracts\Play.Emv.Security.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Terminal\" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Configuration\Merchant\**" />
+    <Compile Remove="Outcomes\**" />
+    <EmbeddedResource Remove="Configuration\Merchant\**" />
+    <EmbeddedResource Remove="Outcomes\**" />
+    <None Remove="Configuration\Merchant\**" />
+    <None Remove="Outcomes\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Emv\Play.Emv.DataElements\Play.Emv.DataElements.csproj" />
+    <ProjectReference Include="..\..\Kernel\Play.Emv.Kernel.Contracts\Play.Emv.Kernel.Contracts.csproj" />
+    <ProjectReference Include="..\..\Play.Emv\Play.Emv.csproj" />
+    <ProjectReference Include="..\..\Reader\Play.Emv.Reader.Contracts\Play.Emv.Reader.Contracts.csproj" />
+    <ProjectReference Include="..\..\Security\Play.Emv.Security.Contracts\Play.Emv.Security.Contracts.csproj" />
+    <ProjectReference Include="..\Play.Emv.Terminal.Contracts\Play.Emv.Terminal.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

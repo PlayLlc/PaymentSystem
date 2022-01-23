@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="TerminalActionAnalysis\**" />
+    <Compile Remove="TerminalRiskManagement\**" />
+    <EmbeddedResource Remove="TerminalActionAnalysis\**" />
+    <EmbeddedResource Remove="TerminalRiskManagement\**" />
+    <None Remove="TerminalActionAnalysis\**" />
+    <None Remove="TerminalRiskManagement\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Display\Play.Emv.Display.Contracts\Play.Emv.Display.Contracts.csproj" />
+    <ProjectReference Include="..\..\Reader\Play.Emv.Reader.Services\Play.Emv.Reader.Services.csproj" />
+    <ProjectReference Include="..\Play.Emv.Terminal.Common.Services\Play.Emv.Terminal.Common.Services.csproj" />
+    <ProjectReference Include="..\Play.Emv.Terminal\Play.Emv.Terminal.csproj" />
+  </ItemGroup>
+
+</Project>

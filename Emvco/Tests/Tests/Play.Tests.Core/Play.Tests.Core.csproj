@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\_Emv\Infrastructure\Play.Codecs\Play.Codecs.csproj" />
+    <ProjectReference Include="..\..\..\_Emv\Infrastructure\Play.Core\Play.Core.csproj" />
+  </ItemGroup>
+
+</Project>

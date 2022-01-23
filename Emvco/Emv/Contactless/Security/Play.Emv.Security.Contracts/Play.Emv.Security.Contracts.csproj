@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Configuration\**" />
+    <Compile Remove="Cryptograms\**" />
+    <EmbeddedResource Remove="Configuration\**" />
+    <EmbeddedResource Remove="Cryptograms\**" />
+    <None Remove="Configuration\**" />
+    <None Remove="Cryptograms\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Play.Emv\Play.Emv.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CertificateAuthority\" />
+  </ItemGroup>
+
+</Project>

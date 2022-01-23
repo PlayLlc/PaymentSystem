@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ActionAnalysis\Card\**" />
+    <Compile Remove="Authentication\**" />
+    <Compile Remove="Messages\**" />
+    <Compile Remove="RiskManagement\Card\**" />
+    <EmbeddedResource Remove="ActionAnalysis\Card\**" />
+    <EmbeddedResource Remove="Authentication\**" />
+    <EmbeddedResource Remove="Messages\**" />
+    <EmbeddedResource Remove="RiskManagement\Card\**" />
+    <None Remove="ActionAnalysis\Card\**" />
+    <None Remove="Authentication\**" />
+    <None Remove="Messages\**" />
+    <None Remove="RiskManagement\Card\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Play.Emv.Terminal\Play.Emv.Terminal.csproj" />
+  </ItemGroup>
+
+</Project>

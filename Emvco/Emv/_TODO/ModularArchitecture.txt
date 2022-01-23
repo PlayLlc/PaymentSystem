@@ -1,0 +1,13 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Decouple Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1) Move configuration values from Play.Emv into their respective module
+	a) Play.Emv.Display
+		- DisplayMessage
+	b) Play.Emv.Selection
+		- TransactionProfile
+	c) Play.Emv.Kernel
+		- CertificateAuthorityDataset
+		- PersistentValues
+	d) Play.Emv.Pcd
+		- PcdProtocolConfig

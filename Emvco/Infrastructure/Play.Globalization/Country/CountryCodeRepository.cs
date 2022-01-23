@@ -1,0 +1,307 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
+
+namespace Play.Globalization.Country;
+
+// TODO: Inherit from EnumObject<CountryCode> so the user can specifically pick a country.  Maybe turn
+// TODO: CountryCode into a struct
+internal class CountryCodeRepository
+{
+    #region Static Metadata
+
+    private static readonly ImmutableSortedDictionary<Alpha2CountryCode, CountryCodes> _Alpha3CountryMap;
+    private static readonly ImmutableSortedDictionary<NumericCountryCode, CountryCodes> _NumericCountryMap;
+    private static readonly char[] _Buffer = new char[2];
+
+    #endregion
+
+    #region Constructor
+
+    static CountryCodeRepository()
+    {
+        _NumericCountryMap = GetCurrencyCodes().ToImmutableSortedDictionary(a => a.GetNumericCode(), b => b);
+        _Alpha3CountryMap = GetCurrencyCodes().ToImmutableSortedDictionary(a => a.GetAlpha2Code(), b => b);
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    public static CountryCodes Get(NumericCountryCode numericCode) => _NumericCountryMap[numericCode];
+    public static CountryCodes Get(Alpha2CountryCode alphaCode) => _Alpha3CountryMap[alphaCode];
+
+    private static List<CountryCodes> GetCurrencyCodes() =>
+        new()
+        {
+            new CountryCodes(new NumericCountryCode(4), new Alpha2CountryCode("AF")),
+            new CountryCodes(new NumericCountryCode(248), new Alpha2CountryCode("AX")),
+            new CountryCodes(new NumericCountryCode(8), new Alpha2CountryCode("AL")),
+            new CountryCodes(new NumericCountryCode(12), new Alpha2CountryCode("DZ")),
+            new CountryCodes(new NumericCountryCode(16), new Alpha2CountryCode("AS")),
+            new CountryCodes(new NumericCountryCode(20), new Alpha2CountryCode("AD")),
+            new CountryCodes(new NumericCountryCode(24), new Alpha2CountryCode("AO")),
+            new CountryCodes(new NumericCountryCode(660), new Alpha2CountryCode("AI")),
+            new CountryCodes(new NumericCountryCode(10), new Alpha2CountryCode("AQ")),
+            new CountryCodes(new NumericCountryCode(28), new Alpha2CountryCode("AG")),
+            new CountryCodes(new NumericCountryCode(32), new Alpha2CountryCode("AR")),
+            new CountryCodes(new NumericCountryCode(51), new Alpha2CountryCode("AM")),
+            new CountryCodes(new NumericCountryCode(533), new Alpha2CountryCode("AW")),
+            new CountryCodes(new NumericCountryCode(36), new Alpha2CountryCode("AU")),
+            new CountryCodes(new NumericCountryCode(40), new Alpha2CountryCode("AT")),
+            new CountryCodes(new NumericCountryCode(31), new Alpha2CountryCode("AZ")),
+            new CountryCodes(new NumericCountryCode(44), new Alpha2CountryCode("BS")),
+            new CountryCodes(new NumericCountryCode(48), new Alpha2CountryCode("BH")),
+            new CountryCodes(new NumericCountryCode(50), new Alpha2CountryCode("BD")),
+            new CountryCodes(new NumericCountryCode(52), new Alpha2CountryCode("BB")),
+            new CountryCodes(new NumericCountryCode(112), new Alpha2CountryCode("BY")),
+            new CountryCodes(new NumericCountryCode(56), new Alpha2CountryCode("BE")),
+            new CountryCodes(new NumericCountryCode(84), new Alpha2CountryCode("BZ")),
+            new CountryCodes(new NumericCountryCode(204), new Alpha2CountryCode("BJ")),
+            new CountryCodes(new NumericCountryCode(60), new Alpha2CountryCode("BM")),
+            new CountryCodes(new NumericCountryCode(64), new Alpha2CountryCode("BT")),
+            new CountryCodes(new NumericCountryCode(68), new Alpha2CountryCode("BO")),
+            new CountryCodes(new NumericCountryCode(70), new Alpha2CountryCode("BA")),
+            new CountryCodes(new NumericCountryCode(72), new Alpha2CountryCode("BW")),
+            new CountryCodes(new NumericCountryCode(74), new Alpha2CountryCode("BV")),
+            new CountryCodes(new NumericCountryCode(76), new Alpha2CountryCode("BR")),
+            new CountryCodes(new NumericCountryCode(92), new Alpha2CountryCode("VG")),
+            new CountryCodes(new NumericCountryCode(86), new Alpha2CountryCode("IO")),
+            new CountryCodes(new NumericCountryCode(96), new Alpha2CountryCode("BN")),
+            new CountryCodes(new NumericCountryCode(100), new Alpha2CountryCode("BG")),
+            new CountryCodes(new NumericCountryCode(854), new Alpha2CountryCode("BF")),
+            new CountryCodes(new NumericCountryCode(108), new Alpha2CountryCode("BI")),
+            new CountryCodes(new NumericCountryCode(116), new Alpha2CountryCode("KH")),
+            new CountryCodes(new NumericCountryCode(120), new Alpha2CountryCode("CM")),
+            new CountryCodes(new NumericCountryCode(124), new Alpha2CountryCode("CA")),
+            new CountryCodes(new NumericCountryCode(132), new Alpha2CountryCode("CV")),
+            new CountryCodes(new NumericCountryCode(136), new Alpha2CountryCode("KY")),
+            new CountryCodes(new NumericCountryCode(140), new Alpha2CountryCode("CF")),
+            new CountryCodes(new NumericCountryCode(148), new Alpha2CountryCode("TD")),
+            new CountryCodes(new NumericCountryCode(152), new Alpha2CountryCode("CL")),
+            new CountryCodes(new NumericCountryCode(156), new Alpha2CountryCode("CN")),
+            new CountryCodes(new NumericCountryCode(344), new Alpha2CountryCode("HK")),
+            new CountryCodes(new NumericCountryCode(446), new Alpha2CountryCode("MO")),
+            new CountryCodes(new NumericCountryCode(162), new Alpha2CountryCode("CX")),
+            new CountryCodes(new NumericCountryCode(166), new Alpha2CountryCode("CC")),
+            new CountryCodes(new NumericCountryCode(170), new Alpha2CountryCode("CO")),
+            new CountryCodes(new NumericCountryCode(174), new Alpha2CountryCode("KM")),
+            new CountryCodes(new NumericCountryCode(178), new Alpha2CountryCode("CG")),
+            new CountryCodes(new NumericCountryCode(180), new Alpha2CountryCode("CD")),
+            new CountryCodes(new NumericCountryCode(184), new Alpha2CountryCode("CK")),
+            new CountryCodes(new NumericCountryCode(188), new Alpha2CountryCode("CR")),
+            new CountryCodes(new NumericCountryCode(384), new Alpha2CountryCode("CI")),
+            new CountryCodes(new NumericCountryCode(191), new Alpha2CountryCode("HR")),
+            new CountryCodes(new NumericCountryCode(192), new Alpha2CountryCode("CU")),
+            new CountryCodes(new NumericCountryCode(196), new Alpha2CountryCode("CY")),
+            new CountryCodes(new NumericCountryCode(203), new Alpha2CountryCode("CZ")),
+            new CountryCodes(new NumericCountryCode(208), new Alpha2CountryCode("DK")),
+            new CountryCodes(new NumericCountryCode(262), new Alpha2CountryCode("DJ")),
+            new CountryCodes(new NumericCountryCode(212), new Alpha2CountryCode("DM")),
+            new CountryCodes(new NumericCountryCode(214), new Alpha2CountryCode("DO")),
+            new CountryCodes(new NumericCountryCode(218), new Alpha2CountryCode("EC")),
+            new CountryCodes(new NumericCountryCode(818), new Alpha2CountryCode("EG")),
+            new CountryCodes(new NumericCountryCode(222), new Alpha2CountryCode("SV")),
+            new CountryCodes(new NumericCountryCode(226), new Alpha2CountryCode("GQ")),
+            new CountryCodes(new NumericCountryCode(232), new Alpha2CountryCode("ER")),
+            new CountryCodes(new NumericCountryCode(233), new Alpha2CountryCode("EE")),
+            new CountryCodes(new NumericCountryCode(231), new Alpha2CountryCode("ET")),
+            new CountryCodes(new NumericCountryCode(238), new Alpha2CountryCode("FK")),
+            new CountryCodes(new NumericCountryCode(234), new Alpha2CountryCode("FO")),
+            new CountryCodes(new NumericCountryCode(242), new Alpha2CountryCode("FJ")),
+            new CountryCodes(new NumericCountryCode(246), new Alpha2CountryCode("FI")),
+            new CountryCodes(new NumericCountryCode(250), new Alpha2CountryCode("FR")),
+            new CountryCodes(new NumericCountryCode(254), new Alpha2CountryCode("GF")),
+            new CountryCodes(new NumericCountryCode(258), new Alpha2CountryCode("PF")),
+            new CountryCodes(new NumericCountryCode(260), new Alpha2CountryCode("TF")),
+            new CountryCodes(new NumericCountryCode(266), new Alpha2CountryCode("GA")),
+            new CountryCodes(new NumericCountryCode(270), new Alpha2CountryCode("GM")),
+            new CountryCodes(new NumericCountryCode(268), new Alpha2CountryCode("GE")),
+            new CountryCodes(new NumericCountryCode(276), new Alpha2CountryCode("DE")),
+            new CountryCodes(new NumericCountryCode(288), new Alpha2CountryCode("GH")),
+            new CountryCodes(new NumericCountryCode(292), new Alpha2CountryCode("GI")),
+            new CountryCodes(new NumericCountryCode(300), new Alpha2CountryCode("GR")),
+            new CountryCodes(new NumericCountryCode(304), new Alpha2CountryCode("GL")),
+            new CountryCodes(new NumericCountryCode(308), new Alpha2CountryCode("GD")),
+            new CountryCodes(new NumericCountryCode(312), new Alpha2CountryCode("GP")),
+            new CountryCodes(new NumericCountryCode(316), new Alpha2CountryCode("GU")),
+            new CountryCodes(new NumericCountryCode(320), new Alpha2CountryCode("GT")),
+            new CountryCodes(new NumericCountryCode(831), new Alpha2CountryCode("GG")),
+            new CountryCodes(new NumericCountryCode(324), new Alpha2CountryCode("GN")),
+            new CountryCodes(new NumericCountryCode(624), new Alpha2CountryCode("GW")),
+            new CountryCodes(new NumericCountryCode(328), new Alpha2CountryCode("GY")),
+            new CountryCodes(new NumericCountryCode(332), new Alpha2CountryCode("HT")),
+            new CountryCodes(new NumericCountryCode(334), new Alpha2CountryCode("HM")),
+            new CountryCodes(new NumericCountryCode(336), new Alpha2CountryCode("VA")),
+            new CountryCodes(new NumericCountryCode(340), new Alpha2CountryCode("HN")),
+            new CountryCodes(new NumericCountryCode(348), new Alpha2CountryCode("HU")),
+            new CountryCodes(new NumericCountryCode(352), new Alpha2CountryCode("IS")),
+            new CountryCodes(new NumericCountryCode(356), new Alpha2CountryCode("IN")),
+            new CountryCodes(new NumericCountryCode(360), new Alpha2CountryCode("ID")),
+            new CountryCodes(new NumericCountryCode(364), new Alpha2CountryCode("IR")),
+            new CountryCodes(new NumericCountryCode(368), new Alpha2CountryCode("IQ")),
+            new CountryCodes(new NumericCountryCode(372), new Alpha2CountryCode("IE")),
+            new CountryCodes(new NumericCountryCode(833), new Alpha2CountryCode("IM")),
+            new CountryCodes(new NumericCountryCode(376), new Alpha2CountryCode("IL")),
+            new CountryCodes(new NumericCountryCode(380), new Alpha2CountryCode("IT")),
+            new CountryCodes(new NumericCountryCode(388), new Alpha2CountryCode("JM")),
+            new CountryCodes(new NumericCountryCode(392), new Alpha2CountryCode("JP")),
+            new CountryCodes(new NumericCountryCode(832), new Alpha2CountryCode("JE")),
+            new CountryCodes(new NumericCountryCode(400), new Alpha2CountryCode("JO")),
+            new CountryCodes(new NumericCountryCode(398), new Alpha2CountryCode("KZ")),
+            new CountryCodes(new NumericCountryCode(404), new Alpha2CountryCode("KE")),
+            new CountryCodes(new NumericCountryCode(296), new Alpha2CountryCode("KI")),
+            new CountryCodes(new NumericCountryCode(408), new Alpha2CountryCode("KP")),
+            new CountryCodes(new NumericCountryCode(410), new Alpha2CountryCode("KR")),
+            new CountryCodes(new NumericCountryCode(414), new Alpha2CountryCode("KW")),
+            new CountryCodes(new NumericCountryCode(417), new Alpha2CountryCode("KG")),
+            new CountryCodes(new NumericCountryCode(418), new Alpha2CountryCode("LA")),
+            new CountryCodes(new NumericCountryCode(428), new Alpha2CountryCode("LV")),
+            new CountryCodes(new NumericCountryCode(422), new Alpha2CountryCode("LB")),
+            new CountryCodes(new NumericCountryCode(426), new Alpha2CountryCode("LS")),
+            new CountryCodes(new NumericCountryCode(430), new Alpha2CountryCode("LR")),
+            new CountryCodes(new NumericCountryCode(434), new Alpha2CountryCode("LY")),
+            new CountryCodes(new NumericCountryCode(438), new Alpha2CountryCode("LI")),
+            new CountryCodes(new NumericCountryCode(440), new Alpha2CountryCode("LT")),
+            new CountryCodes(new NumericCountryCode(442), new Alpha2CountryCode("LU")),
+            new CountryCodes(new NumericCountryCode(807), new Alpha2CountryCode("MK")),
+            new CountryCodes(new NumericCountryCode(450), new Alpha2CountryCode("MG")),
+            new CountryCodes(new NumericCountryCode(454), new Alpha2CountryCode("MW")),
+            new CountryCodes(new NumericCountryCode(458), new Alpha2CountryCode("MY")),
+            new CountryCodes(new NumericCountryCode(462), new Alpha2CountryCode("MV")),
+            new CountryCodes(new NumericCountryCode(466), new Alpha2CountryCode("ML")),
+            new CountryCodes(new NumericCountryCode(470), new Alpha2CountryCode("MT")),
+            new CountryCodes(new NumericCountryCode(584), new Alpha2CountryCode("MH")),
+            new CountryCodes(new NumericCountryCode(474), new Alpha2CountryCode("MQ")),
+            new CountryCodes(new NumericCountryCode(478), new Alpha2CountryCode("MR")),
+            new CountryCodes(new NumericCountryCode(480), new Alpha2CountryCode("MU")),
+            new CountryCodes(new NumericCountryCode(175), new Alpha2CountryCode("YT")),
+            new CountryCodes(new NumericCountryCode(484), new Alpha2CountryCode("MX")),
+            new CountryCodes(new NumericCountryCode(583), new Alpha2CountryCode("FM")),
+            new CountryCodes(new NumericCountryCode(498), new Alpha2CountryCode("MD")),
+            new CountryCodes(new NumericCountryCode(492), new Alpha2CountryCode("MC")),
+            new CountryCodes(new NumericCountryCode(496), new Alpha2CountryCode("MN")),
+            new CountryCodes(new NumericCountryCode(499), new Alpha2CountryCode("ME")),
+            new CountryCodes(new NumericCountryCode(500), new Alpha2CountryCode("MS")),
+            new CountryCodes(new NumericCountryCode(504), new Alpha2CountryCode("MA")),
+            new CountryCodes(new NumericCountryCode(508), new Alpha2CountryCode("MZ")),
+            new CountryCodes(new NumericCountryCode(104), new Alpha2CountryCode("MM")),
+            new CountryCodes(new NumericCountryCode(516), new Alpha2CountryCode("NA")),
+            new CountryCodes(new NumericCountryCode(520), new Alpha2CountryCode("NR")),
+            new CountryCodes(new NumericCountryCode(524), new Alpha2CountryCode("NP")),
+            new CountryCodes(new NumericCountryCode(528), new Alpha2CountryCode("NL")),
+            new CountryCodes(new NumericCountryCode(530), new Alpha2CountryCode("AN")),
+            new CountryCodes(new NumericCountryCode(540), new Alpha2CountryCode("NC")),
+            new CountryCodes(new NumericCountryCode(554), new Alpha2CountryCode("NZ")),
+            new CountryCodes(new NumericCountryCode(558), new Alpha2CountryCode("NI")),
+            new CountryCodes(new NumericCountryCode(562), new Alpha2CountryCode("NE")),
+            new CountryCodes(new NumericCountryCode(566), new Alpha2CountryCode("NG")),
+            new CountryCodes(new NumericCountryCode(570), new Alpha2CountryCode("NU")),
+            new CountryCodes(new NumericCountryCode(574), new Alpha2CountryCode("NF")),
+            new CountryCodes(new NumericCountryCode(580), new Alpha2CountryCode("MP")),
+            new CountryCodes(new NumericCountryCode(578), new Alpha2CountryCode("NO")),
+            new CountryCodes(new NumericCountryCode(512), new Alpha2CountryCode("OM")),
+            new CountryCodes(new NumericCountryCode(586), new Alpha2CountryCode("PK")),
+            new CountryCodes(new NumericCountryCode(585), new Alpha2CountryCode("PW")),
+            new CountryCodes(new NumericCountryCode(275), new Alpha2CountryCode("PS")),
+            new CountryCodes(new NumericCountryCode(591), new Alpha2CountryCode("PA")),
+            new CountryCodes(new NumericCountryCode(598), new Alpha2CountryCode("PG")),
+            new CountryCodes(new NumericCountryCode(600), new Alpha2CountryCode("PY")),
+            new CountryCodes(new NumericCountryCode(604), new Alpha2CountryCode("PE")),
+            new CountryCodes(new NumericCountryCode(608), new Alpha2CountryCode("PH")),
+            new CountryCodes(new NumericCountryCode(612), new Alpha2CountryCode("PN")),
+            new CountryCodes(new NumericCountryCode(616), new Alpha2CountryCode("PL")),
+            new CountryCodes(new NumericCountryCode(620), new Alpha2CountryCode("PT")),
+            new CountryCodes(new NumericCountryCode(630), new Alpha2CountryCode("PR")),
+            new CountryCodes(new NumericCountryCode(634), new Alpha2CountryCode("QA")),
+            new CountryCodes(new NumericCountryCode(638), new Alpha2CountryCode("RE")),
+            new CountryCodes(new NumericCountryCode(642), new Alpha2CountryCode("RO")),
+            new CountryCodes(new NumericCountryCode(643), new Alpha2CountryCode("RU")),
+            new CountryCodes(new NumericCountryCode(646), new Alpha2CountryCode("RW")),
+            new CountryCodes(new NumericCountryCode(652), new Alpha2CountryCode("BL")),
+            new CountryCodes(new NumericCountryCode(654), new Alpha2CountryCode("SH")),
+            new CountryCodes(new NumericCountryCode(659), new Alpha2CountryCode("KN")),
+            new CountryCodes(new NumericCountryCode(662), new Alpha2CountryCode("LC")),
+            new CountryCodes(new NumericCountryCode(663), new Alpha2CountryCode("MF")),
+            new CountryCodes(new NumericCountryCode(666), new Alpha2CountryCode("PM")),
+            new CountryCodes(new NumericCountryCode(670), new Alpha2CountryCode("VC")),
+            new CountryCodes(new NumericCountryCode(882), new Alpha2CountryCode("WS")),
+            new CountryCodes(new NumericCountryCode(674), new Alpha2CountryCode("SM")),
+            new CountryCodes(new NumericCountryCode(678), new Alpha2CountryCode("ST")),
+            new CountryCodes(new NumericCountryCode(682), new Alpha2CountryCode("SA")),
+            new CountryCodes(new NumericCountryCode(686), new Alpha2CountryCode("SN")),
+            new CountryCodes(new NumericCountryCode(688), new Alpha2CountryCode("RS")),
+            new CountryCodes(new NumericCountryCode(690), new Alpha2CountryCode("SC")),
+            new CountryCodes(new NumericCountryCode(694), new Alpha2CountryCode("SL")),
+            new CountryCodes(new NumericCountryCode(702), new Alpha2CountryCode("SG")),
+            new CountryCodes(new NumericCountryCode(703), new Alpha2CountryCode("SK")),
+            new CountryCodes(new NumericCountryCode(705), new Alpha2CountryCode("SI")),
+            new CountryCodes(new NumericCountryCode(90), new Alpha2CountryCode("SB")),
+            new CountryCodes(new NumericCountryCode(706), new Alpha2CountryCode("SO")),
+            new CountryCodes(new NumericCountryCode(710), new Alpha2CountryCode("ZA")),
+            new CountryCodes(new NumericCountryCode(239), new Alpha2CountryCode("GS")),
+            new CountryCodes(new NumericCountryCode(728), new Alpha2CountryCode("SS")),
+            new CountryCodes(new NumericCountryCode(724), new Alpha2CountryCode("ES")),
+            new CountryCodes(new NumericCountryCode(144), new Alpha2CountryCode("LK")),
+            new CountryCodes(new NumericCountryCode(736), new Alpha2CountryCode("SD")),
+            new CountryCodes(new NumericCountryCode(740), new Alpha2CountryCode("SR")),
+            new CountryCodes(new NumericCountryCode(744), new Alpha2CountryCode("SJ")),
+            new CountryCodes(new NumericCountryCode(748), new Alpha2CountryCode("SZ")),
+            new CountryCodes(new NumericCountryCode(752), new Alpha2CountryCode("SE")),
+            new CountryCodes(new NumericCountryCode(756), new Alpha2CountryCode("CH")),
+            new CountryCodes(new NumericCountryCode(760), new Alpha2CountryCode("SY")),
+            new CountryCodes(new NumericCountryCode(158), new Alpha2CountryCode("TW")),
+            new CountryCodes(new NumericCountryCode(762), new Alpha2CountryCode("TJ")),
+            new CountryCodes(new NumericCountryCode(834), new Alpha2CountryCode("TZ")),
+            new CountryCodes(new NumericCountryCode(764), new Alpha2CountryCode("TH")),
+            new CountryCodes(new NumericCountryCode(626), new Alpha2CountryCode("TL")),
+            new CountryCodes(new NumericCountryCode(768), new Alpha2CountryCode("TG")),
+            new CountryCodes(new NumericCountryCode(772), new Alpha2CountryCode("TK")),
+            new CountryCodes(new NumericCountryCode(776), new Alpha2CountryCode("TO")),
+            new CountryCodes(new NumericCountryCode(780), new Alpha2CountryCode("TT")),
+            new CountryCodes(new NumericCountryCode(788), new Alpha2CountryCode("TN")),
+            new CountryCodes(new NumericCountryCode(792), new Alpha2CountryCode("TR")),
+            new CountryCodes(new NumericCountryCode(795), new Alpha2CountryCode("TM")),
+            new CountryCodes(new NumericCountryCode(796), new Alpha2CountryCode("TC")),
+            new CountryCodes(new NumericCountryCode(798), new Alpha2CountryCode("TV")),
+            new CountryCodes(new NumericCountryCode(800), new Alpha2CountryCode("UG")),
+            new CountryCodes(new NumericCountryCode(804), new Alpha2CountryCode("UA")),
+            new CountryCodes(new NumericCountryCode(784), new Alpha2CountryCode("AE")),
+            new CountryCodes(new NumericCountryCode(826), new Alpha2CountryCode("GB")),
+            new CountryCodes(new NumericCountryCode(840), new Alpha2CountryCode("US")),
+            new CountryCodes(new NumericCountryCode(581), new Alpha2CountryCode("UM")),
+            new CountryCodes(new NumericCountryCode(858), new Alpha2CountryCode("UY")),
+            new CountryCodes(new NumericCountryCode(860), new Alpha2CountryCode("UZ")),
+            new CountryCodes(new NumericCountryCode(548), new Alpha2CountryCode("VU")),
+            new CountryCodes(new NumericCountryCode(862), new Alpha2CountryCode("VE")),
+            new CountryCodes(new NumericCountryCode(704), new Alpha2CountryCode("VN")),
+            new CountryCodes(new NumericCountryCode(850), new Alpha2CountryCode("VI")),
+            new CountryCodes(new NumericCountryCode(876), new Alpha2CountryCode("WF")),
+            new CountryCodes(new NumericCountryCode(732), new Alpha2CountryCode("EH")),
+            new CountryCodes(new NumericCountryCode(887), new Alpha2CountryCode("YE")),
+            new CountryCodes(new NumericCountryCode(894), new Alpha2CountryCode("ZM")),
+            new CountryCodes(new NumericCountryCode(716), new Alpha2CountryCode("ZW"))
+        };
+
+    public static bool IsValid(ushort numericCode)
+    {
+        return _NumericCountryMap.Keys.Any(a => (ushort) a == numericCode);
+    }
+
+    public static bool IsValid(ReadOnlySpan<char> alpha3Code)
+    {
+        if (alpha3Code.Length != 3)
+        {
+            throw new ArgumentOutOfRangeException(nameof(alpha3Code),
+                $"The argument {nameof(alpha3Code)} must be three characters in length");
+        }
+
+        _Buffer[0] = alpha3Code[0];
+        _Buffer[1] = alpha3Code[1];
+
+        return _Alpha3CountryMap.Keys.Any(a => a.Equals(_Buffer));
+    }
+
+    #endregion
+}

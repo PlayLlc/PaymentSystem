@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="StateMachine\**" />
+    <EmbeddedResource Remove="StateMachine\**" />
+    <None Remove="StateMachine\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Play.Emv.Kernel.Services\Play.Emv.Kernel.Services.csproj" />
+    <ProjectReference Include="..\Play.Emv.Kernel2\Play.Emv.Kernel2.csproj" />
+  </ItemGroup>
+
+</Project>
