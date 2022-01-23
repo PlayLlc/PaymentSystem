@@ -61,9 +61,9 @@ internal static partial class LongLength
             }
             catch (OverflowException exception)
             {
-                throw new BerInternalException(
-                    "Uh oh, something wasn't coded correctly. This code base only supports a Long Length object with 3 bytes or less",
-                    exception);
+                throw new
+                    BerInternalException("Uh oh, something wasn't coded correctly. This code base only supports a Long Length object with 3 bytes or less",
+                                         exception);
             }
         }
     }
@@ -94,9 +94,9 @@ internal static partial class LongLength
             }
             catch (OverflowException exception)
             {
-                throw new BerInternalException(
-                    "Uh oh, something wasn't coded correctly. This code base only supports a Long Length object with 3 bytes or less",
-                    exception);
+                throw new
+                    BerInternalException("Uh oh, something wasn't coded correctly. This code base only supports a Long Length object with 3 bytes or less",
+                                         exception);
             }
         }
     }

@@ -40,10 +40,8 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
     public static GenerateApplicationCryptogramCApduSignal Create(
         CryptogramType cryptogramType,
         bool isCdaRequested,
-        DataObjectListResult cardRiskManagementDataObjectListResult)
-    {
-        return Create(cryptogramType, isCdaRequested, cardRiskManagementDataObjectListResult.AsCommandTemplate());
-    }
+        DataObjectListResult cardRiskManagementDataObjectListResult) =>
+        Create(cryptogramType, isCdaRequested, cardRiskManagementDataObjectListResult.AsCommandTemplate());
 
     public static GenerateApplicationCryptogramCApduSignal Create(
         CryptogramType cryptogramType,
@@ -51,8 +49,7 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
         DataObjectListResult cardRiskManagementDataObjectListResult,
         DataObjectListResult dataStorageDataObjectListResult)
     {
-        CommandTemplate? commandTemplate = new(cardRiskManagementDataObjectListResult.AsByteArray()
-                                                   .AsSpan()
+        CommandTemplate? commandTemplate = new(cardRiskManagementDataObjectListResult.AsByteArray().AsSpan()
                                                    .ConcatArrays(dataStorageDataObjectListResult.AsByteArray()));
 
         return Create(cryptogramType, isCdaRequested, commandTemplate);
@@ -86,11 +83,9 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
     ///     rules defined in section 4.1.4.
     /// </param>
     /// <returns></returns>
-    private static GenerateApplicationCryptogramCApduSignal CreateAac(CommandTemplate transactionRelatedData)
-    {
-        return new(new Class(Messaging.Apdu.SecureMessaging.NotRecognized, LogicalChannel.BasicChannel), Instruction.CardBlock, 0, 0,
-                   transactionRelatedData.EncodeValue());
-    }
+    private static GenerateApplicationCryptogramCApduSignal CreateAac(CommandTemplate transactionRelatedData) =>
+        new GenerateApplicationCryptogramCApduSignal(new Class(Messaging.Apdu.SecureMessaging.NotRecognized, LogicalChannel.BasicChannel),
+                                                     Instruction.CardBlock, 0, 0, transactionRelatedData.EncodeValue());
 
     /// <summary>
     ///     Creates a Command APDU to request a Application Request Cryptogram

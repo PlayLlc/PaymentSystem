@@ -45,19 +45,13 @@ public record DetResponseType : EnumObject<Tag>
         throw new InvalidOperationException();
     }
 
-    public static DataExchangeResponse GetDefault(DetResponseType listType)
-    {
-        return _Defaults[listType].Invoke();
-    }
+    public static DataExchangeResponse GetDefault(DetResponseType listType) => _Defaults[listType].Invoke();
 
     #endregion
 
     #region Operator Overrides
 
-    public static explicit operator Tag(DetResponseType detResponseType)
-    {
-        return detResponseType._Value;
-    }
+    public static explicit operator Tag(DetResponseType detResponseType) => detResponseType._Value;
 
     #endregion
 }

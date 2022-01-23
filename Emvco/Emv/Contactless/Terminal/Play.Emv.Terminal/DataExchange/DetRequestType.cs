@@ -24,10 +24,7 @@ public record DetRequestType : EnumObject<Tag>
 
     #region Operator Overrides
 
-    public static explicit operator Tag(DetRequestType detRequestType)
-    {
-        return detRequestType._Value;
-    }
+    public static explicit operator Tag(DetRequestType detRequestType) => detRequestType._Value;
 
     #endregion
 }

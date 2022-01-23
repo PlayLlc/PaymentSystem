@@ -38,29 +38,17 @@ public readonly struct Alpha3CurrencyCode
         return new[] {(char) _FirstChar, (char) _SecondChar, (char) _ThirdChar};
     }
 
-    public ReadOnlySpan<char> AsReadOnlySpan()
-    {
-        return AsCharArray();
-    }
-
-    public string AsString()
-    {
-        return new(AsReadOnlySpan());
-    }
+    public ReadOnlySpan<char> AsReadOnlySpan() => AsCharArray();
+    public string AsString() => new string(AsReadOnlySpan());
 
     #endregion
 
     #region Equality
 
-    public override bool Equals(object? obj)
-    {
-        return obj is Alpha3CurrencyCode countryCodeAlpha2 && Equals(countryCodeAlpha2);
-    }
+    public override bool Equals(object? obj) => obj is Alpha3CurrencyCode countryCodeAlpha2 && Equals(countryCodeAlpha2);
 
-    public bool Equals(Alpha3CurrencyCode other)
-    {
-        return (_FirstChar == other._FirstChar) && (_SecondChar == other._SecondChar) && (_ThirdChar == other._ThirdChar);
-    }
+    public bool Equals(Alpha3CurrencyCode other) =>
+        (_FirstChar == other._FirstChar) && (_SecondChar == other._SecondChar) && (_ThirdChar == other._ThirdChar);
 
     public bool Equals(ReadOnlySpan<char> other)
     {
@@ -70,10 +58,7 @@ public readonly struct Alpha3CurrencyCode
         return (_FirstChar == (byte) other[0]) && (_SecondChar == (byte) other[1]) && (_ThirdChar == (byte) other[2]);
     }
 
-    public bool Equals(Alpha3CurrencyCode x, Alpha3CurrencyCode y)
-    {
-        return x.Equals(y);
-    }
+    public bool Equals(Alpha3CurrencyCode x, Alpha3CurrencyCode y) => x.Equals(y);
 
     public override int GetHashCode()
     {
@@ -86,20 +71,9 @@ public readonly struct Alpha3CurrencyCode
 
     #region Operator Overrides
 
-    public static bool operator ==(Alpha3CurrencyCode left, Alpha3CurrencyCode right)
-    {
-        return left.Equals(right);
-    }
-
-    public static bool operator ==(ReadOnlySpan<char> left, Alpha3CurrencyCode right)
-    {
-        return right.Equals(left);
-    }
-
-    public static bool operator ==(Alpha3CurrencyCode left, ReadOnlySpan<char> right)
-    {
-        return left.Equals(right);
-    }
+    public static bool operator ==(Alpha3CurrencyCode left, Alpha3CurrencyCode right) => left.Equals(right);
+    public static bool operator ==(ReadOnlySpan<char> left, Alpha3CurrencyCode right) => right.Equals(left);
+    public static bool operator ==(Alpha3CurrencyCode left, ReadOnlySpan<char> right) => left.Equals(right);
 
     public static explicit operator string(Alpha3CurrencyCode value)
     {
@@ -111,20 +85,9 @@ public readonly struct Alpha3CurrencyCode
         return new string(buffer);
     }
 
-    public static bool operator !=(Alpha3CurrencyCode left, Alpha3CurrencyCode right)
-    {
-        return !left.Equals(right);
-    }
-
-    public static bool operator !=(ReadOnlySpan<char> left, Alpha3CurrencyCode right)
-    {
-        return !right.Equals(left);
-    }
-
-    public static bool operator !=(Alpha3CurrencyCode left, ReadOnlySpan<char> right)
-    {
-        return !left.Equals(right);
-    }
+    public static bool operator !=(Alpha3CurrencyCode left, Alpha3CurrencyCode right) => !left.Equals(right);
+    public static bool operator !=(ReadOnlySpan<char> left, Alpha3CurrencyCode right) => !right.Equals(left);
+    public static bool operator !=(Alpha3CurrencyCode left, ReadOnlySpan<char> right) => !left.Equals(right);
 
     #endregion
 }

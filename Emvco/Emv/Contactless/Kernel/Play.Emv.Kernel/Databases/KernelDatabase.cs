@@ -5,7 +5,6 @@ using Play.Ber.Emv.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Emv.DataElements;
-using Play.Emv.DataElements.CertificateAuthority;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Security.Certificates;
 using Play.Emv.Sessions;
@@ -328,10 +327,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         _KernelSession!.Reset(value);
     }
 
-    protected bool IsActive()
-    {
-        return _KernelSession != null;
-    }
+    protected bool IsActive() => _KernelSession != null;
 
     #endregion
 }

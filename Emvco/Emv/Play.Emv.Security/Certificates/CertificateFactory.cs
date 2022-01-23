@@ -30,11 +30,9 @@ internal partial class CertificateFactory
         IssuerPublicKeyCertificate encipheredCertificate,
         IssuerPublicKeyExponent encipheredPublicKeyExponent,
         IssuerPublicKeyRemainder enciphermentPublicKeyRemainder,
-        out DecodedIssuerPublicKeyCertificate? result)
-    {
-        return Issuer.TryCreate(_SignatureService, publicKeyCertificate, encipheredCertificate, encipheredPublicKeyExponent,
-                                enciphermentPublicKeyRemainder, out result);
-    }
+        out DecodedIssuerPublicKeyCertificate? result) =>
+        Issuer.TryCreate(_SignatureService, publicKeyCertificate, encipheredCertificate, encipheredPublicKeyExponent,
+                         enciphermentPublicKeyRemainder, out result);
 
     public bool TryCreate(
         StaticDataToBeAuthenticated staticDataToBeAuthenticated,
@@ -43,11 +41,9 @@ internal partial class CertificateFactory
         IccPublicKeyCertificate encipheredCertificate,
         IccPublicKeyExponent encipheredPublicKeyExponent,
         IccPublicKeyRemainder enciphermentPublicKeyRemainder,
-        out DecodedIccPublicKeyCertificate? result)
-    {
-        return Icc.TryCreate(_SignatureService, staticDataToBeAuthenticated, primaryAccountNumber, publicKeyCertificate,
-                             encipheredCertificate, encipheredPublicKeyExponent, enciphermentPublicKeyRemainder, out result);
-    }
+        out DecodedIccPublicKeyCertificate? result) =>
+        Icc.TryCreate(_SignatureService, staticDataToBeAuthenticated, primaryAccountNumber, publicKeyCertificate, encipheredCertificate,
+                      encipheredPublicKeyExponent, enciphermentPublicKeyRemainder, out result);
 
     #endregion
 }

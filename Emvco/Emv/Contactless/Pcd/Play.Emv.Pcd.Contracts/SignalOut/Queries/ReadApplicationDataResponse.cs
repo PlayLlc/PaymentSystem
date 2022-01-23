@@ -26,7 +26,7 @@ public record ReadApplicationDataResponse : QueryPcdResponse
         CorrelationId correlation,
         TransactionSessionId transactionSessionId,
         ReadElementaryFileRecordRangeResponse[] cardResponses) : base(correlation, MessageTypeId, transactionSessionId,
-        cardResponses.FirstOrDefault()!.GetRApduSignal())
+                                                                      cardResponses.FirstOrDefault()!.GetRApduSignal())
     {
         _Records = cardResponses;
     }

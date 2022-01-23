@@ -71,11 +71,22 @@ public readonly struct Level2Error
         TerminalDataError = new Level2Error(terminalDataError);
         _ValueObjectMap = new Dictionary<byte, Level2Error>
         {
-            {camFailed, CamFailed}, {cardDataError, CardDataError}, {cardDataMissing, CardDataMissing},
-            {emptyCandidateList, EmptyCandidateList}, {idsDataError, IdsDataError}, {idsNoMatchingAc, IdsNoMatchingAc},
-            {idsReaderError, IdsReaderError}, {idsWriterError, IdsWriterError}, {magStripeNotSupported, MagStripeNotSupported},
-            {maxLimitExceeded, MaxLimitExceeded}, {noPpse, NoPpse}, {ok, Ok}, {parsingError, ParsingError}, {ppseFault, PpseFault},
-            {statusBytes, StatusBytes}, {terminalDataError, TerminalDataError}
+            {camFailed, CamFailed},
+            {cardDataError, CardDataError},
+            {cardDataMissing, CardDataMissing},
+            {emptyCandidateList, EmptyCandidateList},
+            {idsDataError, IdsDataError},
+            {idsNoMatchingAc, IdsNoMatchingAc},
+            {idsReaderError, IdsReaderError},
+            {idsWriterError, IdsWriterError},
+            {magStripeNotSupported, MagStripeNotSupported},
+            {maxLimitExceeded, MaxLimitExceeded},
+            {noPpse, NoPpse},
+            {ok, Ok},
+            {parsingError, ParsingError},
+            {ppseFault, PpseFault},
+            {statusBytes, StatusBytes},
+            {terminalDataError, TerminalDataError}
         }.ToImmutableSortedDictionary();
     }
 
@@ -88,34 +99,16 @@ public readonly struct Level2Error
 
     #region Instance Members
 
-    public static Level2Error Get(byte value)
-    {
-        return _ValueObjectMap[value];
-    }
+    public static Level2Error Get(byte value) => _ValueObjectMap[value];
 
     #endregion
 
     #region Equality
 
-    public override bool Equals(object? obj)
-    {
-        return obj is Level2Error l2 && Equals(l2);
-    }
-
-    public bool Equals(Level2Error other)
-    {
-        return _Value == other._Value;
-    }
-
-    public bool Equals(Level2Error x, Level2Error y)
-    {
-        return x.Equals(y);
-    }
-
-    public bool Equals(byte other)
-    {
-        return _Value == other;
-    }
+    public override bool Equals(object? obj) => obj is Level2Error l2 && Equals(l2);
+    public bool Equals(Level2Error other) => _Value == other._Value;
+    public bool Equals(Level2Error x, Level2Error y) => x.Equals(y);
+    public bool Equals(byte other) => _Value == other;
 
     public override int GetHashCode()
     {
@@ -128,70 +121,19 @@ public readonly struct Level2Error
 
     #region Operator Overrides
 
-    public static bool operator ==(Level2Error left, Level2Error right)
-    {
-        return left._Value == right._Value;
-    }
-
-    public static bool operator ==(Level2Error left, byte right)
-    {
-        return left._Value == right;
-    }
-
-    public static bool operator ==(byte left, Level2Error right)
-    {
-        return left == right._Value;
-    }
-
-    public static explicit operator byte(Level2Error value)
-    {
-        return value._Value;
-    }
-
-    public static explicit operator short(Level2Error value)
-    {
-        return value._Value;
-    }
-
-    public static explicit operator ushort(Level2Error value)
-    {
-        return value._Value;
-    }
-
-    public static explicit operator int(Level2Error value)
-    {
-        return value._Value;
-    }
-
-    public static explicit operator uint(Level2Error value)
-    {
-        return value._Value;
-    }
-
-    public static explicit operator long(Level2Error value)
-    {
-        return value._Value;
-    }
-
-    public static explicit operator ulong(Level2Error value)
-    {
-        return value._Value;
-    }
-
-    public static bool operator !=(Level2Error left, Level2Error right)
-    {
-        return !(left == right);
-    }
-
-    public static bool operator !=(Level2Error left, byte right)
-    {
-        return !(left == right);
-    }
-
-    public static bool operator !=(byte left, Level2Error right)
-    {
-        return !(left == right);
-    }
+    public static bool operator ==(Level2Error left, Level2Error right) => left._Value == right._Value;
+    public static bool operator ==(Level2Error left, byte right) => left._Value == right;
+    public static bool operator ==(byte left, Level2Error right) => left == right._Value;
+    public static explicit operator byte(Level2Error value) => value._Value;
+    public static explicit operator short(Level2Error value) => value._Value;
+    public static explicit operator ushort(Level2Error value) => value._Value;
+    public static explicit operator int(Level2Error value) => value._Value;
+    public static explicit operator uint(Level2Error value) => value._Value;
+    public static explicit operator long(Level2Error value) => value._Value;
+    public static explicit operator ulong(Level2Error value) => value._Value;
+    public static bool operator !=(Level2Error left, Level2Error right) => !(left == right);
+    public static bool operator !=(Level2Error left, byte right) => !(left == right);
+    public static bool operator !=(byte left, Level2Error right) => !(left == right);
 
     #endregion
 }

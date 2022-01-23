@@ -34,29 +34,15 @@ public record UnpredictableNumber : DataElement<uint>, IEqualityComparer<Unpredi
 
     #region Instance Members
 
-    public ushort GetByteCount()
-    {
-        return _ByteCount;
-    }
-
-    public override BerEncodingId GetBerEncodingId()
-    {
-        return BerEncodingId;
-    }
-
-    public override Tag GetTag()
-    {
-        return Tag;
-    }
+    public ushort GetByteCount() => _ByteCount;
+    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 
     #region Serialization
 
-    public static UnpredictableNumber Decode(ReadOnlyMemory<byte> value)
-    {
-        return Decode(value.Span);
-    }
+    public static UnpredictableNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
@@ -75,15 +61,8 @@ public record UnpredictableNumber : DataElement<uint>, IEqualityComparer<Unpredi
         return new UnpredictableNumber(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec)
-    {
-        return codec.EncodeValue(BerEncodingId, _Value);
-    }
-
-    public override byte[] EncodeValue(BerCodec codec, int length)
-    {
-        return codec.EncodeValue(BerEncodingId, _Value, length);
-    }
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
 
     #endregion
 
@@ -100,10 +79,7 @@ public record UnpredictableNumber : DataElement<uint>, IEqualityComparer<Unpredi
         return x.Equals(y);
     }
 
-    public int GetHashCode(UnpredictableNumber obj)
-    {
-        return obj.GetHashCode();
-    }
+    public int GetHashCode(UnpredictableNumber obj) => obj.GetHashCode();
 
     #endregion
 }

@@ -37,24 +37,14 @@ public record ApplicationCryptogram : CryptographicChecksum, IEqualityComparer<A
 
     #region Instance Members
 
-    public new BerEncodingId GetBerEncodingId()
-    {
-        return BerEncodingId;
-    }
-
-    public new Tag GetTag()
-    {
-        return Tag;
-    }
+    public new BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public new Tag GetTag() => Tag;
 
     #endregion
 
     #region Serialization
 
-    public static ApplicationCryptogram Decode(ReadOnlyMemory<byte> value, BerCodec codec)
-    {
-        return Decode(value.Span, codec);
-    }
+    public static ApplicationCryptogram Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
@@ -69,10 +59,7 @@ public record ApplicationCryptogram : CryptographicChecksum, IEqualityComparer<A
         return new ApplicationCryptogram(value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec)
-    {
-        return _Value;
-    }
+    public override byte[] EncodeValue(BerCodec codec) => _Value;
 
     public override byte[] EncodeValue(BerCodec codec, int length)
     {
@@ -105,10 +92,7 @@ public record ApplicationCryptogram : CryptographicChecksum, IEqualityComparer<A
         return x.Equals(y);
     }
 
-    public int GetHashCode(ApplicationCryptogram obj)
-    {
-        return obj.GetHashCode();
-    }
+    public int GetHashCode(ApplicationCryptogram obj) => obj.GetHashCode();
 
     #endregion
 }

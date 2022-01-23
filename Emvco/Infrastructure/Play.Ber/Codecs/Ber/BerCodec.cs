@@ -138,7 +138,7 @@ public partial class BerCodec
         if (value is SetOf setOfValues)
             return EncodeValue(setOfValues);
 
-        throw new BerInternalException($"This exception should never be thrown");
+        throw new BerInternalException("This exception should never be thrown");
     }
 
     #endregion

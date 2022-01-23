@@ -7,7 +7,7 @@ public class ApplicationDedicatedFileNameTestTlv : TestTlv
 {
     #region Static Metadata
 
-    private static readonly byte[] _DefaultContentOctets = new byte[] {0xA0, 0x00, 0x00, 0x00, 0x98, 0x08, 0x40};
+    private static readonly byte[] _DefaultContentOctets = {0xA0, 0x00, 0x00, 0x00, 0x98, 0x08, 0x40};
 
     #endregion
 
@@ -23,10 +23,7 @@ public class ApplicationDedicatedFileNameTestTlv : TestTlv
 
     #region Instance Members
 
-    public override Tag GetTag()
-    {
-        return ApplicationDedicatedFileName.Tag;
-    }
+    public override Tag GetTag() => ApplicationDedicatedFileName.Tag;
 
     #endregion
 }

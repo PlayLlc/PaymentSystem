@@ -42,15 +42,8 @@ public record PosCardholderInteractionInformation : PrimitiveValue, IEqualityCom
 
     #region Instance Members
 
-    public bool AckRequired()
-    {
-        return _Value.IsBitSet(10);
-    }
-
-    public bool ContextIsConflicting()
-    {
-        return _Value.IsBitSet(12);
-    }
+    public bool AckRequired() => _Value.IsBitSet(10);
+    public bool ContextIsConflicting() => _Value.IsBitSet(12);
 
     public static bool EqualsStatic(PosCardholderInteractionInformation? x, PosCardholderInteractionInformation? y)
     {
@@ -63,49 +56,19 @@ public record PosCardholderInteractionInformation : PrimitiveValue, IEqualityCom
         return x.Equals(y);
     }
 
-    public override BerEncodingId GetBerEncodingId()
-    {
-        return BerEncodingId;
-    }
-
-    public override Tag GetTag()
-    {
-        return Tag;
-    }
-
-    public override ushort GetValueByteCount(BerCodec codec)
-    {
-        return codec.GetByteCount(GetBerEncodingId(), _Value);
-    }
-
-    public bool OfflineChangePinRequired()
-    {
-        return _Value.IsBitSet(11);
-    }
-
-    public bool OfflineDataCardVerificationMethodRequired()
-    {
-        return _Value.IsBitSet(9);
-    }
-
-    public bool OnDeviceCardholderVerificationMethodVerificationSuccessful()
-    {
-        return _Value.IsBitSet(13);
-    }
-
-    public bool WalletRequiresSecondTap()
-    {
-        return _Value.IsBitSet(17);
-    }
+    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public bool OfflineChangePinRequired() => _Value.IsBitSet(11);
+    public bool OfflineDataCardVerificationMethodRequired() => _Value.IsBitSet(9);
+    public bool OnDeviceCardholderVerificationMethodVerificationSuccessful() => _Value.IsBitSet(13);
+    public bool WalletRequiresSecondTap() => _Value.IsBitSet(17);
 
     #endregion
 
     #region Serialization
 
-    public static PosCardholderInteractionInformation Decode(ReadOnlyMemory<byte> value, BerCodec codec)
-    {
-        return Decode(value.Span, codec);
-    }
+    public static PosCardholderInteractionInformation Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
@@ -126,15 +89,8 @@ public record PosCardholderInteractionInformation : PrimitiveValue, IEqualityCom
         return new PosCardholderInteractionInformation(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec)
-    {
-        return codec.EncodeValue(BerEncodingId, _Value);
-    }
-
-    public override byte[] EncodeValue(BerCodec codec, int length)
-    {
-        return codec.EncodeValue(BerEncodingId, _Value, length);
-    }
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
 
     #endregion
 
@@ -151,10 +107,7 @@ public record PosCardholderInteractionInformation : PrimitiveValue, IEqualityCom
         return x.Equals(y);
     }
 
-    public int GetHashCode(PosCardholderInteractionInformation obj)
-    {
-        return obj.GetHashCode();
-    }
+    public int GetHashCode(PosCardholderInteractionInformation obj) => obj.GetHashCode();
 
     #endregion
 }

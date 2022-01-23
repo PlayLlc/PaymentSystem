@@ -45,35 +45,12 @@ public class AuthenticateStaticDataCommand
 
     #region Instance Members
 
-    internal CaPublicKeyCertificate GetCaPublicKeyCertificate()
-    {
-        return _CaPublicKeyCertificate;
-    }
-
-    internal IssuerPublicKeyCertificate GetIssuerPublicKeyCertificate()
-    {
-        return _IssuerPublicKeyCertificate;
-    }
-
-    internal IssuerPublicKeyExponent GetIssuerPublicKeyExponent()
-    {
-        return _IssuerPublicKeyExponent;
-    }
-
-    internal IssuerPublicKeyRemainder GetIssuerPublicKeyRemainder()
-    {
-        return _IssuerPublicKeyRemainder;
-    }
-
-    internal SignedStaticApplicationData GetSignedStaticApplicationData()
-    {
-        return _SignedStaticApplicationData;
-    }
-
-    internal StaticDataToBeAuthenticated GetStaticDataToBeAuthenticated()
-    {
-        return _StaticDataToBeAuthenticated;
-    }
+    internal CaPublicKeyCertificate GetCaPublicKeyCertificate() => _CaPublicKeyCertificate;
+    internal IssuerPublicKeyCertificate GetIssuerPublicKeyCertificate() => _IssuerPublicKeyCertificate;
+    internal IssuerPublicKeyExponent GetIssuerPublicKeyExponent() => _IssuerPublicKeyExponent;
+    internal IssuerPublicKeyRemainder GetIssuerPublicKeyRemainder() => _IssuerPublicKeyRemainder;
+    internal SignedStaticApplicationData GetSignedStaticApplicationData() => _SignedStaticApplicationData;
+    internal StaticDataToBeAuthenticated GetStaticDataToBeAuthenticated() => _StaticDataToBeAuthenticated;
 
     #endregion
 }

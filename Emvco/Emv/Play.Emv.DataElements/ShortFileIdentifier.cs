@@ -29,8 +29,8 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
     {
         if (value > _MaxValue)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The argument {nameof(value)} was out of range. {nameof(ShortFileIdentifier)} objects must have a decimal value between {_MinValue} and {_MaxValue}");
+            throw new
+                ArgumentOutOfRangeException($"The argument {nameof(value)} was out of range. {nameof(ShortFileIdentifier)} objects must have a decimal value between {_MinValue} and {_MaxValue}");
         }
     }
 
@@ -70,13 +70,13 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
 
         if (value.Length != byteLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(ShortFileIdentifier)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(ShortFileIdentifier)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<byte> result = codec.Decode(BerEncodingId, value) as DecodedResult<byte>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(ShortFileIdentifier)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(ShortFileIdentifier)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new ShortFileIdentifier(result.Value);
     }

@@ -41,11 +41,11 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
     { }
 
     public ErrorIndication(Level1Error level1Error, StatusWords statusWords) : base(SetLevel1Error(level1Error)
-        | SetStatusWords(statusWords))
+                                                                                    | SetStatusWords(statusWords))
     { }
 
     public ErrorIndication(Level2Error level2Error, StatusWords statusWords) : base(SetLevel2Error(level2Error)
-        | SetStatusWords(statusWords))
+                                                                                    | SetStatusWords(statusWords))
     { }
 
     public ErrorIndication(StatusWords statusWords) : base(SetStatusWords(statusWords))
@@ -107,13 +107,13 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
 
         if (value.Length != byteLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(ErrorIndication)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(ErrorIndication)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(ErrorIndication)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(ErrorIndication)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new ErrorIndication(result.Value);
     }

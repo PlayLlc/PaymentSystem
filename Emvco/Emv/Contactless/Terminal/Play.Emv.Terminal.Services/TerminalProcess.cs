@@ -82,10 +82,7 @@ internal class TerminalProcess : CommandProcessingQueue
         await Task.Run(() => { _TerminalStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
-    protected override Task Handle(dynamic command)
-    {
-        return Handle(command);
-    }
+    protected override Task Handle(dynamic command) => Handle(command);
 
     #endregion
 }

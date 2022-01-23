@@ -73,24 +73,18 @@ internal class AesCodec : IBlockCipher
         return buffer.ToArray();
     }
 
-    private AesCryptoServiceProvider GetAesProvider(ReadOnlySpan<byte> key)
-    {
-        return new AesCryptoServiceProvider
+    private AesCryptoServiceProvider GetAesProvider(ReadOnlySpan<byte> key) =>
+        new AesCryptoServiceProvider
         {
-            BlockSize = _BlockSize, KeySize = _KeySize, Key = key.ToArray(), Mode = _CipherMode.AsCipherMode(),
+            BlockSize = _BlockSize,
+            KeySize = _KeySize,
+            Key = key.ToArray(),
+            Mode = _CipherMode.AsCipherMode(),
             Padding = _PaddingMode.AsPaddingMode()
         };
-    }
 
-    public BlockCipherAlgorithm GetAlgorithm()
-    {
-        return BlockCipherAlgorithm.Aes;
-    }
-
-    public KeySize GetKeySize()
-    {
-        return _KeySize;
-    }
+    public BlockCipherAlgorithm GetAlgorithm() => BlockCipherAlgorithm.Aes;
+    public KeySize GetKeySize() => _KeySize;
 
     public byte[] Sign(ReadOnlySpan<byte> message, ReadOnlySpan<byte> key)
     {
@@ -105,10 +99,7 @@ internal class AesCodec : IBlockCipher
         return memoryStream.ToArray();
     }
 
-    public BlockCipherMode GetCipherMode()
-    {
-        return _CipherMode;
-    }
+    public BlockCipherMode GetCipherMode() => _CipherMode;
 
     #endregion
 }

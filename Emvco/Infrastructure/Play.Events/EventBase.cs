@@ -16,9 +16,6 @@ public abstract class EventBase : IEquatable<EventBase>
 
     #region Constructor
 
-    protected EventBase()
-    { }
-
     #endregion
 
     #region Instance Members

@@ -7,7 +7,7 @@ public class ApplicationExpirationDateTestTlv : TestTlv
 {
     #region Static Metadata
 
-    private static readonly byte[] _DefaultContentOctets = new byte[] {0X12, 0X21, 0X22};
+    private static readonly byte[] _DefaultContentOctets = {0X12, 0X21, 0X22};
 
     #endregion
 
@@ -23,10 +23,7 @@ public class ApplicationExpirationDateTestTlv : TestTlv
 
     #region Instance Members
 
-    public override Tag GetTag()
-    {
-        return ApplicationExpirationDate.Tag;
-    }
+    public override Tag GetTag() => ApplicationExpirationDate.Tag;
 
     #endregion
 }

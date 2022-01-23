@@ -35,7 +35,7 @@ public readonly struct Alpha3LanguageCode
         if (!_AlphaNumericCodec.IsValid(value))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} was expecting a decimal representation of an ASCII alphabetic character");
+                                                  $"The argument {nameof(value)} was expecting a decimal representation of an ASCII alphabetic character");
         }
 
         _FirstChar = value[0];
@@ -51,7 +51,7 @@ public readonly struct Alpha3LanguageCode
         if (!_AlphaNumericCodec.IsValid(value))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} was expecting a decimal representation of an ASCII alphabetic character");
+                                                  $"The argument {nameof(value)} was expecting a decimal representation of an ASCII alphabetic character");
         }
 
         _FirstChar = (byte) value[0];

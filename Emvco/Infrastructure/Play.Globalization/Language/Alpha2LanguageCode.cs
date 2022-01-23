@@ -35,7 +35,7 @@ public readonly struct Alpha2LanguageCode
         if (!_AlphaNumericCodec.IsValid(value))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} was expecting a decimal representation of an ASCII alphabetic character");
+                                                  $"The argument {nameof(value)} was expecting a decimal representation of an ASCII alphabetic character");
         }
 
         _FirstChar = value[0];
@@ -50,7 +50,7 @@ public readonly struct Alpha2LanguageCode
         if (!_AlphaNumericCodec.IsValid(value))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} was expecting a decimal representation of an ASCII alphabetic character");
+                                                  $"The argument {nameof(value)} was expecting a decimal representation of an ASCII alphabetic character");
         }
 
         _FirstChar = (byte) value[0];
@@ -62,13 +62,13 @@ public readonly struct Alpha2LanguageCode
         if (!_AlphaNumericCodec.IsValid(firstChar))
         {
             throw new ArgumentOutOfRangeException(nameof(firstChar),
-                $"The argument {firstChar} was out of range of an alphabetic Ascii value");
+                                                  $"The argument {firstChar} was out of range of an alphabetic Ascii value");
         }
 
         if (!_AlphaNumericCodec.IsValid(secondChar))
         {
             throw new ArgumentOutOfRangeException(nameof(firstChar),
-                $"The argument {firstChar} was out of range of an alphabetic Ascii value");
+                                                  $"The argument {firstChar} was out of range of an alphabetic Ascii value");
         }
 
         _FirstChar = firstChar;

@@ -286,7 +286,7 @@ internal class CountryCodeRepository
 
     public static bool IsValid(ushort numericCode)
     {
-        return _NumericCountryMap.Keys.Any(a => (ushort) a == numericCode);
+        return _NumericCountryMap.Keys.Any(a => a == numericCode);
     }
 
     public static bool IsValid(ReadOnlySpan<char> alpha3Code)
@@ -294,7 +294,7 @@ internal class CountryCodeRepository
         if (alpha3Code.Length != 3)
         {
             throw new ArgumentOutOfRangeException(nameof(alpha3Code),
-                $"The argument {nameof(alpha3Code)} must be three characters in length");
+                                                  $"The argument {nameof(alpha3Code)} must be three characters in length");
         }
 
         _Buffer[0] = alpha3Code[0];

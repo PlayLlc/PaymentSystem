@@ -185,7 +185,9 @@ public class DataExchangeTerminalService
     public int GetLength(DetRequestType typeItem)
     {
         lock (_Lock)
+        {
             return _Lock.Requests[typeItem].Count();
+        }
     }
 
     /// <summary>

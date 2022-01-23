@@ -49,30 +49,11 @@ public class DecodedSignature
         return result.ToArray();
     }
 
-    public int GetByteCount()
-    {
-        return _Message1.GetByteCount() + _Hash.Length + 2;
-    }
-
-    public byte[] GetHash()
-    {
-        return _Hash;
-    }
-
-    public byte GetLeadingByte()
-    {
-        return _LeadingByte;
-    }
-
-    public Message1 GetMessage1()
-    {
-        return _Message1;
-    }
-
-    public byte GetTrailingByte()
-    {
-        return _TrailingByte;
-    }
+    public int GetByteCount() => _Message1.GetByteCount() + _Hash.Length + 2;
+    public byte[] GetHash() => _Hash;
+    public byte GetLeadingByte() => _LeadingByte;
+    public Message1 GetMessage1() => _Message1;
+    public byte GetTrailingByte() => _TrailingByte;
 
     private static void Validate(byte leadingByte, ReadOnlySpan<byte> hash, byte trailingByte)
     {

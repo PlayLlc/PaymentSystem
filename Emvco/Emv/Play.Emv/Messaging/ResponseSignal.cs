@@ -10,11 +10,11 @@ public abstract record ResponseSignal : ResponseMessage
     #region Constructor
 
     protected ResponseSignal(CorrelationId correlationId, MessageTypeId messageTypeId, ChannelTypeId channelTypeId) : base(correlationId,
-        messageTypeId, channelTypeId)
+     messageTypeId, channelTypeId)
     { }
 
-    protected ResponseSignal(RequestMessageEnvelope originalMessage, MessageTypeId messageTypeId, ChannelTypeId channelTypeId) : base(
-        GetCorrelationId(originalMessage), messageTypeId, channelTypeId)
+    protected ResponseSignal(RequestMessageEnvelope originalMessage, MessageTypeId messageTypeId, ChannelTypeId channelTypeId) :
+        base(GetCorrelationId(originalMessage), messageTypeId, channelTypeId)
     { }
 
     #endregion

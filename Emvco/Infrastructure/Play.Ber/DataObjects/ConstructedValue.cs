@@ -9,15 +9,11 @@ using Play.Ber.Lengths;
 namespace Play.Ber.DataObjects;
 
 public abstract class ConstructedValue : IEncodeBerDataObjects, IRetrieveConstructedValueMetadata, IEqualityComparer<ConstructedValue>,
-                                         IEquatable<ConstructedValue>
+    IEquatable<ConstructedValue>
 {
     #region Instance Members
 
-    public TagLengthValue AsTagLengthValue(BerCodec codec)
-    {
-        return new(GetTag(), EncodeValue(codec));
-    }
-
+    public TagLengthValue AsTagLengthValue(BerCodec codec) => new TagLengthValue(GetTag(), EncodeValue(codec));
     public abstract Tag GetTag();
 
     /// <summary>

@@ -158,7 +158,7 @@ public class Kernel2PersistentValues : PersistentValues
             {
                 KnownObjects.TerminalExpectedTransmissionTimeForRelayResistanceCApdu,
                 new DatabaseValue(new TagLengthValue(KnownObjects.TerminalExpectedTransmissionTimeForRelayResistanceCApdu,
-                    new byte[] {0x00, 0x12}))
+                                                     new byte[] {0x00, 0x12}))
             },
             {KnownObjects.TerminalType, new DatabaseValue(new TagLengthValue(KnownObjects.TerminalType, new byte[] {0x00}))},
             {KnownObjects.TimeOutValue, new DatabaseValue(new TagLengthValue(KnownObjects.TimeOutValue, new byte[] {0x01, 0xF4}))},

@@ -7,7 +7,7 @@ public class ApplicationPriorityIndicatorTestTlv : TestTlv
 {
     #region Static Metadata
 
-    private static readonly byte[] _DefaultContentOctets = new byte[] {0x02};
+    private static readonly byte[] _DefaultContentOctets = {0x02};
 
     #endregion
 
@@ -23,10 +23,7 @@ public class ApplicationPriorityIndicatorTestTlv : TestTlv
 
     #region Instance Members
 
-    public override Tag GetTag()
-    {
-        return ApplicationPriorityIndicator.Tag;
-    }
+    public override Tag GetTag() => ApplicationPriorityIndicator.Tag;
 
     #endregion
 }

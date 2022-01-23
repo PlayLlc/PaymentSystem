@@ -32,10 +32,7 @@ public readonly record struct BerEncodingId
 
     #region Instance Members
 
-    public string GetFullyQualifiedName()
-    {
-        return _FullyQualifiedName;
-    }
+    public string GetFullyQualifiedName() => _FullyQualifiedName;
 
     private static ulong GetHashedId(ReadOnlySpan<char> value)
     {
@@ -56,10 +53,7 @@ public readonly record struct BerEncodingId
 
     #region Operator Overrides
 
-    public static implicit operator ulong(BerEncodingId tag)
-    {
-        return tag._Id;
-    }
+    public static implicit operator ulong(BerEncodingId tag) => tag._Id;
 
     #endregion
 }

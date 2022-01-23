@@ -37,7 +37,7 @@ public record GetProcessingOptionsCommand : QueryPcdRequest
     }
 
     private GetProcessingOptionsCommand(CApduSignal cApduSignal, TransactionSessionId transactionSessionId) : base(cApduSignal,
-        MessageTypeId, transactionSessionId)
+     MessageTypeId, transactionSessionId)
     {
         _CommandTemplate = null;
     }
@@ -54,7 +54,7 @@ public record GetProcessingOptionsCommand : QueryPcdRequest
         CommandTemplate commandTemplate = dataObjectListResult.AsCommandTemplate();
 
         return new GetProcessingOptionsCommand(commandTemplate, GetProcessingOptionsCApduSignal.Create(commandTemplate),
-            transactionSessionId);
+                                               transactionSessionId);
     }
 
     public static GetProcessingOptionsCommand Create(CommandTemplate commandTemplate, TransactionSessionId transactionSessionId) =>

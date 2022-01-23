@@ -49,13 +49,13 @@ public record KernelId : DataElement<byte>, IEqualityComparer<KernelId>
 
         if (value.Length != byteLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(KernelId)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(KernelId)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<byte> result = codec.Decode(BerEncodingId, value) as DecodedResult<byte>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(KernelId)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(KernelId)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new KernelId(result.Value);
     }

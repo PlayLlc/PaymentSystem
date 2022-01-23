@@ -26,36 +26,19 @@ namespace Play.Ber.Emv.Tests.TestDoubles
 
         #region Instance Members
 
-        public override BerEncodingId GetBerEncodingId()
-        {
-            return BerEncodingId;
-        }
-
-        public override Tag GetTag()
-        {
-            return Tag;
-        }
-
-        public override ushort GetValueByteCount(BerCodec codec)
-        {
-            return codec.GetByteCount(GetBerEncodingId(), _Value);
-        }
+        public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+        public override Tag GetTag() => Tag;
+        public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
         #endregion
 
         #region Serialization
 
-        public static MockDataObjectList Decode(ReadOnlyMemory<byte> value)
-        {
-            return Decode(value.Span);
-        }
+        public static MockDataObjectList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="BerException"></exception>
-        public static MockDataObjectList Decode(ReadOnlySpan<byte> value)
-        {
-            return new MockDataObjectList(value.ToArray());
-        }
+        public static MockDataObjectList Decode(ReadOnlySpan<byte> value) => new MockDataObjectList(value.ToArray());
 
         #endregion
 
@@ -72,10 +55,7 @@ namespace Play.Ber.Emv.Tests.TestDoubles
             return x.Equals(y);
         }
 
-        public int GetHashCode(MockDataObjectList obj)
-        {
-            return obj.GetHashCode();
-        }
+        public int GetHashCode(MockDataObjectList obj) => obj.GetHashCode();
 
         #endregion
     }

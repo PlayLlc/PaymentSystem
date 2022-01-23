@@ -133,10 +133,9 @@ internal class TerminalRiskManager : IManageTerminalRisk
             return false;
 
         return await _PercentageSelectionQueue.IsRandomSelection(GetTransactionTargetPercentage(amountAuthorizedNumeric, terminalFloorLimit,
-                                                                                                biasedRandomSelectionThreshold,
-                                                                                                biasedRandomSelectionMaximumTargetPercentage,
-                                                                                                randomSelectionTargetPercentage))
-            .ConfigureAwait(false);
+                                                                  biasedRandomSelectionThreshold,
+                                                                  biasedRandomSelectionMaximumTargetPercentage,
+                                                                  randomSelectionTargetPercentage)).ConfigureAwait(false);
     }
 
     // TODO: Not sure if we're supposed to be looking at sequence number here 
@@ -228,8 +227,7 @@ internal class TerminalRiskManager : IManageTerminalRisk
             return CreateFloorLimitExceededResponse();
 
         if (await IsRandomSelection(command.GetAmountAuthorizedNumeric(), command.GetTerminalFloorLimit(),
-                                    command.GetRandomSelectionTargetPercentage())
-            .ConfigureAwait(false))
+                                    command.GetRandomSelectionTargetPercentage()).ConfigureAwait(false))
             return CreateRandomlySelectedForOnlineProcessResponse();
 
         if (await IsBiasedRandomSelection(command.GetAmountAuthorizedNumeric(), command.GetBiasedRandomSelectionThreshold(),

@@ -20,7 +20,6 @@ public class DataExchangeKernelService
     #region Instance Values
 
     protected readonly IQueryTlvDatabase _TlvDatabase;
-
     private readonly KernelSessionId _KernelSessionId;
     private readonly ISendTerminalQueryResponse _KernelEndpoint;
     private readonly IHandleTerminalRequests _TerminalEndpoint;
@@ -186,7 +185,9 @@ public class DataExchangeKernelService
     public int GetLength(DekRequestType typeItem)
     {
         lock (_Lock.Requests)
+        {
             return _Lock.Requests[typeItem].Count();
+        }
     }
 
     /// <summary>

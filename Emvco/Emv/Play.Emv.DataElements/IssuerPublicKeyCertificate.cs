@@ -49,8 +49,8 @@ public record IssuerPublicKeyCertificate : DataElement<BigInteger>, IEqualityCom
     public static IssuerPublicKeyCertificate Decode(ReadOnlySpan<byte> value)
     {
         DecodedResult<BigInteger> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(IssuerPublicKeyCertificate)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(IssuerPublicKeyCertificate)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new IssuerPublicKeyCertificate(result.Value);
     }

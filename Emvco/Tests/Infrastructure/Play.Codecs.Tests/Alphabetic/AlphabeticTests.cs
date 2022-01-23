@@ -24,7 +24,7 @@ public class AlphabeticTests
     #region Instance Members
 
     [Theory]
-    [MemberData(nameof(AlphabeticFixture.GetRandomBytes), new object[] {100, 1, 300}, MemberType = typeof(AlphabeticFixture))]
+    [MemberData(nameof(AlphabeticFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(AlphabeticFixture))]
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
     {
         string decoded = _SystemUnderTest.GetString(testValue);
@@ -34,7 +34,7 @@ public class AlphabeticTests
     }
 
     [Theory]
-    [MemberData(nameof(AlphabeticFixture.GetRandomString), new object[] {100, 1, 300}, MemberType = typeof(AlphabeticFixture))]
+    [MemberData(nameof(AlphabeticFixture.GetRandomString), 100, 1, 300, MemberType = typeof(AlphabeticFixture))]
     public void RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult(string testValue)
     {
         byte[] decoded = _SystemUnderTest.GetBytes(testValue);

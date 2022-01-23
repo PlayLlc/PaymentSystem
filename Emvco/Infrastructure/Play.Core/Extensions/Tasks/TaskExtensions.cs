@@ -20,8 +20,8 @@ public static class TaskExtensions
 
                 return await task; // Very important in order to propagate exceptions
             }
-            else
-                throw new TimeoutException("The operation has timed out.");
+
+            throw new TimeoutException("The operation has timed out.");
         }
     }
 

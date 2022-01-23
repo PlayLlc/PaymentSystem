@@ -11,7 +11,7 @@ public class ProcessingOptionsDataObjectListTestTlv : TestTlv
 {
     #region Static Metadata
 
-    private static readonly byte[] _DefaultContentOctets = new byte[]
+    private static readonly byte[] _DefaultContentOctets =
     {
         0x9F, 0x66, 0x04, // PUNATC(Track2)
         0x9F, 0x02, 0x06, // Amount Authorized (Numeric)
@@ -33,10 +33,7 @@ public class ProcessingOptionsDataObjectListTestTlv : TestTlv
         {AmountAuthorizedNumeric.Tag, new AmountAuthorizedNumeric(222).AsTagLengthValue()},
         {AmountOtherNumeric.Tag, new AmountOtherNumeric(222).AsTagLengthValue()},
         {TerminalCountryCode.Tag, new TerminalCountryCode(new NumericCountryCode(840)).AsTagLengthValue()},
-        {
-            TerminalVerificationResults.Tag,
-            new TerminalVerificationResults(new TerminalVerificationResult()).AsTagLengthValue()
-        },
+        {TerminalVerificationResults.Tag, new TerminalVerificationResults(new TerminalVerificationResult()).AsTagLengthValue()},
         {TransactionCurrencyCode.Tag, new TransactionCurrencyCode(new NumericCurrencyCode(840)).AsTagLengthValue()},
         {TransactionDate.Tag, TransactionDate.Decode(new byte[] {0x15, 0x06, 0x17}.AsMemory()).AsTagLengthValue()},
         {TransactionType.Tag, TransactionType.Purchase.AsTagLengthValue()},
@@ -58,24 +55,17 @@ public class ProcessingOptionsDataObjectListTestTlv : TestTlv
 
     #region Instance Members
 
-    public override Tag GetTag()
-    {
-        return ProcessingOptionsDataObjectList.Tag;
-    }
-
-    public TagLengthValue[] GetTerminalValues()
-    {
-        return _TerminalValues.Values.ToArray();
-    }
+    public override Tag GetTag() => ProcessingOptionsDataObjectList.Tag;
+    public TagLengthValue[] GetTerminalValues() => _TerminalValues.Values.ToArray();
 
     public TagLength[] GetRequestedItems()
     {
         return new TagLength[]
         {
             new(0x9F66, 0x04), new(AmountAuthorizedNumeric.Tag, 0x06), new(AmountOtherNumeric.Tag, 0x06),
-            new(TerminalCountryCode.Tag, 0x02), new(TerminalVerificationResults.Tag, 0x05),
-            new(TransactionCurrencyCode.Tag, 0x02), new(TransactionDate.Tag, 0x03), new(TransactionType.Tag, 0x01),
-            new(UnpredictableNumber.Tag, 0x04), new(MerchantNameAndLocation.Tag, 0x14)
+            new(TerminalCountryCode.Tag, 0x02), new(TerminalVerificationResults.Tag, 0x05), new(TransactionCurrencyCode.Tag, 0x02),
+            new(TransactionDate.Tag, 0x03), new(TransactionType.Tag, 0x01), new(UnpredictableNumber.Tag, 0x04),
+            new(MerchantNameAndLocation.Tag, 0x14)
         };
     }
 
@@ -83,9 +73,8 @@ public class ProcessingOptionsDataObjectListTestTlv : TestTlv
     {
         return new Tag[]
         {
-            0x9F66, AmountAuthorizedNumeric.Tag, AmountOtherNumeric.Tag, TerminalCountryCode.Tag,
-            TerminalVerificationResults.Tag, TransactionCurrencyCode.Tag, TransactionDate.Tag, TransactionType.Tag,
-            UnpredictableNumber.Tag, MerchantNameAndLocation.Tag
+            0x9F66, AmountAuthorizedNumeric.Tag, AmountOtherNumeric.Tag, TerminalCountryCode.Tag, TerminalVerificationResults.Tag,
+            TransactionCurrencyCode.Tag, TransactionDate.Tag, TransactionType.Tag, UnpredictableNumber.Tag, MerchantNameAndLocation.Tag
         };
     }
 

@@ -14,7 +14,6 @@ public class AuthenticateDynamicDataResponse
     #region Constructor
 
     public AuthenticateDynamicDataResponse(TerminalVerificationResult terminalVerificationResult, ErrorIndication errorIndication)
-
     {
         _TerminalVerificationResult = terminalVerificationResult;
         _ErrorIndication = errorIndication;
@@ -24,15 +23,8 @@ public class AuthenticateDynamicDataResponse
 
     #region Instance Members
 
-    public TerminalVerificationResult GetTerminalVerificationResult()
-    {
-        return _TerminalVerificationResult;
-    }
-
-    public ErrorIndication GetErrorIndication()
-    {
-        return _ErrorIndication;
-    }
+    public TerminalVerificationResult GetTerminalVerificationResult() => _TerminalVerificationResult;
+    public ErrorIndication GetErrorIndication() => _ErrorIndication;
 
     #endregion
 }

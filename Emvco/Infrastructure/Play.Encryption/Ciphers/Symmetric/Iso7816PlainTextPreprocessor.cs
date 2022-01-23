@@ -19,10 +19,7 @@ public class Iso7816PlainTextPreprocessor : IPreprocessPlainText
 
     #region Instance Members
 
-    public byte[] Preprocess(ReadOnlySpan<byte> plainText)
-    {
-        return _Formatter.Format(plainText);
-    }
+    public byte[] Preprocess(ReadOnlySpan<byte> plainText) => _Formatter.Format(plainText);
 
     #endregion
 }

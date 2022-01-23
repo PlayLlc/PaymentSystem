@@ -7,7 +7,11 @@ public class ApplicationLabelTestTlv : TestTlv
 {
     #region Static Metadata
 
-    private static readonly byte[] _DefaultContentOctets = new byte[] {0x56, 0x49, 0x53, 0x41, 0x20, 0x50, 0x52, 0x45, 0x50, 0x41, 0x49, 0x44};
+    private static readonly byte[] _DefaultContentOctets =
+    {
+        0x56, 0x49, 0x53, 0x41, 0x20, 0x50, 0x52, 0x45,
+        0x50, 0x41, 0x49, 0x44
+    };
 
     #endregion
 
@@ -23,10 +27,7 @@ public class ApplicationLabelTestTlv : TestTlv
 
     #region Instance Members
 
-    public override Tag GetTag()
-    {
-        return ApplicationLabel.Tag;
-    }
+    public override Tag GetTag() => ApplicationLabel.Tag;
 
     #endregion
 }

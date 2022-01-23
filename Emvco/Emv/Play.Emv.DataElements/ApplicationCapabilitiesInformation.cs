@@ -43,7 +43,7 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
     public override Tag GetTag() => Tag;
     public bool SupportForBalanceReading() => _Value.IsBitSet(10);
     public bool IsSupportForFieldOffDetectionSet() => _Value.IsBitSet(11);
-    public new byte[] Encode() => _Codec.EncodeValue(BerEncodingId, _Value, _ByteLength);
+    public byte[] Encode() => _Codec.EncodeValue(BerEncodingId, _Value, _ByteLength);
 
     #endregion
 
@@ -57,13 +57,13 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
     {
         if (value.Length != _ByteLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(ApplicationCapabilitiesInformation)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(ApplicationCapabilitiesInformation)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
         }
 
         DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(ApplicationCapabilitiesInformation)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<uint>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(ApplicationCapabilitiesInformation)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new ApplicationCapabilitiesInformation(result.Value);
     }

@@ -37,10 +37,7 @@ public class TerminalRiskManagementResponse
 
     #region Instance Members
 
-    public TerminalVerificationResult GetTerminalVerificationResult()
-    {
-        return _TerminalVerificationResult;
-    }
+    public TerminalVerificationResult GetTerminalVerificationResult() => _TerminalVerificationResult;
 
     #endregion
 }

@@ -60,13 +60,13 @@ public sealed class IntegerCodec : BerPrimitiveCodec
         if (!AreFirstNineBitsValid(value))
         {
             throw new BerFormatException(new ArgumentOutOfRangeException(nameof(value),
-                $"The {nameof(IntegerCodec)} failed because the argument must not have the first 9 most significant bits all set or all cleared"));
+                                                                         $"The {nameof(IntegerCodec)} failed because the argument must not have the first 9 most significant bits all set or all cleared"));
         }
 
         if (!IsMinimumLengthValid(value))
         {
             throw new BerFormatException(new ArgumentOutOfRangeException(nameof(value),
-                $"The {nameof(IntegerCodec)} failed. A minimum length of {_MinimumByteLength} is required"));
+                                                                         $"The {nameof(IntegerCodec)} failed. A minimum length of {_MinimumByteLength} is required"));
         }
     }
 

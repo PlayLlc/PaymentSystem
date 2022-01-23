@@ -33,189 +33,47 @@ public record TerminalRiskManagementData : DataElement<ulong>, IEqualityComparer
 
     #region Instance Members
 
-    public bool CardCapture()
-    {
-        return _Value.IsBitSet(22);
-    }
-
-    public bool CdCvmBypassRequested()
-    {
-        return _Value.IsBitSet(32);
-    }
-
-    public bool CdCvmContact()
-    {
-        return _Value.IsBitSet(11);
-    }
-
-    public bool CdCvmContactless()
-    {
-        return _Value.IsBitSet(3);
-    }
-
-    public bool CdCvmWithoutCdaSupported()
-    {
-        return _Value.IsBitSet(22);
-    }
-
-    public bool CombinedDataAuthentication()
-    {
-        return _Value.IsBitSet(20);
-    }
-
-    public bool CvmLimitExceeded()
-    {
-        return _Value.IsBitSet(16);
-    }
-
-    public bool Dda()
-    {
-        return _Value.IsBitSet(23);
-    }
-
-    public bool EmvModeContactlessTransactionsNotSupported()
-    {
-        return _Value.IsBitSet(23);
-    }
-
-    public bool EncipheredPinForOfflineVerification()
-    {
-        return _Value.IsBitSet(13);
-    }
-
-    public bool EncipheredPinForOnlineVerification()
-    {
-        return _Value.IsBitSet(15);
-    }
-
-    public bool EncipheredPinVerificationPerformedByIccContact()
-    {
-        return _Value.IsBitSet(13);
-    }
-
-    public bool EncipheredPinVerificationPerformedByIccContactless()
-    {
-        return _Value.IsBitSet(5);
-    }
-
-    public bool EncipheredPinVerifiedOnlineContact()
-    {
-        return _Value.IsBitSet(15);
-    }
-
-    public bool EncipheredPinVerifiedOnlineContactless()
-    {
-        return _Value.IsBitSet(7);
-    }
-
-    public override BerEncodingId GetBerEncodingId()
-    {
-        return BerEncodingId;
-    }
-
-    public override Tag GetTag()
-    {
-        return Tag;
-    }
-
-    public override ushort GetValueByteCount(BerCodec codec)
-    {
-        return codec.GetByteCount(GetBerEncodingId(), _Value);
-    }
-
-    public bool IcWithContacts()
-    {
-        return _Value.IsBitSet(6);
-    }
-
-    public bool MagneticStripe()
-    {
-        return _Value.IsBitSet(7);
-    }
-
-    public bool MagstripeModeContactlessTransactionsNotSupported()
-    {
-        return _Value.IsBitSet(24);
-    }
-
-    public bool ManualKeyEntry()
-    {
-        return _Value.IsBitSet(8);
-    }
-
-    public bool NoCardVerificationMethodRequired()
-    {
-        return _Value.IsBitSet(12);
-    }
-
-    public bool NoCardVerificationMethodRequiredContact()
-    {
-        return _Value.IsBitSet(12);
-    }
-
-    public bool NoCardVerificationMethodRequiredContactless()
-    {
-        return _Value.IsBitSet(4);
-    }
-
-    public bool PlaintextPinForIccVerification()
-    {
-        return _Value.IsBitSet(16);
-    }
-
-    public bool PlaintextPinVerificationPerformedByIccContact()
-    {
-        return _Value.IsBitSet(10);
-    }
-
-    public bool PlaintextPinVerificationPerformedByIccContactless()
-    {
-        return _Value.IsBitSet(2);
-    }
-
-    public bool PresentAndHoldSupported()
-    {
-        return _Value.IsBitSet(1);
-    }
-
-    public bool RestartSupported()
-    {
-        return _Value.IsBitSet(8);
-    }
-
-    public bool ScaExempt()
-    {
-        return _Value.IsBitSet(31);
-    }
-
-    public bool SignaturePaper()
-    {
-        return _Value.IsBitSet(14);
-    }
-
-    public bool SignaturePaperContact()
-    {
-        return _Value.IsBitSet(14);
-    }
-
-    public bool SignaturePaperContactless()
-    {
-        return _Value.IsBitSet(6);
-    }
-
-    public bool StaticDataAuthentication()
-    {
-        return _Value.IsBitSet(24);
-    }
+    public bool CardCapture() => _Value.IsBitSet(22);
+    public bool CdCvmBypassRequested() => _Value.IsBitSet(32);
+    public bool CdCvmContact() => _Value.IsBitSet(11);
+    public bool CdCvmContactless() => _Value.IsBitSet(3);
+    public bool CdCvmWithoutCdaSupported() => _Value.IsBitSet(22);
+    public bool CombinedDataAuthentication() => _Value.IsBitSet(20);
+    public bool CvmLimitExceeded() => _Value.IsBitSet(16);
+    public bool Dda() => _Value.IsBitSet(23);
+    public bool EmvModeContactlessTransactionsNotSupported() => _Value.IsBitSet(23);
+    public bool EncipheredPinForOfflineVerification() => _Value.IsBitSet(13);
+    public bool EncipheredPinForOnlineVerification() => _Value.IsBitSet(15);
+    public bool EncipheredPinVerificationPerformedByIccContact() => _Value.IsBitSet(13);
+    public bool EncipheredPinVerificationPerformedByIccContactless() => _Value.IsBitSet(5);
+    public bool EncipheredPinVerifiedOnlineContact() => _Value.IsBitSet(15);
+    public bool EncipheredPinVerifiedOnlineContactless() => _Value.IsBitSet(7);
+    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public bool IcWithContacts() => _Value.IsBitSet(6);
+    public bool MagneticStripe() => _Value.IsBitSet(7);
+    public bool MagstripeModeContactlessTransactionsNotSupported() => _Value.IsBitSet(24);
+    public bool ManualKeyEntry() => _Value.IsBitSet(8);
+    public bool NoCardVerificationMethodRequired() => _Value.IsBitSet(12);
+    public bool NoCardVerificationMethodRequiredContact() => _Value.IsBitSet(12);
+    public bool NoCardVerificationMethodRequiredContactless() => _Value.IsBitSet(4);
+    public bool PlaintextPinForIccVerification() => _Value.IsBitSet(16);
+    public bool PlaintextPinVerificationPerformedByIccContact() => _Value.IsBitSet(10);
+    public bool PlaintextPinVerificationPerformedByIccContactless() => _Value.IsBitSet(2);
+    public bool PresentAndHoldSupported() => _Value.IsBitSet(1);
+    public bool RestartSupported() => _Value.IsBitSet(8);
+    public bool ScaExempt() => _Value.IsBitSet(31);
+    public bool SignaturePaper() => _Value.IsBitSet(14);
+    public bool SignaturePaperContact() => _Value.IsBitSet(14);
+    public bool SignaturePaperContactless() => _Value.IsBitSet(6);
+    public bool StaticDataAuthentication() => _Value.IsBitSet(24);
 
     #endregion
 
     #region Serialization
 
-    public static TerminalRiskManagementData Decode(ReadOnlyMemory<byte> value)
-    {
-        return Decode(value.Span);
-    }
+    public static TerminalRiskManagementData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
@@ -234,10 +92,7 @@ public record TerminalRiskManagementData : DataElement<ulong>, IEqualityComparer
         return new TerminalRiskManagementData(result.Value);
     }
 
-    public new byte[] EncodeValue()
-    {
-        return EncodeValue(_ByteLength);
-    }
+    public new byte[] EncodeValue() => EncodeValue(_ByteLength);
 
     #endregion
 
@@ -254,10 +109,7 @@ public record TerminalRiskManagementData : DataElement<ulong>, IEqualityComparer
         return x.Equals(y);
     }
 
-    public int GetHashCode(TerminalRiskManagementData obj)
-    {
-        return obj.GetHashCode();
-    }
+    public int GetHashCode(TerminalRiskManagementData obj) => obj.GetHashCode();
 
     #endregion
 }

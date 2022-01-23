@@ -39,7 +39,8 @@ public partial class TagTests
     [Fact]
     public void Byte_WithContextSpecificClassFlag_CreatesTagWithCorrectClass()
     {
-        byte testValue = ShortIdentifier.TagNumber.MaxValue.GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassType.ContextSpecific);
+        byte testValue = ShortIdentifier.TagNumber.MaxValue.GetMaskedValue(Bits.Eight, Bits.Seven)
+            .SetBits((byte) ClassType.ContextSpecific);
 
         Tag sut = new(testValue);
 
@@ -99,7 +100,8 @@ public partial class TagTests
     [Fact]
     public void RandomByte_WithApplicationClassFlag_CreatesTagWithCorrectClass()
     {
-        byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassType.Application);
+        byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven)
+            .SetBits((byte) ClassType.Application);
 
         Tag sut = new(testValue);
 
@@ -123,7 +125,8 @@ public partial class TagTests
     [Fact]
     public void RandomByte_WithContextSpecificClassFlag_CreatesTagWithCorrectClass()
     {
-        byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassType.ContextSpecific);
+        byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven)
+            .SetBits((byte) ClassType.ContextSpecific);
 
         Tag sut = new(testValue);
 
@@ -147,7 +150,8 @@ public partial class TagTests
     [Fact]
     public void RandomByte_WithPrivateClassFlag_CreatesTagWithCorrectClass()
     {
-        byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassType.ContextSpecific);
+        byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven)
+            .SetBits((byte) ClassType.ContextSpecific);
 
         Tag sut = new(testValue);
 

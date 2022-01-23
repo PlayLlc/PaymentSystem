@@ -21,7 +21,7 @@ namespace Play.Ber.Emv.Tests
         [Fact]
         public void BerEncodingTagLengths_Deserializing_CreatesDataObjectList()
         {
-            Tag[] expectedResult = new Tag[] {ApplicationExpirationDate.Tag, CardholderName.Tag, KernelIdentifier.Tag};
+            Tag[] expectedResult = {ApplicationExpirationDate.Tag, CardholderName.Tag, KernelIdentifier.Tag};
             TagLength[] testData = MockDataObjectListTestFactory.GetEmptyTagLengths(expectedResult).ToArray();
             MockDataObjectList sut = MockDataObjectListTestFactory.Create(testData);
 
@@ -31,7 +31,7 @@ namespace Play.Ber.Emv.Tests
         [Fact]
         public void BerEncodingTagLengths_InvokingGetRequestedItems_ReturnsExpectedTags()
         {
-            Tag[] expectedResult = new Tag[] {ApplicationExpirationDate.Tag, CardholderName.Tag, KernelIdentifier.Tag};
+            Tag[] expectedResult = {ApplicationExpirationDate.Tag, CardholderName.Tag, KernelIdentifier.Tag};
             TagLength[] testData = MockDataObjectListTestFactory.GetEmptyTagLengths(expectedResult).ToArray();
             MockDataObjectList sut = MockDataObjectListTestFactory.Create(testData);
             TagLength[] testValue = sut.GetRequestedItems();
@@ -87,7 +87,7 @@ namespace Play.Ber.Emv.Tests
         [Fact]
         public void BerEncodingTagLengths_InvokingAsCommandTemplate_ReturnsCommandTemplate()
         {
-            TagLengthValue[] testData = new TagLengthValue[] {new ApplicationExpirationDateTestTlv().AsTagLengthValue()};
+            TagLengthValue[] testData = {new ApplicationExpirationDateTestTlv().AsTagLengthValue()};
 
             MockDataObjectList sut =
                 MockDataObjectListTestFactory.Create(testData.Select(a => new TagLength(a.GetTag(), a.EncodeValue())).ToArray());
@@ -98,7 +98,7 @@ namespace Play.Ber.Emv.Tests
         [Fact]
         public void BerEncodingTagLengths_InvokingAsCommandTemplate_ReturnsExpectedCommandTemplate()
         {
-            TagLengthValue[] testData = new TagLengthValue[] {new ApplicationExpirationDateTestTlv().AsTagLengthValue()};
+            TagLengthValue[] testData = {new ApplicationExpirationDateTestTlv().AsTagLengthValue()};
 
             MockDataObjectList sut =
                 MockDataObjectListTestFactory.Create(testData.Select(a => new TagLength(a.GetTag(), a.EncodeValue())).ToArray());

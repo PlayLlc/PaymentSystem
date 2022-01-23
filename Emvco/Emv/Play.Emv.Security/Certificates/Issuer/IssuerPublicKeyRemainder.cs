@@ -40,49 +40,19 @@ public record IssuerPublicKeyRemainder : PrimitiveValue, IEqualityComparer<Issue
 
     #region Instance Members
 
-    public byte[] AsByteArray()
-    {
-        return _Value;
-    }
-
-    public PublicKeyRemainder AsPublicKeyRemainder()
-    {
-        return new PublicKeyRemainder(_Value);
-    }
-
-    public override BerEncodingId GetBerEncodingId()
-    {
-        return BerEncodingId;
-    }
-
-    public int GetByteCount()
-    {
-        return _Value.Length;
-    }
-
-    public override Tag GetTag()
-    {
-        return Tag;
-    }
-
-    public override ushort GetValueByteCount(BerCodec codec)
-    {
-        return codec.GetByteCount(GetBerEncodingId(), _Value);
-    }
-
-    public bool IsEmpty()
-    {
-        return _Value.Length == 0;
-    }
+    public byte[] AsByteArray() => _Value;
+    public PublicKeyRemainder AsPublicKeyRemainder() => new PublicKeyRemainder(_Value);
+    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public int GetByteCount() => _Value.Length;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public bool IsEmpty() => _Value.Length == 0;
 
     #endregion
 
     #region Serialization
 
-    public static IssuerPublicKeyRemainder Decode(ReadOnlyMemory<byte> value, BerCodec codec)
-    {
-        return Decode(value.Span, codec);
-    }
+    public static IssuerPublicKeyRemainder Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
@@ -95,15 +65,8 @@ public record IssuerPublicKeyRemainder : PrimitiveValue, IEqualityComparer<Issue
         return new IssuerPublicKeyRemainder(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec)
-    {
-        return codec.EncodeValue(BerEncodingId, _Value);
-    }
-
-    public override byte[] EncodeValue(BerCodec codec, int length)
-    {
-        return codec.EncodeValue(BerEncodingId, _Value, length);
-    }
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
 
     #endregion
 
@@ -120,10 +83,7 @@ public record IssuerPublicKeyRemainder : PrimitiveValue, IEqualityComparer<Issue
         return x.Equals(y);
     }
 
-    public int GetHashCode(IssuerPublicKeyRemainder obj)
-    {
-        return obj.GetHashCode();
-    }
+    public int GetHashCode(IssuerPublicKeyRemainder obj) => obj.GetHashCode();
 
     #endregion
 }

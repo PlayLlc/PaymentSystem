@@ -75,24 +75,19 @@ public class TripleDesCodec : IBlockCipher
         return buffer.ToArray();
     }
 
-    public BlockCipherAlgorithm GetAlgorithm()
-    {
-        return BlockCipherAlgorithm.Aes;
-    }
+    public BlockCipherAlgorithm GetAlgorithm() => BlockCipherAlgorithm.Aes;
 
-    private TripleDESCryptoServiceProvider GetDesProvider(ReadOnlySpan<byte> key)
-    {
-        return new TripleDESCryptoServiceProvider
+    private TripleDESCryptoServiceProvider GetDesProvider(ReadOnlySpan<byte> key) =>
+        new TripleDESCryptoServiceProvider
         {
-            BlockSize = _BlockSize, KeySize = _KeySize, Key = key.ToArray(), Mode = _CipherMode.AsCipherMode(),
+            BlockSize = _BlockSize,
+            KeySize = _KeySize,
+            Key = key.ToArray(),
+            Mode = _CipherMode.AsCipherMode(),
             Padding = _PaddingMode.AsPaddingMode()
         };
-    }
 
-    public KeySize GetKeySize()
-    {
-        return _KeySize;
-    }
+    public KeySize GetKeySize() => _KeySize;
 
     public byte[] Sign(ReadOnlySpan<byte> message, ReadOnlySpan<byte> key)
     {
@@ -107,10 +102,7 @@ public class TripleDesCodec : IBlockCipher
         return memoryStream.ToArray();
     }
 
-    public BlockCipherMode GetCipherMode()
-    {
-        return _CipherMode;
-    }
+    public BlockCipherMode GetCipherMode() => _CipherMode;
 
     #endregion
 }

@@ -7,7 +7,11 @@ namespace Play.Emv.TestData.Ber.Primitive
     {
         #region Static Metadata
 
-        private static readonly byte[] _DefaultContentOctets = new byte[] {0x56, 0x49, 0x53, 0x41, 0x20, 0x43, 0x52, 0x45, 0x44, 0x49, 0x54, 0x4F};
+        private static readonly byte[] _DefaultContentOctets =
+        {
+            0x56, 0x49, 0x53, 0x41, 0x20, 0x43, 0x52, 0x45,
+            0x44, 0x49, 0x54, 0x4F
+        };
 
         #endregion
 
@@ -23,10 +27,7 @@ namespace Play.Emv.TestData.Ber.Primitive
 
         #region Instance Members
 
-        public override Tag GetTag()
-        {
-            return ApplicationPreferredName.Tag;
-        }
+        public override Tag GetTag() => ApplicationPreferredName.Tag;
 
         #endregion
     }

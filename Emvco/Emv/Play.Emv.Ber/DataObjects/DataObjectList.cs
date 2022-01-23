@@ -144,15 +144,8 @@ public abstract record DataObjectList : DataElement<byte[]>
         return new DataObjectListResult(result.ToArray());
     }
 
-    public virtual CommandTemplate AsCommandTemplate(IQueryTlvDatabase database)
-    {
-        return AsDataObjectListResult(database).AsCommandTemplate();
-    }
-
-    public virtual CommandTemplate AsCommandTemplate(TagLengthValue[] values)
-    {
-        return AsDataObjectListResult(values).AsCommandTemplate();
-    }
+    public virtual CommandTemplate AsCommandTemplate(IQueryTlvDatabase database) => AsDataObjectListResult(database).AsCommandTemplate();
+    public virtual CommandTemplate AsCommandTemplate(TagLengthValue[] values) => AsDataObjectListResult(values).AsCommandTemplate();
 
     public bool Contains(Tag tag)
     {
@@ -169,10 +162,7 @@ public abstract record DataObjectList : DataElement<byte[]>
         return DataObjects.Sum(a => a.GetLengthByteCount());
     }
 
-    public TagLength[] GetRequestedItems()
-    {
-        return DataObjects;
-    }
+    public TagLength[] GetRequestedItems() => DataObjects;
 
     private void ValidateCommandTemplate(TagLengthValue[] value)
     {

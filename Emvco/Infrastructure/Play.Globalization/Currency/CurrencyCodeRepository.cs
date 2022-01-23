@@ -262,7 +262,7 @@ internal static class CurrencyCodeRepository
         if (alpha3Code.Length != 3)
         {
             throw new ArgumentOutOfRangeException(nameof(alpha3Code),
-                $"The argument {nameof(alpha3Code)} must be three characters in length");
+                                                  $"The argument {nameof(alpha3Code)} must be three characters in length");
         }
 
         _Buffer[0] = alpha3Code[0];

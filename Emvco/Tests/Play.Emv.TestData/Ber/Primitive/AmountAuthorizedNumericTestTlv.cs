@@ -7,7 +7,7 @@ public class AmountAuthorizedNumericTestTlv : TestTlv
 {
     #region Static Metadata
 
-    private static readonly byte[] _DefaultContentOctets = new byte[] {0x00, 0x00, 0x00, 0x00, 0x00, 0x01};
+    private static readonly byte[] _DefaultContentOctets = {0x00, 0x00, 0x00, 0x00, 0x00, 0x01};
 
     #endregion
 
@@ -23,10 +23,7 @@ public class AmountAuthorizedNumericTestTlv : TestTlv
 
     #region Instance Members
 
-    public override Tag GetTag()
-    {
-        return AmountAuthorizedNumeric.Tag;
-    }
+    public override Tag GetTag() => AmountAuthorizedNumeric.Tag;
 
     #endregion
 }

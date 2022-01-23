@@ -61,18 +61,18 @@ public record TransactionDate : DataElement<uint>, IEqualityComparer<Transaction
 
         if (value.Length != _ByteLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(TransactionDate)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(TransactionDate)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
         }
 
         DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(TransactionDate)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<uint>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(TransactionDate)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         if (result.CharCount != charLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(TransactionDate)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(TransactionDate)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
         }
 
         return new TransactionDate(result.Value);

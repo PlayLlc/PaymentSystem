@@ -48,8 +48,8 @@ public record IssuerScriptTemplate2 : DataElement<BigInteger>, IEqualityComparer
     public static IssuerScriptTemplate2 Decode(ReadOnlySpan<byte> value)
     {
         DecodedResult<BigInteger> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(IssuerScriptTemplate2)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(IssuerScriptTemplate2)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new IssuerScriptTemplate2(result.Value);
     }

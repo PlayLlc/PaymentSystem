@@ -7,7 +7,7 @@ public static class LongExtension
     #region Instance Members
 
     public static string GetBinaryString(this long value) => Convert.ToString(value, 2);
-    public static long GetMaskedValue(this long value, long bitsToMask) => (long) (value & ~bitsToMask);
+    public static long GetMaskedValue(this long value, long bitsToMask) => value & ~bitsToMask;
 
     public static int GetMostSignificantBit(this long value)
     {

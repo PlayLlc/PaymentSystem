@@ -43,8 +43,8 @@ public record IssuerUrl : DataElement<char[]>, IEqualityComparer<IssuerUrl>
     public static IssuerUrl Decode(ReadOnlySpan<byte> value)
     {
         DecodedResult<char[]> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<char[]>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(IssuerUrl)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(IssuerUrl)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
 
         return new IssuerUrl(result.Value);
     }

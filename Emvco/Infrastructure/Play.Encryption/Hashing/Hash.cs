@@ -31,15 +31,8 @@ public class Hash : IEquatable<Hash>, IEqualityComparer<Hash>
 
     #region Instance Members
 
-    public ReadOnlySpan<byte> AsReadOnlySpan()
-    {
-        return _Value;
-    }
-
-    public int GetByteCount()
-    {
-        return Length;
-    }
+    public ReadOnlySpan<byte> AsReadOnlySpan() => _Value;
+    public int GetByteCount() => Length;
 
     #endregion
 
@@ -70,15 +63,8 @@ public class Hash : IEquatable<Hash>, IEqualityComparer<Hash>
         return x.Equals(y);
     }
 
-    public override bool Equals(object? other)
-    {
-        return other is Hash hash && Equals(hash);
-    }
-
-    public int GetHashCode(Hash other)
-    {
-        return other.GetHashCode();
-    }
+    public override bool Equals(object? other) => other is Hash hash && Equals(hash);
+    public int GetHashCode(Hash other) => other.GetHashCode();
 
     public override int GetHashCode()
     {
@@ -99,15 +85,8 @@ public class Hash : IEquatable<Hash>, IEqualityComparer<Hash>
 
     #region Operator Overrides
 
-    public static bool operator ==(Hash left, Hash right)
-    {
-        return left.Equals(right);
-    }
-
-    public static bool operator !=(Hash left, Hash right)
-    {
-        return !left.Equals(right);
-    }
+    public static bool operator ==(Hash left, Hash right) => left.Equals(right);
+    public static bool operator !=(Hash left, Hash right) => !left.Equals(right);
 
     #endregion
 }

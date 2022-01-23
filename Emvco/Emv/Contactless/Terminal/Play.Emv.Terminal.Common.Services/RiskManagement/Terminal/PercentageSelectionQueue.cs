@@ -10,7 +10,7 @@ internal class PercentageSelectionQueue : IPercentageSelectionQueue
 {
     #region Static Metadata
 
-    private static readonly System.Random _Random = new();
+    private static readonly Random _Random = new();
 
     #endregion
 

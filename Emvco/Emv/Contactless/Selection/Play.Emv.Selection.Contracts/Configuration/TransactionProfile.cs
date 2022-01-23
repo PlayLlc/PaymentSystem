@@ -75,95 +75,24 @@ public class TransactionProfile : IEquatable<TransactionProfile>, IEqualityCompa
 
     #region Instance Members
 
-    public MerchantIdentifier GetMerchantIdentifier()
-    {
-        return _MerchantIdentifier;
-    }
-
-    public TerminalIdentification GetTerminalIdentification()
-    {
-        return _TerminalIdentification;
-    }
-
-    public InterfaceDeviceSerialNumber GetInterfaceDeviceSerialNumber()
-    {
-        return _InterfaceDeviceSerialNumber;
-    }
-
-    public DedicatedFileName GetApplicationIdentifier()
-    {
-        return _Key.GetApplicationId();
-    }
-
-    public ApplicationPriorityIndicator GetApplicationPriorityIndicator()
-    {
-        return _ApplicationPriorityIndicator;
-    }
-
-    public ApplicationPriorityRank GetApplicationPriorityRank()
-    {
-        return _ApplicationPriorityIndicator.GetApplicationPriorityRank();
-    }
-
-    public ShortKernelId GetKernelId()
-    {
-        return _Key.GetKernelId();
-    }
-
-    public CombinationCompositeKey GetKey()
-    {
-        return _Key;
-    }
-
-    public ReaderContactlessTransactionLimit GetReaderContactlessTransactionLimit()
-    {
-        return _ReaderContactlessTransactionLimit;
-    }
-
-    public ReaderCvmRequiredLimit GetReaderCvmRequiredLimit()
-    {
-        return _ReaderCvmRequiredLimit;
-    }
-
-    public TerminalCategoriesSupportedList GetTerminalCategoriesSupportedList()
-    {
-        return _TerminalCategoriesSupportedList;
-    }
-
-    public TerminalFloorLimit GetTerminalFloorLimit()
-    {
-        return _TerminalFloorLimit;
-    }
-
-    public TerminalTransactionQualifiers GetTerminalTransactionQualifiers()
-    {
-        return _TerminalTransactionQualifiers;
-    }
-
-    public TransactionType GetTransactionType()
-    {
-        return _Key.GetTransactionType();
-    }
-
-    public bool IsExtendedSelectionSupported()
-    {
-        return _IsExtendedSelectionSupported;
-    }
-
-    public bool IsStatusCheckSupported()
-    {
-        return _IsStatusCheckSupported;
-    }
-
-    public bool IsZeroAmountAllowed()
-    {
-        return _IsZeroAmountAllowed;
-    }
-
-    public bool IsZeroAmountAllowedForOffline()
-    {
-        return _IsZeroAmountAllowedForOffline;
-    }
+    public MerchantIdentifier GetMerchantIdentifier() => _MerchantIdentifier;
+    public TerminalIdentification GetTerminalIdentification() => _TerminalIdentification;
+    public InterfaceDeviceSerialNumber GetInterfaceDeviceSerialNumber() => _InterfaceDeviceSerialNumber;
+    public DedicatedFileName GetApplicationIdentifier() => _Key.GetApplicationId();
+    public ApplicationPriorityIndicator GetApplicationPriorityIndicator() => _ApplicationPriorityIndicator;
+    public ApplicationPriorityRank GetApplicationPriorityRank() => _ApplicationPriorityIndicator.GetApplicationPriorityRank();
+    public ShortKernelId GetKernelId() => _Key.GetKernelId();
+    public CombinationCompositeKey GetKey() => _Key;
+    public ReaderContactlessTransactionLimit GetReaderContactlessTransactionLimit() => _ReaderContactlessTransactionLimit;
+    public ReaderCvmRequiredLimit GetReaderCvmRequiredLimit() => _ReaderCvmRequiredLimit;
+    public TerminalCategoriesSupportedList GetTerminalCategoriesSupportedList() => _TerminalCategoriesSupportedList;
+    public TerminalFloorLimit GetTerminalFloorLimit() => _TerminalFloorLimit;
+    public TerminalTransactionQualifiers GetTerminalTransactionQualifiers() => _TerminalTransactionQualifiers;
+    public TransactionType GetTransactionType() => _Key.GetTransactionType();
+    public bool IsExtendedSelectionSupported() => _IsExtendedSelectionSupported;
+    public bool IsStatusCheckSupported() => _IsStatusCheckSupported;
+    public bool IsZeroAmountAllowed() => _IsZeroAmountAllowed;
+    public bool IsZeroAmountAllowedForOffline() => _IsZeroAmountAllowedForOffline;
 
     #endregion
 
@@ -185,20 +114,9 @@ public class TransactionProfile : IEquatable<TransactionProfile>, IEqualityCompa
         return (y != null) && x.Equals(y);
     }
 
-    public override bool Equals(object? obj)
-    {
-        return obj is TransactionProfile transactionProfile && Equals(transactionProfile);
-    }
-
-    public int GetHashCode(TransactionProfile obj)
-    {
-        return obj.GetHashCode();
-    }
-
-    public override int GetHashCode()
-    {
-        return _Key.GetHashCode();
-    }
+    public override bool Equals(object? obj) => obj is TransactionProfile transactionProfile && Equals(transactionProfile);
+    public int GetHashCode(TransactionProfile obj) => obj.GetHashCode();
+    public override int GetHashCode() => _Key.GetHashCode();
 
     #endregion
 

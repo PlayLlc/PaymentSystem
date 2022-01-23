@@ -59,18 +59,18 @@ public record OfflineAccumulatorBalance : PrimitiveValue, IEqualityComparer<Offl
 
         if (value.Length != byteLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(OfflineAccumulatorBalance)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(OfflineAccumulatorBalance)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<ulong> result = codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(OfflineAccumulatorBalance)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(OfflineAccumulatorBalance)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         if (result.CharCount != charLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(OfflineAccumulatorBalance)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(OfflineAccumulatorBalance)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
         }
 
         return new OfflineAccumulatorBalance(result.Value);

@@ -2,7 +2,6 @@
 using System.Collections.Immutable;
 
 using Play.Emv.DataElements;
-using Play.Emv.DataElements.CertificateAuthority;
 using Play.Emv.Security.Certificates;
 using Play.Icc.FileSystem.DedicatedFiles;
 
@@ -48,20 +47,16 @@ public class CertificateAuthorityDatabase : ICertificateAuthorityDatabase
 
     #region Instance Members
 
-    public bool IsRevoked(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex caPublicKeyIndex)
-    {
+    public bool IsRevoked(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex caPublicKeyIndex) =>
         throw new NotImplementedException();
-    }
 
     public void PurgeRevokedCertificates()
     {
         throw new NotImplementedException();
     }
 
-    public bool TryGet(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex index, out CaPublicKeyCertificate? result)
-    {
+    public bool TryGet(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex index, out CaPublicKeyCertificate? result) =>
         throw new NotImplementedException();
-    }
 
     #endregion
 }

@@ -29,10 +29,7 @@ public partial class Randomize
             return result;
         }
 
-        public static char Char()
-        {
-            return GetRandomChar();
-        }
+        public static char Char() => GetRandomChar();
 
         public static char[] Chars(int length)
         {
@@ -54,15 +51,8 @@ public partial class Randomize
             return new string(result);
         }
 
-        private static char GetRandomChar()
-        {
-            return _CharMap[(byte) _Random.Next(32, 126)];
-        }
-
-        public static byte GetRandomByte()
-        {
-            return (byte) _ByteMap[GetRandomChar()];
-        }
+        private static char GetRandomChar() => _CharMap[(byte) _Random.Next(32, 126)];
+        public static byte GetRandomByte() => _ByteMap[GetRandomChar()];
 
         #endregion
     }

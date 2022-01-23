@@ -21,15 +21,8 @@ internal readonly record struct InstanceId
 
     #region Equality
 
-    public bool Equals(InstanceId x, InstanceId y)
-    {
-        return x._Value == y._Value;
-    }
-
-    public int GetHashCode(InstanceId obj)
-    {
-        return obj._Value.GetHashCode();
-    }
+    public bool Equals(InstanceId x, InstanceId y) => x._Value == y._Value;
+    public int GetHashCode(InstanceId obj) => obj._Value.GetHashCode();
 
     #endregion
 }

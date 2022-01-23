@@ -14,7 +14,8 @@ public class FileControlInformationIssuerDiscretionaryPpseTests
     public void BerEncoding_DeserializingTemplate_CreatesConstructedValue()
     {
         FileControlInformationIssuerDiscretionaryPpseTestTlv testData = new();
-        FileControlInformationIssuerDiscretionaryDataPpse testValue = FileControlInformationIssuerDiscretionaryDataPpse.Decode(testData.EncodeTagLengthValue());
+        FileControlInformationIssuerDiscretionaryDataPpse testValue =
+            FileControlInformationIssuerDiscretionaryDataPpse.Decode(testData.EncodeTagLengthValue());
         Assert.NotNull(testValue);
     }
 
@@ -22,7 +23,8 @@ public class FileControlInformationIssuerDiscretionaryPpseTests
     public void BerEncoding_DeserializingDTemplate_CorrectlyCreatesChildDataElements()
     {
         FileControlInformationIssuerDiscretionaryPpseTestTlv testData = new();
-        FileControlInformationIssuerDiscretionaryDataPpse sut = FileControlInformationIssuerDiscretionaryDataPpse.Decode(testData.EncodeTagLengthValue());
+        FileControlInformationIssuerDiscretionaryDataPpse sut =
+            FileControlInformationIssuerDiscretionaryDataPpse.Decode(testData.EncodeTagLengthValue());
 
         sut.GetTagLengthValueByteCount();
 
@@ -36,7 +38,8 @@ public class FileControlInformationIssuerDiscretionaryPpseTests
     public void Template_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
         FileControlInformationIssuerDiscretionaryPpseTestTlv testData = new();
-        FileControlInformationIssuerDiscretionaryDataPpse sut = FileControlInformationIssuerDiscretionaryDataPpse.Decode(testData.EncodeTagLengthValue());
+        FileControlInformationIssuerDiscretionaryDataPpse sut =
+            FileControlInformationIssuerDiscretionaryDataPpse.Decode(testData.EncodeTagLengthValue());
 
         Assert.True(sut.GetTagLengthValueByteCount() == testData.GetTagLengthValueByteCount());
         Assert.NotNull(sut);
@@ -46,7 +49,8 @@ public class FileControlInformationIssuerDiscretionaryPpseTests
     public void Template_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
         FileControlInformationIssuerDiscretionaryPpseTestTlv testData = new();
-        FileControlInformationIssuerDiscretionaryDataPpse sut = FileControlInformationIssuerDiscretionaryDataPpse.Decode(testData.EncodeTagLengthValue());
+        FileControlInformationIssuerDiscretionaryDataPpse sut =
+            FileControlInformationIssuerDiscretionaryDataPpse.Decode(testData.EncodeTagLengthValue());
 
         Assert.True(sut.GetValueByteCount() == testData.EncodeValue().Length);
     }
@@ -55,7 +59,8 @@ public class FileControlInformationIssuerDiscretionaryPpseTests
     public void Template_InvokingAsTagLengthValue_ReturnsExpectedResult()
     {
         FileControlInformationIssuerDiscretionaryPpseTestTlv testData = new();
-        FileControlInformationIssuerDiscretionaryDataPpse sut = FileControlInformationIssuerDiscretionaryDataPpse.Decode(testData.EncodeTagLengthValue());
+        FileControlInformationIssuerDiscretionaryDataPpse sut =
+            FileControlInformationIssuerDiscretionaryDataPpse.Decode(testData.EncodeTagLengthValue());
 
         TagLengthValue testValue = sut.AsTagLengthValue();
         TagLengthValue expectedResult = testData.AsTagLengthValue();

@@ -42,10 +42,7 @@ public record ApplicationCryptogramVersion : EnumObject<byte>, IEqualityComparer
 
     #region Instance Members
 
-    public static bool TryGet(byte value, out ApplicationCryptogramVersion result)
-    {
-        return _ValueObjectMap.TryGetValue(value, out result);
-    }
+    public static bool TryGet(byte value, out ApplicationCryptogramVersion result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion
 
@@ -62,10 +59,7 @@ public record ApplicationCryptogramVersion : EnumObject<byte>, IEqualityComparer
         return x.Equals(y);
     }
 
-    public int GetHashCode(ApplicationCryptogramVersion other)
-    {
-        return other.GetHashCode();
-    }
+    public int GetHashCode(ApplicationCryptogramVersion other) => other.GetHashCode();
 
     public override int GetHashCode()
     {
@@ -94,10 +88,7 @@ public record ApplicationCryptogramVersion : EnumObject<byte>, IEqualityComparer
         return right._Value == left;
     }
 
-    public static explicit operator byte(ApplicationCryptogramVersion applicationCryptogramVersion)
-    {
-        return applicationCryptogramVersion._Value;
-    }
+    public static explicit operator byte(ApplicationCryptogramVersion applicationCryptogramVersion) => applicationCryptogramVersion._Value;
 
     public static explicit operator ApplicationCryptogramVersion(byte cryptogramVersion)
     {
@@ -110,15 +101,8 @@ public record ApplicationCryptogramVersion : EnumObject<byte>, IEqualityComparer
         return result;
     }
 
-    public static bool operator !=(ApplicationCryptogramVersion left, byte right)
-    {
-        return !(left == right);
-    }
-
-    public static bool operator !=(byte left, ApplicationCryptogramVersion right)
-    {
-        return !(left == right);
-    }
+    public static bool operator !=(ApplicationCryptogramVersion left, byte right) => !(left == right);
+    public static bool operator !=(byte left, ApplicationCryptogramVersion right) => !(left == right);
 
     #endregion
 }

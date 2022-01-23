@@ -24,7 +24,7 @@ public class NumericTests
     #region Instance Members
 
     [Theory]
-    [MemberData(nameof(NumericFixture.GetRandomBytes), new object[] {100, 1, 300}, MemberType = typeof(NumericFixture))]
+    [MemberData(nameof(NumericFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(NumericFixture))]
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
     {
         string decoded = _SystemUnderTest.GetString(testValue);
@@ -34,7 +34,7 @@ public class NumericTests
     }
 
     [Theory]
-    [MemberData(nameof(NumericFixture.GetRandomString), new object[] {100, 1, 300}, MemberType = typeof(NumericFixture))]
+    [MemberData(nameof(NumericFixture.GetRandomString), 100, 1, 300, MemberType = typeof(NumericFixture))]
     public void RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult(string testValue)
     {
         byte[] decoded = _SystemUnderTest.GetBytes(testValue);
@@ -44,7 +44,7 @@ public class NumericTests
     }
 
     [Theory]
-    [MemberData(nameof(NumericFixture.GetRandomUShort), new object[] {100}, MemberType = typeof(NumericFixture))]
+    [MemberData(nameof(NumericFixture.GetRandomUShort), 100, MemberType = typeof(NumericFixture))]
     public void RandomDecodedUShort_EncodingThenDecoding_ReturnsExpectedResult(ushort testValue)
     {
         byte[]? decoded = _SystemUnderTest.GetBytes(testValue);
@@ -54,7 +54,7 @@ public class NumericTests
     }
 
     [Theory]
-    [MemberData(nameof(NumericFixture.GetRandomUInt), new object[] {100}, MemberType = typeof(NumericFixture))]
+    [MemberData(nameof(NumericFixture.GetRandomUInt), 100, MemberType = typeof(NumericFixture))]
     public void RandomDecodedUInt_EncodingThenDecoding_ReturnsExpectedResult(uint testValue)
     {
         byte[]? decoded = _SystemUnderTest.GetBytes(testValue);
@@ -64,7 +64,7 @@ public class NumericTests
     }
 
     [Theory]
-    [MemberData(nameof(NumericFixture.GetRandomULong), new object[] {100}, MemberType = typeof(NumericFixture))]
+    [MemberData(nameof(NumericFixture.GetRandomULong), 100, MemberType = typeof(NumericFixture))]
     public void RandomDecodedULong_EncodingThenDecoding_ReturnsExpectedResult(ulong testValue)
     {
         byte[]? decoded = _SystemUnderTest.GetBytes(testValue);

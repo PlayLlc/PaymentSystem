@@ -7,9 +7,10 @@ public class MerchantNameAndLocationTestTlv : TestTlv
 {
     #region Static Metadata
 
-    private static readonly byte[] _DefaultContentOctets = new byte[]
+    private static readonly byte[] _DefaultContentOctets =
     {
-        0x61, 0x62, 0x63, 0x64, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20
+        0x61, 0x62, 0x63, 0x64, 0x20, 0x20, 0x20, 0x20,
+        0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20
     };
 
     #endregion
@@ -26,10 +27,7 @@ public class MerchantNameAndLocationTestTlv : TestTlv
 
     #region Instance Members
 
-    public override Tag GetTag()
-    {
-        return MerchantNameAndLocation.Tag;
-    }
+    public override Tag GetTag() => MerchantNameAndLocation.Tag;
 
     #endregion
 }

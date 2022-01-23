@@ -71,25 +71,17 @@ public class AuthenticationService : IAuthenticateOfflineData, IResolveAuthentic
         return AuthenticationType.None;
     }
 
-    public AuthenticateDynamicDataResponse Authenticate(AuthenticateDynamicDataCommand command)
-    {
-        return _DynamicDataAuthenticator.Authenticate(command);
-    }
+    public AuthenticateDynamicDataResponse Authenticate(AuthenticateDynamicDataCommand command) =>
+        _DynamicDataAuthenticator.Authenticate(command);
 
-    public AuthenticateCombinedDataResponse Authenticate(AuthenticateCombinedData1Command command)
-    {
-        return _CombinedDataAuthenticator.Authenticate(command);
-    }
+    public AuthenticateCombinedDataResponse Authenticate(AuthenticateCombinedData1Command command) =>
+        _CombinedDataAuthenticator.Authenticate(command);
 
-    public AuthenticateCombinedDataResponse Authenticate(AuthenticateCombinedData2Command command)
-    {
-        return _CombinedDataAuthenticator.Authenticate(command);
-    }
+    public AuthenticateCombinedDataResponse Authenticate(AuthenticateCombinedData2Command command) =>
+        _CombinedDataAuthenticator.Authenticate(command);
 
-    public AuthenticateStaticDataResponse Authenticate(AuthenticateStaticDataCommand command)
-    {
-        return _StaticDataAuthenticator.Authenticate(command);
-    }
+    public AuthenticateStaticDataResponse Authenticate(AuthenticateStaticDataCommand command) =>
+        _StaticDataAuthenticator.Authenticate(command);
 
     #endregion
 }

@@ -69,8 +69,8 @@ public class ProtocolActivator
         {
             if (!outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? requestData))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(Outcome)} indicated that UI Request on Restart is true but no {nameof(UserInterfaceRequestData)} could be found");
+                throw new
+                    InvalidOperationException($"The {nameof(Outcome)} indicated that UI Request on Restart is true but no {nameof(UserInterfaceRequestData)} could be found");
             }
 
             _DisplayProcess.Request(new DisplayMessageRequest(requestData));

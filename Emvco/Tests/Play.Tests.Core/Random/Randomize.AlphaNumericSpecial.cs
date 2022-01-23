@@ -19,16 +19,13 @@ namespace Play.Tests.Core.Random
 
             #region Instance Members
 
-            public static char Char()
-            {
-                return GetRandomChar();
-            }
+            public static char Char() => GetRandomChar();
 
             public static char[] Chars(int length)
             {
                 char[] result = new char[length];
 
-                for (short i = 0; i <= length - 1; i++)
+                for (short i = 0; i <= (length - 1); i++)
                     result[i] = GetRandomChar();
 
                 return result;
@@ -38,21 +35,14 @@ namespace Play.Tests.Core.Random
             {
                 char[] result = new char[length];
 
-                for (short i = 0; i <= length - 1; i++)
+                for (short i = 0; i <= (length - 1); i++)
                     result[i] = GetRandomChar();
 
                 return new string(result);
             }
 
-            private static char GetRandomChar()
-            {
-                return _CharMap[(byte) _Random.Next(32, 126)];
-            }
-
-            public static byte GetRandomByte()
-            {
-                return (byte) _ByteMap[GetRandomChar()];
-            }
+            private static char GetRandomChar() => _CharMap[(byte) _Random.Next(32, 126)];
+            public static byte GetRandomByte() => _ByteMap[GetRandomChar()];
 
             #endregion
         }

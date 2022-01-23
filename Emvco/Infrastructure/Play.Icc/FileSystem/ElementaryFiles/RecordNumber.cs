@@ -24,7 +24,7 @@ public readonly struct RecordNumber
         if ((value < _MinValue) || (value > _MaxValue))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} value {value} was out of range. {nameof(RecordNumber)} must be initialized with a value between {_MinValue} and {_MaxValue}");
+                                                  $"The argument {nameof(value)} value {value} was out of range. {nameof(RecordNumber)} must be initialized with a value between {_MinValue} and {_MaxValue}");
         }
 
         _Value = value;

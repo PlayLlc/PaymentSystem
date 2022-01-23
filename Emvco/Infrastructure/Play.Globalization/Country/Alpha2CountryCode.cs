@@ -34,7 +34,7 @@ public readonly struct Alpha2CountryCode
         if (other.Length != 2)
         {
             throw new ArgumentOutOfRangeException(nameof(other),
-                $"The argument {nameof(other)} must be 2 characters in length according to ISO 3166");
+                                                  $"The argument {nameof(other)} must be 2 characters in length according to ISO 3166");
         }
 
         if (_FirstChar != (byte) other[0])

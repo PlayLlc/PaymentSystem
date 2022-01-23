@@ -36,15 +36,8 @@ public record QueryKernelRequest : RequestSignal, IExchangeDataWithTheTerminal
 
     #region Instance Members
 
-    public DataExchangeTerminalId GetDataExchangeTerminalId()
-    {
-        return _DataExchangeTerminalId;
-    }
-
-    public TagsToRead GetTagsToRead()
-    {
-        return _TagsToRead;
-    }
+    public DataExchangeTerminalId GetDataExchangeTerminalId() => _DataExchangeTerminalId;
+    public TagsToRead GetTagsToRead() => _TagsToRead;
 
     #endregion
 }

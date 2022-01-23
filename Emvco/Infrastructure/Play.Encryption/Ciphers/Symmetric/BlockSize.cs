@@ -38,24 +38,14 @@ public sealed record BlockSize : EnumObject<byte>, IEqualityComparer<BlockSize>
 
     #region Instance Members
 
-    public int GetByteSize()
-    {
-        return _Value;
-    }
-
-    public static bool TryGet(byte value, out BlockSize? result)
-    {
-        return _ValueObjectMap.TryGetValue(value, out result);
-    }
+    public int GetByteSize() => _Value;
+    public static bool TryGet(byte value, out BlockSize? result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion
 
     #region Equality
 
-    public bool Equals(BlockSize? other)
-    {
-        return other is not null && (_Value == other._Value);
-    }
+    public bool Equals(BlockSize? other) => other is not null && (_Value == other._Value);
 
     public bool Equals(BlockSize? x, BlockSize? y)
     {
@@ -68,15 +58,8 @@ public sealed record BlockSize : EnumObject<byte>, IEqualityComparer<BlockSize>
         return x.Equals(y);
     }
 
-    public int GetHashCode(BlockSize other)
-    {
-        return other.GetHashCode();
-    }
-
-    public override int GetHashCode()
-    {
-        return unchecked(_Value.GetHashCode() * 31153);
-    }
+    public int GetHashCode(BlockSize other) => other.GetHashCode();
+    public override int GetHashCode() => unchecked(_Value.GetHashCode() * 31153);
 
     #endregion
 }

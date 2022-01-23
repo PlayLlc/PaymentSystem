@@ -51,8 +51,8 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
     {
         if (value.GetNumberOfDigits() != _CharLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(TransactionType)} could not be initialized because the decoded character length was out of range. The decoded character length was {value.GetNumberOfDigits()} but must be {_CharLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(TransactionType)} could not be initialized because the decoded character length was out of range. The decoded character length was {value.GetNumberOfDigits()} but must be {_CharLength} bytes in length");
         }
     }
 
@@ -68,13 +68,13 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
     {
         if (value.Length != _ByteLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(TransactionType)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(TransactionType)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
         }
 
         DecodedResult<byte> result = codec.Decode(BerEncodingId, value) as DecodedResult<byte>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(TransactionType)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<byte>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(TransactionType)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new TransactionType(result.Value);
     }

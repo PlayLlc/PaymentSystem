@@ -57,7 +57,7 @@ internal class TerminalQueryResolver
     private TagLengthValue GetPunatcTrack2(TerminalStateMachine.TerminalSessionLock sessionLock) =>
 
         // HACK: Resolve this before implementing Magstripe
-        new TagLengthValue(PunatcTrack2.Tag, ReadOnlySpan<byte>.Empty);
+        new(PunatcTrack2.Tag, ReadOnlySpan<byte>.Empty);
 
     private TagLengthValue GetAmountAuthorizedNumeric(TerminalStateMachine.TerminalSessionLock sessionLock) =>
         sessionLock.Session!.Transaction.GetAmountAuthorizedNumeric().AsTagLengthValue();

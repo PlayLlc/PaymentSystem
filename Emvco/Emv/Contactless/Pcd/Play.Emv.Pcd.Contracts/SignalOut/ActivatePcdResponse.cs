@@ -26,7 +26,7 @@ public record ActivatePcdResponse : ResponseSignal
     #region Constructor
 
     public ActivatePcdResponse(CorrelationId correlationId, bool isCollisionDetected, Level1Error level1Error) : base(correlationId,
-        MessageTypeId, ChannelTypeId)
+     MessageTypeId, ChannelTypeId)
     {
         _Level1Error = level1Error;
         _IsCollisionDetected = isCollisionDetected;

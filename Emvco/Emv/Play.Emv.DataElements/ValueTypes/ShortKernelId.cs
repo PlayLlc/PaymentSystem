@@ -79,7 +79,7 @@ public record ShortKernelId : IEqualityComparer<ShortKernelId>
         if (!_ValueObjectMap.ContainsKey(value))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                $"No {nameof(ShortKernelId)} could be retrieved because the argument provided does not match a definition value");
+                                                  $"No {nameof(ShortKernelId)} could be retrieved because the argument provided does not match a definition value");
         }
 
         return _ValueObjectMap[value.GetMaskedValue(bitMask)];

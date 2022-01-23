@@ -46,7 +46,7 @@ public readonly struct AlternateInterfacePreferenceOutcome
         if (!_ValueObjectMap.ContainsKey(value))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                $"No {nameof(AlternateInterfacePreferenceOutcome)} could be retrieved because the argument provided does not match a definition value");
+                                                  $"No {nameof(AlternateInterfacePreferenceOutcome)} could be retrieved because the argument provided does not match a definition value");
         }
 
         return _ValueObjectMap[value.GetMaskedValue(bitMask)];

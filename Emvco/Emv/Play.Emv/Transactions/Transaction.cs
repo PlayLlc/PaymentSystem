@@ -51,16 +51,15 @@ public class Transaction
 
     #region Instance Members
 
-    public OutcomeParameterSet GetOutcomeParameterSet()
-    {
-        return _Outcome.GetOutcomeParameterSet();
-    }
+    public OutcomeParameterSet GetOutcomeParameterSet() => _Outcome.GetOutcomeParameterSet();
 
     public TagLengthValue[] AsTagLengthValueArray()
     {
         List<TagLengthValue> buffer = new()
         {
-            _AmountAuthorizedNumeric.AsTagLengthValue(), _AmountOtherNumeric.AsTagLengthValue(), _TransactionType.AsTagLengthValue(),
+            _AmountAuthorizedNumeric.AsTagLengthValue(),
+            _AmountOtherNumeric.AsTagLengthValue(),
+            _TransactionType.AsTagLengthValue(),
             _TransactionDate.AsTagLengthValue()
         };
 
@@ -70,60 +69,20 @@ public class Transaction
     }
 
     // BUG: This should return the TransactionCurrencyExponent. You can get that from the CultureProfile
-    public TransactionCurrencyExponent GetTransactionCurrencyExponent()
-    {
-        throw new NotImplementedException();
-    }
+    public TransactionCurrencyExponent GetTransactionCurrencyExponent() => throw new NotImplementedException();
+    public bool TryGetDataRecord(out DataRecord? result) => _Outcome.TryGetDataRecord(out result);
+    public bool TryGetDiscretionaryData(out DiscretionaryData? result) => _Outcome.TryGetDiscretionaryData(out result);
+    public AmountAuthorizedNumeric GetAmountAuthorizedNumeric() => _AmountAuthorizedNumeric;
+    public AmountOtherNumeric GetAmountOtherNumeric() => _AmountOtherNumeric;
+    public LanguagePreference GetLanguagePreference() => _LanguagePreference;
+    public TerminalCountryCode GetTerminalCountryCode() => _TerminalCountryCode;
+    public TransactionCurrencyCode GetTransactionCurrencyCode() => new TransactionCurrencyCode(GetCultureProfile());
 
-    public bool TryGetDataRecord(out DataRecord? result)
-    {
-        return _Outcome.TryGetDataRecord(out result);
-    }
+    public CultureProfile GetCultureProfile() =>
+        new CultureProfile(_TerminalCountryCode.AsCountryCode(), _LanguagePreference.GetPreferredLanguage());
 
-    public bool TryGetDiscretionaryData(out DiscretionaryData? result)
-    {
-        return _Outcome.TryGetDiscretionaryData(out result);
-    }
-
-    public AmountAuthorizedNumeric GetAmountAuthorizedNumeric()
-    {
-        return _AmountAuthorizedNumeric;
-    }
-
-    public AmountOtherNumeric GetAmountOtherNumeric()
-    {
-        return _AmountOtherNumeric;
-    }
-
-    public LanguagePreference GetLanguagePreference()
-    {
-        return _LanguagePreference;
-    }
-
-    public TerminalCountryCode GetTerminalCountryCode()
-    {
-        return _TerminalCountryCode;
-    }
-
-    public TransactionCurrencyCode GetTransactionCurrencyCode()
-    {
-        return new TransactionCurrencyCode(GetCultureProfile());
-    }
-
-    public CultureProfile GetCultureProfile()
-    {
-        return new CultureProfile(_TerminalCountryCode.AsCountryCode(), _LanguagePreference.GetPreferredLanguage());
-    }
-
-    public ref readonly Outcome GetOutcome()
-    {
-        return ref _Outcome;
-    }
-
-    public TerminalVerificationResults GetTerminalVerificationResults()
-    {
-        return _Outcome.GetTerminalVerificationResults();
-    }
+    public ref readonly Outcome GetOutcome() => ref _Outcome;
+    public TerminalVerificationResults GetTerminalVerificationResults() => _Outcome.GetTerminalVerificationResults();
 
     public void Update(TerminalVerificationResult value)
     {
@@ -160,25 +119,10 @@ public class Transaction
         _Outcome.Reset(userInterfaceRequestData);
     }
 
-    public TransactionDate GetTransactionDate()
-    {
-        return _TransactionDate;
-    }
-
-    public TransactionSessionId GetTransactionSessionId()
-    {
-        return _TransactionSessionId;
-    }
-
-    public bool TryGetUserInterfaceRequestData(out UserInterfaceRequestData? result)
-    {
-        return _Outcome.TryGetUserInterfaceRequestData(out result);
-    }
-
-    public TransactionType GetTransactionType()
-    {
-        return _TransactionType;
-    }
+    public TransactionDate GetTransactionDate() => _TransactionDate;
+    public TransactionSessionId GetTransactionSessionId() => _TransactionSessionId;
+    public bool TryGetUserInterfaceRequestData(out UserInterfaceRequestData? result) => _Outcome.TryGetUserInterfaceRequestData(out result);
+    public TransactionType GetTransactionType() => _TransactionType;
 
     public void Update(Level1Error level1Error)
     {

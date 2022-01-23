@@ -46,29 +46,15 @@ public sealed record KeySize : EnumObject<ushort>, IEqualityComparer<KeySize>
 
     #region Instance Members
 
-    public int GetBitSize()
-    {
-        return _Value;
-    }
-
-    public int GetByteSize()
-    {
-        return _Value / 8;
-    }
-
-    public static bool TryGet(ushort value, out KeySize? result)
-    {
-        return _ValueObjectMap.TryGetValue(value, out result);
-    }
+    public int GetBitSize() => _Value;
+    public int GetByteSize() => _Value / 8;
+    public static bool TryGet(ushort value, out KeySize? result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion
 
     #region Equality
 
-    public bool Equals(KeySize? other)
-    {
-        return other is not null && (_Value == other._Value);
-    }
+    public bool Equals(KeySize? other) => other is not null && (_Value == other._Value);
 
     public bool Equals(KeySize? x, KeySize? y)
     {
@@ -81,15 +67,8 @@ public sealed record KeySize : EnumObject<ushort>, IEqualityComparer<KeySize>
         return x.Equals(y);
     }
 
-    public int GetHashCode(KeySize other)
-    {
-        return other.GetHashCode();
-    }
-
-    public override int GetHashCode()
-    {
-        return unchecked(_Value.GetHashCode() * 31153);
-    }
+    public int GetHashCode(KeySize other) => other.GetHashCode();
+    public override int GetHashCode() => unchecked(_Value.GetHashCode() * 31153);
 
     #endregion
 }

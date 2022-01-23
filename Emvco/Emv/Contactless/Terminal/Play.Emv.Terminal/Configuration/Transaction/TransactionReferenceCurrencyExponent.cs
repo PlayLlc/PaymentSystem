@@ -40,29 +40,15 @@ public record TransactionReferenceCurrencyExponent : PrimitiveValue, IEqualityCo
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId()
-    {
-        return BerEncodingId;
-    }
-
-    public override Tag GetTag()
-    {
-        return Tag;
-    }
-
-    public override ushort GetValueByteCount(BerCodec codec)
-    {
-        return codec.GetByteCount(GetBerEncodingId(), _Value);
-    }
+    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
     #endregion
 
     #region Serialization
 
-    public static TransactionReferenceCurrencyExponent Decode(ReadOnlyMemory<byte> value, BerCodec codec)
-    {
-        return Decode(value.Span, codec);
-    }
+    public static TransactionReferenceCurrencyExponent Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
@@ -90,15 +76,8 @@ public record TransactionReferenceCurrencyExponent : PrimitiveValue, IEqualityCo
         return new TransactionReferenceCurrencyExponent(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec)
-    {
-        return codec.EncodeValue(BerEncodingId, _Value);
-    }
-
-    public override byte[] EncodeValue(BerCodec codec, int length)
-    {
-        return codec.EncodeValue(BerEncodingId, _Value, length);
-    }
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
 
     #endregion
 
@@ -115,10 +94,7 @@ public record TransactionReferenceCurrencyExponent : PrimitiveValue, IEqualityCo
         return x.Equals(y);
     }
 
-    public int GetHashCode(TransactionReferenceCurrencyExponent obj)
-    {
-        return obj.GetHashCode();
-    }
+    public int GetHashCode(TransactionReferenceCurrencyExponent obj) => obj.GetHashCode();
 
     #endregion
 }

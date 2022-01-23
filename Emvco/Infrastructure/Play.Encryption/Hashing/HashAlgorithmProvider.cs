@@ -23,11 +23,9 @@ public class HashAlgorithmProvider
 
     #region Instance Members
 
-    private ImmutableSortedDictionary<HashAlgorithmIndicator, IHashGenerator> CreateHashAlgorithmMap()
-    {
-        return new Dictionary<HashAlgorithmIndicator, IHashGenerator> {{HashAlgorithmIndicator.Sha1, new Sha1HashGenerator()}}
+    private ImmutableSortedDictionary<HashAlgorithmIndicator, IHashGenerator> CreateHashAlgorithmMap() =>
+        new Dictionary<HashAlgorithmIndicator, IHashGenerator> {{HashAlgorithmIndicator.Sha1, new Sha1HashGenerator()}}
             .ToImmutableSortedDictionary();
-    }
 
     public Hash Generate(ReadOnlySpan<byte> clearText, HashAlgorithmIndicator hashAlgorithmIndicator)
     {

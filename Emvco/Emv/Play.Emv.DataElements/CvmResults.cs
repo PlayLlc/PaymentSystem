@@ -33,7 +33,7 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => _ByteLength;
     public new ushort GetValueByteCount() => _ByteLength;
-    public new byte[] Encode() => _Codec.EncodeValue(BerEncodingId, _Value, _ByteLength);
+    public byte[] Encode() => _Codec.EncodeValue(BerEncodingId, _Value, _ByteLength);
 
     #endregion
 
@@ -47,13 +47,13 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
     {
         if (value.Length != _ByteLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(CvmResults)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(CvmResults)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
         }
 
         DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(CvmResults)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(CvmResults)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new CvmResults(result.Value);
     }

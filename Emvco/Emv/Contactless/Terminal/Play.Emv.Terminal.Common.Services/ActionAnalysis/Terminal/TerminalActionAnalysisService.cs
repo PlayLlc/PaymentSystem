@@ -54,13 +54,13 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         ActionFlag resultFlag = ActionFlag.None;
 
         ProcessDenialActionCodes(_TerminalType, command.GetIssuerActionCodeDenial(), _TerminalActionCodeDenial,
-            command.GetTerminalVerificationResults(), ref resultFlag);
+                                 command.GetTerminalVerificationResults(), ref resultFlag);
 
         if (resultFlag.HasFlag(ActionFlag.Denial))
             return CreateDenyTransactionResponse();
 
         ProcessOnlineActionCodes(_TerminalType, command.GetIssuerActionCodeOnline(), _TerminalActionCodeOnline,
-            command.GetTerminalVerificationResults(), ref resultFlag);
+                                 command.GetTerminalVerificationResults(), ref resultFlag);
 
         if (resultFlag.HasFlag(ActionFlag.Offline))
             return CreateProceedOfflineResponse();
@@ -69,7 +69,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
             return CreateProceedOnlineResponse();
 
         ProcessDefaultActionCodes(_TerminalType, command.GetIssuerActionCodeDefault(), _TerminalActionCodeDefault,
-            command.GetTerminalVerificationResults(), ref resultFlag);
+                                  command.GetTerminalVerificationResults(), ref resultFlag);
 
         if (resultFlag.HasFlag(ActionFlag.Denial))
             return CreateDenyTransactionResponse();

@@ -13,11 +13,11 @@ public class PutDataCApduSignal : CApduSignal
     #region Constructor
 
     private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class, instruction, parameter1,
-                                                                                                       parameter2)
+     parameter2)
     { }
 
     private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint? le) : base(@class, instruction,
-                                                                                                                 parameter1, parameter2, le)
+     parameter1, parameter2, le)
     { }
 
     private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) :
@@ -70,10 +70,7 @@ public class PutDataCApduSignal : CApduSignal
 
         #region Instance Members
 
-        public Tag GetTag()
-        {
-            return _Value;
-        }
+        public Tag GetTag() => _Value;
 
         #endregion
     }

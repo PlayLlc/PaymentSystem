@@ -46,35 +46,12 @@ public record OutSelectionResponse : ResponseSignal
 
     //public CombinationCompositeKey GetCombinationCompositeKey() => _CombinationCompositeKey;
     //public DedicatedFileName GetApplicationId() => _ApplicationId;
-    public SelectApplicationDefinitionFileInfoResponse GetApplicationFileInformationResponse()
-    {
-        return _ApplicationFileInformationResponse;
-    }
-
-    public KernelId GetKernelId()
-    {
-        return _CombinationCompositeKey.GetKernelId();
-    }
-
-    public Transaction GetTransaction()
-    {
-        return _Transaction;
-    }
-
-    public CombinationCompositeKey GetCombinationCompositeKey()
-    {
-        return _CombinationCompositeKey;
-    }
-
-    public TerminalTransactionQualifiers GetTerminalTransactionQualifiers()
-    {
-        return _TerminalTransactionQualifiers;
-    }
-
-    public TransactionSessionId GetTransactionSessionId()
-    {
-        return _Transaction.GetTransactionSessionId();
-    }
+    public SelectApplicationDefinitionFileInfoResponse GetApplicationFileInformationResponse() => _ApplicationFileInformationResponse;
+    public KernelId GetKernelId() => _CombinationCompositeKey.GetKernelId();
+    public Transaction GetTransaction() => _Transaction;
+    public CombinationCompositeKey GetCombinationCompositeKey() => _CombinationCompositeKey;
+    public TerminalTransactionQualifiers GetTerminalTransactionQualifiers() => _TerminalTransactionQualifiers;
+    public TransactionSessionId GetTransactionSessionId() => _Transaction.GetTransactionSessionId();
 
     #endregion
 }

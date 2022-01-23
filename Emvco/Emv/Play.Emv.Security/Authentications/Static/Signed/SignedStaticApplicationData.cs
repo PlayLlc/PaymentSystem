@@ -41,56 +41,25 @@ public record SignedStaticApplicationData : PrimitiveValue, IEqualityComparer<Si
 
     #region Instance Members
 
-    public byte[] AsByteArray()
-    {
-        return _Value;
-    }
-
-    public override BerEncodingId GetBerEncodingId()
-    {
-        return BerEncodingId;
-    }
-
-    public int GetByteCount()
-    {
-        return _Value.Length;
-    }
-
-    public override Tag GetTag()
-    {
-        return Tag;
-    }
-
-    public override ushort GetValueByteCount(BerCodec codec)
-    {
-        return codec.GetByteCount(GetBerEncodingId(), _Value);
-    }
+    public byte[] AsByteArray() => _Value;
+    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public int GetByteCount() => _Value.Length;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
     #endregion
 
     #region Serialization
 
-    public static SignedStaticApplicationData Decode(ReadOnlyMemory<byte> value, BerCodec codec)
-    {
-        return Decode(value.Span, codec);
-    }
+    public static SignedStaticApplicationData Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
-    public static SignedStaticApplicationData Decode(ReadOnlySpan<byte> value, BerCodec codec)
-    {
-        return new SignedStaticApplicationData(value.ToArray());
-    }
+    public static SignedStaticApplicationData Decode(ReadOnlySpan<byte> value, BerCodec codec) =>
+        new SignedStaticApplicationData(value.ToArray());
 
-    public override byte[] EncodeValue(BerCodec codec)
-    {
-        return codec.EncodeValue(BerEncodingId, _Value);
-    }
-
-    public override byte[] EncodeValue(BerCodec codec, int length)
-    {
-        return codec.EncodeValue(BerEncodingId, _Value, length);
-    }
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
 
     #endregion
 
@@ -107,10 +76,7 @@ public record SignedStaticApplicationData : PrimitiveValue, IEqualityComparer<Si
         return x.Equals(y);
     }
 
-    public int GetHashCode(SignedStaticApplicationData obj)
-    {
-        return obj.GetHashCode();
-    }
+    public int GetHashCode(SignedStaticApplicationData obj) => obj.GetHashCode();
 
     #endregion
 }

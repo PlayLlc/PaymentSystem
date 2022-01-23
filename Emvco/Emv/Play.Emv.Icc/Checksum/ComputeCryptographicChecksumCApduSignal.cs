@@ -42,11 +42,10 @@ public class ComputeCryptographicChecksumCApduSignal : CApduSignal
     ///     The result from an Unpredictable Number Data Object List
     /// </param>
     /// <returns></returns>
-    public static ComputeCryptographicChecksumCApduSignal Create(DataObjectListResult unpredictableNumberDataObjectListResult)
-    {
-        return new(new Class(Messaging.Apdu.SecureMessaging.Proprietary), Instruction.ComputeCryptographicChecksum, 0x8E, 0x80,
-                   unpredictableNumberDataObjectListResult.AsCommandTemplate().EncodeValue(), 0);
-    }
+    public static ComputeCryptographicChecksumCApduSignal Create(DataObjectListResult unpredictableNumberDataObjectListResult) =>
+        new ComputeCryptographicChecksumCApduSignal(new Class(Messaging.Apdu.SecureMessaging.Proprietary),
+                                                    Instruction.ComputeCryptographicChecksum, 0x8E, 0x80,
+                                                    unpredictableNumberDataObjectListResult.AsCommandTemplate().EncodeValue(), 0);
 
     #endregion
 }

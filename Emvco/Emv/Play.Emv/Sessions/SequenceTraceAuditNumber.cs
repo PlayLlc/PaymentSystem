@@ -33,13 +33,13 @@ public readonly struct SequenceTraceAuditNumber
         if (value == 0)
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} has a value of {value} but must be a value between {_MinValue} and {_MaxValue}");
+                                                  $"The argument {nameof(value)} has a value of {value} but must be a value between {_MinValue} and {_MaxValue}");
         }
 
         if (value > _MaxValue)
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} has a value of {value} but must be a value between {_MinValue} and {_MaxValue}");
+                                                  $"The argument {nameof(value)} has a value of {value} but must be a value between {_MinValue} and {_MaxValue}");
         }
 
         _Value = value;

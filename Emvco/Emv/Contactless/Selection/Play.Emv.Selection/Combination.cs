@@ -53,16 +53,16 @@ public class Combination : IEqualityComparer<Combination>, IEquatable<Combinatio
         if (!preProcessingIndicator.IsExtendedSelectionSupported())
         {
             return new Combination(preProcessingIndicator.GetKey(), preProcessingIndicator.GetApplicationIdentifier(),
-                directoryEntry.GetApplicationPriorityRank(), preProcessingIndicator);
+                                   directoryEntry.GetApplicationPriorityRank(), preProcessingIndicator);
         }
 
         DedicatedFileName? applicationId = directoryEntry.TrGetExtendedSelection(out ExtendedSelection? extendedSelectionResult)
             ? new DedicatedFileName(preProcessingIndicator.GetApplicationIdentifier().AsByteArray()
-                .ConcatArrays(extendedSelectionResult!.AsByteArray()))
+                                        .ConcatArrays(extendedSelectionResult!.AsByteArray()))
             : preProcessingIndicator.GetApplicationIdentifier();
 
         return new Combination(preProcessingIndicator.GetKey(), applicationId, directoryEntry.GetApplicationPriorityRank(),
-            preProcessingIndicator);
+                               preProcessingIndicator);
     }
 
     public DedicatedFileName GetApplicationIdentifier() => _ApplicationId;

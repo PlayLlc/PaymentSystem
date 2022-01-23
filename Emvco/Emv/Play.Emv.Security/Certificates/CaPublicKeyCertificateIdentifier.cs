@@ -11,7 +11,7 @@ namespace Play.Emv.Security.Certificates;
 ///     A composite key that uniquely identifies a certificate for an Issuer
 /// </summary>
 public class CaPublicKeyCertificateIdentifier : IEqualityComparer<CaPublicKeyCertificateIdentifier>,
-                                                IEquatable<CaPublicKeyCertificateIdentifier>
+    IEquatable<CaPublicKeyCertificateIdentifier>
 {
     #region Instance Values
 
@@ -34,15 +34,8 @@ public class CaPublicKeyCertificateIdentifier : IEqualityComparer<CaPublicKeyCer
 
     #region Instance Members
 
-    public CaPublicKeyIndex GetCaPublicKeyIndex()
-    {
-        return _Index;
-    }
-
-    public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator()
-    {
-        return _RegisteredApplicationProviderIndicator;
-    }
+    public CaPublicKeyIndex GetCaPublicKeyIndex() => _Index;
+    public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() => _RegisteredApplicationProviderIndicator;
 
     #endregion
 
@@ -67,15 +60,10 @@ public class CaPublicKeyCertificateIdentifier : IEqualityComparer<CaPublicKeyCer
         return x.Equals(y);
     }
 
-    public override bool Equals([AllowNull] object obj)
-    {
-        return obj is CaPublicKeyCertificateIdentifier caPublicKeyCertificateKey && Equals(caPublicKeyCertificateKey);
-    }
+    public override bool Equals([AllowNull] object obj) =>
+        obj is CaPublicKeyCertificateIdentifier caPublicKeyCertificateKey && Equals(caPublicKeyCertificateKey);
 
-    public int GetHashCode(CaPublicKeyCertificateIdentifier obj)
-    {
-        return obj.GetHashCode();
-    }
+    public int GetHashCode(CaPublicKeyCertificateIdentifier obj) => obj.GetHashCode();
 
     public override int GetHashCode()
     {

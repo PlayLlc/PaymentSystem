@@ -8,7 +8,10 @@ public class FileControlInformationPpseTestTlv : ConstructedTlv
 {
     #region Static Metadata
 
-    private static readonly TestTlv[] _DefaultChildren = new TestTlv[] {new DedicatedFileNameTestTlv(), new FileControlInformationProprietaryPpseTestTlv()};
+    private static readonly TestTlv[] _DefaultChildren =
+    {
+        new DedicatedFileNameTestTlv(), new FileControlInformationProprietaryPpseTestTlv()
+    };
 
     private static readonly Tag[] _ChildIndex = FileControlInformationPpse.ChildTags;
 
@@ -26,10 +29,7 @@ public class FileControlInformationPpseTestTlv : ConstructedTlv
 
     #region Instance Members
 
-    public override Tag GetTag()
-    {
-        return FileControlInformationTemplate.Tag;
-    }
+    public override Tag GetTag() => FileControlInformationTemplate.Tag;
 
     #endregion
 }

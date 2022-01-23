@@ -48,34 +48,16 @@ public readonly struct Level1Error
 
     #region Instance Members
 
-    public static Level1Error Get(byte value)
-    {
-        return _ValueObjectMap[value];
-    }
+    public static Level1Error Get(byte value) => _ValueObjectMap[value];
 
     #endregion
 
     #region Equality
 
-    public override bool Equals(object? obj)
-    {
-        return obj is Level1Error l1 && Equals(l1);
-    }
-
-    public bool Equals(Level1Error other)
-    {
-        return _Value == other._Value;
-    }
-
-    public bool Equals(Level1Error x, Level1Error y)
-    {
-        return x.Equals(y);
-    }
-
-    public bool Equals(byte other)
-    {
-        return _Value == other;
-    }
+    public override bool Equals(object? obj) => obj is Level1Error l1 && Equals(l1);
+    public bool Equals(Level1Error other) => _Value == other._Value;
+    public bool Equals(Level1Error x, Level1Error y) => x.Equals(y);
+    public bool Equals(byte other) => _Value == other;
 
     public override int GetHashCode()
     {
@@ -88,70 +70,19 @@ public readonly struct Level1Error
 
     #region Operator Overrides
 
-    public static bool operator ==(Level1Error left, Level1Error right)
-    {
-        return left._Value == right._Value;
-    }
-
-    public static bool operator ==(Level1Error left, byte right)
-    {
-        return left._Value == right;
-    }
-
-    public static bool operator ==(byte left, Level1Error right)
-    {
-        return left == right._Value;
-    }
-
-    public static explicit operator byte(Level1Error value)
-    {
-        return value._Value;
-    }
-
-    public static explicit operator short(Level1Error value)
-    {
-        return value._Value;
-    }
-
-    public static explicit operator ushort(Level1Error value)
-    {
-        return value._Value;
-    }
-
-    public static explicit operator int(Level1Error value)
-    {
-        return value._Value;
-    }
-
-    public static explicit operator uint(Level1Error value)
-    {
-        return value._Value;
-    }
-
-    public static explicit operator long(Level1Error value)
-    {
-        return value._Value;
-    }
-
-    public static explicit operator ulong(Level1Error value)
-    {
-        return value._Value;
-    }
-
-    public static bool operator !=(Level1Error left, Level1Error right)
-    {
-        return !(left == right);
-    }
-
-    public static bool operator !=(Level1Error left, byte right)
-    {
-        return !(left == right);
-    }
-
-    public static bool operator !=(byte left, Level1Error right)
-    {
-        return !(left == right);
-    }
+    public static bool operator ==(Level1Error left, Level1Error right) => left._Value == right._Value;
+    public static bool operator ==(Level1Error left, byte right) => left._Value == right;
+    public static bool operator ==(byte left, Level1Error right) => left == right._Value;
+    public static explicit operator byte(Level1Error value) => value._Value;
+    public static explicit operator short(Level1Error value) => value._Value;
+    public static explicit operator ushort(Level1Error value) => value._Value;
+    public static explicit operator int(Level1Error value) => value._Value;
+    public static explicit operator uint(Level1Error value) => value._Value;
+    public static explicit operator long(Level1Error value) => value._Value;
+    public static explicit operator ulong(Level1Error value) => value._Value;
+    public static bool operator !=(Level1Error left, Level1Error right) => !(left == right);
+    public static bool operator !=(Level1Error left, byte right) => !(left == right);
+    public static bool operator !=(byte left, Level1Error right) => !(left == right);
 
     #endregion
 }

@@ -27,7 +27,7 @@ public class HexadecimalTests
     #region Instance Members
 
     [Theory]
-    [MemberData(nameof(HexadecimalFixture.GetRandomBytes), new object[] {100, 1, 300}, MemberType = typeof(HexadecimalFixture))]
+    [MemberData(nameof(HexadecimalFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(HexadecimalFixture))]
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
     {
         string decoded = _SystemUnderTest.GetString(testValue);
@@ -37,7 +37,7 @@ public class HexadecimalTests
     }
 
     [Theory]
-    [MemberData(nameof(HexadecimalFixture.GetRandomString), new object[] {100, 1, 300}, MemberType = typeof(HexadecimalFixture))]
+    [MemberData(nameof(HexadecimalFixture.GetRandomString), 100, 1, 300, MemberType = typeof(HexadecimalFixture))]
     public void RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult(string testValue)
     {
         byte[] decoded = _SystemUnderTest.GetBytes(testValue);

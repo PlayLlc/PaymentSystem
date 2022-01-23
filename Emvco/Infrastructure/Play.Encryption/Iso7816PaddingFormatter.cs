@@ -34,10 +34,7 @@ public class Iso7816PaddingFormatter : IFormatPlainText
         return buffer.ToArray();
     }
 
-    private bool IsPaddingValid(ReadOnlySpan<byte> value)
-    {
-        return (value.Length % _BlockSize) == 0;
-    }
+    private bool IsPaddingValid(ReadOnlySpan<byte> value) => (value.Length % _BlockSize) == 0;
 
     #endregion
 }

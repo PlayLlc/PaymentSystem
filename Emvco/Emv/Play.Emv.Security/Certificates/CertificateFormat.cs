@@ -42,24 +42,14 @@ public sealed record CertificateFormat : EnumObject<byte>, IEqualityComparer<Cer
 
     #region Instance Members
 
-    public int GetByteSize()
-    {
-        return _Value;
-    }
-
-    public static bool TryGet(byte value, out CertificateFormat? result)
-    {
-        return _ValueObjectMap.TryGetValue(value, out result);
-    }
+    public int GetByteSize() => _Value;
+    public static bool TryGet(byte value, out CertificateFormat? result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion
 
     #region Equality
 
-    public bool Equals(CertificateFormat? other)
-    {
-        return other is not null && (_Value == other._Value);
-    }
+    public bool Equals(CertificateFormat? other) => other is not null && (_Value == other._Value);
 
     public bool Equals(CertificateFormat? x, CertificateFormat? y)
     {
@@ -72,15 +62,8 @@ public sealed record CertificateFormat : EnumObject<byte>, IEqualityComparer<Cer
         return x.Equals(y);
     }
 
-    public int GetHashCode(CertificateFormat other)
-    {
-        return other.GetHashCode();
-    }
-
-    public override int GetHashCode()
-    {
-        return unchecked(_Value.GetHashCode() * 13879);
-    }
+    public int GetHashCode(CertificateFormat other) => other.GetHashCode();
+    public override int GetHashCode() => unchecked(_Value.GetHashCode() * 13879);
 
     #endregion
 }

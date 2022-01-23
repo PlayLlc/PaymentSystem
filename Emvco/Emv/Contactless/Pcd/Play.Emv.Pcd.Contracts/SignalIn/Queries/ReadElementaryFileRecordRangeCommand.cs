@@ -20,8 +20,8 @@ public record ReadElementaryFileRecordRangeCommand : QueryPcdRequest
 
     #region Constructor
 
-    private ReadElementaryFileRecordRangeCommand(TransactionSessionId transactionSessionId, RecordRange recordRange) : base(default,
-        MessageTypeId, transactionSessionId)
+    private ReadElementaryFileRecordRangeCommand(TransactionSessionId transactionSessionId, RecordRange recordRange) :
+        base(default, MessageTypeId, transactionSessionId)
     {
         _RecordRange = recordRange;
     }

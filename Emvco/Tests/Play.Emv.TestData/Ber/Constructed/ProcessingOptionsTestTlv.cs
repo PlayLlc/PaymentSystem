@@ -8,8 +8,7 @@ public class ProcessingOptionsTestTlv : ConstructedTlv
 {
     #region Static Metadata
 
-    private static readonly TestTlv[] _DefaultChildren = new TestTlv[] {new ApplicationFileLocatorTestTlv(), new ApplicationInterchangeProfileTestTlv()};
-
+    private static readonly TestTlv[] _DefaultChildren = {new ApplicationFileLocatorTestTlv(), new ApplicationInterchangeProfileTestTlv()};
     private static readonly Tag[] _ChildIndex = ProcessingOptions.ChildTags;
 
     #endregion
@@ -26,10 +25,7 @@ public class ProcessingOptionsTestTlv : ConstructedTlv
 
     #region Instance Members
 
-    public override Tag GetTag()
-    {
-        return ResponseMessageTemplate.Tag;
-    }
+    public override Tag GetTag() => ResponseMessageTemplate.Tag;
 
     #endregion
 }

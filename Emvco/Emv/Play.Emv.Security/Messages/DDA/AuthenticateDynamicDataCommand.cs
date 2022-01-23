@@ -34,20 +34,9 @@ public class AuthenticateDynamicDataCommand
 
     #region Instance Members
 
-    public DataObjectListResult GetDataObjectListResult()
-    {
-        return _DataObjectListResult;
-    }
-
-    public PublicKeyCertificate GetIssuerPublicKeyCertificate()
-    {
-        return _IccPublicKeyCertificate;
-    }
-
-    public SignedDynamicApplicationData GetSignedDynamicApplicationData()
-    {
-        return _SignedDynamicApplicationData;
-    }
+    public DataObjectListResult GetDataObjectListResult() => _DataObjectListResult;
+    public PublicKeyCertificate GetIssuerPublicKeyCertificate() => _IccPublicKeyCertificate;
+    public SignedDynamicApplicationData GetSignedDynamicApplicationData() => _SignedDynamicApplicationData;
 
     #endregion
 }

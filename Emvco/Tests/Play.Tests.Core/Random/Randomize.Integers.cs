@@ -5,14 +5,11 @@ namespace Play.Tests.Core.Random
 {
     public partial class Randomize
     {
-        public partial class Integers
+        public class Integers
         {
             #region Instance Members
 
-            public static sbyte SByte()
-            {
-                return (sbyte) _Random.Next(sbyte.MinValue, sbyte.MaxValue);
-            }
+            public static sbyte SByte() => (sbyte) _Random.Next(sbyte.MinValue, sbyte.MaxValue);
 
             public static sbyte SByte(byte min, byte max)
             {
@@ -22,10 +19,7 @@ namespace Play.Tests.Core.Random
                 return (sbyte) _Random.Next(min, max);
             }
 
-            public static byte Byte()
-            {
-                return (byte) _Random.Next(byte.MinValue, byte.MaxValue);
-            }
+            public static byte Byte() => (byte) _Random.Next(byte.MinValue, byte.MaxValue);
 
             public static byte Byte(byte min, byte max)
             {
@@ -35,10 +29,7 @@ namespace Play.Tests.Core.Random
                 return (byte) _Random.Next(min, max);
             }
 
-            public static short Short()
-            {
-                return (short) _Random.Next(short.MinValue, short.MaxValue);
-            }
+            public static short Short() => (short) _Random.Next(short.MinValue, short.MaxValue);
 
             public static short Short(short min, short max)
             {
@@ -48,10 +39,7 @@ namespace Play.Tests.Core.Random
                 return (short) _Random.Next(min, max);
             }
 
-            public static ushort UShort()
-            {
-                return (ushort) _Random.Next(ushort.MinValue, ushort.MaxValue);
-            }
+            public static ushort UShort() => (ushort) _Random.Next(ushort.MinValue, ushort.MaxValue);
 
             public static ushort UShort(ushort min, ushort max)
             {
@@ -61,17 +49,14 @@ namespace Play.Tests.Core.Random
                 return (ushort) _Random.Next(min, max);
             }
 
-            public static int Int()
-            {
-                return _Random.Next(int.MinValue, int.MaxValue);
-            }
+            public static int Int() => _Random.Next(int.MinValue, int.MaxValue);
 
             public static int Int(int min, int max)
             {
                 if (min > max)
                     throw new ArgumentOutOfRangeException();
 
-                return _Random.Next(0, (int) (max - min));
+                return _Random.Next(0, max - min);
             }
 
             public static uint UInt()
@@ -94,7 +79,7 @@ namespace Play.Tests.Core.Random
 
                 if (min > int.MaxValue)
                 {
-                    result += (uint) int.MaxValue;
+                    result += int.MaxValue;
                     result += (uint) _Random.Next(0, (int) (max - min));
 
                     return result;
@@ -103,7 +88,7 @@ namespace Play.Tests.Core.Random
                 if (max > int.MaxValue)
                 {
                     result += (uint) _Random.Next(0, int.MaxValue);
-                    int maxCeiling = (int) (max - result > int.MaxValue ? int.MaxValue : max - result);
+                    int maxCeiling = (int) ((max - result) > int.MaxValue ? int.MaxValue : max - result);
                     result += (uint) _Random.Next(0, maxCeiling);
 
                     return result;
@@ -126,7 +111,8 @@ namespace Play.Tests.Core.Random
             public static long Long(long min, long max)
             {
                 if (min > max)
-                    throw new ArgumentOutOfRangeException(nameof(min), $"The argument {nameof(min)} must be less than the argument {nameof(max)}");
+                    throw new ArgumentOutOfRangeException(nameof(min),
+                                                          $"The argument {nameof(min)} must be less than the argument {nameof(max)}");
 
                 if (min == max)
                     return min;
@@ -136,13 +122,10 @@ namespace Play.Tests.Core.Random
 
             public static ulong ULong()
             {
-                unchecked
-                {
-                    Span<byte> randNumberBuffer = stackalloc byte[8];
-                    _Random.NextBytes(randNumberBuffer);
+                Span<byte> randNumberBuffer = stackalloc byte[8];
+                _Random.NextBytes(randNumberBuffer);
 
-                    return PlayEncoding.UnsignedInteger.GetUInt64(randNumberBuffer);
-                }
+                return PlayEncoding.UnsignedInteger.GetUInt64(randNumberBuffer);
             }
 
             private static long GetRandomFromHash(long min, long max, long hash)

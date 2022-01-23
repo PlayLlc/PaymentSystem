@@ -24,25 +24,10 @@ public class Message1 : IEnumerable
 
     #region Instance Members
 
-    public byte[] AsByteArray()
-    {
-        return _Value;
-    }
-
-    public Span<byte> AsSpan()
-    {
-        return _Value.AsSpan();
-    }
-
-    public int GetByteCount()
-    {
-        return _Value.Length;
-    }
-
-    public IEnumerator GetEnumerator()
-    {
-        return _Value.GetEnumerator();
-    }
+    public byte[] AsByteArray() => _Value;
+    public Span<byte> AsSpan() => _Value.AsSpan();
+    public int GetByteCount() => _Value.Length;
+    public IEnumerator GetEnumerator() => _Value.GetEnumerator();
 
     #endregion
 

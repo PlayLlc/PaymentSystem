@@ -18,10 +18,7 @@ public abstract record DataExchangeResponse : DataExchangeList<TagLengthValue>
         Enqueue(item._Value.ToArray());
     }
 
-    public TagLengthValue[] AsTagLengthValues()
-    {
-        return _Value.ToArray();
-    }
+    public TagLengthValue[] AsTagLengthValues() => _Value.ToArray();
 
     #endregion
 

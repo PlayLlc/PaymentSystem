@@ -12,10 +12,7 @@ internal record TerminalSession(
 {
     #region Instance Members
 
-    public TransactionSessionId GetTransactionSessionId()
-    {
-        return Transaction.GetTransactionSessionId();
-    }
+    public TransactionSessionId GetTransactionSessionId() => Transaction.GetTransactionSessionId();
 
     #endregion
 }

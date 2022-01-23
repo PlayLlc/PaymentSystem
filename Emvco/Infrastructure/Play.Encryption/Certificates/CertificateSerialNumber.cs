@@ -26,7 +26,7 @@ public readonly struct CertificateSerialNumber
         if (value.Length != _ByteCount)
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                $"{nameof(CertificateSerialNumber)} was expecting a value with {_ByteCount} bytes");
+                                                  $"{nameof(CertificateSerialNumber)} was expecting a value with {_ByteCount} bytes");
         }
 
         _Value = new BigInteger(value);
@@ -37,7 +37,7 @@ public readonly struct CertificateSerialNumber
         if (value.Length != _ByteCount)
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                $"{nameof(CertificateSerialNumber)} was expecting a value with {_ByteCount} bytes");
+                                                  $"{nameof(CertificateSerialNumber)} was expecting a value with {_ByteCount} bytes");
         }
 
         _Value = new BigInteger(value);

@@ -30,7 +30,7 @@ namespace Play.Core.Tests.Extensions.Arrays
         }
 
         [Theory]
-        [MemberData(nameof(ByteArrayFixture.GetRandom), new object[] {100, 0, 300}, MemberType = typeof(ByteArrayFixture))]
+        [MemberData(nameof(ByteArrayFixture.GetRandom), 100, 0, 300, MemberType = typeof(ByteArrayFixture))]
         public void RandomByteArray_InvokesCopyValue_CorrectlyCopiesValue(byte[] testValue)
         {
             byte[] result = testValue.CopyValue();
@@ -51,7 +51,7 @@ namespace Play.Core.Tests.Extensions.Arrays
         }
 
         [Theory]
-        [MemberData(nameof(ByteArrayFixture.GetRandom), new object[] {100, 0, 300}, MemberType = typeof(ByteArrayFixture))]
+        [MemberData(nameof(ByteArrayFixture.GetRandom), 100, 0, 300, MemberType = typeof(ByteArrayFixture))]
         public void RandomByteArray_InvokesCopyValue_CreatesValueCopyWithCorrectLength(byte[] testValue)
         {
             byte[] result = testValue.CopyValue();
@@ -73,7 +73,7 @@ namespace Play.Core.Tests.Extensions.Arrays
         }
 
         [Theory]
-        [MemberData(nameof(ByteArrayFixture.GetRandom), new object[] {100, 0, 300}, MemberType = typeof(ByteArrayFixture))]
+        [MemberData(nameof(ByteArrayFixture.GetRandom), 100, 0, 300, MemberType = typeof(ByteArrayFixture))]
         public void RandomByteArray_InvokesConcatArrays_CorrectlyConcatenatesArrays(byte[] testValue)
         {
             byte[] result = testValue.ConcatArrays(testValue);
@@ -98,7 +98,7 @@ namespace Play.Core.Tests.Extensions.Arrays
         }
 
         [Theory]
-        [MemberData(nameof(ByteArrayFixture.GetRandom), new object[] {100, 0, 300}, MemberType = typeof(ByteArrayFixture))]
+        [MemberData(nameof(ByteArrayFixture.GetRandom), 100, 0, 300, MemberType = typeof(ByteArrayFixture))]
         public void RandomByteArray_InvokesConcatArrays_CreatesValueCopyWithCorrectLength(byte[] testValue)
         {
             byte[] result = testValue.ConcatArrays(testValue);

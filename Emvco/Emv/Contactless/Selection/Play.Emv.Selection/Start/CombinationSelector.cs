@@ -155,10 +155,8 @@ public class CombinationSelector
             ProcessStep3(transactionSessionId, candidateList, outcome);
     }
 
-    private bool IsMatchingAid(DedicatedFileName applicationDedicatedFileName, PreProcessingIndicators preProcessingIndicators)
-    {
-        return preProcessingIndicators.IsMatchingAid(applicationDedicatedFileName);
-    }
+    private bool IsMatchingAid(DedicatedFileName applicationDedicatedFileName, PreProcessingIndicators preProcessingIndicators) =>
+        preProcessingIndicators.IsMatchingAid(applicationDedicatedFileName);
 
     private bool IsMatchingDomesticKernelIdentifier(PreProcessingIndicators preProcessingIndicators, KernelIdentifier kernelIdentifier)
     {

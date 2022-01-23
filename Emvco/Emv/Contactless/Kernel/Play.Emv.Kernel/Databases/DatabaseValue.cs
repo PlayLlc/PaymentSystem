@@ -75,7 +75,7 @@ public class DatabaseValue : TagLengthValue, IEquatable<DatabaseValue>, IEqualit
         }
     }
 
-    public int GetHashCode(DatabaseValue obj) => unchecked(obj.GetHashCode());
+    public int GetHashCode(DatabaseValue obj) => obj.GetHashCode();
     public int GetHashCode(PrimitiveValue obj) => obj.GetHashCode();
 
     #endregion

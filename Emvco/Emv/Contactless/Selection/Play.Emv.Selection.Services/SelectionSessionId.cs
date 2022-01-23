@@ -21,15 +21,8 @@ public readonly record struct SelectionSessionId
 
     #region Equality
 
-    public bool Equals(SelectionSessionId x, SelectionSessionId y)
-    {
-        return x._Value == y._Value;
-    }
-
-    public int GetHashCode(SelectionSessionId obj)
-    {
-        return obj._Value.GetHashCode();
-    }
+    public bool Equals(SelectionSessionId x, SelectionSessionId y) => x._Value == y._Value;
+    public int GetHashCode(SelectionSessionId obj) => obj._Value.GetHashCode();
 
     #endregion
 }

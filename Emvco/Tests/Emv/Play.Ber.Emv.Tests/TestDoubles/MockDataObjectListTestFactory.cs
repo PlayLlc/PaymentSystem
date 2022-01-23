@@ -11,7 +11,7 @@ public class MockDataObjectListTestFactory
 {
     #region Static Metadata
 
-    private static readonly byte[] _DefaultContentOctets = new byte[]
+    private static readonly byte[] _DefaultContentOctets =
     {
         0x1B, 0x9F, 0x66, 0x04, 0x9F, 0x02, 0x06, 0x9F,
         0x03, 0x06, 0x9F, 0x1A, 0x02, 0x95, 0x05, 0x5F,
@@ -23,10 +23,7 @@ public class MockDataObjectListTestFactory
 
     #region Instance Members
 
-    public static MockDataObjectList Create()
-    {
-        return MockDataObjectList.Decode(_DefaultContentOctets.AsSpan());
-    }
+    public static MockDataObjectList Create() => MockDataObjectList.Decode(_DefaultContentOctets.AsSpan());
 
     public static MockDataObjectList Create(params TagLength[] values)
     {

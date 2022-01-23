@@ -99,11 +99,9 @@ internal class StaticDataAuthenticator
     private bool IsStaticDataToBeAuthenticatedValid(
         DecodedIssuerPublicKeyCertificate decodedCertificateResult,
         SignedStaticApplicationData signedStaticApplicationData,
-        ReadOnlySpan<byte> staticDataToBeAuthenticated)
-    {
-        return _SignedStaticApplicationDataDecoder.IsValid(decodedCertificateResult!, signedStaticApplicationData,
-                                                           staticDataToBeAuthenticated.ToArray());
-    }
+        ReadOnlySpan<byte> staticDataToBeAuthenticated) =>
+        _SignedStaticApplicationDataDecoder.IsValid(decodedCertificateResult!, signedStaticApplicationData,
+                                                    staticDataToBeAuthenticated.ToArray());
 
     #endregion
 }

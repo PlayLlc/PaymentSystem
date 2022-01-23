@@ -107,7 +107,8 @@ public class Outcome
     {
         List<TagLengthValue> buffer = new()
         {
-            _ErrorIndication!.AsTagLengthValue(), _OutcomeParameterSet!.AsTagLengthValue(),
+            _ErrorIndication!.AsTagLengthValue(),
+            _OutcomeParameterSet!.AsTagLengthValue(),
             _TerminalVerificationResults.AsTagLengthValue()
         };
 
@@ -121,38 +122,14 @@ public class Outcome
         return buffer.ToArray();
     }
 
-    public FieldOffRequestOutcome GetFieldOffRequestOutcome()
-    {
-        return _OutcomeParameterSet.GetFieldOffRequestOutcome();
-    }
+    public FieldOffRequestOutcome GetFieldOffRequestOutcome() => _OutcomeParameterSet.GetFieldOffRequestOutcome();
+    public StartOutcome GetStartOutcome() => _OutcomeParameterSet.GetStartOutcome();
+    public StatusOutcome GetStatusOutcome() => _OutcomeParameterSet.GetStatusOutcome();
+    public Milliseconds GetTimeout() => _OutcomeParameterSet.GetTimeout();
+    public bool IsErrorPresent() => _ErrorIndication.IsErrorPresent();
+    public bool IsRestart() => IsRestartedByEntryPoint();
 
-    public StartOutcome GetStartOutcome()
-    {
-        return _OutcomeParameterSet.GetStartOutcome();
-    }
-
-    public StatusOutcome GetStatusOutcome()
-    {
-        return _OutcomeParameterSet.GetStatusOutcome();
-    }
-
-    public Milliseconds GetTimeout()
-    {
-        return _OutcomeParameterSet.GetTimeout();
-    }
-
-    public bool IsErrorPresent()
-    {
-        return _ErrorIndication.IsErrorPresent();
-    }
-
-    public bool IsRestart()
-    {
-        return IsRestartedByEntryPoint();
-
-        // etc
-    }
-
+    // etc
     /// <summary>
     ///     This flag indicates if the transaction should reprocess. The <see cref="StatusOutcome" /> will determine
     ///     which Start Point the processing point enters
@@ -176,30 +153,11 @@ public class Outcome
         return false;
     }
 
-    public bool IsSelectNext()
-    {
-        return GetStatusOutcome() == StatusOutcome.SelectNext;
-    }
-
-    public TerminalVerificationResults GetTerminalVerificationResults()
-    {
-        return _TerminalVerificationResults;
-    }
-
-    public bool IsTryAgain()
-    {
-        return GetStatusOutcome() == StatusOutcome.TryAgain;
-    }
-
-    public bool IsUiRequestOnOutcomePresent()
-    {
-        return _OutcomeParameterSet.IsUiRequestOnOutcomePresent();
-    }
-
-    public bool IsUiRequestOnRestartPresent()
-    {
-        return _OutcomeParameterSet.IsUiRequestOnRestartPresent();
-    }
+    public bool IsSelectNext() => GetStatusOutcome() == StatusOutcome.SelectNext;
+    public TerminalVerificationResults GetTerminalVerificationResults() => _TerminalVerificationResults;
+    public bool IsTryAgain() => GetStatusOutcome() == StatusOutcome.TryAgain;
+    public bool IsUiRequestOnOutcomePresent() => _OutcomeParameterSet.IsUiRequestOnOutcomePresent();
+    public bool IsUiRequestOnRestartPresent() => _OutcomeParameterSet.IsUiRequestOnRestartPresent();
 
     public void Reset(ErrorIndication errorIndication)
     {
@@ -272,15 +230,8 @@ public class Outcome
         _UserInterfaceRequestData = _UserInterfaceRequestData |= userInterfaceRequestData.Complete();
     }
 
-    public OutcomeParameterSet GetOutcomeParameterSet()
-    {
-        return _OutcomeParameterSet;
-    }
-
-    public DiscretionaryData? GetDiscretionaryData()
-    {
-        return _DiscretionaryData;
-    }
+    public OutcomeParameterSet GetOutcomeParameterSet() => _OutcomeParameterSet;
+    public DiscretionaryData? GetDiscretionaryData() => _DiscretionaryData;
 
     public bool TryGetDiscretionaryData(out DiscretionaryData? result)
     {

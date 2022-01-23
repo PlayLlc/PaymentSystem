@@ -16,7 +16,7 @@ internal record ResponseMessageHeader : RequestMessageHeader
     }
 
     public ResponseMessageHeader(CorrelationId correlationId, MessagingConfiguration messagingConfiguration) : base(correlationId,
-        messagingConfiguration)
+     messagingConfiguration)
     {
         _CorrelationId = correlationId;
     }

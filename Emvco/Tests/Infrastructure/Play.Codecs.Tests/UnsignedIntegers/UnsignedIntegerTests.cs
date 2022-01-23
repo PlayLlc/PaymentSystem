@@ -24,8 +24,7 @@ public class UnsignedIntegerTests
     #region Instance Members
 
     [Theory]
-    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), new object[] {100, 1, 300},
-                   MemberType = typeof(UnsignedIntegerFixture))]
+    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(UnsignedIntegerFixture))]
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
     {
         string decoded = _SystemUnderTest.GetString(testValue);
@@ -35,7 +34,7 @@ public class UnsignedIntegerTests
     }
 
     [Theory]
-    [MemberData(nameof(UnsignedIntegerFixture.GetRandomUShort), new object[] {100}, MemberType = typeof(UnsignedIntegerFixture))]
+    [MemberData(nameof(UnsignedIntegerFixture.GetRandomUShort), 100, MemberType = typeof(UnsignedIntegerFixture))]
     public void RandomDecodedUShort_EncodingThenDecoding_ReturnsExpectedResult(ushort testValue)
     {
         byte[]? decoded = _SystemUnderTest.GetBytes(testValue);
@@ -45,7 +44,7 @@ public class UnsignedIntegerTests
     }
 
     [Theory]
-    [MemberData(nameof(UnsignedIntegerFixture.GetRandomUInt), new object[] {100}, MemberType = typeof(UnsignedIntegerFixture))]
+    [MemberData(nameof(UnsignedIntegerFixture.GetRandomUInt), 100, MemberType = typeof(UnsignedIntegerFixture))]
     public void RandomDecodedUInt_EncodingThenDecoding_ReturnsExpectedResult(ushort testValue)
     {
         byte[]? decoded = _SystemUnderTest.GetBytes(testValue);
@@ -55,7 +54,7 @@ public class UnsignedIntegerTests
     }
 
     [Theory]
-    [MemberData(nameof(UnsignedIntegerFixture.GetRandomULong), new object[] {100}, MemberType = typeof(UnsignedIntegerFixture))]
+    [MemberData(nameof(UnsignedIntegerFixture.GetRandomULong), 100, MemberType = typeof(UnsignedIntegerFixture))]
     public void RandomDecodedULong_EncodingThenDecoding_ReturnsExpectedResult(ushort testValue)
     {
         byte[]? decoded = _SystemUnderTest.GetBytes(testValue);

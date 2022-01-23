@@ -6,7 +6,12 @@ public partial class EncodingTestDataFactory
     {
         #region Static Metadata
 
-        public static byte[] ApplicationLabelBytes = {0x56, 0x49, 0x53, 0x41, 0x20, 0x50, 0x52, 0x45, 0x50, 0x41, 0x49, 0x44};
+        public static byte[] ApplicationLabelBytes =
+        {
+            0x56, 0x49, 0x53, 0x41, 0x20, 0x50, 0x52, 0x45,
+            0x50, 0x41, 0x49, 0x44
+        };
+
         public const string ApplicationLabelAscii = "VISA PREPAID";
 
         #endregion

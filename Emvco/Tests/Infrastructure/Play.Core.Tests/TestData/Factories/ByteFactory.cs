@@ -6,10 +6,7 @@ namespace Play.Core.Tests.TestData.Factories
     {
         #region Instance Members
 
-        public static byte GetRandom(Random random)
-        {
-            return (byte) random.Next(byte.MinValue, byte.MaxValue);
-        }
+        public static byte GetRandom(Random random) => (byte) random.Next(byte.MinValue, byte.MaxValue);
 
         public static byte GetRandom(Random random, byte min, byte max)
         {

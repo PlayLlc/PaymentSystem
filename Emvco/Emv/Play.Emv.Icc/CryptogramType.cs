@@ -35,7 +35,8 @@ public sealed record CryptogramType : EnumObject<byte>
         AuthorizationRequestCryptogram = new CryptogramType(authorizationRequestCryptogram);
         _ValueObjectMap = new Dictionary<byte, CryptogramType>
         {
-            {applicationAuthenticationCryptogram, ApplicationAuthenticationCryptogram}, {transactionCertificate, TransactionCryptogram},
+            {applicationAuthenticationCryptogram, ApplicationAuthenticationCryptogram},
+            {transactionCertificate, TransactionCryptogram},
             {authorizationRequestCryptogram, AuthorizationRequestCryptogram}
         }.ToImmutableSortedDictionary();
     }
@@ -47,10 +48,7 @@ public sealed record CryptogramType : EnumObject<byte>
 
     #region Instance Members
 
-    public int CompareTo(CryptogramType other)
-    {
-        return _Value.CompareTo(other._Value);
-    }
+    public int CompareTo(CryptogramType other) => _Value.CompareTo(other._Value);
 
     public static bool TryGet(byte value, out CryptogramType? result)
     {
@@ -63,34 +61,16 @@ public sealed record CryptogramType : EnumObject<byte>
 
     #region Equality
 
-    public bool Equals(CryptogramType? other)
-    {
-        return other is not null && (_Value == other._Value);
-    }
-
-    public bool Equals(CryptogramType x, CryptogramType y)
-    {
-        return x.Equals(y);
-    }
-
-    public override int GetHashCode()
-    {
-        return 12251 * _Value.GetHashCode();
-    }
-
-    public int GetHashCode(CryptogramType obj)
-    {
-        return obj.GetHashCode();
-    }
+    public bool Equals(CryptogramType? other) => other is not null && (_Value == other._Value);
+    public bool Equals(CryptogramType x, CryptogramType y) => x.Equals(y);
+    public override int GetHashCode() => 12251 * _Value.GetHashCode();
+    public int GetHashCode(CryptogramType obj) => obj.GetHashCode();
 
     #endregion
 
     #region Operator Overrides
 
-    public static explicit operator byte(CryptogramType cryptogramType)
-    {
-        return cryptogramType._Value;
-    }
+    public static explicit operator byte(CryptogramType cryptogramType) => cryptogramType._Value;
 
     #endregion
 }

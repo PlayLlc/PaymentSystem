@@ -52,13 +52,13 @@ public record AmountOtherNumeric : DataElement<ulong>, IEqualityComparer<AmountO
         Check.Primitive.ForExactLength(value, byteLength, Tag);
 
         DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(AmountOtherNumeric)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(AmountOtherNumeric)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         if (result.CharCount != charLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(AmountOtherNumeric)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(AmountOtherNumeric)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
         }
 
         return new AmountOtherNumeric(result.Value);

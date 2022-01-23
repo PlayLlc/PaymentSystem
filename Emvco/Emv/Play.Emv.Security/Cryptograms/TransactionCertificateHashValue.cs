@@ -40,29 +40,15 @@ public record TransactionCertificateHashValue : PrimitiveValue, IEqualityCompare
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId()
-    {
-        return BerEncodingId;
-    }
-
-    public override Tag GetTag()
-    {
-        return Tag;
-    }
-
-    public override ushort GetValueByteCount(BerCodec codec)
-    {
-        return codec.GetByteCount(GetBerEncodingId(), _Value);
-    }
+    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
     #endregion
 
     #region Serialization
 
-    public static TransactionCertificateHashValue Decode(ReadOnlyMemory<byte> value, BerCodec codec)
-    {
-        return Decode(value.Span, codec);
-    }
+    public static TransactionCertificateHashValue Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
@@ -83,15 +69,8 @@ public record TransactionCertificateHashValue : PrimitiveValue, IEqualityCompare
         return new TransactionCertificateHashValue(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec)
-    {
-        return codec.EncodeValue(BerEncodingId, _Value);
-    }
-
-    public override byte[] EncodeValue(BerCodec codec, int length)
-    {
-        return codec.EncodeValue(BerEncodingId, _Value, length);
-    }
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
 
     #endregion
 
@@ -108,10 +87,7 @@ public record TransactionCertificateHashValue : PrimitiveValue, IEqualityCompare
         return x.Equals(y);
     }
 
-    public int GetHashCode(TransactionCertificateHashValue obj)
-    {
-        return obj.GetHashCode();
-    }
+    public int GetHashCode(TransactionCertificateHashValue obj) => obj.GetHashCode();
 
     #endregion
 }

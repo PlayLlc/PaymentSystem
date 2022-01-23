@@ -53,8 +53,8 @@ public sealed class OctetStringCodec : BerPrimitiveCodec
             if (valueType == typeof(char))
                 return Encode(Unsafe.As<T[], char[]>(ref value), length);
 
-            throw new BerInternalException(
-                $"The {nameof(OctetStringCodec)} does not implement the capability to encode the type {typeof(T).FullName}");
+            throw new
+                BerInternalException($"The {nameof(OctetStringCodec)} does not implement the capability to encode the type {typeof(T).FullName}");
         }
     }
 
@@ -68,8 +68,8 @@ public sealed class OctetStringCodec : BerPrimitiveCodec
         if (valueType == typeof(char))
             return Encode(Unsafe.As<T[], char[]>(ref value));
 
-        throw new BerInternalException(
-            $"The {nameof(OctetStringCodec)} does not implement the capability to encode the type {typeof(T).FullName}");
+        throw new
+            BerInternalException($"The {nameof(OctetStringCodec)} does not implement the capability to encode the type {typeof(T).FullName}");
     }
 
     public byte[] Encode(ReadOnlySpan<char> value) => _HexadecimalCodec.GetBytes(value);

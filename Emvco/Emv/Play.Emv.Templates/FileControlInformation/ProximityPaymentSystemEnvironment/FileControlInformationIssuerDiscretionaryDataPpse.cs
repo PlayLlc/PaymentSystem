@@ -62,10 +62,7 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
 
     #region Instance Members
 
-    public override Tag[] GetChildTags()
-    {
-        return ChildTags;
-    }
+    public override Tag[] GetChildTags() => ChildTags;
 
     public CommandTemplate AsCommandTemplate(BerCodec codec, PoiInformation poiInformation, TagLengthValue[] selectionDataObjectListValues)
     {
@@ -113,25 +110,10 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
         return _DirectoryEntry.Select(a => a.GetApplicationDedicatedFileName()).ToArray();
     }
 
-    public List<DirectoryEntry> GetDirectoryEntries()
-    {
-        return _DirectoryEntry.ToList();
-    }
-
-    public TagLength[] GetRequestedSdolItems()
-    {
-        return _SelectionDataObjectList?.GetRequestedItems() ?? Array.Empty<TagLength>();
-    }
-
-    public override Tag GetTag()
-    {
-        return Tag;
-    }
-
-    public bool IsDirectoryEntryListEmpty()
-    {
-        return GetDirectoryEntries().Count == 0;
-    }
+    public List<DirectoryEntry> GetDirectoryEntries() => _DirectoryEntry.ToList();
+    public TagLength[] GetRequestedSdolItems() => _SelectionDataObjectList?.GetRequestedItems() ?? Array.Empty<TagLength>();
+    public override Tag GetTag() => Tag;
+    public bool IsDirectoryEntryListEmpty() => GetDirectoryEntries().Count == 0;
 
     public bool IsPointOfInteractionApduCommandRequested()
     {
@@ -153,10 +135,8 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
 
     #region Serialization
 
-    public static FileControlInformationIssuerDiscretionaryDataPpse Decode(ReadOnlyMemory<byte> value)
-    {
-        return Decode(_Codec.DecodeChildren(value));
-    }
+    public static FileControlInformationIssuerDiscretionaryDataPpse Decode(ReadOnlyMemory<byte> value) =>
+        Decode(_Codec.DecodeChildren(value));
 
     /// <exception cref="BerException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -194,15 +174,8 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
 
     #region Equality
 
-    public override bool Equals(object? obj)
-    {
-        return obj is FileControlInformationIssuerDiscretionaryDataPpse fci && Equals(fci);
-    }
-
-    public override bool Equals(ConstructedValue? other)
-    {
-        return other is FileControlInformationIssuerDiscretionaryDataPpse ppse && Equals(ppse);
-    }
+    public override bool Equals(object? obj) => obj is FileControlInformationIssuerDiscretionaryDataPpse fci && Equals(fci);
+    public override bool Equals(ConstructedValue? other) => other is FileControlInformationIssuerDiscretionaryDataPpse ppse && Equals(ppse);
 
     public bool Equals(FileControlInformationIssuerDiscretionaryDataPpse other)
     {
@@ -216,10 +189,8 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
         return _DirectoryEntry.All(other._DirectoryEntry.Contains);
     }
 
-    public override bool Equals(ConstructedValue? x, ConstructedValue? y)
-    {
-        return Equals((FileControlInformationIssuerDiscretionaryDataPpse?) x, (FileControlInformationIssuerDiscretionaryDataPpse?) y);
-    }
+    public override bool Equals(ConstructedValue? x, ConstructedValue? y) =>
+        Equals((FileControlInformationIssuerDiscretionaryDataPpse?) x, (FileControlInformationIssuerDiscretionaryDataPpse?) y);
 
     public static bool Equals(FileControlInformationIssuerDiscretionaryDataPpse? x, FileControlInformationIssuerDiscretionaryDataPpse? y)
     {
@@ -247,10 +218,7 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
         }
     }
 
-    public override int GetHashCode(ConstructedValue obj)
-    {
-        return obj.GetHashCode();
-    }
+    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
 
     #endregion
 }

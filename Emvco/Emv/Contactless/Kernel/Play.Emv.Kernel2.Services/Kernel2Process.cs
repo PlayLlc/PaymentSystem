@@ -29,10 +29,7 @@ public class Kernel2Process : KernelProcess
 
     #region Instance Members
 
-    public override KernelId GetKernelId()
-    {
-        return ShortKernelId.Kernel2;
-    }
+    public override KernelId GetKernelId() => ShortKernelId.Kernel2;
 
     public override void Enqueue(StopKernelRequest message)
     {

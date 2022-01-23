@@ -28,29 +28,15 @@ public record DynamicDataAuthenticationDataObjectList : DataElement<byte[]>, IEq
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId()
-    {
-        return BerEncodingId;
-    }
-
-    public override Tag GetTag()
-    {
-        return Tag;
-    }
-
-    public override ushort GetValueByteCount(BerCodec codec)
-    {
-        return codec.GetByteCount(GetBerEncodingId(), _Value);
-    }
+    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
     #endregion
 
     #region Serialization
 
-    public static DynamicDataAuthenticationDataObjectList Decode(ReadOnlyMemory<byte> value)
-    {
-        return Decode(value.Span);
-    }
+    public static DynamicDataAuthenticationDataObjectList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
@@ -63,15 +49,8 @@ public record DynamicDataAuthenticationDataObjectList : DataElement<byte[]>, IEq
         return new DynamicDataAuthenticationDataObjectList(value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec)
-    {
-        return codec.EncodeValue(BerEncodingId, _Value);
-    }
-
-    public override byte[] EncodeValue(BerCodec codec, int length)
-    {
-        return codec.EncodeValue(BerEncodingId, _Value, length);
-    }
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
 
     #endregion
 
@@ -88,10 +67,7 @@ public record DynamicDataAuthenticationDataObjectList : DataElement<byte[]>, IEq
         return x.Equals(y);
     }
 
-    public int GetHashCode(DynamicDataAuthenticationDataObjectList obj)
-    {
-        return obj.GetHashCode();
-    }
+    public int GetHashCode(DynamicDataAuthenticationDataObjectList obj) => obj.GetHashCode();
 
     #endregion
 }

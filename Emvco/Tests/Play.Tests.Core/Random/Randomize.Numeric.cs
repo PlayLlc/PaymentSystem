@@ -30,10 +30,7 @@ namespace Play.Tests.Core.Random
 
             #region Instance Members
 
-            public static byte Byte()
-            {
-                return Bytes(1)[0];
-            }
+            public static byte Byte() => Bytes(1)[0];
 
             public static ushort UShort()
             {
@@ -120,10 +117,7 @@ namespace Play.Tests.Core.Random
                 return new string(buffer);
             }
 
-            private static char GetRandomChar()
-            {
-                return _CharMap[(byte) _Random.Next(0, 9)];
-            }
+            private static char GetRandomChar() => _CharMap[(byte) _Random.Next(0, 9)];
 
             private static byte GetRandomByte()
             {
@@ -134,10 +128,7 @@ namespace Play.Tests.Core.Random
                 return result;
             }
 
-            private static byte GetRandomNibble()
-            {
-                return _ByteMap[GetRandomChar()];
-            }
+            private static byte GetRandomNibble() => _ByteMap[GetRandomChar()];
 
             #endregion
         }

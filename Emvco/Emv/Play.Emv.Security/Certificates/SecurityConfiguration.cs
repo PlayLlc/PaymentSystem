@@ -25,10 +25,7 @@ public class SecurityConfiguration
 
     #region Instance Members
 
-    public CaPublicKeyCertificate Get(CaPublicKeyCertificateIdentifier id)
-    {
-        return _CertificateMap[id];
-    }
+    public CaPublicKeyCertificate Get(CaPublicKeyCertificateIdentifier id) => _CertificateMap[id];
 
     public CaPublicKeyCertificate[] GetActiveCertificates()
     {
@@ -40,10 +37,8 @@ public class SecurityConfiguration
         return _CertificateMap.Values.Where(a => a.IsRevoked()).ToArray();
     }
 
-    public bool IsRevoked(CaPublicKeyCertificateIdentifier caPublicKeyCertificateIdentifier)
-    {
-        return _CertificateMap.ContainsKey(caPublicKeyCertificateIdentifier);
-    }
+    public bool IsRevoked(CaPublicKeyCertificateIdentifier caPublicKeyCertificateIdentifier) =>
+        _CertificateMap.ContainsKey(caPublicKeyCertificateIdentifier);
 
     #endregion
 }

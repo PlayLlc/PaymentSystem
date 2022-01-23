@@ -48,15 +48,8 @@ public class AuthenticateCombinedDataResponse
 
     #region Instance Members
 
-    public TerminalVerificationResult GetTerminalVerificationResult()
-    {
-        return _TerminalVerificationResult;
-    }
-
-    public ErrorIndication GetErrorIndication()
-    {
-        return _ErrorIndication;
-    }
+    public TerminalVerificationResult GetTerminalVerificationResult() => _TerminalVerificationResult;
+    public ErrorIndication GetErrorIndication() => _ErrorIndication;
 
     public bool TryGetIccDynamicNumber(out IccDynamicNumber? result)
     {

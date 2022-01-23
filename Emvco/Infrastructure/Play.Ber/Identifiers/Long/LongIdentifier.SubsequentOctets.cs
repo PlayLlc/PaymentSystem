@@ -44,7 +44,7 @@ internal static partial class LongIdentifier
             if (value.Length > _MaxBytesAllowedToInitialize)
             {
                 throw new BerFormatException(new ArgumentOutOfRangeException(nameof(value),
-                    $"The argument supplied surpassed the maximum amount of subsequent octets allowed of {_MaxBytesAllowedToInitialize}"));
+                                                                             $"The argument supplied surpassed the maximum amount of subsequent octets allowed of {_MaxBytesAllowedToInitialize}"));
             }
 
             for (int i = 0; i < (value.Length - 1); i++)
@@ -96,7 +96,7 @@ internal static partial class LongIdentifier
             {
                 return (byte) (value[0].IsBitSet(Bits.Eight)
                     ? throw new BerException("The last subsequent octet must have bit eight cleared",
-                        new ArgumentOutOfRangeException(nameof(value)))
+                                             new ArgumentOutOfRangeException(nameof(value)))
                     : 0);
             }
 
@@ -108,8 +108,8 @@ internal static partial class LongIdentifier
                     return (byte) i;
             }
 
-            throw new BerFormatException(
-                "Could not find the last Subsequent Octet. Either the raw value was in an invalid format or the tag number is too large for this code base");
+            throw new
+                BerFormatException("Could not find the last Subsequent Octet. Either the raw value was in an invalid format or the tag number is too large for this code base");
         }
 
         /// <summary>
@@ -197,20 +197,22 @@ internal static partial class LongIdentifier
 
             if (!TagByteCountIsInSupportedRange(value))
             {
-                throw new BerInternalException(
-                    $"This code base only support a Subsequent Octet with a byte count of {_MaxBytesAllowedToInitialize}");
+                throw new
+                    BerInternalException($"This code base only support a Subsequent Octet with a byte count of {_MaxBytesAllowedToInitialize}");
             }
 
             if (!LastOctetIsClearedCorrectly(value))
             {
-                throw new BerFormatException(new ArgumentOutOfRangeException(
-                    $"The {nameof(SubsequentOctets)} could not be validated. The most significant bit of the last Subsequent Octet must not be set"));
+                throw new
+                    BerFormatException(new
+                                           ArgumentOutOfRangeException($"The {nameof(SubsequentOctets)} could not be validated. The most significant bit of the last Subsequent Octet must not be set"));
             }
 
             if (!BitsAreSetCorrectly(value))
             {
-                throw new BerFormatException(new ArgumentOutOfRangeException(
-                    $"The {nameof(SubsequentOctets)} could not be validated. The Subsequent Octets of a Long Identifier must not have bit 8 of the first Subsequent Octet set"));
+                throw new
+                    BerFormatException(new
+                                           ArgumentOutOfRangeException($"The {nameof(SubsequentOctets)} could not be validated. The Subsequent Octets of a Long Identifier must not have bit 8 of the first Subsequent Octet set"));
             }
         }
 
@@ -220,20 +222,22 @@ internal static partial class LongIdentifier
         {
             if (!TagByteCountIsInSupportedRange(value))
             {
-                throw new BerFormatException(new PlayInternalException(
-                    $"This code base only support a Subsequent Octet with a byte count of {_MaxBytesAllowedToInitialize}"));
+                throw new
+                    BerFormatException(new
+                                           PlayInternalException($"This code base only support a Subsequent Octet with a byte count of {_MaxBytesAllowedToInitialize}"));
             }
 
             if (!LastOctetIsClearedCorrectly(value))
             {
-                throw new BerFormatException(new ArgumentOutOfRangeException(
-                    $"The {nameof(SubsequentOctets)} could not be validated. The most significant bit of the last Subsequent Octet must not be set"));
+                throw new
+                    BerFormatException(new
+                                           ArgumentOutOfRangeException($"The {nameof(SubsequentOctets)} could not be validated. The most significant bit of the last Subsequent Octet must not be set"));
             }
 
             if (!BitsAreSetCorrectly(value))
             {
-                throw new ArgumentOutOfRangeException(
-                    $"The {nameof(SubsequentOctets)} could not be validated. The Subsequent Octets of a Long Identifier must not have bit 8 of the first Subsequent Octet set");
+                throw new
+                    ArgumentOutOfRangeException($"The {nameof(SubsequentOctets)} could not be validated. The Subsequent Octets of a Long Identifier must not have bit 8 of the first Subsequent Octet set");
             }
         }
 

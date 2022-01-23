@@ -36,15 +36,8 @@ public class DecodedIccPublicKeyCertificate : PublicKeyCertificate
 
     #region Instance Members
 
-    public CertificateFormat GetCertificateFormat()
-    {
-        return _CertificateFormat;
-    }
-
-    public PrimaryAccountNumber GetPrimaryAccountNumber()
-    {
-        return _PrimaryAccountNumber;
-    }
+    public CertificateFormat GetCertificateFormat() => _CertificateFormat;
+    public PrimaryAccountNumber GetPrimaryAccountNumber() => _PrimaryAccountNumber;
 
     #endregion
 }

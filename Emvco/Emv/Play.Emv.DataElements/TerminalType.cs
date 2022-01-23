@@ -30,8 +30,8 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
     private TerminalType(byte value) : base(value)
     { }
 
-    public TerminalType(Environment environment, CommunicationType communicationType, TerminalOperatorType terminalOperatorType) : base(
-        (byte) (environment + communicationType + terminalOperatorType))
+    public TerminalType(Environment environment, CommunicationType communicationType, TerminalOperatorType terminalOperatorType) :
+        base((byte) (environment + communicationType + terminalOperatorType))
     { }
 
     #endregion
@@ -92,8 +92,8 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         DecodedResult<byte> result = _Codec.Decode(BerEncodingId, value.Span) as DecodedResult<byte>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(TerminalType)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(TerminalType)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new TerminalType(result.Value);
     }

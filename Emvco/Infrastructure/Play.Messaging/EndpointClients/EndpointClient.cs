@@ -58,7 +58,8 @@ public class EndpointClient : IEndpointClient
     public void Send(ResponseMessage message, Milliseconds timeout, Action timeoutHandler)
     {
         _MessageRouter.Send(EnvelopeFactory.CreateResponseEnvelope(message,
-            new MessagingConfiguration(new TimeoutConfiguration(timeout, timeoutHandler))));
+                                                                   new MessagingConfiguration(new TimeoutConfiguration(timeout,
+                                                                    timeoutHandler))));
     }
 
     public void Send(ResponseMessage message, MessagingConfiguration messagingConfiguration)
@@ -83,7 +84,8 @@ public class EndpointClient : IEndpointClient
     public void Send(RequestMessage message, Milliseconds timeout, Action timeoutHandler)
     {
         _MessageRouter.Send(EnvelopeFactory.CreateRequestEnvelope(message,
-            new MessagingConfiguration(new TimeoutConfiguration(timeout, timeoutHandler))));
+                                                                  new MessagingConfiguration(new TimeoutConfiguration(timeout,
+                                                                                              timeoutHandler))));
     }
 
     public void Send(RequestMessage message, MessagingConfiguration messagingConfiguration)
@@ -107,8 +109,9 @@ public class EndpointClient : IEndpointClient
 
     public void Publish(Event @event, Milliseconds timeout, Action timeoutHandler)
     {
-        _MessageRouter.Publish(
-            new EventEnvelope(new EventHeader(new MessagingConfiguration(new TimeoutConfiguration(timeout, timeoutHandler))), @event));
+        _MessageRouter.Publish(new
+                                   EventEnvelope(new EventHeader(new MessagingConfiguration(new TimeoutConfiguration(timeout, timeoutHandler))),
+                                                 @event));
     }
 
     public void Publish(Event @event, MessagingConfiguration timeoutConfiguration)

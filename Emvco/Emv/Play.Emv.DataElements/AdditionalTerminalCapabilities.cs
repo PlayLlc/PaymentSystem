@@ -76,8 +76,8 @@ public record AdditionalTerminalCapabilities : DataElement<ulong>, IEqualityComp
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(AdditionalTerminalCapabilities)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(AdditionalTerminalCapabilities)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new AdditionalTerminalCapabilities(result.Value);
     }

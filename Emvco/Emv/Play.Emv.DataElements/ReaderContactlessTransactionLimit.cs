@@ -30,31 +30,16 @@ public abstract record ReaderContactlessTransactionLimit : DataElement<ulong>
 
     #region Instance Members
 
-    public Money AsMoney(CultureProfile cultureProfile)
-    {
-        return new(_Value, cultureProfile);
-    }
-
-    public override BerEncodingId GetBerEncodingId()
-    {
-        return BerEncodingId;
-    }
-
+    public Money AsMoney(CultureProfile cultureProfile) => new Money(_Value, cultureProfile);
+    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
     public abstract override Tag GetTag();
-
-    public override ushort GetValueByteCount(BerCodec codec)
-    {
-        return codec.GetByteCount(GetBerEncodingId(), _Value);
-    }
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
     #endregion
 
     #region Serialization
 
-    public new byte[] EncodeValue()
-    {
-        return EncodeValue(_ByteLength);
-    }
+    public new byte[] EncodeValue() => EncodeValue(_ByteLength);
 
     #endregion
 
@@ -71,10 +56,7 @@ public abstract record ReaderContactlessTransactionLimit : DataElement<ulong>
         return x.Equals(y);
     }
 
-    public int GetHashCode(ReaderContactlessTransactionLimit obj)
-    {
-        return obj.GetHashCode();
-    }
+    public int GetHashCode(ReaderContactlessTransactionLimit obj) => obj.GetHashCode();
 
     #endregion
 }

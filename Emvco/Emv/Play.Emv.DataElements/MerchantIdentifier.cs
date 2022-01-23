@@ -46,18 +46,18 @@ public record MerchantIdentifier : DataElement<char[]>, IEqualityComparer<Mercha
 
         if (value.Length != byteLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(MerchantIdentifier)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(MerchantIdentifier)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<char[]> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<char[]>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(MerchantIdentifier)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(MerchantIdentifier)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
 
         if (result.CharCount != charLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(MerchantIdentifier)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(MerchantIdentifier)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
         }
 
         return new MerchantIdentifier(result.Value);

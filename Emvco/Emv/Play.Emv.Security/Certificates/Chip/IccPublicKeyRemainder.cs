@@ -40,39 +40,17 @@ public record IccPublicKeyRemainder : PrimitiveValue, IEqualityComparer<IccPubli
 
     #region Instance Members
 
-    public PublicKeyRemainder AsPublicKeyRemainder()
-    {
-        return new PublicKeyRemainder(_Value);
-    }
-
-    public override BerEncodingId GetBerEncodingId()
-    {
-        return BerEncodingId;
-    }
-
-    public ushort GetByteCount()
-    {
-        return (ushort) _Value.Length;
-    }
-
-    public override Tag GetTag()
-    {
-        return Tag;
-    }
-
-    public override ushort GetValueByteCount(BerCodec codec)
-    {
-        return GetByteCount();
-    }
+    public PublicKeyRemainder AsPublicKeyRemainder() => new PublicKeyRemainder(_Value);
+    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public ushort GetByteCount() => (ushort) _Value.Length;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => GetByteCount();
 
     #endregion
 
     #region Serialization
 
-    public static IccPublicKeyRemainder Decode(ReadOnlyMemory<byte> value, BerCodec codec)
-    {
-        return Decode(value.Span, codec);
-    }
+    public static IccPublicKeyRemainder Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
@@ -85,15 +63,8 @@ public record IccPublicKeyRemainder : PrimitiveValue, IEqualityComparer<IccPubli
         return new IccPublicKeyRemainder(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec)
-    {
-        return codec.EncodeValue(BerEncodingId, _Value);
-    }
-
-    public override byte[] EncodeValue(BerCodec codec, int length)
-    {
-        return codec.EncodeValue(BerEncodingId, _Value, length);
-    }
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
 
     #endregion
 
@@ -110,10 +81,7 @@ public record IccPublicKeyRemainder : PrimitiveValue, IEqualityComparer<IccPubli
         return x.Equals(y);
     }
 
-    public int GetHashCode(IccPublicKeyRemainder obj)
-    {
-        return obj.GetHashCode();
-    }
+    public int GetHashCode(IccPublicKeyRemainder obj) => obj.GetHashCode();
 
     #endregion
 }

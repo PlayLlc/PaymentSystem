@@ -43,8 +43,8 @@ public record SecurityCapability : DataElement<byte>, IEqualityComparer<Security
     public static SecurityCapability Decode(ReadOnlySpan<byte> value)
     {
         DecodedResult<byte> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<byte>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(SecurityCapability)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(SecurityCapability)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new SecurityCapability(result.Value);
     }

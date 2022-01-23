@@ -46,15 +46,8 @@ public class AuthenticateCombinedData1Command
 
     #region Instance Members
 
-    public GenerateAcCdaResponseMessage GetGenerateAcCdaResponseMessage()
-    {
-        return _GenerateAcCdaResponseMessage;
-    }
-
-    public DecodedIccPublicKeyCertificate GetIccPublicKeyCertificate()
-    {
-        return _IccPublicKeyCertificate;
-    }
+    public GenerateAcCdaResponseMessage GetGenerateAcCdaResponseMessage() => _GenerateAcCdaResponseMessage;
+    public DecodedIccPublicKeyCertificate GetIccPublicKeyCertificate() => _IccPublicKeyCertificate;
 
     public byte[] GetTransactionDataHashCodeInput(BerCodec codec)
     {
@@ -74,10 +67,7 @@ public class AuthenticateCombinedData1Command
         return buffer.ToArray();
     }
 
-    public UnpredictableNumber GetUnpredictableNumber()
-    {
-        return _UnpredictableNumber;
-    }
+    public UnpredictableNumber GetUnpredictableNumber() => _UnpredictableNumber;
 
     #endregion
 }

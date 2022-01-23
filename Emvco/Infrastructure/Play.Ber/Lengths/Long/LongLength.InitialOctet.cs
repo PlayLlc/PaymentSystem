@@ -102,9 +102,9 @@ internal static partial class LongLength
 
             if (!SubsequentOctetCountIsSupportedByThisCodeBase(value))
             {
-                throw new BerInternalException(
-                    "This is embarrassing. Our code base doesn't support the amount of bytes needed to support the "
-                    + $"{nameof(SubsequentOctets)} for the requested {nameof(LongLength)} object");
+                throw new
+                    BerInternalException("This is embarrassing. Our code base doesn't support the amount of bytes needed to support the "
+                                         + $"{nameof(SubsequentOctets)} for the requested {nameof(LongLength)} object");
             }
         }
 
@@ -115,7 +115,7 @@ internal static partial class LongLength
         public static int Serialize(ReadOnlySpan<byte> contentOctets)
         {
             if (contentOctets.Length > sbyte.MaxValue)
-                throw new BerFormatException($"This code base only supports content octets that are 127 bytes in length");
+                throw new BerFormatException("This code base only supports content octets that are 127 bytes in length");
 
             return contentOctets.Length | LongLengthFlag;
         }

@@ -26,8 +26,8 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
     public TerminalCapabilities(uint value) : base(value)
     { }
 
-    public TerminalCapabilities(CardDataInputCapability cardDataInputCapability, SecurityCapability securityCapability) : base(
-        (uint) (securityCapability << 16) | cardDataInputCapability)
+    public TerminalCapabilities(CardDataInputCapability cardDataInputCapability, SecurityCapability securityCapability) :
+        base((uint) (securityCapability << 16) | cardDataInputCapability)
     { }
 
     #endregion
@@ -64,13 +64,13 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
 
         if (value.Length != byteLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(TerminalCapabilities)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(TerminalCapabilities)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(TerminalCapabilities)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(TerminalCapabilities)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new TerminalCapabilities(result.Value);
     }

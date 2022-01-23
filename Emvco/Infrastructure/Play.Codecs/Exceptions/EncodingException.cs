@@ -28,8 +28,8 @@ public class EncodingException : PlayException
         string message,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(EncodingException), fileName, memberName, lineNumber)} {message}")
+        [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(EncodingException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public EncodingException(
@@ -37,16 +37,16 @@ public class EncodingException : PlayException
         string value,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(EncodingException), fileName, memberName, lineNumber)} {message}. The offending value was: {value}")
+        [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(EncodingException), fileName, memberName, lineNumber)} {message}. The offending value was: {value}")
     { }
 
     public EncodingException(
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(EncodingException), fileName, memberName, lineNumber)}", innerException)
+        [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(EncodingException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public EncodingException(
@@ -54,8 +54,8 @@ public class EncodingException : PlayException
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(EncodingException), fileName, memberName, lineNumber)} {message}", innerException)
+        [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(EncodingException), fileName, memberName, lineNumber)} {message}", innerException)
     { }
 
     #endregion

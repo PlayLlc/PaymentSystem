@@ -29,15 +29,8 @@ public class TerminalEncryptionConfiguration
 
     #region Instance Members
 
-    public BlockCipherConfiguration GetAesConfiguration()
-    {
-        return _AesConfiguration;
-    }
-
-    public BlockCipherConfiguration GetTripleDesConfiguration()
-    {
-        return _TripleDesConfiguration;
-    }
+    public BlockCipherConfiguration GetAesConfiguration() => _AesConfiguration;
+    public BlockCipherConfiguration GetTripleDesConfiguration() => _TripleDesConfiguration;
 
     private void ValidateAesConfiguration(BlockCipherConfiguration configuration)
     {

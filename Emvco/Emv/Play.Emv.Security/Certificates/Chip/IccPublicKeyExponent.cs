@@ -40,34 +40,16 @@ public record IccPublicKeyExponent : PrimitiveValue, IEqualityComparer<IccPublic
 
     #region Instance Members
 
-    public PublicKeyExponent AsPublicKeyExponent()
-    {
-        return PublicKeyExponent.Get(_Value);
-    }
-
-    public override BerEncodingId GetBerEncodingId()
-    {
-        return BerEncodingId;
-    }
-
-    public override Tag GetTag()
-    {
-        return Tag;
-    }
-
-    public override ushort GetValueByteCount(BerCodec codec)
-    {
-        return codec.GetByteCount(BerEncodingId, _Value);
-    }
+    public PublicKeyExponent AsPublicKeyExponent() => PublicKeyExponent.Get(_Value);
+    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(BerEncodingId, _Value);
 
     #endregion
 
     #region Serialization
 
-    public static IccPublicKeyExponent Decode(ReadOnlyMemory<byte> value, BerCodec codec)
-    {
-        return Decode(value.Span, codec);
-    }
+    public static IccPublicKeyExponent Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
@@ -89,15 +71,8 @@ public record IccPublicKeyExponent : PrimitiveValue, IEqualityComparer<IccPublic
         return new IccPublicKeyExponent(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec)
-    {
-        return codec.EncodeValue(BerEncodingId, _Value);
-    }
-
-    public override byte[] EncodeValue(BerCodec codec, int length)
-    {
-        return codec.EncodeValue(BerEncodingId, _Value, length);
-    }
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
 
     #endregion
 
@@ -114,10 +89,7 @@ public record IccPublicKeyExponent : PrimitiveValue, IEqualityComparer<IccPublic
         return x.Equals(y);
     }
 
-    public int GetHashCode(IccPublicKeyExponent obj)
-    {
-        return obj.GetHashCode();
-    }
+    public int GetHashCode(IccPublicKeyExponent obj) => obj.GetHashCode();
 
     #endregion
 }

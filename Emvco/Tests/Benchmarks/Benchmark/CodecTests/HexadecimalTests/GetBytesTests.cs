@@ -22,7 +22,12 @@ public class GetBytesTests
     private string OneThousand;
     private string Ten;
 
-    public static ReadOnlySpan<char> CharDictionary => new[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+    public static ReadOnlySpan<char> CharDictionary =>
+        new[]
+        {
+            '0', '1', '2', '3', '4', '5', '6', '7',
+            '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+        };
 
     #endregion
 

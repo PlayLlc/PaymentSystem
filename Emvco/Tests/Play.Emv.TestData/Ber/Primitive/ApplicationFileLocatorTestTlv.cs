@@ -23,10 +23,7 @@ public class ApplicationFileLocatorTestTlv : TestTlv
 
     #region Instance Members
 
-    public override Tag GetTag()
-    {
-        return ApplicationFileLocator.Tag;
-    }
+    public override Tag GetTag() => ApplicationFileLocator.Tag;
 
     #endregion
 }

@@ -46,8 +46,10 @@ internal record Instruction : EnumObject<byte>, IComparable<Instruction>
 
         _ValueObjectMap = new Dictionary<byte, Instruction>
         {
-            {getProcessingOptions, GetProcessingOptions}, {applicationBlock, ApplicationBlock},
-            {applicationUnblock, ApplicationUnblock}, {cardBlock, CardBlock},
+            {getProcessingOptions, GetProcessingOptions},
+            {applicationBlock, ApplicationBlock},
+            {applicationUnblock, ApplicationUnblock},
+            {cardBlock, CardBlock},
             {computeCryptographicChecksum, ComputeCryptographicChecksum}
         }.ToImmutableSortedDictionary();
     }
@@ -67,19 +69,13 @@ internal record Instruction : EnumObject<byte>, IComparable<Instruction>
         return _Value.CompareTo(other);
     }
 
-    public static Instruction Get(byte value)
-    {
-        return _ValueObjectMap[value];
-    }
+    public static Instruction Get(byte value) => _ValueObjectMap[value];
 
     #endregion
 
     #region Equality
 
-    public bool Equals(Instruction x, Instruction y)
-    {
-        return x.Equals(y);
-    }
+    public bool Equals(Instruction x, Instruction y) => x.Equals(y);
 
     public override int GetHashCode()
     {
@@ -92,66 +88,20 @@ internal record Instruction : EnumObject<byte>, IComparable<Instruction>
 
     #region Operator Overrides
 
-    public static bool operator ==(Instruction left, byte right)
-    {
-        return left._Value == right;
-    }
-
-    public static bool operator ==(byte left, Instruction right)
-    {
-        return left == right._Value;
-    }
+    public static bool operator ==(Instruction left, byte right) => left._Value == right;
+    public static bool operator ==(byte left, Instruction right) => left == right._Value;
 
     // logical channel values are from 0 to 3 so casting to sbyte will not truncate any meaningful information
-    public static explicit operator sbyte(Instruction value)
-    {
-        return (sbyte) value._Value;
-    }
-
-    public static explicit operator short(Instruction value)
-    {
-        return value._Value;
-    }
-
-    public static explicit operator ushort(Instruction value)
-    {
-        return value._Value;
-    }
-
-    public static explicit operator int(Instruction value)
-    {
-        return value._Value;
-    }
-
-    public static explicit operator uint(Instruction value)
-    {
-        return value._Value;
-    }
-
-    public static explicit operator long(Instruction value)
-    {
-        return value._Value;
-    }
-
-    public static explicit operator ulong(Instruction value)
-    {
-        return value._Value;
-    }
-
-    public static implicit operator byte(Instruction value)
-    {
-        return value._Value;
-    }
-
-    public static bool operator !=(Instruction left, byte right)
-    {
-        return !(left == right);
-    }
-
-    public static bool operator !=(byte left, Instruction right)
-    {
-        return !(left == right);
-    }
+    public static explicit operator sbyte(Instruction value) => (sbyte) value._Value;
+    public static explicit operator short(Instruction value) => value._Value;
+    public static explicit operator ushort(Instruction value) => value._Value;
+    public static explicit operator int(Instruction value) => value._Value;
+    public static explicit operator uint(Instruction value) => value._Value;
+    public static explicit operator long(Instruction value) => value._Value;
+    public static explicit operator ulong(Instruction value) => value._Value;
+    public static implicit operator byte(Instruction value) => value._Value;
+    public static bool operator !=(Instruction left, byte right) => !(left == right);
+    public static bool operator !=(byte left, Instruction right) => !(left == right);
 
     #endregion
 }

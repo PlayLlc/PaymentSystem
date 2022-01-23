@@ -24,15 +24,8 @@ public readonly record struct DataExchangeTerminalId
 
     #region Instance Members
 
-    public KernelId GetKernelId()
-    {
-        return KernelId;
-    }
-
-    public TransactionSessionId GetTransactionSessionId()
-    {
-        return _TransactionSessionId;
-    }
+    public KernelId GetKernelId() => KernelId;
+    public TransactionSessionId GetTransactionSessionId() => _TransactionSessionId;
 
     #endregion
 }

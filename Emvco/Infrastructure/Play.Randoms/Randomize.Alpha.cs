@@ -39,10 +39,7 @@ public partial class Randomize
             }
         }
 
-        public static char Char()
-        {
-            return GetRandomChar();
-        }
+        public static char Char() => GetRandomChar();
 
         public static char[] Chars(int length)
         {
@@ -67,20 +64,9 @@ public partial class Randomize
             }
         }
 
-        public static string String(int length)
-        {
-            return new(Chars(length));
-        }
-
-        private static char GetRandomChar()
-        {
-            return _AlphabeticValues[_Random.Next(0, _AlphabeticValues.Length - 1)];
-        }
-
-        public static byte GetRandomByte()
-        {
-            return (byte) _AlphabeticValues[_Random.Next(0, _AlphabeticValues.Length - 1)];
-        }
+        public static string String(int length) => new string(Chars(length));
+        private static char GetRandomChar() => _AlphabeticValues[_Random.Next(0, _AlphabeticValues.Length - 1)];
+        public static byte GetRandomByte() => (byte) _AlphabeticValues[_Random.Next(0, _AlphabeticValues.Length - 1)];
 
         #endregion
     }

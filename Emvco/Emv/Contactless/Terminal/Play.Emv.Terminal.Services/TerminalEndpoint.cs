@@ -42,15 +42,8 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
 
     #region Instance Members
 
-    public ChannelTypeId GetChannelTypeId()
-    {
-        return ChannelType.Selection;
-    }
-
-    public ChannelIdentifier GetChannelIdentifier()
-    {
-        return ChannelIdentifier;
-    }
+    public ChannelTypeId GetChannelTypeId() => ChannelType.Selection;
+    public ChannelIdentifier GetChannelIdentifier() => ChannelIdentifier;
 
     #region Requests
 
@@ -119,10 +112,8 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
 
     public static TerminalEndpoint Create(
         ITerminalConfigurationRepository terminalConfigurationRepository,
-        ICreateEndpointClient messageRouter)
-    {
-        return new TerminalEndpoint(terminalConfigurationRepository, messageRouter);
-    }
+        ICreateEndpointClient messageRouter) =>
+        new TerminalEndpoint(terminalConfigurationRepository, messageRouter);
 
     public void Dispose()
     {

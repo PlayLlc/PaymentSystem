@@ -1,6 +1,5 @@
-﻿using Play.Emv.DataElements;
-
-using TerminalConfiguration = Play.Emv.Configuration.TerminalConfiguration;
+﻿using Play.Emv.Configuration;
+using Play.Emv.DataElements;
 
 namespace Play.Emv.Terminal.Configuration;
 

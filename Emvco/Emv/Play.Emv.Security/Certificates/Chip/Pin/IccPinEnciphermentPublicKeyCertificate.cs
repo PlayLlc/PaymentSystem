@@ -40,39 +40,17 @@ public record IccPinEnciphermentPublicKeyCertificate : PrimitiveValue, IEquality
 
     #region Instance Members
 
-    public byte[] AsByteArray()
-    {
-        return _Value.ToByteArray();
-    }
-
-    public override BerEncodingId GetBerEncodingId()
-    {
-        return BerEncodingId;
-    }
-
-    public int GetByteCount()
-    {
-        return _Value.GetByteCount();
-    }
-
-    public override Tag GetTag()
-    {
-        return Tag;
-    }
-
-    public override ushort GetValueByteCount(BerCodec codec)
-    {
-        return codec.GetByteCount(GetBerEncodingId(), _Value);
-    }
+    public byte[] AsByteArray() => _Value.ToByteArray();
+    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public int GetByteCount() => _Value.GetByteCount();
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
     #endregion
 
     #region Serialization
 
-    public static IccPinEnciphermentPublicKeyCertificate Decode(ReadOnlyMemory<byte> value, BerCodec codec)
-    {
-        return Decode(value.Span, codec);
-    }
+    public static IccPinEnciphermentPublicKeyCertificate Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
@@ -85,15 +63,8 @@ public record IccPinEnciphermentPublicKeyCertificate : PrimitiveValue, IEquality
         return new IccPinEnciphermentPublicKeyCertificate(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec)
-    {
-        return codec.EncodeValue(BerEncodingId, _Value);
-    }
-
-    public override byte[] EncodeValue(BerCodec codec, int length)
-    {
-        return codec.EncodeValue(BerEncodingId, _Value, length);
-    }
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
 
     #endregion
 
@@ -110,10 +81,7 @@ public record IccPinEnciphermentPublicKeyCertificate : PrimitiveValue, IEquality
         return x.Equals(y);
     }
 
-    public int GetHashCode(IccPinEnciphermentPublicKeyCertificate obj)
-    {
-        return obj.GetHashCode();
-    }
+    public int GetHashCode(IccPinEnciphermentPublicKeyCertificate obj) => obj.GetHashCode();
 
     #endregion
 }

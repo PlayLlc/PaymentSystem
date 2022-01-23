@@ -38,7 +38,7 @@ public readonly struct ShortDateValue
         if (value.GetNumberOfDigits() != _YyMmLength)
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} was not in a correct format. The argument must be either {_YyMmDdLength} or {_YyMmLength} digits in length. Only YyMmDd and YyMm formats are supported");
+                                                  $"The argument {nameof(value)} was not in a correct format. The argument must be either {_YyMmDdLength} or {_YyMmLength} digits in length. Only YyMmDd and YyMm formats are supported");
         }
 
         _Value = new DateTime(GetYear(value), GetMonth(value), GetDay(value));
@@ -52,7 +52,7 @@ public readonly struct ShortDateValue
         if ((numberOfDigits != _YyMmLength) && (numberOfDigits != _YyMmDdLength))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} was not in a correct format. The argument must be either {_YyMmDdLength} or {_YyMmLength} digits in length. Only YyMmDd and YyMm formats are supported");
+                                                  $"The argument {nameof(value)} was not in a correct format. The argument must be either {_YyMmDdLength} or {_YyMmLength} digits in length. Only YyMmDd and YyMm formats are supported");
         }
 
         _Value = new DateTime(GetYear(value), GetMonth(value), GetDay(value), 0, 0, 0, 0, DateTimeKind.Utc);

@@ -41,7 +41,8 @@ namespace Play.Icc.Emv.Tests
         public void CApduSignal_InitializingWithDedicatedFileName_CreatesExpectedResult()
         {
             GetFileControlInformationCApduSignal sut =
-                GetFileControlInformationCApduSignal.Get(DedicatedFileName.Decode(ApduTestData.CApdu.Select.Applet1.DedicatedFileName.AsSpan(), _Codec));
+                GetFileControlInformationCApduSignal.Get(DedicatedFileName
+                                                             .Decode(ApduTestData.CApdu.Select.Applet1.DedicatedFileName.AsSpan(), _Codec));
 
             byte[] expectedResult = ApduTestData.CApdu.Select.Applet1.CApdu;
             byte[] testValue = sut.Serialize();

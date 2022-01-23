@@ -37,39 +37,22 @@ public class KernelSession
 
     #region Instance Members
 
-    public DataExchangeKernelService GetDataExchangeKernelService()
-    {
-        return _DataExchangeKernelService;
-    }
+    public DataExchangeKernelService GetDataExchangeKernelService() => _DataExchangeKernelService;
 
     #endregion
 
     #region Read
 
-    public KernelSessionId GetKernelSessionId()
-    {
-        return _KernelSessionId;
-    }
+    public KernelSessionId GetKernelSessionId() => _KernelSessionId;
+    public TransactionSessionId GetTransactionSessionId() => _KernelSessionId.GetTransactionSessionId();
 
-    public TransactionSessionId GetTransactionSessionId()
-    {
-        return _KernelSessionId.GetTransactionSessionId();
-    }
+    public Outcome GetOutcome() =>
+        new Outcome(GetErrorIndication(), GetOutcomeParameterSet(), GetDataRecord(), GetDiscretionaryData(), GetUserInterfaceRequestData());
 
-    public Outcome GetOutcome()
-    {
-        return new(GetErrorIndication(), GetOutcomeParameterSet(), GetDataRecord(), GetDiscretionaryData(), GetUserInterfaceRequestData());
-    }
+    private ErrorIndication GetErrorIndication() => ErrorIndication.Decode(_KernelDatabase.Get(ErrorIndication.Tag).EncodeValue().AsSpan());
 
-    private ErrorIndication GetErrorIndication()
-    {
-        return ErrorIndication.Decode(_KernelDatabase.Get(ErrorIndication.Tag).EncodeValue().AsSpan());
-    }
-
-    private OutcomeParameterSet GetOutcomeParameterSet()
-    {
-        return OutcomeParameterSet.Decode(_KernelDatabase.Get(OutcomeParameterSet.Tag).EncodeValue().AsSpan());
-    }
+    private OutcomeParameterSet GetOutcomeParameterSet() =>
+        OutcomeParameterSet.Decode(_KernelDatabase.Get(OutcomeParameterSet.Tag).EncodeValue().AsSpan());
 
     private UserInterfaceRequestData? GetUserInterfaceRequestData()
     {

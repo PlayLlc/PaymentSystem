@@ -34,15 +34,8 @@ public partial class Randomize
             return decimalValue;
         }
 
-        private static char Char(Random random)
-        {
-            return (char) GetRandomDecimal();
-        }
-
-        private static char Char(int minRange, int maxRange)
-        {
-            return (char) GetRandomDecimalInRange(minRange, maxRange);
-        }
+        private static char Char(Random random) => (char) GetRandomDecimal();
+        private static char Char(int minRange, int maxRange) => (char) GetRandomDecimalInRange(minRange, maxRange);
 
         private static char GetRandomCharNotInRange(int excludeRangeMin, int excludeRangeMax)
         {

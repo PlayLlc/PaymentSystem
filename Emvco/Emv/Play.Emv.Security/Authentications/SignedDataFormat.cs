@@ -50,24 +50,14 @@ public sealed record SignedDataFormat : EnumObject<byte>, IEqualityComparer<Sign
 
     #region Instance Members
 
-    public int GetByteSize()
-    {
-        return _Value;
-    }
-
-    public static bool TryGet(byte value, out SignedDataFormat? result)
-    {
-        return _ValueObjectMap.TryGetValue(value, out result);
-    }
+    public int GetByteSize() => _Value;
+    public static bool TryGet(byte value, out SignedDataFormat? result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion
 
     #region Equality
 
-    public bool Equals(SignedDataFormat? other)
-    {
-        return other is not null && (_Value == other._Value);
-    }
+    public bool Equals(SignedDataFormat? other) => other is not null && (_Value == other._Value);
 
     public bool Equals(SignedDataFormat? x, SignedDataFormat? y)
     {
@@ -80,15 +70,8 @@ public sealed record SignedDataFormat : EnumObject<byte>, IEqualityComparer<Sign
         return x.Equals(y);
     }
 
-    public int GetHashCode(SignedDataFormat other)
-    {
-        return other.GetHashCode();
-    }
-
-    public override int GetHashCode()
-    {
-        return unchecked(_Value.GetHashCode() * 31153);
-    }
+    public int GetHashCode(SignedDataFormat other) => other.GetHashCode();
+    public override int GetHashCode() => unchecked(_Value.GetHashCode() * 31153);
 
     #endregion
 }

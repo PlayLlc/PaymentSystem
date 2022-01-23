@@ -56,10 +56,8 @@ public class SignatureService
         return true;
     }
 
-    private bool IsLeadingByteValid(DecodedSignature decodedSignature)
-    {
-        return decodedSignature.GetLeadingByte() == SignatureSpecifications.LeadingByte;
-    }
+    private bool IsLeadingByteValid(DecodedSignature decodedSignature) =>
+        decodedSignature.GetLeadingByte() == SignatureSpecifications.LeadingByte;
 
     private bool IsMessage1Valid(DecodedSignature decodedSignature, ReadOnlySpan<byte> message)
     {
@@ -74,18 +72,13 @@ public class SignatureService
         return true;
     }
 
-    public bool IsSignatureValid(HashAlgorithmIndicator hashAlgorithmIndicator, ReadOnlySpan<byte> message, DecodedSignature signature)
-    {
-        return IsLeadingByteValid(signature)
-            && IsMessage1Valid(signature, message)
-            && IsHashValid(hashAlgorithmIndicator, signature, message)
-            && IsTrailingByteValid(signature);
-    }
+    public bool IsSignatureValid(HashAlgorithmIndicator hashAlgorithmIndicator, ReadOnlySpan<byte> message, DecodedSignature signature) =>
+        IsLeadingByteValid(signature)
+        && IsMessage1Valid(signature, message)
+        && IsHashValid(hashAlgorithmIndicator, signature, message)
+        && IsTrailingByteValid(signature);
 
-    private bool IsTrailingByteValid(DecodedSignature signature)
-    {
-        return signature.GetTrailingByte() == SignatureSpecifications.TrailingByte;
-    }
+    private bool IsTrailingByteValid(DecodedSignature signature) => signature.GetTrailingByte() == SignatureSpecifications.TrailingByte;
 
     /// <remarks>
     ///     Book 2 Section A2.1.2 & B2.1 RSA Algorithm
@@ -103,8 +96,7 @@ public class SignatureService
 
         concatenationBuffer[0] = SignatureSpecifications.LeadingByte;
         leftmostMessage.CopyTo(concatenationBuffer[1..]);
-        _HashAlgorithmProvider.Generate(message, publicKeyCertificate.GetHashAlgorithmIndicator())
-            .AsReadOnlySpan()
+        _HashAlgorithmProvider.Generate(message, publicKeyCertificate.GetHashAlgorithmIndicator()).AsReadOnlySpan()
             .CopyTo(concatenationBuffer[(1 + leftmostMessage.Length)..]);
         concatenationBuffer[1 + leftmostMessage.Length + SignatureSpecifications.HashLength] = SignatureSpecifications.TrailingByte;
 

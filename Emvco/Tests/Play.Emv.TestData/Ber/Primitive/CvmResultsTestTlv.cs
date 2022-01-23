@@ -7,7 +7,7 @@ public class CvmResultsTestTlv : TestTlv
 {
     #region Static Metadata
 
-    private static readonly byte[] _DefaultContentOctets = new byte[] {0x02, 0x03, 0x00};
+    private static readonly byte[] _DefaultContentOctets = {0x02, 0x03, 0x00};
 
     #endregion
 
@@ -23,10 +23,7 @@ public class CvmResultsTestTlv : TestTlv
 
     #region Instance Members
 
-    public override Tag GetTag()
-    {
-        return CvmResults.Tag;
-    }
+    public override Tag GetTag() => CvmResults.Tag;
 
     #endregion
 }

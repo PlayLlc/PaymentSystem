@@ -36,15 +36,8 @@ public class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
 
     #region Instance Members
 
-    public CertificateFormat GetCertificateFormat()
-    {
-        return _CertificateFormat;
-    }
-
-    public IssuerIdentificationNumber GetIssuerIdentificationNumber()
-    {
-        return _IssuerIdentificationNumber;
-    }
+    public CertificateFormat GetCertificateFormat() => _CertificateFormat;
+    public IssuerIdentificationNumber GetIssuerIdentificationNumber() => _IssuerIdentificationNumber;
 
     #endregion
 }

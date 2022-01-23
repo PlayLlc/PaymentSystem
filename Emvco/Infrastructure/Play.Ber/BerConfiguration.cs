@@ -155,8 +155,7 @@ public class BerConfiguration
         foreach (BerEncodingId identifier in duplicateIdentifiers)
         {
             codecsWithTheSameIdentifiers.Add(identifier,
-                                             berPrimitiveCodecs.Where(a => a.GetIdentifier() == identifier)
-                                                 .Select(a => a.GetType().Name)
+                                             berPrimitiveCodecs.Where(a => a.GetIdentifier() == identifier).Select(a => a.GetType().Name)
                                                  .ToArray());
         }
 

@@ -17,7 +17,7 @@ public record ReadElementaryFileRecordCommand : QueryPcdRequest
     #region Constructor
 
     public ReadElementaryFileRecordCommand(CApduSignal cApduSignal, TransactionSessionId transactionSessionId) : base(cApduSignal,
-        MessageTypeId, transactionSessionId)
+     MessageTypeId, transactionSessionId)
     { }
 
     #endregion

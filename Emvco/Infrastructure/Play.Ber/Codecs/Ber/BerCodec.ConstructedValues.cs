@@ -20,7 +20,7 @@ public partial class BerCodec
     public IEncodeBerDataObjects[] GetIndexedDataElements(Tag[] index, IEncodeBerDataObjects[] dataElements)
     {
         CheckCore.ForMaximumLength(dataElements, index.Length,
-            $"The argument {nameof(index)} has fewer items than argument {nameof(dataElements)}. Please ensure that all {nameof(IEncodeBerDataObjects)} children have been indexed");
+                                   $"The argument {nameof(index)} has fewer items than argument {nameof(dataElements)}. Please ensure that all {nameof(IEncodeBerDataObjects)} children have been indexed");
 
         IEncodeBerDataObjects[] result = new IEncodeBerDataObjects[dataElements.Count()];
 
@@ -36,7 +36,7 @@ public partial class BerCodec
         if (result.Length < dataElements.Count())
         {
             throw new BerFormatException(new ArgumentOutOfRangeException(nameof(index),
-                $"The argument {nameof(index)} has is missing an item in the {nameof(dataElements)} argument. Please ensure that all {nameof(IEncodeBerDataObjects)} children have been indexed"));
+                                                                         $"The argument {nameof(index)} has is missing an item in the {nameof(dataElements)} argument. Please ensure that all {nameof(IEncodeBerDataObjects)} children have been indexed"));
         }
 
         return result;

@@ -56,7 +56,7 @@ public class DirectoryEntryTestTlv : ConstructedTlv
 {
     #region Static Metadata
 
-    private static readonly TestTlv[] _DefaultChildren = new TestTlv[]
+    private static readonly TestTlv[] _DefaultChildren =
     {
         new ApplicationDedicatedFileNameTestTlv(), new ApplicationPriorityIndicatorTestTlv(), new KernelIdentifierTestTlv()
     };
@@ -77,10 +77,7 @@ public class DirectoryEntryTestTlv : ConstructedTlv
 
     #region Instance Members
 
-    public override Tag GetTag()
-    {
-        return DirectoryEntry.Tag;
-    }
+    public override Tag GetTag() => DirectoryEntry.Tag;
 
     #endregion
 }

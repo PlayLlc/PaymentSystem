@@ -54,11 +54,11 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
     public void Request(RequestMessage message)
     {
         if (message is ActivatePcdRequest activatePcdRequest)
-            Request((RequestMessage) activatePcdRequest);
+            Request(activatePcdRequest);
         else if (message is QueryPcdRequest queryPcdRequest)
-            Request((RequestMessage) queryPcdRequest);
+            Request(queryPcdRequest);
         else if (message is StopPcdRequest stopPcdRequest)
-            Request((RequestMessage) stopPcdRequest);
+            Request(stopPcdRequest);
         else
             throw new UnhandledRequestException(message);
     }

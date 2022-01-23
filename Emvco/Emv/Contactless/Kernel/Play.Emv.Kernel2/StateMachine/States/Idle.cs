@@ -66,10 +66,7 @@ public class Idle : KernelState
 
     #endregion
 
-    public override KernelStateId GetKernelStateId()
-    {
-        return KernelStateId;
-    }
+    public override KernelStateId GetKernelStateId() => KernelStateId;
 
     public override KernelState Handle(StopKernelRequest signal)
     {
@@ -312,23 +309,8 @@ public class Idle : KernelState
             _KernelDatabase.GetDataExchanger().Enqueue(DekRequestType.DataNeeded, TagsToWriteAfterGenAc.Tag);
     }
 
-    public override KernelState Handle(QueryKernelRequest signal)
-    {
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-    }
-
-    public override KernelState Handle(UpdateKernelRequest signal)
-    {
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-    }
-
-    public override KernelState Handle(QueryPcdResponse signal)
-    {
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-    }
-
-    public override KernelState Handle(QueryTerminalResponse signal)
-    {
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-    }
+    public override KernelState Handle(QueryKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+    public override KernelState Handle(UpdateKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+    public override KernelState Handle(QueryPcdResponse signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+    public override KernelState Handle(QueryTerminalResponse signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 }

@@ -25,7 +25,7 @@ namespace Play.Codecs.Tests.StrictAscii
         #region Instance Members
 
         [Theory]
-        [MemberData(nameof(AsciiFixture.GetRandomBytes), new object[] {100, 1, 300}, MemberType = typeof(NumericFixture))]
+        [MemberData(nameof(AsciiFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(NumericFixture))]
         public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
         {
             string decoded = _SystemUnderTest.GetString(testValue);
@@ -36,7 +36,7 @@ namespace Play.Codecs.Tests.StrictAscii
         }
 
         [Theory]
-        [MemberData(nameof(AsciiFixture.GetRandomString), new object[] {100, 1, 300}, MemberType = typeof(NumericFixture))]
+        [MemberData(nameof(AsciiFixture.GetRandomString), 100, 1, 300, MemberType = typeof(NumericFixture))]
         public void RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult(string testValue)
         {
             byte[] decoded = _SystemUnderTest.GetBytes(testValue);

@@ -41,10 +41,7 @@ public class EmvCodec : BerCodec
 
     #region Instance Members
 
-    public static EmvCodec GetBerCodec()
-    {
-        return _Codec;
-    }
+    public static EmvCodec GetBerCodec() => _Codec;
 
     /// <summary>
     ///     Parses a sequence of metadata containing concatenated Tag-Length values and returns an array

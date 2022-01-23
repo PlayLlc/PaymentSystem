@@ -17,7 +17,6 @@ namespace Play.Emv.DataElements
         #region Static Metadata
 
         public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
-
         public static readonly Tag Tag = 0x9F63;
         private const byte _ByteLength = 6;
 
@@ -32,24 +31,14 @@ namespace Play.Emv.DataElements
 
         #region Instance Members
 
-        public override BerEncodingId GetBerEncodingId()
-        {
-            return BerEncodingId;
-        }
-
-        public override Tag GetTag()
-        {
-            return Tag;
-        }
+        public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+        public override Tag GetTag() => Tag;
 
         #endregion
 
         #region Serialization
 
-        public static PunatcTrack1 Decode(ReadOnlyMemory<byte> value)
-        {
-            return Decode(value.Span);
-        }
+        public static PunatcTrack1 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="BerException"></exception>
@@ -63,10 +52,7 @@ namespace Play.Emv.DataElements
             return new PunatcTrack1(result.Value);
         }
 
-        public new byte[] EncodeValue()
-        {
-            return EncodeValue(_ByteLength);
-        }
+        public new byte[] EncodeValue() => EncodeValue(_ByteLength);
 
         #endregion
     }

@@ -65,8 +65,8 @@ public class Binary : PlayEncoding
         {
             if ((value[i] != '0') && (value[i] != '1'))
             {
-                throw new ArgumentOutOfRangeException(
-                    $"The {nameof(Binary)} Encoding expects all string values to be either a '1' or a '0'");
+                throw new
+                    ArgumentOutOfRangeException($"The {nameof(Binary)} Encoding expects all string values to be either a '1' or a '0'");
             }
         }
     }

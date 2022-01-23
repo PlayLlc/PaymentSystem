@@ -24,11 +24,9 @@ internal class AsymmetricAlgorithmProvider
 
     #region Instance Members
 
-    private ImmutableSortedDictionary<PublicKeyAlgorithmIndicator, IAsymmetricCodec> CreateAsymmetricAlgorithmMap()
-    {
-        return new Dictionary<PublicKeyAlgorithmIndicator, IAsymmetricCodec> {{PublicKeyAlgorithmIndicator.Rsa, new RsaCodec()}}
+    private ImmutableSortedDictionary<PublicKeyAlgorithmIndicator, IAsymmetricCodec> CreateAsymmetricAlgorithmMap() =>
+        new Dictionary<PublicKeyAlgorithmIndicator, IAsymmetricCodec> {{PublicKeyAlgorithmIndicator.Rsa, new RsaCodec()}}
             .ToImmutableSortedDictionary();
-    }
 
     public byte[] Decrypt(ReadOnlySpan<byte> cipherText, PublicKeyCertificate publicKeyCertificate)
     {

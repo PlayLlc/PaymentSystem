@@ -26,46 +26,21 @@ public record CommandTemplate : DataElement<byte[]>, IEquatable<CommandTemplate>
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId()
-    {
-        return BerEncodingId;
-    }
-
-    public int GetByteCount()
-    {
-        return _Value.Length;
-    }
-
-    public override Tag GetTag()
-    {
-        return Tag;
-    }
-
-    public byte[] GetValueAsByteArray()
-    {
-        return _Value;
-    }
-
-    public override ushort GetValueByteCount(BerCodec codec)
-    {
-        return codec.GetByteCount(GetBerEncodingId(), _Value);
-    }
+    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public int GetByteCount() => _Value.Length;
+    public override Tag GetTag() => Tag;
+    public byte[] GetValueAsByteArray() => _Value;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
     #endregion
 
     #region Serialization
 
-    public static CommandTemplate Decode(ReadOnlyMemory<byte> value)
-    {
-        return Decode(value.Span);
-    }
+    public static CommandTemplate Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
-    public static CommandTemplate Decode(ReadOnlySpan<byte> value)
-    {
-        return new(value.ToArray());
-    }
+    public static CommandTemplate Decode(ReadOnlySpan<byte> value) => new CommandTemplate(value.ToArray());
 
     #endregion
 
@@ -114,10 +89,7 @@ public record CommandTemplate : DataElement<byte[]>, IEquatable<CommandTemplate>
         }
     }
 
-    public int GetHashCode(CommandTemplate obj)
-    {
-        return obj.GetHashCode();
-    }
+    public int GetHashCode(CommandTemplate obj) => obj.GetHashCode();
 
     #endregion
 }

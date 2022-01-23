@@ -28,7 +28,6 @@ public abstract record TerminalConfiguration
     private readonly Percentage _BiasedRandomSelectionPercentage;
     private readonly Percentage _RandomSelectionTargetPercentage;
     private readonly ulong _ThresholdValueForBiasedRandomSelection;
-
     private readonly List<TagLengthValue> _TagLengthValues = new();
 
     #endregion
@@ -90,77 +89,24 @@ public abstract record TerminalConfiguration
     #region Instance Members
 
     // HACK: This is not implemented. Find how we're supposed to store the random and biased percentages and biased threshold value
-    public TerminalRiskConfiguration GetTerminalRiskConfiguration(CultureProfile culture)
-    {
-        return new TerminalRiskConfiguration(culture, _TerminalRiskManagementData, _BiasedRandomSelectionPercentage,
-                                             new Money(_ThresholdValueForBiasedRandomSelection, culture), _RandomSelectionTargetPercentage,
-                                             _TerminalFloorLimit);
-    }
+    public TerminalRiskConfiguration GetTerminalRiskConfiguration(CultureProfile culture) =>
+        new TerminalRiskConfiguration(culture, _TerminalRiskManagementData, _BiasedRandomSelectionPercentage,
+                                      new Money(_ThresholdValueForBiasedRandomSelection, culture), _RandomSelectionTargetPercentage,
+                                      _TerminalFloorLimit);
 
-    public MerchantNameAndLocation GetMerchantNameAndLocation()
-    {
-        return _MerchantNameAndLocation;
-    }
-
-    public ApplicationVersionNumberTerminal AsApplicationVersionNumberTerminal()
-    {
-        return _ApplicationVersionNumberTerminal;
-    }
-
-    public TagLengthValue[] AsTagLengthValues()
-    {
-        return _TagLengthValues.ToArray();
-    }
-
-    public MerchantCategoryCode GetMerchantCategoryCode()
-    {
-        return _MerchantCategoryCode;
-    }
-
-    public TransactionCurrencyCode GetTransactionCurrencyCode()
-    {
-        return _TransactionCurrencyCode;
-    }
-
-    public MerchantIdentifier GetMerchantIdentifier()
-    {
-        return _MerchantIdentifier;
-    }
-
-    public InterfaceDeviceSerialNumber GetInterfaceDeviceSerialNumber()
-    {
-        return _InterfaceDeviceSerialNumber;
-    }
-
-    public bool CardCapture()
-    {
-        return _TerminalCapabilities.IsCardCaptureSupported();
-    }
-
-    public bool CombinedDataAuthentication()
-    {
-        return _TerminalCapabilities.IsCombinedDataAuthenticationSupported();
-    }
-
-    public bool DynamicDataAuthentication()
-    {
-        return _TerminalCapabilities.IsDynamicDataAuthenticationSupported();
-    }
-
-    public bool EncipheredPinForOfflineVerification()
-    {
-        return _TerminalCapabilities.IsEncipheredPinForOfflineVerificationSupported();
-    }
-
-    public bool EncipheredPinForOnlineVerification()
-    {
-        return _TerminalCapabilities.IsEncipheredPinForOnlineVerificationSupported();
-    }
-
-    public LanguagePreference GetLanguagePreference()
-    {
-        return _LanguagePreference;
-    }
+    public MerchantNameAndLocation GetMerchantNameAndLocation() => _MerchantNameAndLocation;
+    public ApplicationVersionNumberTerminal AsApplicationVersionNumberTerminal() => _ApplicationVersionNumberTerminal;
+    public TagLengthValue[] AsTagLengthValues() => _TagLengthValues.ToArray();
+    public MerchantCategoryCode GetMerchantCategoryCode() => _MerchantCategoryCode;
+    public TransactionCurrencyCode GetTransactionCurrencyCode() => _TransactionCurrencyCode;
+    public MerchantIdentifier GetMerchantIdentifier() => _MerchantIdentifier;
+    public InterfaceDeviceSerialNumber GetInterfaceDeviceSerialNumber() => _InterfaceDeviceSerialNumber;
+    public bool CardCapture() => _TerminalCapabilities.IsCardCaptureSupported();
+    public bool CombinedDataAuthentication() => _TerminalCapabilities.IsCombinedDataAuthenticationSupported();
+    public bool DynamicDataAuthentication() => _TerminalCapabilities.IsDynamicDataAuthenticationSupported();
+    public bool EncipheredPinForOfflineVerification() => _TerminalCapabilities.IsEncipheredPinForOfflineVerificationSupported();
+    public bool EncipheredPinForOnlineVerification() => _TerminalCapabilities.IsEncipheredPinForOnlineVerificationSupported();
+    public LanguagePreference GetLanguagePreference() => _LanguagePreference;
 
     //public LanguageCodes[] GetLanguageCodes() =>
     //    _SupportedCultures.Select(a => a.GetAlpha2LanguageCode()).ToArray(); 
@@ -169,60 +115,17 @@ public abstract record TerminalConfiguration
 
     //public CurrencyCodes[] GetSupportedCurrencies() =>
     //    _SupportedCultures.Select(a => a.GetNumericCurrencyCode()).ToArray();
-    public TerminalCountryCode GetTerminalCountryCode()
-    {
-        return _TerminalCountryCode;
-    }
-
-    public TerminalFloorLimit GetTerminalFloorLimit()
-    {
-        return _TerminalFloorLimit;
-    }
-
-    public TerminalIdentification GetTerminalIdentification()
-    {
-        return _TerminalIdentification;
-    }
-
-    public TerminalType GetTerminalType()
-    {
-        return _TerminalType;
-    }
-
-    public bool IcWithContacts()
-    {
-        return _TerminalCapabilities.IsIcWithContactsSupported();
-    }
-
-    public bool MagneticStripe()
-    {
-        return _TerminalCapabilities.IsMagneticStripeSupported();
-    }
-
-    public bool ManualKeyEntry()
-    {
-        return _TerminalCapabilities.IsManualKeyEntrySupported();
-    }
-
-    public bool NoCardVerificationMethodRequired()
-    {
-        return _TerminalCapabilities.IsNoCardVerificationMethodRequiredSupported();
-    }
-
-    public bool PlaintextPinForIccVerification()
-    {
-        return _TerminalCapabilities.IsPlaintextPinForIccVerificationSupported();
-    }
-
-    public bool SignaturePaper()
-    {
-        return _TerminalCapabilities.IsSignaturePaperSupported();
-    }
-
-    public bool StaticDataAuthentication()
-    {
-        return _TerminalCapabilities.IsStaticDataAuthenticationSupported();
-    }
+    public TerminalCountryCode GetTerminalCountryCode() => _TerminalCountryCode;
+    public TerminalFloorLimit GetTerminalFloorLimit() => _TerminalFloorLimit;
+    public TerminalIdentification GetTerminalIdentification() => _TerminalIdentification;
+    public TerminalType GetTerminalType() => _TerminalType;
+    public bool IcWithContacts() => _TerminalCapabilities.IsIcWithContactsSupported();
+    public bool MagneticStripe() => _TerminalCapabilities.IsMagneticStripeSupported();
+    public bool ManualKeyEntry() => _TerminalCapabilities.IsManualKeyEntrySupported();
+    public bool NoCardVerificationMethodRequired() => _TerminalCapabilities.IsNoCardVerificationMethodRequiredSupported();
+    public bool PlaintextPinForIccVerification() => _TerminalCapabilities.IsPlaintextPinForIccVerificationSupported();
+    public bool SignaturePaper() => _TerminalCapabilities.IsSignaturePaperSupported();
+    public bool StaticDataAuthentication() => _TerminalCapabilities.IsStaticDataAuthenticationSupported();
 
     #endregion
 }

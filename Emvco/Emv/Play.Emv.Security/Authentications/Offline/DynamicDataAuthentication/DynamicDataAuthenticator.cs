@@ -70,37 +70,27 @@ internal class DynamicDataAuthenticator : IAuthenticateDynamicData
     /// <remarks>
     ///     Book 2 Section 6.6.2 Step 4
     /// </remarks>
-    private bool IsSignedDataFormatValid(SignedDataFormat signedDataFormat)
-    {
-        return signedDataFormat == SignedDataFormat._3;
-    }
+    private bool IsSignedDataFormatValid(SignedDataFormat signedDataFormat) => signedDataFormat == SignedDataFormat._3;
 
     private bool IsSignedDataValid(
         DecodedSignedDynamicApplicationDataDda decodedSignature,
-        DataObjectListResult dynamicDataObjectListResult)
-    {
-        return _SignatureService.IsSignatureValid(decodedSignature.GetHashAlgorithmIndicator(),
-                                                  ReconstructDynamicDataToBeSigned(decodedSignature, dynamicDataObjectListResult),
-                                                  decodedSignature);
-    }
+        DataObjectListResult dynamicDataObjectListResult) =>
+        _SignatureService.IsSignatureValid(decodedSignature.GetHashAlgorithmIndicator(),
+                                           ReconstructDynamicDataToBeSigned(decodedSignature, dynamicDataObjectListResult),
+                                           decodedSignature);
 
     private byte[] ReconstructDynamicDataToBeSigned(
         DecodedSignedDynamicApplicationDataDda signedDataDda,
-        DataObjectListResult dynamicDataObjectListResult)
-    {
-        return signedDataDda.GetMessage1().AsSpan().ConcatArrays(dynamicDataObjectListResult.AsByteArray());
-    }
+        DataObjectListResult dynamicDataObjectListResult) =>
+        signedDataDda.GetMessage1().AsSpan().ConcatArrays(dynamicDataObjectListResult.AsByteArray());
 
     /// <remarks>
     ///     Book 2 Section 6.6.2 Step 2
     /// </remarks>
     private DecodedSignedDynamicApplicationDataDda RecoverSignedDynamicApplicationData(
         PublicKeyCertificate issuerPublicKeyCertificate,
-        SignedDynamicApplicationData encipheredData)
-    {
-        return new DecodedSignedDynamicApplicationDataDda(_SignatureService.Decrypt(encipheredData.AsByteArray(),
-                                                                                    issuerPublicKeyCertificate));
-    }
+        SignedDynamicApplicationData encipheredData) =>
+        new DecodedSignedDynamicApplicationDataDda(_SignatureService.Decrypt(encipheredData.AsByteArray(), issuerPublicKeyCertificate));
 
     #endregion
 }

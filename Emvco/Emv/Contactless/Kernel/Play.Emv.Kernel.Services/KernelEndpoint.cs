@@ -49,9 +49,9 @@ public class KernelEndpoint : IMessageChannel, IHandleKernelRequests, ISendKerne
     public void Request(RequestMessage message)
     {
         if (message is ActivatePcdRequest activatePcdRequest)
-            Request((RequestMessage) activatePcdRequest);
+            Request(activatePcdRequest);
         else if (message is QueryPcdRequest queryPcdRequest)
-            Request((RequestMessage) queryPcdRequest);
+            Request(queryPcdRequest);
         else
             throw new UnhandledRequestException(message);
     }

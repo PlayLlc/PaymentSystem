@@ -51,29 +51,15 @@ public record CardholderVerificationCode3Track2 : PrimitiveValue, IEqualityCompa
         return x.Equals(y);
     }
 
-    public override BerEncodingId GetBerEncodingId()
-    {
-        return BerEncodingId;
-    }
-
-    public override Tag GetTag()
-    {
-        return Tag;
-    }
-
-    public override ushort GetValueByteCount(BerCodec codec)
-    {
-        return codec.GetByteCount(GetBerEncodingId(), _Value);
-    }
+    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
     #endregion
 
     #region Serialization
 
-    public static CardholderVerificationCode3Track2 Decode(ReadOnlyMemory<byte> value, BerCodec codec)
-    {
-        return Decode(value.Span, codec);
-    }
+    public static CardholderVerificationCode3Track2 Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
@@ -94,15 +80,8 @@ public record CardholderVerificationCode3Track2 : PrimitiveValue, IEqualityCompa
         return new CardholderVerificationCode3Track2(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec)
-    {
-        return codec.EncodeValue(BerEncodingId, _Value);
-    }
-
-    public override byte[] EncodeValue(BerCodec codec, int length)
-    {
-        return codec.EncodeValue(BerEncodingId, _Value, length);
-    }
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
 
     #endregion
 
@@ -119,10 +98,7 @@ public record CardholderVerificationCode3Track2 : PrimitiveValue, IEqualityCompa
         return x.Equals(y);
     }
 
-    public int GetHashCode(CardholderVerificationCode3Track2 obj)
-    {
-        return obj.GetHashCode();
-    }
+    public int GetHashCode(CardholderVerificationCode3Track2 obj) => obj.GetHashCode();
 
     #endregion
 }

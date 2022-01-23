@@ -66,8 +66,8 @@ public record PoiInformation : DataElement<byte[]>, IEqualityComparer<PoiInforma
 
         if (value.Length > maxByteLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(PoiInformation)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be less than {maxByteLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(PoiInformation)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be less than {maxByteLength} bytes in length");
         }
 
         return new PoiInformation(value);

@@ -59,30 +59,14 @@ public class CaPublicKeyCertificate : PublicKeyCertificate
         return new BigInteger(SHA1.HashData(buffer));
     }
 
-    public CaPublicKeyIndex GetCaPublicKeyIndex()
-    {
-        return _Id.GetCaPublicKeyIndex();
-    }
+    public CaPublicKeyIndex GetCaPublicKeyIndex() => _Id.GetCaPublicKeyIndex();
+    public BigInteger GetChecksum() => CalculateChecksum(_Id, GetPublicKeyModulus(), GetPublicKeyExponent());
+    public CaPublicKeyCertificateIdentifier GetId() => _Id;
 
-    public BigInteger GetChecksum()
-    {
-        return CalculateChecksum(_Id, GetPublicKeyModulus(), GetPublicKeyExponent());
-    }
+    public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
+        _Id.GetRegisteredApplicationProviderIndicator();
 
-    public CaPublicKeyCertificateIdentifier GetId()
-    {
-        return _Id;
-    }
-
-    public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator()
-    {
-        return _Id.GetRegisteredApplicationProviderIndicator();
-    }
-
-    public bool IsRevoked()
-    {
-        return _IsRevoked ? _IsRevoked : IsExpired();
-    }
+    public bool IsRevoked() => _IsRevoked ? _IsRevoked : IsExpired();
 
     #endregion
 }

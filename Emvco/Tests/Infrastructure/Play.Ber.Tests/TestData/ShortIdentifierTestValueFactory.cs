@@ -24,32 +24,21 @@ internal class ShortIdentifierTestValueFactory
 
     #region Instance Members
 
-    public static byte CreateByte(Random random)
-    {
-        return ((byte) random.Next(0, byte.MaxValue)).GetMaskedValue(LongIdentifier.LongIdentifierFlag)
-            .SetBits((byte) random.Next(0, ShortIdentifier.TagNumber.MaxValue));
-    }
+    public static byte CreateByte(Random random) =>
+        ((byte) random.Next(0, byte.MaxValue)).GetMaskedValue(LongIdentifier.LongIdentifierFlag)
+        .SetBits((byte) random.Next(0, ShortIdentifier.TagNumber.MaxValue));
 
-    public static Tag Create(Random random)
-    {
-        return new Tag(((byte) random.Next(0, byte.MaxValue)).GetMaskedValue(LongIdentifier.LongIdentifierFlag)
-                       .SetBits((byte) random.Next(0, ShortIdentifier.TagNumber.MaxValue)));
-    }
+    public static Tag Create(Random random) =>
+        new Tag(((byte) random.Next(0, byte.MaxValue)).GetMaskedValue(LongIdentifier.LongIdentifierFlag)
+                .SetBits((byte) random.Next(0, ShortIdentifier.TagNumber.MaxValue)));
 
-    public static ClassType GetClassType(Random random)
-    {
-        return _ClassTypeValues.ElementAt(random.Next(0, _ClassTypeValues.Count - 1));
-    }
+    public static ClassType GetClassType(Random random) => _ClassTypeValues.ElementAt(random.Next(0, _ClassTypeValues.Count - 1));
 
-    public static DataObjectType GetDataObjectType(Random random)
-    {
-        return _DataObjectTypeValues.ElementAt(random.Next(0, _DataObjectTypeValues.Count - 1));
-    }
+    public static DataObjectType GetDataObjectType(Random random) =>
+        _DataObjectTypeValues.ElementAt(random.Next(0, _DataObjectTypeValues.Count - 1));
 
-    public static byte GetTagNumber(Random random)
-    {
-        return ((byte) random.Next(0, ShortIdentifier.TagNumber.MaxValue)).GetMaskedValue(0b11100000);
-    }
+    public static byte GetTagNumber(Random random) =>
+        ((byte) random.Next(0, ShortIdentifier.TagNumber.MaxValue)).GetMaskedValue(0b11100000);
 
     #endregion
 }

@@ -26,8 +26,7 @@ internal class DecodedSignedStaticApplicationData : DecodedSignature
     { }
 
     private DecodedSignedStaticApplicationData(byte leadingByte, Message1 message1, byte[] hash, byte trailingByte) : base(leadingByte,
-                                                                                                                           message1, hash,
-                                                                                                                           trailingByte)
+     message1, hash, trailingByte)
     { }
 
     #endregion
@@ -50,10 +49,8 @@ internal class DecodedSignedStaticApplicationData : DecodedSignature
         return buffer.ToArray();
     }
 
-    public DataAuthenticationCode GetDataAuthenticationCode()
-    {
-        return new DataAuthenticationCode(PlayEncoding.UnsignedInteger.GetUInt16(_Message1.AsByteArray()[3..4]));
-    }
+    public DataAuthenticationCode GetDataAuthenticationCode() =>
+        new DataAuthenticationCode(PlayEncoding.UnsignedInteger.GetUInt16(_Message1.AsByteArray()[3..4]));
 
     public HashAlgorithmIndicator GetHashAlgorithmIndicator()
     {
@@ -63,15 +60,8 @@ internal class DecodedSignedStaticApplicationData : DecodedSignature
         return result!;
     }
 
-    public byte[] GetPadPattern()
-    {
-        return _Message1.AsByteArray()[5..(GetByteCount() - 26)];
-    }
-
-    public byte GetSignedDataFormat()
-    {
-        return _Message1[1];
-    }
+    public byte[] GetPadPattern() => _Message1.AsByteArray()[5..(GetByteCount() - 26)];
+    public byte GetSignedDataFormat() => _Message1[1];
 
     #endregion
 }

@@ -21,15 +21,8 @@ public readonly record struct PcdSessionId
 
     #region Equality
 
-    public bool Equals(PcdSessionId x, PcdSessionId y)
-    {
-        return x._Value == y._Value;
-    }
-
-    public int GetHashCode(PcdSessionId obj)
-    {
-        return obj._Value.GetHashCode();
-    }
+    public bool Equals(PcdSessionId x, PcdSessionId y) => x._Value == y._Value;
+    public int GetHashCode(PcdSessionId obj) => obj._Value.GetHashCode();
 
     #endregion
 }

@@ -55,15 +55,11 @@ internal partial class CertificateFactory
                                                          publicKeyAlgorithmIndicator, validityPeriod, publicKeyInfo);
         }
 
-        private static ShortDateValue GetCertificateExpirationDate(Message1 message1)
-        {
-            return new ShortDateValue(_NumericCodec.GetUInt16(message1[new Range(5, 7)]));
-        }
+        private static ShortDateValue GetCertificateExpirationDate(Message1 message1) =>
+            new ShortDateValue(_NumericCodec.GetUInt16(message1[new Range(5, 7)]));
 
-        private static CertificateSerialNumber GetCertificateSerialNumber(Message1 message1)
-        {
-            return new CertificateSerialNumber(message1[new Range(7, 10)]);
-        }
+        private static CertificateSerialNumber GetCertificateSerialNumber(Message1 message1) =>
+            new CertificateSerialNumber(message1[new Range(7, 10)]);
 
         // TODO: The remainder and exponent will be coming from the TLV Database. No need to pass those with the
         // TODO: command. You can pass the ITlvDatabase and query when it's relevant
@@ -88,35 +84,19 @@ internal partial class CertificateFactory
             return buffer.ToArray();
         }
 
-        private static HashAlgorithmIndicator GetHashAlgorithmIndicator(Message1 message1)
-        {
-            return HashAlgorithmIndicator.Get(message1[11]);
-        }
+        private static HashAlgorithmIndicator GetHashAlgorithmIndicator(Message1 message1) => HashAlgorithmIndicator.Get(message1[11]);
 
-        private static IssuerIdentificationNumber GetIssuerIdentificationNumber(Message1 message1)
-        {
-            return new IssuerIdentificationNumber(_CompressedNumericCodec.DecodeUInt32(message1[new Range(1, 5)]));
-        }
+        private static IssuerIdentificationNumber GetIssuerIdentificationNumber(Message1 message1) =>
+            new IssuerIdentificationNumber(_CompressedNumericCodec.DecodeUInt32(message1[new Range(1, 5)]));
 
-        private static byte GetIssuerPublicKeyExponentLength(Message1 message1)
-        {
-            return message1[14];
-        }
+        private static byte GetIssuerPublicKeyExponentLength(Message1 message1) => message1[14];
+        private static byte GetIssuerPublicKeyLength(Message1 message1) => message1[13];
 
-        private static byte GetIssuerPublicKeyLength(Message1 message1)
-        {
-            return message1[13];
-        }
+        private static Range GetLeftmostIssuerPublicKeyRange(CaPublicKeyCertificate caPublicKeyCertificate) =>
+            new Range(15, caPublicKeyCertificate.GetPublicKeyModulus().GetByteCount() - 36);
 
-        private static Range GetLeftmostIssuerPublicKeyRange(CaPublicKeyCertificate caPublicKeyCertificate)
-        {
-            return new Range(15, caPublicKeyCertificate.GetPublicKeyModulus().GetByteCount() - 36);
-        }
-
-        private static PublicKeyAlgorithmIndicator GetPublicKeyAlgorithmIndicator(Message1 message1)
-        {
-            return PublicKeyAlgorithmIndicator.Get(message1[12]);
-        }
+        private static PublicKeyAlgorithmIndicator GetPublicKeyAlgorithmIndicator(Message1 message1) =>
+            PublicKeyAlgorithmIndicator.Get(message1[12]);
 
         /// <exception cref="InvalidOperationException"></exception>
         private static PublicKeyModulus GetPublicKeyModulus(
@@ -139,10 +119,7 @@ internal partial class CertificateFactory
             return new PublicKeyModulus(message1[GetLeftmostIssuerPublicKeyRange(caPublicKeyCertificate)]);
         }
 
-        private static bool IsCertificateFormatValid(Message1 message1)
-        {
-            return message1[0] == CertificateFormat.Issuer;
-        }
+        private static bool IsCertificateFormatValid(Message1 message1) => message1[0] == CertificateFormat.Issuer;
 
         private static bool IsExpiryDateValid(Message1 message1)
         {
@@ -153,15 +130,11 @@ internal partial class CertificateFactory
                 <= new DateTime(expiryDate.Year, expiryDate.Month, DateTime.DaysInMonth(expiryDate.Year, expiryDate.Month));
         }
 
-        private static bool IsIssuerPublicKeyAlgorithmIndicatorValid(Message1 message1)
-        {
-            return PublicKeyAlgorithmIndicator.Exists((byte) GetPublicKeyAlgorithmIndicator(message1));
-        }
+        private static bool IsIssuerPublicKeyAlgorithmIndicatorValid(Message1 message1) =>
+            PublicKeyAlgorithmIndicator.Exists((byte) GetPublicKeyAlgorithmIndicator(message1));
 
-        private static bool IsIssuerPublicKeySplit(CaPublicKeyCertificate caPublicKeyCertificate, Message1 message1)
-        {
-            return GetIssuerPublicKeyLength(message1) > caPublicKeyCertificate.GetPublicKeyModulus().GetByteCount();
-        }
+        private static bool IsIssuerPublicKeySplit(CaPublicKeyCertificate caPublicKeyCertificate, Message1 message1) =>
+            GetIssuerPublicKeyLength(message1) > caPublicKeyCertificate.GetPublicKeyModulus().GetByteCount();
 
         /// <summary>
         ///     IsValid

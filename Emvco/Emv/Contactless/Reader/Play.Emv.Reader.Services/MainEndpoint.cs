@@ -50,15 +50,8 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
 
     #region Instance Members
 
-    public ChannelTypeId GetChannelTypeId()
-    {
-        return ChannelIdentifier.GetChannelTypeId();
-    }
-
-    public ChannelIdentifier GetChannelIdentifier()
-    {
-        return ChannelIdentifier;
-    }
+    public ChannelTypeId GetChannelTypeId() => ChannelIdentifier.GetChannelTypeId();
+    public ChannelIdentifier GetChannelIdentifier() => ChannelIdentifier;
 
     #region Requests
 
@@ -149,10 +142,8 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
         ICreateEndpointClient messageRouter,
         IHandleDisplayRequests displayEndpoint,
         IHandleSelectionRequests selectionEndpoint,
-        KernelRetriever kernelRetriever)
-    {
-        return new MainEndpoint(activateReaderRequest, messageRouter, displayEndpoint, selectionEndpoint, kernelRetriever);
-    }
+        KernelRetriever kernelRetriever) =>
+        new MainEndpoint(activateReaderRequest, messageRouter, displayEndpoint, selectionEndpoint, kernelRetriever);
 
     public void Dispose()
     {

@@ -7,7 +7,7 @@ public class KernelIdentifierTestTlv : TestTlv
 {
     #region Static Metadata
 
-    private static readonly byte[] _DefaultContentOctets = new byte[] {0x03};
+    private static readonly byte[] _DefaultContentOctets = {0x03};
 
     #endregion
 
@@ -23,10 +23,7 @@ public class KernelIdentifierTestTlv : TestTlv
 
     #region Instance Members
 
-    public override Tag GetTag()
-    {
-        return KernelIdentifier.Tag;
-    }
+    public override Tag GetTag() => KernelIdentifier.Tag;
 
     #endregion
 }

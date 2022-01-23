@@ -14,26 +14,10 @@ public abstract class Template : ConstructedValue
 
     #region Instance Members
 
-    public uint GetTagLengthValueByteCount()
-    {
-        return GetTagLengthValueByteCount(_Codec);
-    }
-
-    public TagLengthValue AsTagLengthValue()
-    {
-        return AsTagLengthValue(_Codec);
-    }
-
-    public ushort GetValueByteCount()
-    {
-        return _Codec.GetValueByteCount(GetChildren());
-    }
-
-    public override ushort GetValueByteCount(BerCodec codec)
-    {
-        return GetValueByteCount();
-    }
-
+    public uint GetTagLengthValueByteCount() => GetTagLengthValueByteCount(_Codec);
+    public TagLengthValue AsTagLengthValue() => AsTagLengthValue(_Codec);
+    public ushort GetValueByteCount() => _Codec.GetValueByteCount(GetChildren());
+    public override ushort GetValueByteCount(BerCodec codec) => GetValueByteCount();
     public abstract Tag[] GetChildTags();
     protected abstract IEncodeBerDataObjects?[] GetChildren();
 
@@ -41,25 +25,10 @@ public abstract class Template : ConstructedValue
 
     #region Serialization
 
-    public byte[] EncodeValue()
-    {
-        return _Codec.EncodeValue(this, GetChildTags(), GetChildren());
-    }
-
-    public override byte[] EncodeValue(BerCodec berCodec)
-    {
-        return EncodeValue();
-    }
-
-    public byte[] EncodeTagLengthValue()
-    {
-        return _Codec.EncodeTagLengthValue(this, GetChildTags(), GetChildren());
-    }
-
-    public override byte[] EncodeTagLengthValue(BerCodec codec)
-    {
-        return EncodeTagLengthValue();
-    }
+    public byte[] EncodeValue() => _Codec.EncodeValue(this, GetChildTags(), GetChildren());
+    public override byte[] EncodeValue(BerCodec berCodec) => EncodeValue();
+    public byte[] EncodeTagLengthValue() => _Codec.EncodeTagLengthValue(this, GetChildTags(), GetChildren());
+    public override byte[] EncodeTagLengthValue(BerCodec codec) => EncodeTagLengthValue();
 
     #endregion
 }

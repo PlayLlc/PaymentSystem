@@ -4,7 +4,6 @@ using System.Linq;
 
 using Play.Core.Exceptions;
 using Play.Emv.DataElements;
-using Play.Emv.DataElements.CertificateAuthority;
 using Play.Emv.Security.Certificates;
 using Play.Icc.FileSystem.DedicatedFiles;
 
@@ -56,10 +55,7 @@ public class CertificateAuthorityDataset
     /// <returns>
     ///     <see cref="RegisteredApplicationProviderIndicator" />
     /// </returns>
-    public RegisteredApplicationProviderIndicator GetRid()
-    {
-        return _RegisteredApplicationProviderIndicator;
-    }
+    public RegisteredApplicationProviderIndicator GetRid() => _RegisteredApplicationProviderIndicator;
 
     // TODO: not sure why they mentioned the serial number in the book
     public bool IsRevoked(CaPublicKeyIndex caPublicKeyIndex /*, CertificateSerialNumber serialNumber*/)

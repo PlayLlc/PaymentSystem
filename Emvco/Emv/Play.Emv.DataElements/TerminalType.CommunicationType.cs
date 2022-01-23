@@ -87,7 +87,7 @@ public partial record TerminalType
             if (!TryGet(communicationType, out CommunicationType result))
             {
                 throw new ArgumentOutOfRangeException(nameof(CommunicationType),
-                    $"The {nameof(CommunicationType)} could not be found from the number supplied to the argument: {nameof(communicationType)}");
+                                                      $"The {nameof(CommunicationType)} could not be found from the number supplied to the argument: {nameof(communicationType)}");
             }
 
             return result;

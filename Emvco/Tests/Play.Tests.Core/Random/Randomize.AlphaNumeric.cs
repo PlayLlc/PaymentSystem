@@ -16,22 +16,19 @@
             {
                 byte[] result = new byte[length];
 
-                for (short i = 0; i <= length - 1; i++)
+                for (short i = 0; i <= (length - 1); i++)
                     result[i] = GetRandomByte();
 
                 return result;
             }
 
-            public static char Char()
-            {
-                return GetRandomChar();
-            }
+            public static char Char() => GetRandomChar();
 
             public static char[] Chars(int length)
             {
                 char[] result = new char[length];
 
-                for (short i = 0; i <= length - 1; i++)
+                for (short i = 0; i <= (length - 1); i++)
                     result[i] = GetRandomChar();
 
                 return result;
@@ -41,21 +38,14 @@
             {
                 char[] result = new char[length];
 
-                for (short i = 0; i <= length - 1; i++)
+                for (short i = 0; i <= (length - 1); i++)
                     result[i] = GetRandomChar();
 
                 return new string(result);
             }
 
-            private static char GetRandomChar()
-            {
-                return _AlphaNumeric[_Random.Next(0, _AlphaNumeric.Length - 1)];
-            }
-
-            public static byte GetRandomByte()
-            {
-                return (byte) _AlphaNumeric[_Random.Next(0, _AlphaNumeric.Length - 1)];
-            }
+            private static char GetRandomChar() => _AlphaNumeric[_Random.Next(0, _AlphaNumeric.Length - 1)];
+            public static byte GetRandomByte() => (byte) _AlphaNumeric[_Random.Next(0, _AlphaNumeric.Length - 1)];
 
             #endregion
         }
