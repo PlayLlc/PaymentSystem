@@ -1,4 +1,8 @@
-﻿using Play.Emv.Configuration;
+﻿using System;
+using System.Collections.Immutable;
+using System.Linq;
+
+using Play.Emv.Configuration;
 using Play.Emv.DataElements;
 using Play.Emv.Security.Certificates;
 using Play.Icc.FileSystem.DedicatedFiles;
@@ -9,29 +13,45 @@ public class KernelCertificateDatabase : IKernelCertificateDatabase
 {
     #region Instance Values
 
-    private readonly CertificateAuthorityDataset _Certificates;
+    private readonly ImmutableSortedDictionary<RegisteredApplicationProviderIndicator, CertificateAuthorityDataset> _Certificates;
 
     #endregion
 
     #region Constructor
 
-    public KernelCertificateDatabase(CertificateAuthorityDataset certificateAuthorityDataset)
+    public KernelCertificateDatabase(CertificateAuthorityDataset[] certificateAuthorityDataset)
     {
-        _Certificates = certificateAuthorityDataset;
+        _Certificates = certificateAuthorityDataset.ToImmutableSortedDictionary(a => a.GetRid(), b => b);
     }
 
     #endregion
 
     #region Instance Members
 
-    public bool IsRevoked(CaPublicKeyIndex caPublicKeyIndex) => _Certificates.IsRevoked(caPublicKeyIndex);
-    public void PurgeRevokedCertificates() => _Certificates.PurgeRevokedCertificates();
-    public bool TryGet(CaPublicKeyIndex index, out CaPublicKeyCertificate? result) => _Certificates.TryGet(index, out result);
+    public bool IsRevoked(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex caPublicKeyIndex)
+    {
+        if (!TryGet(rid, caPublicKeyIndex, out CaPublicKeyCertificate? result))
+            return true;
 
-    /// <returns>
-    ///     <see cref="RegisteredApplicationProviderIndicator" />
-    /// </returns>
-    public RegisteredApplicationProviderIndicator GetRid() => _Certificates.GetRid();
+        return result!.IsRevoked();
+    }
+
+    public void PurgeRevokedCertificates()
+    {
+        for (int i = 0; i < _Certificates.Count; i++)
+            _Certificates.ElementAt(i).Value.PurgeRevokedCertificates();
+    }
+
+    public bool TryGet(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex index, out CaPublicKeyCertificate? result)
+    {
+        if (!_Certificates.TryGetValue(rid, out CertificateAuthorityDataset? dataset))
+        {
+            throw new
+                InvalidOperationException($"The {nameof(KernelCertificateDatabase)} does not have a {nameof(CertificateAuthorityDataset)} for the {nameof(RegisteredApplicationProviderIndicator)} value: [{rid}]");
+        }
+
+        return dataset.TryGet(index, out result);
+    }
 
     #endregion
 }

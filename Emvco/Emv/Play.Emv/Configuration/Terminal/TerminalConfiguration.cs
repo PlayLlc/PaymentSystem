@@ -16,6 +16,7 @@ public abstract record TerminalConfiguration
     private readonly MerchantIdentifier _MerchantIdentifier;
     private readonly MerchantCategoryCode _MerchantCategoryCode;
     private readonly MerchantNameAndLocation _MerchantNameAndLocation;
+    private readonly AcquirerIdentifier _AcquirerIdentifier;
     private readonly TerminalIdentification _TerminalIdentification;
     private readonly InterfaceDeviceSerialNumber _InterfaceDeviceSerialNumber;
     private readonly LanguagePreference _LanguagePreference;
@@ -59,7 +60,8 @@ public abstract record TerminalConfiguration
         PoiInformation poiInformation,
         AdditionalTerminalCapabilities additionalTerminalCapabilities,
         TransactionReferenceCurrencyCode transactionReferenceCurrencyCode,
-        TransactionReferenceCurrencyExponent transactionReferenceCurrencyExponent)
+        TransactionReferenceCurrencyExponent transactionReferenceCurrencyExponent,
+        AcquirerIdentifier acquirerIdentifier)
     {
         _TerminalIdentification = terminalIdentification;
         _TransactionCurrencyCode = transactionCurrencyCode;
@@ -81,6 +83,7 @@ public abstract record TerminalConfiguration
         _AdditionalTerminalCapabilities = additionalTerminalCapabilities;
         _TransactionReferenceCurrencyCode = transactionReferenceCurrencyCode;
         _TransactionReferenceCurrencyExponent = transactionReferenceCurrencyExponent;
+        _AcquirerIdentifier = acquirerIdentifier;
 
         _TagLengthValues.Add(_TerminalIdentification);
         _TagLengthValues.Add(_TransactionCurrencyCode);
@@ -99,12 +102,15 @@ public abstract record TerminalConfiguration
         _TagLengthValues.Add(_AdditionalTerminalCapabilities);
         _TagLengthValues.Add(_TransactionReferenceCurrencyCode);
         _TagLengthValues.Add(_TransactionReferenceCurrencyExponent);
+        _TagLengthValues.Add(_AcquirerIdentifier);
     }
 
     #endregion
 
     #region Instance Members
 
+    public TerminalRiskManagementData GetTerminalRiskManagementData() => _TerminalRiskManagementData;
+    public AcquirerIdentifier GetAcquirerIdentifier() => _AcquirerIdentifier;
     public TerminalCapabilities GetTerminalCapabilities() => _TerminalCapabilities;
     public TransactionReferenceCurrencyCode GetTransactionReferenceCurrencyCode() => _TransactionReferenceCurrencyCode;
     public TransactionReferenceCurrencyExponent GetTransactionReferenceCurrencyExponent() => _TransactionReferenceCurrencyExponent;

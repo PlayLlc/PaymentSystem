@@ -2,20 +2,16 @@
 
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
+using Play.Emv.Configuration;
 using Play.Emv.DataElements;
+using Play.Emv.Security.Cryptograms;
+using Play.Emv.Terminal.Configuration.Transaction;
 
 namespace Play.Emv.Terminal.Services;
 
-// HACK: The Terminal should probably implement a database style repository where the requested tags can be retrieved by Tag
+// WARNING: THIS IS A GIANT HACK. We should be queueing up configuration items in the Terminal and dequeue-ing them with a tag when we want to retrieve it. This pattern is pretty error prone
 internal class TerminalQueryResolver
 {
-    #region Instance Values
-
-    private readonly IPerformTerminalActionAnalysis _TerminalActionAnalysisService;
-    private readonly IManageTerminalRisk _TerminalRiskManager;
-
-    #endregion
-
     #region Instance Members
 
     public TagLengthValue Resolve(TerminalStateMachine.TerminalSessionLock sessionLock, Tag tag)
@@ -52,6 +48,44 @@ internal class TerminalQueryResolver
 
         if (tag == PoiInformation.Tag)
             return GetPoiInformation(sessionLock.Session!);
+
+        if (tag == TerminalActionCodeDenial.Tag)
+            return GetTerminalActionCodeDenial(sessionLock.Session!);
+
+        if (tag == TerminalActionCodeDefault.Tag)
+            return GetTerminalActionCodeDefault(sessionLock.Session!);
+
+        if (tag == TerminalActionCodeOnline.Tag)
+            return GetTerminalActionCodeOnline(sessionLock.Session!);
+
+        if (tag == TerminalFloorLimit.Tag)
+            return GetTerminalFloorLimit(sessionLock.Session!);
+
+        if (tag == TransactionCurrencyExponent.Tag)
+            return GetTransactionCurrencyExponent(sessionLock.Session!);
+        if (tag == TransactionReferenceCurrencyCode.Tag)
+            return GetTransactionReferenceCurrencyCode(sessionLock.Session!);
+        if (tag == TransactionReferenceCurrencyExponent.Tag)
+            return GetTransactionReferenceCurrencyExponent(sessionLock.Session!);
+
+        if (tag == TerminalType.Tag)
+            return GetTerminalType(sessionLock.Session!);
+        if (tag == TerminalCapabilities.Tag)
+            return GetTerminalCapabilities(sessionLock.Session!);
+        if (tag == AcquirerIdentifier.Tag)
+            return GetAcquirerIdentifier(sessionLock.Session!);
+        if (tag == CvmResults.Tag)
+            return GetCvmResults(sessionLock.Session!);
+        if (tag == CryptogramInformationData.Tag)
+            return GetCryptogramInformationData(sessionLock.Session!);
+        if (tag == InterfaceDeviceSerialNumber.Tag)
+            return GetInterfaceDeviceSerialNumber(sessionLock.Session!);
+        if (tag == MerchantCategoryCode.Tag)
+            return GetMerchantCategoryCode(sessionLock.Session!);
+        if (tag == TerminalIdentification.Tag)
+            return GetTerminalIdentification(sessionLock.Session!);
+        if (tag == TerminalRiskManagementData.Tag)
+            return GetTerminalRiskManagementData(sessionLock.Session!);
 
         return new TagLengthValue(tag, ReadOnlySpan<byte>.Empty);
     }
@@ -103,75 +137,21 @@ internal class TerminalQueryResolver
 
     private TagLengthValue GetTerminalType(TerminalSession session) => session.TerminalConfiguration.GetTerminalType();
     private TagLengthValue GetTerminalCapabilities(TerminalSession session) => session.TerminalConfiguration.GetTerminalCapabilities();
+    private TagLengthValue GetAcquirerIdentifier(TerminalSession session) => session.TerminalConfiguration.GetAcquirerIdentifier();
+
+    // BUG: Resolve common terminal services
+    private TagLengthValue GetCvmResults(TerminalSession session) => throw new NotImplementedException();
+    private TagLengthValue GetCryptogramInformationData(TerminalSession session) => throw new NotImplementedException();
+
+    private TagLengthValue GetInterfaceDeviceSerialNumber(TerminalSession session) =>
+        session.TerminalConfiguration.GetInterfaceDeviceSerialNumber();
+
+    private TagLengthValue GetMerchantCategoryCode(TerminalSession session) => session.TerminalConfiguration.GetMerchantCategoryCode();
+    private TagLengthValue GetMerchantIdentifier(TerminalSession session) => session.TerminalConfiguration.GetMerchantIdentifier();
+    private TagLengthValue GetTerminalIdentification(TerminalSession session) => session.TerminalConfiguration.GetTerminalIdentification();
+
+    private TagLengthValue GetTerminalRiskManagementData(TerminalSession session) =>
+        session.TerminalConfiguration.GetTerminalRiskManagementData();
 
     #endregion
-
-    // services requested by DEK?
-    // 9F5B Issuer Script Results
-    // TerminalActionCodeDefault
-    // TerminalActionCodeOnline
-    // TerminalActionCodeOnline
-    // 9F34    Cardholder Verification Method (CVM) Results
 }
-
-/*                 
-9F22    Certification Authority Public Key Index (PKI)
-9F21    Transaction Time
-9F1E    Interface Device (IFD) Serial Number
-9F1D    Terminal Risk Management Data
-9F1C    Terminal Identification
-9F1B    Terminal Floor Limit
-9F1B    Terminal Floor Limit
-9F1A    Terminal Country Code
-9F1A    Terminal Country Code
-9F1A    Terminal Country Code
-9F1A    Terminal Country Code
-9F1A    Terminal Country Code
-9F16    Merchant Identifier
-9F15    Merchant Category Code (MCC)
-9F09    Application Version Number
-9F06    Application Identifier (AID), Terminal
-9F06    Application Identifier (AID), Terminal
-9F04    Amount, Other (Binary)
-9F03    Amount, Other (Numeric)
-9F03    Amount, Other (Numeric)
-9F03    Amount, Other (Numeric)
-9F03    Amount, Other (Numeric)
-9F03    Amount, Other (Numeric)
-9F02    Amount, Authorised (Numeric)
-9F02    Amount, Authorised (Numeric)
-9F02    Amount, Authorised (Numeric)
-9F02    Amount, Authorised (Numeric)
-9F02    Amount, Authorised (Numeric)
-9F01    Acquirer Identifier
-9F01    Acquirer Identifier
-5F57    Account Type
-5F3D    Transaction Reference Currency Exponent
-5F3C    Transaction Reference Currency Code
-5F36    Transaction Currency Exponent
-5F2A    Transaction Currency Code
-5F2A    Transaction Currency Code
-5F2A    Transaction Currency Code
-5F2A    Transaction Currency Code
-9C      Transaction Type
-9C      Transaction Type
-9C      Transaction Type
-9C      Transaction Type
-9B      Transaction Status Information (TSI)
-9A      Transaction Date
-9A      Transaction Date
-9A      Transaction Date
-9A      Transaction Date
-99      Transaction Personal Identification Number (PIN) Data
-98      Transaction Certificate (TC) Hash Value
-95      Terminal Verification Results (TVR)
-95      Terminal Verification Results (TVR)
-95      Terminal Verification Results (TVR)
-95      Terminal Verification Results (TVR)
-8A      Authorisation Response Code (ARC)
-8A      Authorisation Response Code (ARC)
-83      Command Template
-81      Amount, Authorised (Binary) 
- 
- 
- */

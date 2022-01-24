@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
 using Play.Emv.DataElements;
+using Play.Emv.DataElementsz;
 using Play.Emv.Outcomes;
 using Play.Emv.Sessions;
 using Play.Globalization;
@@ -14,12 +15,14 @@ public class Transaction
 {
     #region Instance Values
 
+    private readonly AccountType _AccountType;
     private readonly AmountAuthorizedNumeric _AmountAuthorizedNumeric;
     private readonly AmountOtherNumeric _AmountOtherNumeric;
     private readonly LanguagePreference _LanguagePreference;
     private readonly TerminalCountryCode _TerminalCountryCode;
     private readonly Outcome _Outcome;
     private readonly TransactionDate _TransactionDate;
+    private readonly TransactionTime _TransactionTime;
     private readonly TransactionSessionId _TransactionSessionId;
     private readonly TransactionType _TransactionType;
 
@@ -29,18 +32,22 @@ public class Transaction
 
     public Transaction(
         TransactionSessionId transactionSessionId,
+        AccountType accountType,
         AmountAuthorizedNumeric amountAuthorizedNumeric,
         AmountOtherNumeric amountOtherNumeric,
         TransactionType transactionType,
         LanguagePreference languagePreference,
         TerminalCountryCode terminalCountryCode,
-        TransactionDate transactionDate)
+        TransactionDate transactionDate,
+        TransactionTime transactionTime)
     {
+        _AccountType = accountType;
         _TransactionSessionId = transactionSessionId;
         _AmountAuthorizedNumeric = amountAuthorizedNumeric;
         _AmountOtherNumeric = amountOtherNumeric;
         _TransactionType = transactionType;
         _TransactionDate = transactionDate;
+        _TransactionTime = transactionTime;
         _LanguagePreference = languagePreference;
         _TerminalCountryCode = terminalCountryCode;
 
@@ -51,6 +58,8 @@ public class Transaction
 
     #region Instance Members
 
+    public AccountType GetAccountType() => _AccountType;
+    public TransactionTime GetTransactionTime() => _TransactionTime;
     public OutcomeParameterSet GetOutcomeParameterSet() => _Outcome.GetOutcomeParameterSet();
 
     public TagLengthValue[] AsTagLengthValueArray()
@@ -76,11 +85,8 @@ public class Transaction
     public AmountOtherNumeric GetAmountOtherNumeric() => _AmountOtherNumeric;
     public LanguagePreference GetLanguagePreference() => _LanguagePreference;
     public TerminalCountryCode GetTerminalCountryCode() => _TerminalCountryCode;
-    public TransactionCurrencyCode GetTransactionCurrencyCode() => new TransactionCurrencyCode(GetCultureProfile());
-
-    public CultureProfile GetCultureProfile() =>
-        new CultureProfile(_TerminalCountryCode.AsCountryCode(), _LanguagePreference.GetPreferredLanguage());
-
+    public TransactionCurrencyCode GetTransactionCurrencyCode() => new(GetCultureProfile());
+    public CultureProfile GetCultureProfile() => new(_TerminalCountryCode.AsCountryCode(), _LanguagePreference.GetPreferredLanguage());
     public ref readonly Outcome GetOutcome() => ref _Outcome;
     public TerminalVerificationResults GetTerminalVerificationResults() => _Outcome.GetTerminalVerificationResults();
 
