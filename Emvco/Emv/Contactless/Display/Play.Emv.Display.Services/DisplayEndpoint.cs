@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Play.Emv.Display.Contracts;
-using Play.Emv.Display.Contracts.SignalIn;
 using Play.Emv.Messaging;
 using Play.Messaging;
 using Play.Messaging.Exceptions;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Play.Ber.Emv.DataObjects;
+using Play.Emv.Ber.DataObjects;
 using Play.Emv.TestData.Ber.Constructed;
 using Play.Emv.TestData.Ber.Primitive;
 

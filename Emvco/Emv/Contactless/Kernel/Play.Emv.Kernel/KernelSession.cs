@@ -1,12 +1,12 @@
 ﻿using System;
 
 using Play.Emv.DataElements;
+using Play.Emv.Icc;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Outcomes;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts;
-using Play.Icc.Emv;
 
 namespace Play.Emv.Kernel;
 

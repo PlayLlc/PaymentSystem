@@ -2,7 +2,7 @@
 
 using Play.Core;
 
-namespace ___TEMP.Play.Emv.Security.Authentications;
+namespace Play.Emv.DataElements;
 
 public record AuthenticationType : EnumObject<byte>
 {

@@ -1,7 +1,7 @@
 ﻿using Play.Emv.DataElements;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace Play.Emv.Kernel.Contracts;
+namespace Play.Emv.Selection;
 
 /// <summary>
 ///     The value object created during Entry Point Processing. This result is used as part of the Kernel

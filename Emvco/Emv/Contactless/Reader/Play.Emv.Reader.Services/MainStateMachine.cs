@@ -3,15 +3,12 @@
 using Play.Emv.DataElements;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
-using Play.Emv.Kernel.Contracts.SignalIn;
-using Play.Emv.Kernel.Contracts.SignalOut;
+using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Reader.Contracts.SignalIn;
 using Play.Emv.Selection.Contracts;
-using Play.Emv.Selection.Contracts.SignalIn;
-using Play.Emv.Selection.Contracts.SignalOut;
 using Play.Emv.Sessions;
 using Play.Emv.Transactions;
 using Play.Messaging;

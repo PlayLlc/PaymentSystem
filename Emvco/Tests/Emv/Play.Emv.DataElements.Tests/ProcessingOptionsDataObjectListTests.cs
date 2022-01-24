@@ -2,7 +2,7 @@
 using System.Linq;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Emv.DataObjects;
+using Play.Emv.Ber.DataObjects;
 using Play.Emv.TestData.Ber.Primitive;
 
 using Xunit;

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 
+using Play.Emv.Icc.GetProcessingOptions;
 using Play.Emv.Pcd.Contracts;
-using Play.Icc.Emv.GetProcessingOptions;
 
 namespace Play.Emv.Pcd;
 

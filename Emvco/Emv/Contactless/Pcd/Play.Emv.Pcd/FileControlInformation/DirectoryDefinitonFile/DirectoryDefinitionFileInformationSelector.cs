@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 
+using Play.Emv.Icc;
+using Play.Emv.Icc.FileControlInformation;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Templates.FileControlInformation;
-using Play.Icc.Emv;
-using Play.Icc.Emv.FileControlInformation;
 
 namespace Play.Emv.Pcd;
 

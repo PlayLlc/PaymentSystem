@@ -1,6 +1,4 @@
-﻿using Play.Emv.DataElements.CertificateAuthority;
-
-namespace Play.Encryption.Encryption.Hashing;
+﻿namespace Play.Encryption.Hashing;
 
 internal interface IHashGenerator
 {

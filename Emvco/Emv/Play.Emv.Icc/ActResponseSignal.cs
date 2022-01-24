@@ -1,4 +1,4 @@
-﻿namespace Play.Icc.Emv;
+﻿namespace Play.Emv.Icc;
 
 public class ActResponseSignal
 {

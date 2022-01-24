@@ -5,14 +5,14 @@ using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Ber.Codecs;
-using Play.Ber.Emv.Exceptions;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Codecs.Strings;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
+using Play.Emv.Ber.Exceptions;
 
-namespace Play.Ber.Emv.Codecs;
+namespace Play.Emv.Ber.Codecs;
 
 // TODO: Move the actual functionality higher up to Play.Codec
 public class CompressedNumericCodec : BerPrimitiveCodec

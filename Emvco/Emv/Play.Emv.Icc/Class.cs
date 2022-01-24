@@ -2,7 +2,7 @@
 
 using Play.Icc.Messaging.Apdu;
 
-namespace Play.Icc.Emv;
+namespace Play.Emv.Icc;
 
 /// <summary>
 ///     the class byte CLA of a command is used to indicate to what extent the command and the response comply with ISO/IEC
@@ -18,27 +18,27 @@ internal readonly struct Class
 
     #region Constructor
 
-    public Class(ProprietaryMessageIdentifier proprietary, Messaging.Apdu.SecureMessaging secureMessaging, LogicalChannel logicalChannel)
+    public Class(ProprietaryMessageIdentifier proprietary, SecureMessaging secureMessaging, LogicalChannel logicalChannel)
     {
         _Value = (byte) (proprietary | secureMessaging | logicalChannel);
     }
 
-    public Class(ProprietaryMessageIdentifier proprietary, Messaging.Apdu.SecureMessaging secureMessaging)
+    public Class(ProprietaryMessageIdentifier proprietary, SecureMessaging secureMessaging)
     {
         _Value = (byte) (proprietary | secureMessaging | LogicalChannel.BasicChannel);
     }
 
     public Class(ProprietaryMessageIdentifier proprietary)
     {
-        _Value = (byte) (proprietary | Messaging.Apdu.SecureMessaging.NotRecognized | LogicalChannel.BasicChannel);
+        _Value = (byte) (proprietary | SecureMessaging.NotRecognized | LogicalChannel.BasicChannel);
     }
 
-    public Class(Messaging.Apdu.SecureMessaging secureMessaging)
+    public Class(SecureMessaging secureMessaging)
     {
         _Value = (byte) (secureMessaging | LogicalChannel.BasicChannel);
     }
 
-    public Class(Messaging.Apdu.SecureMessaging secureMessaging, LogicalChannel logicalChannel)
+    public Class(SecureMessaging secureMessaging, LogicalChannel logicalChannel)
     {
         _Value = (byte) (secureMessaging | logicalChannel);
     }
@@ -48,7 +48,7 @@ internal readonly struct Class
     #region Instance Members
 
     public LogicalChannel GetLogicalChannel() => LogicalChannel.Get(_Value);
-    public Messaging.Apdu.SecureMessaging GetSecureMessagingType() => Messaging.Apdu.SecureMessaging.Get(_Value);
+    public SecureMessaging GetSecureMessagingType() => SecureMessaging.Get(_Value);
 
     #endregion
 

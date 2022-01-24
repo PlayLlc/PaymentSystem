@@ -3,7 +3,7 @@ using Play.Core;
 using Play.Icc.Messaging.Apdu;
 using Play.Icc.Messaging.Apdu.PutData;
 
-namespace Play.Icc.Emv.PutData;
+namespace Play.Emv.Icc.PutData;
 
 /// <summary>
 ///     Stores primitive data that is not encapsulated in an Elementary File record

@@ -2,7 +2,7 @@
 
 using Play.Ber.DataObjects;
 
-namespace Play.Emv.Configuration;
+namespace Play.Emv.Kernel.Contracts;
 
 public abstract class PersistentValues
 {

@@ -1,6 +1,7 @@
 ﻿using Play.Emv.DataElements;
+using Play.Emv.Display.Contracts;
 
-namespace Play.Emv.Configuration;
+namespace Play.Emv.Reader.Database;
 
 public interface IDisplayMessageRepository
 {

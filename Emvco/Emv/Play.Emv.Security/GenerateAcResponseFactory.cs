@@ -1,10 +1,10 @@
 ﻿using System;
 
-using Play.Ber.Emv;
 using Play.Ber.InternalFactories;
+using Play.Emv.Ber;
 using Play.Emv.DataElements;
+using Play.Emv.Icc;
 using Play.Emv.Security.Cryptograms;
-using Play.Icc.Emv;
 
 namespace Play.Emv.Security;
 

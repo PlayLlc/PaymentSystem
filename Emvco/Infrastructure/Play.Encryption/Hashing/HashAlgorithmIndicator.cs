@@ -1,6 +1,6 @@
 ﻿using Play.Core;
 
-namespace Play.Emv.DataElements.CertificateAuthority;
+namespace Play.Encryption.Hashing;
 
 public record HashAlgorithmIndicator : EnumObject<byte>
 {

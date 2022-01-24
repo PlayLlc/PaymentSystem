@@ -1,4 +1,4 @@
-﻿namespace Play.Icc.Emv.GetProcessingOptions;
+﻿namespace Play.Emv.Icc.GetProcessingOptions;
 
 public class GetProcessingOptionsRApduSignal : RApduSignal
 {

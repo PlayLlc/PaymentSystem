@@ -1,6 +1,6 @@
-﻿using Play.Encryption.Encryption.Ciphers.Symmetric;
+﻿using Play.Encryption.Ciphers.Symmetric;
 
-namespace Play.Encryption.Encryption;
+namespace Play.Encryption;
 
 /// <summary>
 ///     Encryption configuration used for a terminal implementation

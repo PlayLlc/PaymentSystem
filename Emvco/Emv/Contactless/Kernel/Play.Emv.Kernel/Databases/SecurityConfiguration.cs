@@ -4,7 +4,7 @@ using System.Linq;
 using Play.Core.Exceptions;
 using Play.Emv.Security.Certificates;
 
-namespace ___TEMP.Play.Emv.Security.__Contracts;
+namespace Play.Emv.Kernel.Databases;
 
 public class SecurityConfiguration
 {

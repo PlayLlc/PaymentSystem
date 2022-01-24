@@ -2,11 +2,9 @@
 
 using Play.Emv.DataElements;
 using Play.Emv.Display.Contracts;
-using Play.Emv.Display.Contracts.SignalIn;
 using Play.Emv.Outcomes;
 using Play.Emv.Reader.Contracts.SignalOut;
 using Play.Emv.Selection.Contracts;
-using Play.Emv.Selection.Contracts.SignalIn;
 using Play.Emv.Transactions;
 using Play.Messaging;
 

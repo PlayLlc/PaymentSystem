@@ -1,4 +1,4 @@
-﻿namespace Play.Icc.Emv.PutData;
+﻿namespace Play.Emv.Icc.PutData;
 
 public class PutDataRApduSignal : RApduSignal
 {

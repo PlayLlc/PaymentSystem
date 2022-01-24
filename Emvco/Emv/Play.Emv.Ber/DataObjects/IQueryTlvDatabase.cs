@@ -1,7 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 
-namespace Play.Ber.Emv.DataObjects;
+namespace Play.Emv.Ber.DataObjects;
 
 public interface IQueryTlvDatabase
 {

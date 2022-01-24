@@ -1,6 +1,6 @@
-﻿using Play.Emv.Kernel.Contracts.SignalOut;
+﻿using Play.Emv.Kernel.Contracts;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Selection.Contracts.SignalOut;
+using Play.Emv.Selection.Contracts;
 
 namespace Play.Emv.Reader.Services;
 

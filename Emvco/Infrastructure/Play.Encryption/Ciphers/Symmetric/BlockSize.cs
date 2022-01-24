@@ -2,7 +2,7 @@
 
 using Play.Core;
 
-namespace Play.Encryption.Encryption.Ciphers.Symmetric;
+namespace Play.Encryption.Ciphers.Symmetric;
 
 /// <summary>
 ///     The block size used by a block cipher

@@ -1,7 +1,7 @@
-﻿using Play.Ber.Emv.DataObjects;
+﻿using Play.Emv.Ber.DataObjects;
+using Play.Emv.Icc;
+using Play.Emv.Icc.GetProcessingOptions;
 using Play.Emv.Sessions;
-using Play.Icc.Emv;
-using Play.Icc.Emv.GetProcessingOptions;
 using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;

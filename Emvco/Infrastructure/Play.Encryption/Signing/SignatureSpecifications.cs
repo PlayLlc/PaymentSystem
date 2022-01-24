@@ -1,4 +1,4 @@
-﻿namespace Play.Encryption.Encryption.Signing;
+﻿namespace Play.Encryption.Signing;
 
 internal static class SignatureSpecifications
 {

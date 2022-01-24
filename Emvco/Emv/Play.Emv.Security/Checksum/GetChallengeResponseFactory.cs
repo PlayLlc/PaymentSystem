@@ -1,9 +1,9 @@
 ﻿using System;
 
-using Play.Ber.Emv;
 using Play.Ber.InternalFactories;
+using Play.Emv.Ber;
 using Play.Emv.DataElements;
-using Play.Icc.Emv;
+using Play.Emv.Icc;
 
 namespace Play.Emv.Security.Checksum;
 

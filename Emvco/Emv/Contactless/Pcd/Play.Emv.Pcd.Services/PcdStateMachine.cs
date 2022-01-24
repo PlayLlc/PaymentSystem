@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 
 using Play.Emv.Configuration;
 using Play.Emv.Exceptions;
+using Play.Emv.Icc;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
-using Play.Icc.Emv;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
 

@@ -5,7 +5,7 @@ using Play.Emv.Sessions;
 using Play.Emv.Transactions;
 using Play.Messaging;
 
-namespace Play.Emv.Selection.Contracts.SignalIn;
+namespace Play.Emv.Selection.Contracts;
 
 public record ActivateSelectionRequest : RequestSignal
 {

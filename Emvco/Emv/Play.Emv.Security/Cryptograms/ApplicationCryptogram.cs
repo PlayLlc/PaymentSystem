@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 
 using Play.Ber.Codecs;
-using Play.Ber.Emv.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Emv.Ber.Codecs;
 using Play.Icc.SecureMessaging;
 
 namespace Play.Emv.Security.Cryptograms;

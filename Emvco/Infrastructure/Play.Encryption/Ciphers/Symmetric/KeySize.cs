@@ -2,7 +2,7 @@
 
 using Play.Core;
 
-namespace Play.Encryption.Encryption.Ciphers.Symmetric;
+namespace Play.Encryption.Ciphers.Symmetric;
 
 /// <summary>
 ///     A Block Cipher algorithm key size in bits

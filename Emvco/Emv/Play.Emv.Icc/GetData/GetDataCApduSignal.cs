@@ -3,7 +3,7 @@ using Play.Core;
 using Play.Icc.Messaging.Apdu;
 using Play.Icc.Messaging.Apdu.GetData;
 
-namespace Play.Icc.Emv.GetData;
+namespace Play.Emv.Icc.GetData;
 
 /// <summary>
 ///     Gets a TLV encoded object that is not encapsulated as an Elementary File Record

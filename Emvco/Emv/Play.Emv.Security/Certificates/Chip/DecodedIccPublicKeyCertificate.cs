@@ -1,5 +1,6 @@
 ﻿using Play.Emv.DataElements;
-using Play.Emv.DataElements.CertificateAuthority;
+using Play.Encryption.Certificates;
+using Play.Encryption.Hashing;
 using Play.Globalization.Time;
 
 namespace Play.Emv.Security.Certificates.Chip;

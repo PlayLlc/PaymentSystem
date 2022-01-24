@@ -1,4 +1,4 @@
-﻿namespace Play.Encryption.Encryption.Ciphers.Symmetric;
+﻿namespace Play.Encryption.Ciphers.Symmetric;
 
 public class DefaultPlainTextPreprocessor : IPreprocessPlainText
 {

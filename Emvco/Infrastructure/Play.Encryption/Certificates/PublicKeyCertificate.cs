@@ -1,7 +1,7 @@
-﻿using Play.Emv.DataElements.CertificateAuthority;
+﻿using Play.Encryption.Hashing;
 using Play.Globalization.Time;
 
-namespace Play.Emv.DataElements;
+namespace Play.Encryption.Certificates;
 
 public class PublicKeyCertificate
 {

@@ -3,7 +3,7 @@
 using Play.Core;
 using Play.Core.Extensions;
 
-namespace Play.Icc.Emv;
+namespace Play.Emv.Icc;
 
 public sealed record CryptogramType : EnumObject<byte>
 {

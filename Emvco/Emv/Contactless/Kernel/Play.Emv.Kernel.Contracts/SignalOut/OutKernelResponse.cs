@@ -3,7 +3,7 @@ using Play.Emv.Outcomes;
 using Play.Emv.Sessions;
 using Play.Messaging;
 
-namespace Play.Emv.Kernel.Contracts.SignalOut;
+namespace Play.Emv.Kernel.Contracts;
 
 public record OutKernelResponse : ResponseSignal
 {

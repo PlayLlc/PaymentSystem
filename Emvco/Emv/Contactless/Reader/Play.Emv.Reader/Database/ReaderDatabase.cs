@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Play.Emv.Configuration;
 using Play.Emv.DataElements;
+using Play.Emv.Display.Contracts;
+using Play.Emv.Kernel.Contracts;
+using Play.Emv.Pcd.Contracts;
+using Play.Emv.Selection.Contracts;
 
-namespace Play.Emv.Reader.ReaderDatabase;
+namespace Play.Emv.Reader.Database;
 
 internal class ReaderDatabase
 {

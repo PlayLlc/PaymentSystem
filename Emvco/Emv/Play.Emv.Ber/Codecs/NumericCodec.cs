@@ -2,13 +2,13 @@
 using System.Runtime.CompilerServices;
 
 using Play.Ber.Codecs;
-using Play.Ber.Emv.Exceptions;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Codecs.Strings;
 using Play.Core.Specifications;
+using Play.Emv.Ber.Exceptions;
 
-namespace Play.Ber.Emv.Codecs;
+namespace Play.Emv.Ber.Codecs;
 
 /// <summary>
 ///     Numeric data elements consist of two numeric digits (having values in the range Hex '0' – '9') per byte.

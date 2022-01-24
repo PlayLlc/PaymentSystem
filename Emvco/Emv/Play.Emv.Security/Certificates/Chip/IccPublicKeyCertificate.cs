@@ -4,10 +4,10 @@ using System.Numerics;
 
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Emv.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Emv.Ber.Codecs;
 
 namespace Play.Emv.Security.Certificates.Chip;
 

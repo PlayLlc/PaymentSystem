@@ -1,16 +1,16 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Emv.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
+using Play.Emv.Icc;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Security.Certificates;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Transactions;
-using Play.Icc.Emv;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Kernel.Databases;

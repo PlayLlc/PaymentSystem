@@ -3,6 +3,7 @@ using System.Collections.Immutable;
 
 using Play.Emv.Configuration;
 using Play.Emv.DataElements;
+using Play.Emv.Display.Contracts;
 using Play.Globalization;
 
 namespace Play.Emv.Display;

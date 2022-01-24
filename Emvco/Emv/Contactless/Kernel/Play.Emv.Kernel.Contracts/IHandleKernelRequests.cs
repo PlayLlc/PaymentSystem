@@ -1,6 +1,4 @@
-﻿using Play.Emv.Kernel.Contracts.SignalIn;
-
-namespace Play.Emv.Kernel.Contracts;
+﻿namespace Play.Emv.Kernel.Contracts;
 
 public interface IHandleKernelRequests
 {

@@ -1,6 +1,6 @@
-﻿using Play.Emv.DataElements.CertificateAuthority;
-using Play.Emv.Security.Authentications.Offline.CombinedDataAuthentication;
-using Play.Encryption.Encryption.Signing;
+﻿using Play.Emv.Security.Authentications.Offline.CombinedDataAuthentication;
+using Play.Encryption.Hashing;
+using Play.Encryption.Signing;
 
 namespace Play.Emv.Security.Authentications.Offline.DynamicDataAuthentication;
 

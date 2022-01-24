@@ -1,4 +1,4 @@
-﻿using Play.Emv.Display.Contracts.SignalIn;
+﻿using Play.Emv.Display.Contracts;
 
 namespace Play.Emv.Display;
 

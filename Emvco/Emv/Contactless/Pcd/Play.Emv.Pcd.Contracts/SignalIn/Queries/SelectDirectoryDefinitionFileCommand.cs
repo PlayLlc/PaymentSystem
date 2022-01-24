@@ -1,6 +1,6 @@
-﻿using Play.Emv.Sessions;
-using Play.Icc.Emv;
-using Play.Icc.Emv.FileControlInformation;
+﻿using Play.Emv.Icc;
+using Play.Emv.Icc.FileControlInformation;
+using Play.Emv.Sessions;
 using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Messaging;
 

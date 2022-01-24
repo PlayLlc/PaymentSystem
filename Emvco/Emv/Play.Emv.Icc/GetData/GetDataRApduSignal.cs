@@ -1,4 +1,4 @@
-﻿namespace Play.Icc.Emv.GetData;
+﻿namespace Play.Emv.Icc.GetData;
 
 public class GetDataRApduSignal : RApduSignal
 {

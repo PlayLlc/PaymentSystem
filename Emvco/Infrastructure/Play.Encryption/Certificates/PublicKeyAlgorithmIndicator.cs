@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Play.Emv.DataElements.CertificateAuthority;
+namespace Play.Encryption.Certificates;
 
 public class PublicKeyAlgorithmIndicator : IEqualityComparer<PublicKeyAlgorithmIndicator>, IEquatable<PublicKeyAlgorithmIndicator>
 {

@@ -1,4 +1,4 @@
-﻿namespace Play.Icc.Emv.FileControlInformation;
+﻿namespace Play.Emv.Icc.FileControlInformation;
 
 public class GetFileControlInformationRApduSignal : RApduSignal
 {

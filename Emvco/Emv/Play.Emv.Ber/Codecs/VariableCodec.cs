@@ -3,7 +3,7 @@
 using Play.Ber.Codecs;
 using Play.Ber.InternalFactories;
 
-namespace Play.Ber.Emv.Codecs;
+namespace Play.Emv.Ber.Codecs;
 
 // TODO: Move the actual functionality higher up to Play.Codec
 public class VariableCodec : BerPrimitiveCodec

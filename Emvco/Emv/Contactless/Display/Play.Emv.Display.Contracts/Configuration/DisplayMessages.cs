@@ -6,7 +6,7 @@ using Play.Core.Exceptions;
 using Play.Emv.DataElements;
 using Play.Globalization;
 
-namespace Play.Emv.Configuration;
+namespace Play.Emv.Display.Contracts;
 
 public class DisplayMessages
 {

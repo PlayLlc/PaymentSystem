@@ -1,11 +1,10 @@
 ﻿using Microsoft.Toolkit.HighPerformance.Buffers;
 
-using Play.Emv.DataElements;
-using Play.Emv.DataElements.CertificateAuthority;
-using Play.Encryption.Encryption.Ciphers.Asymmetric;
-using Play.Encryption.Encryption.Hashing;
+using Play.Encryption.Certificates;
+using Play.Encryption.Ciphers.Asymmetric;
+using Play.Encryption.Hashing;
 
-namespace Play.Encryption.Encryption.Signing;
+namespace Play.Encryption.Signing;
 
 public class SignatureService
 {

@@ -1,10 +1,9 @@
 using Play.Ber.Codecs;
-using Play.Ber.Emv.Codecs;
-using Play.Ber.Emv.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Emv.Ber.Codecs;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataObjects;
 
 /// <summary>
 ///     Description: List of tags included in the DEK DataExchangeSignal to request information from the Terminal.

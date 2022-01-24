@@ -1,8 +1,8 @@
-﻿using Play.Ber.Emv.DataObjects;
-using Play.Core.Extensions;
+﻿using Play.Core.Extensions;
+using Play.Emv.Ber.DataObjects;
 using Play.Icc.Messaging.Apdu;
 
-namespace Play.Icc.Emv.GenerateApplicationCryptogram;
+namespace Play.Emv.Icc.GenerateApplicationCryptogram;
 
 public class GenerateApplicationCryptogramCApduSignal : CApduSignal
 {
@@ -84,7 +84,7 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
     /// </param>
     /// <returns></returns>
     private static GenerateApplicationCryptogramCApduSignal CreateAac(CommandTemplate transactionRelatedData) =>
-        new(new Class(Messaging.Apdu.SecureMessaging.NotRecognized, LogicalChannel.BasicChannel), Instruction.CardBlock, 0, 0,
+        new(new Class(SecureMessaging.NotRecognized, LogicalChannel.BasicChannel), Instruction.CardBlock, 0, 0,
             transactionRelatedData.EncodeValue());
 
     /// <summary>
@@ -104,10 +104,9 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
     {
         byte referenceControlParameter = (byte) (0b10000000 | (byte) (isCdaSignatureRequested ? 0b10000 : 0));
 
-        return new
-            GenerateApplicationCryptogramCApduSignal(new Class(Messaging.Apdu.SecureMessaging.NotRecognized, LogicalChannel.BasicChannel),
-                                                     Instruction.CardBlock, referenceControlParameter, 0,
-                                                     transactionRelatedData.EncodeValue());
+        return new GenerateApplicationCryptogramCApduSignal(new Class(SecureMessaging.NotRecognized, LogicalChannel.BasicChannel),
+                                                            Instruction.CardBlock, referenceControlParameter, 0,
+                                                            transactionRelatedData.EncodeValue());
     }
 
     /// <summary>
@@ -127,10 +126,9 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
     {
         byte referenceControlParameter = (byte) (0b01000000 | (byte) (isCdaSignatureRequested ? 0b10000 : 0));
 
-        return new
-            GenerateApplicationCryptogramCApduSignal(new Class(Messaging.Apdu.SecureMessaging.NotRecognized, LogicalChannel.BasicChannel),
-                                                     Instruction.CardBlock, referenceControlParameter, 0,
-                                                     transactionRelatedData.EncodeValue());
+        return new GenerateApplicationCryptogramCApduSignal(new Class(SecureMessaging.NotRecognized, LogicalChannel.BasicChannel),
+                                                            Instruction.CardBlock, referenceControlParameter, 0,
+                                                            transactionRelatedData.EncodeValue());
     }
 
     #endregion

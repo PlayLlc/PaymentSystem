@@ -15,7 +15,7 @@ using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Icc.Messaging.Apdu;
 using Play.Messaging;
 
-namespace Play.Emv.Kernel.Contracts.SignalIn;
+namespace Play.Emv.Kernel.Contracts;
 
 /// <summary>
 ///     ACT DataExchangeSignal. Generate an Answer to Reset, start polling for an PICC or HCE

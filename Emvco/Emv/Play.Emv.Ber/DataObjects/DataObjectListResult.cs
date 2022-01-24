@@ -1,6 +1,6 @@
 ﻿using Play.Ber.DataObjects;
 
-namespace Play.Ber.Emv.DataObjects;
+namespace Play.Emv.Ber.DataObjects;
 
 /// <summary>
 ///     The result from a <see cref="DataObjectList" /> requested by the ICC. The object contains a concatenated

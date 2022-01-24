@@ -2,7 +2,7 @@
 
 using Play.Emv.DataElements;
 
-namespace Play.Emv.Configuration;
+namespace Play.Emv.Reader.Database;
 
 public interface IKernelConfigurationRepository
 {

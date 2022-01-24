@@ -1,4 +1,4 @@
-﻿namespace Play.Icc.Emv.InternalAuthenticate;
+﻿namespace Play.Emv.Icc.InternalAuthenticate;
 
 public class InternalAuthenticateRApduSignal : RApduSignal
 {

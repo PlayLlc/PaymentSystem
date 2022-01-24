@@ -1,6 +1,6 @@
 ﻿using Play.Icc.Messaging.Apdu;
 
-namespace Play.Icc.Emv;
+namespace Play.Emv.Icc;
 
 public abstract class CApduSignal : ApduCommand
 {

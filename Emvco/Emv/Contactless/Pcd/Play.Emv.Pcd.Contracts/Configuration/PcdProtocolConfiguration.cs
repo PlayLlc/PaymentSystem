@@ -1,6 +1,6 @@
 ﻿using Play.Emv.DataElements;
 
-namespace Play.Emv.Configuration;
+namespace Play.Emv.Pcd.Contracts;
 
 public class PcdProtocolConfiguration
 {

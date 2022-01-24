@@ -1,6 +1,6 @@
-﻿using Play.Emv.Sessions;
+﻿using Play.Emv.Icc.ReadRecord;
+using Play.Emv.Sessions;
 using Play.Emv.Templates.Records;
-using Play.Icc.Emv.ReadRecord;
 using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;

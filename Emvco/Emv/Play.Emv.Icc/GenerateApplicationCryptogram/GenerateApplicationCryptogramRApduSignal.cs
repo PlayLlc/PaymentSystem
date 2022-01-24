@@ -1,4 +1,4 @@
-﻿namespace Play.Icc.Emv.GenerateApplicationCryptogram;
+﻿namespace Play.Emv.Icc.GenerateApplicationCryptogram;
 
 public class GenerateApplicationCryptogramRApduSignal : RApduSignal
 {

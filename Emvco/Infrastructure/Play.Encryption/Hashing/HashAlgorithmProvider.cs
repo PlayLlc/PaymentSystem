@@ -1,8 +1,6 @@
 ﻿using System.Collections.Immutable;
 
-using Play.Emv.DataElements.CertificateAuthority;
-
-namespace Play.Encryption.Encryption.Hashing;
+namespace Play.Encryption.Hashing;
 
 public class HashAlgorithmProvider
 {

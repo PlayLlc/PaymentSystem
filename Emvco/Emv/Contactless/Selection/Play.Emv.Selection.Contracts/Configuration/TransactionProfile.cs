@@ -1,7 +1,7 @@
 ﻿using Play.Emv.DataElements;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace Play.Emv.Configuration;
+namespace Play.Emv.Selection.Contracts;
 
 /// <summary>
 ///     Configuration values for a specific Transaction/Kernel/Application combination for Entry Point processing.

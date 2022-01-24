@@ -3,7 +3,7 @@ using Play.Emv.DataElements;
 using Play.Emv.Templates.FileControlInformation;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace Play.Emv.Selection.Contracts;
+namespace Play.Emv.Selection;
 
 public class Combination : IEqualityComparer<Combination>, IEquatable<Combination>, IComparable<Combination>
 {

@@ -1,4 +1,5 @@
 ﻿using Play.Emv.Configuration;
+using Play.Emv.Display.Contracts;
 using Play.Globalization.Language;
 
 namespace Play.Emv.Display;

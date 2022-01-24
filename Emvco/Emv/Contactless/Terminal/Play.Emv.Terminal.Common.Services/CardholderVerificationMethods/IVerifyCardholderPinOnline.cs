@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.Terminal.Common.Services.CardholderVerificationMethods.Pin;
+﻿namespace Play.Emv.Terminal.Common.Services.CardholderVerificationMethods;
 
 public interface IVerifyCardholderPinOnline
 { }

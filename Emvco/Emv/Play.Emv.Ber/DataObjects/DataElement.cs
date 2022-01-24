@@ -1,7 +1,7 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 
-namespace Play.Ber.Emv.DataObjects;
+namespace Play.Emv.Ber.DataObjects;
 
 public abstract record DataElement<T>(T _Value) : PrimitiveValue, IEncodeDataElement
 {

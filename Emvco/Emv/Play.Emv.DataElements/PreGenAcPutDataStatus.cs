@@ -1,8 +1,8 @@
 ﻿using Play.Ber.Codecs;
-using Play.Ber.Emv.Codecs;
-using Play.Ber.Emv.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Emv.Ber.Codecs;
+using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements.Exceptions;
 
 namespace Play.Emv.DataElements;

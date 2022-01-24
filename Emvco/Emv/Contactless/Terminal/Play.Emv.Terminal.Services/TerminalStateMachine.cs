@@ -5,15 +5,14 @@ using Play.Emv.DataElements;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Kernel.Contracts.SignalOut;
 using Play.Emv.Messaging;
 using Play.Emv.Reader.Contracts;
 using Play.Emv.Reader.Contracts.SignalIn;
 using Play.Emv.Reader.Contracts.SignalOut;
 using Play.Emv.Sessions;
-using Play.Emv.Terminal.___Temp;
 using Play.Emv.Terminal.Configuration;
 using Play.Emv.Terminal.Contracts.SignalIn;
+using Play.Emv.Terminal.Services.DataExchange;
 using Play.Emv.Transactions;
 using Play.Globalization.Time;
 

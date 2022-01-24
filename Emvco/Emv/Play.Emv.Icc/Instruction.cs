@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using Play.Core;
 
-namespace Play.Icc.Emv;
+namespace Play.Emv.Icc;
 
 internal record Instruction : EnumObject<byte>, IComparable<Instruction>
 {

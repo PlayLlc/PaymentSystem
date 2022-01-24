@@ -1,6 +1,6 @@
 ﻿using Play.Ber.DataObjects;
 
-namespace Play.Ber.Emv.DataObjects;
+namespace Play.Emv.Ber.DataObjects;
 
 public abstract record DataExchangeResponse : DataExchangeList<TagLengthValue>
 {

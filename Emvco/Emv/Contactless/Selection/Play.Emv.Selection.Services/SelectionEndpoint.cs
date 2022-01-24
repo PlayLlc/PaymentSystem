@@ -4,8 +4,6 @@ using Play.Emv.Display.Contracts;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Selection.Contracts;
-using Play.Emv.Selection.Contracts.SignalIn;
-using Play.Emv.Selection.Contracts.SignalOut;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
 

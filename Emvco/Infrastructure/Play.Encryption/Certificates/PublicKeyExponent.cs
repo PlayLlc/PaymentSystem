@@ -7,7 +7,7 @@ using Microsoft.Toolkit.HighPerformance.Buffers;
 using Play.Codecs;
 using Play.Core.Extensions;
 
-namespace Play.Emv.DataElements.CertificateAuthority;
+namespace Play.Encryption.Certificates;
 
 /// <remarks>
 ///     Book 2 Section 5.2 lists the valid exponent values

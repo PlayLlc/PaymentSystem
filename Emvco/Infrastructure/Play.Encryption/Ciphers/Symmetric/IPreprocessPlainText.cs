@@ -1,4 +1,4 @@
-﻿namespace Play.Encryption.Encryption.Ciphers.Symmetric;
+﻿namespace Play.Encryption.Ciphers.Symmetric;
 
 /// <summary>
 ///     Allows preprocessing of the plain text message before it is enciphered by a block cipher

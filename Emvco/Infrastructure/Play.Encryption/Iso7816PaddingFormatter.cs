@@ -1,6 +1,6 @@
-﻿using Play.Encryption.Encryption.Ciphers.Symmetric;
+﻿using Play.Encryption.Ciphers.Symmetric;
 
-namespace Play.Encryption.Encryption;
+namespace Play.Encryption;
 
 public class Iso7816PaddingFormatter : IFormatPlainText
 {

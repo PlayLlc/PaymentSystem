@@ -1,6 +1,6 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Emv.DataObjects;
 using Play.Ber.Identifiers;
+using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
 using Play.Icc.Messaging.Apdu;
 

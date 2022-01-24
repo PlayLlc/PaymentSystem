@@ -2,8 +2,8 @@
 
 using Play.Ber.DataObjects;
 using Play.Emv.DataElements;
+using Play.Emv.Icc;
 using Play.Globalization.Time;
-using Play.Icc.Emv;
 
 namespace Play.Emv.Outcomes;
 

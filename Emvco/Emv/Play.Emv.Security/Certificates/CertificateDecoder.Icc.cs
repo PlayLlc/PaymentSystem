@@ -4,11 +4,12 @@ using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs.Strings;
 using Play.Emv.DataElements;
-using Play.Emv.DataElements.CertificateAuthority;
 using Play.Emv.Security.Authentications.Static;
 using Play.Emv.Security.Certificates.Chip;
 using Play.Emv.Security.Certificates.Issuer;
-using Play.Encryption.Encryption.Signing;
+using Play.Encryption.Certificates;
+using Play.Encryption.Hashing;
+using Play.Encryption.Signing;
 using Play.Globalization.Time;
 
 namespace Play.Emv.Security.Certificates;

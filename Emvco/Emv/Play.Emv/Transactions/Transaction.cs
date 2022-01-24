@@ -3,11 +3,10 @@ using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
 using Play.Emv.DataElements;
-using Play.Emv.DataElementsz;
+using Play.Emv.Icc;
 using Play.Emv.Outcomes;
 using Play.Emv.Sessions;
 using Play.Globalization;
-using Play.Icc.Emv;
 
 namespace Play.Emv.Transactions;
 

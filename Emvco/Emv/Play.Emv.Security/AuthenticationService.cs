@@ -1,6 +1,4 @@
-﻿using ___TEMP.Play.Emv.Security.Authentications;
-
-using Play.Ber.Emv;
+﻿using Play.Emv.Ber;
 using Play.Emv.DataElements;
 using Play.Emv.Security.Authentications.Offline.CombinedDataAuthentication;
 using Play.Emv.Security.Authentications.Offline.DynamicDataAuthentication;
@@ -8,8 +6,8 @@ using Play.Emv.Security.Authentications.Static;
 using Play.Emv.Security.Messages.CDA;
 using Play.Emv.Security.Messages.DDA;
 using Play.Emv.Security.Messages.Static;
-using Play.Encryption.Encryption.Hashing;
-using Play.Encryption.Encryption.Signing;
+using Play.Encryption.Hashing;
+using Play.Encryption.Signing;
 
 namespace Play.Emv.Security;
 

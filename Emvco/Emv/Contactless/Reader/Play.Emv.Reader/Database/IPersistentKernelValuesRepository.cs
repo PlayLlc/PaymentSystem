@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 
 using Play.Emv.DataElements;
+using Play.Emv.Kernel.Contracts;
 
-namespace Play.Emv.Configuration;
+namespace Play.Emv.Reader.Database;
 
 public interface IPersistentKernelValuesRepository
 {

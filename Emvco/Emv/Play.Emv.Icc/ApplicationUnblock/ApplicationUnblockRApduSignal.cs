@@ -1,4 +1,4 @@
-﻿namespace Play.Icc.Emv.ApplicationUnblock;
+﻿namespace Play.Emv.Icc.ApplicationUnblock;
 
 public class ApplicationUnblockRApduSignal : RApduSignal
 {

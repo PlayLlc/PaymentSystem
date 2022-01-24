@@ -1,8 +1,8 @@
 ﻿using System;
 
-using Play.Ber.Emv;
+using Play.Emv.Ber;
+using Play.Emv.Icc.FileControlInformation;
 using Play.Emv.TestData.Icc.Apdu;
-using Play.Icc.Emv.FileControlInformation;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 using Xunit;

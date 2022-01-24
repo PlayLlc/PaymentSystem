@@ -5,7 +5,7 @@ using Play.Emv.Sessions;
 using Play.Emv.Transactions;
 using Play.Messaging;
 
-namespace Play.Emv.Selection.Contracts.SignalOut;
+namespace Play.Emv.Selection.Contracts;
 
 public record OutSelectionResponse : ResponseSignal
 {

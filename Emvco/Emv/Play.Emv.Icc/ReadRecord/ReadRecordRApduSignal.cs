@@ -1,4 +1,4 @@
-﻿namespace Play.Icc.Emv.ReadRecord;
+﻿namespace Play.Emv.Icc.ReadRecord;
 
 public class ReadRecordRApduSignal : RApduSignal
 {

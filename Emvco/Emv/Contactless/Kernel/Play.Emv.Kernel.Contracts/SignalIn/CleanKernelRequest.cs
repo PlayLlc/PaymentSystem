@@ -3,7 +3,7 @@ using Play.Emv.Messaging;
 using Play.Emv.Sessions;
 using Play.Messaging;
 
-namespace Play.Emv.Kernel.Contracts.SignalIn;
+namespace Play.Emv.Kernel.Contracts;
 
 /// <summary>
 ///     This message clears the log of <see cref="TornRecord" /> from previous transactions

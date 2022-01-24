@@ -1,4 +1,4 @@
-﻿namespace Play.Ber.Emv.DataObjects;
+﻿namespace Play.Emv.Ber.DataObjects;
 
 public abstract record DataExchangeList<T> : DataElement<T[]>
 {

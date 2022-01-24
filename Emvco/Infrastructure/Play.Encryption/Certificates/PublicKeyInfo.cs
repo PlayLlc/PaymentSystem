@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.DataElements.CertificateAuthority;
+﻿namespace Play.Encryption.Certificates;
 
 public class PublicKeyInfo
 {

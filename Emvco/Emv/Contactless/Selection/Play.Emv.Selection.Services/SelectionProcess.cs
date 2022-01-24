@@ -3,7 +3,7 @@ using Play.Emv.Configuration;
 using Play.Emv.DataElements;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Selection.Contracts.SignalIn;
+using Play.Emv.Selection.Contracts;
 
 namespace Play.Emv.Selection.Services;
 

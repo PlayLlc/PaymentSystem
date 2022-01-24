@@ -3,7 +3,7 @@ using Play.Emv.DataExchange;
 using Play.Emv.Messaging;
 using Play.Messaging;
 
-namespace Play.Emv.Kernel.Contracts.SignalIn;
+namespace Play.Emv.Kernel.Contracts;
 
 /// <summary>
 ///     ACT DataExchangeSignal. Generate an Answer to Reset, start polling for an PICC or HCE

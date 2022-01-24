@@ -3,8 +3,9 @@ using System;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs;
-using Play.Emv.DataElements.CertificateAuthority;
-using Play.Encryption.Encryption.Signing;
+using Play.Encryption.Certificates;
+using Play.Encryption.Hashing;
+using Play.Encryption.Signing;
 
 namespace Play.Emv.Security.Authentications.Static.Signed;
 

@@ -3,7 +3,7 @@ using System.Numerics;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
-namespace Play.Emv.DataElements.CertificateAuthority;
+namespace Play.Encryption.Certificates;
 
 public readonly struct CertificateSerialNumber
 {

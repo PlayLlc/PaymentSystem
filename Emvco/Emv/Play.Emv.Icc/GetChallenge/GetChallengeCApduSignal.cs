@@ -1,6 +1,6 @@
 ﻿using Play.Icc.Messaging.Apdu.GetChallenge;
 
-namespace Play.Icc.Emv.GetChallenge;
+namespace Play.Emv.Icc.GetChallenge;
 
 public class GetChallengeCApduSignal : CApduSignal
 {

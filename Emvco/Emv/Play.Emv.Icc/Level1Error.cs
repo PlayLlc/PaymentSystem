@@ -1,6 +1,6 @@
 using System.Collections.Immutable;
 
-namespace Play.Icc.Emv;
+namespace Play.Emv.Icc;
 
 public readonly struct Level1Error
 {

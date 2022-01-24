@@ -2,7 +2,7 @@
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
-namespace Play.Encryption.Encryption.Ciphers.Symmetric;
+namespace Play.Encryption.Ciphers.Symmetric;
 
 /// <summary>
 ///     An 8 block cypher that applies the DES algorithm three times to each block

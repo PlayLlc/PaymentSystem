@@ -1,4 +1,4 @@
-﻿namespace Play.Encryption.Encryption;
+﻿namespace Play.Encryption;
 
 public interface IFormatPlainText
 {

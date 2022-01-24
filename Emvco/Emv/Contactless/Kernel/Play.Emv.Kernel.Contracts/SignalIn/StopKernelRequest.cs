@@ -2,7 +2,7 @@
 using Play.Emv.Sessions;
 using Play.Messaging;
 
-namespace Play.Emv.Kernel.Contracts.SignalIn;
+namespace Play.Emv.Kernel.Contracts;
 
 public record StopKernelRequest : RequestSignal
 {

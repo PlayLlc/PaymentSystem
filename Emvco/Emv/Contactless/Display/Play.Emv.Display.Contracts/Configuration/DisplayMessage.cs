@@ -1,7 +1,7 @@
 ﻿using Play.Emv.DataElements;
 using Play.Globalization.Currency;
 
-namespace Play.Emv.Configuration;
+namespace Play.Emv.Display.Contracts;
 
 public class DisplayMessage
 {

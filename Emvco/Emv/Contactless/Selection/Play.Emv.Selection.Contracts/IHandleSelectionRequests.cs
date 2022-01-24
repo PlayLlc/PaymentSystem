@@ -1,6 +1,4 @@
-﻿using Play.Emv.Selection.Contracts.SignalIn;
-
-namespace Play.Emv.Selection.Contracts;
+﻿namespace Play.Emv.Selection.Contracts;
 
 public interface IHandleSelectionRequests
 {

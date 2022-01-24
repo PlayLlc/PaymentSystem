@@ -1,8 +1,8 @@
 ﻿using System;
 
 using Play.Emv.DataElements;
-using Play.Emv.DataElements.CertificateAuthority;
-using Play.Encryption.Encryption.Signing;
+using Play.Encryption.Hashing;
+using Play.Encryption.Signing;
 
 namespace Play.Emv.Security.Authentications.Offline.CombinedDataAuthentication;
 

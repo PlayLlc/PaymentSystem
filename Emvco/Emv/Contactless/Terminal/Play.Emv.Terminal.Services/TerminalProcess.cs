@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 
 using Play.Core.Threads;
-using Play.Emv.Kernel.Contracts.SignalOut;
+using Play.Emv.Kernel.Contracts;
 using Play.Emv.Reader.Contracts.SignalOut;
 using Play.Emv.Terminal.Configuration;
 using Play.Emv.Terminal.Contracts.SignalIn;

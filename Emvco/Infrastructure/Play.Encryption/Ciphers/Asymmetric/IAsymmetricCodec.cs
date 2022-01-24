@@ -1,6 +1,6 @@
-﻿using Play.Emv.DataElements.CertificateAuthority;
+﻿using Play.Encryption.Certificates;
 
-namespace Play.Encryption.Encryption.Ciphers.Asymmetric;
+namespace Play.Encryption.Ciphers.Asymmetric;
 
 public interface IAsymmetricCodec
 {

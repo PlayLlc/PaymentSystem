@@ -1,6 +1,6 @@
 ﻿using Play.Icc.Messaging.Apdu.ReadRecord;
 
-namespace Play.Icc.Emv.ReadRecord;
+namespace Play.Emv.Icc.ReadRecord;
 
 public class ReadRecordCApduSignal : CApduSignal
 {

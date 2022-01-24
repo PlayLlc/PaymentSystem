@@ -1,9 +1,9 @@
 ﻿using System;
 
-using Play.Ber.Emv;
+using Play.Emv.Ber;
 using Play.Emv.DataElements;
+using Play.Emv.Icc.GetProcessingOptions;
 using Play.Emv.TestData.Ber.Primitive;
-using Play.Icc.Emv.GetProcessingOptions;
 
 using Xunit;
 

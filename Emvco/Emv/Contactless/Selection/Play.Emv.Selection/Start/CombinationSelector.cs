@@ -1,12 +1,11 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Ber.Emv;
-using Play.Ber.Emv.DataObjects;
+using Play.Emv.Ber;
+using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Selection.Contracts;
-using Play.Emv.Selection.Contracts.SignalOut;
 using Play.Emv.Sessions;
 using Play.Emv.Templates.FileControlInformation;
 using Play.Emv.Transactions;

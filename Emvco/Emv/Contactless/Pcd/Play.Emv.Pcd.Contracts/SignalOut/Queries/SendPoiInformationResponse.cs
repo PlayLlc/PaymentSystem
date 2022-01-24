@@ -1,5 +1,5 @@
-﻿using Play.Emv.Sessions;
-using Play.Icc.Emv;
+﻿using Play.Emv.Icc;
+using Play.Emv.Sessions;
 using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;

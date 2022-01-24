@@ -1,12 +1,11 @@
 ﻿#nullable enable
-using Play.Emv.Configuration;
 using Play.Emv.DataElements;
-using Play.Emv.Kernel.Contracts;
+using Play.Emv.Selection.Contracts;
 using Play.Globalization;
 using Play.Globalization.Currency;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace Play.Emv.Selection.Contracts;
+namespace Play.Emv.Selection;
 
 /// <summary>
 ///     An indicator specific to the Reader Combination selected will be provided to the Kernel to aid in processing

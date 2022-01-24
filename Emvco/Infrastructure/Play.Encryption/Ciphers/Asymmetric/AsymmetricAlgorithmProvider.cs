@@ -1,9 +1,8 @@
 ﻿using System.Collections.Immutable;
 
-using Play.Emv.DataElements;
-using Play.Emv.DataElements.CertificateAuthority;
+using Play.Encryption.Certificates;
 
-namespace Play.Encryption.Encryption.Ciphers.Asymmetric;
+namespace Play.Encryption.Ciphers.Asymmetric;
 
 internal class AsymmetricAlgorithmProvider
 {

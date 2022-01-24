@@ -2,21 +2,16 @@
 using System.Collections.Concurrent;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Emv.DataObjects;
 using Play.Ber.Identifiers;
-using Play.Emv.Configuration;
+using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
 using Play.Emv.DataExchange;
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Kernel.Contracts.SignalIn;
-using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts.SignalOut;
-using Play.Emv.Terminal.Services;
-using Play.Emv.Transactions;
 using Play.Messaging;
 
-namespace Play.Emv.Terminal.___Temp;
+namespace Play.Emv.Terminal.Services.DataExchange;
 
 internal class DataExchangeTerminalService
 {

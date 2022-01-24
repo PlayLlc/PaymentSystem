@@ -1,6 +1,6 @@
 ﻿using Play.Emv.Terminal.Contracts.SignalOut;
 
-namespace Play.Emv.Terminal.Services;
+namespace Play.Emv.Terminal;
 
 public interface ISendTerminalQueryResponse
 {

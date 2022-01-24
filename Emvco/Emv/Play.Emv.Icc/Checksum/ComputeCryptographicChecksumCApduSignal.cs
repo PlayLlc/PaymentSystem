@@ -1,6 +1,7 @@
-﻿using Play.Ber.Emv.DataObjects;
+﻿using Play.Emv.Ber.DataObjects;
+using Play.Icc.Messaging.Apdu;
 
-namespace Play.Icc.Emv.Checksum;
+namespace Play.Emv.Icc.Checksum;
 
 public class ComputeCryptographicChecksumCApduSignal : CApduSignal
 {
@@ -43,7 +44,7 @@ public class ComputeCryptographicChecksumCApduSignal : CApduSignal
     /// </param>
     /// <returns></returns>
     public static ComputeCryptographicChecksumCApduSignal Create(DataObjectListResult unpredictableNumberDataObjectListResult) =>
-        new(new Class(Messaging.Apdu.SecureMessaging.Proprietary), Instruction.ComputeCryptographicChecksum, 0x8E, 0x80,
+        new(new Class(SecureMessaging.Proprietary), Instruction.ComputeCryptographicChecksum, 0x8E, 0x80,
             unpredictableNumberDataObjectListResult.AsCommandTemplate().EncodeValue(), 0);
 
     #endregion

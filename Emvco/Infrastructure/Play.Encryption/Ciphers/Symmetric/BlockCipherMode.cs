@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 using Play.Core;
 
-namespace Play.Encryption.Encryption.Ciphers.Symmetric;
+namespace Play.Encryption.Ciphers.Symmetric;
 
 /// <summary>
 ///     Specifies the block cipher mode to use for encryption

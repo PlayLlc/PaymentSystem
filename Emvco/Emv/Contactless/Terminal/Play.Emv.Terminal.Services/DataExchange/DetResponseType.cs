@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Play.Ber.Emv.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Core;
-using Play.Emv.DataElements;
+using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.Kernel.DataExchange;
+namespace Play.Emv.Terminal.Services.DataExchange;
 
 public record DetResponseType : EnumObject<Tag>
 {
     #region Static Metadata
 
-    public static readonly DetResponseType DataToSend = new(DataElements.DataToSend.Tag);
+    public static readonly DetResponseType DataToSend = new(Ber.DataObjects.DataToSend.Tag);
 
     //public static readonly DetResponseType TornRecord = new(DataElements.TornRecord.Tag);
 

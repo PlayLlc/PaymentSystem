@@ -2,12 +2,13 @@
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
-using Play.Ber.Emv.Codecs;
 using Play.Codecs.Strings;
+using Play.Emv.Ber.Codecs;
 using Play.Emv.DataElements;
-using Play.Emv.DataElements.CertificateAuthority;
 using Play.Emv.Security.Certificates.Issuer;
-using Play.Encryption.Encryption.Signing;
+using Play.Encryption.Certificates;
+using Play.Encryption.Hashing;
+using Play.Encryption.Signing;
 using Play.Globalization.Time;
 
 namespace Play.Emv.Security.Certificates;

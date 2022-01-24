@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Emv.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Core.Extensions;
-using Play.Emv.DataElements.CertificateAuthority;
+using Play.Emv.Ber.Codecs;
+using Play.Encryption.Certificates;
 
 namespace Play.Emv.Security.Certificates.Issuer;
 

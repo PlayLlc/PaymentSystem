@@ -1,13 +1,14 @@
 ﻿using Microsoft.Toolkit.HighPerformance.Buffers;
 
+using Play.Ber;
 using Play.Ber.Codecs;
-using Play.Ber.Emv.Codecs;
-using Play.Ber.Emv.Exceptions;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Emv.Ber.Codecs;
+using Play.Emv.Ber.Exceptions;
 
-namespace Play.Ber.Emv;
+namespace Play.Emv.Ber;
 
 public class EmvCodec : BerCodec
 {

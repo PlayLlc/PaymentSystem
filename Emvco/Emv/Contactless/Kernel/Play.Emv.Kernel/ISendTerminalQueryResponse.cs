@@ -1,4 +1,4 @@
-﻿using Play.Emv.Kernel.Contracts.SignalOut;
+﻿using Play.Emv.Kernel.Contracts;
 
 namespace Play.Emv.Kernel;
 

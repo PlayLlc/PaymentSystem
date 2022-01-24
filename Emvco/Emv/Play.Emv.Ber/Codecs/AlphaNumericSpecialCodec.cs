@@ -6,7 +6,7 @@ using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Codecs.Strings;
 
-namespace Play.Ber.Emv.Codecs;
+namespace Play.Emv.Ber.Codecs;
 
 // TODO: Move the actual functionality higher up to Play.Codec
 public class AlphaNumericSpecialCodec : BerPrimitiveCodec

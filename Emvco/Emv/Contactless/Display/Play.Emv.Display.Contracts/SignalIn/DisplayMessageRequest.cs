@@ -4,7 +4,7 @@ using Play.Messaging;
 
 using MessageIdentifier = Play.Emv.DataElements.MessageIdentifier;
 
-namespace Play.Emv.Display.Contracts.SignalIn;
+namespace Play.Emv.Display.Contracts;
 
 /// <summary>
 ///     A request to display something on the LCD screen according to the <see cref="UserInterfaceRequestData" />

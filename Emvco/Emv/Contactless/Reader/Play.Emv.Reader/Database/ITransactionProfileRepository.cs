@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 
 using Play.Emv.DataElements;
+using Play.Emv.Selection.Contracts;
 
-namespace Play.Emv.Configuration;
+namespace Play.Emv.Reader.Database;
 
 public interface ITransactionProfileRepository
 {

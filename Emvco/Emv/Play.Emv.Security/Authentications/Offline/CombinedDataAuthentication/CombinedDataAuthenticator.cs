@@ -2,12 +2,12 @@
 
 using Play.Ber.Codecs;
 using Play.Emv.DataElements;
-using Play.Emv.DataElements.CertificateAuthority;
 using Play.Emv.Security.Certificates.Chip;
 using Play.Emv.Security.Cryptograms;
 using Play.Emv.Security.Messages.CDA;
-using Play.Encryption.Encryption.Hashing;
-using Play.Encryption.Encryption.Signing;
+using Play.Encryption.Certificates;
+using Play.Encryption.Hashing;
+using Play.Encryption.Signing;
 
 namespace Play.Emv.Security.Authentications.Offline.CombinedDataAuthentication;
 

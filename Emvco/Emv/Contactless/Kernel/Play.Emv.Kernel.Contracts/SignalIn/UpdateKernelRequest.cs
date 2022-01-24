@@ -1,11 +1,12 @@
 ﻿using Play.Ber.DataObjects;
+using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
 using Play.Emv.DataExchange;
 using Play.Emv.Messaging;
 using Play.Emv.Sessions;
 using Play.Messaging;
 
-namespace Play.Emv.Kernel.Contracts.SignalIn;
+namespace Play.Emv.Kernel.Contracts;
 
 /// <summary>
 ///     The message contains TLV encoded data objects sent from the terminal. The Reader will add the TLV data objects

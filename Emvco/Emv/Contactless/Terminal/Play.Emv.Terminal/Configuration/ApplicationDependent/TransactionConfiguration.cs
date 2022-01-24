@@ -1,5 +1,4 @@
 ﻿using Play.Emv.DataElements;
-using Play.Emv.Terminal.Configuration.Transaction;
 
 namespace Play.Emv.Terminal.Configuration.ApplicationDependent;
 

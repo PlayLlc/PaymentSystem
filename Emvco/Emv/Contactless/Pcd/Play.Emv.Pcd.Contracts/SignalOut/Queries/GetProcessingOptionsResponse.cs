@@ -1,6 +1,6 @@
-﻿using Play.Emv.Sessions;
+﻿using Play.Emv.Icc.GetProcessingOptions;
+using Play.Emv.Sessions;
 using Play.Emv.Templates.ResponseMessages;
-using Play.Icc.Emv.GetProcessingOptions;
 using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;

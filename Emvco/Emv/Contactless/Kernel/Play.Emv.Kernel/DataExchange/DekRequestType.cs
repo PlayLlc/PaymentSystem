@@ -8,7 +8,7 @@ public record DekRequestType : EnumObject<Tag>
     #region Static Metadata
 
     // away from card (Enqueued) and sent
-    public static readonly DekRequestType DataNeeded = new(DataElements.DataNeeded.Tag);
+    public static readonly DekRequestType DataNeeded = new(Ber.DataObjects.DataNeeded.Tag);
 
     // to card (Dequeued)   
     public static readonly DekRequestType TagsToRead = new(DataElements.TagsToRead.Tag);

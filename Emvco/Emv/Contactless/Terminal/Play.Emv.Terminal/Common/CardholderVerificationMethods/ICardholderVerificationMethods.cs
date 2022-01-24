@@ -1,6 +1,6 @@
 ﻿using Play.Emv.DataElements;
 
-namespace Play.Emv.Terminal.Common.Services.CardholderVerificationMethods.Pin;
+namespace Play.Emv.Terminal.CardholderVerificationMethods;
 
 public interface ICardholderVerification
 {

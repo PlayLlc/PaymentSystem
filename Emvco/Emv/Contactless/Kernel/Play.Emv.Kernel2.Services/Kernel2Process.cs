@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 
 using Play.Emv.DataElements;
-using Play.Emv.Kernel.Contracts.SignalIn;
+using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Pcd.Contracts;

@@ -2,11 +2,11 @@
 using System.Collections.Concurrent;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Emv.DataObjects;
 using Play.Ber.Identifiers;
+using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
 using Play.Emv.DataExchange;
-using Play.Emv.Kernel.Contracts.SignalOut;
+using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts;

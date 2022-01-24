@@ -1,4 +1,4 @@
-﻿using Play.Emv.Kernel.Contracts.SignalOut;
+﻿using Play.Emv.Kernel.Contracts;
 using Play.Emv.Reader.Contracts.SignalOut;
 
 namespace Play.Emv.Terminal.Services;

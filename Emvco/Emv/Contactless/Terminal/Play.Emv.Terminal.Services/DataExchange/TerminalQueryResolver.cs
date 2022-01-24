@@ -5,10 +5,8 @@ using Play.Ber.Identifiers;
 using Play.Emv.Configuration;
 using Play.Emv.DataElements;
 using Play.Emv.Security.Cryptograms;
-using Play.Emv.Terminal.Configuration.Transaction;
-using Play.Emv.Transactions;
 
-namespace Play.Emv.Terminal.Services;
+namespace Play.Emv.Terminal.Services.DataExchange;
 
 // WARNING: THIS IS A GIANT HACK. We should be queueing up configuration items in the Terminal and dequeue-ing them with a tag when we want to retrieve it. This pattern is pretty error prone
 internal class TerminalQueryResolver

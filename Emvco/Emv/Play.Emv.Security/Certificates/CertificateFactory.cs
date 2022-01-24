@@ -2,7 +2,7 @@
 using Play.Emv.Security.Authentications.Static;
 using Play.Emv.Security.Certificates.Chip;
 using Play.Emv.Security.Certificates.Issuer;
-using Play.Encryption.Encryption.Signing;
+using Play.Encryption.Signing;
 
 namespace Play.Emv.Security.Certificates;
 

@@ -1,6 +1,6 @@
-﻿using Play.Emv.Sessions;
-using Play.Icc.Emv;
-using Play.Icc.Emv.ReadRecord;
+﻿using Play.Emv.Icc;
+using Play.Emv.Icc.ReadRecord;
+using Play.Emv.Sessions;
 using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Messaging;
 

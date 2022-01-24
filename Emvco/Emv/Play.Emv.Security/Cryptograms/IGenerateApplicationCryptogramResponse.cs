@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-using Play.Ber.Emv.DataObjects;
+using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
 
 namespace Play.Emv.Security.Cryptograms;

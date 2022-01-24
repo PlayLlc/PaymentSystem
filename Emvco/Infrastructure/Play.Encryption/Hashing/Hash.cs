@@ -1,4 +1,4 @@
-﻿namespace Play.Encryption.Encryption.Hashing;
+﻿namespace Play.Encryption.Hashing;
 
 public class Hash : IEquatable<Hash>, IEqualityComparer<Hash>
 {

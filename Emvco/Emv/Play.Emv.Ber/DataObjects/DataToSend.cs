@@ -1,10 +1,9 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Emv.Codecs;
-using Play.Ber.Emv.DataObjects;
 using Play.Ber.Identifiers;
+using Play.Emv.Ber.Codecs;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataObjects;
 
 /// <summary>
 ///     Description: List of data objects that contains the accumulated data sent by the Kernel to the Terminal or visa

@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-using Play.Emv.Kernel.Contracts.SignalIn;
+using Play.Emv.Kernel.Contracts;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
 

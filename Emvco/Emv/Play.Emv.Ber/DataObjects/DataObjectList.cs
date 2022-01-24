@@ -1,12 +1,12 @@
 ﻿using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Emv.Exceptions;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Emv.Ber.Exceptions;
 
-namespace Play.Ber.Emv.DataObjects;
+namespace Play.Emv.Ber.DataObjects;
 
 /// <summary>
 ///     This object encapsulates Primitive <see cref="TagLength" /> Values requested by the ICC. These are ordered by the

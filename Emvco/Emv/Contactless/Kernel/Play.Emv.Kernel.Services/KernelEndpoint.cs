@@ -1,8 +1,6 @@
 ﻿using System;
 
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Kernel.Contracts.SignalIn;
-using Play.Emv.Kernel.Contracts.SignalOut;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;

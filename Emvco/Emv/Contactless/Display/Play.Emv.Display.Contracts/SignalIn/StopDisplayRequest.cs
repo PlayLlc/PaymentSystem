@@ -1,7 +1,7 @@
 ﻿using Play.Emv.Messaging;
 using Play.Messaging;
 
-namespace Play.Emv.Display.Contracts.SignalIn;
+namespace Play.Emv.Display.Contracts;
 
 /// <summary>
 ///     The STOP Signal clears the display immediately and flushes all pending messages

@@ -1,10 +1,10 @@
 using Play.Ber.Codecs;
-using Play.Ber.Emv.Codecs;
-using Play.Ber.Emv.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Icc.Emv;
+using Play.Emv.Ber.Codecs;
+using Play.Emv.Ber.DataObjects;
+using Play.Emv.Icc;
 using Play.Icc.Messaging.Apdu;
 
 namespace Play.Emv.DataElements;

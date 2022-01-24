@@ -2,7 +2,7 @@
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
-namespace Play.Encryption.Encryption.Ciphers.Symmetric;
+namespace Play.Encryption.Ciphers.Symmetric;
 
 internal class AesCodec : IBlockCipher
 {

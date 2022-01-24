@@ -1,6 +1,4 @@
-﻿using Play.Emv.Display.Contracts.SignalIn;
-
-namespace Play.Emv.Display.Contracts;
+﻿namespace Play.Emv.Display.Contracts;
 
 public interface IHandleDisplayRequests
 {

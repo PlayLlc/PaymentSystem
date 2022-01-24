@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Play.Ber.Emv.Exceptions;
+namespace Play.Emv.Ber.Exceptions;
 
 public class InternalEmvEncodingException : EmvEncodingException
 {

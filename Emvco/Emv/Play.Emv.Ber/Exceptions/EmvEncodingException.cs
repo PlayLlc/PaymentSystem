@@ -2,7 +2,7 @@
 
 using Play.Ber.Exceptions;
 
-namespace Play.Ber.Emv.Exceptions;
+namespace Play.Emv.Ber.Exceptions;
 
 public class EmvEncodingException : BerException
 {

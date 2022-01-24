@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 
 using Play.Ber.Codecs;
-using Play.Ber.Emv;
+using Play.Emv.Ber;
 
 namespace Play.Emv.DataElements.Exceptions;
 

@@ -7,7 +7,7 @@ using Play.Emv.DataElements;
 using Play.Emv.Security.Certificates;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace Play.Emv.Configuration;
+namespace Play.Emv.Kernel.Contracts;
 
 /// <summary>
 ///     The Certificate Authority Database will provide a dataset of Certificate Authority Public Keys based on the

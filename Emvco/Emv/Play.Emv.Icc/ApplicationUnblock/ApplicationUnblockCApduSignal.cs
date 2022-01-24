@@ -1,6 +1,7 @@
-﻿using Play.Ber.Emv.DataObjects;
+﻿using Play.Emv.Ber.DataObjects;
+using Play.Icc.Messaging.Apdu;
 
-namespace Play.Icc.Emv.ApplicationUnblock;
+namespace Play.Emv.Icc.ApplicationUnblock;
 
 public class ApplicationUnBlockCApduSignal : CApduSignal
 {
@@ -36,15 +37,12 @@ public class ApplicationUnBlockCApduSignal : CApduSignal
     ///     Message Authentication Code (MAC) data component; coding according to the secure messaging specified in Book 2
     /// </param>
     /// <returns></returns>
-    public static ApplicationUnBlockCApduSignal Create(
-        Messaging.Apdu.SecureMessaging secureMessaging,
-        CommandTemplate messageAuthenticationCode)
+    public static ApplicationUnBlockCApduSignal Create(SecureMessaging secureMessaging, CommandTemplate messageAuthenticationCode)
     {
-        if ((secureMessaging != Messaging.Apdu.SecureMessaging.Authenticated)
-            && (secureMessaging != Messaging.Apdu.SecureMessaging.Proprietary))
+        if ((secureMessaging != SecureMessaging.Authenticated) && (secureMessaging != SecureMessaging.Proprietary))
         {
             throw new ArgumentOutOfRangeException(nameof(secureMessaging),
-                                                  $"The argument {nameof(secureMessaging)} was an unexpected value. The valid values are {nameof(Messaging.Apdu.SecureMessaging.Authenticated)} and {nameof(Messaging.Apdu.SecureMessaging.Proprietary)}");
+                                                  $"The argument {nameof(secureMessaging)} was an unexpected value. The valid values are {nameof(SecureMessaging.Authenticated)} and {nameof(SecureMessaging.Proprietary)}");
         }
 
         return new ApplicationUnBlockCApduSignal(new Class(secureMessaging), Instruction.ApplicationUnblock, 0, 0,

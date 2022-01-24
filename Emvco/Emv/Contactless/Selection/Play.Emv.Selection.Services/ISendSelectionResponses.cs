@@ -1,4 +1,4 @@
-﻿using Play.Emv.Selection.Contracts.SignalOut;
+﻿using Play.Emv.Selection.Contracts;
 
 namespace Play.Emv.Selection.Services;
 

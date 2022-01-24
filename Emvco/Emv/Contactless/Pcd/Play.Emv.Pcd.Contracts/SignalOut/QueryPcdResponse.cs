@@ -1,11 +1,11 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Emv;
+using Play.Emv.Ber;
 using Play.Emv.DataElements;
+using Play.Emv.Icc;
 using Play.Emv.Messaging;
 using Play.Emv.Sessions;
-using Play.Icc.Emv;
 using Play.Icc.Messaging.Apdu;
 using Play.Messaging;
 

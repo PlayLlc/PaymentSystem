@@ -1,7 +1,7 @@
 ﻿using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Icc.Messaging.Apdu.SelectFile;
 
-namespace Play.Icc.Emv.FileControlInformation;
+namespace Play.Emv.Icc.FileControlInformation;
 
 public class GetFileControlInformationCApduSignal : CApduSignal
 {

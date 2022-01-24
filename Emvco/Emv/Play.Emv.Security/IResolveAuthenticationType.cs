@@ -1,6 +1,4 @@
-﻿using ___TEMP.Play.Emv.Security.Authentications;
-
-using Play.Emv.DataElements;
+﻿using Play.Emv.DataElements;
 
 namespace Play.Emv.Security;
 

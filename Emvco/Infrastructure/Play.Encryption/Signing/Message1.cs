@@ -2,7 +2,7 @@
 
 using Play.Core.Exceptions;
 
-namespace Play.Encryption.Encryption.Signing;
+namespace Play.Encryption.Signing;
 
 public class Message1 : IEnumerable
 {

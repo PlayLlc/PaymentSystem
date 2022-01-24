@@ -1,8 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-using Play.Emv.DataElements.CertificateAuthority;
-
-namespace Play.Encryption.Encryption.Hashing;
+namespace Play.Encryption.Hashing;
 
 internal class Sha1HashGenerator : IHashGenerator
 {

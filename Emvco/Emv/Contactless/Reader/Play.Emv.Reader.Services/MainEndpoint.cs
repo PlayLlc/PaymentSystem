@@ -1,14 +1,13 @@
 ﻿using System;
 
 using Play.Emv.Display.Contracts;
-using Play.Emv.Kernel.Contracts.SignalOut;
+using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Reader.Contracts.SignalIn;
 using Play.Emv.Reader.Contracts.SignalOut;
 using Play.Emv.Selection.Contracts;
-using Play.Emv.Selection.Contracts.SignalOut;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
 
