@@ -1,5 +1,6 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Emv;
+using Play.Ber.Emv.DataObjects;
 using Play.Emv.DataElements;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Outcomes;
@@ -342,7 +343,8 @@ public class CombinationSelector
         TransactionSessionId transactionSessionId,
         FileControlInformationPpse fileControlInformationTemplatePpse)
     {
-        var commandTemplate = fileControlInformationTemplatePpse.AsCommandTemplate(_Codec, _PoiInformation, Array.Empty<TagLengthValue>());
+        CommandTemplate? commandTemplate =
+            fileControlInformationTemplatePpse.AsCommandTemplate(_Codec, _PoiInformation, Array.Empty<TagLengthValue>());
 
         _PcdEndpoint.Request(SendPoiInformationCommand.Create(transactionSessionId, commandTemplate));
     }

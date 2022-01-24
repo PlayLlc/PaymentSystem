@@ -62,7 +62,7 @@ internal class MessageBus
 
     public void Send(ResponseMessage responseMessage)
     {
-        var correlationId = responseMessage.GetCorrelationId();
+        CorrelationId? correlationId = responseMessage.GetCorrelationId();
 
         lock (_ChannelMap)
         {

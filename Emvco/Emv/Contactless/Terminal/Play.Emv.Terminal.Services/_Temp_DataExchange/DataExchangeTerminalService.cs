@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using Play.Ber.DataObjects;
 using Play.Ber.Emv.DataObjects;
 using Play.Ber.Identifiers;
+using Play.Emv.Configuration;
 using Play.Emv.DataElements;
 using Play.Emv.DataExchange;
 using Play.Emv.Kernel.Contracts;
@@ -12,11 +13,12 @@ using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts.SignalOut;
 using Play.Emv.Terminal.Services;
+using Play.Emv.Transactions;
 using Play.Messaging;
 
 namespace Play.Emv.Terminal.___Temp;
 
-public class DataExchangeTerminalService
+internal class DataExchangeTerminalService
 {
     #region Instance Values
 
@@ -24,6 +26,7 @@ public class DataExchangeTerminalService
     private readonly ISendTerminalQueryResponse _TerminalEndpoint;
     private readonly IHandleKernelRequests _KernelEndpoint;
     private readonly DataExchangeTerminalLock _Lock = new();
+    private readonly TerminalQueryResolver _TerminalQueryResolver = new();
 
     #endregion
 
@@ -179,6 +182,30 @@ public class DataExchangeTerminalService
 
             _KernelEndpoint.Request(queryKernelRequest);
             _Lock.Responses[DetRequestType.TagsToRead].Clear();
+        }
+    }
+
+    // Hack: Passing in the TerminalSession seems like a hack to me. Is there a better pattern than this? Let's look at the system flow and related objects
+    public void Resolve(in TerminalSession terminalSession)
+    {
+        lock (_Lock)
+        {
+            if (!_Lock.Requests.ContainsKey(DetRequestType.DataNeeded))
+            {
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeTerminalService)} could not{nameof(Resolve)} the requested items because the List does not exist");
+            }
+
+            DataExchangeRequest dataNeeded = _Lock.Requests[DetRequestType.DataNeeded];
+            DataExchangeResponse dataToSend = _Lock.Responses[DetResponseType.DataToSend];
+
+            for (int i = 0; i < dataNeeded.Count(); i++)
+            {
+                if (!dataNeeded.TryDequeue(out Tag tagRequest))
+                    throw new InvalidOperationException();
+
+                dataToSend.Enqueue(_TerminalQueryResolver.Resolve(terminalSession, tagRequest));
+            }
         }
     }
 

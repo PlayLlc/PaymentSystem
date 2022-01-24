@@ -110,8 +110,7 @@ internal class TerminalStateMachine
             }
 
             _TerminalSessionLock.Session.DataExchangeTerminalService.Enqueue(request.GetDataNeeded());
-
-            // HACK: Terminal exits, but the DET service needs to run run on another process and retrieve the requested data independently
+            _TerminalSessionLock.Session.DataExchangeTerminalService.Resolve(in _TerminalSessionLock.Session);
         }
     }
 

@@ -26,8 +26,7 @@ public class ProximityPaymentSystemEnvironmentInfoSelector : ISelectProximityPay
 
     public async Task<SelectProximityPaymentSystemEnvironmentResponse> Transceive(SelectProximityPaymentSystemEnvironmentRequest cApdu)
     {
-        var rApduSignal =
-            new GetFileControlInformationRApduSignal(await _PcdTransceiver.Transceive(cApdu.Serialize()).ConfigureAwait(false));
+        GetFileControlInformationRApduSignal? rApduSignal = new(await _PcdTransceiver.Transceive(cApdu.Serialize()).ConfigureAwait(false));
 
         return new SelectProximityPaymentSystemEnvironmentResponse(cApdu.GetCorrelationId(), cApdu.GetTransactionSessionId(), rApduSignal);
     }
