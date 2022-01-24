@@ -14,10 +14,6 @@ public abstract class EventBase : IEquatable<EventBase>
 
     #endregion
 
-    #region Constructor
-
-    #endregion
-
     #region Instance Members
 
     protected static EventTypeId GetEventTypeId(Type eventType)

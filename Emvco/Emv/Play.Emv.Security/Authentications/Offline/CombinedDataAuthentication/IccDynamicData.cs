@@ -26,17 +26,11 @@ internal class IccDynamicData
 
     #region Instance Members
 
-    public ApplicationCryptogram GetCryptogram() =>
-        new ApplicationCryptogram(_Value[(GetIccDynamicNumberLength() + 2)..(GetIccDynamicNumberLength() + 10)]);
-
-    public CryptogramInformationData GetCryptogramInformationData() =>
-        new CryptogramInformationData(_Value[GetIccDynamicNumberLength() + 1]);
-
-    public IccDynamicNumber GetIccDynamicNumber() =>
-        new IccDynamicNumber(PlayEncoding.UnsignedBinary.GetUInt64(_Value[1..GetIccDynamicNumberLength()]));
-
+    public ApplicationCryptogram GetCryptogram() => new(_Value[(GetIccDynamicNumberLength() + 2)..(GetIccDynamicNumberLength() + 10)]);
+    public CryptogramInformationData GetCryptogramInformationData() => new(_Value[GetIccDynamicNumberLength() + 1]);
+    public IccDynamicNumber GetIccDynamicNumber() => new(PlayEncoding.UnsignedBinary.GetUInt64(_Value[1..GetIccDynamicNumberLength()]));
     public byte GetIccDynamicNumberLength() => _Value[0];
-    public Hash GetTransactionDataHashCode() => new Hash(_Value[(GetIccDynamicNumberLength() + 10)..Hash.Length]);
+    public Hash GetTransactionDataHashCode() => new(_Value[(GetIccDynamicNumberLength() + 10)..Hash.Length]);
 
     #endregion
 }

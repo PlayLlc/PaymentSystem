@@ -41,7 +41,7 @@ public record IssuerPublicKeyRemainder : PrimitiveValue, IEqualityComparer<Issue
     #region Instance Members
 
     public byte[] AsByteArray() => _Value;
-    public PublicKeyRemainder AsPublicKeyRemainder() => new PublicKeyRemainder(_Value);
+    public PublicKeyRemainder AsPublicKeyRemainder() => new(_Value);
     public override BerEncodingId GetBerEncodingId() => BerEncodingId;
     public int GetByteCount() => _Value.Length;
     public override Tag GetTag() => Tag;

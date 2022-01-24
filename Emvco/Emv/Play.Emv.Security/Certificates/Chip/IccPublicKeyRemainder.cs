@@ -40,7 +40,7 @@ public record IccPublicKeyRemainder : PrimitiveValue, IEqualityComparer<IccPubli
 
     #region Instance Members
 
-    public PublicKeyRemainder AsPublicKeyRemainder() => new PublicKeyRemainder(_Value);
+    public PublicKeyRemainder AsPublicKeyRemainder() => new(_Value);
     public override BerEncodingId GetBerEncodingId() => BerEncodingId;
     public ushort GetByteCount() => (ushort) _Value.Length;
     public override Tag GetTag() => Tag;

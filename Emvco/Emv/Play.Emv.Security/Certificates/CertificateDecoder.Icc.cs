@@ -54,10 +54,9 @@ internal partial class CertificateFactory
         }
 
         private static ShortDateValue GetCertificateExpirationDate(Message1 message1) =>
-            new ShortDateValue(_NumericCodec.GetUInt16(message1[new Range(11, 13)]));
+            new(_NumericCodec.GetUInt16(message1[new Range(11, 13)]));
 
-        private static CertificateSerialNumber GetCertificateSerialNumber(Message1 message1) =>
-            new CertificateSerialNumber(message1[new Range(13, 16)]);
+        private static CertificateSerialNumber GetCertificateSerialNumber(Message1 message1) => new(message1[new Range(13, 16)]);
 
         // TODO: The remainder and exponent will be coming from the TLV Database. No need to pass those with the
         // TODO: command. You can pass the ITlvDatabase and query when it's relevant
@@ -89,10 +88,9 @@ internal partial class CertificateFactory
         private static byte GetIccPublicKeyLength(Message1 message1) => message1[18];
 
         private static Range GetLeftmostIssuerPublicKeyRange(DecodedIssuerPublicKeyCertificate issuerPublicKeyCertificate) =>
-            new Range(20, issuerPublicKeyCertificate.GetPublicKeyModulus().GetByteCount() - 42);
+            new(20, issuerPublicKeyCertificate.GetPublicKeyModulus().GetByteCount() - 42);
 
-        private static PrimaryAccountNumber GetPrimaryAccountNumber(Message1 message1) =>
-            new PrimaryAccountNumber(message1[new Range(1, 11)]);
+        private static PrimaryAccountNumber GetPrimaryAccountNumber(Message1 message1) => new(message1[new Range(1, 11)]);
 
         private static PublicKeyAlgorithmIndicator GetPublicKeyAlgorithmIndicator(Message1 message1) =>
             PublicKeyAlgorithmIndicator.Get(message1[17]);

@@ -47,7 +47,7 @@ public class KernelSession
     public TransactionSessionId GetTransactionSessionId() => _KernelSessionId.GetTransactionSessionId();
 
     public Outcome GetOutcome() =>
-        new Outcome(GetErrorIndication(), GetOutcomeParameterSet(), GetDataRecord(), GetDiscretionaryData(), GetUserInterfaceRequestData());
+        new(GetErrorIndication(), GetOutcomeParameterSet(), GetDataRecord(), GetDiscretionaryData(), GetUserInterfaceRequestData());
 
     private ErrorIndication GetErrorIndication() => ErrorIndication.Decode(_KernelDatabase.Get(ErrorIndication.Tag).EncodeValue().AsSpan());
 

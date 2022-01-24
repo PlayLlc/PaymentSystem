@@ -34,16 +34,18 @@ public abstract class TestTlv
     #region Instance Members
 
     public abstract Tag GetTag();
-    protected TagLength GetTagLength() => new TagLength(GetTag(), EncodeValue());
+    protected TagLength GetTagLength() => new(GetTag(), EncodeValue());
     public int GetTagLengthValueByteCount() => new TagLength(GetTag(), EncodeValue()).GetTagLengthValueByteCount();
     public int GetValueByteCount() => _ContentOctets.Length;
-    public TagLengthValue AsTagLengthValue() => new TagLengthValue(GetTag(), EncodeValue());
+    public TagLengthValue AsTagLengthValue() => new(GetTag(), EncodeValue());
 
     private static byte[] ParseChildren(Tag[] childIndex, TestTlv[] children)
     {
         if (children.Count() > childIndex.Length)
+        {
             throw new ArgumentOutOfRangeException(nameof(childIndex),
                                                   $"The argument {nameof(childIndex)} has fewer items than argument {nameof(children)}");
+        }
 
         Span<byte> buffer = stackalloc byte[children.Sum(a => a.GetTagLengthValueByteCount())];
 

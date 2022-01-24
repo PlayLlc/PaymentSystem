@@ -78,7 +78,7 @@ public class TripleDesCodec : IBlockCipher
     public BlockCipherAlgorithm GetAlgorithm() => BlockCipherAlgorithm.Aes;
 
     private TripleDESCryptoServiceProvider GetDesProvider(ReadOnlySpan<byte> key) =>
-        new TripleDESCryptoServiceProvider
+        new()
         {
             BlockSize = _BlockSize,
             KeySize = _KeySize,

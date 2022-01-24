@@ -40,7 +40,7 @@ public record CommandTemplate : DataElement<byte[]>, IEquatable<CommandTemplate>
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
-    public static CommandTemplate Decode(ReadOnlySpan<byte> value) => new CommandTemplate(value.ToArray());
+    public static CommandTemplate Decode(ReadOnlySpan<byte> value) => new(value.ToArray());
 
     #endregion
 

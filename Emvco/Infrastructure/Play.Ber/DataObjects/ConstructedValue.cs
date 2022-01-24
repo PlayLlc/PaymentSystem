@@ -13,7 +13,7 @@ public abstract class ConstructedValue : IEncodeBerDataObjects, IRetrieveConstru
 {
     #region Instance Members
 
-    public TagLengthValue AsTagLengthValue(BerCodec codec) => new TagLengthValue(GetTag(), EncodeValue(codec));
+    public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
     public abstract Tag GetTag();
 
     /// <summary>

@@ -128,7 +128,7 @@ internal class CombinedDataAuthenticator : IAuthenticateCombinedData
     private DecodedSignedDynamicApplicationDataCda RecoverSignedDynamicApplicationData(
         PublicKeyCertificate issuerPublicKeyCertificate,
         SignedDynamicApplicationData encipheredData) =>
-        new DecodedSignedDynamicApplicationDataCda(_SignatureService.Decrypt(encipheredData.AsByteArray(), issuerPublicKeyCertificate));
+        new(_SignatureService.Decrypt(encipheredData.AsByteArray(), issuerPublicKeyCertificate));
 
     #endregion
 

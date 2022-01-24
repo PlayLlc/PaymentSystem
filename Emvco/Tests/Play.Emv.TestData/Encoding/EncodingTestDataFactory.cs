@@ -1,5 +1,4 @@
-﻿namespace Play.Emv.TestData.Encoding
-{
-    public partial class EncodingTestDataFactory
-    { }
-}
+﻿namespace Play.Emv.TestData.Encoding;
+
+public partial class EncodingTestDataFactory
+{ }

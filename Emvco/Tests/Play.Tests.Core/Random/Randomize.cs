@@ -1,11 +1,10 @@
-﻿namespace Play.Tests.Core.Random
+﻿namespace Play.Tests.Core.Random;
+
+public static partial class Randomize
 {
-    public static partial class Randomize
-    {
-        #region Static Metadata
+    #region Static Metadata
 
-        internal static readonly System.Random _Random = new();
+    internal static readonly System.Random _Random = new();
 
-        #endregion
-    }
+    #endregion
 }

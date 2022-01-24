@@ -32,7 +32,7 @@ public abstract class EventHandlerBase<T> : IEquatable<EventHandlerBase<T>>, IEq
     public EventHandlerId GetEventHandlerId() => _EventHandlerId;
     public abstract EventTypeId GetEventTypeId();
     public abstract void Handle(EventBase @event); // where T : EventBase;
-    public SubscriptionId GetSubscriptionCorrelationId() => new SubscriptionId(_EventHandlerId, GetEventTypeId());
+    public SubscriptionId GetSubscriptionCorrelationId() => new(_EventHandlerId, GetEventTypeId());
 
     #endregion
 

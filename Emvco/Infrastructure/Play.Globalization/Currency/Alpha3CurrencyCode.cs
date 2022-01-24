@@ -39,7 +39,7 @@ public readonly struct Alpha3CurrencyCode
     }
 
     public ReadOnlySpan<char> AsReadOnlySpan() => AsCharArray();
-    public string AsString() => new string(AsReadOnlySpan());
+    public string AsString() => new(AsReadOnlySpan());
 
     #endregion
 

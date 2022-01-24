@@ -49,8 +49,7 @@ internal class DecodedSignedStaticApplicationData : DecodedSignature
         return buffer.ToArray();
     }
 
-    public DataAuthenticationCode GetDataAuthenticationCode() =>
-        new DataAuthenticationCode(PlayEncoding.UnsignedInteger.GetUInt16(_Message1.AsByteArray()[3..4]));
+    public DataAuthenticationCode GetDataAuthenticationCode() => new(PlayEncoding.UnsignedInteger.GetUInt16(_Message1.AsByteArray()[3..4]));
 
     public HashAlgorithmIndicator GetHashAlgorithmIndicator()
     {

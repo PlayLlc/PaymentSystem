@@ -42,15 +42,14 @@ public class GetProcessingOptionsCApduSignal : CApduSignal
     ///     A list of objects requested by the ICC in a Processing Options Data Object List
     /// </param>
     public static GetProcessingOptionsCApduSignal Create(DataObjectListResult pdolResult) =>
-        new GetProcessingOptionsCApduSignal(new Class(ProprietaryMessageIdentifier._8x), Instruction.GetProcessingOptions, 0, 0,
-                                            pdolResult.AsCommandTemplate().EncodeTagLengthValue());
+        new(new Class(ProprietaryMessageIdentifier._8x), Instruction.GetProcessingOptions, 0, 0,
+            pdolResult.AsCommandTemplate().EncodeTagLengthValue());
 
     /// <param name="commandTemplate">
     ///     A template created from a list of objects requested by the ICC in a Processing Options Data Object List
     /// </param>
     public static GetProcessingOptionsCApduSignal Create(CommandTemplate commandTemplate) =>
-        new GetProcessingOptionsCApduSignal(new Class(ProprietaryMessageIdentifier._8x), Instruction.GetProcessingOptions, 0, 0,
-                                            commandTemplate.EncodeTagLengthValue());
+        new(new Class(ProprietaryMessageIdentifier._8x), Instruction.GetProcessingOptions, 0, 0, commandTemplate.EncodeTagLengthValue());
 
     #endregion
 }

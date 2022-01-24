@@ -90,7 +90,7 @@ internal class DynamicDataAuthenticator : IAuthenticateDynamicData
     private DecodedSignedDynamicApplicationDataDda RecoverSignedDynamicApplicationData(
         PublicKeyCertificate issuerPublicKeyCertificate,
         SignedDynamicApplicationData encipheredData) =>
-        new DecodedSignedDynamicApplicationDataDda(_SignatureService.Decrypt(encipheredData.AsByteArray(), issuerPublicKeyCertificate));
+        new(_SignatureService.Decrypt(encipheredData.AsByteArray(), issuerPublicKeyCertificate));
 
     #endregion
 }

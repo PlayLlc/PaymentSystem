@@ -1,15 +1,14 @@
 using Xunit;
 
-namespace Play.Core.Tests
+namespace Play.Core.Tests;
+
+public class UnitTest1
 {
-    public class UnitTest1
-    {
-        #region Instance Members
+    #region Instance Members
 
-        [Fact]
-        public void Test1()
-        { }
+    [Fact]
+    public void Test1()
+    { }
 
-        #endregion
-    }
+    #endregion
 }

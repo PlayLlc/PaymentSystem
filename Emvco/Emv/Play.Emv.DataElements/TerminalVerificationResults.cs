@@ -128,7 +128,7 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
     //}
 
     public static TerminalVerificationResults operator |(TerminalVerificationResults left, TerminalVerificationResults right) =>
-        new TerminalVerificationResults(left._Value | right._Value);
+        new(left._Value | right._Value);
 
     #endregion
 }

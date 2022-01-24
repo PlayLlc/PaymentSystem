@@ -28,7 +28,7 @@ internal class DecodedSignedDynamicApplicationDataCda : DecodedSignature
         return result;
     }
 
-    public IccDynamicData GetIccDynamicData() => new IccDynamicData(_Message1[2..GetIccDynamicDataLength()].ToArray());
+    public IccDynamicData GetIccDynamicData() => new(_Message1[2..GetIccDynamicDataLength()].ToArray());
     public byte GetIccDynamicDataLength() => _Message1[2];
     public byte[] GetPadPattern() => _Message1[(GetIccDynamicDataLength() + 2)..].ToArray();
 

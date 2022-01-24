@@ -32,10 +32,10 @@ public class SendPoiInformationCApduSignal : CApduSignal
     #region Instance Members
 
     public static SendPoiInformationCApduSignal Create(CommandTemplate commandTemplate) =>
-        new SendPoiInformationCApduSignal(0x80, 0x1A, 0, 0, commandTemplate.EncodeTagLengthValue(), 0);
+        new(0x80, 0x1A, 0, 0, commandTemplate.EncodeTagLengthValue(), 0);
 
     public static SendPoiInformationCApduSignal Create(DataObjectListResult commandTemplate) =>
-        new SendPoiInformationCApduSignal(0x80, 0x1A, 0, 0, commandTemplate.AsByteArray(), 0);
+        new(0x80, 0x1A, 0, 0, commandTemplate.AsByteArray(), 0);
 
     #endregion
 }

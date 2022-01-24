@@ -84,8 +84,8 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
     /// </param>
     /// <returns></returns>
     private static GenerateApplicationCryptogramCApduSignal CreateAac(CommandTemplate transactionRelatedData) =>
-        new GenerateApplicationCryptogramCApduSignal(new Class(Messaging.Apdu.SecureMessaging.NotRecognized, LogicalChannel.BasicChannel),
-                                                     Instruction.CardBlock, 0, 0, transactionRelatedData.EncodeValue());
+        new(new Class(Messaging.Apdu.SecureMessaging.NotRecognized, LogicalChannel.BasicChannel), Instruction.CardBlock, 0, 0,
+            transactionRelatedData.EncodeValue());
 
     /// <summary>
     ///     Creates a Command APDU to request a Application Request Cryptogram

@@ -103,8 +103,7 @@ public class AlphaNumericCodec : BerPrimitiveCodec
 
     #region Serialization
 
-    public override DecodedResult<char[]> Decode(ReadOnlySpan<byte> value) =>
-        new DecodedResult<char[]>(_AlphaNumeric.GetChars(value), value.Length);
+    public override DecodedResult<char[]> Decode(ReadOnlySpan<byte> value) => new(_AlphaNumeric.GetChars(value), value.Length);
 
     #endregion
 }

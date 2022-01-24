@@ -74,7 +74,7 @@ internal class AesCodec : IBlockCipher
     }
 
     private AesCryptoServiceProvider GetAesProvider(ReadOnlySpan<byte> key) =>
-        new AesCryptoServiceProvider
+        new()
         {
             BlockSize = _BlockSize,
             KeySize = _KeySize,

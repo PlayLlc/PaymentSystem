@@ -99,8 +99,7 @@ public class AlphabeticCodec : BerPrimitiveCodec
     #region Serialization
 
     /// <exception cref="EncodingException"></exception>
-    public override DecodedResult<char[]> Decode(ReadOnlySpan<byte> value) =>
-        new DecodedResult<char[]>(_Alphabetic.GetChars(value), value.Length);
+    public override DecodedResult<char[]> Decode(ReadOnlySpan<byte> value) => new(_Alphabetic.GetChars(value), value.Length);
 
     #endregion
 }

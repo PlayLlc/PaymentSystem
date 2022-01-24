@@ -143,7 +143,7 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
         IHandleDisplayRequests displayEndpoint,
         IHandleSelectionRequests selectionEndpoint,
         KernelRetriever kernelRetriever) =>
-        new MainEndpoint(activateReaderRequest, messageRouter, displayEndpoint, selectionEndpoint, kernelRetriever);
+        new(activateReaderRequest, messageRouter, displayEndpoint, selectionEndpoint, kernelRetriever);
 
     public void Dispose()
     {

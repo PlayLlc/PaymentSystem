@@ -43,9 +43,8 @@ public class ComputeCryptographicChecksumCApduSignal : CApduSignal
     /// </param>
     /// <returns></returns>
     public static ComputeCryptographicChecksumCApduSignal Create(DataObjectListResult unpredictableNumberDataObjectListResult) =>
-        new ComputeCryptographicChecksumCApduSignal(new Class(Messaging.Apdu.SecureMessaging.Proprietary),
-                                                    Instruction.ComputeCryptographicChecksum, 0x8E, 0x80,
-                                                    unpredictableNumberDataObjectListResult.AsCommandTemplate().EncodeValue(), 0);
+        new(new Class(Messaging.Apdu.SecureMessaging.Proprietary), Instruction.ComputeCryptographicChecksum, 0x8E, 0x80,
+            unpredictableNumberDataObjectListResult.AsCommandTemplate().EncodeValue(), 0);
 
     #endregion
 }
