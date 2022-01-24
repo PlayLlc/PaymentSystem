@@ -77,10 +77,11 @@ internal class TerminalStateMachine
                 _TerminalConfigurationRepository.GeTerminalConfiguration(request.GetTerminalIdentification(),
                                                                          request.GetAcquirerIdentifier(), request.GetMerchantIdentifier());
 
-            Transaction transaction = new(new TransactionSessionId(request.GetTransactionType()), request.GetAmountAuthorizedNumeric(),
-                                          request.GetAmountOtherNumeric(), request.GetTransactionType(),
-                                          systemConfiguration.GetLanguagePreference(), systemConfiguration.GetTerminalCountryCode(),
-                                          new TransactionDate(DateTimeUtc.Now()));
+            Transaction transaction = new(new TransactionSessionId(request.GetTransactionType()), request.GetAccountType(),
+                                          request.GetAmountAuthorizedNumeric(), request.GetAmountOtherNumeric(),
+                                          request.GetTransactionType(), systemConfiguration.GetLanguagePreference(),
+                                          systemConfiguration.GetTerminalCountryCode(), new TransactionDate(DateTimeUtc.Now()),
+                                          new TransactionTime(DateTimeUtc.Now()));
 
             _TerminalSessionLock.Session = new TerminalSession(transaction, _TerminalConfiguration,
                                                                new DataExchangeTerminalService(transaction.GetTransactionSessionId(),

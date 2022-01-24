@@ -1,4 +1,5 @@
 ﻿using Play.Emv.DataElements;
+using Play.Emv.DataElementsz;
 using Play.Emv.Messaging;
 using Play.Messaging;
 
@@ -15,6 +16,7 @@ public record ActivateTerminalRequest : RequestSignal
 
     #region Instance Values
 
+    private readonly AccountType _AccountType;
     private readonly AmountAuthorizedNumeric _AmountAuthorizedNumeric;
     private readonly AmountOtherNumeric _AmountOtherNumeric;
     private readonly TransactionType _TransactionType;
@@ -27,6 +29,7 @@ public record ActivateTerminalRequest : RequestSignal
     #region Constructor
 
     public ActivateTerminalRequest(
+        byte accountType,
         ulong amountAuthorized,
         ulong otherAmount,
         byte transactionType,
@@ -34,6 +37,7 @@ public record ActivateTerminalRequest : RequestSignal
         ulong acquirerIdentifier,
         string merchantIdentifier) : base(MessageTypeId, ChannelTypeId)
     {
+        _AccountType = new AccountType(accountType);
         _AmountAuthorizedNumeric = new AmountAuthorizedNumeric(amountAuthorized);
         _AmountOtherNumeric = new AmountOtherNumeric(otherAmount);
         _TransactionType = new TransactionType(transactionType);
@@ -46,6 +50,7 @@ public record ActivateTerminalRequest : RequestSignal
 
     #region Instance Members
 
+    public AccountType GetAccountType() => _AccountType;
     public MerchantIdentifier GetMerchantIdentifier() => _MerchantIdentifier;
     public TerminalIdentification GetTerminalIdentification() => _TerminalIdentification;
     public AcquirerIdentifier GetAcquirerIdentifier() => _AcquirerIdentifier;

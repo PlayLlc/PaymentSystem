@@ -25,7 +25,7 @@ internal class TerminalProcess : CommandProcessingQueue
         _TerminalConfigurationRepository = terminalConfigurationRepository;
 
         // BUG: Create a factory or manually initialize the state machine. We can't use default
-        _TerminalStateMachine = default; //  new TerminalStateMachine()
+        _TerminalStateMachine = default;
     }
 
     #endregion

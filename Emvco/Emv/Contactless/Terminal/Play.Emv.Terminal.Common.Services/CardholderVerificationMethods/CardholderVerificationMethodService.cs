@@ -1,5 +1,4 @@
-﻿namespace Play.Emv.Terminal.Common.Services.CardholderVerificationMethods
-{
-    public class CardholderVerificationMethodService : ICardholderVerificationMethods
-    { }
-}
+﻿namespace Play.Emv.Terminal.Common.Services.CardholderVerificationMethods;
+
+public class CardholderVerificationMethodService
+{ }

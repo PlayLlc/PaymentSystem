@@ -1,5 +1,6 @@
 ﻿using Play.Emv.Configuration;
 using Play.Emv.Kernel;
+using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Configuration;
 using Play.Emv.Kernel2.Databases;
@@ -25,7 +26,7 @@ public class Kernel2ProcessFactory
         CertificateAuthorityDataset[] certificates)
     {
         Kernel2Database kernel2Database = new(kernel2Configuration, terminalEndpoint, new Kernel2TlvDatabase(kernel2PersistentValues),
-                                              new Kernel2KernelCertificateDatabase(certificates));
+                                              new KernelCertificateDatabase(certificates));
 
         Kernel2StateResolver kernel2StateResolver =
             Kernel2StateResolver.Create(tornTransactionCleaner, kernel2Database, terminalEndpoint, kernelEndpoint, pcdEndpoint);
