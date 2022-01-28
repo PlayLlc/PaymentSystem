@@ -68,6 +68,8 @@ public class Idle : KernelState
 
     public override KernelStateId GetKernelStateId() => KernelStateId;
 
+    #region STOP
+
     public override KernelState Handle(StopKernelRequest signal)
     {
         OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
@@ -82,12 +84,20 @@ public class Idle : KernelState
         return _KernelStateResolver.GetKernelState(KernelStateId);
     }
 
+    #endregion
+
+    #region CLEAN
+
     public override KernelState Handle(CleanKernelRequest signal)
     {
         _KernelCleaner.Clean();
 
         return _KernelStateResolver.GetKernelState(KernelStateId);
     }
+
+    #endregion
+
+    #region ACT
 
     /// <remarks>Book C-2 Section 6.3.3</remarks>
     /// <exception cref="InvalidOperationException"></exception>
@@ -309,8 +319,21 @@ public class Idle : KernelState
             _KernelDatabase.GetDataExchanger().Enqueue(DekRequestType.DataNeeded, TagsToWriteAfterGenAc.Tag);
     }
 
+    #endregion
+
+    #region QUERY
+
+    // HACK: I think this won't live here
     public override KernelState Handle(QueryKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-    public override KernelState Handle(UpdateKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
     public override KernelState Handle(QueryPcdResponse signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    #endregion
+
+    #region UPDATE
+
+    // HACK: I think this won't live here
+    public override KernelState Handle(UpdateKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
     public override KernelState Handle(QueryTerminalResponse signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    #endregion
 }
