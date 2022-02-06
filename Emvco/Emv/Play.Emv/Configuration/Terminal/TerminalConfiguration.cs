@@ -25,6 +25,8 @@ public abstract record TerminalConfiguration
     private readonly TerminalType _TerminalType;
     private readonly TransactionCurrencyCode _TransactionCurrencyCode;
     private readonly ApplicationVersionNumberTerminal _ApplicationVersionNumberTerminal;
+
+    // BUG: TerminalRiskManagementData is transient per transaction. This should live with the transaction session, not the terminal configuration
     private readonly TerminalRiskManagementData _TerminalRiskManagementData;
     private readonly PoiInformation _PoiInformation;
     private readonly AdditionalTerminalCapabilities _AdditionalTerminalCapabilities;

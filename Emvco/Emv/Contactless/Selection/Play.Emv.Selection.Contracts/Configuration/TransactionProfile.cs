@@ -21,7 +21,11 @@ public class TransactionProfile : IEquatable<TransactionProfile>, IEqualityCompa
     private readonly ReaderContactlessTransactionLimit _ReaderContactlessTransactionLimit;
     private readonly ReaderCvmRequiredLimit _ReaderCvmRequiredLimit;
     private readonly TerminalCategoriesSupportedList _TerminalCategoriesSupportedList;
+
+    // BUG: This already exists in the Terminal Configuration, no need to have TerminalFloorLimit here as well
     private readonly TerminalFloorLimit _TerminalFloorLimit;
+
+    // BUG: TerminalTransactionQualifiers is a transient value. This should live in the Transaction Session, not here on the Transaction Profile
     private readonly TerminalTransactionQualifiers _TerminalTransactionQualifiers;
 
     /// <summary>

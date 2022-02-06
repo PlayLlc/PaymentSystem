@@ -6,8 +6,6 @@ using Play.Messaging;
 
 namespace Play.Emv.Kernel.Contracts;
 
-/// <summary>
-/// </summary>
 public record QueryKernelResponse : ResponseSignal, IExchangeDataWithTheTerminal
 {
     #region Static Metadata
@@ -40,7 +38,6 @@ public record QueryKernelResponse : ResponseSignal, IExchangeDataWithTheTerminal
     public DataToSend GetDataToSend() => _DataToSend;
     public DataExchangeTerminalId GetDataExchangeTerminalId() => _DataExchangeTerminalId;
     public TransactionSessionId GetTransactionSessionId() => _DataExchangeTerminalId.GetTransactionSessionId();
-    public 
 
     #endregion
 }

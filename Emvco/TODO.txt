@@ -1,15 +1,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Implement Cardholder Verification Methods as common terminal services. Book 3
+Implement Cardholder Verification Methods as common terminal services. Book 3. Your Debit Pin
+CVM logic is in Play.Emv.Security
+    -How to process enciphered pin? How to retrieve clear text pin from pinpad? Create another 
+    process that interacts with Play.Emv.Security? 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-How to process enciphered pin? How to retrieve clear text pin from pinpad? Create another process
-that interacts with Play.Emv.Security?
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Figure out where the common terminal services are supposed to fit in the system flow    
-    // services requested by DEK?
-    // 9F5B Issuer Script Results
-    // TerminalActionCodeDefault
-    // TerminalActionCodeOnline
-    // TerminalActionCodeOnline
-    // 9F34    Cardholder Verification Method (CVM) Results
-    // CryptogramInformationData
+ 
