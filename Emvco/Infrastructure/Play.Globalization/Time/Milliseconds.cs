@@ -5,7 +5,7 @@ namespace Play.Globalization.Time;
 /// <summary>
 ///     This struct represents a <see cref="TimeSpan" /> that is initialized with Milliseconds
 /// </summary>
-public readonly struct Milliseconds
+public readonly record struct Milliseconds
 {
     #region Static Metadata
 
@@ -51,6 +51,16 @@ public readonly struct Milliseconds
         _Value = value;
     }
 
+    private Milliseconds(Seconds value)
+    {
+        _Value = (uint) value * 1000;
+    }
+
+    private Milliseconds(TimeSpan value)
+    {
+        _Value = (uint) value.Milliseconds;
+    }
+
     #endregion
 
     #region Instance Members
@@ -65,7 +75,6 @@ public readonly struct Milliseconds
     public bool Equals(TimeSpan other) => AsTimeSpan() == other;
     public static bool Equals(Milliseconds x, Milliseconds y) => x.Equals(y);
     public bool Equals(ulong other) => _Value == other;
-    public override bool Equals(object? obj) => obj is Milliseconds timeValue && Equals(timeValue);
 
     public override int GetHashCode()
     {
@@ -78,7 +87,18 @@ public readonly struct Milliseconds
 
     #region Operator Overrides
 
-    public static bool operator ==(Milliseconds left, Milliseconds right) => left.Equals(right);
+    public static bool operator >(ulong left, Milliseconds right) => left > right._Value;
+    public static bool operator <(ulong left, Milliseconds right) => left < right._Value;
+    public static bool operator >=(ulong left, Milliseconds right) => left >= right._Value;
+    public static bool operator <=(ulong left, Milliseconds right) => left <= right._Value;
+    public static bool operator ==(ulong left, Milliseconds right) => left == right._Value;
+    public static bool operator !=(ulong left, Milliseconds right) => left != right._Value;
+    public static bool operator >(Milliseconds left, ulong right) => left._Value > right;
+    public static bool operator <(Milliseconds left, ulong right) => left._Value < right;
+    public static bool operator >=(Milliseconds left, ulong right) => left._Value >= right;
+    public static bool operator <=(Milliseconds left, ulong right) => left._Value <= right;
+    public static bool operator ==(Milliseconds left, ulong right) => left._Value == right;
+    public static bool operator !=(Milliseconds left, ulong right) => left._Value != right;
     public static bool operator ==(Milliseconds left, TimeSpan right) => left.Equals(right);
     public static bool operator ==(TimeSpan left, Milliseconds right) => right.Equals(left);
     public static explicit operator ulong(Milliseconds value) => value._Value;
@@ -89,8 +109,8 @@ public readonly struct Milliseconds
     public static bool operator >=(Milliseconds left, TimeSpan right) => left.AsTimeSpan() >= right;
     public static bool operator >=(TimeSpan left, Milliseconds right) => right.AsTimeSpan() >= left;
     public static implicit operator TimeSpan(Milliseconds value) => value.AsTimeSpan();
+    public static implicit operator Milliseconds(TimeSpan value) => new(value);
     public static implicit operator Milliseconds(int value) => new((uint) value);
-    public static bool operator !=(Milliseconds left, Milliseconds right) => !left.Equals(right);
     public static bool operator !=(Milliseconds left, TimeSpan right) => !left.Equals(right);
     public static bool operator !=(TimeSpan left, Milliseconds right) => !right.Equals(left);
     public static bool operator <(Milliseconds left, Milliseconds right) => left._Value < right._Value;
@@ -99,6 +119,7 @@ public readonly struct Milliseconds
     public static bool operator <=(Milliseconds left, Milliseconds right) => left._Value <= right._Value;
     public static bool operator <=(Milliseconds left, TimeSpan right) => left.AsTimeSpan() <= right;
     public static bool operator <=(TimeSpan left, Milliseconds right) => right.AsTimeSpan() <= left;
+    public static implicit operator Milliseconds(Seconds value) => new(value);
 
     #endregion
 }

@@ -320,14 +320,14 @@ public class Idle : KernelState
     }
 
     #endregion
-    public override KernelState Handle(QueryPcdResponse signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
+    public override KernelState Handle(QueryPcdResponse signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #region QUERY
 
     // HACK: I think this won't live here
     public override KernelState Handle(QueryKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-   
+
     #endregion
 
     #region UPDATE

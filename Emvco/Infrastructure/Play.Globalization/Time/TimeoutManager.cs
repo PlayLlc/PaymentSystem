@@ -1,33 +1,103 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Play.Globalization.Time
+namespace Play.Globalization.Time;
+
+internal class TimeoutManager : IDisposable
 {
-    internal class TimeoutManager
+    #region Instance Values
+
+    private readonly TimeoutSession _TimeoutSession;
+
+    #endregion
+
+    #region Constructor
+
+    public TimeoutManager()
     {
-        private readonly Stopwatch _Stopwatch;
-
-        public TimeoutManager()
-        {
-            _Stopwatch = new Stopwatch();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="timeout"></param>
-        /// <exception cref="InvalidOperationException"></exception>
-        public void Start(Milliseconds timeout)
-        {
-            if(_Stopwatch.IsRunning)
-                throw new InvalidOperationException($"The {nameof(TimeoutManager)} could not complete the {nameof(Start)} method because the {nameof(TimeoutManager)} is currently running");
-        }
-
-
-
+        _TimeoutSession = new TimeoutSession();
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public bool TimedOut()
+    {
+        lock (_TimeoutSession)
+        {
+            return !_TimeoutSession.IsRunning();
+        }
+    }
+
+    public void Dispose()
+    {
+        _TimeoutSession.Stop();
+    }
+
+    #region Stop
+
+    public void Stop()
+    {
+        lock (_TimeoutSession)
+        {
+            if (!_TimeoutSession.IsRunning())
+            {
+                throw new
+                    InvalidOperationException($"The {nameof(TimeoutManager)} could not complete the {nameof(Stop)} method because the {nameof(TimeoutManager)} is currently not running");
+            }
+
+            _TimeoutSession.Stop();
+        }
+    }
+
+    #endregion
+
+    #endregion
+
+    #region Start
+
+    /// <summary>
+    ///     Starts a new Timeout Session
+    /// </summary>
+    /// <param name="timeout"></param>
+    /// <exception cref="InvalidOperationException"></exception>
+    public void Start(Milliseconds timeout)
+    {
+        lock (_TimeoutSession)
+        {
+            if (_TimeoutSession.IsRunning())
+            {
+                throw new
+                    InvalidOperationException($"The {nameof(TimeoutManager)} could not complete the {nameof(Start)} method because the {nameof(TimeoutManager)} is currently running");
+            }
+
+            _TimeoutSession.Start(timeout);
+        }
+    }
+
+    /// <summary>
+    ///     Starts a new Timeout Session
+    /// </summary>
+    /// <param name="timeout"></param>
+    /// <exception cref="InvalidOperationException"></exception>
+    public void Start(Seconds timeout)
+    {
+        Start((Milliseconds) timeout);
+    }
+
+    /// <summary>
+    ///     Starts a new Timeout Session
+    /// </summary>
+    /// <param name="timeout"></param>
+    /// <exception cref="InvalidOperationException"></exception>
+    public void Start(TimeSpan timeout)
+    {
+        Start((Milliseconds) timeout);
+    }
+
+    #endregion
 }

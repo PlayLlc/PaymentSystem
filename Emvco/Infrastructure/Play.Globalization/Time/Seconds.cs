@@ -41,6 +41,7 @@ public readonly record struct Seconds
 
     #region Operator Overrides
 
+    public static explicit operator uint(Seconds value) => value._Value;
     public static implicit operator TimeSpan(Seconds value) => value.AsTimeSpan();
     public static implicit operator Seconds(Milliseconds value) => new(value);
 
