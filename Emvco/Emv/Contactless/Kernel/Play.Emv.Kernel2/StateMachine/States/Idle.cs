@@ -363,12 +363,12 @@ public class Idle : KernelState
         _KernelDatabase.Initialize(DekResponseType.TagsToWriteAfterGenAc);
 
         if (_KernelDatabase.TryGet(TagsToWriteBeforeGenAc.Tag, out TagLengthValue? tagsToWriteBeforeGenAc))
-            dataExchangeService.Enqueue(tagsToWriteBeforeGenAc!);
+            dataExchangeService.Enqueue(DekResponseType.TagsToWriteBeforeGenAc, tagsToWriteBeforeGenAc!);
         else
             dataExchangeService.Enqueue(DekRequestType.DataNeeded, TagsToWriteBeforeGenAc.Tag);
 
         if (!_KernelDatabase.TryGet(TagsToWriteAfterGenAc.Tag, out TagLengthValue? tagsToWriteAfterGenAc))
-            dataExchangeService.Enqueue(tagsToWriteAfterGenAc!);
+            dataExchangeService.Enqueue(DekResponseType.TagsToWriteAfterGenAc, tagsToWriteAfterGenAc!);
         else
             dataExchangeService.Enqueue(DekRequestType.DataNeeded, TagsToWriteAfterGenAc.Tag);
 
@@ -396,18 +396,21 @@ public class Idle : KernelState
     {
         if (!_KernelDatabase.IsPresentAndNotEmpty(DataStorageVnTerm.Tag))
         {
-            SOneEighteen();
+            EnqueueDataStorageId();
+            EnqueueApplicationCapabilitiesInformation();
 
             return;
         }
 
         if (!_KernelDatabase.IsPresent(DataStorageRequestedOperatorId.Tag))
         {
-            SOneEighteen();
+            EnqueueDataStorageId();
+            EnqueueApplicationCapabilitiesInformation();
 
             return;
         }
 
+        // HACK
         SOneTwentyOne();
     }
 
@@ -415,9 +418,25 @@ public class Idle : KernelState
 
     #region S1.18
 
-    // HACK
-    private void SOneEighteen()
-    { }
+    private void EnqueueDataStorageId()
+    {
+        DataExchangeKernelService dataExchangeService = _KernelDatabase.GetDataExchanger();
+
+        if (_KernelDatabase.TryGet(DataStorageId.Tag, out TagLengthValue? dataStorageId))
+            dataExchangeService.Enqueue(DekResponseType.DataToSend, dataStorageId!);
+        else
+            dataExchangeService.Enqueue(DekResponseType.DataToSend, new DataStorageId(0));
+    }
+
+    private void EnqueueApplicationCapabilitiesInformation()
+    {
+        DataExchangeKernelService dataExchangeService = _KernelDatabase.GetDataExchanger();
+
+        if (_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out TagLengthValue? applicationCapabilitiesInformation))
+            dataExchangeService.Enqueue(DekResponseType.DataToSend, applicationCapabilitiesInformation!);
+        else
+            dataExchangeService.Enqueue(DekResponseType.DataToSend, new ApplicationCapabilitiesInformation(0));
+    }
 
     #endregion
 

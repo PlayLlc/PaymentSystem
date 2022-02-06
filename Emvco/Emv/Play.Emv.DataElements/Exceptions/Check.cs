@@ -31,6 +31,24 @@ internal class Check
             }
         }
 
+        public static void ForMinCharLength(nint value, int minLength, Tag tag)
+        {
+            if (value < minLength)
+            {
+                throw new
+                    ArgumentOutOfRangeException($"The Primitive Value with the Tag {tag.ToString()} could not be initialized because the char length provided was out of range. The char length was {value} but must be at least {minLength} bytes in length");
+            }
+        }
+
+        public static void ForMaxCharLength(nint value, int maxLength, Tag tag)
+        {
+            if (value > maxLength)
+            {
+                throw new
+                    ArgumentOutOfRangeException($"The Primitive Value with the Tag {tag.ToString()} could not be initialized because the char length provided was out of range. The char length was {value} but must be less than {maxLength} bytes in length");
+            }
+        }
+
         public static void ForCharLength(nint value, int length, Tag tag)
         {
             if (value != length)
@@ -117,6 +135,15 @@ internal class Check
             {
                 throw new
                     ArgumentOutOfRangeException($"The primitive value with the Tag {tag} was expected to have a maximum length of {maxLength} but did not");
+            }
+        }
+
+        public static void ForMinimumLength<T>(ReadOnlySpan<T> value, int minLength, Tag tag) where T : struct
+        {
+            if (value.Length < minLength)
+            {
+                throw new
+                    ArgumentOutOfRangeException($"The primitive value with the Tag {tag} was expected to have a minimum length of {minLength} but did not");
             }
         }
 
