@@ -7,6 +7,8 @@ using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Outcomes;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts;
+using Play.Emv.Timeouts;
+using Play.Globalization.Time;
 
 namespace Play.Emv.Kernel;
 
@@ -17,6 +19,7 @@ public class KernelSession
     private readonly KernelSessionId _KernelSessionId;
     private readonly KernelDatabase _KernelDatabase;
     private readonly DataExchangeKernelService _DataExchangeKernelService;
+    private readonly TimeoutManager _TimeoutManager;
 
     #endregion
 
@@ -31,6 +34,7 @@ public class KernelSession
         _KernelSessionId = kernelSessionId;
         _KernelDatabase = kernelDatabase;
         _DataExchangeKernelService = new DataExchangeKernelService(kernelSessionId, terminalEndpoint, kernelDatabase, kernelEndpoint);
+        _TimeoutManager = new TimeoutManager();
     }
 
     #endregion
@@ -38,6 +42,14 @@ public class KernelSession
     #region Instance Members
 
     public DataExchangeKernelService GetDataExchangeKernelService() => _DataExchangeKernelService;
+
+    #endregion
+
+    #region Timeout
+
+    public void StartTimeout(Milliseconds timeout) => _TimeoutManager.Start(timeout);
+    public void StopTimeout() => _TimeoutManager.Stop();
+    public bool TimedOut() => _TimeoutManager.TimedOut();
 
     #endregion
 

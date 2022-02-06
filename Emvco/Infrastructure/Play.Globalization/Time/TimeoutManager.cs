@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Play.Globalization.Time;
 
-internal class TimeoutManager : IDisposable
+public class TimeoutManager : IDisposable
 {
     #region Instance Values
 
