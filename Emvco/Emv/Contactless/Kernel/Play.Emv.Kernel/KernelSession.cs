@@ -45,7 +45,7 @@ public class KernelSession
 
     #endregion
 
-    #region Timeout
+    #region Timeout Management
 
     public void StartTimeout(Milliseconds timeout) => _TimeoutManager.Start(timeout);
     public void StopTimeout() => _TimeoutManager.Stop();
