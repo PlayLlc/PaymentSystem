@@ -107,17 +107,17 @@ public class DataExchangeKernelService
         }
     }
 
-    public void Enqueue(DekResponseType type, TagLengthValue listItem)
+    public void Enqueue(TagLengthValue listItem)
     {
         lock (_Lock)
         {
-            if (!_Lock.Responses.ContainsKey(type))
+            if (!_Lock.Responses.ContainsKey(listItem.GetTag()))
             {
                 throw new
                     InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
             }
 
-            _Lock.Responses[type].Enqueue(listItem);
+            _Lock.Responses[listItem.GetTag()].Enqueue(listItem);
         }
     }
 
