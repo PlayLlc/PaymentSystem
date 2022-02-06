@@ -5,6 +5,7 @@ using Play.Ber.InternalFactories;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements.ValueTypes;
 
 namespace Play.Emv.DataElements;
 
@@ -38,6 +39,14 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
         const byte bitOffset = 1;
 
         return SdsSchemeIndicator.Get((byte) (_Value >> bitOffset));
+    }
+
+    public DataStorageVersionNumber GetDataStorageVersionNumber()
+    {
+        const byte bitOffset = 16;
+        const byte bitMask = 0b00111111;
+
+        return new DataStorageVersionNumber((byte) (_Value >> bitOffset).GetMaskedValue(bitMask));
     }
 
     public override Tag GetTag() => Tag;

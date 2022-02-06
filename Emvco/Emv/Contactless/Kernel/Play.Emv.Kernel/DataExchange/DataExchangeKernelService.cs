@@ -67,23 +67,63 @@ public class DataExchangeKernelService
 
     #region Responses
 
-    public void RespondToTerminal(CorrelationId correlationId, DekResponseType type)
+    public void SendResponse()
     {
         lock (_Lock)
         {
-            if (!_Lock.Responses.ContainsKey(type))
-                return;
+            if (!_Lock.Requests.ContainsKey(DekResponseType.DataToSend))
+            {
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not {nameof(SendResponse)} the List Item to the Terminal because the List does not exist");
+            }
 
-            // TODO: I'm pretty sure we're only supposed to be sending DataToSend. If that's correct, then let's fix this method so that's the only list we're able to send to the terminal
+            // BUG: We're going to need to send the DataToSend to the Terminal without a CorrelationId sometimes
 
-            QueryKernelResponse queryKernelResponse = new(correlationId, new DataToSend(_Lock.Responses[type].AsArray()),
+            QueryKernelResponse queryKernelResponse = new(null, (DataToSend) _Lock.Responses[DekResponseType.DataToSend],
                                                           new DataExchangeTerminalId(_KernelSessionId.GetKernelId(),
                                                                                      _KernelSessionId.GetTransactionSessionId()));
 
             _KernelEndpoint.Send(queryKernelResponse);
-            _Lock.Responses[type].Clear();
+            _Lock.Responses[DekResponseType.DataToSend].Clear();
         }
     }
+
+    public void SendResponse(CorrelationId correlationId)
+    {
+        lock (_Lock)
+        {
+            if (!_Lock.Requests.ContainsKey(DekResponseType.DataToSend))
+            {
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not {nameof(SendResponse)} the List Item to the Terminal because the List does not exist");
+            }
+
+            QueryKernelResponse queryKernelResponse = new(correlationId, (DataToSend) _Lock.Responses[DekResponseType.DataToSend],
+                                                          new DataExchangeTerminalId(_KernelSessionId.GetKernelId(),
+                                                                                     _KernelSessionId.GetTransactionSessionId()));
+
+            _KernelEndpoint.Send(queryKernelResponse);
+            _Lock.Responses[DekResponseType.DataToSend].Clear();
+        }
+    }
+
+    //public void SendResponse(CorrelationId correlationId, DekResponseType type)
+    //{
+    //    lock (_Lock)
+    //    {
+    //        if (!_Lock.Responses.ContainsKey(type))
+    //            return;
+
+    //        // TODO: I'm pretty sure we're only supposed to be sending DataToSend. If that's correct, then let's fix this method so that's the only list we're able to send to the terminal
+
+    //        QueryKernelResponse queryKernelResponse = new(correlationId, new DataToSend(_Lock.Responses[type].AsArray()),
+    //                                                      new DataExchangeTerminalId(_KernelSessionId.GetKernelId(),
+    //                                                                                 _KernelSessionId.GetTransactionSessionId()));
+
+    //        _KernelEndpoint.Send(queryKernelResponse);
+    //        _Lock.Responses[type].Clear();
+    //    }
+    //}
 
     public void Initialize(DekResponseType listType)
     {
@@ -163,11 +203,38 @@ public class DataExchangeKernelService
         }
     }
 
+    /// <summary>
+    ///     Checks for any non-empty values in the database from the remaining list of <see cref="TagsToRead" />. If any values
+    ///     are present in the database it will dequeue the <see cref="Tag" /> from TagsToReadYet and Enqueue the
+    ///     <see cref="DataToSend" /> buffer with the <see cref="DatabaseValue" />
+    /// </summary>
+    /// <param name="typeType"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public int Resolve(DekResponseType typeType)
+    {
+        lock (_Lock)
+        {
+            for (int i = 0; i < _Lock.Responses[typeType].Count(); i++)
+            {
+                if (!_Lock.Requests[typeType].TryDequeue(out Tag tagToRead))
+                    throw new InvalidOperationException();
+
+                if (_TlvDatabase.IsPresentAndNotEmpty(tagToRead))
+                    _Lock.Responses[typeType].Enqueue(_TlvDatabase.Get(tagToRead));
+                else
+                    _Lock.Requests[typeType].Enqueue(tagToRead);
+            }
+
+            return _Lock.Requests[typeType].Count();
+        }
+    }
+
     #endregion
 
     #region Requests
 
-    public void QueryTerminal()
+    public void SendRequest()
     {
         lock (_Lock)
         {
@@ -241,33 +308,6 @@ public class DataExchangeKernelService
         }
     }
 
-    /// <summary>
-    ///     Checks for any non-empty values in the database from the remaining list of <see cref="TagsToRead" />. If any values
-    ///     are present in the database it will dequeue the <see cref="Tag" /> from TagsToReadYet and Enqueue the
-    ///     <see cref="DataToSend" /> buffer with the <see cref="DatabaseValue" />
-    /// </summary>
-    /// <param name="typeType"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    public int Resolve(DekResponseType typeType)
-    {
-        lock (_Lock)
-        {
-            for (int i = 0; i < _Lock.Responses[typeType].Count(); i++)
-            {
-                if (!_Lock.Requests[typeType].TryDequeue(out Tag tagToRead))
-                    throw new InvalidOperationException();
-
-                if (_TlvDatabase.IsPresentAndNotEmpty(tagToRead))
-                    _Lock.Responses[typeType].Enqueue(_TlvDatabase.Get(tagToRead));
-                else
-                    _Lock.Requests[typeType].Enqueue(tagToRead);
-            }
-
-            return _Lock.Requests[typeType].Count();
-        }
-    }
-
     ///// <summary>
     /////     Checks for any non-empty values in the database from the remaining list of <see cref="TagsToRead" />. If any values
     /////     are present in the database it will dequeue the <see cref="Tag" /> from TagsToReadYet and Enqueue the
@@ -295,6 +335,7 @@ public class DataExchangeKernelService
     //    }
     //}
 
+    // TODO: We might only be initializing DataNeeded here
     public void Initialize(DataExchangeRequest list)
     {
         lock (_Lock.Requests)

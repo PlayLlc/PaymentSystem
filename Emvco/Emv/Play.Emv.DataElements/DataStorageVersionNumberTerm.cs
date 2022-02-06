@@ -22,7 +22,7 @@ namespace Play.Emv.DataElements;
 ///     earlier versions of the specification. As this  is the first version, no legacy support is described and no
 ///     additional bytes are present.
 /// </summary>
-public record DataStorageVnTerm : DataElement<byte[]>
+public record DataStorageVersionNumberTerm : DataElement<byte[]>
 {
     #region Static Metadata
 
@@ -33,7 +33,7 @@ public record DataStorageVnTerm : DataElement<byte[]>
 
     #region Constructor
 
-    public DataStorageVnTerm(byte[] value) : base(value)
+    public DataStorageVersionNumberTerm(byte[] value) : base(value)
     { }
 
     #endregion
@@ -47,11 +47,11 @@ public record DataStorageVnTerm : DataElement<byte[]>
 
     #region Serialization
 
-    public static DataStorageVnTerm Decode(ReadOnlySpan<byte> value) => new(value.ToArray());
+    public static DataStorageVersionNumberTerm Decode(ReadOnlySpan<byte> value) => new(value.ToArray());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
-    public static DataStorageVnTerm Decode(ReadOnlyMemory<byte> value) => new(value.ToArray());
+    public static DataStorageVersionNumberTerm Decode(ReadOnlyMemory<byte> value) => new(value.ToArray());
 
     #endregion
 }

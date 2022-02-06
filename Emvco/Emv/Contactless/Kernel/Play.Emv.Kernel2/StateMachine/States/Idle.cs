@@ -4,6 +4,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
+using Play.Emv.DataElements.ValueTypes;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Kernel;
@@ -12,6 +13,7 @@ using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
+using Play.Emv.Kernel2.StateMachine.States;
 using Play.Emv.Messaging;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
@@ -21,6 +23,7 @@ using Play.Emv.Templates.FileControlInformation;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
 using Play.Emv.Transactions;
+using Play.Globalization.Time;
 using Play.Messaging;
 
 namespace Play.Emv.Kernel2.StateMachine;
@@ -44,6 +47,7 @@ public class Idle : KernelState
     private readonly IGetKernelState _KernelStateResolver;
     private readonly ICleanTornTransactions _KernelCleaner;
     private readonly KernelDatabase _KernelDatabase;
+    private bool _IsPdolDataMissing;
 
     #endregion
 
@@ -63,6 +67,7 @@ public class Idle : KernelState
         _KernelEndpoint = kernelEndpoint;
         _TerminalEndpoint = terminalEndpoint;
         _PcdEndpoint = pcdEndpoint;
+        _IsPdolDataMissing = true;
     }
 
     #endregion
@@ -118,7 +123,15 @@ public class Idle : KernelState
         signal.TryGetTagsToRead(out TagsToRead? tagsToRead);
         InitializeDataExchangeObjects(tagsToRead);
 
-        return _KernelStateResolver.GetKernelState(KernelStateId);
+        // HACK: Same as above
+        HandleProcessingOptionsDataObjectList(_KernelDatabase.GetKernelSession().GetTransactionSessionId(),
+                                              signal.GetFileControlInformationCardResponse().GetFileControlInformation());
+
+        InitializeAcPutData();
+        UpdateIntegratedDataStorage();
+        HandleDataStorageVersionNumberTerm();
+
+        return RouteStateTransition();
     }
 
     #region S1.7
@@ -306,6 +319,8 @@ public class Idle : KernelState
         else
 
             HandlePdolDataIsEmpty(transactionSessionId);
+
+        _IsPdolDataMissing = pdol == null;
     }
 
     #endregion
@@ -319,8 +334,6 @@ public class Idle : KernelState
     {
         SendGetProcessingOptions(GetProcessingOptionsCommand.Create(pdol.AsCommandTemplate(_KernelDatabase), transactionSessionId));
     }
-
-    #region S1.14 & S1.15
 
     /// <remarks>Book C-2 Section 6.3.3 S1.13.4 - S1.13.5</remarks>
     private void HandlePdolDataIsEmpty(TransactionSessionId transactionSessionId)
@@ -392,9 +405,9 @@ public class Idle : KernelState
     #region S1.17
 
     /// <remarks>Book C-2 Section 6.3.3  S1.17</remarks>
-    public void HandleDataStorageVnTerm()
+    public void HandleDataStorageVersionNumberTerm()
     {
-        if (!_KernelDatabase.IsPresentAndNotEmpty(DataStorageVnTerm.Tag))
+        if (!_KernelDatabase.IsPresentAndNotEmpty(DataStorageVersionNumberTerm.Tag))
         {
             EnqueueDataStorageId();
             EnqueueApplicationCapabilitiesInformation();
@@ -410,8 +423,7 @@ public class Idle : KernelState
             return;
         }
 
-        // HACK
-        SOneTwentyOne();
+        HandlePdolData();
     }
 
     #endregion
@@ -440,9 +452,85 @@ public class Idle : KernelState
 
     #endregion
 
+    #region S1.19
+
+    public KernelState RouteStateTransition()
+    {
+        if (!_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out TagLengthValue? applicationCapabilitiesInformationTlv))
+            return HandlePdolData();
+
+        if (!_KernelDatabase.IsPresentAndNotEmpty(DataStorageId.Tag))
+            return HandlePdolData();
+
+        ApplicationCapabilitiesInformation applicationCapabilitiesInformation =
+            ApplicationCapabilitiesInformation.Decode(applicationCapabilitiesInformationTlv!.GetValue().AsSpan());
+
+        if ((byte) applicationCapabilitiesInformation.GetDataStorageVersionNumber() == DataStorageVersionNumbers.Version1)
+            SetIntegratedDataStorageReadStatus();
+
+        if ((byte) applicationCapabilitiesInformation.GetDataStorageVersionNumber() == DataStorageVersionNumbers.Version2)
+            SetIntegratedDataStorageReadStatus();
+
+        return HandlePdolData();
+    }
+
+    #endregion
+
+    #region S1.20
+
+    private void SetIntegratedDataStorageReadStatus()
+    {
+        if (_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out TagLengthValue? integratedDataStorageStatusTlv))
+        {
+            IntegratedDataStorageStatus integratedDataStorageStatus =
+                IntegratedDataStorageStatus.Decode(integratedDataStorageStatusTlv!.GetValue().AsSpan());
+            _KernelDatabase.Update(integratedDataStorageStatus.SetRead());
+        }
+    }
+
+    #endregion
+
+    #region S1.21
+
     // HACK
-    private void SOneTwentyOne()
-    { }
+    private KernelState HandlePdolData()
+    {
+        if (_IsPdolDataMissing)
+        {
+            DispatchDataExchangeMessages();
+            SetTimeout();
+
+            return _KernelStateResolver.GetKernelState(WaitingForPdolData.KernelStateId);
+        }
+
+        return _KernelStateResolver.GetKernelState(WaitingForGpoResponse.KernelStateId);
+    }
+
+    #endregion
+
+    #region S1.22
+
+    public void DispatchDataExchangeMessages()
+    {
+        DataExchangeKernelService dataExchangeService = _KernelDatabase.GetDataExchanger();
+        dataExchangeService.SendResponse();
+        dataExchangeService.SendRequest();
+        dataExchangeService.Initialize(DekResponseType.DataToSend);
+        dataExchangeService.Initialize(new DataNeeded());
+    }
+
+    #endregion
+
+    #region S1.23
+
+    public void SetTimeout()
+    {
+        TimeoutValue timeout = TimeoutValue.Decode(_KernelDatabase.Get(TimeoutValue.Tag).GetValue().AsSpan());
+
+        _KernelDatabase.GetKernelSession().StartTimeout((Milliseconds) timeout);
+    }
+
+    #endregion
 
     #endregion
 

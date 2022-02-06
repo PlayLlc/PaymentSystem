@@ -24,10 +24,7 @@ public record TimeoutValue : DataElement<ushort>, IEqualityComparer<TimeoutValue
     { }
 
     public TimeoutValue(Milliseconds value) : base((ushort) value)
-    {
-        if (value > ushort.MaxValue)
-            throw new ArgumentOutOfRangeException(nameof(value));
-    }
+    { }
 
     #endregion
 
@@ -41,15 +38,15 @@ public record TimeoutValue : DataElement<ushort>, IEqualityComparer<TimeoutValue
 
     #region Serialization
 
-    public static TimeoutValue Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    public static TimeoutValue Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
-    public static TimeoutValue Decode(ReadOnlySpan<byte> value, BerCodec codec)
+    public static TimeoutValue Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ushort> result = codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
+        DecodedResult<ushort> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
             ?? throw new DataElementNullException(BerEncodingId);
 
         return new TimeoutValue(result.Value);
