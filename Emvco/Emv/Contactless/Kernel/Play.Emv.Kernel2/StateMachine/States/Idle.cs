@@ -47,7 +47,7 @@ public class Idle : KernelState
     private readonly IGetKernelState _KernelStateResolver;
     private readonly ICleanTornTransactions _KernelCleaner;
     private readonly KernelDatabase _KernelDatabase;
-    private bool _IsPdolDataMissing;
+    private readonly Kernel2Session _KernelSession;
 
     #endregion
 
@@ -56,6 +56,7 @@ public class Idle : KernelState
     public Idle(
         ICleanTornTransactions kernelCleaner,
         KernelDatabase kernelDatabase,
+        Kernel2Session kernelSession,
         IGetKernelState kernelStateResolver,
         IKernelEndpoint kernelEndpoint,
         IHandleTerminalRequests terminalEndpoint,
@@ -67,7 +68,7 @@ public class Idle : KernelState
         _KernelEndpoint = kernelEndpoint;
         _TerminalEndpoint = terminalEndpoint;
         _PcdEndpoint = pcdEndpoint;
-        _IsPdolDataMissing = true;
+        _KernelSession = kernelSession;
     }
 
     #endregion
@@ -311,16 +312,19 @@ public class Idle : KernelState
     /// <remarks>Book C-2 Section 6.3.3 - S1.12</remarks>
     public void HandleProcessingOptionsDataObjectList(TransactionSessionId transactionSessionId, FileControlInformationAdf fci)
     {
-        if (!fci.TryGetProcessingOptionsDataObjectList(out ProcessingOptionsDataObjectList? pdol))
+        if (fci.TryGetProcessingOptionsDataObjectList(out ProcessingOptionsDataObjectList? pdol))
             AddKnownObjectsToDataToSend();
 
-        else if (pdol!.IsRequestedDataAvailable(_KernelDatabase))
+        if (pdol!.IsRequestedDataAvailable(_KernelDatabase))
+        {
+            _KernelSession.SetIsPdolDataMissing(false);
             HandlePdolDataIsReady(transactionSessionId, pdol);
-        else
 
-            HandlePdolDataIsEmpty(transactionSessionId);
+            return;
+        }
 
-        _IsPdolDataMissing = pdol == null;
+        _KernelSession.SetIsPdolDataMissing(true);
+        HandlePdolDataIsEmpty(transactionSessionId);
     }
 
     #endregion
@@ -495,7 +499,7 @@ public class Idle : KernelState
     // HACK
     private KernelState HandlePdolData()
     {
-        if (_IsPdolDataMissing)
+        if (_KernelSession.IsPdolDataMissing())
         {
             DispatchDataExchangeMessages();
             SetTimeout();
