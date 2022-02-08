@@ -1,4 +1,4 @@
 ﻿namespace Play.Emv.Kernel;
 
-public interface IKernelEndpoint : ISendKernelOutSignal, ISendTerminalQueryResponse
+public interface IKernelEndpoint : IHandleKernelStopRequests, ISendKernelOutSignal, ISendTerminalQueryResponse
 { }

@@ -85,7 +85,7 @@ public class Idle : KernelState
         _KernelDatabase.GetKernelSession().Update(builder);
         _KernelDatabase.GetKernelSession().Update(Level3Error.Stop);
 
-        _KernelEndpoint.Send(new OutKernelResponse(signal.GetCorrelationId(), signal.GetKernelSessionId(),
+        _KernelEndpoint.Send(new OutKernelResponse(_KernelDatabase.GetCorrelationId(), signal.GetKernelSessionId(),
                                                    _KernelDatabase.GetKernelSession().GetOutcome()));
 
         return _KernelStateResolver.GetKernelState(KernelStateId);
@@ -531,7 +531,9 @@ public class Idle : KernelState
     {
         TimeoutValue timeout = TimeoutValue.Decode(_KernelDatabase.Get(TimeoutValue.Tag).GetValue().AsSpan());
 
-        _KernelDatabase.GetKernelSession().StartTimeout((Milliseconds) timeout);
+        _KernelDatabase.GetKernelSession().StartTimeout((Milliseconds) timeout,
+                                                        () => _KernelEndpoint.Request(new StopKernelRequest(_KernelSession
+                                                                                          .GetKernelSessionId())));
     }
 
     #endregion
@@ -546,7 +548,6 @@ public class Idle : KernelState
 
     #region DET
 
-    public override KernelState Handle(UpdateKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
     public override KernelState Handle(QueryTerminalResponse signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
@@ -554,6 +555,7 @@ public class Idle : KernelState
     #region Depricated - These should be handled by the Data Exchange Service
 
     // HACK: I think this won't live here
+    public override KernelState Handle(UpdateKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
     public override KernelState Handle(QueryKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     // HACK: I think this won't live here

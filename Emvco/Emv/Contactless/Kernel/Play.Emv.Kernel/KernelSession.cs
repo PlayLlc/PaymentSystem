@@ -9,6 +9,7 @@ using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Timeouts;
 using Play.Globalization.Time;
+using Play.Messaging;
 
 namespace Play.Emv.Kernel;
 
@@ -20,17 +21,20 @@ public class KernelSession
     private readonly KernelDatabase _KernelDatabase;
     private readonly DataExchangeKernelService _DataExchangeKernelService;
     private readonly TimeoutManager _TimeoutManager;
+    private readonly CorrelationId _CorrelationId;
 
     #endregion
 
     #region Constructor
 
     public KernelSession(
+        CorrelationId correlationId,
         KernelSessionId kernelSessionId,
         IHandleTerminalRequests terminalEndpoint,
         KernelDatabase kernelDatabase,
         ISendTerminalQueryResponse kernelEndpoint)
     {
+        _CorrelationId = correlationId;
         _KernelSessionId = kernelSessionId;
         _KernelDatabase = kernelDatabase;
         _DataExchangeKernelService = new DataExchangeKernelService(kernelSessionId, terminalEndpoint, kernelDatabase, kernelEndpoint);
@@ -47,7 +51,7 @@ public class KernelSession
 
     #region Timeout Management
 
-    public void StartTimeout(Milliseconds timeout) => _TimeoutManager.Start(timeout);
+    public void StartTimeout(Milliseconds timeout, Action timeoutHandler) => _TimeoutManager.Start(timeout, timeoutHandler);
     public void StopTimeout() => _TimeoutManager.Stop();
     public bool TimedOut() => _TimeoutManager.TimedOut();
 
@@ -55,13 +59,14 @@ public class KernelSession
 
     #region Read
 
+    public CorrelationId GetCorrelationId() => _CorrelationId;
     public KernelSessionId GetKernelSessionId() => _KernelSessionId;
     public TransactionSessionId GetTransactionSessionId() => _KernelSessionId.GetTransactionSessionId();
 
     public Outcome GetOutcome() =>
         new(GetErrorIndication(), GetOutcomeParameterSet(), GetDataRecord(), GetDiscretionaryData(), GetUserInterfaceRequestData());
 
-    private ErrorIndication GetErrorIndication() => ErrorIndication.Decode(_KernelDatabase.Get(ErrorIndication.Tag).EncodeValue().AsSpan());
+    public ErrorIndication GetErrorIndication() => ErrorIndication.Decode(_KernelDatabase.Get(ErrorIndication.Tag).EncodeValue().AsSpan());
 
     private OutcomeParameterSet GetOutcomeParameterSet() =>
         OutcomeParameterSet.Decode(_KernelDatabase.Get(OutcomeParameterSet.Tag).EncodeValue().AsSpan());

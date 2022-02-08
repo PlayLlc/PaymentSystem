@@ -18,7 +18,6 @@ public abstract class KernelState
     public abstract KernelState Handle(UpdateKernelRequest signal);
     public abstract KernelState Handle(QueryPcdResponse signal);
     public abstract KernelState Handle(QueryTerminalResponse signal);
-    public abstract KernelState HandleTimeout();
 
     #endregion
 }

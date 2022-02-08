@@ -126,6 +126,7 @@ public class Outcome
     public StartOutcome GetStartOutcome() => _OutcomeParameterSet.GetStartOutcome();
     public StatusOutcome GetStatusOutcome() => _OutcomeParameterSet.GetStatusOutcome();
     public Milliseconds GetTimeout() => _OutcomeParameterSet.GetTimeout();
+    public ErrorIndication GetErrorIndication() => _ErrorIndication;
     public bool IsErrorPresent() => _ErrorIndication.IsErrorPresent();
     public bool IsRestart() => IsRestartedByEntryPoint();
 

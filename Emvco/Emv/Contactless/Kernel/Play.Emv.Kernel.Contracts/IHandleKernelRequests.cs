@@ -1,6 +1,6 @@
 ﻿namespace Play.Emv.Kernel.Contracts;
 
-public interface IHandleKernelRequests
+public interface IHandleKernelRequests : IHandleKernelStopRequests
 {
     /// <summary>
     ///     An ACT DataExchangeSignal. Through its interaction with the Card, it creates a transaction record for authorization
@@ -18,6 +18,5 @@ public interface IHandleKernelRequests
     public void Request(CleanKernelRequest message);
 
     public void Request(QueryKernelRequest message);
-    public void Request(StopKernelRequest message);
     public void Request(UpdateKernelRequest message);
 }

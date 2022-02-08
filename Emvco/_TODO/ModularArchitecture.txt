@@ -29,3 +29,9 @@ Tags you create are correct for proprietary
 https://www.eftlab.com/knowledge-base/145-emv-nfc-tags/
 
 -Kernel 2 Reader Capabilities
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Decouple Outcome in Kernel
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+A new Outcome is instantiated in the kernel every time its requested from the 
+KernelSession. That's not too performant
