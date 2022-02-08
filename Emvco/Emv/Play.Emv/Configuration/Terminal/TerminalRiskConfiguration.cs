@@ -10,7 +10,13 @@ public class TerminalRiskConfiguration
     #region Instance Values
 
     private readonly Percentage _BiasedRandomSelectionMaximumPercentage;
+
+    /// <summary>
+    ///     This is a threshold amount, simply referred to as the threshold value, which can be zero or a positive number
+    ///     smaller than the Terminal Floor Limit
+    /// </summary>
     private readonly Money _BiasedRandomSelectionThreshold;
+
     private readonly CultureProfile _CultureProfile;
     private readonly Percentage _RandomSelectionTargetPercentage;
     private readonly TerminalFloorLimit _TerminalFloorLimit;

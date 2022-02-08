@@ -34,7 +34,13 @@ public abstract record TerminalConfiguration
     private readonly TransactionReferenceCurrencyExponent _TransactionReferenceCurrencyExponent;
     private readonly Percentage _BiasedRandomSelectionPercentage;
     private readonly Percentage _RandomSelectionTargetPercentage;
+
+    /// <summary>
+    ///     This is a threshold amount, simply referred to as the threshold value, which can be zero or a positive number
+    ///     smaller than the Terminal Floor Limit
+    /// </summary>
     private readonly ulong _ThresholdValueForBiasedRandomSelection;
+
     private readonly List<TagLengthValue> _TagLengthValues = new();
 
     #endregion

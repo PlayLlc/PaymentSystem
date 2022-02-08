@@ -10,8 +10,7 @@ namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Description: Indicates the default delay for the processing of the next MSG DataExchangeSignal. The Message Hold
-///     Time is an
-///     integer in units of 100ms.
+///     Time is an integer in units of 100ms.
 /// </summary>
 public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<MessageHoldTime>
 {

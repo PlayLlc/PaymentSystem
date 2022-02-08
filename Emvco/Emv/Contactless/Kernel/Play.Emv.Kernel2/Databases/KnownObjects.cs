@@ -329,8 +329,8 @@ public sealed record KnownObjects : EnumObject<Tag>
         const uint protectedDataEnvelope4 = 0x9F73;
         const uint protectedDataEnvelope5 = 0x9F74;
         const uint readerContactlessFloorLimit = 0xDF8123;
-        const uint readerContactlessTransactionLimitNoOndeviceCvm = 0xDF8124;
-        const uint readerContactlessTransactionLimitOndeviceCvm = 0xDF8125;
+        const uint readerContactlessTransactionLimitNoOnDeviceCvm = 0xDF8124;
+        const uint readerContactlessTransactionLimitOnDeviceCvm = 0xDF8125;
         const uint readerCvmRequiredLimit = 0xDF8126;
         const uint readRecordResponseMessageTemplate = 0x70;
         const uint referenceControlParameter = 0xDF8114;
@@ -411,6 +411,7 @@ public sealed record KnownObjects : EnumObject<Tag>
         Cvc3Track2 = new KnownObjects(0x9F61);
         CvmCapabilityCvmRequired = new KnownObjects(0xDF8118);
         CvmCapabilityNoCvmRequired = new KnownObjects(0xDF8119);
+        TerminalType = new KnownObjects(0x9F35);
         CvmList = new KnownObjects(0x8E);
         CvmResults = new KnownObjects(0x9F34);
         DataNeeded = new KnownObjects(0xDF8106);
@@ -686,8 +687,8 @@ public sealed record KnownObjects : EnumObject<Tag>
             {protectedDataEnvelope4, ProtectedDataEnvelope4},
             {protectedDataEnvelope5, ProtectedDataEnvelope5},
             {readerContactlessFloorLimit, ReaderContactlessFloorLimit},
-            {readerContactlessTransactionLimitNoOndeviceCvm, ReaderContactlessTransactionLimitNoOnDeviceCvm},
-            {readerContactlessTransactionLimitOndeviceCvm, ReaderContactlessTransactionLimitOnDeviceCvm},
+            {readerContactlessTransactionLimitNoOnDeviceCvm, ReaderContactlessTransactionLimitNoOnDeviceCvm},
+            {readerContactlessTransactionLimitOnDeviceCvm, ReaderContactlessTransactionLimitOnDeviceCvm},
             {readerCvmRequiredLimit, ReaderCvmRequiredLimit},
             {readRecordResponseMessageTemplate, ReadRecordResponseMessageTemplate},
             {referenceControlParameter, ReferenceControlParameter},

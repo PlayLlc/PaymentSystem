@@ -8,6 +8,9 @@ using Play.Globalization.Time;
 
 namespace Play.Emv.DataElements;
 
+/// <summary>
+///     Defines the time in ms before the timer generates a TIMEOUT Signal.
+/// </summary>
 public record TimeoutValue : DataElement<ushort>, IEqualityComparer<TimeoutValue>
 {
     #region Static Metadata

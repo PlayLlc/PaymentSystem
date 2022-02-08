@@ -5,6 +5,7 @@ using Play.Ber.InternalFactories;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements.Exceptions;
 
 namespace Play.Emv.DataElements;
 
@@ -18,6 +19,7 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
 
     public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F33;
+    private const byte _ByteLength = 3;
 
     #endregion
 
@@ -60,13 +62,7 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
     /// <exception cref="BerException"></exception>
     public static TerminalCapabilities Decode(ReadOnlySpan<byte> value)
     {
-        const ushort byteLength = 3;
-
-        if (value.Length != byteLength)
-        {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(TerminalCapabilities)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
-        }
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
             ?? throw new
@@ -74,6 +70,8 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
 
         return new TerminalCapabilities(result.Value);
     }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(BerEncodingId, _Value, _ByteLength);
 
     #endregion
 
