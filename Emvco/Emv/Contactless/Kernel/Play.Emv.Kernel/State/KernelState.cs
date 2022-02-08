@@ -4,6 +4,8 @@ using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel.State;
 
+public record KernelTimeout;
+
 public abstract class KernelState
 {
     #region Instance Members
@@ -16,6 +18,7 @@ public abstract class KernelState
     public abstract KernelState Handle(UpdateKernelRequest signal);
     public abstract KernelState Handle(QueryPcdResponse signal);
     public abstract KernelState Handle(QueryTerminalResponse signal);
+    public abstract KernelState HandleTimeout();
 
     #endregion
 }

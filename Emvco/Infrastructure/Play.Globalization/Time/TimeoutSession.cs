@@ -1,4 +1,10 @@
-﻿namespace Play.Globalization.Time;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+using Play.Core.Extensions.Tasks;
+
+namespace Play.Globalization.Time;
 
 /// <summary>
 ///     Manages the current session for the <see cref="TimeoutManager" />
@@ -7,7 +13,7 @@ internal class TimeoutSession
 {
     #region Instance Values
 
-    private StopWatchInstance? _TimeoutBuddy;
+    private readonly AsyncLocal<StopWatchInstance?> _TimeoutBuddy;
 
     #endregion
 
@@ -15,7 +21,7 @@ internal class TimeoutSession
 
     public TimeoutSession()
     {
-        _TimeoutBuddy = null;
+        _TimeoutBuddy = new AsyncLocal<StopWatchInstance?>();
     }
 
     #endregion
@@ -24,25 +30,27 @@ internal class TimeoutSession
 
     public void Start(Milliseconds timeout)
     {
-        _TimeoutBuddy = new StopWatchInstance(timeout);
+        _TimeoutBuddy.Value = new StopWatchInstance(timeout);
+    }
+
+    public void Start(Milliseconds timeout, Action timeoutHandler)
+    {
+        Task.Run(() => { _TimeoutBuddy.Value = new StopWatchInstance(timeout); }).WithTimeout(timeout, () =>
+        {
+            _TimeoutBuddy.Value = null;
+            timeoutHandler.Invoke();
+        }).ConfigureAwait(false);
     }
 
     public void Stop()
     {
-        _TimeoutBuddy = null;
+        _TimeoutBuddy.Value = null;
     }
 
     public bool IsRunning()
     {
-        if (_TimeoutBuddy == null)
+        if (_TimeoutBuddy.Value == null)
             return false;
-
-        if (!_TimeoutBuddy.IsRunning())
-        {
-            _TimeoutBuddy = null;
-
-            return false;
-        }
 
         return true;
     }

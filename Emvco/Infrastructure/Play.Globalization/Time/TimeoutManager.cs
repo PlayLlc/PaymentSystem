@@ -61,6 +61,26 @@ public class TimeoutManager : IDisposable
     #region Start
 
     /// <summary>
+    ///     Starts a new Timeout Session and invokes the timeoutHandler if the session times out
+    /// </summary>
+    /// <param name="timeout"></param>
+    /// <param name="timeoutHandler"></param>
+    /// <exception cref="InvalidOperationException"></exception>
+    public void Start(Milliseconds timeout, Action timeoutHandler)
+    {
+        lock (_TimeoutSession)
+        {
+            if (_TimeoutSession.IsRunning())
+            {
+                throw new
+                    InvalidOperationException($"The {nameof(TimeoutManager)} could not complete the {nameof(Start)} method because the {nameof(TimeoutManager)} is currently running");
+            }
+
+            _TimeoutSession.Start(timeout, timeoutHandler);
+        }
+    }
+
+    /// <summary>
     ///     Starts a new Timeout Session
     /// </summary>
     /// <param name="timeout"></param>

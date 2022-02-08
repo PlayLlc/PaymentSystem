@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
+using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.State;
+using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
 
-namespace Play.Emv.Kernel2.StateMachine.States;
+namespace Play.Emv.Kernel2.StateMachine;
 
 internal class WaitingForExchangeRelayResistanceDataResponse : KernelState
 {
@@ -19,8 +17,8 @@ internal class WaitingForExchangeRelayResistanceDataResponse : KernelState
 
     #endregion
 
-    public override KernelStateId GetKernelStateId() => throw new NotImplementedException();
-    public override KernelState Handle(ActivateKernelRequest signal) => throw new NotImplementedException();
+    public override KernelStateId GetKernelStateId() => KernelStateId;
+    public override KernelState Handle(ActivateKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
     public override KernelState Handle(CleanKernelRequest signal) => throw new NotImplementedException();
     public override KernelState Handle(QueryKernelRequest signal) => throw new NotImplementedException();
     public override KernelState Handle(StopKernelRequest signal) => throw new NotImplementedException();

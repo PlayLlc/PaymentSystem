@@ -5,7 +5,6 @@ using Play.Ber.Exceptions;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
-using Play.Emv.DataElements.ValueTypes;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;
@@ -15,7 +14,6 @@ using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
-using Play.Emv.Kernel2.StateMachine.States;
 using Play.Emv.Messaging;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
@@ -540,9 +538,16 @@ public class Idle : KernelState
 
     #endregion
 
-    #region QUERY
+    #region RAPDU
 
     public override KernelState Handle(QueryPcdResponse signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    #endregion
+
+    #region DET
+
+    public override KernelState Handle(UpdateKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+    public override KernelState Handle(QueryTerminalResponse signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
 
@@ -552,8 +557,6 @@ public class Idle : KernelState
     public override KernelState Handle(QueryKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     // HACK: I think this won't live here
-    public override KernelState Handle(UpdateKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-    public override KernelState Handle(QueryTerminalResponse signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
 }

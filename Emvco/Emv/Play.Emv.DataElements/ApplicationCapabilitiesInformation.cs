@@ -5,7 +5,6 @@ using Play.Ber.InternalFactories;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.ValueTypes;
 
 namespace Play.Emv.DataElements;
 

@@ -33,5 +33,47 @@ public static class TaskExtensions
         return await task;
     }
 
+    public static async Task<TResult> WithTimeout<TResult>(this Task<TResult> task, TimeSpan timeout, Func<TResult> timeoutHandler)
+    {
+        using CancellationTokenSource timeoutCancellationTokenSource = new();
+
+        if (await Task.WhenAny(task, Task.Delay(timeout, timeoutCancellationTokenSource.Token)) != task)
+            return timeoutHandler.Invoke();
+
+        timeoutCancellationTokenSource.Cancel();
+
+        return await task;
+    }
+
+    public static async Task<TResult> WithTimeout<TResult>(this Task<TResult> task, TimeSpan timeout, Func<Task<TResult>> timeoutHandler)
+    {
+        using CancellationTokenSource timeoutCancellationTokenSource = new();
+
+        if (await Task.WhenAny(task, Task.Delay(timeout, timeoutCancellationTokenSource.Token)) != task)
+            return await timeoutHandler.Invoke();
+
+        timeoutCancellationTokenSource.Cancel();
+
+        return await task;
+    }
+
+    public static async Task WithTimeout(this Task task, TimeSpan timeout, Action timeoutHandler)
+    {
+        using CancellationTokenSource timeoutCancellationTokenSource = new();
+
+        if (await Task.WhenAny(task, Task.Delay(timeout, timeoutCancellationTokenSource.Token)) != task)
+        {
+            timeoutHandler.Invoke();
+
+            return;
+        }
+
+        timeoutCancellationTokenSource.Cancel();
+
+        await task;
+
+        return;
+    }
+
     #endregion
 }
