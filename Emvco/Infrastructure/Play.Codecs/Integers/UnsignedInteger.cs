@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Numerics;
 
+using Microsoft.Toolkit.HighPerformance.Buffers;
+
 using Play.Core.Extensions;
+using Play.Core.Specifications;
 
 namespace Play.Codecs.Integers;
 
@@ -44,7 +47,6 @@ public class UnsignedInteger : PlayEncoding
     #region Instance Members
 
     public override bool IsValid(ReadOnlySpan<byte> value) => true;
-    private bool IsValid(byte value) => true;
 
     public override bool IsValid(ReadOnlySpan<char> value)
     {
@@ -63,12 +65,6 @@ public class UnsignedInteger : PlayEncoding
         const char maxIntegerChar = '0';
 
         return value is >= minIntegerChar and <= maxIntegerChar;
-    }
-
-    protected void Validate(ReadOnlySpan<byte> value)
-    {
-        if (!IsValid(value))
-            throw new ArgumentOutOfRangeException(nameof(value));
     }
 
     protected void Validate(ReadOnlySpan<char> value)
@@ -164,8 +160,6 @@ public class UnsignedInteger : PlayEncoding
 
     public char[] GetChars(ReadOnlySpan<byte> value)
     {
-        Validate(value);
-
         // TODO: optimize this later instead of defaulting to BigInteger
         BigInteger integerValue = GetBigInteger(value);
         char[] result = new char[integerValue.GetNumberOfDigits()];
@@ -280,57 +274,26 @@ public class UnsignedInteger : PlayEncoding
         return true;
     }
 
-    public BigInteger GetBigInteger(ReadOnlySpan<byte> value)
-    {
-        Validate(value);
-
-        return new BigInteger(value);
-    }
-
-    public BigInteger GetBigInteger(ReadOnlySpan<char> value)
-    {
-        Validate(value);
-        BigInteger result = 0;
-
-        for (int i = 0; i < (value.Length - 1); i++)
-        {
-            result |= value[i];
-            result <<= 8;
-        }
-
-        result |= value[^1];
-
-        return result;
-    }
+    public BigInteger GetBigInteger(ReadOnlySpan<byte> value) => new BigInteger(value);
 
     public ushort GetUInt16(ReadOnlySpan<byte> value)
     {
-        if (value.Length > 2)
-            throw new ArgumentOutOfRangeException();
+        const byte byteLength = Specs.Integer.UInt16.ByteSize;
 
-        Validate(value);
+        if (value.Length < byteLength)
+        {
+            Span<byte> buffer = stackalloc byte[byteLength];
+            value.CopyTo(buffer);
+
+            return GetUInt16(value);
+        }
+
+        if (value.Length > byteLength)
+            return GetUInt16(value[..byteLength]);
+
         ushort result = 0;
 
         for (int i = 0; i < (value.Length - 1); i++)
-        {
-            result |= value[i];
-            result <<= 8;
-        }
-
-        result |= value[^1];
-
-        return result;
-    }
-
-    public ushort GetUInt16(ReadOnlySpan<char> value)
-    {
-        if (value.Length > 2)
-            throw new ArgumentOutOfRangeException();
-
-        Validate(value);
-        ushort result = 0;
-
-        for (int i = 0; i < value.Length; i++)
         {
             result |= value[i];
             result <<= 8;
@@ -343,32 +306,22 @@ public class UnsignedInteger : PlayEncoding
 
     public uint GetUInt32(ReadOnlySpan<byte> value)
     {
-        if (value.Length > 4)
-            throw new ArgumentOutOfRangeException();
+        const byte byteLength = Specs.Integer.UInt32.ByteSize;
 
-        Validate(value);
+        if (value.Length < byteLength)
+        {
+            Span<byte> buffer = stackalloc byte[byteLength];
+            value.CopyTo(buffer);
+
+            return GetUInt32(value);
+        }
+
+        if (value.Length > byteLength)
+            return GetUInt32(value[..byteLength]);
+
         uint result = 0;
 
         for (int i = 0; i < (value.Length - 1); i++)
-        {
-            result |= value[i];
-            result <<= 8;
-        }
-
-        result |= value[^1];
-
-        return result;
-    }
-
-    public uint GetUInt32(ReadOnlySpan<char> value)
-    {
-        if (value.Length > 4)
-            throw new ArgumentOutOfRangeException();
-
-        Validate(value);
-        uint result = 0;
-
-        for (int i = 0; i < value.Length; i++)
         {
             result |= value[i];
             result <<= 8;
@@ -381,50 +334,22 @@ public class UnsignedInteger : PlayEncoding
 
     public ulong GetUInt64(ReadOnlySpan<byte> value)
     {
-        if (value.Length > 8)
-            throw new ArgumentOutOfRangeException();
+        const byte byteLength = Specs.Integer.UInt64.ByteSize;
 
-        Validate(value);
+        if (value.Length < byteLength)
+        {
+            Span<byte> buffer = stackalloc byte[byteLength];
+            value.CopyTo(buffer);
+
+            return GetUInt64(value);
+        }
+
+        if (value.Length > byteLength)
+            return GetUInt64(value[..byteLength]);
+
         ulong result = 0;
 
         for (int i = 0; i < (value.Length - 1); i++)
-        {
-            result |= value[i];
-            result <<= 8;
-        }
-
-        result |= value[^1];
-
-        return result;
-
-        //BitConverter.ToUInt64(value)
-
-        //if (value.Length > 8)
-        //    throw new ArgumentOutOfRangeException();
-
-        //Validate(value);
-        //ulong result = 0;
-
-        //for (int i = 0; i < value.Length; i++)
-        //{
-        //    result |= value[i];
-        //    result <<= 8;
-        //}
-
-        //result |= value[^1];
-
-        //return result;
-    }
-
-    public ulong GetUInt64(ReadOnlySpan<char> value)
-    {
-        if (value.Length > 8)
-            throw new ArgumentOutOfRangeException();
-
-        Validate(value);
-        ulong result = 0;
-
-        for (int i = 0; i < value.Length; i++)
         {
             result |= value[i];
             result <<= 8;

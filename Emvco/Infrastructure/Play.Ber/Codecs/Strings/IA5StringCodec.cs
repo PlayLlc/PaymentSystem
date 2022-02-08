@@ -13,7 +13,7 @@ public sealed class IA5StringCodec : BerPrimitiveCodec
 {
     #region Static Metadata
 
-    private static readonly StrictAscii _StrictAsciiCodec = PlayEncoding.StrictAscii;
+    private static readonly StrictAscii _StrictAsciiCodec = PlayEncoding.ASCII;
     public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(IA5StringCodec));
 
     #endregion

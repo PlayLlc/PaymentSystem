@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 
 using Play.Core.Extensions;
+using Play.Core.Specifications;
 
 namespace Play.Codecs.Integers;
 
@@ -283,9 +284,21 @@ public class SignedInteger : PlayEncoding
 
     public short GetInt16(ReadOnlySpan<byte> value)
     {
+        const byte byteLength = Specs.Integer.Int16.ByteSize;
+        const ushort max = ushort.MaxValue;
         short result = 0;
         byte bitShift = 0;
-        const ushort max = ushort.MaxValue;
+
+        if (value.Length < byteLength)
+        {
+            Span<byte> buffer = stackalloc byte[byteLength];
+            value.CopyTo(buffer);
+
+            return GetInt16(value);
+        }
+
+        if (value.Length > byteLength)
+            return GetInt16(value[..byteLength]);
 
         for (int i = 0; i < value.Length; i++)
         {
@@ -300,9 +313,21 @@ public class SignedInteger : PlayEncoding
 
     public int GetInt32(ReadOnlySpan<byte> value)
     {
+        const uint max = uint.MaxValue;
+        const byte byteLength = Specs.Integer.Int32.ByteSize;
         int result = 0;
         byte bitShift = 0;
-        uint max = uint.MaxValue;
+
+        if (value.Length < byteLength)
+        {
+            Span<byte> buffer = stackalloc byte[byteLength];
+            value.CopyTo(buffer);
+
+            return GetInt32(value);
+        }
+
+        if (value.Length > byteLength)
+            return GetInt32(value[..byteLength]);
 
         for (int i = 0; i < value.Length; i++)
         {
@@ -317,9 +342,21 @@ public class SignedInteger : PlayEncoding
 
     public long GetInt64(ReadOnlySpan<byte> value)
     {
+        const ulong max = ulong.MaxValue;
+        const byte byteLength = Specs.Integer.Int64.ByteSize;
         long result = 0;
         int bitShift = 0;
-        ulong max = ulong.MaxValue;
+
+        if (value.Length < byteLength)
+        {
+            Span<byte> buffer = stackalloc byte[byteLength];
+            value.CopyTo(buffer);
+
+            return GetInt64(value);
+        }
+
+        if (value.Length > byteLength)
+            return GetInt64(value[..byteLength]);
 
         for (int i = 0; i < value.Length; i++)
         {

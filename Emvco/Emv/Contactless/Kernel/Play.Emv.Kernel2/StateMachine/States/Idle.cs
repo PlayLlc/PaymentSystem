@@ -2,11 +2,13 @@
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
+using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
 using Play.Emv.DataElements.ValueTypes;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
+using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
@@ -35,7 +37,7 @@ public class Idle : KernelState
 {
     #region Static Metadata
 
-    public static readonly KernelStateId KernelStateId = new(1);
+    public static readonly KernelStateId KernelStateId = new(nameof(Idle));
 
     #endregion
 
