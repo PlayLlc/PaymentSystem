@@ -11,11 +11,11 @@ using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel2.StateMachine.States;
 
-internal class WaitingForExchangeRelayResistanceDataResponse : KernelState
+public class WaitingForPregenAcBalanace : KernelState
 {
     #region Static Metadata
 
-    public static readonly KernelStateId KernelStateId = new(nameof(WaitingForExchangeRelayResistanceDataResponse));
+    public static readonly KernelStateId KernelStateId = new(nameof(WaitingForPregenAcBalanace));
 
     #endregion
 

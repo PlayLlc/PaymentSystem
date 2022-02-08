@@ -15,7 +15,7 @@ internal class WaitingForGpoResponse : KernelState
 {
     #region Static Metadata
 
-    public static readonly KernelStateId KernelStateId = new(3);
+    public static readonly KernelStateId KernelStateId = new(nameof(WaitingForGpoResponse));
 
     #endregion
 

@@ -15,7 +15,7 @@ internal class WaitingForPdolData : KernelState
 {
     #region Static Metadata
 
-    public static readonly KernelStateId KernelStateId = new(2);
+    public static readonly KernelStateId KernelStateId = new(nameof(WaitingForPdolData));
 
     #endregion
 
