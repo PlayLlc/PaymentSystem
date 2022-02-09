@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Play.Core.Threads;
 using Play.Emv.DataElements;
 using Play.Emv.Kernel.Contracts;
+using Play.Emv.Kernel.State;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
 
@@ -11,10 +12,19 @@ namespace Play.Emv.Kernel.Services;
 
 public abstract class KernelProcess : CommandProcessingQueue
 {
+    #region Instance Values
+
+    protected readonly KernelStateMachine _KernelStateMachine;
+
+    #endregion
+
     #region Constructor
 
-    protected KernelProcess(CancellationTokenSource cancellationTokenSource) : base(cancellationTokenSource)
-    { }
+    protected KernelProcess(KernelStateMachine kernelStateMachine, CancellationTokenSource cancellationTokenSource) :
+        base(cancellationTokenSource)
+    {
+        _KernelStateMachine = kernelStateMachine;
+    }
 
     #endregion
 
@@ -27,14 +37,43 @@ public abstract class KernelProcess : CommandProcessingQueue
     public virtual void Enqueue(StopKernelRequest message) => Enqueue((dynamic) message);
     public virtual void Enqueue(UpdateKernelRequest message) => Enqueue((dynamic) message);
     public virtual void Enqueue(QueryPcdResponse message) => Enqueue((dynamic) message);
+
+    protected async Task Handle(ActivateKernelRequest signal)
+    {
+        await Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
+    }
+
+    protected async Task Handle(CleanKernelRequest signal)
+    {
+        await Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
+    }
+
+    protected async Task Handle(QueryKernelRequest signal)
+    {
+        await Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
+    }
+
+    protected async Task Handle(StopKernelRequest signal)
+    {
+        await Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
+    }
+
+    protected async Task Handle(UpdateKernelRequest signal)
+    {
+        await Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
+    }
+
+    protected async Task Handle(QueryPcdResponse signal)
+    {
+        await Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
+    }
+
+    protected async Task Handle(QueryTerminalResponse signal)
+    {
+        await Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
+    }
+
     public virtual void Enqueue(QueryTerminalResponse message) => Enqueue((dynamic) message);
-    protected abstract Task Handle(ActivateKernelRequest command);
-    protected abstract Task Handle(CleanKernelRequest signal);
-    protected abstract Task Handle(QueryKernelRequest command);
-    protected abstract Task Handle(StopKernelRequest command);
-    protected abstract Task Handle(UpdateKernelRequest command);
-    protected abstract Task Handle(QueryPcdResponse command);
-    protected abstract Task Handle(QueryTerminalResponse command);
     protected override async Task Handle(dynamic command) => await Handle(command).ConfigureAwait(false);
 
     #endregion

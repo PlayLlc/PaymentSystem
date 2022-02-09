@@ -5,6 +5,7 @@ using Play.Emv.DataElements;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
+using Play.Emv.Kernel2.StateMachine;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
 
@@ -14,13 +15,13 @@ public class Kernel2Process : KernelProcess
 {
     #region Instance Values
 
-    private readonly KernelStateMachine _KernelStateMachine;
+    private readonly Kernel2StateMachine _KernelStateMachine;
 
     #endregion
 
     #region Constructor
 
-    public Kernel2Process(KernelStateMachine kernelStateMachine) : base(new CancellationTokenSource())
+    public Kernel2Process(Kernel2StateMachine kernelStateMachine) : base(new CancellationTokenSource())
     {
         _KernelStateMachine = kernelStateMachine;
     }

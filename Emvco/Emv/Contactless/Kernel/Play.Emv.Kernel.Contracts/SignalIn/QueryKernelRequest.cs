@@ -1,6 +1,7 @@
 ﻿using Play.Emv.DataElements;
 using Play.Emv.DataExchange;
 using Play.Emv.Messaging;
+using Play.Emv.Sessions;
 using Play.Messaging;
 
 namespace Play.Emv.Kernel.Contracts;
@@ -38,6 +39,7 @@ public record QueryKernelRequest : RequestSignal, IExchangeDataWithTheTerminal
 
     public DataExchangeTerminalId GetDataExchangeTerminalId() => _DataExchangeTerminalId;
     public TagsToRead GetTagsToRead() => _TagsToRead;
+    public TransactionSessionId GetTransactionSessionId() => _DataExchangeTerminalId.GetTransactionSessionId();
 
     #endregion
 }

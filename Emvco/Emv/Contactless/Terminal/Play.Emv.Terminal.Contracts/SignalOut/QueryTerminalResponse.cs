@@ -2,6 +2,7 @@
 using Play.Emv.DataElements;
 using Play.Emv.DataExchange;
 using Play.Emv.Messaging;
+using Play.Emv.Sessions;
 using Play.Messaging;
 
 namespace Play.Emv.Terminal.Contracts.SignalOut;
@@ -39,6 +40,8 @@ public record QueryTerminalResponse : ResponseSignal, IExchangeDataWithTheKernel
 
     public DataToSend GetDataToSend() => _DataToSend;
     public DataExchangeKernelId GetDataExchangeKernelId() => _DataExchangeKernelId;
+    public KernelSessionId GetKernelSessionId() => _DataExchangeKernelId.GetKernelSessionId();
+    public TransactionSessionId GetTransactionSessionId() => _DataExchangeKernelId.GetTransactionSessionId();
 
     #endregion
 }

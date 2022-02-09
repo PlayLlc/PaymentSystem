@@ -46,8 +46,6 @@ public class Idle : KernelState
     private readonly IHandlePcdRequests _PcdEndpoint;
     private readonly IGetKernelState _KernelStateResolver;
     private readonly ICleanTornTransactions _KernelCleaner;
-    private readonly KernelDatabase _KernelDatabase;
-    private readonly Kernel2Session _KernelSession;
 
     #endregion
 
@@ -56,19 +54,17 @@ public class Idle : KernelState
     public Idle(
         ICleanTornTransactions kernelCleaner,
         KernelDatabase kernelDatabase,
-        Kernel2Session kernelSession,
+        DataExchangeKernelService dataExchange,
         IGetKernelState kernelStateResolver,
         IKernelEndpoint kernelEndpoint,
         IHandleTerminalRequests terminalEndpoint,
-        IHandlePcdRequests pcdEndpoint)
+        IHandlePcdRequests pcdEndpoint) : base(kernelDatabase, dataExchange)
     {
         _KernelCleaner = kernelCleaner;
-        _KernelDatabase = kernelDatabase;
         _KernelStateResolver = kernelStateResolver;
         _KernelEndpoint = kernelEndpoint;
         _TerminalEndpoint = terminalEndpoint;
         _PcdEndpoint = pcdEndpoint;
-        _KernelSession = kernelSession;
     }
 
     #endregion
@@ -77,16 +73,17 @@ public class Idle : KernelState
 
     #region STOP
 
-    public override KernelState Handle(StopKernelRequest signal)
+    public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
         OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
         builder.Set(StatusOutcome.EndApplication);
 
-        _KernelDatabase.GetKernelSession().Update(builder);
-        _KernelDatabase.GetKernelSession().Update(Level3Error.Stop);
+        session.Update(builder);
+        session.Update(Level3Error.Stop);
 
-        _KernelEndpoint.Send(new OutKernelResponse(_KernelDatabase.GetCorrelationId(), signal.GetKernelSessionId(),
-                                                   _KernelDatabase.GetKernelSession().GetOutcome()));
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), signal.GetKernelSessionId(), session.GetOutcome()));
+
+        Clear();
 
         return _KernelStateResolver.GetKernelState(KernelStateId);
     }
@@ -108,16 +105,18 @@ public class Idle : KernelState
 
     /// <remarks>Book C-2 Section 6.3.3</remarks>
     /// <exception cref="InvalidOperationException"></exception>
-    public override KernelState Handle(ActivateKernelRequest signal)
+    public override KernelState Handle(KernelSession session, ActivateKernelRequest signal)
     {
+        Kernel2Session kernel2Session = (Kernel2Session) session;
+
         if (!TryInitialize(signal.GetCorrelationId(), signal.GetKernelSessionId(), signal.GetTransaction()))
             return _KernelStateResolver.GetKernelState(KernelStateId);
 
         if (!TryParseTemplateAndAddTransactionDataToDatabase(signal, out FileControlInformationAdf? fci))
             return _KernelStateResolver.GetKernelState(KernelStateId);
 
-        UpdateLanguagePreferences(fci!);
-        HandleSupportForFieldOffDetection(fci!);
+        UpdateLanguagePreferences(kernel2Session, fci!);
+        HandleSupportForFieldOffDetection(kernel2Session, fci!);
         InitializeEmvDataObjects();
 
         // HACK: Should we be pulling 'TagsToRead' directly from the ACT signal? What if the process changes the value before we get here? We should probably flatten the ActivateKernelRequest, or just only expose the ToTagLengthValue() method. That would allow us to strongly type the required objects for the Signal and force us to use the KernelDatabase to retrieve stateful values
@@ -125,26 +124,25 @@ public class Idle : KernelState
         InitializeDataExchangeObjects(tagsToRead);
 
         // HACK: Same as above
-        HandleProcessingOptionsDataObjectList(_KernelDatabase.GetKernelSession().GetTransactionSessionId(),
-                                              signal.GetFileControlInformationCardResponse().GetFileControlInformation());
+        HandleProcessingOptionsDataObjectList(kernel2Session, signal.GetFileControlInformationCardResponse().GetFileControlInformation());
 
         InitializeAcPutData();
         UpdateIntegratedDataStorage();
-        HandleDataStorageVersionNumberTerm();
+        HandleDataStorageVersionNumberTerm(kernel2Session);
 
-        return RouteStateTransition();
+        return RouteStateTransition(kernel2Session);
     }
 
     #region S1.7
 
     /// <remarks>Book C-2 Section 6.3.3 S1.7</remarks>
-    private void UpdateLanguagePreferences(FileControlInformationAdf fci)
+    private void UpdateLanguagePreferences(Kernel2Session session, FileControlInformationAdf fci)
     {
         if (fci.TryGetLanguagePreference(out LanguagePreference? languagePreference))
         {
             UserInterfaceRequestData.Builder builder = UserInterfaceRequestData.GetBuilder();
             builder.Set(languagePreference!);
-            _KernelDatabase.GetKernelSession().Update(builder);
+            session.Update(builder);
         }
     }
 
@@ -159,7 +157,7 @@ public class Idle : KernelState
         _KernelEndpoint.Send(new OutKernelResponse(correlationId, kernelSessionId, outcome));
     }
 
-    private void HandleSupportForFieldOffDetection(FileControlInformationAdf fci)
+    private void HandleSupportForFieldOffDetection(Kernel2Session session, FileControlInformationAdf fci)
     {
         if (fci!.TryGetApplicationCapabilitiesInformation(out ApplicationCapabilitiesInformation? result))
         {
@@ -168,6 +166,7 @@ public class Idle : KernelState
                 byte holdTime = _KernelDatabase.Get(MessageHoldTime.Tag).EncodeValue()[0];
                 OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
                 builder.Set(new FieldOffRequestOutcome(holdTime));
+                session.Update(builder);
                 _KernelDatabase.Update(builder);
             }
         }
@@ -216,14 +215,14 @@ public class Idle : KernelState
     {
         try
         {
-            _KernelDatabase.Activate(kernelSessionId, _TerminalEndpoint, _KernelEndpoint, transaction);
+            _KernelDatabase.Activate(kernelSessionId, transaction);
             OutcomeParameterSet.Builder outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
             UserInterfaceRequestData.Builder userInterfaceBuilder = UserInterfaceRequestData.GetBuilder();
 
             userInterfaceBuilder.Set(MessageHoldTime.Decode(_KernelDatabase.Get(KnownObjects.MessageHoldTime).EncodeValue()));
-            _KernelDatabase.GetKernelSession().Reset(outcomeParameterSetBuilder.Complete());
-            _KernelDatabase.GetKernelSession().Reset(userInterfaceBuilder.Complete());
-            _KernelDatabase.GetKernelSession().Reset(new ErrorIndication(0));
+            _KernelDatabase.Reset(outcomeParameterSetBuilder.Complete());
+            _KernelDatabase.Reset(userInterfaceBuilder.Complete());
+            _KernelDatabase.Reset(new ErrorIndication(0));
 
             return true;
         }
@@ -282,21 +281,18 @@ public class Idle : KernelState
     private void InitializeDataExchangeObjects(TagsToRead? tagsToRead)
     {
         // TODO: DataExchangeKernelService
-
-        DataExchangeKernelService dataExchangeService = _KernelDatabase.GetDataExchanger();
-
-        dataExchangeService.Initialize(new DataNeeded());
-        dataExchangeService.Initialize(new DataToSend());
-        dataExchangeService.Initialize(new TagsToRead());
+        _DataExchangeKernelService.Initialize(new DataNeeded());
+        _DataExchangeKernelService.Initialize(new DataToSend());
+        _DataExchangeKernelService.Initialize(new TagsToRead());
 
         if (tagsToRead != null)
         {
-            dataExchangeService.Enqueue(DekRequestType.TagsToRead, tagsToRead);
+            _DataExchangeKernelService.Enqueue(DekRequestType.TagsToRead, tagsToRead);
 
             // TODO: TagsToReadYet.Update(tagsToRead);
         }
         else
-            dataExchangeService.Enqueue(DekRequestType.DataNeeded, TagsToRead.Tag);
+            _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, TagsToRead.Tag);
     }
 
     #endregion
@@ -310,21 +306,21 @@ public class Idle : KernelState
     #region S1.12
 
     /// <remarks>Book C-2 Section 6.3.3 - S1.12</remarks>
-    public void HandleProcessingOptionsDataObjectList(TransactionSessionId transactionSessionId, FileControlInformationAdf fci)
+    public void HandleProcessingOptionsDataObjectList(Kernel2Session session, FileControlInformationAdf fci)
     {
         if (fci.TryGetProcessingOptionsDataObjectList(out ProcessingOptionsDataObjectList? pdol))
             AddKnownObjectsToDataToSend();
 
         if (pdol!.IsRequestedDataAvailable(_KernelDatabase))
         {
-            _KernelSession.SetIsPdolDataMissing(false);
-            HandlePdolDataIsReady(transactionSessionId, pdol);
+            session.SetIsPdolDataMissing(false);
+            HandlePdolDataIsReady(session.GetTransactionSessionId(), pdol);
 
             return;
         }
 
-        _KernelSession.SetIsPdolDataMissing(true);
-        HandlePdolDataIsEmpty(transactionSessionId);
+        session.SetIsPdolDataMissing(true);
+        HandlePdolDataIsEmpty(session.GetTransactionSessionId());
     }
 
     #endregion
@@ -362,7 +358,7 @@ public class Idle : KernelState
     /// <remarks>Book C-2 Section 6.3.3  S1.15</remarks>
     private void AddKnownObjectsToDataToSend()
     {
-        _KernelDatabase.GetDataExchanger().Resolve(DekRequestType.TagsToRead);
+        _DataExchangeKernelService.Resolve(DekRequestType.TagsToRead);
     }
 
     #endregion
@@ -372,22 +368,20 @@ public class Idle : KernelState
     /// <remarks>Book C-2 Section 6.3.3  S1.16</remarks>
     private void InitializeAcPutData()
     {
-        DataExchangeKernelService dataExchangeService = _KernelDatabase.GetDataExchanger();
-
         _KernelDatabase.Update(new PostGenAcPutDataStatus(0));
         _KernelDatabase.Update(new PreGenAcPutDataStatus(0));
         _KernelDatabase.Initialize(DekResponseType.TagsToWriteBeforeGenAc);
         _KernelDatabase.Initialize(DekResponseType.TagsToWriteAfterGenAc);
 
         if (_KernelDatabase.TryGet(TagsToWriteBeforeGenAc.Tag, out TagLengthValue? tagsToWriteBeforeGenAc))
-            dataExchangeService.Enqueue(DekResponseType.TagsToWriteBeforeGenAc, tagsToWriteBeforeGenAc!);
+            _DataExchangeKernelService.Enqueue(DekResponseType.TagsToWriteBeforeGenAc, tagsToWriteBeforeGenAc!);
         else
-            dataExchangeService.Enqueue(DekRequestType.DataNeeded, TagsToWriteBeforeGenAc.Tag);
+            _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, TagsToWriteBeforeGenAc.Tag);
 
         if (!_KernelDatabase.TryGet(TagsToWriteAfterGenAc.Tag, out TagLengthValue? tagsToWriteAfterGenAc))
-            dataExchangeService.Enqueue(DekResponseType.TagsToWriteAfterGenAc, tagsToWriteAfterGenAc!);
+            _DataExchangeKernelService.Enqueue(DekResponseType.TagsToWriteAfterGenAc, tagsToWriteAfterGenAc!);
         else
-            dataExchangeService.Enqueue(DekRequestType.DataNeeded, TagsToWriteAfterGenAc.Tag);
+            _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, TagsToWriteAfterGenAc.Tag);
 
         UpdateIntegratedDataStorage();
     }
@@ -409,7 +403,7 @@ public class Idle : KernelState
     #region S1.17
 
     /// <remarks>Book C-2 Section 6.3.3  S1.17</remarks>
-    public void HandleDataStorageVersionNumberTerm()
+    public void HandleDataStorageVersionNumberTerm(Kernel2Session session)
     {
         if (!_KernelDatabase.IsPresentAndNotEmpty(DataStorageVersionNumberTerm.Tag))
         {
@@ -427,7 +421,7 @@ public class Idle : KernelState
             return;
         }
 
-        HandlePdolData();
+        HandlePdolData(session);
     }
 
     #endregion
@@ -436,35 +430,31 @@ public class Idle : KernelState
 
     private void EnqueueDataStorageId()
     {
-        DataExchangeKernelService dataExchangeService = _KernelDatabase.GetDataExchanger();
-
         if (_KernelDatabase.TryGet(DataStorageId.Tag, out TagLengthValue? dataStorageId))
-            dataExchangeService.Enqueue(DekResponseType.DataToSend, dataStorageId!);
+            _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, dataStorageId!);
         else
-            dataExchangeService.Enqueue(DekResponseType.DataToSend, new DataStorageId(0));
+            _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, new DataStorageId(0));
     }
 
     private void EnqueueApplicationCapabilitiesInformation()
     {
-        DataExchangeKernelService dataExchangeService = _KernelDatabase.GetDataExchanger();
-
         if (_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out TagLengthValue? applicationCapabilitiesInformation))
-            dataExchangeService.Enqueue(DekResponseType.DataToSend, applicationCapabilitiesInformation!);
+            _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, applicationCapabilitiesInformation!);
         else
-            dataExchangeService.Enqueue(DekResponseType.DataToSend, new ApplicationCapabilitiesInformation(0));
+            _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, new ApplicationCapabilitiesInformation(0));
     }
 
     #endregion
 
     #region S1.19
 
-    public KernelState RouteStateTransition()
+    public KernelState RouteStateTransition(Kernel2Session session)
     {
         if (!_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out TagLengthValue? applicationCapabilitiesInformationTlv))
-            return HandlePdolData();
+            return HandlePdolData(session);
 
         if (!_KernelDatabase.IsPresentAndNotEmpty(DataStorageId.Tag))
-            return HandlePdolData();
+            return HandlePdolData(session);
 
         ApplicationCapabilitiesInformation applicationCapabilitiesInformation =
             ApplicationCapabilitiesInformation.Decode(applicationCapabilitiesInformationTlv!.GetValue().AsSpan());
@@ -475,7 +465,7 @@ public class Idle : KernelState
         if ((byte) applicationCapabilitiesInformation.GetDataStorageVersionNumber() == DataStorageVersionNumbers.Version2)
             SetIntegratedDataStorageReadStatus();
 
-        return HandlePdolData();
+        return HandlePdolData(session);
     }
 
     #endregion
@@ -497,12 +487,12 @@ public class Idle : KernelState
     #region S1.21
 
     // HACK
-    private KernelState HandlePdolData()
+    private KernelState HandlePdolData(Kernel2Session session)
     {
-        if (_KernelSession.IsPdolDataMissing())
+        if (session.IsPdolDataMissing())
         {
-            DispatchDataExchangeMessages();
-            SetTimeout();
+            DispatchDataExchangeMessages(session.GetKernelSessionId());
+            SetTimeout(session);
 
             return _KernelStateResolver.GetKernelState(WaitingForPdolData.KernelStateId);
         }
@@ -514,26 +504,23 @@ public class Idle : KernelState
 
     #region S1.22
 
-    public void DispatchDataExchangeMessages()
+    public void DispatchDataExchangeMessages(KernelSessionId kernelSessionId)
     {
-        DataExchangeKernelService dataExchangeService = _KernelDatabase.GetDataExchanger();
-        dataExchangeService.SendResponse();
-        dataExchangeService.SendRequest();
-        dataExchangeService.Initialize(DekResponseType.DataToSend);
-        dataExchangeService.Initialize(new DataNeeded());
+        _DataExchangeKernelService.SendResponse(kernelSessionId);
+        _DataExchangeKernelService.SendRequest(kernelSessionId);
+        _DataExchangeKernelService.Initialize(DekResponseType.DataToSend);
+        _DataExchangeKernelService.Initialize(new DataNeeded());
     }
 
     #endregion
 
     #region S1.23
 
-    public void SetTimeout()
+    public void SetTimeout(Kernel2Session session)
     {
         TimeoutValue timeout = TimeoutValue.Decode(_KernelDatabase.Get(TimeoutValue.Tag).GetValue().AsSpan());
 
-        _KernelDatabase.GetKernelSession().StartTimeout((Milliseconds) timeout,
-                                                        () => _KernelEndpoint.Request(new StopKernelRequest(_KernelSession
-                                                                                          .GetKernelSessionId())));
+        session.StartTimeout((Milliseconds) timeout, () => _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId())));
     }
 
     #endregion
@@ -542,21 +529,26 @@ public class Idle : KernelState
 
     #region RAPDU
 
-    public override KernelState Handle(QueryPcdResponse signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+    public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
 
     #region DET
 
-    public override KernelState Handle(QueryTerminalResponse signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
 
     #region Depricated - These should be handled by the Data Exchange Service
 
     // HACK: I think this won't live here
-    public override KernelState Handle(UpdateKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-    public override KernelState Handle(QueryKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     // HACK: I think this won't live here
 

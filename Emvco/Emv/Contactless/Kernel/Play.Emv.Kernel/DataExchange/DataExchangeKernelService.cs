@@ -20,7 +20,6 @@ public class DataExchangeKernelService
     #region Instance Values
 
     protected readonly IQueryTlvDatabase _TlvDatabase;
-    private readonly KernelSessionId _KernelSessionId;
     private readonly ISendTerminalQueryResponse _KernelEndpoint;
     private readonly IHandleTerminalRequests _TerminalEndpoint;
     private readonly DataExchangeKernelLock _Lock = new();
@@ -30,16 +29,33 @@ public class DataExchangeKernelService
     #region Constructor
 
     public DataExchangeKernelService(
-        KernelSessionId kernelSessionId,
         IHandleTerminalRequests terminalEndpoint,
         KernelDatabase kernelDatabase,
         ISendTerminalQueryResponse kernelEndpoint)
     {
-        _KernelSessionId = kernelSessionId;
         _TerminalEndpoint = terminalEndpoint;
         _KernelEndpoint = kernelEndpoint;
         _TlvDatabase = kernelDatabase;
     }
+
+    #endregion
+
+    #region Instance Members
+
+    // TODO: Send callback to terminal as well
+
+    #region Clear
+
+    public void Clear()
+    {
+        lock (_Lock)
+        {
+            _Lock.Responses.Clear();
+            _Lock.Requests.Clear();
+        }
+    }
+
+    #endregion
 
     #endregion
 
@@ -63,11 +79,9 @@ public class DataExchangeKernelService
         #endregion
     }
 
-    // TODO: Send callback to terminal as well 
-
     #region Responses
 
-    public void SendResponse()
+    public void SendResponse(KernelSessionId kernelSessionId)
     {
         lock (_Lock)
         {
@@ -80,15 +94,15 @@ public class DataExchangeKernelService
             // BUG: We're going to need to send the DataToSend to the Terminal without a CorrelationId sometimes
 
             QueryKernelResponse queryKernelResponse = new(null, (DataToSend) _Lock.Responses[DekResponseType.DataToSend],
-                                                          new DataExchangeTerminalId(_KernelSessionId.GetKernelId(),
-                                                                                     _KernelSessionId.GetTransactionSessionId()));
+                                                          new DataExchangeTerminalId(kernelSessionId.GetKernelId(),
+                                                                                     kernelSessionId.GetTransactionSessionId()));
 
             _KernelEndpoint.Send(queryKernelResponse);
             _Lock.Responses[DekResponseType.DataToSend].Clear();
         }
     }
 
-    public void SendResponse(CorrelationId correlationId)
+    public void SendResponse(KernelSessionId sessionId, CorrelationId correlationId)
     {
         lock (_Lock)
         {
@@ -99,8 +113,8 @@ public class DataExchangeKernelService
             }
 
             QueryKernelResponse queryKernelResponse = new(correlationId, (DataToSend) _Lock.Responses[DekResponseType.DataToSend],
-                                                          new DataExchangeTerminalId(_KernelSessionId.GetKernelId(),
-                                                                                     _KernelSessionId.GetTransactionSessionId()));
+                                                          new DataExchangeTerminalId(sessionId.GetKernelId(),
+                                                                                     sessionId.GetTransactionSessionId()));
 
             _KernelEndpoint.Send(queryKernelResponse);
             _Lock.Responses[DekResponseType.DataToSend].Clear();
@@ -234,14 +248,14 @@ public class DataExchangeKernelService
 
     #region Requests
 
-    public void SendRequest()
+    public void SendRequest(KernelSessionId sessionId)
     {
         lock (_Lock)
         {
             if (!_Lock.Responses.ContainsKey(DekRequestType.DataNeeded))
                 return;
 
-            QueryTerminalRequest queryKernelResponse = new(new DataExchangeKernelId(_KernelSessionId.GetKernelId(), _KernelSessionId),
+            QueryTerminalRequest queryKernelResponse = new(new DataExchangeKernelId(sessionId.GetKernelId(), sessionId),
                                                            (DataNeeded) _Lock.Requests[DekRequestType.DataNeeded]);
 
             _TerminalEndpoint.Request(queryKernelResponse);

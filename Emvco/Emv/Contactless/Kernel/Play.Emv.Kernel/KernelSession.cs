@@ -18,8 +18,6 @@ public class KernelSession
     #region Instance Values
 
     private readonly KernelSessionId _KernelSessionId;
-    private readonly KernelDatabase _KernelDatabase;
-    private readonly DataExchangeKernelService _DataExchangeKernelService;
     private readonly TimeoutManager _TimeoutManager;
     private readonly CorrelationId _CorrelationId;
 
@@ -27,17 +25,10 @@ public class KernelSession
 
     #region Constructor
 
-    public KernelSession(
-        CorrelationId correlationId,
-        KernelSessionId kernelSessionId,
-        IHandleTerminalRequests terminalEndpoint,
-        KernelDatabase kernelDatabase,
-        ISendTerminalQueryResponse kernelEndpoint)
+    public KernelSession(CorrelationId correlationId, KernelSessionId kernelSessionId)
     {
         _CorrelationId = correlationId;
         _KernelSessionId = kernelSessionId;
-        _KernelDatabase = kernelDatabase;
-        _DataExchangeKernelService = new DataExchangeKernelService(kernelSessionId, terminalEndpoint, kernelDatabase, kernelEndpoint);
         _TimeoutManager = new TimeoutManager();
     }
 

@@ -31,6 +31,7 @@ public record StopKernelRequest : RequestSignal
     #region Instance Members
 
     public KernelSessionId GetKernelSessionId() => _KernelSessionId;
+    public TransactionSessionId GetTransactionSessionId() => _KernelSessionId.GetTransactionSessionId();
 
     #endregion
 }

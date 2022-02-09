@@ -4,6 +4,7 @@ using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel2.Configuration;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts;
+using Play.Messaging;
 
 namespace Play.Emv.Kernel2.Databases;
 
@@ -11,7 +12,6 @@ public class Kernel2Session : KernelSession
 {
     #region Instance Values
 
-    private readonly Kernel2SessionConfiguration _Kernel2SessionConfiguration;
     private AcType _AcType = AcType.Aac;
     private OdaStatus _OdaStatus = OdaStatus.NotAvailable;
     private RrpCounter _RrpCounter = new(0);
@@ -21,14 +21,8 @@ public class Kernel2Session : KernelSession
 
     #region Constructor
 
-    public Kernel2Session(
-        KernelSessionId kernelSessionId,
-        IHandleTerminalRequests terminalEndpoint,
-        KernelDatabase kernelDatabase,
-        ISendTerminalQueryResponse kernelEndpoint) : base(kernelSessionId, terminalEndpoint, kernelDatabase, kernelEndpoint)
-    {
-        _Kernel2SessionConfiguration = new Kernel2SessionConfiguration();
-    }
+    public Kernel2Session(CorrelationId correlationId, KernelSessionId kernelSessionId) : base(correlationId, kernelSessionId)
+    { }
 
     #endregion
 

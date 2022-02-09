@@ -8,11 +8,7 @@ public interface IActivateKernelDatabase
 {
     #region Instance Members
 
-    public void Activate(
-        KernelSessionId kernelSessionId,
-        IHandleTerminalRequests terminalEndpoint,
-        ISendTerminalQueryResponse kernelEndpoint,
-        Transaction transaction);
+    public void Activate(KernelSessionId kernelSessionId, Transaction transaction);
 
     #endregion
 }

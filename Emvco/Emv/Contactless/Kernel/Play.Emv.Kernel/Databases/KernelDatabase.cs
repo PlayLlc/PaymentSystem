@@ -21,8 +21,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     protected readonly IKernelCertificateDatabase _KernelCertificateDatabase;
     protected readonly ITlvDatabase _TlvDatabase;
+    protected KernelSessionId? _KernelSessionId;
     protected IHandleTerminalRequests _TerminalEndpoint;
-    protected KernelSession? _KernelSession;
 
     #endregion
 
@@ -42,33 +42,17 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     #region Instance Members
 
-    public DataExchangeKernelService GetDataExchanger()
-    {
-        if (IsActive())
-        {
-            throw new
-                InvalidOperationException($"Could not retrieve the {nameof(DataExchangeKernelService)} because the {nameof(KernelDatabase)} is not active");
-        }
-
-        return _KernelSession!.GetDataExchangeKernelService();
-    }
-
     public abstract KernelConfiguration GetKernelConfiguration();
 
     /// <summary>
     ///     Activate
     /// </summary>
     /// <param name="kernelSessionId"></param>
-    /// <param name="terminalEndpoint"></param>
     /// <param name="transaction"></param>
     /// <exception cref="BerInternalException"></exception>
     /// <exception cref="BerException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public virtual void Activate(
-        KernelSessionId kernelSessionId,
-        IHandleTerminalRequests terminalEndpoint,
-        ISendTerminalQueryResponse kernelEndpoint,
-        Transaction transaction)
+    public virtual void Activate(KernelSessionId kernelSessionId, Transaction transaction)
     {
         if (IsActive())
         {
@@ -76,7 +60,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
                 InvalidOperationException($"A command to initialize the Kernel Database was invoked but the {nameof(KernelDatabase)} is already active");
         }
 
-        _KernelSession = new KernelSession(kernelSessionId, _TerminalEndpoint, this, kernelEndpoint);
+        _KernelSessionId = kernelSessionId;
+
         UpdateRange(transaction.AsTagLengthValueArray());
     }
 
@@ -88,7 +73,6 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         _TlvDatabase.Clear();
         _KernelCertificateDatabase.PurgeRevokedCertificates();
-        _KernelSession = null;
     }
 
     /// <summary>
@@ -213,30 +197,16 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         return _TlvDatabase.TryGet(tag, out result);
     }
 
-    public virtual KernelSession GetKernelSession()
+    public bool TryGetKernelSessionId(out KernelSessionId? result)
     {
-        if (!IsActive())
+        if (_KernelSessionId == null)
         {
-            throw new
-                InvalidOperationException($"The method {nameof(GetKernelSession)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            result = null;
+
+            return false;
         }
 
-        return _KernelSession!;
-    }
-
-    /// <summary>
-    ///     If the Kernel Database is active, true is returned and the KernelSessionId is set as the out parameter.
-    ///     Otherwise false is returned
-    /// </summary>
-    public virtual bool TryGetKernelSessionId(out KernelSessionId? result)
-    {
-        if (!IsActive())
-        {
-            throw new
-                InvalidOperationException($"The method {nameof(TryGetKernelSessionId)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
-        }
-
-        result = _KernelSession!.GetKernelSessionId();
+        result = _KernelSessionId;
 
         return true;
     }
@@ -287,47 +257,83 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         _TlvDatabase.Update(new DatabaseValue(tag));
     }
 
+    protected bool IsActive() => _KernelSessionId != null;
+
+    #endregion
+
+    #region Outcome
+
+    public ErrorIndication GetErrorIndication() => ErrorIndication.Decode(Get(ErrorIndication.Tag).EncodeValue().AsSpan());
+    private OutcomeParameterSet GetOutcomeParameterSet() => OutcomeParameterSet.Decode(Get(OutcomeParameterSet.Tag).EncodeValue().AsSpan());
+
+    private UserInterfaceRequestData? GetUserInterfaceRequestData()
+    {
+        if (IsPresentAndNotEmpty(UserInterfaceRequestData.Tag))
+            return null;
+
+        return UserInterfaceRequestData.Decode(Get(UserInterfaceRequestData.Tag).EncodeValue().AsSpan());
+    }
+
+    private DataRecord? GetDataRecord()
+    {
+        if (IsPresentAndNotEmpty(DataRecord.Tag))
+            return null;
+
+        return DataRecord.Decode(Get(DataRecord.Tag).EncodeValue().AsSpan());
+    }
+
+    private DiscretionaryData? GetDiscretionaryData()
+    {
+        if (IsPresentAndNotEmpty(DiscretionaryData.Tag))
+            return null;
+
+        return DiscretionaryData.Decode(Get(DiscretionaryData.Tag).EncodeValue().AsSpan());
+    }
+
     public void Update(Level1Error value)
     {
-        _KernelSession!.Update(value);
+        Update(new ErrorIndication(GetErrorIndication(), value));
     }
 
     public void Update(Level2Error value)
     {
-        _KernelSession!.Update(value);
+        Update(new ErrorIndication(GetErrorIndication(), value));
     }
 
     public void Update(Level3Error value)
     {
-        _KernelSession!.Update(value);
-    }
-
-    public void Update(OutcomeParameterSet.Builder value)
-    {
-        _KernelSession!.Update(value);
-    }
-
-    public void Update(UserInterfaceRequestData.Builder value)
-    {
-        _KernelSession!.Update(value);
+        Update(new ErrorIndication(GetErrorIndication(), value));
     }
 
     public void Reset(OutcomeParameterSet value)
     {
-        _KernelSession!.Reset(value);
+        Update(value);
     }
 
     public void Reset(UserInterfaceRequestData value)
     {
-        _KernelSession!.Reset(value);
+        Update(value);
     }
 
     public void Reset(ErrorIndication value)
     {
-        _KernelSession!.Reset(value);
+        Update(value);
     }
 
-    protected bool IsActive() => _KernelSession != null;
+    public void Update(OutcomeParameterSet.Builder value)
+    {
+        Update(GetOutcomeParameterSet() | value.Complete());
+    }
+
+    public void Update(UserInterfaceRequestData.Builder value)
+    {
+        UserInterfaceRequestData? userInterfaceRequestData = GetUserInterfaceRequestData();
+
+        if (userInterfaceRequestData == null)
+            Update(value.Complete());
+
+        Update(GetUserInterfaceRequestData()! | value.Complete());
+    }
 
     #endregion
 }
