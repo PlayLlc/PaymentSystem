@@ -337,7 +337,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     }
 
     public Outcome GetOutcome() =>
-        new Outcome(GetErrorIndication(), GetOutcomeParameterSet(), GetDataRecord(), GetDiscretionaryData(), GetUserInterfaceRequestData());
+        new(GetErrorIndication(), GetOutcomeParameterSet(), GetDataRecord(), GetDiscretionaryData(), GetUserInterfaceRequestData());
 
     #endregion
 }

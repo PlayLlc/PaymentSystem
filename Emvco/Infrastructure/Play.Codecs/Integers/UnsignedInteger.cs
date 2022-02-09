@@ -274,7 +274,7 @@ public class UnsignedInteger : PlayEncoding
         return true;
     }
 
-    public BigInteger GetBigInteger(ReadOnlySpan<byte> value) => new BigInteger(value);
+    public BigInteger GetBigInteger(ReadOnlySpan<byte> value) => new(value);
 
     public ushort GetUInt16(ReadOnlySpan<byte> value)
     {
