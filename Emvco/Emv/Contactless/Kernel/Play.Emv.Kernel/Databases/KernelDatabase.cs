@@ -235,7 +235,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     ///     provided it is not recognized
     /// </summary>
     /// <param name="values"></param>
-    public virtual void UpdateRange(TagLengthValue[] values)
+    public virtual void UpdateRange(DatabaseValue[] values)
     {
         if (!IsActive())
         {

@@ -13,18 +13,10 @@ namespace Play.Emv.Kernel2.Services;
 
 public class Kernel2Process : KernelProcess
 {
-    #region Instance Values
-
-    private readonly Kernel2StateMachine _KernelStateMachine;
-
-    #endregion
-
     #region Constructor
 
-    public Kernel2Process(Kernel2StateMachine kernelStateMachine) : base(new CancellationTokenSource())
-    {
-        _KernelStateMachine = kernelStateMachine;
-    }
+    public Kernel2Process(Kernel2StateMachine kernelStateMachine) : base(kernelStateMachine, new CancellationTokenSource())
+    { }
 
     #endregion
 
@@ -38,46 +30,6 @@ public class Kernel2Process : KernelProcess
         Clear();
         base.Enqueue(message);
         base.Enqueue(new CleanKernelRequest(message.GetKernelSessionId()));
-    }
-
-    protected override async Task Handle(ActivateKernelRequest signal)
-    {
-        await Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
-    }
-
-    protected override async Task Handle(CleanKernelRequest signal)
-    {
-        await Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
-    }
-
-    protected override async Task Handle(QueryKernelRequest signal)
-    {
-        await Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
-    }
-
-    protected override async Task Handle(StopKernelRequest signal)
-    {
-        await Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
-    }
-
-    protected override async Task Handle(UpdateKernelRequest signal)
-    {
-        await Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
-    }
-
-    protected override async Task Handle(QueryPcdResponse signal)
-    {
-        await Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
-    }
-
-    protected override async Task Handle(QueryTerminalResponse signal)
-    {
-        await Task.Run(() => { _KernelStateMachine.Handle(signal); }).ConfigureAwait(false);
-    }
-
-    protected override async Task Handle(dynamic command)
-    {
-        await Handle(command).ConfigureAwait(false);
     }
 
     #endregion

@@ -62,7 +62,8 @@ internal class WaitingForPdolData : KernelState
 
     #region ACT
 
-    public override KernelState Handle(ActivateKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+    public override KernelState Handle(KernelSession session, ActivateKernelRequest signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
 
@@ -74,7 +75,7 @@ internal class WaitingForPdolData : KernelState
 
     #region STOP
 
-    public override KernelState Handle(StopKernelRequest signal)
+    public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
         if (_KernelSession.TimedOut())
             HandleTimeout();
@@ -109,17 +110,18 @@ internal class WaitingForPdolData : KernelState
 
     #region RAPDU
 
-    public override KernelState Handle(QueryPcdResponse signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+    public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
 
     #region DET
 
-    public override KernelState Handle(QueryTerminalResponse signal) => throw new NotImplementedException();
+    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) => throw new NotImplementedException();
 
     #endregion
 
     // BUG: The messages below should be handled by the DEK
-    public override KernelState Handle(UpdateKernelRequest signal) => throw new NotImplementedException();
-    public override KernelState Handle(QueryKernelRequest signal) => throw new NotImplementedException();
+    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) => throw new NotImplementedException();
+    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) => throw new NotImplementedException();
 }

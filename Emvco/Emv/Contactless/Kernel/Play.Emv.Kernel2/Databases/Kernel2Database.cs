@@ -39,17 +39,11 @@ public class Kernel2Database : KernelDatabase
     ///     Activate
     /// </summary>
     /// <param name="kernelSessionId"></param>
-    /// <param name="kernelEndpoint"></param>
     /// <param name="transaction"></param>
-    /// <param name="terminalEndpoint"></param>
     /// <exception cref="BerInternalException"></exception>
     /// <exception cref="BerException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public override void Activate(
-        KernelSessionId kernelSessionId,
-        IHandleTerminalRequests terminalEndpoint,
-        ISendTerminalQueryResponse kernelEndpoint,
-        Transaction transaction)
+    public override void Activate(KernelSessionId kernelSessionId, Transaction transaction)
     {
         if (IsActive())
         {
@@ -57,7 +51,7 @@ public class Kernel2Database : KernelDatabase
                 InvalidOperationException($"A command to initialize the Kernel Database was invoked but the {nameof(KernelDatabase)} is already active");
         }
 
-        _KernelSession = new KernelSession(kernelSessionId, terminalEndpoint, this, kernelEndpoint);
+        _KernelSessionId = kernelSessionId;
         UpdateRange(transaction.AsTagLengthValueArray().Select(a => new DatabaseValue(a)).ToArray());
     }
 

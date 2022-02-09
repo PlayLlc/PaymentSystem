@@ -31,7 +31,7 @@ public class Kernel2ProcessFactory
 
         Kernel2StateResolver kernel2StateResolver =
             Kernel2StateResolver.Create(tornTransactionCleaner, kernel2Database, terminalEndpoint, kernelEndpoint, pcdEndpoint);
-        KernelStateMachine stateMachine = new(kernel2StateResolver.GetKernelState(Idle.KernelStateId));
+        Kernel2StateMachine stateMachine = new(kernel2StateResolver.GetKernelState(Idle.KernelStateId));
 
         return new Kernel2Process(stateMachine);
     }

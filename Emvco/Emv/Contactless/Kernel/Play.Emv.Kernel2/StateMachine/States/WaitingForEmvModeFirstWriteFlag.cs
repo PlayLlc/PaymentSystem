@@ -1,7 +1,10 @@
 ﻿using System;
 
 using Play.Emv.Exceptions;
+using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
+using Play.Emv.Kernel.Databases;
+using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
@@ -17,12 +20,20 @@ public class WaitingForEmvModeFirstWriteFlag : KernelState
 
     #endregion
 
+    #region Constructor
+
+    public WaitingForEmvModeFirstWriteFlag(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange) :
+        base(kernelDatabase, dataExchange)
+    { }
+
+    #endregion
+
     public override KernelStateId GetKernelStateId() => KernelStateId;
-    public override KernelState Handle(ActivateKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+    public override KernelState Handle(KernelSession session, ActivateKernelRequest signal) => throw new NotImplementedException();
     public override KernelState Handle(CleanKernelRequest signal) => throw new NotImplementedException();
-    public override KernelState Handle(QueryKernelRequest signal) => throw new NotImplementedException();
-    public override KernelState Handle(StopKernelRequest signal) => throw new NotImplementedException();
-    public override KernelState Handle(UpdateKernelRequest signal) => throw new NotImplementedException();
-    public override KernelState Handle(QueryPcdResponse signal) => throw new NotImplementedException();
-    public override KernelState Handle(QueryTerminalResponse signal) => throw new NotImplementedException();
+    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) => throw new NotImplementedException();
+    public override KernelState Handle(KernelSession session, StopKernelRequest signal) => throw new NotImplementedException();
+    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) => throw new NotImplementedException();
+    public override KernelState Handle(KernelSession session, QueryPcdResponse signal) => throw new NotImplementedException();
+    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) => throw new NotImplementedException();
 }

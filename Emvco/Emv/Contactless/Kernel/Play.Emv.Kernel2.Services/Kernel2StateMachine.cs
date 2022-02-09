@@ -21,7 +21,7 @@ using Play.Messaging;
 
 namespace Play.Emv.Kernel2.Services;
 
-public class Kernel2StateMachine
+public class Kernel2StateMachine : KernelStateMachine
 {
     #region Instance Values
 
@@ -31,7 +31,7 @@ public class Kernel2StateMachine
 
     #region Constructor
 
-    protected Kernel2StateMachine(KernelState kernelState)
+    public Kernel2StateMachine(KernelState kernelState)
     {
         _Lock = new Kernel2StateLock(kernelState);
     }
@@ -40,7 +40,7 @@ public class Kernel2StateMachine
 
     #region Instance Members
 
-    public void Handle(ActivateKernelRequest signal)
+    public override void Handle(ActivateKernelRequest signal)
     {
         lock (_Lock)
         {
@@ -55,7 +55,7 @@ public class Kernel2StateMachine
         }
     }
 
-    public void Handle(CleanKernelRequest signal)
+    public override void Handle(CleanKernelRequest signal)
     {
         lock (_Lock)
         {
@@ -69,7 +69,7 @@ public class Kernel2StateMachine
         }
     }
 
-    public void Handle(StopKernelRequest signal)
+    public override void Handle(StopKernelRequest signal)
     {
         lock (_Lock)
         {
@@ -90,7 +90,7 @@ public class Kernel2StateMachine
         }
     }
 
-    public void Handle(QueryPcdResponse signal)
+    public override void Handle(QueryPcdResponse signal)
     {
         lock (_Lock)
         {
@@ -110,7 +110,7 @@ public class Kernel2StateMachine
         }
     }
 
-    public void Handle(QueryTerminalResponse signal)
+    public override void Handle(QueryTerminalResponse signal)
     {
         lock (_Lock)
         {
@@ -130,7 +130,7 @@ public class Kernel2StateMachine
         }
     }
 
-    public void Handle(UpdateKernelRequest signal)
+    public override void Handle(UpdateKernelRequest signal)
     {
         lock (_Lock)
         {
@@ -151,7 +151,7 @@ public class Kernel2StateMachine
         }
     }
 
-    public void Handle(QueryKernelRequest signal)
+    public override void Handle(QueryKernelRequest signal)
     {
         lock (_Lock)
         {
