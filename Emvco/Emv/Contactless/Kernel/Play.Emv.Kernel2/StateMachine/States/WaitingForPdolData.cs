@@ -31,8 +31,6 @@ internal class WaitingForPdolData : KernelState
     private readonly IHandlePcdRequests _PcdEndpoint;
     private readonly IGetKernelState _KernelStateResolver;
     private readonly ICleanTornTransactions _KernelCleaner;
-    private readonly KernelDatabase _KernelDatabase;
-    private readonly Kernel2Session _KernelSession;
 
     #endregion
 
@@ -45,15 +43,13 @@ internal class WaitingForPdolData : KernelState
         IGetKernelState kernelStateResolver,
         ICleanTornTransactions kernelCleaner,
         KernelDatabase kernelDatabase,
-        Kernel2Session kernelSession)
+        DataExchangeKernelService dataExchangeKernelService) : base(kernelDatabase, dataExchangeKernelService)
     {
         _KernelEndpoint = kernelEndpoint;
         _TerminalEndpoint = terminalEndpoint;
         _PcdEndpoint = pcdEndpoint;
         _KernelStateResolver = kernelStateResolver;
         _KernelCleaner = kernelCleaner;
-        _KernelDatabase = kernelDatabase;
-        _KernelSession = kernelSession;
     }
 
     #endregion
@@ -77,8 +73,11 @@ internal class WaitingForPdolData : KernelState
 
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
-        if (_KernelSession.TimedOut())
-            HandleTimeout();
+        Kernel2Session kernel2Session = (Kernel2Session) session;
+        if (session.TimedOut())
+            HandleTimeout(kernel2Session);
+
+        throw new NotImplementedException();
 
         //OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
         //builder.Set(StatusOutcome.EndApplication);
@@ -91,19 +90,18 @@ internal class WaitingForPdolData : KernelState
         //return _KernelStateResolver.GetKernelState(KernelStateId); 
     }
 
-    private void HandleTimeout()
+    private void HandleTimeout(Kernel2Session session)
     {
+        Kernel2Database kernel2Database = (Kernel2Database) _KernelDatabase;
         OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
         builder.Set(StatusOutcome.EndApplication);
-        _KernelSession.Update(Level3Error.TimeOut);
-        _KernelSession.Update(builder);
+        kernel2Database.Update(Level3Error.TimeOut);
+        kernel2Database.Update(builder);
 
-        DataExchangeKernelService dataExchangeService = _KernelDatabase.GetDataExchanger();
-        dataExchangeService.Initialize(DekResponseType.DiscretionaryData);
-        dataExchangeService.Enqueue(DekResponseType.DiscretionaryData, _KernelSession.GetErrorIndication());
+        _DataExchangeKernelService.Initialize(DekResponseType.DiscretionaryData);
+        _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, kernel2Database.GetErrorIndication());
 
-        _KernelEndpoint.Send(new OutKernelResponse(_KernelSession.GetCorrelationId(), _KernelSession.GetKernelSessionId(),
-                                                   _KernelDatabase.GetKernelSession().GetOutcome()));
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), kernel2Database.GetOutcome()));
     }
 
     #endregion

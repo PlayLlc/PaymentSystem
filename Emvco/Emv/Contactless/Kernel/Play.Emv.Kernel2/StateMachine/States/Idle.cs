@@ -78,10 +78,10 @@ public class Idle : KernelState
         OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
         builder.Set(StatusOutcome.EndApplication);
 
-        session.Update(builder);
-        session.Update(Level3Error.Stop);
+        _KernelDatabase.Update(builder);
+        _KernelDatabase.Update(Level3Error.Stop);
 
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), signal.GetKernelSessionId(), session.GetOutcome()));
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), signal.GetKernelSessionId(), _KernelDatabase.GetOutcome()));
 
         Clear();
 
@@ -142,7 +142,7 @@ public class Idle : KernelState
         {
             UserInterfaceRequestData.Builder builder = UserInterfaceRequestData.GetBuilder();
             builder.Set(languagePreference!);
-            session.Update(builder);
+            ((Kernel2Database) _KernelDatabase).Update(builder);
         }
     }
 
@@ -166,7 +166,7 @@ public class Idle : KernelState
                 byte holdTime = _KernelDatabase.Get(MessageHoldTime.Tag).EncodeValue()[0];
                 OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
                 builder.Set(new FieldOffRequestOutcome(holdTime));
-                session.Update(builder);
+                ((Kernel2Database) _KernelDatabase).Update(builder);
                 _KernelDatabase.Update(builder);
             }
         }

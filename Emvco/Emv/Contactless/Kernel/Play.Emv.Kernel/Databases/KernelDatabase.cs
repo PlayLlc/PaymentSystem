@@ -7,6 +7,7 @@ using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
 using Play.Emv.Icc;
 using Play.Emv.Kernel.DataExchange;
+using Play.Emv.Outcomes;
 using Play.Emv.Security.Certificates;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts;
@@ -235,7 +236,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     ///     provided it is not recognized
     /// </summary>
     /// <param name="values"></param>
-    public virtual void UpdateRange(DatabaseValue[] values)
+    public virtual void UpdateRange(TagLengthValue[] values)
     {
         if (!IsActive())
         {
@@ -334,6 +335,9 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
         Update(GetUserInterfaceRequestData()! | value.Complete());
     }
+
+    public Outcome GetOutcome() =>
+        new Outcome(GetErrorIndication(), GetOutcomeParameterSet(), GetDataRecord(), GetDiscretionaryData(), GetUserInterfaceRequestData());
 
     #endregion
 }

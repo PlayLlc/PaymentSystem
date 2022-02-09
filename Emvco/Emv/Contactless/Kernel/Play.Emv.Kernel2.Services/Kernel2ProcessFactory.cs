@@ -2,6 +2,7 @@
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
+using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Configuration;
 using Play.Emv.Kernel2.Databases;
@@ -29,8 +30,10 @@ public class Kernel2ProcessFactory
         Kernel2Database kernel2Database = new(kernel2Configuration, terminalEndpoint, new Kernel2TlvDatabase(kernel2PersistentValues),
                                               new KernelCertificateDatabase(certificates));
 
-        Kernel2StateResolver kernel2StateResolver =
-            Kernel2StateResolver.Create(tornTransactionCleaner, kernel2Database, terminalEndpoint, kernelEndpoint, pcdEndpoint);
+        Kernel2StateResolver kernel2StateResolver = Kernel2StateResolver.Create(tornTransactionCleaner, kernel2Database,
+                                                                                new DataExchangeKernelService(terminalEndpoint,
+                                                                                 kernel2Database, kernelEndpoint), terminalEndpoint,
+                                                                                kernelEndpoint, pcdEndpoint);
         Kernel2StateMachine stateMachine = new(kernel2StateResolver.GetKernelState(Idle.KernelStateId));
 
         return new Kernel2Process(stateMachine);
