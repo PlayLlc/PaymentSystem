@@ -160,9 +160,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{A90155
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kernel3", "Kernel3", "{1DD256EC-E671-4406-B2C4-85FAEDACFCEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Emv.Kernel3", "Emv\Contactless\Kernel\Play.Emv.Kernel3\Play.Emv.Kernel3.csproj", "{9BE0C8C9-C79B-4637-929B-1E27C4EAA9C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Kernel3", "Emv\Contactless\Kernel\Play.Emv.Kernel3\Play.Emv.Kernel3.csproj", "{9BE0C8C9-C79B-4637-929B-1E27C4EAA9C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Emv.Kernel3.Services", "Emv\Contactless\Kernel\Play.Emv.Kernel3.Services\Play.Emv.Kernel3.Services.csproj", "{6397C6D1-56C0-484C-8412-BA4BB59CA4C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Kernel3.Services", "Emv\Contactless\Kernel\Play.Emv.Kernel3.Services\Play.Emv.Kernel3.Services.csproj", "{6397C6D1-56C0-484C-8412-BA4BB59CA4C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Interchange", "Infrastructure\Play.Interchange\Play.Interchange.csproj", "{D8954C0D-5180-48B8-A9E4-53C73B7441C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -390,6 +392,10 @@ Global
 		{6397C6D1-56C0-484C-8412-BA4BB59CA4C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6397C6D1-56C0-484C-8412-BA4BB59CA4C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6397C6D1-56C0-484C-8412-BA4BB59CA4C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8954C0D-5180-48B8-A9E4-53C73B7441C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8954C0D-5180-48B8-A9E4-53C73B7441C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8954C0D-5180-48B8-A9E4-53C73B7441C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8954C0D-5180-48B8-A9E4-53C73B7441C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -466,6 +472,7 @@ Global
 		{1DD256EC-E671-4406-B2C4-85FAEDACFCEE} = {6F689E91-579B-4497-B8F2-7D91E4339EE6}
 		{9BE0C8C9-C79B-4637-929B-1E27C4EAA9C6} = {1DD256EC-E671-4406-B2C4-85FAEDACFCEE}
 		{6397C6D1-56C0-484C-8412-BA4BB59CA4C1} = {1DD256EC-E671-4406-B2C4-85FAEDACFCEE}
+		{D8954C0D-5180-48B8-A9E4-53C73B7441C6} = {D7CA87CA-8340-4E2C-A2ED-5CE46EEC455B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E9927CF8-C10C-47E1-87FD-7ACEEBCD340D}

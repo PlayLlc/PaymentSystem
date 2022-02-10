@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.Kernel2.StateMachine;
+﻿namespace Play.Emv.Terminal.Contracts;
 
 public interface ICleanTornTransactions
 {

@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Play.Emv.DataElements;
-using Play.Emv.DataElements.Primitives.DataStorage.TornTransaction;
-using Play.Emv.Kernel2.StateMachine;
+using Play.Emv.Terminal.Contracts;
 using Play.Encryption.Hashing;
 using Play.Globalization.Time;
 
