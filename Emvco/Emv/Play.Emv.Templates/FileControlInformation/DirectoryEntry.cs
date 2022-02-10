@@ -60,7 +60,7 @@ public class DirectoryEntry : Template
     //    _ApplicationPriorityIndicator.ApplicationCannotBeSelectedWithoutConfirmationByTheCardholder();
 
     public ApplicationPriorityRank GetApplicationPriorityRank() =>
-        _ApplicationPriorityIndicator?.GetApplicationPriorityRank() ?? ApplicationPriorityRank.Fifteenth;
+        _ApplicationPriorityIndicator?.GetApplicationPriorityRank() ?? ApplicationPriorityRankTypes.Fifteenth;
 
     public bool TryGetKernelIdentifier(out KernelIdentifier? result)
     {

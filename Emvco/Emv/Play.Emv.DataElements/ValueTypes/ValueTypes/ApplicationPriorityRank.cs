@@ -1,32 +1,9 @@
-using System.Collections.Immutable;
-
 using Play.Core.Extensions;
 
 namespace Play.Emv.DataElements;
 
 public readonly struct ApplicationPriorityRank
 {
-    #region Static Metadata
-
-    private static readonly ImmutableSortedDictionary<byte, ApplicationPriorityRank> _ValueObjectMap;
-    public static readonly ApplicationPriorityRank Eighth;
-    public static readonly ApplicationPriorityRank Eleventh;
-    public static readonly ApplicationPriorityRank Fifteenth;
-    public static readonly ApplicationPriorityRank Fifth;
-    public static readonly ApplicationPriorityRank First;
-    public static readonly ApplicationPriorityRank Fourteenth;
-    public static readonly ApplicationPriorityRank Fourth;
-    public static readonly ApplicationPriorityRank Ninth;
-    public static readonly ApplicationPriorityRank Second;
-    public static readonly ApplicationPriorityRank Seventh;
-    public static readonly ApplicationPriorityRank Sixth;
-    public static readonly ApplicationPriorityRank Tenth;
-    public static readonly ApplicationPriorityRank Third;
-    public static readonly ApplicationPriorityRank Thirteenth;
-    public static readonly ApplicationPriorityRank Twelveth;
-
-    #endregion
-
     #region Instance Values
 
     private readonly byte _Value;
@@ -35,77 +12,17 @@ public readonly struct ApplicationPriorityRank
 
     #region Constructor
 
-    static ApplicationPriorityRank()
+    public ApplicationPriorityRank(byte value)
     {
-        const byte first = 1;
-        const byte second = 2;
-        const byte third = 3;
-        const byte fourth = 4;
-        const byte fifth = 5;
-        const byte sixth = 6;
-        const byte seventh = 7;
-        const byte eighth = 8;
-        const byte ninth = 9;
-        const byte tenth = 10;
-        const byte eleventh = 11;
-        const byte twelveth = 12;
-        const byte thirteenth = 13;
-        const byte fourteenth = 14;
-        const byte fifteenth = 15;
-
-        First = new ApplicationPriorityRank(first);
-        Second = new ApplicationPriorityRank(second);
-        Third = new ApplicationPriorityRank(third);
-        Fourth = new ApplicationPriorityRank(fourth);
-        Fifth = new ApplicationPriorityRank(fifth);
-        Sixth = new ApplicationPriorityRank(sixth);
-        Seventh = new ApplicationPriorityRank(seventh);
-        Eighth = new ApplicationPriorityRank(eighth);
-        Ninth = new ApplicationPriorityRank(ninth);
-        Tenth = new ApplicationPriorityRank(tenth);
-        Eleventh = new ApplicationPriorityRank(eleventh);
-        Twelveth = new ApplicationPriorityRank(twelveth);
-        Thirteenth = new ApplicationPriorityRank(thirteenth);
-        Fourteenth = new ApplicationPriorityRank(fourteenth);
-        Fifteenth = new ApplicationPriorityRank(fifteenth);
-        _ValueObjectMap = new Dictionary<byte, ApplicationPriorityRank>
-        {
-            {first, First},
-            {second, Second},
-            {third, Third},
-            {fourth, Fourth},
-            {fifth, Fifth},
-            {sixth, Sixth},
-            {seventh, Seventh},
-            {eighth, Eighth},
-            {ninth, Ninth},
-            {tenth, Tenth},
-            {eleventh, Eleventh},
-            {twelveth, Twelveth},
-            {thirteenth, Thirteenth},
-            {fourteenth, Fourteenth},
-            {fifteenth, Fifteenth}
-        }.ToImmutableSortedDictionary();
-    }
-
-    private ApplicationPriorityRank(byte value)
-    {
-        _Value = value;
+        // Applications can be ranked between 1 and 15
+        _Value = value > 15 ? value.GetMaskedValue(0b11110000) : value;
     }
 
     #endregion
 
     #region Instance Members
 
-    public static ApplicationPriorityRank Get(byte value)
-    {
-        const byte bitMask = 0b11110000;
-
-        if (!_ValueObjectMap.ContainsKey(value.GetMaskedValue(bitMask)))
-            return Fifteenth;
-
-        return _ValueObjectMap[value.GetMaskedValue(bitMask)];
-    }
+    public int CompareTo(ApplicationPriorityRank other) => _Value.CompareTo(other._Value);
 
     #endregion
 
