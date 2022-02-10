@@ -30,7 +30,7 @@ public record ApplicationPriorityIndicator : DataElement<byte>, IEqualityCompare
     #region Instance Members
 
     public bool ApplicationCannotBeSelectedWithoutConfirmationByTheCardholder() => _Value.IsBitSet(Bits.Eight);
-    public ApplicationPriorityRank GetApplicationPriorityRank() => ApplicationPriorityRank.Get(_Value);
+    public ApplicationPriorityRank GetApplicationPriorityRank() => ApplicationPriorityRankTypes.Get(_Value);
     public override BerEncodingId GetBerEncodingId() => BerEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
