@@ -372,7 +372,7 @@ public class SignedNumeric : PlayEncoding
             return false;
         }
 
-        result = GetBytes(value);
+        result = GetBytes(value, value.Length);
 
         return true;
     }

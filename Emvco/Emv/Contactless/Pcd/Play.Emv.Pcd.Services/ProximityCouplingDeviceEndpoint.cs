@@ -83,6 +83,11 @@ public class ProximityCouplingDeviceEndpoint : IMessageChannel, IHandlePcdReques
         _EndpointClient.Send(message);
     }
 
+    void ISendPcdResponses.Send(QueryPcdResponse message)
+    {
+        _EndpointClient.Send(message);
+    }
+
     void ISendPcdResponses.Send(StopPcdAcknowledgedResponse message)
     {
         _EndpointClient.Send(message);

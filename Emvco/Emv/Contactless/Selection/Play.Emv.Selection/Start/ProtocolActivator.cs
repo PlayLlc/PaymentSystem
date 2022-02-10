@@ -53,6 +53,18 @@ public class ProtocolActivator
 
     #endregion
 
+    #region 3.2.1.3
+
+    /// <remarks>EMVco Book B Section 3.2.1.3</remarks>
+    private void ActivateProximityCouplingDevice(TransactionSessionId transactionSessionId)
+    {
+        _ProximityCouplingDeviceEndpoint.Request(new ActivatePcdRequest(transactionSessionId));
+    }
+
+    #endregion
+
+    #endregion
+
     #region 3.2.1.1
 
     /// <param name="outcome"></param>
@@ -78,17 +90,14 @@ public class ProtocolActivator
         _DisplayProcess.Request(GetReadyToReadDisplayMessage());
     }
 
-    #endregion
-
-    #region 3.2.1.3
-
-    /// <remarks>EMVco Book B Section 3.2.1.3</remarks>
-    private void ActivateProximityCouplingDevice(TransactionSessionId transactionSessionId)
+    private static DisplayMessageRequest GetReadyToReadDisplayMessage()
     {
-        _ProximityCouplingDeviceEndpoint.Request(new ActivatePcdRequest(transactionSessionId));
-    }
+        UserInterfaceRequestData.Builder? builder = UserInterfaceRequestData.GetBuilder();
+        builder.Set(MessageIdentifier.PresentCard);
+        builder.Set(Status.ReadyToRead);
 
-    #endregion
+        return new DisplayMessageRequest(builder.Complete());
+    }
 
     #endregion
 

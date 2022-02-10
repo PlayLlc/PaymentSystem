@@ -50,7 +50,6 @@ public abstract class PlayEncoding : Encoding
 
     #region Instance Members
 
-    AlphaSpecial
     public abstract byte[] GetBytes(ReadOnlySpan<char> value);
     public new abstract string GetString(ReadOnlySpan<byte> value);
     public abstract bool IsValid(ReadOnlySpan<char> value);
