@@ -3,7 +3,7 @@ using Play.Core.Extensions;
 
 namespace Play.Emv.DataElements;
 
-public record ApplicationCryptogramTypes : EnumObject<byte>
+public sealed record ApplicationCryptogramTypes : EnumObject<byte>
 {
     #region Static Metadata
 

@@ -5,7 +5,7 @@ using Play.Core.Extensions;
 
 namespace Play.Emv.DataElements;
 
-public record ShortKernelIdTypes : EnumObject<byte>, IEqualityComparer<ShortKernelIdTypes>
+public sealed record ShortKernelIdTypes : EnumObject<byte>, IEqualityComparer<ShortKernelIdTypes>
 {
     #region Static Metadata
 
@@ -20,7 +20,7 @@ public record ShortKernelIdTypes : EnumObject<byte>, IEqualityComparer<ShortKern
     public static readonly ShortKernelIdTypes Kernel6;
     public static readonly ShortKernelIdTypes Kernel3;
 
-    #endregion 
+    #endregion
 
     #region Constructor
 
@@ -59,8 +59,7 @@ public record ShortKernelIdTypes : EnumObject<byte>, IEqualityComparer<ShortKern
     }
 
     private ShortKernelIdTypes(byte value) : base(value)
-    { 
-    }
+    { }
 
     #endregion
 

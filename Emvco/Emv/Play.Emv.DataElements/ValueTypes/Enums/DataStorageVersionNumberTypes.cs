@@ -3,7 +3,7 @@ using Play.Core.Extensions;
 
 namespace Play.Emv.DataElements;
 
-public record DataStorageVersionNumberTypes : EnumObject<byte>
+public sealed record DataStorageVersionNumberTypes : EnumObject<byte>
 {
     #region Static Metadata
 

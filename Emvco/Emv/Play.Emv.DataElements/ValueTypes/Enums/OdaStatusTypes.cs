@@ -3,7 +3,7 @@ using Play.Core.Extensions;
 
 namespace Play.Emv.DataElements;
 
-public record OdaStatusTypes : EnumObject<byte>
+public sealed record OdaStatusTypes : EnumObject<byte>
 {
     #region Static Metadata
 
