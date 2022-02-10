@@ -26,6 +26,11 @@ public readonly record struct Seconds
         _Value = (uint) value / 1000;
     }
 
+    public Seconds(byte value)
+    {
+        _Value = value;
+    }
+
     #endregion
 
     #region Instance Members

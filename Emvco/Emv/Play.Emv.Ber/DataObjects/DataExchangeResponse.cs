@@ -1,4 +1,5 @@
 ﻿using Play.Ber.DataObjects;
+using Play.Ber.Identifiers;
 
 namespace Play.Emv.Ber.DataObjects;
 
@@ -19,6 +20,13 @@ public abstract record DataExchangeResponse : DataExchangeList<TagLengthValue>
     }
 
     public TagLengthValue[] AsTagLengthValues() => _Value.ToArray();
+
+    public bool TryGet(Tag tag, out TagLengthValue? result)
+    {
+        result = _Value.FirstOrDefault(a => a.GetTag() == tag);
+
+        return result is null;
+    }
 
     #endregion
 

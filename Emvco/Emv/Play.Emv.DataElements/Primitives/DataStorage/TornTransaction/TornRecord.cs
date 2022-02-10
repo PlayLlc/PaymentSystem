@@ -32,6 +32,17 @@ public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
     public override BerEncodingId GetBerEncodingId() => BerEncodingId;
     public override Tag GetTag() => Tag;
 
+    public bool IsMatch(ApplicationPan pan, ApplicationPanSequenceNumber sequenceNumber)
+    {
+        if (!TryGet(pan.GetTag(), out TagLengthValue? result1))
+            return false;
+
+        if (!TryGet(pan.GetTag(), out TagLengthValue? result2))
+            return false;
+
+        return true;
+    }
+
     #endregion
 
     #region Serialization
