@@ -3,6 +3,7 @@ using System.Text;
 
 using Play.Codecs.Integers;
 using Play.Codecs.Strings;
+using Play.Codecs.Stringsddd;
 
 namespace Play.Codecs;
 
@@ -41,6 +42,12 @@ public abstract class PlayEncoding : Encoding
     public static UnsignedInteger UnsignedBinary => new();
     public static UnsignedInteger UnsignedInteger => new();
     public static SignedInteger SignedInteger => new();
+    public static AlphaSpecial AlphaSpecial => new();
+    public static SignedNumeric SignedNumeric => new();
+    public static NumericSpecial NumericSpecial => new();
+
+
+    AlphaSpecial
 
     #endregion
 

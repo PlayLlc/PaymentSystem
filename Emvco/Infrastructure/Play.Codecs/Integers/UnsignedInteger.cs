@@ -14,6 +14,8 @@ public class UnsignedInteger : PlayEncoding
 {
     #region Static Metadata
 
+    public static string Name = nameof(UnsignedInteger);
+
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = new Dictionary<char, byte>
     {
         {'0', 48},

@@ -14,6 +14,7 @@ public class StrictAscii : PlayEncoding
 {
     #region Static Metadata
 
+    public static string Name = nameof(StrictAscii);
     private static readonly Encoding _ErrorDetectingEncoder = GetEncoder();
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMappers =

@@ -29,7 +29,7 @@ public readonly ref struct DataField
 
     #region Instance Members
 
-    public byte GetDataFieldId() => _DataFieldId;
+    public DataFieldIdTypes GetDataFieldId() => _DataFieldId;
     public Span<byte> AsSpan() => _Value;
 
     public void CopyTo(List<byte> buffer)

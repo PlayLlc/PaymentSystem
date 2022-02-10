@@ -14,6 +14,7 @@ public class StrictUtf8 : PlayEncoding
     #region Static Metadata
 
     private static readonly UTF8Encoding _ErrorDetectingEncoder = new(false, true);
+    public static string Name = nameof(StrictUtf8);
 
     #endregion
 

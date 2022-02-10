@@ -9,6 +9,7 @@ public class CompressedNumeric : PlayEncoding
 {
     #region Static Metadata
 
+    public static string Name = nameof(CompressedNumeric);
     private const byte _PadValue = 0xF;
 
     #endregion

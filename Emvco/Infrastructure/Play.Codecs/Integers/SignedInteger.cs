@@ -18,6 +18,8 @@ public class SignedInteger : PlayEncoding
     private static readonly ImmutableSortedDictionary<byte, char> _CharMap =
         Enumerable.Range(48, 57 - 48).ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
 
+    public static string Name = nameof(SignedInteger);
+
     #endregion
 
     #region Instance Members

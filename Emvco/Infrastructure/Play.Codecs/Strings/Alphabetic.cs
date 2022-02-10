@@ -19,6 +19,8 @@ public class Alphabetic : PlayEncoding
 {
     #region Static Metadata
 
+    public static string Name = nameof(Alphabetic);
+
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = new Dictionary<char, byte>
     {
         {'A', 65},

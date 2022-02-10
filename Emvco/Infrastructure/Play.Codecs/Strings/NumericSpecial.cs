@@ -22,6 +22,8 @@ public class NumericSpecial : PlayEncoding
 {
     #region Static Metadata
 
+    public static string Name = nameof(NumericSpecial);
+
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = Enumerable.Range(0, 10).Concat(Enumerable.Range(32, 47 - 32))
         .Concat(Enumerable.Range(58, 64 - 58)).Concat(Enumerable.Range(91, 96 - 91)).Concat(Enumerable.Range(123, 126 - 123))
         .ToImmutableSortedDictionary(a => (char) (a + 48), b => (byte) b);

@@ -10,7 +10,7 @@ public sealed record DataFieldIdTypes : EnumObject<byte>
 
     private static readonly ImmutableSortedDictionary<byte, DataFieldIdTypes> _ValueObjectMap;
     public static readonly DataFieldIdTypes Bitmap;
-    public static readonly DataFieldIdTypes PrimaryAccountNumberPan;
+    public static readonly DataFieldIdTypes PrimaryAccountNumber;
     public static readonly DataFieldIdTypes ProcessingCode;
     public static readonly DataFieldIdTypes AmountTransaction;
     public static readonly DataFieldIdTypes AmountSettlement;
@@ -122,7 +122,7 @@ public sealed record DataFieldIdTypes : EnumObject<byte>
     static DataFieldIdTypes()
     {
         Bitmap = new DataFieldIdTypes(1);
-        PrimaryAccountNumberPan = new DataFieldIdTypes(2);
+        PrimaryAccountNumber = new DataFieldIdTypes(2);
         ProcessingCode = new DataFieldIdTypes(3);
         AmountTransaction = new DataFieldIdTypes(4);
         AmountSettlement = new DataFieldIdTypes(5);
@@ -228,7 +228,7 @@ public sealed record DataFieldIdTypes : EnumObject<byte>
         _ValueObjectMap = new Dictionary<byte, DataFieldIdTypes>
         {
             {Bitmap, Bitmap},
-            {PrimaryAccountNumberPan, PrimaryAccountNumberPan},
+            {PrimaryAccountNumber, PrimaryAccountNumber},
             {ProcessingCode, ProcessingCode},
             {AmountTransaction, AmountTransaction},
             {AmountSettlement, AmountSettlement},

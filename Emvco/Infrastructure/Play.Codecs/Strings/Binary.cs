@@ -12,6 +12,8 @@ public class Binary : PlayEncoding
 {
     #region Static Metadata
 
+    public static string Name = nameof(Binary);
+
     private static readonly Dictionary<byte, char[]> _CharArrayMap = new()
     {
         {0b0000, new[] {'0', '0', '0', '0'}},

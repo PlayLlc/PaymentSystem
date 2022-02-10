@@ -14,6 +14,7 @@ public class Unicode : PlayEncoding
 {
     #region Static Metadata
 
+    public static string Name = nameof(Unicode);
     private static readonly Encoding _UnicodeCodec = Unicode;
 
     #endregion
