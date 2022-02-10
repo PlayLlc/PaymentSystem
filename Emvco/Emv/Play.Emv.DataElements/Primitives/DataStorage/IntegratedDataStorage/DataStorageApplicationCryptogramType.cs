@@ -7,8 +7,9 @@ using Play.Emv.Ber.DataObjects;
 namespace Play.Emv.DataElements;
 
 /// <summary>
+///     Contains the AC type indicated by the Terminal for which Integrated Data Storage data must be stored in the Card.
 /// </summary>
-public record DcAcType : DataElement<byte>, IEqualityComparer<DcAcType>
+public record DataStorageApplicationCryptogramType : DataElement<byte>, IEqualityComparer<DataStorageApplicationCryptogramType>
 {
     #region Static Metadata
 
@@ -19,7 +20,7 @@ public record DcAcType : DataElement<byte>, IEqualityComparer<DcAcType>
 
     #region Constructor
 
-    public DcAcType(byte value) : base(value)
+    public DataStorageApplicationCryptogramType(byte value) : base(value)
     {
         if (!AcType.IsValid(value))
             throw new ArgumentException($"The argument {nameof(value)} was not recognized as a valid {nameof(AcType)}");
@@ -36,17 +37,17 @@ public record DcAcType : DataElement<byte>, IEqualityComparer<DcAcType>
 
     #region Serialization
 
-    public static DcAcType Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public static DataStorageApplicationCryptogramType Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
-    public static DcAcType Decode(ReadOnlySpan<byte> value) => new(value[0]);
+    public static DataStorageApplicationCryptogramType Decode(ReadOnlySpan<byte> value) => new(value[0]);
 
     #endregion
 
     #region Equality
 
-    public bool Equals(DcAcType? x, DcAcType? y)
+    public bool Equals(DataStorageApplicationCryptogramType? x, DataStorageApplicationCryptogramType? y)
     {
         if (x is null)
             return y is null;
@@ -57,7 +58,7 @@ public record DcAcType : DataElement<byte>, IEqualityComparer<DcAcType>
         return x.Equals(y);
     }
 
-    public int GetHashCode(DcAcType obj) => obj.GetHashCode();
+    public int GetHashCode(DataStorageApplicationCryptogramType obj) => obj.GetHashCode();
 
     #endregion
 }
