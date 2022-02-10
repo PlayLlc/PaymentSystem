@@ -85,7 +85,7 @@ public class TransactionProfile : IEquatable<TransactionProfile>, IEqualityCompa
     public DedicatedFileName GetApplicationIdentifier() => _Key.GetApplicationId();
     public ApplicationPriorityIndicator GetApplicationPriorityIndicator() => _ApplicationPriorityIndicator;
     public ApplicationPriorityRank GetApplicationPriorityRank() => _ApplicationPriorityIndicator.GetApplicationPriorityRank();
-    public ShortKernelId GetKernelId() => _Key.GetKernelId();
+    public ShortKernelIdTypes GetKernelId() => _Key.GetKernelId();
     public CombinationCompositeKey GetKey() => _Key;
     public ReaderContactlessTransactionLimit GetReaderContactlessTransactionLimit() => _ReaderContactlessTransactionLimit;
     public ReaderCvmRequiredLimit GetReaderCvmRequiredLimit() => _ReaderCvmRequiredLimit;

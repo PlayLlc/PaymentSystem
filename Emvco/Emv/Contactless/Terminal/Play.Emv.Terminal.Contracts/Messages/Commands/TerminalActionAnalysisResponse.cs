@@ -6,22 +6,22 @@ public class TerminalActionAnalysisResponse
 {
     #region Instance Values
 
-    private readonly CryptogramType _CryptogramType;
+    private readonly CryptogramTypes _CryptogramTypes;
 
     #endregion
 
     #region Constructor
 
-    public TerminalActionAnalysisResponse(CryptogramType cryptogramType)
+    public TerminalActionAnalysisResponse(CryptogramTypes cryptogramTypes)
     {
-        _CryptogramType = cryptogramType;
+        _CryptogramTypes = cryptogramTypes;
     }
 
     #endregion
 
     #region Instance Members
 
-    public CryptogramType GetCryptogramType() => _CryptogramType;
+    public CryptogramTypes GetCryptogramType() => _CryptogramTypes;
 
     #endregion
 }

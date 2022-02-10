@@ -39,9 +39,9 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 
     #region Instance Members
 
-    public TerminalActionAnalysisResponse CreateDenyTransactionResponse() => new(CryptogramType.ApplicationAuthenticationCryptogram);
-    public TerminalActionAnalysisResponse CreateProceedOfflineResponse() => new(CryptogramType.TransactionCryptogram);
-    public TerminalActionAnalysisResponse CreateProceedOnlineResponse() => new(CryptogramType.AuthorizationRequestCryptogram);
+    public TerminalActionAnalysisResponse CreateDenyTransactionResponse() => new(CryptogramTypes.ApplicationAuthenticationCryptogram);
+    public TerminalActionAnalysisResponse CreateProceedOfflineResponse() => new(CryptogramTypes.TransactionCryptogram);
+    public TerminalActionAnalysisResponse CreateProceedOnlineResponse() => new(CryptogramTypes.AuthorizationRequestCryptogram);
 
     /// <summary>
     ///     Process

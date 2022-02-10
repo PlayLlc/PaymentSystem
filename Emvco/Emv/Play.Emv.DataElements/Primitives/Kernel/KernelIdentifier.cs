@@ -54,7 +54,7 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
 
     #region Instance Members
 
-    public ShortKernelId AsKernelId() => ShortKernelId.Get((byte) _Value);
+    public ShortKernelIdTypes AsKernelId() => ShortKernelIdTypes.Get((byte) _Value);
     public override BerEncodingId GetBerEncodingId() => BerEncodingId;
 
     /// <exception cref="InvalidOperationException"></exception>
@@ -68,11 +68,11 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
         return result;
     }
 
-    public ShortKernelId GetShortKernelId()
+    public ShortKernelIdTypes GetShortKernelId()
     {
         const byte bitOffset = 56;
 
-        return ShortKernelId.Get((byte) (_Value >> bitOffset));
+        return ShortKernelIdTypes.Get((byte) (_Value >> bitOffset));
     }
 
     public override Tag GetTag() => Tag;
@@ -95,7 +95,7 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
     /// <param name="other"></param>
     /// <returns></returns>
     /// <remarks>Book B Section 3.3.2.5 C</remarks>
-    public bool IsKernelMatch(ShortKernelId other)
+    public bool IsKernelMatch(ShortKernelIdTypes other)
     {
         if (IsShortKernelIdFlagSet())
         {

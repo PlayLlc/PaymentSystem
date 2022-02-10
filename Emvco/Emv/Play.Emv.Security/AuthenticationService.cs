@@ -50,23 +50,23 @@ public class AuthenticationService : IAuthenticateOfflineData, IResolveAuthentic
     /// <remarks>
     ///     Book 3 Section 10.3
     /// </remarks>
-    public AuthenticationType GetAuthenticationMethod(
+    public AuthenticationTypes GetAuthenticationMethod(
         TerminalCapabilities terminalCapabilities,
         ApplicationInterchangeProfile applicationInterchangeProfile)
     {
         if (applicationInterchangeProfile.IsStaticDataAuthenticationSupported()
             && terminalCapabilities.IsStaticDataAuthenticationSupported())
-            return AuthenticationType.CombinedDataAuthentication;
+            return AuthenticationTypes.CombinedDataAuthentication;
 
         if (applicationInterchangeProfile.IsDynamicDataAuthenticationSupported()
             && terminalCapabilities.IsDynamicDataAuthenticationSupported())
-            return AuthenticationType.DynamicDataAuthentication;
+            return AuthenticationTypes.DynamicDataAuthentication;
 
         if (applicationInterchangeProfile.IsCombinedDataAuthenticationSupported()
             && terminalCapabilities.IsCombinedDataAuthenticationSupported())
-            return AuthenticationType.CombinedDataAuthentication;
+            return AuthenticationTypes.CombinedDataAuthentication;
 
-        return AuthenticationType.None;
+        return AuthenticationTypes.None;
     }
 
     public AuthenticateDynamicDataResponse Authenticate(AuthenticateDynamicDataCommand command) =>

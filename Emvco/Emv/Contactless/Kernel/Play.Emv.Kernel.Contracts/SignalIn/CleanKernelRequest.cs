@@ -35,7 +35,7 @@ public record CleanKernelRequest : RequestSignal
     #region Instance Members
 
     public TransactionSessionId GetTransactionSessionId() => _KernelSessionId.GetTransactionSessionId();
-    public ShortKernelId GetShortKernelId() => _KernelSessionId.GetKernelId();
+    public ShortKernelIdTypes GetShortKernelId() => _KernelSessionId.GetKernelId();
 
     #endregion
 }

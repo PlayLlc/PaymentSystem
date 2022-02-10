@@ -358,7 +358,7 @@ public class CombinationSelector
         if (!fileControlInformationTemplate.IsNetworkOf(RegisteredApplicationProviderIndicators.VisaInternational))
             ProcessStep3(transactionSessionId, candidateList, outcome);
 
-        if (combination.GetCombinationCompositeKey().GetKernelId() != ShortKernelId.Kernel3)
+        if (combination.GetCombinationCompositeKey().GetKernelId() != ShortKernelIdTypes.Kernel3)
             ProcessStep3(transactionSessionId, candidateList, outcome);
 
         if (fileControlInformationTemplate.IsDataObjectRequested(TerminalTransactionQualifiers.Tag))

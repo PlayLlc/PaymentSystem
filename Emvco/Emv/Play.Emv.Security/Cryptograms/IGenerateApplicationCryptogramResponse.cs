@@ -11,12 +11,12 @@ public interface IGenerateApplicationCryptogramResponse
     #region Instance Members
 
     public Task<GenerateAcResponseMessage> Generate(
-        CryptogramType cryptogramType,
+        CryptogramTypes cryptogramTypes,
         bool isCdaRequested,
         DataObjectListResult cardRiskManagementDataObjectListResult);
 
     public Task<GenerateAcResponseMessage> Generate(
-        CryptogramType cryptogramType,
+        CryptogramTypes cryptogramTypes,
         bool isCdaRequested,
         DataObjectListResult cardRiskManagementDataObjectListResult,
         DataObjectListResult dataStorageDataObjectListResult);

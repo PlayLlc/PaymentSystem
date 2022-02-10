@@ -4,7 +4,7 @@ namespace Play.Emv.Security;
 
 public interface IResolveAuthenticationType
 {
-    AuthenticationType GetAuthenticationMethod(
+    AuthenticationTypes GetAuthenticationMethod(
         TerminalCapabilities terminalCapabilities,
         ApplicationInterchangeProfile applicationInterchangeProfile);
 }

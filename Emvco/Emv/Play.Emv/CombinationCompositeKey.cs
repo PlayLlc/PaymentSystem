@@ -11,17 +11,17 @@ public class CombinationCompositeKey : IEquatable<CombinationCompositeKey>, IEqu
     #region Instance Values
 
     private readonly DedicatedFileName _DedicatedFileName;
-    private readonly ShortKernelId _KernelId;
+    private readonly ShortKernelIdTypes _KernelIdTypes;
     private readonly TransactionType _TransactionType;
 
     #endregion
 
     #region Constructor
 
-    public CombinationCompositeKey(DedicatedFileName dedicatedFileName, ShortKernelId kernelId, TransactionType transactionType)
+    public CombinationCompositeKey(DedicatedFileName dedicatedFileName, ShortKernelIdTypes kernelIdTypes, TransactionType transactionType)
     {
         _DedicatedFileName = dedicatedFileName;
-        _KernelId = kernelId;
+        _KernelIdTypes = kernelIdTypes;
         _TransactionType = transactionType;
     }
 
@@ -30,7 +30,7 @@ public class CombinationCompositeKey : IEquatable<CombinationCompositeKey>, IEqu
     #region Instance Members
 
     public DedicatedFileName GetApplicationId() => _DedicatedFileName;
-    public ShortKernelId GetKernelId() => _KernelId;
+    public ShortKernelIdTypes GetKernelId() => _KernelIdTypes;
 
     public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
         _DedicatedFileName.GetRegisteredApplicationProviderIdentifier();
@@ -47,7 +47,7 @@ public class CombinationCompositeKey : IEquatable<CombinationCompositeKey>, IEqu
             return false;
 
         return (_DedicatedFileName == other._DedicatedFileName)
-            && (_KernelId == other._KernelId)
+            && (_KernelIdTypes == other._KernelIdTypes)
             && (_TransactionType == other._TransactionType);
     }
 
@@ -70,7 +70,7 @@ public class CombinationCompositeKey : IEquatable<CombinationCompositeKey>, IEqu
         const int hash = 3345659;
 
         return unchecked((_DedicatedFileName.GetHashCode() * hash)
-            + (_KernelId.GetHashCode() * hash)
+            + (_KernelIdTypes.GetHashCode() * hash)
             + (_TransactionType.GetHashCode() * hash));
     }
 

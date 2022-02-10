@@ -40,7 +40,7 @@ public readonly struct KernelSessionId
 
     #region Instance Members
 
-    public ShortKernelId GetKernelId() => ShortKernelId.Get((byte) (_Value >> (7 * 8)));
+    public ShortKernelIdTypes GetKernelId() => ShortKernelIdTypes.Get((byte) (_Value >> (7 * 8)));
     public TransactionSessionId GetTransactionSessionId() => _TransactionSessionId;
     public TransactionType GetTransactionType() => _TransactionSessionId.GetTransactionType();
     private static ulong GetConstructorValueKernelId(KernelId kernelId) => (ulong) kernelId << (7 * 8);

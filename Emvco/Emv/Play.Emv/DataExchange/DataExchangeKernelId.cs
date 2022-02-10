@@ -7,16 +7,16 @@ public readonly record struct DataExchangeKernelId
 {
     #region Instance Values
 
-    private readonly ShortKernelId _ShortKernelId;
+    private readonly ShortKernelIdTypes _ShortKernelIdTypes;
     private readonly KernelSessionId _KernelSessionId;
 
     #endregion
 
     #region Constructor
 
-    public DataExchangeKernelId(ShortKernelId shortKernelId, KernelSessionId kernelSessionId)
+    public DataExchangeKernelId(ShortKernelIdTypes shortKernelIdTypes, KernelSessionId kernelSessionId)
     {
-        _ShortKernelId = shortKernelId;
+        _ShortKernelIdTypes = shortKernelIdTypes;
         _KernelSessionId = kernelSessionId;
     }
 
@@ -24,7 +24,7 @@ public readonly record struct DataExchangeKernelId
 
     #region Instance Members
 
-    public ShortKernelId GetShortKernelId() => _ShortKernelId;
+    public ShortKernelIdTypes GetShortKernelId() => _ShortKernelIdTypes;
     public KernelSessionId GetKernelSessionId() => _KernelSessionId;
     public TransactionSessionId GetTransactionSessionId() => _KernelSessionId.GetTransactionSessionId();
 

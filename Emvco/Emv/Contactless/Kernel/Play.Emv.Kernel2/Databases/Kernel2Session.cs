@@ -12,8 +12,8 @@ public class Kernel2Session : KernelSession
 {
     #region Instance Values
 
-    private AcType _AcType = AcType.Aac;
-    private OdaStatus _OdaStatus = OdaStatus.NotAvailable;
+    private ApplicationCryptogramTypes _ApplicationCryptogramTypes = ApplicationCryptogramTypes.Aac;
+    private OdaStatusTypes _OdaStatusTypes = OdaStatusTypes.NotAvailable;
     private RrpCounter _RrpCounter = new(0);
     private bool _IsPdolDataMissing = true;
 
@@ -28,8 +28,8 @@ public class Kernel2Session : KernelSession
 
     #region Read
 
-    public AcType GetAcType() => _AcType;
-    public OdaStatus GetOdaStatus() => _OdaStatus;
+    public ApplicationCryptogramTypes GetAcType() => _ApplicationCryptogramTypes;
+    public OdaStatusTypes GetOdaStatus() => _OdaStatusTypes;
     public RrpCounter GetRrpCounter() => _RrpCounter;
     public bool IsPdolDataMissing() => _IsPdolDataMissing;
 
@@ -38,8 +38,8 @@ public class Kernel2Session : KernelSession
     #region Write
 
     public void SetIsPdolDataMissing(bool value) => _IsPdolDataMissing = value;
-    public void Update(AcType value) => _AcType = value;
-    public void Update(OdaStatus value) => _OdaStatus = value;
+    public void Update(ApplicationCryptogramTypes value) => _ApplicationCryptogramTypes = value;
+    public void Update(OdaStatusTypes value) => _OdaStatusTypes = value;
     public void Update(RrpCounter value) => _RrpCounter = value;
 
     #endregion

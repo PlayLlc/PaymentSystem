@@ -22,8 +22,8 @@ public record DataStorageApplicationCryptogramType : DataElement<byte>, IEqualit
 
     public DataStorageApplicationCryptogramType(byte value) : base(value)
     {
-        if (!AcType.IsValid(value))
-            throw new ArgumentException($"The argument {nameof(value)} was not recognized as a valid {nameof(AcType)}");
+        if (!ApplicationCryptogramTypes.IsValid(value))
+            throw new ArgumentException($"The argument {nameof(value)} was not recognized as a valid {nameof(ApplicationCryptogramTypes)}");
     }
 
     #endregion

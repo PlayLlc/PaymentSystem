@@ -27,16 +27,16 @@ internal class KernelEndpointRetrieverFactory
         KernelProcess[] kernels =
         {
             Kernel2ProcessFactory.Create(tornTransactionCleaner,
-                                         (Kernel2Configuration) readerDatabase.GetKernelConfiguration(ShortKernelId.Kernel2),
+                                         (Kernel2Configuration) readerDatabase.GetKernelConfiguration(ShortKernelIdTypes.Kernel2),
 
                                          // HACK - We shouldn't need to use a concrete type to pull these values from the reader database
                                          new Kernel2PersistentValues(new DatabaseValues(readerDatabase
-                                                                                            .GetPersistentKernelValues(ShortKernelId
+                                                                                            .GetPersistentKernelValues(ShortKernelIdTypes
                                                                                                 .Kernel2))), terminalEndpoint,
                                          kernelEndpoint, pcdEndpoint,
 
                                          //readerDatabase.GetPersistentKernelValues(ShortKernelId.Kernel2),
-                                         readerDatabase.GetCertificateAuthorityDatasets(ShortKernelId.Kernel2))
+                                         readerDatabase.GetCertificateAuthorityDatasets(ShortKernelIdTypes.Kernel2))
         };
 
         return new KernelRetriever(kernels.ToDictionary(a => a.GetKernelId(), b => b));

@@ -67,7 +67,7 @@ public class Combination : IEqualityComparer<Combination>, IEquatable<Combinatio
 
     public DedicatedFileName GetApplicationIdentifier() => _ApplicationId;
     public CombinationCompositeKey GetCombinationCompositeKey() => _CombinationCompositeKey;
-    public ShortKernelId GetKernelId() => _CombinationCompositeKey.GetKernelId();
+    public ShortKernelIdTypes GetKernelId() => _CombinationCompositeKey.GetKernelId();
 
     #endregion
 

@@ -113,16 +113,16 @@ public class DirectoryEntry : Template
         return true;
     }
 
-    public bool TrGetShortKernelIdentifier(out ShortKernelId shortKernelId)
+    public bool TrGetShortKernelIdentifier(out ShortKernelIdTypes shortKernelIdTypes)
     {
         if (_KernelIdentifier == null)
         {
-            shortKernelId = default;
+            shortKernelIdTypes = default;
 
             return false;
         }
 
-        shortKernelId = _KernelIdentifier.GetShortKernelId();
+        shortKernelIdTypes = _KernelIdentifier.GetShortKernelId();
 
         return true;
     }
