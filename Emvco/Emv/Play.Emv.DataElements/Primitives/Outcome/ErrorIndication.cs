@@ -63,7 +63,7 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
     public StatusWords GetStatusWords() => new(new StatusWord((byte) (_Value >> 16)), new StatusWord((byte) (_Value >> 8)));
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
-    public bool IsErrorPresent() => (GetL1() != 0) || (GetL2() != 0) || (GetL3() != 0);
+    public bool IsErrorPresent() => (GetL1() != Level1Error.Ok) || (GetL2() != Level2Error.Ok) || (GetL3() != Level3Error.Ok);
 
     private static ulong SetLevel1Error(Level1Error error)
     {

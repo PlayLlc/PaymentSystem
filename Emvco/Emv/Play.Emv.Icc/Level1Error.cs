@@ -10,6 +10,10 @@ public readonly struct Level1Error
     public static readonly Level1Error Ok;
     public static readonly Level1Error ProtocolError;
     public static readonly Level1Error TimeOutError;
+
+    /// <summary>
+    ///     An error occurred during transmission such as a Card Collision the card was removed too quickly
+    /// </summary>
     public static readonly Level1Error TransmissionError;
 
     #endregion

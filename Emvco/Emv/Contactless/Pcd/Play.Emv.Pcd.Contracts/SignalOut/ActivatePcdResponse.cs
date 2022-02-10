@@ -1,5 +1,6 @@
 ﻿using Play.Emv.Icc;
 using Play.Emv.Messaging;
+using Play.Emv.Sessions;
 using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;
@@ -19,16 +20,21 @@ public record ActivatePcdResponse : ResponseSignal
     #region Instance Values
 
     private readonly Level1Error _Level1Error;
+    private readonly TransactionSessionId _TransactionSessionId;
     private readonly bool _IsCollisionDetected;
 
     #endregion
 
     #region Constructor
 
-    public ActivatePcdResponse(CorrelationId correlationId, bool isCollisionDetected, Level1Error level1Error) : base(correlationId,
-     MessageTypeId, ChannelTypeId)
+    public ActivatePcdResponse(
+        CorrelationId correlationId,
+        bool isCollisionDetected,
+        Level1Error level1Error,
+        TransactionSessionId transactionSessionId) : base(correlationId, MessageTypeId, ChannelTypeId)
     {
         _Level1Error = level1Error;
+        _TransactionSessionId = transactionSessionId;
         _IsCollisionDetected = isCollisionDetected;
     }
 
@@ -36,7 +42,7 @@ public record ActivatePcdResponse : ResponseSignal
 
     #region Instance Members
 
-    public bool Successful() => _Level1Error == Level1Error.Ok;
+    public TransactionSessionId GetTransactionSessionId() => _TransactionSessionId;
     public Level1Error GetLevel1Error() => _Level1Error;
     public bool IsCollisionDetected() => _IsCollisionDetected;
 

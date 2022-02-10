@@ -46,13 +46,11 @@ public abstract class PlayEncoding : Encoding
     public static SignedNumeric SignedNumeric => new();
     public static NumericSpecial NumericSpecial => new();
 
-
-    AlphaSpecial
-
     #endregion
 
     #region Instance Members
 
+    AlphaSpecial
     public abstract byte[] GetBytes(ReadOnlySpan<char> value);
     public new abstract string GetString(ReadOnlySpan<byte> value);
     public abstract bool IsValid(ReadOnlySpan<char> value);

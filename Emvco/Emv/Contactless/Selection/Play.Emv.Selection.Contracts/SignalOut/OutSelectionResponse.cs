@@ -29,8 +29,8 @@ public record OutSelectionResponse : ResponseSignal
 
     public OutSelectionResponse(
         CorrelationId correlationId,
-        CombinationCompositeKey combinationCompositeKey,
         Transaction transaction,
+        CombinationCompositeKey combinationCompositeKey,
         TerminalTransactionQualifiers terminalTransactionQualifiers,
         SelectApplicationDefinitionFileInfoResponse applicationFileInformationResponse) : base(correlationId, MessageTypeId, ChannelTypeId)
     {
@@ -46,8 +46,9 @@ public record OutSelectionResponse : ResponseSignal
 
     //public CombinationCompositeKey GetCombinationCompositeKey() => _CombinationCompositeKey;
     //public DedicatedFileName GetApplicationId() => _ApplicationId;
+    public ErrorIndication GetErrorIndication() => _Transaction.GetOutcome().GetErrorIndication();
     public SelectApplicationDefinitionFileInfoResponse GetApplicationFileInformationResponse() => _ApplicationFileInformationResponse;
-    public KernelId GetKernelId() => _CombinationCompositeKey.GetKernelId();
+    public KernelId GetKernelId() => (KernelId) _CombinationCompositeKey!.GetKernelId();
     public Transaction GetTransaction() => _Transaction;
     public CombinationCompositeKey GetCombinationCompositeKey() => _CombinationCompositeKey;
     public TerminalTransactionQualifiers GetTerminalTransactionQualifiers() => _TerminalTransactionQualifiers;

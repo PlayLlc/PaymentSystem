@@ -2,12 +2,15 @@
 using Play.Emv.DataElements;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
+using Play.Emv.Icc;
+using Play.Emv.Kernel.Contracts;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Selection.Contracts;
 using Play.Emv.Selection.Start;
 using Play.Emv.Sessions;
 using Play.Emv.Transactions;
+using Play.Messaging;
 
 namespace Play.Emv.Selection.Services;
 
@@ -17,13 +20,13 @@ internal class SelectionStateMachine
 
     private readonly IHandlePcdRequests _PcdClient;
     private readonly ISendSelectionResponses _EndpointClient;
-    private readonly SelectionProcess _SelectionProcess;
     private readonly CandidateList _CandidateList;
     private readonly CombinationSelector _CombinationSelector;
     private readonly PreProcessingIndicators _PreProcessingIndicators;
     private readonly Preprocessor _Preprocessor;
     private readonly ProtocolActivator _ProtocolActivator;
-    private readonly SelectionSessionLock _SelectionSessionLock = new();
+    private readonly CardCollisionHandler _CardCollisionHandler;
+    private readonly SelectionSessionLock _Lock = new();
 
     #endregion
 
@@ -31,7 +34,7 @@ internal class SelectionStateMachine
 
     public SelectionStateMachine(
         IHandlePcdRequests pcdClient,
-        IHandleDisplayRequests displayClient,
+        IHandleDisplayRequests displayEndpoint,
         TransactionProfile[] transactionProfiles,
         PoiInformation poiInformation,
         SelectionProcess selectionProcess,
@@ -43,10 +46,10 @@ internal class SelectionStateMachine
         _PreProcessingIndicators = new PreProcessingIndicators(transactionProfiles);
         _CandidateList = new CandidateList();
         _Preprocessor = new Preprocessor();
-        _ProtocolActivator = new ProtocolActivator(pcdClient, displayClient);
-        _SelectionProcess = selectionProcess;
+        _ProtocolActivator = new ProtocolActivator(pcdClient, displayEndpoint);
 
         _CombinationSelector = new CombinationSelector(poiInformation, pcdClient);
+        _CardCollisionHandler = new CardCollisionHandler(displayEndpoint);
     }
 
     #endregion
@@ -55,116 +58,116 @@ internal class SelectionStateMachine
 
     public void Handle(StopSelectionRequest request)
     {
-        lock (_SelectionSessionLock)
+        lock (_Lock)
         {
-            if (_SelectionSessionLock.Session == null)
+            if (_Lock.Session == null)
             {
                 throw new
-                    RequestOutOfSyncException($"The {nameof(StopSelectionRequest)} can't be processed because the {nameof(TransactionSessionId)}: [{_SelectionSessionLock.Session!.GetTransactionSessionId()}] is currently processing");
+                    RequestOutOfSyncException($"The {nameof(StopSelectionRequest)} can't be processed because the {nameof(TransactionSessionId)}: [{_Lock.Session!.GetTransactionSessionId()}] is currently processing");
             }
 
-            if (_SelectionSessionLock.Session.GetTransactionSessionId() != request.GetTransactionSessionId())
+            if (_Lock.Session.GetTransactionSessionId() != request.GetTransactionSessionId())
             {
                 throw new
-                    RequestOutOfSyncException($"The {nameof(StopSelectionRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{request.GetTransactionSessionId()}] but the current {nameof(ChannelType.Selection)} session has a {nameof(TransactionSessionId)} of: [{_SelectionSessionLock.Session.GetTransactionSessionId()}]");
+                    RequestOutOfSyncException($"The {nameof(StopSelectionRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{request.GetTransactionSessionId()}] but the current {nameof(ChannelType.Selection)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
             }
 
-            // HACK: Book C-2 Section 2.3.3 doesn't say what to include in the OUT signal that results from a STOP signal. Need to find out
-            _EndpointClient.Send(new OutSelectionResponse(default, default, default, default, default));
+            _Lock.Session = null;
         }
     }
 
     public void Handle(ActivatePcdResponse request)
     {
-        lock (_SelectionSessionLock)
+        lock (_Lock)
         {
-            if (_SelectionSessionLock.Session == null)
+            if (_Lock.Session == null)
             {
                 throw new
                     RequestOutOfSyncException($"The {nameof(ActivatePcdResponse)} can't be processed because the {nameof(SelectionSession)} no longer exists");
             }
 
-            // HACK: We need to look at the list of appropriate Status Words from the RAPDU response, not just if the Level1Error is set to OK. Check the specs on appropriate status word results
-            if (!request.Successful())
-                HandleCommunicationsError(_SelectionSessionLock.Session, _SelectionSessionLock.Session.GetTransactionSessionId());
+            if (request.GetLevel1Error() == Level1Error.Ok)
+            {
+                ProcessAtC(_Lock.Session!.GetTransaction());
 
-            ProcessAtC(_SelectionSessionLock.Session!.GetTransaction());
-            _SelectionSessionLock.Session = null;
+                return;
+            }
+
+            _CardCollisionHandler.HandleCardCollisions(request, _Lock.Session.GetOutcome());
+            ProcessAtB(_Lock.Session.GetTransaction());
         }
     }
 
     public void Handle(SelectProximityPaymentSystemEnvironmentResponse response)
     {
-        lock (_SelectionSessionLock)
+        lock (_Lock)
         {
-            if (_SelectionSessionLock.Session == null)
+            if (_Lock.Session == null)
             {
                 throw new
                     RequestOutOfSyncException($"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(SelectionSession)} no longer exists");
             }
 
-            if (_SelectionSessionLock.Session.GetTransactionSessionId() != response.GetTransactionSessionId())
+            if (_Lock.Session.GetTransactionSessionId() != response.GetTransactionSessionId())
             {
                 throw new
-                    RequestOutOfSyncException($"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{response.GetTransactionSessionId()}] but the current {nameof(ChannelType.Selection)} session has a {nameof(TransactionSessionId)} of: [{_SelectionSessionLock.Session.GetTransactionSessionId()}]");
+                    RequestOutOfSyncException($"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{response.GetTransactionSessionId()}] but the current {nameof(ChannelType.Selection)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
             }
 
             _CombinationSelector.ProcessPpseResponse(response.GetTransactionSessionId(), _CandidateList, _PreProcessingIndicators,
-                                                     _SelectionSessionLock.Session.GetOutcome(),
-                                                     _SelectionSessionLock.Session.GetTransactionType(), response);
+                                                     _Lock.Session.GetOutcome(), _Lock.Session.GetTransactionType(), response);
         }
     }
 
     public void Handle(SendPoiInformationResponse response)
     {
-        lock (_SelectionSessionLock)
+        lock (_Lock)
         {
-            if (_SelectionSessionLock.Session == null)
+            if (_Lock.Session == null)
             {
                 throw new
                     RequestOutOfSyncException($"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(SelectionSession)} no longer exists");
             }
 
-            if (_SelectionSessionLock.Session.GetTransactionSessionId() != response.GetTransactionSessionId())
+            if (_Lock.Session.GetTransactionSessionId() != response.GetTransactionSessionId())
             {
                 throw new
-                    RequestOutOfSyncException($"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{response.GetTransactionSessionId()}] but the current {nameof(ChannelType.Selection)} session has a {nameof(TransactionSessionId)} of: [{_SelectionSessionLock.Session.GetTransactionSessionId()}]");
+                    RequestOutOfSyncException($"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{response.GetTransactionSessionId()}] but the current {nameof(ChannelType.Selection)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
             }
 
             _CombinationSelector.ProcessPointOfInteractionResponse(response.GetTransactionSessionId(), _CandidateList,
-                                                                   _PreProcessingIndicators, _SelectionSessionLock.Session.GetOutcome(),
-                                                                   _SelectionSessionLock.Session.GetTransactionType(), response);
+                                                                   _PreProcessingIndicators, _Lock.Session.GetOutcome(),
+                                                                   _Lock.Session.GetTransactionType(), response);
         }
     }
 
     public void Handle(SelectApplicationDefinitionFileInfoResponse response)
     {
-        lock (_SelectionSessionLock)
+        lock (_Lock)
         {
-            if (_SelectionSessionLock.Session == null)
+            if (_Lock.Session == null)
             {
                 throw new
                     RequestOutOfSyncException($"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(SelectionSession)} no longer exists");
             }
 
-            if (_SelectionSessionLock.Session.GetTransactionSessionId() != response.GetTransactionSessionId())
+            if (_Lock.Session.GetTransactionSessionId() != response.GetTransactionSessionId())
             {
                 throw new
-                    RequestOutOfSyncException($"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{response.GetTransactionSessionId()}] but the current {nameof(ChannelType.Selection)} session has a {nameof(TransactionSessionId)} of: [{_SelectionSessionLock.Session.GetTransactionSessionId()}]");
+                    RequestOutOfSyncException($"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{response.GetTransactionSessionId()}] but the current {nameof(ChannelType.Selection)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
             }
 
-            if (!_CombinationSelector.TrySelectApplet(response.GetTransactionSessionId(), _CandidateList,
-                                                      _SelectionSessionLock.Session.GetOutcome(), _CandidateList.ElementAt(0), response,
-                                                      out CombinationOutcome? combinationOutcome))
+            if (!_CombinationSelector.TrySelectApplet(response.GetTransactionSessionId(), _CandidateList, _Lock.Session.GetOutcome(),
+                                                      _CandidateList.ElementAt(0), response, out CombinationOutcome? combinationOutcome))
             {
                 _CombinationSelector.ProcessInvalidAppletResponse(response.GetTransactionSessionId(), _CandidateList,
-                                                                  _SelectionSessionLock.Session.GetOutcome());
+                                                                  _Lock.Session.GetOutcome());
 
                 return;
             }
 
             _CombinationSelector.ProcessValidApplet(response.GetTransactionSessionId(), response.GetCorrelationId(),
-                                                    _SelectionSessionLock.Session.GetTransaction(), combinationOutcome!,
+                                                    _Lock.Session.GetTransaction(), combinationOutcome!,
                                                     _PreProcessingIndicators[combinationOutcome!.Combination.GetCombinationCompositeKey()]
                                                         .AsPreProcessingIndicatorResult(), response, _EndpointClient.Send);
         }
@@ -176,18 +179,25 @@ internal class SelectionStateMachine
 
     public void Handle(ActivateSelectionRequest request)
     {
-        lock (_SelectionSessionLock)
+        lock (_Lock)
         {
-            if (_SelectionSessionLock.Session != null)
-                ReprocessActivationSelectionRequest(_SelectionSessionLock, request);
+            if (_Lock.Session != null)
+            {
+                ReprocessActivationSelectionRequest(_Lock, request);
+
+                if (_Lock.Session.GetTransactionSessionId() != request.GetTransactionSessionId())
+                {
+                    throw new
+                        RequestOutOfSyncException($"The {nameof(ActivateSelectionRequest)} can't be processed because the {nameof(TransactionSessionId)}: [{_Lock.Session!.GetTransactionSessionId()}] is currently processing");
+                }
+            }
             else
-                ProcessActivationSelectionRequest(_SelectionSessionLock, request);
+                ProcessActivationSelectionRequest(_Lock, request);
         }
     }
 
     public void ProcessActivationSelectionRequest(SelectionSessionLock sessionLock, ActivateSelectionRequest request)
     {
-        sessionLock.Session = new SelectionSession(request.GetTransaction());
         ProcessEntryPoint(sessionLock, request);
     }
 
@@ -219,15 +229,6 @@ internal class SelectionStateMachine
 
     #endregion
 
-    public class SelectionSessionLock
-    {
-        #region Instance Values
-
-        public SelectionSession? Session;
-
-        #endregion
-    }
-
     #region Helper Logic
 
     private void ProcessAtA(Transaction transaction)
@@ -251,14 +252,14 @@ internal class SelectionStateMachine
                                    transaction.GetOutcome(), transaction.GetTransactionType());
     }
 
-    private void HandleCommunicationsError(SelectionSession session, TransactionSessionId transactionSessionId)
-    {
-        OutcomeParameterSet.Builder? outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
-        outcomeParameterSetBuilder.Set(StartOutcome.B);
-        session.GetOutcome().Update(outcomeParameterSetBuilder);
-
-        _SelectionProcess.Enqueue(new ActivateSelectionRequest(session.GetTransaction()));
-    }
-
     #endregion
+
+    public class SelectionSessionLock
+    {
+        #region Instance Values
+
+        public SelectionSession? Session;
+
+        #endregion
+    }
 }

@@ -92,9 +92,9 @@ public class CombinationSelector
         SelectApplicationDefinitionFileInfoResponse appletFci,
         Action<OutSelectionResponse> callback)
     {
-        OutSelectionResponse outSelectionResponse = new(correlationId, combinationOutcome.Combination.GetCombinationCompositeKey(),
-                                                        transaction, preProcessingIndicatorResult.GetTerminalTransactionQualifiers(),
-                                                        appletFci);
+        OutSelectionResponse outSelectionResponse = new(correlationId, transaction,
+                                                        combinationOutcome.Combination.GetCombinationCompositeKey(),
+                                                        preProcessingIndicatorResult.GetTerminalTransactionQualifiers(), appletFci);
 
         callback.Invoke(outSelectionResponse);
     }

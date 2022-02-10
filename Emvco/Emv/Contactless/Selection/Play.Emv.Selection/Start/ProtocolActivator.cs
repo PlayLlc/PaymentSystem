@@ -7,12 +7,17 @@ using Play.Emv.Sessions;
 namespace Play.Emv.Selection.Start;
 
 // BUG: Card Collision logic needs to be implemented here. We can inject a service like CardCollisionHandler from the PCD module but it needs to be handled
+/// <summary>
+/// </summary>
+/// <remarks>
+///     EMVco Contactless Book B Section 3.2.1
+/// </remarks>
 public class ProtocolActivator
 {
     #region Instance Values
 
     private readonly IHandleDisplayRequests _DisplayProcess;
-    private readonly IHandlePcdRequests _ProximityCouplingDevice;
+    private readonly IHandlePcdRequests _ProximityCouplingDeviceEndpoint;
 
     #endregion
 
@@ -20,13 +25,15 @@ public class ProtocolActivator
 
     public ProtocolActivator(IHandlePcdRequests pcdClient, IHandleDisplayRequests displayClient)
     {
-        _ProximityCouplingDevice = pcdClient;
+        _ProximityCouplingDeviceEndpoint = pcdClient;
         _DisplayProcess = displayClient;
     }
 
     #endregion
 
     #region Instance Members
+
+    #region 3.2.1
 
     /// <summary>
     ///     Protocol Activation is either the next step after Pre-Processing, or Entry Point may be started at Protocol
@@ -35,31 +42,61 @@ public class ProtocolActivator
     /// </summary>
     public void ActivateProtocol(
         TransactionSessionId transactionSessionId,
-        in Outcome outcome,
-        in PreProcessingIndicators preProcessingIndicators,
-        in CandidateList candidateList)
+        Outcome outcome,
+        PreProcessingIndicators preProcessingIndicators,
+        CandidateList candidateList)
     {
         ProcessIfActivationIsNotARestart(outcome, preProcessingIndicators, candidateList);
         ProcessIfActivationIsARestart(outcome);
         ActivateProximityCouplingDevice(transactionSessionId);
     }
 
+    #endregion
+
+    #region 3.2.1.1
+
+    /// <param name="outcome"></param>
+    /// <param name="preProcessingIndicators"></param>
+    /// <param name="candidateList"></param>
+    /// <remarks>EMVco Book B Section 3.2.1.1</remarks>
+    private void ProcessIfActivationIsNotARestart(
+        Outcome outcome,
+        PreProcessingIndicators preProcessingIndicators,
+        CandidateList candidateList)
+    {
+        if (outcome.IsRestart())
+            return;
+
+        if (!outcome.IsErrorPresent())
+        {
+            preProcessingIndicators.ResetPreprocessingIndicators();
+            preProcessingIndicators.ResetTerminalTransactionQualifiers();
+        }
+        else
+            candidateList.Clear();
+
+        _DisplayProcess.Request(GetReadyToReadDisplayMessage());
+    }
+
+    #endregion
+
+    #region 3.2.1.3
+
+    /// <remarks>EMVco Book B Section 3.2.1.3</remarks>
     private void ActivateProximityCouplingDevice(TransactionSessionId transactionSessionId)
     {
-        _ProximityCouplingDevice.Request(new ActivatePcdRequest(transactionSessionId));
+        _ProximityCouplingDeviceEndpoint.Request(new ActivatePcdRequest(transactionSessionId));
     }
 
-    private static DisplayMessageRequest GetReadyToReadDisplayMessage()
-    {
-        UserInterfaceRequestData.Builder? builder = UserInterfaceRequestData.GetBuilder();
-        builder.Set(MessageIdentifier.PresentCard);
-        builder.Set(Status.ReadyToRead);
+    #endregion
 
-        return new DisplayMessageRequest(builder.Complete());
-    }
+    #endregion
+
+    #region 3.2.1.2
 
     /// <exception cref="InvalidOperationException">Ignore.</exception>
-    private void ProcessIfActivationIsARestart(in Outcome outcome)
+    /// <remarks>EMVco Book B Section 3.2.1.2</remarks>
+    private void ProcessIfActivationIsARestart(Outcome outcome)
     {
         if (!outcome.IsRestart())
             return;
@@ -75,26 +112,19 @@ public class ProtocolActivator
             _DisplayProcess.Request(new DisplayMessageRequest(requestData));
         }
         else
-            _DisplayProcess.Request(GetReadyToReadDisplayMessage());
+            _DisplayProcess.Request(GetReadyToReadDisplayMessage(outcome));
     }
 
-    private void ProcessIfActivationIsNotARestart(
-        in Outcome outcome,
-        in PreProcessingIndicators preProcessingIndicators,
-        in CandidateList candidateList)
+    private static DisplayMessageRequest GetReadyToReadDisplayMessage(Outcome outcome)
     {
-        if (outcome.IsRestart())
-            return;
+        UserInterfaceRequestData.Builder? builder = UserInterfaceRequestData.GetBuilder();
+        builder.Set(MessageIdentifier.PresentCard);
+        builder.Set(Status.ReadyToRead);
+        outcome.Update(builder);
 
-        if (!outcome.IsErrorPresent())
-        {
-            preProcessingIndicators.ResetPreprocessingIndicators();
-            preProcessingIndicators.ResetTerminalTransactionQualifiers();
-        }
-        else
-            candidateList.Clear();
+        _ = outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData);
 
-        _DisplayProcess.Request(GetReadyToReadDisplayMessage());
+        return new DisplayMessageRequest(userInterfaceRequestData!);
     }
 
     #endregion

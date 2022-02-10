@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Play.Interchange
-{
-    internal class PinEntryCapability
-    {
-    }
-}
+namespace Play.Interchange;
+
+internal class PinEntryCapability
+{ }
