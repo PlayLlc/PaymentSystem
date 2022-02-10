@@ -12,6 +12,11 @@ using Play.Globalization.Time;
 
 namespace Play.Emv.Terminal.Common.Services.TornTransactionRecovery;
 
+/// <summary>
+///     The customer may remove the Card from the field of a Reader before the transaction has completed. The generic term
+///     used for this is “tearing”, resulting in a “torn transaction”. This objects helps manage those torn transactions in
+///     the event that the cardholder needs to present their card again
+/// </summary>
 internal class TornTransactionManager : ICleanTornTransactions
 {
     #region Instance Values
