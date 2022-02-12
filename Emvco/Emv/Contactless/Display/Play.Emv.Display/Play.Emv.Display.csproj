@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Infrastructure\Play.Globalization\Play.Globalization.csproj" />
-    <ProjectReference Include="..\..\..\Play.Emv\Play.Emv.csproj" />
     <ProjectReference Include="..\Play.Emv.Display.Contracts\Play.Emv.Display.Contracts.csproj" />
   </ItemGroup>
 

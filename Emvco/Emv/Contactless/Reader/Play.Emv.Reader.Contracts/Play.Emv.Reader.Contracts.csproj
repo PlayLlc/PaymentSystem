@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Play.Emv\Play.Emv.csproj" />
+    <ProjectReference Include="..\..\..\Common\Play.Emv\Play.Emv.csproj" />
     <ProjectReference Include="..\..\Terminal\Play.Emv.Terminal.Contracts\Play.Emv.Terminal.Contracts.csproj" />
   </ItemGroup>
 

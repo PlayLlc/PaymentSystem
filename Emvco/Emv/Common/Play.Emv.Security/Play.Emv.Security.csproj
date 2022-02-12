@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Cryptograms\_TEMP\**" />
+    <Compile Remove="SecureMessaging\**" />
+    <Compile Remove="Terminal\**" />
+    <EmbeddedResource Remove="Cryptograms\_TEMP\**" />
+    <EmbeddedResource Remove="SecureMessaging\**" />
+    <EmbeddedResource Remove="Terminal\**" />
+    <None Remove="Cryptograms\_TEMP\**" />
+    <None Remove="SecureMessaging\**" />
+    <None Remove="Terminal\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Authentications\Pin\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Infrastructure\Play.Encryption\Play.Encryption.csproj" />
+    <ProjectReference Include="..\Play.Emv.Ber\Play.Emv.Ber.csproj" />
+    <ProjectReference Include="..\Play.Emv.DataElements\Play.Emv.DataElements.csproj" />
+    <ProjectReference Include="..\Play.Emv.Templates\Play.Emv.Templates.csproj" />
+  </ItemGroup>
+
+</Project>
