@@ -19,7 +19,7 @@ public record CryptogramInformationData : PrimitiveValue, IEqualityComparer<Cryp
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F27;
 
     #endregion
@@ -88,7 +88,7 @@ public record CryptogramInformationData : PrimitiveValue, IEqualityComparer<Cryp
 
         DecodedResult<byte> result = codec.Decode(BerEncodingId, value) as DecodedResult<byte>
             ?? throw new
-                InvalidOperationException($"The {nameof(CryptogramInformationData)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
+                InvalidOperationException($"The {nameof(CryptogramInformationData)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new CryptogramInformationData(result.Value);
     }

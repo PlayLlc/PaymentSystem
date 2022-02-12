@@ -16,7 +16,7 @@ public record ApplicationCryptogram : CryptographicChecksum, IEqualityComparer<A
 {
     #region Static Metadata
 
-    public new static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public new static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
     public new static readonly Tag Tag = 0x9F26;
     private const byte _ByteCount = 8;
 

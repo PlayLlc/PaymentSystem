@@ -24,7 +24,7 @@ public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldT
     #region Static Metadata
 
     private static readonly Milliseconds _MinimumValue = new(100);
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
     public static readonly Tag Tag = 0xDF8130;
     private const byte _ByteLength = 3;
 

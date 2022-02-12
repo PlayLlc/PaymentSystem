@@ -17,7 +17,7 @@ public record TerminalCategoriesSupportedList : DataElement<BigInteger>, IEquali
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F3E;
 
     #endregion
@@ -68,7 +68,7 @@ public record TerminalCategoriesSupportedList : DataElement<BigInteger>, IEquali
     {
         DecodedResult<BigInteger> result = codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
             ?? throw new
-                InvalidOperationException($"The {nameof(TerminalCategoriesSupportedList)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+                InvalidOperationException($"The {nameof(TerminalCategoriesSupportedList)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new TerminalCategoriesSupportedList(result.Value);
     }

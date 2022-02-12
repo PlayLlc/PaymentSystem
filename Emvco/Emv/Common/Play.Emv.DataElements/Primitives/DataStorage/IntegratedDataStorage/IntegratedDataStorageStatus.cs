@@ -22,7 +22,7 @@ public record IntegratedDataStorageStatus : DataElement<byte>
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
     public static readonly Tag Tag = 0xDF8128;
     private const byte _ByteLength = 1;
 

@@ -18,7 +18,7 @@ public record IssuerScriptIdentifier : DataElement<uint>, IEqualityComparer<Issu
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F18;
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
 
     #endregion
 
@@ -55,7 +55,7 @@ public record IssuerScriptIdentifier : DataElement<uint>, IEqualityComparer<Issu
 
         DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
             ?? throw new
-                InvalidOperationException($"The {nameof(IssuerScriptIdentifier)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
+                InvalidOperationException($"The {nameof(IssuerScriptIdentifier)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new IssuerScriptIdentifier(result.Value);
     }

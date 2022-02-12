@@ -21,7 +21,7 @@ public record SelectionDataObjectList : DataObjectList, IEqualityComparer<Select
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F3F;
 
     #endregion

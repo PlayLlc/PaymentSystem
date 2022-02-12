@@ -20,7 +20,7 @@ public record UnprotectedDataEnvelope5 : DataElement<BigInteger>, IEqualityCompa
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F79;
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
 
     #endregion
 
@@ -57,7 +57,7 @@ public record UnprotectedDataEnvelope5 : DataElement<BigInteger>, IEqualityCompa
 
         DecodedResult<BigInteger> result = codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
             ?? throw new
-                InvalidOperationException($"The {nameof(UnprotectedDataEnvelope5)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+                InvalidOperationException($"The {nameof(UnprotectedDataEnvelope5)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new UnprotectedDataEnvelope5(result.Value);
     }

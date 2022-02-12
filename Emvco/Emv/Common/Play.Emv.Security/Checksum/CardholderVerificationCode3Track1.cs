@@ -18,7 +18,7 @@ public record CardholderVerificationCode3Track1 : PrimitiveValue, IEqualityCompa
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F60;
 
     #endregion
@@ -75,7 +75,7 @@ public record CardholderVerificationCode3Track1 : PrimitiveValue, IEqualityCompa
 
         DecodedResult<ushort> result = codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
             ?? throw new
-                InvalidOperationException($"The {nameof(CardholderVerificationCode3Track1)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+                InvalidOperationException($"The {nameof(CardholderVerificationCode3Track1)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new CardholderVerificationCode3Track1(result.Value);
     }

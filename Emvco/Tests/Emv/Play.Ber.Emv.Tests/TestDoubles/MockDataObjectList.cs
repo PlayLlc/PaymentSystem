@@ -12,7 +12,7 @@ public record MockDataObjectList : DataObjectList
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F38;
 
     #endregion

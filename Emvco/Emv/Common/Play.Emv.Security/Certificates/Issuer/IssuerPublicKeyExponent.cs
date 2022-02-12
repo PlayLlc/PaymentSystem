@@ -21,7 +21,7 @@ public record IssuerPublicKeyExponent : PrimitiveValue, IEqualityComparer<Issuer
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F32;
 
     #endregion
@@ -71,7 +71,7 @@ public record IssuerPublicKeyExponent : PrimitiveValue, IEqualityComparer<Issuer
 
         DecodedResult<uint> result = codec.Decode(BerEncodingId, value) as DecodedResult<uint>
             ?? throw new
-                InvalidOperationException($"The {nameof(IssuerPublicKeyExponent)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
+                InvalidOperationException($"The {nameof(IssuerPublicKeyExponent)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new IssuerPublicKeyExponent(result.Value);
     }

@@ -12,12 +12,12 @@ using Play.Emv.Ber.Exceptions;
 namespace Play.Emv.Ber.Codecs;
 
 // TODO: Move the actual functionality higher up to Play.Codec
-public class UnsignedBinaryCodec : BerPrimitiveCodec
+public class BinaryCodec : BerPrimitiveCodec
 {
     #region Static Metadata
 
     private static readonly UnsignedInteger _UnsignedIntegerCodec = PlayEncoding.UnsignedInteger;
-    public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(UnsignedBinaryCodec));
+    public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(BinaryCodec));
 
     #endregion
 
@@ -106,8 +106,7 @@ public class UnsignedBinaryCodec : BerPrimitiveCodec
         if (byteSize <= Specs.Integer.UInt64.ByteSize)
             return Unsafe.As<T, ulong>(ref value).GetMostSignificantByte();
 
-        throw
-            new InternalEmvEncodingException($"The {nameof(UnsignedBinaryCodec)} could not find the byte count for a type of {typeof(T)}");
+        throw new InternalEmvEncodingException($"The {nameof(BinaryCodec)} could not find the byte count for a type of {typeof(T)}");
     }
 
     public override ushort GetByteCount<T>(T[] value) => checked((ushort) value.Length);

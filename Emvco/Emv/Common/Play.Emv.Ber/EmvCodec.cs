@@ -24,7 +24,7 @@ public class EmvCodec : BerCodec
         },
         {CompressedNumericCodec.Identifier, new CompressedNumericCodec()},
         {NumericCodec.Identifier, new NumericCodec()},
-        {UnsignedBinaryCodec.Identifier, new UnsignedBinaryCodec()},
+        {BinaryCodec.Identifier, new BinaryCodec()},
         {VariableCodec.Identifier, new VariableCodec()},
         {OctetStringCodec.Identifier, new OctetStringCodec()}
     });

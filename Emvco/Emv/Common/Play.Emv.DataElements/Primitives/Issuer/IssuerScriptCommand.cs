@@ -20,7 +20,7 @@ public record IssuerScriptCommand : DataElement<BigInteger>, IEqualityComparer<I
     #region Static Metadata
 
     public static readonly Tag Tag = 0x86;
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
 
     #endregion
 
@@ -57,7 +57,7 @@ public record IssuerScriptCommand : DataElement<BigInteger>, IEqualityComparer<I
 
         DecodedResult<BigInteger> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
             ?? throw new
-                InvalidOperationException($"The {nameof(IssuerScriptCommand)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+                InvalidOperationException($"The {nameof(IssuerScriptCommand)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new IssuerScriptCommand(result.Value);
     }

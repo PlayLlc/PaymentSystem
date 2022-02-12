@@ -12,7 +12,7 @@ public record CommandTemplate : DataElement<byte[]>, IEquatable<CommandTemplate>
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
     public static readonly Tag Tag = 0x83;
 
     #endregion

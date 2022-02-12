@@ -18,7 +18,7 @@ public record TransactionStatusInformation : PrimitiveValue, IEqualityComparer<T
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9B;
 
     #endregion
@@ -83,7 +83,7 @@ public record TransactionStatusInformation : PrimitiveValue, IEqualityComparer<T
 
         DecodedResult<ushort> result = codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
             ?? throw new
-                InvalidOperationException($"The {nameof(TransactionStatusInformation)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+                InvalidOperationException($"The {nameof(TransactionStatusInformation)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new TransactionStatusInformation(result.Value);
     }

@@ -15,7 +15,7 @@ public record ApplicationPriorityIndicator : DataElement<byte>, IEqualityCompare
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
     public static readonly Tag Tag = 0x87;
 
     #endregion
@@ -66,7 +66,7 @@ public record ApplicationPriorityIndicator : DataElement<byte>, IEqualityCompare
 
         DecodedResult<byte> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<byte>
             ?? throw new
-                InvalidOperationException($"The {nameof(ApplicationPriorityIndicator)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
+                InvalidOperationException($"The {nameof(ApplicationPriorityIndicator)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new ApplicationPriorityIndicator(result.Value);
     }

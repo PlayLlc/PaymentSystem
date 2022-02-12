@@ -11,74 +11,73 @@ using Play.Ber.InternalFactories;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Primitives.CVMccc
+namespace Play.Emv.DataElements.Primitives.CVMccc;
+
+public record CvmList : DataElement<char[]>
 {
-    public record CvmList : DataElement<char[]> 
+    #region Static Metadata
+
+    /// <value>Hex: 5F20 Decimal: 95-32</value>
+    public static readonly Tag Tag = 0x8E;
+
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+
+    #endregion
+
+    #region Constructor
+
+    public CvmList(ReadOnlySpan<char> value) : base(value.ToArray())
+    { }
+
+    #endregion
+
+    #region Instance Members
+
+    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override Tag GetTag() => Tag;
+
+    #endregion
+
+    #region Serialization
+
+    public static CardholderName Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerException"></exception>
+    public static CardholderName Decode(ReadOnlySpan<byte> value)
     {
-        #region Static Metadata
+        const ushort minByteLength = 2;
+        const ushort maxByteLength = 26;
 
-        /// <value>Hex: 5F20 Decimal: 95-32</value>
-        public static readonly Tag Tag = 0x8E;
-
-        public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
-
-        #endregion
-
-        #region Constructor
-
-        public CvmList(ReadOnlySpan<char> value) : base(value.ToArray())
-        { }
-
-        #endregion
-
-        #region Instance Members
-
-        public override BerEncodingId GetBerEncodingId() => BerEncodingId;
-        public override Tag GetTag() => Tag;
-
-        #endregion
-
-        #region Serialization
-
-        public static DataElements.CardholderName Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-        /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="BerException"></exception>
-        public static DataElements.CardholderName Decode(ReadOnlySpan<byte> value)
+        if (value.Length is not >= minByteLength and <= maxByteLength)
         {
-            const ushort minByteLength = 2;
-            const ushort maxByteLength = 26;
-
-            if (value.Length is not >= minByteLength and <= maxByteLength)
-            {
-                throw new
-                    ArgumentOutOfRangeException($"The Primitive Value {nameof(DataElements.CardholderName)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
-            }
-
-            DecodedResult<char[]> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<char[]>
-                ?? throw new
-                    InvalidOperationException($"The {nameof(DataElements.CardholderName)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
-
-            return new DataElements.CardholderName(result.Value);
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(CardholderName)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
         }
 
-        #endregion
+        DecodedResult<char[]> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<char[]>
+            ?? throw new
+                InvalidOperationException($"The {nameof(CardholderName)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
 
-        #region Equality
-
-        public bool Equals(DataElements.CardholderName? x, DataElements.CardholderName? y)
-        {
-            if (x is null)
-                return y is null;
-
-            if (y is null)
-                return false;
-
-            return x.Equals(y);
-        }
-
-        public int GetHashCode(DataElements.CardholderName obj) => obj.GetHashCode();
-
-        #endregion
+        return new CardholderName(result.Value);
     }
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(CardholderName? x, CardholderName? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public int GetHashCode(CardholderName obj) => obj.GetHashCode();
+
+    #endregion
 }

@@ -15,7 +15,7 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F34;
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
     private const ushort _ByteLength = 3;
 
     #endregion
@@ -53,7 +53,7 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
 
         DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
             ?? throw new
-                InvalidOperationException($"The {nameof(CvmResults)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+                InvalidOperationException($"The {nameof(CvmResults)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new CvmResults(result.Value);
     }

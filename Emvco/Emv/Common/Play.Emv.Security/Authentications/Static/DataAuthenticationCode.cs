@@ -18,7 +18,7 @@ public record DataAuthenticationCode : PrimitiveValue, IEqualityComparer<DataAut
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F45;
 
     #endregion
@@ -69,7 +69,7 @@ public record DataAuthenticationCode : PrimitiveValue, IEqualityComparer<DataAut
 
         DecodedResult<ushort> result = codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
             ?? throw new
-                InvalidOperationException($"The {nameof(DataAuthenticationCode)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+                InvalidOperationException($"The {nameof(DataAuthenticationCode)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new DataAuthenticationCode(result.Value);
     }

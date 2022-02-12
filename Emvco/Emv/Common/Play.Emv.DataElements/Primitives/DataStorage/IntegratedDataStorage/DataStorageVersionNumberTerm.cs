@@ -26,7 +26,7 @@ public record DataStorageVersionNumberTerm : DataElement<byte[]>
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
     public static readonly Tag Tag = 0xDF810D;
 
     #endregion

@@ -18,7 +18,7 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
 
     //TODO: figure out the best way to map these values with the logic needed
     public static readonly KernelIdentifier AmericanExpress;
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
     public static readonly KernelIdentifier ChinaUnionPay;
     public static readonly KernelIdentifier Discover;
     public static readonly KernelIdentifier Jcb;
@@ -213,7 +213,7 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
 
         DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value).ToUInt64Result()
             ?? throw new
-                InvalidOperationException($"The {nameof(KernelIdentifier)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+                InvalidOperationException($"The {nameof(KernelIdentifier)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new KernelIdentifier(result.Value);
     }

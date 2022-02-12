@@ -15,7 +15,7 @@ public record DiscretionaryData : DataExchangeResponse, IEqualityComparer<Discre
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
     public static readonly Tag Tag = 0xFF8106;
 
     #endregion

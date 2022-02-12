@@ -15,7 +15,7 @@ public record UnpredictableNumber : DataElement<uint>, IEqualityComparer<Unpredi
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F37;
     private const byte _ByteCount = 4;
 
@@ -56,7 +56,7 @@ public record UnpredictableNumber : DataElement<uint>, IEqualityComparer<Unpredi
 
         DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
             ?? throw new
-                InvalidOperationException($"The {nameof(UnpredictableNumber)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
+                InvalidOperationException($"The {nameof(UnpredictableNumber)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new UnpredictableNumber(result.Value);
     }

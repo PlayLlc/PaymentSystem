@@ -19,7 +19,7 @@ public record TerminalActionCodeOnline : PrimitiveValue, IEqualityComparer<Termi
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
     public static readonly Tag Tag = 0xDF8122;
 
     #endregion
@@ -66,7 +66,7 @@ public record TerminalActionCodeOnline : PrimitiveValue, IEqualityComparer<Termi
 
         DecodedResult<ulong> result = codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
             ?? throw new
-                InvalidOperationException($"The {nameof(TerminalActionCodeOnline)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+                InvalidOperationException($"The {nameof(TerminalActionCodeOnline)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new TerminalActionCodeOnline(result.Value);
     }

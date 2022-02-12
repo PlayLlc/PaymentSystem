@@ -14,7 +14,7 @@ public record SecurityCapability : DataElement<byte>, IEqualityComparer<Security
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
     public static readonly Tag Tag = 0xDF811F;
 
     #endregion

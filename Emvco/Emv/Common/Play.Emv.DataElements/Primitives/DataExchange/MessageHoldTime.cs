@@ -17,7 +17,7 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
     #region Static Metadata
 
     private static readonly Milliseconds _MinimumValue = new(100);
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
     public static readonly MessageHoldTime MinimumValue = new(_MinimumValue);
     public static readonly Tag Tag = 0xDF812D;
 

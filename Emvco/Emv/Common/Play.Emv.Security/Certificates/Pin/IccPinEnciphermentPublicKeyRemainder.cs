@@ -18,7 +18,7 @@ public record IccPinEnciphermentPublicKeyRemainder : PrimitiveValue, IEqualityCo
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F2F;
 
     #endregion
@@ -56,7 +56,7 @@ public record IccPinEnciphermentPublicKeyRemainder : PrimitiveValue, IEqualityCo
     {
         DecodedResult<BigInteger> result = codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
             ?? throw new
-                InvalidOperationException($"The {nameof(IccPinEnciphermentPublicKeyRemainder)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+                InvalidOperationException($"The {nameof(IccPinEnciphermentPublicKeyRemainder)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new IccPinEnciphermentPublicKeyRemainder(result.Value);
     }
