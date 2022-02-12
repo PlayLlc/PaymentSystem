@@ -3,7 +3,7 @@ using Play.Encryption.Certificates;
 using Play.Encryption.Hashing;
 using Play.Globalization.Time;
 
-namespace Play.Emv.Security.Certificates.Issuerz;
+namespace Play.Emv.Security.Certificates.Pin;
 
 public class DecodedIccPinPublicKeyCertificate : PublicKeyCertificate
 {

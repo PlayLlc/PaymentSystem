@@ -6,15 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ActionAnalysis\Card\**" />
+    <Compile Remove="TerminalActionAnalysis\Card\**" />
     <Compile Remove="Authentication\**" />
     <Compile Remove="Messages\**" />
     <Compile Remove="RiskManagement\Card\**" />
-    <EmbeddedResource Remove="ActionAnalysis\Card\**" />
+    <EmbeddedResource Remove="TerminalActionAnalysis\Card\**" />
     <EmbeddedResource Remove="Authentication\**" />
     <EmbeddedResource Remove="Messages\**" />
     <EmbeddedResource Remove="RiskManagement\Card\**" />
-    <None Remove="ActionAnalysis\Card\**" />
+    <None Remove="TerminalActionAnalysis\Card\**" />
     <None Remove="Authentication\**" />
     <None Remove="Messages\**" />
     <None Remove="RiskManagement\Card\**" />

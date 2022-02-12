@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
-using Play.Core.Extensions;
 using Play.Core.Specifications;
 
-namespace Play.Codecs.Integers;
+namespace Play.Codecs.Strings;
 
 /// <summary>
 ///     Numeric Special Consists of Numeric Hex values in the range of '0' – '9' per byte or Special Ascii characters in

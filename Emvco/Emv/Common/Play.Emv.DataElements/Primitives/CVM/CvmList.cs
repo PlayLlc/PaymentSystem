@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Ber.Codecs;
+﻿using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Ber.InternalFactories;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.DataElements.Exceptions;
-using Play.Emv.DataElements.ValueTypes.ValueTypes;
 
-namespace Play.Emv.DataElements.Primitives.CVM;
+namespace Play.Emv.DataElements;
 
 public record CvmList : DataElement<byte[]>
 {
@@ -64,7 +56,7 @@ public record CvmList : DataElement<byte[]>
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
-    public static CvmList Decode(ReadOnlySpan<byte> value) => new CvmList(value);
+    public static CvmList Decode(ReadOnlySpan<byte> value) => new(value);
 
     #endregion
 

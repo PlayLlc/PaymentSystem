@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using Play.Core.Extensions;
 using Play.Emv.Configuration;
 using Play.Emv.DataElements;
+using Play.Emv.Icc;
+using Play.Emv.Icc.GenerateApplicationCryptogram;
+using Play.Emv.Pcd.Contracts;
+using Play.Emv.Pcd.Contracts.SignalIn.Queriesdd;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
 
-namespace Play.Emv.Terminal.Common.Services.ActionAnalysis.Terminal;
+namespace Play.Emv.Terminal.Common.Services.TerminalActionAnalysis.Terminal;
 
 /// <remarks>
 ///     Book 3 Section 10.7
@@ -14,6 +19,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 {
     #region Instance Values
 
+    private readonly IHandlePcdRequests _PcdEndpoint;
     private readonly TerminalActionCodeDefault _TerminalActionCodeDefault;
     private readonly TerminalActionCodeDenial _TerminalActionCodeDenial;
     private readonly TerminalActionCodeOnline _TerminalActionCodeOnline;
@@ -24,11 +30,13 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     #region Constructor
 
     public TerminalActionAnalysisService(
+        IHandlePcdRequests pcdEndpoint,
         TerminalActionCodeDefault terminalActionCodeDefault,
         TerminalActionCodeDenial terminalActionCodeDenial,
         TerminalActionCodeOnline terminalActionCodeOnline,
         TerminalType terminalType)
     {
+        _PcdEndpoint = pcdEndpoint;
         _TerminalActionCodeDefault = terminalActionCodeDefault;
         _TerminalActionCodeDenial = terminalActionCodeDenial;
         _TerminalActionCodeOnline = terminalActionCodeOnline;
@@ -39,9 +47,30 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 
     #region Instance Members
 
-    public TerminalActionAnalysisResponse CreateDenyTransactionResponse() => new(CryptogramTypes.ApplicationAuthenticationCryptogram);
-    public TerminalActionAnalysisResponse CreateProceedOfflineResponse() => new(CryptogramTypes.TransactionCryptogram);
-    public TerminalActionAnalysisResponse CreateProceedOnlineResponse() => new(CryptogramTypes.AuthorizationRequestCryptogram);
+    public void CreateDenyTransactionResponse(TerminalActionAnalysisCommand command) =>
+        _PcdEndpoint.Request(GenerateApplicationCryptogramCommand.Create(command.GetTransactionSessionId(),
+                                                                         new CryptogramInformationData(CryptogramType
+                                                                             .ApplicationAuthenticationCryptogram),
+                                                                         command.GetCardRiskManagementDolResult(),
+                                                                         command.GetDataStorageDolResult()));
+
+    public void CreateProceedOfflineResponse(TerminalActionAnalysisCommand command)
+    {
+        _PcdEndpoint.Request(GenerateApplicationCryptogramCommand.Create(command.GetTransactionSessionId(),
+                                                                         new CryptogramInformationData(CryptogramType
+                                                                             .TransactionCryptogram),
+                                                                         command.GetCardRiskManagementDolResult(),
+                                                                         command.GetDataStorageDolResult()));
+    }
+
+    public void CreateProceedOnlineResponse(TerminalActionAnalysisCommand command)
+    {
+        _PcdEndpoint.Request(GenerateApplicationCryptogramCommand.Create(command.GetTransactionSessionId(),
+                                                                         new CryptogramInformationData(CryptogramType
+                                                                             .AuthorizationRequestCryptogram),
+                                                                         command.GetCardRiskManagementDolResult(),
+                                                                         command.GetDataStorageDolResult()));
+    }
 
     /// <summary>
     ///     Process
@@ -49,33 +78,53 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <param name="command"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public TerminalActionAnalysisResponse Process(TerminalActionAnalysisCommand command)
+    public void Process(TerminalActionAnalysisCommand command)
     {
         ActionFlag resultFlag = ActionFlag.None;
 
-        ProcessDenialActionCodes(_TerminalType, command.GetIssuerActionCodeDenial(), _TerminalActionCodeDenial,
-                                 command.GetTerminalVerificationResults(), ref resultFlag);
-
-        if (resultFlag.HasFlag(ActionFlag.Denial))
-            return CreateDenyTransactionResponse();
+        if (ProcessDenialActionCodes(_TerminalType, command.GetIssuerActionCodeDenial(), _TerminalActionCodeDenial,
+                                     command.GetTerminalVerificationResults(), ref resultFlag))
+        {
+            _PcdEndpoint.Request(GenerateApplicationCryptogramCommand.Create(command.GetTransactionSessionId(),
+                                                                             new CryptogramInformationData(CryptogramType
+                                                                                 .ApplicationAuthenticationCryptogram),
+                                                                             command.GetCardRiskManagementDolResult(),
+                                                                             command.GetDataStorageDolResult()));
+        }
 
         ProcessOnlineActionCodes(_TerminalType, command.GetIssuerActionCodeOnline(), _TerminalActionCodeOnline,
                                  command.GetTerminalVerificationResults(), ref resultFlag);
 
         if (resultFlag.HasFlag(ActionFlag.Offline))
-            return CreateProceedOfflineResponse();
+        {
+            CreateProceedOfflineResponse(command);
+
+            return;
+        }
 
         if (resultFlag.HasFlag(ActionFlag.Online))
-            return CreateProceedOnlineResponse();
+        {
+            CreateProceedOnlineResponse(command);
+
+            return;
+        }
 
         ProcessDefaultActionCodes(_TerminalType, command.GetIssuerActionCodeDefault(), _TerminalActionCodeDefault,
                                   command.GetTerminalVerificationResults(), ref resultFlag);
 
         if (resultFlag.HasFlag(ActionFlag.Denial))
-            return CreateDenyTransactionResponse();
+        {
+            CreateDenyTransactionResponse(command);
+
+            return;
+        }
 
         if (resultFlag.HasFlag(ActionFlag.Offline))
-            return CreateProceedOnlineResponse();
+        {
+            CreateProceedOnlineResponse(command);
+
+            return;
+        }
 
         throw new InvalidOperationException("The Terminal Action Analysis result could not be determined");
     }
@@ -107,7 +156,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         flag |= ActionFlag.Denial;
     }
 
-    private void ProcessDenialActionCodes(
+    private bool ProcessDenialActionCodes(
         TerminalType terminalType,
         ActionCodes issuerActionCodeDenial,
         TerminalActionCodeDenial terminalActionCodeDenial,
@@ -115,8 +164,11 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         ref ActionFlag flag)
     {
         ActionCodes denialActionCodes = new((ulong) issuerActionCodeDenial | (ulong) terminalActionCodeDenial.AsActionCodes());
+
         if (((ulong) terminalVerificationResult).AreBitsSet((ulong) denialActionCodes))
-            flag |= ActionFlag.Denial;
+            return true;
+
+        return false;
     }
 
     /// <summary>

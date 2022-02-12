@@ -1,4 +1,4 @@
-﻿using Play.Emv.DataElements.ValueTypes.ValueTypes;
+﻿namespace Play.Emv.DataElements;
 
 public readonly struct CardholderVerificationRules
 {

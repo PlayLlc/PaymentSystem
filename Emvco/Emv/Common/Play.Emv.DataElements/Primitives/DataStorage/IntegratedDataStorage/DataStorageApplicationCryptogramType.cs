@@ -3,6 +3,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Icc;
 
 namespace Play.Emv.DataElements;
 
@@ -22,8 +23,8 @@ public record DataStorageApplicationCryptogramType : DataElement<byte>, IEqualit
 
     public DataStorageApplicationCryptogramType(byte value) : base(value)
     {
-        if (!ApplicationCryptogramTypes.IsValid(value))
-            throw new ArgumentException($"The argument {nameof(value)} was not recognized as a valid {nameof(ApplicationCryptogramTypes)}");
+        if (!CryptogramType.IsValid(value))
+            throw new ArgumentException($"The argument {nameof(value)} was not recognized as a valid {nameof(CryptogramType)}");
     }
 
     #endregion

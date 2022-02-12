@@ -48,20 +48,20 @@ public record TransactionStatusInformation : PrimitiveValue, IEqualityComparer<T
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
-    public TransactionStatusInformation Set(TransactionStatusResult transactionStatus)
+    public TransactionStatusInformation Set(TransactionStatusInformationFlagTypes transactionStatus)
     {
-        if (transactionStatus == TransactionStatusResult.NotAvailable)
+        if (transactionStatus == TransactionStatusInformationFlagTypes.NotAvailable)
             return this;
 
         return new TransactionStatusInformation((ushort) (_Value | transactionStatus));
     }
 
-    public bool WasCardholderVerificationPerformed() => _Value.IsBitSet(7);
-    public bool WasCardRiskManagementPerformed() => _Value.IsBitSet(6);
-    public bool WasIssuerAuthenticationPerformed() => _Value.IsBitSet(5);
-    public bool WasOfflineDataAuthenticationPerformed() => _Value.IsBitSet(8);
-    public bool WasScriptProcessingPerformed() => _Value.IsBitSet(3);
-    public bool WasTerminalRiskManagementPerformed() => _Value.IsBitSet(4);
+    public bool CardholderVerificationWasPerformed() => _Value.IsBitSet(7);
+    public bool CardRiskManagementWasPerformed() => _Value.IsBitSet(6);
+    public bool IssuerAuthenticationWasPerformed() => _Value.IsBitSet(5);
+    public bool OfflineDataAuthenticationWasPerformed() => _Value.IsBitSet(8);
+    public bool ScriptProcessingWasPerformed() => _Value.IsBitSet(3);
+    public bool TerminalRiskManagementWasPerformed() => _Value.IsBitSet(4);
 
     #endregion
 

@@ -36,12 +36,12 @@ public class Unicode : PlayEncoding
 
     public override byte[] GetBytes(ReadOnlySpan<char> value)
     {
-        var byteCount = _UnicodeCodec.GetByteCount(value);
+        int byteCount = _UnicodeCodec.GetByteCount(value);
 
         if (byteCount > Specs.ByteArray.StackAllocateCeiling)
         {
             using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(byteCount);
-            var buffer = spanOwner.Span;
+            Span<byte> buffer = spanOwner.Span;
             _UnicodeCodec.GetBytes(value, buffer);
 
             return buffer.ToArray();

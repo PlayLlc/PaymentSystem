@@ -1,21 +1,18 @@
-using System;
-using System.Collections.Generic;
-
 using Play.Ber.Codecs;
-using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
-using Play.Emv.DataElements;
+using Play.Emv.Ber.DataObjects;
+using Play.Emv.Icc;
 
-namespace Play.Emv.Security.Cryptograms;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates the type of cryptogram and the actions to be performed by the terminal
 /// </summary>
-public record CryptogramInformationData : PrimitiveValue, IEqualityComparer<CryptogramInformationData>
+public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<CryptogramInformationData>
 {
     #region Static Metadata
 
@@ -24,18 +21,10 @@ public record CryptogramInformationData : PrimitiveValue, IEqualityComparer<Cryp
 
     #endregion
 
-    #region Instance Values
-
-    private readonly byte _Value;
-
-    #endregion
-
     #region Constructor
 
-    public CryptogramInformationData(byte value)
-    {
-        _Value = value;
-    }
+    public CryptogramInformationData(byte value) : base(value)
+    { }
 
     #endregion
 
@@ -48,12 +37,12 @@ public record CryptogramInformationData : PrimitiveValue, IEqualityComparer<Cryp
     /// </summary>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public CryptogramTypes GetCryptogramType()
+    public CryptogramType GetCryptogramType()
     {
-        if (!CryptogramTypes.TryGet(_Value, out CryptogramTypes? result))
+        if (!CryptogramType.TryGet(_Value, out CryptogramType? result))
         {
             throw new
-                InvalidOperationException($"The {nameof(CryptogramInformationData)} expected a {nameof(CryptogramTypes)} but none could be found");
+                InvalidOperationException($"The {nameof(CryptogramInformationData)} expected a {nameof(CryptogramType)} but none could be found");
         }
 
         return result!;
@@ -72,11 +61,11 @@ public record CryptogramInformationData : PrimitiveValue, IEqualityComparer<Cryp
 
     #region Serialization
 
-    public static CryptogramInformationData Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    public static CryptogramInformationData Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
-    public static CryptogramInformationData Decode(ReadOnlySpan<byte> value, BerCodec codec)
+    public static CryptogramInformationData Decode(ReadOnlySpan<byte> value)
     {
         const ushort byteLength = 1;
 
@@ -86,15 +75,14 @@ public record CryptogramInformationData : PrimitiveValue, IEqualityComparer<Cryp
                 ArgumentOutOfRangeException($"The Primitive Value {nameof(CryptogramInformationData)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
-        DecodedResult<byte> result = codec.Decode(BerEncodingId, value) as DecodedResult<byte>
+        DecodedResult<byte> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<byte>
             ?? throw new
                 InvalidOperationException($"The {nameof(CryptogramInformationData)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new CryptogramInformationData(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(BerEncodingId, _Value, 1);
 
     #endregion
 

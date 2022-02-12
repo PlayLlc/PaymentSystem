@@ -21,13 +21,15 @@ public class TerminalRiskManagementResponse
     /// <remarks>
     ///     Book 3 Section 10.6
     /// </remarks>
-    private readonly TransactionStatusResult _TransactionStatus;
+    private readonly TransactionStatusInformationFlagTypes _TransactionStatus;
 
     #endregion
 
     #region Constructor
 
-    public TerminalRiskManagementResponse(TerminalVerificationResult terminalVerificationResult, TransactionStatusResult transactionStatus)
+    public TerminalRiskManagementResponse(
+        TerminalVerificationResult terminalVerificationResult,
+        TransactionStatusInformationFlagTypes transactionStatus)
     {
         _TerminalVerificationResult = terminalVerificationResult;
         _TransactionStatus = transactionStatus;

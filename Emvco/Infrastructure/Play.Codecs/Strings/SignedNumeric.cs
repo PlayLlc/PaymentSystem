@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Core.Extensions;
 using Play.Core.Specifications;
 
-namespace Play.Codecs.Stringsddd;
+namespace Play.Codecs.Strings;
 
 /// <summary>
 ///     Numeric data elements consist of two numeric digits (having values in the range Hex '0' – '9') per byte and a

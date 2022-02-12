@@ -1,5 +1,7 @@
 ﻿using Play.Core.Extensions;
 
+namespace Play.Emv.DataElements;
+
 public readonly struct CardholderVerificationRuleFormat
 {
     #region Instance Values

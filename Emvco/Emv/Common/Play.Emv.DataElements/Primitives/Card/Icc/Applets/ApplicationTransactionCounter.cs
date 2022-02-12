@@ -36,11 +36,11 @@ public record ApplicationTransactionCounter : DataElement<ushort>, IEqualityComp
 
     #region Serialization
 
-    public static ApplicationTransactionCounter Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    public static ApplicationTransactionCounter Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
-    public static ApplicationTransactionCounter Decode(ReadOnlySpan<byte> value, BerCodec codec)
+    public static ApplicationTransactionCounter Decode(ReadOnlySpan<byte> value)
     {
         const ushort byteLength = 2;
 
@@ -50,7 +50,7 @@ public record ApplicationTransactionCounter : DataElement<ushort>, IEqualityComp
                 ArgumentOutOfRangeException($"The Primitive Value {nameof(ApplicationTransactionCounter)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
-        DecodedResult<ushort> result = codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
+        DecodedResult<ushort> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
             ?? throw new
                 InvalidOperationException($"The {nameof(ApplicationTransactionCounter)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 

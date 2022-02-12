@@ -6,7 +6,7 @@ public interface IPerformTerminalActionAnalysis
 {
     #region Instance Members
 
-    public TerminalActionAnalysisResponse Process(TerminalActionAnalysisCommand command);
+    public void Process(TerminalActionAnalysisCommand command);
 
     #endregion
 }

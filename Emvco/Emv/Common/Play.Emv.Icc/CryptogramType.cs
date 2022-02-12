@@ -27,16 +27,16 @@ public sealed record CryptogramType : EnumObject<byte>
     static CryptogramType()
     {
         const byte applicationAuthenticationCryptogram = 0;
-        const byte transactionCertificate = 0b01000000;
-        const byte authorizationRequestCryptogram = 0b10000000;
+        const byte transactionCryptogram = 0x40;
+        const byte authorizationRequestCryptogram = 0x80;
 
         ApplicationAuthenticationCryptogram = new CryptogramType(applicationAuthenticationCryptogram);
-        TransactionCryptogram = new CryptogramType(transactionCertificate);
+        TransactionCryptogram = new CryptogramType(transactionCryptogram);
         AuthorizationRequestCryptogram = new CryptogramType(authorizationRequestCryptogram);
         _ValueObjectMap = new Dictionary<byte, CryptogramType>
         {
             {applicationAuthenticationCryptogram, ApplicationAuthenticationCryptogram},
-            {transactionCertificate, TransactionCryptogram},
+            {transactionCryptogram, TransactionCryptogram},
             {authorizationRequestCryptogram, AuthorizationRequestCryptogram}
         }.ToImmutableSortedDictionary();
     }
@@ -48,6 +48,7 @@ public sealed record CryptogramType : EnumObject<byte>
 
     #region Instance Members
 
+    public static bool IsValid(byte value) => _ValueObjectMap.ContainsKey(value);
     public int CompareTo(CryptogramType other) => _Value.CompareTo(other._Value);
 
     public static bool TryGet(byte value, out CryptogramType? result)
