@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Ber.Codecs;
+﻿using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Ber.InternalFactories;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Exceptions;
 
 namespace Play.Emv.DataElements;
 

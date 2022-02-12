@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Play.Core.Threads;
-using Play.Emv.Configuration;
 using Play.Emv.Display.Contracts;
 
 namespace Play.Emv.Display.Services;

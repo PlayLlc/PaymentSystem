@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Play.Emv.DataElements;
 using Play.Emv.Terminal.Contracts;
-using Play.Encryption.Hashing;
 using Play.Globalization.Time;
 
 namespace Play.Emv.Terminal.Common.Services.TornTransactionRecovery;

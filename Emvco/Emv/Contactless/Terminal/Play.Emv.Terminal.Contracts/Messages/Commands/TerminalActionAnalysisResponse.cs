@@ -1,5 +1,4 @@
-﻿using Play.Emv.DataElements;
-using Play.Emv.Icc;
+﻿using Play.Emv.Icc;
 
 namespace Play.Emv.Terminal.Contracts.Messages.Commands;
 
@@ -7,7 +6,7 @@ public class TerminalActionAnalysisResponse
 {
     #region Instance Values
 
-    private readonly CryptogramType _CryptogramTypes;
+    private readonly CryptogramTypes _CryptogramTypes;
 
     #endregion
 

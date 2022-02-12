@@ -7,9 +7,7 @@ using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel2.Configuration;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Kernel2.Services;
-using Play.Emv.Kernel2.StateMachine;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Terminal;
 using Play.Emv.Terminal.Contracts;
 
 namespace Play.Emv.Reader.Services;

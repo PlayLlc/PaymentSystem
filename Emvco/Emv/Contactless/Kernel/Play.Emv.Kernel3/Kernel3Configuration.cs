@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Emv.DataElements;
+﻿using Play.Emv.DataElements;
 
 namespace Play.Emv.Kernel3;
 

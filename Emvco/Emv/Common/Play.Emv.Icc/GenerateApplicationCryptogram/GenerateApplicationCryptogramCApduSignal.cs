@@ -38,13 +38,13 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
     #region Instance Members
 
     public static GenerateApplicationCryptogramCApduSignal Create(
-        CryptogramType cryptogramType,
+        CryptogramTypes cryptogramTypes,
         bool isCdaRequested,
         DataObjectListResult cardRiskManagementDataObjectListResult) =>
-        Create(cryptogramType, isCdaRequested, cardRiskManagementDataObjectListResult.AsCommandTemplate());
+        Create(cryptogramTypes, isCdaRequested, cardRiskManagementDataObjectListResult.AsCommandTemplate());
 
     public static GenerateApplicationCryptogramCApduSignal Create(
-        CryptogramType cryptogramType,
+        CryptogramTypes cryptogramTypes,
         bool isCdaRequested,
         DataObjectListResult cardRiskManagementDataObjectListResult,
         DataObjectListResult dataStorageDataObjectListResult)
@@ -52,25 +52,25 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
         CommandTemplate? commandTemplate = new(cardRiskManagementDataObjectListResult.AsByteArray().AsSpan()
                                                    .ConcatArrays(dataStorageDataObjectListResult.AsByteArray()));
 
-        return Create(cryptogramType, isCdaRequested, commandTemplate);
+        return Create(cryptogramTypes, isCdaRequested, commandTemplate);
     }
 
     private static GenerateApplicationCryptogramCApduSignal Create(
-        CryptogramType cryptogramType,
+        CryptogramTypes cryptogramTypes,
         bool isCdaRequested,
         CommandTemplate commandTemplate)
     {
-        if (cryptogramType == CryptogramType.TransactionCryptogram)
+        if (cryptogramTypes == CryptogramTypes.TransactionCryptogram)
             return CreateTc(isCdaRequested, commandTemplate);
 
-        if (cryptogramType == CryptogramType.ApplicationAuthenticationCryptogram)
+        if (cryptogramTypes == CryptogramTypes.ApplicationAuthenticationCryptogram)
             return CreateAac(commandTemplate);
 
-        if (cryptogramType == CryptogramType.AuthorizationRequestCryptogram)
+        if (cryptogramTypes == CryptogramTypes.AuthorizationRequestCryptogram)
             return CreateArqc(isCdaRequested, commandTemplate);
 
-        throw new ArgumentOutOfRangeException(nameof(cryptogramType),
-                                              $"The {nameof(CryptogramType)} value: {cryptogramType} could not be recognized");
+        throw new ArgumentOutOfRangeException(nameof(cryptogramTypes),
+                                              $"The {nameof(CryptogramTypes)} value: {cryptogramTypes} could not be recognized");
     }
 
     /// <summary>

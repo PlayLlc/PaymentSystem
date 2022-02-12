@@ -2,7 +2,6 @@
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
-using Play.Emv.Kernel.Contracts;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Selection.Contracts;

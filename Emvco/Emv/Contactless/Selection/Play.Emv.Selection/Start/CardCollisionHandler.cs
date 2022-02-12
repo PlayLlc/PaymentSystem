@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Emv.DataElements;
+﻿using Play.Emv.DataElements;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;

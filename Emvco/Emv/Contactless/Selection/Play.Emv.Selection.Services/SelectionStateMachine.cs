@@ -1,16 +1,13 @@
-﻿using Play.Emv.Configuration;
-using Play.Emv.DataElements;
+﻿using Play.Emv.DataElements;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
-using Play.Emv.Kernel.Contracts;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Selection.Contracts;
 using Play.Emv.Selection.Start;
 using Play.Emv.Sessions;
 using Play.Emv.Transactions;
-using Play.Messaging;
 
 namespace Play.Emv.Selection.Services;
 

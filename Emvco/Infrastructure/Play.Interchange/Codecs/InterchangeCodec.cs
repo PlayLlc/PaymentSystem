@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Immutable;
 
 using Play.Codecs;
-using Play.Core;
 using Play.Interchange.Messages.DataFields;
 
 namespace Play.Interchange.Codecs;

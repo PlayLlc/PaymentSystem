@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 
 using Play.Core.Threads;
-using Play.Emv.Configuration;
 using Play.Emv.Pcd.Contracts;
 
 namespace Play.Emv.Pcd.Services;

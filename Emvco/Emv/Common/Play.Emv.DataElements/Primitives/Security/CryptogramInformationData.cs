@@ -37,12 +37,12 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
     /// </summary>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public CryptogramType GetCryptogramType()
+    public CryptogramTypes GetCryptogramType()
     {
-        if (!CryptogramType.TryGet(_Value, out CryptogramType? result))
+        if (!CryptogramTypes.TryGet(_Value, out CryptogramTypes? result))
         {
             throw new
-                InvalidOperationException($"The {nameof(CryptogramInformationData)} expected a {nameof(CryptogramType)} but none could be found");
+                InvalidOperationException($"The {nameof(CryptogramInformationData)} expected a {nameof(CryptogramTypes)} but none could be found");
         }
 
         return result!;

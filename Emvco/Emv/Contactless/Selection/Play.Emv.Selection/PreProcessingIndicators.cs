@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 
-using Play.Emv.Configuration;
 using Play.Emv.DataElements;
 using Play.Emv.Selection.Contracts;
 using Play.Globalization;

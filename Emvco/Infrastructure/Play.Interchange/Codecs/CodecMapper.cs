@@ -1,7 +1,6 @@
 ﻿using System.Text;
 
 using Play.Codecs;
-using Play.Codecs.Integers;
 using Play.Codecs.Strings;
 
 namespace Play.Interchange.Codecs;

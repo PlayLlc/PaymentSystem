@@ -1,24 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Play.Emv.Exceptions;
-using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Kernel.Databases;
-using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
-using Play.Emv.Kernel2.StateMachine;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts.SignalOut;
-using Play.Globalization.Time;
-using Play.Messaging;
 
 namespace Play.Emv.Kernel2.Services;
 

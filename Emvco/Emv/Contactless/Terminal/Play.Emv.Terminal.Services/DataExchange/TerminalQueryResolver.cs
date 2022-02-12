@@ -4,7 +4,6 @@ using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Emv.Configuration;
 using Play.Emv.DataElements;
-using Play.Emv.Security.Cryptograms;
 
 namespace Play.Emv.Terminal.Services.DataExchange;
 

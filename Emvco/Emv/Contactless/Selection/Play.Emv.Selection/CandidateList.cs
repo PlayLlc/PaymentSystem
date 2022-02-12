@@ -1,7 +1,5 @@
 ﻿using System.Collections;
 
-using Play.Emv.Selection.Contracts;
-
 namespace Play.Emv.Selection;
 
 /// <summary>

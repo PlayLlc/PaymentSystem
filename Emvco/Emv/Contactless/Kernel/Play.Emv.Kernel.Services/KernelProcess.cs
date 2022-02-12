@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Play.Core.Threads;
 using Play.Emv.DataElements;
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Kernel.State;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
 

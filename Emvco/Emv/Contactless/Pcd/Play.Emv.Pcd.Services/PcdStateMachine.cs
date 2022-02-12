@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Play.Emv.Configuration;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Messaging;

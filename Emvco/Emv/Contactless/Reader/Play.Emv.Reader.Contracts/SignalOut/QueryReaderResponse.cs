@@ -1,5 +1,4 @@
 ﻿using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements;
 using Play.Emv.DataExchange;
 using Play.Emv.Messaging;
 using Play.Messaging;

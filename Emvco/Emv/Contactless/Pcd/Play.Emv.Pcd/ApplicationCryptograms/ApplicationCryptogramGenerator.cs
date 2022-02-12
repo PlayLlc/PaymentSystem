@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-using Play.Emv.Icc;
-using Play.Emv.Icc.FileControlInformation;
 using Play.Emv.Icc.GenerateApplicationCryptogram;
-using Play.Emv.Pcd.Contracts;
 using Play.Emv.Pcd.Contracts.SignalIn.Queriesdd;
-using Play.Emv.Pcd.Contracts.SignalOut.Queriesss;
-using Play.Emv.Templates.FileControlInformation;
+using Play.Emv.Pcd.Contracts.SignalOut.Queries;
 
 namespace Play.Emv.Pcd.ApplicationCryptogramsss;
 

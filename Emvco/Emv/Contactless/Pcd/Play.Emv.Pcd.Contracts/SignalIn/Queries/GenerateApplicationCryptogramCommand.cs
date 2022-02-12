@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Emv.Ber.DataObjects;
+﻿using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
 using Play.Emv.Icc;
 using Play.Emv.Icc.GenerateApplicationCryptogram;
-using Play.Emv.Icc.GetProcessingOptions;
 using Play.Emv.Sessions;
 using Play.Messaging;
 

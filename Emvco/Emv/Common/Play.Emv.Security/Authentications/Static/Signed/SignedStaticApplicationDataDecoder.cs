@@ -2,7 +2,6 @@
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
-using Play.Emv.DataElements;
 using Play.Encryption.Certificates;
 using Play.Encryption.Signing;
 

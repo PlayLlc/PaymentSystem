@@ -1,5 +1,4 @@
 ﻿using Play.Core.Threads;
-using Play.Emv.Configuration;
 using Play.Emv.DataElements;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Pcd.Contracts;

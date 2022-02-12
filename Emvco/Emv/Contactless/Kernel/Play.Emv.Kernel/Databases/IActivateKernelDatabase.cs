@@ -1,5 +1,4 @@
 ﻿using Play.Emv.Sessions;
-using Play.Emv.Terminal.Contracts;
 using Play.Emv.Transactions;
 
 namespace Play.Emv.Kernel.Databases;

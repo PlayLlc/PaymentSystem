@@ -3,7 +3,6 @@ using System.Linq;
 
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Emv.Kernel;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel2.Configuration;
 using Play.Emv.Sessions;

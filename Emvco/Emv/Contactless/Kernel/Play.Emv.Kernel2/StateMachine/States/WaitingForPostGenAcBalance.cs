@@ -10,17 +10,17 @@ using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
-public class WaitingForCccResponse2 : KernelState
+public class WaitingForPostGenAcBalance : KernelState
 {
     #region Static Metadata
 
-    public static readonly KernelStateId KernelStateId = new(nameof(WaitingForCccResponse2));
+    public static readonly KernelStateId KernelStateId = new(nameof(WaitingForPostGenAcBalance));
 
     #endregion
 
     #region Constructor
 
-    public WaitingForCccResponse2(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange) :
+    public WaitingForPostGenAcBalance(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange) :
         base(kernelDatabase, dataExchange)
     { }
 

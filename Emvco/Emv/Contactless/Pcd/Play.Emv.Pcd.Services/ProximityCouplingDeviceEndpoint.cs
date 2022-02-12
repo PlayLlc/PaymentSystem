@@ -1,6 +1,5 @@
 ﻿using System;
 
-using Play.Emv.Configuration;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Messaging;

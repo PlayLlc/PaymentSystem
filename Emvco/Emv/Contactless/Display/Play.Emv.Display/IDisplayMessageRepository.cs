@@ -1,5 +1,4 @@
-﻿using Play.Emv.Configuration;
-using Play.Emv.DataElements;
+﻿using Play.Emv.DataElements;
 using Play.Emv.Display.Contracts;
 using Play.Globalization.Language;
 
