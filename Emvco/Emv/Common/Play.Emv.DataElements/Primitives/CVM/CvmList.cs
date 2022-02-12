@@ -10,10 +10,13 @@ using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Ber.Exceptions;
+using Play.Emv.DataElements.Exceptions;
+using Play.Emv.DataElements.ValueTypes.ValueTypes;
 
-namespace Play.Emv.DataElements.Primitives.CVMccc;
+namespace Play.Emv.DataElements.Primitives.CVM;
 
-public record CvmList : DataElement<char[]>
+public record CvmList : DataElement<byte[]>
 {
     #region Static Metadata
 
@@ -21,13 +24,21 @@ public record CvmList : DataElement<char[]>
     public static readonly Tag Tag = 0x8E;
 
     public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+    private static readonly byte _MinByteLength = 10;
+    private static readonly byte _MaxByteLength = 250;
 
     #endregion
 
     #region Constructor
 
-    public CvmList(ReadOnlySpan<char> value) : base(value.ToArray())
-    { }
+    public CvmList(ReadOnlySpan<byte> value) : base(value.ToArray())
+    {
+        if (value.Length != 2)
+            throw new EmvEncodingException($"The length of the {nameof(CvmList)} must be even but the length was {value.Length}");
+
+        Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
+    }
 
     #endregion
 
@@ -36,31 +47,24 @@ public record CvmList : DataElement<char[]>
     public override BerEncodingId GetBerEncodingId() => BerEncodingId;
     public override Tag GetTag() => Tag;
 
+    public CardholderVerificationRules[] GetCardholderVerificationRules()
+    {
+        CardholderVerificationRules[] result = new CardholderVerificationRules[(_Value.Length - 2) / 2];
+        for (int i = 2, j = 0; i < result.Length; i += 2, j++)
+            result[j] = new CardholderVerificationRules(_Value[i..(i + 2)]);
+
+        return result;
+    }
+
     #endregion
 
     #region Serialization
 
-    public static CardholderName Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public static CvmList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
-    public static CardholderName Decode(ReadOnlySpan<byte> value)
-    {
-        const ushort minByteLength = 2;
-        const ushort maxByteLength = 26;
-
-        if (value.Length is not >= minByteLength and <= maxByteLength)
-        {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(CardholderName)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
-        }
-
-        DecodedResult<char[]> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<char[]>
-            ?? throw new
-                InvalidOperationException($"The {nameof(CardholderName)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
-
-        return new CardholderName(result.Value);
-    }
+    public static CvmList Decode(ReadOnlySpan<byte> value) => new CvmList(value);
 
     #endregion
 

@@ -10,8 +10,6 @@ using Play.Interchange.Messages.DataFields;
 
 namespace Play.Interchange.Codecs;
 
-public record DataFieldMetadata(int? MinLength, int? MaxLength);
-
 internal class InterchangeCodec
 {
     #region Static Metadata
