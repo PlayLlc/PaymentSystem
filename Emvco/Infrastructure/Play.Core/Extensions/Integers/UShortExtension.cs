@@ -8,6 +8,7 @@ public static class UShortExtension
 {
     #region Instance Members
 
+    public static bool AreAnyBitsSet(this ushort value, ushort bitsToCompare) => (value & bitsToCompare) != 0;
     public static ushort ClearBits(this in ushort input, ushort bitsToClear) => (ushort) (input & ~bitsToClear);
     public static string GetBinaryString(this ushort value) => Convert.ToString(value, 2);
     public static byte GetMaskedValue(this in ushort value, in ushort bitsToMask) => (byte) (value & ~bitsToMask);

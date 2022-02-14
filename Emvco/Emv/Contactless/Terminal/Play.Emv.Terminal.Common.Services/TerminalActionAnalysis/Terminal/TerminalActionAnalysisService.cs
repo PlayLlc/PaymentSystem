@@ -97,7 +97,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 
         if (resultFlag.HasFlag(ActionFlag.Offline))
         {
-            CreateProceedOnlineResponse(command);
+            CreateProceedOfflineResponse(command);
 
             return;
         }
@@ -107,7 +107,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 
     private void ProcessDenialActionCodes(TerminalVerificationResults terminalVerificationResult, ref ActionFlag flag)
     {
-        if (!((ulong) terminalVerificationResult).AreBitsSet((ulong) _DenialActionCodes))
+        if (!((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) _DenialActionCodes))
             return;
 
         flag |= ActionFlag.Denial;
@@ -128,7 +128,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
             return;
         }
 
-        if (((ulong) terminalVerificationResult).AreBitsSet((ulong) _OnlineActionCodes))
+        if (((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) _OnlineActionCodes))
         {
             flag |= ActionFlag.Offline;
 
@@ -147,7 +147,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         if (_TerminalType == TerminalType.CommunicationType.OnlineOnly)
             return;
 
-        if (((ulong) terminalVerificationResult).AreBitsSet((ulong) _DefaultActionCodes))
+        if (((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) _DefaultActionCodes))
         {
             flag |= ActionFlag.Offline;
 

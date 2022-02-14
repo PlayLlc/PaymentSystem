@@ -8,6 +8,7 @@ public static class UIntExtension
 {
     #region Instance Members
 
+    public static bool AreAnyBitsSet(this uint value, uint bitsToCompare) => (value & bitsToCompare) != 0;
     public static uint ClearBits(this in uint input, uint bitsToClear) => input & ~bitsToClear;
 
     //public static byte GetMostSignificantByte(this uint value)

@@ -53,7 +53,7 @@ public struct TerminalVerificationResult
     public void SetTransactionSelectedRandomlyForOnlineProcessing() => _Value.SetBit(13);
     public void SetUnrecognizedCvm() => _Value.SetBit(23);
     public void SetUpperConsecutiveOfflineLimitExceeded() => _Value.SetBit(14);
-    public bool IsCombinationDataAuthenticationFailedSet() => _Value.IsBitSet(35);
+    public bool CombinationDataAuthenticationFailed() => _Value.IsBitSet(35);
 
     #endregion
 

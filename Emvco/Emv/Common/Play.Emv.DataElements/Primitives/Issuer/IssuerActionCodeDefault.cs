@@ -9,8 +9,7 @@ namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Specifies the issuer�s conditions that cause a transaction to be rejected if it might have been approved online,
-///     but the terminal is unable
-///     to process the transaction online
+///     but the terminal is unable to process the transaction online
 /// </summary>
 public record IssuerActionCodeDefault : DataElement<ulong>, IEqualityComparer<IssuerActionCodeDefault>
 {
@@ -49,13 +48,13 @@ public record IssuerActionCodeDefault : DataElement<ulong>, IEqualityComparer<Is
 
         if (value.Length != byteLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(IssuerActionCodeDefault)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(IssuerActionCodeDefault)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
-            ?? throw new
-                InvalidOperationException($"The {nameof(IssuerActionCodeDefault)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+            ?? throw new InvalidOperationException(
+                $"The {nameof(IssuerActionCodeDefault)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new IssuerActionCodeDefault(result.Value);
     }

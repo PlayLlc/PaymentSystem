@@ -9,6 +9,7 @@ public static class ByteExtensions
     #region Instance Members
 
     public static bool AreBitsSet(this byte value, byte bitsToCompare) => (value & bitsToCompare) == bitsToCompare;
+    public static bool AreAnyBitsSet(this byte value, byte bitsToCompare) => (value & bitsToCompare) != 0;
 
     public static bool AreBitsSet(this byte value, params Bits[] bitsToCompare)
     {

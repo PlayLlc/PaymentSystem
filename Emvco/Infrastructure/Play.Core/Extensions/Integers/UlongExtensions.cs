@@ -30,6 +30,7 @@ public static class UlongExtensions
     #region Instance Members
 
     public static bool AreBitsSet(this ulong value, ulong bitsToCompare) => (value & bitsToCompare) == bitsToCompare;
+    public static bool AreAnyBitsSet(this ulong value, ulong bitsToCompare) => (value & bitsToCompare) != 0;
 
     /// <summary>
     ///     Gets the digits from the value and returns a string of those digits. If the argument
