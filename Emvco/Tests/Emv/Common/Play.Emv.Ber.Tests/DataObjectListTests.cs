@@ -69,7 +69,7 @@ public class DataObjectListTests
     [Fact]
     public void BerEncodingTagLengths_InvokingGetRequestedItems_ReturnsExpectedLength()
     {
-        Length expectedResult = new Length(new byte[] {0x01}.AsSpan());
+        Length expectedResult = new(new byte[] {0x01}.AsSpan());
 
         TagLength[] testData = {new(CardholderName.Tag, expectedResult)};
 

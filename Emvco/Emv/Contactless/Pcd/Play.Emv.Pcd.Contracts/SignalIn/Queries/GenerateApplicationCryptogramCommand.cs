@@ -18,7 +18,7 @@ public record GenerateApplicationCryptogramCommand : QueryPcdRequest
     #region Constructor
 
     private GenerateApplicationCryptogramCommand(TransactionSessionId transactionSessionId, CApduSignal cApduSignal) : base(cApduSignal,
-     MessageTypeId, transactionSessionId)
+        MessageTypeId, transactionSessionId)
     { }
 
     #endregion
@@ -34,18 +34,14 @@ public record GenerateApplicationCryptogramCommand : QueryPcdRequest
         if (dataStorageDataObjectListResult is null)
         {
             return new GenerateApplicationCryptogramCommand(sessionId,
-                                                            GenerateApplicationCryptogramCApduSignal
-                                                                .Create(cryptogramInformationData.GetCryptogramType(),
-                                                                        cryptogramInformationData.IsCdaSignatureRequested(),
-                                                                        cardRiskManagementDataObjectListResult));
+                GenerateApplicationCryptogramCApduSignal.Create(cryptogramInformationData.GetCryptogramType(),
+                    cryptogramInformationData.IsCdaSignatureRequested(), cardRiskManagementDataObjectListResult));
         }
 
         return new GenerateApplicationCryptogramCommand(sessionId,
-                                                        GenerateApplicationCryptogramCApduSignal
-                                                            .Create(cryptogramInformationData.GetCryptogramType(),
-                                                                    cryptogramInformationData.IsCdaSignatureRequested(),
-                                                                    cardRiskManagementDataObjectListResult,
-                                                                    dataStorageDataObjectListResult));
+            GenerateApplicationCryptogramCApduSignal.Create(cryptogramInformationData.GetCryptogramType(),
+                cryptogramInformationData.IsCdaSignatureRequested(), cardRiskManagementDataObjectListResult,
+                dataStorageDataObjectListResult));
     }
 
     #endregion
