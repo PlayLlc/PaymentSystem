@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,57 +22,6 @@ using Play.Randoms;
 using Xunit;
 
 namespace Play.Emv.Terminal.Common.Tests;
-
-internal class TerminalActionAnalysisServiceFixture
-{
-    #region Static Metadata
-
-    private static readonly Random _Random = new();
-
-    #endregion
-
-    #region Instance Members
-
-    public static IEnumerable<object[]> GetRandomTerminalActionCodeDenial(int count)
-    {
-        for (int i = 0; i < count; i++)
-        {
-            yield return new object[] {TerminalActionAnalysisServiceFactory.GetRandomTerminalActionCodeDenial()};
-        }
-    }
-
-    public static IEnumerable<object[]> GetRandomTerminalActionCodeDefault(int count)
-    {
-        for (int i = 0; i < count; i++)
-            yield return new object[] {TerminalActionAnalysisServiceFactory.GetRandomTerminalActionCodeDefault()};
-    }
-
-    public static IEnumerable<object[]> GetRandomTerminalActionCodeOnline(int count)
-    {
-        for (int i = 0; i < count; i++)
-            yield return new object[] {TerminalActionAnalysisServiceFactory.GetRandomTerminalActionCodeOnline()};
-    }
-
-    public static IEnumerable<object[]> GetRandomIssuerActionCodeOnline(int count)
-    {
-        for (int i = 0; i < count; i++)
-            yield return new object[] {TerminalActionAnalysisServiceFactory.GetRandomIssuerActionCodeOnline()};
-    }
-
-    public static IEnumerable<object[]> GetRandomIssuerActionCodeDefault(int count)
-    {
-        for (int i = 0; i < count; i++)
-            yield return new object[] {TerminalActionAnalysisServiceFactory.GetRandomIssuerActionCodeDefault()};
-    }
-
-    public static IEnumerable<object[]> GetRandomIssuerActionCodeDenial(int count)
-    {
-        for (int i = 0; i < count; i++)
-            yield return new object[] {TerminalActionAnalysisServiceFactory.GetRandomIssuerActionCodeDenial()};
-    }
-
-    #endregion
-}
 
 [Trait("Type", "Unit")]
 public class TerminalActionAnalysisServiceTests
@@ -122,39 +69,6 @@ public class TerminalActionAnalysisServiceTests
     }
 
     #endregion
-
-    [Fact]
-    public void OfflineOnlyTerminal_DenialIsNotSet_GeneratesTransactionCryptogram()
-    {
-        TerminalActionAnalysisService sut = TerminalActionAnalysisServiceFactory.Create(
-            new TerminalType(TerminalType.Environment.Attended, TerminalType.CommunicationType.OfflineOnly,
-                TerminalType.TerminalOperatorType.FinancialInstitution), _Fixture);
-
-        TerminalVerificationResults a = new TerminalVerificationResults(TerminalVerificationResult.Create().var a =
-            new TerminalActionAnalysisCommand(_Fixture.Create<TransactionSessionId>(), _Fixture.Create<DataObjectListResult>(),
-                _Fixture.Create<DataObjectListResult>());
-
-        _TerminalActionAnalysisService.Process();
-
-        _PcdEndpoint.Request(_Fixture.Create<ActivatePcdRequest>());
-        _PcdEndpoint.
-    }
-
-    [Fact]
-    public void OnlineOnlyTerminal_DenialIsNotSet_GeneratesAuthorizationRequestCryptogram()
-    {
-        Random a = new();
-
-        ActionCodes bb =
-            TerminalActionAnalysisServiceFactory.IssuerDefaultActionCodes.ElementAt(a.Next(0,
-                TerminalActionAnalysisServiceFactory.IssuerDefaultActionCodes.Count - 1));
-
-        TerminalActionAnalysisServiceFactory.IssuerDefaultActionCodes.Count
-    }
-
-    [Fact]
-    public void OnlineOnlyTerminal_DenialIsNotSet_GeneratesApplicationAuthenticationCryptogram()
-    { }
 
     #endregion
 
