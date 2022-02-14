@@ -5,7 +5,7 @@ using Play.Emv.Icc.GenerateApplicationCryptogram;
 using Play.Emv.Sessions;
 using Play.Messaging;
 
-namespace Play.Emv.Pcd.Contracts.SignalIn.Queriesdd;
+namespace Play.Emv.Pcd.Contracts;
 
 public record GenerateApplicationCryptogramCommand : QueryPcdRequest
 {

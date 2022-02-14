@@ -1,10 +1,9 @@
 ﻿using System.Threading.Tasks;
 
 using Play.Emv.Icc.GenerateApplicationCryptogram;
-using Play.Emv.Pcd.Contracts.SignalIn.Queriesdd;
-using Play.Emv.Pcd.Contracts.SignalOut.Queries;
+using Play.Emv.Pcd.Contracts;
 
-namespace Play.Emv.Pcd.ApplicationCryptogramsss;
+namespace Play.Emv.Pcd.ApplicationCryptograms;
 
 public class ApplicationCryptogramGenerator : IGenerateApplicationCryptogram
 {

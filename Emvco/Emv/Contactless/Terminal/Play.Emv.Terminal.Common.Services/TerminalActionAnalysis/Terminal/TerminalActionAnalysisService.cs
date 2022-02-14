@@ -5,7 +5,6 @@ using Play.Emv.Configuration;
 using Play.Emv.DataElements;
 using Play.Emv.Icc;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Pcd.Contracts.SignalIn.Queriesdd;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
 
 namespace Play.Emv.Terminal.Common.Services.TerminalActionAnalysis.Terminal;

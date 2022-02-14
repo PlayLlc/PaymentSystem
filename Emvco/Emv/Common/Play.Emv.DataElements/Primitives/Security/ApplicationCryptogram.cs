@@ -6,7 +6,7 @@ using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements.Exceptions;
 
-namespace Play.Emv.DataElementss;
+namespace Play.Emv.DataElements;
 
 public record ApplicationCryptogram : DataElement<ulong>, IEqualityComparer<ApplicationCryptogram>
 {

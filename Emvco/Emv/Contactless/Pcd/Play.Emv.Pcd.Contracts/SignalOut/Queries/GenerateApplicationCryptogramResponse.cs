@@ -3,13 +3,12 @@ using System.Linq;
 
 using Play.Ber.DataObjects;
 using Play.Emv.DataElements;
-using Play.Emv.DataElementss;
 using Play.Emv.Icc.GenerateApplicationCryptogram;
 using Play.Emv.Sessions;
 using Play.Emv.Templates.ResponseMessages;
 using Play.Messaging;
 
-namespace Play.Emv.Pcd.Contracts.SignalOut.Queries;
+namespace Play.Emv.Pcd.Contracts;
 
 public record GenerateApplicationCryptogramResponse : QueryPcdResponse
 {
