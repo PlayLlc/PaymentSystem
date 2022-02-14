@@ -241,8 +241,10 @@ internal class TerminalRiskManager : IManageTerminalRisk
             return CreateRandomlySelectedForOnlineProcessResponse();
 
         if (!command.IsVelocityCheckSupported())
+        {
             return new TerminalRiskManagementResponse(TerminalVerificationResult.Create(),
                                                       TransactionStatusInformationFlagTypes.NotAvailable);
+        }
 
         if (!DoesVelocityCheckHaveRequiredItems(command.GetApplicationTransactionCount(),
                                                 command.GetLastOnlineApplicationTransactionCount()))
