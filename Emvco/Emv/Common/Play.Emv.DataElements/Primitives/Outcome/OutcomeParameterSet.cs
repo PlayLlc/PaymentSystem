@@ -70,7 +70,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
     public bool IsDataRecordPresent() => _Value.IsBitSet(38);
     public bool IsDiscretionaryDataPresent() => _Value.IsBitSet(37);
     public bool IsReceiptPresent() => _Value.IsBitSet(36);
-    public bool IsTimeout() => throw new NotImplementedException();
+    public bool IsTimeout() => GetOnlineResponseOutcome() == OnlineResponseOutcome.NotAvailable;
     public bool IsUiRequestOnOutcomePresent() => _Value.IsBitSet(40);
     public bool IsUiRequestOnRestartPresent() => _Value.IsBitSet(39);
     public Builder Update() => new(this);
@@ -89,13 +89,13 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
 
         if (value.Length != byteLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(OutcomeParameterSet)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(OutcomeParameterSet)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
-            ?? throw new
-                InvalidOperationException($"The {nameof(OutcomeParameterSet)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+            ?? throw new InvalidOperationException(
+                $"The {nameof(OutcomeParameterSet)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new OutcomeParameterSet(result.Value);
     }

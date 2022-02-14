@@ -1,13 +1,4 @@
-﻿using System;
-
-using Play.Emv.Ber;
-using Play.Emv.Icc.FileControlInformation;
-using Play.Emv.TestData.Icc.Apdu;
-using Play.Icc.FileSystem.DedicatedFiles;
-
-using Xunit;
-
-namespace Play.Icc.Emv.Tests;
+﻿namespace Play.Emv.Icc.Tests;
 
 public class GetFileControlInformationCApduSignalTests
 {
@@ -42,7 +33,7 @@ public class GetFileControlInformationCApduSignalTests
     {
         GetFileControlInformationCApduSignal sut =
             GetFileControlInformationCApduSignal.Get(DedicatedFileName.Decode(ApduTestData.CApdu.Select.Applet1.DedicatedFileName.AsSpan(),
-                                                                              _Codec));
+                _Codec));
 
         byte[] expectedResult = ApduTestData.CApdu.Select.Applet1.CApdu;
         byte[] testValue = sut.Serialize();

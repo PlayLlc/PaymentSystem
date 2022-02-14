@@ -26,9 +26,21 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
     public CryptogramInformationData(byte value) : base(value)
     { }
 
+    public CryptogramInformationData(CryptogramTypes cryptogramTypes, bool isCombinedDataAuthenticationSupported) : base(
+        Create(cryptogramTypes, isCombinedDataAuthenticationSupported))
+    { }
+
     #endregion
 
     #region Instance Members
+
+    private static byte Create(CryptogramTypes cryptogramTypes, bool isCombinedDataAuthenticationSupported)
+    {
+        if (isCombinedDataAuthenticationSupported)
+            return (byte) (cryptogramTypes | (byte) Bits.Five);
+
+        return (byte) cryptogramTypes;
+    }
 
     public override BerEncodingId GetBerEncodingId() => BerEncodingId;
 
@@ -41,8 +53,8 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
     {
         if (!CryptogramTypes.TryGet(_Value, out CryptogramTypes? result))
         {
-            throw new
-                InvalidOperationException($"The {nameof(CryptogramInformationData)} expected a {nameof(CryptogramTypes)} but none could be found");
+            throw new InvalidOperationException(
+                $"The {nameof(CryptogramInformationData)} expected a {nameof(CryptogramTypes)} but none could be found");
         }
 
         return result!;
@@ -71,13 +83,13 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
 
         if (value.Length != byteLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(CryptogramInformationData)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(CryptogramInformationData)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<byte> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<byte>
-            ?? throw new
-                InvalidOperationException($"The {nameof(CryptogramInformationData)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
+            ?? throw new InvalidOperationException(
+                $"The {nameof(CryptogramInformationData)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new CryptogramInformationData(result.Value);
     }

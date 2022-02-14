@@ -6,7 +6,7 @@ using Play.Emv.TestData.Ber.Primitive;
 
 using Xunit;
 
-namespace Play.Ber.Emv.Tests;
+namespace Play.Emv.Ber.Tests;
 
 public class CommandTemplateTests
 {

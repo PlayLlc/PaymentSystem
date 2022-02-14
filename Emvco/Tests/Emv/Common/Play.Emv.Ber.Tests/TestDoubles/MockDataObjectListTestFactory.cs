@@ -5,7 +5,7 @@ using System.Linq;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 
-namespace Play.Ber.Emv.Tests.TestDoubles;
+namespace Play.Emv.Ber.Tests.TestDoubles;
 
 public class MockDataObjectListTestFactory
 {

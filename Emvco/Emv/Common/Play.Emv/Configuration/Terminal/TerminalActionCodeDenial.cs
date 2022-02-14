@@ -12,7 +12,7 @@ using Play.Emv.DataElements;
 namespace Play.Emv.Configuration;
 
 /// <summary>
-///     Description: Specifies the acquirer's conditions that cause the denial of a transaction without attempting to go
+///     Description: Specifies the Terminal's conditions that cause the denial of a transaction without attempting to go
 ///     online.
 /// </summary>
 public record TerminalActionCodeDenial : PrimitiveValue, IEqualityComparer<TerminalActionCodeDenial>
@@ -61,13 +61,13 @@ public record TerminalActionCodeDenial : PrimitiveValue, IEqualityComparer<Termi
 
         if (value.Length != byteLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(TerminalActionCodeDenial)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(TerminalActionCodeDenial)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<ulong> result = codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
-            ?? throw new
-                InvalidOperationException($"The {nameof(TerminalActionCodeDenial)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+            ?? throw new InvalidOperationException(
+                $"The {nameof(TerminalActionCodeDenial)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new TerminalActionCodeDenial(result.Value);
     }

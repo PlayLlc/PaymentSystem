@@ -2,17 +2,17 @@
 using System.Linq;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Emv.Tests.TestDoubles;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Ber.Lengths;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Ber.Tests.TestDoubles;
 using Play.Emv.DataElements;
 using Play.Emv.TestData.Ber.Primitive;
 
 using Xunit;
 
-namespace Play.Ber.Emv.Tests;
+namespace Play.Emv.Ber.Tests;
 
 public class DataObjectListTests
 {

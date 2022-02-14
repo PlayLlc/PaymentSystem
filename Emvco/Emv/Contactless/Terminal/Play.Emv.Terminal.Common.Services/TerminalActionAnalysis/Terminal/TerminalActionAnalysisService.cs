@@ -5,6 +5,7 @@ using Play.Emv.Configuration;
 using Play.Emv.DataElements;
 using Play.Emv.Icc;
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Security;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
 
 namespace Play.Emv.Terminal.Common.Services.TerminalActionAnalysis.Terminal;
@@ -17,6 +18,8 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     #region Instance Values
 
     private readonly IHandlePcdRequests _PcdEndpoint;
+    private readonly IResolveAuthenticationType _AuthenticationTypeResolver;
+    private readonly TerminalCapabilities _TerminalCapabilities;
     private readonly TerminalType _TerminalType;
     private readonly ActionCodes _DefaultActionCodes;
     private readonly ActionCodes _OnlineActionCodes;
@@ -28,7 +31,9 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 
     public TerminalActionAnalysisService(
         IHandlePcdRequests pcdEndpoint,
+        IResolveAuthenticationType authenticationTypeResolver,
         TerminalType terminalType,
+        TerminalCapabilities terminalCapabilities,
         TerminalActionCodeDefault terminalActionCodeDefault,
         TerminalActionCodeDenial terminalActionCodeDenial,
         TerminalActionCodeOnline terminalActionCodeOnline,
@@ -36,6 +41,8 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         IssuerActionCodeDenial issuerActionCodeDenial,
         IssuerActionCodeOnline issuerActionCodeOnline)
     {
+        _AuthenticationTypeResolver = authenticationTypeResolver;
+        _TerminalCapabilities = terminalCapabilities;
         _PcdEndpoint = pcdEndpoint;
         _TerminalType = terminalType;
 
@@ -62,19 +69,12 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         ActionFlag resultFlag = ActionFlag.None;
 
         ProcessDenialActionCodes(command.GetTerminalVerificationResults(), ref resultFlag);
+        ProcessOnlineActionCodes(command.GetTerminalVerificationResults(), ref resultFlag);
+        ProcessDefaultActionCodes(command.GetTerminalVerificationResults(), command.GetOutcomeParameterSet(), ref resultFlag);
 
-        if (resultFlag.HasFlag(ActionFlag.Offline))
+        if (resultFlag.HasFlag(ActionFlag.Denial))
         {
             CreateDenyTransactionResponse(command);
-
-            return;
-        }
-
-        ProcessOnlineActionCodes(command.GetTerminalVerificationResults(), ref resultFlag);
-
-        if (resultFlag.HasFlag(ActionFlag.Offline))
-        {
-            CreateProceedOfflineResponse(command);
 
             return;
         }
@@ -82,15 +82,6 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         if (resultFlag.HasFlag(ActionFlag.Online))
         {
             CreateProceedOnlineResponse(command);
-
-            return;
-        }
-
-        ProcessDefaultActionCodes(command.GetTerminalVerificationResults(), ref resultFlag);
-
-        if (resultFlag.HasFlag(ActionFlag.Denial))
-        {
-            CreateDenyTransactionResponse(command);
 
             return;
         }
@@ -105,6 +96,13 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         throw new InvalidOperationException("The Terminal Action Analysis result could not be determined");
     }
 
+    #region Denial
+
+    /// <summary>
+    ///     Specifies the conditions that cause denial of a transaction without attempting to go online
+    /// </summary>
+    /// <param name="terminalVerificationResult"></param>
+    /// <param name="flag"></param>
     private void ProcessDenialActionCodes(TerminalVerificationResults terminalVerificationResult, ref ActionFlag flag)
     {
         if (!((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) _DenialActionCodes))
@@ -113,63 +111,99 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         flag |= ActionFlag.Denial;
     }
 
+    #endregion
+
+    #endregion
+
+    #region Online
+
     /// <param name="terminalVerificationResult"></param>
     /// <param name="flag"></param>
     /// <exception cref="InvalidOperationException"></exception>
     private void ProcessOnlineActionCodes(TerminalVerificationResults terminalVerificationResult, ref ActionFlag flag)
     {
         if (_TerminalType.GetCommunicationType() == TerminalType.CommunicationType.OfflineOnly)
-            return;
-
-        if (_TerminalType.GetCommunicationType() == TerminalType.CommunicationType.OnlineOnly)
-        {
+            ProcessOnlineActionCodesForOfflineOnlyTerminals(ref flag);
+        else if (_TerminalType.GetCommunicationType() == TerminalType.CommunicationType.OnlineAndOfflineCapable)
+            ProcessOnlineActionCodesForOnlineAndOfflineCapableTerminals(terminalVerificationResult, ref flag);
+        else
             flag |= ActionFlag.Online;
-
-            return;
-        }
-
-        if (((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) _OnlineActionCodes))
-        {
-            flag |= ActionFlag.Offline;
-
-            return;
-        }
-
-        flag |= ActionFlag.Online;
     }
+
+    private void ProcessOnlineActionCodesForOnlineAndOfflineCapableTerminals(
+        TerminalVerificationResults terminalVerificationResult,
+        ref ActionFlag flag)
+    {
+        if (((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) _OnlineActionCodes))
+            flag |= ActionFlag.Online;
+        else
+            flag |= ActionFlag.Offline;
+    }
+
+    private void ProcessOnlineActionCodesForOfflineOnlyTerminals(ref ActionFlag flag)
+    {
+        // Offline Only Terminals do not check the Online Action Codes. They will never go online
+        flag |= ActionFlag.Offline;
+    }
+
+    #endregion
+
+    #region Default
 
     /// <summary>
     ///     specify the conditions that cause the transaction to be rejected if it might have been approved online but the
     ///     terminal is for any reason unable to process the transaction online
     /// </summary>
-    private void ProcessDefaultActionCodes(TerminalVerificationResults terminalVerificationResult, ref ActionFlag flag)
+    private void ProcessDefaultActionCodes(
+        TerminalVerificationResults terminalVerificationResult,
+        OutcomeParameterSet outcomeParameterSet,
+        ref ActionFlag flag)
     {
-        if (_TerminalType == TerminalType.CommunicationType.OnlineOnly)
+        if (_TerminalType.GetCommunicationType() != TerminalType.CommunicationType.OfflineOnly)
+            ProcessDefaultActionCodesForOfflineOnlyTerminals(terminalVerificationResult, ref flag);
+        else
+            ProcessDefaultActionCodesForOnlineCapableTerminals(terminalVerificationResult, outcomeParameterSet, ref flag);
+    }
+
+    private void ProcessDefaultActionCodesForOfflineOnlyTerminals(
+        TerminalVerificationResults terminalVerificationResult,
+        ref ActionFlag flag)
+    {
+        if (((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) _DefaultActionCodes))
+            flag |= ActionFlag.Denial;
+    }
+
+    private void ProcessDefaultActionCodesForOnlineCapableTerminals(
+        TerminalVerificationResults terminalVerificationResult,
+        OutcomeParameterSet outcomeParameterSet,
+        ref ActionFlag flag)
+    {
+        if (!outcomeParameterSet.IsTimeout())
             return;
 
         if (((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) _DefaultActionCodes))
-        {
-            flag |= ActionFlag.Offline;
-
-            return;
-        }
-
-        flag |= ActionFlag.Denial;
+            flag |= ActionFlag.Denial;
     }
 
     #endregion
 
     #region CAPDU Commands
 
-    private void CreateDenyTransactionResponse(TerminalActionAnalysisCommand command) =>
+    private void CreateDenyTransactionResponse(TerminalActionAnalysisCommand command)
+    {
         _PcdEndpoint.Request(GenerateApplicationCryptogramCommand.Create(command.GetTransactionSessionId(),
             new CryptogramInformationData(CryptogramTypes.ApplicationAuthenticationCryptogram), command.GetCardRiskManagementDolResult(),
             command.GetDataStorageDolResult()));
+    }
 
     private void CreateProceedOfflineResponse(TerminalActionAnalysisCommand command)
     {
+        bool isCdaRequested =
+            _AuthenticationTypeResolver.GetAuthenticationMethod(_TerminalCapabilities, command.GetApplicationInterchangeProfile())
+            == AuthenticationTypes.CombinedDataAuthentication;
+
         _PcdEndpoint.Request(GenerateApplicationCryptogramCommand.Create(command.GetTransactionSessionId(),
-            new CryptogramInformationData(CryptogramTypes.TransactionCryptogram), command.GetCardRiskManagementDolResult(),
+            new CryptogramInformationData(CryptogramTypes.TransactionCryptogram, isCdaRequested), command.GetCardRiskManagementDolResult(),
             command.GetDataStorageDolResult()));
     }
 

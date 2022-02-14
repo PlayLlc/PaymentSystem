@@ -6,7 +6,7 @@ using Play.Ber.Identifiers;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Ber.Emv.Tests.TestDoubles;
+namespace Play.Emv.Ber.Tests.TestDoubles;
 
 public record MockDataObjectList : DataObjectList
 {

@@ -1,13 +1,4 @@
-﻿using System;
-
-using Play.Emv.Ber;
-using Play.Emv.DataElements;
-using Play.Emv.Icc.GetProcessingOptions;
-using Play.Emv.TestData.Ber.Primitive;
-
-using Xunit;
-
-namespace Play.Icc.Emv.Tests;
+﻿namespace Play.Emv.Icc.Tests;
 
 public class GetProcessingOptionsCApduSignalTests
 {
