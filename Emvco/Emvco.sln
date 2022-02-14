@@ -164,41 +164,41 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{C757E3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contactless", "Contactless", "{F42E2ADB-499C-4D94-8352-031073B608A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Emv.Ber.Tests", "Tests\Emv\Common\Play.Emv.Ber.Tests\Play.Emv.Ber.Tests.csproj", "{A3769A9D-FB99-4CB1-AE75-E67CB38CC5F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Ber.Tests", "Tests\Emv\Common\Play.Emv.Ber.Tests\Play.Emv.Ber.Tests.csproj", "{A3769A9D-FB99-4CB1-AE75-E67CB38CC5F5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.DataElements.Tests", "Tests\Emv\Common\Play.Emv.DataElements.Tests\Play.Emv.DataElements.Tests.csproj", "{4773D681-C094-4CBC-A19D-0649CCBB963F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Templates.Tests", "Tests\Emv\Common\Play.Emv.Templates.Tests\Play.Emv.Templates.Tests.csproj", "{4CBD1C4A-E7B6-4B1C-A6A7-DFFEFA856455}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Emv.Icc.Tests", "Tests\Emv\Common\Play.Emv.Icc.Tests\Play.Emv.Icc.Tests.csproj", "{50DFF185-B5D3-45B3-AA8F-F0E0CEF2095F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Icc.Tests", "Tests\Emv\Common\Play.Emv.Icc.Tests\Play.Emv.Icc.Tests.csproj", "{50DFF185-B5D3-45B3-AA8F-F0E0CEF2095F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Emv.Security.Tests", "Tests\Emv\Common\Play.Emv.Security.Tests\Play.Emv.Security.Tests.csproj", "{6BA9BDF8-7B70-4813-8E9D-171FB99C2A63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Security.Tests", "Tests\Emv\Common\Play.Emv.Security.Tests\Play.Emv.Security.Tests.csproj", "{6BA9BDF8-7B70-4813-8E9D-171FB99C2A63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Emv.Tests", "Tests\Emv\Common\Play.Emv.Tests\Play.Emv.Tests.csproj", "{501923BD-B160-436D-BA54-A97A6F22A23D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Tests", "Tests\Emv\Common\Play.Emv.Tests\Play.Emv.Tests.csproj", "{501923BD-B160-436D-BA54-A97A6F22A23D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Emv.Selection.Tests", "Tests\Emv\Contactless\Play.Emv.Selection.Tests\Play.Emv.Selection.Tests.csproj", "{E800B0B5-D76B-49BB-A690-5FF673578825}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Selection.Tests", "Tests\Emv\Contactless\Play.Emv.Selection.Tests\Play.Emv.Selection.Tests.csproj", "{E800B0B5-D76B-49BB-A690-5FF673578825}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Emv.Pcd.Tests", "Tests\Emv\Contactless\Play.Emv.Pcd.Tests\Play.Emv.Pcd.Tests.csproj", "{D9587856-A28D-41AD-8258-1637C22C7E1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Pcd.Tests", "Tests\Emv\Contactless\Play.Emv.Pcd.Tests\Play.Emv.Pcd.Tests.csproj", "{D9587856-A28D-41AD-8258-1637C22C7E1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Emv.Terminal.Common.Tests", "Tests\Emv\Contactless\Play.Emv.Terminal.Common.Tests\Play.Emv.Terminal.Common.Tests.csproj", "{CD12EA61-076B-4F27-86F6-02C19BDACEEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Terminal.Common.Tests", "Tests\Emv\Contactless\Play.Emv.Terminal.Common.Tests\Play.Emv.Terminal.Common.Tests.csproj", "{CD12EA61-076B-4F27-86F6-02C19BDACEEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Emv.Terminal.Tests", "Tests\Emv\Contactless\Play.Emv.Terminal.Tests\Play.Emv.Terminal.Tests.csproj", "{6EEFA3F9-F034-448F-B75F-BD0D442EFBD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Terminal.Tests", "Tests\Emv\Contactless\Play.Emv.Terminal.Tests\Play.Emv.Terminal.Tests.csproj", "{6EEFA3F9-F034-448F-B75F-BD0D442EFBD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Emv.Reader.Tests", "Tests\Emv\Contactless\Play.Emv.Reader.Tests\Play.Emv.Reader.Tests.csproj", "{37997EBC-981C-4B72-A05D-825A05F322B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Reader.Tests", "Tests\Emv\Contactless\Play.Emv.Reader.Tests\Play.Emv.Reader.Tests.csproj", "{37997EBC-981C-4B72-A05D-825A05F322B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Emv.Kernel2.Tests", "Tests\Emv\Contactless\Play.Emv.Kernel2.Tests\Play.Emv.Kernel2.Tests.csproj", "{AD1BE06A-94B9-4B6D-B6AD-2FA22B839A57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Kernel2.Tests", "Tests\Emv\Contactless\Play.Emv.Kernel2.Tests\Play.Emv.Kernel2.Tests.csproj", "{AD1BE06A-94B9-4B6D-B6AD-2FA22B839A57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Emv.Kernel3.Tests", "Tests\Emv\Contactless\Play.Emv.Kernel3.Tests\Play.Emv.Kernel3.Tests.csproj", "{CF52E2DF-DA01-476D-A05D-6E486457629A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Kernel3.Tests", "Tests\Emv\Contactless\Play.Emv.Kernel3.Tests\Play.Emv.Kernel3.Tests.csproj", "{CF52E2DF-DA01-476D-A05D-6E486457629A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Encryption.Tests", "Tests\Infrastructure\Play.Encryption.Tests\Play.Encryption.Tests.csproj", "{9CBD3054-7995-4BFC-BFE7-755042B6F387}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Encryption.Tests", "Tests\Infrastructure\Play.Encryption.Tests\Play.Encryption.Tests.csproj", "{9CBD3054-7995-4BFC-BFE7-755042B6F387}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Globalization.Tests", "Tests\Infrastructure\Play.Globalization.Tests\Play.Globalization.Tests.csproj", "{8B661054-40D6-4E17-A198-FD4F724D0E03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Globalization.Tests", "Tests\Infrastructure\Play.Globalization.Tests\Play.Globalization.Tests.csproj", "{8B661054-40D6-4E17-A198-FD4F724D0E03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Interchange.Tests", "Tests\Infrastructure\Play.Interchange.Tests\Play.Interchange.Tests.csproj", "{113DE46E-2034-4FB1-B88E-76F59CBBB6B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Interchange.Tests", "Tests\Infrastructure\Play.Interchange.Tests\Play.Interchange.Tests.csproj", "{113DE46E-2034-4FB1-B88E-76F59CBBB6B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Messaging.Tests", "Tests\Infrastructure\Play.Messaging.Tests\Play.Messaging.Tests.csproj", "{D722C530-72FE-44D2-8EA2-19CC782CE21E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Messaging.Tests", "Tests\Infrastructure\Play.Messaging.Tests\Play.Messaging.Tests.csproj", "{D722C530-72FE-44D2-8EA2-19CC782CE21E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Randoms.Tests", "Tests\Infrastructure\Play.Randoms.Tests\Play.Randoms.Tests.csproj", "{745F0533-0376-4DF1-97C6-C723ABF9FBF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Randoms.Tests", "Tests\Infrastructure\Play.Randoms.Tests\Play.Randoms.Tests.csproj", "{745F0533-0376-4DF1-97C6-C723ABF9FBF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
