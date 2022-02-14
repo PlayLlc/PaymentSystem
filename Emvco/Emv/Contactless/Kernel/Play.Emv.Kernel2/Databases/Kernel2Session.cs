@@ -1,4 +1,5 @@
 ﻿using Play.Emv.DataElements;
+using Play.Emv.Icc;
 using Play.Emv.Kernel;
 using Play.Emv.Sessions;
 using Play.Messaging;
@@ -9,7 +10,7 @@ public class Kernel2Session : KernelSession
 {
     #region Instance Values
 
-    private ApplicationCryptogramTypes _ApplicationCryptogramTypes = ApplicationCryptogramTypes.Aac;
+    private CryptogramTypes _ApplicationCryptogramTypes = CryptogramTypes.ApplicationAuthenticationCryptogram;
     private OdaStatusTypes _OdaStatusTypes = OdaStatusTypes.NotAvailable;
     private RrpCounter _RrpCounter = new(0);
     private bool _IsPdolDataMissing = true;
@@ -25,7 +26,7 @@ public class Kernel2Session : KernelSession
 
     #region Read
 
-    public ApplicationCryptogramTypes GetAcType() => _ApplicationCryptogramTypes;
+    public CryptogramTypes GetAcType() => _ApplicationCryptogramTypes;
     public OdaStatusTypes GetOdaStatus() => _OdaStatusTypes;
     public RrpCounter GetRrpCounter() => _RrpCounter;
     public bool IsPdolDataMissing() => _IsPdolDataMissing;
@@ -35,7 +36,7 @@ public class Kernel2Session : KernelSession
     #region Write
 
     public void SetIsPdolDataMissing(bool value) => _IsPdolDataMissing = value;
-    public void Update(ApplicationCryptogramTypes value) => _ApplicationCryptogramTypes = value;
+    public void Update(CryptogramTypes value) => _ApplicationCryptogramTypes = value;
     public void Update(OdaStatusTypes value) => _OdaStatusTypes = value;
     public void Update(RrpCounter value) => _RrpCounter = value;
 

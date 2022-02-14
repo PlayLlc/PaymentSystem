@@ -11,9 +11,9 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 
 [assembly: InternalsVisibleTo("Play.Ber.Tests")]
-[assembly: InternalsVisibleTo("Play.Ber.Emv.Tests")]
+[assembly: InternalsVisibleTo("Play.Emv.Ber.Tests")]
 [assembly: InternalsVisibleTo("Play.Emv.TestData")]
-[assembly: InternalsVisibleTo("Play.Icc.Emv.Tests")]
+[assembly: InternalsVisibleTo("Play.Emv.Icc.Tests")]
 
 namespace Play.Ber;
 

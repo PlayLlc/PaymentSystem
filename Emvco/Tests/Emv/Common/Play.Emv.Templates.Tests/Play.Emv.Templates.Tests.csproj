@@ -21,7 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Play.Emv.TestData\Play.Emv.TestData.csproj" />
+    <ProjectReference Include="..\..\..\..\Emv\Common\Play.Emv.Templates\Play.Emv.Templates.csproj" />
+    <ProjectReference Include="..\..\..\Play.Emv.TestData\Play.Emv.TestData.csproj" />
   </ItemGroup>
 
 </Project>
