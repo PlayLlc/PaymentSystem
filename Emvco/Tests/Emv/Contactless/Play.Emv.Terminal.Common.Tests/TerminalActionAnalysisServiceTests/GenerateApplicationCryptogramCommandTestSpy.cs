@@ -40,6 +40,8 @@ public class GenerateApplicationCryptogramCommandTestSpy
         DataObjectListResult cardRiskManagementDataObjectListResult,
         DataObjectListResult? dataStorageDataObjectListResult = null)
     {
+        Clear();
+
         _TransactionSessionId = sessionId;
         _CryptogramInformationData = cryptogramInformationData;
         _CardRiskDol = cardRiskManagementDataObjectListResult;

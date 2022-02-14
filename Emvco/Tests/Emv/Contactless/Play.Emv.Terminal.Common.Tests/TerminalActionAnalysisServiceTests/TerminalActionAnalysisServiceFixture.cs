@@ -11,7 +11,47 @@ internal class TerminalActionAnalysisServiceFixture
 
     #endregion
 
-    #region Instance Members
+    #region Terminal And Issuer
+
+    public static IEnumerable<object[]> GetRandomTerminalAndIssuerActionCodeOnline(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            yield return new object[]
+            {
+                TerminalActionAnalysisServiceFactory.GetRandomTerminalActionCodeOnline(),
+                TerminalActionAnalysisServiceFactory.GetRandomIssuerActionCodeOnline()
+            };
+        }
+    }
+
+    public static IEnumerable<object[]> GetRandomTerminalAndIssuerActionCodeDefault(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            yield return new object[]
+            {
+                TerminalActionAnalysisServiceFactory.GetRandomTerminalActionCodeDefault(),
+                TerminalActionAnalysisServiceFactory.GetRandomIssuerActionCodeDefault()
+            };
+        }
+    }
+
+    public static IEnumerable<object[]> GetRandomTerminalAndIssuerActionCodeDenial(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            yield return new object[]
+            {
+                TerminalActionAnalysisServiceFactory.GetRandomTerminalActionCodeDefault(),
+                TerminalActionAnalysisServiceFactory.GetRandomIssuerActionCodeDefault()
+            };
+        }
+    }
+
+    #endregion
+
+    #region Terminal
 
     public static IEnumerable<object[]> GetRandomTerminalActionCodeDenial(int count)
     {
@@ -30,6 +70,10 @@ internal class TerminalActionAnalysisServiceFixture
         for (int i = 0; i < count; i++)
             yield return new object[] {TerminalActionAnalysisServiceFactory.GetRandomTerminalActionCodeOnline()};
     }
+
+    #endregion
+
+    #region Issuer
 
     public static IEnumerable<object[]> GetRandomIssuerActionCodeOnline(int count)
     {

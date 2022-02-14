@@ -32,4 +32,34 @@ public partial class TerminalActionAnalysisServiceTests
     }
 
     #endregion
+
+    #region Instance Members
+
+    private TerminalActionAnalysisService GetOfflineOnlyTerminalActionAnalysisService() =>
+        TerminalActionAnalysisServiceFactory.Create(TerminalType.CommunicationType.OfflineOnly, _Fixture);
+
+    private TerminalActionAnalysisService GetOnlineOnlyTerminalActionAnalysisService() =>
+        TerminalActionAnalysisServiceFactory.Create(TerminalType.CommunicationType.OnlineOnly, _Fixture);
+
+    private TerminalActionAnalysisService GetOnlineAndOfflineCapableTerminalActionAnalysisService() =>
+        TerminalActionAnalysisServiceFactory.Create(TerminalType.CommunicationType.OnlineAndOfflineCapable, _Fixture);
+
+    private TerminalActionAnalysisCommand GetTerminalActionAnalysisCommand(TerminalVerificationResults terminalVerificationResults) =>
+        new(_Fixture.Freeze<TransactionSessionId>(), OutcomeParameterSet.Default, terminalVerificationResults,
+            _Fixture.Create<ApplicationInterchangeProfile>(), _Fixture.Create<DataObjectListResult>(),
+            _Fixture.Create<DataObjectListResult>());
+
+    private TerminalActionAnalysisCommand GetTerminalActionAnalysisCommand(
+        TerminalVerificationResults terminalVerificationResults,
+        OnlineResponseOutcome onlineResponseOutcome)
+    {
+        OutcomeParameterSet.Builder outcomeBuilder = OutcomeParameterSet.GetBuilder();
+        outcomeBuilder.Set(onlineResponseOutcome);
+
+        return new TerminalActionAnalysisCommand(_Fixture.Freeze<TransactionSessionId>(), outcomeBuilder.Complete(),
+            terminalVerificationResults, _Fixture.Create<ApplicationInterchangeProfile>(), _Fixture.Create<DataObjectListResult>(),
+            _Fixture.Create<DataObjectListResult>());
+    }
+
+    #endregion
 }

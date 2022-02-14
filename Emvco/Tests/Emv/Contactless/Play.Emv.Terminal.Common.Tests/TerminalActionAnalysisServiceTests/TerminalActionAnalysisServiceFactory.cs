@@ -4,9 +4,12 @@ using System.Linq;
 
 using AutoFixture;
 
+using Moq;
+
 using Play.Emv.Configuration;
 using Play.Emv.DataElements;
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Security;
 using Play.Emv.Terminal.Common.Services.TerminalActionAnalysis.Terminal;
 
 namespace Play.Emv.Terminal.Common.Tests.TerminalActionAnalysisServiceTests;
@@ -30,10 +33,29 @@ public class TerminalActionAnalysisServiceFactory
 
     public static TerminalActionAnalysisService Create(TerminalType.CommunicationType terminalType, IFixture fixture)
     {
-        fixture.Register(() => new TerminalActionAnalysisService(fixture.Create<IHandlePcdRequests>(),
+        var authenticationTypeResolver = new Mock<IResolveAuthenticationType>();
+        authenticationTypeResolver.Setup<AuthenticationTypes>(a =>
+                a.GetAuthenticationMethod(It.IsAny<TerminalCapabilities>(), It.IsAny<ApplicationInterchangeProfile>()))
+            .Returns(AuthenticationTypes.CombinedDataAuthentication);
+
+        fixture.Register(() => new TerminalActionAnalysisService(fixture.Create<IHandlePcdRequests>(), authenticationTypeResolver.Object,
             new TerminalType(TerminalType.Environment.Attended, terminalType, TerminalType.TerminalOperatorType.Merchant),
-            GetTerminalActionCodeDefault(), GetTerminalActionCodeDenial(), GetTerminalActionCodeOnline(), GetIssuerActionCodeDefault(),
-            GetIssuerActionCodeDenial(), GetIssuerActionCodeOnline()));
+            fixture.Create<TerminalCapabilities>(), GetTerminalActionCodeDefault(), GetTerminalActionCodeDenial(),
+            GetTerminalActionCodeOnline(), GetIssuerActionCodeDefault(), GetIssuerActionCodeDenial(), GetIssuerActionCodeOnline()));
+
+        return fixture.Create<TerminalActionAnalysisService>();
+    }
+
+    public static TerminalActionAnalysisService Create(
+        TerminalType.CommunicationType terminalType,
+        TerminalCapabilities terminalCapabilities,
+        IResolveAuthenticationType authenticationResolver,
+        IFixture fixture)
+    {
+        fixture.Register(() => new TerminalActionAnalysisService(fixture.Create<IHandlePcdRequests>(), authenticationResolver,
+            new TerminalType(TerminalType.Environment.Attended, terminalType, TerminalType.TerminalOperatorType.Merchant),
+            terminalCapabilities, GetTerminalActionCodeDefault(), GetTerminalActionCodeDenial(), GetTerminalActionCodeOnline(),
+            GetIssuerActionCodeDefault(), GetIssuerActionCodeDenial(), GetIssuerActionCodeOnline()));
 
         return fixture.Create<TerminalActionAnalysisService>();
     }

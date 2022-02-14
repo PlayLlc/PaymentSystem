@@ -23,9 +23,9 @@ public class TerminalActionAnalysisCommand
         TransactionSessionId transactionSessionId,
         OutcomeParameterSet outcomeParameterSet,
         TerminalVerificationResults terminalVerificationResults,
+        ApplicationInterchangeProfile applicationInterchangeProfile,
         DataObjectListResult cardRiskManagementDolResult,
-        DataObjectListResult? dataStorageDolResult,
-        ApplicationInterchangeProfile applicationInterchangeProfile)
+        DataObjectListResult? dataStorageDolResult)
     {
         _TerminalVerificationResults = terminalVerificationResults;
         _TransactionSessionId = transactionSessionId;
