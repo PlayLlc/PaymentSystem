@@ -18,7 +18,7 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F15;
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = Numeric.Identifier;
     private const byte _ByteLength = 4;
 
     #endregion
@@ -46,8 +46,8 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
     {
         Check.Primitive.ForExactLength(value, 4, Tag);
         DecodedResult<ushort> result = _Codec.Decode(BerEncodingId, value.Span) as DecodedResult<ushort>
-            ?? throw new
-                EmvEncodingException($"The {nameof(MerchantCategoryCode)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+            ?? throw new EmvEncodingException(
+                $"The {nameof(MerchantCategoryCode)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new MerchantCategoryCode(result.Value);
     }
@@ -59,8 +59,8 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
         Check.Primitive.ForExactLength(value, 4, Tag);
 
         DecodedResult<ushort> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
-            ?? throw new
-                EmvEncodingException($"The {nameof(MerchantCategoryCode)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+            ?? throw new EmvEncodingException(
+                $"The {nameof(MerchantCategoryCode)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new MerchantCategoryCode(result.Value);
     }

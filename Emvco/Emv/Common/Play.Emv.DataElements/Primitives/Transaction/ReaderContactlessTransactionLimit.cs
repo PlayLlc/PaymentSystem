@@ -16,7 +16,7 @@ public abstract record ReaderContactlessTransactionLimit : DataElement<ulong>
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = Numeric.Identifier;
     protected const byte _ByteLength = 12;
 
     #endregion

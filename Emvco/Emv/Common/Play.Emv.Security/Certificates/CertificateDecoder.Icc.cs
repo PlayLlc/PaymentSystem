@@ -51,7 +51,7 @@ internal partial class CertificateFactory
             PublicKeyInfo publicKeyInfo = new(publicKeyModulus, publicKeyExponent);
 
             return new DecodedIccPublicKeyCertificate(primaryAccountNumber, validityPeriod, serialNumber, hashAlgorithm,
-                                                      publicKeyAlgorithmIndicator, publicKeyInfo);
+                publicKeyAlgorithmIndicator, publicKeyInfo);
         }
 
         private static ShortDateValue GetCertificateExpirationDate(Message1 message1) =>
@@ -71,9 +71,9 @@ internal partial class CertificateFactory
             StaticDataToBeAuthenticated staticDataToBeAuthenticated)
         {
             using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(message1.GetByteCount()
-                                                                       + publicKeyRemainder.GetByteCount()
-                                                                       + publicKeyExponent.GetByteCount()
-                                                                       + staticDataToBeAuthenticated.GetByteCount());
+                + publicKeyRemainder.GetByteCount()
+                + publicKeyExponent.GetByteCount()
+                + staticDataToBeAuthenticated.GetByteCount());
 
             Span<byte> buffer = spanOwner.Span;
 
@@ -164,9 +164,8 @@ internal partial class CertificateFactory
 
             // Step 2.b, 3, 5, 6, 7, 
             if (!signatureService.IsSignatureValid(GetHashAlgorithmIndicator(decodedSignature.GetMessage1()),
-                                                   GetConcatenatedValuesForHash(issuerPublicKeyCertificate, decodedSignature.GetMessage1(),
-                                                                                publicKeyRemainder, publicKeyExponent,
-                                                                                staticDataToBeAuthenticated), decodedSignature))
+                GetConcatenatedValuesForHash(issuerPublicKeyCertificate, decodedSignature.GetMessage1(), publicKeyRemainder,
+                    publicKeyExponent, staticDataToBeAuthenticated), decodedSignature))
                 return false;
 
             // Step 4
@@ -208,8 +207,8 @@ internal partial class CertificateFactory
                 DecodedSignature decodedSignature = signatureService.Decrypt(encipherment, publicKeyCertificate);
 
                 if (!IsValid(signatureService, publicKeyCertificate, decodedSignature, encipheredCertificate,
-                             encipheredPublicKeyExponent.AsPublicKeyExponent(), enciphermentPublicKeyRemainder.AsPublicKeyRemainder(),
-                             staticDataToBeAuthenticated, primaryAccountNumber))
+                    encipheredPublicKeyExponent.AsPublicKeyExponent(), enciphermentPublicKeyRemainder.AsPublicKeyRemainder(),
+                    staticDataToBeAuthenticated, primaryAccountNumber))
                 {
                     result = null;
 
@@ -217,7 +216,7 @@ internal partial class CertificateFactory
                 }
 
                 result = Create(publicKeyCertificate, enciphermentPublicKeyRemainder.AsPublicKeyRemainder(),
-                                encipheredPublicKeyExponent.AsPublicKeyExponent(), decodedSignature.GetMessage1());
+                    encipheredPublicKeyExponent.AsPublicKeyExponent(), decodedSignature.GetMessage1());
 
                 return true;
             }

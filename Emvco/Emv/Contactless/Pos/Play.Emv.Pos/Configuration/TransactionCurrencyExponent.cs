@@ -18,7 +18,7 @@ public record TransactionCurrencyExponent : PrimitiveValue, IEqualityComparer<Tr
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = Numeric.Identifier;
     public static readonly Tag Tag = 0x5F36;
 
     #endregion
@@ -59,18 +59,18 @@ public record TransactionCurrencyExponent : PrimitiveValue, IEqualityComparer<Tr
 
         if (value.Length != byteLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(TransactionCurrencyExponent)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(TransactionCurrencyExponent)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<byte> result = codec.Decode(BerEncodingId, value) as DecodedResult<byte>
-            ?? throw new
-                InvalidOperationException($"The {nameof(TransactionCurrencyExponent)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<byte>)}");
+            ?? throw new InvalidOperationException(
+                $"The {nameof(TransactionCurrencyExponent)} could not be initialized because the {nameof(Numeric)} returned a null {nameof(DecodedResult<byte>)}");
 
         if (result.CharCount != charLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(TransactionCurrencyExponent)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(TransactionCurrencyExponent)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
         }
 
         return new TransactionCurrencyExponent(result.Value);

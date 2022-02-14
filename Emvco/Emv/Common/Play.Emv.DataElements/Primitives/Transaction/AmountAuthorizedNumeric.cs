@@ -19,7 +19,7 @@ public record AmountAuthorizedNumeric : DataElement<ulong>, IEqualityComparer<Am
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = Numeric.Identifier;
     public static readonly Tag Tag = 0x9F02;
     private const byte _ByteLength = 6;
 
@@ -51,8 +51,8 @@ public record AmountAuthorizedNumeric : DataElement<ulong>, IEqualityComparer<Am
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
-            ?? throw new
-                InvalidOperationException($"The {nameof(AmountAuthorizedNumeric)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+            ?? throw new InvalidOperationException(
+                $"The {nameof(AmountAuthorizedNumeric)} could not be initialized because the {nameof(Numeric)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new AmountAuthorizedNumeric(result.Value);
     }

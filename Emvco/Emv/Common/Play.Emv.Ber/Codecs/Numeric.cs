@@ -19,12 +19,12 @@ namespace Play.Emv.Ber.Codecs;
 /// </summary>
 
 // TODO: Move the actual functionality higher up to Play.Codec
-public class NumericCodec : BerPrimitiveCodec
+public class Numeric : BerPrimitiveCodec
 {
     #region Static Metadata
 
-    private static readonly Numeric _Numeric = PlayEncoding.Numeric;
-    public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(NumericCodec));
+    private static readonly Play.Codecs.Strings.Numeric _Numeric = PlayEncoding.Numeric;
+    public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(Numeric));
 
     #endregion
 

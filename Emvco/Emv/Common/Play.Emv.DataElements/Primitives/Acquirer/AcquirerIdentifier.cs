@@ -16,7 +16,7 @@ public record AcquirerIdentifier : DataElement<ulong>, IEqualityComparer<Acquire
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = Numeric.Identifier;
     public static readonly Tag Tag = 0x9F01;
     private const byte _ByteLength = 6;
     private const byte _MinCharLength = 6;
@@ -43,14 +43,14 @@ public record AcquirerIdentifier : DataElement<ulong>, IEqualityComparer<Acquire
     {
         if (value.GetMostSignificantByte() > _ByteLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(AcquirerIdentifier)} could not be initialized because the byte length provided was out of range. The byte length was {value.GetMostSignificantByte()} but must be {_ByteLength} bytes in length");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(AcquirerIdentifier)} could not be initialized because the byte length provided was out of range. The byte length was {value.GetMostSignificantByte()} but must be {_ByteLength} bytes in length");
         }
 
         if (value.GetNumberOfDigits() is < _MinCharLength and <= _MaxCharLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(AcquirerIdentifier)} could not be initialized because the decoded character length was out of range. The decoded character length was {value.GetNumberOfDigits()} but must be in the range of {_MinCharLength}-{_MaxCharLength}");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(AcquirerIdentifier)} could not be initialized because the decoded character length was out of range. The decoded character length was {value.GetNumberOfDigits()} but must be in the range of {_MinCharLength}-{_MaxCharLength}");
         }
     }
 

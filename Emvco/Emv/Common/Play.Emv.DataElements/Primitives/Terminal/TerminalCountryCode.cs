@@ -16,7 +16,7 @@ public record TerminalCountryCode : DataElement<NumericCountryCode>, IEqualityCo
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = Numeric.Identifier;
     public static readonly TerminalCountryCode Default = new(new NumericCountryCode(0));
     public static readonly Tag Tag = 0x9F1A;
     private const byte _ByteLength = 2;
@@ -54,18 +54,18 @@ public record TerminalCountryCode : DataElement<NumericCountryCode>, IEqualityCo
 
         if (value.Length != _ByteLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(TerminalCountryCode)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(TerminalCountryCode)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
         }
 
         DecodedResult<ushort> result = codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
-            ?? throw new
-                InvalidOperationException($"The {nameof(TerminalCountryCode)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+            ?? throw new InvalidOperationException(
+                $"The {nameof(TerminalCountryCode)} could not be initialized because the {nameof(Numeric)} returned a null {nameof(DecodedResult<ushort>)}");
 
         if (result.CharCount != charLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(TerminalCountryCode)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(TerminalCountryCode)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
         }
 
         return new TerminalCountryCode(new NumericCountryCode(result.Value));

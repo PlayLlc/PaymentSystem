@@ -12,7 +12,7 @@ public class UnsignedInteger : PlayEncoding
 {
     #region Static Metadata
 
-    public static string Name = nameof(UnsignedInteger);
+    public static readonly PlayEncodingId PlayEncodingId = new(nameof(UnsignedInteger));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = new Dictionary<char, byte>
     {
@@ -46,6 +46,7 @@ public class UnsignedInteger : PlayEncoding
 
     #region Instance Members
 
+    public PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
     public override bool IsValid(ReadOnlySpan<byte> value) => true;
 
     public override bool IsValid(ReadOnlySpan<char> value)

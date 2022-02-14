@@ -14,7 +14,7 @@ public record IssuerCodeTableIndex : DataElement<byte>, IEqualityComparer<Issuer
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = Numeric.Identifier;
     public static readonly Tag Tag = 0x9F11;
 
     #endregion
@@ -57,18 +57,18 @@ public record IssuerCodeTableIndex : DataElement<byte>, IEqualityComparer<Issuer
 
         if (value.Length != byteLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(IssuerCodeTableIndex)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(IssuerCodeTableIndex)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<byte> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<byte>
-            ?? throw new
-                InvalidOperationException($"The {nameof(IssuerCodeTableIndex)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<byte>)}");
+            ?? throw new InvalidOperationException(
+                $"The {nameof(IssuerCodeTableIndex)} could not be initialized because the {nameof(Numeric)} returned a null {nameof(DecodedResult<byte>)}");
 
         if (result.CharCount != charLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(IssuerCodeTableIndex)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(IssuerCodeTableIndex)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
         }
 
         return new IssuerCodeTableIndex(result.Value);

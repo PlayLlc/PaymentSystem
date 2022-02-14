@@ -3,29 +3,74 @@ using Play.Core.Extensions;
 
 namespace Play.Interchange.Messages.Header;
 
+/// <summary>
+///     Position three of the MTI specifies the message function which defines how the message should flow within the
+///     system. Requests are end-to-end messages (e.g., from acquirer to issuer and back with time-outs and automatic
+///     reversals in place), while advices are point-to-point messages (e.g., from terminal to acquirer, from acquirer to
+///     network, from network to issuer, with transmission guaranteed over each link, but not necessarily immediately).
+/// </summary>
 public sealed record Function : EnumObject<byte>
 {
     #region Static Metadata
 
-    public static readonly Function Authorization = new(1);
-    public static readonly Function Financial = new(2);
-    public static readonly Function FileActions = new(3);
-    public static readonly Function Reversal = new(4);
-    public static readonly Function Reconciliation = new(5);
-    public static readonly Function Administration = new(6);
-    public static readonly Function Fee = new(7);
-    public static readonly Function Management = new(8);
+    /// <summary>
+    ///     Request from acquirer to issuer to carry out an action; issuer may accept or reject
+    /// </summary>
+    /// <remarks>X0XX</remarks>
+    public static readonly Function Request = new(0);
+
+    /// <summary>
+    ///     Issuer response to a request
+    /// </summary>
+    /// <remarks>X1XX</remarks>
+    public static readonly Function RequestResponse = new(1);
+
+    /// <summary>
+    ///     Advice that an action has taken place; receiver can only accept, not reject
+    /// </summary>
+    /// <remarks>X2XX</remarks>
+    public static readonly Function Advice = new(2);
+
+    /// <summary>
+    ///     Response to an advice
+    /// </summary>
+    /// <remarks>X3XX</remarks>
+    public static readonly Function AdviceResponse = new(3);
+
+    /// <summary>
+    ///     Notification that an event has taken place; receiver can only accept, not reject
+    /// </summary>
+    /// <remarks>X4XX</remarks>
+    public static readonly Function Notification = new(4);
+
+    /// <summary>
+    ///     Response to a notification
+    /// </summary>
+    /// <remarks>X5XX</remarks>
+    public static readonly Function NotificationAcknowledgement = new(5);
+
+    /// <summary>
+    ///     ISO 8583:2003
+    /// </summary>
+    /// <remarks>X6XX</remarks>
+    public static readonly Function Instruction = new(6);
+
+    /// <summary>
+    ///     ISO 8583:2003
+    /// </summary>
+    /// <remarks>X7XX</remarks>
+    public static readonly Function InstructionAcknowledgement = new(7);
 
     private static readonly Dictionary<byte, Function> _ValueMap = new()
     {
-        {Authorization, Authorization},
-        {Financial, Financial},
-        {FileActions, FileActions},
-        {Reversal, Reversal},
-        {Reconciliation, Reconciliation},
-        {Administration, Administration},
-        {Fee, Fee},
-        {Management, Management}
+        {Request, Request},
+        {RequestResponse, RequestResponse},
+        {Advice, Advice},
+        {AdviceResponse, AdviceResponse},
+        {Notification, Notification},
+        {NotificationAcknowledgement, NotificationAcknowledgement},
+        {Instruction, Instruction},
+        {InstructionAcknowledgement, InstructionAcknowledgement}
     };
 
     #endregion
@@ -48,7 +93,7 @@ public sealed record Function : EnumObject<byte>
         if (!_ValueMap.ContainsKey(value.GetMaskedValue(bitMask)))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                                                  $"No {nameof(Function)} could be retrieved because the argument provided does not match a definition value");
+                $"No {nameof(Function)} could be retrieved because the argument provided does not match a definition value");
         }
 
         return _ValueMap[value.GetMaskedValue(bitMask)];

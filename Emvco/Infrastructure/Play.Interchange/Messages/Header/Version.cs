@@ -3,29 +3,36 @@ using Play.Core.Extensions;
 
 namespace Play.Interchange.Messages.Header;
 
+/// <summary>
+///     The first digit of the MTI indicates the ISO 8583 version in which the message is encoded.
+/// </summary>
 public sealed record Version : EnumObject<byte>
 {
     #region Static Metadata
 
-    public static readonly Version Authorization = new(1);
-    public static readonly Version Financial = new(2);
-    public static readonly Version FileActions = new(3);
-    public static readonly Version Reversal = new(4);
-    public static readonly Version Reconciliation = new(5);
-    public static readonly Version Administration = new(6);
-    public static readonly Version Fee = new(7);
-    public static readonly Version Management = new(8);
+    /// <summary>ISO 8583:1987</summary>
+    /// <remarks>X1XXX</remarks>
+    public static readonly Version _1987 = new(0);
+
+    /// <summary>ISO 8583:1993</summary>
+    /// <remarks>X1XXX</remarks>
+    public static readonly Version _1993 = new(1);
+
+    /// <summary>ISO 8583:2003</summary>
+    /// <remarks>X2XXX</remarks>
+    public static readonly Version _2003 = new(2);
+
+    /// <summary>National use</summary>
+    /// <remarks>X8XXX</remarks>
+    public static readonly Version NationalUse = new(8);
+
+    /// <summary>Private use</summary>
+    /// <remarks>X9XXX</remarks>
+    public static readonly Version PrivateUse = new(9);
 
     private static readonly Dictionary<byte, Version> _ValueMap = new()
     {
-        {Authorization, Authorization},
-        {Financial, Financial},
-        {FileActions, FileActions},
-        {Reversal, Reversal},
-        {Reconciliation, Reconciliation},
-        {Administration, Administration},
-        {Fee, Fee},
-        {Management, Management}
+        {_1987, _1987}, {_1993, _1993}, {_2003, _2003}, {NationalUse, NationalUse}, {PrivateUse, PrivateUse}
     };
 
     #endregion
@@ -48,7 +55,7 @@ public sealed record Version : EnumObject<byte>
         if (!_ValueMap.ContainsKey(value.GetMaskedValue(bitMask)))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                                                  $"No {nameof(Version)} could be retrieved because the argument provided does not match a definition value");
+                $"No {nameof(Version)} could be retrieved because the argument provided does not match a definition value");
         }
 
         return _ValueMap[value.GetMaskedValue(bitMask)];

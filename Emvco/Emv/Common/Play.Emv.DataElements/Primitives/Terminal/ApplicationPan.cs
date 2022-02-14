@@ -17,7 +17,7 @@ public record ApplicationPan : DataElement<BigInteger>
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = Numeric.Identifier;
     public static readonly Tag Tag = 0x5A;
     private const byte _MaxByteLength = 10;
 

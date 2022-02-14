@@ -9,13 +9,14 @@ public class CompressedNumeric : PlayEncoding
 {
     #region Static Metadata
 
-    public static string Name = nameof(CompressedNumeric);
+    public static readonly PlayEncodingId PlayEncodingId = new(nameof(CompressedNumeric));
     private const byte _PadValue = 0xF;
 
     #endregion
 
     #region Instance Members
 
+    public PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
     public override bool IsValid(ReadOnlySpan<char> value) => throw new NotImplementedException();
     public override bool IsValid(ReadOnlySpan<byte> value) => throw new NotImplementedException();
 

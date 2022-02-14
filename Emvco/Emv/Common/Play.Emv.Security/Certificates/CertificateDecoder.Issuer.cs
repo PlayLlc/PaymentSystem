@@ -11,6 +11,8 @@ using Play.Encryption.Hashing;
 using Play.Encryption.Signing;
 using Play.Globalization.Time;
 
+using Numeric = Play.Codecs.Strings.Numeric;
+
 namespace Play.Emv.Security.Certificates;
 
 internal partial class CertificateFactory
@@ -53,7 +55,7 @@ internal partial class CertificateFactory
             PublicKeyInfo publicKeyInfo = new(publicKeyModulus, publicKeyExponent);
 
             return new DecodedIssuerPublicKeyCertificate(issuerIdentificationNumber, serialNumber, hashAlgorithm,
-                                                         publicKeyAlgorithmIndicator, validityPeriod, publicKeyInfo);
+                publicKeyAlgorithmIndicator, validityPeriod, publicKeyInfo);
         }
 
         private static ShortDateValue GetCertificateExpirationDate(Message1 message1) =>
@@ -167,8 +169,8 @@ internal partial class CertificateFactory
 
             // Step 2, 3, 5, 6, 7
             if (!signatureService.IsSignatureValid(GetHashAlgorithmIndicator(decodedSignature.GetMessage1()),
-                                                   GetConcatenatedValuesForHash(caPublicKeyCertificate, decodedSignature.GetMessage1(),
-                                                                                publicKeyRemainder, publicKeyExponent), decodedSignature))
+                GetConcatenatedValuesForHash(caPublicKeyCertificate, decodedSignature.GetMessage1(), publicKeyRemainder, publicKeyExponent),
+                decodedSignature))
                 return false;
 
             // Step 4
@@ -206,7 +208,7 @@ internal partial class CertificateFactory
                 DecodedSignature decodedSignature = signatureService.Decrypt(encipherment, publicKeyCertificate);
 
                 if (!IsValid(signatureService, publicKeyCertificate, decodedSignature, encipheredPublicKeyExponent.AsPublicKeyExponent(),
-                             enciphermentPublicKeyRemainder.AsPublicKeyRemainder(), encipherment.Length))
+                    enciphermentPublicKeyRemainder.AsPublicKeyRemainder(), encipherment.Length))
                 {
                     result = null;
 
@@ -214,7 +216,7 @@ internal partial class CertificateFactory
                 }
 
                 result = Create(publicKeyCertificate, enciphermentPublicKeyRemainder.AsPublicKeyRemainder(),
-                                encipheredPublicKeyExponent.AsPublicKeyExponent(), decodedSignature.GetMessage1());
+                    encipheredPublicKeyExponent.AsPublicKeyExponent(), decodedSignature.GetMessage1());
 
                 return true;
             }

@@ -12,7 +12,8 @@ using Play.Core.Specifications;
 namespace Play.Codecs.Strings;
 
 /// <summary>
-///     Numeric data elements consist of two numeric digits (having values in the range Hex '0' – '9') per byte.
+///     Binary Coded Decimal data elements consist of two numeric digits (having values in the range Hex '0' – '9') per
+///     byte.
 ///     These digits are right justified and padded with leading hexadecimal zeroes. Other specifications sometimes
 ///     refer to this data format as Binary Coded Decimal (“BCD”) or unsigned packed.
 ///     Example: Amount, Authorized(Numeric) is defined as “n 12” with a length of six bytes.
@@ -22,7 +23,7 @@ public class Numeric : PlayEncoding
 {
     #region Static Metadata
 
-    public static string Name = nameof(Numeric);
+    public static readonly PlayEncodingId PlayEncodingId = new(nameof(Numeric));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap =
         Enumerable.Range(0, 10).ToImmutableSortedDictionary(a => (char) (a + 48), b => (byte) b);
@@ -33,6 +34,8 @@ public class Numeric : PlayEncoding
     #endregion
 
     #region Instance Members
+
+    public PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
 
     public override bool IsValid(ReadOnlySpan<char> value)
     {

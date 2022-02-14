@@ -17,7 +17,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = Numeric.Identifier;
     public static readonly OutcomeParameterSet Default;
     public static readonly Tag Tag = 0xDF8129;
     private const byte _StatusOutcomeOffset = 56;
@@ -95,7 +95,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
 
         DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
             ?? throw new InvalidOperationException(
-                $"The {nameof(OutcomeParameterSet)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+                $"The {nameof(OutcomeParameterSet)} could not be initialized because the {nameof(Numeric)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new OutcomeParameterSet(result.Value);
     }

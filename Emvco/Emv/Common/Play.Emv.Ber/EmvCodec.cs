@@ -18,12 +18,9 @@ public class EmvCodec : BerCodec
     {
         {AlphabeticCodec.Identifier, new AlphabeticCodec()},
         {AlphaNumericCodec.Identifier, new AlphaNumericCodec()},
-        {
-            AlphaNumericSpecialCodec.Identifier,
-            new AlphaNumericSpecialCodec()
-        },
+        {AlphaNumericSpecialCodec.Identifier, new AlphaNumericSpecialCodec()},
         {CompressedNumericCodec.Identifier, new CompressedNumericCodec()},
-        {NumericCodec.Identifier, new NumericCodec()},
+        {Numeric.Identifier, new Numeric()},
         {BinaryCodec.Identifier, new BinaryCodec()},
         {VariableCodec.Identifier, new VariableCodec()},
         {OctetStringCodec.Identifier, new OctetStringCodec()}

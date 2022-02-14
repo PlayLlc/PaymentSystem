@@ -12,17 +12,19 @@ public class SignedInteger : PlayEncoding
 {
     #region Static Metadata
 
+    public static readonly PlayEncodingId PlayEncodingId = new(nameof(SignedInteger));
+
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap =
         Enumerable.Range(48, 57 - 48).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
 
     private static readonly ImmutableSortedDictionary<byte, char> _CharMap =
         Enumerable.Range(48, 57 - 48).ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
 
-    public static string Name = nameof(SignedInteger);
-
     #endregion
 
     #region Instance Members
+
+    public PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
 
     public override bool IsValid(ReadOnlySpan<char> value)
     {

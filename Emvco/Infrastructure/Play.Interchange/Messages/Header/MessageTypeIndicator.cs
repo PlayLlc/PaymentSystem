@@ -1,5 +1,10 @@
 ﻿namespace Play.Interchange.Messages.Header;
 
+/// <summary>
+///     The message type indicator is a four-digit numeric field which indicates the overall function of the message. A
+///     message type indicator includes the ISO 8583 version, the Message Class, the Message Function and the Message
+///     Origin, as described below.
+/// </summary>
 public readonly ref struct MessageTypeIndicator
 {
     #region Instance Values

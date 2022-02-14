@@ -17,5 +17,8 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Play.Unmanaged\Play.Unmanaged.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Customs\Identifiers\" />
+	</ItemGroup>
 
 </Project>

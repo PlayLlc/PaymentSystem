@@ -16,7 +16,7 @@ public record ApplicationExpirationDate : DataElement<uint>, IEqualityComparer<A
     #region Static Metadata
 
     public static readonly Tag Tag = 0x5F24;
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = Numeric.Identifier;
     private const byte _ByteLength = 3;
 
     #endregion
@@ -56,13 +56,13 @@ public record ApplicationExpirationDate : DataElement<uint>, IEqualityComparer<A
     {
         if (value.Length != _ByteLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(ApplicationExpirationDate)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(ApplicationExpirationDate)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
         }
 
         DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
-            ?? throw new
-                InvalidOperationException($"The {nameof(ApplicationExpirationDate)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<uint>)}");
+            ?? throw new InvalidOperationException(
+                $"The {nameof(ApplicationExpirationDate)} could not be initialized because the {nameof(Numeric)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new ApplicationExpirationDate(result.Value);
     }

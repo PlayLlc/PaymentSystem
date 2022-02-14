@@ -62,25 +62,25 @@ public readonly struct PrimaryAccountNumber
         if (!PlayEncoding.CompressedNumeric.IsValid(value))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                                                  $"The argument {nameof(value)} was not a valid {nameof(CompressedNumeric)} format");
+                $"The argument {nameof(value)} was not a valid {nameof(CompressedNumeric)} format");
         }
 
         if (value.Length > _MaxByteLength)
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                                                  $"The argument {nameof(value)} must be less than {_MaxByteLength} bytes in length to instantiate a {nameof(PrimaryAccountNumber)} object");
+                $"The argument {nameof(value)} must be less than {_MaxByteLength} bytes in length to instantiate a {nameof(PrimaryAccountNumber)} object");
         }
 
         if (!PlayEncoding.Numeric.IsValid(value))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                                                  $"The argument {nameof(value)} must be a valid numeric digit to instantiate a {nameof(PrimaryAccountNumber)} object");
+                $"The argument {nameof(value)} must be a valid numeric digit to instantiate a {nameof(PrimaryAccountNumber)} object");
         }
 
         if (PlayEncoding.Numeric.GetCharCount(value) > _MaxDigitLength)
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                                                  $"The argument {nameof(value)} must be contain less than than {_MaxByteLength} digits to instantiate a {nameof(PrimaryAccountNumber)} object");
+                $"The argument {nameof(value)} must be contain less than than {_MaxByteLength} digits to instantiate a {nameof(PrimaryAccountNumber)} object");
         }
     }
 
@@ -89,13 +89,13 @@ public readonly struct PrimaryAccountNumber
         if (!PlayEncoding.Numeric.IsValid(value))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                                                  $"The argument {nameof(value)} must be a valid numeric digit to instantiate a {nameof(PrimaryAccountNumber)} object");
+                $"The argument {nameof(value)} must be a valid numeric digit to instantiate a {nameof(PrimaryAccountNumber)} object");
         }
 
         if (value.Length > _MaxDigitLength)
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                                                  $"The argument {nameof(value)} must be contain less than than {_MaxByteLength} digits to instantiate a {nameof(PrimaryAccountNumber)} object");
+                $"The argument {nameof(value)} must be contain less than than {_MaxByteLength} digits to instantiate a {nameof(PrimaryAccountNumber)} object");
         }
     }
 

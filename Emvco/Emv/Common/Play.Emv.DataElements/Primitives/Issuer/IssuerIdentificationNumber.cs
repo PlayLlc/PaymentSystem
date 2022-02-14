@@ -16,7 +16,7 @@ public record IssuerIdentificationNumber : DataElement<uint>, IEqualityComparer<
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = Numeric.Identifier;
     public static readonly Tag Tag = 0x42;
 
     #endregion

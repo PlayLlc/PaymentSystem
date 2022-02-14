@@ -15,7 +15,7 @@ public record AccountType : DataElement<byte>, IEqualityComparer<AccountType>
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = Numeric.Identifier;
     public static readonly Tag Tag = 0x9F01;
     public static readonly AccountType Default = new(0);
     public static readonly AccountType Savings = new(10);

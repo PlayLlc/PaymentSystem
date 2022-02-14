@@ -13,12 +13,14 @@ public class StrictUtf8 : PlayEncoding
 {
     #region Static Metadata
 
+    public static readonly PlayEncodingId PlayEncodingId = new(nameof(StrictUtf8));
     private static readonly UTF8Encoding _ErrorDetectingEncoder = new(false, true);
-    public static string Name = nameof(StrictUtf8);
 
     #endregion
 
     #region Instance Members
+
+    public PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
 
     /// <summary>
     ///     This is validating that the sequence of characters are in the Basic Multilingual Plane

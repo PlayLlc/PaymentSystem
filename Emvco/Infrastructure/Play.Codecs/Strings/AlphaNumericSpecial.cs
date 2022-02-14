@@ -13,7 +13,7 @@ public class AlphaNumericSpecial : PlayEncoding
 {
     #region Static Metadata
 
-    public static string Name = nameof(AlphaNumericSpecial);
+    public static readonly PlayEncodingId PlayEncodingId = new(nameof(AlphaNumericSpecial));
 
     // 32 - 126
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap =
@@ -25,6 +25,8 @@ public class AlphaNumericSpecial : PlayEncoding
     #endregion
 
     #region Instance Members
+
+    public PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
 
     public override bool IsValid(ReadOnlySpan<char> value)
     {

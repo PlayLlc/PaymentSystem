@@ -17,7 +17,7 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = Numeric.Identifier;
     public static readonly Tag Tag = 0x95;
     private const byte _ByteLength = 0x05;
 
@@ -85,13 +85,13 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
     {
         if (value.Length != _ByteLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(TerminalVerificationResults)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(TerminalVerificationResults)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
         }
 
         DecodedResult<ulong> result = codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
-            ?? throw new
-                InvalidOperationException($"The {nameof(TerminalVerificationResults)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+            ?? throw new InvalidOperationException(
+                $"The {nameof(TerminalVerificationResults)} could not be initialized because the {nameof(Numeric)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new TerminalVerificationResults(result.Value);
     }

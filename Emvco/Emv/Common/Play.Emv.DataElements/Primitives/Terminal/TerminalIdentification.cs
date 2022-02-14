@@ -16,7 +16,7 @@ public record TerminalIdentification : DataElement<ulong>, IEqualityComparer<Ter
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = Numeric.Identifier;
     public static readonly Tag Tag = 0x9F1C;
     private const byte _CharLength = 8;
 
@@ -56,18 +56,18 @@ public record TerminalIdentification : DataElement<ulong>, IEqualityComparer<Ter
 
         if (value.Length != byteLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(TerminalIdentification)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(TerminalIdentification)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<ulong> result = codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
-            ?? throw new
-                InvalidOperationException($"The {nameof(TerminalIdentification)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+            ?? throw new InvalidOperationException(
+                $"The {nameof(TerminalIdentification)} could not be initialized because the {nameof(Numeric)} returned a null {nameof(DecodedResult<ulong>)}");
 
         if (result.CharCount != _CharLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(TerminalIdentification)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {_CharLength} bytes in length");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(TerminalIdentification)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {_CharLength} bytes in length");
         }
 
         return new TerminalIdentification(result.Value);

@@ -13,11 +13,13 @@ public class Hexadecimal : PlayEncoding
 {
     #region Static Metadata
 
-    public static string Name = nameof(Hexadecimal);
+    public static readonly PlayEncodingId PlayEncodingId = new(nameof(Hexadecimal));
 
     #endregion
 
     #region Instance Members
+
+    public PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
 
     /// <summary>
     ///     Checks if the value contains valid hexadecimal bytes
