@@ -8,6 +8,9 @@ using Play.Emv.DataElements.Exceptions;
 
 namespace Play.Emv.DataElements;
 
+/// <summary>
+///     Cryptogram returned by the Card in response to the GENERATE AC or RECOVER AC command.
+/// </summary>
 public record ApplicationCryptogram : DataElement<ulong>, IEqualityComparer<ApplicationCryptogram>
 {
     #region Static Metadata

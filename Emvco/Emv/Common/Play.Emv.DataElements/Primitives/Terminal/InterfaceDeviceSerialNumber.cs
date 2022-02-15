@@ -86,4 +86,10 @@ public record InterfaceDeviceSerialNumber : DataElement<ulong>, IEqualityCompare
     public int GetHashCode(InterfaceDeviceSerialNumber obj) => obj.GetHashCode();
 
     #endregion
+
+    #region Operator Overrides
+
+    public static explicit operator ulong(InterfaceDeviceSerialNumber value) => value._Value;
+
+    #endregion
 }

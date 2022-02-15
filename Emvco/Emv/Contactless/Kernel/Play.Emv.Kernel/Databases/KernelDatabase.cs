@@ -5,6 +5,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
+using Play.Emv.DataExchange;
 using Play.Emv.Icc;
 using Play.Emv.Outcomes;
 using Play.Emv.Security.Certificates;
@@ -56,8 +57,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (IsActive())
         {
-            throw new
-                InvalidOperationException($"A command to initialize the Kernel Database was invoked but the {nameof(KernelDatabase)} is already active");
+            throw new InvalidOperationException(
+                $"A command to initialize the Kernel Database was invoked but the {nameof(KernelDatabase)} is already active");
         }
 
         _KernelSessionId = kernelSessionId;
@@ -83,8 +84,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new
-                InvalidOperationException($"The method {nameof(Get)} cannot be accessed because {nameof(KernelDatabase)} is not active");
+            throw new InvalidOperationException(
+                $"The method {nameof(Get)} cannot be accessed because {nameof(KernelDatabase)} is not active");
         }
 
         return _TlvDatabase.Get(tag);
@@ -107,8 +108,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new
-                InvalidOperationException($"The method {nameof(IsPresent)} cannot be accessed because {nameof(KernelDatabase)} is not active");
+            throw new InvalidOperationException(
+                $"The method {nameof(IsPresent)} cannot be accessed because {nameof(KernelDatabase)} is not active");
         }
 
         return _TlvDatabase.IsPresent(tag);
@@ -126,8 +127,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new
-                InvalidOperationException($"The method {nameof(IsPresentAndNotEmpty)} cannot be accessed because {nameof(KernelDatabase)} is not active");
+            throw new InvalidOperationException(
+                $"The method {nameof(IsPresentAndNotEmpty)} cannot be accessed because {nameof(KernelDatabase)} is not active");
         }
 
         return _TlvDatabase.IsPresentAndNotEmpty(tag);
@@ -142,8 +143,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new
-                InvalidOperationException($"The method {nameof(IsRevoked)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            throw new InvalidOperationException(
+                $"The method {nameof(IsRevoked)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         return _KernelCertificateDatabase!.IsRevoked(rid, caPublicKeyIndex);
@@ -173,8 +174,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new
-                InvalidOperationException($"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            throw new InvalidOperationException(
+                $"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         return _KernelCertificateDatabase.TryGet(rid, index, out result);
@@ -190,8 +191,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new
-                InvalidOperationException($"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            throw new InvalidOperationException(
+                $"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         return _TlvDatabase.TryGet(tag, out result);
@@ -222,8 +223,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new
-                InvalidOperationException($"The method {nameof(Update)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            throw new InvalidOperationException(
+                $"The method {nameof(Update)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         _TlvDatabase.Update(value);
@@ -239,8 +240,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new
-                InvalidOperationException($"The method {nameof(UpdateRange)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            throw new InvalidOperationException(
+                $"The method {nameof(UpdateRange)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         _TlvDatabase.UpdateRange(values);
@@ -250,8 +251,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new
-                InvalidOperationException($"The method {nameof(Initialize)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            throw new InvalidOperationException(
+                $"The method {nameof(Initialize)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         _TlvDatabase.Update(new DatabaseValue(tag));

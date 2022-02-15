@@ -91,13 +91,19 @@ public record TerminalIdentification : DataElement<ulong>, IEqualityComparer<Ter
         return x.Equals(y);
     }
 
+    public bool Equals(InterfaceDeviceSerialNumber interfaceDeviceSerialNumber) => (ulong) interfaceDeviceSerialNumber == _Value;
     public int GetHashCode(TerminalIdentification obj) => obj.GetHashCode();
 
     #endregion
 
     #region Operator Overrides
 
+    public static bool operator ==(InterfaceDeviceSerialNumber left, TerminalIdentification right) => left.Equals(right);
+    public static bool operator !=(InterfaceDeviceSerialNumber left, TerminalIdentification right) => !left.Equals(right);
+    public static bool operator ==(TerminalIdentification left, InterfaceDeviceSerialNumber right) => right.Equals(left);
+    public static bool operator !=(TerminalIdentification left, InterfaceDeviceSerialNumber right) => !right.Equals(left);
     public static explicit operator Span<char>(TerminalIdentification value) => value.AsSpan();
+    public static explicit operator ulong(TerminalIdentification value) => value._Value;
     public static explicit operator ReadOnlySpan<char>(TerminalIdentification value) => value.AsSpan();
     public static explicit operator string(TerminalIdentification value) => value.AsToken();
 

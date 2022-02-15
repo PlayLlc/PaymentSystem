@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Play.Codecs;
 
-using Play.Codecs;
-
-namespace Play.Interchange.Messages.DataFields.ValueObjects;
+namespace Play.Interchange.Messages.DataFields;
 
 public abstract class DataFieldMapper
 {

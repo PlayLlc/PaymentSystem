@@ -10,6 +10,7 @@ using Play.Emv.Reader.Contracts;
 using Play.Emv.Reader.Contracts.SignalIn;
 using Play.Emv.Reader.Contracts.SignalOut;
 using Play.Emv.Sessions;
+using Play.Emv.Terminal.Common.Services.SequenceNumberManagement;
 using Play.Emv.Terminal.Configuration;
 using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Emv.Terminal.Services.DataExchange;
@@ -22,7 +23,7 @@ internal class TerminalStateMachine
 {
     #region Instance Values
 
-    private readonly TerminalSessionLock _TerminalSessionLock = new();
+    private readonly TerminalSessionLock _TerminalSessionLock;
     private readonly TerminalConfiguration _TerminalConfiguration;
     private readonly IHandleDisplayRequests _DisplayEndpoint;
     private readonly IHandleKernelRequests _KernelEndpoint;
@@ -31,6 +32,7 @@ internal class TerminalStateMachine
     private readonly IManageTerminalRisk _TerminalRiskManager;
     private readonly ITerminalConfigurationRepository _TerminalConfigurationRepository;
     private readonly ISendTerminalResponses _TerminalEndpoint;
+    private readonly IGenerateSequenceTraceAuditNumbers _SequenceGenerator;
 
     #endregion
 
@@ -44,8 +46,10 @@ internal class TerminalStateMachine
         IPerformTerminalActionAnalysis terminalActionAnalysisService,
         IManageTerminalRisk terminalRiskManager,
         ITerminalConfigurationRepository terminalConfigurationRepository,
-        ISendTerminalResponses terminalEndpoint)
+        ISendTerminalResponses terminalEndpoint,
+        IGenerateSequenceTraceAuditNumbers sequenceGenerator)
     {
+        _TerminalSessionLock = new TerminalSessionLock(sequenceGenerator);
         _TerminalConfiguration = terminalConfiguration;
         _DisplayEndpoint = displayEndpoint;
         _KernelEndpoint = kernelEndpoint;
@@ -54,6 +58,7 @@ internal class TerminalStateMachine
         _TerminalRiskManager = terminalRiskManager;
         _TerminalConfigurationRepository = terminalConfigurationRepository;
         _TerminalEndpoint = terminalEndpoint;
+        _SequenceGenerator = sequenceGenerator;
     }
 
     #endregion
@@ -67,24 +72,22 @@ internal class TerminalStateMachine
         {
             if (_TerminalSessionLock.Session != null)
             {
-                throw new
-                    RequestOutOfSyncException($"The {nameof(ActivateTerminalRequest)} can't be processed because the {nameof(ChannelType.Terminal)} already has an active session in progress");
+                throw new RequestOutOfSyncException(
+                    $"The {nameof(ActivateTerminalRequest)} can't be processed because the {nameof(ChannelType.Terminal)} already has an active session in progress");
             }
 
             // HACK: This won't change unless it's a cloud kernel implementation. Find a better strategy
             TerminalConfiguration systemConfiguration =
                 _TerminalConfigurationRepository.GeTerminalConfiguration(request.GetTerminalIdentification(),
-                                                                         request.GetAcquirerIdentifier(), request.GetMerchantIdentifier());
+                    request.GetAcquirerIdentifier(), request.GetMerchantIdentifier());
 
             Transaction transaction = new(new TransactionSessionId(request.GetTransactionType()), request.GetAccountType(),
-                                          request.GetAmountAuthorizedNumeric(), request.GetAmountOtherNumeric(),
-                                          request.GetTransactionType(), systemConfiguration.GetLanguagePreference(),
-                                          systemConfiguration.GetTerminalCountryCode(), new TransactionDate(DateTimeUtc.Now()),
-                                          new TransactionTime(DateTimeUtc.Now()));
+                request.GetAmountAuthorizedNumeric(), request.GetAmountOtherNumeric(), request.GetTransactionType(),
+                systemConfiguration.GetLanguagePreference(), systemConfiguration.GetTerminalCountryCode(),
+                new TransactionDate(DateTimeUtc.Now()), new TransactionTime(DateTimeUtc.Now()));
 
             _TerminalSessionLock.Session = new TerminalSession(transaction, _TerminalConfiguration,
-                                                               new DataExchangeTerminalService(transaction.GetTransactionSessionId(),
-                                                                _TerminalEndpoint, _KernelEndpoint));
+                new DataExchangeTerminalService(transaction.GetTransactionSessionId(), _TerminalEndpoint, _KernelEndpoint));
 
             // HACK: Develop logic for passing TagsToRead and DataToSend along with the ACT signal below
 
@@ -98,14 +101,14 @@ internal class TerminalStateMachine
         {
             if (_TerminalSessionLock.Session == null)
             {
-                throw new
-                    RequestOutOfSyncException($"The {nameof(QueryTerminalRequest)} can't be processed because the {nameof(ChannelType.Terminal)} doesn't currently have an active session");
+                throw new RequestOutOfSyncException(
+                    $"The {nameof(QueryTerminalRequest)} can't be processed because the {nameof(ChannelType.Terminal)} doesn't currently have an active session");
             }
 
             if (_TerminalSessionLock.Session.GetTransactionSessionId() != request.GetTransactionSessionId())
             {
-                throw new
-                    RequestOutOfSyncException($"The {nameof(QueryTerminalRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{request.GetTransactionSessionId()}] but the current {nameof(ChannelType.Terminal)} session has a {nameof(TransactionSessionId)} of: [{_TerminalSessionLock.Session.GetTransactionSessionId()}]");
+                throw new RequestOutOfSyncException(
+                    $"The {nameof(QueryTerminalRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{request.GetTransactionSessionId()}] but the current {nameof(ChannelType.Terminal)} session has a {nameof(TransactionSessionId)} of: [{_TerminalSessionLock.Session.GetTransactionSessionId()}]");
             }
 
             _TerminalSessionLock.Session.DataExchangeTerminalService.Enqueue(request.GetDataNeeded());
@@ -139,6 +142,18 @@ internal class TerminalStateMachine
         #region Instance Values
 
         public TerminalSession? Session;
+
+        // BUG: Generate STAN for each transaction in a settlement batch. The sequence will be restarted when a Settlement request has been successfully acknowledged by the Acquirer
+        public IGenerateSequenceTraceAuditNumbers SequenceGenerator;
+
+        #endregion
+
+        #region Constructor
+
+        public TerminalSessionLock(IGenerateSequenceTraceAuditNumbers sequenceGenerator)
+        {
+            SequenceGenerator = sequenceGenerator;
+        }
 
         #endregion
     }

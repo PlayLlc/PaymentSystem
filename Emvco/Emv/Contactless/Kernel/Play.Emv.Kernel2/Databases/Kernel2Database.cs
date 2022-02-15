@@ -3,6 +3,7 @@ using System.Linq;
 
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Emv.DataExchange;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel2.Configuration;
 using Play.Emv.Sessions;
@@ -46,8 +47,8 @@ public class Kernel2Database : KernelDatabase
     {
         if (IsActive())
         {
-            throw new
-                InvalidOperationException($"A command to initialize the Kernel Database was invoked but the {nameof(KernelDatabase)} is already active");
+            throw new InvalidOperationException(
+                $"A command to initialize the Kernel Database was invoked but the {nameof(KernelDatabase)} is already active");
         }
 
         _KernelSessionId = kernelSessionId;

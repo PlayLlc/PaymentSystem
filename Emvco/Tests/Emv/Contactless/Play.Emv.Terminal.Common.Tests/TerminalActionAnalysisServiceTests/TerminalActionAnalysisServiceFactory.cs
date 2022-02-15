@@ -33,7 +33,7 @@ public class TerminalActionAnalysisServiceFactory
 
     public static TerminalActionAnalysisService Create(TerminalType.CommunicationType terminalType, IFixture fixture)
     {
-        var authenticationTypeResolver = new Mock<IResolveAuthenticationType>();
+        Mock<IResolveAuthenticationType>? authenticationTypeResolver = new();
         authenticationTypeResolver.Setup<AuthenticationTypes>(a =>
                 a.GetAuthenticationMethod(It.IsAny<TerminalCapabilities>(), It.IsAny<ApplicationInterchangeProfile>()))
             .Returns(AuthenticationTypes.CombinedDataAuthentication);

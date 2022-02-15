@@ -4,47 +4,48 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Play.Ber.DataObjects;
+using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
-using Play.Interchange.Messages;
-using Play.Interchange.Messages.Body;
-using Play.Interchange.Messages.Header;
-
-using Version = Play.Interchange.Messages.Header.Version;
+using Play.Emv.DataElements;
+using Play.Emv.Issuer.Exceptions;
+using Play.Emv.Issuer.Policies;
 
 namespace Play.Emv.Issuer.Messages;
 
-internal class AuthorizationRequest : AcquirerMessage
+internal sealed class AuthorizationRequest : AcquirerMessage
 {
+    #region Static Metadata
+
+    public static AcquirerMessageId AcquirerMessageId = new(nameof(AuthorizationRequest));
+
+    #endregion
+
+    #region Instance Values
+
+    private readonly List<TagLengthValue> _Values;
+
+    #endregion
+
     #region Constructor
 
-    private AuthorizationRequest(AcquirerHeader header, AcquirerBody body) : base(header, body)
-    { }
+    private AuthorizationRequest(List<TagLengthValue> values)
+    {
+        _Values = values;
+    }
 
     #endregion
 
     #region Instance Members
 
-    public static void Create()
-    {
-        MessageTypeIndicator mti = new(Version._1993, Class.Authorization, Function.Request, Origin.Acquirer);
-        var bitMap = new Bitmap();
-    }
+    // TODO: Double dispatch so outside actors can't circumvent the pattern and spread knowledge to unrelated processes
+    // TODO: Should it be one policy or many? 
+    public static DataNeeded GetDataNeeded(IEnforceAcquirerInterfacePolicy policy) => new(policy.GetExtendedIssuerInterface());
+
+    public static AuthorizationRequest Create(Dictionary<Tag, TagLengthValue> values, IEnforceAcquirerInterfacePolicy acquirerPolicies) =>
+        new(acquirerPolicies.Enforce(values));
+
+    public override AcquirerMessageId GetAcquirerMessageId() => AcquirerMessageId;
 
     #endregion
-
-    public class Builder
-    {
-        #region Instance Values
-
-        private Bitmap _Bitmap;
-
-        #endregion
-
-        #region Constructor
-
-        public Builder(IQueryTlvDatabase tlvDatabase)
-        { }
-
-        #endregion
-    }
 }

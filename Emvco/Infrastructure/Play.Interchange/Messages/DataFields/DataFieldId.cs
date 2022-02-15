@@ -1,4 +1,4 @@
-﻿namespace Play.Interchange.Messages.DataFields.ValueObjects;
+﻿namespace Play.Interchange.Messages.DataFields;
 
 public readonly record struct DataFieldId
 {

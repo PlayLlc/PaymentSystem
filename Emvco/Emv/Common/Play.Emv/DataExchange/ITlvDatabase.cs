@@ -2,7 +2,7 @@
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.Kernel.Databases;
+namespace Play.Emv.DataExchange;
 
 public interface ITlvDatabase : IQueryTlvDatabase
 {

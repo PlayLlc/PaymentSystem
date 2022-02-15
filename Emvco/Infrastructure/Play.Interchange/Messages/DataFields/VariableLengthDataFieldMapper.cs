@@ -1,7 +1,7 @@
 ﻿using Play.Codecs;
 using Play.Interchange.Exceptions;
 
-namespace Play.Interchange.Messages.DataFields.ValueObjects;
+namespace Play.Interchange.Messages.DataFields;
 
 public abstract class VariableLengthDataFieldMapper : DataFieldMapper
 {
