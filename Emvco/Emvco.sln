@@ -211,7 +211,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Acquirers", "Acquirers", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elavon", "Elavon", "{6586C03B-055F-4755-AFB6-C08B98B6EE74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Emv.Acquirers.Elavon", "Emv\Acquirers\Elavon\Play.Emv.Acquirers.Elavon\Play.Emv.Acquirers.Elavon.csproj", "{858B8184-6EBB-41F3-AB7D-AE6A9102D295}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Acquirers.Elavon", "Emv\Acquirers\Elavon\Play.Emv.Acquirers.Elavon\Play.Emv.Acquirers.Elavon.csproj", "{858B8184-6EBB-41F3-AB7D-AE6A9102D295}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Iso20022", "_Iso20022", "{C89DA00C-7984-4438-A915-2CF20C9F73D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Swift", "Infrastructure\Play.Swift\Play.Swift.csproj", "{A5817232-18CC-419C-8FB1-83069DF3C59A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -507,6 +511,10 @@ Global
 		{858B8184-6EBB-41F3-AB7D-AE6A9102D295}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{858B8184-6EBB-41F3-AB7D-AE6A9102D295}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{858B8184-6EBB-41F3-AB7D-AE6A9102D295}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5817232-18CC-419C-8FB1-83069DF3C59A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5817232-18CC-419C-8FB1-83069DF3C59A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5817232-18CC-419C-8FB1-83069DF3C59A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5817232-18CC-419C-8FB1-83069DF3C59A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -606,6 +614,8 @@ Global
 		{A6210F83-DF22-424D-97FB-1DC11FCC59C6} = {4AB74B06-60FD-45F7-B46A-809A7A5DC33F}
 		{6586C03B-055F-4755-AFB6-C08B98B6EE74} = {A6210F83-DF22-424D-97FB-1DC11FCC59C6}
 		{858B8184-6EBB-41F3-AB7D-AE6A9102D295} = {6586C03B-055F-4755-AFB6-C08B98B6EE74}
+		{C89DA00C-7984-4438-A915-2CF20C9F73D4} = {D7CA87CA-8340-4E2C-A2ED-5CE46EEC455B}
+		{A5817232-18CC-419C-8FB1-83069DF3C59A} = {C89DA00C-7984-4438-A915-2CF20C9F73D4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E9927CF8-C10C-47E1-87FD-7ACEEBCD340D}

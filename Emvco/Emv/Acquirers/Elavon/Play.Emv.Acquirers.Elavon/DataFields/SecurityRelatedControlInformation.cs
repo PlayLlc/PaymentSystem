@@ -11,6 +11,9 @@ using Play.Emv.Ber.Codecs;
 
 namespace Play.Emv.Acquirers.Elavon.DataFields;
 
+public class DeleteMe
+{ }
+
 public record SecurityRelatedControlInformation
 {
     #region Instance Members
