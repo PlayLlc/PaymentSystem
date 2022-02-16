@@ -83,7 +83,7 @@ public sealed class IntegerCodec : BerPrimitiveCodec
             return Encode(Unsafe.As<T, short>(ref value));
         if (byteSize == Specs.Integer.UInt32.ByteSize)
             return Encode(Unsafe.As<T, int>(ref value));
-        if (byteSize == Specs.Integer.UInt64.ByteSize)
+        if (byteSize == Specs.Integer.UInt64.ByteCount)
             return Encode(Unsafe.As<T, long>(ref value));
 
         return Encode(Unsafe.As<T, BigInteger>(ref value));

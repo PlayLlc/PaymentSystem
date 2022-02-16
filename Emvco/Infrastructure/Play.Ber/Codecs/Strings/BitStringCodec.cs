@@ -255,7 +255,7 @@ public sealed class BitStringCodec : BerPrimitiveCodec
 
         byte[] result = new byte[Specs.Integer.UInt64.BitStringByteSize];
         result[0] = value.RightPaddedUnsetBitCount();
-        new Span<byte>(_UnsignedIntegerCodec.GetBytes(value))[((Specs.Integer.UInt64.ByteSize - length) + 1)..].CopyTo(result[1..]);
+        new Span<byte>(_UnsignedIntegerCodec.GetBytes(value))[((Specs.Integer.UInt64.ByteCount - length) + 1)..].CopyTo(result[1..]);
 
         return result;
     }

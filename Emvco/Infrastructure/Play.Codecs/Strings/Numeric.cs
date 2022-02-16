@@ -109,7 +109,7 @@ public class Numeric : PlayEncoding
             return GetBytes(Unsafe.As<T, ushort>(ref value));
         if (byteSize <= Specs.Integer.UInt32.ByteSize)
             return GetBytes(Unsafe.As<T, uint>(ref value));
-        if (byteSize <= Specs.Integer.UInt64.ByteSize)
+        if (byteSize <= Specs.Integer.UInt64.ByteCount)
             return GetBytes(Unsafe.As<T, ulong>(ref value));
 
         return GetBytes(Unsafe.As<T, BigInteger>(ref value));
@@ -125,9 +125,9 @@ public class Numeric : PlayEncoding
             return GetBytes(Unsafe.As<T, uint>(ref value), length);
         if (length == Specs.Integer.UInt32.ByteSize)
             return GetBytes(Unsafe.As<T, uint>(ref value));
-        if (length < Specs.Integer.UInt64.ByteSize)
+        if (length < Specs.Integer.UInt64.ByteCount)
             return GetBytes(Unsafe.As<T, ulong>(ref value), length);
-        if (length == Specs.Integer.UInt64.ByteSize)
+        if (length == Specs.Integer.UInt64.ByteCount)
             return GetBytes(Unsafe.As<T, ulong>(ref value));
 
         return GetBytes(Unsafe.As<T, BigInteger>(ref value), length);
@@ -238,7 +238,7 @@ public class Numeric : PlayEncoding
 
     public byte[] GetBytes(ulong value)
     {
-        const byte byteSize = Specs.Integer.UInt64.ByteSize;
+        const byte byteSize = Specs.Integer.UInt64.ByteCount;
         byte numberOfDigits = value.GetNumberOfDigits();
         int numberOfBytes = (numberOfDigits / 2) + (numberOfDigits % 2);
 

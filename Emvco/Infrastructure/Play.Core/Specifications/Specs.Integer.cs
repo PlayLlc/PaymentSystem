@@ -70,7 +70,7 @@ public partial class Specs
         {
             #region Static Metadata
 
-            public const byte ByteSize = 8;
+            public const byte ByteCount = 8;
             public const byte MaxDigits = 20;
             public const byte BitCount = 64;
             public const byte CompressedNumericByteSize = (MaxDigits / 2) + (MaxDigits % 2);

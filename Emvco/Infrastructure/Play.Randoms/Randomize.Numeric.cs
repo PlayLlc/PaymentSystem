@@ -48,7 +48,7 @@ public partial class Randomize
 
         public static ulong ULong()
         {
-            Span<byte> buffer = Bytes(Specs.Integer.UInt64.ByteSize);
+            Span<byte> buffer = Bytes(Specs.Integer.UInt64.ByteCount);
 
             return PlayEncoding.UnsignedInteger.GetUInt64(buffer);
         }

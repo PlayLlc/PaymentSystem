@@ -36,7 +36,7 @@ public class BinaryCodec : BerPrimitiveCodec
             return Encode(Unsafe.As<T, ushort>(ref value));
         if (byteSize <= Specs.Integer.UInt32.ByteSize)
             return Encode(Unsafe.As<T, uint>(ref value));
-        if (byteSize <= Specs.Integer.UInt64.ByteSize)
+        if (byteSize <= Specs.Integer.UInt64.ByteCount)
             return Encode(Unsafe.As<T, ulong>(ref value));
 
         return Encode(Unsafe.As<T, BigInteger>(ref value));
@@ -52,9 +52,9 @@ public class BinaryCodec : BerPrimitiveCodec
             return Encode(Unsafe.As<T, uint>(ref value), length);
         if (length == Specs.Integer.UInt32.ByteSize)
             return Encode(Unsafe.As<T, uint>(ref value));
-        if (length < Specs.Integer.UInt64.ByteSize)
+        if (length < Specs.Integer.UInt64.ByteCount)
             return Encode(Unsafe.As<T, ulong>(ref value), length);
-        if (length == Specs.Integer.UInt64.ByteSize)
+        if (length == Specs.Integer.UInt64.ByteCount)
             return Encode(Unsafe.As<T, ulong>(ref value));
 
         return Encode(Unsafe.As<T, BigInteger>(ref value), length);
@@ -73,7 +73,7 @@ public class BinaryCodec : BerPrimitiveCodec
     public byte[] Encode(uint value) => _UnsignedIntegerCodec.GetBytes(value, true);
     public byte[] Encode(uint value, int length) => _UnsignedIntegerCodec.GetBytes(value)[(Specs.Integer.UInt32.ByteSize - length)..];
     public byte[] Encode(ulong value) => _UnsignedIntegerCodec.GetBytes(value, true);
-    public byte[] Encode(ulong value, int length) => _UnsignedIntegerCodec.GetBytes(value)[(Specs.Integer.UInt64.ByteSize - length)..];
+    public byte[] Encode(ulong value, int length) => _UnsignedIntegerCodec.GetBytes(value)[(Specs.Integer.UInt64.ByteCount - length)..];
     public byte[] Encode(BigInteger value) => _UnsignedIntegerCodec.GetBytes(value);
 
     public byte[] Encode(BigInteger value, int length)
@@ -103,7 +103,7 @@ public class BinaryCodec : BerPrimitiveCodec
             return Unsafe.As<T, ushort>(ref value).GetMostSignificantByte();
         if (byteSize <= Specs.Integer.UInt32.ByteSize)
             return Unsafe.As<T, uint>(ref value).GetMostSignificantByte();
-        if (byteSize <= Specs.Integer.UInt64.ByteSize)
+        if (byteSize <= Specs.Integer.UInt64.ByteCount)
             return Unsafe.As<T, ulong>(ref value).GetMostSignificantByte();
 
         throw new InternalEmvEncodingException($"The {nameof(BinaryCodec)} could not find the byte count for a type of {typeof(T)}");
@@ -126,7 +126,7 @@ public class BinaryCodec : BerPrimitiveCodec
             return new DecodedResult<ushort>(_UnsignedIntegerCodec.GetUInt16(value), value[0].GetNumberOfDigits());
         if (value.Length <= Specs.Integer.UInt32.ByteSize)
             return new DecodedResult<uint>(_UnsignedIntegerCodec.GetUInt32(value), value[0].GetNumberOfDigits());
-        if (value.Length <= Specs.Integer.UInt64.ByteSize)
+        if (value.Length <= Specs.Integer.UInt64.ByteCount)
             return new DecodedResult<ulong>(_UnsignedIntegerCodec.GetUInt64(value), value[0].GetNumberOfDigits());
 
         return new DecodedResult<BigInteger>(_UnsignedIntegerCodec.GetBigInteger(value), value[0].GetNumberOfDigits());

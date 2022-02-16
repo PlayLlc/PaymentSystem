@@ -96,7 +96,7 @@ public static class UlongExtensions
 
     public static ulong ClearBit(this in ulong input, Bits bitToClear, byte bytePosition)
     {
-        if (bytePosition > Specs.Integer.UInt64.ByteSize)
+        if (bytePosition > Specs.Integer.UInt64.ByteCount)
             throw new ArgumentOutOfRangeException(nameof(bytePosition));
 
         return input & (~ (ulong) bitToClear << ((bytePosition * 8) - 8));
@@ -104,7 +104,7 @@ public static class UlongExtensions
 
     public static ulong ClearBit(this in ulong input, byte bitsToClear)
     {
-        if (bitsToClear > Specs.Integer.UInt64.ByteSize)
+        if (bitsToClear > Specs.Integer.UInt64.ByteCount)
             throw new ArgumentOutOfRangeException(nameof(bitsToClear));
 
         return input & ~((ulong) (bitsToClear * 8) - 8);
@@ -187,7 +187,7 @@ public static class UlongExtensions
 
     public static ulong SetBit(this in ulong input, Bits bitToSet, byte bytePosition)
     {
-        if (bytePosition > Specs.Integer.UInt64.ByteSize)
+        if (bytePosition > Specs.Integer.UInt64.ByteCount)
             throw new ArgumentOutOfRangeException(nameof(bytePosition));
 
         return input | ((ulong) bitToSet << ((bytePosition * 8) - 8));
@@ -195,7 +195,7 @@ public static class UlongExtensions
 
     public static ulong SetBit(this in ulong input, byte bitToSet)
     {
-        if (bitToSet > Specs.Integer.UInt64.ByteSize)
+        if (bitToSet > Specs.Integer.UInt64.ByteCount)
             throw new ArgumentOutOfRangeException(nameof(bitToSet));
 
         return input | ((ulong) (bitToSet * 8) - 8);

@@ -132,9 +132,9 @@ public class SignedNumeric : PlayEncoding
             return GetBytes(Unsafe.As<T, int>(ref value), length);
         if (length == Specs.Integer.UInt32.ByteSize)
             return GetBytes(Unsafe.As<T, int>(ref value));
-        if (length < Specs.Integer.UInt64.ByteSize)
+        if (length < Specs.Integer.UInt64.ByteCount)
             return GetBytes(Unsafe.As<T, long>(ref value), length);
-        if (length == Specs.Integer.UInt64.ByteSize)
+        if (length == Specs.Integer.UInt64.ByteCount)
             return GetBytes(Unsafe.As<T, long>(ref value));
 
         return GetBytes(Unsafe.As<T, BigInteger>(ref value), length);

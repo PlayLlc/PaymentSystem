@@ -20,8 +20,8 @@ public class WaitingForPostGenAcBalance : KernelState
 
     #region Constructor
 
-    public WaitingForPostGenAcBalance(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange) :
-        base(kernelDatabase, dataExchange)
+    public WaitingForPostGenAcBalance(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange) : base(kernelDatabase,
+        dataExchange)
     { }
 
     #endregion

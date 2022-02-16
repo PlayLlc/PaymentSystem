@@ -97,7 +97,7 @@ public class NumericCodec : BerPrimitiveCodec
             return new DecodedResult<uint>(intResult, value.Length * 2);
         }
 
-        if (value.Length <= Specs.Integer.UInt64.ByteSize)
+        if (value.Length <= Specs.Integer.UInt64.ByteCount)
         {
             ulong longResult = _Numeric.GetUInt64(trimmedValue);
 

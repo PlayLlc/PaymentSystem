@@ -335,7 +335,7 @@ public class UnsignedInteger : PlayEncoding
 
     public ulong GetUInt64(ReadOnlySpan<byte> value)
     {
-        const byte byteLength = Specs.Integer.UInt64.ByteSize;
+        const byte byteLength = Specs.Integer.UInt64.ByteCount;
 
         if (value.Length < byteLength)
         {
