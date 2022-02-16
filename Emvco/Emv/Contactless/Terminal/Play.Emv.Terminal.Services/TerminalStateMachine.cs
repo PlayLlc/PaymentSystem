@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Play.Emv.Ber.DataObjects;
 using Play.Emv.Configuration;
 using Play.Emv.DataElements;
 using Play.Emv.Display.Contracts;
@@ -91,7 +92,9 @@ internal class TerminalStateMachine
 
             // HACK: Develop logic for passing TagsToRead and DataToSend along with the ACT signal below
 
-            _ReaderEndpoint.Request(new ActivateReaderRequest(transaction));
+            var dataToSend = new DataToSend(new PosEntryMode(PosEntryModeTypes.EmvModes.Contactless));
+
+            _ReaderEndpoint.Request(new ActivateReaderRequest(transaction, ));
         }
     }
 

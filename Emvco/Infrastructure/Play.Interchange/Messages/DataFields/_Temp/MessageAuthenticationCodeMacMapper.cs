@@ -10,7 +10,7 @@ public class MessageAuthenticationCodeMacMapper : FixedLengthDataFieldMapper
 
     public static readonly DataFieldId DataFieldId = new(64);
     public static readonly PlayEncodingId PlayEncodingId = Binary.PlayEncodingId;
-    private const byte _ByteLength = 64;
+    private const byte _ByteLength = 8;
 
     #endregion
 

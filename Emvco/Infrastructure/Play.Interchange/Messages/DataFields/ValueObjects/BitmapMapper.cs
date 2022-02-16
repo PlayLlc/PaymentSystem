@@ -9,7 +9,7 @@ public class BitmapMapper : FixedLengthDataFieldMapper
 
     public static readonly DataFieldId DataFieldId = new(1);
     public static readonly PlayEncodingId PlayEncodingId = Binary.PlayEncodingId;
-    private const byte _ByteLength = 64;
+    private const byte _ByteLength = 8;
 
     #endregion
 
