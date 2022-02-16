@@ -43,8 +43,7 @@ public class AuthenticationService : IAuthenticateOfflineData, IResolveAuthentic
         SignatureService? signatureService = new();
 
         return new AuthenticationService(new StaticDataAuthenticator(signatureService), new DynamicDataAuthenticator(signatureService),
-                                         new CombinedDataAuthenticator(new HashAlgorithmProvider(), signatureService,
-                                                                       EmvCodec.GetBerCodec()));
+            new CombinedDataAuthenticator(new HashAlgorithmProvider(), signatureService, EmvCodec.GetBerCodec()));
     }
 
     /// <remarks>

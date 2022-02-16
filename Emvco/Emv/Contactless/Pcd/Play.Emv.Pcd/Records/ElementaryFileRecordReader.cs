@@ -33,7 +33,7 @@ public class ElementaryFileRecordReader : IReadElementaryFileRecords
         foreach (RecordNumber recordNumber in command.GetRecordRange().GetRecords())
         {
             buffer.Add(await Transceive(ReadElementaryFileRecordCommand.Create(command.GetTransactionSessionId(), command.GetShortFileId(),
-                                                                               recordNumber)).ConfigureAwait(false));
+                recordNumber)).ConfigureAwait(false));
         }
 
         return new ReadElementaryFileRecordRangeResponse(command.GetCorrelationId(), command.GetTransactionSessionId(), buffer.ToArray());

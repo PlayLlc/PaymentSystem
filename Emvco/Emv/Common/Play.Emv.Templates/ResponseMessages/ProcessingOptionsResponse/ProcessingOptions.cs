@@ -34,8 +34,8 @@ public class ProcessingOptions : ResponseMessageTemplate
         _ApplicationFileLocator =
             ApplicationFileLocator.Decode(values.First(a => a.GetTag() == ApplicationFileLocator.Tag).EncodeValue().AsMemory());
         _ApplicationInterchangeProfile =
-            ApplicationInterchangeProfile.Decode(values.First(a => a.GetTag() == ApplicationInterchangeProfile.Tag).EncodeValue()
-                                                     .AsMemory());
+            ApplicationInterchangeProfile.Decode(
+                values.First(a => a.GetTag() == ApplicationInterchangeProfile.Tag).EncodeValue().AsMemory());
     }
 
     #endregion
@@ -62,13 +62,13 @@ public class ProcessingOptions : ResponseMessageTemplate
     {
         ApplicationFileLocator applicationFileLocator =
             _Codec.AsPrimitive(ApplicationFileLocator.Decode, ApplicationFileLocator.Tag, encodedTlvSiblings)
-            ?? throw new
-                InvalidOperationException($"A problem occurred while decoding {nameof(ProcessingOptions)}. A {nameof(ApplicationFileLocator)} was expected but could not be found");
+            ?? throw new InvalidOperationException(
+                $"A problem occurred while decoding {nameof(ProcessingOptions)}. A {nameof(ApplicationFileLocator)} was expected but could not be found");
 
         ApplicationInterchangeProfile applicationInterchangeProfile =
             _Codec.AsPrimitive(ApplicationInterchangeProfile.Decode, ApplicationInterchangeProfile.Tag, encodedTlvSiblings)
-            ?? throw new
-                InvalidOperationException($"A problem occurred while decoding {nameof(ProcessingOptions)}. A {nameof(ApplicationInterchangeProfile)} was expected but could not be found");
+            ?? throw new InvalidOperationException(
+                $"A problem occurred while decoding {nameof(ProcessingOptions)}. A {nameof(ApplicationInterchangeProfile)} was expected but could not be found");
 
         return new ProcessingOptions(applicationFileLocator, applicationInterchangeProfile);
     }

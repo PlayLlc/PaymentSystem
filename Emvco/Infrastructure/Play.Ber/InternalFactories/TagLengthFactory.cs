@@ -68,8 +68,8 @@ internal sealed class TagLengthFactory
 
             if (currentChild.GetTag().GetDataObject() == DataObjectType.Constructed)
             {
-                foreach (KeyValuePair<Tag, TagLength[]> keyValuePair in
-                    ParseDescendents(parentContentOctets[j..currentChild.GetTagLengthValueByteCount()], currentChild))
+                foreach (KeyValuePair<Tag, TagLength[]> keyValuePair in ParseDescendents(
+                    parentContentOctets[j..currentChild.GetTagLengthValueByteCount()], currentChild))
                     descendents.Add(keyValuePair.Key, keyValuePair.Value);
             }
 

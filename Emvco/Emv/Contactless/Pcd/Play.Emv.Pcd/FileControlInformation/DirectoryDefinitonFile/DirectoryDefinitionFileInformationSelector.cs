@@ -29,9 +29,8 @@ public class DirectoryDefinitionFileInformationSelector : ISelectDirectoryDefini
     public async Task<SelectDirectoryDefinitionFileResponse> Transceive(SelectDirectoryDefinitionFileCommand command)
     {
         GetFileControlInformationRApduSignal response = new(await _PcdTransceiver
-                                                                .Transceive(GetFileControlInformationCApduSignal
-                                                                                .Get(command.GetDirectoryDefinitionFileName()).Serialize())
-                                                                .ConfigureAwait(false));
+            .Transceive(GetFileControlInformationCApduSignal.Get(command.GetDirectoryDefinitionFileName()).Serialize())
+            .ConfigureAwait(false));
 
         if (response.GetLevel1Error() != Level1Error.Ok)
             return new SelectDirectoryDefinitionFileResponse(command.GetCorrelationId(), command.GetTransactionSessionId(), response);

@@ -28,7 +28,7 @@ public class DecodedIccPublicKeyCertificate : PublicKeyCertificate
         HashAlgorithmIndicator hashAlgorithmIndicator,
         PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator,
         PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber, hashAlgorithmIndicator, publicKeyAlgorithmIndicator, validityPeriod,
-                                            publicKeyInfo)
+        publicKeyInfo)
     {
         _PrimaryAccountNumber = applicationNumber;
     }

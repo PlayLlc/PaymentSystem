@@ -39,8 +39,8 @@ public class Money : IEqualityComparer<Money>, IEquatable<Money>
     {
         if (_CultureProfile != value._CultureProfile)
         {
-            throw new
-                InvalidOperationException($"The money could not be altered because the argument {nameof(value)} is of currency {value._CultureProfile} which is different than {_CultureProfile}");
+            throw new InvalidOperationException(
+                $"The money could not be altered because the argument {nameof(value)} is of currency {value._CultureProfile} which is different than {_CultureProfile}");
         }
 
         return new Money(_Amount + value._Amount, _CultureProfile);
@@ -79,8 +79,8 @@ public class Money : IEqualityComparer<Money>, IEquatable<Money>
     {
         if (_CultureProfile != value._CultureProfile)
         {
-            throw new
-                InvalidOperationException($"The money could not be altered because the argument {nameof(value)} is of currency {value._CultureProfile} which is different than {_CultureProfile}");
+            throw new InvalidOperationException(
+                $"The money could not be altered because the argument {nameof(value)} is of currency {value._CultureProfile} which is different than {_CultureProfile}");
         }
 
         return new Money(_Amount - value._Amount, _CultureProfile);
@@ -132,8 +132,8 @@ public class Money : IEqualityComparer<Money>, IEquatable<Money>
     {
         if (!left.IsCurrencyEqual(right))
         {
-            throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
+            throw new InvalidOperationException(
+                $"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
         }
 
         return new Money(left._Amount + right._Amount, left._CultureProfile);
@@ -146,8 +146,8 @@ public class Money : IEqualityComparer<Money>, IEquatable<Money>
 
         if (!left.IsCurrencyEqual(right))
         {
-            throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
+            throw new InvalidOperationException(
+                $"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
         }
 
         return new Money(left._Amount / right._Amount, left._CultureProfile);
@@ -160,8 +160,8 @@ public class Money : IEqualityComparer<Money>, IEquatable<Money>
     {
         if (!left.IsCurrencyEqual(right))
         {
-            throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
+            throw new InvalidOperationException(
+                $"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
         }
 
         return left._Amount > right._Amount;
@@ -171,8 +171,8 @@ public class Money : IEqualityComparer<Money>, IEquatable<Money>
     {
         if (!left.IsCurrencyEqual(right))
         {
-            throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
+            throw new InvalidOperationException(
+                $"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
         }
 
         return left._Amount >= right._Amount;
@@ -184,8 +184,8 @@ public class Money : IEqualityComparer<Money>, IEquatable<Money>
     {
         if (!left.IsCurrencyEqual(right))
         {
-            throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
+            throw new InvalidOperationException(
+                $"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
         }
 
         return left._Amount < right._Amount;
@@ -195,8 +195,8 @@ public class Money : IEqualityComparer<Money>, IEquatable<Money>
     {
         if (!left.IsCurrencyEqual(right))
         {
-            throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
+            throw new InvalidOperationException(
+                $"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
         }
 
         return left._Amount >= right._Amount;
@@ -206,8 +206,8 @@ public class Money : IEqualityComparer<Money>, IEquatable<Money>
     {
         if (!left.IsCurrencyEqual(right))
         {
-            throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
+            throw new InvalidOperationException(
+                $"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
         }
 
         return new Money(left._Amount * right._Amount, left._CultureProfile);
@@ -217,8 +217,8 @@ public class Money : IEqualityComparer<Money>, IEquatable<Money>
     {
         if (!left.IsCurrencyEqual(right))
         {
-            throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
+            throw new InvalidOperationException(
+                $"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
         }
 
         return new Money(left._Amount - right._Amount, left._CultureProfile);

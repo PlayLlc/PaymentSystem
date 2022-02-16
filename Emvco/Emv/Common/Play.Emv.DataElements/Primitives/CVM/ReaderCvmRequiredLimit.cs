@@ -19,7 +19,7 @@ public record ReaderCvmRequiredLimit : DataElement<ulong>, IEqualityComparer<Rea
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F74;
-    public static readonly BerEncodingId BerEncodingId = Numeric.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
     private const byte _ByteLength = 6;
     private const byte _CharLength = 12;
 

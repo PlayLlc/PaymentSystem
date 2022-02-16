@@ -72,7 +72,7 @@ public sealed record ShortKernelIdTypes : EnumObject<byte>, IEqualityComparer<Sh
         if (!_ValueObjectMap.ContainsKey(value))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                                                  $"No {nameof(ShortKernelIdTypes)} could be retrieved because the argument provided does not match a definition value");
+                $"No {nameof(ShortKernelIdTypes)} could be retrieved because the argument provided does not match a definition value");
         }
 
         return _ValueObjectMap[value.GetMaskedValue(bitMask)];

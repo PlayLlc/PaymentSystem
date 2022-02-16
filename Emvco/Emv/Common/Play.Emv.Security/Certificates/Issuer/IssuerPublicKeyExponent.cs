@@ -65,13 +65,13 @@ public record IssuerPublicKeyExponent : PrimitiveValue, IEqualityComparer<Issuer
 
         if (value.Length is not >= minByteLength and <= maxByteLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(IssuerPublicKeyExponent)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(IssuerPublicKeyExponent)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
         }
 
         DecodedResult<uint> result = codec.Decode(BerEncodingId, value) as DecodedResult<uint>
-            ?? throw new
-                InvalidOperationException($"The {nameof(IssuerPublicKeyExponent)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
+            ?? throw new InvalidOperationException(
+                $"The {nameof(IssuerPublicKeyExponent)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new IssuerPublicKeyExponent(result.Value);
     }

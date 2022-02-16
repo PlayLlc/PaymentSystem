@@ -17,7 +17,7 @@ public record AmountOtherNumeric : DataElement<ulong>, IEqualityComparer<AmountO
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = Numeric.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
     public static readonly Tag Tag = 0x9F03;
 
     #endregion
@@ -53,7 +53,7 @@ public record AmountOtherNumeric : DataElement<ulong>, IEqualityComparer<AmountO
 
         DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
             ?? throw new InvalidOperationException(
-                $"The {nameof(AmountOtherNumeric)} could not be initialized because the {nameof(Numeric)} returned a null {nameof(DecodedResult<ulong>)}");
+                $"The {nameof(AmountOtherNumeric)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         if (result.CharCount != charLength)
         {

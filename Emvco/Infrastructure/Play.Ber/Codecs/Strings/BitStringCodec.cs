@@ -65,20 +65,20 @@ public sealed class BitStringCodec : BerPrimitiveCodec
         if (!IsBitStringLengthValid(value))
         {
             throw new BerFormatException(new ArgumentOutOfRangeException(nameof(value),
-                                                                         "If the Bit String has only one byte then that byte must be zero"));
+                "If the Bit String has only one byte then that byte must be zero"));
         }
 
         if (!IsLeadingOctetInRange(value))
         {
             throw new BerFormatException(new ArgumentOutOfRangeException($"The argument {nameof(value)} was out of range. "
-                                                                         + $"The initial octet must be greater than {LeadingOctetMinValue} and less than {LeadingOctetMaxValue}"));
+                + $"The initial octet must be greater than {LeadingOctetMinValue} and less than {LeadingOctetMaxValue}"));
         }
 
         if (!AreUnusedBitsCorrect(value))
         {
             throw new BerFormatException(new ArgumentOutOfRangeException(nameof(value),
-                                                                         "The raw value does not conform to the BitStringTag encoding rules. The leading octet must indicate the number of "
-                                                                         + "trailing unset bits in the last subsequent octet"));
+                "The raw value does not conform to the BitStringTag encoding rules. The leading octet must indicate the number of "
+                + "trailing unset bits in the last subsequent octet"));
         }
     }
 
@@ -297,9 +297,9 @@ public sealed class BitStringCodec : BerPrimitiveCodec
     {
         if (bitFlags.Length > 8)
         {
-            throw new
-                BerFormatException(new
-                                       InvalidOperationException($"The argument {nameof(bitFlags)} had more flags passed in than there are bits in a {typeof(byte)}"));
+            throw new BerFormatException(
+                new InvalidOperationException(
+                    $"The argument {nameof(bitFlags)} had more flags passed in than there are bits in a {typeof(byte)}"));
         }
 
         byte bitStringValue = 0;
@@ -320,9 +320,8 @@ public sealed class BitStringCodec : BerPrimitiveCodec
     {
         if (bitFlags.Length > 16)
         {
-            throw new
-                BerFormatException(new
-                                       InvalidOperationException($"The argument {nameof(bitFlags)} had more flags passed in than there are bits in a {typeof(ushort)}"));
+            throw new BerFormatException(new InvalidOperationException(
+                $"The argument {nameof(bitFlags)} had more flags passed in than there are bits in a {typeof(ushort)}"));
         }
 
         ushort bitStringValue = 0;
@@ -343,9 +342,8 @@ public sealed class BitStringCodec : BerPrimitiveCodec
     {
         if (bitFlags.Length > 32)
         {
-            throw new
-                BerFormatException(new
-                                       InvalidOperationException($"The argument {nameof(bitFlags)} had more flags passed in than there are bits in a {typeof(ushort)}"));
+            throw new BerFormatException(new InvalidOperationException(
+                $"The argument {nameof(bitFlags)} had more flags passed in than there are bits in a {typeof(ushort)}"));
         }
 
         uint bitStringValue = 0;
@@ -366,9 +364,8 @@ public sealed class BitStringCodec : BerPrimitiveCodec
     {
         if (bitFlags.Length > 64)
         {
-            throw new
-                BerFormatException(new
-                                       InvalidOperationException($"The argument {nameof(bitFlags)} had more flags passed in than there are bits in a {typeof(ushort)}"));
+            throw new BerFormatException(new InvalidOperationException(
+                $"The argument {nameof(bitFlags)} had more flags passed in than there are bits in a {typeof(ushort)}"));
         }
 
         ulong bitStringValue = 0;

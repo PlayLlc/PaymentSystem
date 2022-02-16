@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Play.Emv.Acquirers.Elavon.DataFields
-{
-    internal class ProcessingCode
-    {
-    }
-}
+namespace Play.Emv.Acquirers.Elavon.DataFields;
+
+internal class ProcessingCode
+{ }

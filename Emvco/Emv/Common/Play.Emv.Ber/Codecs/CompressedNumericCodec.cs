@@ -440,8 +440,8 @@ public class CompressedNumericCodec : BerPrimitiveCodec
         {
             if (!_CharMap.ContainsKey(value[i]))
             {
-                throw new
-                    EmvEncodingFormatException($"The argument could not be parsed. The argument contained the value: [{value[i]}], which is an invalid {nameof(CompressedNumeric)} encoding");
+                throw new EmvEncodingFormatException(
+                    $"The argument could not be parsed. The argument contained the value: [{value[i]}], which is an invalid {nameof(CompressedNumeric)} encoding");
             }
         }
 

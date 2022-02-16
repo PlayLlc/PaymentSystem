@@ -94,7 +94,7 @@ internal class TerminalStateMachine
 
             var dataToSend = new DataToSend(new PosEntryMode(PosEntryModeTypes.EmvModes.Contactless));
 
-            _ReaderEndpoint.Request(new ActivateReaderRequest(transaction, ));
+            _ReaderEndpoint.Request(new ActivateReaderRequest(transaction,));
         }
     }
 

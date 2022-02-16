@@ -43,21 +43,21 @@ public class GenerateAcCdaResponseFactory : TemplateFactory<GenerateAcCdaRespons
 
         CryptogramInformationData cryptogramInformationData =
             _Codec.AsPrimitive(CryptogramInformationData.Decode, CryptogramInformationData.Tag, encodedTlvSiblings)
-            ?? throw new
-                InvalidOperationException($"A problem occurred while decoding {nameof(GenerateAcCdaResponseMessage)}. A {nameof(CryptogramInformationData)} was expected but could not be found");
+            ?? throw new InvalidOperationException(
+                $"A problem occurred while decoding {nameof(GenerateAcCdaResponseMessage)}. A {nameof(CryptogramInformationData)} was expected but could not be found");
 
         ApplicationTransactionCounter applicationTransactionCounter =
             _Codec.AsPrimitive(ApplicationTransactionCounter.Decode, ApplicationTransactionCounter.Tag, encodedTlvSiblings)
-            ?? throw new
-                InvalidOperationException($"A problem occurred while decoding {nameof(GenerateAcCdaResponseMessage)}. A {nameof(ApplicationTransactionCounter)} was expected but could not be found");
+            ?? throw new InvalidOperationException(
+                $"A problem occurred while decoding {nameof(GenerateAcCdaResponseMessage)}. A {nameof(ApplicationTransactionCounter)} was expected but could not be found");
 
         SignedDynamicApplicationData signedDynamicApplicationData =
             _Codec.AsPrimitive(SignedDynamicApplicationData.Decode, SignedDynamicApplicationData.Tag, encodedTlvSiblings)
-            ?? throw new
-                InvalidOperationException($"A problem occurred while decoding {nameof(GenerateAcCdaResponseMessage)}. A {nameof(SignedDynamicApplicationData)} was expected but could not be found");
+            ?? throw new InvalidOperationException(
+                $"A problem occurred while decoding {nameof(GenerateAcCdaResponseMessage)}. A {nameof(SignedDynamicApplicationData)} was expected but could not be found");
 
         if (!encodedTlvSiblings.TryGetValueOctetsOfChild(IssuerApplicationData.Tag,
-                                                         out ReadOnlyMemory<byte> rawCardholderVerificationCode3Track1))
+            out ReadOnlyMemory<byte> rawCardholderVerificationCode3Track1))
         {
             issuerApplicationData =
                 (_Codec.Decode(IssuerApplicationData.BerEncodingId, rawCardholderVerificationCode3Track1.Span) as
@@ -65,7 +65,7 @@ public class GenerateAcCdaResponseFactory : TemplateFactory<GenerateAcCdaRespons
         }
 
         if (!encodedTlvSiblings.TryGetValueOctetsOfChild(IssuerApplicationData.Tag,
-                                                         out ReadOnlyMemory<byte> rawPosCardholderInteractionInformation))
+            out ReadOnlyMemory<byte> rawPosCardholderInteractionInformation))
         {
             posCardholderInteractionInformation =
                 (_Codec.Decode(PosCardholderInteractionInformation.BerEncodingId, rawPosCardholderInteractionInformation.Span) as
@@ -73,7 +73,7 @@ public class GenerateAcCdaResponseFactory : TemplateFactory<GenerateAcCdaRespons
         }
 
         return new GenerateAcCdaResponseMessage(cryptogramInformationData, applicationTransactionCounter, signedDynamicApplicationData,
-                                                issuerApplicationData, posCardholderInteractionInformation);
+            issuerApplicationData, posCardholderInteractionInformation);
     }
 
     #endregion

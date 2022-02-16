@@ -34,7 +34,7 @@ public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldT
         if (value < _MinimumValue)
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                                                  $"The argument {nameof(value)} must be at least 100 ms to initialize a {nameof(HoldTimeValue)}");
+                $"The argument {nameof(value)} must be at least 100 ms to initialize a {nameof(HoldTimeValue)}");
         }
     }
 

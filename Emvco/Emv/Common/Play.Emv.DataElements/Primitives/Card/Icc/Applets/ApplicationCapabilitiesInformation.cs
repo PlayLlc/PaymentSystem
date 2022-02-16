@@ -16,7 +16,7 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F5D;
-    public static readonly BerEncodingId BerEncodingId = Numeric.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
     private const byte _ByteLength = 3;
 
     #endregion
@@ -71,7 +71,7 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
 
         DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
-                $"The {nameof(ApplicationCapabilitiesInformation)} could not be initialized because the {nameof(Numeric)} returned a null {nameof(DecodedResult<uint>)}");
+                $"The {nameof(ApplicationCapabilitiesInformation)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new ApplicationCapabilitiesInformation(result.Value);
     }

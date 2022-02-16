@@ -28,8 +28,8 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
     public TerminalCapabilities(uint value) : base(value)
     { }
 
-    public TerminalCapabilities(CardDataInputCapability cardDataInputCapability, SecurityCapability securityCapability) :
-        base((uint) (securityCapability << 16) | cardDataInputCapability)
+    public TerminalCapabilities(CardDataInputCapability cardDataInputCapability, SecurityCapability securityCapability) : base(
+        (uint) (securityCapability << 16) | cardDataInputCapability)
     { }
 
     #endregion
@@ -65,8 +65,8 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
-            ?? throw new
-                InvalidOperationException($"The {nameof(TerminalCapabilities)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
+            ?? throw new InvalidOperationException(
+                $"The {nameof(TerminalCapabilities)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new TerminalCapabilities(result.Value);
     }

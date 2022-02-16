@@ -16,7 +16,7 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = Numeric.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
 
     /// <summary>
     ///     Also known as 'Cash Withdrawal'
@@ -74,7 +74,7 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
 
         DecodedResult<byte> result = codec.Decode(BerEncodingId, value) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
-                $"The {nameof(TransactionType)} could not be initialized because the {nameof(Numeric)} returned a null {nameof(DecodedResult<byte>)}");
+                $"The {nameof(TransactionType)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new TransactionType(result.Value);
     }

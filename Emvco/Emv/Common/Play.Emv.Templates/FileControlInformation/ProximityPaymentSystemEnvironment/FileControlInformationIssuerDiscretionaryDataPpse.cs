@@ -152,7 +152,7 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
         SetOf<DirectoryEntry> directoryEntry = new(sequenceOfResult.ToArray().Select(DirectoryEntry.Decode).ToArray());
 
         if (encodedTlvSiblings.TryGetValueOctetsOfChild(TerminalCategoriesSupportedList.Tag,
-                                                        out ReadOnlyMemory<byte> rawTerminalCategoriesSupportedList))
+            out ReadOnlyMemory<byte> rawTerminalCategoriesSupportedList))
         {
             terminalCategoriesSupportedList =
                 (_Codec.Decode(TerminalCategoriesSupportedList.BerEncodingId, rawTerminalCategoriesSupportedList.Span) as
@@ -163,11 +163,11 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
         {
             selectionDataObjectList =
                 ((DecodedResult<SelectionDataObjectList>) _Codec.Decode(SelectionDataObjectList.BerEncodingId,
-                                                                        rawSelectionDataObjectList.Span)).Value;
+                    rawSelectionDataObjectList.Span)).Value;
         }
 
         return new FileControlInformationIssuerDiscretionaryDataPpse(directoryEntry, terminalCategoriesSupportedList,
-                                                                     selectionDataObjectList);
+            selectionDataObjectList);
     }
 
     #endregion

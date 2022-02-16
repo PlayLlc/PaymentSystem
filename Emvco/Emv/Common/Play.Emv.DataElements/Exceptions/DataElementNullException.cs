@@ -5,7 +5,7 @@ using Play.Emv.Ber;
 
 namespace Play.Emv.DataElements.Exceptions;
 
-internal class DataElementNullException : DataElementException
+public class DataElementNullException : DataElementException
 {
     #region Constructor
 
@@ -13,25 +13,25 @@ internal class DataElementNullException : DataElementException
         BerEncodingId berEncodingId,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(DataElementException), fileName, memberName, lineNumber)} "
-             + $"The Data Element: [{memberName}] could not be initialized because the {nameof(EmvCodec)} with {nameof(BerEncodingId)}: [{berEncodingId}] returned a null value")
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(DataElementException), fileName, memberName, lineNumber)} "
+        + $"The Data Element: [{memberName}] could not be initialized because the {nameof(EmvCodec)} with {nameof(BerEncodingId)}: [{berEncodingId}] returned a null value")
     { }
 
     public DataElementNullException(
         string message,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(DataElementException), fileName, memberName, lineNumber)} {message}")
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(DataElementException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public DataElementNullException(
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(DataElementException), fileName, memberName, lineNumber)}", innerException)
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(DataElementException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public DataElementNullException(
@@ -39,8 +39,8 @@ internal class DataElementNullException : DataElementException
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(DataElementException), fileName, memberName, lineNumber)} {message}", innerException)
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(DataElementException), fileName, memberName, lineNumber)} {message}", innerException)
     { }
 
     #endregion

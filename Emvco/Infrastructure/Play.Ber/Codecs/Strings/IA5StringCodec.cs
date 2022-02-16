@@ -53,10 +53,9 @@ public sealed class IA5StringCodec : BerPrimitiveCodec
         }
         catch (EncodingException exception)
         {
-            throw new
-                BerFormatException(new
-                                       ArgumentOutOfRangeException("The argument was out of range of acceptable values. The value could not be encoded",
-                                                                   exception));
+            throw new BerFormatException(
+                new ArgumentOutOfRangeException("The argument was out of range of acceptable values. The value could not be encoded",
+                    exception));
         }
     }
 

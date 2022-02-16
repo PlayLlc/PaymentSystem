@@ -11,9 +11,7 @@ internal class DecodedSignedDynamicApplicationDataCda : DecodedSignature
     #region Constructor
 
     public DecodedSignedDynamicApplicationDataCda(DecodedSignature decodedSignature) : base(decodedSignature.GetLeadingByte(),
-                                                                                            decodedSignature.GetMessage1(),
-                                                                                            decodedSignature.GetHash(),
-                                                                                            decodedSignature.GetTrailingByte())
+        decodedSignature.GetMessage1(), decodedSignature.GetHash(), decodedSignature.GetTrailingByte())
     { }
 
     #endregion

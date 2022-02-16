@@ -61,8 +61,8 @@ public class BerConfiguration
 
         List<BerPrimitiveCodec> codecs = new();
 
-        foreach (Type type in uniqueAssemblies.SelectMany(a => a.GetTypes())
-            .Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(BerPrimitiveCodec))))
+        foreach (Type type in uniqueAssemblies.SelectMany(a => a.GetTypes()).Where(myType =>
+            myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(BerPrimitiveCodec))))
             codecs.Add((BerPrimitiveCodec) FormatterServices.GetUninitializedObject(type));
 
         return codecs;
@@ -74,8 +74,8 @@ public class BerConfiguration
 
         List<ConstructedValue> codecs = new();
 
-        foreach (Type type in uniqueAssemblies.SelectMany(a => a.GetTypes())
-            .Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(ConstructedValue))))
+        foreach (Type type in uniqueAssemblies.SelectMany(a => a.GetTypes()).Where(myType =>
+            myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(ConstructedValue))))
             codecs.Add((ConstructedValue) FormatterServices.GetUninitializedObject(type));
 
         return codecs;
@@ -110,7 +110,7 @@ public class BerConfiguration
     private void Validate(IList<BerPrimitiveCodec> berPrimitiveCodecs, IList<PrimitiveValue> primitiveValues)
     {
         ValidatePrimitiveValuesAreAllMappedToABerPrimitiveCodec(new HashSet<BerPrimitiveCodec>(berPrimitiveCodecs),
-                                                                new HashSet<PrimitiveValue>(primitiveValues));
+            new HashSet<PrimitiveValue>(primitiveValues));
     }
 
     /// <exception cref="BerException"></exception>
@@ -125,9 +125,9 @@ public class BerConfiguration
 
         const string stringSeparator = ", ";
 
-        throw new
-            BerFormatException($"Duplicate {nameof(BerEncodingId)} - There was a problem found while building the encoding mapping for {nameof(BerPrimitiveCodec)} because there were duplicate values. "
-                               + $"Here is a list of the {nameof(BerPrimitiveCodec)} that have a {nameof(BerEncodingId)} that is not unique: [{string.Join(stringSeparator, duplicateValues)}");
+        throw new BerFormatException(
+            $"Duplicate {nameof(BerEncodingId)} - There was a problem found while building the encoding mapping for {nameof(BerPrimitiveCodec)} because there were duplicate values. "
+            + $"Here is a list of the {nameof(BerPrimitiveCodec)} that have a {nameof(BerEncodingId)} that is not unique: [{string.Join(stringSeparator, duplicateValues)}");
     }
 
     /// <summary>
@@ -155,8 +155,7 @@ public class BerConfiguration
         foreach (BerEncodingId identifier in duplicateIdentifiers)
         {
             codecsWithTheSameIdentifiers.Add(identifier,
-                                             berPrimitiveCodecs.Where(a => a.GetIdentifier() == identifier).Select(a => a.GetType().Name)
-                                                 .ToArray());
+                berPrimitiveCodecs.Where(a => a.GetIdentifier() == identifier).Select(a => a.GetType().Name).ToArray());
         }
 
         StringBuilder builder = new();
@@ -168,8 +167,8 @@ public class BerConfiguration
             builder.Append($"{string.Join(stringSeparator, keyValue.Value)}] \n");
         }
 
-        throw new
-            BerFormatException($"Duplicate Identifiers - There was a problem found while building the encoding mapping for {nameof(BerPrimitiveCodec)} because some of the types use the same identifier. The Fully Qualified Name of each {nameof(BerPrimitiveCodec)} implementation must be unique. Here is a list of the types that implement the same Identifier: {builder}");
+        throw new BerFormatException(
+            $"Duplicate Identifiers - There was a problem found while building the encoding mapping for {nameof(BerPrimitiveCodec)} because some of the types use the same identifier. The Fully Qualified Name of each {nameof(BerPrimitiveCodec)} implementation must be unique. Here is a list of the types that implement the same Identifier: {builder}");
     }
 
     /// <exception cref="InvalidOperationException"></exception>
@@ -200,8 +199,8 @@ public class BerConfiguration
             builder.Append($"{string.Join(stringSeparator, keyValue.Value)}] \n");
         }
 
-        throw new
-            BerInternalException($"There was a runtime error when validating that all {nameof(PrimitiveValue)} subclasses are correctly mapped to a {nameof(BerPrimitiveCodec)}. Please check the {nameof(BerConfiguration)} for any errors. Here's a list of unmapped {nameof(PrimitiveValue)} subclasses: {builder}");
+        throw new BerInternalException(
+            $"There was a runtime error when validating that all {nameof(PrimitiveValue)} subclasses are correctly mapped to a {nameof(BerPrimitiveCodec)}. Please check the {nameof(BerConfiguration)} for any errors. Here's a list of unmapped {nameof(PrimitiveValue)} subclasses: {builder}");
     }
 
     /// <summary>

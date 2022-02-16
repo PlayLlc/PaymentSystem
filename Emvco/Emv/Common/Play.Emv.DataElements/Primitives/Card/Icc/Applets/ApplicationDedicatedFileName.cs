@@ -39,8 +39,8 @@ public record ApplicationDedicatedFileName : DataElement<byte[]>, IEqualityCompa
     {
         if (_Value.Length < RegisteredApplicationProviderIndicator.ByteCount)
         {
-            throw new
-                ArgumentOutOfRangeException($"The {nameof(ApplicationDedicatedFileName)} requires a {nameof(RegisteredApplicationProviderIndicator)} but none could be found");
+            throw new ArgumentOutOfRangeException(
+                $"The {nameof(ApplicationDedicatedFileName)} requires a {nameof(RegisteredApplicationProviderIndicator)} but none could be found");
         }
     }
 
@@ -131,8 +131,8 @@ public record ApplicationDedicatedFileName : DataElement<byte[]>, IEqualityCompa
 
         if (value.Length is < minByteLength and <= maxByteLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(ApplicationDedicatedFileName)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(ApplicationDedicatedFileName)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
         }
 
         return new ApplicationDedicatedFileName(value);

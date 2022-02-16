@@ -95,7 +95,7 @@ public record ApplicationCryptogramVersion : EnumObject<byte>, IEqualityComparer
         if (!TryGet(cryptogramVersion, out ApplicationCryptogramVersion result))
         {
             throw new ArgumentOutOfRangeException(nameof(cryptogramVersion),
-                                                  $"The {nameof(ApplicationCryptogramVersion)} could not be found from the number supplied to the argument: {cryptogramVersion}");
+                $"The {nameof(ApplicationCryptogramVersion)} could not be found from the number supplied to the argument: {cryptogramVersion}");
         }
 
         return result;

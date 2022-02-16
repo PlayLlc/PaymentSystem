@@ -28,7 +28,7 @@ public class ApplicationCryptogramGenerator : IGenerateApplicationCryptogram
     public async Task<GenerateApplicationCryptogramResponse> Transceive(GenerateApplicationCryptogramCommand command)
     {
         GenerateApplicationCryptogramRApduSignal response = new(await _PcdTransceiver
-                                                                    .Transceive(command.Serialize()).ConfigureAwait(false));
+            .Transceive(command.Serialize()).ConfigureAwait(false));
 
         return new GenerateApplicationCryptogramResponse(command.GetCorrelationId(), command.GetTransactionSessionId(), response);
     }

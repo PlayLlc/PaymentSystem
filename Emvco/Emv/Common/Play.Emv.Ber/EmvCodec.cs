@@ -20,7 +20,7 @@ public class EmvCodec : BerCodec
         {AlphaNumericCodec.Identifier, new AlphaNumericCodec()},
         {AlphaNumericSpecialCodec.Identifier, new AlphaNumericSpecialCodec()},
         {CompressedNumericCodec.Identifier, new CompressedNumericCodec()},
-        {Numeric.Identifier, new Numeric()},
+        {NumericCodec.Identifier, new NumericCodec()},
         {BinaryCodec.Identifier, new BinaryCodec()},
         {VariableCodec.Identifier, new VariableCodec()},
         {OctetStringCodec.Identifier, new OctetStringCodec()}

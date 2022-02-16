@@ -74,13 +74,13 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
 
         if (value.Length != byteLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(UserInterfaceRequestData)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(UserInterfaceRequestData)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<BigInteger> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new
-                InvalidOperationException($"The {nameof(UserInterfaceRequestData)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+            ?? throw new InvalidOperationException(
+                $"The {nameof(UserInterfaceRequestData)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new UserInterfaceRequestData(result.Value);
     }

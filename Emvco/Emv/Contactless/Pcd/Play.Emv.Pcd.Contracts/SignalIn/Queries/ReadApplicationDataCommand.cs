@@ -22,8 +22,8 @@ public record ReadApplicationDataCommand : QueryPcdRequest
     #region Constructor
 
     // HACK: Do not inject a NULL value into this base class. This request might actually end up being multiple multiple record requests. We need to find a better pattern to allow that
-    public ReadApplicationDataCommand(ApplicationFileLocator applicationFileLocator, TransactionSessionId transactionSessionId) :
-        base(null, MessageTypeId, transactionSessionId)
+    public ReadApplicationDataCommand(ApplicationFileLocator applicationFileLocator, TransactionSessionId transactionSessionId) : base(null,
+        MessageTypeId, transactionSessionId)
     {
         _ApplicationFileLocator = applicationFileLocator;
     }

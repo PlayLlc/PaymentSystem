@@ -46,8 +46,8 @@ public class KernelCertificateDatabase : IKernelCertificateDatabase
     {
         if (!_Certificates.TryGetValue(rid, out CertificateAuthorityDataset? dataset))
         {
-            throw new
-                InvalidOperationException($"The {nameof(KernelCertificateDatabase)} does not have a {nameof(CertificateAuthorityDataset)} for the {nameof(RegisteredApplicationProviderIndicator)} value: [{rid}]");
+            throw new InvalidOperationException(
+                $"The {nameof(KernelCertificateDatabase)} does not have a {nameof(CertificateAuthorityDataset)} for the {nameof(RegisteredApplicationProviderIndicator)} value: [{rid}]");
         }
 
         return dataset.TryGet(index, out result);

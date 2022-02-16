@@ -20,8 +20,8 @@ public class WaitingForPutDataResponseAfterGenerateAc : KernelState
 
     #region Constructor
 
-    public WaitingForPutDataResponseAfterGenerateAc(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange) :
-        base(kernelDatabase, dataExchange)
+    public WaitingForPutDataResponseAfterGenerateAc(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange) : base(
+        kernelDatabase, dataExchange)
     { }
 
     #endregion

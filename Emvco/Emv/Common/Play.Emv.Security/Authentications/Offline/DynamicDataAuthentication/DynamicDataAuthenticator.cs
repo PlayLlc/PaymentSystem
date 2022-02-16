@@ -77,8 +77,7 @@ internal class DynamicDataAuthenticator : IAuthenticateDynamicData
         DecodedSignedDynamicApplicationDataDda decodedSignature,
         DataObjectListResult dynamicDataObjectListResult) =>
         _SignatureService.IsSignatureValid(decodedSignature.GetHashAlgorithmIndicator(),
-                                           ReconstructDynamicDataToBeSigned(decodedSignature, dynamicDataObjectListResult),
-                                           decodedSignature);
+            ReconstructDynamicDataToBeSigned(decodedSignature, dynamicDataObjectListResult), decodedSignature);
 
     private byte[] ReconstructDynamicDataToBeSigned(
         DecodedSignedDynamicApplicationDataDda signedDataDda,

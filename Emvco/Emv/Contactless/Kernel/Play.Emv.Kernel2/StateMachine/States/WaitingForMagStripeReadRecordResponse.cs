@@ -20,8 +20,8 @@ public class WaitingForMagStripeReadRecordResponse : KernelState
 
     #region Constructor
 
-    public WaitingForMagStripeReadRecordResponse(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange) :
-        base(kernelDatabase, dataExchange)
+    public WaitingForMagStripeReadRecordResponse(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange) : base(
+        kernelDatabase, dataExchange)
     { }
 
     #endregion

@@ -27,8 +27,8 @@ internal class MessageBus
         {
             if (_ChannelMap.ContainsKey(messageChannel.GetChannelTypeId()))
             {
-                throw new
-                    MessagingException($"The {nameof(IMessageChannel)}: {messageChannel.GetType().FullName} could not {nameof(Subscribe)} because a {nameof(IMessageChannel)} subscription already exists");
+                throw new MessagingException(
+                    $"The {nameof(IMessageChannel)}: {messageChannel.GetType().FullName} could not {nameof(Subscribe)} because a {nameof(IMessageChannel)} subscription already exists");
             }
 
             _ChannelMap.Add(messageChannel.GetChannelTypeId(), messageChannel);
@@ -52,8 +52,8 @@ internal class MessageBus
         {
             if (!_ChannelMap.ContainsKey(requestMessage.GetChannelTypeId()))
             {
-                throw new
-                    InvalidMessageRoutingException($"The message type [{requestMessage.GetType().FullName}] could not be sent because the no message channel has subscribed with the {nameof(ChannelTypeId)}: [{requestMessage.GetChannelTypeId()}]");
+                throw new InvalidMessageRoutingException(
+                    $"The message type [{requestMessage.GetType().FullName}] could not be sent because the no message channel has subscribed with the {nameof(ChannelTypeId)}: [{requestMessage.GetChannelTypeId()}]");
             }
 
             _ChannelMap[requestMessage.GetChannelTypeId()]!.Request(requestMessage);
@@ -68,8 +68,8 @@ internal class MessageBus
         {
             if (!_ChannelMap.ContainsKey(correlationId.GetChannelTypeId()))
             {
-                throw new
-                    InvalidMessageRoutingException($"The message type [{responseMessage.GetType().FullName}] could not be sent because the no message channel has subscribed with the {nameof(ChannelTypeId)}: [{correlationId.GetChannelTypeId()}]");
+                throw new InvalidMessageRoutingException(
+                    $"The message type [{responseMessage.GetType().FullName}] could not be sent because the no message channel has subscribed with the {nameof(ChannelTypeId)}: [{correlationId.GetChannelTypeId()}]");
             }
 
             _ChannelMap[correlationId.GetChannelTypeId()].Handle(responseMessage);

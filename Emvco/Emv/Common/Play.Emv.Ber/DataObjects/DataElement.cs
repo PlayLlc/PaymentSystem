@@ -35,7 +35,7 @@ public abstract record DataElement<T>(T _Value) : PrimitiveValue, IEncodeDataEle
     ///     Encodes this objects content as the Value field of a Tag-Length-Value encoding
     /// </summary>
     /// <returns></returns>
-    public byte[] EncodeValue() => _Codec.EncodeValue(GetBerEncodingId(), _Value);
+    public byte[] EncodeValue() => _Codec.EncodeValue(GetBerEncodingId(), _Value!);
 
     public override byte[] EncodeValue(BerCodec berCodec) => EncodeValue();
 
@@ -44,7 +44,7 @@ public abstract record DataElement<T>(T _Value) : PrimitiveValue, IEncodeDataEle
     /// </summary>
     /// <param name="length">This parameter determines the length of the TLV Value field</param>
     /// <returns></returns>
-    public byte[] EncodeValue(int length) => _Codec.EncodeValue(GetBerEncodingId(), _Value, length);
+    public byte[] EncodeValue(int length) => _Codec.EncodeValue(GetBerEncodingId(), _Value!, length);
 
     public override byte[] EncodeValue(BerCodec codec, int length) => EncodeValue(length);
 

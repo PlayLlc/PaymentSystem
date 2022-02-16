@@ -18,7 +18,7 @@ public record TransactionCurrencyExponent : PrimitiveValue, IEqualityComparer<Tr
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = Numeric.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
     public static readonly Tag Tag = 0x5F36;
 
     #endregion
@@ -65,7 +65,7 @@ public record TransactionCurrencyExponent : PrimitiveValue, IEqualityComparer<Tr
 
         DecodedResult<byte> result = codec.Decode(BerEncodingId, value) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
-                $"The {nameof(TransactionCurrencyExponent)} could not be initialized because the {nameof(Numeric)} returned a null {nameof(DecodedResult<byte>)}");
+                $"The {nameof(TransactionCurrencyExponent)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         if (result.CharCount != charLength)
         {

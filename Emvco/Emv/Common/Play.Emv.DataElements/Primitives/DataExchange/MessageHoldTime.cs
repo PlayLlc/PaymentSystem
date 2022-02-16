@@ -33,7 +33,7 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
         if (value < _MinimumValue)
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                                                  $"The argument {nameof(value)} must be at least 100 ms to initialize a {nameof(MessageHoldTime)}");
+                $"The argument {nameof(value)} must be at least 100 ms to initialize a {nameof(MessageHoldTime)}");
         }
     }
 
@@ -66,18 +66,18 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
 
         if (value.Length != byteLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(MessageHoldTime)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(MessageHoldTime)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
-            ?? throw new
-                InvalidOperationException($"The {nameof(MessageHoldTime)} could not be initialized because the {nameof(AlphabeticCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+            ?? throw new InvalidOperationException(
+                $"The {nameof(MessageHoldTime)} could not be initialized because the {nameof(AlphabeticCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         if (result.CharCount != charLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(MessageHoldTime)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(MessageHoldTime)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
         }
 
         return new MessageHoldTime(new Milliseconds(result.Value * 100));

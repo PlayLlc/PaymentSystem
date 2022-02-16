@@ -58,13 +58,13 @@ public record TransactionCertificateHashValue : PrimitiveValue, IEqualityCompare
 
         if (value.Length != byteLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(TransactionCertificateHashValue)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(TransactionCertificateHashValue)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<BigInteger> result = codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new
-                InvalidOperationException($"The {nameof(TransactionCertificateHashValue)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+            ?? throw new InvalidOperationException(
+                $"The {nameof(TransactionCertificateHashValue)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new TransactionCertificateHashValue(result.Value);
     }

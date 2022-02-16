@@ -50,13 +50,13 @@ public record UnpredictableNumber : DataElement<uint>, IEqualityComparer<Unpredi
     {
         if (value.Length != _ByteCount)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(UnpredictableNumber)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteCount} bytes in length");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(UnpredictableNumber)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteCount} bytes in length");
         }
 
         DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
-            ?? throw new
-                InvalidOperationException($"The {nameof(UnpredictableNumber)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
+            ?? throw new InvalidOperationException(
+                $"The {nameof(UnpredictableNumber)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new UnpredictableNumber(result.Value);
     }

@@ -797,7 +797,7 @@ public sealed record KnownObjects : EnumObject<Tag>
         if (!TryGet(registeredApplicationProviderIndicator, out KnownObjects result))
         {
             throw new ArgumentOutOfRangeException(nameof(registeredApplicationProviderIndicator),
-                                                  $"The {nameof(KnownObjects)} could not be found from the number supplied to the argument: {registeredApplicationProviderIndicator}");
+                $"The {nameof(KnownObjects)} could not be found from the number supplied to the argument: {registeredApplicationProviderIndicator}");
         }
 
         return result;

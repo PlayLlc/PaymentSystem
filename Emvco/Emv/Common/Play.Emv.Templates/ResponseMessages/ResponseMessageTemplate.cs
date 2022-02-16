@@ -33,8 +33,8 @@ public abstract class ResponseMessageTemplate : Template
         if (tag == ResponseMessageTemplateFormat2.Tag)
             return ResponseMessageTemplateFormat2.DecodeValue(_Codec, value.GetData().AsMemory());
 
-        throw new
-            InvalidOperationException($"The {nameof(ResponseMessageTemplate)} could not parse the argument because the tag with value {tag} was not valid");
+        throw new InvalidOperationException(
+            $"The {nameof(ResponseMessageTemplate)} could not parse the argument because the tag with value {tag} was not valid");
     }
 
     #endregion

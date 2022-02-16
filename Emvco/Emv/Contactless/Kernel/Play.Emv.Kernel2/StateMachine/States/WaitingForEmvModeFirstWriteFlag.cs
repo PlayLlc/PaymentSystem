@@ -20,8 +20,8 @@ public class WaitingForEmvModeFirstWriteFlag : KernelState
 
     #region Constructor
 
-    public WaitingForEmvModeFirstWriteFlag(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange) :
-        base(kernelDatabase, dataExchange)
+    public WaitingForEmvModeFirstWriteFlag(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange) : base(kernelDatabase,
+        dataExchange)
     { }
 
     #endregion

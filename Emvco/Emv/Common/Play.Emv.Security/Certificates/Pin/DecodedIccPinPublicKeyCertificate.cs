@@ -28,7 +28,7 @@ public class DecodedIccPinPublicKeyCertificate : PublicKeyCertificate
         PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator,
         DateRange validityPeriod,
         PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber, hashAlgorithmIndicator, publicKeyAlgorithmIndicator, validityPeriod,
-                                            publicKeyInfo)
+        publicKeyInfo)
     {
         _IssuerIdentificationNumber = issuerIdentificationNumber;
     }

@@ -16,7 +16,7 @@ public record TerminalCountryCode : DataElement<NumericCountryCode>, IEqualityCo
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = Numeric.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
     public static readonly TerminalCountryCode Default = new(new NumericCountryCode(0));
     public static readonly Tag Tag = 0x9F1A;
     private const byte _ByteLength = 2;
@@ -60,7 +60,7 @@ public record TerminalCountryCode : DataElement<NumericCountryCode>, IEqualityCo
 
         DecodedResult<ushort> result = codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
             ?? throw new InvalidOperationException(
-                $"The {nameof(TerminalCountryCode)} could not be initialized because the {nameof(Numeric)} returned a null {nameof(DecodedResult<ushort>)}");
+                $"The {nameof(TerminalCountryCode)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         if (result.CharCount != charLength)
         {

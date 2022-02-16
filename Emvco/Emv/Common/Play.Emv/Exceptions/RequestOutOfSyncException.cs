@@ -15,24 +15,24 @@ public class RequestOutOfSyncException : InvalidSignalRequest
         ChannelType channelType,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(RequestOutOfSyncException), fileName, memberName, lineNumber)} \n\rThe request [{message.GetType().FullName}] is invalid for the current state of the [{ChannelType.GetChannelTypeName(channelType)}] channel")
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(RequestOutOfSyncException), fileName, memberName, lineNumber)} \n\rThe request [{message.GetType().FullName}] is invalid for the current state of the [{ChannelType.GetChannelTypeName(channelType)}] channel")
     { }
 
     public RequestOutOfSyncException(
         string message,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(RequestOutOfSyncException), fileName, memberName, lineNumber)} {message}")
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(RequestOutOfSyncException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public RequestOutOfSyncException(
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(RequestOutOfSyncException), fileName, memberName, lineNumber)}", innerException)
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(RequestOutOfSyncException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public RequestOutOfSyncException(
@@ -40,8 +40,8 @@ public class RequestOutOfSyncException : InvalidSignalRequest
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(RequestOutOfSyncException), fileName, memberName, lineNumber)} {message}", innerException)
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(RequestOutOfSyncException), fileName, memberName, lineNumber)} {message}", innerException)
     { }
 
     #endregion

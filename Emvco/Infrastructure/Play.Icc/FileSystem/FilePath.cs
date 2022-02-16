@@ -31,8 +31,8 @@ internal class FilePath
     {
         if ((value.Length % 2) != 0)
         {
-            throw new
-                ArgumentOutOfRangeException($"The {nameof(FilePath)} is a concatenation of {nameof(FileIdentifier)}, which must be two bytes in length each. The byte sequence provided was out of range because it was an odd length");
+            throw new ArgumentOutOfRangeException(
+                $"The {nameof(FilePath)} is a concatenation of {nameof(FileIdentifier)}, which must be two bytes in length each. The byte sequence provided was out of range because it was an odd length");
         }
 
         _Value = value.ToArray();

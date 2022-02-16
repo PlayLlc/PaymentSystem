@@ -42,8 +42,8 @@ public class TimeoutManager : IDisposable
         {
             if (!_TimeoutSession.IsRunning())
             {
-                throw new
-                    InvalidOperationException($"The {nameof(TimeoutManager)} could not complete the {nameof(Stop)} method because the {nameof(TimeoutManager)} is currently not running");
+                throw new InvalidOperationException(
+                    $"The {nameof(TimeoutManager)} could not complete the {nameof(Stop)} method because the {nameof(TimeoutManager)} is currently not running");
             }
 
             _TimeoutSession.Stop();
@@ -68,8 +68,8 @@ public class TimeoutManager : IDisposable
         {
             if (_TimeoutSession.IsRunning())
             {
-                throw new
-                    InvalidOperationException($"The {nameof(TimeoutManager)} could not complete the {nameof(Start)} method because the {nameof(TimeoutManager)} is currently running");
+                throw new InvalidOperationException(
+                    $"The {nameof(TimeoutManager)} could not complete the {nameof(Start)} method because the {nameof(TimeoutManager)} is currently running");
             }
 
             _TimeoutSession.Start(timeout, timeoutHandler);
@@ -87,8 +87,8 @@ public class TimeoutManager : IDisposable
         {
             if (_TimeoutSession.IsRunning())
             {
-                throw new
-                    InvalidOperationException($"The {nameof(TimeoutManager)} could not complete the {nameof(Start)} method because the {nameof(TimeoutManager)} is currently running");
+                throw new InvalidOperationException(
+                    $"The {nameof(TimeoutManager)} could not complete the {nameof(Start)} method because the {nameof(TimeoutManager)} is currently running");
             }
 
             _TimeoutSession.Start(timeout);

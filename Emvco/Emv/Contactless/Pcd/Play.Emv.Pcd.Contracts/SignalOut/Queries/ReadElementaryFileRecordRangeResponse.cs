@@ -27,7 +27,7 @@ public record ReadElementaryFileRecordRangeResponse : QueryPcdResponse
         CorrelationId correlation,
         TransactionSessionId transactionSessionId,
         ReadElementaryFileRecordResponse[] responses) : base(correlation, MessageTypeId, transactionSessionId,
-                                                             responses.FirstOrDefault()!.GetRApduSignal())
+        responses.FirstOrDefault()!.GetRApduSignal())
     {
         _Records = responses;
     }

@@ -55,14 +55,14 @@ public class FileControlInformationDdf : FileControlInformationTemplate
     private static FileControlInformationDdf Decode(EncodedTlvSiblings encodedSiblings)
     {
         DedicatedFileName dedicatedFileName = _Codec.AsPrimitive(DedicatedFileName.Decode, DedicatedFileName.Tag, encodedSiblings)
-            ?? throw new
-                InvalidOperationException($"A problem occurred while decoding {nameof(FileControlInformationDdf)}. A {nameof(DedicatedFileName)} was expected but could not be found");
+            ?? throw new InvalidOperationException(
+                $"A problem occurred while decoding {nameof(FileControlInformationDdf)}. A {nameof(DedicatedFileName)} was expected but could not be found");
 
         FileControlInformationProprietaryDdf fciProprietary =
             _Codec.AsConstructed(FileControlInformationProprietaryDdf.Decode, FileControlInformationProprietaryTemplate.Tag,
-                                 encodedSiblings)
-            ?? throw new
-                InvalidOperationException($"A problem occurred while decoding {nameof(FileControlInformationDdf)}. A {nameof(FileControlInformationProprietaryDdf)} was expected but could not be found");
+                encodedSiblings)
+            ?? throw new InvalidOperationException(
+                $"A problem occurred while decoding {nameof(FileControlInformationDdf)}. A {nameof(FileControlInformationProprietaryDdf)} was expected but could not be found");
 
         return new FileControlInformationDdf(dedicatedFileName, fciProprietary);
     }

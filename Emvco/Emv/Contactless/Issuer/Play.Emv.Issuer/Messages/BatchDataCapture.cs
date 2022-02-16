@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Play.Emv.Issuer.Messages
-{
-    internal class BatchDataCapture
-    {
-    }
-}
+namespace Play.Emv.Issuer.Messages;
+
+internal class BatchDataCapture
+{ }

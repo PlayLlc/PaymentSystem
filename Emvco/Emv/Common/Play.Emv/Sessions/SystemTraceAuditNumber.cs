@@ -5,7 +5,7 @@ using Play.Core.Extensions;
 
 namespace Play.Emv.Sessions;
 
-public readonly struct SequenceTraceAuditNumber
+public readonly struct SystemTraceAuditNumber
 {
     #region Static Metadata
 
@@ -28,7 +28,7 @@ public readonly struct SequenceTraceAuditNumber
     /// <param name="value">
     ///     The value of the STAN. A number between 1 and 999,999
     /// </param>
-    public SequenceTraceAuditNumber(uint value)
+    public SystemTraceAuditNumber(uint value)
     {
         if (value == 0)
         {
@@ -50,7 +50,7 @@ public readonly struct SequenceTraceAuditNumber
     #region Instance Members
 
     /// <summary>
-    ///     Returns the <see cref="SequenceTraceAuditNumber" /> as a byte array in Numeric format
+    ///     Returns the <see cref="SystemTraceAuditNumber" /> as a byte array in Numeric format
     /// </summary>
     /// <returns></returns>
     public byte[] AsByteArray() => PlayEncoding.Numeric.GetBytes(_Value);
@@ -62,21 +62,18 @@ public readonly struct SequenceTraceAuditNumber
 
     #region Equality
 
-    public bool Equals(SequenceTraceAuditNumber other) => _Value == other._Value;
-
-    public override bool Equals(object? obj) =>
-        obj is SequenceTraceAuditNumber sequenceTraceAuditNumber && Equals(sequenceTraceAuditNumber);
-
-    public int GetHashCode(SequenceTraceAuditNumber other) => other.GetHashCode();
+    public bool Equals(SystemTraceAuditNumber other) => _Value == other._Value;
+    public override bool Equals(object? obj) => obj is SystemTraceAuditNumber sequenceTraceAuditNumber && Equals(sequenceTraceAuditNumber);
+    public int GetHashCode(SystemTraceAuditNumber other) => other.GetHashCode();
     public override int GetHashCode() => unchecked(26183 * _Value.GetHashCode());
 
     #endregion
 
     #region Operator Overrides
 
-    public static bool operator ==(SequenceTraceAuditNumber left, SequenceTraceAuditNumber right) => left._Value == right._Value;
-    public static explicit operator uint(SequenceTraceAuditNumber classType) => classType._Value;
-    public static bool operator !=(SequenceTraceAuditNumber left, SequenceTraceAuditNumber right) => !(left == right);
+    public static bool operator ==(SystemTraceAuditNumber left, SystemTraceAuditNumber right) => left._Value == right._Value;
+    public static explicit operator uint(SystemTraceAuditNumber classType) => classType._Value;
+    public static bool operator !=(SystemTraceAuditNumber left, SystemTraceAuditNumber right) => !(left == right);
 
     #endregion
 }

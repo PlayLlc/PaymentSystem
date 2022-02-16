@@ -57,8 +57,8 @@ public record IccPublicKeyRemainder : PrimitiveValue, IEqualityComparer<IccPubli
     public static IccPublicKeyRemainder Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         DecodedResult<byte[]> result = codec.Decode(BerEncodingId, value) as DecodedResult<byte[]>
-            ?? throw new
-                InvalidOperationException($"The {nameof(IccPublicKeyRemainder)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
+            ?? throw new InvalidOperationException(
+                $"The {nameof(IccPublicKeyRemainder)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
 
         return new IccPublicKeyRemainder(result.Value);
     }

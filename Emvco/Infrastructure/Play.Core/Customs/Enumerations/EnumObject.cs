@@ -61,9 +61,9 @@ public abstract record EnumObject<T> : IEquatable<T>, IEqualityComparer<T>, ICom
                 if (!rawValues.Add((EnumObject<T>) fieldInfo.GetRawConstantValue()))
                 {
                     throw new TypeInitializationException(type.FullName,
-                                                          new
-                                                              InvalidOperationException($"The {type.Name} declares two instances with the same underlying {typeof(T)} values. "
-                                                                                        + "Please ensure unique values for the enum"));
+                        new InvalidOperationException(
+                            $"The {type.Name} declares two instances with the same underlying {typeof(T)} values. "
+                            + "Please ensure unique values for the enum"));
                 }
             }
         }

@@ -40,7 +40,7 @@ internal class StaticDataAuthenticator
         terminalVerificationResult.SetStaticDataAuthenticationFailed();
 
         return new AuthenticateStaticDataResponse(terminalVerificationResult,
-                                                  new ErrorIndication(Level2Error.TerminalDataError, StatusWords.NotAvailable));
+            new ErrorIndication(Level2Error.TerminalDataError, StatusWords.NotAvailable));
     }
 
     // another option would be to pass a reference value of the outcome to each private
@@ -67,12 +67,12 @@ internal class StaticDataAuthenticator
             return HandleStaticDataAuthenticationFailedResponse();
 
         if (!_CertificateFactory.TryCreate(command.GetCaPublicKeyCertificate(), command.GetIssuerPublicKeyCertificate(),
-                                           command.GetIssuerPublicKeyExponent(), command.GetIssuerPublicKeyRemainder(),
-                                           out DecodedIssuerPublicKeyCertificate? decodedIssuerCertificate))
+            command.GetIssuerPublicKeyExponent(), command.GetIssuerPublicKeyRemainder(),
+            out DecodedIssuerPublicKeyCertificate? decodedIssuerCertificate))
             return HandleStaticDataAuthenticationFailedResponse();
 
         if (!IsStaticDataToBeAuthenticatedValid(decodedIssuerCertificate!, command.GetSignedStaticApplicationData(),
-                                                command.GetStaticDataToBeAuthenticated().AsByteArray()))
+            command.GetStaticDataToBeAuthenticated().AsByteArray()))
             return HandleStaticDataAuthenticationFailedResponse();
 
         return new AuthenticateStaticDataResponse(TerminalVerificationResult.Create(), ErrorIndication.Default);
@@ -101,7 +101,7 @@ internal class StaticDataAuthenticator
         SignedStaticApplicationData signedStaticApplicationData,
         ReadOnlySpan<byte> staticDataToBeAuthenticated) =>
         _SignedStaticApplicationDataDecoder.IsValid(decodedCertificateResult!, signedStaticApplicationData,
-                                                    staticDataToBeAuthenticated.ToArray());
+            staticDataToBeAuthenticated.ToArray());
 
     #endregion
 }

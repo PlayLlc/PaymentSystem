@@ -18,7 +18,7 @@ public readonly struct DateRange
         if (activationDate > expiryDate)
         {
             throw new ArgumentOutOfRangeException(nameof(activationDate),
-                                                  $"The argument {nameof(activationDate)} is greater than the argument {nameof(expiryDate)}");
+                $"The argument {nameof(activationDate)} is greater than the argument {nameof(expiryDate)}");
         }
 
         _ActivationDate = activationDate;

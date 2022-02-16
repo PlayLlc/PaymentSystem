@@ -113,7 +113,7 @@ public partial class Randomize
             if (min > max)
             {
                 throw new ArgumentOutOfRangeException(nameof(min),
-                                                      $"The argument {nameof(min)} must be less than the argument {nameof(max)}");
+                    $"The argument {nameof(min)} must be less than the argument {nameof(max)}");
             }
 
             if (min == max)

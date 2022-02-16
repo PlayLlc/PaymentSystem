@@ -43,8 +43,8 @@ internal class PcdStateMachine
         {
             if (_PcdSessionLock.Session != null)
             {
-                throw new
-                    RequestOutOfSyncException($"The {nameof(ActivatePcdRequest)} can't be processed because a {nameof(ChannelType.ProximityCouplingDevice)} already exists for {nameof(TransactionSessionId)}: [{_PcdSessionLock.Session!.TransactionSessionId}]");
+                throw new RequestOutOfSyncException(
+                    $"The {nameof(ActivatePcdRequest)} can't be processed because a {nameof(ChannelType.ProximityCouplingDevice)} already exists for {nameof(TransactionSessionId)}: [{_PcdSessionLock.Session!.TransactionSessionId}]");
             }
 
             _PcdSessionLock.Session = new PcdSession(request.GetTransactionSessionId());
@@ -58,8 +58,8 @@ internal class PcdStateMachine
         {
             if (_PcdSessionLock.Session == null)
             {
-                throw new
-                    RequestOutOfSyncException($"The {nameof(StopPcdRequest)} {nameof(Abort)} operation can't be processed because a session doesn't currently exist.");
+                throw new RequestOutOfSyncException(
+                    $"The {nameof(StopPcdRequest)} {nameof(Abort)} operation can't be processed because a session doesn't currently exist.");
             }
 
             if (request.GetStopType() == StopPcdRequest.StopType.Abort)
@@ -115,14 +115,14 @@ internal class PcdStateMachine
         {
             if (_PcdSessionLock.Session == null)
             {
-                throw new
-                    RequestOutOfSyncException($"The {nameof(QueryPcdRequest)} can't be processed because a {nameof(ChannelType.ProximityCouplingDevice)} session does not exist");
+                throw new RequestOutOfSyncException(
+                    $"The {nameof(QueryPcdRequest)} can't be processed because a {nameof(ChannelType.ProximityCouplingDevice)} session does not exist");
             }
 
             if (request.GetTransactionSessionId() != _PcdSessionLock.Session.TransactionSessionId)
             {
-                throw new
-                    RequestOutOfSyncException($"The {nameof(QueryPcdRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{request.GetTransactionSessionId()}] but the current {nameof(ChannelType.ProximityCouplingDevice)} session has a {nameof(TransactionSessionId)} of: [{_PcdSessionLock.Session.TransactionSessionId}]");
+                throw new RequestOutOfSyncException(
+                    $"The {nameof(QueryPcdRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{request.GetTransactionSessionId()}] but the current {nameof(ChannelType.ProximityCouplingDevice)} session has a {nameof(TransactionSessionId)} of: [{_PcdSessionLock.Session.TransactionSessionId}]");
             }
 
             if (request is GetProcessingOptionsCommand getProcessingOptionsCommand)
@@ -143,8 +143,8 @@ internal class PcdStateMachine
 
             else
             {
-                throw new
-                    InvalidMessageRoutingException($"The {nameof(QueryPcdRequest)} couldn't be be processed because there isn't a handler for the request type {request.GetType().FullName}");
+                throw new InvalidMessageRoutingException(
+                    $"The {nameof(QueryPcdRequest)} couldn't be be processed because there isn't a handler for the request type {request.GetType().FullName}");
             }
         }
     }

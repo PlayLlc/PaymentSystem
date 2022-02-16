@@ -16,7 +16,7 @@ public record TransactionCurrencyCode : DataElement<NumericCurrencyCode>, IEqual
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = Numeric.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
     public static readonly Tag Tag = 0x5F2A;
     private const byte _ByteLength = 0x02;
 
@@ -57,7 +57,7 @@ public record TransactionCurrencyCode : DataElement<NumericCurrencyCode>, IEqual
 
         DecodedResult<ushort> result = codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
             ?? throw new InvalidOperationException(
-                $"The {nameof(TransactionCurrencyCode)} could not be initialized because the {nameof(Numeric)} returned a null {nameof(DecodedResult<ushort>)}");
+                $"The {nameof(TransactionCurrencyCode)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         if (result.CharCount != charLength)
         {

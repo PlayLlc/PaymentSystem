@@ -86,7 +86,7 @@ public class GenerateAcResponseMessage : ResponseMessageTemplate
         _IssuerApplicationData == null
             ? codec.EncodeTagLengthValue(this, _CryptogramInformationData, _ApplicationTransactionCounter, _ApplicationCryptogram)
             : codec.EncodeTagLengthValue(this, _CryptogramInformationData, _ApplicationTransactionCounter, _ApplicationCryptogram,
-                                         _IssuerApplicationData);
+                _IssuerApplicationData);
 
     #endregion
 
@@ -114,7 +114,7 @@ public class GenerateAcResponseMessage : ResponseMessageTemplate
         && _ApplicationCryptogram.Equals(other._ApplicationCryptogram)
         && _IssuerApplicationData!.Equals(other._IssuerApplicationData)
         && PosCardholderInteractionInformation.EqualsStatic(_PosCardholderInteractionInformation,
-                                                            other._PosCardholderInteractionInformation)
+            other._PosCardholderInteractionInformation)
         && IssuerApplicationData.EqualsStatic(_IssuerApplicationData, other._IssuerApplicationData);
 
     public override bool Equals(ConstructedValue? other) => other is GenerateAcResponseMessage m && Equals(m);

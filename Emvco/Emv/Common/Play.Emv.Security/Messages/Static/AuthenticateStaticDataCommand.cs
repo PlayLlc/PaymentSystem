@@ -32,8 +32,8 @@ public class AuthenticateStaticDataCommand
         ApplicationInterchangeProfile applicationInterchangeProfile,
         StaticDataAuthenticationTagList staticDataAuthenticationTagList)
     {
-        _StaticDataToBeAuthenticated =
-            new StaticDataToBeAuthenticated(applicationFileLocatorResult, staticDataAuthenticationTagList, applicationInterchangeProfile);
+        _StaticDataToBeAuthenticated = new StaticDataToBeAuthenticated(applicationFileLocatorResult, staticDataAuthenticationTagList,
+            applicationInterchangeProfile);
         _SignedStaticApplicationData = signedStaticApplicationData;
         _CaPublicKeyCertificate = caPublicKeyCertificate;
         _IssuerPublicKeyCertificate = issuerPublicKeyCertificate;

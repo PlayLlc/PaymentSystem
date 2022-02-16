@@ -57,7 +57,7 @@ public class SplitPaymentLogItem : PaymentLogItem
         if (!_Subtotal.IsCurrencyEqual(amountAuthorizedNumeric))
         {
             throw new ArgumentOutOfRangeException(nameof(amountAuthorizedNumeric),
-                                                  $"The argument {nameof(amountAuthorizedNumeric)} is not in the same currency");
+                $"The argument {nameof(amountAuthorizedNumeric)} is not in the same currency");
         }
 
         if (primaryAccountNumber != _PrimaryAccountNumber)

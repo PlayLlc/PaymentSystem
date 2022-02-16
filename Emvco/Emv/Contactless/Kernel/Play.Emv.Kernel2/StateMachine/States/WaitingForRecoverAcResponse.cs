@@ -20,8 +20,8 @@ public class WaitingForRecoverAcResponse : KernelState
 
     #region Constructor
 
-    public WaitingForRecoverAcResponse(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange) :
-        base(kernelDatabase, dataExchange)
+    public WaitingForRecoverAcResponse(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange) : base(kernelDatabase,
+        dataExchange)
     { }
 
     #endregion

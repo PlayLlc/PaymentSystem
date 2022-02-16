@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Infrastructure\Play.Interchange\Play.Interchange.csproj" />
     <ProjectReference Include="..\..\..\Common\Play.Emv\Play.Emv.csproj" />
   </ItemGroup>
 

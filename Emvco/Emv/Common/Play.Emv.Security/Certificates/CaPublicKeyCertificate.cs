@@ -31,7 +31,7 @@ public class CaPublicKeyCertificate : PublicKeyCertificate
         PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator,
         DateRange validityPeriod,
         PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber, hashAlgorithmIndicator, publicKeyAlgorithmIndicator, validityPeriod,
-                                            publicKeyInfo)
+        publicKeyInfo)
     {
         _Id = id;
         _IsRevoked = isRevoked;

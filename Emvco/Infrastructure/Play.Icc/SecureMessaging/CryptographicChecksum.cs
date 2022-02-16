@@ -37,13 +37,13 @@ public record CryptographicChecksum : PrimitiveValue, IEqualityComparer<Cryptogr
         if (value.Length < _MinByteCount)
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                                                  $"The argument {nameof(value)} must be between {_MinByteCount} and {_MaxByteCount}");
+                $"The argument {nameof(value)} must be between {_MinByteCount} and {_MaxByteCount}");
         }
 
         if (value.Length < _MaxByteCount)
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                                                  $"The argument {nameof(value)} must be between {_MinByteCount} and {_MaxByteCount}");
+                $"The argument {nameof(value)} must be between {_MinByteCount} and {_MaxByteCount}");
         }
 
         _Value = value.ToArray();

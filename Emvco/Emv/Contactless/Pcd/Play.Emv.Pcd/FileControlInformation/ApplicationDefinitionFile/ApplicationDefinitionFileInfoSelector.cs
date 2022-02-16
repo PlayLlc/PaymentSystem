@@ -29,7 +29,7 @@ public class ApplicationDefinitionFileInfoSelector : ISelectApplicationDefinitio
         GetFileControlInformationRApduSignal response = new(await _PcdTransceiver.Transceive(infoCommand.Serialize()));
 
         return new SelectApplicationDefinitionFileInfoResponse(infoCommand.GetCorrelationId(), infoCommand.GetTransactionSessionId(),
-                                                               response);
+            response);
     }
 
     #endregion

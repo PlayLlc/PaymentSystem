@@ -58,13 +58,13 @@ public class FileControlInformationProprietaryDdf : FileControlInformationPropri
     {
         FileControlInformationIssuerDiscretionaryDataDdf fciProprietaryTemplate =
             _Codec.AsConstructed(FileControlInformationIssuerDiscretionaryDataDdf.Decode,
-                                 FileControlInformationIssuerDiscretionaryDataDdf.Tag, encodedChildren)
-            ?? throw new
-                InvalidOperationException($"A problem occurred while decoding {nameof(FileControlInformationProprietaryDdf)}. A {nameof(FileControlInformationIssuerDiscretionaryDataDdf)} was expected but could not be found");
+                FileControlInformationIssuerDiscretionaryDataDdf.Tag, encodedChildren)
+            ?? throw new InvalidOperationException(
+                $"A problem occurred while decoding {nameof(FileControlInformationProprietaryDdf)}. A {nameof(FileControlInformationIssuerDiscretionaryDataDdf)} was expected but could not be found");
 
         ShortFileIdentifier shortFileIdentifier = _Codec.AsPrimitive(ShortFileIdentifier.Decode, ShortFileIdentifier.Tag, encodedChildren)
-            ?? throw new
-                InvalidOperationException($"A problem occurred while decoding {nameof(ShortFileIdentifier)}. A {nameof(FileControlInformationProprietaryDdf)} was expected but could not be found");
+            ?? throw new InvalidOperationException(
+                $"A problem occurred while decoding {nameof(ShortFileIdentifier)}. A {nameof(FileControlInformationProprietaryDdf)} was expected but could not be found");
 
         return new FileControlInformationProprietaryDdf(fciProprietaryTemplate, shortFileIdentifier);
     }

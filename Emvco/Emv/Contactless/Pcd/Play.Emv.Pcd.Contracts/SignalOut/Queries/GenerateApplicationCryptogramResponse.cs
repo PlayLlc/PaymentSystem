@@ -77,14 +77,14 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
         if (!a.Any(a => a.GetTag() == IssuerApplicationData.Tag))
         {
             return new GenerateApplicationCryptogramResponseMetadata(cryptogramInformationData, applicationTransactionCounter,
-                                                                     applicationCryptogram, null);
+                applicationCryptogram, null);
         }
 
         IssuerApplicationData issuerApplicationData =
             IssuerApplicationData.Decode(a.First(a => a.GetTag() == IssuerApplicationData.Tag).GetValue().AsSpan());
 
         return new GenerateApplicationCryptogramResponseMetadata(cryptogramInformationData, applicationTransactionCounter,
-                                                                 applicationCryptogram, issuerApplicationData);
+            applicationCryptogram, issuerApplicationData);
     }
 
     #endregion

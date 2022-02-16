@@ -7,12 +7,12 @@ public class GetFileControlInformationCApduSignal : CApduSignal
 {
     #region Constructor
 
-    protected GetFileControlInformationCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) :
-        base(@class, instruction, parameter1, parameter2)
+    protected GetFileControlInformationCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class,
+        instruction, parameter1, parameter2)
     { }
 
-    protected GetFileControlInformationCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint? le) :
-        base(@class, instruction, parameter1, parameter2, le)
+    protected GetFileControlInformationCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint? le) : base(@class,
+        instruction, parameter1, parameter2, le)
     { }
 
     protected GetFileControlInformationCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data)
@@ -40,7 +40,7 @@ public class GetFileControlInformationCApduSignal : CApduSignal
         SelectApduCommand cApdu = SelectApduCommand.DedicatedFile(dedicatedFileName);
 
         return new GetFileControlInformationCApduSignal(cApdu.GetClass(), cApdu.GetInstruction(), cApdu.GetParameter1(),
-                                                        cApdu.GetParameter2(), cApdu.GetData(), cApdu.GetLe());
+            cApdu.GetParameter2(), cApdu.GetData(), cApdu.GetLe());
     }
 
     /// <summary>
@@ -51,7 +51,7 @@ public class GetFileControlInformationCApduSignal : CApduSignal
         SelectApduCommand cApdu = SelectApduCommand.SelectProximityPaymentSystemEnvironment();
 
         return new GetFileControlInformationCApduSignal(cApdu.GetClass(), cApdu.GetInstruction(), cApdu.GetParameter1(),
-                                                        cApdu.GetParameter2(), cApdu.GetData(), cApdu.GetLe());
+            cApdu.GetParameter2(), cApdu.GetData(), cApdu.GetLe());
     }
 
     #endregion

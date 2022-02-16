@@ -20,8 +20,8 @@ public class WaitingForCccResponse2 : KernelState
 
     #region Constructor
 
-    public WaitingForCccResponse2(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange) :
-        base(kernelDatabase, dataExchange)
+    public WaitingForCccResponse2(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange) : base(kernelDatabase,
+        dataExchange)
     { }
 
     #endregion

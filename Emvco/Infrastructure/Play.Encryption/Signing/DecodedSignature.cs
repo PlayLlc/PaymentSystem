@@ -76,7 +76,7 @@ public class DecodedSignature
         if (leadingByte != SignatureSpecifications.LeadingByte)
         {
             throw new ArgumentOutOfRangeException(nameof(leadingByte),
-                                                  $"The value {SignatureSpecifications.LeadingByte} was expected but {leadingByte} was received instead");
+                $"The value {SignatureSpecifications.LeadingByte} was expected but {leadingByte} was received instead");
         }
     }
 
@@ -85,7 +85,7 @@ public class DecodedSignature
         if (trailing != SignatureSpecifications.TrailingByte)
         {
             throw new ArgumentOutOfRangeException(nameof(trailing),
-                                                  $"The value {SignatureSpecifications.TrailingByte} was expected but {trailing} was received instead");
+                $"The value {SignatureSpecifications.TrailingByte} was expected but {trailing} was received instead");
         }
     }
 

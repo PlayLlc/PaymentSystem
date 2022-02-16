@@ -53,9 +53,8 @@ public class OutcomeProcessor : IProcessOutcome
         transaction.TryGetDataRecord(out DataRecord? dataRecord);
 
         _ReaderEndpoint.Send(new OutReaderResponse(correlationId,
-                                                   new FinalOutcome(transaction.GetTransactionSessionId(),
-                                                                    transaction.GetOutcomeParameterSet(), discretionaryData,
-                                                                    userInterfaceRequestData, dataRecord)));
+            new FinalOutcome(transaction.GetTransactionSessionId(), transaction.GetOutcomeParameterSet(), discretionaryData,
+                userInterfaceRequestData, dataRecord)));
     }
 
     /// <remarks>
@@ -90,8 +89,8 @@ public class OutcomeProcessor : IProcessOutcome
 
             if (result == null)
             {
-                throw new
-                    InvalidOperationException($"The {nameof(OutcomeProcessor)} expected {nameof(UserInterfaceRequestData)} to be present but it was not");
+                throw new InvalidOperationException(
+                    $"The {nameof(OutcomeProcessor)} expected {nameof(UserInterfaceRequestData)} to be present but it was not");
             }
 
             _DisplayEndpoint.Request(new DisplayMessageRequest(result));

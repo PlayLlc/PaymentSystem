@@ -57,13 +57,13 @@ public record ApplicationPreferredName : DataElement<char[]>, IEqualityComparer<
 
         if (value.Length is not >= minByteLength and <= maxByteLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(ApplicationPreferredName)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(ApplicationPreferredName)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
         }
 
         DecodedResult<char[]> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<char[]>
-            ?? throw new
-                InvalidOperationException($"The {nameof(ApplicationPreferredName)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
+            ?? throw new InvalidOperationException(
+                $"The {nameof(ApplicationPreferredName)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
 
         return new ApplicationPreferredName(result.Value);
     }

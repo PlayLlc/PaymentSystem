@@ -137,18 +137,18 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
     {
         FileControlInformationIssuerDiscretionaryDataAdf fciProprietaryTemplate =
             _Codec.AsConstructed(FileControlInformationIssuerDiscretionaryDataAdf.Decode,
-                                 FileControlInformationIssuerDiscretionaryDataAdf.Tag, encodedChildren)
-            ?? throw new
-                InvalidOperationException($"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataAdf)}. A {nameof(FileControlInformationIssuerDiscretionaryDataAdf)} was expected but could not be found");
+                FileControlInformationIssuerDiscretionaryDataAdf.Tag, encodedChildren)
+            ?? throw new InvalidOperationException(
+                $"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataAdf)}. A {nameof(FileControlInformationIssuerDiscretionaryDataAdf)} was expected but could not be found");
 
         ApplicationLabel applicationLabel = _Codec.AsPrimitive(ApplicationLabel.Decode, ApplicationLabel.Tag, encodedChildren)
-            ?? throw new
-                CardDataMissingException($"A problem occurred while decoding {nameof(FileControlInformationProprietaryAdf)}. A {nameof(FileControlInformationProprietaryAdf)} was expected but could not be found");
+            ?? throw new CardDataMissingException(
+                $"A problem occurred while decoding {nameof(FileControlInformationProprietaryAdf)}. A {nameof(FileControlInformationProprietaryAdf)} was expected but could not be found");
 
         ApplicationPriorityIndicator? applicationPriorityIndicator =
             _Codec.AsPrimitive(ApplicationPriorityIndicator.Decode, ApplicationPriorityIndicator.Tag, encodedChildren);
         ProcessingOptionsDataObjectList? processingOptionsDataObjectList = _Codec.AsPrimitive(ProcessingOptionsDataObjectList.Decode,
-         ProcessingOptionsDataObjectList.Tag, encodedChildren);
+            ProcessingOptionsDataObjectList.Tag, encodedChildren);
         LanguagePreference? languagePreference = _Codec.AsPrimitive(LanguagePreference.Decode, LanguagePreference.Tag, encodedChildren);
         IssuerCodeTableIndex? issuerCodeTableIndex =
             _Codec.AsPrimitive(IssuerCodeTableIndex.Decode, IssuerCodeTableIndex.Tag, encodedChildren);
@@ -156,8 +156,7 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
             _Codec.AsPrimitive(ApplicationPreferredName.Decode, ApplicationPreferredName.Tag, encodedChildren);
 
         return new FileControlInformationProprietaryAdf(fciProprietaryTemplate, applicationLabel, applicationPriorityIndicator,
-                                                        processingOptionsDataObjectList, languagePreference, issuerCodeTableIndex,
-                                                        applicationPreferredName);
+            processingOptionsDataObjectList, languagePreference, issuerCodeTableIndex, applicationPreferredName);
     }
 
     #endregion

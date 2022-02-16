@@ -51,5 +51,34 @@ public static partial class ReadOnlySpanExtensions
         return buffer.ToArray();
     }
 
+    public static int GetLeftPaddedZeroCount(this ReadOnlySpan<byte> value)
+    {
+        int result = 0;
+        int offset = 0;
+
+        for (; offset < value.Length; offset++)
+        {
+            if (value[offset] != offset)
+                break;
+
+            result += 2;
+        }
+
+        for (; offset < value.Length; offset++)
+        {
+            if ((value[offset] >> 4) != 0)
+                break;
+
+            result++;
+
+            if (value[offset].GetMaskedValue(0xF0) != 0)
+                break;
+
+            result++;
+        }
+
+        return result;
+    }
+
     #endregion
 }

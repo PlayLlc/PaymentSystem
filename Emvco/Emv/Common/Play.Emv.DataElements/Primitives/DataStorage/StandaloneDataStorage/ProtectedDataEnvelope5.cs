@@ -50,13 +50,13 @@ public record ProtectedDataEnvelope5 : DataElement<BigInteger>, IEqualityCompare
 
         if (value.Length > maxByteLength)
         {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(ProtectedDataEnvelope5)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be less than {maxByteLength} bytes in length");
+            throw new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(ProtectedDataEnvelope5)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be less than {maxByteLength} bytes in length");
         }
 
         DecodedResult<BigInteger> result = codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new
-                InvalidOperationException($"The {nameof(ProtectedDataEnvelope5)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+            ?? throw new InvalidOperationException(
+                $"The {nameof(ProtectedDataEnvelope5)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new ProtectedDataEnvelope5(result.Value);
     }
