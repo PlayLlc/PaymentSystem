@@ -18,7 +18,7 @@ public record TransactionCertificateHashValue : PrimitiveValue, IEqualityCompare
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
     public static readonly Tag Tag = 0x98;
 
     #endregion
@@ -64,7 +64,7 @@ public record TransactionCertificateHashValue : PrimitiveValue, IEqualityCompare
 
         DecodedResult<BigInteger> result = codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
-                $"The {nameof(TransactionCertificateHashValue)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+                $"The {nameof(TransactionCertificateHashValue)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new TransactionCertificateHashValue(result.Value);
     }

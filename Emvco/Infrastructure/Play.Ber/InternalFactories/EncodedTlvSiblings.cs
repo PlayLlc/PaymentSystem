@@ -191,7 +191,7 @@ public readonly struct EncodedTlvSiblings
     private ReadOnlyMemory<byte> GetValueOctetsOfChild(Tag tag)
     {
         if (!TryGetValueOctetsOfChild(tag, out ReadOnlyMemory<byte> encodedChild))
-            throw new BerInternalException($"The {nameof(EncodedTlvSiblings)} did not contain a sibling with the tag {tag.ToString()}");
+            throw new BerInternalException($"The {nameof(EncodedTlvSiblings)} did not contain a sibling with the tag {tag}");
 
         return encodedChild;
     }
@@ -206,8 +206,10 @@ public readonly struct EncodedTlvSiblings
             if (tag == _ChildMetadata.Span[i].GetTag())
             {
                 int resultOffset = offset
-                    + _ChildMetadata.Span[i].GetTag().GetByteCount()
-                    + _ChildMetadata.Span[i].GetLength().GetByteCount();
+         
+                    adata.Span[i].GetTag().GetByteCount()
+         
+                    adata.Span[i].GetLength().GetByteCount();
 
                 encodedChild = _ChildEncodings[resultOffset..(resultOffset + _ChildMetadata.Span[i].GetLength().GetContentLength())];
 

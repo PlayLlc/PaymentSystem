@@ -16,7 +16,7 @@ public record AcquirerIdentifier : DataElement<ulong>, IEqualityComparer<Acquire
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericDataElementCodec.Identifier;
     public static readonly Tag Tag = 0x9F01;
     private const byte _ByteLength = 6;
     private const byte _MinCharLength = 6;

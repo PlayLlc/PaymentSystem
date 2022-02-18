@@ -41,7 +41,7 @@ public abstract class TestTlv
 
     private static byte[] ParseChildren(Tag[] childIndex, TestTlv[] children)
     {
-        if (children.Count() > childIndex.Length)
+        if (children.Length > childIndex.Length)
         {
             throw new ArgumentOutOfRangeException(nameof(childIndex),
                 $"The argument {nameof(childIndex)} has fewer items than argument {nameof(children)}");

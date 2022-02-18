@@ -16,7 +16,7 @@ public record AdditionalTerminalCapabilities : DataElement<ulong>, IEqualityComp
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
     public static readonly Tag Tag = 0x9F40;
     private const byte _ByteLength = 5;
 
@@ -77,7 +77,7 @@ public record AdditionalTerminalCapabilities : DataElement<ulong>, IEqualityComp
 
         DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
             ?? throw new InvalidOperationException(
-                $"The {nameof(AdditionalTerminalCapabilities)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+                $"The {nameof(AdditionalTerminalCapabilities)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new AdditionalTerminalCapabilities(result.Value);
     }

@@ -16,7 +16,7 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
     public static readonly Tag Tag = 0x88;
     private const byte _MinValue = 1;
     private const byte _MaxValue = 30;
@@ -76,7 +76,7 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
 
         DecodedResult<byte> result = codec.Decode(BerEncodingId, value) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
-                $"The {nameof(ShortFileIdentifier)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
+                $"The {nameof(ShortFileIdentifier)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new ShortFileIdentifier(result.Value);
     }

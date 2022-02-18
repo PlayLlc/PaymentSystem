@@ -16,7 +16,7 @@ public record ApplicationExpirationDate : DataElement<uint>, IEqualityComparer<A
     #region Static Metadata
 
     public static readonly Tag Tag = 0x5F24;
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericDataElementCodec.Identifier;
     private const byte _ByteLength = 3;
 
     #endregion
@@ -62,7 +62,7 @@ public record ApplicationExpirationDate : DataElement<uint>, IEqualityComparer<A
 
         DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
-                $"The {nameof(ApplicationExpirationDate)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<uint>)}");
+                $"The {nameof(ApplicationExpirationDate)} could not be initialized because the {nameof(NumericDataElementCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new ApplicationExpirationDate(result.Value);
     }

@@ -3,7 +3,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.Ber.Exceptions;
+using Play.Emv.Codecs.Exceptions;
 using Play.Emv.DataElements.Exceptions;
 
 namespace Play.Emv.DataElements;
@@ -15,7 +15,7 @@ public record CvmList : DataElement<byte[]>
     /// <value>Hex: 5F20 Decimal: 95-32</value>
     public static readonly Tag Tag = 0x8E;
 
-    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
     private static readonly byte _MinByteLength = 10;
     private static readonly byte _MaxByteLength = 250;
 

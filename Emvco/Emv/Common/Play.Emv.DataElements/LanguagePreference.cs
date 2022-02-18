@@ -21,7 +21,7 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>, IEqualityC
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = AlphaNumericCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = AlphaNumericDataElementCodec.Identifier;
     public static readonly Tag Tag = 0x5F2D;
 
     #endregion

@@ -15,7 +15,7 @@ public record ApplicationTransactionCounter : DataElement<ushort>, IEqualityComp
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F36;
-    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
 
     #endregion
 
@@ -52,7 +52,7 @@ public record ApplicationTransactionCounter : DataElement<ushort>, IEqualityComp
 
         DecodedResult<ushort> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
             ?? throw new InvalidOperationException(
-                $"The {nameof(ApplicationTransactionCounter)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+                $"The {nameof(ApplicationTransactionCounter)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new ApplicationTransactionCounter(result.Value);
     }

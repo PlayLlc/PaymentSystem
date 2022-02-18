@@ -14,7 +14,7 @@ public record IssuerActionCodeDenial : DataElement<ulong>, IEqualityComparer<Iss
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
     public static readonly Tag Tag = 0x9F0E;
 
     #endregion
@@ -53,7 +53,7 @@ public record IssuerActionCodeDenial : DataElement<ulong>, IEqualityComparer<Iss
 
         DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
             ?? throw new InvalidOperationException(
-                $"The {nameof(IssuerActionCodeDenial)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+                $"The {nameof(IssuerActionCodeDenial)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new IssuerActionCodeDenial(result.Value);
     }

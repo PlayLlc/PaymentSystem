@@ -14,7 +14,7 @@ public record SecurityCapability : DataElement<byte>, IEqualityComparer<Security
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
     public static readonly Tag Tag = 0xDF811F;
 
     #endregion
@@ -44,7 +44,7 @@ public record SecurityCapability : DataElement<byte>, IEqualityComparer<Security
     {
         DecodedResult<byte> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
-                $"The {nameof(SecurityCapability)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+                $"The {nameof(SecurityCapability)} could not be initialized because the {nameof(NumericDataElementCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new SecurityCapability(result.Value);
     }

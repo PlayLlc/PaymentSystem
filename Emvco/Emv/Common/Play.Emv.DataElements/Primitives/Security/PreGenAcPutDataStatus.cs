@@ -17,7 +17,7 @@ public record PreGenAcPutDataStatus : DataElement<byte>, IEqualityComparer<PreGe
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
     public static readonly Tag Tag = 0xDF810E;
     private const byte _ByteLength = 1;
 

@@ -15,7 +15,7 @@ public record ApplicationPreferredName : DataElement<char[]>, IEqualityComparer<
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F12;
-    public static readonly BerEncodingId BerEncodingId = AlphaNumericSpecialCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = AlphaNumericSpecialDataElementCodec.Identifier;
 
     #endregion
 
@@ -63,7 +63,7 @@ public record ApplicationPreferredName : DataElement<char[]>, IEqualityComparer<
 
         DecodedResult<char[]> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<char[]>
             ?? throw new InvalidOperationException(
-                $"The {nameof(ApplicationPreferredName)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
+                $"The {nameof(ApplicationPreferredName)} could not be initialized because the {nameof(AlphaNumericSpecialDataElementCodec)} returned a null {nameof(DecodedResult<char[]>)}");
 
         return new ApplicationPreferredName(result.Value);
     }

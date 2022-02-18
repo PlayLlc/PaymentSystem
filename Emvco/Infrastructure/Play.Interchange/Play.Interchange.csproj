@@ -7,14 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="DataFields\_Temp\**" />
-    <EmbeddedResource Remove="DataFields\_Temp\**" />
-    <None Remove="DataFields\_Temp\**" />
+    <ProjectReference Include="..\Play.Codecs\Play.Codecs.csproj" />
+    <ProjectReference Include="..\Play.Core\Play.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Play.Codecs\Play.Codecs.csproj" />
-    <ProjectReference Include="..\Play.Core\Play.Core.csproj" />
+    <Folder Include="Codecs\temp\Integers\" />
+    <Folder Include="Codecs\temp\Strings\" />
   </ItemGroup>
 
 </Project>

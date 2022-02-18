@@ -14,12 +14,12 @@ namespace Play.Ber.Codecs;
 ///     One octet string is equal to another if they are of the same length and are the same at each
 ///     octet position.
 /// </remarks>
-public sealed class OctetStringCodec : BerPrimitiveCodec
+public sealed class OctetStringBerCodec : BerPrimitiveCodec
 {
     #region Static Metadata
 
     private static readonly Hexadecimal _HexadecimalCodec = PlayEncoding.Hexadecimal;
-    public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(OctetStringCodec));
+    public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(OctetStringBerCodec));
 
     #endregion
 
@@ -54,8 +54,28 @@ public sealed class OctetStringCodec : BerPrimitiveCodec
                 return Encode(Unsafe.As<T[], char[]>(ref value), length);
 
             throw new BerInternalException(
-                $"The {nameof(OctetStringCodec)} does not implement the capability to encode the type {typeof(T).FullName}");
+                $"The {nameof(OctetStringBerCodec)} does not implement the capability to encode the type {typeof(T).FullName}");
         }
+    }
+
+    public override void Encode<T>(T value, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
     }
 
     /// <exception cref="InvalidOperationException">Ignore.</exception>
@@ -69,7 +89,7 @@ public sealed class OctetStringCodec : BerPrimitiveCodec
             return Encode(Unsafe.As<T[], char[]>(ref value));
 
         throw new BerInternalException(
-            $"The {nameof(OctetStringCodec)} does not implement the capability to encode the type {typeof(T).FullName}");
+            $"The {nameof(OctetStringBerCodec)} does not implement the capability to encode the type {typeof(T).FullName}");
     }
 
     public byte[] Encode(ReadOnlySpan<char> value) => _HexadecimalCodec.GetBytes(value);

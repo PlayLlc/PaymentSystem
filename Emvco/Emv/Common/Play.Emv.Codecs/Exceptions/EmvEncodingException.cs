@@ -1,10 +1,10 @@
 ﻿using System.Runtime.CompilerServices;
 
-using Play.Ber.Exceptions;
+using Play.Core.Exceptions;
 
-namespace Play.Emv.Ber.Exceptions;
+namespace Play.Emv.Codecs.Exceptions;
 
-public class EmvEncodingException : BerException
+public class EmvEncodingException : PlayException
 {
     #region Constructor
 
@@ -13,15 +13,15 @@ public class EmvEncodingException : BerException
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(BerException), fileName, memberName, lineNumber)} {message}")
+        $"{TraceExceptionMessage(typeof(EmvEncodingException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public EmvEncodingException(
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base($"{TraceExceptionMessage(typeof(BerException), fileName, memberName, lineNumber)}",
-        innerException)
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(EmvEncodingException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public EmvEncodingException(
@@ -30,7 +30,7 @@ public class EmvEncodingException : BerException
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(BerException), fileName, memberName, lineNumber)} {message}", innerException)
+        $"{TraceExceptionMessage(typeof(EmvEncodingException), fileName, memberName, lineNumber)} {message}", innerException)
     { }
 
     #endregion

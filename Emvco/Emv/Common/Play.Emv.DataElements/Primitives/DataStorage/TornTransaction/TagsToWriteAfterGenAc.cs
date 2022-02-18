@@ -17,7 +17,7 @@ public record TagsToWriteAfterGenAc : DataExchangeResponse, IEqualityComparer<Ta
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
     public static readonly Tag Tag = 0xFF8103;
 
     #endregion

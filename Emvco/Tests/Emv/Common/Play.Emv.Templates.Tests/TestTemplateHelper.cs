@@ -21,7 +21,7 @@ internal class TestTemplateHelper
 
     private static byte[] GetContentOctets(Tag[] index, Dictionary<Tag, byte[]> dataElements)
     {
-        if (dataElements.Count() > index.Length)
+        if (dataElements.Count > index.Length)
         {
             throw new ArgumentOutOfRangeException(nameof(index),
                 $"The argument {nameof(index)} has fewer items than argument {nameof(dataElements)}. Please ensure that all {nameof(dataElements)} children have been indexed");
@@ -37,7 +37,7 @@ internal class TestTemplateHelper
             result.AddRange(dataElements.First(x => x.Key == index[i]).Value);
         }
 
-        if (result.Count < dataElements.Count())
+        if (result.Count < dataElements.Count)
         {
             throw new ArgumentOutOfRangeException(nameof(index),
                 $"The argument {nameof(index)} has is missing an item in the {nameof(dataElements)} argument. Please ensure that all {nameof(dataElements)} children have been indexed");

@@ -15,7 +15,7 @@ public record KernelConfiguration : DataElement<byte>, IEqualityComparer<KernelC
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
     public static readonly KernelConfiguration Default = new(0);
     public static readonly Tag Tag = 0xDF811B;
 
@@ -60,7 +60,7 @@ public record KernelConfiguration : DataElement<byte>, IEqualityComparer<KernelC
 
         DecodedResult<byte> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
-                $"The {nameof(KernelConfiguration)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
+                $"The {nameof(KernelConfiguration)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new KernelConfiguration(result.Value);
     }

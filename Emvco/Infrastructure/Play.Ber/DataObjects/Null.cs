@@ -10,7 +10,7 @@ public record Null : PrimitiveValue, IEqualityComparer<Null>
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = OctetStringCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = OctetStringBerCodec.Identifier;
     public static readonly uint Tag = 0x5;
 
     #endregion

@@ -14,7 +14,7 @@ public record IssuerCodeTableIndex : DataElement<byte>, IEqualityComparer<Issuer
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericDataElementCodec.Identifier;
     public static readonly Tag Tag = 0x9F11;
 
     #endregion
@@ -63,7 +63,7 @@ public record IssuerCodeTableIndex : DataElement<byte>, IEqualityComparer<Issuer
 
         DecodedResult<byte> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
-                $"The {nameof(IssuerCodeTableIndex)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<byte>)}");
+                $"The {nameof(IssuerCodeTableIndex)} could not be initialized because the {nameof(NumericDataElementCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         if (result.CharCount != charLength)
         {

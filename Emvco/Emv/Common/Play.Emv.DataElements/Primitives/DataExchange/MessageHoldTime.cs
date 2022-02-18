@@ -17,7 +17,7 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
     #region Static Metadata
 
     private static readonly Milliseconds _MinimumValue = new(100);
-    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
     public static readonly MessageHoldTime MinimumValue = new(_MinimumValue);
     public static readonly Tag Tag = 0xDF812D;
 
@@ -72,7 +72,7 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
 
         DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
-                $"The {nameof(MessageHoldTime)} could not be initialized because the {nameof(AlphabeticCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+                $"The {nameof(MessageHoldTime)} could not be initialized because the {nameof(AlphabeticDataElementCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         if (result.CharCount != charLength)
         {

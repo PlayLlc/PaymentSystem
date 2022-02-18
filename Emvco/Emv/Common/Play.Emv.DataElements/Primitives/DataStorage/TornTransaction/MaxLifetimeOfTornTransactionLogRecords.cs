@@ -11,7 +11,7 @@ public record MaxLifetimeOfTornTransactionLogRecords : DataElement<byte>
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
     public static readonly Tag Tag = 0xDF811C;
 
     #endregion

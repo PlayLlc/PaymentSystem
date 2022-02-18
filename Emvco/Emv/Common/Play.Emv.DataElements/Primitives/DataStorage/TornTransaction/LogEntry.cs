@@ -15,7 +15,7 @@ public record LogEntry : DataElement<ushort>, IEqualityComparer<LogEntry>
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F4D;
-    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
 
     #endregion
 
@@ -52,7 +52,7 @@ public record LogEntry : DataElement<ushort>, IEqualityComparer<LogEntry>
 
         DecodedResult<ushort> result = codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
             ?? throw new InvalidOperationException(
-                $"The {nameof(LogEntry)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+                $"The {nameof(LogEntry)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new LogEntry(result.Value);
     }

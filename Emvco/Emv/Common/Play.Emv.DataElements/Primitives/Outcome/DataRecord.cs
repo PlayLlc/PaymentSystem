@@ -15,7 +15,7 @@ public record DataRecord : DataExchangeResponse, IEqualityComparer<DataRecord>
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
     public static readonly Tag Tag = 0xFF8105;
 
     #endregion

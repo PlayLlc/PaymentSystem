@@ -5,17 +5,17 @@ using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Codecs.Strings;
-using Play.Emv.Ber.Exceptions;
+using Play.Emv.Codecs.Exceptions;
 
 namespace Play.Emv.Ber.Codecs;
 
 // TODO: Move the actual functionality higher up to Play.Codec
-public class AlphabeticCodec : BerPrimitiveCodec
+public class AlphabeticDataElementCodec : BerPrimitiveCodec
 {
     #region Static Metadata
 
     private static readonly Alphabetic _Alphabetic = PlayEncoding.Alphabetic;
-    public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(AlphabeticCodec));
+    public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(AlphabeticDataElementCodec));
 
     #endregion
 
@@ -47,8 +47,34 @@ public class AlphabeticCodec : BerPrimitiveCodec
         throw new NotImplementedException();
     }
 
+    public override void Encode<T>(T value, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset)
+    {
+        if (typeof(T) == typeof(char))
+            Encode(Unsafe.As<T[], char[]>(ref value).AsSpan(), buffer, ref offset);
+
+        throw new NotImplementedException();
+    }
+
+    public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset)
+    {
+        if (typeof(T) == typeof(char))
+            Encode(Unsafe.As<T[], char[]>(ref value).AsSpan(), length, buffer, ref offset);
+    }
+
     /// <exception cref="EncodingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value) => _Alphabetic.GetBytes(value);
+
+    public void Encode(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset) => _Alphabetic.GetBytes(value, buffer, ref offset);
 
     /// <exception cref="EncodingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value, int length)
@@ -65,6 +91,25 @@ public class AlphabeticCodec : BerPrimitiveCodec
         }
 
         return _Alphabetic.GetBytes(value)[..length];
+    }
+
+    public void Encode(ReadOnlySpan<char> value, int length, Span<byte> buffer, ref int offset)
+    {
+        if (value.Length == length)
+        {
+            Encode(value, buffer, ref offset);
+
+            return;
+        }
+
+        if (length > value.Length)
+        {
+            _Alphabetic.GetBytes(value, buffer, ref offset);
+
+            return;
+        }
+
+        _Alphabetic.GetBytes(value, length, buffer, ref offset);
     }
 
     public byte[] Encode(string value) => Encode(value.AsSpan());

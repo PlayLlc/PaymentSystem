@@ -18,12 +18,12 @@ namespace Play.Ber.Codecs;
 /// <remarks>
 ///     [ITU-T X.690] Section 8.3
 /// </remarks>
-public sealed class IntegerCodec : BerPrimitiveCodec
+public sealed class IntegerBerCodec : BerPrimitiveCodec
 {
     #region Static Metadata
 
     private static readonly SignedInteger _SignedIntegerCodec = PlayEncoding.SignedInteger;
-    public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(IntegerCodec));
+    public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(IntegerBerCodec));
 
     //if (length == Integer.UInt8.ByteSize)
     //    return EncodeTagLengthValue(Unsafe.As<T, sbyte>(ref value));
@@ -60,18 +60,38 @@ public sealed class IntegerCodec : BerPrimitiveCodec
         if (!AreFirstNineBitsValid(value))
         {
             throw new BerFormatException(new ArgumentOutOfRangeException(nameof(value),
-                $"The {nameof(IntegerCodec)} failed because the argument must not have the first 9 most significant bits all set or all cleared"));
+                $"The {nameof(IntegerBerCodec)} failed because the argument must not have the first 9 most significant bits all set or all cleared"));
         }
 
         if (!IsMinimumLengthValid(value))
         {
             throw new BerFormatException(new ArgumentOutOfRangeException(nameof(value),
-                $"The {nameof(IntegerCodec)} failed. A minimum length of {_MinimumByteLength} is required"));
+                $"The {nameof(IntegerBerCodec)} failed. A minimum length of {_MinimumByteLength} is required"));
         }
     }
 
     public override byte[] Encode<T>(T[] value) => throw new NotImplementedException();
     public override byte[] Encode<T>(T[] value, int length) => throw new NotImplementedException();
+
+    public override void Encode<T>(T value, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
 
     public override byte[] Encode<T>(T value)
     {

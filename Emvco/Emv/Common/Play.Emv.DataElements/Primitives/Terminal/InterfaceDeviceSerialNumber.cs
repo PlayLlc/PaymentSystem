@@ -15,7 +15,7 @@ public record InterfaceDeviceSerialNumber : DataElement<ulong>, IEqualityCompare
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericDataElementCodec.Identifier;
     public static readonly Tag Tag = 0x9F1E;
 
     #endregion
@@ -54,7 +54,7 @@ public record InterfaceDeviceSerialNumber : DataElement<ulong>, IEqualityCompare
 
         DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
             ?? throw new InvalidOperationException(
-                $"The {nameof(InterfaceDeviceSerialNumber)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+                $"The {nameof(InterfaceDeviceSerialNumber)} could not be initialized because the {nameof(NumericDataElementCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         if (result.CharCount != charLength)
         {

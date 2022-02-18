@@ -80,6 +80,12 @@ public class AlphaNumericSpecial : PlayEncoding
         }
     }
 
+    public void GetBytes(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
+    {
+        for (int i = 0; i < value.Length; i++)
+            buffer[offset++] = _ByteMap[value[i]];
+    }
+
     public override bool TryGetBytes(ReadOnlySpan<char> value, out byte[] result)
     {
         if (!IsValid(value))

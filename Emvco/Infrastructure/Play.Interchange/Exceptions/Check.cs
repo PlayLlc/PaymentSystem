@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Play.Core.Exceptions;
+using Play.Interchange.DataFields;
 using Play.Interchange.Messages.DataFields;
 
 namespace Play.Interchange.Exceptions;
@@ -31,7 +32,7 @@ internal class Check
             if (value.Length != length)
             {
                 throw new InterchangeDataFieldOutOfRangeException(
-                    $"The Interchange {nameof(Messages.DataFields.DataField)} with the {nameof(DataFieldId)} {dataFieldId} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {length} bytes in length");
+                    $"The Interchange {nameof(DataField)} with the {nameof(DataFieldId)} {dataFieldId} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {length} bytes in length");
             }
         }
 
@@ -45,7 +46,7 @@ internal class Check
             if (value.Length != length)
             {
                 throw new InterchangeDataFieldOutOfRangeException(
-                    $"The Interchange {nameof(Messages.DataFields.DataField)} with the {nameof(DataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {length} bytes in length");
+                    $"The Interchange {nameof(DataField)} with the {nameof(DataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {length} bytes in length");
             }
         }
 
@@ -56,12 +57,12 @@ internal class Check
         /// <param name="value"></param>
         /// <param name="maxLength"></param>
         /// <param name="dataFieldId"></param>
-        public static void ForMaximumLength<T>(IEnumerable<T> value, int maxLength, DataFieldId dataFieldId) where T : struct
+        public static void ForMaximumLength<T>(ICollection<T> value, int maxLength, DataFieldId dataFieldId) where T : struct
         {
-            if (value.Count() > maxLength)
+            if (value.Count > maxLength)
             {
                 throw new InterchangeDataFieldOutOfRangeException(
-                    $"The Interchange {nameof(Messages.DataFields.DataField)}  with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was {value.Count()} but must not exceed {maxLength} bytes in length");
+                    $"The Interchange {nameof(DataField)}  with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was {value.Count} but must not exceed {maxLength} bytes in length");
             }
         }
 
@@ -70,7 +71,7 @@ internal class Check
             if (value.Length > maxLength)
             {
                 throw new InterchangeDataFieldOutOfRangeException(
-                    $"The Interchange {nameof(Messages.DataFields.DataField)}  with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must not exceed {maxLength} bytes in length");
+                    $"The Interchange {nameof(DataField)}  with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must not exceed {maxLength} bytes in length");
             }
         }
 
@@ -86,7 +87,7 @@ internal class Check
             if (value.Length > maxLength)
             {
                 throw new InterchangeDataFieldOutOfRangeException(
-                    $"The Interchange {nameof(Messages.DataFields.DataField)}  with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must not exceed {maxLength} bytes in length");
+                    $"The Interchange {nameof(DataField)}  with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must not exceed {maxLength} bytes in length");
             }
         }
 

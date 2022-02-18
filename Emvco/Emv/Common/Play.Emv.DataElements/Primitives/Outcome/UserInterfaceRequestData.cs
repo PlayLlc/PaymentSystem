@@ -21,7 +21,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
     public static readonly Tag Tag = 0xDF8116;
     private const byte _MessageIdentifierOffset = 160;
     private const byte _StatusOffset = 152;
@@ -80,7 +80,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
 
         DecodedResult<BigInteger> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
-                $"The {nameof(UserInterfaceRequestData)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+                $"The {nameof(UserInterfaceRequestData)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new UserInterfaceRequestData(result.Value);
     }

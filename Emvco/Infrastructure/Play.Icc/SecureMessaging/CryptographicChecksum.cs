@@ -17,7 +17,7 @@ public record CryptographicChecksum : PrimitiveValue, IEqualityComparer<Cryptogr
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = OctetStringCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = OctetStringBerCodec.Identifier;
     public static readonly Tag Tag = 0x8E;
     protected const byte _MinByteCount = 4;
     protected const byte _MaxByteCount = 8;

@@ -256,6 +256,55 @@ public class Alphabetic : PlayEncoding
         return byteArray;
     }
 
+    public byte[] GetBytes(ReadOnlySpan<char> value, int length)
+    {
+        Validate(value);
+
+        if (length > value.Length)
+            throw new InvalidOperationException();
+
+        byte[] byteArray = new byte[length];
+
+        for (int i = 0; i < length; i++)
+        {
+            if (!_ByteMapper.ContainsKey(value[i]))
+                throw new EncodingException(EncodingException.CharacterArrayContainsInvalidValue);
+
+            byteArray[i] = _ByteMapper[value[i]];
+        }
+
+        return byteArray;
+    }
+
+    public void GetBytes(ReadOnlySpan<char> value, int length, Span<byte> buffer, ref int offset)
+    {
+        Validate(value);
+
+        if (length > value.Length)
+            throw new InvalidOperationException();
+
+        for (int i = 0; i < length; i++)
+        {
+            if (!_ByteMapper.ContainsKey(value[i]))
+                throw new EncodingException(EncodingException.CharacterArrayContainsInvalidValue);
+
+            buffer[offset++] = _ByteMapper[value[i]];
+        }
+    }
+
+    public void GetBytes(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
+    {
+        Validate(value);
+
+        for (int i = 0; i < value.Length; i++)
+        {
+            if (!_ByteMapper.ContainsKey(value[i]))
+                throw new EncodingException(EncodingException.CharacterArrayContainsInvalidValue);
+
+            buffer[offset++] = _ByteMapper[value[i]];
+        }
+    }
+
     public override int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
     {
         if (charIndex > chars.Length)

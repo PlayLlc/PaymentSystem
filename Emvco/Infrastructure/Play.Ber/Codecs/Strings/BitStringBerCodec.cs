@@ -20,12 +20,12 @@ namespace Play.Ber.Codecs;
 /// <remarks>
 ///     X.690-0270 Section 8.6
 /// </remarks>
-public sealed class BitStringCodec : BerPrimitiveCodec
+public sealed class BitStringBerCodec : BerPrimitiveCodec
 {
     #region Static Metadata
 
     private static readonly UnsignedInteger _UnsignedIntegerCodec = PlayEncoding.UnsignedInteger;
-    public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(BitStringCodec));
+    public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(BitStringBerCodec));
 
     //public override DecodedResult<T[]> DecodeArray<T>(ReadOnlySpan<byte> value)
     //{
@@ -99,6 +99,26 @@ public sealed class BitStringCodec : BerPrimitiveCodec
         if (byteSize == 1)
             return Encode(Unsafe.As<T[], byte[]>(ref value).AsSpan(), length);
 
+        throw new NotImplementedException();
+    }
+
+    public override void Encode<T>(T value, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset)
+    {
         throw new NotImplementedException();
     }
 

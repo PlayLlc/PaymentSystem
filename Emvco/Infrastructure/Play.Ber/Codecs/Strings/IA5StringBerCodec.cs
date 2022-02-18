@@ -9,12 +9,12 @@ using Play.Codecs.Strings;
 
 namespace Play.Ber.Codecs;
 
-public sealed class IA5StringCodec : BerPrimitiveCodec
+public sealed class IA5StringBerCodec : BerPrimitiveCodec
 {
     #region Static Metadata
 
     private static readonly StrictAscii _StrictAsciiCodec = PlayEncoding.ASCII;
-    public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(IA5StringCodec));
+    public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(IA5StringBerCodec));
 
     #endregion
 
@@ -32,6 +32,27 @@ public sealed class IA5StringCodec : BerPrimitiveCodec
 
     // TODO: this is only in BER library so holding off on implementing this
     public override byte[] Encode<T>(T[] value, int length) => throw new NotImplementedException();
+
+    public override void Encode<T>(T value, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
     public override byte[] Encode<T>(T value) => throw new NotImplementedException();
     public override byte[] Encode<T>(T value, int length) => throw new NotImplementedException();
 
@@ -39,7 +60,7 @@ public sealed class IA5StringCodec : BerPrimitiveCodec
     public override byte[] Encode<T>(T[] value)
     {
         if (typeof(T) != typeof(char))
-            throw new BerInternalException($"The {nameof(IA5StringCodec)} could not handle encoding a type of {typeof(T).FullName}");
+            throw new BerInternalException($"The {nameof(IA5StringBerCodec)} could not handle encoding a type of {typeof(T).FullName}");
 
         return Encode(Unsafe.As<T[], char[]>(ref value).AsSpan());
     }

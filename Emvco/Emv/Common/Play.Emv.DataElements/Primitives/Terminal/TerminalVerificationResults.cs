@@ -17,7 +17,7 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericDataElementCodec.Identifier;
     public static readonly Tag Tag = 0x95;
     private const byte _ByteLength = 0x05;
 
@@ -91,7 +91,7 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
 
         DecodedResult<ulong> result = codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
             ?? throw new InvalidOperationException(
-                $"The {nameof(TerminalVerificationResults)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+                $"The {nameof(TerminalVerificationResults)} could not be initialized because the {nameof(NumericDataElementCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new TerminalVerificationResults(result.Value);
     }

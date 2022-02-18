@@ -138,9 +138,9 @@ public class CheckCore
     /// <param name="value"></param>
     /// <param name="maxLength"></param>
     /// <param name="name"></param>
-    public static void ForMaximumLength<T>(IEnumerable<T> value, int maxLength, string name)
+    public static void ForMaximumLength<T>(ICollection<T> value, int maxLength, string name)
     {
-        if (value.Count() > maxLength)
+        if (value.Count > maxLength)
         {
             throw new ArgumentOutOfRangeException(name,
                 $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
@@ -218,9 +218,9 @@ public class CheckCore
     /// <param name="value"></param>
     /// <param name="minLength"></param>
     /// <param name="name"></param>
-    public static void ForMinimumLength<T>(IEnumerable<T> value, int minLength, string name) where T : struct
+    public static void ForMinimumLength<T>(ICollection<T> value, int minLength, string name) where T : struct
     {
-        if (value.Count() < minLength)
+        if (value.Count < minLength)
         {
             throw new ArgumentOutOfRangeException(name,
                 $"The argument {name} was expected to have a minimum length of {minLength} but did not");
@@ -279,7 +279,7 @@ public class CheckCore
     /// <param name="value"></param>
     /// <param name="name"></param>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public static void ForNullOrEmptySequence<T>(IEnumerable<T> value, string name)
+    public static void ForNullOrEmptySequence<T>(ICollection<T> value, string name)
     {
         if (value == null)
             throw new ArgumentNullException(name);

@@ -17,7 +17,7 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<TagsToRead>
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = VariableCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = VariableDataElementCodec.Identifier;
     public static readonly Tag Tag = 0xDF8112;
 
     #endregion

@@ -18,7 +18,7 @@ public record IccPublicKeyCertificate : PrimitiveValue, IEqualityComparer<IccPub
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
     public static readonly Tag Tag = 0x9F46;
 
     #endregion
@@ -58,7 +58,7 @@ public record IccPublicKeyCertificate : PrimitiveValue, IEqualityComparer<IccPub
     {
         DecodedResult<BigInteger> result = codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
-                $"The {nameof(IccPublicKeyCertificate)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+                $"The {nameof(IccPublicKeyCertificate)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new IccPublicKeyCertificate(result.Value);
     }

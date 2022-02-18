@@ -22,7 +22,7 @@ public partial class BerCodec
         CheckCore.ForMaximumLength(dataElements, index.Length,
             $"The argument {nameof(index)} has fewer items than argument {nameof(dataElements)}. Please ensure that all {nameof(IEncodeBerDataObjects)} children have been indexed");
 
-        IEncodeBerDataObjects[] result = new IEncodeBerDataObjects[dataElements.Count()];
+        IEncodeBerDataObjects[] result = new IEncodeBerDataObjects[dataElements.Length];
 
         for (nint i = 0, j = 0; i < index.Length; i++)
         {
@@ -33,7 +33,7 @@ public partial class BerCodec
                 result[j++] = element;
         }
 
-        if (result.Length < dataElements.Count())
+        if (result.Length < dataElements.Length)
         {
             throw new BerFormatException(new ArgumentOutOfRangeException(nameof(index),
                 $"The argument {nameof(index)} has is missing an item in the {nameof(dataElements)} argument. Please ensure that all {nameof(IEncodeBerDataObjects)} children have been indexed"));

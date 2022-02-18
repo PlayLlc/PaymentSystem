@@ -21,7 +21,7 @@ public record IssuerScriptTemplate2 : PrimitiveValue, IEqualityComparer<IssuerSc
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
     public static readonly Tag Tag = 0x72;
 
     #endregion
@@ -59,7 +59,7 @@ public record IssuerScriptTemplate2 : PrimitiveValue, IEqualityComparer<IssuerSc
     {
         DecodedResult<BigInteger> result = codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
-                $"The {nameof(IssuerScriptTemplate2)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+                $"The {nameof(IssuerScriptTemplate2)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new IssuerScriptTemplate2(result.Value);
     }

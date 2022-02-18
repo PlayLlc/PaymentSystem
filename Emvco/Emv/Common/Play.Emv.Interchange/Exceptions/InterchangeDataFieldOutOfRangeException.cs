@@ -1,5 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 
+using Play.Interchange.DataFields;
+
 namespace Play.Emv.Interchange.Exceptions;
 
 internal class InterchangeDataFieldOutOfRangeException : InterchangeFormatException

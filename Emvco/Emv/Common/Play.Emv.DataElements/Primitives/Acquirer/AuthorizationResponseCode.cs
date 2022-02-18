@@ -15,7 +15,7 @@ public record AuthorizationResponseCode : DataElement<ushort>, IEqualityComparer
     #region Static Metadata
 
     public static readonly Tag Tag = 0x8A;
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericDataElementCodec.Identifier;
 
     #endregion
 
@@ -53,7 +53,7 @@ public record AuthorizationResponseCode : DataElement<ushort>, IEqualityComparer
 
         DecodedResult<ushort> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
             ?? throw new InvalidOperationException(
-                $"The {nameof(AuthorizationResponseCode)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+                $"The {nameof(AuthorizationResponseCode)} could not be initialized because the {nameof(NumericDataElementCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         if (result.CharCount != charLength)
         {

@@ -2,6 +2,7 @@
 using System.Collections.Immutable;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 
 using Play.Core.Extensions;
 using Play.Core.Specifications;
@@ -94,6 +95,36 @@ public class SignedInteger : PlayEncoding
             throw new ArgumentOutOfRangeException(nameof(value));
 
         return (sbyte) value[0];
+    }
+
+    public void GetBytes(sbyte value, Span<byte> buffer, ref int offset)
+    {
+        Unsafe.As<byte, sbyte>(ref buffer[offset]) = value;
+        offset++;
+    }
+
+    public void GetBytes(short value, Span<byte> buffer, ref int offset)
+    {
+        Unsafe.As<byte, short>(ref buffer[offset]) = value;
+        offset += 2;
+    }
+
+    public void GetBytes(int value, Span<byte> buffer, ref int offset)
+    {
+        Unsafe.As<byte, int>(ref buffer[offset]) = value;
+        offset += 4;
+    }
+
+    public void GetBytes(long value, Span<byte> buffer, ref int offset)
+    {
+        Unsafe.As<byte, long>(ref buffer[offset]) = value;
+        offset += 8;
+    }
+
+    public void GetBytes(BigInteger value, Span<byte> buffer, ref int offset)
+    {
+        value.ToByteArray(false).AsSpan().CopyTo(buffer[offset..]);
+        offset += value.GetByteCount();
     }
 
     public byte[] GetBytes(sbyte value) => BitConverter.GetBytes(value);

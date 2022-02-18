@@ -18,7 +18,7 @@ public record IssuerAuthenticationData : PrimitiveValue, IEqualityComparer<Issue
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
     public static readonly Tag Tag = 0x91;
 
     #endregion
@@ -65,7 +65,7 @@ public record IssuerAuthenticationData : PrimitiveValue, IEqualityComparer<Issue
 
         DecodedResult<BigInteger> result = codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
-                $"The {nameof(IssuerAuthenticationData)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+                $"The {nameof(IssuerAuthenticationData)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new IssuerAuthenticationData(result.Value);
     }

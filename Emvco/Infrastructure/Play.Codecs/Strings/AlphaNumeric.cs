@@ -253,7 +253,7 @@ public class AlphaNumeric : PlayEncoding
     {
         Validate(value);
 
-        return (byte) value;
+        return _ByteMapper[value];
     }
 
     /// <exception cref="EncodingException"></exception>
@@ -272,6 +272,19 @@ public class AlphaNumeric : PlayEncoding
         }
 
         return byteArray;
+    }
+
+    public void GetBytes(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
+    {
+        Validate(value);
+
+        for (int i = 0; i < value.Length; i++)
+        {
+            if (!_ByteMapper.ContainsKey(value[i]))
+                throw new EncodingException(EncodingException.CharacterArrayContainsInvalidValue);
+
+            buffer[offset++] = _ByteMapper[value[i]];
+        }
     }
 
     public override int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)

@@ -1,21 +1,19 @@
 ﻿using Play.Codecs;
 using Play.Core.Extensions;
+using Play.Emv.Interchange.Exceptions;
+using Play.Interchange.Codecs;
+using Play.Interchange.DataFields;
 
 namespace Play.Emv.Interchange.DataFields;
 
-public readonly struct SystemTraceAuditNumber
+public sealed record SystemTraceAuditNumber : EmvDataField<uint>
 {
     #region Static Metadata
 
     private const byte _MinValue = 1;
-    private const uint _MaxValue = 999999;
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly uint _Value;
-
+    private const nint _MaxValue = 999999;
+    public static readonly DataFieldId DataFieldId = 11;
+    public static readonly InterchangeEncodingId EncodingId = 
     #endregion
 
     #region Constructor
@@ -26,24 +24,22 @@ public readonly struct SystemTraceAuditNumber
     /// <param name="value">
     ///     The value of the STAN. A number between 1 and 999,999
     /// </param>
-    public SystemTraceAuditNumber(uint value)
+    public SystemTraceAuditNumber(uint value) : base(value)
     {
-        if (value == 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} has a value of {value} but must be a value between {_MinValue} and {_MaxValue}");
-        }
+        byte[] test = new byte[3]; 
 
-        if (value > _MaxValue)
-        {
-            throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} has a value of {value} but must be a value between {_MinValue} and {_MaxValue}");
-        }
-
-        _Value = value;
+        Check.DataField.ForMinimumLength(test, _MinValue, GetDataFieldId());
+        Check.DataField.ForMaximumLength(test, _MaxValue, GetDataFieldId()); 
     }
 
     #endregion
+
+
+    public static SystemTraceAuditNumber Decode(ReadOnlySpan<byte> value)
+    {
+        Check.DataField.For
+    }
+
 
     #region Instance Members
 

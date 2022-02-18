@@ -17,7 +17,7 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
     public static readonly Tag Tag = 0x9F33;
     private const byte _ByteLength = 3;
 
@@ -66,7 +66,7 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
 
         DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
-                $"The {nameof(TerminalCapabilities)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
+                $"The {nameof(TerminalCapabilities)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new TerminalCapabilities(result.Value);
     }

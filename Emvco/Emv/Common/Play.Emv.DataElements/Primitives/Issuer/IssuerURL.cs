@@ -15,7 +15,7 @@ public record IssuerUrl : DataElement<char[]>, IEqualityComparer<IssuerUrl>
     #region Static Metadata
 
     public static readonly Tag Tag = 0x5F50;
-    public static readonly BerEncodingId BerEncodingId = AlphaNumericSpecialCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = AlphaNumericSpecialDataElementCodec.Identifier;
 
     #endregion
 
@@ -44,7 +44,7 @@ public record IssuerUrl : DataElement<char[]>, IEqualityComparer<IssuerUrl>
     {
         DecodedResult<char[]> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<char[]>
             ?? throw new InvalidOperationException(
-                $"The {nameof(IssuerUrl)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
+                $"The {nameof(IssuerUrl)} could not be initialized because the {nameof(AlphaNumericSpecialDataElementCodec)} returned a null {nameof(DecodedResult<char[]>)}");
 
         return new IssuerUrl(result.Value);
     }

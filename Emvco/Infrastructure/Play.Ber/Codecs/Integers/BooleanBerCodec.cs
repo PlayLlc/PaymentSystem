@@ -6,13 +6,13 @@ using Play.Core.Exceptions;
 
 namespace Play.Ber.Codecs;
 
-public sealed class BooleanCodec : BerPrimitiveCodec
+public sealed class BooleanBerCodec : BerPrimitiveCodec
 {
     #region Static Metadata
 
     private static readonly byte[] _DefaultEncodedFalse = {0x00};
     private static readonly byte[] _DefaultEncodedTrue = {0xFF};
-    public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(BooleanCodec));
+    public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(BooleanBerCodec));
 
     #endregion
 
@@ -40,6 +40,27 @@ public sealed class BooleanCodec : BerPrimitiveCodec
 
     // TODO: this is only in BER library so holding off on implementing this
     public override byte[] Encode<T>(T[] value, int length) => throw new NotImplementedException();
+
+    public override void Encode<T>(T value, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
     public override byte[] Encode<T>(T[] value) => throw new NotImplementedException();
     public byte[] Encode(bool value) => value ? _DefaultEncodedTrue : _DefaultEncodedFalse;
 

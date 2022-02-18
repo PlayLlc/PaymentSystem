@@ -22,7 +22,7 @@ public record ApplicationFileLocator : DataElement<byte[]>, IEqualityComparer<Ap
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = VariableCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = VariableDataElementCodec.Identifier;
     public static readonly Tag Tag = 0x94;
     private const byte _MaxByteLength = 248;
     private const byte _ByteLengthMultiple = 4;
@@ -101,7 +101,7 @@ public record ApplicationFileLocator : DataElement<byte[]>, IEqualityComparer<Ap
 
         DecodedResult<byte[]> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<byte[]>
             ?? throw new InvalidOperationException(
-                $"The {nameof(ApplicationFileLocator)} could not be initialized because the {nameof(VariableCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
+                $"The {nameof(ApplicationFileLocator)} could not be initialized because the {nameof(VariableDataElementCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
 
         return new ApplicationFileLocator(result.Value);
     }

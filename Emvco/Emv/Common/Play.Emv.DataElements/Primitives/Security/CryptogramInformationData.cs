@@ -16,7 +16,7 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
     public static readonly Tag Tag = 0x9F27;
 
     #endregion
@@ -89,7 +89,7 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
 
         DecodedResult<byte> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
-                $"The {nameof(CryptogramInformationData)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
+                $"The {nameof(CryptogramInformationData)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new CryptogramInformationData(result.Value);
     }

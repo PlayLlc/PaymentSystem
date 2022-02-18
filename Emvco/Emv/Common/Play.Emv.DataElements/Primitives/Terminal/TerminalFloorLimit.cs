@@ -17,7 +17,7 @@ public record TerminalFloorLimit : DataElement<uint>, IEqualityComparer<Terminal
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
     public static readonly Tag Tag = 0x9F1B;
     private const byte _ByteLength = 4;
 
@@ -56,7 +56,7 @@ public record TerminalFloorLimit : DataElement<uint>, IEqualityComparer<Terminal
 
         DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
-                $"The {nameof(TerminalFloorLimit)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
+                $"The {nameof(TerminalFloorLimit)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new TerminalFloorLimit(result.Value);
     }
