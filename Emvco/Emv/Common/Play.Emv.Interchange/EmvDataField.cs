@@ -5,6 +5,12 @@ namespace Play.Emv.Interchange;
 
 public abstract record EmvDataField<T> : InterchangeDataField where T : struct
 {
+    #region Static Metadata
+
+    protected static readonly InterchangeCodec _Codec = new();
+
+    #endregion
+
     #region Instance Values
 
     protected readonly T _Value;
@@ -22,10 +28,9 @@ public abstract record EmvDataField<T> : InterchangeDataField where T : struct
 
     #region Instance Members
 
-    protected abstract InterchangeCodec GetCodec();
-    public ushort GetByteCount() => GetCodec().GetByteCount(GetEncodingId(), _Value);
-    public byte[] Encode() => Encode(GetCodec());
-    public void Encode(Span<byte> buffer, ref int offset) => Encode(GetCodec(), buffer, ref offset);
+    public ushort GetByteCount() => _Codec.GetByteCount(GetEncodingId(), _Value);
+    public byte[] Encode() => Encode(_Codec);
+    public void Encode(Span<byte> buffer, ref int offset) => Encode(_Codec, buffer, ref offset);
     public override ushort GetByteCount(InterchangeCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     public override byte[] Encode(InterchangeCodec codec)

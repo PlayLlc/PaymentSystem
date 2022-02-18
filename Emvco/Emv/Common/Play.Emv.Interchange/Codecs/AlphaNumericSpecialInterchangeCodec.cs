@@ -1,15 +1,17 @@
-﻿using Play.Emv.Codecs;
+﻿using Play.Ber.InternalFactories;
+using Play.Codecs;
+using Play.Emv.Codecs;
 using Play.Interchange.Codecs;
 
-namespace Play.Emv.Ber.Codecs;
+namespace Play.Emv.Interchange.Codecs;
 
 // TODO: Move the actual functionality higher up to Play.Codec
-public class AlphaNumericDataElementCodec : InterchangeDataFieldCodec
+public class AlphaNumericSpecialInterchangeCodec : InterchangeDataFieldCodec
 {
     #region Static Metadata
 
-    private static readonly AlphaNumericEmvCodec _Codec = new();
-    public static readonly InterchangeEncodingId Identifier = GetEncodingId(typeof(AlphabeticDataElementCodec));
+    private static readonly AlphaNumericSpecialEmvCodec _Codec = new();
+    public static readonly InterchangeEncodingId Identifier = GetEncodingId(typeof(AlphabeticInterchangeCodec));
 
     #endregion
 
@@ -32,6 +34,12 @@ public class AlphaNumericDataElementCodec : InterchangeDataFieldCodec
 
     public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) =>
         _Codec.Encode(value, length, buffer, ref offset);
+
+    #endregion
+
+    #region Serialization
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => _Codec.Decode(value);
 
     #endregion
 }

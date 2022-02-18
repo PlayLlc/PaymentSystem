@@ -1,6 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 
 using Play.Ber.Codecs;
+using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Codecs.Strings;
 using Play.Emv.Codecs.Exceptions;
 
@@ -19,7 +21,7 @@ public class VariableEmvCodec : Codec
 
     public override bool IsValid(ReadOnlySpan<byte> value) => _BinaryCodec.IsValid(value);
 
-    protected override void Validate(ReadOnlySpan<byte> value)
+    protected void Validate(ReadOnlySpan<byte> value)
     {
         _BinaryCodec.IsValid(value);
     }
@@ -114,6 +116,17 @@ public class VariableEmvCodec : Codec
 
     public override ushort GetByteCount<T>(T value) => throw new NotImplementedException();
     public override ushort GetByteCount<T>(T[] value) => (ushort) (value.Length * Unsafe.SizeOf<T>());
+
+    #endregion
+
+    #region Serialization
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        char[] valueResult = PlayEncoding.Binary.GetChars(value);
+
+        return new DecodedResult<char[]>(valueResult, valueResult.Length);
+    }
 
     #endregion
 }

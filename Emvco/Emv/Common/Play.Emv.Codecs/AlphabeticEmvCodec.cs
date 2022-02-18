@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 
 using Play.Ber.Codecs;
+using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Codecs.Strings;
@@ -128,11 +129,18 @@ public class AlphabeticEmvCodec : Codec
 
     /// <exception cref="EmvEncodingFormatException"></exception>
     /// <exception cref="EncodingException"></exception>
-    protected override void Validate(ReadOnlySpan<byte> value)
+    protected void Validate(ReadOnlySpan<byte> value)
     {
         if (!_Alphabetic.IsValid(value))
             throw new EmvEncodingFormatException(EncodingException.CharacterArrayContainsInvalidValue);
     }
+
+    #endregion
+
+    #region Serialization
+
+    /// <exception cref="EncodingException"></exception>
+    public override DecodedResult<char[]> Decode(ReadOnlySpan<byte> value) => new(PlayEncoding.Alphabetic.GetChars(value), value.Length);
 
     #endregion
 }

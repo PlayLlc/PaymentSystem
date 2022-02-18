@@ -41,7 +41,7 @@ public class AlphabeticDataElementCodec : BerPrimitiveCodec
     #region Serialization
 
     /// <exception cref="EncodingException"></exception>
-    public override DecodedResult<char[]> Decode(ReadOnlySpan<byte> value) => new(PlayEncoding.Alphabetic.GetChars(value), value.Length);
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => _Codec.Decode(value);
 
     #endregion
 }

@@ -50,44 +50,7 @@ public class NumericDataElementCodec : BerPrimitiveCodec
 
     #region Serialization
 
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
-    {
-        _Codec.Validate(value);
-
-        ReadOnlySpan<byte> trimmedValue = value.TrimStart((byte) 0);
-
-        if (value.Length == Specs.Integer.UInt8.ByteSize)
-        {
-            byte byteResult = PlayEncoding.Numeric.GetByte(trimmedValue[0]);
-
-            return new DecodedResult<byte>(byteResult, value.Length * 2);
-        }
-
-        if (value.Length <= Specs.Integer.UInt16.ByteSize)
-        {
-            ushort shortResult = PlayEncoding.Numeric.GetUInt16(trimmedValue);
-
-            return new DecodedResult<ushort>(shortResult, value.Length * 2);
-        }
-
-        if (value.Length <= Specs.Integer.UInt32.ByteSize)
-        {
-            uint intResult = PlayEncoding.Numeric.GetUInt32(trimmedValue);
-
-            return new DecodedResult<uint>(intResult, value.Length * 2);
-        }
-
-        if (value.Length <= Specs.Integer.UInt64.ByteCount)
-        {
-            ulong longResult = PlayEncoding.Numeric.GetUInt64(trimmedValue);
-
-            return new DecodedResult<ulong>(longResult, value.Length * 2);
-        }
-
-        BigInteger bigIntegerResult = PlayEncoding.Numeric.GetBigInteger(trimmedValue);
-
-        return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
-    }
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => _Codec.Decode(value);
 
     #endregion
 }

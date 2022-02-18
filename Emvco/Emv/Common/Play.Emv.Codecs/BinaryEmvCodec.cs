@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 
 using Play.Ber.Codecs;
+using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Codecs.Integers;
 using Play.Core.Extensions;
@@ -174,8 +175,26 @@ public class BinaryEmvCodec : Codec
 
     public override ushort GetByteCount<T>(T[] value) => checked((ushort) value.Length);
 
-    protected override void Validate(ReadOnlySpan<byte> value)
+    protected void Validate(ReadOnlySpan<byte> value)
     { }
+
+    #endregion
+
+    #region Serialization
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        if (value.Length <= Specs.Integer.UInt8.ByteSize)
+            return new DecodedResult<byte>(value[0], value[0].GetNumberOfDigits());
+        if (value.Length <= Specs.Integer.UInt16.ByteSize)
+            return new DecodedResult<ushort>(PlayEncoding.UnsignedInteger.GetUInt16(value), value[0].GetNumberOfDigits());
+        if (value.Length <= Specs.Integer.UInt32.ByteSize)
+            return new DecodedResult<uint>(PlayEncoding.UnsignedInteger.GetUInt32(value), value[0].GetNumberOfDigits());
+        if (value.Length <= Specs.Integer.UInt64.ByteCount)
+            return new DecodedResult<ulong>(PlayEncoding.UnsignedInteger.GetUInt64(value), value[0].GetNumberOfDigits());
+
+        return new DecodedResult<BigInteger>(PlayEncoding.UnsignedInteger.GetBigInteger(value), value[0].GetNumberOfDigits());
+    }
 
     #endregion
 }

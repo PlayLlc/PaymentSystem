@@ -1,23 +1,23 @@
-﻿using Play.Ber.Codecs;
-using Play.Ber.InternalFactories;
+﻿using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Emv.Codecs;
+using Play.Interchange.Codecs;
 
-namespace Play.Emv.Ber.Codecs;
+namespace Play.Emv.Interchange.Codecs;
 
 // TODO: Move the actual functionality higher up to Play.Codec
-public class AlphaNumericDataElementCodec : BerPrimitiveCodec
+public class AlphaNumericInterchangeCodec : InterchangeDataFieldCodec
 {
     #region Static Metadata
 
     private static readonly AlphaNumericEmvCodec _Codec = new();
-    public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(AlphaNumericDataElementCodec));
+    public static readonly InterchangeEncodingId Identifier = GetEncodingId(typeof(AlphabeticInterchangeCodec));
 
     #endregion
 
     #region Instance Members
 
-    public override BerEncodingId GetIdentifier() => Identifier;
+    public override InterchangeEncodingId GetIdentifier() => Identifier;
     public override ushort GetByteCount<T>(T value) => _Codec.GetByteCount(value);
     public override ushort GetByteCount<T>(T[] value) => _Codec.GetByteCount(value);
     public override bool IsValid(ReadOnlySpan<byte> value) => _Codec.IsValid(value);

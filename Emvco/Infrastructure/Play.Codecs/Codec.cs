@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Play.Ber.InternalFactories;
+
 namespace Play.Ber.Codecs;
 
 /// <summary>
@@ -88,6 +90,12 @@ public abstract class Codec
     public abstract void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct;
     public abstract void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct;
     public abstract void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct;
+
+    #endregion
+
+    #region Serialization
+
+    public abstract DecodedMetadata Decode(ReadOnlySpan<byte> value);
 
     #endregion
 }

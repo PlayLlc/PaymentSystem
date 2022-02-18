@@ -5,6 +5,8 @@ using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Ber.Codecs;
+using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Codecs.Strings;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
@@ -546,6 +548,50 @@ public class CompressedNumericEmvCodec : Codec
     public void Validate(ReadOnlySpan<byte> value)
     {
         ValidateNumericEncoding(value[..^GetPaddingIndexFromEnd(value)]);
+    }
+
+    #endregion
+
+    #region Serialization
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        Validate(value);
+
+        ReadOnlySpan<byte> trimmedValue = TrimTrailingBytes(value);
+        BigInteger maximumIntegerResult = (BigInteger) Math.Pow(2, value.Length * 8);
+
+        if (maximumIntegerResult <= byte.MaxValue)
+        {
+            byte byteResult = DecodeByte(trimmedValue[0]);
+
+            return new DecodedResult<byte>(byteResult, PlayEncoding.UnsignedInteger.GetCharCount(byteResult));
+        }
+
+        if (maximumIntegerResult <= ushort.MaxValue)
+        {
+            ushort shortResult = DecodeUInt16(trimmedValue);
+
+            return new DecodedResult<ushort>(shortResult, PlayEncoding.UnsignedInteger.GetCharCount(shortResult));
+        }
+
+        if (maximumIntegerResult <= uint.MaxValue)
+        {
+            uint intResult = DecodeUInt32(trimmedValue);
+
+            return new DecodedResult<uint>(intResult, PlayEncoding.UnsignedInteger.GetCharCount(intResult));
+        }
+
+        if (maximumIntegerResult <= ulong.MaxValue)
+        {
+            ulong longResult = DecodeUInt64(trimmedValue);
+
+            return new DecodedResult<ulong>(longResult, PlayEncoding.UnsignedInteger.GetCharCount(longResult));
+        }
+
+        BigInteger bigIntegerResult = DecodeBigInteger(trimmedValue);
+
+        return new DecodedResult<BigInteger>(bigIntegerResult, PlayEncoding.UnsignedInteger.GetCharCount(bigIntegerResult));
     }
 
     #endregion

@@ -43,19 +43,7 @@ public class BinaryDataElementCodec : BerPrimitiveCodec
 
     #region Serialization
 
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
-    {
-        if (value.Length <= Specs.Integer.UInt8.ByteSize)
-            return new DecodedResult<byte>(value[0], value[0].GetNumberOfDigits());
-        if (value.Length <= Specs.Integer.UInt16.ByteSize)
-            return new DecodedResult<ushort>(PlayEncoding.UnsignedInteger.GetUInt16(value), value[0].GetNumberOfDigits());
-        if (value.Length <= Specs.Integer.UInt32.ByteSize)
-            return new DecodedResult<uint>(PlayEncoding.UnsignedInteger.GetUInt32(value), value[0].GetNumberOfDigits());
-        if (value.Length <= Specs.Integer.UInt64.ByteCount)
-            return new DecodedResult<ulong>(PlayEncoding.UnsignedInteger.GetUInt64(value), value[0].GetNumberOfDigits());
-
-        return new DecodedResult<BigInteger>(PlayEncoding.UnsignedInteger.GetBigInteger(value), value[0].GetNumberOfDigits());
-    }
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => _Codec.Decode(value);
 
     #endregion
 }

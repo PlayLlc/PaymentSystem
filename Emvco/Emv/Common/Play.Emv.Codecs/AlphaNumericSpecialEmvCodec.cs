@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 
 using Play.Ber.Codecs;
+using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Codecs.Strings;
@@ -141,6 +142,17 @@ public class AlphaNumericSpecialEmvCodec : Codec
             return checked((ushort) value.Length);
 
         throw new NotImplementedException();
+    }
+
+    #endregion
+
+    #region Serialization
+
+    public override DecodedResult<char[]> Decode(ReadOnlySpan<byte> value)
+    {
+        char[] valueResult = PlayEncoding.AlphaNumericSpecial.GetChars(value);
+
+        return new DecodedResult<char[]>(valueResult, valueResult.Length);
     }
 
     #endregion

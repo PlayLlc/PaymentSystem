@@ -39,12 +39,7 @@ public class VariableDataElementCodec : BerPrimitiveCodec
 
     #region Serialization
 
-    public override DecodedResult<char[]> Decode(ReadOnlySpan<byte> value)
-    {
-        char[] valueResult = PlayEncoding.Binary.GetChars(value);
-
-        return new DecodedResult<char[]>(valueResult, valueResult.Length);
-    }
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => _Codec.Decode(value);
 
     #endregion
 }

@@ -1,5 +1,6 @@
 ﻿using Play.Codecs;
 using Play.Core.Extensions;
+using Play.Emv.Interchange.Codecs;
 using Play.Emv.Interchange.Exceptions;
 using Play.Interchange.Codecs;
 using Play.Interchange.DataFields;
@@ -10,10 +11,12 @@ public sealed record SystemTraceAuditNumber : EmvDataField<uint>
 {
     #region Static Metadata
 
+    public static readonly DataFieldId DataFieldId = 11;
+    public static readonly InterchangeEncodingId EncodingId = NumericInterchangeCodec.Identifier;
     private const byte _MinValue = 1;
     private const nint _MaxValue = 999999;
-    public static readonly DataFieldId DataFieldId = 11;
-    public static readonly InterchangeEncodingId EncodingId = 
+    private const nint _ByteLength = 999999;
+
     #endregion
 
     #region Constructor
@@ -26,20 +29,13 @@ public sealed record SystemTraceAuditNumber : EmvDataField<uint>
     /// </param>
     public SystemTraceAuditNumber(uint value) : base(value)
     {
-        byte[] test = new byte[3]; 
+        byte[] test = new byte[3];
 
         Check.DataField.ForMinimumLength(test, _MinValue, GetDataFieldId());
-        Check.DataField.ForMaximumLength(test, _MaxValue, GetDataFieldId()); 
+        Check.DataField.ForMaximumLength(test, _MaxValue, GetDataFieldId());
     }
 
     #endregion
-
-
-    public static SystemTraceAuditNumber Decode(ReadOnlySpan<byte> value)
-    {
-        Check.DataField.For
-    }
-
 
     #region Instance Members
 
@@ -48,26 +44,28 @@ public sealed record SystemTraceAuditNumber : EmvDataField<uint>
     /// </summary>
     /// <returns></returns>
     public byte[] AsByteArray() => PlayEncoding.Numeric.GetBytes(_Value);
+       
 
-    public int GetByteCount() => PlayEncoding.Numeric.GetMaxByteCount(_Value.GetNumberOfDigits());
-    public int GetNumberOfDigits() => _Value.GetNumberOfDigits();
+    #endregion
+
+    #region Serialization
+
+    public static SystemTraceAuditNumber Decode(ReadOnlySpan<byte> value)
+    {
+        Check.DataField.ForExactLength(value, _ByteLength, DataFieldId);
+
+        _Codec.
+
+    }
 
     #endregion
 
     #region Equality
+     
+    public override DataFieldId GetDataFieldId() => throw new NotImplementedException();
 
-    public bool Equals(SystemTraceAuditNumber other) => _Value == other._Value;
-    public override bool Equals(object? obj) => obj is SystemTraceAuditNumber sequenceTraceAuditNumber && Equals(sequenceTraceAuditNumber);
-    public int GetHashCode(SystemTraceAuditNumber other) => other.GetHashCode();
-    public override int GetHashCode() => unchecked(26183 * _Value.GetHashCode());
-
-    #endregion
-
-    #region Operator Overrides
-
-    public static bool operator ==(SystemTraceAuditNumber left, SystemTraceAuditNumber right) => left._Value == right._Value;
-    public static explicit operator uint(SystemTraceAuditNumber classType) => classType._Value;
-    public static bool operator !=(SystemTraceAuditNumber left, SystemTraceAuditNumber right) => !(left == right);
+    public override InterchangeEncodingId GetEncodingId() => throw new NotImplementedException();  
 
     #endregion
+     
 }

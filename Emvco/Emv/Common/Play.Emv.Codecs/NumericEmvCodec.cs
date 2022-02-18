@@ -1,8 +1,11 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Numerics;
+using System.Runtime.CompilerServices;
 
 using Play.Ber.Codecs;
+using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Codecs.Strings;
+using Play.Core.Specifications;
 using Play.Emv.Codecs.Exceptions;
 
 namespace Play.Emv.Codecs;
@@ -79,6 +82,49 @@ public class NumericEmvCodec : Codec
     {
         if (!IsValid(value))
             throw new EmvEncodingFormatException(new ArgumentOutOfRangeException(nameof(value)));
+    }
+
+    #endregion
+
+    #region Serialization
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        Validate(value);
+
+        ReadOnlySpan<byte> trimmedValue = value.TrimStart((byte) 0);
+
+        if (value.Length == Specs.Integer.UInt8.ByteSize)
+        {
+            byte byteResult = PlayEncoding.Numeric.GetByte(trimmedValue[0]);
+
+            return new DecodedResult<byte>(byteResult, value.Length * 2);
+        }
+
+        if (value.Length <= Specs.Integer.UInt16.ByteSize)
+        {
+            ushort shortResult = PlayEncoding.Numeric.GetUInt16(trimmedValue);
+
+            return new DecodedResult<ushort>(shortResult, value.Length * 2);
+        }
+
+        if (value.Length <= Specs.Integer.UInt32.ByteSize)
+        {
+            uint intResult = PlayEncoding.Numeric.GetUInt32(trimmedValue);
+
+            return new DecodedResult<uint>(intResult, value.Length * 2);
+        }
+
+        if (value.Length <= Specs.Integer.UInt64.ByteCount)
+        {
+            ulong longResult = PlayEncoding.Numeric.GetUInt64(trimmedValue);
+
+            return new DecodedResult<ulong>(longResult, value.Length * 2);
+        }
+
+        BigInteger bigIntegerResult = PlayEncoding.Numeric.GetBigInteger(trimmedValue);
+
+        return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
     }
 
     #endregion
