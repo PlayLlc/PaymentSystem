@@ -54,8 +54,8 @@ public class AlphaSpecial : PlayEncoding
         return true;
     }
 
-    public bool IsValid(byte value) => _CharMapper.Keys.Contains(value);
-    public bool IsValid(char value) => _ByteMapper.Keys.Contains(value);
+    public bool IsValid(byte value) => _CharMapper.ContainsKey(value);
+    public bool IsValid(char value) => _ByteMapper.ContainsKey(value);
 
     /// <exception cref="EncodingException"></exception>
     private void Validate(byte value)

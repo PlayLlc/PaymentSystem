@@ -14,7 +14,7 @@ internal class AdditionalPrivateData
 
     public static void Encode(Span<byte> buffer, ref int offset, params ElavonDataElement<dynamic>[] elavonDataElements)
     {
-        foreach (var element in elavonDataElements)
+        foreach (ElavonDataElement<dynamic>? element in elavonDataElements)
             element.EncodeTagLengthValue(buffer, ref offset);
     }
 

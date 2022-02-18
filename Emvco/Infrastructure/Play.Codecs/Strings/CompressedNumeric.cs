@@ -13,45 +13,22 @@ using Play.Core.Specifications;
 
 namespace Play.Codecs.Strings;
 
-// TODO: need to move Play.Codec.CompressedNumeric logic into here
 public class CompressedNumeric : PlayEncoding
 {
     #region Static Metadata
 
     public static readonly PlayEncodingId PlayEncodingId = new(nameof(CompressedNumeric));
 
-    private static readonly ImmutableSortedDictionary<byte, char> _CharMap = new Dictionary<byte, char>
-    {
-        {48, '0'},
-        {49, '1'},
-        {50, '2'},
-        {51, '3'},
-        {52, '4'},
-        {53, '5'},
-        {54, '6'},
-        {55, '7'},
-        {56, '8'},
-        {57, '9'}
-    }.ToImmutableSortedDictionary();
+    private static readonly ImmutableSortedDictionary<char, byte> _ByteMap =
+        Enumerable.Range(0, 10).ToImmutableSortedDictionary(a => (char) (a + 48), b => (byte) b);
 
-    private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = new Dictionary<char, byte>
-    {
-        {'0', 48},
-        {'1', 49},
-        {'2', 50},
-        {'3', 51},
-        {'4', 52},
-        {'5', 53},
-        {'6', 54},
-        {'7', 55},
-        {'8', 56},
-        {'9', 57}
-    }.ToImmutableSortedDictionary();
+    private static readonly ImmutableSortedDictionary<byte, char> _CharMap =
+        Enumerable.Range(0, 10).ToImmutableSortedDictionary(a => (byte) a, b => (char) (b + 48));
 
-    private const byte _PaddingByteKey = 70;
     private const char _PaddingCharKey = 'F';
-    private const byte _LeftNibbleMask = (byte) (Bits.Eight | Bits.Seven | Bits.Six | Bits.Five);
-    private const byte _PaddedNibble = 0xF;
+    private const byte _PaddedLeftNibble = 0xF0;
+    private const byte _PaddedRightNibble = 0xF;
+    private const byte _PaddedByte = 0xFF;
 
     #endregion
 
@@ -61,523 +38,571 @@ public class CompressedNumeric : PlayEncoding
 
     public override bool IsValid(ReadOnlySpan<char> value)
     {
-        ReadOnlySpan<char> trimmedValue = TrimPadding(value);
+        int padCount = GetPadCount(value);
 
-        for (int i = 0; i < trimmedValue.Length; i++)
+        for (int i = padCount; i < value.Length; i++)
         {
-            if (!_ByteMap.Keys.Contains(value[i]))
+            if (!_ByteMap.ContainsKey(value[i]))
                 return false;
         }
 
         return true;
     }
 
-    public ReadOnlySpan<char> TrimPadding(ReadOnlySpan<char> value)
+    private static int GetPadCount(ReadOnlySpan<char> value)
     {
-        for (int i = value.Length; i > 0; i--)
+        int offset = 0;
+
+        for (; offset < value.Length;)
         {
-            if (value[i] != _PaddingCharKey)
-                return value[..i];
+            if (value[offset] != _PaddingCharKey)
+                break;
+
+            offset++;
         }
 
-        return value;
+        return offset;
     }
 
-    public override bool IsValid(ReadOnlySpan<byte> value) => IsNumericEncodingValid(value[..^GetPaddingIndexFromEnd(value)]);
+    private static int GetPadCount(ReadOnlySpan<byte> value)
+    {
+        int offset = value.Length;
 
-    public override int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex) =>
-        Encode(chars[charIndex..charCount].AsSpan(), bytes[byteIndex..].AsSpan());
+        for (; offset > 0;)
+        {
+            if (value[offset] != _PaddedByte)
+                break;
 
-    public override byte[] GetBytes(ReadOnlySpan<char> value) => Encode(value);
+            offset -= 2;
+        }
+
+        if (value[offset].AreBitsSet(_PaddedRightNibble))
+            offset++;
+
+        return offset;
+    }
+
+    public override bool IsValid(ReadOnlySpan<byte> value)
+    {
+        int padCount = GetPadCount(value);
+
+        for (int i = 0, j = 0; j < ((value.Length * 2) - padCount); i += j % 2, j++)
+        {
+            if ((padCount % 2) != 0)
+            {
+                if (!_CharMap.ContainsKey((byte) value[i].GetMaskedValue(_PaddedLeftNibble)))
+                    return false;
+            }
+            else
+            {
+                if (!_CharMap.ContainsKey((byte) value[i].GetMaskedValue(_PaddedRightNibble)))
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
+    public bool IsValid(byte value)
+    {
+        if (value == _PaddedByte)
+            return true;
+
+        if (!value.AreBitsSet(_PaddedLeftNibble))
+        {
+            if (!_CharMap.ContainsKey((byte) (value >> 4)))
+                return false;
+        }
+
+        if (!_CharMap.ContainsKey(value.GetMaskedValue(_PaddedLeftNibble)))
+            return false;
+
+        return true;
+    }
+
+    public bool IsValid(char value) => _ByteMap.ContainsKey(value);
+
+    public new byte[] GetBytes(string value)
+    {
+        if ((value.Length % 2) != 0)
+            throw new ArgumentOutOfRangeException(nameof(value));
+
+        int length = value.Length / 2;
+
+        if (length < Specs.ByteArray.StackAllocateCeiling)
+        {
+            Span<byte> buffer = stackalloc byte[length];
+
+            for (int i = 0, j = 0; i < length; i++, j += 2)
+                buffer[i] = GetByte(value[j], value[j + 1]);
+
+            return buffer.ToArray();
+        }
+        else
+        {
+            SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(length);
+            Span<byte> buffer = spanOwner.Span;
+
+            for (int i = 0, j = 0; i < length; i++, j += 2)
+                buffer[i] = GetByte(value[j], value[j + 1]);
+
+            return buffer.ToArray();
+        }
+    }
+
+    public byte[] GetBytes<T>(T value)
+    {
+        nint byteSize = Unsafe.SizeOf<T>();
+
+        if (byteSize == Specs.Integer.UInt8.ByteSize)
+            return GetBytes(Unsafe.As<T, byte>(ref value));
+        if (byteSize == Specs.Integer.UInt16.ByteSize)
+            return GetBytes(Unsafe.As<T, ushort>(ref value));
+        if (byteSize <= Specs.Integer.UInt32.ByteSize)
+            return GetBytes(Unsafe.As<T, uint>(ref value));
+        if (byteSize <= Specs.Integer.UInt64.ByteCount)
+            return GetBytes(Unsafe.As<T, ulong>(ref value));
+
+        return GetBytes(Unsafe.As<T, BigInteger>(ref value));
+    }
+
+    public byte[] GetBytes<T>(T value, int length)
+    {
+        if (length == Specs.Integer.UInt8.ByteSize)
+            return GetBytes(Unsafe.As<T, byte>(ref value));
+        if (length == Specs.Integer.UInt16.ByteSize)
+            return GetBytes(Unsafe.As<T, ushort>(ref value));
+        if (length == 3)
+            return GetBytes(Unsafe.As<T, uint>(ref value), length);
+        if (length == Specs.Integer.UInt32.ByteSize)
+            return GetBytes(Unsafe.As<T, uint>(ref value));
+        if (length < Specs.Integer.UInt64.ByteCount)
+            return GetBytes(Unsafe.As<T, ulong>(ref value), length);
+        if (length == Specs.Integer.UInt64.ByteCount)
+            return GetBytes(Unsafe.As<T, ulong>(ref value));
+
+        return GetBytes(Unsafe.As<T, BigInteger>(ref value), length);
+    }
+
+    public byte[] GetBytes<T>(T[] value)
+    {
+        if (typeof(T) == typeof(char))
+            return GetBytes(Unsafe.As<T[], char[]>(ref value));
+
+        throw new NotImplementedException();
+    }
+
+    public byte[] GetBytes<T>(T[] value, int length)
+    {
+        if (typeof(T) == typeof(char))
+            return GetBytes(Unsafe.As<T[], char[]>(ref value), length);
+
+        throw new NotImplementedException();
+    }
+
+    // //////////////////////////////START
+
+    public void GetBytes<T>(T value, Span<byte> buffer, ref int offset)
+    {
+        nint byteSize = Unsafe.SizeOf<T>();
+
+        if (byteSize == Specs.Integer.UInt8.ByteSize)
+            GetBytes(Unsafe.As<T, byte>(ref value), buffer, ref offset);
+        else if (byteSize == Specs.Integer.UInt16.ByteSize)
+            GetBytes(Unsafe.As<T, ushort>(ref value), buffer, ref offset);
+        else if (byteSize <= Specs.Integer.UInt32.ByteSize)
+            GetBytes(Unsafe.As<T, uint>(ref value), buffer, ref offset);
+        else if (byteSize <= Specs.Integer.UInt64.ByteCount)
+            GetBytes(Unsafe.As<T, ulong>(ref value), buffer, ref offset);
+        else
+            GetBytes(Unsafe.As<T, BigInteger>(ref value), buffer, ref offset);
+    }
+
+    public void GetBytes<T>(T value, int length, Span<byte> buffer, ref int offset)
+    {
+        if (length == Specs.Integer.UInt8.ByteSize)
+            GetBytes(Unsafe.As<T, byte>(ref value));
+        else if (length == Specs.Integer.UInt16.ByteSize)
+            GetBytes(Unsafe.As<T, ushort>(ref value));
+        else if (length == 3)
+            GetBytes(Unsafe.As<T, uint>(ref value), length, buffer, ref offset);
+        else if (length == Specs.Integer.UInt32.ByteSize)
+            GetBytes(Unsafe.As<T, uint>(ref value), buffer, ref offset);
+        else if (length < Specs.Integer.UInt64.ByteCount)
+            GetBytes(Unsafe.As<T, ulong>(ref value), length, buffer, ref offset);
+        else if (length == Specs.Integer.UInt64.ByteCount)
+            GetBytes(Unsafe.As<T, ulong>(ref value), buffer, ref offset);
+        else
+            GetBytes(Unsafe.As<T, BigInteger>(ref value), length, buffer, ref offset);
+    }
+
+    public byte[] GetBytes<T>(T[] value, Span<byte> buffer, ref int offset)
+    {
+        if (typeof(T) == typeof(char))
+            return GetBytes(Unsafe.As<T[], char[]>(ref value));
+
+        throw new NotImplementedException();
+    }
+
+    public byte[] GetBytes<T>(T[] value, int length, Span<byte> buffer, ref int offset)
+    {
+        if (typeof(T) == typeof(char))
+            return GetBytes(Unsafe.As<T[], char[]>(ref value), length);
+
+        throw new NotImplementedException();
+    }
+
+    // //////////////////////////////END
+
+    public override int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
+    {
+        ReadOnlySpan<byte> buffer = GetBytes(chars[charIndex..(charIndex + charCount)]);
+
+        for (int i = 0, j = byteIndex; i < (buffer.Length + byteIndex); i++, j++)
+            bytes[j] = buffer[i];
+
+        return buffer.Length;
+    }
+
+    public override byte[] GetBytes(ReadOnlySpan<char> value) => GetBytes(value, value.Length);
+
+    private int Pad(Span<byte> buffer)
+    {
+        int padCount = GetPadCount(buffer);
+        buffer[^(padCount / 2)..].Fill(_PaddedByte);
+        if ((padCount % 2) != 0)
+            buffer[^((padCount / 2) + 1)] |= _PaddedRightNibble;
+
+        return padCount;
+    }
+
+    public byte[] GetBytes(ReadOnlySpan<char> value, int length)
+    {
+        int byteSize = (value.Length / 2) + (value.Length % 2);
+
+        if (byteSize > Specs.ByteArray.StackAllocateCeiling)
+        {
+            using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(byteSize);
+            Span<byte> result = spanOwner.Span;
+
+            int padCount = Pad(result);
+
+            for (int i = 0, j = 0; j < ((value.Length * 2) - padCount); i += j % 2, j++)
+            {
+                try
+                {
+                    if ((padCount % 2) == 0)
+                        result[i] |= (byte) (_ByteMap[value[j]] << 4);
+                    else
+                        result[i] |= _ByteMap[value[j]];
+                }
+                catch (IndexOutOfRangeException exception)
+                {
+                    throw new EncodingException(
+                        $"The value could not be encoded by {nameof(CompressedNumeric)} because there was an invalid character", exception);
+                }
+            }
+
+            return result.ToArray();
+        }
+        else
+        {
+            Span<byte> result = stackalloc byte[byteSize];
+
+            int padCount = Pad(result);
+
+            for (int i = 0, j = 0; j < ((value.Length * 2) - padCount); i += j % 2, j++)
+            {
+                try
+                {
+                    if ((padCount % 2) == 0)
+                        result[i] |= (byte) (_ByteMap[value[j]] << 4);
+                    else
+                        result[i] |= _ByteMap[value[j]];
+                }
+                catch (IndexOutOfRangeException exception)
+                {
+                    throw new EncodingException(
+                        $"The value could not be encoded by {nameof(CompressedNumeric)} because there was an invalid character", exception);
+                }
+            }
+
+            return result.ToArray();
+        }
+    }
+
+    public void GetBytes(ReadOnlySpan<char> value, int length, Span<byte> buffer, ref int offset)
+    {
+        int byteSize = (length / 2) + (length % 2);
+
+        int padCount = Pad(buffer[offset..]);
+
+        for (int i = 0, j = 0; j < ((length * 2) - padCount); i += j % 2, j++)
+        {
+            try
+            {
+                if ((padCount % 2) == 0)
+                    buffer[i] |= (byte) (_ByteMap[value[j]] << 4);
+                else
+                    buffer[i] |= _ByteMap[value[j]];
+            }
+            catch (IndexOutOfRangeException exception)
+            {
+                throw new EncodingException(
+                    $"The value could not be encoded by {nameof(CompressedNumeric)} because there was an invalid character", exception);
+            }
+        }
+
+        offset += byteSize;
+    }
+
+    public byte[] GetBytes(byte value)
+    {
+        return new[] {value};
+    }
+
+    public byte[] GetBytes(ushort value)
+    {
+        const byte byteSize = Specs.Integer.UInt16.ByteSize;
+        int padCount = value.GetNumberOfDigits() - (byteSize * 2);
+
+        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(byteSize);
+        Span<byte> buffer = spanOwner.Span;
+
+        for (int i = 0, j = (byteSize * 2) - padCount; j > 0; i += j % 2, j--)
+        {
+            if ((j % 2) == 0)
+                buffer[i] |= (byte) ((byte) ((value / Math.Pow(10, j)) % 10) << 4);
+            else
+                buffer[i] |= (byte) ((value / Math.Pow(10, j - 1)) % 10);
+        }
+
+        return buffer.ToArray();
+    }
+
+    public byte[] GetBytes(uint value)
+    {
+        const byte byteSize = Specs.Integer.UInt32.ByteSize;
+        int padCount = value.GetNumberOfDigits() - (byteSize * 2);
+
+        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(byteSize);
+        Span<byte> buffer = spanOwner.Span;
+
+        for (int i = 0, j = (byteSize * 2) - padCount; j > 0; i += j % 2, j--)
+        {
+            if ((j % 2) == 0)
+                buffer[i] |= (byte) ((byte) ((value / Math.Pow(10, j)) % 10) << 4);
+            else
+                buffer[i] |= (byte) ((value / Math.Pow(10, j - 1)) % 10);
+        }
+
+        return buffer.ToArray();
+    }
+
+    public byte[] GetBytes(uint value, int length)
+    {
+        const byte byteSize = Specs.Integer.UInt32.ByteSize;
+
+        if (length > (byteSize * 2))
+            throw new Exception();
+
+        int padCount = (byteSize * 2) - value.GetNumberOfDigits();
+
+        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(byteSize);
+        Span<byte> buffer = spanOwner.Span;
+
+        for (int i = 0, j = (byteSize * 2) - padCount; j > 0; i += j % 2, j--)
+        {
+            if ((j % 2) == 0)
+                buffer[i] |= (byte) ((byte) ((value / Math.Pow(10, j)) % 10) << 4);
+            else
+                buffer[i] |= (byte) ((value / Math.Pow(10, j - 1)) % 10);
+        }
+
+        return buffer.ToArray();
+    }
+
+    public byte[] GetBytes(ulong value)
+    {
+        const byte byteSize = Specs.Integer.UInt64.ByteCount;
+        int padCount = value.GetNumberOfDigits() - (byteSize * 2);
+
+        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(byteSize);
+        Span<byte> buffer = spanOwner.Span;
+
+        for (int i = 0, j = (byteSize * 2) - padCount; j > 0; i += j % 2, j--)
+        {
+            if ((j % 2) == 0)
+                buffer[i] |= (byte) ((byte) ((value / Math.Pow(10, j)) % 10) << 4);
+            else
+                buffer[i] |= (byte) ((value / Math.Pow(10, j - 1)) % 10);
+        }
+
+        return buffer.ToArray();
+    }
+
+    public byte[] GetBytes(ulong value, int length)
+    {
+        const byte byteSize = Specs.Integer.UInt64.ByteCount;
+
+        if (length > (byteSize * 2))
+            throw new Exception();
+
+        int padCount = (byteSize * 2) - value.GetNumberOfDigits();
+
+        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(byteSize);
+        Span<byte> buffer = spanOwner.Span;
+
+        for (int i = 0, j = (byteSize * 2) - padCount; j > 0; i += j % 2, j--)
+        {
+            if ((j % 2) == 0)
+                buffer[i] |= (byte) ((byte) ((value / Math.Pow(10, j)) % 10) << 4);
+            else
+                buffer[i] |= (byte) ((value / Math.Pow(10, j - 1)) % 10);
+        }
+
+        return buffer.ToArray();
+    }
+
+    public byte[] GetBytes(BigInteger value)
+    {
+        int numberOfDigits = value.GetNumberOfDigits();
+        int byteSize = (numberOfDigits / 2) + (numberOfDigits % 2);
+        int padCount = numberOfDigits % 2;
+
+        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(byteSize);
+        Span<byte> buffer = spanOwner.Span;
+
+        for (int i = 0, j = (byteSize * 2) - padCount; j > 0; i += j % 2, j--)
+        {
+            if ((j % 2) == 0)
+                buffer[i] |= (byte) ((byte) ((value / (BigInteger) Math.Pow(10, j)) % 10) << 4);
+            else
+                buffer[i] |= (byte) ((value / (BigInteger) Math.Pow(10, j - 1)) % 10);
+        }
+
+        return buffer.ToArray();
+    }
+
+    public byte[] GetBytes(BigInteger value, int length)
+    {
+        int byteSize = (length / 2) + (length % 2);
+        int maxNumberOfDigits = byteSize * 2;
+        int padCount = maxNumberOfDigits - (maxNumberOfDigits - length);
+
+        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(byteSize);
+        Span<byte> buffer = spanOwner.Span;
+
+        for (int i = 0, j = maxNumberOfDigits - padCount; j > 0; i += j % 2, j--)
+        {
+            if ((j % 2) == 0)
+                buffer[i] |= (byte) ((byte) ((value / (BigInteger) Math.Pow(10, j)) % 10) << 4);
+            else
+                buffer[i] |= (byte) ((value / (BigInteger) Math.Pow(10, j - 1)) % 10);
+        }
+
+        return buffer.ToArray();
+    }
+
+    private static byte GetByte(char leftChar, char rightChar)
+    {
+        byte result = _ByteMap[leftChar];
+        result *= 10;
+        result += _ByteMap[rightChar];
+
+        return result;
+    }
+
+    public byte GetByte(byte value)
+    {
+        int leftNibble = value >> 4;
+        byte rightNibble = (byte) (value & ~0xF0);
+
+        return (byte) ((leftNibble * 10) + rightNibble);
+    }
 
     public override bool TryGetBytes(ReadOnlySpan<char> value, out byte[] result)
     {
-        if (IsValid(value))
+        if (!IsValid(value))
         {
             result = Array.Empty<byte>();
 
             return false;
         }
 
-        result = Encode(value);
+        result = Hexadecimal.GetBytes(value);
 
         return true;
     }
 
-    public override int GetByteCount(char[] chars, int index, int count) => (count / 2) + (count % 2);
-    public override int GetMaxByteCount(int charCount) => (charCount / 2) + (charCount % 2);
+    public override int GetByteCount(char[] chars, int index, int count) => GetMaxByteCount(count);
+    public override int GetMaxByteCount(int charCount) => charCount / 2;
 
     public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
         throw new NotImplementedException();
 
-    public override int GetCharCount(byte[] bytes, int index, int count) => throw new NotImplementedException();
+    public char[] GetChars(ReadOnlySpan<byte> value)
+    {
+        int length = value.Length * 2;
+
+        if (length < Specs.ByteArray.StackAllocateCeiling)
+        {
+            Span<char> buffer = stackalloc char[length];
+
+            for (int i = 0, j = 0; i < value.Length; i++, j += 2)
+                GetChars(value[i], buffer, j);
+
+            string? a = buffer.ToArray().ToString();
+            string? b = new(buffer);
+            string? c = new(buffer.ToArray());
+
+            return buffer.ToArray();
+        }
+        else
+        {
+            SpanOwner<char> spanOwner = SpanOwner<char>.Allocate(length);
+            Span<char> buffer = spanOwner.Span;
+
+            for (int i = 0, j = 0; i < value.Length; i++, j += 2)
+                GetChars(value[i], buffer, j);
+
+            return buffer.ToArray();
+        }
+    }
+
+    private void GetChars(byte value, Span<char> buffer, int offset)
+    {
+        int leftNibble = value / 10;
+        int rightNibble = value % 10;
+
+        buffer[offset++] = _CharMap[(byte) (value / 10)];
+        buffer[offset] = _CharMap[(byte) (value % 10)];
+    }
+
+    public override int GetCharCount(byte[] bytes, int index, int count) => GetMaxCharCount(count);
     public override int GetMaxCharCount(int byteCount) => byteCount * 2;
-    public override string GetString(ReadOnlySpan<byte> value) => throw new NotImplementedException();
-    public override bool TryGetString(ReadOnlySpan<byte> value, out string result) => throw new NotImplementedException();
+    public override string GetString(ReadOnlySpan<byte> value) => new(GetChars(value));
 
-    public int GetNumberOfDigits(byte[] value)
-    {
-        int padCount = 0;
-
-        for (int i = value.Length; i > 0; i--)
-        {
-            if (value[i].GetRightNibble() != _PaddingByteKey)
-                break;
-
-            padCount++;
-
-            if (value[i].GetRightNibble() != _PaddingByteKey)
-                break;
-
-            padCount++;
-        }
-
-        return (value.Length * 2) - padCount;
-    }
-
-    public byte[] Encode<T>(T[] value) where T : struct => throw new NotImplementedException();
-    public byte[] Encode<T>(T[] value, int length) where T : struct => throw new NotImplementedException();
-
-    public void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
-    {
-        nint byteSize = Unsafe.SizeOf<T>();
-
-        if (byteSize == Specs.Integer.UInt8.ByteSize)
-        {
-            buffer[offset++] = Unsafe.As<T, byte>(ref value);
-
-            return;
-        }
-
-        if (byteSize == Specs.Integer.UInt16.ByteSize)
-            Encode(Unsafe.As<T, ushort>(ref value), buffer, ref offset);
-        if (byteSize <= Specs.Integer.UInt32.ByteSize)
-            Encode(Unsafe.As<T, uint>(ref value), buffer, ref offset);
-        if (byteSize <= Specs.Integer.UInt64.ByteCount)
-            Encode(Unsafe.As<T, ulong>(ref value), buffer, ref offset);
-
-        Encode(Unsafe.As<T, BigInteger>(ref value), buffer, ref offset);
-    }
-
-    public void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct
-    {
-        throw new NotImplementedException();
-    }
-
-    public byte[] Encode<T>(T value) where T : struct
-    {
-        nint byteSize = Unsafe.SizeOf<T>();
-
-        if (byteSize == Specs.Integer.UInt8.ByteSize)
-            return Encode(Unsafe.As<T, byte>(ref value));
-        if (byteSize == Specs.Integer.UInt16.ByteSize)
-            return Encode(Unsafe.As<T, ushort>(ref value));
-        if (byteSize <= Specs.Integer.UInt32.ByteSize)
-            return Encode(Unsafe.As<T, uint>(ref value));
-        if (byteSize <= Specs.Integer.UInt64.ByteCount)
-            return Encode(Unsafe.As<T, ulong>(ref value));
-
-        return Encode(Unsafe.As<T, BigInteger>(ref value));
-    }
-
-    public byte[] Encode<T>(T value, int length) where T : struct
-    {
-        if (length == Specs.Integer.UInt8.ByteSize)
-            return Encode(Unsafe.As<T, byte>(ref value));
-        if (length == Specs.Integer.UInt16.ByteSize)
-            return Encode(Unsafe.As<T, ushort>(ref value));
-        if (length == 3)
-            return Encode(Unsafe.As<T, uint>(ref value), length);
-        if (length == Specs.Integer.UInt32.ByteSize)
-            return Encode(Unsafe.As<T, uint>(ref value));
-        if (length < Specs.Integer.UInt64.ByteCount)
-            return Encode(Unsafe.As<T, ulong>(ref value), length);
-        if (length == Specs.Integer.UInt64.ByteCount)
-            return Encode(Unsafe.As<T, ulong>(ref value));
-
-        return Encode(Unsafe.As<T, BigInteger>(ref value), length);
-    }
-
-    public new int GetByteCount(ReadOnlySpan<char> value) => (value.Length / 2) + (value.Length % 2);
-
-    private void Validate(ReadOnlySpan<char> value)
+    public override bool TryGetString(ReadOnlySpan<byte> value, out string result)
     {
         if (!IsValid(value))
-            throw new EncodingException($"The codec {nameof(CompressedNumeric)} encountered an invalid character");
+        {
+            result = string.Empty;
+
+            return false;
+        }
+
+        result = GetString(value);
+
+        return true;
     }
 
-    public byte[] Encode(ReadOnlySpan<char> value)
-    {
-        try
-        {
-            int byteCount = (value.Length / 2) + (value.Length % 2);
-            int paddingCount = GetPaddingCount(value);
-
-            Span<byte> result = new byte[GetByteCount(value)];
-
-            Pad(result, paddingCount);
-
-            for (int i = 0, j = 0; i < (byteCount - (paddingCount / 2)); i += j % 2)
-            {
-                if ((j++ % 2) == 0)
-                    result[i] = _ByteMap[value[j]];
-                else
-                    result[i] |= (byte) (_ByteMap[value[j]] << 4);
-            }
-
-            return result.ToArray();
-        }
-        catch (IndexOutOfRangeException e)
-        {
-            throw new EncodingException($"The codec {nameof(CompressedNumeric)} encountered an invalid character");
-        }
-        catch (Exception e)
-        {
-            throw new EncodingException($"The codec {nameof(CompressedNumeric)} encountered an invalid character");
-        }
-    }
-
-    public int Encode(ReadOnlySpan<char> value, Span<byte> buffer)
-    {
-        try
-        {
-            int byteCount = (value.Length / 2) + (value.Length % 2);
-            int paddingCount = GetPaddingCount(value);
-
-            Pad(buffer, paddingCount);
-
-            for (int i = 0, j = 0; i < (byteCount - (paddingCount / 2)); i += j % 2)
-            {
-                if ((j++ % 2) == 0)
-                    buffer[i] = _ByteMap[value[j]];
-                else
-                    buffer[i] |= (byte) (_ByteMap[value[j]] << 4);
-            }
-
-            return byteCount;
-        }
-        catch (IndexOutOfRangeException e)
-        {
-            throw new EncodingException($"The codec {nameof(CompressedNumeric)} encountered an invalid character");
-        }
-        catch (Exception e)
-        {
-            throw new EncodingException($"The codec {nameof(CompressedNumeric)} encountered an invalid character");
-        }
-    }
-
-    private void Pad(Span<byte> result, int padCount)
-    {
-        for (int i = result.Length, j = 0; j < padCount; i += j % 2)
-        {
-            if ((j++ % 2) == 0)
-                result[i] = _PaddingByteKey;
-            else
-                result[i] |= 0xF0;
-        }
-    }
-
-    private int GetPaddingCount(ReadOnlySpan<char> value)
-    {
-        for (int i = value.Length; i > 0; i--)
-        {
-            if (value[i] != _PaddingCharKey)
-                return i;
-        }
-
-        return value.Length;
-    }
-
-    public byte[] Encode(byte value)
-    {
-        const byte compressedNumericByteSize = Specs.Integer.UInt8.CompressedNumericByteSize;
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(compressedNumericByteSize);
-        Span<byte> buffer = spanOwner.Span;
-        byte numberOfDigits = value.GetNumberOfDigits();
-
-        for (int i = 0, j = numberOfDigits - 1; i < numberOfDigits; i++, j--)
-        {
-            if ((i % 2) == 0)
-                buffer[i / 2] = (byte) ((byte) ((value / Math.Pow(10, j)) % 10) << 4);
-            else
-                buffer[i / 2] |= (byte) ((value / Math.Pow(10, j)) % 10);
-        }
-
-        if ((numberOfDigits % 2) != 0)
-        {
-            buffer[numberOfDigits / 2] |= 0x0F;
-            buffer[((numberOfDigits / 2) + 1)..].Fill(0xFF);
-
-            return buffer.ToArray();
-        }
-
-        buffer[(numberOfDigits / 2)..].Fill(0xFF);
-
-        return buffer.ToArray();
-    }
-
-    public byte[] Encode(ushort value)
-    {
-        const byte compressedNumericByteSize = Specs.Integer.UInt16.CompressedNumericByteSize;
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(compressedNumericByteSize);
-        Span<byte> buffer = spanOwner.Span;
-        byte numberOfDigits = value.GetNumberOfDigits();
-
-        for (int i = 0, j = numberOfDigits - 1; i < numberOfDigits; i++, j--)
-        {
-            if ((i % 2) == 0)
-                buffer[i / 2] = (byte) ((byte) ((value / Math.Pow(10, j)) % 10) << 4);
-            else
-                buffer[i / 2] |= (byte) ((value / Math.Pow(10, j)) % 10);
-        }
-
-        if ((numberOfDigits % 2) != 0)
-        {
-            buffer[numberOfDigits / 2] |= 0x0F;
-            buffer[((numberOfDigits / 2) + 1)..].Fill(0xFF);
-
-            return buffer.ToArray();
-        }
-
-        buffer[(numberOfDigits / 2)..].Fill(0xFF);
-
-        return buffer.ToArray();
-    }
-
-    public byte[] Encode(uint value)
-    {
-        const byte compressedNumericByteSize = Specs.Integer.UInt32.CompressedNumericByteSize;
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(compressedNumericByteSize);
-        Span<byte> buffer = spanOwner.Span;
-        byte numberOfDigits = value.GetNumberOfDigits();
-
-        for (int i = 0, j = numberOfDigits - 1; i < numberOfDigits; i++, j--)
-        {
-            if ((i % 2) == 0)
-                buffer[i / 2] = (byte) ((byte) ((value / Math.Pow(10, j)) % 10) << 4);
-            else
-                buffer[i / 2] |= (byte) ((value / Math.Pow(10, j)) % 10);
-        }
-
-        if ((numberOfDigits % 2) != 0)
-        {
-            buffer[numberOfDigits / 2] |= 0x0F;
-            buffer[((numberOfDigits / 2) + 1)..].Fill(0xFF);
-
-            return buffer.ToArray();
-        }
-
-        buffer[(numberOfDigits / 2)..].Fill(0xFF);
-
-        return buffer.ToArray();
-    }
-
-    public byte[] Encode(uint value, int length)
-    {
-        byte numberOfDigits = value.GetNumberOfDigits();
-
-        if (((numberOfDigits % 2) + (numberOfDigits / 2)) == length)
-            return Encode(value);
-
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(Specs.Integer.UInt32.CompressedNumericByteSize);
-        Span<byte> buffer = spanOwner.Span;
-
-        // space for padding
-        if (length > ((numberOfDigits % 2) + (numberOfDigits / 2)))
-        {
-            for (int i = 0, j = (length * 2) - ((length * 2) - numberOfDigits) - 1; i < numberOfDigits; i++, j--)
-            {
-                if ((i % 2) == 0)
-                    buffer[i / 2] = (byte) ((byte) ((value / (uint) Math.Pow(10, j)) % 10) << 4);
-                else
-                    buffer[i / 2] |= (byte) ((value / (uint) Math.Pow(10, j)) % 10);
-            }
-        }
-
-        // truncate
-        for (int i = 0, j = numberOfDigits - 1; i < (length * 2); i++, j--)
-        {
-            if ((i % 2) == 0)
-                buffer[i / 2] = (byte) ((byte) ((value / (uint) Math.Pow(10, j)) % 10) << 4);
-            else
-                buffer[i / 2] |= (byte) ((value / (uint) Math.Pow(10, j)) % 10);
-        }
-
-        if ((numberOfDigits % 2) != 0)
-        {
-            buffer[numberOfDigits / 2] |= 0x0F;
-            buffer[((numberOfDigits / 2) + 1)..].Fill(0xFF);
-
-            return buffer.ToArray();
-        }
-
-        buffer[(numberOfDigits / 2)..].Fill(0xFF);
-
-        return buffer.ToArray();
-    }
-
-    public byte[] Encode(ulong value)
-    {
-        const byte compressedNumericByteSize = Specs.Integer.UInt64.CompressedNumericByteSize;
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(compressedNumericByteSize);
-        Span<byte> buffer = spanOwner.Span;
-        byte numberOfDigits = value.GetNumberOfDigits();
-
-        for (int i = 0, j = numberOfDigits - 1; i < numberOfDigits; i++, j--)
-        {
-            if ((i % 2) == 0)
-                buffer[i / 2] = (byte) ((byte) ((value / Math.Pow(10, j)) % 10) << 4);
-            else
-                buffer[i / 2] |= (byte) ((value / Math.Pow(10, j)) % 10);
-        }
-
-        if ((numberOfDigits % 2) != 0)
-        {
-            buffer[numberOfDigits / 2] |= 0x0F;
-            buffer[((numberOfDigits / 2) + 1)..].Fill(0xFF);
-
-            return buffer.ToArray();
-        }
-
-        buffer[(numberOfDigits / 2)..].Fill(0xFF);
-
-        return buffer.ToArray();
-    }
-
-    public byte[] Encode(ulong value, int length)
-    {
-        byte numberOfDigits = value.GetNumberOfDigits();
-
-        if (((numberOfDigits % 2) + (numberOfDigits / 2)) == length)
-            return Encode(value);
-
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(Specs.Integer.UInt64.CompressedNumericByteSize);
-        Span<byte> buffer = spanOwner.Span;
-
-        // space for padding
-        if (length > ((numberOfDigits % 2) + (numberOfDigits / 2)))
-        {
-            for (int i = 0, j = (length * 2) - ((length * 2) - numberOfDigits) - 1; i < numberOfDigits; i++, j--)
-            {
-                if ((i % 2) == 0)
-                    buffer[i / 2] = (byte) ((byte) ((value / (ulong) Math.Pow(10, j)) % 10) << 4);
-                else
-                    buffer[i / 2] |= (byte) ((value / (ulong) Math.Pow(10, j)) % 10);
-            }
-        }
-
-        // truncate
-        for (int i = 0, j = numberOfDigits - 1; i < (length * 2); i++, j--)
-        {
-            if ((i % 2) == 0)
-                buffer[i / 2] = (byte) ((byte) ((value / (ulong) Math.Pow(10, j)) % 10) << 4);
-            else
-                buffer[i / 2] |= (byte) ((value / (ulong) Math.Pow(10, j)) % 10);
-        }
-
-        if ((numberOfDigits % 2) != 0)
-        {
-            buffer[numberOfDigits / 2] |= 0x0F;
-            buffer[((numberOfDigits / 2) + 1)..].Fill(0xFF);
-
-            return buffer.ToArray();
-        }
-
-        buffer[(numberOfDigits / 2)..].Fill(0xFF);
-
-        return buffer.ToArray();
-    }
-
-    public byte[] Encode(BigInteger value)
-    {
-        byte numberOfDigits = value.GetNumberOfDigits();
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate((numberOfDigits % 2) + (numberOfDigits / 2));
-        Span<byte> buffer = spanOwner.Span;
-
-        for (int i = 0, j = numberOfDigits - 1; i < numberOfDigits; i++, j--)
-        {
-            if ((i % 2) == 0)
-                buffer[i / 2] = (byte) ((byte) ((value / (BigInteger) Math.Pow(10, j)) % 10) << 4);
-            else
-                buffer[i / 2] |= (byte) ((value / (BigInteger) Math.Pow(10, j)) % 10);
-        }
-
-        if ((numberOfDigits % 2) != 0)
-        {
-            buffer[numberOfDigits / 2] |= 0x0F;
-            buffer[((numberOfDigits / 2) + 1)..].Fill(0xFF);
-
-            return buffer.ToArray();
-        }
-
-        buffer[(numberOfDigits / 2)..].Fill(0xFF);
-
-        return buffer.ToArray();
-    }
-
-    public byte[] Encode(BigInteger value, int length)
-    {
-        byte numberOfDigits = value.GetNumberOfDigits();
-
-        if (((numberOfDigits % 2) + (numberOfDigits / 2)) == length)
-            return Encode(value);
-
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(length);
-        Span<byte> buffer = spanOwner.Span;
-
-        // space for padding
-        if (length > ((numberOfDigits % 2) + (numberOfDigits / 2)))
-        {
-            for (int i = 0, j = (length * 2) - ((length * 2) - numberOfDigits) - 1; i < numberOfDigits; i++, j--)
-            {
-                if ((i % 2) == 0)
-                    buffer[i / 2] = (byte) ((byte) ((value / (BigInteger) Math.Pow(10, j)) % 10) << 4);
-                else
-                    buffer[i / 2] |= (byte) ((value / (BigInteger) Math.Pow(10, j)) % 10);
-            }
-        }
-
-        // truncate
-        for (int i = 0, j = numberOfDigits - 1; i < (length * 2); i++, j--)
-        {
-            if ((i % 2) == 0)
-                buffer[i / 2] = (byte) ((byte) ((value / (BigInteger) Math.Pow(10, j)) % 10) << 4);
-            else
-                buffer[i / 2] |= (byte) ((value / (BigInteger) Math.Pow(10, j)) % 10);
-        }
-
-        if ((numberOfDigits % 2) != 0)
-        {
-            buffer[numberOfDigits / 2] |= 0x0F;
-            buffer[((numberOfDigits / 2) + 1)..].Fill(0xFF);
-
-            return buffer.ToArray();
-        }
-
-        buffer[(numberOfDigits / 2)..].Fill(0xFF);
-
-        return buffer.ToArray();
-    }
-
-    public ushort GetByteCount<T>(T value) where T : struct => checked((ushort) Unsafe.SizeOf<T>());
-    public ushort GetByteCount<T>(T[] value) where T : struct => throw new NotImplementedException();
-
-    public BigInteger DecodeBigInteger(ReadOnlySpan<byte> value)
+    public BigInteger GetBigInteger(ReadOnlySpan<byte> value)
     {
         for (byte i = 0; i < value.Length; i++)
         {
             if (!IsValid(value))
-                throw new EmvEncodingFormatException(new ArgumentOutOfRangeException(nameof(value)));
+                throw new ArgumentOutOfRangeException(nameof(value));
         }
 
         BigInteger result = 0;
@@ -585,93 +610,49 @@ public class CompressedNumeric : PlayEncoding
         return BuildInteger(result, value);
     }
 
-    public byte DecodeByte(byte value)
-    {
-        if (value.GetMaskedValue(_LeftNibbleMask) == _PaddedNibble)
-            return (byte) (value >> 4);
-
-        byte result = (byte) (value >> 4);
-        result *= 10;
-        result += value.GetMaskedValue(_LeftNibbleMask);
-
-        return result;
-    }
-
-    public ushort DecodeUInt16(ReadOnlySpan<byte> value)
+    /// <summary>
+    ///     Takes the Numeric encoded byte array provided to <see cref="value" /> and returns an integer value
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public ushort GetUInt16(ReadOnlySpan<byte> value)
     {
         ushort result = 0;
 
-        return BuildInteger(result, value);
+        return (ushort) BuildInteger(result, value);
     }
 
-    public uint DecodeUInt32(ReadOnlySpan<byte> value)
+    /// <summary>
+    ///     Takes the Numeric encoded byte array provided to <see cref="value" /> and returns an integer value
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public uint GetUInt32(ReadOnlySpan<byte> value)
     {
-        for (byte i = 0; i < value.Length; i++)
-        {
-            if (!IsValid(value))
-                throw new EmvEncodingFormatException(new ArgumentOutOfRangeException(nameof(value)));
-        }
+        if (!IsValid(value))
+            throw new ArgumentOutOfRangeException(nameof(value));
 
         uint result = 0;
 
-        return BuildInteger(result, value);
+        return (uint) BuildInteger(result, value);
     }
 
-    public ulong DecodeUInt64(ReadOnlySpan<byte> value)
+    /// <summary>
+    ///     Takes the Numeric encoded byte array provided to <see cref="value" /> and returns an integer value
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public ulong GetUInt64(ReadOnlySpan<byte> value)
     {
         for (byte i = 0; i < value.Length; i++)
         {
             if (!IsValid(value))
-                throw new EmvEncodingFormatException(new ArgumentOutOfRangeException(nameof(value)));
+                throw new ArgumentOutOfRangeException(nameof(value));
         }
 
         ulong result = 0;
 
-        return BuildInteger(result, value);
-    }
-
-    /// <summary>
-    ///     Validates that the left justified numeric values are encoded correctly
-    /// </summary>
-    /// <exception cref="EmvEncodingFormatException"></exception>
-    private bool ValidateNumericEncoding(ReadOnlySpan<byte> value)
-    {
-        for (int i = 0; i < value.Length; i++)
-        {
-            if (!_CharMap.ContainsKey(value[i]))
-            {
-                throw new EmvEncodingFormatException(
-                    $"The argument could not be parsed. The argument contained the value: [{value[i]}], which is an invalid {nameof(CompressedNumeric)} encoding");
-            }
-        }
-
-        return true;
-    }
-
-    /// <summary>
-    ///     Validates that the left justified numeric values are encoded correctly
-    /// </summary>
-    /// <exception cref="EmvEncodingFormatException"></exception>
-    private bool IsNumericEncodingValid(ReadOnlySpan<byte> value)
-    {
-        for (int i = 0; i < value.Length; i++)
-        {
-            if (!_CharMap.ContainsKey(value[i]))
-                return false;
-        }
-
-        return true;
-    }
-
-    private int GetPaddingIndexFromEnd(ReadOnlySpan<byte> value)
-    {
-        for (int i = value.Length; i > 0; i--)
-        {
-            if (value[i] != _PaddingByteKey)
-                return i;
-        }
-
-        return 0;
+        return (ulong) BuildInteger(result, value);
     }
 
     private dynamic BuildInteger(dynamic resultBuffer, ReadOnlySpan<byte> value)
@@ -679,44 +660,11 @@ public class CompressedNumeric : PlayEncoding
         if (resultBuffer != byte.MinValue)
             resultBuffer = 0;
 
-        for (byte i = 0; i < value.Length; i++)
-        {
-            resultBuffer += DecodeByte(value[i]);
-            resultBuffer <<= 8;
-        }
+        for (int i = 0, j = (value.Length * 2) - 2; i < value.Length; i++, j -= 2)
+            resultBuffer += GetByte(value[i]) * Math.Pow(10, j);
 
         return resultBuffer;
     }
 
-    public byte[] TrimTrailingBytes(ReadOnlySpan<byte> value)
-    {
-        int padding = 0;
-
-        for (int i = value.Length; i > 0; i--)
-        {
-            if (((value[i] >> 4) == _PaddedNibble) && (value[i].GetMaskedValue(0xF0) == _PaddedNibble))
-            {
-                padding++;
-
-                continue;
-            }
-
-            break;
-        }
-
-        byte[] result = value[..^padding].ToArray();
-        if (result[^1].GetMaskedValue(0xF0) == _PaddedNibble)
-            result[^1] = result[^1].GetMaskedValue(0x0F);
-
-        return result;
-    }
-
-    public void Validate(ReadOnlySpan<byte> value)
-    {
-        ValidateNumericEncoding(value[..^GetPaddingIndexFromEnd(value)]);
-    }
-
     #endregion
-
-    // /////////////
 }

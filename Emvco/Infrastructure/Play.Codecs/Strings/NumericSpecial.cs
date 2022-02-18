@@ -36,7 +36,7 @@ public class NumericSpecial : PlayEncoding
     {
         for (int i = 0; i < value.Length; i++)
         {
-            if (!_ByteMap.Keys.Contains(value[i]))
+            if (!_ByteMap.ContainsKey(value[i]))
                 return false;
         }
 
@@ -47,7 +47,7 @@ public class NumericSpecial : PlayEncoding
     {
         for (int i = 0; i < value.Length; i++)
         {
-            if (!_CharMap.Keys.Contains(value[i]))
+            if (!_CharMap.ContainsKey(value[i]))
                 return false;
         }
 
@@ -56,7 +56,7 @@ public class NumericSpecial : PlayEncoding
 
     public bool IsValid(char value)
     {
-        if (_ByteMap.Keys.Contains(value))
+        if (_ByteMap.ContainsKey(value))
             return true;
 
         return false;
@@ -64,7 +64,7 @@ public class NumericSpecial : PlayEncoding
 
     public new byte[] GetBytes(string value)
     {
-        if (value.Length < Specs.ByteArray.StackAllocateCeiling)
+        if (value.Length < Specs.Specs.ByteArrayAllocateCeiling)
         {
             Span<byte> buffer = stackalloc byte[value.Length];
 
@@ -105,7 +105,7 @@ public class NumericSpecial : PlayEncoding
         if (value.Length > length)
             return GetBytes(value)[^length..];
 
-        if (length < Specs.ByteArray.StackAllocateCeiling)
+        if (length < Specs.Specs.ByteArrayAllocateCeiling)
         {
             Span<char> tempBuffer = stackalloc char[value.Length];
             value.CopyTo(tempBuffer);
@@ -140,13 +140,14 @@ public class NumericSpecial : PlayEncoding
     public override int GetMaxByteCount(int charCount) => charCount;
 
     public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
-        throw new NotImplementedException();
+    
+        new NotImplementedException();
 
     public char[] GetChars(ReadOnlySpan<byte> value)
     {
         int length = value.Length * 2;
 
-        if (length < Specs.ByteArray.StackAllocateCeiling)
+        if (length < Specs.Specs.ByteArrayAllocateCeiling)
         {
             Span<char> buffer = stackalloc char[length];
 

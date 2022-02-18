@@ -25,4 +25,8 @@
     <ProjectReference Include="..\..\Play.Emv.TestData\Play.Emv.TestData.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CompressedNumeric\" />
+  </ItemGroup>
+
 </Project>

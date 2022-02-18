@@ -92,7 +92,7 @@ internal class TerminalStateMachine
 
             // HACK: Develop logic for passing TagsToRead and DataToSend along with the ACT signal below
 
-            var dataToSend = new DataToSend(new PosEntryMode(PosEntryModeTypes.EmvModes.Contactless));
+            DataToSend? dataToSend = new DataToSend(new PosEntryMode(PosEntryModeTypes.EmvModes.Contactless));
 
             _ReaderEndpoint.Request(new ActivateReaderRequest(transaction,));
         }
