@@ -1,9 +1,7 @@
-﻿using System;
-
-using Play.Codecs;
+﻿using Play.Codecs;
 using Play.Core.Extensions;
 
-namespace Play.Emv.Sessions;
+namespace Play.Emv.Interchange.DataFields;
 
 public readonly struct SystemTraceAuditNumber
 {

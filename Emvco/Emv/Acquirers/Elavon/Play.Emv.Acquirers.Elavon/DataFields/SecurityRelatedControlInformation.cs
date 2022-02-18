@@ -10,7 +10,7 @@ using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 
 namespace Play.Emv.Acquirers.Elavon.DataFields;
- 
+
 public record SecurityRelatedControlInformation
 {
     #region Instance Members
@@ -27,8 +27,8 @@ public record SecurityRelatedControlInformation
     {
         #region Static Metadata
 
-        public static readonly KeyType Tpk = new(PlayEncoding.AlphaNumeric.GetBytes("01"));
-        public static readonly KeyType Zpk = new(PlayEncoding.AlphaNumeric.GetBytes("02"));
+        public static readonly KeyType TerminalPinKey = new(PlayEncoding.AlphaNumeric.GetBytes("01"));
+        public static readonly KeyType ZonePinKey = new(PlayEncoding.AlphaNumeric.GetBytes("02"));
 
         #endregion
 

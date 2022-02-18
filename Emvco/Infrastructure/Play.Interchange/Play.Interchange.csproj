@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DataFields\_Temp\**" />
+    <EmbeddedResource Remove="DataFields\_Temp\**" />
+    <None Remove="DataFields\_Temp\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Play.Codecs\Play.Codecs.csproj" />
     <ProjectReference Include="..\Play.Core\Play.Core.csproj" />
   </ItemGroup>

@@ -6,7 +6,7 @@ using Play.Ber.Lengths;
 
 namespace Play.Ber.DataObjects;
 
-public abstract record PrimitiveValue : IEqualityComparer<PrimitiveValue>, IEncodeBerDataObjects, IRetrievePrimitiveValueMetadata
+public abstract record PrimitiveValue : IEncodeBerDataObjects, IRetrievePrimitiveValueMetadata
 {
     #region Instance Members
 
@@ -56,20 +56,6 @@ public abstract record PrimitiveValue : IEqualityComparer<PrimitiveValue>, IEnco
 
     public abstract byte[] EncodeValue(BerCodec codec);
     public abstract byte[] EncodeValue(BerCodec codec, int length);
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(PrimitiveValue? x, PrimitiveValue? y)
-    {
-        if (x is null)
-            return y is null;
-
-        return y is not null && x.Equals(y);
-    }
-
-    public int GetHashCode(PrimitiveValue obj) => obj.GetHashCode();
 
     #endregion
 }

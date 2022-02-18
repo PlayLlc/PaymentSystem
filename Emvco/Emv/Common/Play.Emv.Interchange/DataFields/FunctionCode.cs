@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Play.Core;
 
-using Play.Core;
-
-namespace Play.Interchange.Messages.DataFields.ValueObjects;
+namespace Play.Emv.Interchange.DataFields;
 
 public record FunctionCode : EnumObject<ushort>
 {

@@ -1,6 +1,8 @@
 ﻿using Play.Ber.Identifiers;
 using Play.Core.Exceptions;
 
+namespace Play.Emv.Acquirers.Elavon.DataElements;
+
 internal class Check
 {
     #region Static Metadata

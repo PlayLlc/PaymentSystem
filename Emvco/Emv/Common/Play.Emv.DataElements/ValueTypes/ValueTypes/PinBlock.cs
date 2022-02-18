@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Play.Codecs;
 
-using Play.Codecs;
-using Play.Codecs.Integers;
-using Play.Core.Specifications;
-using Play.Emv.Ber;
-
-namespace Play.Emv.DataElements.ValueTypes.ValueTypes;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     The encrypted PIN Block encoded as specified in EMV Book 3 Table 24

@@ -1,6 +1,6 @@
 ﻿using Play.Core;
 
-namespace Play.Interchange.Messages.DataFields.ValueObjects;
+namespace Play.Interchange.DataFields.ValueObjects;
 
 public record ResponseCodeTypes : EnumObject<ushort>
 {

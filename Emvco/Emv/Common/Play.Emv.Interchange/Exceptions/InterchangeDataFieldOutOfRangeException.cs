@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.CompilerServices;
 
-using Play.Core.Exceptions;
+namespace Play.Emv.Interchange.Exceptions;
 
-namespace Play.Interchange.Exceptions;
-
-internal class InterchangeDataFieldOutOfRangeException : PlayException
+internal class InterchangeDataFieldOutOfRangeException : InterchangeFormatException
 {
     #region Constructor
 

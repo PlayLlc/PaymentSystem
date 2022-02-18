@@ -1,9 +1,9 @@
 ﻿using Play.Codecs;
 using Play.Codecs.Strings;
 
-namespace Play.Interchange.Messages.DataFields.ValueObjects;
+namespace Play.Interchange.DataFields.ValueObjects;
 
-public class AccountIdentification1zssss : VariableLengthDataFieldMapper
+public class AccountIdentification : VariableLengthDataFieldMapper
 {
     #region Static Metadata
 

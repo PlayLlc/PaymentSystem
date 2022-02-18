@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.CompilerServices;
 
 using Play.Core.Exceptions;
 
-namespace Play.Interchange.Exceptions;
+namespace Play.Emv.Interchange.Exceptions;
 
-internal class InterchangeDataFieldOutOfRangeException : PlayException
+public class InterchangeException : PlayException
 {
     #region Constructor
 
-    public InterchangeDataFieldOutOfRangeException(
+    public InterchangeException(
         string message,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
@@ -21,7 +16,7 @@ internal class InterchangeDataFieldOutOfRangeException : PlayException
         $"{TraceExceptionMessage(typeof(InterchangeDataFieldOutOfRangeException), fileName, memberName, lineNumber)} {message}")
     { }
 
-    public InterchangeDataFieldOutOfRangeException(
+    public InterchangeException(
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
@@ -29,7 +24,7 @@ internal class InterchangeDataFieldOutOfRangeException : PlayException
         $"{TraceExceptionMessage(typeof(InterchangeDataFieldOutOfRangeException), fileName, memberName, lineNumber)}", innerException)
     { }
 
-    public InterchangeDataFieldOutOfRangeException(
+    public InterchangeException(
         string message,
         Exception innerException,
         [CallerFilePath] string fileName = "",

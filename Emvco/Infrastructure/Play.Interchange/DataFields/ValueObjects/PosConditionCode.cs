@@ -1,8 +1,8 @@
 ﻿using Play.Core;
 
-namespace Play.Interchange.Messages.DataFields.ValueObjects;
+namespace Play.Interchange.DataFields.ValueObjects;
 
-public record ReasonCode : EnumObject<ushort>
+public record PosConditionCode : EnumObject<ushort>
 {
     #region Static Metadata
 
@@ -23,7 +23,7 @@ public record ReasonCode : EnumObject<ushort>
 
     #region Constructor
 
-    public ReasonCode(ushort value) : base(value)
+    public PosConditionCode(ushort value) : base(value)
     { }
 
     #endregion
