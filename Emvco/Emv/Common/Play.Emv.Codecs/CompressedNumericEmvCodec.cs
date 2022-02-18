@@ -15,7 +15,7 @@ using Play.Emv.Codecs.Exceptions;
 namespace Play.Emv.Codecs;
 
 // TODO: Move the actual functionality higher up to Play.Codec
-public class CompressedNumericEmvCodec : Codec
+public class CompressedNumericEmvCodec : IPlayCodec
 {
     #region Static Metadata
 
@@ -58,11 +58,11 @@ public class CompressedNumericEmvCodec : Codec
 
     #region Instance Members
 
-    public override bool IsValid(ReadOnlySpan<byte> value) => IsNumericEncodingValid(value[..^GetPaddingIndexFromEnd(value)]);
-    public override byte[] Encode<T>(T[] value) => throw new NotImplementedException();
-    public override byte[] Encode<T>(T[] value, int length) => throw new NotImplementedException();
+    public bool IsValid(ReadOnlySpan<byte> value) => IsNumericEncodingValid(value[..^GetPaddingIndexFromEnd(value)]);
+    public byte[] Encode<T>(T[] value) where T : struct => throw new NotImplementedException();
+    public byte[] Encode<T>(T[] value, int length) where T : struct => throw new NotImplementedException();
 
-    public override void Encode<T>(T value, Span<byte> buffer, ref int offset)
+    public void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
     {
         nint byteSize = Unsafe.SizeOf<T>();
 
@@ -83,22 +83,22 @@ public class CompressedNumericEmvCodec : Codec
         Encode(Unsafe.As<T, BigInteger>(ref value), buffer, ref offset);
     }
 
-    public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset)
+    public void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         throw new NotImplementedException();
     }
 
-    public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset)
+    public void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct
     {
         throw new NotImplementedException();
     }
 
-    public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset)
+    public void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         throw new NotImplementedException();
     }
 
-    public override byte[] Encode<T>(T value)
+    public byte[] Encode<T>(T value) where T : struct
     {
         nint byteSize = Unsafe.SizeOf<T>();
 
@@ -114,7 +114,7 @@ public class CompressedNumericEmvCodec : Codec
         return Encode(Unsafe.As<T, BigInteger>(ref value));
     }
 
-    public override byte[] Encode<T>(T value, int length)
+    public byte[] Encode<T>(T value, int length) where T : struct
     {
         if (length == Specs.Integer.UInt8.ByteSize)
             return Encode(Unsafe.As<T, byte>(ref value));
@@ -403,8 +403,8 @@ public class CompressedNumericEmvCodec : Codec
         return buffer.ToArray();
     }
 
-    public override ushort GetByteCount<T>(T value) => checked((ushort) Unsafe.SizeOf<T>());
-    public override ushort GetByteCount<T>(T[] value) => throw new NotImplementedException();
+    public ushort GetByteCount<T>(T value) where T : struct => checked((ushort) Unsafe.SizeOf<T>());
+    public ushort GetByteCount<T>(T[] value) where T : struct => throw new NotImplementedException();
 
     public BigInteger DecodeBigInteger(ReadOnlySpan<byte> value)
     {
@@ -554,7 +554,7 @@ public class CompressedNumericEmvCodec : Codec
 
     #region Serialization
 
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    public DecodedMetadata Decode(ReadOnlySpan<byte> value)
     {
         Validate(value);
 

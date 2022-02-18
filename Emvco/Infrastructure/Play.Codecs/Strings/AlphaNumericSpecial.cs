@@ -8,7 +8,6 @@ using Play.Core.Specifications;
 
 namespace Play.Codecs.Strings;
 
-// TODO: need to move Play.Codec.AlphaNumericSpecial logic into here
 public class AlphaNumericSpecial : PlayEncoding
 {
     #region Static Metadata

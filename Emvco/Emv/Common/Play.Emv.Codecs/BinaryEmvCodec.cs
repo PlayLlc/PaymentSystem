@@ -12,7 +12,7 @@ using Play.Emv.Codecs.Exceptions;
 namespace Play.Emv.Codecs;
 
 // TODO: Move the actual functionality higher up to Play.Codec
-public class BinaryEmvCodec : Codec
+public class BinaryEmvCodec : IPlayCodec
 {
     #region Static Metadata
 
@@ -22,9 +22,9 @@ public class BinaryEmvCodec : Codec
 
     #region Instance Members
 
-    public override bool IsValid(ReadOnlySpan<byte> value) => true;
+    public bool IsValid(ReadOnlySpan<byte> value) => true;
 
-    public override byte[] Encode<T>(T value)
+    public byte[] Encode<T>(T value) where T : struct
     {
         nint byteSize = Unsafe.SizeOf<T>();
 
@@ -40,7 +40,7 @@ public class BinaryEmvCodec : Codec
         return Encode(Unsafe.As<T, BigInteger>(ref value));
     }
 
-    public override byte[] Encode<T>(T value, int length)
+    public byte[] Encode<T>(T value, int length) where T : struct
     {
         if (length == Specs.Integer.UInt8.ByteSize)
             return Encode(Unsafe.As<T, byte>(ref value));
@@ -58,7 +58,7 @@ public class BinaryEmvCodec : Codec
         return Encode(Unsafe.As<T, BigInteger>(ref value), length);
     }
 
-    public override byte[] Encode<T>(T[] value) where T : struct
+    public byte[] Encode<T>(T[] value) where T : struct
     {
         if (typeof(T) != typeof(byte[]))
         {
@@ -69,10 +69,10 @@ public class BinaryEmvCodec : Codec
         return Encode(Unsafe.As<T[], byte[]>(ref value));
     }
 
-    public byte[] Encode(byte[] value) => value;
-    public override byte[] Encode<T>(T[] value, int length) where T : struct => Encode(Unsafe.As<T[], byte[]>(ref value), length);
+    public byte[] Encode(byte[] value) where T : struct => value;
+    public byte[] Encode<T>(T[] value, int length) where T : struct => Encode(Unsafe.As<T[], byte[]>(ref value), length);
 
-    public override void Encode<T>(T value, Span<byte> buffer, ref int offset)
+    public void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
     {
         nint byteSize = Unsafe.SizeOf<T>();
 
@@ -88,7 +88,7 @@ public class BinaryEmvCodec : Codec
             Encode(Unsafe.As<T, BigInteger>(ref value), buffer, ref offset);
     }
 
-    public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset)
+    public void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         if (length == Specs.Integer.UInt8.ByteSize)
             Encode(Unsafe.As<T, byte>(ref value), buffer, ref offset);
@@ -106,7 +106,7 @@ public class BinaryEmvCodec : Codec
             Encode(Unsafe.As<T, BigInteger>(ref value), length, buffer, ref offset);
     }
 
-    public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset)
+    public void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) != typeof(byte[]))
         {
@@ -117,7 +117,7 @@ public class BinaryEmvCodec : Codec
         Encode(Unsafe.As<T[], byte[]>(ref value), buffer, ref offset);
     }
 
-    public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset)
+    public void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) != typeof(byte[]))
         {
@@ -157,7 +157,7 @@ public class BinaryEmvCodec : Codec
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public override ushort GetByteCount<T>(T value)
+    public ushort GetByteCount<T>(T value) where T : struct
     {
         nint byteSize = Unsafe.SizeOf<T>();
 
@@ -173,7 +173,7 @@ public class BinaryEmvCodec : Codec
         throw new InternalEmvEncodingException($"The {nameof(BinaryEmvCodec)} could not find the byte count for a type of {typeof(T)}");
     }
 
-    public override ushort GetByteCount<T>(T[] value) => checked((ushort) value.Length);
+    public ushort GetByteCount<T>(T[] value) where T : struct => checked((ushort) value.Length);
 
     protected void Validate(ReadOnlySpan<byte> value)
     { }
@@ -182,7 +182,7 @@ public class BinaryEmvCodec : Codec
 
     #region Serialization
 
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    public DecodedMetadata Decode(ReadOnlySpan<byte> value)
     {
         if (value.Length <= Specs.Integer.UInt8.ByteSize)
             return new DecodedResult<byte>(value[0], value[0].GetNumberOfDigits());

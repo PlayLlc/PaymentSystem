@@ -4,7 +4,7 @@ using Play.Ber.InternalFactories;
 
 namespace Play.Ber.Codecs;
 
-public abstract class BerPrimitiveCodec : Codec
+public abstract class BerPrimitiveCodec : IPlayCodec
 {
     #region Instance Members
 
@@ -15,6 +15,18 @@ public abstract class BerPrimitiveCodec : Codec
     /// </summary>
     /// <returns></returns>
     public abstract BerEncodingId GetIdentifier();
+
+    public abstract ushort GetByteCount<T>(T value) where T : struct;
+    public abstract ushort GetByteCount<T>(T[] value) where T : struct;
+    public abstract bool IsValid(ReadOnlySpan<byte> value);
+    public abstract byte[] Encode<T>(T value) where T : struct;
+    public abstract byte[] Encode<T>(T value, int length) where T : struct;
+    public abstract byte[] Encode<T>(T[] value) where T : struct;
+    public abstract byte[] Encode<T>(T[] value, int length) where T : struct;
+    public abstract void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct;
+    public abstract void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct;
+    public abstract void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct;
+    public abstract void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct;
 
     #endregion
 

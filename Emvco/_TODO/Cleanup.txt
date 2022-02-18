@@ -4,3 +4,8 @@ if we don't need type uniqueness when finding equality
 ----------------------------------------
 You used Transaction and other custom shared objects as a crutch. begin to refactor that to what the
 EMV specification dictates
+----------------------------------------
+Combine Play.Emv.Codecs with Play.Codecs. The IPlayCodec has pretty much everything we need
+for our framework. So you can replace System.Text.Encoding inheritance with IPlayCodec and 
+get rid of an assembly misdirection. You can still keep the extra functions that are implemented
+in Play.Codecs and add interfaces or something

@@ -9,7 +9,13 @@ using Play.Emv.Codecs.Exceptions;
 
 namespace Play.Emv.Codecs;
 
-public class AlphabeticEmvCodec : Codec
+/// <summary>
+///     An encoder for encoding and decoding alphabetic ASCII characters
+/// </summary>
+/// <remarks>
+///     Strict parsing is enforced. Exceptions will be raised if invalid data is attempted to be parsed
+/// </remarks>
+public class AlphabeticEmvCodec : IPlayCodec
 {
     #region Static Metadata
 
@@ -20,13 +26,13 @@ public class AlphabeticEmvCodec : Codec
     #region Instance Members
 
     /// <exception cref="EncodingException"></exception>
-    public override bool IsValid(ReadOnlySpan<byte> value) => _Alphabetic.IsValid(value);
+    public bool IsValid(ReadOnlySpan<byte> value) => _Alphabetic.IsValid(value);
 
-    public override byte[] Encode<T>(T value) => throw new NotImplementedException();
-    public override byte[] Encode<T>(T value, int length) => throw new NotImplementedException();
+    public byte[] Encode<T>(T value) where T : struct => throw new NotImplementedException();
+    public byte[] Encode<T>(T value, int length) where T : struct => throw new NotImplementedException();
 
     /// <exception cref="EncodingException"></exception>
-    public override byte[] Encode<T>(T[] value)
+    public byte[] Encode<T>(T[] value) where T : struct
     {
         if (typeof(T) == typeof(char))
             return Encode(Unsafe.As<T[], char[]>(ref value).AsSpan());
@@ -35,7 +41,7 @@ public class AlphabeticEmvCodec : Codec
     }
 
     /// <exception cref="EncodingException"></exception>
-    public override byte[] Encode<T>(T[] value, int length)
+    public byte[] Encode<T>(T[] value, int length) where T : struct
     {
         if (typeof(T) == typeof(char))
             return Encode(Unsafe.As<T[], char[]>(ref value).AsSpan(), length);
@@ -43,17 +49,17 @@ public class AlphabeticEmvCodec : Codec
         throw new NotImplementedException();
     }
 
-    public override void Encode<T>(T value, Span<byte> buffer, ref int offset)
+    public void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
     {
         throw new NotImplementedException();
     }
 
-    public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset)
+    public void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         throw new NotImplementedException();
     }
 
-    public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset)
+    public void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) == typeof(char))
             Encode(Unsafe.As<T[], char[]>(ref value).AsSpan(), buffer, ref offset);
@@ -61,7 +67,7 @@ public class AlphabeticEmvCodec : Codec
         throw new NotImplementedException();
     }
 
-    public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset)
+    public void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) == typeof(char))
             Encode(Unsafe.As<T[], char[]>(ref value).AsSpan(), length, buffer, ref offset);
@@ -109,9 +115,9 @@ public class AlphabeticEmvCodec : Codec
     }
 
     public byte[] Encode(string value) => Encode(value.AsSpan());
-    public override ushort GetByteCount<T>(T value) => throw new NotImplementedException();
+    public ushort GetByteCount<T>(T value) where T : struct => throw new NotImplementedException();
 
-    public override ushort GetByteCount<T>(T[] value)
+    public ushort GetByteCount<T>(T[] value) where T : struct
     {
         if (typeof(T) == typeof(char))
             return checked((ushort) value.Length);
@@ -140,7 +146,8 @@ public class AlphabeticEmvCodec : Codec
     #region Serialization
 
     /// <exception cref="EncodingException"></exception>
-    public override DecodedResult<char[]> Decode(ReadOnlySpan<byte> value) => new(PlayEncoding.Alphabetic.GetChars(value), value.Length);
+    public DecodedMetadata Decode(ReadOnlySpan<byte> value) =>
+        new DecodedResult<char[]>(PlayEncoding.Alphabetic.GetChars(value), value.Length);
 
     #endregion
 }

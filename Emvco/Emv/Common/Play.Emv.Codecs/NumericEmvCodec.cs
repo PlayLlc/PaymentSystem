@@ -19,7 +19,7 @@ namespace Play.Emv.Codecs;
 /// </summary>
 
 // TODO: Move the actual functionality higher up to Play.Codec
-public class NumericEmvCodec : Codec
+public class NumericEmvCodec : IPlayCodec
 {
     #region Static Metadata
 
@@ -29,28 +29,28 @@ public class NumericEmvCodec : Codec
 
     #region Instance Members
 
-    public override bool IsValid(ReadOnlySpan<byte> value) => _Numeric.IsValid(value);
-    public override byte[] Encode<T>(T value) => _Numeric.GetBytes(value);
-    public override byte[] Encode<T>(T value, int length) => _Numeric.GetBytes(value, length);
-    public override byte[] Encode<T>(T[] value) => _Numeric.GetBytes(value);
-    public override byte[] Encode<T>(T[] value, int length) => _Numeric.GetBytes(value, length);
+    public bool IsValid(ReadOnlySpan<byte> value) => _Numeric.IsValid(value);
+    public byte[] Encode<T>(T value) where T : struct => _Numeric.GetBytes(value);
+    public byte[] Encode<T>(T value, int length) where T : struct => _Numeric.GetBytes(value, length);
+    public byte[] Encode<T>(T[] value) where T : struct => _Numeric.GetBytes(value);
+    public byte[] Encode<T>(T[] value, int length) where T : struct => _Numeric.GetBytes(value, length);
 
-    public override void Encode<T>(T value, Span<byte> buffer, ref int offset)
+    public void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
     {
         _Numeric.GetBytes(value, buffer, ref offset);
     }
 
-    public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset)
+    public void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         _Numeric.GetBytes(value, length, buffer, ref offset);
     }
 
-    public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset)
+    public void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct
     {
         _Numeric.GetBytes(value, buffer, ref offset);
     }
 
-    public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset)
+    public void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         _Numeric.GetBytes(value, length, buffer, ref offset);
     }
@@ -59,9 +59,9 @@ public class NumericEmvCodec : Codec
     public byte[] Encode(ReadOnlySpan<char> value, int length) => _Numeric.GetBytes(value, length);
 
     // TODO: why are you boxing you dweeb?
-    public override ushort GetByteCount<T>(T value) => checked((ushort) Unsafe.SizeOf<T>());
+    public ushort GetByteCount<T>(T value) where T : struct => checked((ushort) Unsafe.SizeOf<T>());
 
-    public override ushort GetByteCount<T>(T[] value)
+    public ushort GetByteCount<T>(T[] value) where T : struct
     {
         if (typeof(T) == typeof(char))
             return (ushort) checked((value.Length % 2) + (value.Length / 2));
@@ -88,7 +88,7 @@ public class NumericEmvCodec : Codec
 
     #region Serialization
 
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    public DecodedMetadata Decode(ReadOnlySpan<byte> value)
     {
         Validate(value);
 

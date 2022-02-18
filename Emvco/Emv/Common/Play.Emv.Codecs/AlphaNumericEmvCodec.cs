@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 
 using Play.Ber.Codecs;
+using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Codecs.Strings;
@@ -9,8 +10,13 @@ using Play.Emv.Codecs.Exceptions;
 
 namespace Play.Emv.Codecs;
 
-// TODO: Move the actual functionality higher up to Play.Codec
-public class AlphaNumericEmvCodec : Codec
+/// <summary>
+///     An encoder for encoding and decoding alphabetic and numeric ASCII characters
+/// </summary>
+/// <remarks>
+///     Strict parsing is enforced. Exceptions will be raised if invalid data is attempted to be parsed
+/// </remarks>
+public class AlphaNumericEmvCodec : IPlayCodec
 {
     #region Static Metadata
 
@@ -20,9 +26,9 @@ public class AlphaNumericEmvCodec : Codec
 
     #region Instance Members
 
-    public override bool IsValid(ReadOnlySpan<byte> value) => _AlphaNumeric.IsValid(value);
+    public bool IsValid(ReadOnlySpan<byte> value) => _AlphaNumeric.IsValid(value);
 
-    public override byte[] Encode<T>(T value)
+    public byte[] Encode<T>(T value) where T : struct
     {
         if (typeof(T) == typeof(char))
             return new byte[] {Encode(Unsafe.As<T, char>(ref value))};
@@ -30,7 +36,7 @@ public class AlphaNumericEmvCodec : Codec
         throw new InternalEmvEncodingException("The code should not reach this point");
     }
 
-    public override byte[] Encode<T>(T value, int length)
+    public byte[] Encode<T>(T value, int length) where T : struct
     {
         CheckCore.ForRange(length, 1, 1, nameof(length));
 
@@ -41,7 +47,7 @@ public class AlphaNumericEmvCodec : Codec
     }
 
     /// <exception cref="EncodingException"></exception>
-    public override byte[] Encode<T>(T[] value)
+    public byte[] Encode<T>(T[] value) where T : struct
     {
         if (typeof(T) == typeof(char))
             return Encode(Unsafe.As<T[], char[]>(ref value).AsSpan());
@@ -50,7 +56,7 @@ public class AlphaNumericEmvCodec : Codec
     }
 
     /// <exception cref="EncodingException"></exception>
-    public override byte[] Encode<T>(T[] value, int length)
+    public byte[] Encode<T>(T[] value, int length) where T : struct
     {
         if (typeof(T) == typeof(char))
             return Encode(Unsafe.As<T[], char[]>(ref value).AsSpan(), length);
@@ -58,7 +64,7 @@ public class AlphaNumericEmvCodec : Codec
         throw new InternalEmvEncodingException("The code should not reach this point");
     }
 
-    public override void Encode<T>(T value, Span<byte> buffer, ref int offset)
+    public void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) == typeof(char))
             Encode(Unsafe.As<T, char>(ref value), buffer, ref offset);
@@ -66,7 +72,7 @@ public class AlphaNumericEmvCodec : Codec
             throw new InternalEmvEncodingException("The code should not reach this point");
     }
 
-    public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset)
+    public void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) == typeof(char))
             Encode(Unsafe.As<T, char>(ref value), buffer, ref offset);
@@ -74,7 +80,7 @@ public class AlphaNumericEmvCodec : Codec
             throw new InternalEmvEncodingException("The code should not reach this point");
     }
 
-    public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset)
+    public void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) == typeof(char))
             Encode(Unsafe.As<T[], char[]>(ref value).AsSpan(), buffer, ref offset);
@@ -82,7 +88,7 @@ public class AlphaNumericEmvCodec : Codec
             throw new InternalEmvEncodingException("The code should not reach this point");
     }
 
-    public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset)
+    public void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) == typeof(char))
             Encode(Unsafe.As<T[], char[]>(ref value).AsSpan(), length, buffer, ref offset);
@@ -140,9 +146,9 @@ public class AlphaNumericEmvCodec : Codec
     }
 
     public byte[] Encode(string value) => Encode(value.AsSpan());
-    public override ushort GetByteCount<T>(T value) => 1;
+    public ushort GetByteCount<T>(T value) where T : struct => 1;
 
-    public override ushort GetByteCount<T>(T[] value)
+    public ushort GetByteCount<T>(T[] value) where T : struct
     {
         if (typeof(T) == typeof(char))
             return checked((ushort) value.Length);
@@ -151,11 +157,17 @@ public class AlphaNumericEmvCodec : Codec
     }
 
     /// <exception cref="EncodingException"></exception>
-    protected override void Validate(ReadOnlySpan<byte> value)
+    protected void Validate(ReadOnlySpan<byte> value)
     {
         if (!_AlphaNumeric.IsValid(value))
             throw new EmvEncodingFormatException(EncodingException.CharacterArrayContainsInvalidValue);
     }
+
+    #endregion
+
+    #region Serialization
+
+    public DecodedMetadata Decode(ReadOnlySpan<byte> value) => new DecodedResult<char[]>(_AlphaNumeric.GetChars(value), value.Length);
 
     #endregion
 }

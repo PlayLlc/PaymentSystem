@@ -21,7 +21,7 @@ public sealed class BooleanBerCodec : BerPrimitiveCodec
     public override BerEncodingId GetIdentifier() => Identifier;
     public override bool IsValid(ReadOnlySpan<byte> value) => value.Length == 1;
 
-    protected override void Validate(ReadOnlySpan<byte> value)
+    protected void Validate(ReadOnlySpan<byte> value)
     {
         CheckCore.ForExactLength(value, 1, nameof(value));
     }

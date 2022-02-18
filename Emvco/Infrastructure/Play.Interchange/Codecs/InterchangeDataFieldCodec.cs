@@ -1,8 +1,9 @@
 ﻿using Play.Ber.Codecs;
+using Play.Ber.InternalFactories;
 
 namespace Play.Interchange.Codecs;
 
-public abstract class InterchangeDataFieldCodec : Codec
+public interface IInterchangeCodec : IPlayCodec
 {
     #region Instance Members
 
@@ -12,7 +13,7 @@ public abstract class InterchangeDataFieldCodec : Codec
     ///     An method to get the Identifier for an instance of this class
     /// </summary>
     /// <returns></returns>
-    public abstract InterchangeEncodingId GetIdentifier();
+    public InterchangeEncodingId GetIdentifier();
 
     #endregion
 }
