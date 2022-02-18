@@ -38,26 +38,22 @@ public class VariableEmvCodec : IPlayCodec
     {
         if (typeof(T) == typeof(char))
             return Encode(Unsafe.As<T[], char[]>(ref value));
-        else if (typeof(T) == typeof(byte))
+        if (typeof(T) == typeof(byte))
             return Unsafe.As<T[], byte[]>(ref value);
-        else
-        {
-            throw new InternalEmvEncodingException(
-                $"The {nameof(VariableEmvCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
-        }
+
+        throw new InternalEmvEncodingException(
+            $"The {nameof(VariableEmvCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }
 
     public byte[] Encode<T>(T[] value, int length) where T : struct
     {
         if (typeof(T) == typeof(char))
             return Encode(Unsafe.As<T[], char[]>(ref value), length);
-        else if (typeof(T) == typeof(byte))
+        if (typeof(T) == typeof(byte))
             return Unsafe.As<T[], byte[]>(ref value)[..length];
-        else
-        {
-            throw new InternalEmvEncodingException(
-                $"The {nameof(VariableEmvCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
-        }
+
+        throw new InternalEmvEncodingException(
+            $"The {nameof(VariableEmvCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }
 
     public void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct

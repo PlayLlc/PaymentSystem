@@ -19,40 +19,7 @@ public class CompressedNumericEmvCodec : IPlayCodec
 {
     #region Static Metadata
 
-    private static readonly ImmutableSortedDictionary<byte, char> _CharMap = new Dictionary<byte, char>
-    {
-        {48, '0'},
-        {49, '1'},
-        {50, '2'},
-        {51, '3'},
-        {52, '4'},
-        {53, '5'},
-        {54, '6'},
-        {55, '7'},
-        {56, '8'},
-        {57, '9'},
-        {70, 'F'}
-    }.ToImmutableSortedDictionary();
-
-    private static readonly ImmutableSortedDictionary<byte, char> _CharValueMap = new Dictionary<byte, char>
-    {
-        {48, '0'},
-        {49, '1'},
-        {50, '2'},
-        {51, '3'},
-        {52, '4'},
-        {53, '5'},
-        {54, '6'},
-        {55, '7'},
-        {56, '8'},
-        {57, '9'}
-    }.ToImmutableSortedDictionary();
-
-    private static KeyValuePair<byte, char> _PaddingKey;
-    private const byte _PaddingByteKey = 70;
-    private const char _PaddingCharKey = 'F';
-    private const byte _LeftNibbleMask = (byte) (Bits.Eight | Bits.Seven | Bits.Six | Bits.Five);
-    private const byte _PaddedNibble = 0xF;
+    private static readonly CompressedNumeric _Codec = new();
 
     #endregion
 
@@ -419,136 +386,10 @@ public class CompressedNumericEmvCodec : IPlayCodec
         return BuildInteger(result, value);
     }
 
-    public byte DecodeByte(byte value)
-    {
-        if (value.GetMaskedValue(_LeftNibbleMask) == _PaddedNibble)
-            return (byte) (value >> 4);
-
-        byte result = (byte) (value >> 4);
-        result *= 10;
-        result += value.GetMaskedValue(_LeftNibbleMask);
-
-        return result;
-    }
-
-    public ushort DecodeUInt16(ReadOnlySpan<byte> value)
-    {
-        ushort result = 0;
-
-        return BuildInteger(result, value);
-    }
-
-    public uint DecodeUInt32(ReadOnlySpan<byte> value)
-    {
-        for (byte i = 0; i < value.Length; i++)
-        {
-            if (!IsValid(value))
-                throw new EmvEncodingFormatException(new ArgumentOutOfRangeException(nameof(value)));
-        }
-
-        uint result = 0;
-
-        return BuildInteger(result, value);
-    }
-
-    public ulong DecodeUInt64(ReadOnlySpan<byte> value)
-    {
-        for (byte i = 0; i < value.Length; i++)
-        {
-            if (!IsValid(value))
-                throw new EmvEncodingFormatException(new ArgumentOutOfRangeException(nameof(value)));
-        }
-
-        ulong result = 0;
-
-        return BuildInteger(result, value);
-    }
-
-    /// <summary>
-    ///     Validates that the left justified numeric values are encoded correctly
-    /// </summary>
-    /// <exception cref="EmvEncodingFormatException"></exception>
-    private bool ValidateNumericEncoding(ReadOnlySpan<byte> value)
-    {
-        for (int i = 0; i < value.Length; i++)
-        {
-            if (!_CharMap.ContainsKey(value[i]))
-            {
-                throw new EmvEncodingFormatException(
-                    $"The argument could not be parsed. The argument contained the value: [{value[i]}], which is an invalid {nameof(CompressedNumeric)} encoding");
-            }
-        }
-
-        return true;
-    }
-
-    /// <summary>
-    ///     Validates that the left justified numeric values are encoded correctly
-    /// </summary>
-    /// <exception cref="EmvEncodingFormatException"></exception>
-    private bool IsNumericEncodingValid(ReadOnlySpan<byte> value)
-    {
-        for (int i = 0; i < value.Length; i++)
-        {
-            if (!_CharMap.ContainsKey(value[i]))
-                return false;
-        }
-
-        return true;
-    }
-
-    private int GetPaddingIndexFromEnd(ReadOnlySpan<byte> value)
-    {
-        for (int i = value.Length; i > 0; i--)
-        {
-            if (value[i] != _PaddingByteKey)
-                return i;
-        }
-
-        return 0;
-    }
-
-    private dynamic BuildInteger(dynamic resultBuffer, ReadOnlySpan<byte> value)
-    {
-        if (resultBuffer != byte.MinValue)
-            resultBuffer = 0;
-
-        for (byte i = 0; i < value.Length; i++)
-        {
-            resultBuffer += DecodeByte(value[i]);
-            resultBuffer <<= 8;
-        }
-
-        return resultBuffer;
-    }
-
-    public byte[] TrimTrailingBytes(ReadOnlySpan<byte> value)
-    {
-        int padding = 0;
-
-        for (int i = value.Length; i > 0; i--)
-        {
-            if (((value[i] >> 4) == _PaddedNibble) && (value[i].GetMaskedValue(0xF0) == _PaddedNibble))
-            {
-                padding++;
-
-                continue;
-            }
-
-            break;
-        }
-
-        byte[] result = value[..^padding].ToArray();
-        if (result[^1].GetMaskedValue(0xF0) == _PaddedNibble)
-            result[^1] = result[^1].GetMaskedValue(0x0F);
-
-        return result;
-    }
-
-    public void Validate(ReadOnlySpan<byte> value)
-    {
-        ValidateNumericEncoding(value[..^GetPaddingIndexFromEnd(value)]);
-    }
+    public byte DecodeByte(byte value) => _Codec.GetByte(value);
+    public ushort DecodeUInt16(ReadOnlySpan<byte> value) => _Codec.GetUInt16(value);
+    public uint DecodeUInt32(ReadOnlySpan<byte> value) => _Codec.GetUInt32(value);
+    public ulong DecodeUInt64(ReadOnlySpan<byte> value) => _Codec.GetUInt64(value);
 
     #endregion
 
@@ -556,42 +397,41 @@ public class CompressedNumericEmvCodec : IPlayCodec
 
     public DecodedMetadata Decode(ReadOnlySpan<byte> value)
     {
-        Validate(value);
-
-        ReadOnlySpan<byte> trimmedValue = TrimTrailingBytes(value);
         BigInteger maximumIntegerResult = (BigInteger) Math.Pow(2, value.Length * 8);
 
         if (maximumIntegerResult <= byte.MaxValue)
         {
-            byte byteResult = DecodeByte(trimmedValue[0]);
+            byte result = _Codec.GetByte(value[0]);
 
-            return new DecodedResult<byte>(byteResult, PlayEncoding.UnsignedInteger.GetCharCount(byteResult));
+            return new DecodedResult<byte>(result, result.GetNumberOfDigits());
         }
 
         if (maximumIntegerResult <= ushort.MaxValue)
         {
-            ushort shortResult = DecodeUInt16(trimmedValue);
+            ushort result = _Codec.GetUInt16(value);
 
-            return new DecodedResult<ushort>(shortResult, PlayEncoding.UnsignedInteger.GetCharCount(shortResult));
+            return new DecodedResult<ushort>(result, result.GetNumberOfDigits());
         }
 
         if (maximumIntegerResult <= uint.MaxValue)
         {
-            uint intResult = DecodeUInt32(trimmedValue);
+            uint result = _Codec.GetUInt32(value);
 
-            return new DecodedResult<uint>(intResult, PlayEncoding.UnsignedInteger.GetCharCount(intResult));
+            return new DecodedResult<uint>(result, result.GetNumberOfDigits());
         }
 
         if (maximumIntegerResult <= ulong.MaxValue)
         {
-            ulong longResult = DecodeUInt64(trimmedValue);
+            ulong result = _Codec.GetUInt64(value);
 
-            return new DecodedResult<ulong>(longResult, PlayEncoding.UnsignedInteger.GetCharCount(longResult));
+            return new DecodedResult<ulong>(result, result.GetNumberOfDigits());
         }
+        else
+        {
+            BigInteger result = _Codec.GetBigInteger(value);
 
-        BigInteger bigIntegerResult = DecodeBigInteger(trimmedValue);
-
-        return new DecodedResult<BigInteger>(bigIntegerResult, PlayEncoding.UnsignedInteger.GetCharCount(bigIntegerResult));
+            return new DecodedResult<BigInteger>(result, result.GetNumberOfDigits());
+        }
     }
 
     #endregion
