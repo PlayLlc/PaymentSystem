@@ -1,6 +1,4 @@
-﻿using Play.Interchange.Messages.DataFields;
-
-namespace Play.Interchange.Messages.Header;
+﻿namespace Play.Interchange.Messages.Header;
 
 /// <summary>
 ///     In ISO 8583, a bitmap is a field or subfield within a message, which indicates whether other data elements or data

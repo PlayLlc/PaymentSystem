@@ -2,8 +2,6 @@
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
-using Play.Interchange.Messages.DataFields;
-
 namespace Play.Interchange.Messages.Body;
 
 public class AcquirerBody : IReadOnlyCollection<byte>

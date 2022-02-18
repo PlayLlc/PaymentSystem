@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Infrastructure\Play.Codecs\Play.Codecs.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\Play.Interchange\Play.Interchange.csproj" />
+    <ProjectReference Include="..\Play.Emv.Codecs\Play.Emv.Codecs.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,5 @@
 ﻿using System;
 
-using Play.Ber.DataObjects;
 using Play.Ber.InternalFactories;
 
 namespace Play.Ber.Codecs;

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements;
-using Play.Emv.Issuer.Exceptions;
 using Play.Emv.Issuer.Policies;
 
 namespace Play.Emv.Issuer.Messages;

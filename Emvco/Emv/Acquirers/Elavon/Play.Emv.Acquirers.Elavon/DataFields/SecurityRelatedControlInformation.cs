@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Codecs;
+﻿using Play.Codecs;
 using Play.Core.Exceptions;
-using Play.Core.Extensions;
-using Play.Emv.Ber.Codecs;
 
 namespace Play.Emv.Acquirers.Elavon.DataFields;
 

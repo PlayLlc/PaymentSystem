@@ -12,8 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Codecs\temp\Integers\" />
-    <Folder Include="Codecs\temp\Strings\" />
+    <Folder Include="Codecs\temp\" />
   </ItemGroup>
 
 </Project>

@@ -14,16 +14,5 @@ public abstract class InterchangeDataFieldCodec : Codec
     /// <returns></returns>
     public abstract InterchangeEncodingId GetIdentifier();
 
-    public abstract void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct;
-    public abstract void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct;
-    public abstract void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct;
-    public abstract void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct;
-
-    #endregion
-
-    #region Serialization
-
-    public abstract DecodedMetadata Decode(ReadOnlySpan<byte> value);
-
     #endregion
 }

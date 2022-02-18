@@ -1,10 +1,8 @@
-﻿using System.Numerics;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 using Play.Ber.Codecs;
 using Play.Codecs;
 using Play.Codecs.Strings;
-using Play.Core.Specifications;
 using Play.Emv.Codecs.Exceptions;
 
 namespace Play.Emv.Codecs;

@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Ber.Codecs;
-using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
+﻿using Play.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
 namespace Play.Emv.Acquirers.Elavon.DataElements;

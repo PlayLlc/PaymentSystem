@@ -1,17 +1,9 @@
-﻿using System.Collections.Immutable;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-
-using Microsoft.Toolkit.HighPerformance.Buffers;
+﻿using System.Numerics;
 
 using Play.Ber.Codecs;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
-using Play.Codecs.Strings;
-using Play.Core.Extensions;
-using Play.Core.Specifications;
 using Play.Emv.Codecs;
-using Play.Emv.Codecs.Exceptions;
 
 namespace Play.Emv.Ber.Codecs;
 

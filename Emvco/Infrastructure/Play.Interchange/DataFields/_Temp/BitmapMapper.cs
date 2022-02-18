@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Codecs;
+﻿using Play.Codecs;
 using Play.Codecs.Strings;
-using Play.Interchange.Messages.DataFields.ValueObjects;
 
 namespace Play.Interchange.Messages.DataFields._Temp;
 

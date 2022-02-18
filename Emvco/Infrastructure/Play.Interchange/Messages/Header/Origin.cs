@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-using Play.Core;
+﻿using Play.Core;
 using Play.Core.Extensions;
 
 namespace Play.Interchange.Messages.Header;

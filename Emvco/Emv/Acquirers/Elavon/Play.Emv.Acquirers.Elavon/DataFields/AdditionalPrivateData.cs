@@ -1,15 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Toolkit.HighPerformance.Buffers;
-
-using Play.Ber.DataObjects;
-using Play.Core.Specifications;
-using Play.Emv.Acquirers.Elavon.DataElements;
-using Play.Interchange.Messages.DataFields;
+﻿using Play.Emv.Acquirers.Elavon.DataElements;
 
 namespace Play.Emv.Acquirers.Elavon.DataFields;
 

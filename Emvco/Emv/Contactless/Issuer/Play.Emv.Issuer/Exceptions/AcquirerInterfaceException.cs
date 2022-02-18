@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
-using Play.Ber.Codecs;
 using Play.Core.Exceptions;
-using Play.Emv.Ber;
 
 namespace Play.Emv.Issuer.Exceptions;
 
