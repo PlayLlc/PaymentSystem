@@ -138,10 +138,7 @@ public class NumericSpecial : PlayEncoding
 
     public override int GetByteCount(char[] chars, int index, int count) => count;
     public override int GetMaxByteCount(int charCount) => charCount;
-
-    public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
-    
-        new NotImplementedException();
+    public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) => new NotImplementedException();
 
     public char[] GetChars(ReadOnlySpan<byte> value)
     {

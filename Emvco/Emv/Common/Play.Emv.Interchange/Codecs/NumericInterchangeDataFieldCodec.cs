@@ -1,5 +1,4 @@
-﻿using Play.Ber.InternalFactories;
-using Play.Emv.Codecs;
+﻿using Play.Emv.Codecs;
 using Play.Interchange.Codecs;
 
 namespace Play.Emv.Interchange.Codecs;
@@ -11,11 +10,12 @@ namespace Play.Emv.Interchange.Codecs;
 ///     Example: Amount, Authorized(Numeric) is defined as “n 12” with a length of six bytes.
 ///     A value of 12345 is stored in Amount, Authorized (Numeric) as Hex '00 00 00 01 23 45'.
 /// </summary>
-public class NumericInterchangeCodec : NumericEmvCodec, IInterchangeCodec
+public class NumericInterchangeDataFieldCodec : NumericEmvCodec, IInterchangeDataFieldCodec
 {
     #region Static Metadata
 
-    public static readonly InterchangeEncodingId Identifier = IInterchangeCodec.GetEncodingId(typeof(NumericInterchangeCodec));
+    public static readonly InterchangeEncodingId Identifier =
+        IInterchangeDataFieldCodec.GetEncodingId(typeof(NumericInterchangeDataFieldCodec));
 
     #endregion
 

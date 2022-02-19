@@ -7,7 +7,6 @@ using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Core.Extensions;
-using Play.Core.Specifications;
 
 namespace Play.Codecs.Strings;
 
@@ -30,6 +29,12 @@ public class SignedNumeric : PlayEncoding
 
     private const char Positive = 'C';
     private const char Negative = 'D';
+
+    #endregion
+
+    #region Constructor
+
+    private new NotImplementedException();
 
     #endregion
 
@@ -378,10 +383,7 @@ public class SignedNumeric : PlayEncoding
 
     public override int GetByteCount(char[] chars, int index, int count) => count;
     public override int GetMaxByteCount(int charCount) => charCount;
-
-    public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
-  
-        w new NotImplementedException();
+    public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) => w
 
     public char[] GetChars(ReadOnlySpan<byte> value)
     {

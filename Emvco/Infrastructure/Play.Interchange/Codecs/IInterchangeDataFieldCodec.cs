@@ -1,9 +1,8 @@
 ﻿using Play.Ber.Codecs;
-using Play.Ber.InternalFactories;
 
 namespace Play.Interchange.Codecs;
 
-public interface IInterchangeCodec : IPlayCodec
+public interface IInterchangeDataFieldCodec : IPlayCodec
 {
     #region Instance Members
 

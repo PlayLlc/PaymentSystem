@@ -23,7 +23,7 @@ public abstract record InterchangeDataField : IRetrieveInterchangeFieldMetadata,
     public abstract InterchangeEncodingId GetEncodingId();
     public abstract byte[] Encode(InterchangeCodec codec);
     public DataField AsDataField(InterchangeCodec codec) => new(GetDataFieldId(), Encode(codec));
-    public abstract void Encode(InterchangeCodec codec, Span<byte> buffer, ref int offset);
+    public abstract void Encode(InterchangeCodec codec, Memory<byte> buffer, ref int offset);
 
     #endregion
 }

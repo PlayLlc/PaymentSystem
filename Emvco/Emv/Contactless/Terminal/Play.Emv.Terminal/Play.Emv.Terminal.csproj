@@ -24,6 +24,7 @@
   <ItemGroup>
     <Folder Include="Configuration\Transaction\" />
     <Folder Include="DataExchange\" />
+    <Folder Include="_IssuerShit\" />
   </ItemGroup>
 
 </Project>

@@ -22,6 +22,7 @@ public record ActivateTerminalRequest : RequestSignal
     private readonly TerminalIdentification _TerminalIdentification;
     private readonly AcquirerIdentifier _AcquirerIdentifier;
     private readonly MerchantIdentifier _MerchantIdentifier;
+    private readonly PosEntryMode _PosEntryMode;
 
     #endregion
 
@@ -34,8 +35,10 @@ public record ActivateTerminalRequest : RequestSignal
         byte transactionType,
         ulong terminalIdentification,
         ulong acquirerIdentifier,
-        string merchantIdentifier) : base(MessageTypeId, ChannelTypeId)
+        string merchantIdentifier,
+        PosEntryMode posEntryMode) : base(MessageTypeId, ChannelTypeId)
     {
+        _PosEntryMode = posEntryMode;
         _AccountType = new AccountType(accountType);
         _AmountAuthorizedNumeric = new AmountAuthorizedNumeric(amountAuthorized);
         _AmountOtherNumeric = new AmountOtherNumeric(otherAmount);
@@ -49,6 +52,7 @@ public record ActivateTerminalRequest : RequestSignal
 
     #region Instance Members
 
+    public PosEntryMode GetPosEntryMode() => _PosEntryMode;
     public AccountType GetAccountType() => _AccountType;
     public MerchantIdentifier GetMerchantIdentifier() => _MerchantIdentifier;
     public TerminalIdentification GetTerminalIdentification() => _TerminalIdentification;

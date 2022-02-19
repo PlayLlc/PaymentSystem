@@ -436,6 +436,12 @@ public class Numeric : PlayEncoding
     public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
         throw new NotImplementedException();
 
+    public void GetChars(ReadOnlySpan<byte> value, Span<char> buffer, ref int offset)
+    {
+        for (int i = 0, j = 0; i < value.Length; i++, j += 2)
+            GetChars(value[i], buffer[(offset + j)..], j);
+    }
+
     public char[] GetChars(ReadOnlySpan<byte> value)
     {
         int length = value.Length * 2;

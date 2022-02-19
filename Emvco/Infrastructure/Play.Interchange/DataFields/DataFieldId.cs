@@ -1,7 +1,15 @@
-﻿namespace Play.Interchange.DataFields;
+﻿using Play.Emv.Interchange.Exceptions;
+
+namespace Play.Interchange.DataFields;
 
 public readonly record struct DataFieldId
 {
+    #region Static Metadata
+
+    private const byte _MaxValue = 128;
+
+    #endregion
+
     #region Instance Values
 
     private readonly byte _Value;
@@ -10,8 +18,14 @@ public readonly record struct DataFieldId
 
     #region Constructor
 
+    /// <summary>
+    /// </summary>
+    /// <param name="value">Max value of 128</param>
     internal DataFieldId(byte value)
     {
+        if (value > _MaxValue)
+            throw new InterchangeDataFieldOutOfRangeException($"The {nameof(DataFieldId)} must not exceed the value: [{_MaxValue}]");
+
         _Value = value;
     }
 

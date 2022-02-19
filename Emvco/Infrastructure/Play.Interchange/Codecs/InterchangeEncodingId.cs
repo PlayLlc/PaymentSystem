@@ -1,10 +1,13 @@
-﻿namespace Play.Interchange.Codecs;
+﻿using Play.Emv.Interchange.Exceptions;
+
+namespace Play.Interchange.Codecs;
 
 public record InterchangeEncodingId
 {
     #region Instance Values
 
     private readonly ulong _Id;
+    private readonly string _FullyQualifiedName;
 
     #endregion
 
@@ -12,13 +15,14 @@ public record InterchangeEncodingId
 
     internal InterchangeEncodingId(Type value)
     {
-        if (!value.IsSubclassOf(typeof(InterchangeDataFieldCodec)))
+        if (!value.IsSubclassOf(typeof(IInterchangeDataFieldCodec)))
         {
             throw new InterchangeException(new ArgumentOutOfRangeException(
                 $"The {nameof(InterchangeEncodingId)} can only be initialized if the argument {nameof(value)} is derived from {nameof(InterchangeDataFieldCodec)}"));
         }
 
         _Id = GetHashedId(value.FullName);
+        _FullyQualifiedName = value.FullName!;
     }
 
     #endregion
@@ -39,6 +43,9 @@ public record InterchangeEncodingId
 
         return result;
     }
+
+    public string GetFullyQualifiedName() => _FullyQualifiedName;
+    public override string ToString() => _FullyQualifiedName;
 
     #endregion
 

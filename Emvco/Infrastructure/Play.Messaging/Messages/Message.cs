@@ -1,4 +1,6 @@
-﻿namespace Play.Messaging;
+﻿using Play.Codecs;
+
+namespace Play.Messaging;
 
 public abstract record Message
 {
@@ -22,6 +24,9 @@ public abstract record Message
     public MessageIdentifier GetMessageIdentifier() => _MessageIdentifier;
     public MessageTypeId GetMessageTypeId() => _MessageIdentifier.GetMessageTypeId();
     public ChannelTypeId GetChannelTypeId() => _MessageIdentifier.GetChannelTypeId();
+
+    protected static MessageTypeId GetMessageTypeId(Type type) =>
+        new(PlayEncoding.UnsignedInteger.GetUInt64(PlayEncoding.ASCII.GetBytes(type.FullName)));
 
     #endregion
 }

@@ -1,8 +1,10 @@
-﻿namespace Play.Emv.Terminal.Common.Services.SequenceNumberManagement;
+﻿using Play.Emv.Interchange.DataFields;
+
+namespace Play.Emv.Terminal.Common.Services.SequenceNumberManagement;
 
 public interface IGenerateSequenceTraceAuditNumbers
 {
-    public ushort Generate();
+    public SystemTraceAuditNumber Generate();
 
     //public void Reset(SettlementAcknowledgement settlementRequestAcknowledgement);
 }

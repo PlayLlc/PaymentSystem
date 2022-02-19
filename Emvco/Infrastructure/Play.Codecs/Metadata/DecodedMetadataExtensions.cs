@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Numerics;
 
-using Play.Ber.Exceptions;
-
 namespace Play.Ber.InternalFactories;
 
 public static class DecodedMetadataExtensions

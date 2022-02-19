@@ -12,4 +12,9 @@
     <ProjectReference Include="..\Play.Emv.Icc\Play.Emv.Icc.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interchange\Primitives\" />
+    <Folder Include="Interchange\ValueTypes\" />
+  </ItemGroup>
+
 </Project>

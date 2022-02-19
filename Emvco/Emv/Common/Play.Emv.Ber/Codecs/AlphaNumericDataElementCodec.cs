@@ -1,6 +1,5 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.InternalFactories;
-using Play.Codecs;
 using Play.Emv.Codecs;
 
 namespace Play.Emv.Ber.Codecs;

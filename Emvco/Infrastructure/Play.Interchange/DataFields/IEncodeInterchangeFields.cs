@@ -13,7 +13,7 @@ public interface IEncodeInterchangeFields
     #region Serialization
 
     public byte[] Encode(InterchangeCodec codec);
-    public void Encode(InterchangeCodec codec, Span<byte> buffer, ref int offset);
+    public void Encode(InterchangeCodec codec, Memory<byte> buffer, ref int offset);
 
     #endregion
 }

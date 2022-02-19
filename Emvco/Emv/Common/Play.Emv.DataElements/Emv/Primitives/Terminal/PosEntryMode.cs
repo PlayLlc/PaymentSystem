@@ -8,7 +8,7 @@ using Play.Emv.DataElements.Exceptions;
 
 namespace Play.Emv.DataElements;
 
-public partial record PosEntryMode : DataElement<byte>, IEqualityComparer<PosEntryMode>
+public record PosEntryMode : DataElement<byte>, IEqualityComparer<PosEntryMode>
 {
     #region Static Metadata
 

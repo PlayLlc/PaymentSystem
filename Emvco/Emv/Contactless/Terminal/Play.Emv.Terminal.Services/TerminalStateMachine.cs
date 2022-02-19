@@ -50,7 +50,7 @@ internal class TerminalStateMachine
         ISendTerminalResponses terminalEndpoint,
         IGenerateSequenceTraceAuditNumbers sequenceGenerator)
     {
-        _TerminalSessionLock = new TerminalSessionLock(sequenceGenerator);
+        _TerminalSessionLock = new TerminalSessionLock();
         _TerminalConfiguration = terminalConfiguration;
         _DisplayEndpoint = displayEndpoint;
         _KernelEndpoint = kernelEndpoint;
@@ -71,7 +71,7 @@ internal class TerminalStateMachine
     {
         lock (_TerminalSessionLock)
         {
-            if (_TerminalSessionLock.Session != null)
+            if (_TerminalSessionLock.IsActive())
             {
                 throw new RequestOutOfSyncException(
                     $"The {nameof(ActivateTerminalRequest)} can't be processed because the {nameof(ChannelType.Terminal)} already has an active session in progress");
@@ -87,14 +87,14 @@ internal class TerminalStateMachine
                 systemConfiguration.GetLanguagePreference(), systemConfiguration.GetTerminalCountryCode(),
                 new TransactionDate(DateTimeUtc.Now()), new TransactionTime(DateTimeUtc.Now()));
 
-            _TerminalSessionLock.Session = new TerminalSession(transaction, _TerminalConfiguration,
+            _TerminalSessionLock.Session = new TerminalSession(_SequenceGenerator.Generate(), transaction,
                 new DataExchangeTerminalService(transaction.GetTransactionSessionId(), _TerminalEndpoint, _KernelEndpoint));
 
             // HACK: Develop logic for passing TagsToRead and DataToSend along with the ACT signal below
 
-            DataToSend? dataToSend = new DataToSend(new PosEntryMode(PosEntryModeTypes.EmvModes.Contactless));
+            DataToSend? dataToSend = new(request.GetPosEntryMode());
 
-            _ReaderEndpoint.Request(new ActivateReaderRequest(transaction,));
+            _ReaderEndpoint.Request(new ActivateReaderRequest(transaction, dataToSend));
         }
     }
 
@@ -102,13 +102,13 @@ internal class TerminalStateMachine
     {
         lock (_TerminalSessionLock)
         {
-            if (_TerminalSessionLock.Session == null)
+            if (!_TerminalSessionLock.IsActive())
             {
                 throw new RequestOutOfSyncException(
                     $"The {nameof(QueryTerminalRequest)} can't be processed because the {nameof(ChannelType.Terminal)} doesn't currently have an active session");
             }
 
-            if (_TerminalSessionLock.Session.GetTransactionSessionId() != request.GetTransactionSessionId())
+            if (_TerminalSessionLock.Session!.GetTransactionSessionId() != request.GetTransactionSessionId())
             {
                 throw new RequestOutOfSyncException(
                     $"The {nameof(QueryTerminalRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{request.GetTransactionSessionId()}] but the current {nameof(ChannelType.Terminal)} session has a {nameof(TransactionSessionId)} of: [{_TerminalSessionLock.Session.GetTransactionSessionId()}]");
@@ -136,28 +136,29 @@ internal class TerminalStateMachine
 
     #endregion
 
-    #region Private Helper Methods
-
-    #endregion
-
     public class TerminalSessionLock
     {
         #region Instance Values
 
         public TerminalSession? Session;
 
-        // BUG: Generate STAN for each transaction in a settlement batch. The sequence will be restarted when a Settlement request has been successfully acknowledged by the Acquirer
-        public IGenerateSequenceTraceAuditNumbers SequenceGenerator;
-
         #endregion
 
         #region Constructor
 
-        public TerminalSessionLock(IGenerateSequenceTraceAuditNumbers sequenceGenerator)
+        public TerminalSessionLock()
         {
-            SequenceGenerator = sequenceGenerator;
+            Session = null;
         }
 
         #endregion
+
+        #region Instance Members
+
+        public bool IsActive() => Session != null;
+
+        #endregion
+
+        // BUG: Generate STAN for each transaction in a settlement batch. The sequence will be restarted when a Settlement request has been successfully acknowledged by the Acquirer
     }
 }

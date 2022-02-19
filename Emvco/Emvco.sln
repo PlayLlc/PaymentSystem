@@ -217,7 +217,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Iso20022", "_Iso20022", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Swift", "Infrastructure\Play.Swift\Play.Swift.csproj", "{A5817232-18CC-419C-8FB1-83069DF3C59A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Emv.Codecs", "Emv\Common\Play.Emv.Codecs\Play.Emv.Codecs.csproj", "{A9FB0BE6-C4F0-4623-8B49-459C6C6E58DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Codecs", "Emv\Common\Play.Emv.Codecs\Play.Emv.Codecs.csproj", "{A9FB0BE6-C4F0-4623-8B49-459C6C6E58DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Acquirer.Contracts", "Emv\Acquirers\Play.Acquirer.Contracts\Play.Acquirer.Contracts.csproj", "{C95CEEB8-8C30-43A3-ABDD-07971C09DD4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -521,6 +523,10 @@ Global
 		{A9FB0BE6-C4F0-4623-8B49-459C6C6E58DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9FB0BE6-C4F0-4623-8B49-459C6C6E58DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9FB0BE6-C4F0-4623-8B49-459C6C6E58DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C95CEEB8-8C30-43A3-ABDD-07971C09DD4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C95CEEB8-8C30-43A3-ABDD-07971C09DD4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C95CEEB8-8C30-43A3-ABDD-07971C09DD4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C95CEEB8-8C30-43A3-ABDD-07971C09DD4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -623,6 +629,7 @@ Global
 		{C89DA00C-7984-4438-A915-2CF20C9F73D4} = {D7CA87CA-8340-4E2C-A2ED-5CE46EEC455B}
 		{A5817232-18CC-419C-8FB1-83069DF3C59A} = {C89DA00C-7984-4438-A915-2CF20C9F73D4}
 		{A9FB0BE6-C4F0-4623-8B49-459C6C6E58DA} = {A90155A8-5E10-46E1-88E1-B1BAF91B7438}
+		{C95CEEB8-8C30-43A3-ABDD-07971C09DD4F} = {A6210F83-DF22-424D-97FB-1DC11FCC59C6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E9927CF8-C10C-47E1-87FD-7ACEEBCD340D}

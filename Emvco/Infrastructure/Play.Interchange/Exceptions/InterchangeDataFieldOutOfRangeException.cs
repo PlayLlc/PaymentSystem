@@ -1,10 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 
-using Play.Core.Exceptions;
+namespace Play.Emv.Interchange.Exceptions;
 
-namespace Play.Interchange.Exceptions;
-
-internal class InterchangeDataFieldOutOfRangeException : PlayException
+internal class InterchangeDataFieldOutOfRangeException : InterchangeFormatException
 {
     #region Constructor
 

@@ -198,7 +198,7 @@ public static class UlongExtensions
         if (bitToSet > Specs.Integer.UInt64.ByteCount)
             throw new ArgumentOutOfRangeException(nameof(bitToSet));
 
-        return input | ((ulong) (bitToSet * 8) - 8);
+        return input | ((ulong) 1 << (bitToSet - 1));
     }
 
     public static ulong SetBits(this ulong input, ulong bitsToSet) => input | bitsToSet;

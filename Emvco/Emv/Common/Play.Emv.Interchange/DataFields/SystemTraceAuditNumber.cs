@@ -1,9 +1,10 @@
-﻿using Play.Codecs;
-using Play.Core.Extensions;
+﻿using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Interchange.Codecs;
 using Play.Emv.Interchange.Exceptions;
 using Play.Interchange.Codecs;
 using Play.Interchange.DataFields;
+using Play.Interchange.Exceptions;
 
 namespace Play.Emv.Interchange.DataFields;
 
@@ -12,10 +13,10 @@ public sealed record SystemTraceAuditNumber : EmvDataField<uint>
     #region Static Metadata
 
     public static readonly DataFieldId DataFieldId = 11;
-    public static readonly InterchangeEncodingId EncodingId = NumericInterchangeCodec.Identifier;
+    public static readonly InterchangeEncodingId EncodingId = NumericInterchangeDataFieldCodec.Identifier;
     private const byte _MinValue = 1;
     private const nint _MaxValue = 999999;
-    private const nint _ByteLength = 999999;
+    private const nint _ByteLength = 3;
 
     #endregion
 
@@ -44,7 +45,9 @@ public sealed record SystemTraceAuditNumber : EmvDataField<uint>
     /// </summary>
     /// <returns></returns>
     public byte[] AsByteArray() => PlayEncoding.Numeric.GetBytes(_Value);
-       
+
+    public override DataFieldId GetDataFieldId() => throw new NotImplementedException();
+    public override InterchangeEncodingId GetEncodingId() => throw new NotImplementedException();
 
     #endregion
 
@@ -54,18 +57,11 @@ public sealed record SystemTraceAuditNumber : EmvDataField<uint>
     {
         Check.DataField.ForExactLength(value, _ByteLength, DataFieldId);
 
-        _Codec.
+        DecodedResult<uint> result = _Codec.Decode(EncodingId, value).ToUInt32Result()
+            ?? throw new InterchangeDataFieldNullException(EncodingId);
 
+        return new SystemTraceAuditNumber(result.Value);
     }
 
     #endregion
-
-    #region Equality
-     
-    public override DataFieldId GetDataFieldId() => throw new NotImplementedException();
-
-    public override InterchangeEncodingId GetEncodingId() => throw new NotImplementedException();  
-
-    #endregion
-     
 }

@@ -77,7 +77,7 @@ internal class SelectionStateMachine
     {
         lock (_Lock)
         {
-            if (_Lock.Session == null)
+            if (!_Lock.IsActive())
             {
                 throw new RequestOutOfSyncException(
                     $"The {nameof(ActivatePcdResponse)} can't be processed because the {nameof(SelectionSession)} no longer exists");
@@ -99,7 +99,7 @@ internal class SelectionStateMachine
     {
         lock (_Lock)
         {
-            if (_Lock.Session == null)
+            if (!_Lock.IsActive())
             {
                 throw new RequestOutOfSyncException(
                     $"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(SelectionSession)} no longer exists");
@@ -120,13 +120,13 @@ internal class SelectionStateMachine
     {
         lock (_Lock)
         {
-            if (_Lock.Session == null)
+            if (!_Lock.IsActive())
             {
                 throw new RequestOutOfSyncException(
                     $"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(SelectionSession)} no longer exists");
             }
 
-            if (_Lock.Session.GetTransactionSessionId() != response.GetTransactionSessionId())
+            if (_Lock.Session!.GetTransactionSessionId() != response.GetTransactionSessionId())
             {
                 throw new RequestOutOfSyncException(
                     $"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{response.GetTransactionSessionId()}] but the current {nameof(ChannelType.Selection)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
@@ -141,13 +141,13 @@ internal class SelectionStateMachine
     {
         lock (_Lock)
         {
-            if (_Lock.Session == null)
+            if (!_Lock.IsActive())
             {
                 throw new RequestOutOfSyncException(
                     $"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(SelectionSession)} no longer exists");
             }
 
-            if (_Lock.Session.GetTransactionSessionId() != response.GetTransactionSessionId())
+            if (_Lock.Session!.GetTransactionSessionId() != response.GetTransactionSessionId())
             {
                 throw new RequestOutOfSyncException(
                     $"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{response.GetTransactionSessionId()}] but the current {nameof(ChannelType.Selection)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
@@ -177,16 +177,8 @@ internal class SelectionStateMachine
     {
         lock (_Lock)
         {
-            if (_Lock.Session != null)
-            {
+            if (_Lock.IsActive())
                 ReprocessActivationSelectionRequest(_Lock, request);
-
-                if (_Lock.Session.GetTransactionSessionId() != request.GetTransactionSessionId())
-                {
-                    throw new RequestOutOfSyncException(
-                        $"The {nameof(ActivateSelectionRequest)} can't be processed because the {nameof(TransactionSessionId)}: [{_Lock.Session!.GetTransactionSessionId()}] is currently processing");
-                }
-            }
             else
                 ProcessActivationSelectionRequest(_Lock, request);
         }
@@ -194,7 +186,9 @@ internal class SelectionStateMachine
 
     public void ProcessActivationSelectionRequest(SelectionSessionLock sessionLock, ActivateSelectionRequest request)
     {
-        ProcessEntryPoint(sessionLock, request);
+        sessionLock.Session = new SelectionSession(request.GetTransaction(), request.GetCorrelationId());
+
+        ProcessEntryPoint(request);
     }
 
     public void ReprocessActivationSelectionRequest(SelectionSessionLock sessionLock, ActivateSelectionRequest request)
@@ -205,10 +199,10 @@ internal class SelectionStateMachine
                 $"The {nameof(ActivateSelectionRequest)} can't be processed because the {nameof(TransactionSessionId)}: [{sessionLock.Session!.GetTransactionSessionId()}] is currently processing");
         }
 
-        ProcessEntryPoint(sessionLock, request);
+        ProcessEntryPoint(request);
     }
 
-    private void ProcessEntryPoint(SelectionSessionLock sessionLock, ActivateSelectionRequest request)
+    private void ProcessEntryPoint(ActivateSelectionRequest request)
     {
         if (request.GetStartOutcome() == StartOutcome.A)
             ProcessAtA(request.GetTransaction());
@@ -255,6 +249,12 @@ internal class SelectionStateMachine
         #region Instance Values
 
         public SelectionSession? Session;
+
+        #endregion
+
+        #region Instance Members
+
+        public bool IsActive() => Session != null;
 
         #endregion
     }
