@@ -1,15 +1,18 @@
 ﻿using Play.Codecs;
 using Play.Codecs.Strings;
+using Play.Interchange.Messages.DataFields;
 
-namespace Play.Interchange.Messages.DataFields._Temp;
+namespace Play.Interchange.DataFields._Temp;
 
 public class ExtendedBitmapIndicatorMapper : FixedLengthDataFieldMapper
 {
     #region Static Metadata
 
+    /// <remarks>DecimalValue: 65</remarks>
     public static readonly DataFieldId DataFieldId = new(65);
+
     public static readonly PlayEncodingId PlayEncodingId = Binary.PlayEncodingId;
-    private const byte _ByteLength = 1;
+    private const ushort _ByteLength = 1;
 
     #endregion
 

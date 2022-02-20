@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Infrastructure\Play.Interchange\Play.Interchange.csproj" />
+    <ProjectReference Include="..\..\..\Common\Play.Emv.Codecs\Play.Emv.Codecs.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -34,9 +34,9 @@ public class InterchangeCodec
     public ushort GetByteCount<T>(InterchangeEncodingId encodingId, T[] value) where T : struct =>
         _DataFieldCodecMap[encodingId].GetByteCount(value);
 
-    public void Encode(InterchangeDataField dataField, Span<byte> buffer, ref int offset)
+    public void Encode(InterchangeDataField dataField, Memory<byte> buffer, ref int offset)
     {
-        dataField.Encode(this, buffer, ref offset);
+        dataField.Encode(buffer, ref offset);
     }
 
     public void Encode<T>(InterchangeEncodingId interchangeEncodingId, T value, Span<byte> buffer, ref int offset) where T : struct
@@ -49,7 +49,7 @@ public class InterchangeCodec
         _DataFieldCodecMap[interchangeEncodingId].Encode(value, buffer.Span, ref offset);
     }
 
-    public void Encode(InterchangeEncodingId interchangeEncodingId, dynamic value, Memory<byte> buffer, ref int offset) where T : struct
+    public void Encode(InterchangeEncodingId interchangeEncodingId, dynamic value, Memory<byte> buffer, ref int offset)
     {
         Encode(interchangeEncodingId, value, buffer, ref offset);
     }

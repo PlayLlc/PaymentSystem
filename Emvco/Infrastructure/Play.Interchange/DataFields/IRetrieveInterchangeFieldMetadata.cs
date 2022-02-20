@@ -7,7 +7,7 @@ public interface IRetrieveInterchangeFieldMetadata
     #region Instance Members
 
     public DataFieldId GetDataFieldId();
-    public ushort GetByteCount(InterchangeCodec codec);
+    public ushort GetByteCount();
     public InterchangeEncodingId GetEncodingId();
 
     #endregion

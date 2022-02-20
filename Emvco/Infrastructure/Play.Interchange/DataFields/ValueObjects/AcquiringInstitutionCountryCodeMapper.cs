@@ -1,5 +1,6 @@
 ﻿using Play.Codecs;
 using Play.Codecs.Strings;
+using Play.Interchange.Messages.DataFields;
 
 namespace Play.Interchange.DataFields.ValueObjects;
 

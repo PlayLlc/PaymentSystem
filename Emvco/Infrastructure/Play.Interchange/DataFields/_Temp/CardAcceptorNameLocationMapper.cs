@@ -1,15 +1,18 @@
 ﻿using Play.Codecs;
 using Play.Codecs.Strings;
+using Play.Interchange.Messages.DataFields;
 
-namespace Play.Interchange.Messages.DataFields._Temp;
+namespace Play.Interchange.DataFields._Temp;
 
 public class CardAcceptorNameLocationMapper : FixedLengthDataFieldMapper
 {
     #region Static Metadata
 
+    /// <remarks>DecimalValue: 43</remarks>
     public static readonly DataFieldId DataFieldId = new(43);
+
     public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecial.PlayEncodingId;
-    private const byte _ByteLength = 40;
+    private const ushort _ByteLength = 40;
 
     #endregion
 

@@ -1,16 +1,19 @@
 ﻿using Play.Codecs;
 using Play.Codecs.Strings;
+using Play.Interchange.Messages.DataFields;
 
-namespace Play.Interchange.Messages.DataFields.ValueObjects;
+namespace Play.Interchange.DataFields._Temp;
 
-public class AccountIdentification1zssss : VariableLengthDataFieldMapper
+public class Reserved58 : VariableLengthDataFieldMapper
 {
     #region Static Metadata
 
-    public static readonly DataFieldId DataFieldId = new(102);
+    /// <remarks>DecimalValue: 58</remarks>
+    public static readonly DataFieldId DataFieldId = new(58);
+
     public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecial.PlayEncodingId;
-    private const ushort _MaxByteLength = 28;
-    private const byte _LeadingOctetLength = 1;
+    private const ushort _MaxByteLength = 999;
+    private const byte _LeadingOctetLength = 2;
 
     #endregion
 

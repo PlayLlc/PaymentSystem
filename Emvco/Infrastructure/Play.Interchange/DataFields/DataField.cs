@@ -5,7 +5,7 @@ using Play.Core.Extensions;
 
 namespace Play.Interchange.DataFields;
 
-public readonly ref struct DataField
+internal readonly ref struct DataField
 {
     #region Instance Values
 

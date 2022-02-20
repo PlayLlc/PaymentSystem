@@ -1,15 +1,18 @@
 ﻿using Play.Codecs;
 using Play.Codecs.Strings;
+using Play.Interchange.Messages.DataFields;
 
-namespace Play.Interchange.Messages.DataFields._Temp;
+namespace Play.Interchange.DataFields._Temp;
 
 public class RetrievalReferenceNumberMapper : FixedLengthDataFieldMapper
 {
     #region Static Metadata
 
+    /// <remarks>DecimalValue: 37</remarks>
     public static readonly DataFieldId DataFieldId = new(37);
+
     public static readonly PlayEncodingId PlayEncodingId = AlphaNumeric.PlayEncodingId;
-    private const byte _ByteLength = 12;
+    private const ushort _ByteLength = 12;
 
     #endregion
 

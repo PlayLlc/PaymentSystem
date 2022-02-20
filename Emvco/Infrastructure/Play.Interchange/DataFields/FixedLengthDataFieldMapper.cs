@@ -27,5 +27,12 @@ public abstract class FixedLengthDataFieldMapper : DataFieldMapper
         return value.ToArray();
     }
 
+    public T Decode<T>(ReadOnlySpan<byte> value, IMapDataFieldToConcreteType concreteMapper)
+    {
+        Check.DataField.ForMaximumLength(value, GetByteLength(), GetDataFieldId());
+
+        return concreteMapper.Decode<T>(value);
+    }
+
     #endregion
 }

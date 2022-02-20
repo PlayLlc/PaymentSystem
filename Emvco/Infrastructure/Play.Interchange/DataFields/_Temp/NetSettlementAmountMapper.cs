@@ -1,15 +1,18 @@
 ﻿using Play.Codecs;
 using Play.Codecs.Strings;
+using Play.Interchange.Messages.DataFields;
 
-namespace Play.Interchange.Messages.DataFields._Temp;
+namespace Play.Interchange.DataFields._Temp;
 
 public class NetSettlementAmountMapper : FixedLengthDataFieldMapper
 {
     #region Static Metadata
 
+    /// <remarks>DecimalValue: 97</remarks>
     public static readonly DataFieldId DataFieldId = new(97);
+
     public static readonly PlayEncodingId PlayEncodingId = Numeric.PlayEncodingId;
-    private const byte _ByteLength = 16;
+    private const ushort _ByteLength = 16;
 
     #endregion
 

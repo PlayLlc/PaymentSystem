@@ -10,12 +10,27 @@ namespace Play.Emv.Interchange.Codecs;
 ///     Example: Amount, Authorized(Numeric) is defined as “n 12” with a length of six bytes.
 ///     A value of 12345 is stored in Amount, Authorized (Numeric) as Hex '00 00 00 01 23 45'.
 /// </summary>
-public class NumericInterchangeDataFieldCodec : NumericEmvCodec, IInterchangeDataFieldCodec
+public class NumericDataFieldCodec : NumericEmvCodec, IInterchangeDataFieldCodec
 {
     #region Static Metadata
 
-    public static readonly InterchangeEncodingId Identifier =
-        IInterchangeDataFieldCodec.GetEncodingId(typeof(NumericInterchangeDataFieldCodec));
+    public static readonly InterchangeEncodingId Identifier = IInterchangeDataFieldCodec.GetEncodingId(typeof(NumericDataFieldCodec));
+
+    #endregion
+
+    #region Instance Members
+
+    public InterchangeEncodingId GetIdentifier() => Identifier;
+
+    #endregion
+}
+
+public class NumericSpecialDataFieldCodec : NumericSpecialEmvCodec, IInterchangeDataFieldCodec
+{
+    #region Static Metadata
+
+    public static readonly InterchangeEncodingId
+        Identifier = IInterchangeDataFieldCodec.GetEncodingId(typeof(NumericSpecialDataFieldCodec));
 
     #endregion
 

@@ -20,7 +20,7 @@ internal class Check
         /// <param name="length"></param>
         /// <param name="dataFieldId"></param>
         /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
-        public static void ForExactLength<T>(T[] value, nint length, DataFieldId dataFieldId) where T : struct
+        public static void ForExactLength<T>(T[] value, int length, DataFieldId dataFieldId) where T : struct
         {
             if (value.Length != length)
             {
@@ -34,7 +34,7 @@ internal class Check
         /// <param name="length"></param>
         /// <param name="dataFieldId"></param>
         /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
-        public static void ForExactLength<T>(ReadOnlySpan<T> value, nint length, DataFieldId dataFieldId) where T : struct
+        public static void ForExactLength<T>(ReadOnlySpan<T> value, int length, DataFieldId dataFieldId) where T : struct
         {
             if (value.Length != length)
             {
@@ -43,7 +43,16 @@ internal class Check
             }
         }
 
-        public static void ForMinimumLength(byte value, nint minLength, DataFieldId dataFieldId)
+        public static void ForExactLength<T>(ReadOnlyMemory<T> value, int length, DataFieldId dataFieldId) where T : struct
+        {
+            if (value.Length != length)
+            {
+                throw new InterchangeDataFieldOutOfRangeException(
+                    $"The {nameof(InterchangeDataField)} with the {nameof(DataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was: [{value.Length}] but must be {length} bytes in length");
+            }
+        }
+
+        public static void ForMinimumLength(byte value, int minLength, DataFieldId dataFieldId)
         {
             if (value < minLength)
             {
@@ -52,7 +61,7 @@ internal class Check
             }
         }
 
-        public static void ForMinimumLength(ushort value, nint minLength, DataFieldId dataFieldId)
+        public static void ForMinimumLength(ushort value, int minLength, DataFieldId dataFieldId)
         {
             if (value < minLength)
             {
@@ -61,7 +70,7 @@ internal class Check
             }
         }
 
-        public static void ForMinimumLength<T>(ReadOnlyMemory<T> value, nint minLength, DataFieldId dataFieldId) where T : struct
+        public static void ForMinimumLength<T>(ReadOnlyMemory<T> value, int minLength, DataFieldId dataFieldId) where T : struct
         {
             if (value.Length < minLength)
             {
@@ -70,7 +79,7 @@ internal class Check
             }
         }
 
-        public static void ForMinimumLength<T>(ReadOnlySpan<T> value, nint minLength, DataFieldId dataFieldId) where T : struct
+        public static void ForMinimumLength<T>(ReadOnlySpan<T> value, int minLength, DataFieldId dataFieldId) where T : struct
         {
             if (value.Length < minLength)
             {
@@ -79,7 +88,7 @@ internal class Check
             }
         }
 
-        public static void ForMinimumLength<T>(ICollection<T> value, nint minLength, DataFieldId dataFieldId) where T : struct
+        public static void ForMinimumLength<T>(ICollection<T> value, int minLength, DataFieldId dataFieldId) where T : struct
         {
             if (value.Count < minLength)
             {
@@ -95,7 +104,7 @@ internal class Check
         /// <param name="value"></param>
         /// <param name="maxLength"></param>
         /// <param name="dataFieldId"></param>
-        public static void ForMaximumLength<T>(ICollection<T> value, nint maxLength, DataFieldId dataFieldId) where T : struct
+        public static void ForMaximumLength<T>(ICollection<T> value, int maxLength, DataFieldId dataFieldId) where T : struct
         {
             if (value.Count > maxLength)
             {
@@ -104,7 +113,7 @@ internal class Check
             }
         }
 
-        public static void ForMaximumLength<T>(ReadOnlyMemory<T> value, nint maxLength, DataFieldId dataFieldId) where T : struct
+        public static void ForMaximumLength<T>(ReadOnlyMemory<T> value, int maxLength, DataFieldId dataFieldId) where T : struct
         {
             if (value.Length > maxLength)
             {
@@ -120,7 +129,7 @@ internal class Check
         /// <param name="value"></param>
         /// <param name="maxLength"></param>
         /// <param name="dataFieldId"></param>
-        public static void ForMaximumLength<T>(ReadOnlySpan<T> value, nint maxLength, DataFieldId dataFieldId) where T : struct
+        public static void ForMaximumLength<T>(ReadOnlySpan<T> value, int maxLength, DataFieldId dataFieldId) where T : struct
         {
             if (value.Length > maxLength)
             {
@@ -129,7 +138,7 @@ internal class Check
             }
         }
 
-        public static void ForMaximumLength(byte value, nint maxLength, DataFieldId dataFieldId)
+        public static void ForMaximumLength(byte value, int maxLength, DataFieldId dataFieldId)
         {
             if (value > maxLength)
             {
@@ -138,7 +147,7 @@ internal class Check
             }
         }
 
-        public static void ForMaximumLength(ushort value, nint maxLength, DataFieldId dataFieldId)
+        public static void ForMaximumLength(ushort value, int maxLength, DataFieldId dataFieldId)
         {
             if (value > maxLength)
             {

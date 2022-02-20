@@ -1,15 +1,18 @@
 ﻿using Play.Codecs;
 using Play.Codecs.Strings;
+using Play.Interchange.Messages.DataFields;
 
-namespace Play.Interchange.Messages.DataFields._Temp;
+namespace Play.Interchange.DataFields._Temp;
 
 public class CreditsReversalNumberMapper : FixedLengthDataFieldMapper
 {
     #region Static Metadata
 
+    /// <remarks>DecimalValue: 75</remarks>
     public static readonly DataFieldId DataFieldId = new(75);
+
     public static readonly PlayEncodingId PlayEncodingId = Numeric.PlayEncodingId;
-    private const byte _ByteLength = 5;
+    private const ushort _ByteLength = 5;
 
     #endregion
 

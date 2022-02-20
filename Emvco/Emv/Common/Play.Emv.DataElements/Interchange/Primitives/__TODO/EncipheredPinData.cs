@@ -1,4 +1,5 @@
 ﻿using Play.Ber.InternalFactories;
+using Play.Emv.DataElements.Exceptions;
 using Play.Emv.Interchange.Codecs;
 using Play.Emv.Interchange.Exceptions;
 using Play.Interchange.Codecs;

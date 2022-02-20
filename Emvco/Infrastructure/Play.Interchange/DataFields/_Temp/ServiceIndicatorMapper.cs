@@ -1,15 +1,18 @@
 ﻿using Play.Codecs;
 using Play.Codecs.Strings;
+using Play.Interchange.Messages.DataFields;
 
-namespace Play.Interchange.Messages.DataFields._Temp;
+namespace Play.Interchange.DataFields._Temp;
 
 public class ServiceIndicatorMapper : FixedLengthDataFieldMapper
 {
     #region Static Metadata
 
+    /// <remarks>DecimalValue: 94</remarks>
     public static readonly DataFieldId DataFieldId = new(94);
+
     public static readonly PlayEncodingId PlayEncodingId = AlphaNumeric.PlayEncodingId;
-    private const byte _ByteLength = 7;
+    private const ushort _ByteLength = 7;
 
     #endregion
 

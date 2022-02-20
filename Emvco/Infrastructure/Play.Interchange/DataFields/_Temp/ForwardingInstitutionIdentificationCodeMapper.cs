@@ -1,13 +1,16 @@
 ﻿using Play.Codecs;
 using Play.Codecs.Strings;
+using Play.Interchange.Messages.DataFields;
 
-namespace Play.Interchange.Messages.DataFields._Temp;
+namespace Play.Interchange.DataFields._Temp;
 
 public class ForwardingInstitutionIdentificationCodeMapper : VariableLengthDataFieldMapper
 {
     #region Static Metadata
 
+    /// <remarks>DecimalValue: 33</remarks>
     public static readonly DataFieldId DataFieldId = new(33);
+
     public static readonly PlayEncodingId PlayEncodingId = Numeric.PlayEncodingId;
     private const ushort _MaxByteLength = 6;
     private const byte _LeadingOctetLength = 1;

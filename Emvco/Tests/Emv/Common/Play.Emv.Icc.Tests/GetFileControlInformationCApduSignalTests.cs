@@ -1,4 +1,13 @@
-﻿namespace Play.Emv.Icc.Tests;
+﻿using System;
+
+using Play.Emv.Ber;
+using Play.Emv.Icc.FileControlInformation;
+using Play.Emv.TestData.Icc.Apdu;
+using Play.Icc.FileSystem.DedicatedFiles;
+
+using Xunit;
+
+namespace Play.Emv.Icc.Tests;
 
 public class GetFileControlInformationCApduSignalTests
 {

@@ -6,14 +6,14 @@ public interface IEncodeInterchangeFields
 {
     #region Instance Members
 
-    public DataField AsDataField(InterchangeCodec codec);
+    internal DataField AsDataField();
 
     #endregion
 
     #region Serialization
 
-    public byte[] Encode(InterchangeCodec codec);
-    public void Encode(InterchangeCodec codec, Memory<byte> buffer, ref int offset);
+    public byte[] Encode();
+    public void Encode(Memory<byte> buffer, ref int offset);
 
     #endregion
 }

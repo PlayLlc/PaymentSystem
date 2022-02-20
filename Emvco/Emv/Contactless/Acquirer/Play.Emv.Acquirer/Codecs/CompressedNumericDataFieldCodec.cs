@@ -3,12 +3,12 @@ using Play.Interchange.Codecs;
 
 namespace Play.Emv.Interchange.Codecs;
 
-public class VariableInterchangeDataFieldCodec : VariableEmvCodec, IInterchangeDataFieldCodec
+public class CompressedNumericDataFieldCodec : CompressedNumericEmvCodec, IInterchangeDataFieldCodec
 {
     #region Static Metadata
 
     public static readonly InterchangeEncodingId Identifier =
-        IInterchangeDataFieldCodec.GetEncodingId(typeof(VariableInterchangeDataFieldCodec));
+        IInterchangeDataFieldCodec.GetEncodingId(typeof(CompressedNumericDataFieldCodec));
 
     #endregion
 

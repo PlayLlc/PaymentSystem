@@ -12,8 +12,8 @@ public interface IPlayCodec
 {
     #region Instance Members
 
-    public ushort GetByteCount<T>(T value);
-    public ushort GetByteCount<T>(T[] value);
+    public ushort GetByteCount<T>(T value) where T : struct;
+    public ushort GetByteCount<T>(T[] value) where T : struct;
 
     /// <summary>
     ///     This is for external validation of a sequence and will not throw an exception

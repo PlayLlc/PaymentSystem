@@ -1,15 +1,18 @@
 ﻿using Play.Codecs;
 using Play.Codecs.Strings;
+using Play.Interchange.Messages.DataFields;
 
-namespace Play.Interchange.Messages.DataFields._Temp;
+namespace Play.Interchange.DataFields._Temp;
 
 public class FileUpdateCodeMapper : FixedLengthDataFieldMapper
 {
     #region Static Metadata
 
+    /// <remarks>DecimalValue: 91</remarks>
     public static readonly DataFieldId DataFieldId = new(91);
+
     public static readonly PlayEncodingId PlayEncodingId = AlphaNumeric.PlayEncodingId;
-    private const byte _ByteLength = 1;
+    private const ushort _ByteLength = 1;
 
     #endregion
 

@@ -20,14 +20,8 @@ using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Emv.Terminal.Services;
 using Play.Emv.Terminal.Services.DataExchange;
 using Play.Emv.Transactions;
-using Play.Globalization.Time;
 
 namespace Play.Emv.Terminal.StateMachine;
-
-public interface ISettlementReconciliationService
-{
-    public AcquirerRequestSignal CreateSettlementRequest(AcquirerMessageFactory messageFactory, DateTimeUtc settlementRequestTimeUtc);
-}
 
 /// <summary>
 ///     This state handles Terminal requests when a transaction session is not currently being processed
