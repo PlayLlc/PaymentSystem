@@ -11,8 +11,4 @@
     <ProjectReference Include="..\Play.Core\Play.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Codecs\temp\" />
-  </ItemGroup>
-
 </Project>

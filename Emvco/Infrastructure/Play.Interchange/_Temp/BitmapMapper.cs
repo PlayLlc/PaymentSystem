@@ -1,16 +1,15 @@
 ﻿using Play.Codecs;
 using Play.Codecs.Strings;
-using Play.Interchange.DataFields;
 
-namespace Play.Interchange.Messages.DataFields._Temp;
+namespace Play.Interchange.Messages.DataFields.ValueObjects;
 
-public class ActionDateYymmddMapper : FixedLengthDataFieldMapper
+public class BitmapMapper : FixedLengthDataFieldMapper
 {
     #region Static Metadata
 
-    public static readonly DataFieldId DataFieldId = new(73);
-    public static readonly PlayEncodingId PlayEncodingId = Numeric.PlayEncodingId;
-    private const byte _ByteLength = 3;
+    public static readonly DataFieldId DataFieldId = new(1);
+    public static readonly PlayEncodingId PlayEncodingId = Binary.PlayEncodingId;
+    private const byte _ByteLength = 64;
 
     #endregion
 
