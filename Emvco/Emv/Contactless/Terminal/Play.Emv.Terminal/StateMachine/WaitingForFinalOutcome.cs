@@ -41,13 +41,20 @@ internal class WaitingForFinalOutcome : TerminalState
 
     #endregion
 
-    #region Instance Members
+    #region Constructor
 
-    public WaitingForFinalOutcome(DataExchangeTerminalService dataExchangeTerminalService, IGetTerminalState terminalStateResolver, IHandleAcquirerRequests acquirerEndpoint) : base(dataExchangeTerminalService)
+    public WaitingForFinalOutcome(
+        DataExchangeTerminalService dataExchangeTerminalService,
+        IGetTerminalState terminalStateResolver,
+        IHandleAcquirerRequests acquirerEndpoint) : base(dataExchangeTerminalService)
     {
         _TerminalStateResolver = terminalStateResolver;
         _AcquirerEndpoint = acquirerEndpoint;
     }
+
+    #endregion
+
+    #region Instance Members
 
     public override StateId GetStateId() => StateId;
 
