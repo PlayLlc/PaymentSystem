@@ -16,6 +16,7 @@ public record ChannelType : EnumObject<ChannelTypeId>
     public static readonly ChannelType ProximityCouplingDevice = new(new ChannelTypeId(nameof(ProximityCouplingDevice)));
     public static readonly ChannelType Display = new(new ChannelTypeId(nameof(Display)));
     public static readonly ChannelType Selection = new(new ChannelTypeId(nameof(Selection)));
+    public static readonly ChannelType Acquirer = new(new ChannelTypeId(nameof(Acquirer)));
 
     #endregion
 

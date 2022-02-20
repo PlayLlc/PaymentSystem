@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using Play.Core.Threads;
+using Play.Emv.Acquirer.Contracts.SignalOut;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Reader.Contracts.SignalOut;
 using Play.Emv.Terminal.Configuration;
@@ -32,6 +33,11 @@ internal class TerminalProcess : CommandProcessingQueue
 
     #region Instance Members
 
+    internal void Enqueue(AcquirerResponseSignal request)
+    {
+        Enqueue((dynamic) request);
+    }
+
     internal void Enqueue(ActivateTerminalRequest request)
     {
         Enqueue((dynamic) request);
@@ -55,6 +61,11 @@ internal class TerminalProcess : CommandProcessingQueue
     internal void Enqueue(StopReaderAcknowledgedResponse request)
     {
         Enqueue((dynamic) request);
+    }
+
+    private async Task Handle(AcquirerResponseSignal request)
+    {
+        await Task.Run(() => { _TerminalStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
     private async Task Handle(ActivateTerminalRequest request)

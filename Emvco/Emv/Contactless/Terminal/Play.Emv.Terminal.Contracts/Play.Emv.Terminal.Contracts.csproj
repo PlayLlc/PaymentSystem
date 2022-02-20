@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Play.Emv\Play.Emv.csproj" />
+    <ProjectReference Include="..\..\Acquirer\Play.Emv.Acquirer.Contracts\Play.Emv.Acquirer.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

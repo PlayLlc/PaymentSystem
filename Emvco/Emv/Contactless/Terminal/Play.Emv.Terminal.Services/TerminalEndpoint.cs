@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Play.Emv.Acquirer.Contracts.SignalOut;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Messaging;
 using Play.Emv.Reader.Contracts.SignalOut;
@@ -104,6 +105,11 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
     }
 
     void IHandleResponsesToTerminal.Handle(StopReaderAcknowledgedResponse message)
+    {
+        _TerminalProcess.Enqueue(message);
+    }
+
+    void IHandleResponsesToTerminal.Handle(AcquirerResponseSignal message)
     {
         _TerminalProcess.Enqueue(message);
     }

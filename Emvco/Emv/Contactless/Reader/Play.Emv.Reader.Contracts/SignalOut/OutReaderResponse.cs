@@ -1,5 +1,6 @@
 ﻿using Play.Emv.Messaging;
 using Play.Emv.Outcomes;
+using Play.Emv.Sessions;
 using Play.Messaging;
 
 namespace Play.Emv.Reader.Contracts.SignalOut;
@@ -30,6 +31,8 @@ public record OutReaderResponse : ResponseSignal
 
     #region Instance Members
 
+    public TransactionSessionId GetTransactionSessionId() => GetKernelSessionId().GetTransactionSessionId();
+    public KernelSessionId GetKernelSessionId() => _Outcome.GetKernelSessionId();
     public FinalOutcome GetOutcome() => _Outcome;
 
     #endregion

@@ -1,7 +1,4 @@
-﻿using Play.Ber.Identifiers;
-using Play.Core.Exceptions;
-
-namespace Play.Emv.DataElements.Exceptions;
+﻿namespace Play.Emv.Acquirers.Elavon.DataElements;
 
 internal class Check
 {
@@ -31,7 +28,7 @@ internal class Check
             }
         }
 
-        public static void ForMinCharLength(int value, int minLength, Tag tag)
+        public static void ForMinCharLength(nint value, int minLength, Tag tag)
         {
             if (value < minLength)
             {
@@ -40,7 +37,7 @@ internal class Check
             }
         }
 
-        public static void ForMaxCharLength(int value, int maxLength, Tag tag)
+        public static void ForMaxCharLength(nint value, int maxLength, Tag tag)
         {
             if (value > maxLength)
             {
@@ -55,60 +52,6 @@ internal class Check
             {
                 throw new ArgumentOutOfRangeException(
                     $"The Primitive Value with the Tag {tag} could not be initialized because the char length provided was out of range. The char length was {value} but must be {length} bytes in length");
-            }
-        }
-
-        public static void ForMinimumLength(byte value, int minLength, Tag tag)
-        {
-            if (value < minLength)
-            {
-                throw new ArgumentOutOfRangeException(
-                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be greater than {minLength}");
-            }
-        }
-
-        public static void ForMinimumLength(ushort value, int minLength, Tag tag)
-        {
-            if (value < minLength)
-            {
-                throw new ArgumentOutOfRangeException(
-                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be greater than {minLength}");
-            }
-        }
-
-        public static void ForMinimumLength(uint value, int minLength, Tag tag)
-        {
-            if (value < minLength)
-            {
-                throw new ArgumentOutOfRangeException(
-                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be greater than {minLength}");
-            }
-        }
-
-        public static void ForMaximumLength(byte value, nint maxLength, Tag tag)
-        {
-            if (value > maxLength)
-            {
-                throw new ArgumentOutOfRangeException(
-                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxLength}");
-            }
-        }
-
-        public static void ForMaximumLength(ushort value, nint maxLength, Tag tag)
-        {
-            if (value > maxLength)
-            {
-                throw new ArgumentOutOfRangeException(
-                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxLength}");
-            }
-        }
-
-        public static void ForMaximumLength(uint value, nint maxLength, Tag tag)
-        {
-            if (value > maxLength)
-            {
-                throw new ArgumentOutOfRangeException(
-                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxLength}");
             }
         }
 
@@ -144,12 +87,10 @@ internal class Check
             }
         }
 
-        /// <summary>
-        /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
         /// <param name="length"></param>
-        /// <param name="name"></param>
+        /// <param name="tag"></param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static void ForExactLength<T>(ICollection<T> value, int length, Tag tag) where T : struct
         {

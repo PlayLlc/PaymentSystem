@@ -10,7 +10,7 @@ public class FinalOutcome
 {
     #region Instance Values
 
-    private readonly TransactionSessionId _TransactionSessionId;
+    private readonly KernelSessionId _KernelSessionId;
     private readonly DataRecord? _DataRecord;
     private readonly DiscretionaryData? _DiscretionaryData;
     private readonly OutcomeParameterSet _OutcomeParameterSet;
@@ -21,13 +21,13 @@ public class FinalOutcome
     #region Constructor
 
     public FinalOutcome(
-        TransactionSessionId transactionSessionId,
+        KernelSessionId kernelSessionId,
         OutcomeParameterSet outcomeParameterSet,
         DiscretionaryData? discretionaryData = null,
         UserInterfaceRequestData? userInterfaceRequestData = null,
         DataRecord? dataRecord = null)
     {
-        _TransactionSessionId = transactionSessionId;
+        _KernelSessionId = kernelSessionId;
         _OutcomeParameterSet = outcomeParameterSet;
         _DiscretionaryData = discretionaryData;
         _UserInterfaceRequestData = userInterfaceRequestData;
@@ -38,7 +38,7 @@ public class FinalOutcome
 
     #region Instance Members
 
-    public TransactionSessionId GetTransactionSessionId() => _TransactionSessionId;
+    public KernelSessionId GetKernelSessionId() => _KernelSessionId;
 
     public bool TryGetDataRecord(out DataRecord? result)
     {

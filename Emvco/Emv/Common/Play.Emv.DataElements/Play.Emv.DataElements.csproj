@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interchange\Primitives\" />
     <Folder Include="Interchange\ValueTypes\" />
   </ItemGroup>
 

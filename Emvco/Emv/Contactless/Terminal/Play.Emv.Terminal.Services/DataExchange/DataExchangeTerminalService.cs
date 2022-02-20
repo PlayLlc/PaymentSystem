@@ -17,7 +17,6 @@ internal class DataExchangeTerminalService
 {
     #region Instance Values
 
-    private readonly TransactionSessionId _TransactionSessionId;
     private readonly ISendTerminalQueryResponse _TerminalEndpoint;
     private readonly IHandleKernelRequests _KernelEndpoint;
     private readonly DataExchangeTerminalLock _Lock = new();
@@ -27,12 +26,8 @@ internal class DataExchangeTerminalService
 
     #region Constructor
 
-    public DataExchangeTerminalService(
-        TransactionSessionId transactionSessionId,
-        ISendTerminalQueryResponse terminalEndpoint,
-        IHandleKernelRequests kernelEndpoint)
+    public DataExchangeTerminalService(ISendTerminalQueryResponse terminalEndpoint, IHandleKernelRequests kernelEndpoint)
     {
-        _TransactionSessionId = transactionSessionId;
         _TerminalEndpoint = terminalEndpoint;
         _KernelEndpoint = kernelEndpoint;
     }
@@ -165,14 +160,14 @@ internal class DataExchangeTerminalService
 
     #region Requests
 
-    public void QueryKernel(KernelId kernelId)
+    public void QueryKernel(TransactionSessionId transactionSessionId, KernelId kernelId)
     {
         lock (_Lock)
         {
             if (!_Lock.Responses.ContainsKey(DetRequestType.TagsToRead))
                 return;
 
-            QueryKernelRequest queryKernelRequest = new(new DataExchangeTerminalId(kernelId, _TransactionSessionId),
+            QueryKernelRequest queryKernelRequest = new(new DataExchangeTerminalId(kernelId, transactionSessionId),
                 (TagsToRead) _Lock.Requests[DetRequestType.TagsToRead]);
 
             _KernelEndpoint.Request(queryKernelRequest);
