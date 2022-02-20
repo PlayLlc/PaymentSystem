@@ -24,19 +24,3 @@ public class NumericDataFieldCodec : NumericEmvCodec, IInterchangeDataFieldCodec
 
     #endregion
 }
-
-public class NumericSpecialDataFieldCodec : NumericSpecialEmvCodec, IInterchangeDataFieldCodec
-{
-    #region Static Metadata
-
-    public static readonly InterchangeEncodingId
-        Identifier = IInterchangeDataFieldCodec.GetEncodingId(typeof(NumericSpecialDataFieldCodec));
-
-    #endregion
-
-    #region Instance Members
-
-    public InterchangeEncodingId GetIdentifier() => Identifier;
-
-    #endregion
-}

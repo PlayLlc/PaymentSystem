@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Ber.InternalFactories;
+﻿using Play.Ber.InternalFactories;
 using Play.Emv.Interchange.Codecs;
 using Play.Emv.Interchange.Exceptions;
 using Play.Interchange.Codecs;
@@ -13,12 +7,12 @@ using Play.Interchange.Exceptions;
 
 namespace Play.Emv.Acquirer.DataFields;
 
-public record AccountIdentification1 : VariableDataField<char[]>
+public record AccountIdentification2 : VariableDataField<char[]>
 {
     #region Static Metadata
 
-    /// <remarks>DecimalValue: 102</remarks>
-    public static readonly DataFieldId DataFieldId = new(102);
+    /// <remarks>DecimalValue: 103</remarks>
+    public static readonly DataFieldId DataFieldId = new(103);
 
     public static readonly InterchangeEncodingId EncodingId = AlphaNumericSpecialDataFieldCodec.Identifier;
     private const ushort _MaxByteCount = 28;
@@ -28,7 +22,7 @@ public record AccountIdentification1 : VariableDataField<char[]>
 
     #region Constructor
 
-    public AccountIdentification1(char[] value) : base(value)
+    public AccountIdentification2(char[] value) : base(value)
     { }
 
     #endregion
@@ -44,13 +38,13 @@ public record AccountIdentification1 : VariableDataField<char[]>
 
     #region Serialization
 
-    public override AccountIdentification1 Decode(ReadOnlyMemory<byte> value)
+    public override AccountIdentification2 Decode(ReadOnlyMemory<byte> value)
     {
         Check.DataField.ForMaximumLength(value, _MaxByteCount, DataFieldId);
         DecodedResult<char[]> result = _Codec.Decode(EncodingId, value.Span) as DecodedResult<char[]>
             ?? throw new InterchangeDataFieldNullException(EncodingId);
 
-        return new AccountIdentification1(result.Value);
+        return new AccountIdentification2(result.Value);
     }
 
     #endregion
