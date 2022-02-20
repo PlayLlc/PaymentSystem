@@ -9,7 +9,7 @@ public record SelectProximityPaymentSystemEnvironmentRequest : QueryPcdRequest
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = GetMessageTypeId(typeof(SelectProximityPaymentSystemEnvironmentRequest));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(SelectProximityPaymentSystemEnvironmentRequest));
 
     #endregion
 

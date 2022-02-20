@@ -14,7 +14,7 @@ public record InitiateSettlementRequest : RequestSignal
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = GetMessageTypeId(typeof(InitiateSettlementRequest));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(InitiateSettlementRequest));
     public static readonly ChannelTypeId ChannelTypeId = ChannelType.Terminal;
 
     #endregion

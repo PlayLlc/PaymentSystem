@@ -4,7 +4,7 @@ using Play.Interchange.Messages.DataFields;
 
 namespace Play.Interchange.DataFields._Temp;
 
-public class AuthorizingIdentificationResponseLengthMapper : FixedLengthDataFieldMapper
+internal class AuthorizingIdentificationResponseLengthMapper : FixedLengthDataFieldMapper
 {
     #region Static Metadata
 

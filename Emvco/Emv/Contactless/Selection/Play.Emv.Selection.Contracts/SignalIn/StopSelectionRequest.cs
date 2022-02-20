@@ -8,7 +8,7 @@ public record StopSelectionRequest : RequestSignal
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = GetMessageTypeId(typeof(StopSelectionRequest));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(StopSelectionRequest));
     public static readonly ChannelTypeId ChannelTypeId = ChannelType.Selection;
 
     #endregion

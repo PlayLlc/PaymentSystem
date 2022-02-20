@@ -4,7 +4,7 @@ using Play.Interchange.Messages.DataFields;
 
 namespace Play.Interchange.DataFields._Temp;
 
-public class ActionDateYymmddMapper : FixedLengthDataFieldMapper
+internal class ActionDateYymmddMapper : FixedLengthDataFieldMapper
 {
     #region Static Metadata
 

@@ -12,7 +12,7 @@ internal class Check
 
     #endregion
 
-    public class DataField
+    internal class DataField
     {
         #region Instance Members
 

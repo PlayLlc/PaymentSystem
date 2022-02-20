@@ -4,7 +4,7 @@ using Play.Interchange.DataFields;
 
 namespace Play.Interchange.Messages.DataFields.ValueObjects;
 
-public class AccountIdentification : VariableLengthDataFieldMapper
+internal class AccountIdentification : VariableLengthDataFieldMapper
 {
     #region Static Metadata
 

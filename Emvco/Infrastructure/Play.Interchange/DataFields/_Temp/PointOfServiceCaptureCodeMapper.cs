@@ -4,7 +4,7 @@ using Play.Interchange.Messages.DataFields;
 
 namespace Play.Interchange.DataFields._Temp;
 
-public class PointOfServiceCaptureCodeMapper : FixedLengthDataFieldMapper
+internal class PointOfServiceCaptureCodeMapper : FixedLengthDataFieldMapper
 {
     #region Static Metadata
 

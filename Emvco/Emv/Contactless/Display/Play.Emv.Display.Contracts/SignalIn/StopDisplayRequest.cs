@@ -10,7 +10,7 @@ public record StopDisplayRequest : RequestSignal
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = GetMessageTypeId(typeof(DisplayMessageRequest));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(DisplayMessageRequest));
     public static readonly ChannelTypeId ChannelTypeId = ChannelType.Display;
 
     #endregion

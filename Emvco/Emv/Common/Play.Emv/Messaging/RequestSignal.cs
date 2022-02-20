@@ -16,7 +16,7 @@ public abstract record RequestSignal : RequestMessage
 
     #region Instance Members
 
-    protected static MessageTypeId GetMessageTypeId(Type type) =>
+    protected static MessageTypeId CreateMessageTypeId(Type type) =>
         new(PlayEncoding.UnsignedInteger.GetUInt64(PlayEncoding.ASCII.GetBytes(type.FullName)));
 
     #endregion

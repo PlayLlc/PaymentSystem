@@ -4,7 +4,7 @@ using Play.Core.Exceptions;
 
 namespace Play.Emv.Interchange.Exceptions;
 
-public class InterchangeFormatException : PlayException
+internal class InterchangeFormatException : PlayException
 {
     #region Constructor
 

@@ -9,7 +9,7 @@ public record ReadApplicationDataCommand : QueryPcdRequest
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = GetMessageTypeId(typeof(ReadApplicationDataCommand));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(ReadApplicationDataCommand));
 
     #endregion
 

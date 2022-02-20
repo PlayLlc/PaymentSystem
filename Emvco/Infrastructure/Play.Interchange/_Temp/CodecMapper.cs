@@ -6,7 +6,7 @@ using Play.Codecs.Strings;
 
 namespace Play.Interchange.Codecs;
 
-public class CodecMapper
+internal class CodecMapper
 {
     #region Instance Values
 

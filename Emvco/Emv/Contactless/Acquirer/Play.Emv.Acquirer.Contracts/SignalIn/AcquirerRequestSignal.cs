@@ -8,24 +8,20 @@ public record AcquirerRequestSignal : RequestSignal
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = GetMessageTypeId(typeof(AcquirerRequestSignal));
     public static readonly ChannelTypeId ChannelTypeId = ChannelType.Acquirer;
 
     #endregion
 
     #region Instance Values
 
-    public readonly MessageTypeIndicator MessageTypeIndicator;
     public readonly TagLengthValue[] TagLengthValues;
 
     #endregion
 
     #region Constructor
 
-    public AcquirerRequestSignal(MessageTypeIndicator messageTypeIndicator, TagLengthValue[] tagLengthValues) : base(MessageTypeId,
-        ChannelTypeId)
+    public AcquirerRequestSignal(MessageTypeId messageTypeId, TagLengthValue[] tagLengthValues) : base(messageTypeId, ChannelTypeId)
     {
-        MessageTypeIndicator = messageTypeIndicator;
         TagLengthValues = tagLengthValues;
     }
 

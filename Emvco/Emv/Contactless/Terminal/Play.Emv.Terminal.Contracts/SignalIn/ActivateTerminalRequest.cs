@@ -9,7 +9,7 @@ public record ActivateTerminalRequest : RequestSignal
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = GetMessageTypeId(typeof(ActivateTerminalRequest));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(ActivateTerminalRequest));
     public static readonly ChannelTypeId ChannelTypeId = ChannelType.Terminal;
 
     #endregion

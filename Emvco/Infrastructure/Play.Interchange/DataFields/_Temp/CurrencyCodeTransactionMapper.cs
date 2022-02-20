@@ -4,7 +4,7 @@ using Play.Interchange.Messages.DataFields;
 
 namespace Play.Interchange.DataFields._Temp;
 
-public class CurrencyCodeTransactionMapper : FixedLengthDataFieldMapper
+internal class CurrencyCodeTransactionMapper : FixedLengthDataFieldMapper
 {
     #region Static Metadata
 

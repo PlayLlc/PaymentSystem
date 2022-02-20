@@ -10,7 +10,7 @@ public record ActivateReaderRequest : RequestSignal
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = GetMessageTypeId(typeof(ActivateReaderRequest));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(ActivateReaderRequest));
     public static readonly ChannelTypeId ChannelTypeId = ChannelType.Reader;
 
     #endregion

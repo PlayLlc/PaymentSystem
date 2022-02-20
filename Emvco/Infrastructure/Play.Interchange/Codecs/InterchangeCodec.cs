@@ -7,7 +7,7 @@ using Play.Interchange.DataFields;
 
 namespace Play.Interchange.Codecs;
 
-public class InterchangeCodec
+internal class InterchangeCodec
 {
     #region Instance Values
 

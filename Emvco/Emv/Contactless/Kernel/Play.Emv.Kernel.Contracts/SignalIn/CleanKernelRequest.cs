@@ -12,7 +12,7 @@ public record CleanKernelRequest : RequestSignal
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = GetMessageTypeId(typeof(CleanKernelRequest));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(CleanKernelRequest));
     public static readonly ChannelTypeId ChannelTypeId = ChannelType.Kernel;
 
     #endregion

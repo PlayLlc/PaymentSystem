@@ -10,7 +10,7 @@ using Play.Interchange.Messages.DataFields;
 
 namespace Play.Interchange.DataFields._Temp;
 
-public class BitmapMapper : FixedLengthDataFieldMapper
+internal class BitmapMapper : FixedLengthDataFieldMapper
 {
     #region Static Metadata
 

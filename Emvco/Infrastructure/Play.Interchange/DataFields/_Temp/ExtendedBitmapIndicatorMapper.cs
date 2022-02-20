@@ -4,7 +4,7 @@ using Play.Interchange.Messages.DataFields;
 
 namespace Play.Interchange.DataFields._Temp;
 
-public class ExtendedBitmapIndicatorMapper : FixedLengthDataFieldMapper
+internal class ExtendedBitmapIndicatorMapper : FixedLengthDataFieldMapper
 {
     #region Static Metadata
 

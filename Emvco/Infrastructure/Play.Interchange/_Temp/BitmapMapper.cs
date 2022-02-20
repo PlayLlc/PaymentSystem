@@ -4,7 +4,7 @@ using Play.Interchange.DataFields;
 
 namespace Play.Interchange.Messages.DataFields.ValueObjects;
 
-public class BitmapMapper : FixedLengthDataFieldMapper
+internal class BitmapMapper : FixedLengthDataFieldMapper
 {
     #region Static Metadata
 

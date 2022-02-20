@@ -4,7 +4,7 @@ using Play.Interchange.Messages.DataFields;
 
 namespace Play.Interchange.DataFields._Temp;
 
-public class SystemTraceAuditNumberStanMapper : FixedLengthDataFieldMapper
+internal class SystemTraceAuditNumberStanMapper : FixedLengthDataFieldMapper
 {
     #region Static Metadata
 

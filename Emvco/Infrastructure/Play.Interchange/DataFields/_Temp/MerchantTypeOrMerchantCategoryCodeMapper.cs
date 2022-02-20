@@ -4,7 +4,7 @@ using Play.Interchange.Messages.DataFields;
 
 namespace Play.Interchange.DataFields._Temp;
 
-public class MerchantTypeOrMerchantCategoryCodeMapper : FixedLengthDataFieldMapper
+internal class MerchantTypeOrMerchantCategoryCodeMapper : FixedLengthDataFieldMapper
 {
     #region Static Metadata
 

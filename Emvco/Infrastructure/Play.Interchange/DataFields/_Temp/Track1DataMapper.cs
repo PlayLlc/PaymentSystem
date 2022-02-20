@@ -4,7 +4,7 @@ using Play.Interchange.Messages.DataFields;
 
 namespace Play.Interchange.DataFields._Temp;
 
-public class Track1DataMapper : VariableLengthDataFieldMapper
+internal class Track1DataMapper : VariableLengthDataFieldMapper
 {
     #region Static Metadata
 

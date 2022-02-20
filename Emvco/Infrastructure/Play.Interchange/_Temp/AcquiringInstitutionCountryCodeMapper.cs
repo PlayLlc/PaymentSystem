@@ -4,7 +4,7 @@ using Play.Interchange.DataFields;
 
 namespace Play.Interchange.Messages.DataFields.ValueObjects;
 
-public class AcquiringInstitutionCountryCodeMapper : FixedLengthDataFieldMapper
+internal class AcquiringInstitutionCountryCodeMapper : FixedLengthDataFieldMapper
 {
     #region Static Metadata
 

@@ -6,7 +6,7 @@ using Play.Interchange.Messages.DataFields;
 
 namespace Play.Interchange.Codecs;
 
-public class DataFieldMetadataMapper
+internal class DataFieldMetadataMapper
 {
     #region Static Metadata
 

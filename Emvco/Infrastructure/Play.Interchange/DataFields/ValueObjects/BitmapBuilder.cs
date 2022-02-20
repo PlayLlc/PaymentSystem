@@ -8,7 +8,7 @@ namespace Play.Interchange.DataFields.ValueObjects;
 ///     as 16 hexadecimal characters (0–9, A–F) in the ASCII or EBCDIC character sets. A message will contain at least one
 ///     bitmap, called the primary bitmap, which indicates data elements 1 to 64 are present.
 /// </summary>
-public class BitmapBuilder
+internal class BitmapBuilder
 {
     #region Static Metadata
 

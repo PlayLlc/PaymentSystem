@@ -9,7 +9,7 @@ public record QueryReaderRequest : RequestSignal, IExchangeDataWithTheTerminal
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = GetMessageTypeId(typeof(QueryReaderRequest));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(QueryReaderRequest));
     public static readonly ChannelTypeId ChannelTypeId = ChannelType.Reader;
 
     #endregion

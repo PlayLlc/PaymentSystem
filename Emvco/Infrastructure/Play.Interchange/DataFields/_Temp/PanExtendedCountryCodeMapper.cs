@@ -4,7 +4,7 @@ using Play.Interchange.Messages.DataFields;
 
 namespace Play.Interchange.DataFields._Temp;
 
-public class PanExtendedCountryCodeMapper : FixedLengthDataFieldMapper
+internal class PanExtendedCountryCodeMapper : FixedLengthDataFieldMapper
 {
     #region Static Metadata
 

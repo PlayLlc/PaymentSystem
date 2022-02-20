@@ -4,7 +4,7 @@ using Play.Interchange.Messages.DataFields;
 
 namespace Play.Interchange.DataFields._Temp;
 
-public class AdditionalDataIsoMapper : VariableLengthDataFieldMapper
+internal class AdditionalDataIsoMapper : VariableLengthDataFieldMapper
 {
     #region Static Metadata
 

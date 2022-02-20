@@ -131,7 +131,16 @@ public sealed record MessageTypeIndicatorTypes : EnumObject<MessageTypeIndicator
     #endregion
 
     public class Authorization
-    { }
+    {
+        #region Static Metadata
+
+        public static readonly MessageTypeIndicatorTypes AuthorizationRequest = _AuthorizationRequest;
+        public static readonly MessageTypeIndicatorTypes AuthorizationResponse = _AuthorizationResponse;
+        public static readonly MessageTypeIndicatorTypes AuthorizationAdviceRequest = _AuthorizationAdviceRequest;
+        public static readonly MessageTypeIndicatorTypes AuthorizationAdviceResponse = _AuthorizationAdviceResponse;
+
+        #endregion
+    }
 
     //Purchase
     //• Purchase with cashback

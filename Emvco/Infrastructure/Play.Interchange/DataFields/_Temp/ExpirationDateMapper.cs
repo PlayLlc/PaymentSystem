@@ -4,7 +4,7 @@ using Play.Interchange.Messages.DataFields;
 
 namespace Play.Interchange.DataFields._Temp;
 
-public class ExpirationDateMapper : FixedLengthDataFieldMapper
+internal class ExpirationDateMapper : FixedLengthDataFieldMapper
 {
     #region Static Metadata
 

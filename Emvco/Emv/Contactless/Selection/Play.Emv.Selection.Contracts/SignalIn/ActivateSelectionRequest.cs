@@ -11,7 +11,7 @@ public record ActivateSelectionRequest : RequestSignal
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = GetMessageTypeId(typeof(ActivateSelectionRequest));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(ActivateSelectionRequest));
     public static readonly ChannelTypeId ChannelTypeId = ChannelType.Selection;
 
     #endregion

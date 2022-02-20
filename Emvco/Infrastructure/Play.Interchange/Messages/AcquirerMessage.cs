@@ -5,7 +5,7 @@ using Play.Interchange.Messages.Header;
 
 namespace Play.Interchange.Messages;
 
-public class AcquirerMessage
+internal class AcquirerMessage
 {
     #region Instance Values
 
