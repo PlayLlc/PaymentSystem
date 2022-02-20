@@ -12,4 +12,8 @@
     <ProjectReference Include="..\Play.Emv.Codecs\Play.Emv.Codecs.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DataFields\" />
+  </ItemGroup>
+
 </Project>
