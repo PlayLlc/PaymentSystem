@@ -35,6 +35,7 @@ public abstract class TerminalState
     #region Instance Members
 
     public abstract StateId GetStateId();
+    public abstract TerminalState Handle(TerminalSession? session, InitiateSettlementRequest signal);
     public abstract TerminalState Handle(TerminalSession session, ActivateTerminalRequest signal);
     public abstract TerminalState Handle(TerminalSession session, OutReaderResponse signal);
     public abstract TerminalState Handle(TerminalSession session, QueryKernelResponse signal);

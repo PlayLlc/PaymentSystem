@@ -33,48 +33,19 @@ internal class TerminalStateMachine
 
     private readonly TerminalStateLock _Lock;
     private readonly TerminalConfiguration _TerminalConfiguration;
-    private readonly DataExchangeTerminalService _DataExchangeTerminalService;
-    private readonly IHandleDisplayRequests _DisplayEndpoint;
-    private readonly IHandleKernelRequests _KernelEndpoint;
-    private readonly IHandleReaderRequests _ReaderEndpoint;
-    private readonly IPerformTerminalActionAnalysis _TerminalActionAnalysisService;
-    private readonly IManageTerminalRisk _TerminalRiskManager;
-    private readonly ITerminalConfigurationRepository _TerminalConfigurationRepository;
-    private readonly ISendTerminalResponses _TerminalEndpoint;
     private readonly IGenerateSequenceTraceAuditNumbers _SequenceGenerator;
-    private readonly IHandleAcquirerRequests _AcquirerEndpoint;
-    private readonly IGetTerminalState _TerminalStateResolver;
 
     #endregion
 
     #region Constructor
 
     public TerminalStateMachine(
-        IGetTerminalState terminalStateResolver,
         TerminalConfiguration terminalConfiguration,
-        IHandleDisplayRequests displayEndpoint,
-        IHandleKernelRequests kernelEndpoint,
-        IHandleReaderRequests readerEndpoint,
-        IPerformTerminalActionAnalysis terminalActionAnalysisService,
-        IManageTerminalRisk terminalRiskManager,
-        ITerminalConfigurationRepository terminalConfigurationRepository,
-        ISendTerminalResponses terminalEndpoint,
-        IGenerateSequenceTraceAuditNumbers sequenceGenerator,
-        IHandleAcquirerRequests acquirerEndpoint,
-        DataExchangeTerminalService dataExchangeTerminalService)
+        IGetTerminalState terminalStateResolver,
+        IGenerateSequenceTraceAuditNumbers sequenceGenerator)
     {
-        _TerminalStateResolver = terminalStateResolver;
         _TerminalConfiguration = terminalConfiguration;
-        _DisplayEndpoint = displayEndpoint;
-        _KernelEndpoint = kernelEndpoint;
-        _ReaderEndpoint = readerEndpoint;
-        _TerminalActionAnalysisService = terminalActionAnalysisService;
-        _TerminalRiskManager = terminalRiskManager;
-        _TerminalConfigurationRepository = terminalConfigurationRepository;
-        _TerminalEndpoint = terminalEndpoint;
         _SequenceGenerator = sequenceGenerator;
-        _AcquirerEndpoint = acquirerEndpoint;
-        _DataExchangeTerminalService = dataExchangeTerminalService;
 
         _Lock = new TerminalStateLock(terminalStateResolver.GetKernelState(Idle.StateId));
     }
@@ -130,14 +101,26 @@ internal class TerminalStateMachine
                     $"The {nameof(QueryKernelResponse)} can't be processed because the {nameof(TerminalStateMachine)} has an active session");
             }
 
-            lock (_Lock)
-            {
-                _Lock.State = _Lock.State.Handle(_Lock.Session!, response);
-            }
+            _Lock.State = _Lock.State.Handle(_Lock.Session!, response);
         }
     }
 
     public void Handle(StopReaderAcknowledgedResponse response)
+    {
+        lock (_Lock)
+        {
+            if (_Lock.Session == null)
+            {
+                throw new RequestOutOfSyncException(
+                    $"The {nameof(QueryKernelResponse)} can't be processed because the {nameof(TerminalStateMachine)} does not have an active session");
+            }
+
+            // Clear state inside the handler
+            _Lock.State = _Lock.State.Handle(_Lock.Session!, response);
+        }
+    }
+
+    public void Handle(InitiateSettlementRequest response)
     {
         lock (_Lock)
         {
@@ -147,18 +130,8 @@ internal class TerminalStateMachine
                     $"The {nameof(QueryKernelResponse)} can't be processed because the {nameof(TerminalStateMachine)} has an active session");
             }
 
-            lock (_Lock)
-            {
-                _Lock.State = _Lock.State.Handle(_Lock.Session!, response);
-            }
+            _Lock.State = _Lock.State.Handle(_Lock.Session!, response);
         }
-    }
-
-    public void Handle(InitiateSettlementRequest response)
-    {
-        // call state 
-
-        throw new NotImplementedException();
     }
 
     // HACK: This should be handled on a separate process
@@ -172,10 +145,7 @@ internal class TerminalStateMachine
                     $"The {nameof(QueryKernelResponse)} can't be processed because the {nameof(TerminalStateMachine)} has an active session");
             }
 
-            lock (_Lock)
-            {
-                _Lock.State = _Lock.State.Handle(_Lock.Session!, response);
-            }
+            _Lock.State = _Lock.State.Handle(_Lock.Session!, request);
         }
     }
 

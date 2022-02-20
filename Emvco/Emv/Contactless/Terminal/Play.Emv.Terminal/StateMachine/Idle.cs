@@ -15,6 +15,7 @@ using Play.Emv.Reader.Contracts.SignalIn;
 using Play.Emv.Reader.Contracts.SignalOut;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Common.Services.SequenceNumberManagement;
+using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Emv.Terminal.Services;
 using Play.Emv.Terminal.Services.DataExchange;
@@ -41,6 +42,7 @@ internal class Idle : TerminalState
 
     #region Instance Values
 
+    private readonly IHandleTerminalRequests _TerminalEndpoint;
     private readonly IHandleReaderRequests _ReaderEndpoint;
     private readonly ISettlementReconciliationService _SettlementReconciliationService;
     private readonly IGetTerminalState _TerminalStateResolver;
@@ -73,7 +75,7 @@ internal class Idle : TerminalState
 
     public override StateId GetStateId() => StateId;
 
-    public TerminalState Handle(InitiateSettlementRequest signal)
+    public override TerminalState Handle(TerminalSession? session, InitiateSettlementRequest signal)
     {
         AcquirerMessageFactory settlementRequestFactory =
             _AcquirerEndpoint.GetMessageFactory(MessageTypeIndicatorTypes.Reconciliation.ReconciliationRequest);
@@ -115,7 +117,7 @@ internal class Idle : TerminalState
     /// <param name="signal"></param>
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public override TerminalState Handle(TerminalSession session, AcquirerResponseSignal signal) =>
+    public override TerminalState Handle(TerminalSession? session, AcquirerResponseSignal signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
 
     public override TerminalState Handle(TerminalSession session, QueryTerminalRequest signal) =>
