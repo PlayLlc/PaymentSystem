@@ -27,7 +27,7 @@ public abstract class KernelState
 
     #region Instance Members
 
-    public abstract KernelStateId GetKernelStateId();
+    public abstract StateId GetStateId();
     public abstract KernelState Handle(KernelSession session, ActivateKernelRequest signal);
     public abstract KernelState Handle(CleanKernelRequest signal);
     public abstract KernelState Handle(KernelSession session, QueryKernelRequest signal);

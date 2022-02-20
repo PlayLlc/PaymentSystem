@@ -1,5 +1,8 @@
 ﻿using System.Collections.Immutable;
 
+using Play.Core;
+using Play.Emv.Acquirer.Contracts;
+
 namespace Play.Acquirer.Contracts;
 
 /*
@@ -143,7 +146,16 @@ public sealed record MessageTypeIndicatorTypes : EnumObject<MessageTypeIndicator
     { }
 
     public class Reconciliation
-    { }
+    {
+        #region Static Metadata
+
+        public static readonly MessageTypeIndicatorTypes ReconciliationRequest = _ReconciliationRequest;
+        public static readonly MessageTypeIndicatorTypes ReconciliationResponse = _ReconciliationResponse;
+        public static readonly MessageTypeIndicatorTypes ReconciliationAdviceRequest = _ReconciliationAdviceRequest;
+        public static readonly MessageTypeIndicatorTypes ReconciliationAdviceResponse = _ReconciliationAdviceResponse;
+
+        #endregion
+    }
 
     public class Management
     { }

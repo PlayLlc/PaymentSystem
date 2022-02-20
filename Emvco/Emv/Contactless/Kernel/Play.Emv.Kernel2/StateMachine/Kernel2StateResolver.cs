@@ -13,7 +13,7 @@ public class Kernel2StateResolver : IGetKernelState
 {
     #region Instance Values
 
-    private readonly Dictionary<KernelStateId, KernelState> _KernelStateMap;
+    private readonly Dictionary<StateId, KernelState> _KernelStateMap;
 
     #endregion
 
@@ -21,7 +21,7 @@ public class Kernel2StateResolver : IGetKernelState
 
     private Kernel2StateResolver()
     {
-        _KernelStateMap = new Dictionary<KernelStateId, KernelState>();
+        _KernelStateMap = new Dictionary<StateId, KernelState>();
     }
 
     #endregion
@@ -45,12 +45,12 @@ public class Kernel2StateResolver : IGetKernelState
         };
 
         foreach (KernelState state in kernelStates)
-            kernelStateResolver._KernelStateMap.Add(state.GetKernelStateId(), state);
+            kernelStateResolver._KernelStateMap.Add(state.GetStateId(), state);
 
         return kernelStateResolver;
     }
 
-    public KernelState GetKernelState(KernelStateId kernelStateId) => _KernelStateMap[kernelStateId];
+    public KernelState GetKernelState(StateId stateId) => _KernelStateMap[stateId];
 
     #endregion
 }

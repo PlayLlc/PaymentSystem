@@ -4,7 +4,7 @@ using Play.Emv.Ber.DataObjects;
 
 namespace Play.Emv.Acquirer.Contracts;
 
-public abstract class IssuerMessageFactory
+public abstract class AcquirerMessageFactory
 {
     #region Instance Members
 

@@ -16,7 +16,7 @@ public class WaitingForCccResponse1 : KernelState
 {
     #region Static Metadata
 
-    public static readonly KernelStateId KernelStateId = new(nameof(WaitingForCccResponse1));
+    public static readonly StateId StateId = new(nameof(WaitingForCccResponse1));
 
     #endregion
 
@@ -28,7 +28,7 @@ public class WaitingForCccResponse1 : KernelState
 
     #endregion
 
-    public override KernelStateId GetKernelStateId() => KernelStateId;
+    public override StateId GetStateId() => StateId;
 
     public override KernelState Handle(KernelSession session, ActivateKernelRequest signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);

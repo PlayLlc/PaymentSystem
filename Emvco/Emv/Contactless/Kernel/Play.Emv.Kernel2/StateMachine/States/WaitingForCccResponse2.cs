@@ -14,7 +14,7 @@ public class WaitingForCccResponse2 : KernelState
 {
     #region Static Metadata
 
-    public static readonly KernelStateId KernelStateId = new(nameof(WaitingForCccResponse2));
+    public static readonly StateId StateId = new(nameof(WaitingForCccResponse2));
 
     #endregion
 
@@ -26,7 +26,7 @@ public class WaitingForCccResponse2 : KernelState
 
     #endregion
 
-    public override KernelStateId GetKernelStateId() => KernelStateId;
+    public override StateId GetStateId() => StateId;
     public override KernelState Handle(KernelSession session, ActivateKernelRequest signal) => throw new NotImplementedException();
     public override KernelState Handle(CleanKernelRequest signal) => throw new NotImplementedException();
     public override KernelState Handle(KernelSession session, QueryKernelRequest signal) => throw new NotImplementedException();

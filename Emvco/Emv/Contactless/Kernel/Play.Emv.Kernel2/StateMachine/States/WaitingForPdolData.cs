@@ -20,7 +20,7 @@ internal class WaitingForPdolData : KernelState
 {
     #region Static Metadata
 
-    public static readonly KernelStateId KernelStateId = new(nameof(WaitingForPdolData));
+    public static readonly StateId StateId = new(nameof(WaitingForPdolData));
 
     #endregion
 
@@ -54,7 +54,7 @@ internal class WaitingForPdolData : KernelState
 
     #endregion
 
-    public override KernelStateId GetKernelStateId() => KernelStateId;
+    public override StateId GetStateId() => StateId;
 
     #region ACT
 

@@ -4,6 +4,6 @@ namespace Play.Emv.Acquirer.Contracts;
 
 public interface IHandleAcquirerRequests
 {
-    public IssuerMessageFactory GetMessageFactory(MessageTypeIndicator messageTypeIndicator);
+    public AcquirerMessageFactory GetMessageFactory(MessageTypeIndicator messageTypeIndicator);
     public void Request(AcquirerRequestSignal message);
 }

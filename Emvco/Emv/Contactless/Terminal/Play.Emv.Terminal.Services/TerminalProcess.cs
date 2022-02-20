@@ -33,6 +33,11 @@ internal class TerminalProcess : CommandProcessingQueue
 
     #region Instance Members
 
+    internal void Enqueue(InitiateSettlementRequest request)
+    {
+        Enqueue((dynamic) request);
+    }
+
     internal void Enqueue(AcquirerResponseSignal request)
     {
         Enqueue((dynamic) request);
@@ -61,6 +66,11 @@ internal class TerminalProcess : CommandProcessingQueue
     internal void Enqueue(StopReaderAcknowledgedResponse request)
     {
         Enqueue((dynamic) request);
+    }
+
+    private async Task Handle(InitiateSettlementRequest request)
+    {
+        await Task.Run(() => { _TerminalStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
     private async Task Handle(AcquirerResponseSignal request)

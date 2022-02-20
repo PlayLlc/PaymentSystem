@@ -2,12 +2,11 @@
 using Play.Emv.Interchange.DataFields;
 using Play.Emv.Outcomes;
 using Play.Emv.Sessions;
-using Play.Emv.Terminal.Services.DataExchange;
 using Play.Emv.Transactions;
 
 namespace Play.Emv.Terminal.Services;
 
-internal class TerminalSession
+public class TerminalSession
 {
     #region Instance Values
 

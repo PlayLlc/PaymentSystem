@@ -4,5 +4,5 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public interface IGetKernelState
 {
-    public KernelState GetKernelState(KernelStateId kernelStateId);
+    public KernelState GetKernelState(StateId stateId);
 }

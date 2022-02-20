@@ -2,18 +2,22 @@
 
 namespace Play.Interchange.Messages.DataFields;
 
-public readonly ref struct DataField
+/// <summary>
+///     This is used internally during encoding to temporarily store the values of a data field before serializing the
+///     message as a whole
+/// </summary>
+internal readonly ref struct DataField
 {
     #region Instance Values
 
     private readonly Span<byte> _Value;
-    private readonly DataFieldIdTypes _DataFieldId;
+    private readonly DataFieldId _DataFieldId;
 
     #endregion
 
     #region Constructor
 
-    public DataField(DataFieldIdTypes dataFieldType, ReadOnlySpan<byte> value)
+    public DataField(DataFieldId dataFieldType, ReadOnlySpan<byte> value)
     {
         _DataFieldId = dataFieldType;
 
@@ -29,7 +33,7 @@ public readonly ref struct DataField
 
     #region Instance Members
 
-    public DataFieldIdTypes GetDataFieldId() => _DataFieldId;
+    public DataFieldId GetDataFieldId() => _DataFieldId;
     public Span<byte> AsSpan() => _Value;
 
     public void CopyTo(List<byte> buffer)

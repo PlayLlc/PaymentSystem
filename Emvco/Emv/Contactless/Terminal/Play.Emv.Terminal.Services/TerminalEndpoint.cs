@@ -63,6 +63,11 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
         _TerminalProcess.Enqueue(message);
     }
 
+    public void Request(InitiateSettlementRequest message)
+    {
+        _TerminalProcess.Enqueue(message);
+    }
+
     public void Request(QueryTerminalRequest message)
     {
         _TerminalProcess.Enqueue(message);

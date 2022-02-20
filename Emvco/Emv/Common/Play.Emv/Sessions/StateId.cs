@@ -4,7 +4,7 @@ using Play.Emv.Identifiers;
 
 namespace Play.Emv.Kernel.State;
 
-public readonly record struct KernelStateId
+public readonly record struct StateId
 {
     #region Instance Values
 
@@ -14,7 +14,7 @@ public readonly record struct KernelStateId
 
     #region Constructor
 
-    public KernelStateId(ReadOnlySpan<char> value)
+    public StateId(ReadOnlySpan<char> value)
     {
         _Identity = new Identity(value);
     }

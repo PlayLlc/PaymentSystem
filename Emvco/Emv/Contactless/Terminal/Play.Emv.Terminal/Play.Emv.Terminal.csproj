@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <Folder Include="Configuration\Transaction\" />
-    <Folder Include="DataExchange\" />
   </ItemGroup>
 
 </Project>

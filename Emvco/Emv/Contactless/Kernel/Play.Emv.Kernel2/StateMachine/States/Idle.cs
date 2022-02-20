@@ -33,7 +33,7 @@ public class Idle : KernelState
 {
     #region Static Metadata
 
-    public static readonly KernelStateId KernelStateId = new(nameof(Idle));
+    public static readonly StateId StateId = new(nameof(Idle));
 
     #endregion
 
@@ -67,7 +67,7 @@ public class Idle : KernelState
 
     #endregion
 
-    public override KernelStateId GetKernelStateId() => KernelStateId;
+    public override StateId GetStateId() => StateId;
 
     #region STOP
 
@@ -83,7 +83,7 @@ public class Idle : KernelState
 
         Clear();
 
-        return _KernelStateResolver.GetKernelState(KernelStateId);
+        return _KernelStateResolver.GetKernelState(StateId);
     }
 
     #endregion
@@ -94,7 +94,7 @@ public class Idle : KernelState
     {
         _KernelCleaner.Clean();
 
-        return _KernelStateResolver.GetKernelState(KernelStateId);
+        return _KernelStateResolver.GetKernelState(StateId);
     }
 
     #endregion
@@ -108,10 +108,10 @@ public class Idle : KernelState
         Kernel2Session kernel2Session = (Kernel2Session) session;
 
         if (!TryInitialize(signal.GetCorrelationId(), signal.GetKernelSessionId(), signal.GetTransaction()))
-            return _KernelStateResolver.GetKernelState(KernelStateId);
+            return _KernelStateResolver.GetKernelState(StateId);
 
         if (!TryParseTemplateAndAddTransactionDataToDatabase(signal, out FileControlInformationAdf? fci))
-            return _KernelStateResolver.GetKernelState(KernelStateId);
+            return _KernelStateResolver.GetKernelState(StateId);
 
         UpdateLanguagePreferences(kernel2Session, fci!);
         HandleSupportForFieldOffDetection(kernel2Session, fci!);
@@ -492,10 +492,10 @@ public class Idle : KernelState
             DispatchDataExchangeMessages(session.GetKernelSessionId());
             SetTimeout(session);
 
-            return _KernelStateResolver.GetKernelState(WaitingForPdolData.KernelStateId);
+            return _KernelStateResolver.GetKernelState(WaitingForPdolData.StateId);
         }
 
-        return _KernelStateResolver.GetKernelState(WaitingForGpoResponse.KernelStateId);
+        return _KernelStateResolver.GetKernelState(WaitingForGpoResponse.StateId);
     }
 
     #endregion

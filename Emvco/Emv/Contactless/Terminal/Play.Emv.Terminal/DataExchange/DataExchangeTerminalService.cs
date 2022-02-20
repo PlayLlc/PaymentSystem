@@ -13,7 +13,7 @@ using Play.Messaging;
 
 namespace Play.Emv.Terminal.Services.DataExchange;
 
-internal class DataExchangeTerminalService
+public class DataExchangeTerminalService
 {
     #region Instance Values
 

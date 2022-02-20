@@ -1,4 +1,6 @@
-﻿namespace Play.Emv.Acquirer.Contracts;
+﻿using Play.Codecs;
+
+namespace Play.Emv.Acquirer.Contracts;
 
 /// <summary>
 ///     The message type indicator is a four-digit numeric field which indicates the overall function of the message. A
@@ -19,6 +21,12 @@ public readonly struct MessageTypeIndicator
     {
         _Value = value;
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public override string ToString() => PlayEncoding.Numeric.GetString(PlayEncoding.Numeric.GetBytes(_Value));
 
     #endregion
 
