@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Core.Extensions;
+using Play.Core.Specifications;
 
 namespace Play.Codecs.Strings;
 
@@ -19,7 +20,7 @@ public class SignedNumeric : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(SignedNumeric));
+    public static readonly PlayEncodingId PlayEncodingId = new(nameof(SignedNumeric));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = Enumerable.Range(0, 10)
         .Concat(new[] {67, 68}).ToImmutableSortedDictionary(a => (char) (a + 48), b => (byte) b);
@@ -29,12 +30,6 @@ public class SignedNumeric : PlayEncoding
 
     private const char Positive = 'C';
     private const char Negative = 'D';
-
-    #endregion
-
-    #region Constructor
-
-    private new NotImplementedException();
 
     #endregion
 
@@ -68,7 +63,7 @@ public class SignedNumeric : PlayEncoding
 
     public bool IsValid(char value)
     {
-        if (_ByteMap.ContainsKey(value))
+        if (_ByteMap.Keys.Contains(value))
             return true;
 
         return false;
@@ -76,7 +71,7 @@ public class SignedNumeric : PlayEncoding
 
     private static bool IsNibbleValid(byte value)
     {
-        if (_CharMap.ContainsKey(value))
+        if (_CharMap.Keys.Contains(value))
             return true;
 
         return false;
@@ -90,7 +85,7 @@ public class SignedNumeric : PlayEncoding
         if ((value[0] != Positive) && (value[0] != Negative))
             throw new ArgumentOutOfRangeException(nameof(value));
 
-        if (value.Length < SpecSpecs.ByteArrayckAllocateCeiling)
+        if (value.Length < Specs.ByteArray.StackAllocateCeiling)
         {
             Span<byte> buffer = stackalloc byte[value.Length];
 
@@ -115,13 +110,13 @@ public class SignedNumeric : PlayEncoding
     {
         nint byteSize = Unsafe.SizeOf<T>();
 
-        if (byteSize == SpecSpecs.Integer.Int8eSize)
+        if (byteSize == Specs.Integer.Int8.ByteSize)
             return GetBytes(Unsafe.As<T, sbyte>(ref value));
-        if (byteSize == SpecSpecs.Integer.Int16eSize)
+        if (byteSize == Specs.Integer.Int16.ByteSize)
             return GetBytes(Unsafe.As<T, short>(ref value));
-        if (byteSize <= SpecSpecs.Integer.Int32eSize)
+        if (byteSize <= Specs.Integer.Int32.ByteSize)
             return GetBytes(Unsafe.As<T, int>(ref value));
-        if (byteSize <= SpecSpecs.Integer.Int64eSize)
+        if (byteSize <= Specs.Integer.Int64.ByteSize)
             return GetBytes(Unsafe.As<T, long>(ref value));
 
         return GetBytes(Unsafe.As<T, BigInteger>(ref value));
@@ -129,17 +124,17 @@ public class SignedNumeric : PlayEncoding
 
     public byte[] GetBytes<T>(T value, int length)
     {
-        if (length == SpecSpecs.Integer.Int8eSize)
+        if (length == Specs.Integer.Int8.ByteSize)
             return GetBytes(Unsafe.As<T, sbyte>(ref value));
-        if (length == SpecSpecs.Integer.Int16eSize)
+        if (length == Specs.Integer.Int16.ByteSize)
             return GetBytes(Unsafe.As<T, short>(ref value));
         if (length == 3)
             return GetBytes(Unsafe.As<T, int>(ref value), length);
-        if (length == SpecSpecs.Integer.UInt32eSize)
+        if (length == Specs.Integer.UInt32.ByteSize)
             return GetBytes(Unsafe.As<T, int>(ref value));
-        if (length < SpecSpecs.Integer.UInt64eCount)
+        if (length < Specs.Integer.UInt64.ByteSize)
             return GetBytes(Unsafe.As<T, long>(ref value), length);
-        if (length == SpecSpecs.Integer.UInt64eCount)
+        if (length == Specs.Integer.UInt64.ByteSize)
             return GetBytes(Unsafe.As<T, long>(ref value));
 
         return GetBytes(Unsafe.As<T, BigInteger>(ref value), length);
@@ -185,7 +180,7 @@ public class SignedNumeric : PlayEncoding
         if ((value[0] != Positive) && (value[0] != Negative))
             throw new ArgumentOutOfRangeException(nameof(value));
 
-        if (value.Length < SpecSpecs.ByteArrayckAllocateCeiling)
+        if (value.Length < Specs.ByteArray.StackAllocateCeiling)
         {
             Span<byte> buffer = stackalloc byte[value.Length];
 
@@ -213,7 +208,7 @@ public class SignedNumeric : PlayEncoding
 
     public byte[] GetBytes(short value)
     {
-        const byte byteSize = SpecSpecs.Integer.Int16eSize;
+        const byte byteSize = Specs.Integer.Int16.ByteSize;
         byte numberOfDigits = value.GetNumberOfDigits();
         int numberOfBytes = numberOfDigits + 1;
 
@@ -233,7 +228,7 @@ public class SignedNumeric : PlayEncoding
 
     public byte[] GetBytes(int value)
     {
-        const byte byteSize = SpecSpecs.Integer.Int32eSize;
+        const byte byteSize = Specs.Integer.Int32.ByteSize;
         byte numberOfDigits = value.GetNumberOfDigits();
         int numberOfBytes = numberOfDigits + 1;
 
@@ -272,7 +267,7 @@ public class SignedNumeric : PlayEncoding
 
     public byte[] GetBytes(long value)
     {
-        const byte byteSize = SpecSpecs.Integer.Int64eSize;
+        const byte byteSize = Specs.Integer.Int64.ByteSize;
         byte numberOfDigits = value.GetNumberOfDigits();
         int numberOfBytes = numberOfDigits + 1;
 
@@ -383,13 +378,15 @@ public class SignedNumeric : PlayEncoding
 
     public override int GetByteCount(char[] chars, int index, int count) => count;
     public override int GetMaxByteCount(int charCount) => charCount;
-    public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) => w
+
+    public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
+        throw new NotImplementedException();
 
     public char[] GetChars(ReadOnlySpan<byte> value)
     {
         int length = value.Length * 2;
 
-        if (length < SpecSpecs.ByteArrayckAllocateCeiling)
+        if (length < Specs.ByteArray.StackAllocateCeiling)
         {
             Span<char> buffer = stackalloc char[length];
 
