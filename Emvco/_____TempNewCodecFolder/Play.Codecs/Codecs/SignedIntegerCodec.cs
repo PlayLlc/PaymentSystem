@@ -51,8 +51,20 @@ public class SignedIntegerCodec : PlayCodec
         return (int) ((result % 1) == 0 ? result : result + 1);
     }
 
-    public override ushort GetByteCount<_T>(_T value) => throw new NotImplementedException();
-    public override ushort GetByteCount<_T>(_T[] value) => throw new NotImplementedException();
+    public override ushort GetByteCount<_T>(_T value) => (ushort) Unsafe.SizeOf<_T>();
+    public override ushort GetByteCount<_T>(_T[] value)
+    {
+        Type type = typeof(_T);
+
+        if (type.IsByte())
+            return (ushort)value.Length;
+
+        if (type.IsChar())
+            return (ushort)Encode(Unsafe.As<_T[], char[]>(ref value)).Length;
+
+        throw new InternalPlayEncodingException(this, type);
+    }
+
     public int GetCharCount(byte[] bytes, int index, int count) => DecodeToChars(bytes[index..count]).Length;
 
     public nint GetCharCount(sbyte value)
