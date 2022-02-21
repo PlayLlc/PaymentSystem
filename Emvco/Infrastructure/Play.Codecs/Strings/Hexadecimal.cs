@@ -13,7 +13,7 @@ public class Hexadecimal : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(nameof(Hexadecimal));
+    public static readonly PlayEncodingId PlayEncodingId = new(typeof(Hexadecimal));
 
     #endregion
 

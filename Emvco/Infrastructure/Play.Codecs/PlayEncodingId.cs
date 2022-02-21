@@ -22,6 +22,11 @@ public readonly record struct PlayEncodingId
         _Value = PlayEncoding.SignedInteger.GetInt32(PlayEncoding.Unicode.GetBytes(value));
     }
 
+    public PlayEncodingId(Type value)
+    {
+        _Value = PlayEncoding.SignedInteger.GetInt32(PlayEncoding.Unicode.GetBytes(value.FullName));
+    }
+
     #endregion
 
     #region Operator Overrides

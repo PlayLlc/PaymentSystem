@@ -11,7 +11,7 @@ public class Unicode : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(nameof(Unicode));
+    public static readonly PlayEncodingId PlayEncodingId = new(typeof(Unicode));
     private static readonly Encoding _UnicodeCodec = Unicode;
 
     #endregion

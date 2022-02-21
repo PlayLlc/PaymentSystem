@@ -16,7 +16,7 @@ public class CompressedNumeric : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(nameof(CompressedNumeric));
+    public static readonly PlayEncodingId PlayEncodingId = new(typeof(CompressedNumeric));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap =
         Enumerable.Range(0, 10).ToImmutableSortedDictionary(a => (char) (a + 48), b => (byte) b);

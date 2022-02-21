@@ -10,7 +10,6 @@ public record AcquirerBody
     #region Instance Values
 
     private readonly byte[] _Value;
-    private readonly PrimaryBitmap _Primary;
     public int Count => _Value.Length;
 
     #endregion
@@ -19,7 +18,6 @@ public record AcquirerBody
 
     public AcquirerBody(ReadOnlySpan<byte> value)
     {
-        _Primary = new PrimaryBitmap(value[..8]);
         _Value = value.ToArray();
     }
 
@@ -44,16 +42,12 @@ public record AcquirerBody
     }
 
     public PrimaryBitmap GetPrimaryBitmap() => new(_Value[..8]);
+    public int GetByteCount() => _Value.Length;
 
-    public void CopyTo(Span<byte> buffer, int offset)
+    public void CopyTo(Span<byte> buffer)
     {
-        SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(Count);
-
-        lock (_Value)
-        {
-            for (int i = 0, j = offset; i < Count; i++, j++)
-                buffer[j] = _Value.ElementAt(j);
-        }
+        for (int i = 2, j = 0; j < Count; i++, j++)
+            buffer[i] = _Value.ElementAt(j);
     }
 
     #endregion

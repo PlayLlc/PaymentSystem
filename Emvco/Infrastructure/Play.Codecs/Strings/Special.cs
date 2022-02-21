@@ -13,7 +13,7 @@ public class Special : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(nameof(Special));
+    public static readonly PlayEncodingId PlayEncodingId = new(typeof(Special));
 
     // 32 - 126
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = Enumerable.Range(32, 47 - 32)

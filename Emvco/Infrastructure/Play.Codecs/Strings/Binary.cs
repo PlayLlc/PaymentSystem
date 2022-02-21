@@ -12,7 +12,7 @@ public class Binary : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(nameof(Binary));
+    public static readonly PlayEncodingId PlayEncodingId = new(typeof(Binary));
 
     private static readonly Dictionary<byte, char[]> _CharArrayMap = new()
     {

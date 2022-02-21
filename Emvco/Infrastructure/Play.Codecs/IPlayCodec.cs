@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 
 namespace Play.Ber.Codecs;
 
@@ -12,6 +13,8 @@ public interface IPlayCodec
 {
     #region Instance Members
 
+    protected static PlayEncodingId GetEncodingId(Type encoder) => new(encoder.FullName);
+    public PlayEncodingId GetPlayEncodingId();
     public ushort GetByteCount<T>(T value) where T : struct;
     public ushort GetByteCount<T>(T[] value) where T : struct;
 

@@ -13,7 +13,7 @@ public class SignedInteger : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(nameof(SignedInteger));
+    public static readonly PlayEncodingId PlayEncodingId = new(typeof(SignedInteger));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap =
         Enumerable.Range(48, 57 - 48).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);

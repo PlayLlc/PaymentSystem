@@ -19,7 +19,7 @@ public class Alphabetic : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(nameof(Alphabetic));
+    public static readonly PlayEncodingId PlayEncodingId = new(typeof(Alphabetic));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = new Dictionary<char, byte>
     {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 
+using Play.Ber.Codecs;
 using Play.Ber.InternalFactories;
 using Play.Core.Exceptions;
 using Play.Emv.Interchange.Exceptions;
@@ -11,13 +12,13 @@ internal class InterchangeCodec
 {
     #region Instance Values
 
-    private readonly ImmutableSortedDictionary<InterchangeEncodingId, IInterchangeDataFieldCodec> _DataFieldCodecMap;
+    private readonly ImmutableSortedDictionary<InterchangeEncodingId, IPlayCodec> _DataFieldCodecMap;
 
     #endregion
 
     #region Constructor
 
-    public InterchangeCodec(params IInterchangeDataFieldCodec[] interchangeCodecs)
+    public InterchangeCodec(params IPlayCodec[] interchangeCodecs)
     {
         _DataFieldCodecMap = interchangeCodecs.ToImmutableSortedDictionary(a => a.GetIdentifier(), b => b);
     }
@@ -85,10 +86,10 @@ internal class InterchangeCodec
     {
         CheckCore.ForEmptySequence(value, nameof(value));
 
-        if (!_DataFieldCodecMap.TryGetValue(codecIdentifier, out IInterchangeDataFieldCodec? codec))
+        if (!_DataFieldCodecMap.TryGetValue(codecIdentifier, out IPlayCodec? codec))
         {
             throw new InterchangeException(
-                $"The value could not be decoded because there is not a {nameof(IInterchangeDataFieldCodec)} configured with the Fully Qualified Name: {codecIdentifier}");
+                $"The value could not be decoded because there is not a {nameof(IPlayCodec)} configured with the Fully Qualified Name: {codecIdentifier}");
         }
 
         return codec!.Decode(value);

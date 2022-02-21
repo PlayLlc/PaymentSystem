@@ -1,11 +1,12 @@
 ﻿using Microsoft.Toolkit.HighPerformance.Buffers;
 
+using Play.Codecs;
 using Play.Interchange.Messages.Body;
 using Play.Interchange.Messages.Header;
 
 namespace Play.Interchange.Messages;
 
-internal class AcquirerMessage
+public class AcquirerMessage
 {
     #region Instance Values
 
@@ -15,13 +16,13 @@ internal class AcquirerMessage
 
     #region Constructor
 
-    public AcquirerMessage(AcquirerHeader header, AcquirerBody body)
+    public AcquirerMessage(MessageTypeIndicator messageTypeIndicator, AcquirerBody body)
     {
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(GetByteCount(body));
+        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(2 + body.GetByteCount());
         Span<byte> buffer = spanOwner.Span;
 
-        header.CopyTo(buffer, 0);
-        body.CopyTo(buffer, AcquirerHeader.Length);
+        messageTypeIndicator.CopyTo(buffer);
+        body.CopyTo(buffer);
         _Value = buffer.ToArray();
     }
 
@@ -29,8 +30,9 @@ internal class AcquirerMessage
 
     #region Instance Members
 
-    private int GetByteCount(AcquirerBody body) => AcquirerHeader.Length + body.Count;
-    public byte[] GetBytes() => _Value;
+    private int GetByteCount() => _Value.Length;
+    public byte[] Encode() => _Value;
+    public MessageTypeIndicator GetMessageTypeIndicator() => new(PlayEncoding.Numeric.GetUInt16(_Value[..2]));
 
     #endregion
 }

@@ -12,7 +12,7 @@ public class AlphaNumericSpecial : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(nameof(AlphaNumericSpecial));
+    public static readonly PlayEncodingId PlayEncodingId = new(typeof(AlphaNumericSpecial));
 
     // 32 - 126
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap =

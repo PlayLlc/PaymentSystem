@@ -1,10 +1,11 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Emv.Messaging;
+using Play.Interchange.Messages.Header;
 using Play.Messaging;
 
 namespace Play.Emv.Acquirer.Contracts.SignalIn;
 
-public record AcquirerRequestSignal : RequestSignal
+public abstract record AcquirerRequestSignal : RequestSignal
 {
     #region Static Metadata
 
@@ -20,10 +21,16 @@ public record AcquirerRequestSignal : RequestSignal
 
     #region Constructor
 
-    public AcquirerRequestSignal(MessageTypeId messageTypeId, TagLengthValue[] tagLengthValues) : base(messageTypeId, ChannelTypeId)
+    protected AcquirerRequestSignal(MessageTypeId messageTypeId, TagLengthValue[] tagLengthValues) : base(messageTypeId, ChannelTypeId)
     {
         TagLengthValues = tagLengthValues;
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public abstract MessageTypeIndicator GetMessageTypeIndicator();
 
     #endregion
 }

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Immutable;
 
 using Play.Core;
-using Play.Emv.Acquirer.Contracts;
 
 namespace Play.Acquirer.Contracts;
 
@@ -37,11 +36,11 @@ namespace Play.Acquirer.Contracts;
     }
 
  */
-public sealed record MessageTypeIndicatorTypes : EnumObject<MessageTypeIndicator>
+public sealed record MessageTypeIndicatorTypes : EnumObject<ushort>
 {
     #region Static Metadata
 
-    private static readonly ImmutableSortedDictionary<MessageTypeIndicator, MessageTypeIndicatorTypes> _ValueObjectMap;
+    private static readonly ImmutableSortedDictionary<ushort, MessageTypeIndicatorTypes> _ValueObjectMap;
     private static readonly MessageTypeIndicatorTypes _AuthorizationRequest;
     private static readonly MessageTypeIndicatorTypes _AuthorizationResponse;
     private static readonly MessageTypeIndicatorTypes _AuthorizationAdviceRequest;
@@ -69,32 +68,32 @@ public sealed record MessageTypeIndicatorTypes : EnumObject<MessageTypeIndicator
 
     static MessageTypeIndicatorTypes()
     {
-        _AuthorizationRequest = new MessageTypeIndicatorTypes(new MessageTypeIndicator(1100));
-        _AuthorizationResponse = new MessageTypeIndicatorTypes(new MessageTypeIndicator(1110));
-        _AuthorizationAdviceRequest = new MessageTypeIndicatorTypes(new MessageTypeIndicator(1120));
-        _AuthorizationAdviceResponse = new MessageTypeIndicatorTypes(new MessageTypeIndicator(1130));
+        _AuthorizationRequest = new MessageTypeIndicatorTypes(1100);
+        _AuthorizationResponse = new MessageTypeIndicatorTypes(1110);
+        _AuthorizationAdviceRequest = new MessageTypeIndicatorTypes(1120);
+        _AuthorizationAdviceResponse = new MessageTypeIndicatorTypes(1130);
 
-        _FinancialRequest = new MessageTypeIndicatorTypes(new MessageTypeIndicator(1200));
-        _FinancialResponse = new MessageTypeIndicatorTypes(new MessageTypeIndicator(1210));
-        _FinancialAdviceRequest = new MessageTypeIndicatorTypes(new MessageTypeIndicator(1220));
-        _FinancialAdviceResponse = new MessageTypeIndicatorTypes(new MessageTypeIndicator(1230));
+        _FinancialRequest = new MessageTypeIndicatorTypes(1200);
+        _FinancialResponse = new MessageTypeIndicatorTypes(1210);
+        _FinancialAdviceRequest = new MessageTypeIndicatorTypes(1220);
+        _FinancialAdviceResponse = new MessageTypeIndicatorTypes(1230);
 
-        _ReversalRequest = new MessageTypeIndicatorTypes(new MessageTypeIndicator(1400));
-        _ReversalResponse = new MessageTypeIndicatorTypes(new MessageTypeIndicator(1410));
-        _ReversalAdviceRequest = new MessageTypeIndicatorTypes(new MessageTypeIndicator(1420));
-        _ReversalAdviceResponse = new MessageTypeIndicatorTypes(new MessageTypeIndicator(1430));
+        _ReversalRequest = new MessageTypeIndicatorTypes(1400);
+        _ReversalResponse = new MessageTypeIndicatorTypes(1410);
+        _ReversalAdviceRequest = new MessageTypeIndicatorTypes(1420);
+        _ReversalAdviceResponse = new MessageTypeIndicatorTypes(1430);
 
-        _ReconciliationRequest = new MessageTypeIndicatorTypes(new MessageTypeIndicator(1400));
-        _ReconciliationResponse = new MessageTypeIndicatorTypes(new MessageTypeIndicator(1410));
-        _ReconciliationAdviceRequest = new MessageTypeIndicatorTypes(new MessageTypeIndicator(1420));
-        _ReconciliationAdviceResponse = new MessageTypeIndicatorTypes(new MessageTypeIndicator(1430));
+        _ReconciliationRequest = new MessageTypeIndicatorTypes(1400);
+        _ReconciliationResponse = new MessageTypeIndicatorTypes(1410);
+        _ReconciliationAdviceRequest = new MessageTypeIndicatorTypes(1420);
+        _ReconciliationAdviceResponse = new MessageTypeIndicatorTypes(1430);
 
-        _ManagementRequest = new MessageTypeIndicatorTypes(new MessageTypeIndicator(1800));
-        _ManagementResponse = new MessageTypeIndicatorTypes(new MessageTypeIndicator(1810));
-        _ManagementAdviceRequest = new MessageTypeIndicatorTypes(new MessageTypeIndicator(1820));
-        _ManagementAdviceResponse = new MessageTypeIndicatorTypes(new MessageTypeIndicator(1830));
+        _ManagementRequest = new MessageTypeIndicatorTypes(1800);
+        _ManagementResponse = new MessageTypeIndicatorTypes(1810);
+        _ManagementAdviceRequest = new MessageTypeIndicatorTypes(1820);
+        _ManagementAdviceResponse = new MessageTypeIndicatorTypes(1830);
 
-        _ValueObjectMap = new Dictionary<MessageTypeIndicator, MessageTypeIndicatorTypes>
+        _ValueObjectMap = new Dictionary<ushort, MessageTypeIndicatorTypes>
         {
             {_AuthorizationRequest, _AuthorizationRequest},
             {_AuthorizationResponse, _AuthorizationResponse},
@@ -119,7 +118,7 @@ public sealed record MessageTypeIndicatorTypes : EnumObject<MessageTypeIndicator
         }.ToImmutableSortedDictionary();
     }
 
-    private MessageTypeIndicatorTypes(MessageTypeIndicator value) : base(value)
+    private MessageTypeIndicatorTypes(ushort value) : base(value)
     { }
 
     #endregion

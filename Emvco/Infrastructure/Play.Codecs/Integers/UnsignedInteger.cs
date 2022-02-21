@@ -13,7 +13,7 @@ public class UnsignedInteger : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(nameof(UnsignedInteger));
+    public static readonly PlayEncodingId PlayEncodingId = new(typeof(UnsignedInteger));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = new Dictionary<char, byte>
     {
