@@ -16,8 +16,6 @@ public class Special : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(nameof(Special));
-
     // 32 - 126
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = Enumerable.Range(32, 47 - 32)
         .Concat(Enumerable.Range(58, 64 - 58)).Concat(Enumerable.Range(91, 96 - 91)).Concat(Enumerable.Range(123, 126 - 123))
@@ -30,8 +28,6 @@ public class Special : PlayEncoding
     #endregion
 
     #region Instance Members
-
-    public PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
 
     public override bool IsValid(ReadOnlySpan<byte> value)
     {

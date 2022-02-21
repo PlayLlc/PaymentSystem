@@ -20,8 +20,6 @@ public class SignedNumeric : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(nameof(SignedNumeric));
-
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = Enumerable.Range(0, 10)
         .Concat(new[] {67, 68}).ToImmutableSortedDictionary(a => (char) (a + 48), b => (byte) b);
 
@@ -34,8 +32,6 @@ public class SignedNumeric : PlayEncoding
     #endregion
 
     #region Instance Members
-
-    public PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
 
     public override bool IsValid(ReadOnlySpan<char> value)
     {

@@ -11,14 +11,12 @@ public class Unicode : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(nameof(Unicode));
     private static readonly Encoding _UnicodeCodec = Unicode;
 
     #endregion
 
     #region Instance Members
 
-    public PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
     public override int GetByteCount(char[] chars, int index, int count) => _UnicodeCodec.GetByteCount(chars, index, count);
 
     public override int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex) =>

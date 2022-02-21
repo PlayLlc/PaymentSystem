@@ -7,7 +7,6 @@ using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
-using Play.Codecs.Metadata;
 using Play.Core.Specifications;
 
 namespace Play.Icc.FileSystem;
@@ -16,7 +15,7 @@ public record FileIdentifier : PrimitiveValue
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryIntegerBerCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = BinaryIntegerCodec.Identifier;
     public static readonly FileIdentifier CurrentDedicatedFile = new(new byte[] {0x3F, 0xFF});
     public static readonly FileIdentifier MasterFile = new(new byte[] {0x3F, 0x00});
     public static readonly uint Tag = 0x81;
@@ -79,7 +78,7 @@ public record FileIdentifier : PrimitiveValue
     {
         DecodedResult<ushort> result = codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
             ?? throw new InvalidOperationException(
-                $"The {nameof(FileIdentifier)} could not be initialized because the {nameof(BinaryIntegerBerCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+                $"The {nameof(FileIdentifier)} could not be initialized because the {nameof(BinaryIntegerCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new FileIdentifier(result.Value);
     }

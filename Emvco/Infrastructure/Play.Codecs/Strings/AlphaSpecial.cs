@@ -13,8 +13,6 @@ public class AlphaSpecial : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(nameof(AlphaSpecial));
-
     // 32 - 126
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = Enumerable.Range(65, 80 - 65)
         .Concat(Enumerable.Range(97, 122 - 97)).Concat(Enumerable.Range(32, 47 - 32)).Concat(Enumerable.Range(58, 64 - 58))
@@ -29,8 +27,6 @@ public class AlphaSpecial : PlayEncoding
     #endregion
 
     #region Instance Members
-
-    public PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
 
     public override bool IsValid(ReadOnlySpan<byte> value)
     {

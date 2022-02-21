@@ -24,7 +24,7 @@ public record DedicatedFileName : PrimitiveValue, IEqualityComparer<DedicatedFil
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = OctetStringBerCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = OctetStringCodec.Identifier;
 
     /// <summary>
     ///     The Dedicated File Name for the File Control Information of a contact card environment. The FCI is optional in
