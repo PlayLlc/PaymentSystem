@@ -17,29 +17,22 @@ public abstract class PlayEncoding : Encoding
     ///     An override of the original <see cref="System.Text.Encoding.ASCII" /> that will enforce strict parsing.
     ///     Exceptions will be raised if invalid data is attempted to be parsed
     /// </summary>
-    public new static StrictAscii ASCII => new();
+    public new static StrictAsciiCodec ASCII => new();
 
-    // ReSharper disable once InconsistentNaming
-    /// <summary>
-    ///     An override of the original <see cref="System.Text.Encoding.UTF8" /> that will enforce strict parsing.
-    ///     Exceptions will be raised if invalid data is attempted to be parsed
-    /// </summary>
-    public new static StrictUtf8 UTF8 => new();
-
-    public new static Unicode Unicode => new();
-    public static Binary Binary => new();
-    public static Hexadecimal Hexadecimal => new();
-    public static Alphabetic Alphabetic => new();
-    public static AlphaNumeric AlphaNumeric => new();
-    public static AlphaNumericSpecial AlphaNumericSpecial => new();
-    public static CompressedNumeric CompressedNumeric => new();
-    public static Numeric Numeric => new();
-    public static UnsignedInteger UnsignedBinary => new();
-    public static UnsignedInteger UnsignedInteger => new();
-    public static SignedInteger SignedInteger => new();
-    public static AlphaSpecial AlphaSpecial => new();
-    public static SignedNumeric SignedNumeric => new();
-    public static NumericSpecial NumericSpecial => new();
+    public new static UnicodeCodec Unicode => new();
+    public static BinaryCodec Binary => new();
+    public static HexadecimalCodec Hexadecimal => new();
+    public static AlphabeticCodec Alphabetic => new();
+    public static AlphaNumericCodec AlphaNumeric => new();
+    public static AlphaNumericSpecialCodec AlphaNumericSpecial => new();
+    public static CompressedNumericCodec CompressedNumeric => new();
+    public static NumericCodec Numeric => new();
+    public static UnsignedIntegerCodec UnsignedBinary => new();
+    public static UnsignedIntegerCodec UnsignedInteger => new();
+    public static SignedIntegerCodec SignedInteger => new();
+    public static AlphaSpecialCodec AlphaSpecial => new();
+    public static SignedNumericCodec SignedNumeric => new();
+    public static NumericSpecialCodec NumericSpecial => new();
 
     #endregion
 

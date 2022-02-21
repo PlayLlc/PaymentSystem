@@ -103,6 +103,29 @@ public class AlphaNumericSpecialCodec : PlayCodec
         return true;
     }
 
+    public byte[] Encode(ReadOnlySpan<char> value)
+    {
+        if (value.Length > Specs.ByteArray.StackAllocateCeiling)
+        {
+            using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(value.Length);
+            Span<byte> buffer = spanOwner.Span;
+
+            for (int i = 0; i < value.Length; i++)
+                buffer[i] = _ByteMap[value[i]];
+
+            return buffer.ToArray();
+        }
+        else
+        {
+            Span<byte> buffer = stackalloc byte[value.Length];
+
+            for (int i = 0; i < value.Length; i++)
+                buffer[i] = _ByteMap[value[i]];
+
+            return buffer.ToArray();
+        }
+    }
+
     /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<T>(T[] value) where T : struct
     {
@@ -130,36 +153,6 @@ public class AlphaNumericSpecialCodec : PlayCodec
     public override byte[] Encode<T>(T value, int length) where T : struct =>
         throw new InternalPlayEncodingException(
             $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
-
-    public byte[] Encode(ReadOnlySpan<char> value)
-    {
-        if (value.Length > Specs.ByteArray.StackAllocateCeiling)
-        {
-            using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(value.Length);
-            Span<byte> buffer = spanOwner.Span;
-
-            for (int i = 0; i < value.Length; i++)
-                buffer[i] = _ByteMap[value[i]];
-
-            return buffer.ToArray();
-        }
-        else
-        {
-            Span<byte> buffer = stackalloc byte[value.Length];
-
-            for (int i = 0; i < value.Length; i++)
-                buffer[i] = _ByteMap[value[i]];
-
-            return buffer.ToArray();
-        }
-    }
-
-    public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
-    {
-        Encode(chars[charIndex..(charIndex + charCount)]).AsSpan().CopyTo(bytes[byteIndex..]);
-
-        return charCount;
-    }
 
     public override void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
     {
@@ -193,6 +186,13 @@ public class AlphaNumericSpecialCodec : PlayCodec
             throw new InternalPlayEncodingException(
                 $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
         }
+    }
+
+    public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
+    {
+        Encode(chars[charIndex..(charIndex + charCount)]).AsSpan().CopyTo(bytes[byteIndex..]);
+
+        return charCount;
     }
 
     public void Encode(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)

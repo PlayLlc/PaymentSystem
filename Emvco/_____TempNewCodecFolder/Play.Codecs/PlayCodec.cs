@@ -10,8 +10,27 @@ public abstract class PlayCodec : IGetPlayCodecMetadata, IEncodeStructs, IEncode
 {
     #region Instance Values
 
-    public static UnsignedIntegerCodec UnsignedIntegerCodec => new();
+    // ReSharper disable once InconsistentNaming
+    /// <summary>
+    ///     An override of the original <see cref="System.Text.Encoding.ASCII" /> that will enforce strict parsing.
+    ///     Exceptions will be raised if invalid data is attempted to be parsed
+    /// </summary>
+    public static StrictAsciiCodec ASCII => new();
+
+    public static UnicodeCodec UnicodeCodec => new();
+    public static BinaryCodec BinaryCodec => new();
+    public static HexadecimalCodec HexadecimalCodec => new();
+    public static AlphabeticCodec AlphabeticCodec => new();
     public static AlphaNumericCodec AlphaNumericCodec => new();
+    public static AlphaNumericSpecialCodec AlphaNumericSpecialCodec => new();
+    public static CompressedNumericCodec CompressedNumericCodec => new();
+    public static NumericCodec NumericCodec => new();
+    public static UnsignedIntegerCodec UnsignedBinaryCodec => new();
+    public static UnsignedIntegerCodec UnsignedIntegerCodec => new();
+    public static SignedIntegerCodec SignedIntegerCodec => new();
+    public static AlphaSpecialCodec AlphaSpecialCodec => new();
+    public static SignedNumericCodec SignedNumericCodec => new();
+    public static NumericSpecialCodec NumericSpecialCodec => new();
 
     #endregion
 

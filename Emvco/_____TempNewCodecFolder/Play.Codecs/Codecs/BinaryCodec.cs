@@ -42,13 +42,13 @@ public class BinaryCodec : PlayCodec
         if (value.Length <= Specs.Integer.UInt8.ByteCount)
             return new DecodedResult<byte>(value[0], value[0].GetNumberOfDigits());
         if (value.Length <= Specs.Integer.UInt16.ByteCount)
-            return new DecodedResult<ushort>(PlayEncoding.UnsignedInteger.GetUInt16(value), value[0].GetNumberOfDigits());
+            return new DecodedResult<ushort>(UnsignedIntegerCodec.DecodeToUInt16(value), value[0].GetNumberOfDigits());
         if (value.Length <= Specs.Integer.UInt32.ByteCount)
-            return new DecodedResult<uint>(PlayEncoding.UnsignedInteger.GetUInt32(value), value[0].GetNumberOfDigits());
+            return new DecodedResult<uint>(UnsignedIntegerCodec.DecodeToUInt32(value), value[0].GetNumberOfDigits());
         if (value.Length <= Specs.Integer.UInt64.ByteCount)
-            return new DecodedResult<ulong>(PlayEncoding.UnsignedInteger.GetUInt64(value), value[0].GetNumberOfDigits());
+            return new DecodedResult<ulong>(UnsignedIntegerCodec.DecodeToUInt64(value), value[0].GetNumberOfDigits());
 
-        return new DecodedResult<BigInteger>(PlayEncoding.UnsignedInteger.GetBigInteger(value), value[0].GetNumberOfDigits());
+        return new DecodedResult<BigInteger>(UnsignedIntegerCodec.DecodeToBigInteger(value), value[0].GetNumberOfDigits());
     }
 
     #endregion

@@ -40,7 +40,7 @@ public class AlphabeticCodec : PlayCodec
 
     /// <exception cref="PlayEncodingException"></exception>
     public override DecodedMetadata Decode(ReadOnlySpan<byte> value) =>
-        new DecodedResult<char[]>(PlayEncoding.Alphabetic.GetChars(value), value.Length);
+        new DecodedResult<char[]>(PlayCodec.AlphabeticCodec.DecodeToChars(value), value.Length);
 
     #endregion
 

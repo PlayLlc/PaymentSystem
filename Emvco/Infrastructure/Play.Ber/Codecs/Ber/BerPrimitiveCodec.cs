@@ -18,8 +18,8 @@ public abstract class BerPrimitiveCodec : IPlayCodec
     /// <returns></returns>
     public abstract BerEncodingId GetIdentifier();
 
-    public abstract ushort GetByteCount<T>(T value);
-    public abstract ushort GetByteCount<T>(T[] value);
+    public abstract ushort GetByteCount<T>(T value) where T : struct;
+    public abstract ushort GetByteCount<T>(T[] value) where T : struct;
     public abstract bool IsValid(ReadOnlySpan<byte> value);
     public abstract byte[] Encode<T>(T value) where T : struct;
     public abstract byte[] Encode<T>(T value, int length) where T : struct;

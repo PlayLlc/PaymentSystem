@@ -19,7 +19,7 @@ public class AlphabeticDataElementCodec : BerPrimitiveCodec
     #region Instance Members
 
     public override BerEncodingId GetIdentifier() => Identifier;
-    public override ushort GetByteCount<T>(T value) => _Codec.GetByteCount(value);
+    public override ushort GetByteCount<T>(T value) where T : struct => _Codec.GetByteCount(value);
     public override ushort GetByteCount<T>(T[] value) => _Codec.GetByteCount(value);
     public override bool IsValid(ReadOnlySpan<byte> value) => _Codec.IsValid(value);
     public override byte[] Encode<T>(T value) => _Codec.Encode(value);

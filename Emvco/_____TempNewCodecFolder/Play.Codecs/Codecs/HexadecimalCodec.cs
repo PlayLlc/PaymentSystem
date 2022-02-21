@@ -24,6 +24,47 @@ public class HexadecimalCodec : PlayCodec
 
     #endregion
 
+    #region Serialization
+
+    #region Decode To DecodedMetadata
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        ReadOnlySpan<byte> trimmedValue = value.TrimStart((byte) 0);
+
+        if (value.Length == Specs.Integer.UInt8.ByteCount)
+            return new DecodedResult<byte>(trimmedValue[0], value.Length * 2);
+
+        if (value.Length <= Specs.Integer.UInt16.ByteCount)
+        {
+            ushort shortResult = UnsignedIntegerCodec.DecodeToUInt16(trimmedValue);
+
+            return new DecodedResult<ushort>(shortResult, value.Length * 2);
+        }
+
+        if (value.Length <= Specs.Integer.UInt32.ByteCount)
+        {
+            uint intResult = UnsignedIntegerCodec.DecodeToUInt32(trimmedValue);
+
+            return new DecodedResult<uint>(intResult, value.Length * 2);
+        }
+
+        if (value.Length <= Specs.Integer.UInt64.ByteCount)
+        {
+            ulong longResult = UnsignedIntegerCodec.DecodeToUInt64(trimmedValue);
+
+            return new DecodedResult<ulong>(longResult, value.Length * 2);
+        }
+
+        BigInteger bigIntegerResult = UnsignedIntegerCodec.DecodeToBigInteger(trimmedValue);
+
+        return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
+    }
+
+    #endregion
+
+    #endregion
+
     #region Metadata
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
@@ -178,8 +219,13 @@ public class HexadecimalCodec : PlayCodec
 
     public override byte[] Encode<_T>(_T value)
     {
-        if (typeof(_T) == typeof(char))
-            return Encode(Unsafe.As<_T, char>(ref value));
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+            return new byte[] {DecodeToByte(Unsafe.As<_T, char>(ref value))};
+
+        if (!type.IsUnsignedInteger())
+            throw new InternalPlayEncodingException(this, type);
 
         nint byteSize = Unsafe.SizeOf<_T>();
 
@@ -197,8 +243,14 @@ public class HexadecimalCodec : PlayCodec
 
     public override byte[] Encode<_T>(_T value, int length)
     {
-        if (typeof(_T) == typeof(char))
-            return Encode(Unsafe.As<_T, char>(ref value));
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+            return new byte[] {DecodeToByte(Unsafe.As<_T, char>(ref value))};
+
+        if (!type.IsUnsignedInteger())
+            throw new InternalPlayEncodingException(this, type);
+
         if (length == Specs.Integer.UInt8.ByteCount)
             return Encode(Unsafe.As<_T, byte>(ref value));
         if (length == Specs.Integer.UInt16.ByteCount)
@@ -215,15 +267,112 @@ public class HexadecimalCodec : PlayCodec
         return Encode(Unsafe.As<_T, BigInteger>(ref value), length);
     }
 
-    public override byte[] Encode<_T>(_T[] value)
+    public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
     {
-        if (typeof(_T) == typeof(char))
-            return Encode(Unsafe.As<_T[], char[]>(ref value));
-        if (typeof(_T) == typeof(byte))
-            return Encode(Unsafe.As<_T[], byte[]>(ref value));
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+        {
+            buffer[offset++] = DecodeToByte(Unsafe.As<_T, char>(ref value));
+
+            return;
+        }
+
+        if (!type.IsUnsignedInteger())
+            throw new InternalPlayEncodingException(this, type);
+
+        nint byteSize = Unsafe.SizeOf<_T>();
+
+        if (byteSize == Specs.Integer.UInt8.ByteCount)
+            Encode(Unsafe.As<_T, byte>(ref value), buffer, ref offset);
+        if (byteSize == Specs.Integer.UInt16.ByteCount)
+            Encode(Unsafe.As<_T, ushort>(ref value), buffer, ref offset);
+        if (byteSize <= Specs.Integer.UInt32.ByteCount)
+            Encode(Unsafe.As<_T, uint>(ref value), buffer, ref offset);
+        if (byteSize <= Specs.Integer.UInt64.ByteCount)
+            Encode(Unsafe.As<_T, ulong>(ref value), buffer, ref offset);
+        else
+            Encode(Unsafe.As<_T, BigInteger>(ref value), buffer, ref offset);
     }
 
-    public override byte[] Encode<_T>(_T[] value, int length) => throw new NotImplementedException();
+    public override void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset)
+    {
+        // HACK: Figure out how to implement this with the length argument
+        throw new NotImplementedException();
+
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+        {
+            buffer[offset++] = DecodeToByte(Unsafe.As<_T, char>(ref value));
+
+            return;
+        }
+
+        if (!type.IsUnsignedInteger())
+            throw new InternalPlayEncodingException(this, type);
+
+        nint byteSize = Unsafe.SizeOf<_T>();
+
+        if (byteSize == Specs.Integer.UInt8.ByteCount)
+            Encode(Unsafe.As<_T, byte>(ref value), buffer, ref offset);
+        if (byteSize == Specs.Integer.UInt16.ByteCount)
+            Encode(Unsafe.As<_T, ushort>(ref value), buffer, ref offset);
+        if (byteSize <= Specs.Integer.UInt32.ByteCount)
+            Encode(Unsafe.As<_T, uint>(ref value), buffer, ref offset);
+        if (byteSize <= Specs.Integer.UInt64.ByteCount)
+            Encode(Unsafe.As<_T, ulong>(ref value), buffer, ref offset);
+        else
+            Encode(Unsafe.As<_T, BigInteger>(ref value), buffer, ref offset);
+    }
+
+    public override byte[] Encode<_T>(_T[] value)
+    {
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+            return Encode(Unsafe.As<_T[], char[]>(ref value));
+        if (type.IsByte())
+            return Encode(Unsafe.As<_T[], byte[]>(ref value));
+
+        throw new InternalPlayEncodingException(this, type);
+    }
+
+    public override byte[] Encode<_T>(_T[] value, int length)
+    {
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+            return Encode(Unsafe.As<_T[], char[]>(ref value)[..length]);
+        if (type.IsByte())
+            return Encode(Unsafe.As<_T[], byte[]>(ref value)[..length]);
+
+        throw new InternalPlayEncodingException(this, type);
+    }
+
+    public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
+    {
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+            Encode(Unsafe.As<_T[], char[]>(ref value), buffer, ref offset);
+        else if (type.IsByte())
+            Encode(Unsafe.As<_T[], byte[]>(ref value), buffer, ref offset);
+        else
+            throw new InternalPlayEncodingException(this, type);
+    }
+
+    public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
+    {
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+            Encode(Unsafe.As<_T[], char[]>(ref value)[..length], buffer, ref offset);
+        else if (type.IsByte())
+            Encode(Unsafe.As<_T[], byte[]>(ref value)[..length], buffer, ref offset);
+        else
+            throw new InternalPlayEncodingException(this, type);
+    }
 
     /// <exception cref="PlayEncodingException"></exception>
     public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
@@ -299,16 +448,6 @@ public class HexadecimalCodec : PlayCodec
 
         for (; offset < (offset + length); stringIndex += 2)
             buffer[offset++] = (byte) ((DecodeToByte(value[stringIndex]) << 4) | DecodeToByte(value[stringIndex + 1]));
-    }
-
-    public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
-    {
-        throw new NotImplementedException();
     }
 
     #endregion
@@ -475,49 +614,6 @@ public class HexadecimalCodec : PlayCodec
         byte result = Lookup.CharToHex[value];
 
         return result == 0xFF ? throw new PlayEncodingException(PlayEncodingException.ByteWasOutOfRangeOfHexadecimalCharacter) : result;
-    }
-
-    #endregion
-
-    #region Decode To DecodedMetadata
-
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => throw new NotImplementedException();
-
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
-    {
-        ReadOnlySpan<byte> trimmedValue = value.TrimStart((byte) 0);
-
-        if (value.Length == Specs.Integer.UInt8.ByteCount)
-        {
-            byte byteResult = DecodeToByte(trimmedValue[0]);
-
-            return new DecodedResult<byte>(byteResult, value.Length * 2);
-        }
-
-        if (value.Length <= Specs.Integer.UInt16.ByteCount)
-        {
-            ushort shortResult = DecodeToUInt16(trimmedValue);
-
-            return new DecodedResult<ushort>(shortResult, value.Length * 2);
-        }
-
-        if (value.Length <= Specs.Integer.UInt32.ByteCount)
-        {
-            uint intResult = DecodeToUInt32(trimmedValue);
-
-            return new DecodedResult<uint>(intResult, value.Length * 2);
-        }
-
-        if (value.Length <= Specs.Integer.UInt64.ByteCount)
-        {
-            ulong longResult = DecodeToUInt64(trimmedValue);
-
-            return new DecodedResult<ulong>(longResult, value.Length * 2);
-        }
-
-        BigInteger bigIntegerResult = DecodeToBigInteger(trimmedValue);
-
-        return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
     }
 
     #endregion

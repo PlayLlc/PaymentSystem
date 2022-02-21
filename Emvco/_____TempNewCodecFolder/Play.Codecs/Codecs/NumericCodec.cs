@@ -149,7 +149,7 @@ public class NumericCodec : PlayCodec
             return false;
         }
 
-        result = PlayEncoding.Hexadecimal.GetBytes(value);
+        result = HexadecimalCodec.Encode(value);
 
         return true;
     }
@@ -269,14 +269,14 @@ public class NumericCodec : PlayCodec
         int byteSize = (value.Length / 2) + (value.Length % 2);
 
         if (byteSize == length)
-            return PlayEncoding.Hexadecimal.GetBytes(value);
+            return HexadecimalCodec.Encode(value);
 
         if (byteSize > length)
-            return PlayEncoding.Hexadecimal.GetBytes(value)[^length..];
+            return HexadecimalCodec.Encode(value)[^length..];
 
         byte[] result = new byte[length];
 
-        Array.ConstrainedCopy(PlayEncoding.Hexadecimal.GetBytes(value), 0, result, length - byteSize, byteSize);
+        Array.ConstrainedCopy(HexadecimalCodec.Encode(value), 0, result, length - byteSize, byteSize);
 
         return result;
     }
@@ -519,19 +519,19 @@ public class NumericCodec : PlayCodec
 
         if (byteSize == length)
         {
-            PlayEncoding.Hexadecimal.GetBytes(value, buffer, ref offset);
+            HexadecimalCodec.Encode(value, buffer, ref offset);
 
             return;
         }
 
         if (byteSize > length)
         {
-            PlayEncoding.Hexadecimal.GetBytes(value, length, buffer, ref offset);
+            HexadecimalCodec.Encode(value, length, buffer, ref offset);
 
             return;
         }
 
-        PlayEncoding.Hexadecimal.GetBytes(value[..length], buffer, ref offset);
+        HexadecimalCodec.Encode(value[..length], buffer, ref offset);
     }
 
     #endregion

@@ -13,13 +13,41 @@ namespace Play.Emv.Codecs;
 // TODO: Move the actual functionality higher up to Play.Codec
 public class BinaryEmvCodec : IPlayCodec
 {
+    #region Static Metadata
+
     #region Metadata
 
     private static readonly UnsignedInteger _UnsignedIntegerCodec = PlayEncoding.UnsignedInteger;
 
     #endregion
 
+    #endregion
+
+    #region Serialization
+
+    #region Decode To DecodedMetadata
+
+    public DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        if (value.Length <= Specs.Integer.UInt8.ByteCount)
+            return new DecodedResult<byte>(value[0], value[0].GetNumberOfDigits());
+        if (value.Length <= Specs.Integer.UInt16.ByteCount)
+            return new DecodedResult<ushort>(PlayEncoding.UnsignedInteger.GetUInt16(value), value[0].GetNumberOfDigits());
+        if (value.Length <= Specs.Integer.UInt32.ByteCount)
+            return new DecodedResult<uint>(PlayEncoding.UnsignedInteger.GetUInt32(value), value[0].GetNumberOfDigits());
+        if (value.Length <= Specs.Integer.UInt64.ByteCount)
+            return new DecodedResult<ulong>(PlayEncoding.UnsignedInteger.GetUInt64(value), value[0].GetNumberOfDigits());
+
+        return new DecodedResult<BigInteger>(PlayEncoding.UnsignedInteger.GetBigInteger(value), value[0].GetNumberOfDigits());
+    }
+
+    #endregion
+
+    #endregion
+
     #region Count
+
+    public PlayEncodingId GetEncodingId() => throw new NotImplementedException();
 
     /// <summary>
     ///     GetByteCount
@@ -103,7 +131,7 @@ public class BinaryEmvCodec : IPlayCodec
         return Encode(Unsafe.As<T[], byte[]>(ref value));
     }
 
-    public byte[] Encode(byte[] value) where T : struct => value;
+    public byte[] Encode(byte[] value) => value;
     public byte[] Encode<T>(T[] value, int length) where T : struct => Encode(Unsafe.As<T[], byte[]>(ref value), length);
 
     public byte[] Encode(byte value)
@@ -183,24 +211,6 @@ public class BinaryEmvCodec : IPlayCodec
         }
 
         Encode(Unsafe.As<T[], byte[]>(ref value), length, buffer, ref offset);
-    }
-
-    #endregion
-
-    #region Decode To DecodedMetadata
-
-    public DecodedMetadata Decode(ReadOnlySpan<byte> value)
-    {
-        if (value.Length <= Specs.Integer.UInt8.ByteCount)
-            return new DecodedResult<byte>(value[0], value[0].GetNumberOfDigits());
-        if (value.Length <= Specs.Integer.UInt16.ByteCount)
-            return new DecodedResult<ushort>(PlayEncoding.UnsignedInteger.GetUInt16(value), value[0].GetNumberOfDigits());
-        if (value.Length <= Specs.Integer.UInt32.ByteCount)
-            return new DecodedResult<uint>(PlayEncoding.UnsignedInteger.GetUInt32(value), value[0].GetNumberOfDigits());
-        if (value.Length <= Specs.Integer.UInt64.ByteCount)
-            return new DecodedResult<ulong>(PlayEncoding.UnsignedInteger.GetUInt64(value), value[0].GetNumberOfDigits());
-
-        return new DecodedResult<BigInteger>(PlayEncoding.UnsignedInteger.GetBigInteger(value), value[0].GetNumberOfDigits());
     }
 
     #endregion
