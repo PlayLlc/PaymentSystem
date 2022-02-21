@@ -287,7 +287,7 @@ public class AlphabeticCodec : PlayCodec
         if (typeof(T) == typeof(char))
             Encode(Unsafe.As<T[], char[]>(ref value).AsSpan(), buffer, ref offset);
 
-        throw new NotImplementedException();
+        throw new InternalPlayEncodingException(this, typeof(T));
     }
 
     public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct
