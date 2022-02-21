@@ -25,22 +25,6 @@ public record AcquirerBody
     #region Instance Members
 
     // HACK: Too slow and shit
-
-    public bool TryGetSecondaryBitmap(out SecondaryBitmap? result)
-    {
-        if (_Value[7].IsBitSet(Bits.Eight))
-        {
-            result = new SecondaryBitmap(_Value[8..16].AsSpan());
-
-            return true;
-        }
-
-        result = null;
-
-        return false;
-    }
-
-    public PrimaryBitmap GetPrimaryBitmap() => new(_Value[..8]);
     public int GetByteCount() => _Value.Length;
 
     public void CopyTo(Span<byte> buffer)

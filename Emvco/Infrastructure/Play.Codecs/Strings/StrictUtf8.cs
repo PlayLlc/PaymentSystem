@@ -13,6 +13,7 @@ public class StrictUtf8 : PlayEncoding
 {
     #region Static Metadata
 
+    public static readonly PlayEncodingId PlayEncodingId = new(typeof(StrictUtf8));
     private static readonly UTF8Encoding _ErrorDetectingEncoder = new(false, true);
 
     #endregion
