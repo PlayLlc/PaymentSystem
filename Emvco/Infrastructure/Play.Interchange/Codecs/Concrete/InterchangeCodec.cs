@@ -1,6 +1,8 @@
 ﻿using System.Collections.Immutable;
 
 using Play.Codecs;
+using Play.Codecs._References;
+using Play.Codecs.Metadata;
 using Play.Core.Exceptions;
 using Play.Interchange.DataFields;
 using Play.Interchange.Exceptions;
@@ -11,13 +13,13 @@ public class InterchangeCodec
 {
     #region Instance Values
 
-    private readonly ImmutableSortedDictionary<PlayEncodingId, PlayEncoding> _DataFieldCodecMap;
+    private readonly ImmutableSortedDictionary<PlayEncodingId, PlayCodec> _DataFieldCodecMap;
 
     #endregion
 
     #region Constructor
 
-    public InterchangeCodec(params PlayEncoding[] interchangeCodecs)
+    public InterchangeCodec(params PlayCodec[] interchangeCodecs)
     {
         _DataFieldCodecMap = interchangeCodecs.ToImmutableSortedDictionary(a => a.GetEncodingId(), b => b);
     }
@@ -84,7 +86,7 @@ public class InterchangeCodec
     {
         CheckCore.ForEmptySequence(value, nameof(value));
 
-        if (!_DataFieldCodecMap.TryGetValue(codecIdentifier, out IPlayCodec? codec))
+        if (!_DataFieldCodecMap.TryGetValue(codecIdentifier, out PlayCodec? codec))
         {
             throw new InterchangeException(
                 $"The value could not be decoded because there is not a {nameof(IPlayCodec)} configured with the Fully Qualified Name: {codecIdentifier}");

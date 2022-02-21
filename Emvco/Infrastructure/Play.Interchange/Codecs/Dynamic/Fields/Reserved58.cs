@@ -1,5 +1,4 @@
 ﻿using Play.Codecs;
-using Play.Codecs.Strings;
 using Play.Interchange.DataFields;
 
 namespace Play.Interchange.Codecs.Dynamic.Fields;
@@ -20,7 +19,7 @@ internal class Reserved58 : VariableLengthCodec
     #region Instance Members
 
     public override DataFieldId GetDataFieldId() => DataFieldId;
-    public override PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     protected override ushort GetMaxByteLength() => _MaxByteLength;
     protected override ushort GetLeadingOctetLength() => _LeadingOctetLength;
 

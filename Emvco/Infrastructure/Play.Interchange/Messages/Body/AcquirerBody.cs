@@ -1,8 +1,4 @@
-﻿using Microsoft.Toolkit.HighPerformance.Buffers;
-
-using Play.Core.Extensions;
-
-namespace Play.Interchange.Messages.Body;
+﻿namespace Play.Interchange.Messages.Body;
 
 public record AcquirerBody
 {

@@ -8,7 +8,7 @@ internal abstract class DataFieldCodec
     #region Instance Members
 
     public abstract DataFieldId GetDataFieldId();
-    public abstract PlayEncodingId GetPlayEncodingId();
+    public abstract PlayEncodingId GetEncodingId();
 
     #endregion
 }

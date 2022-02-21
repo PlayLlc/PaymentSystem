@@ -1,9 +1,4 @@
-﻿using System.Numerics;
-
-using Play.Codecs;
-using Play.Codecs.Strings;
-using Play.Core.Extensions;
-using Play.Interchange.Codecs;
+﻿using Play.Codecs;
 using Play.Interchange.Codecs.Concrete;
 using Play.Interchange.Codecs.Dynamic;
 
