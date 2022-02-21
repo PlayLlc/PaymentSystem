@@ -101,14 +101,14 @@ public class NumericEmvCodec : IPlayCodec
 
         ReadOnlySpan<byte> trimmedValue = value.TrimStart((byte) 0);
 
-        if (value.Length == Specs.Integer.UInt8.ByteSize)
+        if (value.Length == Specs.Integer.UInt8.ByteCount)
         {
             byte byteResult = PlayEncoding.Numeric.GetByte(trimmedValue[0]);
 
             return new DecodedResult<byte>(byteResult, value.Length * 2);
         }
 
-        if (value.Length <= Specs.Integer.UInt16.ByteSize)
+        if (value.Length <= Specs.Integer.UInt16.ByteCount)
         {
             ushort shortResult = PlayEncoding.Numeric.GetUInt16(trimmedValue);
 

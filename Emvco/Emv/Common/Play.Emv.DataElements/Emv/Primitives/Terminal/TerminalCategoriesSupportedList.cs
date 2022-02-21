@@ -40,9 +40,9 @@ public record TerminalCategoriesSupportedList : DataElement<BigInteger>, IEquali
             return Array.Empty<TerminalCategoryCode>();
 
         BigInteger temp = _Value;
-        TerminalCategoryCode[] result = (_Value.GetByteCount() % Specs.Integer.UInt16.ByteSize) == 0
-            ? new TerminalCategoryCode[_Value.GetByteCount() / Specs.Integer.UInt16.ByteSize]
-            : new TerminalCategoryCode[(_Value.GetByteCount() / Specs.Integer.UInt16.ByteSize) + 1];
+        TerminalCategoryCode[] result = (_Value.GetByteCount() % Specs.Integer.UInt16.ByteCount) == 0
+            ? new TerminalCategoryCode[_Value.GetByteCount() / Specs.Integer.UInt16.ByteCount]
+            : new TerminalCategoryCode[(_Value.GetByteCount() / Specs.Integer.UInt16.ByteCount) + 1];
 
         for (int i = 0; temp > 0; i++)
         {

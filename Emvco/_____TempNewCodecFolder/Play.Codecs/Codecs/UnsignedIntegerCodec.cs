@@ -270,7 +270,7 @@ public class UnsignedIntegerCodec : PlayCodec
 
     public ushort DecodeToUInt16(ReadOnlySpan<byte> value)
     {
-        const byte byteLength = Specs.Integer.UInt16.ByteSize;
+        const byte byteLength = Specs.Integer.UInt16.ByteCount;
 
         if (value.Length < byteLength)
         {

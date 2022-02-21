@@ -172,9 +172,9 @@ public class HexadecimalCodec : PlayCodec
 
         nint byteSize = Unsafe.SizeOf<_T>();
 
-        if (byteSize == Specs.Integer.UInt8.ByteSize)
+        if (byteSize == Specs.Integer.UInt8.ByteCount)
             return Encode(Unsafe.As<_T, byte>(ref value));
-        if (byteSize == Specs.Integer.UInt16.ByteSize)
+        if (byteSize == Specs.Integer.UInt16.ByteCount)
             return Encode(Unsafe.As<_T, ushort>(ref value));
         if (byteSize <= Specs.Integer.UInt32.ByteCount)
             return Encode(Unsafe.As<_T, uint>(ref value));
@@ -188,9 +188,9 @@ public class HexadecimalCodec : PlayCodec
     {
         if (typeof(_T) == typeof(char))
             return Encode(Unsafe.As<_T, char>(ref value));
-        if (length == Specs.Integer.UInt8.ByteSize)
+        if (length == Specs.Integer.UInt8.ByteCount)
             return Encode(Unsafe.As<_T, byte>(ref value));
-        if (length == Specs.Integer.UInt16.ByteSize)
+        if (length == Specs.Integer.UInt16.ByteCount)
             return Encode(Unsafe.As<_T, ushort>(ref value));
         if (length == 3)
             return Encode(Unsafe.As<_T, uint>(ref value), length);
@@ -476,14 +476,14 @@ public class HexadecimalCodec : PlayCodec
     {
         ReadOnlySpan<byte> trimmedValue = value.TrimStart((byte) 0);
 
-        if (value.Length == Specs.Integer.UInt8.ByteSize)
+        if (value.Length == Specs.Integer.UInt8.ByteCount)
         {
             byte byteResult = DecodeToByte(trimmedValue[0]);
 
             return new DecodedResult<byte>(byteResult, value.Length * 2);
         }
 
-        if (value.Length <= Specs.Integer.UInt16.ByteSize)
+        if (value.Length <= Specs.Integer.UInt16.ByteCount)
         {
             ushort shortResult = DecodeToUInt16(trimmedValue);
 

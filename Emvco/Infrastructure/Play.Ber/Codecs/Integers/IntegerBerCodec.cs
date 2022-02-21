@@ -125,9 +125,9 @@ public sealed class IntegerBerCodec : BerPrimitiveCodec
     {
         nint byteSize = Unsafe.SizeOf<T>();
 
-        if (byteSize == Specs.Integer.UInt8.ByteSize)
+        if (byteSize == Specs.Integer.UInt8.ByteCount)
             return Encode(Unsafe.As<T, sbyte>(ref value));
-        if (byteSize == Specs.Integer.UInt16.ByteSize)
+        if (byteSize == Specs.Integer.UInt16.ByteCount)
             return Encode(Unsafe.As<T, short>(ref value));
         if (byteSize == Specs.Integer.UInt32.ByteCount)
             return Encode(Unsafe.As<T, int>(ref value));

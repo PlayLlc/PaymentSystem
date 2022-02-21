@@ -34,7 +34,7 @@ public partial class Randomize
 
         public static ushort UShort()
         {
-            Span<byte> buffer = Bytes(Specs.Integer.UInt16.ByteSize);
+            Span<byte> buffer = Bytes(Specs.Integer.UInt16.ByteCount);
 
             return PlayEncoding.UnsignedInteger.GetUInt16(buffer);
         }

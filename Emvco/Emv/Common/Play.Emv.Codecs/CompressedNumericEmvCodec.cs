@@ -52,9 +52,9 @@ public class CompressedNumericEmvCodec : IPlayCodec
     {
         nint byteSize = Unsafe.SizeOf<T>();
 
-        if (byteSize == Specs.Integer.UInt8.ByteSize)
+        if (byteSize == Specs.Integer.UInt8.ByteCount)
             return Encode(Unsafe.As<T, byte>(ref value));
-        if (byteSize == Specs.Integer.UInt16.ByteSize)
+        if (byteSize == Specs.Integer.UInt16.ByteCount)
             return Encode(Unsafe.As<T, ushort>(ref value));
         if (byteSize <= Specs.Integer.UInt32.ByteCount)
             return Encode(Unsafe.As<T, uint>(ref value));
@@ -66,9 +66,9 @@ public class CompressedNumericEmvCodec : IPlayCodec
 
     public byte[] Encode<T>(T value, int length) where T : struct
     {
-        if (length == Specs.Integer.UInt8.ByteSize)
+        if (length == Specs.Integer.UInt8.ByteCount)
             return Encode(Unsafe.As<T, byte>(ref value));
-        if (length == Specs.Integer.UInt16.ByteSize)
+        if (length == Specs.Integer.UInt16.ByteCount)
             return Encode(Unsafe.As<T, ushort>(ref value));
         if (length == 3)
             return Encode(Unsafe.As<T, uint>(ref value), length);
@@ -122,14 +122,14 @@ public class CompressedNumericEmvCodec : IPlayCodec
     {
         nint byteSize = Unsafe.SizeOf<T>();
 
-        if (byteSize == Specs.Integer.UInt8.ByteSize)
+        if (byteSize == Specs.Integer.UInt8.ByteCount)
         {
             buffer[offset++] = Unsafe.As<T, byte>(ref value);
 
             return;
         }
 
-        if (byteSize == Specs.Integer.UInt16.ByteSize)
+        if (byteSize == Specs.Integer.UInt16.ByteCount)
             Encode(Unsafe.As<T, ushort>(ref value), buffer, ref offset);
         if (byteSize <= Specs.Integer.UInt32.ByteCount)
             Encode(Unsafe.As<T, uint>(ref value), buffer, ref offset);

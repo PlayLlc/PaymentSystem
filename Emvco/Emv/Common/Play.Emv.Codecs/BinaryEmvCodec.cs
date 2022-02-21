@@ -32,9 +32,9 @@ public class BinaryEmvCodec : IPlayCodec
     {
         nint byteSize = Unsafe.SizeOf<T>();
 
-        if (byteSize <= Specs.Integer.UInt8.ByteSize)
+        if (byteSize <= Specs.Integer.UInt8.ByteCount)
             return 1;
-        if (byteSize <= Specs.Integer.UInt16.ByteSize)
+        if (byteSize <= Specs.Integer.UInt16.ByteCount)
             return Unsafe.As<T, ushort>(ref value).GetMostSignificantByte();
         if (byteSize <= Specs.Integer.UInt32.ByteCount)
             return Unsafe.As<T, uint>(ref value).GetMostSignificantByte();
@@ -63,9 +63,9 @@ public class BinaryEmvCodec : IPlayCodec
     {
         nint byteSize = Unsafe.SizeOf<T>();
 
-        if (byteSize <= Specs.Integer.UInt8.ByteSize)
+        if (byteSize <= Specs.Integer.UInt8.ByteCount)
             return Encode(Unsafe.As<T, byte>(ref value));
-        if (byteSize <= Specs.Integer.UInt16.ByteSize)
+        if (byteSize <= Specs.Integer.UInt16.ByteCount)
             return Encode(Unsafe.As<T, ushort>(ref value));
         if (byteSize <= Specs.Integer.UInt32.ByteCount)
             return Encode(Unsafe.As<T, uint>(ref value));
@@ -77,9 +77,9 @@ public class BinaryEmvCodec : IPlayCodec
 
     public byte[] Encode<T>(T value, int length) where T : struct
     {
-        if (length == Specs.Integer.UInt8.ByteSize)
+        if (length == Specs.Integer.UInt8.ByteCount)
             return Encode(Unsafe.As<T, byte>(ref value));
-        if (length == Specs.Integer.UInt16.ByteSize)
+        if (length == Specs.Integer.UInt16.ByteCount)
             return Encode(Unsafe.As<T, ushort>(ref value));
         if (length == 3)
             return Encode(Unsafe.As<T, uint>(ref value), length);
@@ -134,9 +134,9 @@ public class BinaryEmvCodec : IPlayCodec
     {
         nint byteSize = Unsafe.SizeOf<T>();
 
-        if (byteSize <= Specs.Integer.UInt8.ByteSize)
+        if (byteSize <= Specs.Integer.UInt8.ByteCount)
             Encode(Unsafe.As<T, byte>(ref value), buffer, ref offset);
-        else if (byteSize <= Specs.Integer.UInt16.ByteSize)
+        else if (byteSize <= Specs.Integer.UInt16.ByteCount)
             Encode(Unsafe.As<T, ushort>(ref value), buffer, ref offset);
         else if (byteSize <= Specs.Integer.UInt32.ByteCount)
             Encode(Unsafe.As<T, uint>(ref value), buffer, ref offset);
@@ -148,9 +148,9 @@ public class BinaryEmvCodec : IPlayCodec
 
     public void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
-        if (length == Specs.Integer.UInt8.ByteSize)
+        if (length == Specs.Integer.UInt8.ByteCount)
             Encode(Unsafe.As<T, byte>(ref value), buffer, ref offset);
-        else if (length == Specs.Integer.UInt16.ByteSize)
+        else if (length == Specs.Integer.UInt16.ByteCount)
             Encode(Unsafe.As<T, ushort>(ref value), buffer, ref offset);
         else if (length == 3)
             Encode(Unsafe.As<T, uint>(ref value), length, buffer, ref offset);
@@ -192,9 +192,9 @@ public class BinaryEmvCodec : IPlayCodec
 
     public DecodedMetadata Decode(ReadOnlySpan<byte> value)
     {
-        if (value.Length <= Specs.Integer.UInt8.ByteSize)
+        if (value.Length <= Specs.Integer.UInt8.ByteCount)
             return new DecodedResult<byte>(value[0], value[0].GetNumberOfDigits());
-        if (value.Length <= Specs.Integer.UInt16.ByteSize)
+        if (value.Length <= Specs.Integer.UInt16.ByteCount)
             return new DecodedResult<ushort>(PlayEncoding.UnsignedInteger.GetUInt16(value), value[0].GetNumberOfDigits());
         if (value.Length <= Specs.Integer.UInt32.ByteCount)
             return new DecodedResult<uint>(PlayEncoding.UnsignedInteger.GetUInt32(value), value[0].GetNumberOfDigits());

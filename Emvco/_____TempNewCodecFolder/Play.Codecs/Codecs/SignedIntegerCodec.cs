@@ -259,8 +259,34 @@ public class SignedIntegerCodec : PlayCodec
         return Encode(Unsafe.As<_T, BigInteger>(ref value), length);
     }
 
-    public override byte[] Encode<_T>(_T[] value) => throw new NotImplementedException();
-    public override byte[] Encode<_T>(_T[] value, int length) => throw new NotImplementedException();
+    public override byte[] Encode<_T>(_T[] value)
+    {
+        // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+            return Encode(Unsafe.As<_T[], char[]>(ref value));
+
+        if (!type.IsByte())
+            throw new InternalPlayEncodingException(this, type);
+
+        return Encode(Unsafe.As<_T[], byte[]>(ref value));
+    }
+
+    public override byte[] Encode<_T>(_T[] value, int length)
+    {
+        // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+            return Encode(Unsafe.As<_T[], char[]>(ref value), length);
+
+        if (!type.IsByte())
+            throw new InternalPlayEncodingException(this, type);
+
+        return Encode(Unsafe.As<_T[], byte[]>(ref value), length);
+    }
+
     public byte[] Encode(sbyte value) => BitConverter.GetBytes(value);
     public byte[] Encode(short value) => BitConverter.GetBytes(value);
     public byte[] Encode(int value) => BitConverter.GetBytes(value);
@@ -289,22 +315,78 @@ public class SignedIntegerCodec : PlayCodec
 
     public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
     {
-        throw new NotImplementedException();
+        // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+        {
+            Encode(Unsafe.As<_T, char>(ref value), buffer, ref offset);
+
+            return;
+        }
+
+        if (!type.IsNumericType())
+            throw new InternalPlayEncodingException(this, type);
+
+        nint byteSize = Unsafe.SizeOf<_T>();
+
+        if (byteSize == Specs.Integer.Int8.ByteCount)
+            Encode(Unsafe.As<_T, sbyte>(ref value), buffer, ref offset);
+        else if (byteSize == Specs.Integer.Int16.ByteCount)
+            Encode(Unsafe.As<_T, short>(ref value), buffer, ref offset);
+        else if (byteSize <= Specs.Integer.Int32.ByteCount)
+            Encode(Unsafe.As<_T, int>(ref value), buffer, ref offset);
+        else if (byteSize <= Specs.Integer.Int64.ByteCount)
+            Encode(Unsafe.As<_T, long>(ref value), buffer, ref offset);
+        else
+            Encode(Unsafe.As<_T, BigInteger>(ref value), buffer, ref offset);
     }
 
     public override void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset)
     {
-        throw new NotImplementedException();
+        // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+        {
+            Encode(Unsafe.As<_T, char>(ref value), length, buffer, ref offset);
+
+            return;
+        }
+
+        if (!type.IsNumericType())
+            throw new InternalPlayEncodingException(this, type);
+
+        if (length == Specs.Integer.Int8.ByteCount)
+            Encode(Unsafe.As<_T, sbyte>(ref value));
+        else if (length == Specs.Integer.Int16.ByteCount)
+            Encode(Unsafe.As<_T, short>(ref value));
+        else if (length == 3)
+            Encode(Unsafe.As<_T, int>(ref value), length, buffer, ref offset);
+        else if (length == Specs.Integer.Int32.ByteCount)
+            Encode(Unsafe.As<_T, uint>(ref value), buffer, ref offset);
+        else if (length < Specs.Integer.Int64.ByteCount)
+            Encode(Unsafe.As<_T, long>(ref value), length, buffer, ref offset);
+        else if (length == Specs.Integer.Int64.ByteCount)
+            Encode(Unsafe.As<_T, long>(ref value), buffer, ref offset);
+        else
+            Encode(Unsafe.As<_T, BigInteger>(ref value), length, buffer, ref offset);
     }
 
     public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
     {
-        throw new NotImplementedException();
+        if (typeof(_T).IsChar())
+            Encode(Unsafe.As<_T[], char[]>(ref value));
+        else
+            throw new InternalPlayEncodingException(this, typeof(_T));
     }
 
     public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
     {
-        throw new NotImplementedException();
+        if (typeof(_T) == typeof(char))
+            Encode(Unsafe.As<_T[], char[]>(ref value), length);
+        else
+            throw new InternalPlayEncodingException(this, typeof(_T));
     }
 
     public void Encode(sbyte value, Span<byte> buffer, ref int offset)
@@ -411,6 +493,8 @@ public class SignedIntegerCodec : PlayCodec
         return true;
     }
 
+    public string DecodeToString(ReadOnlySpan<byte> value) => new(DecodeToChars(value));
+
     #endregion
 
     #region Decode To Integers
@@ -427,15 +511,13 @@ public class SignedIntegerCodec : PlayCodec
 
     #region Instance Members
 
-    public sbyte GetByte(ReadOnlySpan<byte> value)
+    public sbyte DecodeToSByte(ReadOnlySpan<byte> value)
     {
         if (value[0] > sbyte.MaxValue)
             throw new ArgumentOutOfRangeException(nameof(value));
 
         return (sbyte) value[0];
     }
-
-    public string GetString(ReadOnlySpan<byte> value) => new(DecodeToChars(value));
 
     public short DecodeToInt16(ReadOnlySpan<byte> value)
     {
@@ -528,7 +610,7 @@ public class SignedIntegerCodec : PlayCodec
     {
         return value.Length switch
         {
-            1 => GetByte(value),
+            1 => DecodeToSByte(value),
             2 => DecodeToInt16(value),
             4 => DecodeToInt32(value),
             8 => DecodeToInt64(value),

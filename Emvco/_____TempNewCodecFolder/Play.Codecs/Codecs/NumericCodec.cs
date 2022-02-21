@@ -150,9 +150,9 @@ public class NumericCodec : PlayCodec
 
         nint byteSize = Unsafe.SizeOf<_T>();
 
-        if (byteSize == Specs.Integer.UInt8.ByteSize)
+        if (byteSize == Specs.Integer.UInt8.ByteCount)
             return Encode(Unsafe.As<_T, byte>(ref value));
-        if (byteSize == Specs.Integer.UInt16.ByteSize)
+        if (byteSize == Specs.Integer.UInt16.ByteCount)
             return Encode(Unsafe.As<_T, ushort>(ref value));
         if (byteSize <= Specs.Integer.UInt32.ByteCount)
             return Encode(Unsafe.As<_T, uint>(ref value));
@@ -173,9 +173,9 @@ public class NumericCodec : PlayCodec
         if (!type.IsNumericType())
             throw new InternalPlayEncodingException(this, type);
 
-        if (length == Specs.Integer.UInt8.ByteSize)
+        if (length == Specs.Integer.UInt8.ByteCount)
             return Encode(Unsafe.As<_T, byte>(ref value));
-        if (length == Specs.Integer.UInt16.ByteSize)
+        if (length == Specs.Integer.UInt16.ByteCount)
             return Encode(Unsafe.As<_T, ushort>(ref value));
         if (length == 3)
             return Encode(Unsafe.As<_T, uint>(ref value), length);
@@ -189,32 +189,32 @@ public class NumericCodec : PlayCodec
         return Encode(Unsafe.As<_T, BigInteger>(ref value), length);
     }
 
-    public override byte[] Encode<T>(T[] value)
+    public override byte[] Encode<_T>(_T[] value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
-        Type type = typeof(T);
+        Type type = typeof(_T);
 
         if (type.IsChar())
-            return Encode(Unsafe.As<T[], char[]>(ref value));
+            return Encode(Unsafe.As<_T[], char[]>(ref value));
 
         if (!type.IsByte())
             throw new InternalPlayEncodingException(this, type);
 
-        return Encode(Unsafe.As<T[], byte[]>(ref value));
+        return Encode(Unsafe.As<_T[], byte[]>(ref value));
     }
 
-    public override byte[] Encode<T>(T[] value, int length)
+    public override byte[] Encode<_T>(_T[] value, int length)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
-        Type type = typeof(T);
+        Type type = typeof(_T);
 
         if (type.IsChar())
-            return Encode(Unsafe.As<T[], char[]>(ref value), length);
+            return Encode(Unsafe.As<_T[], char[]>(ref value), length);
 
         if (!type.IsByte())
             throw new InternalPlayEncodingException(this, type);
 
-        return Encode(Unsafe.As<T[], byte[]>(ref value), length);
+        return Encode(Unsafe.As<_T[], byte[]>(ref value), length);
     }
 
     public byte[] Encode(ReadOnlySpan<char> value) => Encode(value, value.Length);
@@ -243,7 +243,7 @@ public class NumericCodec : PlayCodec
 
     public byte[] Encode(ushort value)
     {
-        const byte byteSize = Specs.Integer.UInt16.ByteSize;
+        const byte byteSize = Specs.Integer.UInt16.ByteCount;
         byte numberOfDigits = value.GetNumberOfDigits();
         int numberOfBytes = (numberOfDigits / 2) + (numberOfDigits % 2);
 
@@ -392,54 +392,80 @@ public class NumericCodec : PlayCodec
         return buffer.Length;
     }
 
-    public override void Encode<T>(T value, Span<byte> buffer, ref int offset)
+    public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
     {
-        nint byteSize = Unsafe.SizeOf<T>();
+        // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
+        Type type = typeof(_T);
 
-        if (byteSize == Specs.Integer.UInt8.ByteSize)
-            Encode(Unsafe.As<T, byte>(ref value), buffer, ref offset);
-        else if (byteSize == Specs.Integer.UInt16.ByteSize)
-            Encode(Unsafe.As<T, ushort>(ref value), buffer, ref offset);
+        if (type.IsChar())
+        {
+            Encode(Unsafe.As<_T, char>(ref value), buffer, ref offset);
+
+            return;
+        }
+
+        if (!type.IsNumericType())
+            throw new InternalPlayEncodingException(this, type);
+
+        nint byteSize = Unsafe.SizeOf<_T>();
+
+        if (byteSize == Specs.Integer.UInt8.ByteCount)
+            Encode(Unsafe.As<_T, byte>(ref value), buffer, ref offset);
+        else if (byteSize == Specs.Integer.UInt16.ByteCount)
+            Encode(Unsafe.As<_T, ushort>(ref value), buffer, ref offset);
         else if (byteSize <= Specs.Integer.UInt32.ByteCount)
-            Encode(Unsafe.As<T, uint>(ref value), buffer, ref offset);
+            Encode(Unsafe.As<_T, uint>(ref value), buffer, ref offset);
         else if (byteSize <= Specs.Integer.UInt64.ByteCount)
-            Encode(Unsafe.As<T, ulong>(ref value), buffer, ref offset);
+            Encode(Unsafe.As<_T, ulong>(ref value), buffer, ref offset);
         else
-            Encode(Unsafe.As<T, BigInteger>(ref value), buffer, ref offset);
+            Encode(Unsafe.As<_T, BigInteger>(ref value), buffer, ref offset);
     }
 
-    public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset)
+    public override void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset)
     {
-        if (length == Specs.Integer.UInt8.ByteSize)
-            Encode(Unsafe.As<T, byte>(ref value));
-        else if (length == Specs.Integer.UInt16.ByteSize)
-            Encode(Unsafe.As<T, ushort>(ref value));
+        // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+        {
+            Encode(Unsafe.As<_T, char>(ref value), length, buffer, ref offset);
+
+            return;
+        }
+
+        if (!type.IsNumericType())
+            throw new InternalPlayEncodingException(this, type);
+
+        if (length == Specs.Integer.UInt8.ByteCount)
+            Encode(Unsafe.As<_T, byte>(ref value));
+        else if (length == Specs.Integer.UInt16.ByteCount)
+            Encode(Unsafe.As<_T, ushort>(ref value));
         else if (length == 3)
-            Encode(Unsafe.As<T, uint>(ref value), length, buffer, ref offset);
+            Encode(Unsafe.As<_T, uint>(ref value), length, buffer, ref offset);
         else if (length == Specs.Integer.UInt32.ByteCount)
-            Encode(Unsafe.As<T, uint>(ref value), buffer, ref offset);
+            Encode(Unsafe.As<_T, uint>(ref value), buffer, ref offset);
         else if (length < Specs.Integer.UInt64.ByteCount)
-            Encode(Unsafe.As<T, ulong>(ref value), length, buffer, ref offset);
+            Encode(Unsafe.As<_T, ulong>(ref value), length, buffer, ref offset);
         else if (length == Specs.Integer.UInt64.ByteCount)
-            Encode(Unsafe.As<T, ulong>(ref value), buffer, ref offset);
+            Encode(Unsafe.As<_T, ulong>(ref value), buffer, ref offset);
         else
-            Encode(Unsafe.As<T, BigInteger>(ref value), length, buffer, ref offset);
+            Encode(Unsafe.As<_T, BigInteger>(ref value), length, buffer, ref offset);
     }
 
-    public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset)
+    public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
     {
-        if (typeof(T) == typeof(char))
-            Encode(Unsafe.As<T[], char[]>(ref value));
+        if (typeof(_T).IsChar())
+            Encode(Unsafe.As<_T[], char[]>(ref value));
         else
-            throw new NotImplementedException();
+            throw new InternalPlayEncodingException(this, typeof(_T));
     }
 
-    public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset)
+    public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
     {
-        if (typeof(T) == typeof(char))
-            Encode(Unsafe.As<T[], char[]>(ref value), length);
+        if (typeof(_T) == typeof(char))
+            Encode(Unsafe.As<_T[], char[]>(ref value), length);
         else
-            throw new NotImplementedException();
+            throw new InternalPlayEncodingException(this, typeof(_T));
     }
 
     public void Encode(ReadOnlySpan<char> value, int length, Span<byte> buffer, ref int offset)
@@ -615,14 +641,14 @@ public class NumericCodec : PlayCodec
     {
         ReadOnlySpan<byte> trimmedValue = value.TrimStart((byte) 0);
 
-        if (value.Length == Specs.Integer.UInt8.ByteSize)
+        if (value.Length == Specs.Integer.UInt8.ByteCount)
         {
             byte byteResult = DecodeToByte(trimmedValue[0]);
 
             return new DecodedResult<byte>(byteResult, value.Length * 2);
         }
 
-        if (value.Length <= Specs.Integer.UInt16.ByteSize)
+        if (value.Length <= Specs.Integer.UInt16.ByteCount)
         {
             ushort shortResult = DecodeToUInt16(trimmedValue);
 
