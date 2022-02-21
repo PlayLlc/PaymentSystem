@@ -1,9 +1,11 @@
 ﻿using System.Numerics;
 
+using Play.Codecs;
 using Play.Codecs.Strings;
 using Play.Core.Extensions;
 using Play.Interchange.Codecs;
-using Play.Interchange.Messages.DataFields;
+using Play.Interchange.Codecs.Concrete;
+using Play.Interchange.Codecs.Dynamic;
 
 namespace Play.Interchange.DataFields;
 
@@ -21,7 +23,7 @@ public abstract record InterchangeDataField : IRetrieveInterchangeFieldMetadata,
     public abstract ushort GetByteCount();
     public abstract PlayEncodingId GetEncodingId();
     public abstract byte[] Encode();
-    DataField IEncodeInterchangeFields.AsDataField() => new(GetDataFieldId(), Encode());
+    DataFieldSpan IEncodeInterchangeFields.AsDataField() => new(GetDataFieldId(), Encode());
     public abstract void Encode(Memory<byte> buffer, ref int offset);
 
     #endregion

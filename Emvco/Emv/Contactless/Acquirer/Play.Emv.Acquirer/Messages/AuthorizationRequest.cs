@@ -10,7 +10,7 @@ using Play.Interchange.Messages.Header;
 
 namespace Play.Emv.Acquirer.Messages;
 
-public class AuthorizationRequest : AcquirerMessage
+public class AuthorizationRequest : InterchangeMessage
 {
     #region Constructor
 

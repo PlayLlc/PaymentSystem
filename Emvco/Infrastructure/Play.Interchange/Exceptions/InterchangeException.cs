@@ -2,7 +2,7 @@
 
 using Play.Core.Exceptions;
 
-namespace Play.Emv.Interchange.Exceptions;
+namespace Play.Interchange.Exceptions;
 
 internal class InterchangeException : PlayException
 {

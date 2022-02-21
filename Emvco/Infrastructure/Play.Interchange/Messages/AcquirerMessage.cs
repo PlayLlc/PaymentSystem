@@ -6,7 +6,7 @@ using Play.Interchange.Messages.Header;
 
 namespace Play.Interchange.Messages;
 
-public class AcquirerMessage
+public class InterchangeMessage
 {
     #region Instance Values
 
@@ -16,7 +16,7 @@ public class AcquirerMessage
 
     #region Constructor
 
-    public AcquirerMessage(MessageTypeIndicator messageTypeIndicator, AcquirerBody body)
+    public InterchangeMessage(MessageTypeIndicator messageTypeIndicator, AcquirerBody body)
     {
         using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(2 + body.GetByteCount());
         Span<byte> buffer = spanOwner.Span;

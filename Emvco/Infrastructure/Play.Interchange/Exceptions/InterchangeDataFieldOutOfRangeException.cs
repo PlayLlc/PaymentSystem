@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Play.Emv.Interchange.Exceptions;
+namespace Play.Interchange.Exceptions;
 
 internal class InterchangeDataFieldOutOfRangeException : InterchangeFormatException
 {

@@ -1,4 +1,4 @@
-﻿using Play.Emv.Interchange.Exceptions;
+﻿using Play.Interchange.Exceptions;
 
 namespace Play.Interchange.DataFields;
 
