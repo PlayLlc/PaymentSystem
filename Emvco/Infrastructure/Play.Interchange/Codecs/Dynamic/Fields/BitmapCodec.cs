@@ -10,7 +10,7 @@ internal class BitmapCodec : FixedLengthCodec
     /// <remarks>DecimalValue: 1</remarks>
     public static readonly DataFieldId DataFieldId = new(1);
 
-    public static readonly PlayEncodingId PlayEncodingId = Binary.PlayEncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     private const ushort _ByteLength = 8;
 
     #endregion

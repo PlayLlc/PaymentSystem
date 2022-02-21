@@ -10,7 +10,7 @@ internal class FileNameCodec : VariableLengthCodec
     /// <remarks>DecimalValue: 101</remarks>
     public static readonly DataFieldId DataFieldId = new(101);
 
-    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecial.PlayEncodingId;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialCodec.EncodingId;
     private const ushort _MaxByteLength = 17;
     private const byte _LeadingOctetLength = 1;
 

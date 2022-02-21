@@ -10,7 +10,7 @@ internal class AuthorizationIdentificationResponseCodec : FixedLengthCodec
     /// <remarks>DecimalValue: 38</remarks>
     public static readonly DataFieldId DataFieldId = new(38);
 
-    public static readonly PlayEncodingId PlayEncodingId = AlphaNumeric.PlayEncodingId;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericCodec.EncodingId;
     private const ushort _ByteLength = 6;
 
     #endregion

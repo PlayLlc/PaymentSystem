@@ -10,7 +10,7 @@ internal class CardAcceptorNameLocationCodec : FixedLengthCodec
     /// <remarks>DecimalValue: 43</remarks>
     public static readonly DataFieldId DataFieldId = new(43);
 
-    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecial.PlayEncodingId;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialCodec.EncodingId;
     private const ushort _ByteLength = 40;
 
     #endregion

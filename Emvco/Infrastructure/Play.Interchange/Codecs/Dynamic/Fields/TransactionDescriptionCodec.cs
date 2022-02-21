@@ -10,7 +10,7 @@ internal class TransactionDescriptionCodec : VariableLengthCodec
     /// <remarks>DecimalValue: 104</remarks>
     public static readonly DataFieldId DataFieldId = new(104);
 
-    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecial.PlayEncodingId;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialCodec.EncodingId;
     private const ushort _MaxByteLength = 100;
     private const byte _LeadingOctetLength = 2;
 

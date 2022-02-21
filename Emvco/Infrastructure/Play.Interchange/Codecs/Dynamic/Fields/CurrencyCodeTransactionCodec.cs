@@ -10,7 +10,7 @@ internal class CurrencyCodeTransactionCodec : FixedLengthCodec
     /// <remarks>DecimalValue: 49</remarks>
     public static readonly DataFieldId DataFieldId = new(49);
 
-    public static readonly PlayEncodingId PlayEncodingId = Alphabetic.PlayEncodingId;
+    public static readonly PlayEncodingId EncodingId = AlphabeticCodec.EncodingId;
     private const ushort _ByteLength = 2;
 
     #endregion

@@ -10,7 +10,7 @@ internal class RetrievalReferenceNumberCodec : FixedLengthCodec
     /// <remarks>DecimalValue: 37</remarks>
     public static readonly DataFieldId DataFieldId = new(37);
 
-    public static readonly PlayEncodingId PlayEncodingId = AlphaNumeric.PlayEncodingId;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericCodec.EncodingId;
     private const ushort _ByteLength = 12;
 
     #endregion

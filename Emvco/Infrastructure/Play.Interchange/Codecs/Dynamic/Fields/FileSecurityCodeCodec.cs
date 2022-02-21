@@ -10,7 +10,7 @@ internal class FileSecurityCodeCodec : FixedLengthCodec
     /// <remarks>DecimalValue: 92</remarks>
     public static readonly DataFieldId DataFieldId = new(92);
 
-    public static readonly PlayEncodingId PlayEncodingId = AlphaNumeric.PlayEncodingId;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericCodec.EncodingId;
     private const ushort _ByteLength = 2;
 
     #endregion

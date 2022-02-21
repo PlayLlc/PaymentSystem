@@ -10,7 +10,7 @@ internal class ResponseCodeCodec : FixedLengthCodec
     /// <remarks>DecimalValue: 39</remarks>
     public static readonly DataFieldId DataFieldId = new(39);
 
-    public static readonly PlayEncodingId PlayEncodingId = AlphaNumeric.PlayEncodingId;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericCodec.EncodingId;
     private const ushort _ByteLength = 2;
 
     #endregion

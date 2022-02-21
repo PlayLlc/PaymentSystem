@@ -10,7 +10,7 @@ internal class PayeeCodec : FixedLengthCodec
     /// <remarks>DecimalValue: 98</remarks>
     public static readonly DataFieldId DataFieldId = new(98);
 
-    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecial.PlayEncodingId;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialCodec.EncodingId;
     private const ushort _ByteLength = 25;
 
     #endregion

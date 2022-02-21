@@ -10,7 +10,7 @@ internal class Track1DataCodec : VariableLengthCodec
     /// <remarks>DecimalValue: 45</remarks>
     public static readonly DataFieldId DataFieldId = new(45);
 
-    public static readonly PlayEncodingId PlayEncodingId = AlphaNumeric.PlayEncodingId;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericCodec.EncodingId;
     private const ushort _MaxByteLength = 76;
     private const byte _LeadingOctetLength = 1;
 

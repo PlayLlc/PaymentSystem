@@ -10,7 +10,7 @@ internal class Reserved63 : VariableLengthCodec
     /// <remarks>DecimalValue: 63</remarks>
     public static readonly DataFieldId DataFieldId = new(63);
 
-    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecial.PlayEncodingId;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialCodec.EncodingId;
     private const ushort _MaxByteLength = 999;
     private const byte _LeadingOctetLength = 2;
 

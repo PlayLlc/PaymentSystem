@@ -45,8 +45,8 @@ public class AlphaNumericCodec : PlayCodec
 
     #region Metadata
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(AlphaNumericCodec));
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public static readonly PlayEncodingId EncodingId = new(typeof(AlphaNumericCodec));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = Enumerable.Range(0, 10)
         .Concat(Enumerable.Range(65, 90 - 65)).Concat(Enumerable.Range(97, 122 - 97))
@@ -264,7 +264,7 @@ public class AlphaNumericCodec : PlayCodec
         return charCount;
     }
 
-    public PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
+    public PlayEncodingId GetPlayEncodingId() => EncodingId;
 
     public override void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
     {

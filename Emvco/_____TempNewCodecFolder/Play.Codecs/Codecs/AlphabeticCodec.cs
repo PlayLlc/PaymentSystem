@@ -40,7 +40,7 @@ public class AlphabeticCodec : PlayCodec
 
     /// <exception cref="PlayEncodingException"></exception>
     public override DecodedMetadata Decode(ReadOnlySpan<byte> value) =>
-        new DecodedResult<char[]>(PlayCodec.AlphabeticCodec.DecodeToChars(value), value.Length);
+        new DecodedResult<char[]>(AlphabeticCodec.DecodeToChars(value), value.Length);
 
     #endregion
 
@@ -48,8 +48,8 @@ public class AlphabeticCodec : PlayCodec
 
     #region Metadata
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(AlphabeticCodec));
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public static readonly PlayEncodingId EncodingId = new(typeof(AlphabeticCodec));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = Enumerable.Range(65, 90 - 65)
         .Concat(Enumerable.Range(97, 122 - 97)).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);

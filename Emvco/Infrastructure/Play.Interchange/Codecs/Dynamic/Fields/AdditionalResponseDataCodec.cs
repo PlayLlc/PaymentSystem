@@ -10,7 +10,7 @@ internal class AdditionalResponseDataCodec : VariableLengthCodec
     /// <remarks>DecimalValue: 44</remarks>
     public static readonly DataFieldId DataFieldId = new(44);
 
-    public static readonly PlayEncodingId PlayEncodingId = AlphaNumeric.PlayEncodingId;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericCodec.EncodingId;
     private const ushort _MaxByteLength = 25;
     private const byte _LeadingOctetLength = 1;
 

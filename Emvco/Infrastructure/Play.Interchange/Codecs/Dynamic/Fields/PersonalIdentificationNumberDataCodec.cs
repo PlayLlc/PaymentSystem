@@ -10,7 +10,7 @@ internal class PersonalIdentificationNumberDataCodec : FixedLengthCodec
     /// <remarks>DecimalValue: 52</remarks>
     public static readonly DataFieldId DataFieldId = new(52);
 
-    public static readonly PlayEncodingId PlayEncodingId = Binary.PlayEncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     private const ushort _ByteLength = 8;
 
     #endregion
