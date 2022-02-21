@@ -3,8 +3,6 @@
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs.Strings;
-using Play.Emv.DataElements;
-using Play.Emv.DataElements.Emv;
 using Play.Emv.Security.Authentications.Static;
 using Play.Emv.Security.Certificates.Icc;
 using Play.Emv.Security.Certificates.Issuer;
@@ -40,11 +38,11 @@ internal partial class CertificateFactory
         /// <exception cref="InvalidOperationException"></exception>
         private static DecodedIccPublicKeyCertificate Create(
             DecodedIssuerPublicKeyCertificate issuerPublicKeyCertificate,
+            PrimaryAccountNumber primaryAccountNumber,
             PublicKeyRemainder publicKeyRemainder,
             PublicKeyExponent publicKeyExponent,
             Message1 message1)
         {
-            PrimaryAccountNumber primaryAccountNumber = GetPrimaryAccountNumber(message1);
             CertificateSerialNumber serialNumber = GetCertificateSerialNumber(message1);
             HashAlgorithmIndicator hashAlgorithm = GetHashAlgorithmIndicator(message1);
             PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator = GetPublicKeyAlgorithmIndicator(message1);
@@ -93,8 +91,6 @@ internal partial class CertificateFactory
 
         private static Range GetLeftmostIssuerPublicKeyRange(DecodedIssuerPublicKeyCertificate issuerPublicKeyCertificate) =>
             new(20, issuerPublicKeyCertificate.GetPublicKeyModulus().GetByteCount() - 42);
-
-        private static PrimaryAccountNumber GetPrimaryAccountNumber(Message1 message1) => new(message1[new Range(1, 11)]);
 
         private static PublicKeyAlgorithmIndicator GetPublicKeyAlgorithmIndicator(Message1 message1) =>
             PublicKeyAlgorithmIndicator.Get(message1[17]);
@@ -180,7 +176,7 @@ internal partial class CertificateFactory
                 return false;
 
             // Step 8
-            if (primaryAccountNumber != GetPrimaryAccountNumber(decodedSignature.GetMessage1()))
+            if (primaryAccountNumber.IsIssuerIdentifierMatching(decodedSignature.GetMessage1()[3..7]))
                 return false;
 
             // Step 9
@@ -191,7 +187,7 @@ internal partial class CertificateFactory
         }
 
         /// <remarks>
-        ///     Book 3 Section 5.3
+        ///     Book 2 Section 5.3
         /// </remarks>
         /// <exception cref="InvalidOperationException"></exception>
         public static bool TryCreate(
@@ -218,7 +214,7 @@ internal partial class CertificateFactory
                     return false;
                 }
 
-                result = Create(publicKeyCertificate, enciphermentPublicKeyRemainder.AsPublicKeyRemainder(),
+                result = Create(publicKeyCertificate, primaryAccountNumber, enciphermentPublicKeyRemainder.AsPublicKeyRemainder(),
                     encipheredPublicKeyExponent.AsPublicKeyExponent(), decodedSignature.GetMessage1());
 
                 return true;

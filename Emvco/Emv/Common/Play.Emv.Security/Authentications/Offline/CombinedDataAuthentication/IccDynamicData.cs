@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Play.Codecs;
-using Play.Emv.DataElements;
 using Play.Emv.DataElements.Emv;
 using Play.Encryption.Hashing;
 

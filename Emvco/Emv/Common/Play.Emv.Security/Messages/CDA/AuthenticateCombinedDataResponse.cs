@@ -1,6 +1,5 @@
 ﻿using System;
 
-using Play.Emv.DataElements;
 using Play.Emv.DataElements.Emv;
 
 namespace Play.Emv.Security.Messages.CDA;

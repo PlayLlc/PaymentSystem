@@ -1,5 +1,4 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Emv.DataElements;
 using Play.Emv.DataElements.Emv;
 using Play.Emv.Security.Authentications.Static;
 using Play.Emv.Security.Authentications.Static.Signed;

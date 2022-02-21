@@ -6,7 +6,6 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Codecs.Metadata;
 using Play.Emv.Ber.Codecs;
 
 namespace Play.Emv.Security.Authentications.Static;
@@ -19,7 +18,7 @@ public record DataAuthenticationCode : PrimitiveValue, IEqualityComparer<DataAut
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F45;
 
     #endregion
@@ -70,7 +69,7 @@ public record DataAuthenticationCode : PrimitiveValue, IEqualityComparer<DataAut
 
         DecodedResult<ushort> result = codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
             ?? throw new InvalidOperationException(
-                $"The {nameof(DataAuthenticationCode)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+                $"The {nameof(DataAuthenticationCode)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new DataAuthenticationCode(result.Value);
     }

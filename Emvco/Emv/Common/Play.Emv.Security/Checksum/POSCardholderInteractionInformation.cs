@@ -6,7 +6,6 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Codecs.Metadata;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 
@@ -21,7 +20,7 @@ public record PosCardholderInteractionInformation : PrimitiveValue, IEqualityCom
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0xDF4B;
 
     #endregion
@@ -85,7 +84,7 @@ public record PosCardholderInteractionInformation : PrimitiveValue, IEqualityCom
 
         DecodedResult<uint> result = codec.Decode(BerEncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
-                $"The {nameof(PosCardholderInteractionInformation)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<uint>)}");
+                $"The {nameof(PosCardholderInteractionInformation)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new PosCardholderInteractionInformation(result.Value);
     }

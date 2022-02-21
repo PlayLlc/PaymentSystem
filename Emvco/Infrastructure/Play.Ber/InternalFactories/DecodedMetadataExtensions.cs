@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 using Play.Ber.Exceptions;
 
@@ -7,6 +8,23 @@ namespace Play.Ber.InternalFactories;
 public static class DecodedMetadataExtensions
 {
     #region Instance Members
+
+    public static DecodedResult<BigInteger>? ToBigInteger(this DecodedMetadata? value)
+    {
+        if (value == null)
+            return null;
+
+        if (value is DecodedResult<byte> decodedResultByte)
+            return new DecodedResult<BigInteger>(decodedResultByte.Value, decodedResultByte.CharCount);
+        if (value is DecodedResult<ushort> decodedResultUShort)
+            return new DecodedResult<BigInteger>(decodedResultUShort.Value, decodedResultUShort.CharCount);
+        if (value is DecodedResult<uint> decodedResultUInt)
+            return new DecodedResult<BigInteger>(decodedResultUInt.Value, decodedResultUInt.CharCount);
+        if (value is DecodedResult<ulong> decodedResultULong)
+            return new DecodedResult<BigInteger>(decodedResultULong.Value, decodedResultULong.CharCount);
+
+        throw new BerInternalException("This error should never be thrown");
+    }
 
     /// <summary>
     ///     ToUInt64Result

@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Ber.DataObjects;
-using Play.Emv.DataElements;
 using Play.Emv.DataElements.Emv;
 
 namespace Play.Emv.Security.Authentications.Static;

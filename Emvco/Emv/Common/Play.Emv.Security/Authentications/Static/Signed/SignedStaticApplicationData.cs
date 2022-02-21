@@ -19,7 +19,7 @@ public record SignedStaticApplicationData : PrimitiveValue, IEqualityComparer<Si
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x93;
 
     #endregion

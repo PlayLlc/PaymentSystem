@@ -1,5 +1,4 @@
-﻿using Play.Emv.DataElements;
-using Play.Emv.DataElements.Emv;
+﻿using Play.Emv.DataElements.Emv;
 using Play.Emv.Security.Authentications.Static;
 using Play.Emv.Security.Certificates.Icc;
 using Play.Emv.Security.Certificates.Issuer;

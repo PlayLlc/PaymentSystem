@@ -4,6 +4,7 @@ using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements.Exceptions;
 using Play.Globalization.Time;
 
 namespace Play.Emv.DataElements.Emv;
@@ -71,8 +72,7 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
         }
 
         DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(MessageHoldTime)} could not be initialized because the {nameof(AlphabeticDataElementCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+            ?? throw new DataElementNullException(BerEncodingId);
 
         if (result.CharCount != charLength)
         {

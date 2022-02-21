@@ -6,7 +6,6 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Codecs.Metadata;
 using Play.Emv.Ber.Codecs;
 using Play.Encryption.Certificates;
 
@@ -19,7 +18,7 @@ public record IccPublicKeyRemainder : PrimitiveValue, IEqualityComparer<IccPubli
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F48;
 
     #endregion
@@ -59,7 +58,7 @@ public record IccPublicKeyRemainder : PrimitiveValue, IEqualityComparer<IccPubli
     {
         DecodedResult<byte[]> result = codec.Decode(BerEncodingId, value) as DecodedResult<byte[]>
             ?? throw new InvalidOperationException(
-                $"The {nameof(IccPublicKeyRemainder)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
+                $"The {nameof(IccPublicKeyRemainder)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
 
         return new IccPublicKeyRemainder(result.Value);
     }

@@ -4,7 +4,7 @@ using Play.Core.Exceptions;
 
 namespace Play.Emv.DataElements.Exceptions;
 
-internal class DataElementException : PlayException
+public class DataElementException : PlayException
 {
     #region Constructor
 

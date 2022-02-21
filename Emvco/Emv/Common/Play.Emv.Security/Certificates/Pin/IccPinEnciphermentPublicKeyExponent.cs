@@ -6,7 +6,6 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Codecs.Metadata;
 using Play.Emv.Ber.Codecs;
 
 namespace Play.Emv.Security.Certificates.Pin;
@@ -18,7 +17,7 @@ public record IccPinEnciphermentPublicKeyExponent : PrimitiveValue, IEqualityCom
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F2E;
 
     #endregion
@@ -65,7 +64,7 @@ public record IccPinEnciphermentPublicKeyExponent : PrimitiveValue, IEqualityCom
 
         DecodedResult<uint> result = codec.Decode(BerEncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
-                $"The {nameof(IccPinEnciphermentPublicKeyExponent)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<uint>)}");
+                $"The {nameof(IccPinEnciphermentPublicKeyExponent)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new IccPinEnciphermentPublicKeyExponent(result.Value);
     }

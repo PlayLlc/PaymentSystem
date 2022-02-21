@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-using Play.Emv.DataElements;
 using Play.Emv.DataElements.Emv;
 using Play.Icc.FileSystem.DedicatedFiles;
 

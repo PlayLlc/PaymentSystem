@@ -1,6 +1,5 @@
 ﻿using System;
 
-using Play.Emv.DataElements;
 using Play.Emv.DataElements.Emv;
 using Play.Encryption.Hashing;
 using Play.Encryption.Signing;

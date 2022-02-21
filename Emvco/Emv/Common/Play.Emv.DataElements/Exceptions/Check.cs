@@ -31,7 +31,7 @@ internal class Check
             }
         }
 
-        public static void ForMinCharLength(int value, int minLength, Tag tag)
+        public static void ForMinCharLength(nint value, int minLength, Tag tag)
         {
             if (value < minLength)
             {
@@ -40,7 +40,7 @@ internal class Check
             }
         }
 
-        public static void ForMaxCharLength(int value, int maxLength, Tag tag)
+        public static void ForMaxCharLength(nint value, int maxLength, Tag tag)
         {
             if (value > maxLength)
             {

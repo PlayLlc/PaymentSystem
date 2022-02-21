@@ -31,7 +31,7 @@ public class CompressedNumericCodec : PlayCodec
         return offset;
     }
 
-    private static int GetPadCount(ReadOnlySpan<byte> value)
+    public static int GetPadCount(ReadOnlySpan<byte> value)
     {
         int offset = value.Length;
 
