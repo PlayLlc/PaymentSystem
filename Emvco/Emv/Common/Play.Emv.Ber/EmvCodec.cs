@@ -6,7 +6,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.Ber.Codecs;
-using Play.Emv.Codecs.Exceptions;
+using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber;
 
@@ -16,14 +16,17 @@ public class EmvCodec : BerCodec
 
     public static readonly BerConfiguration Configuration = new(new Dictionary<BerEncodingId, BerPrimitiveCodec>
     {
-        {AlphabeticDataElementCodec.Identifier, new AlphabeticDataElementCodec()},
-        {AlphaNumericDataElementCodec.Identifier, new AlphaNumericDataElementCodec()},
-        {AlphaNumericSpecialDataElementCodec.Identifier, new AlphaNumericSpecialDataElementCodec()},
-        {CompressedNumericDataElementCodec.Identifier, new CompressedNumericDataElementCodec()},
-        {NumericDataElementCodec.Identifier, new NumericDataElementCodec()},
-        {BinaryDataElementCodec.Identifier, new BinaryDataElementCodec()},
-        {VariableDataElementCodec.Identifier, new VariableDataElementCodec()},
-        {OctetStringBerCodec.Identifier, new OctetStringBerCodec()}
+        {AlphabeticCodec.Identifier, new AlphabeticCodec()},
+        {AlphaNumericCodec.Identifier, new AlphaNumericCodec()},
+        {
+            AlphaNumericSpecialCodec.Identifier,
+            new AlphaNumericSpecialCodec()
+        },
+        {CompressedNumericCodec.Identifier, new CompressedNumericCodec()},
+        {NumericCodec.Identifier, new NumericCodec()},
+        {UnsignedBinaryCodec.Identifier, new UnsignedBinaryCodec()},
+        {VariableCodec.Identifier, new VariableCodec()},
+        {OctetStringCodec.Identifier, new OctetStringCodec()}
     });
 
     private static readonly EmvCodec _Codec = new();
@@ -54,7 +57,7 @@ public class EmvCodec : BerCodec
     /// </remarks>
     public TagLength[] DecodeTagLengthPairs(ReadOnlySpan<byte> value)
     {
-        using SpanOwner<TagLength> spanOwner = SpanOwner<TagLength>.Allocate(value.Length / 2);
+        SpanOwner<TagLength> spanOwner = SpanOwner<TagLength>.Allocate(value.Length / 2);
         Span<TagLength> buffer = spanOwner.Span;
 
         int bufferOffset = 0;

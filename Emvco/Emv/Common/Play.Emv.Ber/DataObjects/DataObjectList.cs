@@ -4,7 +4,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Emv.Codecs.Exceptions;
+using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataObjects;
 
@@ -134,7 +134,7 @@ public abstract record DataObjectList : DataElement<byte[]>
                 buffer[i] = new TagLengthValue(result[i].GetTag(), result[i].EncodeValue()[..DataObjects[i].GetValueByteCount()]);
             else
             {
-                using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(DataObjects[i].GetValueByteCount());
+                SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(DataObjects[i].GetValueByteCount());
                 Span<byte> contentBuffer = spanOwner.Span;
                 result[i].EncodeValue().CopyTo(contentBuffer);
                 buffer[i] = new TagLengthValue(DataObjects[i].GetTag(), contentBuffer);
@@ -170,8 +170,9 @@ public abstract record DataObjectList : DataElement<byte[]>
         {
             if (DataObjects.All(a => a.GetTag() != value[i].GetTag()))
             {
-                throw new EmvEncodingFormatException(new ArgumentOutOfRangeException(
-                    $"The argument {nameof(value)} did not contain a value for the requested object with the tag: {DataObjects[i].GetTag()}"));
+                throw new
+                    EmvEncodingFormatException(new
+                                                   ArgumentOutOfRangeException($"The argument {nameof(value)} did not contain a value for the requested object with the tag: {DataObjects[i].GetTag()}"));
             }
         }
     }
