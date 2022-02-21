@@ -518,8 +518,51 @@ public class SignedIntegerCodec : PlayCodec
 
     #region Decode To DecodedMetadata
 
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => throw new NotImplementedException();
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    { 
 
+        if (value.Length == Specs.Integer.Int8.ByteCount)
+        {
+            sbyte byteResult = DecodeToSByte(value);
+
+            int charLength = byteResult switch
+            {
+                >= 0 when byteResult <= 9 => 1,
+                >= 0 when byteResult <= 99 => 2,
+                >= 0 => 3,
+                >= -9 => 1 + 1,
+                >= -99 => 2 + 1,
+                _ => 3 + 1
+            };
+
+            return new DecodedResult<sbyte>(byteResult, charLength);
+        }
+
+        if (value.Length <= Specs.Integer.Int16.ByteCount)
+        {
+            short byteResult = DecodeToInt16(value);
+
+            return new DecodedResult<short>(byteResult, byteResult.GetNumberOfDigits());
+        }
+
+        if (value.Length <= Specs.Integer.Int32.ByteCount)
+        {
+            int byteResult = DecodeToInt32(value);
+
+            return new DecodedResult<int>(byteResult, byteResult.GetNumberOfDigits());
+        }
+
+        if (value.Length <= Specs.Integer.Int64.ByteCount)
+        {
+            long byteResult = DecodeToInt64(value);
+            byteResult.GetNumberOfDigits()
+            return new DecodedResult<long>(byteResult, byteResult.GetNumberOfDigits());
+        }
+
+        BigInteger bigIntegerResult = DecodeToBigInteger(value);
+
+        return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
+    }
     #endregion
 
     #region Instance Members
