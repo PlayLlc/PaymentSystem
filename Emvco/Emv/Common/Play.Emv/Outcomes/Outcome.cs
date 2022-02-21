@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
-using Play.Emv.DataElements;
 using Play.Emv.DataElements.Emv;
 using Play.Emv.Icc;
 using Play.Globalization.Time;

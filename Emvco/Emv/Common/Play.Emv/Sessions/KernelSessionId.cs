@@ -2,7 +2,6 @@
 
 using Play.Core;
 using Play.Core.Extensions;
-using Play.Emv.DataElements;
 using Play.Emv.DataElements.Emv;
 
 namespace Play.Emv.Sessions;

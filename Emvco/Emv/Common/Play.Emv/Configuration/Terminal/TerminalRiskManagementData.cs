@@ -5,9 +5,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Codecs.Metadata;
 using Play.Core.Extensions;
-using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
 namespace Play.Emv.Configuration;
@@ -19,7 +17,7 @@ public record TerminalRiskManagementData : DataElement<ulong>, IEqualityComparer
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F1D;
     private const byte _ByteLength = 8;
 
@@ -56,7 +54,7 @@ public record TerminalRiskManagementData : DataElement<ulong>, IEqualityComparer
 
         DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
             ?? throw new InvalidOperationException(
-                $"The {nameof(TerminalRiskManagementData)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+                $"The {nameof(TerminalRiskManagementData)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new TerminalRiskManagementData(result.Value);
     }

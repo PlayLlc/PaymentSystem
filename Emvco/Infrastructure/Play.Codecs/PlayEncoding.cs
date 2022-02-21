@@ -30,6 +30,7 @@ public abstract class PlayEncoding : Encoding
     /// </summary>
     public new static StrictUtf8 UTF8 => new();
 
+    public new static Unicode Unicode => new();
     public static StrictAscii StrictAscii => new();
     public static Binary Binary => new();
     public static Hexadecimal Hexadecimal => new();

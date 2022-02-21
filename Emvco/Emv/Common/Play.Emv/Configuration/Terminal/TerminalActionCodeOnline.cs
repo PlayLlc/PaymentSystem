@@ -6,9 +6,6 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Codecs.Metadata;
-using Play.Emv.Ber.Codecs;
-using Play.Emv.DataElements;
 using Play.Emv.DataElements.Emv;
 
 namespace Play.Emv.Configuration;
@@ -21,7 +18,7 @@ public record TerminalActionCodeOnline : PrimitiveValue, IEqualityComparer<Termi
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0xDF8122;
 
     #endregion
@@ -68,7 +65,7 @@ public record TerminalActionCodeOnline : PrimitiveValue, IEqualityComparer<Termi
 
         DecodedResult<ulong> result = codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
             ?? throw new InvalidOperationException(
-                $"The {nameof(TerminalActionCodeOnline)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+                $"The {nameof(TerminalActionCodeOnline)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new TerminalActionCodeOnline(result.Value);
     }
