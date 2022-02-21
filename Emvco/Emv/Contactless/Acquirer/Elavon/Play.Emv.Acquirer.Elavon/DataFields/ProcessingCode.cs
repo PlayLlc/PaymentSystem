@@ -1,4 +1,5 @@
-﻿namespace Play.Emv.Acquirer.Elavon.DataFields;
+﻿//namespace Play.Emv.Acquirer.Elavon.DataFields;
 
-internal class ProcessingCode
-{ }
+//internal class ProcessingCode
+//{ }
+

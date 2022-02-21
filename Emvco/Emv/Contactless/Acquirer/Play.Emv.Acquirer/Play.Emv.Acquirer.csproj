@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Infrastructure\Play.Interchange\Play.Interchange.csproj" />
-    <ProjectReference Include="..\..\..\Common\Play.Emv.DataElements\Play.Emv.DataElements.csproj" />
   </ItemGroup>
 
 </Project>

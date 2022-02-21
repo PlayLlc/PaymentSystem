@@ -1,78 +1,79 @@
-﻿using Play.Ber.Codecs;
-using Play.Ber.Identifiers;
-using Play.Ber.InternalFactories;
-using Play.Emv.Ber.Codecs;
-using Play.Emv.DataElements.Exceptions;
+﻿//using Play.Ber.Codecs;
+//using Play.Ber.Identifiers;
+//using Play.Ber.InternalFactories;
+//using Play.Emv.Ber.Codecs;
+//using Play.Emv.DataElements.Exceptions;
 
-namespace Play.Emv.Acquirer.Elavon.DataElements;
+//namespace Play.Emv.Acquirer.Elavon.DataElements;
 
-/// <summary>
-///     The Elavon RRN value will be returned to the POS or partner host system in the event of an approval of a sale
-///     transaction. This data must be provided to the Elavon host in the event of a reversal of the aforementioned sale
-///     transaction. This sub-field must be populated irrespective of whether single or dual message processing is used
-/// </summary>
-public record ElavonRetrievalReferenceNumber : ElavonDataElement<char[]>
-{
-    #region Static Metadata
+///// <summary>
+/////     The Elavon RRN value will be returned to the POS or partner host system in the event of an approval of a sale
+/////     transaction. This data must be provided to the Elavon host in the event of a reversal of the aforementioned sale
+/////     transaction. This sub-field must be populated irrespective of whether single or dual message processing is used
+///// </summary>
+//public record ElavonRetrievalReferenceNumber : ElavonDataElement<char[]>
+//{
+//    #region Static Metadata
 
-    /// <value>Hex: 0x0004 Decimal: 4</value>
-    public static readonly Tag Tag = 0x0004;
+//    /// <value>Hex: 0x0004 Decimal: 4</value>
+//    public static readonly Tag Tag = 0x0004;
 
-    public static readonly BerEncodingId BerEncodingId = AlphaNumericCodec.Identifier;
-    private const byte _ByteLength = 6;
+//    public static readonly BerEncodingId BerEncodingId = AlphaNumericCodec.Identifier;
+//    private const byte _ByteLength = 6;
 
-    #endregion
+//    #endregion
 
-    #region Constructor
+//    #region Constructor
 
-    public ElavonRetrievalReferenceNumber(char[] value) : base(value)
-    { }
+//    public ElavonRetrievalReferenceNumber(char[] value) : base(value)
+//    { }
 
-    #endregion
+//    #endregion
 
-    #region Instance Members
+//    #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
-    public override Tag GetTag() => Tag;
+//    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+//    public override Tag GetTag() => Tag;
 
-    #endregion
+//    #endregion
 
-    #region Serialization
+//    #region Serialization
 
-    public static ElavonRetrievalReferenceNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+//    public static ElavonRetrievalReferenceNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public static ElavonRetrievalReferenceNumber Decode(ReadOnlySpan<byte> value)
-    {
-        const ushort charLength = 12;
+//    public static ElavonRetrievalReferenceNumber Decode(ReadOnlySpan<byte> value)
+//    {
+//        const ushort charLength = 12;
 
-        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
+//        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<char[]> result = _Codec.Decode(AlphaNumericCodec.Identifier, value) as DecodedResult<char[]>
-            ?? throw new DataElementNullException(BerEncodingId);
+//        DecodedResult<char[]> result = _Codec.Decode(AlphaNumericCodec.Identifier, value) as DecodedResult<char[]>
+//            ?? throw new DataElementNullException(BerEncodingId);
 
-        Check.Primitive.ForCharLength(result.CharCount, charLength, Tag);
+//        Check.Primitive.ForCharLength(result.CharCount, charLength, Tag);
 
-        return new ElavonRetrievalReferenceNumber(result.Value);
-    }
+//        return new ElavonRetrievalReferenceNumber(result.Value);
+//    }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(BerEncodingId, _Value, _ByteLength);
+//    public new byte[] EncodeValue() => _Codec.EncodeValue(BerEncodingId, _Value, _ByteLength);
 
-    #endregion
+//    #endregion
 
-    #region Equality
+//    #region Equality
 
-    public bool Equals(ElavonRetrievalReferenceNumber? x, ElavonRetrievalReferenceNumber? y)
-    {
-        if (x is null)
-            return y is null;
+//    public bool Equals(ElavonRetrievalReferenceNumber? x, ElavonRetrievalReferenceNumber? y)
+//    {
+//        if (x is null)
+//            return y is null;
 
-        if (y is null)
-            return false;
+//        if (y is null)
+//            return false;
 
-        return x.Equals(y);
-    }
+//        return x.Equals(y);
+//    }
 
-    public int GetHashCode(ElavonRetrievalReferenceNumber obj) => obj.GetHashCode();
+//    public int GetHashCode(ElavonRetrievalReferenceNumber obj) => obj.GetHashCode();
 
-    #endregion
-}
+//    #endregion
+//}
+
