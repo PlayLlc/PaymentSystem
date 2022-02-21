@@ -192,7 +192,7 @@ public class SignedNumericCodec : PlayCodec
         if (typeof(_T) == typeof(byte))
             return Encode(Unsafe.As<_T[], byte[]>(ref value));
 
-        throw new InternalPlayEncodingException(this, typeof(_T))
+        throw new InternalPlayEncodingException(this, typeof(_T));
     }
 
     public byte[] Encode(ReadOnlySpan<char> value) => Encode(value, value.Length);

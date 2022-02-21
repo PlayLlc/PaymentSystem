@@ -23,14 +23,6 @@ public abstract class PlayEncoding : Encoding
     /// </summary>
     public new static StrictAscii ASCII => new();
 
-    // ReSharper disable once InconsistentNaming
-    /// <summary>
-    ///     An override of the original <see cref="System.Text.Encoding.UTF8" /> that will enforce strict parsing.
-    ///     Exceptions will be raised if invalid data is attempted to be parsed
-    /// </summary>
-    public new static StrictUtf8 UTF8 => new();
-
-    public new static Unicode Unicode => new();
     public static Binary Binary => new();
     public static Hexadecimal Hexadecimal => new();
     public static Alphabetic Alphabetic => new();
