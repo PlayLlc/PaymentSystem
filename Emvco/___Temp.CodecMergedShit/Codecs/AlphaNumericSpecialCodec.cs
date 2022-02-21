@@ -83,17 +83,31 @@ public class AlphaNumericSpecialCodec : PlayCodec
 
     #region Encode
 
-    /// <exception cref="EncodingException"></exception>
+    public bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
+    {
+        if (!IsValid(value))
+        {
+            result = Array.Empty<byte>();
+
+            return false;
+        }
+
+        result = Encode(value);
+
+        return true;
+    }
+
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<T>(T[] value) where T : struct
     {
         if (typeof(T) == typeof(char))
-            return Encode(Unsafe.As<T[], char[]>(ref value));
+            return Encode<char>(Unsafe.As<T[], char[]>(ref value));
 
         throw new InternalPlayEncodingException(
             $"The {nameof(AlphaNumericSpecialEmvCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }
 
-    /// <exception cref="EncodingException"></exception>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<T>(T[] value, int length) where T : struct
     {
         if (typeof(T) == typeof(char))
@@ -111,63 +125,7 @@ public class AlphaNumericSpecialCodec : PlayCodec
         throw new InternalPlayEncodingException(
             $"The {nameof(AlphaNumericSpecialEmvCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
 
-    public override void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
-    {
-        throw new InternalPlayEncodingException(
-            $"The {nameof(AlphaNumericSpecialEmvCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
-    }
-
-    public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct
-    {
-        throw new InternalPlayEncodingException(
-            $"The {nameof(AlphaNumericSpecialEmvCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
-    }
-
-    public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct
-    {
-        if (typeof(T) == typeof(char))
-            Encode(Unsafe.As<T[], char[]>(ref value), buffer, ref offset);
-        else
-        {
-            throw new InternalPlayEncodingException(
-                $"The {nameof(AlphaNumericSpecialEmvCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
-        }
-    }
-
-    public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct
-    {
-        if (typeof(T) == typeof(char))
-            Encode(Unsafe.As<T[], char[]>(ref value), length, buffer, ref offset);
-        else
-        {
-            throw new InternalPlayEncodingException(
-                $"The {nameof(AlphaNumericSpecialEmvCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
-        }
-    }
-
-    #endregion
-
-    #region Decode To DecodedMetadata
-
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
-    {
-        char[] valueResult = GetChars(value);
-
-        return new DecodedResult<char[]>(valueResult, valueResult.Length);
-    }
-
-    #endregion
-
-    #region Instance Members
-
-    public int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
-    {
-        GetBytes(chars[charIndex..(charIndex + charCount)]).AsSpan().CopyTo(bytes[byteIndex..]);
-
-        return charCount;
-    }
-
-    public byte[] GetBytes(ReadOnlySpan<char> value)
+    public byte[] Encode(ReadOnlySpan<char> value)
     {
         if (value.Length > Specs.ByteArray.StackAllocateCeiling)
         {
@@ -190,34 +148,65 @@ public class AlphaNumericSpecialCodec : PlayCodec
         }
     }
 
-    public void GetBytes(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
+    public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
+    {
+        Encode(chars[charIndex..(charIndex + charCount)]).AsSpan().CopyTo(bytes[byteIndex..]);
+
+        return charCount;
+    }
+
+    public override void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
+    {
+        throw new InternalPlayEncodingException(
+            $"The {nameof(AlphaNumericSpecialEmvCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+    }
+
+    public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct
+    {
+        throw new InternalPlayEncodingException(
+            $"The {nameof(AlphaNumericSpecialEmvCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+    }
+
+    public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct
+    {
+        if (typeof(T) == typeof(char))
+            Encode<char>(Unsafe.As<T[], char[]>(ref value), buffer, ref offset);
+        else
+        {
+            throw new InternalPlayEncodingException(
+                $"The {nameof(AlphaNumericSpecialEmvCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+        }
+    }
+
+    public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct
+    {
+        if (typeof(T) == typeof(char))
+            Encode(Unsafe.As<T[], char[]>(ref value), length, buffer, ref offset);
+        else
+        {
+            throw new InternalPlayEncodingException(
+                $"The {nameof(AlphaNumericSpecialEmvCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+        }
+    }
+
+    public void Encode(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
     {
         for (int i = 0; i < value.Length; i++)
             buffer[offset++] = _ByteMap[value[i]];
     }
 
-    public bool TryGetBytes(ReadOnlySpan<char> value, out byte[] result)
+    #endregion
+
+    #region Decode To Chars
+
+    public int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
     {
-        if (!IsValid(value))
-        {
-            result = Array.Empty<byte>();
-
-            return false;
-        }
-
-        result = GetBytes(value);
-
-        return true;
-    }
-
-    public int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
-    {
-        GetChars(bytes[byteIndex..(byteIndex + byteCount)]).AsSpan().CopyTo(chars[charIndex..]);
+        DecodeToChars(bytes[byteIndex..(byteIndex + byteCount)]).AsSpan().CopyTo(chars[charIndex..]);
 
         return byteCount;
     }
 
-    public char[] GetChars(ReadOnlySpan<byte> value)
+    public char[] DecodeToChars(ReadOnlySpan<byte> value)
     {
         if (value.Length > Specs.ByteArray.StackAllocateCeiling)
         {
@@ -240,9 +229,13 @@ public class AlphaNumericSpecialCodec : PlayCodec
         }
     }
 
-    public string GetString(ReadOnlySpan<byte> value) => new(GetChars(value));
+    #endregion
 
-    public bool TryGetString(ReadOnlySpan<byte> value, out string result)
+    #region Decode To String
+
+    public string DecodeToString(ReadOnlySpan<byte> value) => new(DecodeToChars(value));
+
+    public bool TryDecodingToString(ReadOnlySpan<byte> value, out string result)
     {
         if (!IsValid(value))
         {
@@ -251,9 +244,20 @@ public class AlphaNumericSpecialCodec : PlayCodec
             return false;
         }
 
-        result = GetString(value);
+        result = DecodeToString(value);
 
         return true;
+    }
+
+    #endregion
+
+    #region Decode To DecodedMetadata
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        char[] valueResult = DecodeToChars(value);
+
+        return new DecodedResult<char[]>(valueResult, valueResult.Length);
     }
 
     #endregion
