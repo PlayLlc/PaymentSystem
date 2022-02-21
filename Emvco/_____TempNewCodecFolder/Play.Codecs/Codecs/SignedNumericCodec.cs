@@ -173,26 +173,26 @@ public class SignedNumericCodec : PlayCodec
         return Encode(Unsafe.As<_T, BigInteger>(ref value), length);
     }
 
-    public override byte[] Encode<T>(T[] value)
+    public override byte[] Encode<_T>(_T[] value)
     {
-        Type type = typeof(T);
+        Type type = typeof(_T);
 
         if (type.IsChar())
-            return Encode(Unsafe.As<T[], char[]>(ref value));
+            return Encode(Unsafe.As<_T[], char[]>(ref value));
         if (type.IsByte())
-            return Encode(Unsafe.As<T[], byte[]>(ref value));
+            return Encode(Unsafe.As<_T[], byte[]>(ref value));
 
-        throw new InternalPlayEncodingException(this, typeof(T));
+        throw new InternalPlayEncodingException(this, typeof(_T));
     }
 
-    public override byte[] Encode<T>(T[] value, int length)
+    public override byte[] Encode<_T>(_T[] value, int length)
     {
-        if (typeof(T) == typeof(char))
-            return Encode(Unsafe.As<T[], char[]>(ref value), length);
-        if (typeof(T) == typeof(byte))
-            return Encode(Unsafe.As<T[], byte[]>(ref value));
+        if (typeof(_T) == typeof(char))
+            return Encode(Unsafe.As<_T[], char[]>(ref value), length);
+        if (typeof(_T) == typeof(byte))
+            return Encode(Unsafe.As<_T[], byte[]>(ref value));
 
-        throw new NotImplementedException();
+        throw new InternalPlayEncodingException(this, typeof(_T))
     }
 
     public byte[] Encode(ReadOnlySpan<char> value) => Encode(value, value.Length);
