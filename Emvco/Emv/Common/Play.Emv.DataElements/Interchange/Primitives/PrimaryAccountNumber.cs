@@ -4,6 +4,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Strings;
 using Play.Emv.Ber.Codecs;
+using Play.Emv.DataElements.Emv;
 using Play.Emv.DataElements.Exceptions;
 
 namespace Play.Emv.DataElements.Interchange;
@@ -41,17 +42,12 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
     /// </summary>
     /// <param name="issuerIdentifier"></param>
     /// <returns></returns>
-    public bool IsIssuerIdentifierMatching(ReadOnlySpan<byte> issuerIdentifier)
+    public bool IsIssuerIdentifierMatching(IssuerIdentificationNumber issuerIdentifier)
     {
-        byte[] encoded = PlayEncoding.CompressedNumeric.GetBytes(_Value);
+        // We're 
+        uint thisPan = PlayEncoding.CompressedNumeric.DecodeToUInt16(PlayEncoding.CompressedNumeric.GetBytes(_Value));
 
-        for (int i = 0; i < CompressedNumeric.GetPadCount(issuerIdentifier); i++)
-        {
-            if (issuerIdentifier[i] != encoded[i])
-                return false;
-        }
-
-        return true;
+        return thisPan == (uint) issuerIdentifier;
     }
 
     #endregion
@@ -68,6 +64,10 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
 
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
+        // The reason we're decoding to a char array is because some Primary Account Numbers start with
+        // a '0' value. If we encoded that to a numeric value we would truncate the leading zero values
+        // and wouldn't be able to encode the value back or do comparisons with the issuer identification
+        // number
         char[] result = PlayEncoding.CompressedNumeric.GetChars(value);
 
         Check.Primitive.ForMaxCharLength(result.Length, maxCharLength, Tag);

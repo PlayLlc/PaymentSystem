@@ -176,7 +176,7 @@ internal partial class CertificateFactory
                 return false;
 
             // Step 8
-            if (primaryAccountNumber.IsIssuerIdentifierMatching(decodedSignature.GetMessage1()[3..7]))
+            if (primaryAccountNumber.IsIssuerIdentifierMatching(issuerPublicKeyCertificate.GetIssuerIdentificationNumber()))
                 return false;
 
             // Step 9

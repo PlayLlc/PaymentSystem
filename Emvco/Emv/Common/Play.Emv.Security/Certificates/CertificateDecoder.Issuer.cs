@@ -2,6 +2,8 @@
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
+using Play.Codecs.Strings;
+using Play.Emv.Ber.Codecs;
 using Play.Emv.DataElements.Emv;
 using Play.Emv.Security.Certificates.Issuer;
 using Play.Encryption.Certificates;
@@ -19,7 +21,7 @@ internal partial class CertificateFactory
     {
         #region Static Metadata
 
-        private static readonly CompressedNumericDataElementCodec _CompressedNumericDataElementCodec = new();
+        private static readonly CompressedNumericCodec _CompressedNumericCodec = new();
         private static readonly Numeric _NumericCodec = new();
         private const byte _RecoveredDataHeader = 0x6A;
         private const byte _RecoveredDataTrailer = 0xBC;
@@ -87,7 +89,7 @@ internal partial class CertificateFactory
         private static HashAlgorithmIndicator GetHashAlgorithmIndicator(Message1 message1) => HashAlgorithmIndicator.Get(message1[11]);
 
         private static IssuerIdentificationNumber GetIssuerIdentificationNumber(Message1 message1) =>
-            new(_CompressedNumericDataElementCodec.DecodeUInt32(message1[new Range(1, 5)]));
+            new(_CompressedNumericCodec.DecodeUInt16(message1[new Range(1, 5)]));
 
         private static byte GetIssuerPublicKeyExponentLength(Message1 message1) => message1[14];
         private static byte GetIssuerPublicKeyLength(Message1 message1) => message1[13];
