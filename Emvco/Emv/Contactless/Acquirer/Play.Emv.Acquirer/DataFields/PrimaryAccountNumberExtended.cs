@@ -13,7 +13,7 @@ public record PrimaryAccountNumberExtended : VariableDataField<byte[]>
     /// <remarks>DecimalValue: 34</remarks>
     public static readonly DataFieldId DataFieldId = new(34);
 
-    public static readonly PlayEncodingId EncodingId = NumericSpecialDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = NumericSpecialCodec.EncodingId;
     private const ushort _MaxByteCount = 28;
     private const byte _LeadingOctetByteCount = 1;
 

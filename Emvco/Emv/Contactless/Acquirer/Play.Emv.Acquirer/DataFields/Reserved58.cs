@@ -13,7 +13,7 @@ public record Reserved58 : VariableDataField<char[]>
     /// <remarks>DecimalValue: 58</remarks>
     public static readonly DataFieldId DataFieldId = new(58);
 
-    public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialCodec.EncodingId;
     private const ushort _MaxByteCount = 999;
     private const byte _LeadingOctetByteCount = 2;
 

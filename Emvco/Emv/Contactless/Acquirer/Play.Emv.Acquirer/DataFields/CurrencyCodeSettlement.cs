@@ -13,7 +13,7 @@ public record CurrencyCodeSettlement : FixedDataField<char[]>
     /// <remarks>DecimalValue: 50</remarks>
     public static readonly DataFieldId DataFieldId = new(50);
 
-    public static readonly PlayEncodingId EncodingId = AlphabeticDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = AlphabeticCodec.EncodingId;
     private const ushort _ByteCount = 2;
 
     #endregion

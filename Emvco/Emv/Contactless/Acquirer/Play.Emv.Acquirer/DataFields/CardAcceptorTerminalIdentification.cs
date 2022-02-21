@@ -13,7 +13,7 @@ public record CardAcceptorTerminalIdentification : FixedDataField<char[]>
     /// <remarks>DecimalValue: 41</remarks>
     public static readonly DataFieldId DataFieldId = new(41);
 
-    public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialCodec.EncodingId;
     private const ushort _ByteCount = 8;
 
     #endregion

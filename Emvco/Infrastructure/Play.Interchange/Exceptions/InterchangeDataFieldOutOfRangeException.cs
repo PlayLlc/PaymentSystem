@@ -2,7 +2,7 @@
 
 namespace Play.Interchange.Exceptions;
 
-internal class InterchangeDataFieldOutOfRangeException : InterchangeFormatException
+public class InterchangeDataFieldOutOfRangeException : InterchangeFormatException
 {
     #region Constructor
 

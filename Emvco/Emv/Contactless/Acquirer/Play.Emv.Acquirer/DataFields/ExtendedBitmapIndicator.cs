@@ -15,7 +15,7 @@ public record ExtendedBitmapIndicator : FixedDataField<BigInteger>
     /// <remarks>DecimalValue: 65</remarks>
     public static readonly DataFieldId DataFieldId = new(65);
 
-    public static readonly PlayEncodingId EncodingId = BinaryDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     private const ushort _ByteCount = 1;
 
     #endregion

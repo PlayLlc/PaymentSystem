@@ -13,7 +13,7 @@ public record MessageAuthenticationCodeMac : FixedDataField<ulong>
     /// <remarks>DecimalValue: 64</remarks>
     public static readonly DataFieldId DataFieldId = new(64);
 
-    public static readonly PlayEncodingId EncodingId = BinaryDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     private const ushort _ByteCount = 8;
 
     #endregion

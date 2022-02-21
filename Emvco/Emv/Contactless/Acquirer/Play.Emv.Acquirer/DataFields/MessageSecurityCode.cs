@@ -15,7 +15,7 @@ public record MessageSecurityCode : FixedDataField<BigInteger>
     /// <remarks>DecimalValue: 96</remarks>
     public static readonly DataFieldId DataFieldId = new(96);
 
-    public static readonly PlayEncodingId EncodingId = BinaryDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     private const ushort _ByteCount = 64;
 
     #endregion

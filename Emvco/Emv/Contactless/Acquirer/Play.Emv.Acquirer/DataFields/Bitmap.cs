@@ -13,7 +13,7 @@ public record Bitmap : FixedDataField<ulong>
     /// <remarks>DecimalValue: 1</remarks>
     public static readonly DataFieldId DataFieldId = new(1);
 
-    public static readonly PlayEncodingId EncodingId = BinaryDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     private const ushort _ByteCount = 8;
 
     #endregion

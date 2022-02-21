@@ -13,7 +13,7 @@ public record Payee : FixedDataField<char[]>
     /// <remarks>DecimalValue: 98</remarks>
     public static readonly DataFieldId DataFieldId = new(98);
 
-    public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialCodec.EncodingId;
     private const ushort _ByteCount = 25;
 
     #endregion

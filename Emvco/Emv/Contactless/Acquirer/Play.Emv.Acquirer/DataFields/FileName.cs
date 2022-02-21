@@ -13,7 +13,7 @@ public record FileName : VariableDataField<char[]>
     /// <remarks>DecimalValue: 101</remarks>
     public static readonly DataFieldId DataFieldId = new(101);
 
-    public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialCodec.EncodingId;
     private const ushort _MaxByteCount = 17;
     private const byte _LeadingOctetByteCount = 1;
 

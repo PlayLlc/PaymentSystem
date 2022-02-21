@@ -13,7 +13,7 @@ public record PersonalIdentificationNumberData : FixedDataField<ulong>
     /// <remarks>DecimalValue: 52</remarks>
     public static readonly DataFieldId DataFieldId = new(52);
 
-    public static readonly PlayEncodingId EncodingId = BinaryDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     private const ushort _ByteCount = 8;
 
     #endregion
