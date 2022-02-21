@@ -21,7 +21,6 @@ public class DataExchangeTerminalService
     private readonly ISendTerminalQueryResponse _TerminalEndpoint;
     private readonly IHandleKernelRequests _KernelEndpoint;
     private readonly DataExchangeTerminalLock _Lock = new();
-    private readonly TerminalQueryResolver _TerminalQueryResolver = new();
 
     #endregion
 
@@ -195,7 +194,8 @@ public class DataExchangeTerminalService
                 if (!dataNeeded.TryDequeue(out Tag tagRequest))
                     throw new InvalidOperationException();
 
-                dataToSend.Enqueue(_TerminalQueryResolver.Resolve(terminalSession, tagRequest));
+                // BUG: Resolve the terminal values - these will be the proprietary InterchangeDataElements that are stored in the terminal, values like SystemTraceAuditNumber
+                //dataToSend.Enqueue(_TerminalQueryResolver.Resolve(terminalSession, tagRequest));
             }
         }
     }

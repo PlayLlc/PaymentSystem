@@ -1,10 +1,10 @@
 ﻿using System.Numerics;
 
-using Play.Ber.InternalFactories;
 using Play.Codecs;
-using Play.Emv.Acquirer.Codecs;
+using Play.Codecs.Metadata;
 using Play.Emv.Acquirer.Exceptions;
 using Play.Interchange.DataFields;
+using Play.Interchange.Exceptions;
 
 namespace Play.Emv.Acquirer.DataFields;
 
@@ -15,7 +15,7 @@ public record AmountSettlementFee : FixedDataField<BigInteger>
     /// <remarks>DecimalValue: 29</remarks>
     public static readonly DataFieldId DataFieldId = new(29);
 
-    public static readonly PlayEncodingId EncodingId = NumericDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     private const ushort _ByteCount = 8;
 
     #endregion

@@ -1,10 +1,10 @@
 ﻿using System.Numerics;
 
-using Play.Ber.InternalFactories;
 using Play.Codecs;
-using Play.Emv.Acquirer.Codecs;
+using Play.Codecs.Metadata;
 using Play.Emv.Acquirer.Exceptions;
 using Play.Interchange.DataFields;
+using Play.Interchange.Exceptions;
 
 namespace Play.Emv.Acquirer.DataFields;
 
@@ -15,7 +15,7 @@ public record PrimaryAccountNumberPan : VariableDataField<BigInteger>
     /// <remarks>DecimalValue: 2</remarks>
     public static readonly DataFieldId DataFieldId = new(2);
 
-    public static readonly PlayEncodingId EncodingId = NumericDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     private const ushort _MaxByteCount = 10;
     private const byte _LeadingOctetByteCount = 1;
 

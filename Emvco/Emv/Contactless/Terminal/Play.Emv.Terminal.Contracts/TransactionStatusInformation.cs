@@ -83,7 +83,7 @@ public record TransactionStatusInformation : PrimitiveValue, IEqualityComparer<T
 
         DecodedResult<ushort> result = codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
             ?? throw new InvalidOperationException(
-                $"The {nameof(TransactionStatusInformation)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+                $"The {nameof(TransactionStatusInformation)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new TransactionStatusInformation(result.Value);
     }

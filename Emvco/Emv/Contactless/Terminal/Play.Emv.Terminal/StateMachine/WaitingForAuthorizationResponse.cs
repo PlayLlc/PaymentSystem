@@ -40,6 +40,7 @@ public class WaitingForAuthorizationResponse : TerminalState
 
     public override TerminalState Handle(TerminalSession? session, AcquirerResponseSignal signal) => throw new NotImplementedException();
     public override TerminalState Handle(TerminalSession session, QueryTerminalRequest signal) => throw new NotImplementedException();
+    public override TerminalState Handle(TerminalSession? session, InitiateSettlementRequest signal) => throw new NotImplementedException();
 
     #endregion
 }

@@ -4,7 +4,7 @@ using Play.Codecs;
 
 namespace Play.Interchange.Exceptions;
 
-internal class InterchangeDataFieldNullException : InterchangeFormatException
+public class InterchangeDataFieldNullException : InterchangeFormatException
 {
     #region Constructor
 

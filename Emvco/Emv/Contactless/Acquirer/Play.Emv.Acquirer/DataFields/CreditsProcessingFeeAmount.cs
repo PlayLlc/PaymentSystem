@@ -1,8 +1,8 @@
-﻿using Play.Ber.InternalFactories;
-using Play.Codecs;
-using Play.Emv.Acquirer.Codecs;
+﻿using Play.Codecs;
+using Play.Codecs.Metadata;
 using Play.Emv.Acquirer.Exceptions;
 using Play.Interchange.DataFields;
+using Play.Interchange.Exceptions;
 
 namespace Play.Emv.Acquirer.DataFields;
 
@@ -13,7 +13,7 @@ public record CreditsProcessingFeeAmount : FixedDataField<ulong>
     /// <remarks>DecimalValue: 82</remarks>
     public static readonly DataFieldId DataFieldId = new(82);
 
-    public static readonly PlayEncodingId EncodingId = NumericDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     private const ushort _ByteCount = 6;
 
     #endregion

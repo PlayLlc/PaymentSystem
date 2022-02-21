@@ -1,8 +1,8 @@
-﻿using Play.Ber.InternalFactories;
-using Play.Codecs;
-using Play.Emv.Acquirer.Codecs;
+﻿using Play.Codecs;
+using Play.Codecs.Metadata;
 using Play.Emv.Acquirer.Exceptions;
 using Play.Interchange.DataFields;
+using Play.Interchange.Exceptions;
 
 namespace Play.Emv.Acquirer.DataFields;
 
@@ -13,7 +13,7 @@ public record AdditionalDataIso : VariableDataField<char[]>
     /// <remarks>DecimalValue: 46</remarks>
     public static readonly DataFieldId DataFieldId = new(46);
 
-    public static readonly PlayEncodingId EncodingId = AlphaNumericDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericCodec.EncodingId;
     private const ushort _MaxByteCount = 999;
     private const byte _LeadingOctetByteCount = 2;
 

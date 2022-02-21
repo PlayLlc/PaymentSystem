@@ -1,8 +1,8 @@
-﻿using Play.Ber.InternalFactories;
-using Play.Codecs;
-using Play.Emv.Acquirer.Codecs;
+﻿using Play.Codecs;
+using Play.Codecs.Metadata;
 using Play.Emv.Acquirer.Exceptions;
 using Play.Interchange.DataFields;
+using Play.Interchange.Exceptions;
 
 namespace Play.Emv.Acquirer.DataFields;
 
@@ -13,7 +13,7 @@ public record RetrievalReferenceNumber : FixedDataField<char[]>
     /// <remarks>DecimalValue: 37</remarks>
     public static readonly DataFieldId DataFieldId = new(37);
 
-    public static readonly PlayEncodingId EncodingId = AlphaNumericDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericCodec.EncodingId;
     private const ushort _ByteCount = 12;
 
     #endregion

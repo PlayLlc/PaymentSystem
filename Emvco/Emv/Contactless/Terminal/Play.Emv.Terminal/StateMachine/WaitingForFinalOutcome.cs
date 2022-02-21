@@ -49,6 +49,7 @@ internal class WaitingForFinalOutcome : TerminalState
     #region Instance Members
 
     public override StateId GetStateId() => StateId;
+    public override TerminalState Handle(TerminalSession? session, InitiateSettlementRequest signal) => throw new NotImplementedException();
 
     public override TerminalState Handle(TerminalSession session, ActivateTerminalRequest signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Terminal);

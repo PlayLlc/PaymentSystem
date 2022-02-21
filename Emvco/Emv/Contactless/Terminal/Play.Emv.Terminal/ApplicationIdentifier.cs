@@ -8,6 +8,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
+using Play.Emv.Ber.Codecs;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Terminal;
@@ -19,7 +20,7 @@ public record ApplicationIdentifier : PrimitiveValue, IEqualityComparer<Applicat
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F06;
 
     #endregion
@@ -117,7 +118,7 @@ public record ApplicationIdentifier : PrimitiveValue, IEqualityComparer<Applicat
 
         DecodedResult<BigInteger> result = codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
-                $"The {nameof(ApplicationIdentifier)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+                $"The {nameof(ApplicationIdentifier)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new ApplicationIdentifier(result.Value);
     }

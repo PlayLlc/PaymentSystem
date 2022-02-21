@@ -1,4 +1,6 @@
-﻿using Play.Emv.Acquirer.Contracts.SignalOut;
+﻿using System;
+
+using Play.Emv.Acquirer.Contracts.SignalOut;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Messaging;
@@ -48,6 +50,7 @@ public class WaitingForSettlementResponse : TerminalState
     #region Instance Members
 
     public override StateId GetStateId() => StateId;
+    public override TerminalState Handle(TerminalSession? session, InitiateSettlementRequest signal) => throw new NotImplementedException();
 
     public override TerminalState Handle(TerminalSession session, ActivateTerminalRequest signal)
     {
