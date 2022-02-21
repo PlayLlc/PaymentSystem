@@ -1,7 +1,4 @@
-﻿using Play.Codecs;
-using Play.Core;
-
-namespace Play.Emv.DataElements.Interchange.__TODO;
+﻿namespace Play.Emv.DataElements.Interchange.__TODO;
 
 //public record SecurityRelatedControlInformation : InterchangeDataElement<char[]>
 //{

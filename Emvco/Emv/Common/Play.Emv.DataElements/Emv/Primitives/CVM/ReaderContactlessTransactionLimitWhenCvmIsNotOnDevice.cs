@@ -1,6 +1,5 @@
 ﻿using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Codecs.Metadata;
 using Play.Emv.DataElements.Exceptions;
 
 namespace Play.Emv.DataElements.Emv;
