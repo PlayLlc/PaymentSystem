@@ -91,6 +91,18 @@ public static class TypeExtensions
         };
     }
 
+    public static bool IsUnsignedInteger(this Type value)
+    {
+        return Type.GetTypeCode(value) switch
+        {
+            TypeCode.Byte => true,
+            TypeCode.UInt16 => true,
+            TypeCode.UInt32 => true,
+            TypeCode.UInt64 => true,
+            _ => false
+        };
+    }
+
     public static bool IsNumericType(this Type value)
     {
         const string bigInteger = nameof(BigInteger);

@@ -2,6 +2,7 @@
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
+using Play.Codecs.Exceptions;
 using Play.Codecs.Metadata;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
@@ -12,8 +13,8 @@ public class UnsignedIntegerCodec : PlayCodec
 {
     #region Metadata
 
-    public override PlayEncodingId GetEncodingId() => throw new NotImplementedException();
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(UnsignedInteger));
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public static readonly PlayEncodingId PlayEncodingId = new(typeof(UnsignedIntegerCodec));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = new Dictionary<char, byte>
     {
@@ -47,12 +48,20 @@ public class UnsignedIntegerCodec : PlayCodec
 
     #region Count
 
-    public override ushort GetByteCount<_T>(_T value) => throw new NotImplementedException();
-    public override ushort GetByteCount<_T>(_T[] value) => throw new NotImplementedException();
-    public override int GetByteCount(char[] chars, int index, int count) => GetBytes(chars).Length;
+    public override ushort GetByteCount<_T>(_T value) => (ushort) Unsafe.SizeOf<_T>();
+
+    public override ushort GetByteCount<_T>(_T[] value)
+    {
+        if (!typeof(_T).IsUnsignedInteger())
+            throw new InternalPlayEncodingException(this, typeof(_T));
+
+        return (ushort) value.Length;
+    }
+
+    public int GetByteCount(char[] chars, int index, int count) => Encode(chars).Length;
 
     // you're smarter than you think you are - this checks out
-    public override int GetMaxByteCount(int charCount)
+    public int GetMaxByteCount(int charCount)
     {
         double maximumIntegerResult = Math.Pow(10, charCount) - 1;
 
@@ -121,9 +130,8 @@ public class UnsignedIntegerCodec : PlayCodec
         return valueLength;
     }
 
-    public nint GetCharCount(BigInteger value) => GetCharCount(value.ToByteArray());
-    public override int GetCharCount(byte[] bytes, int index, int count) => throw new NotImplementedException();
-    public override int GetMaxCharCount(int byteCount) => ((BigInteger) Math.Pow(2, byteCount * 8)).GetNumberOfDigits();
+    public int GetCharCount(BigInteger value) => ((BigInteger) Math.Pow(2, value.GetByteCount() * 8)).GetNumberOfDigits();
+    public int GetMaxCharCount(int byteCount) => ((BigInteger) Math.Pow(2, byteCount * 8)).GetNumberOfDigits();
 
     #endregion
 
@@ -131,7 +139,7 @@ public class UnsignedIntegerCodec : PlayCodec
 
     public override bool IsValid(ReadOnlySpan<byte> value) => true;
 
-    public override bool IsValid(ReadOnlySpan<char> value)
+    public bool IsValid(ReadOnlySpan<char> value)
     {
         for (int i = 0; i < value.Length; i++)
         {
@@ -145,19 +153,40 @@ public class UnsignedIntegerCodec : PlayCodec
     private bool IsValid(char value)
     {
         const char minIntegerChar = '0';
-        const char maxIntegerChar = '0';
+        const char maxIntegerChar = '9';
 
         return value is >= minIntegerChar and <= maxIntegerChar;
     }
 
     protected void Validate(ReadOnlySpan<char> value)
-    { }
-
-    public override bool IsValid(ReadOnlySpan<byte> value) => throw new NotImplementedException();
+    {
+        foreach (var character in value)
+        {
+            if (!IsValid(character))
+                throw new PlayEncodingFormatException(PlayEncodingFormatException.CharacterArrayContainsInvalidValue);
+        }
+    }
 
     #endregion
 
     #region Encode
+
+    public bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
+    {
+        if (!IsValid(value))
+        {
+            result = Array.Empty<byte>();
+
+            return false;
+        }
+
+        result = new byte[value.Length];
+
+        for (int i = 0; i < value.Length; i++)
+            result[i] = _ByteMap[value[i]];
+
+        return true;
+    }
 
     public byte[] Encode(ushort value, bool trimEmptyBytes = false)
     {
@@ -180,30 +209,277 @@ public class UnsignedIntegerCodec : PlayCodec
         return trimEmptyBytes ? GetTrimmedBytes(value) : GetAllBytes(value, byteCount);
     }
 
-    public override byte[] Encode<_T>(_T value) => throw new NotImplementedException();
-    public override byte[] Encode<_T>(_T value, int length) => throw new NotImplementedException();
-    public override byte[] Encode<_T>(_T[] value) => throw new NotImplementedException();
-    public override byte[] Encode<_T>(_T[] value, int length) => throw new NotImplementedException();
+    public override byte[] Encode<_T>(_T value)
+    {
+        // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+            return Encode(Unsafe.As<_T, char>(ref value));
+
+        if (!type.IsUnsignedInteger())
+            throw new InternalPlayEncodingException(this, type);
+
+        nint byteSize = Unsafe.SizeOf<_T>();
+
+        if (byteSize == Specs.Integer.UInt8.ByteCount)
+            return Encode(Unsafe.As<_T, byte>(ref value));
+        if (byteSize == Specs.Integer.UInt16.ByteCount)
+            return Encode(Unsafe.As<_T, ushort>(ref value));
+        if (byteSize <= Specs.Integer.UInt32.ByteCount)
+            return Encode(Unsafe.As<_T, uint>(ref value));
+        if (byteSize <= Specs.Integer.UInt64.ByteCount)
+            return Encode(Unsafe.As<_T, ulong>(ref value));
+
+        return Encode(Unsafe.As<_T, BigInteger>(ref value));
+    }
+
+    public override byte[] Encode<_T>(_T value, int length)
+    {
+        // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+            return Encode(Unsafe.As<_T, char>(ref value));
+
+        if (!type.IsUnsignedInteger())
+            throw new InternalPlayEncodingException(this, type);
+
+        if (length == Specs.Integer.UInt8.ByteCount)
+            return Encode(Unsafe.As<_T, byte>(ref value));
+        if (length == Specs.Integer.UInt16.ByteCount)
+            return Encode(Unsafe.As<_T, ushort>(ref value));
+        if (length == 3)
+            return Encode(Unsafe.As<_T, uint>(ref value), length);
+        if (length == Specs.Integer.UInt32.ByteCount)
+            return Encode(Unsafe.As<_T, uint>(ref value));
+        if (length < Specs.Integer.UInt64.ByteCount)
+            return Encode(Unsafe.As<_T, ulong>(ref value), length);
+        if (length == Specs.Integer.UInt64.ByteCount)
+            return Encode(Unsafe.As<_T, ulong>(ref value));
+
+        return Encode(Unsafe.As<_T, BigInteger>(ref value), length);
+    }
+
+    public override byte[] Encode<_T>(_T[] value)
+    {
+        // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+            return Encode(Unsafe.As<_T[], char[]>(ref value));
+
+        if (!type.IsByte())
+            throw new InternalPlayEncodingException(this, type);
+
+        return Encode(Unsafe.As<_T[], byte[]>(ref value));
+    }
+
+    public override byte[] Encode<_T>(_T[] value, int length)
+    {
+        // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+            return Encode(Unsafe.As<_T[], char[]>(ref value), length);
+
+        if (!type.IsByte())
+            throw new InternalPlayEncodingException(this, type);
+
+        return Encode(Unsafe.As<_T[], byte[]>(ref value), length);
+    }
+
+    public byte[] Encode(BigInteger value) => value.ToByteArray();
+
+    public byte[] Encode(ReadOnlySpan<char> value)
+    {
+        Validate(value);
+        byte[] result = new byte[value.Length];
+
+        for (int i = 0; i < value.Length; i++)
+            result[i] = _ByteMap[value[i]];
+
+        return result;
+    }
+
+    public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
+    {
+        Validate(chars[charIndex..charCount]);
+
+        Array.ConstrainedCopy(Encode(chars), charIndex, bytes, byteIndex, charCount);
+
+        return charCount;
+    }
+
     public PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
 
     public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
     {
-        throw new NotImplementedException();
+        // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+        {
+            Encode(Unsafe.As<_T, char>(ref value), buffer, ref offset);
+
+            return;
+        }
+
+        if (!type.IsNumericType())
+            throw new InternalPlayEncodingException(this, type);
+
+        nint byteSize = Unsafe.SizeOf<_T>();
+
+        if (byteSize == Specs.Integer.UInt8.ByteCount)
+            Encode(Unsafe.As<_T, byte>(ref value), buffer, ref offset);
+        else if (byteSize == Specs.Integer.UInt16.ByteCount)
+            Encode(Unsafe.As<_T, ushort>(ref value), buffer, ref offset);
+        else if (byteSize <= Specs.Integer.UInt32.ByteCount)
+            Encode(Unsafe.As<_T, uint>(ref value), buffer, ref offset);
+        else if (byteSize <= Specs.Integer.UInt64.ByteCount)
+            Encode(Unsafe.As<_T, ulong>(ref value), buffer, ref offset);
+        else
+            Encode(Unsafe.As<_T, BigInteger>(ref value), buffer, ref offset);
     }
 
     public override void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset)
     {
-        throw new NotImplementedException();
+        // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+        {
+            Encode(Unsafe.As<_T, char>(ref value), length, buffer, ref offset);
+
+            return;
+        }
+
+        if (!type.IsNumericType())
+            throw new InternalPlayEncodingException(this, type);
+
+        nint byteSize = Unsafe.SizeOf<_T>();
+
+        if (byteSize == Specs.Integer.UInt8.ByteCount)
+            Encode(Unsafe.As<_T, byte>(ref value), length, buffer, ref offset);
+        else if (byteSize == Specs.Integer.UInt16.ByteCount)
+            Encode(Unsafe.As<_T, ushort>(ref value), length, buffer, ref offset);
+        else if (byteSize <= Specs.Integer.UInt32.ByteCount)
+            Encode(Unsafe.As<_T, uint>(ref value), length, buffer, ref offset);
+        else if (byteSize <= Specs.Integer.UInt64.ByteCount)
+            Encode(Unsafe.As<_T, ulong>(ref value), length, buffer, ref offset);
+        else
+            Encode(Unsafe.As<_T, BigInteger>(ref value), length, buffer, ref offset);
     }
 
     public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
     {
-        throw new NotImplementedException();
+        if (typeof(_T).IsChar())
+            Encode(Unsafe.As<_T[], char[]>(ref value));
+        else
+            throw new InternalPlayEncodingException(this, typeof(_T));
     }
 
     public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
     {
-        throw new NotImplementedException();
+        if (typeof(_T) == typeof(char))
+            Encode(Unsafe.As<_T[], char[]>(ref value), length);
+        else
+            throw new InternalPlayEncodingException(this, typeof(_T));
+    }
+
+    public void Encode(ushort value, Span<byte> buffer, ref int offset)
+    {
+        Unsafe.As<byte, ushort>(ref buffer[offset]) = value;
+    }
+
+    public void Encode(uint value, Span<byte> buffer, ref int offset)
+    {
+        Unsafe.As<byte, uint>(ref buffer[offset]) = value;
+    }
+
+    public void Encode(ulong value, Span<byte> buffer, ref int offset)
+    {
+        Unsafe.As<byte, ulong>(ref buffer[offset]) = value;
+    }
+
+    public void Encode(BigInteger value, Span<byte> buffer, ref int offset)
+    {
+        value.ToByteArray(true).AsSpan().CopyTo(buffer[offset..]);
+    }
+
+    #endregion
+
+    #region Decode To Chars
+
+    public int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
+    {
+        // TODO: optimize this later instead of defaulting to BigInteger
+        BigInteger integerValue = DecodeToBigInteger(bytes[byteIndex..byteCount]);
+
+        for (int i = charIndex; i < integerValue.GetNumberOfDigits(); i++)
+        {
+            chars[i] = _CharMap[(byte) (integerValue % 10)];
+            integerValue /= 10;
+        }
+
+        return byteCount;
+    }
+
+    public char[] DecodeToChars(ReadOnlySpan<byte> value)
+    {
+        // TODO: optimize this later instead of defaulting to BigInteger
+        BigInteger integerValue = DecodeToBigInteger(value);
+        char[] result = new char[integerValue.GetNumberOfDigits()];
+
+        for (int i = 0; i < integerValue.GetNumberOfDigits(); i++)
+        {
+            result[i] = _CharMap[(byte) (integerValue % 10)];
+            integerValue /= 10;
+        }
+
+        return result;
+    }
+
+    public bool TryDecodingToChars(ReadOnlySpan<byte> value, out char[] result)
+    {
+        if (!IsValid(value))
+        {
+            result = Array.Empty<char>();
+
+            return false;
+        }
+
+        // TODO: optimize this later instead of defaulting to BigInteger
+        BigInteger integerValue = DecodeToBigInteger(value);
+        result = new char[integerValue.GetNumberOfDigits()];
+
+        for (int i = 0; i < integerValue.GetNumberOfDigits(); i++)
+        {
+            result[i] = _CharMap[(byte) (integerValue % 10)];
+            integerValue /= 10;
+        }
+
+        return true;
+    }
+
+    #endregion
+
+    #region Decode To String
+
+    public string DecodeToString(ReadOnlySpan<byte> value) => new(DecodeToChars(value));
+
+    public bool TryDecodingToString(ReadOnlySpan<byte> value, out string result)
+    {
+        if (!TryDecodingToChars(value, out char[] buffer))
+        {
+            result = string.Empty;
+
+            return false;
+        }
+
+        result = new string(buffer);
+
+        return true;
     }
 
     #endregion
@@ -300,160 +576,40 @@ public class UnsignedIntegerCodec : PlayCodec
 
     #region Decode To DecodedMetadata
 
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => throw new NotImplementedException();
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        if (value.Length == Specs.Integer.UInt8.ByteCount)
+            return new DecodedResult<byte>(value[0], value[0].GetNumberOfDigits());
+
+        if (value.Length <= Specs.Integer.UInt16.ByteCount)
+        {
+            ushort byteResult = DecodeToUInt16(value);
+
+            return new DecodedResult<ushort>(byteResult, byteResult.GetNumberOfDigits());
+        }
+
+        if (value.Length <= Specs.Integer.Int32.ByteCount)
+        {
+            uint byteResult = DecodeToUInt32(value);
+
+            return new DecodedResult<uint>(byteResult, byteResult.GetNumberOfDigits());
+        }
+
+        if (value.Length <= Specs.Integer.Int64.ByteCount)
+        {
+            ulong byteResult = DecodeToUInt64(value);
+
+            return new DecodedResult<ulong>(byteResult, byteResult.GetNumberOfDigits());
+        }
+
+        BigInteger bigIntegerResult = DecodeToBigInteger(value);
+
+        return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
+    }
 
     #endregion
 
     #region Instance Members
-
-    // ///////////////// 
-
-    public void GetBytes(ushort value, Span<byte> buffer, ref int offset)
-    {
-        Unsafe.As<byte, ushort>(ref buffer[offset]) = value;
-    }
-
-    public void GetBytes(uint value, Span<byte> buffer, ref int offset)
-    {
-        Unsafe.As<byte, uint>(ref buffer[offset]) = value;
-    }
-
-    public void GetBytes(ulong value, Span<byte> buffer, ref int offset)
-    {
-        Unsafe.As<byte, ulong>(ref buffer[offset]) = value;
-    }
-
-    public void GetBytes(BigInteger value, Span<byte> buffer, ref int offset)
-    {
-        value.ToByteArray(true).AsSpan().CopyTo(buffer[offset..]);
-    }
-
-    public byte[] GetBytes(ushort value, bool trimEmptyBytes = false)
-    {
-        const byte byteCount = sizeof(ushort);
-
-        return trimEmptyBytes ? GetTrimmedBytes(value) : GetAllBytes(value, byteCount);
-    }
-
-    public byte[] GetBytes(uint value, bool trimEmptyBytes = false)
-    {
-        const byte byteCount = sizeof(uint);
-
-        return trimEmptyBytes ? GetTrimmedBytes(value) : GetAllBytes(value, byteCount);
-    }
-
-    public byte[] GetBytes(ulong value, bool trimEmptyBytes = false)
-    {
-        const byte byteCount = sizeof(uint);
-
-        return trimEmptyBytes ? GetTrimmedBytes(value) : GetAllBytes(value, byteCount);
-    }
-
-    public byte[] GetBytes(BigInteger value) => value.ToByteArray();
-
-    public override byte[] GetBytes(ReadOnlySpan<char> value)
-    {
-        Validate(value);
-        byte[] result = new byte[value.Length];
-
-        for (int i = 0; i < value.Length; i++)
-            result[i] = _ByteMap[value[i]];
-
-        return result;
-    }
-
-    public override int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
-    {
-        Validate(chars[charIndex..charCount]);
-
-        Array.ConstrainedCopy(GetBytes(chars), charIndex, bytes, byteIndex, charCount);
-
-        return charCount;
-    }
-
-    public override bool TryGetBytes(ReadOnlySpan<char> value, out byte[] result)
-    {
-        if (!IsValid(value))
-        {
-            result = Array.Empty<byte>();
-
-            return false;
-        }
-
-        result = new byte[value.Length];
-
-        for (int i = 0; i < value.Length; i++)
-            result[i] = _ByteMap[value[i]];
-
-        return true;
-    }
-
-    public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
-    {
-        // TODO: optimize this later instead of defaulting to BigInteger
-        BigInteger integerValue = GetBigInteger(bytes[byteIndex..byteCount]);
-
-        for (int i = charIndex; i < integerValue.GetNumberOfDigits(); i++)
-        {
-            chars[i] = _CharMap[(byte) (integerValue % 10)];
-            integerValue /= 10;
-        }
-
-        return byteCount;
-    }
-
-    public char[] GetChars(ReadOnlySpan<byte> value)
-    {
-        // TODO: optimize this later instead of defaulting to BigInteger
-        BigInteger integerValue = GetBigInteger(value);
-        char[] result = new char[integerValue.GetNumberOfDigits()];
-
-        for (int i = 0; i < integerValue.GetNumberOfDigits(); i++)
-        {
-            result[i] = _CharMap[(byte) (integerValue % 10)];
-            integerValue /= 10;
-        }
-
-        return result;
-    }
-
-    public bool TryGetChars(ReadOnlySpan<byte> value, out char[] result)
-    {
-        if (!IsValid(value))
-        {
-            result = Array.Empty<char>();
-
-            return false;
-        }
-
-        // TODO: optimize this later instead of defaulting to BigInteger
-        BigInteger integerValue = GetBigInteger(value);
-        result = new char[integerValue.GetNumberOfDigits()];
-
-        for (int i = 0; i < integerValue.GetNumberOfDigits(); i++)
-        {
-            result[i] = _CharMap[(byte) (integerValue % 10)];
-            integerValue /= 10;
-        }
-
-        return true;
-    }
-
-    public override string GetString(ReadOnlySpan<byte> value) => new(GetChars(value));
-
-    public override bool TryGetString(ReadOnlySpan<byte> value, out string result)
-    {
-        if (!TryGetChars(value, out char[] buffer))
-        {
-            result = string.Empty;
-
-            return false;
-        }
-
-        result = new string(buffer);
-
-        return true;
-    }
 
     private byte[] GetAllBytes(ulong value, byte byteCount)
     {

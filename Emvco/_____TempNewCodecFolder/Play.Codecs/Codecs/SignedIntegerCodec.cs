@@ -257,7 +257,7 @@ public class SignedIntegerCodec : PlayCodec
             throw new InternalPlayEncodingException(this, type);
 
         if (length == Specs.Integer.Int8.ByteCount)
-            return Encode(Unsafe.As<_T, byte>(ref value));
+            return Encode(Unsafe.As<_T, sbyte>(ref value));
         if (length == Specs.Integer.Int16.ByteCount)
             return Encode(Unsafe.As<_T, short>(ref value));
         if (length == 3)
@@ -519,8 +519,7 @@ public class SignedIntegerCodec : PlayCodec
     #region Decode To DecodedMetadata
 
     public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
-    { 
-
+    {
         if (value.Length == Specs.Integer.Int8.ByteCount)
         {
             sbyte byteResult = DecodeToSByte(value);
@@ -555,7 +554,7 @@ public class SignedIntegerCodec : PlayCodec
         if (value.Length <= Specs.Integer.Int64.ByteCount)
         {
             long byteResult = DecodeToInt64(value);
-            byteResult.GetNumberOfDigits()
+
             return new DecodedResult<long>(byteResult, byteResult.GetNumberOfDigits());
         }
 
@@ -563,6 +562,7 @@ public class SignedIntegerCodec : PlayCodec
 
         return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
     }
+
     #endregion
 
     #region Instance Members
