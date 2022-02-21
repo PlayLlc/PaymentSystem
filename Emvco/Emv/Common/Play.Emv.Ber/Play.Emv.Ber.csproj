@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Infrastructure\Play.Ber\Play.Ber.csproj" />
-    <ProjectReference Include="..\Play.Emv.Codecs\Play.Emv.Codecs.csproj" />
   </ItemGroup>
 
 </Project>
