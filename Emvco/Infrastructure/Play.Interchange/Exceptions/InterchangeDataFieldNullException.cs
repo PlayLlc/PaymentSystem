@@ -10,7 +10,7 @@ internal class InterchangeDataFieldNullException : InterchangeFormatException
     #region Constructor
 
     public InterchangeDataFieldNullException(
-        InterchangeEncodingId berEncodingId,
+        PlayEncodingId berEncodingId,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(

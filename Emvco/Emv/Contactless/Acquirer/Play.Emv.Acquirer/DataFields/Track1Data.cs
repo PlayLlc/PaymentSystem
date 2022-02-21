@@ -14,7 +14,7 @@ public record Track1Data : VariableDataField<char[]>
     /// <remarks>DecimalValue: 45</remarks>
     public static readonly DataFieldId DataFieldId = new(45);
 
-    public static readonly InterchangeEncodingId EncodingId = AlphaNumericDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericDataFieldCodec.Identifier;
     private const ushort _MaxByteCount = 76;
     private const byte _LeadingOctetByteCount = 1;
 
@@ -30,7 +30,7 @@ public record Track1Data : VariableDataField<char[]>
     #region Instance Members
 
     public override DataFieldId GetDataFieldId() => DataFieldId;
-    public override InterchangeEncodingId GetEncodingId() => EncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     protected override ushort GetMaxByteCount() => _MaxByteCount;
     protected override ushort GetLeadingOctetByteCount() => _LeadingOctetByteCount;
 

@@ -2,6 +2,7 @@
 
 using Play.Ber.Codecs;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Core.Exceptions;
 using Play.Emv.Interchange.Exceptions;
 using Play.Interchange.DataFields;
@@ -12,7 +13,7 @@ internal class InterchangeCodec
 {
     #region Instance Values
 
-    private readonly ImmutableSortedDictionary<InterchangeEncodingId, IPlayCodec> _DataFieldCodecMap;
+    private readonly ImmutableSortedDictionary<Play.Codecs.PlayEncodingId, IPlayCodec> _DataFieldCodecMap;
 
     #endregion
 
@@ -20,53 +21,52 @@ internal class InterchangeCodec
 
     public InterchangeCodec(params IPlayCodec[] interchangeCodecs)
     {
-        _DataFieldCodecMap = interchangeCodecs.ToImmutableSortedDictionary(a => a.GetIdentifier(), b => b);
+        _DataFieldCodecMap = interchangeCodecs.ToImmutableSortedDictionary(a => a.GetEncodingId(), b => b);
     }
 
     #endregion
 
     #region Instance Members
 
-    public ushort GetByteCount(InterchangeEncodingId encodingId, dynamic value) => GetByteCount(encodingId, value);
+    public ushort GetByteCount(Play.Codecs.PlayEncodingId encodingId, dynamic value) => GetByteCount(encodingId, value);
 
-    public ushort GetByteCount<T>(InterchangeEncodingId encodingId, T value) where T : struct =>
+    public ushort GetByteCount<T>(Play.Codecs.PlayEncodingId encodingId, T value) where T : struct =>
         _DataFieldCodecMap[encodingId].GetByteCount(value);
 
-    public ushort GetByteCount<T>(InterchangeEncodingId encodingId, T[] value) where T : struct =>
+    public ushort GetByteCount<T>(Play.Codecs.PlayEncodingId encodingId, T[] value) where T : struct =>
         _DataFieldCodecMap[encodingId].GetByteCount(value);
 
-    public void Encode(InterchangeDataField dataField, Memory<byte> buffer, ref int offset)
+    public void Encode(IEncodeInterchangeFields dataField, Memory<byte> buffer, ref int offset)
     {
         dataField.Encode(buffer, ref offset);
     }
 
-    public void Encode<T>(InterchangeEncodingId interchangeEncodingId, T value, Span<byte> buffer, ref int offset) where T : struct
+    public void Encode<T>(Play.Codecs.PlayEncodingId interchangeEncodingId, T value, Span<byte> buffer, ref int offset) where T : struct
     {
         _DataFieldCodecMap[interchangeEncodingId].Encode(value, buffer, ref offset);
     }
 
-    private void Encode<T>(InterchangeEncodingId interchangeEncodingId, T value, Memory<byte> buffer, ref int offset) where T : struct
+    private void Encode<T>(Play.Codecs.PlayEncodingId interchangeEncodingId, T value, Memory<byte> buffer, ref int offset) where T : struct
     {
         _DataFieldCodecMap[interchangeEncodingId].Encode(value, buffer.Span, ref offset);
     }
 
-    public void Encode(InterchangeEncodingId interchangeEncodingId, dynamic value, Memory<byte> buffer, ref int offset)
+    public void Encode(PlayEncodingId playEncodingId, dynamic value, Memory<byte> buffer, ref int offset)
     {
-        Encode(interchangeEncodingId, value, buffer, ref offset);
+        Encode(playEncodingId, value, buffer, ref offset);
     }
 
-    //public void Encode<T>(InterchangeEncodingId interchangeEncodingId, T[] value, Span<byte> buffer, int offset) where T : struct
-    //{
-    //    _DataFieldCodecMap[interchangeEncodingId].Encode(value, buffer, ref offset);
-    //}
+    public void Encode<T>(PlayEncodingId interchangeEncodingId, T[] value, Span<byte> buffer, int offset) where T : struct
+    {
+        _DataFieldCodecMap[interchangeEncodingId].Encode(value, buffer, ref offset);
+    }
 
-    public void Encode<T>(InterchangeEncodingId interchangeEncodingId, T value, int length, Span<byte> buffer, int offset) where T : struct
+    public void Encode<T>(Play.Codecs.PlayEncodingId interchangeEncodingId, T value, int length, Span<byte> buffer, int offset) where T : struct
     {
         _DataFieldCodecMap[interchangeEncodingId].Encode(value, length, buffer, ref offset);
     }
 
-    public void Encode<T>(InterchangeEncodingId interchangeEncodingId, T[] value, int length, Span<byte> buffer, int offset)
-        where T : struct
+    public void Encode<T>(Play.Codecs.PlayEncodingId interchangeEncodingId, T[] value, int length, Span<byte> buffer, int offset) where T : struct
     {
         _DataFieldCodecMap[interchangeEncodingId].Encode(value, length, buffer, ref offset);
     }
@@ -82,7 +82,7 @@ internal class InterchangeCodec
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public DecodedMetadata Decode(InterchangeEncodingId codecIdentifier, ReadOnlySpan<byte> value)
+    public DecodedMetadata Decode(PlayEncodingId codecIdentifier, ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
 

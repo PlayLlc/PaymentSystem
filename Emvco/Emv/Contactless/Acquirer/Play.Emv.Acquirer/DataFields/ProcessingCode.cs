@@ -14,7 +14,7 @@ public record ProcessingCode : FixedDataField<uint>
     /// <remarks>DecimalValue: 3</remarks>
     public static readonly DataFieldId DataFieldId = new(3);
 
-    public static readonly InterchangeEncodingId EncodingId = NumericDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = NumericDataFieldCodec.Identifier;
     private const ushort _ByteCount = 3;
 
     #endregion
@@ -29,7 +29,7 @@ public record ProcessingCode : FixedDataField<uint>
     #region Instance Members
 
     public override DataFieldId GetDataFieldId() => DataFieldId;
-    public override InterchangeEncodingId GetEncodingId() => EncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 

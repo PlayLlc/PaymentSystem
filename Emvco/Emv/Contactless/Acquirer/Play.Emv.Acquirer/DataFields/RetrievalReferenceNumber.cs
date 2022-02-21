@@ -14,7 +14,7 @@ public record RetrievalReferenceNumber : FixedDataField<char[]>
     /// <remarks>DecimalValue: 37</remarks>
     public static readonly DataFieldId DataFieldId = new(37);
 
-    public static readonly InterchangeEncodingId EncodingId = AlphaNumericDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericDataFieldCodec.Identifier;
     private const ushort _ByteCount = 12;
 
     #endregion
@@ -29,7 +29,7 @@ public record RetrievalReferenceNumber : FixedDataField<char[]>
     #region Instance Members
 
     public override DataFieldId GetDataFieldId() => DataFieldId;
-    public override InterchangeEncodingId GetEncodingId() => EncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 

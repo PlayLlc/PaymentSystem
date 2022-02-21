@@ -14,7 +14,7 @@ public record CurrencyCodeCardholderBilling : FixedDataField<char[]>
     /// <remarks>DecimalValue: 51</remarks>
     public static readonly DataFieldId DataFieldId = new(51);
 
-    public static readonly InterchangeEncodingId EncodingId = AlphabeticDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = AlphabeticDataFieldCodec.Identifier;
     private const ushort _ByteCount = 2;
 
     #endregion
@@ -29,7 +29,7 @@ public record CurrencyCodeCardholderBilling : FixedDataField<char[]>
     #region Instance Members
 
     public override DataFieldId GetDataFieldId() => DataFieldId;
-    public override InterchangeEncodingId GetEncodingId() => EncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 

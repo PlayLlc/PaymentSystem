@@ -14,7 +14,7 @@ public record PersonalIdentificationNumberData : FixedDataField<ulong>
     /// <remarks>DecimalValue: 52</remarks>
     public static readonly DataFieldId DataFieldId = new(52);
 
-    public static readonly InterchangeEncodingId EncodingId = BinaryDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = BinaryDataFieldCodec.Identifier;
     private const ushort _ByteCount = 8;
 
     #endregion
@@ -29,7 +29,7 @@ public record PersonalIdentificationNumberData : FixedDataField<ulong>
     #region Instance Members
 
     public override DataFieldId GetDataFieldId() => DataFieldId;
-    public override InterchangeEncodingId GetEncodingId() => EncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 

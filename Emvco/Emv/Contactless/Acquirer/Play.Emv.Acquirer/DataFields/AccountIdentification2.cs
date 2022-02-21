@@ -14,7 +14,7 @@ public record AccountIdentification2 : VariableDataField<char[]>
     /// <remarks>DecimalValue: 103</remarks>
     public static readonly DataFieldId DataFieldId = new(103);
 
-    public static readonly InterchangeEncodingId EncodingId = AlphaNumericSpecialDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialDataFieldCodec.Identifier;
     private const ushort _MaxByteCount = 28;
     private const byte _LeadingOctetByteCount = 1;
 
@@ -30,7 +30,7 @@ public record AccountIdentification2 : VariableDataField<char[]>
     #region Instance Members
 
     public override DataFieldId GetDataFieldId() => DataFieldId;
-    public override InterchangeEncodingId GetEncodingId() => EncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     protected override ushort GetMaxByteCount() => _MaxByteCount;
     protected override ushort GetLeadingOctetByteCount() => _LeadingOctetByteCount;
 

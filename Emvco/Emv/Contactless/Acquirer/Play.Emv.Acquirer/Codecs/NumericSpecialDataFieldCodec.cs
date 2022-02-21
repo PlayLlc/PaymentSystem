@@ -7,14 +7,13 @@ public class NumericSpecialDataFieldCodec : NumericSpecialEmvCodec, IInterchange
 {
     #region Static Metadata
 
-    public static readonly InterchangeEncodingId
-        Identifier = IInterchangeDataFieldCodec.GetEncodingId(typeof(NumericSpecialDataFieldCodec));
+    public static readonly PlayEncodingId Identifier = IInterchangeDataFieldCodec.GetEncodingId(typeof(NumericSpecialDataFieldCodec));
 
     #endregion
 
     #region Instance Members
 
-    public InterchangeEncodingId GetIdentifier() => Identifier;
+    public PlayEncodingId GetIdentifier() => Identifier;
 
     #endregion
 }

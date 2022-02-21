@@ -14,7 +14,7 @@ public record TransmissionDateTime : FixedDataField<ulong>
     /// <remarks>DecimalValue: 7</remarks>
     public static readonly DataFieldId DataFieldId = new(7);
 
-    public static readonly InterchangeEncodingId EncodingId = NumericDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = NumericDataFieldCodec.Identifier;
     private const ushort _ByteCount = 5;
 
     #endregion
@@ -29,7 +29,7 @@ public record TransmissionDateTime : FixedDataField<ulong>
     #region Instance Members
 
     public override DataFieldId GetDataFieldId() => DataFieldId;
-    public override InterchangeEncodingId GetEncodingId() => EncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 

@@ -14,7 +14,7 @@ public record ConversionRateSettlement : FixedDataField<uint>
     /// <remarks>DecimalValue: 9</remarks>
     public static readonly DataFieldId DataFieldId = new(9);
 
-    public static readonly InterchangeEncodingId EncodingId = NumericDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = NumericDataFieldCodec.Identifier;
     private const ushort _ByteCount = 4;
 
     #endregion
@@ -29,7 +29,7 @@ public record ConversionRateSettlement : FixedDataField<uint>
     #region Instance Members
 
     public override DataFieldId GetDataFieldId() => DataFieldId;
-    public override InterchangeEncodingId GetEncodingId() => EncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 

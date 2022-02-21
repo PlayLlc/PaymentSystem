@@ -14,7 +14,7 @@ public record NumberOfAuthorizations : FixedDataField<ulong>
     /// <remarks>DecimalValue: 81</remarks>
     public static readonly DataFieldId DataFieldId = new(81);
 
-    public static readonly InterchangeEncodingId EncodingId = NumericDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = NumericDataFieldCodec.Identifier;
     private const ushort _ByteCount = 5;
 
     #endregion
@@ -29,7 +29,7 @@ public record NumberOfAuthorizations : FixedDataField<ulong>
     #region Instance Members
 
     public override DataFieldId GetDataFieldId() => DataFieldId;
-    public override InterchangeEncodingId GetEncodingId() => EncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 

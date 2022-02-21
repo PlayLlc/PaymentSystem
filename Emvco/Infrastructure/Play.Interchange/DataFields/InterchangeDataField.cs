@@ -19,7 +19,7 @@ public abstract record InterchangeDataField : IRetrieveInterchangeFieldMetadata,
 
     public abstract DataFieldId GetDataFieldId();
     public abstract ushort GetByteCount();
-    public abstract InterchangeEncodingId GetEncodingId();
+    public abstract PlayEncodingId GetEncodingId();
     public abstract byte[] Encode();
     DataField IEncodeInterchangeFields.AsDataField() => new(GetDataFieldId(), Encode());
     public abstract void Encode(Memory<byte> buffer, ref int offset);

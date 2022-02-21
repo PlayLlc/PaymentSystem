@@ -14,7 +14,7 @@ public record CardAcceptorNameLocation : FixedDataField<char[]>
     /// <remarks>DecimalValue: 43</remarks>
     public static readonly DataFieldId DataFieldId = new(43);
 
-    public static readonly InterchangeEncodingId EncodingId = AlphaNumericSpecialDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialDataFieldCodec.Identifier;
     private const ushort _ByteCount = 40;
 
     #endregion
@@ -29,7 +29,7 @@ public record CardAcceptorNameLocation : FixedDataField<char[]>
     #region Instance Members
 
     public override DataFieldId GetDataFieldId() => DataFieldId;
-    public override InterchangeEncodingId GetEncodingId() => EncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 

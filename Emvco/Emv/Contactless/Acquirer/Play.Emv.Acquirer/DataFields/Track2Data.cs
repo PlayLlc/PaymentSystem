@@ -25,7 +25,7 @@ public record Track2Data : VariableDataField<byte[]>
     #region Instance Members
 
     public override DataFieldId GetDataFieldId() => DataFieldId;
-    public override InterchangeEncodingId GetEncodingId() => throw new NotImplementedException();
+    public override PlayEncodingId GetEncodingId() => throw new NotImplementedException();
     protected override ushort GetMaxByteCount() => _MaxByteCount;
     protected override ushort GetLeadingOctetByteCount() => _LeadingOctetByteCount;
 

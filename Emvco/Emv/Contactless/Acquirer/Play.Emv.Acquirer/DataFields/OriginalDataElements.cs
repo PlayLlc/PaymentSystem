@@ -16,7 +16,7 @@ public record OriginalDataElements : FixedDataField<BigInteger>
     /// <remarks>DecimalValue: 90</remarks>
     public static readonly DataFieldId DataFieldId = new(90);
 
-    public static readonly InterchangeEncodingId EncodingId = NumericDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = NumericDataFieldCodec.Identifier;
     private const ushort _ByteCount = 21;
 
     #endregion
@@ -31,7 +31,7 @@ public record OriginalDataElements : FixedDataField<BigInteger>
     #region Instance Members
 
     public override DataFieldId GetDataFieldId() => DataFieldId;
-    public override InterchangeEncodingId GetEncodingId() => EncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 

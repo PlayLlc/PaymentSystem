@@ -14,7 +14,7 @@ public record Reserved56 : VariableDataField<char[]>
     /// <remarks>DecimalValue: 56</remarks>
     public static readonly DataFieldId DataFieldId = new(56);
 
-    public static readonly InterchangeEncodingId EncodingId = AlphaNumericSpecialDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialDataFieldCodec.Identifier;
     private const ushort _MaxByteCount = 999;
     private const byte _LeadingOctetByteCount = 2;
 
@@ -30,7 +30,7 @@ public record Reserved56 : VariableDataField<char[]>
     #region Instance Members
 
     public override DataFieldId GetDataFieldId() => DataFieldId;
-    public override InterchangeEncodingId GetEncodingId() => EncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     protected override ushort GetMaxByteCount() => _MaxByteCount;
     protected override ushort GetLeadingOctetByteCount() => _LeadingOctetByteCount;
 

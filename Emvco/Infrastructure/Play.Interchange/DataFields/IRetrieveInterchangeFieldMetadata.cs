@@ -8,7 +8,7 @@ public interface IRetrieveInterchangeFieldMetadata
 
     public DataFieldId GetDataFieldId();
     public ushort GetByteCount();
-    public InterchangeEncodingId GetEncodingId();
+    public PlayEncodingId GetEncodingId();
 
     #endregion
 }

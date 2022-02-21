@@ -16,7 +16,7 @@ public record ForwardingInstitutionIdentificationCode : VariableDataField<BigInt
     /// <remarks>DecimalValue: 33</remarks>
     public static readonly DataFieldId DataFieldId = new(33);
 
-    public static readonly InterchangeEncodingId EncodingId = NumericDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = NumericDataFieldCodec.Identifier;
     private const ushort _MaxByteCount = 6;
     private const byte _LeadingOctetByteCount = 1;
 
@@ -32,7 +32,7 @@ public record ForwardingInstitutionIdentificationCode : VariableDataField<BigInt
     #region Instance Members
 
     public override DataFieldId GetDataFieldId() => DataFieldId;
-    public override InterchangeEncodingId GetEncodingId() => EncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     protected override ushort GetMaxByteCount() => _MaxByteCount;
     protected override ushort GetLeadingOctetByteCount() => _LeadingOctetByteCount;
 

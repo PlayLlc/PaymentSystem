@@ -14,7 +14,7 @@ public record AuthorizingIdentificationResponseLength : FixedDataField<byte>
     /// <remarks>DecimalValue: 27</remarks>
     public static readonly DataFieldId DataFieldId = new(27);
 
-    public static readonly InterchangeEncodingId EncodingId = NumericDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = NumericDataFieldCodec.Identifier;
     private const ushort _ByteCount = 1;
 
     #endregion
@@ -29,7 +29,7 @@ public record AuthorizingIdentificationResponseLength : FixedDataField<byte>
     #region Instance Members
 
     public override DataFieldId GetDataFieldId() => DataFieldId;
-    public override InterchangeEncodingId GetEncodingId() => EncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 

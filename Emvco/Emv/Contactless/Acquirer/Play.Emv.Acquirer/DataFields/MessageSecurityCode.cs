@@ -16,7 +16,7 @@ public record MessageSecurityCode : FixedDataField<BigInteger>
     /// <remarks>DecimalValue: 96</remarks>
     public static readonly DataFieldId DataFieldId = new(96);
 
-    public static readonly InterchangeEncodingId EncodingId = BinaryDataFieldCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = BinaryDataFieldCodec.Identifier;
     private const ushort _ByteCount = 64;
 
     #endregion
@@ -31,7 +31,7 @@ public record MessageSecurityCode : FixedDataField<BigInteger>
     #region Instance Members
 
     public override DataFieldId GetDataFieldId() => DataFieldId;
-    public override InterchangeEncodingId GetEncodingId() => EncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 

@@ -7,14 +7,13 @@ public class AlphaNumericSpecialDataFieldCodec : AlphaNumericSpecialEmvCodec, II
 {
     #region Static Metadata
 
-    public static readonly InterchangeEncodingId Identifier =
-        IInterchangeDataFieldCodec.GetEncodingId(typeof(AlphaNumericSpecialDataFieldCodec));
+    public static readonly PlayEncodingId Identifier = IInterchangeDataFieldCodec.GetEncodingId(typeof(AlphaNumericSpecialDataFieldCodec));
 
     #endregion
 
     #region Instance Members
 
-    public InterchangeEncodingId GetIdentifier() => Identifier;
+    public PlayEncodingId GetIdentifier() => Identifier;
 
     #endregion
 }

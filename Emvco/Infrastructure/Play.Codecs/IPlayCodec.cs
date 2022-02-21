@@ -14,7 +14,7 @@ public interface IPlayCodec
     #region Instance Members
 
     protected static PlayEncodingId GetEncodingId(Type encoder) => new(encoder.FullName);
-    public PlayEncodingId GetPlayEncodingId();
+    public PlayEncodingId GetEncodingId();
     public ushort GetByteCount<T>(T value) where T : struct;
     public ushort GetByteCount<T>(T[] value) where T : struct;
 
@@ -93,6 +93,7 @@ public interface IPlayCodec
     public void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct;
     public void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct;
     public void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct;
+    public void Encode(PlayEncodingId dataField, Memory<byte> buffer, ref int offset);
 
     #endregion
 
