@@ -1,7 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
 using Play.Codecs;
-using Play.Codecs._References;
 
 namespace Play.Interchange.Exceptions;
 
@@ -15,7 +14,7 @@ internal class InterchangeDataFieldNullException : InterchangeFormatException
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(
         $"{TraceExceptionMessage(typeof(InterchangeDataFieldNullException), fileName, memberName, lineNumber)} "
-        + $"The Data Element: [{memberName}] could not be initialized because the {nameof(IPlayCodec)} with {nameof(PlayEncodingId)}: [{berEncodingId}] returned a null value")
+        + $"The Data Element: [{memberName}] could not be initialized because the {nameof(PlayCodec)} with {nameof(PlayEncodingId)}: [{berEncodingId}] returned a null value")
     { }
 
     public InterchangeDataFieldNullException(

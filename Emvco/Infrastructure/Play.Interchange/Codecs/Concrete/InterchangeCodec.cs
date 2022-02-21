@@ -1,7 +1,6 @@
 ﻿using System.Collections.Immutable;
 
 using Play.Codecs;
-using Play.Codecs._References;
 using Play.Codecs.Metadata;
 using Play.Core.Exceptions;
 using Play.Interchange.DataFields;
@@ -89,7 +88,7 @@ public class InterchangeCodec
         if (!_DataFieldCodecMap.TryGetValue(codecIdentifier, out PlayCodec? codec))
         {
             throw new InterchangeException(
-                $"The value could not be decoded because there is not a {nameof(IPlayCodec)} configured with the Fully Qualified Name: {codecIdentifier}");
+                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the Fully Qualified Name: {codecIdentifier}");
         }
 
         return codec!.Decode(value);

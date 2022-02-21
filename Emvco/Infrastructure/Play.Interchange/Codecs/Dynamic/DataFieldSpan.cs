@@ -1,6 +1,6 @@
 ﻿using Microsoft.Toolkit.HighPerformance.Buffers;
 
-using Play.Codecs._References;
+using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Interchange.DataFields;
 
@@ -53,7 +53,7 @@ internal readonly ref struct DataFieldSpan
 
     private void EncodeLeadingOctets(List<byte> buffer)
     {
-        ReadOnlySpan<byte> a = PlayEncoding.Numeric.GetBytes(_Value.Length, GetLeadingOctetByteCount());
+        ReadOnlySpan<byte> a = PlayCodec.NumericCodec.Encode(_Value.Length, GetLeadingOctetByteCount());
 
         for (int i = 0; i < a.Length; i++)
             buffer.Add(a[i]);

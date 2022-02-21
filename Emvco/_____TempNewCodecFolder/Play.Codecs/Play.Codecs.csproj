@@ -10,4 +10,8 @@
     <ProjectReference Include="..\..\Infrastructure\Play.Core\Play.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="_References\" />
+  </ItemGroup>
+
 </Project>

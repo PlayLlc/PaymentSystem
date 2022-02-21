@@ -1,4 +1,4 @@
-﻿using Play.Codecs._References;
+﻿using Play.Codecs;
 
 namespace Play.Interchange.Messages.Header;
 
@@ -41,7 +41,7 @@ public readonly struct MessageTypeIndicator
         buffer[1] = (byte) _Value;
     }
 
-    public override string ToString() => PlayEncoding.Numeric.GetString(PlayEncoding.Numeric.GetBytes(_Value));
+    public override string ToString() => PlayCodec.NumericCodec.DecodeToString(PlayCodec.NumericCodec.Encode(_Value));
     public byte GetFirstByte() => (byte) (_Value >> 8);
     public byte GetSecondByte() => (byte) _Value;
 

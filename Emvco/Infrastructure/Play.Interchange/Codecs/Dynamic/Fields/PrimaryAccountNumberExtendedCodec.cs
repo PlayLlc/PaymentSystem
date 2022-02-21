@@ -10,7 +10,7 @@ internal class PrimaryAccountNumberExtendedCodec : VariableLengthCodec
     /// <remarks>DecimalValue: 34</remarks>
     public static readonly DataFieldId DataFieldId = new(34);
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericSpecial.PlayEncodingId;
+    public static readonly PlayEncodingId EncodingId = NumericSpecialCodec.EncodingId;
     private const ushort _MaxByteLength = 28;
     private const byte _LeadingOctetLength = 1;
 

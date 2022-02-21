@@ -1,4 +1,4 @@
-﻿using Play.Codecs._References;
+﻿using Play.Codecs;
 using Play.Interchange.Exceptions;
 
 namespace Play.Interchange.Codecs.Dynamic;
@@ -14,7 +14,7 @@ internal abstract class VariableLengthCodec : DataFieldCodec
     {
         Check.DataField.ForMaximumLength(value, GetMaxByteLength(), GetDataFieldId());
         Span<byte> leadingOctets = stackalloc byte[GetLeadingOctetLength()];
-        PlayEncoding.Numeric.GetBytes(value.Length, GetLeadingOctetLength()).CopyTo(leadingOctets);
+        PlayCodec.NumericCodec.Encode(value.Length, GetLeadingOctetLength()).CopyTo(leadingOctets);
         foreach (byte octet in leadingOctets)
             buffer.Add(octet);
         foreach (byte octet in value)

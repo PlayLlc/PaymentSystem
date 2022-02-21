@@ -1,4 +1,4 @@
-﻿using Play.Codecs._References;
+﻿using Play.Codecs;
 
 namespace Play.Interchange.DataFields;
 
@@ -43,7 +43,7 @@ public abstract record VariableDataField<T> : InterchangeDataField
     protected void EncodeLeadingOctets(Span<byte> buffer, ref int offset)
     {
         ReadOnlySpan<byte> leadingOctets =
-            PlayEncoding.Numeric.GetBytes(_Codec.GetByteCount(GetEncodingId(), _Value!), GetLeadingOctetByteCount());
+            PlayCodec.NumericCodec.Encode(_Codec.GetByteCount(GetEncodingId(), _Value!), GetLeadingOctetByteCount());
 
         leadingOctets.CopyTo(buffer[offset..]);
         offset += leadingOctets.Length;

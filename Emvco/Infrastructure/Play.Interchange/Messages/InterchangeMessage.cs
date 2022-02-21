@@ -1,6 +1,6 @@
 ﻿using Microsoft.Toolkit.HighPerformance.Buffers;
 
-using Play.Codecs._References;
+using Play.Codecs;
 using Play.Interchange.Messages.Body;
 using Play.Interchange.Messages.Header;
 
@@ -32,7 +32,7 @@ public class InterchangeMessage
 
     private int GetByteCount() => _Value.Length;
     public byte[] Encode() => _Value;
-    public MessageTypeIndicator GetMessageTypeIndicator() => new(PlayEncoding.Numeric.GetUInt16(_Value[..2]));
+    public MessageTypeIndicator GetMessageTypeIndicator() => new(PlayCodec.NumericCodec.DecodeToUInt16(_Value[..2]));
 
     #endregion
 }
