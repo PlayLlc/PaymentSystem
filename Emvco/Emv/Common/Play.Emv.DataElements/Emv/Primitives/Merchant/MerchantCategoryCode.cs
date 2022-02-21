@@ -18,7 +18,7 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F15;
-    public static readonly BerEncodingId BerEncodingId = NumericDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
     private const byte _ByteLength = 4;
 
     #endregion

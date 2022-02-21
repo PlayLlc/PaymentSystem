@@ -16,7 +16,7 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
 
     /// <summary>
     ///     Also known as 'Cash Withdrawal'

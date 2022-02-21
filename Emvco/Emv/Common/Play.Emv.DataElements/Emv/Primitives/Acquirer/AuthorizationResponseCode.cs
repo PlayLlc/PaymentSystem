@@ -15,7 +15,7 @@ public record AuthorizationResponseCode : DataElement<ushort>, IEqualityComparer
     #region Static Metadata
 
     public static readonly Tag Tag = 0x8A;
-    public static readonly BerEncodingId BerEncodingId = NumericDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
 
     #endregion
 

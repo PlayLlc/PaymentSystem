@@ -15,7 +15,7 @@ public record InterfaceDeviceSerialNumber : DataElement<ulong>, IEqualityCompare
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
     public static readonly Tag Tag = 0x9F1E;
 
     #endregion

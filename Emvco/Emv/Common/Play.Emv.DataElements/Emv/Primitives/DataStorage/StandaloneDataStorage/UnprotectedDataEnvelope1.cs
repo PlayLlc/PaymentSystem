@@ -20,7 +20,7 @@ public record UnprotectedDataEnvelope1 : DataElement<BigInteger>, IEqualityCompa
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F75;
-    public static readonly BerEncodingId BerEncodingId = NumericDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
 
     #endregion
 

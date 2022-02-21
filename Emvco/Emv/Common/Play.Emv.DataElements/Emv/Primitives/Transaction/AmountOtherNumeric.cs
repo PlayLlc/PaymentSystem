@@ -17,7 +17,7 @@ public record AmountOtherNumeric : DataElement<ulong>, IEqualityComparer<AmountO
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
     public static readonly Tag Tag = 0x9F03;
 
     #endregion

@@ -16,7 +16,7 @@ public record TerminalIdentification : DataElement<ulong>, IEqualityComparer<Ter
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
     public static readonly Tag Tag = 0x9F1C;
     private const byte _CharLength = 8;
 

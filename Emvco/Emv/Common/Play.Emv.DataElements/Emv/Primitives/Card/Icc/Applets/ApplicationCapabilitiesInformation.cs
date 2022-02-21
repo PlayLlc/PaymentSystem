@@ -16,7 +16,7 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F5D;
-    public static readonly BerEncodingId BerEncodingId = NumericDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
     private const byte _ByteLength = 3;
 
     #endregion

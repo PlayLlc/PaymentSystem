@@ -16,7 +16,7 @@ public record TransactionCurrencyCode : DataElement<NumericCurrencyCode>, IEqual
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
     public static readonly Tag Tag = 0x5F2A;
     private const byte _ByteLength = 0x02;
 

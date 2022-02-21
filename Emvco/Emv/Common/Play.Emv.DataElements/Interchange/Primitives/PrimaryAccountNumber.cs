@@ -17,7 +17,7 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
     /// <value>Hex: C2; Decimal: 194; Interchange: 2</value>
     public static readonly Tag Tag = 0xC2;
 
-    public static readonly BerEncodingId BerEncodingId = NumericDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
     private const int _MaxByteLength = 10;
 
     #endregion

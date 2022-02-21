@@ -12,7 +12,7 @@ public record PosEntryMode : DataElement<byte>, IEqualityComparer<PosEntryMode>
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
     public static readonly Tag Tag = 0x9F39;
     private const byte _ByteLength = 1;
 

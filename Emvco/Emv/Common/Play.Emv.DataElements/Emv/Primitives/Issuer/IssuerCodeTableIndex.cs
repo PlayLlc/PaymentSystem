@@ -14,7 +14,7 @@ public record IssuerCodeTableIndex : DataElement<byte>, IEqualityComparer<Issuer
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
     public static readonly Tag Tag = 0x9F11;
 
     #endregion
