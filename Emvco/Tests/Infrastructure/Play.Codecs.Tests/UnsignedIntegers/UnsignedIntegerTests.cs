@@ -27,7 +27,7 @@ public class UnsignedIntegerTests
     [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(UnsignedIntegerFixture))]
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
     {
-        string decoded = _SystemUnderTest.GetString(testValue);
+        string decoded = _SystemUnderTest.DecodeToString(testValue);
         byte[] encoded = _SystemUnderTest.GetBytes(decoded);
 
         Assert.Equal(testValue, encoded);

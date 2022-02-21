@@ -214,7 +214,7 @@ public class UnsignedIntegerCodec : PlayCodec
 
     public uint DecodeToUInt32(ReadOnlySpan<byte> value)
     {
-        const byte byteLength = Specs.Integer.UInt32.ByteSize;
+        const byte byteLength = Specs.Integer.UInt32.ByteCount;
 
         if (value.Length < byteLength)
         {

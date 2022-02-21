@@ -101,7 +101,7 @@ public readonly struct Length
     }
 
     public override string ToString() =>
-        $"Hex: {PlayEncoding.Hexadecimal.GetString(Serialize())}; Binary: {PlayEncoding.Binary.GetString(_Value)}";
+        $"Hex: {PlayEncoding.Hexadecimal.DecodeToString(Serialize())}; Binary: {PlayEncoding.Binary.GetString(_Value)}";
 
     /// <summary>
     ///     Parses a raw BER encoded Length sequence into a Length object

@@ -157,7 +157,7 @@ public class CompressedNumeric : PlayEncoding
             return GetBytes(Unsafe.As<T, byte>(ref value));
         if (byteSize == Specs.Integer.UInt16.ByteSize)
             return GetBytes(Unsafe.As<T, ushort>(ref value));
-        if (byteSize <= Specs.Integer.UInt32.ByteSize)
+        if (byteSize <= Specs.Integer.UInt32.ByteCount)
             return GetBytes(Unsafe.As<T, uint>(ref value));
         if (byteSize <= Specs.Integer.UInt64.ByteCount)
             return GetBytes(Unsafe.As<T, ulong>(ref value));
@@ -173,7 +173,7 @@ public class CompressedNumeric : PlayEncoding
             return GetBytes(Unsafe.As<T, ushort>(ref value));
         if (length == 3)
             return GetBytes(Unsafe.As<T, uint>(ref value), length);
-        if (length == Specs.Integer.UInt32.ByteSize)
+        if (length == Specs.Integer.UInt32.ByteCount)
             return GetBytes(Unsafe.As<T, uint>(ref value));
         if (length < Specs.Integer.UInt64.ByteCount)
             return GetBytes(Unsafe.As<T, ulong>(ref value), length);
@@ -209,7 +209,7 @@ public class CompressedNumeric : PlayEncoding
             GetBytes(Unsafe.As<T, byte>(ref value), buffer, ref offset);
         else if (byteSize == Specs.Integer.UInt16.ByteSize)
             GetBytes(Unsafe.As<T, ushort>(ref value), buffer, ref offset);
-        else if (byteSize <= Specs.Integer.UInt32.ByteSize)
+        else if (byteSize <= Specs.Integer.UInt32.ByteCount)
             GetBytes(Unsafe.As<T, uint>(ref value), buffer, ref offset);
         else if (byteSize <= Specs.Integer.UInt64.ByteCount)
             GetBytes(Unsafe.As<T, ulong>(ref value), buffer, ref offset);
@@ -225,7 +225,7 @@ public class CompressedNumeric : PlayEncoding
             GetBytes(Unsafe.As<T, ushort>(ref value));
         else if (length == 3)
             GetBytes(Unsafe.As<T, uint>(ref value), length, buffer, ref offset);
-        else if (length == Specs.Integer.UInt32.ByteSize)
+        else if (length == Specs.Integer.UInt32.ByteCount)
             GetBytes(Unsafe.As<T, uint>(ref value), buffer, ref offset);
         else if (length < Specs.Integer.UInt64.ByteCount)
             GetBytes(Unsafe.As<T, ulong>(ref value), length, buffer, ref offset);
@@ -381,7 +381,7 @@ public class CompressedNumeric : PlayEncoding
 
     public byte[] GetBytes(uint value)
     {
-        const byte byteSize = Specs.Integer.UInt32.ByteSize;
+        const byte byteSize = Specs.Integer.UInt32.ByteCount;
         int padCount = value.GetNumberOfDigits() - (byteSize * 2);
 
         using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(byteSize);
@@ -400,7 +400,7 @@ public class CompressedNumeric : PlayEncoding
 
     public byte[] GetBytes(uint value, int length)
     {
-        const byte byteSize = Specs.Integer.UInt32.ByteSize;
+        const byte byteSize = Specs.Integer.UInt32.ByteCount;
 
         if (length > (byteSize * 2))
             throw new Exception();

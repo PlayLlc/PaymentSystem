@@ -20,7 +20,7 @@ namespace Play.Ber.Codecs;
 /// </remarks>
 public sealed class IntegerBerCodec : BerPrimitiveCodec
 {
-    #region Static Metadata
+    #region Metadata
 
     private static readonly SignedInteger _SignedIntegerCodec = PlayEncoding.SignedInteger;
     public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(IntegerBerCodec));
@@ -42,9 +42,15 @@ public sealed class IntegerBerCodec : BerPrimitiveCodec
 
     #endregion
 
-    #region Instance Members
+    #region Count
 
-    public override BerEncodingId GetIdentifier() => Identifier;
+    public override ushort GetByteCount<T>(T value) => throw new NotImplementedException();
+    public override ushort GetByteCount<T>(T[] value) => throw new NotImplementedException();
+
+    #endregion
+
+    #region Validation
+
     public override bool IsValid(ReadOnlySpan<byte> value) => IsMinimumLengthValid(value) && AreFirstNineBitsValid(value);
 
     /// <param name="value"></param>
@@ -69,60 +75,6 @@ public sealed class IntegerBerCodec : BerPrimitiveCodec
                 $"The {nameof(IntegerBerCodec)} failed. A minimum length of {_MinimumByteLength} is required"));
         }
     }
-
-    public override byte[] Encode<T>(T[] value) => throw new NotImplementedException();
-    public override byte[] Encode<T>(T[] value, int length) => throw new NotImplementedException();
-
-    public override void Encode<T>(T value, Span<byte> buffer, ref int offset)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override byte[] Encode<T>(T value)
-    {
-        nint byteSize = Unsafe.SizeOf<T>();
-
-        if (byteSize == Specs.Integer.UInt8.ByteSize)
-            return Encode(Unsafe.As<T, sbyte>(ref value));
-        if (byteSize == Specs.Integer.UInt16.ByteSize)
-            return Encode(Unsafe.As<T, short>(ref value));
-        if (byteSize == Specs.Integer.UInt32.ByteSize)
-            return Encode(Unsafe.As<T, int>(ref value));
-        if (byteSize == Specs.Integer.UInt64.ByteCount)
-            return Encode(Unsafe.As<T, long>(ref value));
-
-        return Encode(Unsafe.As<T, BigInteger>(ref value));
-    }
-
-    // TODO: this is only in BER library so holding off on implementing this
-    public override byte[] Encode<T>(T value, int length) => throw new NotImplementedException();
-
-    public byte[] Encode(sbyte value)
-    {
-        return new[] {(byte) value};
-    }
-
-    public byte[] Encode(short value) => BitConverter.GetBytes(value);
-    public byte[] Encode(int value) => BitConverter.GetBytes(value);
-    public byte[] Encode(long value) => BitConverter.GetBytes(value);
-    public byte[] Encode(BigInteger value) => value.ToByteArray();
-    public override ushort GetByteCount<T>(T value) => throw new NotImplementedException();
-    public override ushort GetByteCount<T>(T[] value) => throw new NotImplementedException();
 
     /// <summary>
     ///     If the contents of an integer value encoding consist of more than one octet, then the bits of the first octet
@@ -164,7 +116,63 @@ public sealed class IntegerBerCodec : BerPrimitiveCodec
 
     #endregion
 
-    #region Serialization
+    #region Encode
+
+    public override byte[] Encode<T>(T[] value) => throw new NotImplementedException();
+    public override byte[] Encode<T>(T[] value, int length) => throw new NotImplementedException();
+
+    public override byte[] Encode<T>(T value)
+    {
+        nint byteSize = Unsafe.SizeOf<T>();
+
+        if (byteSize == Specs.Integer.UInt8.ByteSize)
+            return Encode(Unsafe.As<T, sbyte>(ref value));
+        if (byteSize == Specs.Integer.UInt16.ByteSize)
+            return Encode(Unsafe.As<T, short>(ref value));
+        if (byteSize == Specs.Integer.UInt32.ByteCount)
+            return Encode(Unsafe.As<T, int>(ref value));
+        if (byteSize == Specs.Integer.UInt64.ByteCount)
+            return Encode(Unsafe.As<T, long>(ref value));
+
+        return Encode(Unsafe.As<T, BigInteger>(ref value));
+    }
+
+    // TODO: this is only in BER library so holding off on implementing this
+    public override byte[] Encode<T>(T value, int length) => throw new NotImplementedException();
+
+    public byte[] Encode(sbyte value)
+    {
+        return new[] {(byte) value};
+    }
+
+    public byte[] Encode(short value) => BitConverter.GetBytes(value);
+    public byte[] Encode(int value) => BitConverter.GetBytes(value);
+    public byte[] Encode(long value) => BitConverter.GetBytes(value);
+    public byte[] Encode(BigInteger value) => value.ToByteArray();
+
+    public override void Encode<T>(T value, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
+    }
+
+    #endregion
+
+    #region Decode To DecodedMetadata
 
     /// <summary>
     ///     Decode
@@ -185,29 +193,35 @@ public sealed class IntegerBerCodec : BerPrimitiveCodec
 
         if (value.Length == 2)
         {
-            short shortResult = _SignedIntegerCodec.GetInt16(value);
+            short shortResult = _SignedIntegerCodec.DecodeToInt16(value);
 
             return new DecodedResult<short>(shortResult, _SignedIntegerCodec.GetCharCount(shortResult));
         }
 
         if (value.Length <= 4)
         {
-            int intResult = _SignedIntegerCodec.GetInt32(value);
+            int intResult = _SignedIntegerCodec.DecodeToInt32(value);
 
             return new DecodedResult<int>(intResult, _SignedIntegerCodec.GetCharCount(intResult));
         }
 
         if (value.Length <= 8)
         {
-            long longResult = _SignedIntegerCodec.GetInt64(value);
+            long longResult = _SignedIntegerCodec.DecodeToInt64(value);
 
             return new DecodedResult<long>(longResult, _SignedIntegerCodec.GetCharCount(longResult));
         }
 
-        BigInteger bigIntegerResult = _SignedIntegerCodec.GetBigInteger(value);
+        BigInteger bigIntegerResult = _SignedIntegerCodec.DecodeToBigInteger(value);
 
         return new DecodedResult<BigInteger>(bigIntegerResult, _SignedIntegerCodec.GetCharCount(bigIntegerResult));
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public override BerEncodingId GetIdentifier() => Identifier;
 
     #endregion
 }

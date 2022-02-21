@@ -27,7 +27,7 @@ public class AlphaNumericTests
     [MemberData(nameof(AlphaNumericFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(AlphaNumericFixture))]
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
     {
-        string decoded = _SystemUnderTest.GetString(testValue);
+        string decoded = _SystemUnderTest.DecodeToString(testValue);
         byte[] encoded = _SystemUnderTest.GetBytes(decoded);
 
         Assert.Equal(testValue, encoded);
@@ -38,7 +38,7 @@ public class AlphaNumericTests
     public void RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult(string testValue)
     {
         byte[] decoded = _SystemUnderTest.GetBytes(testValue);
-        string encoded = _SystemUnderTest.GetString(decoded);
+        string encoded = _SystemUnderTest.DecodeToString(decoded);
 
         Assert.Equal(testValue, encoded);
     }

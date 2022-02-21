@@ -85,7 +85,7 @@ public partial class Specs
             #region Static Metadata
 
             public const byte BitSize = 32;
-            public const byte ByteSize = 4;
+            public const byte ByteCount = 4;
             public const byte MaxDigits = 10;
             public const byte BitCount = 32;
             public const byte CompressedNumericByteSize = (MaxDigits / 2) + (MaxDigits % 2);
@@ -127,7 +127,7 @@ public partial class Specs
         {
             #region Static Metadata
 
-            public const byte ByteSize = 8;
+            public const byte ByteCount = 8;
             public const byte MaxDigits = 19;
             public const byte BitCount = 64;
             public const byte CompressedNumericByteSize = (MaxDigits / 2) + (MaxDigits % 2);
@@ -141,7 +141,7 @@ public partial class Specs
         {
             #region Static Metadata
 
-            public const byte ByteSize = 4;
+            public const byte ByteCount = 4;
             public const byte MaxDigits = 9;
             public const byte BitCount = 32;
             public const byte CompressedNumericByteSize = (MaxDigits / 2) + (MaxDigits % 2);
@@ -155,7 +155,7 @@ public partial class Specs
         {
             #region Static Metadata
 
-            public const byte ByteSize = 2;
+            public const byte ByteCount = 2;
             public const byte MaxDigits = 4;
             public const byte BitCount = 16;
             public const byte CompressedNumericByteSize = (MaxDigits / 2) + (MaxDigits % 2);
@@ -169,7 +169,7 @@ public partial class Specs
         {
             #region Static Metadata
 
-            public const byte ByteSize = 1;
+            public const byte ByteCount = 1;
             public const byte MaxDigits = 2;
             public const byte BitCount = 8;
             public const byte CompressedNumericByteSize = (MaxDigits / 2) + (MaxDigits % 2);

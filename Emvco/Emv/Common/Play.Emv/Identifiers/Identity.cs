@@ -21,7 +21,7 @@ public record struct Identity
 
     public Identity(ReadOnlySpan<char> value)
     {
-        _Value = PlayEncoding.SignedInteger.GetInt32(PlayEncoding.Unicode.GetBytes(value));
+        _Value = PlayEncoding.SignedInteger.DecodeToInt32(PlayEncoding.Unicode.GetBytes(value));
     }
 
     #endregion

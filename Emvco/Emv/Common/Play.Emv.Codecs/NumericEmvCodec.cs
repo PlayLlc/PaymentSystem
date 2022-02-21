@@ -21,19 +21,55 @@ namespace Play.Emv.Codecs;
 // TODO: Move the actual functionality higher up to Play.Codec
 public class NumericEmvCodec : IPlayCodec
 {
-    #region Static Metadata
+    #region Metadata
 
     private static readonly Numeric _Numeric = PlayEncoding.Numeric;
 
     #endregion
 
-    #region Instance Members
+    #region Count
+
+    // TODO: why are you boxing you dweeb?
+    public ushort GetByteCount<T>(T value) where T : struct => checked((ushort) Unsafe.SizeOf<T>());
+
+    public ushort GetByteCount<T>(T[] value) where T : struct
+    {
+        if (typeof(T) == typeof(char))
+            return (ushort) checked((value.Length % 2) + (value.Length / 2));
+
+        throw new NotImplementedException();
+    }
+
+    #endregion
+
+    #region Validation
 
     public bool IsValid(ReadOnlySpan<byte> value) => _Numeric.IsValid(value);
+    private static bool IsNibbleValid(byte value) => value is >= 0 and <= 9;
+    private static bool IsValid(byte value) => _Numeric.IsValid(value);
+
+    private static void Validate(byte value)
+    {
+        if (!IsValid(value))
+            throw new EmvEncodingFormatException(new ArgumentOutOfRangeException(nameof(value)));
+    }
+
+    public void Validate(ReadOnlySpan<byte> value)
+    {
+        if (!IsValid(value))
+            throw new EmvEncodingFormatException(new ArgumentOutOfRangeException(nameof(value)));
+    }
+
+    #endregion
+
+    #region Encode
+
     public byte[] Encode<T>(T value) where T : struct => _Numeric.GetBytes(value);
     public byte[] Encode<T>(T value, int length) where T : struct => _Numeric.GetBytes(value, length);
     public byte[] Encode<T>(T[] value) where T : struct => _Numeric.GetBytes(value);
     public byte[] Encode<T>(T[] value, int length) where T : struct => _Numeric.GetBytes(value, length);
+    public byte[] Encode(ReadOnlySpan<char> value) => _Numeric.GetBytes(value, value.Length);
+    public byte[] Encode(ReadOnlySpan<char> value, int length) => _Numeric.GetBytes(value, length);
 
     public void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
     {
@@ -55,38 +91,9 @@ public class NumericEmvCodec : IPlayCodec
         _Numeric.GetBytes(value, length, buffer, ref offset);
     }
 
-    public byte[] Encode(ReadOnlySpan<char> value) => _Numeric.GetBytes(value, value.Length);
-    public byte[] Encode(ReadOnlySpan<char> value, int length) => _Numeric.GetBytes(value, length);
-
-    // TODO: why are you boxing you dweeb?
-    public ushort GetByteCount<T>(T value) where T : struct => checked((ushort) Unsafe.SizeOf<T>());
-
-    public ushort GetByteCount<T>(T[] value) where T : struct
-    {
-        if (typeof(T) == typeof(char))
-            return (ushort) checked((value.Length % 2) + (value.Length / 2));
-
-        throw new NotImplementedException();
-    }
-
-    private static bool IsNibbleValid(byte value) => value is >= 0 and <= 9;
-    private static bool IsValid(byte value) => _Numeric.IsValid(value);
-
-    private static void Validate(byte value)
-    {
-        if (!IsValid(value))
-            throw new EmvEncodingFormatException(new ArgumentOutOfRangeException(nameof(value)));
-    }
-
-    public void Validate(ReadOnlySpan<byte> value)
-    {
-        if (!IsValid(value))
-            throw new EmvEncodingFormatException(new ArgumentOutOfRangeException(nameof(value)));
-    }
-
     #endregion
 
-    #region Serialization
+    #region Decode To DecodedMetadata
 
     public DecodedMetadata Decode(ReadOnlySpan<byte> value)
     {
@@ -108,7 +115,7 @@ public class NumericEmvCodec : IPlayCodec
             return new DecodedResult<ushort>(shortResult, value.Length * 2);
         }
 
-        if (value.Length <= Specs.Integer.UInt32.ByteSize)
+        if (value.Length <= Specs.Integer.UInt32.ByteCount)
         {
             uint intResult = PlayEncoding.Numeric.GetUInt32(trimmedValue);
 

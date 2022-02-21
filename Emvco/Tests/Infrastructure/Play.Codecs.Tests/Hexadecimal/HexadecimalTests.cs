@@ -30,7 +30,7 @@ public class HexadecimalTests
     [MemberData(nameof(HexadecimalFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(HexadecimalFixture))]
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
     {
-        string decoded = _SystemUnderTest.GetString(testValue);
+        string decoded = _SystemUnderTest.DecodeToString(testValue);
         byte[] encoded = _SystemUnderTest.GetBytes(decoded);
 
         Assert.Equal(testValue, encoded);
@@ -41,7 +41,7 @@ public class HexadecimalTests
     public void RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult(string testValue)
     {
         byte[] decoded = _SystemUnderTest.GetBytes(testValue);
-        string encoded = _SystemUnderTest.GetString(decoded);
+        string encoded = _SystemUnderTest.DecodeToString(decoded);
 
         Assert.Equal(testValue, encoded);
     }
@@ -51,7 +51,7 @@ public class HexadecimalTests
     {
         byte[] testData = ApduTestData.RApdu.Select.Ppse.PpseBytes;
 
-        string result = _SystemUnderTest.GetString(testData);
+        string result = _SystemUnderTest.DecodeToString(testData);
 
         Assert.Equal(result, ApduTestData.RApdu.Select.Ppse.PpseHex);
     }
@@ -61,7 +61,7 @@ public class HexadecimalTests
     {
         byte[] testData = ApduTestData.CApdu.Select.Ppse.PpseBytes;
 
-        string result = _SystemUnderTest.GetString(testData);
+        string result = _SystemUnderTest.DecodeToString(testData);
 
         Assert.Equal(result, ApduTestData.CApdu.Select.Ppse.PpseHex);
     }
@@ -125,7 +125,7 @@ public class HexadecimalTests
     [Fact]
     public void GivenNullByteArray_GetString_ThrowsArgumentNullException()
     {
-        Assert.Throws<ArgumentNullException>(() => PlayEncoding.Hexadecimal.GetString(null));
+        Assert.Throws<ArgumentNullException>(() => PlayEncoding.Hexadecimal.DecodeToString(null));
     }
 
     [Fact]
@@ -134,7 +134,7 @@ public class HexadecimalTests
         byte[] testData = {0xFF, 0x35, 0xA3, 0xBC};
 
         string expected = "FF35A3BC";
-        string result = PlayEncoding.Hexadecimal.GetString(testData);
+        string result = PlayEncoding.Hexadecimal.DecodeToString(testData);
 
         Assert.Equal(expected, result);
     }

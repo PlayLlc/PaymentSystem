@@ -22,7 +22,7 @@ namespace Play.Ber.Codecs;
 /// </remarks>
 public sealed class BitStringBerCodec : BerPrimitiveCodec
 {
-    #region Static Metadata
+    #region Metadata
 
     private static readonly UnsignedInteger _UnsignedIntegerCodec = PlayEncoding.UnsignedInteger;
     public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(BitStringBerCodec));
@@ -50,9 +50,23 @@ public sealed class BitStringBerCodec : BerPrimitiveCodec
 
     #endregion
 
-    #region Instance Members
+    #region Count
 
-    public override BerEncodingId GetIdentifier() => Identifier;
+    public override ushort GetByteCount<T>(T[] value)
+    {
+        nint byteSize = Unsafe.SizeOf<T>();
+
+        if (byteSize == 1)
+            return (ushort) Unsafe.As<T[], byte[]>(ref value).AsSpan().Length;
+
+        throw new NotImplementedException();
+    }
+
+    public override ushort GetByteCount<T>(T value) => (ushort) Unsafe.SizeOf<T>();
+
+    #endregion
+
+    #region Validation
 
     public override bool IsValid(ReadOnlySpan<byte> value) =>
         IsBitStringLengthValid(value) && IsLeadingOctetInRange(value) && AreUnusedBitsCorrect(value);
@@ -82,6 +96,31 @@ public sealed class BitStringBerCodec : BerPrimitiveCodec
         }
     }
 
+    /// <summary>
+    ///     If the BitStringTag is empty, there shall be no subsequent octets, and the initial octet shall be zero.
+    /// </summary>
+    /// <remarks>
+    ///     X.690-0270 Section 8.6.2.3
+    /// </remarks>
+    /// <param name="value"></param>
+    private static bool IsBitStringLengthValid(ReadOnlySpan<byte> value)
+    {
+        if (value.Length > MinByteCount)
+            return true;
+
+        if (value.Length < MinByteCount)
+            return false;
+
+        if ((value.Length == MinByteCount) && (value[0] != 0x00))
+            return false;
+
+        return true;
+    }
+
+    #endregion
+
+    #region Encode
+
     public override byte[] Encode<T>(T[] value)
     {
         nint byteSize = Unsafe.SizeOf<T>();
@@ -99,26 +138,6 @@ public sealed class BitStringBerCodec : BerPrimitiveCodec
         if (byteSize == 1)
             return Encode(Unsafe.As<T[], byte[]>(ref value).AsSpan(), length);
 
-        throw new NotImplementedException();
-    }
-
-    public override void Encode<T>(T value, Span<byte> buffer, ref int offset)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset)
-    {
         throw new NotImplementedException();
     }
 
@@ -251,7 +270,7 @@ public sealed class BitStringBerCodec : BerPrimitiveCodec
 
         byte[] result = new byte[Specs.Integer.UInt32.BitStringByteSize];
         result[0] = value.RightPaddedUnsetBitCount();
-        new Span<byte>(_UnsignedIntegerCodec.GetBytes(value))[((Specs.Integer.UInt32.ByteSize - length) + 1)..].CopyTo(result[1..]);
+        new Span<byte>(_UnsignedIntegerCodec.GetBytes(value))[((Specs.Integer.UInt32.ByteCount - length) + 1)..].CopyTo(result[1..]);
 
         return result;
     }
@@ -396,54 +415,29 @@ public sealed class BitStringBerCodec : BerPrimitiveCodec
         return Encode(bitStringValue);
     }
 
-    public override ushort GetByteCount<T>(T[] value)
+    public override void Encode<T>(T value, Span<byte> buffer, ref int offset)
     {
-        nint byteSize = Unsafe.SizeOf<T>();
-
-        if (byteSize == 1)
-            return (ushort) Unsafe.As<T[], byte[]>(ref value).AsSpan().Length;
-
         throw new NotImplementedException();
     }
 
-    public override ushort GetByteCount<T>(T value) => (ushort) Unsafe.SizeOf<T>();
-    private static bool AreUnusedBitsCorrect(ReadOnlySpan<byte> value) => value[^1].RightPaddedUnsetBitCount() == value[0];
-
-    /// <summary>
-    ///     If the BitStringTag is empty, there shall be no subsequent octets, and the initial octet shall be zero.
-    /// </summary>
-    /// <remarks>
-    ///     X.690-0270 Section 8.6.2.3
-    /// </remarks>
-    /// <param name="value"></param>
-    private static bool IsBitStringLengthValid(ReadOnlySpan<byte> value)
+    public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset)
     {
-        if (value.Length > MinByteCount)
-            return true;
-
-        if (value.Length < MinByteCount)
-            return false;
-
-        if ((value.Length == MinByteCount) && (value[0] != 0x00))
-            return false;
-
-        return true;
+        throw new NotImplementedException();
     }
 
-    private static bool IsLeadingOctetInRange(ReadOnlySpan<byte> value)
+    public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset)
     {
-        if (value[0] < LeadingOctetMinValue)
-            return false;
+        throw new NotImplementedException();
+    }
 
-        if (value[0] > LeadingOctetMaxValue)
-            return false;
-
-        return true;
+    public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset)
+    {
+        throw new NotImplementedException();
     }
 
     #endregion
 
-    #region Serialization
+    #region Decode To DecodedMetadata
 
     public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
     {
@@ -480,6 +474,24 @@ public sealed class BitStringBerCodec : BerPrimitiveCodec
         BigInteger bigIntegerResult = _UnsignedIntegerCodec.GetBigInteger(value);
 
         return new DecodedResult<BigInteger>(bigIntegerResult, _UnsignedIntegerCodec.GetCharCount(bigIntegerResult));
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    public override BerEncodingId GetIdentifier() => Identifier;
+    private static bool AreUnusedBitsCorrect(ReadOnlySpan<byte> value) => value[^1].RightPaddedUnsetBitCount() == value[0];
+
+    private static bool IsLeadingOctetInRange(ReadOnlySpan<byte> value)
+    {
+        if (value[0] < LeadingOctetMinValue)
+            return false;
+
+        if (value[0] > LeadingOctetMaxValue)
+            return false;
+
+        return true;
     }
 
     #endregion

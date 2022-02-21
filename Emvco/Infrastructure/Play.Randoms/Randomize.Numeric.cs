@@ -41,7 +41,7 @@ public partial class Randomize
 
         public static uint UInt()
         {
-            Span<byte> buffer = Bytes(Specs.Integer.UInt32.ByteSize);
+            Span<byte> buffer = Bytes(Specs.Integer.UInt32.ByteCount);
 
             return PlayEncoding.UnsignedInteger.GetUInt32(buffer);
         }

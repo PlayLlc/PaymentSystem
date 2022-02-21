@@ -56,7 +56,7 @@ public readonly record struct Tag
     #region Instance Members
 
     public override string ToString() =>
-        $"Hex: {PlayEncoding.Hexadecimal.GetString(Serialize())}; Binary: {PlayEncoding.Binary.GetString(_Value)}";
+        $"Hex: {PlayEncoding.Hexadecimal.DecodeToString(Serialize())}; Binary: {PlayEncoding.Binary.GetString(_Value)}";
 
     public readonly byte GetByteCount() => GetByteCount(_Value);
 

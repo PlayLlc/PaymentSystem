@@ -52,8 +52,8 @@ public record FileIdentifier : PrimitiveValue
         Span<byte> buffer = spanOwner.Span;
 
         PlayEncoding.UnsignedBinary.GetBytes(Tag).CopyTo(buffer);
-        PlayEncoding.UnsignedBinary.GetBytes(Specs.Integer.Int16.ByteSize).CopyTo(buffer[1..]);
-        PlayEncoding.UnsignedInteger.GetBytes(_Value).AsSpan().CopyTo(buffer[^Specs.Integer.Int16.ByteSize..]);
+        PlayEncoding.UnsignedBinary.GetBytes(Specs.Integer.Int16.ByteCount).CopyTo(buffer[1..]);
+        PlayEncoding.UnsignedInteger.GetBytes(_Value).AsSpan().CopyTo(buffer[^Specs.Integer.Int16.ByteCount..]);
 
         return buffer.ToArray();
     }
@@ -61,7 +61,7 @@ public record FileIdentifier : PrimitiveValue
     public override BerEncodingId GetBerEncodingId() => BerEncodingId;
     public override Tag GetTag() => Tag;
     private int GetTlvByteCount() => 4;
-    public override ushort GetValueByteCount(BerCodec codec) => Specs.Integer.Int16.ByteSize;
+    public override ushort GetValueByteCount(BerCodec codec) => Specs.Integer.Int16.ByteCount;
 
     #endregion
 

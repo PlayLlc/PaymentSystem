@@ -27,10 +27,10 @@ public abstract class EventBase : IEquatable<EventBase>
         string fullName = eventType.AssemblyQualifiedName!;
         ReadOnlySpan<byte> buffer = Encoding.Unicode.GetBytes(fullName);
 
-        if (buffer.Length > Specs.Integer.Int64.ByteSize)
-            return new EventTypeId(BitConverter.ToUInt16(buffer[..Specs.Integer.Int64.ByteSize]));
+        if (buffer.Length > Specs.Integer.Int64.ByteCount)
+            return new EventTypeId(BitConverter.ToUInt16(buffer[..Specs.Integer.Int64.ByteCount]));
 
-        Span<byte> resultBuffer = stackalloc byte[Specs.Integer.Int16.ByteSize];
+        Span<byte> resultBuffer = stackalloc byte[Specs.Integer.Int16.ByteCount];
         buffer.CopyTo(resultBuffer);
 
         return new EventTypeId(BitConverter.ToUInt16(resultBuffer));

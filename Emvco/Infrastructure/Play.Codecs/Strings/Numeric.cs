@@ -107,7 +107,7 @@ public class Numeric : PlayEncoding
             return GetBytes(Unsafe.As<T, byte>(ref value));
         if (byteSize == Specs.Integer.UInt16.ByteSize)
             return GetBytes(Unsafe.As<T, ushort>(ref value));
-        if (byteSize <= Specs.Integer.UInt32.ByteSize)
+        if (byteSize <= Specs.Integer.UInt32.ByteCount)
             return GetBytes(Unsafe.As<T, uint>(ref value));
         if (byteSize <= Specs.Integer.UInt64.ByteCount)
             return GetBytes(Unsafe.As<T, ulong>(ref value));
@@ -123,7 +123,7 @@ public class Numeric : PlayEncoding
             return GetBytes(Unsafe.As<T, ushort>(ref value));
         if (length == 3)
             return GetBytes(Unsafe.As<T, uint>(ref value), length);
-        if (length == Specs.Integer.UInt32.ByteSize)
+        if (length == Specs.Integer.UInt32.ByteCount)
             return GetBytes(Unsafe.As<T, uint>(ref value));
         if (length < Specs.Integer.UInt64.ByteCount)
             return GetBytes(Unsafe.As<T, ulong>(ref value), length);
@@ -159,7 +159,7 @@ public class Numeric : PlayEncoding
             GetBytes(Unsafe.As<T, byte>(ref value), buffer, ref offset);
         else if (byteSize == Specs.Integer.UInt16.ByteSize)
             GetBytes(Unsafe.As<T, ushort>(ref value), buffer, ref offset);
-        else if (byteSize <= Specs.Integer.UInt32.ByteSize)
+        else if (byteSize <= Specs.Integer.UInt32.ByteCount)
             GetBytes(Unsafe.As<T, uint>(ref value), buffer, ref offset);
         else if (byteSize <= Specs.Integer.UInt64.ByteCount)
             GetBytes(Unsafe.As<T, ulong>(ref value), buffer, ref offset);
@@ -175,7 +175,7 @@ public class Numeric : PlayEncoding
             GetBytes(Unsafe.As<T, ushort>(ref value));
         else if (length == 3)
             GetBytes(Unsafe.As<T, uint>(ref value), length, buffer, ref offset);
-        else if (length == Specs.Integer.UInt32.ByteSize)
+        else if (length == Specs.Integer.UInt32.ByteCount)
             GetBytes(Unsafe.As<T, uint>(ref value), buffer, ref offset);
         else if (length < Specs.Integer.UInt64.ByteCount)
             GetBytes(Unsafe.As<T, ulong>(ref value), length, buffer, ref offset);
@@ -278,7 +278,7 @@ public class Numeric : PlayEncoding
 
     public byte[] GetBytes(uint value)
     {
-        const byte byteSize = Specs.Integer.UInt32.ByteSize;
+        const byte byteSize = Specs.Integer.UInt32.ByteCount;
         byte numberOfDigits = value.GetNumberOfDigits();
         int numberOfBytes = (numberOfDigits / 2) + (numberOfDigits % 2);
 

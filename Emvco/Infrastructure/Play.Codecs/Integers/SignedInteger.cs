@@ -319,7 +319,7 @@ public class SignedInteger : PlayEncoding
 
     public short GetInt16(ReadOnlySpan<byte> value)
     {
-        const byte byteLength = Specs.Integer.Int16.ByteSize;
+        const byte byteLength = Specs.Integer.Int16.ByteCount;
         const ushort max = ushort.MaxValue;
         short result = 0;
         byte bitShift = 0;
@@ -349,7 +349,7 @@ public class SignedInteger : PlayEncoding
     public int GetInt32(ReadOnlySpan<byte> value)
     {
         const uint max = uint.MaxValue;
-        const byte byteLength = Specs.Integer.Int32.ByteSize;
+        const byte byteLength = Specs.Integer.Int32.ByteCount;
         int result = 0;
         byte bitShift = 0;
 
@@ -378,7 +378,7 @@ public class SignedInteger : PlayEncoding
     public long GetInt64(ReadOnlySpan<byte> value)
     {
         const ulong max = ulong.MaxValue;
-        const byte byteLength = Specs.Integer.Int64.ByteSize;
+        const byte byteLength = Specs.Integer.Int64.ByteCount;
         long result = 0;
         int bitShift = 0;
 

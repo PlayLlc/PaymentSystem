@@ -328,7 +328,7 @@ public class UnsignedInteger : PlayEncoding
 
     public uint GetUInt32(ReadOnlySpan<byte> value)
     {
-        const byte byteLength = Specs.Integer.UInt32.ByteSize;
+        const byte byteLength = Specs.Integer.UInt32.ByteCount;
 
         if (value.Length < byteLength)
         {

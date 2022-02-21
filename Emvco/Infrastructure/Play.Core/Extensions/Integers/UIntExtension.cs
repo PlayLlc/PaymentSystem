@@ -77,7 +77,7 @@ public static class UIntExtension
 
     public static uint SetBit(this in uint input, Bits bitToSet, byte bytePosition)
     {
-        if (bytePosition > Specs.Integer.UInt32.ByteSize)
+        if (bytePosition > Specs.Integer.UInt32.ByteCount)
             throw new ArgumentOutOfRangeException(nameof(bytePosition));
 
         return input | ((uint) bitToSet << ((bytePosition * 8) - 8));
@@ -87,7 +87,7 @@ public static class UIntExtension
 
     public static uint SetBits(this in uint input, byte bitsToSet, byte bytePosition)
     {
-        if (bytePosition > Specs.Integer.UInt32.ByteSize)
+        if (bytePosition > Specs.Integer.UInt32.ByteCount)
             throw new ArgumentOutOfRangeException(nameof(bytePosition));
 
         return input | (uint) (bitsToSet << (bytePosition * 8));

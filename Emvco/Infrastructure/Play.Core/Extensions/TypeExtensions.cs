@@ -79,9 +79,23 @@ public static class TypeExtensions
     public static bool HasDefaultConstructor(this Type t) => t.IsValueType || (t.GetConstructor(Type.EmptyTypes) != null);
     public static bool IsEnumerable(this Type value) => typeof(IEnumerable).IsAssignableFrom(value);
 
+    public static bool IsSignedInteger(this Type value)
+    {
+        return Type.GetTypeCode(value) switch
+        {
+            TypeCode.SByte => true,
+            TypeCode.Int16 => true,
+            TypeCode.Int32 => true,
+            TypeCode.Int64 => true,
+            _ => false
+        };
+    }
+
     public static bool IsNumericType(this Type value)
     {
-        if (value == typeof(BigInteger))
+        const string bigInteger = nameof(BigInteger);
+
+        if (value.Name == bigInteger)
             return true;
 
         return Type.GetTypeCode(value) switch
@@ -97,6 +111,27 @@ public static class TypeExtensions
             TypeCode.Decimal => true,
             TypeCode.Double => true,
             TypeCode.Single => true,
+            _ => false
+        };
+    }
+
+    public static bool IsByte(this Type value)
+    {
+        return Type.GetTypeCode(value) switch
+        {
+            TypeCode.Byte => true,
+            _ => false
+        };
+    }
+
+    public static bool IsChar(this Type value)
+    {
+        if (value == typeof(BigInteger))
+            return true;
+
+        return Type.GetTypeCode(value) switch
+        {
+            TypeCode.Char => true,
             _ => false
         };
     }

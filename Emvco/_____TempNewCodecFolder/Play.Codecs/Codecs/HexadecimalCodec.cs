@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using System.Runtime.CompilerServices;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
@@ -158,9 +159,59 @@ public class HexadecimalCodec : PlayCodec
         return result;
     }
 
-    public override byte[] Encode<_T>(_T value) => throw new NotImplementedException();
-    public override byte[] Encode<_T>(_T value, int length) => throw new NotImplementedException();
-    public override byte[] Encode<_T>(_T[] value) => throw new NotImplementedException();
+    public byte[] Encode(byte value) => UnsignedIntegerCodec.Encode(value);
+    public byte[] Encode(ushort value) => UnsignedIntegerCodec.Encode(value);
+    public byte[] Encode(uint value) => UnsignedIntegerCodec.Encode(value);
+    public byte[] Encode(ulong value) => UnsignedIntegerCodec.Encode(value);
+    public byte[] Encode(BigInteger value) => value.ToByteArray();
+
+    public override byte[] Encode<_T>(_T value)
+    {
+        if (typeof(_T) == typeof(char))
+            return Encode(Unsafe.As<_T, char>(ref value));
+
+        nint byteSize = Unsafe.SizeOf<_T>();
+
+        if (byteSize == Specs.Integer.UInt8.ByteSize)
+            return Encode(Unsafe.As<_T, byte>(ref value));
+        if (byteSize == Specs.Integer.UInt16.ByteSize)
+            return Encode(Unsafe.As<_T, ushort>(ref value));
+        if (byteSize <= Specs.Integer.UInt32.ByteCount)
+            return Encode(Unsafe.As<_T, uint>(ref value));
+        if (byteSize <= Specs.Integer.UInt64.ByteCount)
+            return Encode(Unsafe.As<_T, ulong>(ref value));
+
+        return Encode(Unsafe.As<_T, BigInteger>(ref value));
+    }
+
+    public override byte[] Encode<_T>(_T value, int length)
+    {
+        if (typeof(_T) == typeof(char))
+            return Encode(Unsafe.As<_T, char>(ref value));
+        if (length == Specs.Integer.UInt8.ByteSize)
+            return Encode(Unsafe.As<_T, byte>(ref value));
+        if (length == Specs.Integer.UInt16.ByteSize)
+            return Encode(Unsafe.As<_T, ushort>(ref value));
+        if (length == 3)
+            return Encode(Unsafe.As<_T, uint>(ref value), length);
+        if (length == Specs.Integer.UInt32.ByteCount)
+            return Encode(Unsafe.As<_T, uint>(ref value));
+        if (length < Specs.Integer.UInt64.ByteCount)
+            return Encode(Unsafe.As<_T, ulong>(ref value), length);
+        if (length == Specs.Integer.UInt64.ByteCount)
+            return Encode(Unsafe.As<_T, ulong>(ref value));
+
+        return Encode(Unsafe.As<_T, BigInteger>(ref value), length);
+    }
+
+    public override byte[] Encode<_T>(_T[] value)
+    {
+        if (typeof(_T) == typeof(char))
+            return Encode(Unsafe.As<_T[], char[]>(ref value));
+        if (typeof(_T) == typeof(byte))
+            return Encode(Unsafe.As<_T[], byte[]>(ref value));
+    }
+
     public override byte[] Encode<_T>(_T[] value, int length) => throw new NotImplementedException();
 
     /// <exception cref="PlayEncodingException"></exception>
@@ -190,6 +241,26 @@ public class HexadecimalCodec : PlayCodec
         return bytesEncoded;
     }
 
+    public void Encode(byte value, Span<byte> buffer, ref int offset)
+    {
+        buffer[offset++] = value;
+    }
+
+    public void Encode(ushort value, Span<byte> buffer, ref int offset)
+    {
+        UnsignedIntegerCodec.Encode(value, buffer, ref offset);
+    }
+
+    public void Encode(uint value, Span<byte> buffer, ref int offset)
+    {
+        UnsignedIntegerCodec.Encode(value, buffer, ref offset);
+    }
+
+    public void Encode(ulong value, Span<byte> buffer, ref int offset)
+    {
+        UnsignedIntegerCodec.Encode(value, buffer, ref offset);
+    }
+
     public void Encode(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -217,16 +288,6 @@ public class HexadecimalCodec : PlayCodec
 
         for (; offset < (offset + length); stringIndex += 2)
             buffer[offset++] = (byte) ((DecodeToByte(value[stringIndex]) << 4) | DecodeToByte(value[stringIndex + 1]));
-    }
-
-    public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset)
-    {
-        throw new NotImplementedException();
     }
 
     public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
@@ -380,6 +441,8 @@ public class HexadecimalCodec : PlayCodec
     /// <returns></returns>
     public uint DecodeToUInt32(ReadOnlySpan<char> value) => UnsignedIntegerCodec.DecodeToUInt32(Encode(value));
 
+    public ulong DecodeToUInt64(ReadOnlySpan<char> value) => UnsignedIntegerCodec.DecodeToUInt64(Encode(value));
+
     /// <summary>
     ///     Returns an unsigned integer from the Hexadecimal string provided
     /// </summary>
@@ -408,6 +471,43 @@ public class HexadecimalCodec : PlayCodec
     #region Decode To DecodedMetadata
 
     public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => throw new NotImplementedException();
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        ReadOnlySpan<byte> trimmedValue = value.TrimStart((byte) 0);
+
+        if (value.Length == Specs.Integer.UInt8.ByteSize)
+        {
+            byte byteResult = DecodeToByte(trimmedValue[0]);
+
+            return new DecodedResult<byte>(byteResult, value.Length * 2);
+        }
+
+        if (value.Length <= Specs.Integer.UInt16.ByteSize)
+        {
+            ushort shortResult = DecodeToUInt16(trimmedValue);
+
+            return new DecodedResult<ushort>(shortResult, value.Length * 2);
+        }
+
+        if (value.Length <= Specs.Integer.UInt32.ByteCount)
+        {
+            uint intResult = DecodeToUInt32(trimmedValue);
+
+            return new DecodedResult<uint>(intResult, value.Length * 2);
+        }
+
+        if (value.Length <= Specs.Integer.UInt64.ByteCount)
+        {
+            ulong longResult = DecodeToUInt64(trimmedValue);
+
+            return new DecodedResult<ulong>(longResult, value.Length * 2);
+        }
+
+        BigInteger bigIntegerResult = DecodeToBigInteger(trimmedValue);
+
+        return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
+    }
 
     #endregion
 

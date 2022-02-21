@@ -158,13 +158,17 @@ public class CompressedNumericCodec : PlayCodec
 
     public override byte[] Encode<T>(T value)
     {
+        // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
+        if (!typeof(T).IsNumericType())
+            throw new InternalPlayEncodingException(this, typeof(T));
+
         nint byteSize = Unsafe.SizeOf<T>();
 
         if (byteSize == Specs.Integer.UInt8.ByteSize)
             return Encode(Unsafe.As<T, byte>(ref value));
         if (byteSize == Specs.Integer.UInt16.ByteSize)
             return Encode(Unsafe.As<T, ushort>(ref value));
-        if (byteSize <= Specs.Integer.UInt32.ByteSize)
+        if (byteSize <= Specs.Integer.UInt32.ByteCount)
             return Encode(Unsafe.As<T, uint>(ref value));
         if (byteSize <= Specs.Integer.UInt64.ByteCount)
             return Encode(Unsafe.As<T, ulong>(ref value));
@@ -180,7 +184,7 @@ public class CompressedNumericCodec : PlayCodec
             return Encode(Unsafe.As<T, ushort>(ref value));
         if (length == 3)
             return Encode(Unsafe.As<T, uint>(ref value), length);
-        if (length == Specs.Integer.UInt32.ByteSize)
+        if (length == Specs.Integer.UInt32.ByteCount)
             return Encode(Unsafe.As<T, uint>(ref value));
         if (length < Specs.Integer.UInt64.ByteCount)
             return Encode(Unsafe.As<T, ulong>(ref value), length);
@@ -291,7 +295,7 @@ public class CompressedNumericCodec : PlayCodec
 
     public byte[] Encode(uint value)
     {
-        const byte byteSize = Specs.Integer.UInt32.ByteSize;
+        const byte byteSize = Specs.Integer.UInt32.ByteCount;
         int padCount = value.GetNumberOfDigits() - (byteSize * 2);
 
         using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(byteSize);
@@ -310,7 +314,7 @@ public class CompressedNumericCodec : PlayCodec
 
     public byte[] Encode(uint value, int length)
     {
-        const byte byteSize = Specs.Integer.UInt32.ByteSize;
+        const byte byteSize = Specs.Integer.UInt32.ByteCount;
 
         if (length > (byteSize * 2))
             throw new Exception();
@@ -451,7 +455,7 @@ public class CompressedNumericCodec : PlayCodec
             Encode(Unsafe.As<T, byte>(ref value), buffer, ref offset);
         else if (byteSize == Specs.Integer.UInt16.ByteSize)
             Encode(Unsafe.As<T, ushort>(ref value), buffer, ref offset);
-        else if (byteSize <= Specs.Integer.UInt32.ByteSize)
+        else if (byteSize <= Specs.Integer.UInt32.ByteCount)
             Encode(Unsafe.As<T, uint>(ref value), buffer, ref offset);
         else if (byteSize <= Specs.Integer.UInt64.ByteCount)
             Encode(Unsafe.As<T, ulong>(ref value), buffer, ref offset);
@@ -467,7 +471,7 @@ public class CompressedNumericCodec : PlayCodec
             Encode(Unsafe.As<T, ushort>(ref value));
         else if (length == 3)
             Encode(Unsafe.As<T, uint>(ref value), length, buffer, ref offset);
-        else if (length == Specs.Integer.UInt32.ByteSize)
+        else if (length == Specs.Integer.UInt32.ByteCount)
             Encode(Unsafe.As<T, uint>(ref value), buffer, ref offset);
         else if (length < Specs.Integer.UInt64.ByteCount)
             Encode(Unsafe.As<T, ulong>(ref value), length, buffer, ref offset);

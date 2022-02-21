@@ -7,6 +7,16 @@ public class InternalPlayEncodingException : PlayEncodingException
     #region Constructor
 
     public InternalPlayEncodingException(
+        PlayCodec codec,
+        Type encodedType,
+        [CallerFilePath] string fileName = "",
+        [CallerMemberName] string memberName = "",
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(InternalPlayEncodingException), fileName, memberName, lineNumber)} "
+        + $"The {codec.GetType().Name} does not have the capability to {memberName} the type: [{encodedType.Name}]")
+    { }
+
+    public InternalPlayEncodingException(
         string message,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
