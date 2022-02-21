@@ -1,5 +1,4 @@
 ﻿using Play.Codecs;
-using Play.Emv.Codecs;
 
 namespace Play.Emv.Acquirer.Codecs;
 

@@ -1,4 +1,6 @@
-﻿using Play.Codecs;
+﻿using Microsoft.Toolkit.HighPerformance;
+
+using Play.Codecs;
 using Play.Interchange.Exceptions;
 
 namespace Play.Interchange.Codecs.Dynamic;

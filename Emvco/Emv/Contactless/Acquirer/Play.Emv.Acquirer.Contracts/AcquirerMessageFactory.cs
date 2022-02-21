@@ -1,7 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Emv.Acquirer.Contracts.SignalIn;
 using Play.Emv.Ber.DataObjects;
-using Play.Interchange.Messages.Header;
+using Play.Emv.DataElements.Interchange;
 
 namespace Play.Emv.Acquirer.Contracts;
 

@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Emv.Acquirer.Contracts;
-using Play.Emv.Acquirer.Contracts.SignalOut;
-using Play.Emv.Configuration;
+﻿using Play.Emv.Acquirer.Contracts.SignalOut;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Messaging;

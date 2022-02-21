@@ -1,24 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Play.Emv.Acquirer.Contracts;
-using Play.Emv.Acquirer.Contracts.SignalIn;
-using Play.Emv.Acquirer.Contracts.SignalOut;
-using Play.Emv.Ber.DataObjects;
+﻿using Play.Emv.Acquirer.Contracts.SignalOut;
 using Play.Emv.Configuration;
-using Play.Emv.DataElements;
 using Play.Emv.DataElements.Emv;
-using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.StateMachine;
 using Play.Emv.Messaging;
-using Play.Emv.Reader.Contracts;
-using Play.Emv.Reader.Contracts.SignalIn;
 using Play.Emv.Reader.Contracts.SignalOut;
 using Play.Emv.Sessions;
-using Play.Emv.Terminal.Configuration;
 using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Emv.Terminal.Session;
 using Play.Emv.Terminal.StateMachine;

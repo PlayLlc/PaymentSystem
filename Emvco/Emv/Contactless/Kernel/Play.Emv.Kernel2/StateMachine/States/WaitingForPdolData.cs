@@ -1,6 +1,5 @@
 ﻿using System;
 
-using Play.Emv.DataElements;
 using Play.Emv.DataElements.Emv;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
@@ -56,6 +55,8 @@ internal class WaitingForPdolData : KernelState
 
     #endregion
 
+    #region Instance Members
+
     public override StateId GetStateId() => StateId;
 
     #region ACT
@@ -68,6 +69,25 @@ internal class WaitingForPdolData : KernelState
     #region CLEAN
 
     public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    #endregion
+
+    #region RAPDU
+
+    public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    #endregion
+
+    #region DET
+
+    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) => throw new NotImplementedException();
+
+    #endregion
+
+    // BUG: The messages below should be handled by the DEK
+    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) => throw new NotImplementedException();
+    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) => throw new NotImplementedException();
 
     #endregion
 
@@ -107,21 +127,4 @@ internal class WaitingForPdolData : KernelState
     }
 
     #endregion
-
-    #region RAPDU
-
-    public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    #endregion
-
-    #region DET
-
-    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) => throw new NotImplementedException();
-
-    #endregion
-
-    // BUG: The messages below should be handled by the DEK
-    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) => throw new NotImplementedException();
-    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) => throw new NotImplementedException();
 }

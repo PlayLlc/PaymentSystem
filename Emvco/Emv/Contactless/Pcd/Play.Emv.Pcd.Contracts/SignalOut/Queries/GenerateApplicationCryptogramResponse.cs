@@ -2,7 +2,6 @@
 using System.Linq;
 
 using Play.Ber.DataObjects;
-using Play.Emv.DataElements;
 using Play.Emv.DataElements.Emv;
 using Play.Emv.Icc.GenerateApplicationCryptogram;
 using Play.Emv.Sessions;

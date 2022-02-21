@@ -1,7 +1,6 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Emv.DataElements;
 using Play.Emv.DataElements.Emv;
 using Play.Globalization.Country;
 using Play.Globalization.Currency;

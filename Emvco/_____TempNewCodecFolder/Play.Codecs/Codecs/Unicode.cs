@@ -20,7 +20,7 @@ public class UnicodeCodec
     public PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
     public int GetByteCount(char[] chars, int index, int count) => _UnicodeCodec.GetByteCount(chars, index, count);
 
-    public int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex) =>
+    public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex) =>
         _UnicodeCodec.GetBytes(chars, charIndex, charCount, bytes, byteIndex);
 
     public int GetCharCount(byte[] bytes, int index, int count) => _UnicodeCodec.GetCharCount(bytes, index, count);
@@ -31,7 +31,7 @@ public class UnicodeCodec
     public int GetMaxByteCount(int charCount) => _UnicodeCodec.GetMaxByteCount(charCount);
     public int GetMaxCharCount(int byteCount) => _UnicodeCodec.GetMaxCharCount(byteCount);
 
-    public byte[] GetBytes(ReadOnlySpan<char> value)
+    public byte[] Encode(ReadOnlySpan<char> value)
     {
         int byteCount = _UnicodeCodec.GetByteCount(value);
 
@@ -52,7 +52,7 @@ public class UnicodeCodec
         }
     }
 
-    public int GetBytes(ReadOnlySpan<char> value, Span<byte> buffer) => _UnicodeCodec.GetBytes(value, buffer);
+    public int Encode(ReadOnlySpan<char> value, Span<byte> buffer) => _UnicodeCodec.GetBytes(value, buffer);
     public string GetString(ReadOnlySpan<byte> value) => _UnicodeCodec.GetString(value);
     public bool IsValid(ReadOnlySpan<char> value) => true;
     private bool IsValid(byte value) => Rune.IsValid(value);
@@ -70,7 +70,7 @@ public class UnicodeCodec
 
     public bool TryGetBytes(ReadOnlySpan<char> value, out byte[] result)
     {
-        result = GetBytes(value);
+        result = Encode(value);
 
         return true;
     }

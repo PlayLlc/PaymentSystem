@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Play.Ber.Identifiers;
 using Play.Core;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements;
 using Play.Emv.DataElements.Emv;
 
 namespace Play.Emv.Kernel.DataExchange;

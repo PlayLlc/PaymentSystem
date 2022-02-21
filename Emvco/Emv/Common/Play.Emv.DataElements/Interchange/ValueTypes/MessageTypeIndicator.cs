@@ -1,6 +1,6 @@
 ﻿using Play.Codecs;
 
-namespace Play.Interchange.Messages.Header;
+namespace Play.Emv.DataElements.Interchange;
 
 /// <summary>
 ///     The message type indicator is a four-digit numeric field which indicates the overall function of the message. A
@@ -20,15 +20,6 @@ public readonly struct MessageTypeIndicator
     public MessageTypeIndicator(ushort value)
     {
         _Value = value;
-    }
-
-    public MessageTypeIndicator(Version version, Class @class, Function function, Origin origin)
-    {
-        byte result = (byte) (version * 1000);
-        result |= (byte) (@class * 100);
-        result |= (byte) (function * 10);
-        result |= origin;
-        _Value = result;
     }
 
     #endregion

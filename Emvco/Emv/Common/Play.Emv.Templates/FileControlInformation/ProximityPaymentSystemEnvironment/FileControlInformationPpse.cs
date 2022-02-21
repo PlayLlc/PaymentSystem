@@ -4,7 +4,6 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements;
 using Play.Emv.DataElements.Emv;
 using Play.Icc.FileSystem.DedicatedFiles;
 

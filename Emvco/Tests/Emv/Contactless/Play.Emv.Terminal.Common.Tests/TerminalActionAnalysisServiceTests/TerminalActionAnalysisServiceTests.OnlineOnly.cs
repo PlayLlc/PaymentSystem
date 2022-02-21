@@ -1,6 +1,5 @@
 ﻿using AutoFixture;
 
-using Play.Emv.DataElements;
 using Play.Emv.DataElements.Emv;
 using Play.Emv.Icc;
 using Play.Emv.Sessions;

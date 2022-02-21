@@ -1,6 +1,4 @@
-﻿using Play.Codecs._References;
-
-namespace Play.Codecs;
+﻿namespace Play.Codecs;
 
 public readonly record struct PlayEncodingId
 {
@@ -19,12 +17,12 @@ public readonly record struct PlayEncodingId
 
     public PlayEncodingId(ReadOnlySpan<char> value)
     {
-        _Value = PlayEncoding.SignedInteger.DecodeToInt32(PlayEncoding.Unicode.GetBytes(value));
+        _Value = PlayCodec.SignedIntegerCodec.DecodeToInt32(PlayCodec.UnicodeCodec.Encode(value));
     }
 
     public PlayEncodingId(Type value)
     {
-        _Value = PlayEncoding.SignedInteger.DecodeToInt32(PlayEncoding.Unicode.GetBytes(value.FullName));
+        _Value = PlayCodec.SignedIntegerCodec.DecodeToInt32(PlayCodec.UnicodeCodec.Encode(value.FullName));
     }
 
     #endregion

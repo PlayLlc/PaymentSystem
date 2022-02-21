@@ -5,7 +5,6 @@ using Play.Emv.DataElements.Interchange;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Globalization.Time;
-using Play.Interchange.Messages.Header;
 
 namespace Play.Emv.Terminal.Session;
 

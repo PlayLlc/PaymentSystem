@@ -2,7 +2,6 @@
 using AutoFixture.AutoMoq;
 
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements;
 using Play.Emv.DataElements.Emv;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Common.Services.TerminalActionAnalysis.Terminal;

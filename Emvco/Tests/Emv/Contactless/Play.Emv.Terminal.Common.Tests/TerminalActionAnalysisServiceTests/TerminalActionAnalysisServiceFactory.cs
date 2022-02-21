@@ -7,7 +7,6 @@ using AutoFixture;
 using Moq;
 
 using Play.Emv.Configuration;
-using Play.Emv.DataElements;
 using Play.Emv.DataElements.Emv;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;

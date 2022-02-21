@@ -1,8 +1,6 @@
-﻿using Play.Emv.Acquirer.Contracts;
-using Play.Emv.DataElements;
-using Play.Emv.DataElements.Emv;
+﻿using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Interchange;
 using Play.Emv.Messaging;
-using Play.Interchange.Messages.Header;
 using Play.Messaging;
 
 namespace Play.Emv.Terminal.Contracts.SignalIn;

@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 
 using Play.Core.Math;
-using Play.Emv.DataElements;
 using Play.Emv.DataElements.Emv;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.Messages.Commands;

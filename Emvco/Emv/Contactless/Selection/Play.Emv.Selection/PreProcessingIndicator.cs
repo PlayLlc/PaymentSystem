@@ -1,5 +1,4 @@
 ﻿#nullable enable
-using Play.Emv.DataElements;
 using Play.Emv.DataElements.Emv;
 using Play.Emv.Selection.Contracts;
 using Play.Globalization;

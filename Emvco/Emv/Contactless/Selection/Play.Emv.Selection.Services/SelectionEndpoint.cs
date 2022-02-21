@@ -1,5 +1,4 @@
-﻿using Play.Emv.DataElements;
-using Play.Emv.DataElements.Emv;
+﻿using Play.Emv.DataElements.Emv;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
@@ -47,6 +46,30 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
     public ChannelTypeId GetChannelTypeId() => ChannelType.Selection;
     public ChannelIdentifier GetChannelIdentifier() => ChannelIdentifier;
 
+    #region Responses
+
+    void ISendSelectionResponses.Send(OutSelectionResponse message)
+    {
+        _EndpointClient.Send(message);
+    }
+
+    #endregion
+
+    public static SelectionEndpoint Create(
+        ICreateEndpointClient messageRouter,
+        IHandlePcdRequests pcdClient,
+        IHandleDisplayRequests displayClient,
+        TransactionProfile[] transactionProfiles,
+        PoiInformation poiInformation) =>
+        new(messageRouter, pcdClient, displayClient, transactionProfiles, poiInformation);
+
+    public void Dispose()
+    {
+        _EndpointClient.Unsubscribe();
+    }
+
+    #endregion
+
     #region Requests
 
     public void Request(RequestMessage message)
@@ -73,15 +96,6 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
 
     #endregion
 
-    #region Responses
-
-    void ISendSelectionResponses.Send(OutSelectionResponse message)
-    {
-        _EndpointClient.Send(message);
-    }
-
-    #endregion
-
     #region Callbacks
 
     public void Handle(ResponseMessage message)
@@ -94,21 +108,6 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
 
     public void Handle(SelectApplicationDefinitionFileInfoResponse response)
     { }
-
-    #endregion
-
-    public static SelectionEndpoint Create(
-        ICreateEndpointClient messageRouter,
-        IHandlePcdRequests pcdClient,
-        IHandleDisplayRequests displayClient,
-        TransactionProfile[] transactionProfiles,
-        PoiInformation poiInformation) =>
-        new(messageRouter, pcdClient, displayClient, transactionProfiles, poiInformation);
-
-    public void Dispose()
-    {
-        _EndpointClient.Unsubscribe();
-    }
 
     #endregion
 }

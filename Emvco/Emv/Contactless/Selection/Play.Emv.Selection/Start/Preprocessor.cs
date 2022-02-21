@@ -1,5 +1,4 @@
-﻿using Play.Emv.DataElements;
-using Play.Emv.DataElements.Emv;
+﻿using Play.Emv.DataElements.Emv;
 using Play.Emv.Outcomes;
 using Play.Globalization;
 using Play.Globalization.Time;
