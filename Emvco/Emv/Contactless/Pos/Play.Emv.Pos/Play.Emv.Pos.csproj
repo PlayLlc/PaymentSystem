@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Configuration\" />
     <Folder Include="Issuer\" />
+    <Folder Include="Merchant\" />
   </ItemGroup>
 
   <ItemGroup>

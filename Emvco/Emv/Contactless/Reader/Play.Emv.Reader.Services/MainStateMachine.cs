@@ -77,7 +77,8 @@ internal class MainStateMachine
 
             if (request.GetErrorIndication().IsErrorPresent())
             {
-                _OutcomeProcessor.Process(_Lock.Session.ActSignalCorrelationId, _Lock.Session.Transaction);
+                _OutcomeProcessor.Process(_Lock.Session.ActSignalCorrelationId, _Lock.Session.GetTransactionSessionId(),
+                    _Lock.Session.Transaction);
                 _SelectionEndpoint.Request(new StopSelectionRequest(_Lock.Session.GetTransactionSessionId()));
 
                 return;
@@ -112,7 +113,7 @@ internal class MainStateMachine
                     $"The {nameof(OutKernelResponse)} can't be processed because the Kernel is no longer active");
             }
 
-            _OutcomeProcessor.Process(_Lock.Session.ActSignalCorrelationId, _Lock.Session.Transaction);
+            _OutcomeProcessor.Process(_Lock.Session.ActSignalCorrelationId, request.GetKernelSessionId(), _Lock.Session.Transaction);
             _KernelRetriever.Enqueue(new StopKernelRequest(kernelSessionId!.Value));
         }
     }
@@ -143,7 +144,8 @@ internal class MainStateMachine
             if (_Lock.TryGetKernelSessionId(out KernelSessionId? kernelSessionId))
                 _KernelRetriever.Enqueue(new StopKernelRequest(kernelSessionId!.Value));
 
-            _OutcomeProcessor.Process(_Lock.Session.ActSignalCorrelationId, _Lock.Session.Transaction);
+            _OutcomeProcessor.Process(_Lock.Session.ActSignalCorrelationId, _Lock.Session.GetTransactionSessionId(),
+                _Lock.Session.Transaction);
         }
     }
 

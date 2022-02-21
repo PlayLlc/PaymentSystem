@@ -1,4 +1,7 @@
-﻿namespace Play.Emv.Acquirer.Elavon.DataElements;
+﻿using Play.Ber.Codecs;
+using Play.Emv.Ber.DataObjects;
+
+namespace Play.Emv.Acquirer.Elavon.DataElements;
 
 public abstract record ElavonDataElement<T> : DataElement<T>
 {

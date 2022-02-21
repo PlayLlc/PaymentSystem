@@ -67,7 +67,7 @@ internal class Idle : TerminalState
     public override TerminalState Handle(TerminalSession? session, InitiateSettlementRequest signal)
     {
         AcquirerMessageFactory settlementRequestFactory =
-            _AcquirerEndpoint.GetMessageFactory(MessageTypeIndicatorTypes.Reconciliation.ReconciliationRequest);
+            _AcquirerEndpoint.GetMessageFactory((ushort) MessageTypeIndicatorTypes.Reconciliation.ReconciliationRequest);
 
         AcquirerRequestSignal settlementRequest =
             _SettlementReconciliationService.CreateSettlementRequest(settlementRequestFactory, signal.SettlementRequestDateTimeUtc);

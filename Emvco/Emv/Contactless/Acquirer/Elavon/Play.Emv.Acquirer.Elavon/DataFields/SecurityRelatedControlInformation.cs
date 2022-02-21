@@ -1,4 +1,6 @@
-﻿namespace Play.Emv.Acquirer.Elavon.DataFields;
+﻿using Play.Core;
+
+namespace Play.Emv.Acquirer.Elavon.DataFields;
 
 public record SecurityRelatedControlInformation
 {

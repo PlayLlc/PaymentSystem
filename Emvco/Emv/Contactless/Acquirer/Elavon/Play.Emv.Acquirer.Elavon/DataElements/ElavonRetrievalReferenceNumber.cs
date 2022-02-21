@@ -1,4 +1,10 @@
-﻿namespace Play.Emv.Acquirer.Elavon.DataElements;
+﻿using Play.Ber.Codecs;
+using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
+using Play.Emv.Ber.Codecs;
+using Play.Emv.DataElements.Exceptions;
+
+namespace Play.Emv.Acquirer.Elavon.DataElements;
 
 /// <summary>
 ///     The Elavon RRN value will be returned to the POS or partner host system in the event of an approval of a sale

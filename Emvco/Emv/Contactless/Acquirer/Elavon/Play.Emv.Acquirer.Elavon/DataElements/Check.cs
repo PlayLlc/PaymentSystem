@@ -1,4 +1,7 @@
-﻿namespace Play.Emv.Acquirer.Elavon.DataElements;
+﻿using Play.Ber.Identifiers;
+using Play.Core.Exceptions;
+
+namespace Play.Emv.Acquirer.Elavon.DataElements;
 
 internal class Check
 {

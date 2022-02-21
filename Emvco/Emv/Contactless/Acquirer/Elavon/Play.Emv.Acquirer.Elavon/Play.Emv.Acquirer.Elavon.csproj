@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Play.Emv.Acquirer\Play.Emv.Acquirer.csproj" />
+  </ItemGroup>
+
 </Project>

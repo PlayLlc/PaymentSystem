@@ -1,5 +1,11 @@
 ﻿using System.Numerics;
 
+using Play.Ber.Codecs;
+using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
+using Play.Emv.Ber.Codecs;
+using Play.Emv.DataElements.Exceptions;
+
 namespace Play.Emv.Acquirer.Elavon.DataElements;
 
 public record ElavonForexData : ElavonDataElement<BigInteger>
