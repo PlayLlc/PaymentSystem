@@ -1,29 +1,9 @@
-﻿using System;
+﻿namespace ___Temp.CodecMergedShit;
 
-using Play.Ber.InternalFactories;
-using Play.Codecs;
-
-namespace Play.Ber.Codecs;
-
-/// <summary>
-///     A simple codec base class that can be inherited to customize an encoding class specific to the encoding rules of
-///     the implementing class
-/// </summary>
-public interface IPlayCodec
+public interface IEncodeStructs
 {
-    #region Instance Members
-
-    protected static PlayEncodingId GetEncodingId(Type encoder) => new(encoder.FullName);
-    public PlayEncodingId GetEncodingId();
-    public ushort GetByteCount<T>(T value) where T : struct;
-    public ushort GetByteCount<T>(T[] value) where T : struct;
-
-    /// <summary>
-    ///     This is for external validation of a sequence and will not throw an exception
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    public bool IsValid(ReadOnlySpan<byte> value);
+    public ushort GetByteCount<_T>(_T value) where _T : struct;
+    public ushort GetByteCount<_T>(_T[] value) where _T : struct;
 
     /// <summary>
     ///     Encodes the Value content according to this implementation's encoding rules
@@ -37,7 +17,7 @@ public interface IPlayCodec
     /// <returns>
     ///     The raw encoded bytes of the value provided
     /// </returns>
-    public byte[] Encode<T>(T value) where T : struct;
+    public byte[] Encode<_T>(_T value) where _T : struct;
 
     /// <summary>
     ///     Encodes the Value content according to this implementation's encoding rules
@@ -55,7 +35,7 @@ public interface IPlayCodec
     /// <returns>
     ///     The raw encoded bytes of the value provided
     /// </returns>
-    public byte[] Encode<T>(T value, int length) where T : struct;
+    public byte[] Encode<_T>(_T value, int length) where _T : struct;
 
     /// <summary>
     ///     Encodes the Value content according to this implementation's encoding rules
@@ -69,7 +49,7 @@ public interface IPlayCodec
     /// <returns>
     ///     The raw encoded bytes of the value provided
     /// </returns>
-    public byte[] Encode<T>(T[] value) where T : struct;
+    public byte[] Encode<_T>(_T[] value) where _T : struct;
 
     /// <summary>
     ///     Encodes the Value content according to this implementation's encoding rules
@@ -87,18 +67,5 @@ public interface IPlayCodec
     /// <returns>
     ///     The raw encoded bytes of the value provided
     /// </returns>
-    public byte[] Encode<T>(T[] value, int length) where T : struct;
-
-    public void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct;
-    public void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct;
-    public void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct;
-    public void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct;
-
-    #endregion
-
-    #region Serialization
-
-    public DecodedMetadata Decode(ReadOnlySpan<byte> value);
-
-    #endregion
+    public byte[] Encode<_T>(_T[] value, int length) where _T : struct;
 }
