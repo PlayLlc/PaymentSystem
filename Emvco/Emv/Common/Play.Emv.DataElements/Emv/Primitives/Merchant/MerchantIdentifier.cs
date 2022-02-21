@@ -13,7 +13,7 @@ public record MerchantIdentifier : DataElement<char[]>, IEqualityComparer<Mercha
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = AlphaNumericSpecialDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = AlphaNumericSpecialCodec.Identifier;
     public static readonly Tag Tag = 0x9F16;
 
     #endregion
@@ -51,7 +51,7 @@ public record MerchantIdentifier : DataElement<char[]>, IEqualityComparer<Mercha
 
         DecodedResult<char[]> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<char[]>
             ?? throw new InvalidOperationException(
-                $"The {nameof(MerchantIdentifier)} could not be initialized because the {nameof(AlphaNumericSpecialDataElementCodec)} returned a null {nameof(DecodedResult<char[]>)}");
+                $"The {nameof(MerchantIdentifier)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
 
         if (result.CharCount != charLength)
         {

@@ -16,7 +16,7 @@ public record CardholderName : DataElement<char[]>, IEqualityComparer<Cardholder
     /// <value>Hex: 5F20 Decimal: 95-32</value>
     public static readonly Tag Tag = 0x5F20;
 
-    public static readonly BerEncodingId BerEncodingId = AlphaNumericSpecialDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = AlphaNumericSpecialCodec.Identifier;
 
     #endregion
 
@@ -53,7 +53,7 @@ public record CardholderName : DataElement<char[]>, IEqualityComparer<Cardholder
 
         DecodedResult<char[]> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<char[]>
             ?? throw new InvalidOperationException(
-                $"The {nameof(CardholderName)} could not be initialized because the {nameof(AlphaNumericSpecialDataElementCodec)} returned a null {nameof(DecodedResult<char[]>)}");
+                $"The {nameof(CardholderName)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
 
         return new CardholderName(result.Value);
     }

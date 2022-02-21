@@ -13,7 +13,7 @@ public record ApplicationLabel : DataElement<char[]>, IEqualityComparer<Applicat
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = AlphaNumericSpecialDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = AlphaNumericSpecialCodec.Identifier;
     public static readonly Tag Tag = 0x50;
 
     #endregion
@@ -53,7 +53,7 @@ public record ApplicationLabel : DataElement<char[]>, IEqualityComparer<Applicat
 
         DecodedResult<char[]> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<char[]>
             ?? throw new InvalidOperationException(
-                $"The {nameof(ApplicationLabel)} could not be initialized because the {nameof(AlphaNumericSpecialDataElementCodec)} returned a null {nameof(DecodedResult<char[]>)}");
+                $"The {nameof(ApplicationLabel)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
 
         return new ApplicationLabel(result.Value);
     }
