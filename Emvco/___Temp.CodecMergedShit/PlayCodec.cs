@@ -1,5 +1,9 @@
 ﻿using ___Temp.CodecMergedShit;
+using ___Temp.CodecMergedShit.Codecs.Integers;
+using ___Temp.CodecMergedShit.Codecs.Strings;
 using ___Temp.CodecMergedShit.Metadata;
+
+using Play.Codecs.Strings;
 
 namespace Play.Codecs;
 
@@ -9,24 +13,46 @@ namespace Play.Codecs;
 /// </summary>
 public abstract class PlayCodec : IGetPlayCodecMetadata, IEncodeStructs, IEncodeStructsToBuffer, IDecodeToMetadata
 {
-    #region Instance Members
+    #region Metadata
 
     public abstract PlayEncodingId GetEncodingId();
+
+    #endregion
+
+    #region Instance Values
+
+    public static UnsignedIntegerCodec UnsignedIntegerCodec => new();
+    public static AlphaNumericCodec AlphaNumericCodec => new();
+
+    #endregion
+
+    #region Count
+
     public abstract ushort GetByteCount<_T>(_T value) where _T : struct;
     public abstract ushort GetByteCount<_T>(_T[] value) where _T : struct;
-    public abstract void Encode<_T>(_T value, Span<byte> buffer, ref int offset) where _T : struct;
-    public abstract void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset) where _T : struct;
-    public abstract void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset) where _T : struct;
-    public abstract void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset) where _T : struct;
-    public abstract byte[] Encode<_T>(_T value) where _T : struct;
-    public abstract byte[] Encode<_T>(_T value, int length) where _T : struct;
-    public abstract byte[] Encode<_T>(_T[] value) where _T : struct;
-    public abstract byte[] Encode<_T>(_T[] value, int length) where _T : struct;
+
+    #endregion
+
+    #region Validation
+
     public abstract bool IsValid(ReadOnlySpan<byte> value);
 
     #endregion
 
-    #region Serialization
+    #region Encode
+
+    public abstract byte[] Encode<_T>(_T value) where _T : struct;
+    public abstract byte[] Encode<_T>(_T value, int length) where _T : struct;
+    public abstract byte[] Encode<_T>(_T[] value) where _T : struct;
+    public abstract byte[] Encode<_T>(_T[] value, int length) where _T : struct;
+    public abstract void Encode<_T>(_T value, Span<byte> buffer, ref int offset) where _T : struct;
+    public abstract void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset) where _T : struct;
+    public abstract void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset) where _T : struct;
+    public abstract void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset) where _T : struct;
+
+    #endregion
+
+    #region Decode To DecodedMetadata
 
     public abstract DecodedMetadata Decode(ReadOnlySpan<byte> value);
 

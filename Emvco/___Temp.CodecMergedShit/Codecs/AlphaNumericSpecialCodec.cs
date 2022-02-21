@@ -11,7 +11,6 @@ using ___Temp.CodecMergedShit.Metadata;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs;
-using Play.Codecs.Strings;
 using Play.Core.Specifications;
 using Play.Emv.Codecs;
 using Play.Emv.Codecs.Exceptions;
@@ -104,7 +103,7 @@ public class AlphaNumericSpecialCodec : PlayCodec
             return Encode<char>(Unsafe.As<T[], char[]>(ref value));
 
         throw new InternalPlayEncodingException(
-            $"The {nameof(AlphaNumericSpecialEmvCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+            $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }
 
     /// <exception cref="InternalPlayEncodingException"></exception>
@@ -114,16 +113,16 @@ public class AlphaNumericSpecialCodec : PlayCodec
             return Encode(Unsafe.As<T[], char[]>(ref value), length);
 
         throw new InternalPlayEncodingException(
-            $"The {nameof(AlphaNumericSpecialEmvCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+            $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }
 
     public override byte[] Encode<T>(T value) where T : struct =>
         throw new InternalPlayEncodingException(
-            $"The {nameof(AlphaNumericSpecialEmvCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+            $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
 
     public override byte[] Encode<T>(T value, int length) where T : struct =>
         throw new InternalPlayEncodingException(
-            $"The {nameof(AlphaNumericSpecialEmvCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+            $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
 
     public byte[] Encode(ReadOnlySpan<char> value)
     {
@@ -158,13 +157,13 @@ public class AlphaNumericSpecialCodec : PlayCodec
     public override void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
     {
         throw new InternalPlayEncodingException(
-            $"The {nameof(AlphaNumericSpecialEmvCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+            $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }
 
     public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         throw new InternalPlayEncodingException(
-            $"The {nameof(AlphaNumericSpecialEmvCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+            $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }
 
     public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct
@@ -174,7 +173,7 @@ public class AlphaNumericSpecialCodec : PlayCodec
         else
         {
             throw new InternalPlayEncodingException(
-                $"The {nameof(AlphaNumericSpecialEmvCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+                $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
         }
     }
 
@@ -185,7 +184,7 @@ public class AlphaNumericSpecialCodec : PlayCodec
         else
         {
             throw new InternalPlayEncodingException(
-                $"The {nameof(AlphaNumericSpecialEmvCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+                $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
         }
     }
 
