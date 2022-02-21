@@ -1,7 +1,6 @@
 ﻿using System.Collections.Immutable;
 
 using Play.Codecs;
-using Play.Codecs.Metadata;
 using Play.Core.Exceptions;
 using Play.Interchange.DataFields;
 using Play.Interchange.Exceptions;
@@ -12,13 +11,13 @@ public class InterchangeCodec
 {
     #region Instance Values
 
-    private readonly ImmutableSortedDictionary<PlayEncodingId, IPlayCodec> _DataFieldCodecMap;
+    private readonly ImmutableSortedDictionary<PlayEncodingId, PlayEncoding> _DataFieldCodecMap;
 
     #endregion
 
     #region Constructor
 
-    public InterchangeCodec(params IPlayCodec[] interchangeCodecs)
+    public InterchangeCodec(params PlayEncoding[] interchangeCodecs)
     {
         _DataFieldCodecMap = interchangeCodecs.ToImmutableSortedDictionary(a => a.GetEncodingId(), b => b);
     }
