@@ -37,6 +37,8 @@ public class OutcomeProcessor : IProcessOutcome
 
     #region Instance Members
 
+    // TODO: Check that the logic for handling errors from Entry Point Start processing is the same as handling an outcome from the kernel. If not, then we need to update the logic in the Process methods below
+
     /// <param name="correlationId"></param>
     /// <param name="sessionId"></param>
     /// <param name="transaction"></param>
@@ -44,6 +46,21 @@ public class OutcomeProcessor : IProcessOutcome
     /// <remarks>Book B Section 3.5</remarks>
     /// <exception cref="InvalidOperationException"></exception>
     public virtual void Process(CorrelationId correlationId, KernelSessionId sessionId, Transaction transaction)
+    {
+        HandleFieldOffRequest(transaction.GetOutcome());
+        HandleUiRequestOnOutcome(transaction.GetOutcome());
+        HandleTryAgainStatus(transaction);
+
+        transaction.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData);
+        transaction.TryGetDiscretionaryData(out DiscretionaryData? discretionaryData);
+        transaction.TryGetDataRecord(out DataRecord? dataRecord);
+
+        _ReaderEndpoint.Send(new OutReaderResponse(correlationId,
+            new FinalOutcome(sessionId.GetTransactionSessionId(), sessionId, transaction.GetOutcomeParameterSet(), discretionaryData,
+                userInterfaceRequestData, dataRecord)));
+    }
+
+    public virtual void Process(CorrelationId correlationId, TransactionSessionId sessionId, Transaction transaction)
     {
         HandleFieldOffRequest(transaction.GetOutcome());
         HandleUiRequestOnOutcome(transaction.GetOutcome());

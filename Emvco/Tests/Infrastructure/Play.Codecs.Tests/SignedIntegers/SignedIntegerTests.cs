@@ -27,7 +27,7 @@ public class SignedIntegerTests
     [MemberData(nameof(SignedIntegerFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(SignedIntegerFixture))]
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
     {
-        string decoded = _SystemUnderTest.DecodeToString(testValue);
+        string decoded = _SystemUnderTest.GetString(testValue);
         byte[] encoded = _SystemUnderTest.GetBytes(decoded);
 
         Assert.Equal(testValue, encoded);
@@ -38,7 +38,7 @@ public class SignedIntegerTests
     public void RandomDecodedUShort_EncodingThenDecoding_ReturnsExpectedResult(short testValue)
     {
         byte[]? decoded = _SystemUnderTest.GetBytes(testValue);
-        short encoded = _SystemUnderTest.DecodeToInt16(decoded);
+        short encoded = _SystemUnderTest.GetInt16(decoded);
 
         Assert.Equal(testValue, encoded);
     }
@@ -48,7 +48,7 @@ public class SignedIntegerTests
     public void RandomDecodedUInt_EncodingThenDecoding_ReturnsExpectedResult(ushort testValue)
     {
         byte[]? decoded = _SystemUnderTest.GetBytes(testValue);
-        int encoded = _SystemUnderTest.DecodeToInt32(decoded);
+        int encoded = _SystemUnderTest.GetInt32(decoded);
 
         Assert.Equal(testValue, encoded);
     }
@@ -58,7 +58,7 @@ public class SignedIntegerTests
     public void RandomDecodedULong_EncodingThenDecoding_ReturnsExpectedResult(ushort testValue)
     {
         byte[]? decoded = _SystemUnderTest.GetBytes(testValue);
-        long encoded = _SystemUnderTest.DecodeToInt64(decoded);
+        long encoded = _SystemUnderTest.GetInt64(decoded);
 
         Assert.Equal(testValue, encoded);
     }

@@ -31,8 +31,8 @@ public record OutReaderResponse : ResponseSignal
 
     #region Instance Members
 
-    public TransactionSessionId GetTransactionSessionId() => GetKernelSessionId().GetTransactionSessionId();
-    public KernelSessionId GetKernelSessionId() => _Outcome.GetKernelSessionId();
+    public TransactionSessionId GetTransactionSessionId() => _Outcome.GetTransactionSessionId();
+    public bool TryGetKernelSessionId(out KernelSessionId? result) => _Outcome.TryGetKernelSessionId(out result);
     public FinalOutcome GetOutcome() => _Outcome;
 
     #endregion

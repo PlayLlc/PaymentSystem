@@ -52,7 +52,7 @@ public class GetStringTests
     {
         ReadOnlySpan<byte> oneThousand = Ten;
         for (int i = 0; i < _Iterations; i++)
-            _Hexadecimal.DecodeToString(oneThousand);
+            _Hexadecimal.GetString(oneThousand);
     }
 
     [Benchmark]
@@ -60,7 +60,7 @@ public class GetStringTests
     {
         ReadOnlySpan<byte> oneThousand = OneHundred;
         for (int i = 0; i < _Iterations; i++)
-            _Hexadecimal.DecodeToString(oneThousand);
+            _Hexadecimal.GetString(oneThousand);
     }
 
     [Benchmark]
@@ -68,7 +68,7 @@ public class GetStringTests
     {
         ReadOnlySpan<byte> oneThousand = OneThousand;
         for (int i = 0; i < _Iterations; i++)
-            _Hexadecimal.DecodeToString(oneThousand);
+            _Hexadecimal.GetString(oneThousand);
     }
 
     [Benchmark]
@@ -76,7 +76,7 @@ public class GetStringTests
     {
         ReadOnlySpan<byte> oneThousand = TenThousand;
         for (int i = 0; i < _Iterations; i++)
-            _Hexadecimal.DecodeToString(oneThousand);
+            _Hexadecimal.GetString(oneThousand);
     }
 
     #endregion

@@ -62,6 +62,13 @@ internal class WaitingForFinalOutcome : TerminalState
                 $"The {nameof(QueryTerminalRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(ChannelType.Terminal)} session has a {nameof(TransactionSessionId)} of: [{session.GetTransactionSessionId()}]");
         }
 
+        if (!signal.TryGetKernelSessionId(out KernelSessionId? kernelSessionId))
+        {
+            // TODO: Handle for failure at Start processing
+
+            return _TerminalStateResolver.GetKernelState(Idle.StateId);
+        }
+
         session.SetFinalOutcome(signal.GetOutcome());
 
         // HACK: Need to inject logic to determine whether or not we communicate with the acquirer
@@ -70,7 +77,7 @@ internal class WaitingForFinalOutcome : TerminalState
         DataNeeded neededData = factory.GetDataNeeded(session!.MessageTypeIndicator);
 
         _DataExchangeTerminalService.Enqueue(neededData);
-        _DataExchangeTerminalService.QueryKernel(session.GetTransactionSessionId(), signal.GetKernelSessionId().GetKernelId());
+        _DataExchangeTerminalService.QueryKernel(session.GetTransactionSessionId(), kernelSessionId!.Value.GetKernelId());
 
         return _TerminalStateResolver.GetKernelState(WaitingForAuthorizationResponse.StateId);
     }

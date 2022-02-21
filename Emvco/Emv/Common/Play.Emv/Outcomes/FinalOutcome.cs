@@ -10,7 +10,8 @@ public class FinalOutcome
 {
     #region Instance Values
 
-    private readonly KernelSessionId _KernelSessionId;
+    private readonly TransactionSessionId _TransactionSessionId;
+    private readonly KernelSessionId? _KernelSessionId;
     private readonly DataRecord? _DataRecord;
     private readonly DiscretionaryData? _DiscretionaryData;
     private readonly OutcomeParameterSet _OutcomeParameterSet;
@@ -21,13 +22,30 @@ public class FinalOutcome
     #region Constructor
 
     public FinalOutcome(
+        TransactionSessionId transactionSessionId,
         KernelSessionId kernelSessionId,
         OutcomeParameterSet outcomeParameterSet,
         DiscretionaryData? discretionaryData = null,
         UserInterfaceRequestData? userInterfaceRequestData = null,
         DataRecord? dataRecord = null)
     {
+        _TransactionSessionId = transactionSessionId;
         _KernelSessionId = kernelSessionId;
+        _OutcomeParameterSet = outcomeParameterSet;
+        _DiscretionaryData = discretionaryData;
+        _UserInterfaceRequestData = userInterfaceRequestData;
+        _DataRecord = dataRecord;
+    }
+
+    public FinalOutcome(
+        TransactionSessionId transactionSessionId,
+        OutcomeParameterSet outcomeParameterSet,
+        DiscretionaryData? discretionaryData = null,
+        UserInterfaceRequestData? userInterfaceRequestData = null,
+        DataRecord? dataRecord = null)
+    {
+        _KernelSessionId = null;
+        _TransactionSessionId = transactionSessionId;
         _OutcomeParameterSet = outcomeParameterSet;
         _DiscretionaryData = discretionaryData;
         _UserInterfaceRequestData = userInterfaceRequestData;
@@ -38,7 +56,14 @@ public class FinalOutcome
 
     #region Instance Members
 
-    public KernelSessionId GetKernelSessionId() => _KernelSessionId;
+    public TransactionSessionId GetTransactionSessionId() => _TransactionSessionId;
+
+    public bool TryGetKernelSessionId(out KernelSessionId? result)
+    {
+        result = _KernelSessionId;
+
+        return result is null;
+    }
 
     public bool TryGetDataRecord(out DataRecord? result)
     {
