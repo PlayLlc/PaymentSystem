@@ -205,11 +205,7 @@ public readonly struct EncodedTlvSiblings
         {
             if (tag == _ChildMetadata.Span[i].GetTag())
             {
-                int resultOffset = offset
-
-                adata.Span[i].GetTag().GetByteCount()
-
-                adata.Span[i].GetLength().GetByteCount();
+                int resultOffset = offset;
 
                 encodedChild = _ChildEncodings[resultOffset..(resultOffset + _ChildMetadata.Span[i].GetLength().GetContentLength())];
 
