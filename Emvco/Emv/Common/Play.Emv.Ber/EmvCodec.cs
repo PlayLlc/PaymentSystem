@@ -54,7 +54,7 @@ public class EmvCodec : BerCodec
     /// </remarks>
     public TagLength[] DecodeTagLengthPairs(ReadOnlySpan<byte> value)
     {
-        SpanOwner<TagLength> spanOwner = SpanOwner<TagLength>.Allocate(value.Length / 2);
+        using SpanOwner<TagLength> spanOwner = SpanOwner<TagLength>.Allocate(value.Length / 2);
         Span<TagLength> buffer = spanOwner.Span;
 
         int bufferOffset = 0;

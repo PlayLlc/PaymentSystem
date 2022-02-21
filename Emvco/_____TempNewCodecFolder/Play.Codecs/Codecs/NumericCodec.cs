@@ -127,7 +127,7 @@ public class NumericCodec : PlayCodec
         }
         else
         {
-            SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(length);
+            using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(length);
             Span<byte> buffer = spanOwner.Span;
 
             for (int i = 0, j = 0; i < length; i++, j += 2)
@@ -514,7 +514,7 @@ public class NumericCodec : PlayCodec
         }
         else
         {
-            SpanOwner<char> spanOwner = SpanOwner<char>.Allocate(length);
+            using SpanOwner<char> spanOwner = SpanOwner<char>.Allocate(length);
             Span<char> buffer = spanOwner.Span;
 
             for (int i = 0, j = 0; i < value.Length; i++, j += 2)

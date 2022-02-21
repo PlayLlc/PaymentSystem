@@ -23,7 +23,7 @@ public partial class Randomize
             }
             else
             {
-                SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(length);
+                using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(length);
                 Span<byte> buffer = spanOwner.Span;
 
                 for (int i = 0; i < length; i++)

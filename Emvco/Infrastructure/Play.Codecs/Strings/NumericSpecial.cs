@@ -75,7 +75,7 @@ public class NumericSpecial : PlayEncoding
         }
         else
         {
-            SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(value.Length);
+            using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(value.Length);
             Span<byte> buffer = spanOwner.Span;
 
             for (int i = 0, j = 0; i < value.Length; i++, j += 2)
@@ -155,7 +155,7 @@ public class NumericSpecial : PlayEncoding
         }
         else
         {
-            SpanOwner<char> spanOwner = SpanOwner<char>.Allocate(length);
+            using SpanOwner<char> spanOwner = SpanOwner<char>.Allocate(length);
             Span<char> buffer = spanOwner.Span;
 
             for (int i = 0, j = 0; i < value.Length; i++, j += 2)

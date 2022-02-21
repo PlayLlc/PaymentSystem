@@ -50,7 +50,7 @@ public class CaPublicKeyCertificate : PublicKeyCertificate
     /// <param name="exponent"></param>
     private static BigInteger CalculateChecksum(CaPublicKeyCertificateIdentifier key, PublicKeyModulus modulus, PublicKeyExponent exponent)
     {
-        SpanOwner<byte> owner = SpanOwner<byte>.Allocate(20);
+        using SpanOwner<byte> owner = SpanOwner<byte>.Allocate(20);
         Span<byte> buffer = owner.Span;
         key.GetRegisteredApplicationProviderIndicator().AsByteArray().AsSpan().CopyTo(buffer[..5]);
         buffer[5] = (byte) key.GetCaPublicKeyIndex();

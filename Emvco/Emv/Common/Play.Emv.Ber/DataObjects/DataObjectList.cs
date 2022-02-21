@@ -134,7 +134,7 @@ public abstract record DataObjectList : DataElement<byte[]>
                 buffer[i] = new TagLengthValue(result[i].GetTag(), result[i].EncodeValue()[..DataObjects[i].GetValueByteCount()]);
             else
             {
-                SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(DataObjects[i].GetValueByteCount());
+                using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(DataObjects[i].GetValueByteCount());
                 Span<byte> contentBuffer = spanOwner.Span;
                 result[i].EncodeValue().CopyTo(contentBuffer);
                 buffer[i] = new TagLengthValue(DataObjects[i].GetTag(), contentBuffer);

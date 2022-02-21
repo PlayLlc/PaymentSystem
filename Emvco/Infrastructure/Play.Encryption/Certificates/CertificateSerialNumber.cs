@@ -60,7 +60,7 @@ public readonly struct CertificateSerialNumber
         if (GetByteCount() != other.GetByteCount())
             return false;
 
-        SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(GetByteCount());
+        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(GetByteCount());
 
         ReadOnlySpan<byte> thisBuffer = AsByteArray();
         ReadOnlySpan<byte> otherBuffer = other.AsByteArray();

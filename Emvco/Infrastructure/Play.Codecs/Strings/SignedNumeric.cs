@@ -96,7 +96,7 @@ public class SignedNumeric : PlayEncoding
         }
         else
         {
-            SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(value.Length);
+            using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(value.Length);
             Span<byte> buffer = spanOwner.Span;
 
             for (int i = 0; i < value.Length; i++)
@@ -110,13 +110,13 @@ public class SignedNumeric : PlayEncoding
     {
         nint byteSize = Unsafe.SizeOf<T>();
 
-        if (byteSize == Specs.Integer.Int8.ByteSize)
+        if (byteSize == Specs.Integer.Int8.ByteCount)
             return GetBytes(Unsafe.As<T, sbyte>(ref value));
-        if (byteSize == Specs.Integer.Int16.ByteSize)
+        if (byteSize == Specs.Integer.Int16.ByteCount)
             return GetBytes(Unsafe.As<T, short>(ref value));
-        if (byteSize <= Specs.Integer.Int32.ByteSize)
+        if (byteSize <= Specs.Integer.Int32.ByteCount)
             return GetBytes(Unsafe.As<T, int>(ref value));
-        if (byteSize <= Specs.Integer.Int64.ByteSize)
+        if (byteSize <= Specs.Integer.Int64.ByteCount)
             return GetBytes(Unsafe.As<T, long>(ref value));
 
         return GetBytes(Unsafe.As<T, BigInteger>(ref value));
@@ -124,17 +124,17 @@ public class SignedNumeric : PlayEncoding
 
     public byte[] GetBytes<T>(T value, int length)
     {
-        if (length == Specs.Integer.Int8.ByteSize)
+        if (length == Specs.Integer.Int8.ByteCount)
             return GetBytes(Unsafe.As<T, sbyte>(ref value));
-        if (length == Specs.Integer.Int16.ByteSize)
+        if (length == Specs.Integer.Int16.ByteCount)
             return GetBytes(Unsafe.As<T, short>(ref value));
         if (length == 3)
             return GetBytes(Unsafe.As<T, int>(ref value), length);
-        if (length == Specs.Integer.UInt32.ByteSize)
+        if (length == Specs.Integer.UInt32.ByteCount)
             return GetBytes(Unsafe.As<T, int>(ref value));
-        if (length < Specs.Integer.UInt64.ByteSize)
+        if (length < Specs.Integer.UInt64.ByteCount)
             return GetBytes(Unsafe.As<T, long>(ref value), length);
-        if (length == Specs.Integer.UInt64.ByteSize)
+        if (length == Specs.Integer.UInt64.ByteCount)
             return GetBytes(Unsafe.As<T, long>(ref value));
 
         return GetBytes(Unsafe.As<T, BigInteger>(ref value), length);
@@ -191,7 +191,7 @@ public class SignedNumeric : PlayEncoding
         }
         else
         {
-            SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(value.Length);
+            using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(value.Length);
             Span<byte> buffer = spanOwner.Span;
 
             for (int i = 0; i < value.Length; i++)
@@ -208,7 +208,7 @@ public class SignedNumeric : PlayEncoding
 
     public byte[] GetBytes(short value)
     {
-        const byte byteSize = Specs.Integer.Int16.ByteSize;
+        const byte byteSize = Specs.Integer.Int16.ByteCount;
         byte numberOfDigits = value.GetNumberOfDigits();
         int numberOfBytes = numberOfDigits + 1;
 
@@ -228,7 +228,7 @@ public class SignedNumeric : PlayEncoding
 
     public byte[] GetBytes(int value)
     {
-        const byte byteSize = Specs.Integer.Int32.ByteSize;
+        const byte byteSize = Specs.Integer.Int32.ByteCount;
         byte numberOfDigits = value.GetNumberOfDigits();
         int numberOfBytes = numberOfDigits + 1;
 
@@ -267,7 +267,7 @@ public class SignedNumeric : PlayEncoding
 
     public byte[] GetBytes(long value)
     {
-        const byte byteSize = Specs.Integer.Int64.ByteSize;
+        const byte byteSize = Specs.Integer.Int64.ByteCount;
         byte numberOfDigits = value.GetNumberOfDigits();
         int numberOfBytes = numberOfDigits + 1;
 
@@ -397,7 +397,7 @@ public class SignedNumeric : PlayEncoding
         }
         else
         {
-            SpanOwner<char> spanOwner = SpanOwner<char>.Allocate(length);
+            using SpanOwner<char> spanOwner = SpanOwner<char>.Allocate(length);
             Span<char> buffer = spanOwner.Span;
 
             for (int i = 0; i < value.Length; i++)
