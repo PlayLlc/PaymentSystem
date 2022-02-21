@@ -1,8 +1,7 @@
 ﻿using System;
 
+using Play.Ber.DataObjects;
 using Play.Ber.InternalFactories;
-using Play.Codecs;
-using Play.Codecs.Metadata;
 
 namespace Play.Ber.Codecs;
 

@@ -11,15 +11,7 @@ namespace Play.Codecs.Strings;
 
 public class Hexadecimal : PlayEncoding
 {
-    #region Static Metadata
-
-    public static readonly PlayEncodingId PlayEncodingId = new(nameof(Hexadecimal));
-
-    #endregion
-
     #region Instance Members
-
-    public PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
 
     /// <summary>
     ///     Checks if the value contains valid hexadecimal bytes

@@ -4,15 +4,12 @@ using System.Linq;
 using System.Numerics;
 
 using Play.Core.Extensions;
-using Play.Core.Specifications;
 
 namespace Play.Codecs.Integers;
 
 public class SignedInteger : PlayEncoding
 {
     #region Static Metadata
-
-    public static readonly PlayEncodingId PlayEncodingId = new(nameof(SignedInteger));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap =
         Enumerable.Range(48, 57 - 48).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
@@ -23,8 +20,6 @@ public class SignedInteger : PlayEncoding
     #endregion
 
     #region Instance Members
-
-    public PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
 
     public override bool IsValid(ReadOnlySpan<char> value)
     {
@@ -288,21 +283,9 @@ public class SignedInteger : PlayEncoding
 
     public short GetInt16(ReadOnlySpan<byte> value)
     {
-        const byte byteLength = Specs.Integer.Int16.ByteCount;
-        const ushort max = ushort.MaxValue;
         short result = 0;
         byte bitShift = 0;
-
-        if (value.Length < byteLength)
-        {
-            Span<byte> buffer = stackalloc byte[byteLength];
-            value.CopyTo(buffer);
-
-            return GetInt16(value);
-        }
-
-        if (value.Length > byteLength)
-            return GetInt16(value[..byteLength]);
+        const ushort max = ushort.MaxValue;
 
         for (int i = 0; i < value.Length; i++)
         {
@@ -317,21 +300,9 @@ public class SignedInteger : PlayEncoding
 
     public int GetInt32(ReadOnlySpan<byte> value)
     {
-        const uint max = uint.MaxValue;
-        const byte byteLength = Specs.Integer.Int32.ByteCount;
         int result = 0;
         byte bitShift = 0;
-
-        if (value.Length < byteLength)
-        {
-            Span<byte> buffer = stackalloc byte[byteLength];
-            value.CopyTo(buffer);
-
-            return GetInt32(value);
-        }
-
-        if (value.Length > byteLength)
-            return GetInt32(value[..byteLength]);
+        uint max = uint.MaxValue;
 
         for (int i = 0; i < value.Length; i++)
         {
@@ -346,21 +317,9 @@ public class SignedInteger : PlayEncoding
 
     public long GetInt64(ReadOnlySpan<byte> value)
     {
-        const ulong max = ulong.MaxValue;
-        const byte byteLength = Specs.Integer.Int64.ByteCount;
         long result = 0;
         int bitShift = 0;
-
-        if (value.Length < byteLength)
-        {
-            Span<byte> buffer = stackalloc byte[byteLength];
-            value.CopyTo(buffer);
-
-            return GetInt64(value);
-        }
-
-        if (value.Length > byteLength)
-            return GetInt64(value[..byteLength]);
+        ulong max = ulong.MaxValue;
 
         for (int i = 0; i < value.Length; i++)
         {

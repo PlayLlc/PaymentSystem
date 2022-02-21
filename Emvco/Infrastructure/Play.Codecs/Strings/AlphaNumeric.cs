@@ -19,8 +19,6 @@ public class AlphaNumeric : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(nameof(AlphaNumeric));
-
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = new Dictionary<char, byte>
     {
         {'0', 48},
@@ -156,8 +154,6 @@ public class AlphaNumeric : PlayEncoding
     #endregion
 
     #region Instance Members
-
-    public PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
 
     public override bool IsValid(ReadOnlySpan<byte> value)
     {

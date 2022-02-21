@@ -117,7 +117,7 @@ public class TagLengthValue : IEncodeBerDataObjects, IEquatable<TagLengthValue>,
     #region Operator Overrides
 
     public static bool operator ==(TagLengthValue left, TagLengthValue right) => left.Equals(right);
-    public static bool operator !=(TagLengthValue? left, TagLengthValue right) => !left.Equals(right);
+    public static bool operator !=(TagLengthValue left, TagLengthValue right) => !left.Equals(right);
 
     #endregion
 }

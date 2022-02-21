@@ -12,4 +12,10 @@ public interface IRetrieveBerDataObjectMetadata
     public ushort GetValueByteCount(BerCodec codec);
 
     #endregion
+
+    #region Equality
+
+    public int GetHashCode();
+
+    #endregion
 }

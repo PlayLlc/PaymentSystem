@@ -12,8 +12,7 @@ using Play.Core.Specifications;
 namespace Play.Codecs.Strings;
 
 /// <summary>
-///     Binary Coded Decimal data elements consist of two numeric digits (having values in the range Hex '0' – '9') per
-///     byte.
+///     Numeric data elements consist of two numeric digits (having values in the range Hex '0' – '9') per byte.
 ///     These digits are right justified and padded with leading hexadecimal zeroes. Other specifications sometimes
 ///     refer to this data format as Binary Coded Decimal (“BCD”) or unsigned packed.
 ///     Example: Amount, Authorized(Numeric) is defined as “n 12” with a length of six bytes.
@@ -22,8 +21,6 @@ namespace Play.Codecs.Strings;
 public class Numeric : PlayEncoding
 {
     #region Static Metadata
-
-    public static readonly PlayEncodingId PlayEncodingId = new(nameof(Numeric));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap =
         Enumerable.Range(0, 10).ToImmutableSortedDictionary(a => (char) (a + 48), b => (byte) b);
@@ -34,8 +31,6 @@ public class Numeric : PlayEncoding
     #endregion
 
     #region Instance Members
-
-    public PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
 
     public override bool IsValid(ReadOnlySpan<char> value)
     {
@@ -103,13 +98,13 @@ public class Numeric : PlayEncoding
     {
         nint byteSize = Unsafe.SizeOf<T>();
 
-        if (byteSize == Specs.Integer.UInt8.ByteCount)
+        if (byteSize == Specs.Integer.UInt8.ByteSize)
             return GetBytes(Unsafe.As<T, byte>(ref value));
-        if (byteSize == Specs.Integer.UInt16.ByteCount)
+        if (byteSize == Specs.Integer.UInt16.ByteSize)
             return GetBytes(Unsafe.As<T, ushort>(ref value));
-        if (byteSize <= Specs.Integer.UInt32.ByteCount)
+        if (byteSize <= Specs.Integer.UInt32.ByteSize)
             return GetBytes(Unsafe.As<T, uint>(ref value));
-        if (byteSize <= Specs.Integer.UInt64.ByteCount)
+        if (byteSize <= Specs.Integer.UInt64.ByteSize)
             return GetBytes(Unsafe.As<T, ulong>(ref value));
 
         return GetBytes(Unsafe.As<T, BigInteger>(ref value));
@@ -117,17 +112,17 @@ public class Numeric : PlayEncoding
 
     public byte[] GetBytes<T>(T value, int length)
     {
-        if (length == Specs.Integer.UInt8.ByteCount)
+        if (length == Specs.Integer.UInt8.ByteSize)
             return GetBytes(Unsafe.As<T, byte>(ref value));
-        if (length == Specs.Integer.UInt16.ByteCount)
+        if (length == Specs.Integer.UInt16.ByteSize)
             return GetBytes(Unsafe.As<T, ushort>(ref value));
         if (length == 3)
             return GetBytes(Unsafe.As<T, uint>(ref value), length);
-        if (length == Specs.Integer.UInt32.ByteCount)
+        if (length == Specs.Integer.UInt32.ByteSize)
             return GetBytes(Unsafe.As<T, uint>(ref value));
-        if (length < Specs.Integer.UInt64.ByteCount)
+        if (length < Specs.Integer.UInt64.ByteSize)
             return GetBytes(Unsafe.As<T, ulong>(ref value), length);
-        if (length == Specs.Integer.UInt64.ByteCount)
+        if (length == Specs.Integer.UInt64.ByteSize)
             return GetBytes(Unsafe.As<T, ulong>(ref value));
 
         return GetBytes(Unsafe.As<T, BigInteger>(ref value), length);
@@ -185,7 +180,7 @@ public class Numeric : PlayEncoding
 
     public byte[] GetBytes(ushort value)
     {
-        const byte byteSize = Specs.Integer.UInt16.ByteCount;
+        const byte byteSize = Specs.Integer.UInt16.ByteSize;
         byte numberOfDigits = value.GetNumberOfDigits();
         int numberOfBytes = (numberOfDigits / 2) + (numberOfDigits % 2);
 
@@ -203,7 +198,7 @@ public class Numeric : PlayEncoding
 
     public byte[] GetBytes(uint value)
     {
-        const byte byteSize = Specs.Integer.UInt32.ByteCount;
+        const byte byteSize = Specs.Integer.UInt32.ByteSize;
         byte numberOfDigits = value.GetNumberOfDigits();
         int numberOfBytes = (numberOfDigits / 2) + (numberOfDigits % 2);
 
@@ -238,7 +233,7 @@ public class Numeric : PlayEncoding
 
     public byte[] GetBytes(ulong value)
     {
-        const byte byteSize = Specs.Integer.UInt64.ByteCount;
+        const byte byteSize = Specs.Integer.UInt64.ByteSize;
         byte numberOfDigits = value.GetNumberOfDigits();
         int numberOfBytes = (numberOfDigits / 2) + (numberOfDigits % 2);
 

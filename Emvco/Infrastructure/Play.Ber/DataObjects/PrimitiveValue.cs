@@ -1,10 +1,12 @@
-﻿using Play.Ber.Codecs;
+﻿using System.Collections.Generic;
+
+using Play.Ber.Codecs;
 using Play.Ber.Identifiers;
 using Play.Ber.Lengths;
 
 namespace Play.Ber.DataObjects;
 
-public abstract record PrimitiveValue : IEncodeBerDataObjects, IRetrievePrimitiveValueMetadata
+public abstract record PrimitiveValue : IEqualityComparer<PrimitiveValue>, IEncodeBerDataObjects, IRetrievePrimitiveValueMetadata
 {
     #region Instance Members
 
@@ -54,6 +56,20 @@ public abstract record PrimitiveValue : IEncodeBerDataObjects, IRetrievePrimitiv
 
     public abstract byte[] EncodeValue(BerCodec codec);
     public abstract byte[] EncodeValue(BerCodec codec, int length);
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(PrimitiveValue? x, PrimitiveValue? y)
+    {
+        if (x is null)
+            return y is null;
+
+        return y is not null && x.Equals(y);
+    }
+
+    public int GetHashCode(PrimitiveValue obj) => obj.GetHashCode();
 
     #endregion
 }

@@ -13,8 +13,6 @@ public class AlphaNumericSpecial : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(nameof(AlphaNumericSpecial));
-
     // 32 - 126
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap =
         Enumerable.Range(32, 126 - 32).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
@@ -25,8 +23,6 @@ public class AlphaNumericSpecial : PlayEncoding
     #endregion
 
     #region Instance Members
-
-    public PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
 
     public override bool IsValid(ReadOnlySpan<char> value)
     {

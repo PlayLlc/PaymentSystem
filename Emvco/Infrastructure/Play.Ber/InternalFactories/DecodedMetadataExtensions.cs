@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Numerics;
 
-using Play.Codecs.Exceptions;
+using Play.Ber.Exceptions;
 
-namespace Play.Codecs.Metadata;
+namespace Play.Ber.InternalFactories;
 
 public static class DecodedMetadataExtensions
 {
@@ -27,7 +26,7 @@ public static class DecodedMetadataExtensions
         if (value is DecodedResult<uint> decodedResultUInt)
             return new DecodedResult<ulong>(decodedResultUInt.Value, decodedResultUInt.CharCount);
 
-        throw new EncodingException("This error should never be thrown");
+        throw new BerInternalException("This error should never be thrown");
     }
 
     /// <summary>
@@ -46,7 +45,7 @@ public static class DecodedMetadataExtensions
         if (value is DecodedResult<ushort> decodedResultUShort)
             return new DecodedResult<uint>(decodedResultUShort.Value, decodedResultUShort.CharCount);
 
-        throw new EncodingException("This error should never be thrown");
+        throw new BerInternalException("This error should never be thrown");
     }
 
     /// <summary>
@@ -63,7 +62,7 @@ public static class DecodedMetadataExtensions
         if (value is DecodedResult<byte> decodedResultByte)
             return new DecodedResult<ushort>(decodedResultByte.Value, decodedResultByte.CharCount);
 
-        throw new EncodingException("This error should never be thrown");
+        throw new BerInternalException("This error should never be thrown");
     }
 
     public static DecodedResult<byte>? ToByteResult(this DecodedMetadata? value)
@@ -74,24 +73,7 @@ public static class DecodedMetadataExtensions
         if (value is DecodedResult<byte> decodedResultByte)
             return new DecodedResult<byte>(decodedResultByte.Value, decodedResultByte.CharCount);
 
-        throw new EncodingException("This error should never be thrown");
-    }
-
-    public static DecodedResult<BigInteger>? ToBigInteger(this DecodedMetadata? value)
-    {
-        if (value == null)
-            return null;
-
-        if (value is DecodedResult<byte> decodedResultByte)
-            return new DecodedResult<BigInteger>(decodedResultByte.Value, decodedResultByte.CharCount);
-        if (value is DecodedResult<ushort> decodedResultUShort)
-            return new DecodedResult<BigInteger>(decodedResultUShort.Value, decodedResultUShort.CharCount);
-        if (value is DecodedResult<uint> decodedResultUInt)
-            return new DecodedResult<BigInteger>(decodedResultUInt.Value, decodedResultUInt.CharCount);
-        if (value is DecodedResult<ulong> decodedResultULong)
-            return new DecodedResult<BigInteger>(decodedResultULong.Value, decodedResultULong.CharCount);
-
-        throw new EncodingException("This error should never be thrown");
+        throw new BerInternalException("This error should never be thrown");
     }
 
     #endregion

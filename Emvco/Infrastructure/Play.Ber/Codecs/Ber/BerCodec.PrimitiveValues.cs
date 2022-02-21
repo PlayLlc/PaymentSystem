@@ -4,7 +4,6 @@ using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Ber.DataObjects;
 using Play.Ber.InternalFactories;
-using Play.Codecs.Metadata;
 using Play.Core.Exceptions;
 using Play.Core.Specifications;
 

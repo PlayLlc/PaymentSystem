@@ -91,8 +91,8 @@ public readonly struct EncodedTlvSiblings
         }
 
         throw new BerException($"The Tag provided with a value of {value:X} could not be found"
-            + $"from the {nameof(BerConfiguration)} mappings provided. Please make sure your {nameof(PrimitiveValue)} and {nameof(ConstructedValue)} objects have the correct "
-            + "tags and try again");
+                               + $"from the {nameof(BerConfiguration)} mappings provided. Please make sure your {nameof(PrimitiveValue)} and {nameof(ConstructedValue)} objects have the correct "
+                               + "tags and try again");
     }
 
     public uint[] GetTags()
@@ -191,7 +191,7 @@ public readonly struct EncodedTlvSiblings
     private ReadOnlyMemory<byte> GetValueOctetsOfChild(Tag tag)
     {
         if (!TryGetValueOctetsOfChild(tag, out ReadOnlyMemory<byte> encodedChild))
-            throw new BerInternalException($"The {nameof(EncodedTlvSiblings)} did not contain a sibling with the tag {tag}");
+            throw new BerInternalException($"The {nameof(EncodedTlvSiblings)} did not contain a sibling with the tag {tag.ToString()}");
 
         return encodedChild;
     }
@@ -205,7 +205,9 @@ public readonly struct EncodedTlvSiblings
         {
             if (tag == _ChildMetadata.Span[i].GetTag())
             {
-                int resultOffset = offset;
+                int resultOffset = offset
+                    + _ChildMetadata.Span[i].GetTag().GetByteCount()
+                    + _ChildMetadata.Span[i].GetLength().GetByteCount();
 
                 encodedChild = _ChildEncodings[resultOffset..(resultOffset + _ChildMetadata.Span[i].GetLength().GetContentLength())];
 

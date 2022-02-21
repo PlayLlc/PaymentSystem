@@ -30,7 +30,7 @@ public abstract class PlayEncoding : Encoding
     /// </summary>
     public new static StrictUtf8 UTF8 => new();
 
-    public new static Unicode Unicode => new();
+    public static StrictAscii StrictAscii => new();
     public static Binary Binary => new();
     public static Hexadecimal Hexadecimal => new();
     public static Alphabetic Alphabetic => new();
@@ -41,9 +41,6 @@ public abstract class PlayEncoding : Encoding
     public static UnsignedInteger UnsignedBinary => new();
     public static UnsignedInteger UnsignedInteger => new();
     public static SignedInteger SignedInteger => new();
-    public static AlphaSpecial AlphaSpecial => new();
-    public static SignedNumeric SignedNumeric => new();
-    public static NumericSpecial NumericSpecial => new();
 
     #endregion
 

@@ -19,8 +19,6 @@ public class Alphabetic : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(nameof(Alphabetic));
-
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = new Dictionary<char, byte>
     {
         {'A', 65},
@@ -136,8 +134,6 @@ public class Alphabetic : PlayEncoding
     #endregion
 
     #region Instance Members
-
-    public PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
 
     /// <exception cref="EncodingException"></exception>
     public override bool IsValid(ReadOnlySpan<byte> value)
