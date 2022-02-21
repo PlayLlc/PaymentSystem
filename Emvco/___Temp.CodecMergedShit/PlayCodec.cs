@@ -1,6 +1,7 @@
-﻿using ___Temp.CodecMergedShit.Metadata;
+﻿using ___Temp.CodecMergedShit;
+using ___Temp.CodecMergedShit.Metadata;
 
-namespace ___Temp.CodecMergedShit;
+namespace Play.Codecs;
 
 /// <summary>
 ///     A simple codec base class that can be inherited to customize an encoding class specific to the encoding rules of
