@@ -1,6 +1,7 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
@@ -61,7 +62,7 @@ public record ApplicationExpirationDate : DataElement<uint>, IEqualityComparer<A
 
         DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
-                $"The {nameof(ApplicationExpirationDate)} could not be initialized because the {nameof(NumericDataElementCodec)} returned a null {nameof(DecodedResult<uint>)}");
+                $"The {nameof(ApplicationExpirationDate)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new ApplicationExpirationDate(result.Value);
     }

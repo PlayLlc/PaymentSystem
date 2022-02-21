@@ -1,6 +1,7 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Globalization;
@@ -59,7 +60,7 @@ public record TerminalCountryCode : DataElement<NumericCountryCode>, IEqualityCo
 
         DecodedResult<ushort> result = codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
             ?? throw new InvalidOperationException(
-                $"The {nameof(TerminalCountryCode)} could not be initialized because the {nameof(NumericDataElementCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+                $"The {nameof(TerminalCountryCode)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         if (result.CharCount != charLength)
         {

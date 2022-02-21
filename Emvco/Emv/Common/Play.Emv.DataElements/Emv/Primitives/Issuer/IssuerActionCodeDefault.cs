@@ -1,6 +1,8 @@
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
+using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
 namespace Play.Emv.DataElements.Emv;
@@ -13,7 +15,7 @@ public record IssuerActionCodeDefault : DataElement<ulong>, IEqualityComparer<Is
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F0D;
 
     #endregion
@@ -52,7 +54,7 @@ public record IssuerActionCodeDefault : DataElement<ulong>, IEqualityComparer<Is
 
         DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
             ?? throw new InvalidOperationException(
-                $"The {nameof(IssuerActionCodeDefault)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+                $"The {nameof(IssuerActionCodeDefault)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new IssuerActionCodeDefault(result.Value);
     }

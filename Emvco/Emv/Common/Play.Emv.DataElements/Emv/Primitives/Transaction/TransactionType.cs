@@ -1,6 +1,7 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
@@ -73,7 +74,7 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
 
         DecodedResult<byte> result = codec.Decode(BerEncodingId, value) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
-                $"The {nameof(TransactionType)} could not be initialized because the {nameof(NumericDataElementCodec)} returned a null {nameof(DecodedResult<byte>)}");
+                $"The {nameof(TransactionType)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new TransactionType(result.Value);
     }

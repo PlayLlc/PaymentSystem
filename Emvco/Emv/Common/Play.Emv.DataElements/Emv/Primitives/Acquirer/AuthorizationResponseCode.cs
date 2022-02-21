@@ -1,6 +1,7 @@
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
@@ -52,7 +53,7 @@ public record AuthorizationResponseCode : DataElement<ushort>, IEqualityComparer
 
         DecodedResult<ushort> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
             ?? throw new InvalidOperationException(
-                $"The {nameof(AuthorizationResponseCode)} could not be initialized because the {nameof(NumericDataElementCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+                $"The {nameof(AuthorizationResponseCode)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         if (result.CharCount != charLength)
         {

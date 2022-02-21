@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Core.Extensions;
+using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
 namespace Play.Emv.DataElements.Emv;
@@ -16,7 +17,7 @@ public record ExtendedSelection : DataElement<byte[]>, IEqualityComparer<Extende
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly ExtendedSelection Default = new(Array.Empty<byte>());
     public static readonly Tag Tag = 0x9F29;
 

@@ -1,6 +1,8 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
+using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Globalization.Time;
 
@@ -15,7 +17,7 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
     #region Static Metadata
 
     private static readonly Milliseconds _MinimumValue = new(100);
-    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly MessageHoldTime MinimumValue = new(_MinimumValue);
     public static readonly Tag Tag = 0xDF812D;
 

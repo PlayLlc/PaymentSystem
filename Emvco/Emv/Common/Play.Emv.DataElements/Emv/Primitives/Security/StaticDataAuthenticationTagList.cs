@@ -3,6 +3,8 @@ using System.Numerics;
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
+using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
 namespace Play.Emv.DataElements.Emv;
@@ -15,7 +17,7 @@ public record StaticDataAuthenticationTagList : DataElement<BigInteger>, IEquali
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F4A;
 
     #endregion
@@ -53,7 +55,7 @@ public record StaticDataAuthenticationTagList : DataElement<BigInteger>, IEquali
 
         DecodedResult<BigInteger> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
-                $"The {nameof(StaticDataAuthenticationTagList)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+                $"The {nameof(StaticDataAuthenticationTagList)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new StaticDataAuthenticationTagList(result.Value);
     }

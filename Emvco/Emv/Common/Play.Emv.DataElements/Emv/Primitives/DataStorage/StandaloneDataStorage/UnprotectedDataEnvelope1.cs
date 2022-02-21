@@ -3,6 +3,7 @@ using System.Numerics;
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
@@ -56,7 +57,7 @@ public record UnprotectedDataEnvelope1 : DataElement<BigInteger>, IEqualityCompa
 
         DecodedResult<BigInteger> result = codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
-                $"The {nameof(UnprotectedDataEnvelope1)} could not be initialized because the {nameof(NumericDataElementCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+                $"The {nameof(UnprotectedDataEnvelope1)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new UnprotectedDataEnvelope1(result.Value);
     }

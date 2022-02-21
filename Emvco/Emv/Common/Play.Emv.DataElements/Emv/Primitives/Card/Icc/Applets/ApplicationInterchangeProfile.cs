@@ -1,7 +1,9 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
 using Play.Core.Extensions;
+using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
 namespace Play.Emv.DataElements.Emv;
@@ -13,7 +15,7 @@ public record ApplicationInterchangeProfile : DataElement<ushort>, IEqualityComp
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x82;
 
     #endregion
@@ -63,7 +65,7 @@ public record ApplicationInterchangeProfile : DataElement<ushort>, IEqualityComp
 
         DecodedResult<ushort> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
             ?? throw new InvalidOperationException(
-                $"The {nameof(ApplicationInterchangeProfile)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+                $"The {nameof(ApplicationInterchangeProfile)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new ApplicationInterchangeProfile(result.Value);
     }

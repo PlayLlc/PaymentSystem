@@ -1,6 +1,7 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Globalization.Time;
@@ -66,7 +67,7 @@ public record TransactionDate : DataElement<uint>, IEqualityComparer<Transaction
 
         DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
-                $"The {nameof(TransactionDate)} could not be initialized because the {nameof(NumericDataElementCodec)} returned a null {nameof(DecodedResult<uint>)}");
+                $"The {nameof(TransactionDate)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         if (result.CharCount != charLength)
         {

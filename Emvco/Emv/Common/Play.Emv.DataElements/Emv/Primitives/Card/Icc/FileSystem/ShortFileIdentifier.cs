@@ -1,6 +1,8 @@
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
+using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Icc.FileSystem.ElementaryFiles;
 
@@ -14,7 +16,7 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x88;
     private const byte _MinValue = 1;
     private const byte _MaxValue = 30;
@@ -74,7 +76,7 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
 
         DecodedResult<byte> result = codec.Decode(BerEncodingId, value) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
-                $"The {nameof(ShortFileIdentifier)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<byte>)}");
+                $"The {nameof(ShortFileIdentifier)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new ShortFileIdentifier(result.Value);
     }

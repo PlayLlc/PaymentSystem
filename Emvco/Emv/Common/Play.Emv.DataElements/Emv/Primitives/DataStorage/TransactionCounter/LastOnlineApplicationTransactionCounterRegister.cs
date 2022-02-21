@@ -1,6 +1,8 @@
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
+using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
 namespace Play.Emv.DataElements.Emv;
@@ -13,7 +15,7 @@ public record LastOnlineApplicationTransactionCounterRegister : DataElement<usho
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F13;
     private const byte _ByteLength = 2;
 
@@ -50,7 +52,7 @@ public record LastOnlineApplicationTransactionCounterRegister : DataElement<usho
 
         DecodedResult<ushort> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
             ?? throw new InvalidOperationException(
-                $"The {nameof(LastOnlineApplicationTransactionCounterRegister)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+                $"The {nameof(LastOnlineApplicationTransactionCounterRegister)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new LastOnlineApplicationTransactionCounterRegister(result.Value);
     }

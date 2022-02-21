@@ -1,6 +1,8 @@
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
+using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Globalization.Currency;
 using Play.Icc.FileSystem.DedicatedFiles;
@@ -16,7 +18,7 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
 
     //TODO: figure out the best way to map these values with the logic needed
     public static readonly KernelIdentifier AmericanExpress;
-    public static readonly BerEncodingId BerEncodingId = BinaryDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly KernelIdentifier ChinaUnionPay;
     public static readonly KernelIdentifier Discover;
     public static readonly KernelIdentifier Jcb;
@@ -211,7 +213,7 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
 
         DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value).ToUInt64Result()
             ?? throw new InvalidOperationException(
-                $"The {nameof(KernelIdentifier)} could not be initialized because the {nameof(BinaryDataElementCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+                $"The {nameof(KernelIdentifier)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new KernelIdentifier(result.Value);
     }
