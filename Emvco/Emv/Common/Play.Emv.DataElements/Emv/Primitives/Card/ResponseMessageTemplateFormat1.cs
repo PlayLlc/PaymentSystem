@@ -3,6 +3,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
 namespace Play.Emv.DataElements.Emv;
@@ -14,7 +15,7 @@ public record ResponseMessageTemplateFormat1 : DataElement<byte[]>, IEqualityCom
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = VariableDataElementCodec.Identifier;
+    public static readonly BerEncodingId BerEncodingId = VariableCodec.Identifier;
     public static readonly Tag Tag = 0x80;
 
     #endregion
@@ -49,7 +50,7 @@ public record ResponseMessageTemplateFormat1 : DataElement<byte[]>, IEqualityCom
     {
         DecodedResult<byte[]> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<byte[]>
             ?? throw new InvalidOperationException(
-                $"The {nameof(ResponseMessageTemplateFormat1)} could not be initialized because the {nameof(VariableDataElementCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
+                $"The {nameof(ResponseMessageTemplateFormat1)} could not be initialized because the {nameof(VariableCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
 
         return new ResponseMessageTemplateFormat1(result.Value);
     }
