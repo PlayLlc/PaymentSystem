@@ -76,28 +76,28 @@ public class NumericCodec : BerPrimitiveCodec
         ReadOnlySpan<byte> trimmedValue = value.TrimStart((byte) 0);
         BigInteger maximumIntegerResult = (BigInteger) Math.Pow(10, trimmedValue.Length - 1);
 
-        if (value.Length == Specs.Integer.UInt8.ByteSize)
+        if (value.Length == Specs.Integer.UInt8.ByteCount)
         {
             byte byteResult = _Numeric.GetByte(trimmedValue[0]);
 
             return new DecodedResult<byte>(byteResult, value.Length * 2);
         }
 
-        if (value.Length <= Specs.Integer.UInt16.ByteSize)
+        if (value.Length <= Specs.Integer.UInt16.ByteCount)
         {
             ushort shortResult = _Numeric.GetUInt16(trimmedValue);
 
             return new DecodedResult<ushort>(shortResult, value.Length * 2);
         }
 
-        if (value.Length <= Specs.Integer.UInt32.ByteSize)
+        if (value.Length <= Specs.Integer.UInt32.ByteCount)
         {
             uint intResult = _Numeric.GetUInt32(trimmedValue);
 
             return new DecodedResult<uint>(intResult, value.Length * 2);
         }
 
-        if (value.Length <= Specs.Integer.UInt64.ByteSize)
+        if (value.Length <= Specs.Integer.UInt64.ByteCount)
         {
             ulong longResult = _Numeric.GetUInt64(trimmedValue);
 

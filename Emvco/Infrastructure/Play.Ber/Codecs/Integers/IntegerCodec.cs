@@ -60,13 +60,13 @@ public sealed class IntegerCodec : BerPrimitiveCodec
         if (!AreFirstNineBitsValid(value))
         {
             throw new BerFormatException(new ArgumentOutOfRangeException(nameof(value),
-                                                                         $"The {nameof(IntegerCodec)} failed because the argument must not have the first 9 most significant bits all set or all cleared"));
+                $"The {nameof(IntegerCodec)} failed because the argument must not have the first 9 most significant bits all set or all cleared"));
         }
 
         if (!IsMinimumLengthValid(value))
         {
             throw new BerFormatException(new ArgumentOutOfRangeException(nameof(value),
-                                                                         $"The {nameof(IntegerCodec)} failed. A minimum length of {_MinimumByteLength} is required"));
+                $"The {nameof(IntegerCodec)} failed. A minimum length of {_MinimumByteLength} is required"));
         }
     }
 
@@ -77,13 +77,13 @@ public sealed class IntegerCodec : BerPrimitiveCodec
     {
         nint byteSize = Unsafe.SizeOf<T>();
 
-        if (byteSize == Specs.Integer.UInt8.ByteSize)
+        if (byteSize == Specs.Integer.UInt8.ByteCount)
             return Encode(Unsafe.As<T, sbyte>(ref value));
-        if (byteSize == Specs.Integer.UInt16.ByteSize)
+        if (byteSize == Specs.Integer.UInt16.ByteCount)
             return Encode(Unsafe.As<T, short>(ref value));
-        if (byteSize == Specs.Integer.UInt32.ByteSize)
+        if (byteSize == Specs.Integer.UInt32.ByteCount)
             return Encode(Unsafe.As<T, int>(ref value));
-        if (byteSize == Specs.Integer.UInt64.ByteSize)
+        if (byteSize == Specs.Integer.UInt64.ByteCount)
             return Encode(Unsafe.As<T, long>(ref value));
 
         return Encode(Unsafe.As<T, BigInteger>(ref value));

@@ -68,13 +68,13 @@ public class CompressedNumericCodec : BerPrimitiveCodec
     {
         nint byteSize = Unsafe.SizeOf<T>();
 
-        if (byteSize == Specs.Integer.UInt8.ByteSize)
+        if (byteSize == Specs.Integer.UInt8.ByteCount)
             return Encode(Unsafe.As<T, byte>(ref value));
-        if (byteSize == Specs.Integer.UInt16.ByteSize)
+        if (byteSize == Specs.Integer.UInt16.ByteCount)
             return Encode(Unsafe.As<T, ushort>(ref value));
-        if (byteSize <= Specs.Integer.UInt32.ByteSize)
+        if (byteSize <= Specs.Integer.UInt32.ByteCount)
             return Encode(Unsafe.As<T, uint>(ref value));
-        if (byteSize <= Specs.Integer.UInt64.ByteSize)
+        if (byteSize <= Specs.Integer.UInt64.ByteCount)
             return Encode(Unsafe.As<T, ulong>(ref value));
 
         return Encode(Unsafe.As<T, BigInteger>(ref value));
@@ -82,17 +82,17 @@ public class CompressedNumericCodec : BerPrimitiveCodec
 
     public override byte[] Encode<T>(T value, int length)
     {
-        if (length == Specs.Integer.UInt8.ByteSize)
+        if (length == Specs.Integer.UInt8.ByteCount)
             return Encode(Unsafe.As<T, byte>(ref value));
-        if (length == Specs.Integer.UInt16.ByteSize)
+        if (length == Specs.Integer.UInt16.ByteCount)
             return Encode(Unsafe.As<T, ushort>(ref value));
         if (length == 3)
             return Encode(Unsafe.As<T, uint>(ref value), length);
-        if (length == Specs.Integer.UInt32.ByteSize)
+        if (length == Specs.Integer.UInt32.ByteCount)
             return Encode(Unsafe.As<T, uint>(ref value));
-        if (length < Specs.Integer.UInt64.ByteSize)
+        if (length < Specs.Integer.UInt64.ByteCount)
             return Encode(Unsafe.As<T, ulong>(ref value), length);
-        if (length == Specs.Integer.UInt64.ByteSize)
+        if (length == Specs.Integer.UInt64.ByteCount)
             return Encode(Unsafe.As<T, ulong>(ref value));
 
         return Encode(Unsafe.As<T, BigInteger>(ref value), length);
@@ -440,8 +440,8 @@ public class CompressedNumericCodec : BerPrimitiveCodec
         {
             if (!_CharMap.ContainsKey(value[i]))
             {
-                throw new
-                    EmvEncodingFormatException($"The argument could not be parsed. The argument contained the value: [{value[i]}], which is an invalid {nameof(CompressedNumeric)} encoding");
+                throw new EmvEncodingFormatException(
+                    $"The argument could not be parsed. The argument contained the value: [{value[i]}], which is an invalid {nameof(CompressedNumeric)} encoding");
             }
         }
 

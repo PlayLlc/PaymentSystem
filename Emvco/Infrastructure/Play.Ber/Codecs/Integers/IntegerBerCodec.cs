@@ -6,7 +6,6 @@ using Play.Ber.Exceptions;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Codecs.Integers;
-using Play.Codecs.Metadata;
 using Play.Core.Exceptions;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
