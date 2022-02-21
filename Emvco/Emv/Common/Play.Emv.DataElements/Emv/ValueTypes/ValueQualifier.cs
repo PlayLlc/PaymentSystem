@@ -3,7 +3,7 @@ using System.Numerics;
 
 using Play.Core.Extensions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.DataElements.Emv;
 
 public readonly struct ValueQualifier
 {

@@ -11,7 +11,7 @@ public record DekRequestType : EnumObject<Tag>
     public static readonly DekRequestType DataNeeded = new(Ber.DataObjects.DataNeeded.Tag);
 
     // to card (Dequeued)   
-    public static readonly DekRequestType TagsToRead = new(DataElements.TagsToRead.Tag);
+    public static readonly DekRequestType TagsToRead = new(DataElements.Emv.TagsToRead.Tag);
 
     #endregion
 

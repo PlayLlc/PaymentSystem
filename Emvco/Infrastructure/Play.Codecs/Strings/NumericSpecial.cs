@@ -16,7 +16,7 @@ public class NumericSpecial : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(NumericSpecial));
+    public static readonly PlayEncodingId PlayEncodingId = new(nameof(NumericSpecial));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = Enumerable.Range(0, 10).Concat(Enumerable.Range(32, 47 - 32))
         .Concat(Enumerable.Range(58, 64 - 58)).Concat(Enumerable.Range(91, 96 - 91)).Concat(Enumerable.Range(123, 126 - 123))
@@ -36,7 +36,7 @@ public class NumericSpecial : PlayEncoding
     {
         for (int i = 0; i < value.Length; i++)
         {
-            if (!_ByteMap.ContainsKey(value[i]))
+            if (!_ByteMap.Keys.Contains(value[i]))
                 return false;
         }
 
@@ -47,7 +47,7 @@ public class NumericSpecial : PlayEncoding
     {
         for (int i = 0; i < value.Length; i++)
         {
-            if (!_CharMap.ContainsKey(value[i]))
+            if (!_CharMap.Keys.Contains(value[i]))
                 return false;
         }
 
@@ -56,7 +56,7 @@ public class NumericSpecial : PlayEncoding
 
     public bool IsValid(char value)
     {
-        if (_ByteMap.ContainsKey(value))
+        if (_ByteMap.Keys.Contains(value))
             return true;
 
         return false;
@@ -64,7 +64,7 @@ public class NumericSpecial : PlayEncoding
 
     public new byte[] GetBytes(string value)
     {
-        if (value.Length < Specs.Specs.ByteArrayAllocateCeiling)
+        if (value.Length < Specs.ByteArray.StackAllocateCeiling)
         {
             Span<byte> buffer = stackalloc byte[value.Length];
 
@@ -75,7 +75,7 @@ public class NumericSpecial : PlayEncoding
         }
         else
         {
-            using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(value.Length);
+            SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(value.Length);
             Span<byte> buffer = spanOwner.Span;
 
             for (int i = 0, j = 0; i < value.Length; i++, j += 2)
@@ -105,7 +105,7 @@ public class NumericSpecial : PlayEncoding
         if (value.Length > length)
             return GetBytes(value)[^length..];
 
-        if (length < Specs.Specs.ByteArrayAllocateCeiling)
+        if (length < Specs.ByteArray.StackAllocateCeiling)
         {
             Span<char> tempBuffer = stackalloc char[value.Length];
             value.CopyTo(tempBuffer);
@@ -138,13 +138,15 @@ public class NumericSpecial : PlayEncoding
 
     public override int GetByteCount(char[] chars, int index, int count) => count;
     public override int GetMaxByteCount(int charCount) => charCount;
-    public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) => new NotImplementedException();
+
+    public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
+        throw new NotImplementedException();
 
     public char[] GetChars(ReadOnlySpan<byte> value)
     {
         int length = value.Length * 2;
 
-        if (length < Specs.Specs.ByteArrayAllocateCeiling)
+        if (length < Specs.ByteArray.StackAllocateCeiling)
         {
             Span<char> buffer = stackalloc char[length];
 
@@ -155,7 +157,7 @@ public class NumericSpecial : PlayEncoding
         }
         else
         {
-            using SpanOwner<char> spanOwner = SpanOwner<char>.Allocate(length);
+            SpanOwner<char> spanOwner = SpanOwner<char>.Allocate(length);
             Span<char> buffer = spanOwner.Span;
 
             for (int i = 0, j = 0; i < value.Length; i++, j += 2)

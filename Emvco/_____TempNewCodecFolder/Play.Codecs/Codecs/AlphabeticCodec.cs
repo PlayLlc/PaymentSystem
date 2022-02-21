@@ -13,6 +13,39 @@ namespace Play.Codecs;
 
 public class AlphabeticCodec : PlayCodec
 {
+    #region Instance Members
+
+    #region Decode To Integers
+
+    /// <summary>
+    ///     GetByte
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="PlayEncodingException"></exception>
+    public byte DecodeToByte(char value)
+    {
+        Validate(value); //
+
+        return (byte) value;
+    }
+
+    #endregion
+
+    #endregion
+
+    #region Serialization
+
+    #region Decode To DecodedMetadata
+
+    /// <exception cref="PlayEncodingException"></exception>
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) =>
+        new DecodedResult<char[]>(PlayEncoding.Alphabetic.GetChars(value), value.Length);
+
+    #endregion
+
+    #endregion
+
     #region Metadata
 
     public override PlayEncodingId GetEncodingId() => PlayEncodingId;
@@ -389,31 +422,6 @@ public class AlphabeticCodec : PlayCodec
 
         return false;
     }
-
-    #endregion
-
-    #region Decode To Integers
-
-    /// <summary>
-    ///     GetByte
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="PlayEncodingException"></exception>
-    public byte DecodeToByte(char value)
-    {
-        Validate(value); //
-
-        return (byte) value;
-    }
-
-    #endregion
-
-    #region Decode To DecodedMetadata
-
-    /// <exception cref="PlayEncodingException"></exception>
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) =>
-        new DecodedResult<char[]>(PlayEncoding.Alphabetic.GetChars(value), value.Length);
 
     #endregion
 }

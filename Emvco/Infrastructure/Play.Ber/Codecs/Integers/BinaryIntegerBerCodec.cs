@@ -4,6 +4,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Codecs.Integers;
+using Play.Codecs.Metadata;
 
 namespace Play.Ber.Codecs;
 

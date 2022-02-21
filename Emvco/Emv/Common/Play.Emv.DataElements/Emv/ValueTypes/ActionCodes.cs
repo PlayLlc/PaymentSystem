@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.DataElements;
+﻿namespace Play.Emv.DataElements.Emv;
 
 /// <summary>
 ///     The underlying value for Action Codes such as TerminalActionCodeDefault, IssuerActionCodeDefault, etc

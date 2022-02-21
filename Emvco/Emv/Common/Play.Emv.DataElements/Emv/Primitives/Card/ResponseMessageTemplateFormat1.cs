@@ -2,11 +2,11 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Ber.InternalFactories;
+using Play.Codecs.Metadata;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.DataElements.Emv;
 
 /// <summary>
 ///     Contains the data objects (without tags and lengths) returned by the ICC in response to a command

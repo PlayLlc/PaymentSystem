@@ -3,11 +3,11 @@ using System.Numerics;
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Ber.InternalFactories;
+using Play.Codecs.Metadata;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.DataElements.Emv;
 
 /// <summary>
 ///     Description: The Unprotected Data Envelopes contain proprietary information from the issuer, payment system or

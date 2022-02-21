@@ -4,6 +4,7 @@ using Moq;
 
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
 

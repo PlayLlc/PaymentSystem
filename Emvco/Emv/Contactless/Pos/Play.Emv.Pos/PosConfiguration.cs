@@ -1,4 +1,5 @@
 ﻿using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv;
 using Play.Globalization;
 using Play.Globalization.Currency;
 using Play.Globalization.Language;

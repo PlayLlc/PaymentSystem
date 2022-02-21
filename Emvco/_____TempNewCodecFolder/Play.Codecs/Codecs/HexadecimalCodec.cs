@@ -13,6 +13,17 @@ namespace Play.Codecs;
 
 public class HexadecimalCodec : PlayCodec
 {
+    #region Instance Members
+
+    /// <summary>
+    ///     Returns an unsigned integer from the Hexadecimal string provided
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public ulong DecodeToUIn64(ReadOnlySpan<char> value) => UnsignedIntegerCodec.DecodeToUInt64(Encode(value));
+
+    #endregion
+
     #region Metadata
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
@@ -508,17 +519,6 @@ public class HexadecimalCodec : PlayCodec
 
         return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
     }
-
-    #endregion
-
-    #region Instance Members
-
-    /// <summary>
-    ///     Returns an unsigned integer from the Hexadecimal string provided
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    public ulong DecodeToUIn64(ReadOnlySpan<char> value) => UnsignedIntegerCodec.DecodeToUInt64(Encode(value));
 
     #endregion
 

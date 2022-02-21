@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Pcd.Contracts;

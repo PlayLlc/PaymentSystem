@@ -1,11 +1,11 @@
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Ber.InternalFactories;
+using Play.Codecs.Metadata;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.DataElements.Emv;
 
 /// <summary>
 ///     Specifies the issuer's conditions that cause the denial of a transaction without attempt to go online

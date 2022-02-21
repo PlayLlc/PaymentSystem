@@ -4,14 +4,14 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Ber.InternalFactories;
+using Play.Codecs.Metadata;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Globalization.Currency;
 using Play.Globalization.Time;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.DataElements.Emv;
 
 /// <summary>
 ///     Description: Combines all parameters to be sent with the OUT DataExchangeSignal or MSG DataExchangeSignal.

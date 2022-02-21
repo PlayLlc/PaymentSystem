@@ -7,6 +7,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
+using Play.Codecs.Metadata;
 using Play.Core.Specifications;
 
 namespace Play.Icc.FileSystem;

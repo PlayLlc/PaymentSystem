@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
@@ -10,7 +11,6 @@ using Play.Emv.Pcd.Contracts;
 using Play.Emv.Reader.Contracts.SignalIn;
 using Play.Emv.Selection.Contracts;
 using Play.Emv.Sessions;
-using Play.Emv.Transactions;
 using Play.Messaging;
 
 namespace Play.Emv.Reader.Services;

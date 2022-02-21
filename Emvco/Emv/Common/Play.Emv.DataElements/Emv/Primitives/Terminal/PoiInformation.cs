@@ -4,7 +4,7 @@ using Play.Ber.Identifiers;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.DataElements.Emv;
 
 /// <summary>
 ///     Specifies Terminal Category Codes for the PICC that are specific to <see cref="TerminalCategoryCode.TransitGate" />

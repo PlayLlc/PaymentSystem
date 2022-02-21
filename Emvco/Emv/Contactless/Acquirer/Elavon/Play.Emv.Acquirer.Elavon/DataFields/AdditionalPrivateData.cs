@@ -1,6 +1,6 @@
-﻿using Play.Emv.Acquirers.Elavon.DataElements;
+﻿using Play.Emv.Acquirer.Elavon.DataElements;
 
-namespace Play.Emv.Acquirers.Elavon.DataFields;
+namespace Play.Emv.Acquirer.Elavon.DataFields;
 
 /// <summary>
 ///     This will be used to send requests and responses related to services not dealt with by other fields. This data

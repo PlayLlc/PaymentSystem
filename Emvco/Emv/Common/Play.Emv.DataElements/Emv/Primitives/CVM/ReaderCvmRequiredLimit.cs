@@ -1,14 +1,14 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Ber.InternalFactories;
+using Play.Codecs.Metadata;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements.Exceptions;
 using Play.Globalization;
 using Play.Globalization.Currency;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.DataElements.Emv;
 
 /// <summary>
 ///     Indicates the transaction amount above which the Kernel instantiates the CVM capabilities field in Terminal

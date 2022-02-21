@@ -5,7 +5,7 @@ using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.DataElements.Emv;
 
 /// <summary>
 ///     Indicates the maximum number of records that can be stored in the Torn Transaction Log.

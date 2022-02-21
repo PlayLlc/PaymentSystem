@@ -1,8 +1,11 @@
 ﻿using System;
 
 using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv;
 using Play.Globalization.Currency;
 using Play.Globalization.Time;
+
+using PrimaryAccountNumber = Play.Emv.DataElements.Interchange.PrimaryAccountNumber;
 
 namespace Play.Emv.Terminal.SplitPayment;
 

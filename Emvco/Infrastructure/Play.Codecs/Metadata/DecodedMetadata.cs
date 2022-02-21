@@ -1,4 +1,4 @@
-﻿namespace Play.Ber.InternalFactories;
+﻿namespace Play.Codecs.Metadata;
 
 public record DecodedMetadata
 {

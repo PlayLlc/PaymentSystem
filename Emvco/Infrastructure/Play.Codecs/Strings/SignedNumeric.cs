@@ -96,7 +96,7 @@ public class SignedNumeric : PlayEncoding
         }
         else
         {
-            using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(value.Length);
+            SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(value.Length);
             Span<byte> buffer = spanOwner.Span;
 
             for (int i = 0; i < value.Length; i++)
@@ -191,7 +191,7 @@ public class SignedNumeric : PlayEncoding
         }
         else
         {
-            using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(value.Length);
+            SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(value.Length);
             Span<byte> buffer = spanOwner.Span;
 
             for (int i = 0; i < value.Length; i++)
@@ -397,7 +397,7 @@ public class SignedNumeric : PlayEncoding
         }
         else
         {
-            using SpanOwner<char> spanOwner = SpanOwner<char>.Allocate(length);
+            SpanOwner<char> spanOwner = SpanOwner<char>.Allocate(length);
             Span<char> buffer = spanOwner.Span;
 
             for (int i = 0; i < value.Length; i++)

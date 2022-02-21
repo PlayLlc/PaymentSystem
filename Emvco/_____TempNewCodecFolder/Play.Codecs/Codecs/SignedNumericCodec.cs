@@ -13,6 +13,65 @@ namespace Play.Codecs;
 
 public class SignedNumericCodec : PlayCodec
 {
+    #region Instance Members
+
+    /// <summary>
+    ///     Takes the Numeric encoded byte array provided to <see cref="value" /> and returns an integer value
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public ushort DecodeToInt16(ReadOnlySpan<byte> value)
+    {
+        ushort result = 0;
+
+        return (ushort) BuildInteger(result, value);
+    }
+
+    /// <summary>
+    ///     Takes the Numeric encoded byte array provided to <see cref="value" /> and returns an integer value
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public uint DecodeToInt32(ReadOnlySpan<byte> value)
+    {
+        if (!IsValid(value))
+            throw new ArgumentOutOfRangeException(nameof(value));
+
+        uint result = 0;
+
+        return (uint) BuildInteger(result, value);
+    }
+
+    /// <summary>
+    ///     Takes the Numeric encoded byte array provided to <see cref="value" /> and returns an integer value
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public ulong DecodeToInt64(ReadOnlySpan<byte> value)
+    {
+        for (byte i = 0; i < value.Length; i++)
+        {
+            if (!IsValid(value))
+                throw new ArgumentOutOfRangeException(nameof(value));
+        }
+
+        ulong result = 0;
+
+        return (ulong) BuildInteger(result, value);
+    }
+
+    #endregion
+
+    #region Serialization
+
+    #region Decode To DecodedMetadata
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => throw new NotImplementedException();
+
+    #endregion
+
+    #endregion
+
     #region Metadata
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
@@ -589,61 +648,6 @@ public class SignedNumericCodec : PlayCodec
         resultBuffer *= value[0] == _Negative ? -1 : 1;
 
         return resultBuffer;
-    }
-
-    #endregion
-
-    #region Decode To DecodedMetadata
-
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => throw new NotImplementedException();
-
-    #endregion
-
-    #region Instance Members
-
-    /// <summary>
-    ///     Takes the Numeric encoded byte array provided to <see cref="value" /> and returns an integer value
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    public ushort DecodeToInt16(ReadOnlySpan<byte> value)
-    {
-        ushort result = 0;
-
-        return (ushort) BuildInteger(result, value);
-    }
-
-    /// <summary>
-    ///     Takes the Numeric encoded byte array provided to <see cref="value" /> and returns an integer value
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    public uint DecodeToInt32(ReadOnlySpan<byte> value)
-    {
-        if (!IsValid(value))
-            throw new ArgumentOutOfRangeException(nameof(value));
-
-        uint result = 0;
-
-        return (uint) BuildInteger(result, value);
-    }
-
-    /// <summary>
-    ///     Takes the Numeric encoded byte array provided to <see cref="value" /> and returns an integer value
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    public ulong DecodeToInt64(ReadOnlySpan<byte> value)
-    {
-        for (byte i = 0; i < value.Length; i++)
-        {
-            if (!IsValid(value))
-                throw new ArgumentOutOfRangeException(nameof(value));
-        }
-
-        ulong result = 0;
-
-        return (ulong) BuildInteger(result, value);
     }
 
     #endregion

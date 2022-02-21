@@ -13,7 +13,7 @@ public class Hexadecimal : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(Hexadecimal));
+    public static readonly PlayEncodingId PlayEncodingId = new(nameof(Hexadecimal));
 
     #endregion
 
@@ -134,35 +134,6 @@ public class Hexadecimal : PlayEncoding
             result[resultIndex++] = (byte) ((GetByte(value[stringIndex]) << 4) | GetByte(value[stringIndex + 1]));
 
         return result;
-    }
-
-    public void GetBytes(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
-    {
-        CheckCore.ForEmptySequence(value, nameof(value));
-
-        bool lengthIsEven = (value.Length % 2) == 0;
-        nint length = lengthIsEven ? value.Length / 2 : (value.Length + 1) / 2;
-        int stringIndex = 0;
-
-        if (!lengthIsEven)
-            buffer[offset++] = (byte) (0x00 | GetByte(value[stringIndex++]));
-
-        for (; offset < (offset + length); stringIndex += 2)
-            buffer[offset++] = (byte) ((GetByte(value[stringIndex]) << 4) | GetByte(value[stringIndex + 1]));
-    }
-
-    public void GetBytes(ReadOnlySpan<char> value, int length, Span<byte> buffer, ref int offset)
-    {
-        CheckCore.ForEmptySequence(value, nameof(value));
-
-        bool lengthIsEven = (value.Length % 2) == 0;
-        int stringIndex = 0;
-
-        if (!lengthIsEven)
-            buffer[offset++] = (byte) (0x00 | GetByte(value[stringIndex++]));
-
-        for (; offset < (offset + length); stringIndex += 2)
-            buffer[offset++] = (byte) ((GetByte(value[stringIndex]) << 4) | GetByte(value[stringIndex + 1]));
     }
 
     /// <summary>

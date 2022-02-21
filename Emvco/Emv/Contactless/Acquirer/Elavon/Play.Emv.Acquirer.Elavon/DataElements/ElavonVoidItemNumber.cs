@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.Acquirers.Elavon.DataElements;
+﻿namespace Play.Emv.Acquirer.Elavon.DataElements;
 
 /// <summary>
 ///     The Elavon Void Item number will only be populated in single message operation. The Elavon Void Item number must be

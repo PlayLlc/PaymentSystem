@@ -2,6 +2,7 @@
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel.State;

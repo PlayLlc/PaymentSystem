@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 using Play.Emv.Acquirer.Contracts.SignalOut;
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Kernel.State;
 using Play.Emv.Reader.Contracts.SignalOut;
+using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts.SignalIn;
-using Play.Emv.Terminal.Services;
-using Play.Emv.Terminal.Services.DataExchange;
+using Play.Emv.Terminal.DataExchange;
+using Play.Emv.Terminal.Session;
 
 namespace Play.Emv.Terminal.StateMachine;
 

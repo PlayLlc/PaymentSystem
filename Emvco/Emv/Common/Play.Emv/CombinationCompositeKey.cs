@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv;

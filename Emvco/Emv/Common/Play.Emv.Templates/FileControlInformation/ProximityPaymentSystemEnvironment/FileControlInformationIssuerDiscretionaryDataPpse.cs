@@ -4,9 +4,11 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs.Metadata;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv;
 
 namespace Play.Emv.Templates.FileControlInformation;
 

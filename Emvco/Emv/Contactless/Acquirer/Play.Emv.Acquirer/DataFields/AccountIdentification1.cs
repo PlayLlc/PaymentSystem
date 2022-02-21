@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Play.Ber.InternalFactories;
-using Play.Emv.Interchange.Codecs;
-using Play.Emv.Interchange.Exceptions;
+using Play.Codecs;
+using Play.Codecs.Metadata;
+using Play.Emv.Acquirer.Codecs;
+using Play.Emv.Acquirer.Exceptions;
 using Play.Interchange.Codecs;
 using Play.Interchange.DataFields;
 using Play.Interchange.Exceptions;

@@ -1,25 +1,22 @@
-﻿using Play.Acquirer.Contracts;
-using Play.Ber.DataObjects;
+﻿using Play.Ber.DataObjects;
 using Play.Emv.Acquirer.Contracts;
 using Play.Emv.Acquirer.Contracts.SignalIn;
 using Play.Emv.Acquirer.Contracts.SignalOut;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Configuration;
 using Play.Emv.DataElements;
+using Play.Emv.DataElements.Interchange;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Kernel.State;
 using Play.Emv.Messaging;
 using Play.Emv.Reader.Contracts;
 using Play.Emv.Reader.Contracts.SignalIn;
 using Play.Emv.Reader.Contracts.SignalOut;
 using Play.Emv.Sessions;
-using Play.Emv.Terminal.Common.Services.SequenceNumberManagement;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalIn;
-using Play.Emv.Terminal.Services;
-using Play.Emv.Terminal.Services.DataExchange;
-using Play.Emv.Transactions;
+using Play.Emv.Terminal.DataExchange;
+using Play.Emv.Terminal.Session;
 
 namespace Play.Emv.Terminal.StateMachine;
 

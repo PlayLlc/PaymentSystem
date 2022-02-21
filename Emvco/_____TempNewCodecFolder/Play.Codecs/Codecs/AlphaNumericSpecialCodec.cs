@@ -11,6 +11,21 @@ namespace Play.Codecs;
 
 public class AlphaNumericSpecialCodec : PlayCodec
 {
+    #region Serialization
+
+    #region Decode To DecodedMetadata
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        char[] valueResult = DecodeToChars(value);
+
+        return new DecodedResult<char[]>(valueResult, valueResult.Length);
+    }
+
+    #endregion
+
+    #endregion
+
     #region Metadata
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
@@ -238,17 +253,6 @@ public class AlphaNumericSpecialCodec : PlayCodec
         result = DecodeToString(value);
 
         return true;
-    }
-
-    #endregion
-
-    #region Decode To DecodedMetadata
-
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
-    {
-        char[] valueResult = DecodeToChars(value);
-
-        return new DecodedResult<char[]>(valueResult, valueResult.Length);
     }
 
     #endregion

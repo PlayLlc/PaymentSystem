@@ -2,7 +2,7 @@
 using Play.Interchange.DataFields;
 using Play.Interchange.Exceptions;
 
-namespace Play.Emv.Interchange.Exceptions;
+namespace Play.Emv.Acquirer.Exceptions;
 
 internal class Check
 {

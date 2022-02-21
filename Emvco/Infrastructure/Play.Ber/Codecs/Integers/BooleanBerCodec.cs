@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 
 using Play.Ber.InternalFactories;
+using Play.Codecs.Metadata;
 using Play.Core.Exceptions;
 
 namespace Play.Ber.Codecs;

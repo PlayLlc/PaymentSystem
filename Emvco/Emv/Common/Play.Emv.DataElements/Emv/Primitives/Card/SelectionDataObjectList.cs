@@ -6,7 +6,7 @@ using Play.Ber.InternalFactories;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.DataElements.Emv;
 
 /// <summary>
 ///     Contains a list of terminal resident data objects (tags and lengths) needed by the card in processing the SEND POI

@@ -5,7 +5,7 @@ using Play.Ber.Identifiers;
 using Play.Core;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.Terminal.Services.DataExchange;
+namespace Play.Emv.Terminal.DataExchange;
 
 public record DetResponseType : EnumObject<Tag>
 {

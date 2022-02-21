@@ -4,6 +4,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Kernel;
@@ -20,7 +21,6 @@ using Play.Emv.Templates.Exceptions;
 using Play.Emv.Templates.FileControlInformation;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
-using Play.Emv.Transactions;
 using Play.Globalization.Time;
 using Play.Messaging;
 

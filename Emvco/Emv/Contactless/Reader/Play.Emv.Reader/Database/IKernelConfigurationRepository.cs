@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv;
 
 namespace Play.Emv.Reader.Database;
 

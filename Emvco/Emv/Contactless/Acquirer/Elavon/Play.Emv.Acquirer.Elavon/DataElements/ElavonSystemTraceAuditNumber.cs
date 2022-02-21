@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.Acquirers.Elavon.DataElements;
+﻿namespace Play.Emv.Acquirer.Elavon.DataElements;
 
 /// <summary>
 ///     The Elavon STAN will be returned to the POS or partner host system in the event of an approval of a sale

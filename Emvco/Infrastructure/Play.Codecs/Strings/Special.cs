@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
@@ -13,7 +16,7 @@ public class Special : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(Special));
+    public static readonly PlayEncodingId PlayEncodingId = new(nameof(Special));
 
     // 32 - 126
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = Enumerable.Range(32, 47 - 32)
@@ -52,8 +55,8 @@ public class Special : PlayEncoding
         return true;
     }
 
-    public bool IsValid(byte value) => _CharMapper.ContainsKey(value);
-    public bool IsValid(char value) => _ByteMapper.ContainsKey(value);
+    public bool IsValid(byte value) => _CharMapper.Keys.Contains(value);
+    public bool IsValid(char value) => _ByteMapper.Keys.Contains(value);
 
     /// <exception cref="EncodingException"></exception>
     private void Validate(byte value)

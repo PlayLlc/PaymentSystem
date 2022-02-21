@@ -1,4 +1,5 @@
 ﻿using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv;
 using Play.Emv.Display.Contracts;
 
 namespace Play.Emv.Reader.Database;

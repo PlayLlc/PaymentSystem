@@ -1,5 +1,8 @@
 ﻿using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv;
 using Play.Globalization.Time;
+
+using PrimaryAccountNumber = Play.Emv.DataElements.Interchange.PrimaryAccountNumber;
 
 namespace Play.Emv.Terminal;
 
@@ -13,7 +16,8 @@ public abstract class PaymentLogItem
     protected readonly PrimaryAccountNumber _PrimaryAccountNumber;
 
     /// <summary>
-    ///     A sequential number of transaction log items associated to this <see cref="PrimaryAccountNumber" />
+    ///     A sequential number of transaction log items associated to this
+    ///     <see cref="Play.Emv.DataElements.Interchange.PrimaryAccountNumber" />
     /// </summary>
     protected readonly uint _SequenceNumber;
 

@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Acquirer.Contracts;
-using Play.Ber.DataObjects;
-using Play.Emv.Acquirer.Contracts;
-using Play.Emv.Acquirer.Contracts.SignalIn;
-using Play.Emv.Messaging;
+﻿using Play.Ber.DataObjects;
+using Play.Emv.DataElements.Interchange;
 using Play.Interchange.Messages.Header;
 using Play.Messaging;
 
-namespace Play.Emv.Acquirer.Messages;
+namespace Play.Emv.Acquirer.Contracts.SignalIn;
 
 public record AuthorizationRequestSignal : AcquirerRequestSignal
 {

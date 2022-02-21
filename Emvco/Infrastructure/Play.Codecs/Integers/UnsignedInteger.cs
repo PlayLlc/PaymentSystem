@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 
 using Play.Core.Extensions;
 using Play.Core.Specifications;
@@ -13,7 +12,7 @@ public class UnsignedInteger : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(UnsignedInteger));
+    public static readonly PlayEncodingId PlayEncodingId = new(nameof(UnsignedInteger));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = new Dictionary<char, byte>
     {
@@ -73,26 +72,6 @@ public class UnsignedInteger : PlayEncoding
     { }
 
     // ///////////////// 
-
-    public void GetBytes(ushort value, Span<byte> buffer, ref int offset)
-    {
-        Unsafe.As<byte, ushort>(ref buffer[offset]) = value;
-    }
-
-    public void GetBytes(uint value, Span<byte> buffer, ref int offset)
-    {
-        Unsafe.As<byte, uint>(ref buffer[offset]) = value;
-    }
-
-    public void GetBytes(ulong value, Span<byte> buffer, ref int offset)
-    {
-        Unsafe.As<byte, ulong>(ref buffer[offset]) = value;
-    }
-
-    public void GetBytes(BigInteger value, Span<byte> buffer, ref int offset)
-    {
-        value.ToByteArray(true).AsSpan().CopyTo(buffer[offset..]);
-    }
 
     public byte[] GetBytes(ushort value, bool trimEmptyBytes = false)
     {

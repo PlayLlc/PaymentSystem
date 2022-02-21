@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 
 using Play.Core.Extensions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.DataElements.Emv;
 
 public readonly struct CvmPerformedOutcome
 {

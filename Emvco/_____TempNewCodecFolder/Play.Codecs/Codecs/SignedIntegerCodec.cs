@@ -11,6 +11,186 @@ namespace Play.Codecs;
 
 public class SignedIntegerCodec : PlayCodec
 {
+    #region Instance Members
+
+    #region Decode To Integers
+
+    public BigInteger DecodeToBigInteger(ReadOnlySpan<byte> value) => new(value);
+
+    #endregion
+
+    public sbyte DecodeToSByte(ReadOnlySpan<byte> value)
+    {
+        if (value[0] > sbyte.MaxValue)
+            throw new ArgumentOutOfRangeException(nameof(value));
+
+        return (sbyte) value[0];
+    }
+
+    public short DecodeToInt16(ReadOnlySpan<byte> value)
+    {
+        const byte byteLength = Specs.Integer.Int16.ByteCount;
+        const ushort max = ushort.MaxValue;
+        short result = 0;
+        byte bitShift = 0;
+
+        if (value.Length < byteLength)
+        {
+            Span<byte> buffer = stackalloc byte[byteLength];
+            value.CopyTo(buffer);
+
+            return DecodeToInt16(value);
+        }
+
+        if (value.Length > byteLength)
+            return DecodeToInt16(value[..byteLength]);
+
+        for (int i = 0; i < value.Length; i++)
+        {
+            result |= (short) (value[i] << bitShift);
+            bitShift += 8;
+        }
+
+        result |= (short) (max & (ushort) ~GetMask(value.Length));
+
+        return result;
+    }
+
+    public int DecodeToInt32(ReadOnlySpan<byte> value)
+    {
+        const uint max = uint.MaxValue;
+        const byte byteLength = Specs.Integer.Int32.ByteCount;
+        int result = 0;
+        byte bitShift = 0;
+
+        if (value.Length < byteLength)
+        {
+            Span<byte> buffer = stackalloc byte[byteLength];
+            value.CopyTo(buffer);
+
+            return DecodeToInt32(value);
+        }
+
+        if (value.Length > byteLength)
+            return DecodeToInt32(value[..byteLength]);
+
+        for (int i = 0; i < value.Length; i++)
+        {
+            result |= value[i] << bitShift;
+            bitShift += 8;
+        }
+
+        result |= (int) (max & (uint) ~GetMask(value.Length));
+
+        return result;
+    }
+
+    public long DecodeToInt64(ReadOnlySpan<byte> value)
+    {
+        const ulong max = ulong.MaxValue;
+        const byte byteLength = Specs.Integer.Int64.ByteCount;
+        long result = 0;
+        int bitShift = 0;
+
+        if (value.Length < byteLength)
+        {
+            Span<byte> buffer = stackalloc byte[byteLength];
+            value.CopyTo(buffer);
+
+            return DecodeToInt64(value);
+        }
+
+        if (value.Length > byteLength)
+            return DecodeToInt64(value[..byteLength]);
+
+        for (int i = 0; i < value.Length; i++)
+        {
+            result |= (long) value[i] << bitShift;
+            bitShift += 8;
+        }
+
+        result |= (long) (max & (ulong) ~GetMask(value.Length));
+
+        return result;
+    }
+
+    private dynamic GetInteger(ReadOnlySpan<byte> value)
+    {
+        return value.Length switch
+        {
+            1 => DecodeToSByte(value),
+            2 => DecodeToInt16(value),
+            4 => DecodeToInt32(value),
+            8 => DecodeToInt64(value),
+            _ => new BigInteger(value)
+        };
+    }
+
+    private dynamic GetMask(int byteCount)
+    {
+        const byte byteMax = byte.MaxValue;
+        int result = 0;
+        for (int i = 0; i < byteCount; i++)
+            result |= byteMax << (i * 8);
+
+        return result;
+    }
+
+    #endregion
+
+    #region Serialization
+
+    #region Decode To DecodedMetadata
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        if (value.Length == Specs.Integer.Int8.ByteCount)
+        {
+            sbyte byteResult = DecodeToSByte(value);
+
+            int charLength = byteResult switch
+            {
+                >= 0 when byteResult <= 9 => 1,
+                >= 0 when byteResult <= 99 => 2,
+                >= 0 => 3,
+                >= -9 => 1 + 1,
+                >= -99 => 2 + 1,
+                _ => 3 + 1
+            };
+
+            return new DecodedResult<sbyte>(byteResult, charLength);
+        }
+
+        if (value.Length <= Specs.Integer.Int16.ByteCount)
+        {
+            short byteResult = DecodeToInt16(value);
+
+            return new DecodedResult<short>(byteResult, byteResult.GetNumberOfDigits());
+        }
+
+        if (value.Length <= Specs.Integer.Int32.ByteCount)
+        {
+            int byteResult = DecodeToInt32(value);
+
+            return new DecodedResult<int>(byteResult, byteResult.GetNumberOfDigits());
+        }
+
+        if (value.Length <= Specs.Integer.Int64.ByteCount)
+        {
+            long byteResult = DecodeToInt64(value);
+
+            return new DecodedResult<long>(byteResult, byteResult.GetNumberOfDigits());
+        }
+
+        BigInteger bigIntegerResult = DecodeToBigInteger(value);
+
+        return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
+    }
+
+    #endregion
+
+    #endregion
+
     #region Metadata
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
@@ -507,182 +687,6 @@ public class SignedIntegerCodec : PlayCodec
     }
 
     public string DecodeToString(ReadOnlySpan<byte> value) => new(DecodeToChars(value));
-
-    #endregion
-
-    #region Decode To Integers
-
-    public BigInteger DecodeToBigInteger(ReadOnlySpan<byte> value) => new(value);
-
-    #endregion
-
-    #region Decode To DecodedMetadata
-
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
-    {
-        if (value.Length == Specs.Integer.Int8.ByteCount)
-        {
-            sbyte byteResult = DecodeToSByte(value);
-
-            int charLength = byteResult switch
-            {
-                >= 0 when byteResult <= 9 => 1,
-                >= 0 when byteResult <= 99 => 2,
-                >= 0 => 3,
-                >= -9 => 1 + 1,
-                >= -99 => 2 + 1,
-                _ => 3 + 1
-            };
-
-            return new DecodedResult<sbyte>(byteResult, charLength);
-        }
-
-        if (value.Length <= Specs.Integer.Int16.ByteCount)
-        {
-            short byteResult = DecodeToInt16(value);
-
-            return new DecodedResult<short>(byteResult, byteResult.GetNumberOfDigits());
-        }
-
-        if (value.Length <= Specs.Integer.Int32.ByteCount)
-        {
-            int byteResult = DecodeToInt32(value);
-
-            return new DecodedResult<int>(byteResult, byteResult.GetNumberOfDigits());
-        }
-
-        if (value.Length <= Specs.Integer.Int64.ByteCount)
-        {
-            long byteResult = DecodeToInt64(value);
-
-            return new DecodedResult<long>(byteResult, byteResult.GetNumberOfDigits());
-        }
-
-        BigInteger bigIntegerResult = DecodeToBigInteger(value);
-
-        return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
-    }
-
-    #endregion
-
-    #region Instance Members
-
-    public sbyte DecodeToSByte(ReadOnlySpan<byte> value)
-    {
-        if (value[0] > sbyte.MaxValue)
-            throw new ArgumentOutOfRangeException(nameof(value));
-
-        return (sbyte) value[0];
-    }
-
-    public short DecodeToInt16(ReadOnlySpan<byte> value)
-    {
-        const byte byteLength = Specs.Integer.Int16.ByteCount;
-        const ushort max = ushort.MaxValue;
-        short result = 0;
-        byte bitShift = 0;
-
-        if (value.Length < byteLength)
-        {
-            Span<byte> buffer = stackalloc byte[byteLength];
-            value.CopyTo(buffer);
-
-            return DecodeToInt16(value);
-        }
-
-        if (value.Length > byteLength)
-            return DecodeToInt16(value[..byteLength]);
-
-        for (int i = 0; i < value.Length; i++)
-        {
-            result |= (short) (value[i] << bitShift);
-            bitShift += 8;
-        }
-
-        result |= (short) (max & (ushort) ~GetMask(value.Length));
-
-        return result;
-    }
-
-    public int DecodeToInt32(ReadOnlySpan<byte> value)
-    {
-        const uint max = uint.MaxValue;
-        const byte byteLength = Specs.Integer.Int32.ByteCount;
-        int result = 0;
-        byte bitShift = 0;
-
-        if (value.Length < byteLength)
-        {
-            Span<byte> buffer = stackalloc byte[byteLength];
-            value.CopyTo(buffer);
-
-            return DecodeToInt32(value);
-        }
-
-        if (value.Length > byteLength)
-            return DecodeToInt32(value[..byteLength]);
-
-        for (int i = 0; i < value.Length; i++)
-        {
-            result |= value[i] << bitShift;
-            bitShift += 8;
-        }
-
-        result |= (int) (max & (uint) ~GetMask(value.Length));
-
-        return result;
-    }
-
-    public long DecodeToInt64(ReadOnlySpan<byte> value)
-    {
-        const ulong max = ulong.MaxValue;
-        const byte byteLength = Specs.Integer.Int64.ByteCount;
-        long result = 0;
-        int bitShift = 0;
-
-        if (value.Length < byteLength)
-        {
-            Span<byte> buffer = stackalloc byte[byteLength];
-            value.CopyTo(buffer);
-
-            return DecodeToInt64(value);
-        }
-
-        if (value.Length > byteLength)
-            return DecodeToInt64(value[..byteLength]);
-
-        for (int i = 0; i < value.Length; i++)
-        {
-            result |= (long) value[i] << bitShift;
-            bitShift += 8;
-        }
-
-        result |= (long) (max & (ulong) ~GetMask(value.Length));
-
-        return result;
-    }
-
-    private dynamic GetInteger(ReadOnlySpan<byte> value)
-    {
-        return value.Length switch
-        {
-            1 => DecodeToSByte(value),
-            2 => DecodeToInt16(value),
-            4 => DecodeToInt32(value),
-            8 => DecodeToInt64(value),
-            _ => new BigInteger(value)
-        };
-    }
-
-    private dynamic GetMask(int byteCount)
-    {
-        const byte byteMax = byte.MaxValue;
-        int result = 0;
-        for (int i = 0; i < byteCount; i++)
-            result |= byteMax << (i * 8);
-
-        return result;
-    }
 
     #endregion
 }

@@ -5,7 +5,7 @@ using Play.Ber.Identifiers;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.DataElements.Emv;
 
 /// <summary>
 ///     Description: The Data Record is a list of TLV encoded data objects returned with the Outcome Parameter Set on the

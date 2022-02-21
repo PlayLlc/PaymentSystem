@@ -1,4 +1,4 @@
-﻿namespace Play.Interchange.DataFields.ValueObjects;
+﻿namespace Play.Emv.DataElements.Interchange;
 
 internal class ProcessingCode
 { }

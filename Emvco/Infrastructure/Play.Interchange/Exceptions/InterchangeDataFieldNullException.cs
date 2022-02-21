@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
+using Play.Codecs;
 using Play.Interchange.Codecs;
 
 namespace Play.Interchange.Exceptions;

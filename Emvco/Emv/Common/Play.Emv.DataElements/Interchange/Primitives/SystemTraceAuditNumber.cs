@@ -1,11 +1,11 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Ber.InternalFactories;
+using Play.Codecs.Metadata;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.DataElements.Exceptions;
 
-namespace Play.Emv.Interchange.DataFields;
+namespace Play.Emv.DataElements.Interchange;
 
 public record SystemTraceAuditNumber : InterchangeDataElement<uint>
 {

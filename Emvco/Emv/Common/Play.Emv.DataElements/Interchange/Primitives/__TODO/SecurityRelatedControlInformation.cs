@@ -1,13 +1,9 @@
 ﻿using Play.Codecs;
 using Play.Core;
-using Play.Emv.Interchange;
-using Play.Emv.Interchange.Codecs;
-using Play.Interchange.Codecs;
-using Play.Interchange.DataFields;
 
-namespace Play.Emv.Acquirers.Elavon.DataFields;
+namespace Play.Emv.DataElements.Interchange.__TODO;
 
-public record SecurityRelatedControlInformation : EmvDataField<char[]>
+public record SecurityRelatedControlInformation : InterchangeDataElement<char[]>
 {
     #region Static Metadata
 

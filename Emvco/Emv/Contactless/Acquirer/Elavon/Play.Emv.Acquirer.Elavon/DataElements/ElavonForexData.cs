@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace Play.Emv.Acquirers.Elavon.DataElements;
+namespace Play.Emv.Acquirer.Elavon.DataElements;
 
 public record ElavonForexData : ElavonDataElement<BigInteger>
 {

@@ -4,7 +4,7 @@ using Play.Ber.Identifiers;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.DataElements.Emv;
 
 /// <summary>
 ///     Description: List of tags indicating the data the Terminal has requested to be read. This data item is present if

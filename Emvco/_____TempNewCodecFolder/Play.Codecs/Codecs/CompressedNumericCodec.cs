@@ -14,6 +14,100 @@ namespace Play.Codecs;
 
 public class CompressedNumericCodec : PlayCodec
 {
+    #region Instance Members
+
+    private static int GetPadCount(ReadOnlySpan<char> value)
+    {
+        int offset = 0;
+
+        for (; offset < value.Length;)
+        {
+            if (value[offset] != _PaddingCharKey)
+                break;
+
+            offset++;
+        }
+
+        return offset;
+    }
+
+    private static int GetPadCount(ReadOnlySpan<byte> value)
+    {
+        int offset = value.Length;
+
+        for (; offset > 0;)
+        {
+            if (value[offset] != _PaddedByte)
+                break;
+
+            offset -= 2;
+        }
+
+        if (value[offset].AreBitsSet(_PaddedRightNibble))
+            offset++;
+
+        return offset;
+    }
+
+    private int Pad(Span<byte> buffer)
+    {
+        int padCount = GetPadCount(buffer);
+        buffer[^(padCount / 2)..].Fill(_PaddedByte);
+        if ((padCount % 2) != 0)
+            buffer[^((padCount / 2) + 1)] |= _PaddedRightNibble;
+
+        return padCount;
+    }
+
+    #endregion
+
+    #region Serialization
+
+    #region Decode To DecodedMetadata
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        BigInteger maximumIntegerResult = (BigInteger) Math.Pow(2, value.Length * 8);
+
+        if (maximumIntegerResult <= byte.MaxValue)
+        {
+            byte result = DecodeToByte(value[0]);
+
+            return new DecodedResult<byte>(result, result.GetNumberOfDigits());
+        }
+
+        if (maximumIntegerResult <= ushort.MaxValue)
+        {
+            ushort result = DecodeToUInt16(value);
+
+            return new DecodedResult<ushort>(result, result.GetNumberOfDigits());
+        }
+
+        if (maximumIntegerResult <= uint.MaxValue)
+        {
+            uint result = DecodeToUInt32(value);
+
+            return new DecodedResult<uint>(result, result.GetNumberOfDigits());
+        }
+
+        if (maximumIntegerResult <= ulong.MaxValue)
+        {
+            ulong result = DecodeToUInt64(value);
+
+            return new DecodedResult<ulong>(result, result.GetNumberOfDigits());
+        }
+        else
+        {
+            BigInteger result = DecodeToBigInteger(value);
+
+            return new DecodedResult<BigInteger>(result, result.GetNumberOfDigits());
+        }
+    }
+
+    #endregion
+
+    #endregion
+
     #region Metadata
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
@@ -654,96 +748,6 @@ public class CompressedNumericCodec : PlayCodec
             resultBuffer += DecodeToByte(value[i]) * Math.Pow(10, j);
 
         return resultBuffer;
-    }
-
-    #endregion
-
-    #region Decode To DecodedMetadata
-
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
-    {
-        BigInteger maximumIntegerResult = (BigInteger) Math.Pow(2, value.Length * 8);
-
-        if (maximumIntegerResult <= byte.MaxValue)
-        {
-            byte result = DecodeToByte(value[0]);
-
-            return new DecodedResult<byte>(result, result.GetNumberOfDigits());
-        }
-
-        if (maximumIntegerResult <= ushort.MaxValue)
-        {
-            ushort result = DecodeToUInt16(value);
-
-            return new DecodedResult<ushort>(result, result.GetNumberOfDigits());
-        }
-
-        if (maximumIntegerResult <= uint.MaxValue)
-        {
-            uint result = DecodeToUInt32(value);
-
-            return new DecodedResult<uint>(result, result.GetNumberOfDigits());
-        }
-
-        if (maximumIntegerResult <= ulong.MaxValue)
-        {
-            ulong result = DecodeToUInt64(value);
-
-            return new DecodedResult<ulong>(result, result.GetNumberOfDigits());
-        }
-        else
-        {
-            BigInteger result = DecodeToBigInteger(value);
-
-            return new DecodedResult<BigInteger>(result, result.GetNumberOfDigits());
-        }
-    }
-
-    #endregion
-
-    #region Instance Members
-
-    private static int GetPadCount(ReadOnlySpan<char> value)
-    {
-        int offset = 0;
-
-        for (; offset < value.Length;)
-        {
-            if (value[offset] != _PaddingCharKey)
-                break;
-
-            offset++;
-        }
-
-        return offset;
-    }
-
-    private static int GetPadCount(ReadOnlySpan<byte> value)
-    {
-        int offset = value.Length;
-
-        for (; offset > 0;)
-        {
-            if (value[offset] != _PaddedByte)
-                break;
-
-            offset -= 2;
-        }
-
-        if (value[offset].AreBitsSet(_PaddedRightNibble))
-            offset++;
-
-        return offset;
-    }
-
-    private int Pad(Span<byte> buffer)
-    {
-        int padCount = GetPadCount(buffer);
-        buffer[^(padCount / 2)..].Fill(_PaddedByte);
-        if ((padCount % 2) != 0)
-            buffer[^((padCount / 2) + 1)] |= _PaddedRightNibble;
-
-        return padCount;
     }
 
     #endregion

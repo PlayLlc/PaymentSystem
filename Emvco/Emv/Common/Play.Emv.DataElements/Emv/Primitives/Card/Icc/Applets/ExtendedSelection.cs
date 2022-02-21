@@ -5,7 +5,7 @@ using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.DataElements.Emv;
 
 /// <summary>
 ///     The value to be appended to the ADF Name in the data field of the SELECT command, if the Extended Selection Support

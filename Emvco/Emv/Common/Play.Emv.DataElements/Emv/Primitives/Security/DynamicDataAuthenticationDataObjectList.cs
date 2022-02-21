@@ -5,7 +5,7 @@ using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.DataElements.Emv;
 
 /// <summary>
 ///     List of data objects (tag and length) to be passed to the ICC in the INTERNAL AUTHENTICATE command

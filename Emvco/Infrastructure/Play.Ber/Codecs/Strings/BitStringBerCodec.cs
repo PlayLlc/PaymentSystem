@@ -6,6 +6,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Codecs.Integers;
+using Play.Codecs.Metadata;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
 
@@ -22,6 +23,75 @@ namespace Play.Ber.Codecs;
 /// </remarks>
 public sealed class BitStringBerCodec : BerPrimitiveCodec
 {
+    #region Instance Values
+
+    private readonly byte[] _EmptyBitString = {0x00};
+
+    #endregion
+
+    #region Instance Members
+
+    public override BerEncodingId GetIdentifier() => Identifier;
+    private static bool AreUnusedBitsCorrect(ReadOnlySpan<byte> value) => value[^1].RightPaddedUnsetBitCount() == value[0];
+
+    private static bool IsLeadingOctetInRange(ReadOnlySpan<byte> value)
+    {
+        if (value[0] < LeadingOctetMinValue)
+            return false;
+
+        if (value[0] > LeadingOctetMaxValue)
+            return false;
+
+        return true;
+    }
+
+    #endregion
+
+    #region Serialization
+
+    #region Decode To DecodedMetadata
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        Validate(value);
+
+        if (value.Length == 1)
+        {
+            byte byteResult = value[0];
+
+            return new DecodedResult<byte>(byteResult, _UnsignedIntegerCodec.GetCharCount(byteResult));
+        }
+
+        if (value.Length == 2)
+        {
+            ushort shortResult = _UnsignedIntegerCodec.GetUInt16(value);
+
+            return new DecodedResult<ushort>(shortResult, _UnsignedIntegerCodec.GetCharCount(shortResult));
+        }
+
+        if (value.Length <= 4)
+        {
+            uint intResult = _UnsignedIntegerCodec.GetUInt32(value);
+
+            return new DecodedResult<uint>(intResult, _UnsignedIntegerCodec.GetCharCount(intResult));
+        }
+
+        if (value.Length <= 8)
+        {
+            ulong longResult = _UnsignedIntegerCodec.GetUInt64(value);
+
+            return new DecodedResult<ulong>(longResult, _UnsignedIntegerCodec.GetCharCount(longResult));
+        }
+
+        BigInteger bigIntegerResult = _UnsignedIntegerCodec.GetBigInteger(value);
+
+        return new DecodedResult<BigInteger>(bigIntegerResult, _UnsignedIntegerCodec.GetCharCount(bigIntegerResult));
+    }
+
+    #endregion
+
+    #endregion
+
     #region Metadata
 
     private static readonly UnsignedInteger _UnsignedIntegerCodec = PlayEncoding.UnsignedInteger;
@@ -41,12 +111,6 @@ public sealed class BitStringBerCodec : BerPrimitiveCodec
     public const byte MinByteCount = 0x01;
     public const byte LeadingOctetMinValue = 0x01;
     public const byte LeadingOctetMaxValue = 0x07;
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly byte[] _EmptyBitString = {0x00};
 
     #endregion
 
@@ -433,65 +497,6 @@ public sealed class BitStringBerCodec : BerPrimitiveCodec
     public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset)
     {
         throw new NotImplementedException();
-    }
-
-    #endregion
-
-    #region Decode To DecodedMetadata
-
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
-    {
-        Validate(value);
-
-        if (value.Length == 1)
-        {
-            byte byteResult = value[0];
-
-            return new DecodedResult<byte>(byteResult, _UnsignedIntegerCodec.GetCharCount(byteResult));
-        }
-
-        if (value.Length == 2)
-        {
-            ushort shortResult = _UnsignedIntegerCodec.GetUInt16(value);
-
-            return new DecodedResult<ushort>(shortResult, _UnsignedIntegerCodec.GetCharCount(shortResult));
-        }
-
-        if (value.Length <= 4)
-        {
-            uint intResult = _UnsignedIntegerCodec.GetUInt32(value);
-
-            return new DecodedResult<uint>(intResult, _UnsignedIntegerCodec.GetCharCount(intResult));
-        }
-
-        if (value.Length <= 8)
-        {
-            ulong longResult = _UnsignedIntegerCodec.GetUInt64(value);
-
-            return new DecodedResult<ulong>(longResult, _UnsignedIntegerCodec.GetCharCount(longResult));
-        }
-
-        BigInteger bigIntegerResult = _UnsignedIntegerCodec.GetBigInteger(value);
-
-        return new DecodedResult<BigInteger>(bigIntegerResult, _UnsignedIntegerCodec.GetCharCount(bigIntegerResult));
-    }
-
-    #endregion
-
-    #region Instance Members
-
-    public override BerEncodingId GetIdentifier() => Identifier;
-    private static bool AreUnusedBitsCorrect(ReadOnlySpan<byte> value) => value[^1].RightPaddedUnsetBitCount() == value[0];
-
-    private static bool IsLeadingOctetInRange(ReadOnlySpan<byte> value)
-    {
-        if (value[0] < LeadingOctetMinValue)
-            return false;
-
-        if (value[0] > LeadingOctetMaxValue)
-            return false;
-
-        return true;
     }
 
     #endregion

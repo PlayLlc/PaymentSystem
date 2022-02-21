@@ -6,7 +6,7 @@ using Play.Emv.Ber.DataObjects;
 using Play.Emv.Codecs.Exceptions;
 using Play.Emv.DataElements.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.DataElements.Emv;
 
 public record CvmList : DataElement<byte[]>
 {

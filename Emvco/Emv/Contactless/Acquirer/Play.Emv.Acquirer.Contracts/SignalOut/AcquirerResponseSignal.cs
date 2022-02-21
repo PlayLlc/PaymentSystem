@@ -1,5 +1,6 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Emv.Messaging;
+using Play.Interchange.Messages.Header;
 using Play.Messaging;
 
 namespace Play.Emv.Acquirer.Contracts.SignalOut;

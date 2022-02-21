@@ -10,15 +10,13 @@ using Play.Emv.Ber.DataObjects;
 using Play.Emv.Configuration;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Kernel.State;
 using Play.Emv.Messaging;
 using Play.Emv.Reader.Contracts;
 using Play.Emv.Reader.Contracts.SignalOut;
 using Play.Emv.Sessions;
-using Play.Emv.Terminal.Common.Services.SequenceNumberManagement;
 using Play.Emv.Terminal.Contracts.SignalIn;
-using Play.Emv.Terminal.Services;
-using Play.Emv.Terminal.Services.DataExchange;
+using Play.Emv.Terminal.DataExchange;
+using Play.Emv.Terminal.Session;
 
 namespace Play.Emv.Terminal.StateMachine;
 

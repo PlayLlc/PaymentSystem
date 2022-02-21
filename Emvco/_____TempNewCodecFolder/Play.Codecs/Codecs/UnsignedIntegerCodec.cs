@@ -11,6 +11,79 @@ namespace Play.Codecs;
 
 public class UnsignedIntegerCodec : PlayCodec
 {
+    #region Instance Members
+
+    private byte[] GetAllBytes(ulong value, byte byteCount)
+    {
+        Span<byte> buffer = stackalloc byte[byteCount];
+        byte bitShift = 0;
+        byte mostSignificantByte = value.GetMostSignificantByte();
+
+        for (int i = 0, j = mostSignificantByte; i < mostSignificantByte; i++, j--)
+        {
+            buffer[j] = (byte) (value >> bitShift);
+            bitShift += 8;
+        }
+
+        return buffer.ToArray();
+    }
+
+    private byte[] GetTrimmedBytes(ulong value)
+    {
+        byte mostSignificantByte = value.GetMostSignificantByte();
+        Span<byte> buffer = stackalloc byte[mostSignificantByte];
+        byte bitShift = 0;
+
+        for (int i = mostSignificantByte - 1; i >= 0; i--)
+        {
+            buffer[i] = (byte) (value >> bitShift);
+            bitShift += 8;
+        }
+
+        return buffer.ToArray();
+    }
+
+    #endregion
+
+    #region Serialization
+
+    #region Decode To DecodedMetadata
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        if (value.Length == Specs.Integer.UInt8.ByteCount)
+            return new DecodedResult<byte>(value[0], value[0].GetNumberOfDigits());
+
+        if (value.Length <= Specs.Integer.UInt16.ByteCount)
+        {
+            ushort byteResult = DecodeToUInt16(value);
+
+            return new DecodedResult<ushort>(byteResult, byteResult.GetNumberOfDigits());
+        }
+
+        if (value.Length <= Specs.Integer.Int32.ByteCount)
+        {
+            uint byteResult = DecodeToUInt32(value);
+
+            return new DecodedResult<uint>(byteResult, byteResult.GetNumberOfDigits());
+        }
+
+        if (value.Length <= Specs.Integer.Int64.ByteCount)
+        {
+            ulong byteResult = DecodeToUInt64(value);
+
+            return new DecodedResult<ulong>(byteResult, byteResult.GetNumberOfDigits());
+        }
+
+        BigInteger bigIntegerResult = DecodeToBigInteger(value);
+
+        return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
+    }
+
+    #endregion
+
+    #endregion
+
     #region Metadata
 
     public override PlayEncodingId GetEncodingId() => PlayEncodingId;
@@ -570,75 +643,6 @@ public class UnsignedIntegerCodec : PlayCodec
         result |= value[^1];
 
         return result;
-    }
-
-    #endregion
-
-    #region Decode To DecodedMetadata
-
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
-    {
-        if (value.Length == Specs.Integer.UInt8.ByteCount)
-            return new DecodedResult<byte>(value[0], value[0].GetNumberOfDigits());
-
-        if (value.Length <= Specs.Integer.UInt16.ByteCount)
-        {
-            ushort byteResult = DecodeToUInt16(value);
-
-            return new DecodedResult<ushort>(byteResult, byteResult.GetNumberOfDigits());
-        }
-
-        if (value.Length <= Specs.Integer.Int32.ByteCount)
-        {
-            uint byteResult = DecodeToUInt32(value);
-
-            return new DecodedResult<uint>(byteResult, byteResult.GetNumberOfDigits());
-        }
-
-        if (value.Length <= Specs.Integer.Int64.ByteCount)
-        {
-            ulong byteResult = DecodeToUInt64(value);
-
-            return new DecodedResult<ulong>(byteResult, byteResult.GetNumberOfDigits());
-        }
-
-        BigInteger bigIntegerResult = DecodeToBigInteger(value);
-
-        return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
-    }
-
-    #endregion
-
-    #region Instance Members
-
-    private byte[] GetAllBytes(ulong value, byte byteCount)
-    {
-        Span<byte> buffer = stackalloc byte[byteCount];
-        byte bitShift = 0;
-        byte mostSignificantByte = value.GetMostSignificantByte();
-
-        for (int i = 0, j = mostSignificantByte; i < mostSignificantByte; i++, j--)
-        {
-            buffer[j] = (byte) (value >> bitShift);
-            bitShift += 8;
-        }
-
-        return buffer.ToArray();
-    }
-
-    private byte[] GetTrimmedBytes(ulong value)
-    {
-        byte mostSignificantByte = value.GetMostSignificantByte();
-        Span<byte> buffer = stackalloc byte[mostSignificantByte];
-        byte bitShift = 0;
-
-        for (int i = mostSignificantByte - 1; i >= 0; i--)
-        {
-            buffer[i] = (byte) (value >> bitShift);
-            bitShift += 8;
-        }
-
-        return buffer.ToArray();
     }
 
     #endregion

@@ -1,4 +1,5 @@
 ﻿using Play.Emv.Kernel.State;
+using Play.Emv.Sessions;
 
 namespace Play.Emv.Kernel2.StateMachine;
 

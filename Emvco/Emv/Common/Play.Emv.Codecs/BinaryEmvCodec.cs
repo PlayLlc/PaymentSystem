@@ -1,10 +1,9 @@
 ﻿using System.Numerics;
 using System.Runtime.CompilerServices;
 
-using Play.Ber.Codecs;
-using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Codecs.Integers;
+using Play.Codecs.Metadata;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
 using Play.Emv.Codecs.Exceptions;

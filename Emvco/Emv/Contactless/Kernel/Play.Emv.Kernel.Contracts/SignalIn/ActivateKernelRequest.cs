@@ -2,11 +2,11 @@
 
 using Play.Ber.DataObjects;
 using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv;
 using Play.Emv.Messaging;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
-using Play.Emv.Transactions;
 using Play.Globalization;
 using Play.Globalization.Country;
 using Play.Globalization.Currency;

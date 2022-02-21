@@ -1,10 +1,9 @@
-﻿using Play.Emv.Acquirer.Contracts;
-using Play.Emv.Interchange.DataFields;
+﻿using Play.Emv.DataElements.Interchange;
 using Play.Emv.Outcomes;
 using Play.Emv.Sessions;
-using Play.Emv.Transactions;
+using Play.Interchange.Messages.Header;
 
-namespace Play.Emv.Terminal.Services;
+namespace Play.Emv.Terminal.Session;
 
 public class TerminalSession
 {

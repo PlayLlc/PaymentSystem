@@ -1,7 +1,7 @@
-﻿using Play.Emv.Codecs;
-using Play.Interchange.Codecs;
+﻿using Play.Codecs;
+using Play.Emv.Codecs;
 
-namespace Play.Emv.Interchange.Codecs;
+namespace Play.Emv.Acquirer.Codecs;
 
 /// <summary>
 ///     Numeric data elements consist of two numeric digits (having values in the range Hex '0' – '9') per byte.
@@ -14,7 +14,11 @@ public class NumericDataFieldCodec : NumericEmvCodec, IInterchangeDataFieldCodec
 {
     #region Static Metadata
 
+    #region Metadata
+
     public static readonly PlayEncodingId Identifier = IInterchangeDataFieldCodec.GetEncodingId(typeof(NumericDataFieldCodec));
+
+    #endregion
 
     #endregion
 

@@ -1,4 +1,5 @@
 ﻿using Play.Emv.Acquirer.Contracts.SignalIn;
+using Play.Interchange.Messages.Header;
 
 namespace Play.Emv.Acquirer.Contracts;
 

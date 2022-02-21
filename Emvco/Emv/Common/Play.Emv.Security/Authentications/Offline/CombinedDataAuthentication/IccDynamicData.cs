@@ -2,6 +2,7 @@
 
 using Play.Codecs;
 using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv;
 using Play.Encryption.Hashing;
 
 namespace Play.Emv.Security.Authentications.Offline.CombinedDataAuthentication;

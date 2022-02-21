@@ -1,9 +1,8 @@
 ﻿using System;
 
-using Play.Ber.InternalFactories;
-using Play.Codecs;
+using Play.Codecs.Metadata;
 
-namespace Play.Ber.Codecs;
+namespace Play.Codecs;
 
 /// <summary>
 ///     A simple codec base class that can be inherited to customize an encoding class specific to the encoding rules of

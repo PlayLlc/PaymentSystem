@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.Acquirers.Elavon.DataElements;
+﻿namespace Play.Emv.Acquirer.Elavon.DataElements;
 
 /// <summary>
 ///     In a Single Message configuration, Tag 001 (Item Number) will increase in value incrementally from 000 to 999 with

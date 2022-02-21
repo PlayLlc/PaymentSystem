@@ -2,7 +2,7 @@
 
 using Play.Core;
 
-namespace Play.Acquirer.Contracts;
+namespace Play.Emv.DataElements.Interchange;
 
 /*
  permutations:

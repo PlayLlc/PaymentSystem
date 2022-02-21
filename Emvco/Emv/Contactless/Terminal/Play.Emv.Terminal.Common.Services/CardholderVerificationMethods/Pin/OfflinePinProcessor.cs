@@ -1,4 +1,5 @@
 ﻿using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv;
 
 namespace Play.Emv.Terminal.Common.Services.CardholderVerificationMethods.Pin;
 

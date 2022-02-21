@@ -1,6 +1,6 @@
-﻿using Play.Emv.Interchange.DataFields;
+﻿using Play.Emv.DataElements.Interchange;
 
-namespace Play.Emv.Terminal.Common.Services.SequenceNumberManagement;
+namespace Play.Emv.Terminal.Session;
 
 public class SystemTraceAuditNumberConfiguration
 {

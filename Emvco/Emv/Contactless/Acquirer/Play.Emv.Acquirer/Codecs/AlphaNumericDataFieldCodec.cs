@@ -1,7 +1,7 @@
-﻿using Play.Emv.Codecs;
-using Play.Interchange.Codecs;
+﻿using Play.Codecs;
+using Play.Emv.Codecs;
 
-namespace Play.Emv.Interchange.Codecs;
+namespace Play.Emv.Acquirer.Codecs;
 
 /// <summary>
 ///     An encoder for encoding and decoding alphabetic and numeric ASCII characters
@@ -13,7 +13,11 @@ public class AlphaNumericDataFieldCodec : AlphaNumericEmvCodec, IInterchangeData
 {
     #region Static Metadata
 
+    #region Metadata
+
     public static readonly PlayEncodingId Identifier = IInterchangeDataFieldCodec.GetEncodingId(typeof(AlphaNumericDataFieldCodec));
+
+    #endregion
 
     #endregion
 

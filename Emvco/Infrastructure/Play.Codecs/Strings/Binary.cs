@@ -12,7 +12,7 @@ public class Binary : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(Binary));
+    public static readonly PlayEncodingId PlayEncodingId = new(nameof(Binary));
 
     private static readonly Dictionary<byte, char[]> _CharArrayMap = new()
     {
@@ -106,10 +106,10 @@ public class Binary : PlayEncoding
             using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(byteCount);
             Span<byte> buffer = spanOwner.Span;
 
-            for (int i = 0, j = 0; i < value.Length; i++, j += 8)
+            for (int i = 0, j = 0; i < value.Length; i++)
             {
                 value[j..(j + 8)].CopyTo(charBuffer);
-                GetByteFromString(charBuffer, i, buffer);
+                GetByteFromString(charBuffer, j, buffer);
             }
 
             return buffer.ToArray();
@@ -118,33 +118,19 @@ public class Binary : PlayEncoding
         {
             Span<byte> buffer = stackalloc byte[byteCount];
 
-            for (int i = 0, j = 0; i < value.Length; i++, j += 8)
+            for (int i = 0, j = 0; i < value.Length; i++)
             {
                 value[j..(j + 8)].CopyTo(charBuffer);
-                GetByteFromString(charBuffer, i, buffer);
+                GetByteFromString(charBuffer, j, buffer);
             }
 
             return buffer.ToArray();
         }
     }
 
-    public void GetBytes(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
-    {
-        Validate(value);
-
-        char[] charBuffer = new char[8];
-
-        for (int i = 0, j = 0; i < value.Length; i++, j += 8)
-        {
-            value[j..(j + 8)].CopyTo(charBuffer);
-            GetByteFromString(charBuffer, i + offset++, buffer);
-        }
-    }
-
     public override bool TryGetBytes(ReadOnlySpan<char> value, out byte[] result) => throw new NotImplementedException();
     public override int GetByteCount(char[] chars, int index, int count) => throw new NotImplementedException();
     public override int GetMaxByteCount(int charCount) => throw new NotImplementedException();
-    public char[] GetChars(ReadOnlySpan<byte> value) => throw new NotImplementedException();
 
     public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
         throw new NotImplementedException();
@@ -192,7 +178,6 @@ public class Binary : PlayEncoding
 
         buffer[offset] = (byte) (_NibbleMap[charBuffer[..4]] >> 4);
         buffer[offset] = _NibbleMap[charBuffer[4..]];
-        buffer.Clear();
     }
 
     private void GetStringFromByte(byte value, int offset, Span<char> buffer)

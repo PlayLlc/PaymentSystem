@@ -1,8 +1,9 @@
 ﻿using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv;
 using Play.Emv.Messaging;
 using Play.Messaging;
 
-using MessageIdentifier = Play.Emv.DataElements.MessageIdentifier;
+using MessageIdentifier = Play.Emv.DataElements.Emv.MessageIdentifier;
 
 namespace Play.Emv.Display.Contracts;
 

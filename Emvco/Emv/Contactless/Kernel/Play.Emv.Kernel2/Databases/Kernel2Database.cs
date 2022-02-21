@@ -8,7 +8,6 @@ using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel2.Configuration;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts;
-using Play.Emv.Transactions;
 
 namespace Play.Emv.Kernel2.Databases;
 

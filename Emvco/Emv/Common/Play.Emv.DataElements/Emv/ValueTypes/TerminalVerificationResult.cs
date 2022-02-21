@@ -1,6 +1,6 @@
 ﻿using Play.Core.Extensions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.DataElements.Emv;
 
 /// <summary>
 ///     An intermediate value returned from a section of processing

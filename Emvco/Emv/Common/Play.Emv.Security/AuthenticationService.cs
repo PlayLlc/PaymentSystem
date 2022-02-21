@@ -1,5 +1,6 @@
 ﻿using Play.Emv.Ber;
 using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv;
 using Play.Emv.Security.Authentications.Offline.CombinedDataAuthentication;
 using Play.Emv.Security.Authentications.Offline.DynamicDataAuthentication;
 using Play.Emv.Security.Authentications.Static;

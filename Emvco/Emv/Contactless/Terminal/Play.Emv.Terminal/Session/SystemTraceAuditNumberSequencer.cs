@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Threading;
 
-using Play.Acquirer.Contracts;
-using Play.Emv.Acquirer.Contracts;
 using Play.Emv.Acquirer.Contracts.SignalOut;
-using Play.Emv.Interchange.DataFields;
+using Play.Emv.DataElements.Interchange;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Globalization.Time;
+using Play.Interchange.Messages.Header;
 
-namespace Play.Emv.Terminal.Common.Services.SequenceNumberManagement;
+namespace Play.Emv.Terminal.Session;
 
 internal class SystemTraceAuditNumberSequencer : IGenerateSequenceTraceAuditNumbers
 {
@@ -23,7 +21,7 @@ internal class SystemTraceAuditNumberSequencer : IGenerateSequenceTraceAuditNumb
 
     private readonly uint _Threshold;
     private readonly IHandleTerminalRequests _TerminalEndpoint;
-    private readonly Lock _Lock;
+    private uint _Stan;
 
     #endregion
 
@@ -32,7 +30,7 @@ internal class SystemTraceAuditNumberSequencer : IGenerateSequenceTraceAuditNumb
     public SystemTraceAuditNumberSequencer(SystemTraceAuditNumberConfiguration configuration, IHandleTerminalRequests terminalEndpoint)
     {
         _Threshold = configuration.Threshold;
-        _Lock = new Lock {Stan = configuration.SystemTraceAuditNumberInitializationValue};
+        _Stan = configuration.SystemTraceAuditNumberInitializationValue;
         _TerminalEndpoint = terminalEndpoint;
     }
 
@@ -42,15 +40,12 @@ internal class SystemTraceAuditNumberSequencer : IGenerateSequenceTraceAuditNumb
 
     public SystemTraceAuditNumber Generate()
     {
-        lock (_Lock)
-        {
-            if (_Lock.Stan >= _Threshold)
-                SendReconciliationMessage();
+        if (_Stan >= _Threshold)
+            SendReconciliationMessage();
 
-            _Lock.Stan++;
+        _Stan++;
 
-            return new SystemTraceAuditNumber(_Lock.Stan);
-        }
+        return new SystemTraceAuditNumber(_Stan);
     }
 
     public void Reset(AcquirerResponseSignal settlementAcknowledgement)
@@ -58,13 +53,10 @@ internal class SystemTraceAuditNumberSequencer : IGenerateSequenceTraceAuditNumb
         if (settlementAcknowledgement.MessageTypeIndicator != MessageTypeIndicatorTypes.Reconciliation.ReconciliationResponse)
         {
             throw new InvalidOperationException(
-                $"A process attempted to reset the {nameof(SystemTraceAuditNumberSequencer)} but the argument provided was not a {MessageTypeIndicatorTypes.Reconciliation.ReconciliationResponse.GetType().Name} response. The {nameof(MessageTypeIndicator)} provided was: [{settlementAcknowledgement.MessageTypeIndicator}] but should have been: [{(MessageTypeIndicator) MessageTypeIndicatorTypes.Reconciliation.ReconciliationResponse}]");
+                $"A process attempted to reset the {nameof(SystemTraceAuditNumberSequencer)} but the argument provided was not a {MessageTypeIndicatorTypes.Reconciliation.ReconciliationResponse.GetType().Name} response. The {nameof(MessageTypeIndicator)} provided was: [{settlementAcknowledgement.MessageTypeIndicator}] but should have been: [{new MessageTypeIndicator((ushort) MessageTypeIndicatorTypes.Reconciliation.ReconciliationResponse)}]");
         }
 
-        lock (_Lock)
-        {
-            _Lock.Stan = _MinimumValue;
-        }
+        _Stan = _MinimumValue;
     }
 
     // BUG: We're probably going to want to enqueue a signal in the Terminal Process, or maybe run this as a separate process that communicates independently with the Acquirer when the STAN reaches a threshold
@@ -76,11 +68,5 @@ internal class SystemTraceAuditNumberSequencer : IGenerateSequenceTraceAuditNumb
     #endregion
 
     public class Lock
-    {
-        #region Instance Values
-
-        public uint Stan;
-
-        #endregion
-    }
+    { }
 }

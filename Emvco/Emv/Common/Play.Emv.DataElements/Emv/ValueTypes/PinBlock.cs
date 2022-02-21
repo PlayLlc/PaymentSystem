@@ -1,6 +1,6 @@
 ﻿using Play.Codecs;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.DataElements.Emv;
 
 /// <summary>
 ///     The encrypted PIN Block encoded as specified in EMV Book 3 Table 24

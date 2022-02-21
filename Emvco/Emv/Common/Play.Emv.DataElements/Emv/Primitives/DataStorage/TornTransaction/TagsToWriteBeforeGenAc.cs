@@ -5,7 +5,7 @@ using Play.Ber.Identifiers;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.DataElements.Emv;
 
 /// <summary>
 ///     List of data objects indicating the Terminal data writing  requests to be sent to the Card before processing the

@@ -13,6 +13,48 @@ namespace Play.Codecs;
 
 public class BinaryCodec : PlayCodec
 {
+    #region Instance Members
+
+    private void GetByteFromString(char[] charBuffer, int offset, Span<byte> buffer)
+    {
+        if (charBuffer.Length != 8)
+            throw new ArgumentOutOfRangeException(nameof(charBuffer), "The sequence must have a length of 8");
+
+        buffer[offset] = (byte) (_NibbleMap[charBuffer[..4]] >> 4);
+        buffer[offset] = _NibbleMap[charBuffer[4..]];
+        buffer.Clear();
+    }
+
+    private void GetStringFromByte(byte value, int offset, Span<char> buffer)
+    {
+        _CharArrayMap[value.GetMaskedValue(0xF0)].CopyTo(buffer[..(offset + 4)]);
+        _CharArrayMap[(byte) (value >> 4)].CopyTo(buffer[(offset + 4)..]);
+    }
+
+    #endregion
+
+    #region Serialization
+
+    #region Decode To DecodedMetadata
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        if (value.Length <= Specs.Integer.UInt8.ByteCount)
+            return new DecodedResult<byte>(value[0], value[0].GetNumberOfDigits());
+        if (value.Length <= Specs.Integer.UInt16.ByteCount)
+            return new DecodedResult<ushort>(PlayEncoding.UnsignedInteger.GetUInt16(value), value[0].GetNumberOfDigits());
+        if (value.Length <= Specs.Integer.UInt32.ByteCount)
+            return new DecodedResult<uint>(PlayEncoding.UnsignedInteger.GetUInt32(value), value[0].GetNumberOfDigits());
+        if (value.Length <= Specs.Integer.UInt64.ByteCount)
+            return new DecodedResult<ulong>(PlayEncoding.UnsignedInteger.GetUInt64(value), value[0].GetNumberOfDigits());
+
+        return new DecodedResult<BigInteger>(PlayEncoding.UnsignedInteger.GetBigInteger(value), value[0].GetNumberOfDigits());
+    }
+
+    #endregion
+
+    #endregion
+
     #region Metadata
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
@@ -420,44 +462,6 @@ public class BinaryCodec : PlayCodec
 
             return new string(buffer);
         }
-    }
-
-    #endregion
-
-    #region Decode To DecodedMetadata
-
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
-    {
-        if (value.Length <= Specs.Integer.UInt8.ByteCount)
-            return new DecodedResult<byte>(value[0], value[0].GetNumberOfDigits());
-        if (value.Length <= Specs.Integer.UInt16.ByteCount)
-            return new DecodedResult<ushort>(PlayEncoding.UnsignedInteger.GetUInt16(value), value[0].GetNumberOfDigits());
-        if (value.Length <= Specs.Integer.UInt32.ByteCount)
-            return new DecodedResult<uint>(PlayEncoding.UnsignedInteger.GetUInt32(value), value[0].GetNumberOfDigits());
-        if (value.Length <= Specs.Integer.UInt64.ByteCount)
-            return new DecodedResult<ulong>(PlayEncoding.UnsignedInteger.GetUInt64(value), value[0].GetNumberOfDigits());
-
-        return new DecodedResult<BigInteger>(PlayEncoding.UnsignedInteger.GetBigInteger(value), value[0].GetNumberOfDigits());
-    }
-
-    #endregion
-
-    #region Instance Members
-
-    private void GetByteFromString(char[] charBuffer, int offset, Span<byte> buffer)
-    {
-        if (charBuffer.Length != 8)
-            throw new ArgumentOutOfRangeException(nameof(charBuffer), "The sequence must have a length of 8");
-
-        buffer[offset] = (byte) (_NibbleMap[charBuffer[..4]] >> 4);
-        buffer[offset] = _NibbleMap[charBuffer[4..]];
-        buffer.Clear();
-    }
-
-    private void GetStringFromByte(byte value, int offset, Span<char> buffer)
-    {
-        _CharArrayMap[value.GetMaskedValue(0xF0)].CopyTo(buffer[..(offset + 4)]);
-        _CharArrayMap[(byte) (value >> 4)].CopyTo(buffer[(offset + 4)..]);
     }
 
     #endregion

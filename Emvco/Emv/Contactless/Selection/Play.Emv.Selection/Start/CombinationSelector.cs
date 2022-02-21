@@ -2,18 +2,18 @@
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Selection.Contracts;
 using Play.Emv.Sessions;
 using Play.Emv.Templates.FileControlInformation;
-using Play.Emv.Transactions;
 using Play.Globalization.Time;
 using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Icc.Messaging.Apdu;
 using Play.Messaging;
 
-using MessageIdentifier = Play.Emv.DataElements.MessageIdentifier;
+using MessageIdentifier = Play.Emv.DataElements.Emv.MessageIdentifier;
 
 namespace Play.Emv.Selection.Start;
 

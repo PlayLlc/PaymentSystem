@@ -8,12 +8,6 @@ namespace Play.Codecs;
 /// </summary>
 public abstract class PlayCodec : IGetPlayCodecMetadata, IEncodeStructs, IEncodeStructsToBuffer, IDecodeToMetadata
 {
-    #region Metadata
-
-    public abstract PlayEncodingId GetEncodingId();
-
-    #endregion
-
     #region Instance Values
 
     public static UnsignedIntegerCodec UnsignedIntegerCodec => new();
@@ -21,16 +15,36 @@ public abstract class PlayCodec : IGetPlayCodecMetadata, IEncodeStructs, IEncode
 
     #endregion
 
-    #region Count
+    #region Instance Members
 
-    public abstract ushort GetByteCount<_T>(_T value) where _T : struct;
-    public abstract ushort GetByteCount<_T>(_T[] value) where _T : struct;
+    #region Metadata
+
+    public abstract PlayEncodingId GetEncodingId();
 
     #endregion
 
     #region Validation
 
     public abstract bool IsValid(ReadOnlySpan<byte> value);
+
+    #endregion
+
+    #endregion
+
+    #region Serialization
+
+    #region Decode To DecodedMetadata
+
+    public abstract DecodedMetadata Decode(ReadOnlySpan<byte> value);
+
+    #endregion
+
+    #endregion
+
+    #region Count
+
+    public abstract ushort GetByteCount<_T>(_T value) where _T : struct;
+    public abstract ushort GetByteCount<_T>(_T[] value) where _T : struct;
 
     #endregion
 
@@ -44,12 +58,6 @@ public abstract class PlayCodec : IGetPlayCodecMetadata, IEncodeStructs, IEncode
     public abstract void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset) where _T : struct;
     public abstract void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset) where _T : struct;
     public abstract void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset) where _T : struct;
-
-    #endregion
-
-    #region Decode To DecodedMetadata
-
-    public abstract DecodedMetadata Decode(ReadOnlySpan<byte> value);
 
     #endregion
 }

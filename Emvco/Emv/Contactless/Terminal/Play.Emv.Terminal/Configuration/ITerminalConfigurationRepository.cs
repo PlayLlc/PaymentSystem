@@ -1,5 +1,6 @@
 ﻿using Play.Emv.Configuration;
 using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv;
 
 namespace Play.Emv.Terminal.Configuration;
 

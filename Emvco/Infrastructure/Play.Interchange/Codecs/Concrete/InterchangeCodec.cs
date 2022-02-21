@@ -1,8 +1,7 @@
 ﻿using System.Collections.Immutable;
 
-using Play.Ber.Codecs;
-using Play.Ber.InternalFactories;
 using Play.Codecs;
+using Play.Codecs.Metadata;
 using Play.Core.Exceptions;
 using Play.Interchange.DataFields;
 using Play.Interchange.Exceptions;

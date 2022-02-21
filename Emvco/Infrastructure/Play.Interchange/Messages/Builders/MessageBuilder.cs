@@ -1,4 +1,4 @@
-﻿namespace Play.Interchange.DataFields.ValueObjects;
+﻿namespace Play.Interchange.Messages.Builders;
 
 internal class MessageBuilder
 { }

@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 
 using Play.Core;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.DataElements.Emv;
 
 public sealed record KernelType : EnumObject<byte>
 {

@@ -1,6 +1,7 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.InternalFactories;
 using Play.Codecs.Exceptions;
+using Play.Codecs.Metadata;
 using Play.Emv.Codecs;
 
 namespace Play.Emv.Ber.Codecs;

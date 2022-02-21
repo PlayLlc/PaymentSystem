@@ -1,6 +1,6 @@
 ﻿using Play.Core;
 
-namespace Play.Interchange.DataFields.ValueObjects;
+namespace Play.Emv.DataElements.Interchange;
 
 public record FunctionCode : EnumObject<ushort>
 {

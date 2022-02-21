@@ -8,6 +8,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
+using Play.Codecs.Metadata;
 using Play.Emv.Ber.Codecs;
 using Play.Icc.FileSystem.DedicatedFiles;
 

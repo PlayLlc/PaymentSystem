@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Play.Emv.Kernel.State;
+using Play.Emv.Sessions;
 
 namespace Play.Emv.Terminal.StateMachine;
 

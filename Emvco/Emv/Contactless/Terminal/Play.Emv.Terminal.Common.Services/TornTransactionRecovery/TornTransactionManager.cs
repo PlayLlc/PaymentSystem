@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv;
 using Play.Emv.Terminal.Contracts;
 using Play.Globalization.Time;
 

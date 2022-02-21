@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.Acquirers.Elavon.DataElements;
+﻿namespace Play.Emv.Acquirer.Elavon.DataElements;
 
 /// <summary>
 ///     Generic info needed for foreign currency exchange

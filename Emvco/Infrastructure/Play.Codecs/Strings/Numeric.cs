@@ -23,7 +23,7 @@ public class Numeric : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(Numeric));
+    public static readonly PlayEncodingId PlayEncodingId = new(nameof(Numeric));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap =
         Enumerable.Range(0, 10).ToImmutableSortedDictionary(a => (char) (a + 48), b => (byte) b);
@@ -89,7 +89,7 @@ public class Numeric : PlayEncoding
         }
         else
         {
-            using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(length);
+            SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(length);
             Span<byte> buffer = spanOwner.Span;
 
             for (int i = 0, j = 0; i < length; i++, j += 2)
@@ -149,60 +149,6 @@ public class Numeric : PlayEncoding
         throw new NotImplementedException();
     }
 
-    // //////////////////////////////START
-
-    public void GetBytes<T>(T value, Span<byte> buffer, ref int offset)
-    {
-        nint byteSize = Unsafe.SizeOf<T>();
-
-        if (byteSize == Specs.Integer.UInt8.ByteCount)
-            GetBytes(Unsafe.As<T, byte>(ref value), buffer, ref offset);
-        else if (byteSize == Specs.Integer.UInt16.ByteCount)
-            GetBytes(Unsafe.As<T, ushort>(ref value), buffer, ref offset);
-        else if (byteSize <= Specs.Integer.UInt32.ByteCount)
-            GetBytes(Unsafe.As<T, uint>(ref value), buffer, ref offset);
-        else if (byteSize <= Specs.Integer.UInt64.ByteCount)
-            GetBytes(Unsafe.As<T, ulong>(ref value), buffer, ref offset);
-        else
-            GetBytes(Unsafe.As<T, BigInteger>(ref value), buffer, ref offset);
-    }
-
-    public void GetBytes<T>(T value, int length, Span<byte> buffer, ref int offset)
-    {
-        if (length == Specs.Integer.UInt8.ByteCount)
-            GetBytes(Unsafe.As<T, byte>(ref value));
-        else if (length == Specs.Integer.UInt16.ByteCount)
-            GetBytes(Unsafe.As<T, ushort>(ref value));
-        else if (length == 3)
-            GetBytes(Unsafe.As<T, uint>(ref value), length, buffer, ref offset);
-        else if (length == Specs.Integer.UInt32.ByteCount)
-            GetBytes(Unsafe.As<T, uint>(ref value), buffer, ref offset);
-        else if (length < Specs.Integer.UInt64.ByteCount)
-            GetBytes(Unsafe.As<T, ulong>(ref value), length, buffer, ref offset);
-        else if (length == Specs.Integer.UInt64.ByteCount)
-            GetBytes(Unsafe.As<T, ulong>(ref value), buffer, ref offset);
-        else
-            GetBytes(Unsafe.As<T, BigInteger>(ref value), length, buffer, ref offset);
-    }
-
-    public byte[] GetBytes<T>(T[] value, Span<byte> buffer, ref int offset)
-    {
-        if (typeof(T) == typeof(char))
-            return GetBytes(Unsafe.As<T[], char[]>(ref value));
-
-        throw new NotImplementedException();
-    }
-
-    public byte[] GetBytes<T>(T[] value, int length, Span<byte> buffer, ref int offset)
-    {
-        if (typeof(T) == typeof(char))
-            return GetBytes(Unsafe.As<T[], char[]>(ref value), length);
-
-        throw new NotImplementedException();
-    }
-
-    // //////////////////////////////END
-
     public override int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
     {
         ReadOnlySpan<byte> buffer = GetBytes(chars[charIndex..(charIndex + charCount)]);
@@ -230,27 +176,6 @@ public class Numeric : PlayEncoding
         Array.ConstrainedCopy(Hexadecimal.GetBytes(value), 0, result, length - byteSize, byteSize);
 
         return result;
-    }
-
-    public void GetBytes(ReadOnlySpan<char> value, int length, Span<byte> buffer, ref int offset)
-    {
-        int byteSize = (value.Length / 2) + (value.Length % 2);
-
-        if (byteSize == length)
-        {
-            Hexadecimal.GetBytes(value, buffer, ref offset);
-
-            return;
-        }
-
-        if (byteSize > length)
-        {
-            Hexadecimal.GetBytes(value, length, buffer, ref offset);
-
-            return;
-        }
-
-        Hexadecimal.GetBytes(value[..length], buffer, ref offset);
     }
 
     public byte[] GetBytes(byte value)
@@ -436,12 +361,6 @@ public class Numeric : PlayEncoding
     public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
         throw new NotImplementedException();
 
-    public void GetChars(ReadOnlySpan<byte> value, Span<char> buffer, ref int offset)
-    {
-        for (int i = 0, j = 0; i < value.Length; i++, j += 2)
-            GetChars(value[i], buffer[(offset + j)..], j);
-    }
-
     public char[] GetChars(ReadOnlySpan<byte> value)
     {
         int length = value.Length * 2;
@@ -461,7 +380,7 @@ public class Numeric : PlayEncoding
         }
         else
         {
-            using SpanOwner<char> spanOwner = SpanOwner<char>.Allocate(length);
+            SpanOwner<char> spanOwner = SpanOwner<char>.Allocate(length);
             Span<char> buffer = spanOwner.Span;
 
             for (int i = 0, j = 0; i < value.Length; i++, j += 2)

@@ -2,7 +2,7 @@
 
 using Play.Emv.Identifiers;
 
-namespace Play.Emv.Kernel.State;
+namespace Play.Emv.Sessions;
 
 public readonly record struct StateId
 {

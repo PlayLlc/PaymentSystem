@@ -6,6 +6,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Codecs.Integers;
+using Play.Codecs.Metadata;
 using Play.Core.Exceptions;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
@@ -20,6 +21,63 @@ namespace Play.Ber.Codecs;
 /// </remarks>
 public sealed class IntegerBerCodec : BerPrimitiveCodec
 {
+    #region Instance Members
+
+    public override BerEncodingId GetIdentifier() => Identifier;
+
+    #endregion
+
+    #region Serialization
+
+    #region Decode To DecodedMetadata
+
+    /// <summary>
+    ///     Decode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="BerException"></exception>
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        Validate(value);
+
+        if (value.Length == 1)
+        {
+            sbyte byteResult = _SignedIntegerCodec.GetByte(value);
+
+            return new DecodedResult<sbyte>(byteResult, _SignedIntegerCodec.GetCharCount(byteResult));
+        }
+
+        if (value.Length == 2)
+        {
+            short shortResult = _SignedIntegerCodec.DecodeToInt16(value);
+
+            return new DecodedResult<short>(shortResult, _SignedIntegerCodec.GetCharCount(shortResult));
+        }
+
+        if (value.Length <= 4)
+        {
+            int intResult = _SignedIntegerCodec.DecodeToInt32(value);
+
+            return new DecodedResult<int>(intResult, _SignedIntegerCodec.GetCharCount(intResult));
+        }
+
+        if (value.Length <= 8)
+        {
+            long longResult = _SignedIntegerCodec.DecodeToInt64(value);
+
+            return new DecodedResult<long>(longResult, _SignedIntegerCodec.GetCharCount(longResult));
+        }
+
+        BigInteger bigIntegerResult = _SignedIntegerCodec.DecodeToBigInteger(value);
+
+        return new DecodedResult<BigInteger>(bigIntegerResult, _SignedIntegerCodec.GetCharCount(bigIntegerResult));
+    }
+
+    #endregion
+
+    #endregion
+
     #region Metadata
 
     private static readonly SignedInteger _SignedIntegerCodec = PlayEncoding.SignedInteger;
@@ -169,59 +227,6 @@ public sealed class IntegerBerCodec : BerPrimitiveCodec
     {
         throw new NotImplementedException();
     }
-
-    #endregion
-
-    #region Decode To DecodedMetadata
-
-    /// <summary>
-    ///     Decode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="BerException"></exception>
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
-    {
-        Validate(value);
-
-        if (value.Length == 1)
-        {
-            sbyte byteResult = _SignedIntegerCodec.GetByte(value);
-
-            return new DecodedResult<sbyte>(byteResult, _SignedIntegerCodec.GetCharCount(byteResult));
-        }
-
-        if (value.Length == 2)
-        {
-            short shortResult = _SignedIntegerCodec.DecodeToInt16(value);
-
-            return new DecodedResult<short>(shortResult, _SignedIntegerCodec.GetCharCount(shortResult));
-        }
-
-        if (value.Length <= 4)
-        {
-            int intResult = _SignedIntegerCodec.DecodeToInt32(value);
-
-            return new DecodedResult<int>(intResult, _SignedIntegerCodec.GetCharCount(intResult));
-        }
-
-        if (value.Length <= 8)
-        {
-            long longResult = _SignedIntegerCodec.DecodeToInt64(value);
-
-            return new DecodedResult<long>(longResult, _SignedIntegerCodec.GetCharCount(longResult));
-        }
-
-        BigInteger bigIntegerResult = _SignedIntegerCodec.DecodeToBigInteger(value);
-
-        return new DecodedResult<BigInteger>(bigIntegerResult, _SignedIntegerCodec.GetCharCount(bigIntegerResult));
-    }
-
-    #endregion
-
-    #region Instance Members
-
-    public override BerEncodingId GetIdentifier() => Identifier;
 
     #endregion
 }

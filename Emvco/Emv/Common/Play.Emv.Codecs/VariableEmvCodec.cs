@@ -1,8 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 
-using Play.Ber.Codecs;
-using Play.Ber.InternalFactories;
 using Play.Codecs;
+using Play.Codecs.Metadata;
 using Play.Codecs.Strings;
 using Play.Emv.Codecs.Exceptions;
 

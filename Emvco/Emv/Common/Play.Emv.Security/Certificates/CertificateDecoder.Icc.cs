@@ -4,6 +4,7 @@ using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs.Strings;
 using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv;
 using Play.Emv.Security.Authentications.Static;
 using Play.Emv.Security.Certificates.Icc;
 using Play.Emv.Security.Certificates.Issuer;
@@ -11,6 +12,8 @@ using Play.Encryption.Certificates;
 using Play.Encryption.Hashing;
 using Play.Encryption.Signing;
 using Play.Globalization.Time;
+
+using PrimaryAccountNumber = Play.Emv.DataElements.Interchange.PrimaryAccountNumber;
 
 namespace Play.Emv.Security.Certificates;
 

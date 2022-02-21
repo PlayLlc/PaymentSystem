@@ -8,11 +8,12 @@ using Play.Core.Specifications;
 
 namespace Play.Codecs.Strings;
 
+// TODO: need to move Play.Codec.AlphaNumericSpecial logic into here
 public class AlphaNumericSpecial : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(AlphaNumericSpecial));
+    public static readonly PlayEncodingId PlayEncodingId = new(nameof(AlphaNumericSpecial));
 
     // 32 - 126
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap =
@@ -77,12 +78,6 @@ public class AlphaNumericSpecial : PlayEncoding
 
             return buffer.ToArray();
         }
-    }
-
-    public void GetBytes(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
-    {
-        for (int i = 0; i < value.Length; i++)
-            buffer[offset++] = _ByteMap[value[i]];
     }
 
     public override bool TryGetBytes(ReadOnlySpan<char> value, out byte[] result)

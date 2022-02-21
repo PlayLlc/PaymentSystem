@@ -1,4 +1,4 @@
-﻿namespace Play.Ber.InternalFactories;
+﻿namespace Play.Codecs.Metadata;
 
 // TODO: This is a shitty implementation - you shouldn't have to expose metadata to the client and make them do a magic trick in order to decode something
 

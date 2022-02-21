@@ -3,6 +3,7 @@
 using Play.Ber.DataObjects;
 using Play.Core.Math;
 using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv;
 using Play.Globalization;
 using Play.Globalization.Currency;
 

@@ -1,4 +1,5 @@
 ﻿using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
@@ -7,7 +8,6 @@ using Play.Emv.Pcd.Contracts;
 using Play.Emv.Selection.Contracts;
 using Play.Emv.Selection.Start;
 using Play.Emv.Sessions;
-using Play.Emv.Transactions;
 
 namespace Play.Emv.Selection.Services;
 

@@ -1,7 +1,7 @@
 ﻿using Play.Core;
 using Play.Core.Extensions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.DataElements.Emv;
 
 public sealed record OdaStatusTypes : EnumObject<byte>
 {

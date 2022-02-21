@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.Acquirers.Elavon.DataElements;
+﻿namespace Play.Emv.Acquirer.Elavon.DataElements;
 
 public abstract record ElavonDataElement<T> : DataElement<T>
 {

@@ -11,6 +11,33 @@ namespace Play.Codecs;
 
 public class AlphaSpecialCodec : PlayCodec
 {
+    #region Instance Members
+
+    /// <summary>
+    ///     GetByte
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="PlayEncodingException"></exception>
+    public byte GetByte(char value)
+    {
+        Validate(value);
+
+        return _ByteMapper[value];
+    }
+
+    #endregion
+
+    #region Serialization
+
+    #region Decode To DecodedMetadata
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => throw new NotImplementedException();
+
+    #endregion
+
+    #endregion
+
     #region Metadata
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
@@ -282,29 +309,6 @@ public class AlphaSpecialCodec : PlayCodec
         }
 
         return false;
-    }
-
-    #endregion
-
-    #region Decode To DecodedMetadata
-
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => throw new NotImplementedException();
-
-    #endregion
-
-    #region Instance Members
-
-    /// <summary>
-    ///     GetByte
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="PlayEncodingException"></exception>
-    public byte GetByte(char value)
-    {
-        Validate(value);
-
-        return _ByteMapper[value];
     }
 
     #endregion
