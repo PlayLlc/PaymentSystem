@@ -2,6 +2,7 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Globalization;
@@ -16,7 +17,7 @@ public record TerminalCountryCode : DataElement<NumericCountryCode>, IEqualityCo
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
     public static readonly TerminalCountryCode Default = new(new NumericCountryCode(0));
     public static readonly Tag Tag = 0x9F1A;
     private const byte _ByteLength = 2;
@@ -36,9 +37,9 @@ public record TerminalCountryCode : DataElement<NumericCountryCode>, IEqualityCo
     #region Instance Members
 
     public NumericCountryCode AsCountryCode() => _Value;
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 

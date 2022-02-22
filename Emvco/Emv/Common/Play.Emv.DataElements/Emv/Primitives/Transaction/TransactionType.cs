@@ -2,6 +2,7 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
@@ -16,7 +17,7 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
 
     /// <summary>
     ///     Also known as 'Cash Withdrawal'
@@ -43,9 +44,9 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
 
     #region Instance Members
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     private void Validate(byte value)
     {

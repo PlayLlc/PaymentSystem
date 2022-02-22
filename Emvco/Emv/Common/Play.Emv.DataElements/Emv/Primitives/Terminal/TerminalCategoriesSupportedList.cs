@@ -4,6 +4,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Core.Specifications;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
@@ -17,7 +18,7 @@ public record TerminalCategoriesSupportedList : DataElement<BigInteger>, IEquali
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F3E;
 
     #endregion
@@ -31,7 +32,7 @@ public record TerminalCategoriesSupportedList : DataElement<BigInteger>, IEquali
 
     #region Instance Members
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     public TerminalCategoryCode[] GetTerminalCategoryCodes()
@@ -53,7 +54,7 @@ public record TerminalCategoriesSupportedList : DataElement<BigInteger>, IEquali
         return result;
     }
 
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public bool IsPointOfInteractionApduCommandRequested() => GetTerminalCategoryCodes().Any(a => a == TerminalCategoryCode.TransitGate);
 
     #endregion
@@ -68,7 +69,7 @@ public record TerminalCategoriesSupportedList : DataElement<BigInteger>, IEquali
     {
         DecodedResult<BigInteger> result = codec.Decode(PlayEncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
-                $"The {nameof(TerminalCategoriesSupportedList)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+                $"The {nameof(TerminalCategoriesSupportedList)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new TerminalCategoriesSupportedList(result.Value);
     }

@@ -1,6 +1,7 @@
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
@@ -17,7 +18,7 @@ public record ExtendedSelection : DataElement<byte[]>, IEqualityComparer<Extende
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
     public static readonly ExtendedSelection Default = new(Array.Empty<byte>());
     public static readonly Tag Tag = 0x9F29;
 
@@ -33,9 +34,9 @@ public record ExtendedSelection : DataElement<byte[]>, IEqualityComparer<Extende
     #region Instance Members
 
     public byte[] AsByteArray() => _Value.CopyValue();
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public int GetValueByteCount() => _Value.Length;
 
     #endregion

@@ -3,6 +3,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
@@ -15,7 +16,7 @@ public record ResponseMessageTemplateFormat1 : DataElement<byte[]>, IEqualityCom
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = VariableCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = VariableCodec.EncodingId;
     public static readonly Tag Tag = 0x80;
 
     #endregion
@@ -35,7 +36,7 @@ public record ResponseMessageTemplateFormat1 : DataElement<byte[]>, IEqualityCom
     /// <returns></returns>
     public TagLengthValue[] DecodeValue() => _Codec.DecodeSiblings(_Value).AsTagLengthValues();
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion

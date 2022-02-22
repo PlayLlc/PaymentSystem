@@ -5,6 +5,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Ber.Lengths;
+using Play.Codecs;
 
 namespace Play.Ber.DataObjects;
 
@@ -52,7 +53,7 @@ public record UnknownPrimitiveValue : PrimitiveValue
         return new TagLengthValue(GetTag(), octetContents);
     }
 
-    public override PlayEncodingId GetBerEncodingId() => throw new NotImplementedException();
+    public override PlayEncodingId GetEncodingId() => throw new NotImplementedException();
     public override Tag GetTag() => _Tag;
     public override ushort GetValueByteCount(BerCodec codec) => throw new NotImplementedException();
 

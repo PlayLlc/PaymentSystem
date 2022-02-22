@@ -1,4 +1,5 @@
 ﻿using Play.Ber.Codecs;
+using Play.Codecs;
 
 namespace Play.Ber.DataObjects;
 
@@ -6,7 +7,7 @@ public interface IRetrieveBerEncodingMetadata
 {
     #region Instance Members
 
-    public PlayEncodingId GetBerEncodingId();
+    public PlayEncodingId GetEncodingId();
 
     #endregion
 }

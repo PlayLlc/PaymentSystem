@@ -2,6 +2,7 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.DataElements.Exceptions;
 
@@ -14,7 +15,7 @@ public record SystemTraceAuditNumber : InterchangeDataElement<uint>
     /// <value>Hex: CB Decimal: 203; Interchange: 11</value>
     public static readonly Tag Tag = 0xCB;
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
     private const byte _MinValue = 1;
     private const int _MaxValue = 999999;
     private const int _ByteLength = 3;
@@ -33,7 +34,7 @@ public record SystemTraceAuditNumber : InterchangeDataElement<uint>
 
     #region Instance Members
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion

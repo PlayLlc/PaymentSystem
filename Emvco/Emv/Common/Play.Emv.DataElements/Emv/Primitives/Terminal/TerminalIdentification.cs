@@ -3,6 +3,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
@@ -16,7 +17,7 @@ public record TerminalIdentification : DataElement<ulong>, IEqualityComparer<Ter
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F1C;
     private const byte _CharLength = 8;
 
@@ -38,9 +39,9 @@ public record TerminalIdentification : DataElement<ulong>, IEqualityComparer<Ter
     public Span<char> AsSpan() => _Value.AsSpanFromRight(_CharLength);
     public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
     public string AsToken() => _Value.AsStringFromRight(_CharLength);
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 

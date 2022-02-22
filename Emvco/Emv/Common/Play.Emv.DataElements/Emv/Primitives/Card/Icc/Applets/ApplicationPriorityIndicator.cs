@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
@@ -15,7 +16,7 @@ public record ApplicationPriorityIndicator : DataElement<byte>, IEqualityCompare
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x87;
 
     #endregion
@@ -31,9 +32,9 @@ public record ApplicationPriorityIndicator : DataElement<byte>, IEqualityCompare
 
     public bool ApplicationCannotBeSelectedWithoutConfirmationByTheCardholder() => _Value.IsBitSet(Bits.Eight);
     public ApplicationPriorityRank GetApplicationPriorityRank() => ApplicationPriorityRankTypes.Get(_Value);
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     public static bool StaticEquals(ApplicationPriorityIndicator? x, ApplicationPriorityIndicator? y)
     {
@@ -66,7 +67,7 @@ public record ApplicationPriorityIndicator : DataElement<byte>, IEqualityCompare
 
         DecodedResult<byte> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
-                $"The {nameof(ApplicationPriorityIndicator)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
+                $"The {nameof(ApplicationPriorityIndicator)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new ApplicationPriorityIndicator(result.Value);
     }

@@ -2,6 +2,7 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
@@ -15,7 +16,7 @@ public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xFF8101;
 
     #endregion
@@ -29,7 +30,7 @@ public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
 
     #region Instance Members
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     public bool IsMatch(ApplicationPan pan, ApplicationPanSequenceNumber sequenceNumber)

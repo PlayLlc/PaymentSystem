@@ -4,6 +4,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
@@ -19,7 +20,7 @@ public record ProtectedDataEnvelope3 : DataElement<BigInteger>, IEqualityCompare
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F72;
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
 
     #endregion
 
@@ -32,9 +33,9 @@ public record ProtectedDataEnvelope3 : DataElement<BigInteger>, IEqualityCompare
 
     #region Instance Members
 
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
 
     #endregion
 
@@ -56,7 +57,7 @@ public record ProtectedDataEnvelope3 : DataElement<BigInteger>, IEqualityCompare
 
         DecodedResult<BigInteger> result = codec.Decode(PlayEncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
-                $"The {nameof(ProtectedDataEnvelope3)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+                $"The {nameof(ProtectedDataEnvelope3)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new ProtectedDataEnvelope3(result.Value);
     }

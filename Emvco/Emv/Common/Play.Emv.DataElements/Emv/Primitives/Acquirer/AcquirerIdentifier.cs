@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
@@ -16,7 +17,7 @@ public record AcquirerIdentifier : DataElement<ulong>, IEqualityComparer<Acquire
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F01;
     private const byte _ByteLength = 6;
     private const byte _MinCharLength = 6;
@@ -35,9 +36,9 @@ public record AcquirerIdentifier : DataElement<ulong>, IEqualityComparer<Acquire
 
     #region Instance Members
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     public void Validate(ulong value)
     {

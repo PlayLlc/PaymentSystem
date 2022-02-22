@@ -3,6 +3,7 @@
 using Play.Ber.Codecs;
 using Play.Ber.Identifiers;
 using Play.Ber.Lengths;
+using Play.Codecs;
 
 namespace Play.Ber.DataObjects;
 
@@ -18,7 +19,7 @@ public abstract record PrimitiveValue : IEqualityComparer<PrimitiveValue>, IEnco
         return new TagLengthValue(GetTag(), EncodeValue(codec));
     }
 
-    public abstract PlayEncodingId GetBerEncodingId();
+    public abstract PlayEncodingId GetEncodingId();
     public abstract Tag GetTag();
 
     public uint GetTagLengthValueByteCount(BerCodec codec) =>

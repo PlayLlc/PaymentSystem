@@ -3,6 +3,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Globalization;
@@ -17,7 +18,7 @@ public record TerminalFloorLimit : DataElement<uint>, IEqualityComparer<Terminal
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F1B;
     private const byte _ByteLength = 4;
 
@@ -34,9 +35,9 @@ public record TerminalFloorLimit : DataElement<uint>, IEqualityComparer<Terminal
 
     public Money AsMoney(CultureProfile cultureProfile) => new(_Value, cultureProfile);
     public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -56,7 +57,7 @@ public record TerminalFloorLimit : DataElement<uint>, IEqualityComparer<Terminal
 
         DecodedResult<uint> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
-                $"The {nameof(TerminalFloorLimit)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
+                $"The {nameof(TerminalFloorLimit)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new TerminalFloorLimit(result.Value);
     }

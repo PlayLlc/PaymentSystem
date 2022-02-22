@@ -6,8 +6,10 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Core.Extensions;
-using Play.Emv.Ber.Codecs;
+
+using BinaryCodec = Play.Emv.Ber.Codecs.BinaryCodec;
 
 namespace Play.Emv.Security.Checksum;
 
@@ -20,7 +22,7 @@ public record PosCardholderInteractionInformation : PrimitiveValue, IEqualityCom
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF4B;
 
     #endregion
@@ -56,9 +58,9 @@ public record PosCardholderInteractionInformation : PrimitiveValue, IEqualityCom
         return x.Equals(y);
     }
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public bool OfflineChangePinRequired() => _Value.IsBitSet(11);
     public bool OfflineDataCardVerificationMethodRequired() => _Value.IsBitSet(9);
     public bool OnDeviceCardholderVerificationMethodVerificationSuccessful() => _Value.IsBitSet(13);
@@ -84,7 +86,7 @@ public record PosCardholderInteractionInformation : PrimitiveValue, IEqualityCom
 
         DecodedResult<uint> result = codec.Decode(PlayEncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
-                $"The {nameof(PosCardholderInteractionInformation)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
+                $"The {nameof(PosCardholderInteractionInformation)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new PosCardholderInteractionInformation(result.Value);
     }

@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
@@ -14,7 +15,7 @@ public record IccDynamicNumber : DataElement<ulong>, IEqualityComparer<IccDynami
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F4C;
 
     #endregion
@@ -28,7 +29,7 @@ public record IccDynamicNumber : DataElement<ulong>, IEqualityComparer<IccDynami
 
     #region Instance Members
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion
@@ -52,7 +53,7 @@ public record IccDynamicNumber : DataElement<ulong>, IEqualityComparer<IccDynami
 
         DecodedResult<ulong> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<ulong>
             ?? throw new InvalidOperationException(
-                $"The {nameof(IccDynamicNumber)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+                $"The {nameof(IccDynamicNumber)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new IccDynamicNumber(result.Value);
     }

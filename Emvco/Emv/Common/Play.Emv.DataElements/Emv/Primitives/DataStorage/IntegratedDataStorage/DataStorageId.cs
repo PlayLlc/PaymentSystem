@@ -4,6 +4,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements.Exceptions;
@@ -11,7 +12,7 @@ using Play.Emv.DataElements.Exceptions;
 namespace Play.Emv.DataElements.Emv;
 
 /// <summary>
-///     Data Storage Identifier constructed as follows: Application PAN (without any 'F' padding) || Application PAN
+///     Data Storage EncodingId constructed as follows: Application PAN (without any 'F' padding) || Application PAN
 ///     Sequence Number If necessary, it is padded to the left with one hexadecimal zero  to ensure whole bytes. If
 ///     necessary, it is padded to the left with hexadecimal zeroes to  ensure a minimum length of 8 bytes.
 /// </summary>
@@ -19,7 +20,7 @@ public record DataStorageId : DataElement<BigInteger>
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F5E;
     private const byte _MinByteLength = 8;
     private const byte _MaxByteLength = 11;
@@ -35,7 +36,7 @@ public record DataStorageId : DataElement<BigInteger>
 
     #region Instance Members
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion

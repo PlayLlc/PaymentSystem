@@ -1,6 +1,7 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 
 namespace Play.Emv.Ber.DataObjects;
@@ -17,7 +18,7 @@ public sealed record DataToSend : DataExchangeResponse, IEqualityComparer<DataTo
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = VariableCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = VariableCodec.EncodingId;
     public static readonly Tag Tag = 0xFF8104;
 
     #endregion
@@ -35,7 +36,7 @@ public sealed record DataToSend : DataExchangeResponse, IEqualityComparer<DataTo
     #region Instance Members
 
     public TagLengthValue[] AsTagLengthValueArray() => _Value.ToArray();
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion

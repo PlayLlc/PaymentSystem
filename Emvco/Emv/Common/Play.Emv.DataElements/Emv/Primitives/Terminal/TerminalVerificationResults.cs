@@ -2,6 +2,7 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
@@ -17,7 +18,7 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x95;
     private const byte _ByteLength = 0x05;
 
@@ -42,9 +43,9 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
     public bool DefaultTransactionCertificateDataObjectListUsed() => _Value.IsBitSet(8);
     public bool DynamicDataAuthenticationFailed() => _Value.IsBitSet(36);
     public bool ExpiredApplication() => _Value.IsBitSet(31);
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public bool IccAndTerminalHaveDifferentApplicationVersions() => _Value.IsBitSet(32);
     public bool IccDataMissing() => _Value.IsBitSet(38);
     public bool IssuerAuthenticationFailed() => _Value.IsBitSet(7);

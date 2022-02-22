@@ -2,6 +2,7 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Globalization;
@@ -16,7 +17,7 @@ public record TransactionCurrencyCode : DataElement<NumericCurrencyCode>, IEqual
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x5F2A;
     private const byte _ByteLength = 0x02;
 
@@ -34,7 +35,7 @@ public record TransactionCurrencyCode : DataElement<NumericCurrencyCode>, IEqual
 
     #region Instance Members
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion

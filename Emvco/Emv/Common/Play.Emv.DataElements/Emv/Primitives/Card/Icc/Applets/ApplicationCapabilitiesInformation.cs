@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
@@ -16,7 +17,7 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F5D;
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
     private const byte _ByteLength = 3;
 
     #endregion
@@ -31,7 +32,7 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
     #region Instance Members
 
     public bool CombinedDataAuthenticationIndicator() => _Value.IsBitSet(9);
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
 
     public SdsSchemeIndicator GetSdsSchemeIndicator()
     {

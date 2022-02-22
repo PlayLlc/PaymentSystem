@@ -17,14 +17,14 @@ namespace Play.Emv.DataElements.Emv;
 /// <remarks>
 ///     <see cref="ApplicationDedicatedFileName" /> consists of two parts. The first part is the
 ///     <see cref="RegisteredApplicationProviderIndicator" />
-///     The second part is the Proprietary Application Identifier Extension. The first part is required and the second part
+///     The second part is the Proprietary Application EncodingId Extension. The first part is required and the second part
 ///     is optional
 /// </remarks>
 public record ApplicationDedicatedFileName : DataElement<byte[]>, IEqualityComparer<ApplicationDedicatedFileName>
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
 
     /// <summary>
     ///     The ApplicationDedicatedFileName requires a <see cref="RegisteredApplicationProviderIndicator" /> which is 5 bytes
@@ -52,7 +52,7 @@ public record ApplicationDedicatedFileName : DataElement<byte[]>, IEqualityCompa
 
     public byte[] AsByteArray() => _Value.CopyValue();
     public DedicatedFileName AsDedicatedFileName() => new(_Value);
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public int GetByteCount() => _Value.Length;
 
     public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>

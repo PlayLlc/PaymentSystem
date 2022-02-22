@@ -2,6 +2,7 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
@@ -16,7 +17,7 @@ public record ApplicationExpirationDate : DataElement<uint>, IEqualityComparer<A
     #region Static Metadata
 
     public static readonly Tag Tag = 0x5F24;
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
     private const byte _ByteLength = 3;
 
     #endregion
@@ -31,7 +32,7 @@ public record ApplicationExpirationDate : DataElement<uint>, IEqualityComparer<A
     #region Instance Members
 
     public bool CombinedDataAuthenticationIndicator() => _Value.IsBitSet(9);
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
 
     public SdsSchemeIndicator GetSdsSchemeIndicator()
     {
@@ -67,7 +68,7 @@ public record ApplicationExpirationDate : DataElement<uint>, IEqualityComparer<A
         return new ApplicationExpirationDate(result.Value);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(GetBerEncodingId(), _Value, _ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(GetEncodingId(), _Value, _ByteLength);
     public override byte[] EncodeValue(BerCodec berCodec) => EncodeValue();
 
     #endregion

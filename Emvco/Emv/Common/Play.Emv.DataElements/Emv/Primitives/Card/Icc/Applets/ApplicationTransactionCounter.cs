@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
@@ -15,7 +16,7 @@ public record ApplicationTransactionCounter : DataElement<ushort>, IEqualityComp
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F36;
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
 
     #endregion
 
@@ -28,9 +29,9 @@ public record ApplicationTransactionCounter : DataElement<ushort>, IEqualityComp
 
     #region Instance Members
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -52,7 +53,7 @@ public record ApplicationTransactionCounter : DataElement<ushort>, IEqualityComp
 
         DecodedResult<ushort> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<ushort>
             ?? throw new InvalidOperationException(
-                $"The {nameof(ApplicationTransactionCounter)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+                $"The {nameof(ApplicationTransactionCounter)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new ApplicationTransactionCounter(result.Value);
     }

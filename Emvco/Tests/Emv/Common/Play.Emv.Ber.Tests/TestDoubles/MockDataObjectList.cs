@@ -3,8 +3,10 @@
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Emv.Ber.Codecs;
+using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
+
+using BinaryCodec = Play.Emv.Ber.Codecs.BinaryCodec;
 
 namespace Play.Emv.Ber.Tests.TestDoubles;
 
@@ -12,7 +14,7 @@ public record MockDataObjectList : DataObjectList
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F38;
 
     #endregion
@@ -26,9 +28,9 @@ public record MockDataObjectList : DataObjectList
 
     #region Instance Members
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 

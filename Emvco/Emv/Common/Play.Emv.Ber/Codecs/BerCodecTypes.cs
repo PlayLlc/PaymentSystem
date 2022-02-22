@@ -33,7 +33,7 @@ public record BerEncodingIdType : EnumObject<Play.Codecs.PlayEncodingId>
         CompressedNumericCodec = new BerEncodingIdType(Play.Codecs.CompressedNumericCodec.EncodingId);
         NumericCodec = new BerEncodingIdType(Play.Codecs.NumericCodec.EncodingId);
         UnsignedBinaryCodec = new BerEncodingIdType(UnsignedIntegerCodec.EncodingId);
-        VariableCodec = new BerEncodingIdType(HexadecimalCodec.EncodingId);
+        VariableCodec = new BerEncodingIdType(Play.Codecs.HexadecimalCodec.EncodingId);
     }
 
     public BerEncodingIdType(Play.Codecs.PlayEncodingId value) : base(value)

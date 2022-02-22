@@ -2,6 +2,7 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Randoms;
@@ -15,7 +16,7 @@ public record UnpredictableNumber : DataElement<uint>, IEqualityComparer<Unpredi
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F37;
     private const byte _ByteCount = 4;
 
@@ -35,7 +36,7 @@ public record UnpredictableNumber : DataElement<uint>, IEqualityComparer<Unpredi
     #region Instance Members
 
     public ushort GetByteCount() => _ByteCount;
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion
@@ -56,7 +57,7 @@ public record UnpredictableNumber : DataElement<uint>, IEqualityComparer<Unpredi
 
         DecodedResult<uint> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
-                $"The {nameof(UnpredictableNumber)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
+                $"The {nameof(UnpredictableNumber)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new UnpredictableNumber(result.Value);
     }

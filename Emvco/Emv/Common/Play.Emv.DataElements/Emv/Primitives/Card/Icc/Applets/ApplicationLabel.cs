@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
@@ -14,7 +15,7 @@ public record ApplicationLabel : DataElement<char[]>, IEqualityComparer<Applicat
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecialCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecialCodec.EncodingId;
     public static readonly Tag Tag = 0x50;
 
     #endregion
@@ -29,9 +30,9 @@ public record ApplicationLabel : DataElement<char[]>, IEqualityComparer<Applicat
     #region Instance Members
 
     public override string ToString() => new(_Value);
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 

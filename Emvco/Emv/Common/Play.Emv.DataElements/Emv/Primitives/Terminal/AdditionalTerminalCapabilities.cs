@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
@@ -16,7 +17,7 @@ public record AdditionalTerminalCapabilities : DataElement<ulong>, IEqualityComp
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F40;
     private const byte _ByteLength = 5;
 
@@ -51,9 +52,9 @@ public record AdditionalTerminalCapabilities : DataElement<ulong>, IEqualityComp
     public bool DisplayAttendant() => _Value.IsBitSet(14);
     public bool DisplayCardholder() => _Value.IsBitSet(13);
     public bool FunctionKeys() => _Value.IsBitSet(21);
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public bool Goods() => _Value.IsBitSet(39);
     public bool Inquiry() => _Value.IsBitSet(36);
     public bool NumericKeys() => _Value.IsBitSet(24);
@@ -77,7 +78,7 @@ public record AdditionalTerminalCapabilities : DataElement<ulong>, IEqualityComp
 
         DecodedResult<ulong> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<ulong>
             ?? throw new InvalidOperationException(
-                $"The {nameof(AdditionalTerminalCapabilities)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+                $"The {nameof(AdditionalTerminalCapabilities)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new AdditionalTerminalCapabilities(result.Value);
     }

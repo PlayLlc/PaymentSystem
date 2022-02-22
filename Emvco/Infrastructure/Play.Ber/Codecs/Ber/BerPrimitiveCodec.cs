@@ -2,6 +2,7 @@
 
 using Play.Ber.DataObjects;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 
 namespace Play.Ber.Codecs;
 

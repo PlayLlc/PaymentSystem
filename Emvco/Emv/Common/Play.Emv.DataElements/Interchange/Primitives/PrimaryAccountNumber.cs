@@ -20,7 +20,7 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
     /// <value>Hex: C2; Decimal: 194; Interchange: 2</value>
     public static readonly Tag Tag = 0xC2;
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
     private const int _MaxByteLength = 10;
 
     #endregion
@@ -34,12 +34,12 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
 
     #region Instance Members
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     /// <summary>
-    ///     Checks whether the Issuer Identifier provided in the argument matches the leftmost 3 - 8 PAN digits (allowing for
-    ///     the possible padding of the Issuer Identifier with hexadecimal 'F's)
+    ///     Checks whether the Issuer EncodingId provided in the argument matches the leftmost 3 - 8 PAN digits (allowing for
+    ///     the possible padding of the Issuer EncodingId with hexadecimal 'F's)
     /// </summary>
     /// <param name="issuerIdentifier"></param>
     /// <returns></returns>

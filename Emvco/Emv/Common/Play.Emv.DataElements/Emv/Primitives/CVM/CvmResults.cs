@@ -2,6 +2,7 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
@@ -15,7 +16,7 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F34;
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
     private const ushort _ByteLength = 3;
 
     #endregion
@@ -29,7 +30,7 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
 
     #region Instance Members
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => _ByteLength;
     public new ushort GetValueByteCount() => _ByteLength;
@@ -53,7 +54,7 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
 
         DecodedResult<uint> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
-                $"The {nameof(CvmResults)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+                $"The {nameof(CvmResults)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new CvmResults(result.Value);
     }

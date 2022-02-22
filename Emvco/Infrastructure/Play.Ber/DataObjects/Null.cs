@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Play.Ber.Codecs;
 using Play.Ber.Identifiers;
+using Play.Codecs;
 
 namespace Play.Ber.DataObjects;
 
@@ -10,7 +11,7 @@ public record Null : PrimitiveValue, IEqualityComparer<Null>
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = OctetStringCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = HexadecimalCodec.EncodingId;
     public static readonly uint Tag = 0x5;
 
     #endregion
@@ -18,7 +19,7 @@ public record Null : PrimitiveValue, IEqualityComparer<Null>
     #region Instance Members
 
     public byte[] AsRawTlv() => new byte[2] {(byte) Tag, 0x00};
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => 0;
 

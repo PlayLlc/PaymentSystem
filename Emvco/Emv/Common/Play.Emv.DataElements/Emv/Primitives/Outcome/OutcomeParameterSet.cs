@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
@@ -17,7 +18,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
     public static readonly OutcomeParameterSet Default;
     public static readonly Tag Tag = 0xDF8129;
     private const byte _StatusOutcomeOffset = 56;
@@ -50,7 +51,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
     public AlternateInterfacePreferenceOutcome GetAlternateInterfacePreferenceOutcome() =>
         AlternateInterfacePreferenceOutcome.Get((byte) (_Value >> _AlternateInterfaceOutcomeOffset));
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public static Builder GetBuilder() => new();
     public CvmPerformedOutcome GetCvmPerformed() => CvmPerformedOutcome.Get((byte) (_Value >> _CvmOutcomeOffset));
     public FieldOffRequestOutcome GetFieldOffRequestOutcome() => new((byte) (_Value >> _FieldOffRequestOutcomeOffset));
@@ -66,7 +67,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
         return new Milliseconds(_Value >> bitOffset);
     }
 
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public bool IsDataRecordPresent() => _Value.IsBitSet(38);
     public bool IsDiscretionaryDataPresent() => _Value.IsBitSet(37);
     public bool IsReceiptPresent() => _Value.IsBitSet(36);

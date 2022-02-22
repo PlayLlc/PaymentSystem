@@ -6,7 +6,9 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Emv.Ber.Codecs;
+using Play.Codecs;
+
+using BinaryCodec = Play.Emv.Ber.Codecs.BinaryCodec;
 
 namespace Play.Emv.Security.Certificates.Pin;
 
@@ -17,7 +19,7 @@ public record IccPinEnciphermentPublicKeyExponent : PrimitiveValue, IEqualityCom
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F2E;
 
     #endregion
@@ -39,9 +41,9 @@ public record IccPinEnciphermentPublicKeyExponent : PrimitiveValue, IEqualityCom
 
     #region Instance Members
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -64,7 +66,7 @@ public record IccPinEnciphermentPublicKeyExponent : PrimitiveValue, IEqualityCom
 
         DecodedResult<uint> result = codec.Decode(PlayEncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
-                $"The {nameof(IccPinEnciphermentPublicKeyExponent)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
+                $"The {nameof(IccPinEnciphermentPublicKeyExponent)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new IccPinEnciphermentPublicKeyExponent(result.Value);
     }

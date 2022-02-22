@@ -1,6 +1,7 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
@@ -15,7 +16,7 @@ public record IntegratedDataStorageStatus : DataElement<byte>
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF8128;
     private const byte _ByteLength = 1;
 
@@ -30,7 +31,7 @@ public record IntegratedDataStorageStatus : DataElement<byte>
 
     #region Instance Members
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public bool IsReadSet() => _Value.IsBitSet(Bits.Eight);
     public bool IsWriteSet() => _Value.IsBitSet(Bits.Seven);

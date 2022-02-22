@@ -2,6 +2,7 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements.Exceptions;
@@ -18,7 +19,7 @@ public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldT
     #region Static Metadata
 
     private static readonly Milliseconds _MinimumValue = new(100);
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF8130;
     private const byte _ByteLength = 3;
 
@@ -43,7 +44,7 @@ public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldT
     #region Instance Members
 
     public Milliseconds AsMilliseconds() => _Value;
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
 
     /// <summary>
     ///     The hold time in units of 100 ms
@@ -74,7 +75,7 @@ public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldT
         return new HoldTimeValue(new Milliseconds(result.Value * 100));
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(GetBerEncodingId(), _Value, _ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(GetEncodingId(), _Value, _ByteLength);
 
     #endregion
 

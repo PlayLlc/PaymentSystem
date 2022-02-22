@@ -6,7 +6,7 @@ namespace Play.Emv.DataElements.Emv;
 /// <summary>
 ///     Indicates the text string to be displayed, with the different standard messages defined in  Book A
 ///     section 9.4.
-///     If the Message Identifier is not recognized, the reader should ignore it and the message currently
+///     If the Message EncodingId is not recognized, the reader should ignore it and the message currently
 ///     displayed should not be changed as a result of the User Interface Request.
 /// </summary>
 public readonly struct MessageIdentifier

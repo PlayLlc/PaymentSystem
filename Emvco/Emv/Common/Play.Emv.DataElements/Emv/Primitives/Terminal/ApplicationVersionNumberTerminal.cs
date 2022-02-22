@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
@@ -16,7 +17,7 @@ public record ApplicationVersionNumberTerminal : DataElement<ushort>, IEqualityC
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F09;
     private const byte _ByteLength = 2;
 
@@ -34,9 +35,9 @@ public record ApplicationVersionNumberTerminal : DataElement<ushort>, IEqualityC
     public bool IsCardholderVerificationIsSupported() => _Value.IsBitSet(5);
     public bool IsCdaSupported() => _Value.IsBitSet(1);
     public bool IsDdaSupported() => _Value.IsBitSet(6);
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public bool IsIssuerAuthenticationIsSupported19() => _Value.IsBitSet(3);
     public bool IsSdaSupported() => _Value.IsBitSet(7);
     public bool TerminalRiskManagementIsToBePerformed() => _Value.IsBitSet(4);

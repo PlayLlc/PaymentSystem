@@ -1,6 +1,7 @@
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
@@ -17,7 +18,7 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<TagsToRead>
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = VariableCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = VariableCodec.EncodingId;
     public static readonly Tag Tag = 0xDF8112;
 
     #endregion
@@ -52,7 +53,7 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<TagsToRead>
     #region Instance Members
 
     public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public Tag[] AsTags() => _Value.ToArray();
 
     /// TODO: Exqueese me? Making this guy shut up for now. Book C-2 section 3.6.2 says "The process continues until

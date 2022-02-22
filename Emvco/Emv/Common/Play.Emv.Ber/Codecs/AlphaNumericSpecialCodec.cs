@@ -21,14 +21,14 @@ public class AlphaNumericSpecialCodec : BerPrimitiveCodec
 {
     #region Static Metadata
 
-    private static readonly AlphaNumericSpecial _AlphanumericSpecial = PlayEncoding.AlphaNumericSpecial;
-    public static readonly PlayEncodingId Identifier = GetEncodingId(typeof(AlphaNumericSpecialCodec));
+    private static readonly AlphaNumericSpecialCodec _AlphanumericSpecial = PlayCodec.AlphaNumericSpecialCodec;
+    public static readonly PlayEncodingId EncodingId = BerEncodingIdType.AlphaNumericSpecialCodec;
 
     #endregion
 
     #region Instance Members
 
-    public override PlayEncodingId GetEncodingId() => Identifier;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override bool IsValid(ReadOnlySpan<byte> value) => _AlphanumericSpecial.IsValid(value);
 
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>

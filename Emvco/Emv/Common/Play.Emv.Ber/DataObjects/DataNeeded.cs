@@ -1,7 +1,9 @@
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Emv.Ber.Codecs;
+using Play.Codecs;
+
+using BinaryCodec = Play.Emv.Ber.Codecs.BinaryCodec;
 
 namespace Play.Emv.Ber.DataObjects;
 
@@ -12,7 +14,7 @@ public record DataNeeded : DataExchangeRequest
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF8106;
 
     #endregion
@@ -51,7 +53,7 @@ public record DataNeeded : DataExchangeRequest
 
     public Tag[] AsTagArray() => _Value.ToArray();
     public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     /// TODO: What? Book C-2 section 3.6.2 says "The process continues until all records have been read" so unless there's some optimization reason that i find out about later there's not really a use for this
 

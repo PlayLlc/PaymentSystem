@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
@@ -16,7 +17,7 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F27;
 
     #endregion
@@ -42,7 +43,7 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
         return (byte) cryptogramTypes;
     }
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
 
     /// <summary>
     ///     GetCryptogramType
@@ -61,7 +62,7 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
     }
 
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     /// <summary>
     ///     Value signifying whether a Combined Data Authentication Signature has been requested by the ICC
@@ -89,7 +90,7 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
 
         DecodedResult<byte> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
-                $"The {nameof(CryptogramInformationData)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
+                $"The {nameof(CryptogramInformationData)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new CryptogramInformationData(result.Value);
     }

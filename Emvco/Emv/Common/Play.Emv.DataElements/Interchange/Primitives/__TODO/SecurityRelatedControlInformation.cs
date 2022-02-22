@@ -5,7 +5,7 @@
 //    #region Static Metadata
 
 //    public static readonly DataFieldId DataFieldId = 53;
-//    public static readonly InterchangeEncodingId EncodingId = AlphaNumericInterchangeDataFieldCodec.Identifier;
+//    public static readonly InterchangeEncodingId EncodingId = AlphaNumericInterchangeDataFieldCodec.EncodingId;
 
 //    #endregion
 

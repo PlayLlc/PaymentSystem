@@ -5,6 +5,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
@@ -21,7 +22,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF8116;
     private const byte _MessageIdentifierOffset = 160;
     private const byte _StatusOffset = 152;
@@ -45,7 +46,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
     public ulong? GetAmount() =>
         GetValueQualifier() == ValueQualifier.None ? null : ((ulong) (_Value >> _MoneyOffset)).GetMaskedValue(0xFFFF000000000000);
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public static Builder GetBuilder() => new();
     public Builder Update() => new(this);
     public NumericCurrencyCode GetCurrencyCode() => new((ushort) (_Value >> _CurrencyCodeOffset));
@@ -57,7 +58,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
     public MessageIdentifier GetMessageIdentifier() => MessageIdentifier.Get((byte) (_Value >> _MessageIdentifierOffset));
     public Status GetStatus() => Status.Get((byte) (_Value >> _StatusOffset));
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public ValueQualifier GetValueQualifier() => ValueQualifier.Get((byte) (_Value >> _ValueQualifierOffset));
 
     #endregion
@@ -80,7 +81,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
 
         DecodedResult<BigInteger> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
-                $"The {nameof(UserInterfaceRequestData)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+                $"The {nameof(UserInterfaceRequestData)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new UserInterfaceRequestData(result.Value);
     }

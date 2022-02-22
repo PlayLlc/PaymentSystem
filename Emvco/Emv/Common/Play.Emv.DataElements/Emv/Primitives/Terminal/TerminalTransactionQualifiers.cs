@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
@@ -16,7 +17,7 @@ public record TerminalTransactionQualifiers : DataElement<uint>, IEqualityCompar
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F66;
     private const byte _ByteLength = 4;
 
@@ -32,9 +33,9 @@ public record TerminalTransactionQualifiers : DataElement<uint>, IEqualityCompar
     #region Instance Members
 
     public TerminalTransactionQualifiers AsValueCopy() => new(_Value);
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public TerminalTransactionQualifiers GetValueCopy() => new(_Value);
     public bool IsCvmRequired() => _Value.IsBitSet(15);
     public bool IsCvmSupportedOnConsumerDevice() => _Value.IsBitSet(23);
@@ -91,7 +92,7 @@ public record TerminalTransactionQualifiers : DataElement<uint>, IEqualityCompar
 
         DecodedResult<uint> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
-                $"The {nameof(TerminalTransactionQualifiers)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
+                $"The {nameof(TerminalTransactionQualifiers)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new TerminalTransactionQualifiers(result.Value);
     }

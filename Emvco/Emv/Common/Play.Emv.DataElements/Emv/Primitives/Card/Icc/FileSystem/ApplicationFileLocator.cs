@@ -2,6 +2,7 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Icc.FileSystem.ElementaryFiles;
@@ -22,7 +23,7 @@ public record ApplicationFileLocator : DataElement<byte[]>, IEqualityComparer<Ap
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = VariableCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = VariableCodec.EncodingId;
     public static readonly Tag Tag = 0x94;
     private const byte _MaxByteLength = 248;
     private const byte _ByteLengthMultiple = 4;
@@ -40,7 +41,7 @@ public record ApplicationFileLocator : DataElement<byte[]>, IEqualityComparer<Ap
 
     #region Instance Members
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
 
     /// <summary>
     ///     Gets a list containing Elementary Files and their relevant range of records that correspond to an Application

@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
@@ -15,7 +16,7 @@ public record KernelConfiguration : DataElement<byte>, IEqualityComparer<KernelC
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
     public static readonly KernelConfiguration Default = new(0);
     public static readonly Tag Tag = 0xDF811B;
 
@@ -30,9 +31,9 @@ public record KernelConfiguration : DataElement<byte>, IEqualityComparer<KernelC
 
     #region Instance Members
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public bool IsEmvModeContactlessTransactionsNotSupported() => _Value.IsBitSet(Bits.Seven);
     public bool IsMagstripeModeContactlessTransactionsNotSupported() => _Value.IsBitSet(Bits.Eight);
     public bool IsOnDeviceCardholderVerificationSupported() => _Value.IsBitSet(Bits.Six);
@@ -60,7 +61,7 @@ public record KernelConfiguration : DataElement<byte>, IEqualityComparer<KernelC
 
         DecodedResult<byte> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
-                $"The {nameof(KernelConfiguration)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
+                $"The {nameof(KernelConfiguration)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new KernelConfiguration(result.Value);
     }

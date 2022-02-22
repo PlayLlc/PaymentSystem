@@ -10,6 +10,7 @@ using Play.Encryption.Certificates;
 using Play.Encryption.Hashing;
 using Play.Encryption.Signing;
 using Play.Globalization.Time;
+using Play.Randoms;
 
 using PrimaryAccountNumber = Play.Emv.DataElements.Interchange.PrimaryAccountNumber;
 
@@ -21,7 +22,7 @@ internal partial class CertificateFactory
     {
         #region Static Metadata
 
-        private static readonly Numeric _NumericCodec = new();
+        private static readonly Randomize.Numeric _NumericCodec = new();
 
         #endregion
 

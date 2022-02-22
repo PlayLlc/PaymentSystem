@@ -9,6 +9,7 @@ using System.Text;
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
+using Play.Codecs;
 
 [assembly: InternalsVisibleTo("Play.Ber.Tests")]
 [assembly: InternalsVisibleTo("Play.Emv.Ber.Tests")]
@@ -181,13 +182,13 @@ public class BerConfiguration
 
         foreach (PrimitiveValue value in primitiveValues)
         {
-            if (encodingIds.Contains(value.GetBerEncodingId()))
+            if (encodingIds.Contains(value.GetEncodingId()))
                 continue;
 
-            if (!unmappedPrimitiveValues.ContainsKey(value.GetBerEncodingId()))
-                unmappedPrimitiveValues.Add(value.GetBerEncodingId(), new List<string> {value.GetType().Name});
+            if (!unmappedPrimitiveValues.ContainsKey(value.GetEncodingId()))
+                unmappedPrimitiveValues.Add(value.GetEncodingId(), new List<string> {value.GetType().Name});
             else
-                unmappedPrimitiveValues[value.GetBerEncodingId()].Add(value.GetType().Name);
+                unmappedPrimitiveValues[value.GetEncodingId()].Add(value.GetType().Name);
         }
 
         StringBuilder builder = new();

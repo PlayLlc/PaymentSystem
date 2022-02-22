@@ -2,19 +2,20 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
 namespace Play.Emv.DataElements.Emv;
 
 /// <summary>
-///     When concatenated with the Acquirer Identifier, uniquely identifies a given merchant
+///     When concatenated with the Acquirer EncodingId, uniquely identifies a given merchant
 /// </summary>
 public record MerchantIdentifier : DataElement<char[]>, IEqualityComparer<MerchantIdentifier>
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecialCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecialCodec.EncodingId;
     public static readonly Tag Tag = 0x9F16;
 
     #endregion
@@ -28,7 +29,7 @@ public record MerchantIdentifier : DataElement<char[]>, IEqualityComparer<Mercha
 
     #region Instance Members
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion

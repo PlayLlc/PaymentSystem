@@ -2,6 +2,7 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
@@ -17,7 +18,7 @@ public record CardholderName : DataElement<char[]>, IEqualityComparer<Cardholder
     /// <value>Hex: 5F20 Decimal: 95-32</value>
     public static readonly Tag Tag = 0x5F20;
 
-    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecialCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecialCodec.EncodingId;
 
     #endregion
 
@@ -30,7 +31,7 @@ public record CardholderName : DataElement<char[]>, IEqualityComparer<Cardholder
 
     #region Instance Members
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion

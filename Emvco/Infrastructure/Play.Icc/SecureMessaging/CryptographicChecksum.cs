@@ -6,6 +6,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 
+using HexadecimalCodec = Play.Ber.Codecs.HexadecimalCodec;
 using PlayEncodingId = Play.Codecs.PlayEncodingId;
 
 namespace Play.Icc.SecureMessaging;
@@ -20,7 +21,7 @@ public record CryptographicChecksum : PrimitiveValue, IEqualityComparer<Cryptogr
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = OctetStringCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = HexadecimalCodec.EncodingId;
     public static readonly Tag Tag = 0x8E;
     protected const byte _MinByteCount = 4;
     protected const byte _MaxByteCount = 8;

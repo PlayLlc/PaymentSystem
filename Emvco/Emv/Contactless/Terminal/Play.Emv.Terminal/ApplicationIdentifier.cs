@@ -11,6 +11,7 @@ using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Icc.FileSystem.DedicatedFiles;
 
+using BinaryCodec = Play.Emv.Ber.Codecs.BinaryCodec;
 using PlayEncodingId = Play.Ber.Codecs.PlayEncodingId;
 
 namespace Play.Emv.Terminal;
@@ -22,7 +23,7 @@ public record ApplicationIdentifier : PrimitiveValue, IEqualityComparer<Applicat
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F06;
 
     #endregion
@@ -45,13 +46,13 @@ public record ApplicationIdentifier : PrimitiveValue, IEqualityComparer<Applicat
     #region Instance Members
 
     public byte[] AsByteArray() => _Value.ToByteArray();
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
 
     public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
         new(PlayEncoding.UnsignedInteger.GetUInt64(_Value.ToByteArray()[..5]));
 
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public int GetValueByteCount() => _Value.GetByteCount();
 
     //public bool IsFullMatch(ApplicationDedicatedFileName other)
@@ -120,7 +121,7 @@ public record ApplicationIdentifier : PrimitiveValue, IEqualityComparer<Applicat
 
         DecodedResult<BigInteger> result = codec.Decode(PlayEncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
-                $"The {nameof(ApplicationIdentifier)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+                $"The {nameof(ApplicationIdentifier)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new ApplicationIdentifier(result.Value);
     }

@@ -3,6 +3,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements.Exceptions;
@@ -16,7 +17,7 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F35;
     private const byte _ByteLength = 2;
 
@@ -39,7 +40,7 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
     #region Instance Members
 
     public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
 
     /// <summary>
     ///     GetCommunicationType
@@ -81,7 +82,7 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
         return result;
     }
 
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -93,7 +94,7 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
 
         DecodedResult<byte> result = _Codec.Decode(PlayEncodingId, value.Span) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
-                $"The {nameof(TerminalType)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
+                $"The {nameof(TerminalType)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new TerminalType(result.Value);
     }

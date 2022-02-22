@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Icc;
@@ -17,7 +18,7 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
     public static readonly ErrorIndication Default = new(0);
     public static readonly Tag Tag = 0xDF8115;
 
@@ -55,14 +56,14 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
 
     #region Instance Members
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public Level1Error GetL1() => Level1Error.Get((byte) (_Value >> 40));
     public Level2Error GetL2() => Level2Error.Get((byte) (_Value >> 32));
     public Level3Error GetL3() => Level3Error.Get((byte) (_Value >> 24));
     public MessageIdentifier GetMessageIdentifier() => MessageIdentifier.Get((byte) _Value);
     public StatusWords GetStatusWords() => new(new StatusWord((byte) (_Value >> 16)), new StatusWord((byte) (_Value >> 8)));
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public bool IsErrorPresent() => (GetL1() != Level1Error.Ok) || (GetL2() != Level2Error.Ok) || (GetL3() != Level3Error.Ok);
 
     private static ulong SetLevel1Error(Level1Error error)
@@ -113,7 +114,7 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
 
         DecodedResult<ulong> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<ulong>
             ?? throw new InvalidOperationException(
-                $"The {nameof(ErrorIndication)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+                $"The {nameof(ErrorIndication)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new ErrorIndication(result.Value);
     }

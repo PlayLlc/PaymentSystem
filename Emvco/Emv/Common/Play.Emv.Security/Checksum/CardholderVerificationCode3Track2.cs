@@ -6,7 +6,9 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Emv.Ber.Codecs;
+using Play.Codecs;
+
+using BinaryCodec = Play.Emv.Ber.Codecs.BinaryCodec;
 
 namespace Play.Emv.Security.Checksum;
 
@@ -18,7 +20,7 @@ public record CardholderVerificationCode3Track2 : PrimitiveValue, IEqualityCompa
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F61;
 
     #endregion
@@ -51,9 +53,9 @@ public record CardholderVerificationCode3Track2 : PrimitiveValue, IEqualityCompa
         return x.Equals(y);
     }
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -75,7 +77,7 @@ public record CardholderVerificationCode3Track2 : PrimitiveValue, IEqualityCompa
 
         DecodedResult<ushort> result = codec.Decode(PlayEncodingId, value) as DecodedResult<ushort>
             ?? throw new InvalidOperationException(
-                $"The {nameof(CardholderVerificationCode3Track2)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+                $"The {nameof(CardholderVerificationCode3Track2)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new CardholderVerificationCode3Track2(result.Value);
     }

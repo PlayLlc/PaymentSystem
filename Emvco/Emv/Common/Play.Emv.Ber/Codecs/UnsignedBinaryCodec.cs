@@ -14,18 +14,18 @@ using PlayEncodingId = Play.Ber.Codecs.PlayEncodingId;
 namespace Play.Emv.Ber.Codecs;
 
 // TODO: Move the actual functionality higher up to Play.Codec
-public class UnsignedBinaryCodec : BerPrimitiveCodec
+public class BinaryCodec : BerPrimitiveCodec
 {
     #region Static Metadata
 
     private static readonly UnsignedInteger _UnsignedIntegerCodec = PlayEncoding.UnsignedInteger;
-    public static readonly PlayEncodingId Identifier = GetEncodingId(typeof(UnsignedBinaryCodec));
+    public static readonly PlayEncodingId EncodingId = GetEncodingId(typeof(BinaryCodec));
 
     #endregion
 
     #region Instance Members
 
-    public override PlayEncodingId GetEncodingId() => Identifier;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override bool IsValid(ReadOnlySpan<byte> value) => true;
 
     public override byte[] Encode<T>(T value)
@@ -108,8 +108,7 @@ public class UnsignedBinaryCodec : BerPrimitiveCodec
         if (byteSize <= Specs.Integer.UInt64.ByteCount)
             return Unsafe.As<T, ulong>(ref value).GetMostSignificantByte();
 
-        throw new InternalEmvEncodingException(
-            $"The {nameof(UnsignedBinaryCodec)} could not find the byte count for a type of {typeof(T)}");
+        throw new InternalEmvEncodingException($"The {nameof(BinaryCodec)} could not find the byte count for a type of {typeof(T)}");
     }
 
     public override ushort GetByteCount<T>(T[] value) => checked((ushort) value.Length);

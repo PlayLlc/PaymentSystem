@@ -2,6 +2,7 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
@@ -14,7 +15,7 @@ public record MerchantNameAndLocation : DataElement<char[]>, IEqualityComparer<M
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecialCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecialCodec.EncodingId;
     public static readonly Tag Tag = 0x9F4E;
 
     #endregion
@@ -28,7 +29,7 @@ public record MerchantNameAndLocation : DataElement<char[]>, IEqualityComparer<M
 
     #region Instance Members
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion

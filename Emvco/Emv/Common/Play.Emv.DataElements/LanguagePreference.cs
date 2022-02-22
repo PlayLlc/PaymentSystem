@@ -1,6 +1,7 @@
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Codecs;
 using Play.Core.Exceptions;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
@@ -19,7 +20,7 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>, IEqualityC
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericCodec.EncodingId;
     public static readonly Tag Tag = 0x5F2D;
 
     #endregion
@@ -72,12 +73,12 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>, IEqualityC
         return result;
     }
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public ushort GetByteCount() => checked((ushort) (_Value.Length * 2));
     public Alpha2LanguageCode[] GetLanguageCodes() => _Value;
     public Alpha2LanguageCode GetPreferredLanguage() => _Value[0];
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     public static bool StaticEquals(LanguagePreference? x, LanguagePreference? y)
     {

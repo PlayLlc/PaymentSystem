@@ -4,6 +4,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements.Exceptions;
@@ -19,7 +20,7 @@ public record AmountAuthorizedNumeric : DataElement<ulong>, IEqualityComparer<Am
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F02;
     private const byte _ByteLength = 6;
 
@@ -35,7 +36,7 @@ public record AmountAuthorizedNumeric : DataElement<ulong>, IEqualityComparer<Am
     #region Instance Members
 
     public Money AsMoney(CultureProfile cultureProfile) => new(_Value, cultureProfile);
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion
@@ -57,7 +58,7 @@ public record AmountAuthorizedNumeric : DataElement<ulong>, IEqualityComparer<Am
         return new AmountAuthorizedNumeric(result.Value);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(GetBerEncodingId(), _Value, _ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(GetEncodingId(), _Value, _ByteLength);
     public override byte[] EncodeValue(BerCodec berCodec) => EncodeValue();
 
     #endregion

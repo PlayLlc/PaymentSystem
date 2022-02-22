@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Ber.Exceptions;
@@ -18,7 +19,7 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F15;
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
     private const byte _ByteLength = 4;
 
     #endregion
@@ -32,11 +33,11 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
 
     #region Instance Members
 
-    public override PlayEncodingId GetBerEncodingId() =>
+    public override PlayEncodingId GetEncodingId() =>
         throw new NotImplementedException("This is an internal configuration object so serialization is not needed");
 
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -47,7 +48,7 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
         Check.Primitive.ForExactLength(value, 4, Tag);
         DecodedResult<ushort> result = _Codec.Decode(PlayEncodingId, value.Span) as DecodedResult<ushort>
             ?? throw new EmvEncodingException(
-                $"The {nameof(MerchantCategoryCode)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+                $"The {nameof(MerchantCategoryCode)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new MerchantCategoryCode(result.Value);
     }
@@ -60,7 +61,7 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
 
         DecodedResult<ushort> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<ushort>
             ?? throw new EmvEncodingException(
-                $"The {nameof(MerchantCategoryCode)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+                $"The {nameof(MerchantCategoryCode)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new MerchantCategoryCode(result.Value);
     }

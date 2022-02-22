@@ -2,6 +2,9 @@
 
 using Play.Ber.Codecs;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
+
+using PlayEncodingId = Play.Ber.Codecs.PlayEncodingId;
 
 namespace Play.Emv.Ber.Codecs;
 
@@ -10,25 +13,25 @@ public class VariableCodec : BerPrimitiveCodec
 {
     #region Static Metadata
 
-    private static readonly OctetStringCodec _OctetStringCodec = new();
-    public static readonly PlayEncodingId Identifier = GetEncodingId(typeof(VariableCodec));
+    private static readonly HexadecimalCodec _HexadecimalCodec = new();
+    public static readonly PlayEncodingId EncodingId = GetEncodingId(typeof(VariableCodec));
 
     #endregion
 
     #region Instance Members
 
-    public override PlayEncodingId GetEncodingId() => Identifier;
-    public override bool IsValid(ReadOnlySpan<byte> value) => _OctetStringCodec.IsValid(value);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override bool IsValid(ReadOnlySpan<byte> value) => _HexadecimalCodec.IsValid(value);
 
     protected override void Validate(ReadOnlySpan<byte> value)
     {
-        _OctetStringCodec.IsValid(value);
+        _HexadecimalCodec.IsValid(value);
     }
 
     public override byte[] Encode<T>(T value) => throw new NotImplementedException();
     public override byte[] Encode<T>(T value, int length) => throw new NotImplementedException();
-    public override byte[] Encode<T>(T[] value) => _OctetStringCodec.Encode(value);
-    public override byte[] Encode<T>(T[] value, int length) => _OctetStringCodec.Encode(value, length);
+    public override byte[] Encode<T>(T[] value) => _HexadecimalCodec.Encode(value);
+    public override byte[] Encode<T>(T[] value, int length) => _HexadecimalCodec.Encode(value, length);
     public override ushort GetByteCount<T>(T value) => throw new NotImplementedException();
     public override ushort GetByteCount<T>(T[] value) => (ushort) (value.Length * Unsafe.SizeOf<T>());
 
@@ -36,7 +39,7 @@ public class VariableCodec : BerPrimitiveCodec
 
     #region Serialization
 
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => _OctetStringCodec.Decode(value);
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => _HexadecimalCodec.Decode(value);
 
     #endregion
 }

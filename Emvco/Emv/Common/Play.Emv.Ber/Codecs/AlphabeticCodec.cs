@@ -17,13 +17,13 @@ public class AlphabeticBerCodec : BerPrimitiveCodec
     #region Static Metadata
 
     private static readonly AlphabeticCodec _AlphabeticBer = PlayCodec.AlphabeticCodec;
-    public static readonly PlayEncodingId Identifier = ()BerEncodingIdType.AlphabeticCodec;
+    public static readonly PlayEncodingId EncodingId = BerEncodingIdType.AlphabeticCodec;
 
     #endregion
 
     #region Instance Members
 
-    public override PlayEncodingId GetEncodingId() => Identifier;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     public override bool IsValid(ReadOnlySpan<byte> value) => _AlphabeticBer.IsValid(value);

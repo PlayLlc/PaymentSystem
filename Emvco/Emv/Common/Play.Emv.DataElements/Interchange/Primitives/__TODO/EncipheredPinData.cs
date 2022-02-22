@@ -8,7 +8,7 @@
 //    #region Static Metadata
 
 //    public static readonly DataFieldId DataFieldId = 52;
-//    public static readonly InterchangeEncodingId EncodingId = BinaryInterchangeDataFieldCodec.Identifier;
+//    public static readonly InterchangeEncodingId EncodingId = BinaryInterchangeDataFieldCodec.EncodingId;
 //    private const ushort _ByteLength = 8;
 
 //    #endregion

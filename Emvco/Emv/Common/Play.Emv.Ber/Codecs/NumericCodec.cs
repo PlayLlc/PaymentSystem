@@ -26,13 +26,13 @@ public class NumericCodec : BerPrimitiveCodec
     #region Static Metadata
 
     private static readonly Numeric _Numeric = PlayEncoding.Numeric;
-    public static readonly PlayEncodingId Identifier = GetEncodingId(typeof(NumericCodec));
+    public static readonly PlayEncodingId EncodingId = GetEncodingId(typeof(NumericCodec));
 
     #endregion
 
     #region Instance Members
 
-    public override PlayEncodingId GetEncodingId() => Identifier;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override bool IsValid(ReadOnlySpan<byte> value) => _Numeric.IsValid(value);
     public override byte[] Encode<T>(T value) => _Numeric.GetBytes(value);
     public override byte[] Encode<T>(T value, int length) => _Numeric.GetBytes(value, length);

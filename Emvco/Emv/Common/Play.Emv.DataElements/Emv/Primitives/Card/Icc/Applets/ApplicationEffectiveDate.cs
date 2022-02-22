@@ -2,6 +2,7 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
@@ -12,7 +13,7 @@ public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<Ap
     #region Static Metadata
 
     public static readonly Tag Tag = 0x5F25;
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
     private const byte _ByteLength = 3;
 
     #endregion
@@ -26,7 +27,7 @@ public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<Ap
 
     #region Instance Members
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion
@@ -52,7 +53,7 @@ public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<Ap
         return new ApplicationEffectiveDate(result.Value);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(GetBerEncodingId(), _Value, _ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(GetEncodingId(), _Value, _ByteLength);
     public override byte[] EncodeValue(BerCodec berCodec) => EncodeValue();
 
     #endregion

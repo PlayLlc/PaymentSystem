@@ -1,5 +1,6 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.Identifiers;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Globalization;
@@ -16,7 +17,7 @@ public abstract record ReaderContactlessTransactionLimit : DataElement<ulong>
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
     protected const byte _ByteLength = 12;
 
     #endregion
@@ -31,9 +32,9 @@ public abstract record ReaderContactlessTransactionLimit : DataElement<ulong>
     #region Instance Members
 
     public Money AsMoney(CultureProfile cultureProfile) => new(_Value, cultureProfile);
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public abstract override Tag GetTag();
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 

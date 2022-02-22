@@ -8,6 +8,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
 
+using HexadecimalCodec = Play.Ber.Codecs.HexadecimalCodec;
 using PlayEncodingId = Play.Codecs.PlayEncodingId;
 
 namespace Play.Icc.FileSystem.DedicatedFiles;
@@ -26,7 +27,7 @@ public record DedicatedFileName : PrimitiveValue, IEqualityComparer<DedicatedFil
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = OctetStringCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = HexadecimalCodec.EncodingId;
 
     /// <summary>
     ///     The Dedicated File Name for the File Control Information of a contact card environment. The FCI is optional in
@@ -70,7 +71,7 @@ public record DedicatedFileName : PrimitiveValue, IEqualityComparer<DedicatedFil
         new(_Value.AsSpan()[..(RegisteredApplicationProviderIndicator.ByteCount - 1)]);
 
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public bool IsFullMatch(DedicatedFileName other) => Equals(other);
 
     public bool IsPartialMatch(DedicatedFileName other)

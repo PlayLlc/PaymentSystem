@@ -2,6 +2,7 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Globalization.Time;
@@ -15,7 +16,7 @@ public record TransactionTime : DataElement<uint>, IEqualityComparer<Transaction
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F21;
     private const byte _ByteLength = 3;
 
@@ -44,7 +45,7 @@ public record TransactionTime : DataElement<uint>, IEqualityComparer<Transaction
         return (uint) result;
     }
 
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion
@@ -78,7 +79,7 @@ public record TransactionTime : DataElement<uint>, IEqualityComparer<Transaction
         return new TransactionTime(result.Value);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(GetBerEncodingId(), _Value, _ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(GetEncodingId(), _Value, _ByteLength);
     public override byte[] EncodeValue(BerCodec berCodec) => EncodeValue();
 
     #endregion
