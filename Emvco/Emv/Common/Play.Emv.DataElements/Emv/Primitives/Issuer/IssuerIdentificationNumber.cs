@@ -16,7 +16,7 @@ public record IssuerIdentificationNumber : DataElement<uint>, IEqualityComparer<
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
     public static readonly Tag Tag = 0x42;
 
     #endregion
@@ -30,7 +30,7 @@ public record IssuerIdentificationNumber : DataElement<uint>, IEqualityComparer<
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
@@ -50,8 +50,8 @@ public record IssuerIdentificationNumber : DataElement<uint>, IEqualityComparer<
 
         Check.Primitive.ForExactLength(value, byteLength, Tag);
 
-        DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value).ToUInt32Result()
-            ?? throw new DataElementNullException(BerEncodingId);
+        DecodedResult<uint> result = _Codec.Decode(PlayEncodingId, value).ToUInt32Result()
+            ?? throw new DataElementNullException(PlayEncodingId);
 
         Check.Primitive.ForCharLength(result.CharCount, charLength, Tag);
 

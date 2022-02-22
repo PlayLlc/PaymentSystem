@@ -16,7 +16,7 @@ public record AdditionalTerminalCapabilities : DataElement<ulong>, IEqualityComp
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F40;
     private const byte _ByteLength = 5;
 
@@ -51,7 +51,7 @@ public record AdditionalTerminalCapabilities : DataElement<ulong>, IEqualityComp
     public bool DisplayAttendant() => _Value.IsBitSet(14);
     public bool DisplayCardholder() => _Value.IsBitSet(13);
     public bool FunctionKeys() => _Value.IsBitSet(21);
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
     public bool Goods() => _Value.IsBitSet(39);
@@ -75,14 +75,14 @@ public record AdditionalTerminalCapabilities : DataElement<ulong>, IEqualityComp
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
+        DecodedResult<ulong> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<ulong>
             ?? throw new InvalidOperationException(
                 $"The {nameof(AdditionalTerminalCapabilities)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new AdditionalTerminalCapabilities(result.Value);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(BerEncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(PlayEncodingId, _Value, _ByteLength);
 
     #endregion
 

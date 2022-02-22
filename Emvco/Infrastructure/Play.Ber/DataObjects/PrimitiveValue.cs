@@ -18,7 +18,7 @@ public abstract record PrimitiveValue : IEqualityComparer<PrimitiveValue>, IEnco
         return new TagLengthValue(GetTag(), EncodeValue(codec));
     }
 
-    public abstract BerEncodingId GetBerEncodingId();
+    public abstract PlayEncodingId GetBerEncodingId();
     public abstract Tag GetTag();
 
     public uint GetTagLengthValueByteCount(BerCodec codec) =>

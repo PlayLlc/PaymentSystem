@@ -6,6 +6,8 @@ using Play.Emv.Ber.Codecs;
 using Play.Emv.DataElements.Emv;
 using Play.Emv.DataElements.Exceptions;
 
+using PlayEncodingId = Play.Ber.Codecs.PlayEncodingId;
+
 namespace Play.Emv.DataElements.Interchange;
 
 /// <summary>
@@ -18,7 +20,7 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
     /// <value>Hex: C2; Decimal: 194; Interchange: 2</value>
     public static readonly Tag Tag = 0xC2;
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
     private const int _MaxByteLength = 10;
 
     #endregion
@@ -32,7 +34,7 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     /// <summary>
@@ -44,7 +46,7 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
     public bool IsIssuerIdentifierMatching(IssuerIdentificationNumber issuerIdentifier)
     {
         // We're 
-        uint thisPan = PlayEncoding.CompressedNumericCodec.DecodeToUInt16(PlayEncoding.CompressedNumericCodec.Encode(_Value));
+        uint thisPan = PlayCodec.CompressedNumericCodec.DecodeToUInt16(PlayCodec.CompressedNumericCodec.Encode(_Value));
 
         return thisPan == (uint) issuerIdentifier;
     }
@@ -67,14 +69,14 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
         // a '0' value. If we encoded that to a numeric value we would truncate the leading zero values
         // and wouldn't be able to encode the value back or do comparisons with the issuer identification
         // number
-        char[] result = PlayEncoding.CompressedNumericCodec.DecodeToChars(value);
+        char[] result = PlayCodec.CompressedNumericCodec.DecodeToChars(value);
 
         Check.Primitive.ForMaxCharLength(result.Length, maxCharLength, Tag);
 
         return new PrimaryAccountNumber(result);
     }
 
-    public new byte[] EncodeValue() => PlayEncoding.NumericCodec.Encode(_Value);
+    public new byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value);
     public override byte[] EncodeValue(BerCodec berCodec) => EncodeValue();
 
     #endregion
@@ -83,7 +85,7 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
 
     public bool Equals(ReadOnlySpan<byte> value)
     {
-        byte[] encoded = PlayEncoding.CompressedNumericCodec.Encode(_Value);
+        byte[] encoded = PlayCodec.CompressedNumericCodec.Encode(_Value);
 
         for (int i = 0; i < value.Length; i++)
         {

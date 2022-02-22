@@ -4,7 +4,7 @@ using Play.Ber.Exceptions;
 
 namespace Play.Ber.Codecs;
 
-public readonly record struct BerEncodingId
+public readonly record struct PlayEncodingId
 {
     #region Instance Values
 
@@ -15,13 +15,12 @@ public readonly record struct BerEncodingId
 
     #region Constructor
 
-    internal BerEncodingId(Type value)
+    internal PlayEncodingId(Type value)
     {
         if (!value.IsSubclassOf(typeof(BerPrimitiveCodec)))
         {
-            throw new
-                BerFormatException(new
-                                       ArgumentOutOfRangeException($"The {nameof(BerEncodingId)} can only be initialized if the argument {nameof(value)} is derived from {nameof(BerPrimitiveCodec)}"));
+            throw new BerFormatException(new ArgumentOutOfRangeException(
+                $"The {nameof(PlayEncodingId)} can only be initialized if the argument {nameof(value)} is derived from {nameof(BerPrimitiveCodec)}"));
         }
 
         _FullyQualifiedName = value.FullName!;
@@ -53,7 +52,7 @@ public readonly record struct BerEncodingId
 
     #region Operator Overrides
 
-    public static implicit operator ulong(BerEncodingId tag) => tag._Id;
+    public static implicit operator ulong(PlayEncodingId tag) => tag._Id;
 
     #endregion
 }

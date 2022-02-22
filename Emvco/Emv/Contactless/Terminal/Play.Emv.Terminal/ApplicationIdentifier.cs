@@ -11,6 +11,8 @@ using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Icc.FileSystem.DedicatedFiles;
 
+using PlayEncodingId = Play.Ber.Codecs.PlayEncodingId;
+
 namespace Play.Emv.Terminal;
 
 /// <summary>
@@ -20,7 +22,7 @@ public record ApplicationIdentifier : PrimitiveValue, IEqualityComparer<Applicat
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F06;
 
     #endregion
@@ -43,7 +45,7 @@ public record ApplicationIdentifier : PrimitiveValue, IEqualityComparer<Applicat
     #region Instance Members
 
     public byte[] AsByteArray() => _Value.ToByteArray();
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
 
     public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
         new(PlayEncoding.UnsignedInteger.GetUInt64(_Value.ToByteArray()[..5]));
@@ -116,15 +118,15 @@ public record ApplicationIdentifier : PrimitiveValue, IEqualityComparer<Applicat
                 $"The Primitive Value {nameof(ApplicationIdentifier)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
         }
 
-        DecodedResult<BigInteger> result = codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
+        DecodedResult<BigInteger> result = codec.Decode(PlayEncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
                 $"The {nameof(ApplicationIdentifier)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new ApplicationIdentifier(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(PlayEncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(PlayEncodingId, _Value, length);
 
     #endregion
 

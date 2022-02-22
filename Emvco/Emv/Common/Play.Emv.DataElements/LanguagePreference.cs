@@ -19,7 +19,7 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>, IEqualityC
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = AlphaNumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericCodec.Identifier;
     public static readonly Tag Tag = 0x5F2D;
 
     #endregion
@@ -72,7 +72,7 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>, IEqualityC
         return result;
     }
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public ushort GetByteCount() => checked((ushort) (_Value.Length * 2));
     public Alpha2LanguageCode[] GetLanguageCodes() => _Value;
     public Alpha2LanguageCode GetPreferredLanguage() => _Value[0];

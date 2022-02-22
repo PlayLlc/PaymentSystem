@@ -13,7 +13,7 @@ namespace Play.Codecs.Strings;
 ///     characters in
 ///     the ranges of 32 - 47, 58 - 64, 91 - 96, 123 - 126
 /// </summary>
-public class NumericSpecial : PlayEncoding
+public class NumericSpecial : PlayCodec
 {
     #region Static Metadata
 

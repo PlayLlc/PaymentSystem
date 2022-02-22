@@ -16,7 +16,7 @@ public class UnsignedIntegerTests
 
     public UnsignedIntegerTests()
     {
-        _SystemUnderTest = PlayEncoding.UnsignedIntegerCodec;
+        _SystemUnderTest = PlayCodec.UnsignedIntegerCodec;
     }
 
     #endregion

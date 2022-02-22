@@ -12,7 +12,7 @@
 //    /// <value>Hex: 0x0004 Decimal: 4</value>
 //    public static readonly Tag Tag = 0x0004;
 
-//    public static readonly BerEncodingId BerEncodingId = AlphaNumericCodec.Identifier;
+//    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericCodec.Identifier;
 //    private const byte _ByteLength = 6;
 
 //    #endregion
@@ -26,7 +26,7 @@
 
 //    #region Instance Members
 
-//    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+//    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
 //    public override Tag GetTag() => Tag;
 
 //    #endregion
@@ -42,14 +42,14 @@
 //        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
 //        DecodedResult<char[]> result = _Codec.Decode(AlphaNumericCodec.Identifier, value) as DecodedResult<char[]>
-//            ?? throw new DataElementNullException(BerEncodingId);
+//            ?? throw new DataElementNullException(PlayEncodingId);
 
 //        Check.Primitive.ForCharLength(result.CharCount, charLength, Tag);
 
 //        return new ElavonRetrievalReferenceNumber(result.Value);
 //    }
 
-//    public new byte[] EncodeValue() => _Codec.EncodeValue(BerEncodingId, _Value, _ByteLength);
+//    public new byte[] EncodeValue() => _Codec.EncodeValue(PlayEncodingId, _Value, _ByteLength);
 
 //    #endregion
 

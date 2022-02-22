@@ -17,7 +17,7 @@ public class AlphaNumericTests
 
     public AlphaNumericTests()
     {
-        _SystemUnderTest = PlayEncoding.AlphaNumericCodec;
+        _SystemUnderTest = PlayCodec.AlphaNumericCodec;
     }
 
     #endregion

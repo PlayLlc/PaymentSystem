@@ -9,7 +9,7 @@ using Play.Core.Extensions;
 
 namespace Play.Codecs.Strings;
 
-public class HexadecimalCodec : PlayEncoding
+public class HexadecimalCodec : PlayCodec
 {
     #region Static Metadata
 

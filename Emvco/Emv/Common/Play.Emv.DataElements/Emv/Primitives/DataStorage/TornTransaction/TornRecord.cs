@@ -15,7 +15,7 @@ public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0xFF8101;
 
     #endregion
@@ -29,7 +29,7 @@ public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     public bool IsMatch(ApplicationPan pan, ApplicationPanSequenceNumber sequenceNumber)

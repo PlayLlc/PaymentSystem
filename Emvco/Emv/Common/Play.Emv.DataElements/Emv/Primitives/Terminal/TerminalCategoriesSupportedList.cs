@@ -17,7 +17,7 @@ public record TerminalCategoriesSupportedList : DataElement<BigInteger>, IEquali
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F3E;
 
     #endregion
@@ -31,7 +31,7 @@ public record TerminalCategoriesSupportedList : DataElement<BigInteger>, IEquali
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     public TerminalCategoryCode[] GetTerminalCategoryCodes()
@@ -66,15 +66,15 @@ public record TerminalCategoriesSupportedList : DataElement<BigInteger>, IEquali
     /// <exception cref="BerException"></exception>
     public static TerminalCategoriesSupportedList Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
-        DecodedResult<BigInteger> result = codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
+        DecodedResult<BigInteger> result = codec.Decode(PlayEncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
                 $"The {nameof(TerminalCategoriesSupportedList)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new TerminalCategoriesSupportedList(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(PlayEncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(PlayEncodingId, _Value, length);
 
     #endregion
 

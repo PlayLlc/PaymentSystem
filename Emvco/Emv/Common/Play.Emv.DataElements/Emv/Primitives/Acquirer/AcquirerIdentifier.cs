@@ -16,7 +16,7 @@ public record AcquirerIdentifier : DataElement<ulong>, IEqualityComparer<Acquire
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
     public static readonly Tag Tag = 0x9F01;
     private const byte _ByteLength = 6;
     private const byte _MinCharLength = 6;
@@ -35,7 +35,7 @@ public record AcquirerIdentifier : DataElement<ulong>, IEqualityComparer<Acquire
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
@@ -66,13 +66,13 @@ public record AcquirerIdentifier : DataElement<ulong>, IEqualityComparer<Acquire
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value).ToUInt64Result()
-            ?? throw new DataElementNullException(BerEncodingId);
+        DecodedResult<ulong> result = _Codec.Decode(PlayEncodingId, value).ToUInt64Result()
+            ?? throw new DataElementNullException(PlayEncodingId);
 
         return new AcquirerIdentifier(result.Value);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(BerEncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(PlayEncodingId, _Value, _ByteLength);
 
     #endregion
 

@@ -16,7 +16,7 @@ public record PunatcTrack1 : DataElement<ulong>
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F63;
     private const byte _ByteLength = 6;
 
@@ -31,7 +31,7 @@ public record PunatcTrack1 : DataElement<ulong>
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion
@@ -46,8 +46,8 @@ public record PunatcTrack1 : DataElement<ulong>
     {
         Check.Primitive.ForMaximumLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value).ToUInt64Result()
-            ?? throw new DataElementNullException(BerEncodingId);
+        DecodedResult<ulong> result = _Codec.Decode(PlayEncodingId, value).ToUInt64Result()
+            ?? throw new DataElementNullException(PlayEncodingId);
 
         return new PunatcTrack1(result.Value);
     }

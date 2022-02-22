@@ -36,21 +36,21 @@ public partial class Randomize
         {
             Span<byte> buffer = Bytes(Specs.Integer.UInt16.ByteCount);
 
-            return PlayEncoding.UnsignedIntegerCodec.GetUInt16(buffer);
+            return PlayCodec.UnsignedIntegerCodec.GetUInt16(buffer);
         }
 
         public static uint UInt()
         {
             Span<byte> buffer = Bytes(Specs.Integer.UInt32.ByteCount);
 
-            return PlayEncoding.UnsignedIntegerCodec.GetUInt32(buffer);
+            return PlayCodec.UnsignedIntegerCodec.GetUInt32(buffer);
         }
 
         public static ulong ULong()
         {
             Span<byte> buffer = Bytes(Specs.Integer.UInt64.ByteCount);
 
-            return PlayEncoding.UnsignedIntegerCodec.GetUInt64(buffer);
+            return PlayCodec.UnsignedIntegerCodec.GetUInt64(buffer);
         }
 
         /// <summary>

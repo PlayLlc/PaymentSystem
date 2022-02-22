@@ -6,7 +6,7 @@ using Play.Codecs.Strings;
 
 namespace Play.Codecs;
 
-public abstract class PlayEncoding
+public abstract class PlayCodec
 {
     #region Static Metadata
 

@@ -12,7 +12,7 @@ public record DataNeeded : DataExchangeRequest
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0xDF8106;
 
     #endregion
@@ -51,7 +51,7 @@ public record DataNeeded : DataExchangeRequest
 
     public Tag[] AsTagArray() => _Value.ToArray();
     public override Tag GetTag() => Tag;
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
 
     /// TODO: What? Book C-2 section 3.6.2 says "The process continues until all records have been read" so unless there's some optimization reason that i find out about later there's not really a use for this
 

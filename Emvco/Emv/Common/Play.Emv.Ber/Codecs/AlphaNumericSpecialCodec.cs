@@ -12,6 +12,8 @@ using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Codecs.Strings;
 
+using PlayEncodingId = Play.Ber.Codecs.PlayEncodingId;
+
 namespace Play.Emv.Ber.Codecs;
 
 // TODO: Move the actual functionality higher up to Play.Codec
@@ -20,13 +22,13 @@ public class AlphaNumericSpecialCodec : BerPrimitiveCodec
     #region Static Metadata
 
     private static readonly AlphaNumericSpecial _AlphanumericSpecial = PlayEncoding.AlphaNumericSpecial;
-    public static readonly BerEncodingId Identifier = GetEncodingId(typeof(AlphaNumericSpecialCodec));
+    public static readonly PlayEncodingId Identifier = GetEncodingId(typeof(AlphaNumericSpecialCodec));
 
     #endregion
 
     #region Instance Members
 
-    public override BerEncodingId GetIdentifier() => Identifier;
+    public override PlayEncodingId GetEncodingId() => Identifier;
     public override bool IsValid(ReadOnlySpan<byte> value) => _AlphanumericSpecial.IsValid(value);
 
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>

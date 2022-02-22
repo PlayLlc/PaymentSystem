@@ -14,7 +14,7 @@ public record DataStorageApplicationCryptogramType : DataElement<byte>, IEqualit
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0xDF8108;
 
     #endregion
@@ -31,7 +31,7 @@ public record DataStorageApplicationCryptogramType : DataElement<byte>, IEqualit
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion

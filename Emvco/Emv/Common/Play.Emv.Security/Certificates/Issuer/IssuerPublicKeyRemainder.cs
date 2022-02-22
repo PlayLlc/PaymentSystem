@@ -18,7 +18,7 @@ public record IssuerPublicKeyRemainder : PrimitiveValue, IEqualityComparer<Issue
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x92;
 
     #endregion
@@ -42,7 +42,7 @@ public record IssuerPublicKeyRemainder : PrimitiveValue, IEqualityComparer<Issue
 
     public byte[] AsByteArray() => _Value;
     public PublicKeyRemainder AsPublicKeyRemainder() => new(_Value);
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public int GetByteCount() => _Value.Length;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
@@ -58,15 +58,15 @@ public record IssuerPublicKeyRemainder : PrimitiveValue, IEqualityComparer<Issue
     /// <exception cref="BerException"></exception>
     public static IssuerPublicKeyRemainder Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
-        DecodedResult<byte[]> result = codec.Decode(BerEncodingId, value) as DecodedResult<byte[]>
+        DecodedResult<byte[]> result = codec.Decode(PlayEncodingId, value) as DecodedResult<byte[]>
             ?? throw new InvalidOperationException(
                 $"The {nameof(IssuerPublicKeyRemainder)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
 
         return new IssuerPublicKeyRemainder(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(PlayEncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(PlayEncodingId, _Value, length);
 
     #endregion
 

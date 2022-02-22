@@ -15,7 +15,7 @@ public record ApplicationPriorityIndicator : DataElement<byte>, IEqualityCompare
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x87;
 
     #endregion
@@ -31,7 +31,7 @@ public record ApplicationPriorityIndicator : DataElement<byte>, IEqualityCompare
 
     public bool ApplicationCannotBeSelectedWithoutConfirmationByTheCardholder() => _Value.IsBitSet(Bits.Eight);
     public ApplicationPriorityRank GetApplicationPriorityRank() => ApplicationPriorityRankTypes.Get(_Value);
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
@@ -64,7 +64,7 @@ public record ApplicationPriorityIndicator : DataElement<byte>, IEqualityCompare
                 $"The Primitive Value {nameof(ApplicationPriorityIndicator)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
-        DecodedResult<byte> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<byte>
+        DecodedResult<byte> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
                 $"The {nameof(ApplicationPriorityIndicator)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 

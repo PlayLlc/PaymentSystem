@@ -49,7 +49,7 @@ public class GetChallengeResponseFactory : TemplateFactory<GetChallengeResponseM
             out ReadOnlyMemory<byte> rawCardholderVerificationCode3Track1))
         {
             cardholderVerificationCode3Track1 =
-                (_Codec.Decode(CardholderVerificationCode3Track1.BerEncodingId, rawCardholderVerificationCode3Track1.Span) as
+                (_Codec.Decode(CardholderVerificationCode3Track1.PlayEncodingId, rawCardholderVerificationCode3Track1.Span) as
                     DecodedResult<CardholderVerificationCode3Track1>)!.Value;
         }
 
@@ -57,7 +57,7 @@ public class GetChallengeResponseFactory : TemplateFactory<GetChallengeResponseM
             out ReadOnlyMemory<byte> rawCardholderVerificationCode3Track2))
         {
             cardholderVerificationCode3Track2 =
-                (_Codec.Decode(CardholderVerificationCode3Track2.BerEncodingId, rawCardholderVerificationCode3Track2.Span) as
+                (_Codec.Decode(CardholderVerificationCode3Track2.PlayEncodingId, rawCardholderVerificationCode3Track2.Span) as
                     DecodedResult<CardholderVerificationCode3Track2>)!.Value;
         }
 
@@ -65,7 +65,7 @@ public class GetChallengeResponseFactory : TemplateFactory<GetChallengeResponseM
             out ReadOnlyMemory<byte> rawPosCardholderInteractionInformation))
         {
             posCardholderInteractionInformation =
-                (_Codec.Decode(PosCardholderInteractionInformation.BerEncodingId, rawPosCardholderInteractionInformation.Span) as
+                (_Codec.Decode(PosCardholderInteractionInformation.PlayEncodingId, rawPosCardholderInteractionInformation.Span) as
                     DecodedResult<PosCardholderInteractionInformation>)!.Value;
         }
 

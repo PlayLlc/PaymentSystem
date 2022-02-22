@@ -15,7 +15,7 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F34;
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     private const ushort _ByteLength = 3;
 
     #endregion
@@ -29,11 +29,11 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => _ByteLength;
     public new ushort GetValueByteCount() => _ByteLength;
-    public byte[] Encode() => _Codec.EncodeValue(BerEncodingId, _Value, _ByteLength);
+    public byte[] Encode() => _Codec.EncodeValue(PlayEncodingId, _Value, _ByteLength);
 
     #endregion
 
@@ -51,14 +51,14 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
                 $"The Primitive Value {nameof(CvmResults)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
         }
 
-        DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
+        DecodedResult<uint> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
                 $"The {nameof(CvmResults)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new CvmResults(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec berCodec) => _Codec.EncodeValue(BerEncodingId, _Value, _ByteLength);
+    public override byte[] EncodeValue(BerCodec berCodec) => _Codec.EncodeValue(PlayEncodingId, _Value, _ByteLength);
 
     #endregion
 

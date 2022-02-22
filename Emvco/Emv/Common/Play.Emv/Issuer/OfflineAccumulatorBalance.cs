@@ -18,7 +18,7 @@ public record OfflineAccumulatorBalance : PrimitiveValue, IEqualityComparer<Offl
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F50;
 
     #endregion
@@ -40,7 +40,7 @@ public record OfflineAccumulatorBalance : PrimitiveValue, IEqualityComparer<Offl
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
@@ -63,7 +63,7 @@ public record OfflineAccumulatorBalance : PrimitiveValue, IEqualityComparer<Offl
                 $"The Primitive Value {nameof(OfflineAccumulatorBalance)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
-        DecodedResult<ulong> result = codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
+        DecodedResult<ulong> result = codec.Decode(PlayEncodingId, value) as DecodedResult<ulong>
             ?? throw new InvalidOperationException(
                 $"The {nameof(OfflineAccumulatorBalance)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
@@ -76,8 +76,8 @@ public record OfflineAccumulatorBalance : PrimitiveValue, IEqualityComparer<Offl
         return new OfflineAccumulatorBalance(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(PlayEncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(PlayEncodingId, _Value, length);
 
     #endregion
 

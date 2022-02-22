@@ -16,7 +16,7 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
 
     /// <summary>
     ///     Also known as 'Cash Withdrawal'
@@ -43,7 +43,7 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
@@ -72,7 +72,7 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
                 $"The Primitive Value {nameof(TransactionType)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
         }
 
-        DecodedResult<byte> result = codec.Decode(BerEncodingId, value) as DecodedResult<byte>
+        DecodedResult<byte> result = codec.Decode(PlayEncodingId, value) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
                 $"The {nameof(TransactionType)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<byte>)}");
 

@@ -15,7 +15,7 @@ public record DiscretionaryData : DataExchangeResponse, IEqualityComparer<Discre
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0xFF8106;
 
     #endregion
@@ -29,7 +29,7 @@ public record DiscretionaryData : DataExchangeResponse, IEqualityComparer<Discre
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 

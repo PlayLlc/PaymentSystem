@@ -14,7 +14,7 @@ public record IssuerCodeTableIndex : DataElement<byte>, IEqualityComparer<Issuer
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
     public static readonly Tag Tag = 0x9F11;
 
     #endregion
@@ -28,7 +28,7 @@ public record IssuerCodeTableIndex : DataElement<byte>, IEqualityComparer<Issuer
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     public static bool StaticEquals(IssuerCodeTableIndex? x, IssuerCodeTableIndex? y)
@@ -61,7 +61,7 @@ public record IssuerCodeTableIndex : DataElement<byte>, IEqualityComparer<Issuer
                 $"The Primitive Value {nameof(IssuerCodeTableIndex)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
-        DecodedResult<byte> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<byte>
+        DecodedResult<byte> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
                 $"The {nameof(IssuerCodeTableIndex)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<byte>)}");
 

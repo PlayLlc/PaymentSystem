@@ -11,7 +11,7 @@ using Play.Core.Specifications;
 namespace Play.Codecs.Strings;
 
 // TODO: need to move Play.Codec.CompressedNumericCodec logic into here
-public class CompressedNumericCodec : PlayEncoding
+public class CompressedNumericCodec : PlayCodec
 {
     #region Static Metadata
 

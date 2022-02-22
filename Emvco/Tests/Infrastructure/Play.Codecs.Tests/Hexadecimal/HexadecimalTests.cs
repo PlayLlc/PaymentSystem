@@ -20,7 +20,7 @@ public class HexadecimalTests
 
     public HexadecimalTests()
     {
-        _SystemUnderTest = PlayEncoding.HexadecimalCodec;
+        _SystemUnderTest = PlayCodec.HexadecimalCodec;
     }
 
     #endregion
@@ -112,7 +112,7 @@ public class HexadecimalTests
     {
         string testData = "Hello how are you people?";
 
-        Assert.Throws<PlayEncodingException>(() => PlayEncoding.HexadecimalCodec.Encode(testData));
+        Assert.Throws<PlayEncodingException>(() => PlayCodec.HexadecimalCodec.Encode(testData));
     }
 
     [Fact]
@@ -120,13 +120,13 @@ public class HexadecimalTests
     {
         const string testData = "FFC•3C01CD6E4F?A13021";
 
-        Assert.Throws<PlayEncodingException>(() => PlayEncoding.HexadecimalCodec.Encode(testData));
+        Assert.Throws<PlayEncodingException>(() => PlayCodec.HexadecimalCodec.Encode(testData));
     }
 
     [Fact]
     public void GivenNullByteArray_GetString_ThrowsArgumentNullException()
     {
-        Assert.Throws<ArgumentNullException>(() => PlayEncoding.HexadecimalCodec.DecodeToString(null));
+        Assert.Throws<ArgumentNullException>(() => PlayCodec.HexadecimalCodec.DecodeToString(null));
     }
 
     [Fact]
@@ -135,7 +135,7 @@ public class HexadecimalTests
         byte[] testData = {0xFF, 0x35, 0xA3, 0xBC};
 
         string expected = "FF35A3BC";
-        string result = PlayEncoding.HexadecimalCodec.DecodeToString(testData);
+        string result = PlayCodec.HexadecimalCodec.DecodeToString(testData);
 
         Assert.Equal(expected, result);
     }
@@ -150,7 +150,7 @@ public class HexadecimalTests
             0xDF, 0xFC, 0x3C, 0x01, 0xCD, 0x6E, 0x4F, 0xA1,
             0x30, 0x21
         };
-        byte[] result = PlayEncoding.HexadecimalCodec.Encode(testData);
+        byte[] result = PlayCodec.HexadecimalCodec.Encode(testData);
 
         Assert.Equal(expected, result);
     }
@@ -164,7 +164,7 @@ public class HexadecimalTests
 
         byte[] expected = {0xF3, 0x7D, 0xCA, 0x34, 0xEA};
 
-        byte[] result = PlayEncoding.HexadecimalCodec.Encode(testData);
+        byte[] result = PlayCodec.HexadecimalCodec.Encode(testData);
 
         Assert.Equal(expected, result);
     }
@@ -179,7 +179,7 @@ public class HexadecimalTests
             0x0F, 0xFC, 0x3C, 0x01, 0xCD, 0x6E, 0x4F, 0xA1,
             0x30, 0x21
         };
-        byte[] result = PlayEncoding.HexadecimalCodec.Encode(testData);
+        byte[] result = PlayCodec.HexadecimalCodec.Encode(testData);
 
         Assert.Equal(expected, result);
     }

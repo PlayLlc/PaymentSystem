@@ -9,7 +9,7 @@ using Play.Core.Specifications;
 namespace Play.Codecs.Strings;
 
 // TODO: need to move Play.Codec.AlphaNumericSpecialCodec logic into here
-public class AlphaNumericSpecialCodec : PlayEncoding
+public class AlphaNumericSpecialCodec : PlayCodec
 {
     #region Static Metadata
 

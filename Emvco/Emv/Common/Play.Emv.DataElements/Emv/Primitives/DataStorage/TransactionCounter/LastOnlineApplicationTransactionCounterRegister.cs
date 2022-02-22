@@ -15,7 +15,7 @@ public record LastOnlineApplicationTransactionCounterRegister : DataElement<usho
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F13;
     private const byte _ByteLength = 2;
 
@@ -30,9 +30,9 @@ public record LastOnlineApplicationTransactionCounterRegister : DataElement<usho
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
-    public byte[] Encode() => _Codec.EncodeValue(BerEncodingId, _Value, _ByteLength);
+    public byte[] Encode() => _Codec.EncodeValue(PlayEncodingId, _Value, _ByteLength);
 
     #endregion
 
@@ -50,7 +50,7 @@ public record LastOnlineApplicationTransactionCounterRegister : DataElement<usho
                 $"The Primitive Value {nameof(LastOnlineApplicationTransactionCounterRegister)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
         }
 
-        DecodedResult<ushort> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
+        DecodedResult<ushort> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<ushort>
             ?? throw new InvalidOperationException(
                 $"The {nameof(LastOnlineApplicationTransactionCounterRegister)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 

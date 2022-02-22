@@ -6,6 +6,8 @@ using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 
+using PlayEncodingId = Play.Codecs.PlayEncodingId;
+
 namespace Play.Icc.SecureMessaging;
 
 /// <summary>

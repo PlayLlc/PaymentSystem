@@ -15,7 +15,7 @@ public record KernelConfiguration : DataElement<byte>, IEqualityComparer<KernelC
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly KernelConfiguration Default = new(0);
     public static readonly Tag Tag = 0xDF811B;
 
@@ -30,7 +30,7 @@ public record KernelConfiguration : DataElement<byte>, IEqualityComparer<KernelC
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
     public bool IsEmvModeContactlessTransactionsNotSupported() => _Value.IsBitSet(Bits.Seven);
@@ -58,15 +58,15 @@ public record KernelConfiguration : DataElement<byte>, IEqualityComparer<KernelC
                 $"The Primitive Value {nameof(KernelConfiguration)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
-        DecodedResult<byte> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<byte>
+        DecodedResult<byte> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
                 $"The {nameof(KernelConfiguration)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new KernelConfiguration(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(PlayEncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(PlayEncodingId, _Value, length);
 
     #endregion
 

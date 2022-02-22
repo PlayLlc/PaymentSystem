@@ -19,7 +19,7 @@ public record ReaderCvmRequiredLimit : DataElement<ulong>, IEqualityComparer<Rea
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F74;
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
     private const byte _ByteLength = 6;
     private const byte _CharLength = 12;
 
@@ -36,7 +36,7 @@ public record ReaderCvmRequiredLimit : DataElement<ulong>, IEqualityComparer<Rea
 
     public Money AsMoney(CultureProfile cultureProfile) => new(_Value, cultureProfile);
     public override Tag GetTag() => Tag;
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
 
     #endregion
 
@@ -50,8 +50,8 @@ public record ReaderCvmRequiredLimit : DataElement<ulong>, IEqualityComparer<Rea
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value).ToUInt64Result()
-            ?? throw new DataElementNullException(BerEncodingId);
+        DecodedResult<ulong> result = _Codec.Decode(PlayEncodingId, value).ToUInt64Result()
+            ?? throw new DataElementNullException(PlayEncodingId);
 
         Check.Primitive.ForCharLength(result.CharCount, _CharLength, Tag);
 

@@ -18,7 +18,7 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
     #region Static Metadata
 
     private static readonly Milliseconds _MinimumValue = new(100);
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly MessageHoldTime MinimumValue = new(_MinimumValue);
     public static readonly Tag Tag = 0xDF812D;
 
@@ -43,7 +43,7 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
     #region Instance Members
 
     public Milliseconds AsMilliseconds() => _Value;
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
 
     /// <summary>
     ///     The hold time in units of 100 ms
@@ -71,8 +71,8 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
                 $"The Primitive Value {nameof(MessageHoldTime)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
-        DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
-            ?? throw new DataElementNullException(BerEncodingId);
+        DecodedResult<uint> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<uint>
+            ?? throw new DataElementNullException(PlayEncodingId);
 
         if (result.CharCount != charLength)
         {

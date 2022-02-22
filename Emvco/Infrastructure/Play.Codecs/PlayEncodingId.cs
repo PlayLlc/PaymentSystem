@@ -19,12 +19,12 @@ public readonly record struct PlayEncodingId
 
     public PlayEncodingId(ReadOnlySpan<char> value)
     {
-        _Value = PlayEncoding.SignedIntegerCodec.GetInt32(PlayEncoding.UnicodeCodec.Encode(value));
+        _Value = PlayCodec.SignedIntegerCodec.GetInt32(PlayCodec.UnicodeCodec.Encode(value));
     }
 
     public PlayEncodingId(Type value)
     {
-        _Value = PlayEncoding.SignedIntegerCodec.GetInt32(PlayEncoding.UnicodeCodec.Encode(value.FullName));
+        _Value = PlayCodec.SignedIntegerCodec.GetInt32(PlayCodec.UnicodeCodec.Encode(value.FullName));
     }
 
     #endregion

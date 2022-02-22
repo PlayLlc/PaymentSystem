@@ -10,7 +10,7 @@ public record Null : PrimitiveValue, IEqualityComparer<Null>
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = OctetStringCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = OctetStringCodec.Identifier;
     public static readonly uint Tag = 0x5;
 
     #endregion
@@ -18,7 +18,7 @@ public record Null : PrimitiveValue, IEqualityComparer<Null>
     #region Instance Members
 
     public byte[] AsRawTlv() => new byte[2] {(byte) Tag, 0x00};
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => 0;
 

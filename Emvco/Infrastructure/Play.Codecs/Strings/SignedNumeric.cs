@@ -16,7 +16,7 @@ namespace Play.Codecs.Strings;
 ///     leading byte that consists of either a 'C' for for a positive credit value or a 'D' for a negative debit value.
 ///     These digits are right justified and padded with leading hexadecimal zeroes
 /// </summary>
-public class SignedNumeric : PlayEncoding
+public class SignedNumeric : PlayCodec
 {
     #region Static Metadata
 

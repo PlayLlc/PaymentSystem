@@ -18,7 +18,7 @@ public record DataStorageVersionNumberTerm : DataElement<byte[]>
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0xDF810D;
 
     #endregion
@@ -32,7 +32,7 @@ public record DataStorageVersionNumberTerm : DataElement<byte[]>
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion

@@ -86,8 +86,8 @@ public class UnsignedIntegerCodec : PlayCodec
 
     #region Metadata
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(UnsignedIntegerCodec));
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public static readonly PlayEncodingId EncodingId = new(typeof(UnsignedIntegerCodec));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = new Dictionary<char, byte>
     {
@@ -384,7 +384,7 @@ public class UnsignedIntegerCodec : PlayCodec
         return charCount;
     }
 
-    public PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
+    public PlayEncodingId GetPlayEncodingId() => EncodingId;
 
     public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
     {

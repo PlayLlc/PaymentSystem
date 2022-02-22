@@ -18,7 +18,7 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F15;
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
     private const byte _ByteLength = 4;
 
     #endregion
@@ -32,7 +32,7 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() =>
+    public override PlayEncodingId GetBerEncodingId() =>
         throw new NotImplementedException("This is an internal configuration object so serialization is not needed");
 
     public override Tag GetTag() => Tag;
@@ -45,7 +45,7 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
     public static MerchantCategoryCode Decode(ReadOnlyMemory<byte> value)
     {
         Check.Primitive.ForExactLength(value, 4, Tag);
-        DecodedResult<ushort> result = _Codec.Decode(BerEncodingId, value.Span) as DecodedResult<ushort>
+        DecodedResult<ushort> result = _Codec.Decode(PlayEncodingId, value.Span) as DecodedResult<ushort>
             ?? throw new EmvEncodingException(
                 $"The {nameof(MerchantCategoryCode)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
@@ -58,7 +58,7 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
     {
         Check.Primitive.ForExactLength(value, 4, Tag);
 
-        DecodedResult<ushort> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
+        DecodedResult<ushort> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<ushort>
             ?? throw new EmvEncodingException(
                 $"The {nameof(MerchantCategoryCode)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 

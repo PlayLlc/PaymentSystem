@@ -19,7 +19,7 @@ public record SignedStaticApplicationData : PrimitiveValue, IEqualityComparer<Si
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x93;
 
     #endregion
@@ -42,7 +42,7 @@ public record SignedStaticApplicationData : PrimitiveValue, IEqualityComparer<Si
     #region Instance Members
 
     public byte[] AsByteArray() => _Value;
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public int GetByteCount() => _Value.Length;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
@@ -57,8 +57,8 @@ public record SignedStaticApplicationData : PrimitiveValue, IEqualityComparer<Si
     /// <exception cref="BerException"></exception>
     public static SignedStaticApplicationData Decode(ReadOnlySpan<byte> value, BerCodec codec) => new(value.ToArray());
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(PlayEncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(PlayEncodingId, _Value, length);
 
     #endregion
 

@@ -8,7 +8,7 @@ using Play.Core.Specifications;
 
 namespace Play.Codecs.Strings;
 
-public class BinaryCodec : PlayEncoding
+public class BinaryCodec : PlayCodec
 {
     #region Static Metadata
 
@@ -61,8 +61,10 @@ public class BinaryCodec : PlayEncoding
     private void Validate(ReadOnlySpan<char> value)
     {
         if ((value.Length % 8) != 0)
+        {
             throw new ArgumentOutOfRangeException(nameof(value),
                 $"The {nameof(BinaryCodec)} Encoding expects a string that is divisible by 8");
+        }
 
         for (int i = 0; i < value.Length; i++)
         {

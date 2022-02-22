@@ -9,6 +9,8 @@ using Play.Core.Extensions;
 using Play.Core.Specifications;
 using Play.Emv.Ber.Exceptions;
 
+using PlayEncodingId = Play.Ber.Codecs.PlayEncodingId;
+
 namespace Play.Emv.Ber.Codecs;
 
 // TODO: Move the actual functionality higher up to Play.Codec
@@ -17,13 +19,13 @@ public class UnsignedBinaryCodec : BerPrimitiveCodec
     #region Static Metadata
 
     private static readonly UnsignedInteger _UnsignedIntegerCodec = PlayEncoding.UnsignedInteger;
-    public static readonly BerEncodingId Identifier = GetEncodingId(typeof(UnsignedBinaryCodec));
+    public static readonly PlayEncodingId Identifier = GetEncodingId(typeof(UnsignedBinaryCodec));
 
     #endregion
 
     #region Instance Members
 
-    public override BerEncodingId GetIdentifier() => Identifier;
+    public override PlayEncodingId GetEncodingId() => Identifier;
     public override bool IsValid(ReadOnlySpan<byte> value) => true;
 
     public override byte[] Encode<T>(T value)

@@ -17,7 +17,7 @@ public class SpanBenchmarks
 
     #region Instance Values
 
-    private HexadecimalCodec _HexadecimalCodec = PlayEncoding.HexadecimalCodec;
+    private HexadecimalCodec _HexadecimalCodec = PlayCodec.HexadecimalCodec;
     private byte[] OneHundred;
     private byte[] OneThousand;
     private byte[] Ten;

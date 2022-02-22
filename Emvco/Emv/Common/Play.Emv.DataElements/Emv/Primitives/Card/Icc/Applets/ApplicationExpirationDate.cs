@@ -16,7 +16,7 @@ public record ApplicationExpirationDate : DataElement<uint>, IEqualityComparer<A
     #region Static Metadata
 
     public static readonly Tag Tag = 0x5F24;
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
     private const byte _ByteLength = 3;
 
     #endregion
@@ -31,7 +31,7 @@ public record ApplicationExpirationDate : DataElement<uint>, IEqualityComparer<A
     #region Instance Members
 
     public bool CombinedDataAuthenticationIndicator() => _Value.IsBitSet(9);
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
 
     public SdsSchemeIndicator GetSdsSchemeIndicator()
     {
@@ -60,7 +60,7 @@ public record ApplicationExpirationDate : DataElement<uint>, IEqualityComparer<A
                 $"The Primitive Value {nameof(ApplicationExpirationDate)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
         }
 
-        DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
+        DecodedResult<uint> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
                 $"The {nameof(ApplicationExpirationDate)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<uint>)}");
 

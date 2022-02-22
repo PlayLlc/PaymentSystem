@@ -16,7 +16,7 @@ public record ApplicationVersionNumberTerminal : DataElement<ushort>, IEqualityC
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F09;
     private const byte _ByteLength = 2;
 
@@ -34,7 +34,7 @@ public record ApplicationVersionNumberTerminal : DataElement<ushort>, IEqualityC
     public bool IsCardholderVerificationIsSupported() => _Value.IsBitSet(5);
     public bool IsCdaSupported() => _Value.IsBitSet(1);
     public bool IsDdaSupported() => _Value.IsBitSet(6);
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
     public bool IsIssuerAuthenticationIsSupported19() => _Value.IsBitSet(3);
@@ -53,8 +53,8 @@ public record ApplicationVersionNumberTerminal : DataElement<ushort>, IEqualityC
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ushort> result = _Codec.Decode(BerEncodingId, value).ToUInt16Result()
-            ?? throw new DataElementNullException(BerEncodingId);
+        DecodedResult<ushort> result = _Codec.Decode(PlayEncodingId, value).ToUInt16Result()
+            ?? throw new DataElementNullException(PlayEncodingId);
 
         return new ApplicationVersionNumberTerminal(result.Value);
     }

@@ -12,7 +12,7 @@ public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<Ap
     #region Static Metadata
 
     public static readonly Tag Tag = 0x5F25;
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
     private const byte _ByteLength = 3;
 
     #endregion
@@ -26,7 +26,7 @@ public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<Ap
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion
@@ -45,7 +45,7 @@ public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<Ap
                 $"The Primitive Value {nameof(ApplicationEffectiveDate)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
         }
 
-        DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
+        DecodedResult<uint> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
                 $"The {nameof(ApplicationEffectiveDate)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<uint>)}");
 

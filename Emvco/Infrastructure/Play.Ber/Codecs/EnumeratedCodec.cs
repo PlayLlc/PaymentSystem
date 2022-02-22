@@ -8,7 +8,7 @@
 //    {
 //        private static readonly string Identifier = typeof(EnumeratedCodec).FullName;
 
-//        public override string GetIdentifier() => Identifier;
+//        public override string GetEncodingId() => Identifier;
 
 //        #region Validation
 

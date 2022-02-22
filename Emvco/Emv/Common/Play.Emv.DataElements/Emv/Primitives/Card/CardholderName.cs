@@ -17,7 +17,7 @@ public record CardholderName : DataElement<char[]>, IEqualityComparer<Cardholder
     /// <value>Hex: 5F20 Decimal: 95-32</value>
     public static readonly Tag Tag = 0x5F20;
 
-    public static readonly BerEncodingId BerEncodingId = AlphaNumericSpecialCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecialCodec.Identifier;
 
     #endregion
 
@@ -30,7 +30,7 @@ public record CardholderName : DataElement<char[]>, IEqualityComparer<Cardholder
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion
@@ -52,7 +52,7 @@ public record CardholderName : DataElement<char[]>, IEqualityComparer<Cardholder
                 $"The Primitive Value {nameof(CardholderName)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
         }
 
-        DecodedResult<char[]> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<char[]>
+        DecodedResult<char[]> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<char[]>
             ?? throw new InvalidOperationException(
                 $"The {nameof(CardholderName)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
 

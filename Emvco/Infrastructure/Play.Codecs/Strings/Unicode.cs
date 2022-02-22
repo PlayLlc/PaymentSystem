@@ -7,7 +7,7 @@ using Play.Core.Specifications;
 
 namespace Play.Codecs.Strings;
 
-public class UnicodeCodec : PlayEncoding
+public class UnicodeCodec : PlayCodec
 {
     #region Static Metadata
 

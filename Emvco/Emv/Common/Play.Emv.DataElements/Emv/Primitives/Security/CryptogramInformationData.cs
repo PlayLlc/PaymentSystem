@@ -16,7 +16,7 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F27;
 
     #endregion
@@ -42,7 +42,7 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
         return (byte) cryptogramTypes;
     }
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
 
     /// <summary>
     ///     GetCryptogramType
@@ -87,14 +87,14 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
                 $"The Primitive Value {nameof(CryptogramInformationData)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
-        DecodedResult<byte> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<byte>
+        DecodedResult<byte> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
                 $"The {nameof(CryptogramInformationData)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new CryptogramInformationData(result.Value);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(BerEncodingId, _Value, 1);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(PlayEncodingId, _Value, 1);
 
     #endregion
 

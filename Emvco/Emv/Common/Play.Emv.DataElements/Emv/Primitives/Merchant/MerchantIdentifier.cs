@@ -14,7 +14,7 @@ public record MerchantIdentifier : DataElement<char[]>, IEqualityComparer<Mercha
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = AlphaNumericSpecialCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecialCodec.Identifier;
     public static readonly Tag Tag = 0x9F16;
 
     #endregion
@@ -28,7 +28,7 @@ public record MerchantIdentifier : DataElement<char[]>, IEqualityComparer<Mercha
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion
@@ -50,7 +50,7 @@ public record MerchantIdentifier : DataElement<char[]>, IEqualityComparer<Mercha
                 $"The Primitive Value {nameof(MerchantIdentifier)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
-        DecodedResult<char[]> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<char[]>
+        DecodedResult<char[]> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<char[]>
             ?? throw new InvalidOperationException(
                 $"The {nameof(MerchantIdentifier)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
 

@@ -17,7 +17,7 @@ public sealed record DataToSend : DataExchangeResponse, IEqualityComparer<DataTo
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = VariableCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = VariableCodec.Identifier;
     public static readonly Tag Tag = 0xFF8104;
 
     #endregion
@@ -35,7 +35,7 @@ public sealed record DataToSend : DataExchangeResponse, IEqualityComparer<DataTo
     #region Instance Members
 
     public TagLengthValue[] AsTagLengthValueArray() => _Value.ToArray();
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion

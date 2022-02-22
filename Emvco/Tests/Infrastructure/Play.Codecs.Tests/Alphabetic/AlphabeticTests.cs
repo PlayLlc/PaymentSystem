@@ -17,7 +17,7 @@ public class AlphabeticTests
 
     public AlphabeticTests()
     {
-        _SystemUnderTest = PlayEncoding.AlphabeticCodec;
+        _SystemUnderTest = PlayCodec.AlphabeticCodec;
     }
 
     #endregion

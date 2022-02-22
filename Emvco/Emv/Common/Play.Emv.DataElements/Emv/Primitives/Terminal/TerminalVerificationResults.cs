@@ -17,7 +17,7 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
     public static readonly Tag Tag = 0x95;
     private const byte _ByteLength = 0x05;
 
@@ -42,7 +42,7 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
     public bool DefaultTransactionCertificateDataObjectListUsed() => _Value.IsBitSet(8);
     public bool DynamicDataAuthenticationFailed() => _Value.IsBitSet(36);
     public bool ExpiredApplication() => _Value.IsBitSet(31);
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
     public bool IccAndTerminalHaveDifferentApplicationVersions() => _Value.IsBitSet(32);
@@ -89,14 +89,14 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
                 $"The Primitive Value {nameof(TerminalVerificationResults)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
         }
 
-        DecodedResult<ulong> result = codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
+        DecodedResult<ulong> result = codec.Decode(PlayEncodingId, value) as DecodedResult<ulong>
             ?? throw new InvalidOperationException(
                 $"The {nameof(TerminalVerificationResults)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new TerminalVerificationResults(result.Value);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(BerEncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(PlayEncodingId, _Value, _ByteLength);
 
     #endregion
 

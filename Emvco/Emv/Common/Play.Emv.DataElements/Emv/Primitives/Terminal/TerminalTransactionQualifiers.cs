@@ -16,7 +16,7 @@ public record TerminalTransactionQualifiers : DataElement<uint>, IEqualityCompar
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F66;
     private const byte _ByteLength = 4;
 
@@ -32,7 +32,7 @@ public record TerminalTransactionQualifiers : DataElement<uint>, IEqualityCompar
     #region Instance Members
 
     public TerminalTransactionQualifiers AsValueCopy() => new(_Value);
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
     public TerminalTransactionQualifiers GetValueCopy() => new(_Value);
@@ -89,14 +89,14 @@ public record TerminalTransactionQualifiers : DataElement<uint>, IEqualityCompar
                 $"The Primitive Value {nameof(TerminalTransactionQualifiers)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
         }
 
-        DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
+        DecodedResult<uint> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
                 $"The {nameof(TerminalTransactionQualifiers)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new TerminalTransactionQualifiers(result.Value);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(BerEncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(PlayEncodingId, _Value, _ByteLength);
 
     #endregion
 

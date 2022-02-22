@@ -15,7 +15,7 @@ public record ApplicationPreferredName : DataElement<char[]>, IEqualityComparer<
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F12;
-    public static readonly BerEncodingId BerEncodingId = AlphaNumericSpecialCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecialCodec.Identifier;
 
     #endregion
 
@@ -28,7 +28,7 @@ public record ApplicationPreferredName : DataElement<char[]>, IEqualityComparer<
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     public static bool StaticEquals(ApplicationPreferredName? x, ApplicationPreferredName? y)
@@ -61,15 +61,15 @@ public record ApplicationPreferredName : DataElement<char[]>, IEqualityComparer<
                 $"The Primitive Value {nameof(ApplicationPreferredName)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
         }
 
-        DecodedResult<char[]> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<char[]>
+        DecodedResult<char[]> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<char[]>
             ?? throw new InvalidOperationException(
                 $"The {nameof(ApplicationPreferredName)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
 
         return new ApplicationPreferredName(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(PlayEncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(PlayEncodingId, _Value, length);
 
     #endregion
 

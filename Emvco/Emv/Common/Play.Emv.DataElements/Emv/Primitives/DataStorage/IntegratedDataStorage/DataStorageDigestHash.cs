@@ -16,7 +16,7 @@ public record DataStorageDigestHash : DataElement<ulong>
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0xDF61;
     private const byte _ByteLength = 8;
 
@@ -31,7 +31,7 @@ public record DataStorageDigestHash : DataElement<ulong>
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion
@@ -42,8 +42,8 @@ public record DataStorageDigestHash : DataElement<ulong>
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value).ToUInt64Result()
-            ?? throw new DataElementNullException(BerEncodingId);
+        DecodedResult<ulong> result = _Codec.Decode(PlayEncodingId, value).ToUInt64Result()
+            ?? throw new DataElementNullException(PlayEncodingId);
 
         return new DataStorageDigestHash(result.Value);
     }

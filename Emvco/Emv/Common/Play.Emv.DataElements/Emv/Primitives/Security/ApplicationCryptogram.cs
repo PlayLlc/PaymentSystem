@@ -15,7 +15,7 @@ public record ApplicationCryptogram : DataElement<ulong>, IEqualityComparer<Appl
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F26;
     private const byte _ByteLength = 8;
 
@@ -30,7 +30,7 @@ public record ApplicationCryptogram : DataElement<ulong>, IEqualityComparer<Appl
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
@@ -46,8 +46,8 @@ public record ApplicationCryptogram : DataElement<ulong>, IEqualityComparer<Appl
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
-            ?? throw new DataElementNullException(BerEncodingId);
+        DecodedResult<ulong> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<ulong>
+            ?? throw new DataElementNullException(PlayEncodingId);
 
         return new ApplicationCryptogram(result.Value);
     }

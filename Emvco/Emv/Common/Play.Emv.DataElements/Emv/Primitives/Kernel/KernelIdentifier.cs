@@ -18,7 +18,7 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
 
     //TODO: figure out the best way to map these values with the logic needed
     public static readonly KernelIdentifier AmericanExpress;
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly KernelIdentifier ChinaUnionPay;
     public static readonly KernelIdentifier Discover;
     public static readonly KernelIdentifier Jcb;
@@ -55,7 +55,7 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
     #region Instance Members
 
     public ShortKernelIdTypes AsKernelId() => ShortKernelIdTypes.Get((byte) _Value);
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
 
     /// <exception cref="InvalidOperationException"></exception>
     public KernelType GetKernelType()
@@ -211,7 +211,7 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
                 $"The Primitive Value {nameof(KernelIdentifier)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
         }
 
-        DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value).ToUInt64Result()
+        DecodedResult<ulong> result = _Codec.Decode(PlayEncodingId, value).ToUInt64Result()
             ?? throw new InvalidOperationException(
                 $"The {nameof(KernelIdentifier)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 

@@ -15,7 +15,7 @@ public record TimeoutValue : DataElement<ushort>, IEqualityComparer<TimeoutValue
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryIntegerCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryIntegerCodec.Identifier;
     public static readonly Tag Tag = 0xDF8127;
     private const byte _ByteLength = 2;
 
@@ -33,7 +33,7 @@ public record TimeoutValue : DataElement<ushort>, IEqualityComparer<TimeoutValue
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
@@ -49,13 +49,13 @@ public record TimeoutValue : DataElement<ushort>, IEqualityComparer<TimeoutValue
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ushort> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
-            ?? throw new DataElementNullException(BerEncodingId);
+        DecodedResult<ushort> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<ushort>
+            ?? throw new DataElementNullException(PlayEncodingId);
 
         return new TimeoutValue(result.Value);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(BerEncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(PlayEncodingId, _Value, _ByteLength);
 
     #endregion
 

@@ -14,14 +14,11 @@ public class EmvCodec : BerCodec
 {
     #region Static Metadata
 
-    public static readonly BerConfiguration Configuration = new(new Dictionary<BerEncodingId, BerPrimitiveCodec>
+    public static readonly BerConfiguration Configuration = new(new Dictionary<PlayEncodingId, BerPrimitiveCodec>
     {
-        {AlphabeticCodec.Identifier, new AlphabeticCodec()},
+        {AlphabeticBerCodec.Identifier, new AlphabeticBerCodec()},
         {AlphaNumericCodec.Identifier, new AlphaNumericCodec()},
-        {
-            AlphaNumericSpecialCodec.Identifier,
-            new AlphaNumericSpecialCodec()
-        },
+        {AlphaNumericSpecialCodec.Identifier, new AlphaNumericSpecialCodec()},
         {CompressedNumericCodec.Identifier, new CompressedNumericCodec()},
         {NumericCodec.Identifier, new NumericCodec()},
         {UnsignedBinaryCodec.Identifier, new UnsignedBinaryCodec()},

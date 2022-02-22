@@ -26,7 +26,7 @@ public abstract record Message
     public ChannelTypeId GetChannelTypeId() => _MessageIdentifier.GetChannelTypeId();
 
     protected static MessageTypeId GetMessageTypeId(Type type) =>
-        new(PlayEncoding.UnsignedIntegerCodec.GetUInt64(PlayEncoding.AsciiCodec.Encode(type.FullName)));
+        new(PlayCodec.UnsignedIntegerCodec.GetUInt64(PlayCodec.AsciiCodec.Encode(type.FullName)));
 
     #endregion
 }

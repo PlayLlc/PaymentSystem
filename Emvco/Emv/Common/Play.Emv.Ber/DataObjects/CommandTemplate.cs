@@ -12,7 +12,7 @@ public record CommandTemplate : DataElement<byte[]>, IEquatable<CommandTemplate>
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x83;
 
     #endregion
@@ -26,7 +26,7 @@ public record CommandTemplate : DataElement<byte[]>, IEquatable<CommandTemplate>
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public int GetByteCount() => _Value.Length;
     public override Tag GetTag() => Tag;
     public byte[] GetValueAsByteArray() => _Value;

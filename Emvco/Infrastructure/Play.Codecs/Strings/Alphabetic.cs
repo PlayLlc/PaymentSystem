@@ -15,7 +15,7 @@ namespace Play.Codecs.Strings;
 /// <remarks>
 ///     Strict parsing is enforced. Exceptions will be raised if invalid data is attempted to be parsed
 /// </remarks>
-public class AlphabeticCodec : PlayEncoding
+public class AlphabeticCodec : PlayCodec
 {
     #region Static Metadata
 

@@ -9,6 +9,8 @@ using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Core.Specifications;
 
+using PlayEncodingId = Play.Codecs.PlayEncodingId;
+
 namespace Play.Icc.FileSystem;
 
 public record FileIdentifier : PrimitiveValue

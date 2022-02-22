@@ -13,7 +13,7 @@ public readonly struct Alpha3LanguageCode
 {
     #region Static Metadata
 
-    private static readonly AlphaNumericCodec _AlphaNumericCodecCodec = PlayEncoding.AlphaNumericCodec;
+    private static readonly AlphaNumericCodec _AlphaNumericCodecCodec = PlayCodec.AlphaNumericCodec;
 
     #endregion
 

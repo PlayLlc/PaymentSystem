@@ -21,7 +21,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0xDF8116;
     private const byte _MessageIdentifierOffset = 160;
     private const byte _StatusOffset = 152;
@@ -45,7 +45,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
     public ulong? GetAmount() =>
         GetValueQualifier() == ValueQualifier.None ? null : ((ulong) (_Value >> _MoneyOffset)).GetMaskedValue(0xFFFF000000000000);
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public static Builder GetBuilder() => new();
     public Builder Update() => new(this);
     public NumericCurrencyCode GetCurrencyCode() => new((ushort) (_Value >> _CurrencyCodeOffset));
@@ -78,7 +78,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
                 $"The Primitive Value {nameof(UserInterfaceRequestData)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
-        DecodedResult<BigInteger> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
+        DecodedResult<BigInteger> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
                 $"The {nameof(UserInterfaceRequestData)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 

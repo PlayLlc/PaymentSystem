@@ -11,13 +11,13 @@ public class VariableCodec : BerPrimitiveCodec
     #region Static Metadata
 
     private static readonly OctetStringCodec _OctetStringCodec = new();
-    public static readonly BerEncodingId Identifier = GetEncodingId(typeof(VariableCodec));
+    public static readonly PlayEncodingId Identifier = GetEncodingId(typeof(VariableCodec));
 
     #endregion
 
     #region Instance Members
 
-    public override BerEncodingId GetIdentifier() => Identifier;
+    public override PlayEncodingId GetEncodingId() => Identifier;
     public override bool IsValid(ReadOnlySpan<byte> value) => _OctetStringCodec.IsValid(value);
 
     protected override void Validate(ReadOnlySpan<byte> value)

@@ -10,13 +10,13 @@ internal sealed class ValueFactory
 {
     #region Instance Values
 
-    private readonly IDictionary<BerEncodingId, BerPrimitiveCodec> _BerPrimitiveCodecMap;
+    private readonly IDictionary<PlayEncodingId, BerPrimitiveCodec> _BerPrimitiveCodecMap;
 
     #endregion
 
     #region Constructor
 
-    public ValueFactory(IDictionary<BerEncodingId, BerPrimitiveCodec> berPrimitiveCodecMap)
+    public ValueFactory(IDictionary<PlayEncodingId, BerPrimitiveCodec> berPrimitiveCodecMap)
     {
         _BerPrimitiveCodecMap = berPrimitiveCodecMap;
     }
@@ -28,16 +28,16 @@ internal sealed class ValueFactory
     /// <summary>
     ///     GetByteCount
     /// </summary>
-    /// <param name="berEncodingId"></param>
+    /// <param name="playEncodingId"></param>
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public ushort GetByteCount<T>(BerEncodingId berEncodingId, T value) where T : struct
+    public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T value) where T : struct
     {
-        if (!_BerPrimitiveCodecMap.TryGetValue(berEncodingId, out BerPrimitiveCodec? codec))
+        if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out BerPrimitiveCodec? codec))
         {
-            throw new
-                BerInternalException($"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {berEncodingId.GetFullyQualifiedName()} and with Id: [{berEncodingId}]");
+            throw new BerInternalException(
+                $"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {playEncodingId.GetFullyQualifiedName()} and with Id: [{playEncodingId}]");
         }
 
         return codec.GetByteCount(value);
@@ -46,64 +46,64 @@ internal sealed class ValueFactory
     /// <summary>
     ///     GetByteCount
     /// </summary>
-    /// <param name="berEncodingId"></param>
+    /// <param name="playEncodingId"></param>
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public ushort GetByteCount<T>(BerEncodingId berEncodingId, T[] value) where T : struct
+    public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T[] value) where T : struct
     {
-        if (!_BerPrimitiveCodecMap.TryGetValue(berEncodingId, out BerPrimitiveCodec? codec))
+        if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out BerPrimitiveCodec? codec))
         {
-            throw new
-                BerConfigurationException($"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {berEncodingId.GetFullyQualifiedName()} and with Id: [{berEncodingId}]");
+            throw new BerConfigurationException(
+                $"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {playEncodingId.GetFullyQualifiedName()} and with Id: [{playEncodingId}]");
         }
 
-        return _BerPrimitiveCodecMap[berEncodingId].GetByteCount(value);
+        return _BerPrimitiveCodecMap[playEncodingId].GetByteCount(value);
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    internal byte[] Encode<T>(BerEncodingId berEncodingId, T value) where T : struct
+    internal byte[] Encode<T>(PlayEncodingId playEncodingId, T value) where T : struct
     {
-        if (!_BerPrimitiveCodecMap.TryGetValue(berEncodingId, out BerPrimitiveCodec? codec))
+        if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out BerPrimitiveCodec? codec))
         {
-            throw new
-                BerConfigurationException($"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {berEncodingId.GetFullyQualifiedName()} and with Id: [{berEncodingId}]");
-        }
-
-        return codec!.Encode(value);
-    }
-
-    /// <exception cref="InvalidOperationException"></exception>
-    internal byte[] Encode<T>(BerEncodingId berEncodingId, T[] value) where T : struct
-    {
-        if (!_BerPrimitiveCodecMap.TryGetValue(berEncodingId, out BerPrimitiveCodec? codec))
-        {
-            throw new
-                BerConfigurationException($"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {berEncodingId.GetFullyQualifiedName()} and with Id: [{berEncodingId}]");
+            throw new BerConfigurationException(
+                $"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {playEncodingId.GetFullyQualifiedName()} and with Id: [{playEncodingId}]");
         }
 
         return codec!.Encode(value);
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    internal byte[] Encode<T>(BerEncodingId berEncodingId, T value, int length) where T : struct
+    internal byte[] Encode<T>(PlayEncodingId playEncodingId, T[] value) where T : struct
     {
-        if (!_BerPrimitiveCodecMap.TryGetValue(berEncodingId, out BerPrimitiveCodec? codec))
+        if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out BerPrimitiveCodec? codec))
         {
-            throw new
-                BerConfigurationException($"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {berEncodingId.GetFullyQualifiedName()} and with Id: [{berEncodingId}]");
+            throw new BerConfigurationException(
+                $"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {playEncodingId.GetFullyQualifiedName()} and with Id: [{playEncodingId}]");
+        }
+
+        return codec!.Encode(value);
+    }
+
+    /// <exception cref="InvalidOperationException"></exception>
+    internal byte[] Encode<T>(PlayEncodingId playEncodingId, T value, int length) where T : struct
+    {
+        if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out BerPrimitiveCodec? codec))
+        {
+            throw new BerConfigurationException(
+                $"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {playEncodingId.GetFullyQualifiedName()} and with Id: [{playEncodingId}]");
         }
 
         return codec!.Encode(value, length);
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    internal byte[] Encode<T>(BerEncodingId berEncodingId, T[] value, int length) where T : struct
+    internal byte[] Encode<T>(PlayEncodingId playEncodingId, T[] value, int length) where T : struct
     {
-        if (!_BerPrimitiveCodecMap.TryGetValue(berEncodingId, out BerPrimitiveCodec? codec))
+        if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out BerPrimitiveCodec? codec))
         {
-            throw new
-                BerConfigurationException($"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {berEncodingId.GetFullyQualifiedName()} and with Id: [{berEncodingId}]");
+            throw new BerConfigurationException(
+                $"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {playEncodingId.GetFullyQualifiedName()} and with Id: [{playEncodingId}]");
         }
 
         return codec!.Encode(value, length);
@@ -114,17 +114,17 @@ internal sealed class ValueFactory
     #region Serialization
 
     /// <summary>
-    ///     The <see cref="BerEncodingId" /> is used to resolve the correct <see cref="BerPrimitiveCodec" /> so the byte
+    ///     The <see cref="PlayEncodingId" /> is used to resolve the correct <see cref="BerPrimitiveCodec" /> so the byte
     ///     sequence provided can be
     ///     decoded according to the format requirements of that codec
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    public DecodedMetadata Decode(BerEncodingId berEncodingId, ReadOnlySpan<byte> value)
+    public DecodedMetadata Decode(PlayEncodingId playEncodingId, ReadOnlySpan<byte> value)
     {
-        if (!_BerPrimitiveCodecMap.TryGetValue(berEncodingId, out BerPrimitiveCodec? codec))
+        if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out BerPrimitiveCodec? codec))
         {
-            throw new
-                InvalidOperationException($"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {berEncodingId.GetFullyQualifiedName()} and with Id: [{berEncodingId}]");
+            throw new InvalidOperationException(
+                $"The value could not be decoded because there is not a {nameof(BerPrimitiveCodec)} configured with the Fully Qualified Name: {playEncodingId.GetFullyQualifiedName()} and with Id: [{playEncodingId}]");
         }
 
         return codec!.Decode(value);

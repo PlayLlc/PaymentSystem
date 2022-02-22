@@ -15,7 +15,7 @@ public record AuthorizationResponseCode : DataElement<ushort>, IEqualityComparer
     #region Static Metadata
 
     public static readonly Tag Tag = 0x8A;
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
 
     #endregion
 
@@ -30,7 +30,7 @@ public record AuthorizationResponseCode : DataElement<ushort>, IEqualityComparer
 
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
     public override Tag GetTag() => Tag;
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
 
     #endregion
 
@@ -51,7 +51,7 @@ public record AuthorizationResponseCode : DataElement<ushort>, IEqualityComparer
                 $"The Primitive Value {nameof(AuthorizationResponseCode)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
-        DecodedResult<ushort> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
+        DecodedResult<ushort> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<ushort>
             ?? throw new InvalidOperationException(
                 $"The {nameof(AuthorizationResponseCode)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 

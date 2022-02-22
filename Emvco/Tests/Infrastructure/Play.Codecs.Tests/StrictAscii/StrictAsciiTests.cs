@@ -18,7 +18,7 @@ public class StrictAsciiTests
 
     public StrictAsciiTests()
     {
-        _SystemUnderTest = PlayEncoding.AsciiCodec;
+        _SystemUnderTest = PlayCodec.AsciiCodec;
     }
 
     #endregion

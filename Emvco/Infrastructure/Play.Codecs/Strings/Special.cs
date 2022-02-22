@@ -9,7 +9,7 @@ using Play.Core.Exceptions;
 
 namespace Play.Codecs.Strings;
 
-public class Special : PlayEncoding
+public class Special : PlayCodec
 {
     #region Static Metadata
 

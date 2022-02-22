@@ -10,12 +10,12 @@ public class DataElementNullException : DataElementException
     #region Constructor
 
     public DataElementNullException(
-        BerEncodingId berEncodingId,
+        PlayEncodingId playEncodingId,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(
         $"{TraceExceptionMessage(typeof(DataElementException), fileName, memberName, lineNumber)} "
-        + $"The Data Element: [{memberName}] could not be initialized because the {nameof(EmvCodec)} with {nameof(BerEncodingId)}: [{berEncodingId}] returned a null value")
+        + $"The Data Element: [{memberName}] could not be initialized because the {nameof(EmvCodec)} with {nameof(PlayEncodingId)}: [{playEncodingId}] returned a null value")
     { }
 
     public DataElementNullException(

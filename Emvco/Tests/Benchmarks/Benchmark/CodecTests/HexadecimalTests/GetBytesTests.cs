@@ -17,7 +17,7 @@ public class GetBytesTests
 
     #region Instance Values
 
-    private readonly HexadecimalCodec _HexadecimalCodec = PlayEncoding.HexadecimalCodec;
+    private readonly HexadecimalCodec _HexadecimalCodec = PlayCodec.HexadecimalCodec;
     private string OneHundred;
     private string OneThousand;
     private string Ten;

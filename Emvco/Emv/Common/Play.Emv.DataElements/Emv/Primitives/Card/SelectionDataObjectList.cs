@@ -21,7 +21,7 @@ public record SelectionDataObjectList : DataObjectList, IEqualityComparer<Select
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F3F;
 
     #endregion
@@ -35,7 +35,7 @@ public record SelectionDataObjectList : DataObjectList, IEqualityComparer<Select
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => checked((ushort) GetByteCount());
 

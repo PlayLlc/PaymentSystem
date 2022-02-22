@@ -17,7 +17,7 @@ public record AmountOtherNumeric : DataElement<ulong>, IEqualityComparer<AmountO
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
     public static readonly Tag Tag = 0x9F03;
 
     #endregion
@@ -32,7 +32,7 @@ public record AmountOtherNumeric : DataElement<ulong>, IEqualityComparer<AmountO
     #region Instance Members
 
     public Money AsMoney(CultureProfile cultureProfile) => new(_Value, cultureProfile);
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
@@ -51,7 +51,7 @@ public record AmountOtherNumeric : DataElement<ulong>, IEqualityComparer<AmountO
 
         Check.Primitive.ForExactLength(value, byteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<ulong>
+        DecodedResult<ulong> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<ulong>
             ?? throw new InvalidOperationException(
                 $"The {nameof(AmountOtherNumeric)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 

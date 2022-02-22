@@ -7,7 +7,7 @@ using Play.Core.Extensions;
 
 namespace Play.Codecs.Integers;
 
-public class UnsignedIntegerCodec : PlayEncoding
+public class UnsignedIntegerCodec : PlayCodec
 {
     #region Static Metadata
 

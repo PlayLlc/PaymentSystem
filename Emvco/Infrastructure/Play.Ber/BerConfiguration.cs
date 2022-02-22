@@ -21,7 +21,7 @@ public class BerConfiguration
 {
     #region Instance Values
 
-    internal IDictionary<BerEncodingId, BerPrimitiveCodec> _PrimitiveCodecMap;
+    internal IDictionary<PlayEncodingId, BerPrimitiveCodec> _PrimitiveCodecMap;
 
     #endregion
 
@@ -43,10 +43,10 @@ public class BerConfiguration
 
         List<BerPrimitiveCodec> berPrimitiveCodecs = GetBerPrimitiveCodecs(assemblies);
 
-        _PrimitiveCodecMap = berPrimitiveCodecs.ToDictionary(a => a.GetIdentifier(), b => b);
+        _PrimitiveCodecMap = berPrimitiveCodecs.ToDictionary(a => a.GetEncodingId(), b => b);
     }
 
-    public BerConfiguration(IDictionary<BerEncodingId, BerPrimitiveCodec> primitiveCodecMap)
+    public BerConfiguration(IDictionary<PlayEncodingId, BerPrimitiveCodec> primitiveCodecMap)
     {
         _PrimitiveCodecMap = primitiveCodecMap;
     }
@@ -102,7 +102,7 @@ public class BerConfiguration
     private void Validate(IList<BerPrimitiveCodec> values)
     {
         ValidateBerPrimitiveCodecIdentifiersAreUnique(values);
-        ValidateBerEncodingIdsAreUnique(values.Select(a => a.GetIdentifier()).ToList());
+        ValidateBerEncodingIdsAreUnique(values.Select(a => a.GetEncodingId()).ToList());
     }
 
     /// <exception cref="BerException"></exception>
@@ -114,9 +114,9 @@ public class BerConfiguration
     }
 
     /// <exception cref="BerException"></exception>
-    private static void ValidateBerEncodingIdsAreUnique(IList<BerEncodingId> mappingValue)
+    private static void ValidateBerEncodingIdsAreUnique(IList<PlayEncodingId> mappingValue)
     {
-        List<BerEncodingId> distinct = mappingValue.Select(a => a).Distinct().ToList();
+        List<PlayEncodingId> distinct = mappingValue.Select(a => a).Distinct().ToList();
 
         if (distinct.Count == mappingValue.Count)
             return;
@@ -126,8 +126,8 @@ public class BerConfiguration
         const string stringSeparator = ", ";
 
         throw new BerFormatException(
-            $"Duplicate {nameof(BerEncodingId)} - There was a problem found while building the encoding mapping for {nameof(BerPrimitiveCodec)} because there were duplicate values. "
-            + $"Here is a list of the {nameof(BerPrimitiveCodec)} that have a {nameof(BerEncodingId)} that is not unique: [{string.Join(stringSeparator, duplicateValues)}");
+            $"Duplicate {nameof(PlayEncodingId)} - There was a problem found while building the encoding mapping for {nameof(BerPrimitiveCodec)} because there were duplicate values. "
+            + $"Here is a list of the {nameof(BerPrimitiveCodec)} that have a {nameof(PlayEncodingId)} that is not unique: [{string.Join(stringSeparator, duplicateValues)}");
     }
 
     /// <summary>
@@ -137,11 +137,11 @@ public class BerConfiguration
     /// <exception cref="BerException"></exception>
     private static void ValidateBerPrimitiveCodecIdentifiersAreUnique(IList<BerPrimitiveCodec> berPrimitiveCodecs)
     {
-        List<BerEncodingId> allTags = berPrimitiveCodecs.Select(a => a.GetIdentifier()).ToList();
-        HashSet<BerEncodingId> uniqueIdentifiers = new();
-        List<BerEncodingId> duplicateIdentifiers = new();
+        List<PlayEncodingId> allTags = berPrimitiveCodecs.Select(a => a.GetEncodingId()).ToList();
+        HashSet<PlayEncodingId> uniqueIdentifiers = new();
+        List<PlayEncodingId> duplicateIdentifiers = new();
 
-        foreach (BerEncodingId tag in allTags)
+        foreach (PlayEncodingId tag in allTags)
         {
             if (!uniqueIdentifiers.Add(tag))
                 duplicateIdentifiers.Add(tag);
@@ -150,17 +150,17 @@ public class BerConfiguration
         if (uniqueIdentifiers.Count == berPrimitiveCodecs.Count)
             return;
 
-        Dictionary<BerEncodingId, string[]> codecsWithTheSameIdentifiers = new();
+        Dictionary<PlayEncodingId, string[]> codecsWithTheSameIdentifiers = new();
 
-        foreach (BerEncodingId identifier in duplicateIdentifiers)
+        foreach (PlayEncodingId identifier in duplicateIdentifiers)
         {
             codecsWithTheSameIdentifiers.Add(identifier,
-                berPrimitiveCodecs.Where(a => a.GetIdentifier() == identifier).Select(a => a.GetType().Name).ToArray());
+                berPrimitiveCodecs.Where(a => a.GetEncodingId() == identifier).Select(a => a.GetType().Name).ToArray());
         }
 
         StringBuilder builder = new();
 
-        foreach (KeyValuePair<BerEncodingId, string[]> keyValue in codecsWithTheSameIdentifiers)
+        foreach (KeyValuePair<PlayEncodingId, string[]> keyValue in codecsWithTheSameIdentifiers)
         {
             const string stringSeparator = ", ";
             builder.Append($"[0x{keyValue.Key}: ");
@@ -176,8 +176,8 @@ public class BerConfiguration
         HashSet<BerPrimitiveCodec> codecs,
         HashSet<PrimitiveValue> primitiveValues)
     {
-        HashSet<BerEncodingId> encodingIds = new(codecs.Select(a => a.GetIdentifier()));
-        Dictionary<BerEncodingId, List<string>> unmappedPrimitiveValues = new();
+        HashSet<PlayEncodingId> encodingIds = new(codecs.Select(a => a.GetEncodingId()));
+        Dictionary<PlayEncodingId, List<string>> unmappedPrimitiveValues = new();
 
         foreach (PrimitiveValue value in primitiveValues)
         {
@@ -192,7 +192,7 @@ public class BerConfiguration
 
         StringBuilder builder = new();
 
-        foreach (KeyValuePair<BerEncodingId, List<string>> keyValue in unmappedPrimitiveValues)
+        foreach (KeyValuePair<PlayEncodingId, List<string>> keyValue in unmappedPrimitiveValues)
         {
             const string stringSeparator = ", ";
             builder.Append($"[0x{keyValue.Key}: ");

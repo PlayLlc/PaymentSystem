@@ -17,7 +17,7 @@ public record IssuerPublicKeyCertificate : DataElement<BigInteger>, IEqualityCom
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x90;
 
     #endregion
@@ -32,7 +32,7 @@ public record IssuerPublicKeyCertificate : DataElement<BigInteger>, IEqualityCom
     #region Instance Members
 
     public byte[] AsByteArray() => _Value.ToByteArray();
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public int GetByteCount() => _Value.GetByteCount();
     public ReadOnlySpan<byte> GetEncipherment() => _Value.ToByteArray().AsSpan();
     public override Tag GetTag() => Tag;
@@ -48,7 +48,7 @@ public record IssuerPublicKeyCertificate : DataElement<BigInteger>, IEqualityCom
     /// <exception cref="BerException"></exception>
     public static IssuerPublicKeyCertificate Decode(ReadOnlySpan<byte> value)
     {
-        DecodedResult<BigInteger> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
+        DecodedResult<BigInteger> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
                 $"The {nameof(IssuerPublicKeyCertificate)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 

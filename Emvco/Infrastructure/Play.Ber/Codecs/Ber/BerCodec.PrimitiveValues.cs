@@ -38,13 +38,13 @@ public partial class BerCodec
         return decodeFunc.Invoke(rawEncoding, this);
     }
 
-    public ushort GetByteCount(BerEncodingId berEncodingId, dynamic value) => _ValueFactory.GetByteCount(berEncodingId, value);
+    public ushort GetByteCount(PlayEncodingId playEncodingId, dynamic value) => _ValueFactory.GetByteCount(playEncodingId, value);
 
-    public ushort GetByteCount<T>(BerEncodingId berEncodingId, T value) where T : struct =>
-        _ValueFactory.GetByteCount(berEncodingId, value);
+    public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T value) where T : struct =>
+        _ValueFactory.GetByteCount(playEncodingId, value);
 
-    public ushort GetByteCount<T>(BerEncodingId berEncodingId, T[] value) where T : struct =>
-        _ValueFactory.GetByteCount(berEncodingId, value);
+    public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T[] value) where T : struct =>
+        _ValueFactory.GetByteCount(playEncodingId, value);
 
     #endregion
 
@@ -57,7 +57,7 @@ public partial class BerCodec
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public DecodedMetadata Decode(BerEncodingId codecIdentifier, ReadOnlySpan<byte> value)
+    public DecodedMetadata Decode(PlayEncodingId codecIdentifier, ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
 
@@ -68,17 +68,17 @@ public partial class BerCodec
     // TODO: This is syntactic sugar and isn't very efficient. Ensure this isn't a bottleneck when
     // TODO: running benchmark testing 
     // TODO: WARNING=================================================================================
-    public byte[] EncodeValue(BerEncodingId berEncodingId, dynamic value) => this.EncodeValue(berEncodingId, value);
-    public byte[] EncodeValue(BerEncodingId berEncodingId, dynamic value, int length) => this.EncodeValue(berEncodingId, value, length);
-    public byte[] EncodeValue<T>(BerEncodingId berEncodingId, T value) where T : struct => _ValueFactory.Encode(berEncodingId, value);
+    public byte[] EncodeValue(PlayEncodingId playEncodingId, dynamic value) => this.EncodeValue(playEncodingId, value);
+    public byte[] EncodeValue(PlayEncodingId playEncodingId, dynamic value, int length) => this.EncodeValue(playEncodingId, value, length);
+    public byte[] EncodeValue<T>(PlayEncodingId playEncodingId, T value) where T : struct => _ValueFactory.Encode(playEncodingId, value);
 
-    public byte[] EncodeValue<T>(BerEncodingId berEncodingId, T value, int length) where T : struct =>
-        _ValueFactory.Encode(berEncodingId, value, length);
+    public byte[] EncodeValue<T>(PlayEncodingId playEncodingId, T value, int length) where T : struct =>
+        _ValueFactory.Encode(playEncodingId, value, length);
 
-    public byte[] EncodeValue<T>(BerEncodingId berEncodingId, T[] value) where T : struct => _ValueFactory.Encode(berEncodingId, value);
+    public byte[] EncodeValue<T>(PlayEncodingId playEncodingId, T[] value) where T : struct => _ValueFactory.Encode(playEncodingId, value);
 
-    public byte[] EncodeValue<T>(BerEncodingId berEncodingId, T[] value, int length) where T : struct =>
-        _ValueFactory.Encode(berEncodingId, value, length);
+    public byte[] EncodeValue<T>(PlayEncodingId playEncodingId, T[] value, int length) where T : struct =>
+        _ValueFactory.Encode(playEncodingId, value, length);
 
     /// <summary>
     ///     EncodeTagLengthValue

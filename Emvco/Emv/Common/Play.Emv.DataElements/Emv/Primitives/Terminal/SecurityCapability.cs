@@ -14,7 +14,7 @@ public record SecurityCapability : DataElement<byte>, IEqualityComparer<Security
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0xDF811F;
 
     #endregion
@@ -28,7 +28,7 @@ public record SecurityCapability : DataElement<byte>, IEqualityComparer<Security
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
@@ -42,7 +42,7 @@ public record SecurityCapability : DataElement<byte>, IEqualityComparer<Security
     /// <exception cref="BerException"></exception>
     public static SecurityCapability Decode(ReadOnlySpan<byte> value)
     {
-        DecodedResult<byte> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<byte>
+        DecodedResult<byte> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
                 $"The {nameof(SecurityCapability)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 

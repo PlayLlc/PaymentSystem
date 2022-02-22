@@ -8,6 +8,8 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
 
+using PlayEncodingId = Play.Codecs.PlayEncodingId;
+
 namespace Play.Icc.FileSystem.DedicatedFiles;
 
 /// <summary>

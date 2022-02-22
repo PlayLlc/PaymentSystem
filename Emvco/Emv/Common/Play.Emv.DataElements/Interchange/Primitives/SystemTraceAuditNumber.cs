@@ -14,7 +14,7 @@ public record SystemTraceAuditNumber : InterchangeDataElement<uint>
     /// <value>Hex: CB Decimal: 203; Interchange: 11</value>
     public static readonly Tag Tag = 0xCB;
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
     private const byte _MinValue = 1;
     private const int _MaxValue = 999999;
     private const int _ByteLength = 3;
@@ -33,7 +33,7 @@ public record SystemTraceAuditNumber : InterchangeDataElement<uint>
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion
@@ -48,8 +48,8 @@ public record SystemTraceAuditNumber : InterchangeDataElement<uint>
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value).ToUInt32Result()
-            ?? throw new DataElementNullException(BerEncodingId);
+        DecodedResult<uint> result = _Codec.Decode(PlayEncodingId, value).ToUInt32Result()
+            ?? throw new DataElementNullException(PlayEncodingId);
 
         return new SystemTraceAuditNumber(result.Value);
     }

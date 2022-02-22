@@ -20,7 +20,7 @@ public record IssuerScriptCommand : DataElement<BigInteger>, IEqualityComparer<I
     #region Static Metadata
 
     public static readonly Tag Tag = 0x86;
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
 
     #endregion
 
@@ -35,7 +35,7 @@ public record IssuerScriptCommand : DataElement<BigInteger>, IEqualityComparer<I
 
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
     public override Tag GetTag() => Tag;
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
 
     #endregion
 
@@ -55,7 +55,7 @@ public record IssuerScriptCommand : DataElement<BigInteger>, IEqualityComparer<I
                 $"The Primitive Value {nameof(IssuerScriptCommand)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be less than {maxByteLength} bytes in length");
         }
 
-        DecodedResult<BigInteger> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
+        DecodedResult<BigInteger> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
                 $"The {nameof(IssuerScriptCommand)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 

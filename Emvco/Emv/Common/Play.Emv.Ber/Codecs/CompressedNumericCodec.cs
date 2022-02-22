@@ -12,6 +12,8 @@ using Play.Core.Extensions;
 using Play.Core.Specifications;
 using Play.Emv.Ber.Exceptions;
 
+using PlayEncodingId = Play.Ber.Codecs.PlayEncodingId;
+
 namespace Play.Emv.Ber.Codecs;
 
 // TODO: Move the actual functionality higher up to Play.Codec
@@ -49,7 +51,7 @@ public class CompressedNumericCodec : BerPrimitiveCodec
     }.ToImmutableSortedDictionary();
 
     private static KeyValuePair<byte, char> _PaddingKey;
-    public static BerEncodingId Identifier = GetEncodingId(typeof(CompressedNumericCodec));
+    public static PlayEncodingId Identifier = GetEncodingId(typeof(CompressedNumericCodec));
     private const byte _PaddingByteKey = 70;
     private const char _PaddingCharKey = 'F';
     private const byte _LeftNibbleMask = (byte) (Bits.Eight | Bits.Seven | Bits.Six | Bits.Five);
@@ -59,7 +61,7 @@ public class CompressedNumericCodec : BerPrimitiveCodec
 
     #region Instance Members
 
-    public override BerEncodingId GetIdentifier() => Identifier;
+    public override PlayEncodingId GetEncodingId() => Identifier;
     public override bool IsValid(ReadOnlySpan<byte> value) => IsNumericEncodingValid(value[..^GetPaddingIndexFromEnd(value)]);
     public override byte[] Encode<T>(T[] value) => throw new NotImplementedException();
     public override byte[] Encode<T>(T[] value, int length) => throw new NotImplementedException();

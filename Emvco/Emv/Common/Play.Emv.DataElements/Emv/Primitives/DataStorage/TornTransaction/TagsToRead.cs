@@ -17,7 +17,7 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<TagsToRead>
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = VariableCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = VariableCodec.Identifier;
     public static readonly Tag Tag = 0xDF8112;
 
     #endregion
@@ -52,7 +52,7 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<TagsToRead>
     #region Instance Members
 
     public override Tag GetTag() => Tag;
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public Tag[] AsTags() => _Value.ToArray();
 
     /// TODO: Exqueese me? Making this guy shut up for now. Book C-2 section 3.6.2 says "The process continues until

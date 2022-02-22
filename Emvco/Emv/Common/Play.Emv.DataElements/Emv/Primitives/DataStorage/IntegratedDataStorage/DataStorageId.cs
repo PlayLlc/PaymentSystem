@@ -19,7 +19,7 @@ public record DataStorageId : DataElement<BigInteger>
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
     public static readonly Tag Tag = 0x9F5E;
     private const byte _MinByteLength = 8;
     private const byte _MaxByteLength = 11;
@@ -35,7 +35,7 @@ public record DataStorageId : DataElement<BigInteger>
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion
@@ -49,8 +49,8 @@ public record DataStorageId : DataElement<BigInteger>
         Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        DecodedResult<BigInteger> result = _Codec.Decode(BerEncodingId, value).ToBigInteger()
-            ?? throw new DataElementNullException(BerEncodingId);
+        DecodedResult<BigInteger> result = _Codec.Decode(PlayEncodingId, value).ToBigInteger()
+            ?? throw new DataElementNullException(PlayEncodingId);
 
         Check.Primitive.ForMinCharLength(result.CharCount, minCharLength, Tag);
         Check.Primitive.ForMaxCharLength(result.CharCount, maxCharLength, Tag);

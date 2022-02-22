@@ -12,7 +12,7 @@ public record ApplicationPanSequenceNumber : DataElement<byte>
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
     public static readonly Tag Tag = 0x5F34;
     private const byte _ByteLength = 1;
 
@@ -27,7 +27,7 @@ public record ApplicationPanSequenceNumber : DataElement<byte>
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion
@@ -42,13 +42,13 @@ public record ApplicationPanSequenceNumber : DataElement<byte>
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<byte> result = _Codec.Decode(BerEncodingId, value).ToByteResult()
-            ?? throw new DataElementNullException(BerEncodingId);
+        DecodedResult<byte> result = _Codec.Decode(PlayEncodingId, value).ToByteResult()
+            ?? throw new DataElementNullException(PlayEncodingId);
 
         return new ApplicationPanSequenceNumber(result.Value);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(BerEncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(PlayEncodingId, _Value, _ByteLength);
 
     #endregion
 

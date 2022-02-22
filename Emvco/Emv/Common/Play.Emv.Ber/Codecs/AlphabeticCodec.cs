@@ -1,14 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 
-using Exceptions;
-using Exceptions;
-using Exceptions;
-using Exceptions;
-using Exceptions;
-using Exceptions;
-using Exceptions;
-using Exceptions;
-
 using Play.Ber.Codecs;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
@@ -16,24 +7,26 @@ using Play.Codecs.Exceptions;
 using Play.Codecs.Strings;
 using Play.Emv.Ber.Exceptions;
 
+using PlayEncodingId = Play.Ber.Codecs.PlayEncodingId;
+
 namespace Play.Emv.Ber.Codecs;
 
 // TODO: Move the actual functionality higher up to Play.Codec
-public class AlphabeticCodec : BerPrimitiveCodec
+public class AlphabeticBerCodec : BerPrimitiveCodec
 {
     #region Static Metadata
 
-    private static readonly Alphabetic _Alphabetic = PlayEncoding.Alphabetic;
-    public static readonly BerEncodingId Identifier = GetEncodingId(typeof(AlphabeticCodec));
+    private static readonly AlphabeticCodec _AlphabeticBer = PlayCodec.AlphabeticCodec;
+    public static readonly PlayEncodingId Identifier = ()BerEncodingIdType.AlphabeticCodec;
 
     #endregion
 
     #region Instance Members
 
-    public override BerEncodingId GetIdentifier() => Identifier;
+    public override PlayEncodingId GetEncodingId() => Identifier;
 
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
-    public override bool IsValid(ReadOnlySpan<byte> value) => _Alphabetic.IsValid(value);
+    public override bool IsValid(ReadOnlySpan<byte> value) => _AlphabeticBer.IsValid(value);
 
     public override byte[] Encode<T>(T value) => throw new NotImplementedException();
     public override byte[] Encode<T>(T value, int length) => throw new NotImplementedException();
@@ -57,7 +50,7 @@ public class AlphabeticCodec : BerPrimitiveCodec
     }
 
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
-    public byte[] Encode(ReadOnlySpan<char> value) => _Alphabetic.GetBytes(value);
+    public byte[] Encode(ReadOnlySpan<char> value) => _AlphabeticBer.GetBytes(value);
 
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value, int length)
@@ -68,12 +61,12 @@ public class AlphabeticCodec : BerPrimitiveCodec
         if (length > value.Length)
         {
             Span<byte> buffer = stackalloc byte[length];
-            _Alphabetic.GetBytes(value).AsSpan().CopyTo(buffer);
+            _AlphabeticBer.GetBytes(value).AsSpan().CopyTo(buffer);
 
             return buffer.ToArray();
         }
 
-        return _Alphabetic.GetBytes(value)[..length];
+        return _AlphabeticBer.GetBytes(value)[..length];
     }
 
     public byte[] Encode(string value) => Encode(value.AsSpan());
@@ -91,7 +84,7 @@ public class AlphabeticCodec : BerPrimitiveCodec
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     private static void Validate(ReadOnlySpan<char> value)
     {
-        if (!_Alphabetic.IsValid(value))
+        if (!_AlphabeticBer.IsValid(value))
             throw new EmvEncodingFormatException(EncodingException.CharacterArrayContainsInvalidValue);
     }
 
@@ -99,7 +92,7 @@ public class AlphabeticCodec : BerPrimitiveCodec
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     protected override void Validate(ReadOnlySpan<byte> value)
     {
-        if (!_Alphabetic.IsValid(value))
+        if (!_AlphabeticBer.IsValid(value))
             throw new EmvEncodingFormatException(EncodingException.CharacterArrayContainsInvalidValue);
     }
 
@@ -108,7 +101,7 @@ public class AlphabeticCodec : BerPrimitiveCodec
     #region Serialization
 
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
-    public override DecodedResult<char[]> Decode(ReadOnlySpan<byte> value) => new(_Alphabetic.GetChars(value), value.Length);
+    public override DecodedResult<char[]> Decode(ReadOnlySpan<byte> value) => new(_AlphabeticBer.GetChars(value), value.Length);
 
     #endregion
 }

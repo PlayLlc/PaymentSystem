@@ -14,7 +14,7 @@ public record ApplicationLabel : DataElement<char[]>, IEqualityComparer<Applicat
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = AlphaNumericSpecialCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecialCodec.Identifier;
     public static readonly Tag Tag = 0x50;
 
     #endregion
@@ -29,7 +29,7 @@ public record ApplicationLabel : DataElement<char[]>, IEqualityComparer<Applicat
     #region Instance Members
 
     public override string ToString() => new(_Value);
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
@@ -52,7 +52,7 @@ public record ApplicationLabel : DataElement<char[]>, IEqualityComparer<Applicat
                 $"The Primitive Value {nameof(ApplicationLabel)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
         }
 
-        DecodedResult<char[]> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<char[]>
+        DecodedResult<char[]> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<char[]>
             ?? throw new InvalidOperationException(
                 $"The {nameof(ApplicationLabel)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
 

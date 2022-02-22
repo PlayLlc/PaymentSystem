@@ -6,7 +6,7 @@ public interface IRetrieveBerEncodingMetadata
 {
     #region Instance Members
 
-    public BerEncodingId GetBerEncodingId();
+    public PlayEncodingId GetBerEncodingId();
 
     #endregion
 }

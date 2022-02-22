@@ -16,7 +16,7 @@ public record TransactionCurrencyExponent : DataElement<byte>, IEqualityComparer
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
     public static readonly Tag Tag = 0x5F36;
     private const byte _ByteLength = 1;
 
@@ -31,7 +31,7 @@ public record TransactionCurrencyExponent : DataElement<byte>, IEqualityComparer
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
@@ -49,8 +49,8 @@ public record TransactionCurrencyExponent : DataElement<byte>, IEqualityComparer
 
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<byte> result = _Codec.Decode(BerEncodingId, value).ToByteResult()
-            ?? throw new DataElementNullException(BerEncodingId);
+        DecodedResult<byte> result = _Codec.Decode(PlayEncodingId, value).ToByteResult()
+            ?? throw new DataElementNullException(PlayEncodingId);
 
         Check.Primitive.ForCharLength(result.CharCount, charLength, Tag);
 

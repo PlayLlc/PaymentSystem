@@ -18,7 +18,7 @@ public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldT
     #region Static Metadata
 
     private static readonly Milliseconds _MinimumValue = new(100);
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0xDF8130;
     private const byte _ByteLength = 3;
 
@@ -43,7 +43,7 @@ public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldT
     #region Instance Members
 
     public Milliseconds AsMilliseconds() => _Value;
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
 
     /// <summary>
     ///     The hold time in units of 100 ms
@@ -66,8 +66,8 @@ public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldT
 
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
-            ?? throw new DataElementNullException(BerEncodingId);
+        DecodedResult<uint> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<uint>
+            ?? throw new DataElementNullException(PlayEncodingId);
 
         Check.Primitive.ForCharLength(result.CharCount, charLength, Tag);
 

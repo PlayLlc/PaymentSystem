@@ -14,7 +14,7 @@ public record MerchantNameAndLocation : DataElement<char[]>, IEqualityComparer<M
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = AlphaNumericSpecialCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecialCodec.Identifier;
     public static readonly Tag Tag = 0x9F4E;
 
     #endregion
@@ -28,7 +28,7 @@ public record MerchantNameAndLocation : DataElement<char[]>, IEqualityComparer<M
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion
@@ -41,7 +41,7 @@ public record MerchantNameAndLocation : DataElement<char[]>, IEqualityComparer<M
     /// <exception cref="BerException"></exception>
     public static MerchantNameAndLocation Decode(ReadOnlySpan<byte> value)
     {
-        DecodedResult<char[]> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<char[]>
+        DecodedResult<char[]> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<char[]>
             ?? throw new InvalidOperationException(
                 $"The {nameof(MerchantNameAndLocation)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
 

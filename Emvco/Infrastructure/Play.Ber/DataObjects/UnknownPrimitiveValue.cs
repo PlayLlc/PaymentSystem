@@ -12,7 +12,7 @@ public record UnknownPrimitiveValue : PrimitiveValue
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId PrimitiveCodecIdentifier = default;
+    public static readonly PlayEncodingId PrimitiveCodecIdentifier = default;
 
     #endregion
 
@@ -52,7 +52,7 @@ public record UnknownPrimitiveValue : PrimitiveValue
         return new TagLengthValue(GetTag(), octetContents);
     }
 
-    public override BerEncodingId GetBerEncodingId() => throw new NotImplementedException();
+    public override PlayEncodingId GetBerEncodingId() => throw new NotImplementedException();
     public override Tag GetTag() => _Tag;
     public override ushort GetValueByteCount(BerCodec codec) => throw new NotImplementedException();
 

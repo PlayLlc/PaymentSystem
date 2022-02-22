@@ -16,7 +16,7 @@ public class SignedIntegerTests
 
     public SignedIntegerTests()
     {
-        _SystemUnderTest = PlayEncoding.SignedIntegerCodec;
+        _SystemUnderTest = PlayCodec.SignedIntegerCodec;
     }
 
     #endregion

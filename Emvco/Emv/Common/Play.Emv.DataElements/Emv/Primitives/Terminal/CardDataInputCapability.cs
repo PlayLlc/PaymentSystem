@@ -14,7 +14,7 @@ public record CardDataInputCapability : DataElement<byte>, IEqualityComparer<Car
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0xDF8117;
 
     #endregion
@@ -28,7 +28,7 @@ public record CardDataInputCapability : DataElement<byte>, IEqualityComparer<Car
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
@@ -42,7 +42,7 @@ public record CardDataInputCapability : DataElement<byte>, IEqualityComparer<Car
     /// <exception cref="BerException"></exception>
     public static CardDataInputCapability Decode(ReadOnlySpan<byte> value)
     {
-        DecodedResult<byte> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<byte>
+        DecodedResult<byte> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
                 $"The {nameof(CardDataInputCapability)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 

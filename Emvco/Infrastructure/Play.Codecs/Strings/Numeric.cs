@@ -18,7 +18,7 @@ namespace Play.Codecs.Strings;
 ///     Example: Amount, Authorized(NumericCodec) is defined as “n 12” with a length of six bytes.
 ///     A value of 12345 is stored in Amount, Authorized (NumericCodec) as Hex '00 00 00 01 23 45'.
 /// </summary>
-public class NumericCodec : PlayEncoding
+public class NumericCodec : PlayCodec
 {
     #region Static Metadata
 

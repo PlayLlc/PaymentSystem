@@ -17,7 +17,7 @@ public readonly struct PinBlock
 
     public PinBlock(ReadOnlySpan<byte> value)
     {
-        _Value = PlayEncoding.UnsignedIntegerCodec.GetUInt64(value);
+        _Value = PlayCodec.UnsignedIntegerCodec.GetUInt64(value);
     }
 
     public PinBlock(ulong value)

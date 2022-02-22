@@ -20,7 +20,7 @@ public record IssuerScriptTemplate1 : DataElement<BigInteger>, IEqualityComparer
     #region Static Metadata
 
     public static readonly Tag Tag = 0x71;
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
 
     #endregion
 
@@ -35,7 +35,7 @@ public record IssuerScriptTemplate1 : DataElement<BigInteger>, IEqualityComparer
 
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
     public override Tag GetTag() => Tag;
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
 
     #endregion
 
@@ -47,7 +47,7 @@ public record IssuerScriptTemplate1 : DataElement<BigInteger>, IEqualityComparer
     /// <exception cref="BerException"></exception>
     public static IssuerScriptTemplate1 Decode(ReadOnlySpan<byte> value)
     {
-        DecodedResult<BigInteger> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<BigInteger>
+        DecodedResult<BigInteger> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
                 $"The {nameof(IssuerScriptTemplate1)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 

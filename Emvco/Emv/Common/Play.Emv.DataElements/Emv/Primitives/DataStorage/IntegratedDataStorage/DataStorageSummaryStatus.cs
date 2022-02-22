@@ -18,7 +18,7 @@ public record DataStorageSummaryStatus : DataElement<byte>
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0xDF810B;
     private const byte _ByteLength = 1;
 
@@ -33,7 +33,7 @@ public record DataStorageSummaryStatus : DataElement<byte>
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public bool IsReadSuccessful() => _Value.IsBitSet(Bits.Eight);
     public bool IsSuccessfulWrite() => _Value.IsBitSet(Bits.Seven);

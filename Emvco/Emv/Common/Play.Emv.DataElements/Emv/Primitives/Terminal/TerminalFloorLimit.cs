@@ -17,7 +17,7 @@ public record TerminalFloorLimit : DataElement<uint>, IEqualityComparer<Terminal
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly Tag Tag = 0x9F1B;
     private const byte _ByteLength = 4;
 
@@ -34,7 +34,7 @@ public record TerminalFloorLimit : DataElement<uint>, IEqualityComparer<Terminal
 
     public Money AsMoney(CultureProfile cultureProfile) => new(_Value, cultureProfile);
     public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
 
@@ -54,7 +54,7 @@ public record TerminalFloorLimit : DataElement<uint>, IEqualityComparer<Terminal
                 $"The Primitive Value {nameof(TerminalFloorLimit)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
         }
 
-        DecodedResult<uint> result = _Codec.Decode(BerEncodingId, value) as DecodedResult<uint>
+        DecodedResult<uint> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
                 $"The {nameof(TerminalFloorLimit)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
 

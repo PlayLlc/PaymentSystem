@@ -7,6 +7,8 @@ using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Icc.FileSystem.DedicatedFiles;
 
+using PlayEncodingId = Play.Ber.Codecs.PlayEncodingId;
+
 namespace Play.Emv.DataElements.Emv;
 
 /// <summary>
@@ -22,7 +24,7 @@ public record ApplicationDedicatedFileName : DataElement<byte[]>, IEqualityCompa
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
 
     /// <summary>
     ///     The ApplicationDedicatedFileName requires a <see cref="RegisteredApplicationProviderIndicator" /> which is 5 bytes
@@ -50,11 +52,11 @@ public record ApplicationDedicatedFileName : DataElement<byte[]>, IEqualityCompa
 
     public byte[] AsByteArray() => _Value.CopyValue();
     public DedicatedFileName AsDedicatedFileName() => new(_Value);
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public int GetByteCount() => _Value.Length;
 
     public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
-        new(PlayEncoding.UnsignedIntegerCodec.GetUInt64(_Value[..5]));
+        new(PlayCodec.UnsignedIntegerCodec.GetUInt64(_Value[..5]));
 
     public override Tag GetTag() => Tag;
     public bool IsFullMatch(ApplicationDedicatedFileName other) => Equals(other);

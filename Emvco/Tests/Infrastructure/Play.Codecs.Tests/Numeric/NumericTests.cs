@@ -17,7 +17,7 @@ public class NumericTests
 
     public NumericTests()
     {
-        _SystemUnderTest = PlayEncoding.NumericCodec;
+        _SystemUnderTest = PlayCodec.NumericCodec;
     }
 
     #endregion

@@ -16,7 +16,7 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
     public static readonly Tag Tag = 0x9F35;
     private const byte _ByteLength = 2;
 
@@ -39,7 +39,7 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
     #region Instance Members
 
     public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
 
     /// <summary>
     ///     GetCommunicationType
@@ -91,7 +91,7 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<byte> result = _Codec.Decode(BerEncodingId, value.Span) as DecodedResult<byte>
+        DecodedResult<byte> result = _Codec.Decode(PlayEncodingId, value.Span) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
                 $"The {nameof(TerminalType)} could not be initialized because the {nameof(UnsignedBinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
@@ -104,8 +104,8 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<byte> result = _Codec.Decode(BerEncodingId, value).ToByteResult()
-            ?? throw new DataElementNullException(BerEncodingId);
+        DecodedResult<byte> result = _Codec.Decode(PlayEncodingId, value).ToByteResult()
+            ?? throw new DataElementNullException(PlayEncodingId);
 
         return new TerminalType(result.Value);
     }

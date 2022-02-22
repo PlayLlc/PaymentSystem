@@ -17,7 +17,7 @@ public record ExtendedSelection : DataElement<byte[]>, IEqualityComparer<Extende
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = UnsignedBinaryCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = UnsignedBinaryCodec.Identifier;
     public static readonly ExtendedSelection Default = new(Array.Empty<byte>());
     public static readonly Tag Tag = 0x9F29;
 
@@ -33,7 +33,7 @@ public record ExtendedSelection : DataElement<byte[]>, IEqualityComparer<Extende
     #region Instance Members
 
     public byte[] AsByteArray() => _Value.CopyValue();
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetBerEncodingId(), _Value);
     public int GetValueByteCount() => _Value.Length;

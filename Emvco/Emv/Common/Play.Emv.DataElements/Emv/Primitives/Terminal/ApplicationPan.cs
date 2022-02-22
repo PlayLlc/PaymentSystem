@@ -17,7 +17,7 @@ public record ApplicationPan : DataElement<BigInteger>
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = NumericCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.Identifier;
     public static readonly Tag Tag = 0x5A;
     private const byte _MaxByteLength = 10;
 
@@ -32,7 +32,7 @@ public record ApplicationPan : DataElement<BigInteger>
 
     #region Instance Members
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion
@@ -47,8 +47,8 @@ public record ApplicationPan : DataElement<BigInteger>
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        DecodedResult<BigInteger> result = _Codec.Decode(BerEncodingId, value).ToBigInteger()
-            ?? throw new DataElementNullException(BerEncodingId);
+        DecodedResult<BigInteger> result = _Codec.Decode(PlayEncodingId, value).ToBigInteger()
+            ?? throw new DataElementNullException(PlayEncodingId);
 
         return new ApplicationPan(result.Value);
     }
