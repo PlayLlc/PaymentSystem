@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Codecs;
+﻿using Play.Codecs;
 using Play.Core;
 
 namespace Play.Ber.Codecs;
 
-public record BerEncodingIdType : EnumObject<Play.Codecs.PlayEncodingId>
+public record BerEncodingIdType : EnumObject<PlayEncodingId>
 {
     #region Static Metadata
 
@@ -33,10 +27,10 @@ public record BerEncodingIdType : EnumObject<Play.Codecs.PlayEncodingId>
         CompressedNumericCodec = new BerEncodingIdType(Play.Codecs.CompressedNumericCodec.EncodingId);
         NumericCodec = new BerEncodingIdType(Play.Codecs.NumericCodec.EncodingId);
         UnsignedBinaryCodec = new BerEncodingIdType(UnsignedIntegerCodec.EncodingId);
-        VariableCodec = new BerEncodingIdType(Play.Codecs.HexadecimalCodec.EncodingId);
+        VariableCodec = new BerEncodingIdType(HexadecimalCodec.EncodingId);
     }
 
-    public BerEncodingIdType(Play.Codecs.PlayEncodingId value) : base(value)
+    public BerEncodingIdType(PlayEncodingId value) : base(value)
     { }
 
     #endregion

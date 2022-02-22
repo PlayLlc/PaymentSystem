@@ -5,7 +5,6 @@ using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Codecs.Strings;
 using Play.Core.Extensions;
-using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Icc;
 

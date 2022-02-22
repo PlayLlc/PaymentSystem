@@ -1,6 +1,5 @@
 ﻿using System;
 
-using Play.Codecs;
 using Play.Core;
 using Play.Messaging;
 

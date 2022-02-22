@@ -6,7 +6,6 @@ using Play.Codecs.Strings;
 using Play.Core.Exceptions;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
-using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Globalization.Language;
 

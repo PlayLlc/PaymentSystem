@@ -1,6 +1,5 @@
 ﻿using System;
 
-using Play.Codecs;
 using Play.Messaging;
 
 namespace Play.Emv.Messaging;

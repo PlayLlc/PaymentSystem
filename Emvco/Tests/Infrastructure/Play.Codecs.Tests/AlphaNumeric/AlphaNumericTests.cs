@@ -1,5 +1,4 @@
-﻿using Play.Codecs.Exceptions;
-using Play.Codecs.Strings;
+﻿using Play.Codecs.Strings;
 
 using Xunit;
 

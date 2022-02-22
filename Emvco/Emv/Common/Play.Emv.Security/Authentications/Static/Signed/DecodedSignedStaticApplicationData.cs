@@ -2,7 +2,6 @@ using System;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
-using Play.Codecs;
 using Play.Encryption.Certificates;
 using Play.Encryption.Hashing;
 using Play.Encryption.Signing;

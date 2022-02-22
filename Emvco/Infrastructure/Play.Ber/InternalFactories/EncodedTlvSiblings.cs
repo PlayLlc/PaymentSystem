@@ -7,7 +7,6 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Codecs.Exceptions;
 using Play.Core.Exceptions;
 
 namespace Play.Ber.InternalFactories;
@@ -91,8 +90,8 @@ public readonly struct EncodedTlvSiblings
         }
 
         throw new BerException($"The Tag provided with a value of {value:X} could not be found"
-                               + $"from the {nameof(BerConfiguration)} mappings provided. Please make sure your {nameof(PrimitiveValue)} and {nameof(ConstructedValue)} objects have the correct "
-                               + "tags and try again");
+            + $"from the {nameof(BerConfiguration)} mappings provided. Please make sure your {nameof(PrimitiveValue)} and {nameof(ConstructedValue)} objects have the correct "
+            + "tags and try again");
     }
 
     public uint[] GetTags()

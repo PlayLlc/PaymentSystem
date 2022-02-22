@@ -1,5 +1,4 @@
-﻿using Play.Ber.Codecs;
-using Play.Codecs;
+﻿using Play.Codecs;
 
 namespace Play.Ber.DataObjects;
 

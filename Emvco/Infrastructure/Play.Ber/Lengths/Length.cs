@@ -5,7 +5,6 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Lengths.Long;
 using Play.Ber.Lengths.Short;
-using Play.Codecs;
 using Play.Core.Extensions;
 
 namespace Play.Ber.Lengths;
@@ -116,7 +115,7 @@ public readonly struct Length
         if (berLength.Length == 0)
         {
             throw new BerFormatException(new ArgumentOutOfRangeException(nameof(berLength),
-                                                                         $"A {nameof(Length)} object cannot be initialized with an empty {nameof(berLength)} argument "));
+                $"A {nameof(Length)} object cannot be initialized with an empty {nameof(berLength)} argument "));
         }
 
         if (ShortLength.IsValid(berLength[0]))
@@ -154,7 +153,7 @@ public readonly struct Length
         if (contentOctets.Length > LongLength.MaxLengthSupported)
         {
             throw new BerFormatException(new ArgumentOutOfRangeException(nameof(contentOctets),
-                                                                         $"This code base supports a TLV with a maximum Length field with {LongLength.MaxLengthSupported} bytes"));
+                $"This code base supports a TLV with a maximum Length field with {LongLength.MaxLengthSupported} bytes"));
         }
 
         if (ShortLength.IsValid(contentOctets.Length))

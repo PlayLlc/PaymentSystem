@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 
 using Play.Codecs.Integers;
 using Play.Codecs.Strings;

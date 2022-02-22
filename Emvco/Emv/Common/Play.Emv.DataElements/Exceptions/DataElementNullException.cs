@@ -1,6 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 
-using Play.Ber.Codecs;
 using Play.Codecs;
 using Play.Emv.Ber;
 

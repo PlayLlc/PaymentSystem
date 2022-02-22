@@ -8,7 +8,6 @@ using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Core.Extensions;
-using Play.Emv.Ber.Codecs;
 using Play.Encryption.Certificates;
 
 using BinaryCodec = Play.Emv.Ber.Codecs.BinaryCodec;

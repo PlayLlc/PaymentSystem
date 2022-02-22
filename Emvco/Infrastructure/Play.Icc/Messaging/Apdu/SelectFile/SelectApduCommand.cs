@@ -1,6 +1,5 @@
 ﻿using System;
 
-using Play.Codecs.Exceptions;
 using Play.Icc.FileSystem;
 using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Icc.FileSystem.ElementaryFiles;

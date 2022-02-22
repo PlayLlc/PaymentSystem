@@ -1,8 +1,6 @@
-using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber.Codecs;
 
 namespace Play.Emv.Ber.DataObjects;
 

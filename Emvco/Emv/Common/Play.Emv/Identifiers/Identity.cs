@@ -1,7 +1,5 @@
 ﻿using System;
 
-using Play.Codecs;
-
 namespace Play.Emv.Identifiers;
 
 public record struct Identity
