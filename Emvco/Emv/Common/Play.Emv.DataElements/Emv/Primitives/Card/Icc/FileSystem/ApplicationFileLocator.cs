@@ -22,7 +22,7 @@ public record ApplicationFileLocator : DataElement<byte[]>, IEqualityComparer<Ap
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = VariableCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BerEncodingIdType.VariableCodec;
     public static readonly Tag Tag = 0x94;
     private const byte _MaxByteLength = 248;
     private const byte _ByteLengthMultiple = 4;

@@ -19,7 +19,7 @@ public record IssuerScriptIdentifier : DataElement<uint>, IEqualityComparer<Issu
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F18;
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
 
     #endregion
 

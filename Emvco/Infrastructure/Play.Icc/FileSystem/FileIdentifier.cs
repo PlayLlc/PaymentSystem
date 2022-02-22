@@ -17,7 +17,7 @@ public record FileIdentifier : PrimitiveValue
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryIntegerCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = BinaryIntegerCodec.Identifier;
     public static readonly FileIdentifier CurrentDedicatedFile = new(new byte[] {0x3F, 0xFF});
     public static readonly FileIdentifier MasterFile = new(new byte[] {0x3F, 0x00});
     public static readonly uint Tag = 0x81;

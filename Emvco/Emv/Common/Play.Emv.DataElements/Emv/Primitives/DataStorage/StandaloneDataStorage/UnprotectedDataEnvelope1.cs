@@ -21,7 +21,7 @@ public record UnprotectedDataEnvelope1 : DataElement<BigInteger>, IEqualityCompa
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F75;
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
 
     #endregion
 

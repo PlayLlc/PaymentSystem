@@ -23,7 +23,7 @@ public record ApplicationDedicatedFileName : DataElement<byte[]>, IEqualityCompa
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
 
     /// <summary>
     ///     The ApplicationDedicatedFileName requires a <see cref="RegisteredApplicationProviderIndicator" /> which is 5 bytes

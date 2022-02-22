@@ -15,7 +15,7 @@ public record IssuerActionCodeOnline : DataElement<ulong>, IEqualityComparer<Iss
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F0F;
 
     #endregion

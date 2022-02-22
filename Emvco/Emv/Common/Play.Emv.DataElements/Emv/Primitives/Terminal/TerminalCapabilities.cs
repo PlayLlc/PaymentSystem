@@ -18,7 +18,7 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F33;
     private const byte _ByteLength = 3;
 

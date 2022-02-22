@@ -17,7 +17,7 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F5D;
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     private const byte _ByteLength = 3;
 
     #endregion

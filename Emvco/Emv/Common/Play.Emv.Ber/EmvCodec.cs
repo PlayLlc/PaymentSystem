@@ -8,29 +8,21 @@ using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 
-using AlphaNumericCodec = Play.Emv.Ber.Codecs.AlphaNumericCodec;
-using AlphaNumericSpecialCodec = Play.Emv.Ber.Codecs.AlphaNumericSpecialCodec;
-using BinaryCodec = Play.Emv.Ber.Codecs.BinaryCodec;
-using CompressedNumericCodec = Play.Emv.Ber.Codecs.CompressedNumericCodec;
-using NumericCodec = Play.Emv.Ber.Codecs.NumericCodec;
-using PlayEncodingId = Play.Ber.Codecs.PlayEncodingId;
-
 namespace Play.Emv.Ber;
 
 public class EmvCodec : BerCodec
 {
     #region Static Metadata
 
-    public static readonly BerConfiguration Configuration = new(new Dictionary<PlayEncodingId, BerPrimitiveCodec>
+    public static readonly BerConfiguration Configuration = new(new Dictionary<PlayEncodingId, PlayCodec>
     {
-        {AlphabeticBerCodec.EncodingId, new AlphabeticBerCodec()},
+        {AlphabeticCodec.EncodingId, new AlphabeticCodec()},
         {AlphaNumericCodec.EncodingId, new AlphaNumericCodec()},
         {AlphaNumericSpecialCodec.EncodingId, new AlphaNumericSpecialCodec()},
         {CompressedNumericCodec.EncodingId, new CompressedNumericCodec()},
         {NumericCodec.EncodingId, new NumericCodec()},
         {BinaryCodec.EncodingId, new BinaryCodec()},
-        {VariableCodec.EncodingId, new VariableCodec()},
-        {HexadecimalCodec.EncodingId, new HexadecimalCodec()}
+        {BerEncodingIdType.VariableCodec, new HexadecimalCodec()}
     });
 
     private static readonly EmvCodec _Codec = new();

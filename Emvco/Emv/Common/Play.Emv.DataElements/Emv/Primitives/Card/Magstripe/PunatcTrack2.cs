@@ -17,7 +17,7 @@ public record PunatcTrack2 : DataElement<ushort>
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F66;
     private const byte _ByteLength = 2;
 

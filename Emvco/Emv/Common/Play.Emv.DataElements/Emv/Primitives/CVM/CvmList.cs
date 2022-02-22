@@ -15,7 +15,7 @@ public record CvmList : DataElement<byte[]>
     /// <value>Hex: 5F20 Decimal: 95-32</value>
     public static readonly Tag Tag = 0x8E;
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     private static readonly byte _MinByteLength = 10;
     private static readonly byte _MaxByteLength = 250;
 

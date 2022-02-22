@@ -17,7 +17,7 @@ public record PostGenAcPutDataStatus : DataElement<byte>, IEqualityComparer<Post
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF810E;
     private const byte _ByteLength = 1;
 

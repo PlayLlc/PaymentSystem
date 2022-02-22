@@ -15,7 +15,7 @@ public record PoiInformation : DataElement<byte[]>, IEqualityComparer<PoiInforma
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x8B;
 
     #endregion

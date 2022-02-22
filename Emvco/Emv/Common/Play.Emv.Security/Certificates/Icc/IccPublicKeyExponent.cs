@@ -20,7 +20,7 @@ public record IccPublicKeyExponent : PrimitiveValue, IEqualityComparer<IccPublic
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F47;
 
     #endregion

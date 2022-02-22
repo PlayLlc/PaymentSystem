@@ -17,7 +17,7 @@ public record TerminalCountryCode : DataElement<NumericCountryCode>, IEqualityCo
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly TerminalCountryCode Default = new(new NumericCountryCode(0));
     public static readonly Tag Tag = 0x9F1A;
     private const byte _ByteLength = 2;

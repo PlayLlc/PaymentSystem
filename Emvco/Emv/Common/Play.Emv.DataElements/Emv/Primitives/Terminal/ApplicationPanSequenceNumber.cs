@@ -12,7 +12,7 @@ public record ApplicationPanSequenceNumber : DataElement<byte>
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x5F34;
     private const byte _ByteLength = 1;
 

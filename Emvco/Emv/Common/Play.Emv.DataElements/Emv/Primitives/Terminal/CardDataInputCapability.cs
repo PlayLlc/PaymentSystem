@@ -15,7 +15,7 @@ public record CardDataInputCapability : DataElement<byte>, IEqualityComparer<Car
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF8117;
 
     #endregion

@@ -20,7 +20,7 @@ public record AmountAuthorizedNumeric : DataElement<ulong>, IEqualityComparer<Am
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F02;
     private const byte _ByteLength = 6;
 

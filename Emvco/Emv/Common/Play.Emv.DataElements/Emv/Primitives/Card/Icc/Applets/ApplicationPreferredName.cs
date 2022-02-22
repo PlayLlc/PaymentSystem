@@ -16,7 +16,7 @@ public record ApplicationPreferredName : DataElement<char[]>, IEqualityComparer<
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F12;
-    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecialCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialCodec.EncodingId;
 
     #endregion
 

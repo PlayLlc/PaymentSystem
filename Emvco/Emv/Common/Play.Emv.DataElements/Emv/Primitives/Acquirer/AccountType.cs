@@ -15,7 +15,7 @@ public record AccountType : DataElement<byte>, IEqualityComparer<AccountType>
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F01;
     public static readonly AccountType Default = new(0);
     public static readonly AccountType Savings = new(10);

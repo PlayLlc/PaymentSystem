@@ -21,7 +21,7 @@ public record IssuerApplicationData : DataElement<BigInteger>, IEqualityComparer
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F10;
 
     #endregion

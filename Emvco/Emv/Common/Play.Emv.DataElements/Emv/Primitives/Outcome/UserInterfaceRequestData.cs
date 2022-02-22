@@ -22,7 +22,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF8116;
     private const byte _MessageIdentifierOffset = 160;
     private const byte _StatusOffset = 152;

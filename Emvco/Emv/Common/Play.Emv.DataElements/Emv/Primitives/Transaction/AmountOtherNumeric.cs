@@ -18,7 +18,7 @@ public record AmountOtherNumeric : DataElement<ulong>, IEqualityComparer<AmountO
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F03;
 
     #endregion

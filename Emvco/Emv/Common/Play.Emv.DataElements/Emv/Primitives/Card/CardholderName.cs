@@ -17,7 +17,7 @@ public record CardholderName : DataElement<char[]>, IEqualityComparer<Cardholder
     /// <value>Hex: 5F20 Decimal: 95-32</value>
     public static readonly Tag Tag = 0x5F20;
 
-    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecialCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialCodec.EncodingId;
 
     #endregion
 

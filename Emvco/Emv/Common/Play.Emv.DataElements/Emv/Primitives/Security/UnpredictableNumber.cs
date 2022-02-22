@@ -16,7 +16,7 @@ public record UnpredictableNumber : DataElement<uint>, IEqualityComparer<Unpredi
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F37;
     private const byte _ByteCount = 4;
 

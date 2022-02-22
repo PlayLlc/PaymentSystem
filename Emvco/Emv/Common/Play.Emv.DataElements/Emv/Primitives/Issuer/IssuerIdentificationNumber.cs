@@ -17,7 +17,7 @@ public record IssuerIdentificationNumber : DataElement<uint>, IEqualityComparer<
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x42;
 
     #endregion

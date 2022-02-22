@@ -19,7 +19,7 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F15;
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     private const byte _ByteLength = 4;
 
     #endregion

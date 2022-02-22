@@ -16,7 +16,7 @@ public record DataStorageRequestedOperatorId : DataElement<ulong>
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F5C;
     private const byte _ByteLength = 8;
 

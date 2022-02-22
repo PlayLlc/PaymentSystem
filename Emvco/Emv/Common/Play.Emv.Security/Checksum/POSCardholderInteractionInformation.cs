@@ -22,7 +22,7 @@ public record PosCardholderInteractionInformation : PrimitiveValue, IEqualityCom
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF4B;
 
     #endregion

@@ -17,7 +17,7 @@ public record CaPublicKeyIndex : DataElement<byte>, IEqualityComparer<CaPublicKe
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly CaPublicKeyIndex Five;
     public static readonly CaPublicKeyIndex Four;
     public static readonly CaPublicKeyIndex One;

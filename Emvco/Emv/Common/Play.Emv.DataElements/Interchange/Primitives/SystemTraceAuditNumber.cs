@@ -14,7 +14,7 @@ public record SystemTraceAuditNumber : InterchangeDataElement<uint>
     /// <value>Hex: CB Decimal: 203; Interchange: 11</value>
     public static readonly Tag Tag = 0xCB;
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     private const byte _MinValue = 1;
     private const int _MaxValue = 999999;
     private const int _ByteLength = 3;

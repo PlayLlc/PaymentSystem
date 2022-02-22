@@ -14,7 +14,7 @@ public record DataStorageApplicationCryptogramType : DataElement<byte>, IEqualit
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF8108;
 
     #endregion

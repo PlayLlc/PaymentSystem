@@ -13,7 +13,7 @@ public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<Ap
     #region Static Metadata
 
     public static readonly Tag Tag = 0x5F25;
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     private const byte _ByteLength = 3;
 
     #endregion

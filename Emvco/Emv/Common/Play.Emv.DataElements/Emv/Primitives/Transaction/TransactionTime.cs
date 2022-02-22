@@ -16,7 +16,7 @@ public record TransactionTime : DataElement<uint>, IEqualityComparer<Transaction
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F21;
     private const byte _ByteLength = 3;
 

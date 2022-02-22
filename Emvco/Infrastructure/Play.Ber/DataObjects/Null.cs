@@ -11,7 +11,7 @@ public record Null : PrimitiveValue, IEqualityComparer<Null>
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = HexadecimalCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = HexadecimalCodec.EncodingId;
     public static readonly uint Tag = 0x5;
 
     #endregion

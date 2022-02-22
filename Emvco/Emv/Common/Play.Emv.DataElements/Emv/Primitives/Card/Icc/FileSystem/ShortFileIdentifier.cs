@@ -17,7 +17,7 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x88;
     private const byte _MinValue = 1;
     private const byte _MaxValue = 30;

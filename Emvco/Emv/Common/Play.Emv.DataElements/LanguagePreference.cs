@@ -20,7 +20,7 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>, IEqualityC
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericCodec.EncodingId;
     public static readonly Tag Tag = 0x5F2D;
 
     #endregion

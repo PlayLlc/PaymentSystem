@@ -14,7 +14,7 @@ public record ResponseMessageTemplateFormat1 : DataElement<byte[]>, IEqualityCom
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = VariableCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BerEncodingIdType.VariableCodec;
     public static readonly Tag Tag = 0x80;
 
     #endregion

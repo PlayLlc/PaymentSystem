@@ -20,7 +20,7 @@ public record IccPinEnciphermentPublicKeyCertificate : PrimitiveValue, IEquality
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F2D;
 
     #endregion

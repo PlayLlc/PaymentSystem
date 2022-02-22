@@ -1,3 +1,4 @@
+using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
@@ -16,7 +17,7 @@ public sealed record DataToSend : DataExchangeResponse, IEqualityComparer<DataTo
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId EncodingId = VariableCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BerEncodingIdType.VariableCodec BerEncodingIdType.VariableCodec;
     public static readonly Tag Tag = 0xFF8104;
 
     #endregion

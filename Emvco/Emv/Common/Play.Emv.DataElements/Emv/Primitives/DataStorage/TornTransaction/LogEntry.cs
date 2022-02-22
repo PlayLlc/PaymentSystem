@@ -16,7 +16,7 @@ public record LogEntry : DataElement<ushort>, IEqualityComparer<LogEntry>
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F4D;
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
 
     #endregion
 

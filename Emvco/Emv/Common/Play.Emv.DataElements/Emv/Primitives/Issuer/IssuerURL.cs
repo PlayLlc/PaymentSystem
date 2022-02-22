@@ -16,7 +16,7 @@ public record IssuerUrl : DataElement<char[]>, IEqualityComparer<IssuerUrl>
     #region Static Metadata
 
     public static readonly Tag Tag = 0x5F50;
-    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecialCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialCodec.EncodingId;
 
     #endregion
 

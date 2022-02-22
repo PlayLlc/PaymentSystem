@@ -13,7 +13,7 @@ public class StrictAsciiCodec
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(StrictAsciiCodec));
+    public static readonly PlayEncodingId EncodingId = new(typeof(StrictAsciiCodec));
     private static readonly Encoding _ErrorDetectingEncoder = GetEncoder();
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMappers =

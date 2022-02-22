@@ -17,7 +17,7 @@ public record ApplicationExpirationDate : DataElement<uint>, IEqualityComparer<A
     #region Static Metadata
 
     public static readonly Tag Tag = 0x5F24;
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     private const byte _ByteLength = 3;
 
     #endregion

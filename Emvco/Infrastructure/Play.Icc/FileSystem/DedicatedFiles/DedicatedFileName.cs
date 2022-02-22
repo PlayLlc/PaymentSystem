@@ -27,7 +27,7 @@ public record DedicatedFileName : PrimitiveValue, IEqualityComparer<DedicatedFil
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = HexadecimalCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = HexadecimalCodec.EncodingId;
 
     /// <summary>
     ///     The Dedicated File Name for the File Control Information of a contact card environment. The FCI is optional in

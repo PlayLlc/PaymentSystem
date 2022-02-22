@@ -16,7 +16,7 @@ public record LastOnlineApplicationTransactionCounterRegister : DataElement<usho
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F13;
     private const byte _ByteLength = 2;
 

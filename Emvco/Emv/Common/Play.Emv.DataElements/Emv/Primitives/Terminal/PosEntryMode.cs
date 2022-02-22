@@ -13,7 +13,7 @@ public record PosEntryMode : DataElement<byte>, IEqualityComparer<PosEntryMode>
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F39;
     private const byte _ByteLength = 1;
 

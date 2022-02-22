@@ -16,7 +16,7 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F34;
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     private const ushort _ByteLength = 3;
 
     #endregion

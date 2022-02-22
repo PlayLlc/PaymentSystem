@@ -21,7 +21,7 @@ public record TerminalActionCodeDenial : PrimitiveValue, IEqualityComparer<Termi
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly TerminalActionCodeDenial Default = new(0x840000000C);
     public static readonly Tag Tag = 0xDF8121;
 

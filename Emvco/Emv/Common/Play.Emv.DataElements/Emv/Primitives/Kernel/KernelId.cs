@@ -16,7 +16,7 @@ public record KernelId : DataElement<byte>, IEqualityComparer<KernelId>
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF810C;
     public static readonly KernelId Unavailable = new(0);
 

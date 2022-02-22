@@ -17,7 +17,7 @@ public record TransactionCurrencyCode : DataElement<NumericCurrencyCode>, IEqual
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x5F2A;
     private const byte _ByteLength = 0x02;
 

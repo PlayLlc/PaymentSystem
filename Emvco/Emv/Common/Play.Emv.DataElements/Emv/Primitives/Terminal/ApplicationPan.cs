@@ -17,7 +17,7 @@ public record ApplicationPan : DataElement<BigInteger>
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x5A;
     private const byte _MaxByteLength = 10;
 

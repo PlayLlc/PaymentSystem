@@ -14,7 +14,7 @@ public record MerchantIdentifier : DataElement<char[]>, IEqualityComparer<Mercha
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecialCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialCodec.EncodingId;
     public static readonly Tag Tag = 0x9F16;
 
     #endregion

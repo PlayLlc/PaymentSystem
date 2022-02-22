@@ -18,7 +18,7 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly ErrorIndication Default = new(0);
     public static readonly Tag Tag = 0xDF8115;
 

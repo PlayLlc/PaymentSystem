@@ -20,7 +20,7 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
     /// <value>Hex: C2; Decimal: 194; Interchange: 2</value>
     public static readonly Tag Tag = 0xC2;
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     private const int _MaxByteLength = 10;
 
     #endregion

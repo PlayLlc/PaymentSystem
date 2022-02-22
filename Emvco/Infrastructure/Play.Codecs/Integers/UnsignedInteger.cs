@@ -11,7 +11,7 @@ public class UnsignedIntegerCodec : PlayCodec
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(UnsignedIntegerCodec));
+    public static readonly PlayEncodingId EncodingId = new(typeof(UnsignedIntegerCodec));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = new Dictionary<char, byte>
     {

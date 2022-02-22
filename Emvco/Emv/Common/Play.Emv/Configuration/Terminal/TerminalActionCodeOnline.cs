@@ -21,7 +21,7 @@ public record TerminalActionCodeOnline : PrimitiveValue, IEqualityComparer<Termi
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF8122;
 
     #endregion

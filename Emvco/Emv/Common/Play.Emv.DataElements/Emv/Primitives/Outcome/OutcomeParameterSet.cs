@@ -18,7 +18,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly OutcomeParameterSet Default;
     public static readonly Tag Tag = 0xDF8129;
     private const byte _StatusOutcomeOffset = 56;

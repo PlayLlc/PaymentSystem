@@ -11,7 +11,7 @@ public class UnicodeCodec
     #region Static Metadata
 
     private static readonly Encoding _UnicodeCodec = Encoding.Unicode;
-    public static readonly PlayEncodingId PlayEncodingId = new(nameof(UnicodeCodec));
+    public static readonly PlayEncodingId EncodingId = new(nameof(UnicodeCodec));
 
     #endregion
 

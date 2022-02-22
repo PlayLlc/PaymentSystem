@@ -17,7 +17,7 @@ public record TransactionReferenceCurrencyExponent : DataElement<byte>, IEqualit
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F3D;
     private const byte _ByteLength = 1;
 

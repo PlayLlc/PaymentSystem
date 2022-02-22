@@ -15,7 +15,7 @@ public record ApplicationLabel : DataElement<char[]>, IEqualityComparer<Applicat
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = AlphaNumericSpecialCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialCodec.EncodingId;
     public static readonly Tag Tag = 0x50;
 
     #endregion

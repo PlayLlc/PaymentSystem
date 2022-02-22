@@ -16,7 +16,7 @@ public record ApplicationTransactionCounter : DataElement<ushort>, IEqualityComp
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F36;
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
 
     #endregion
 

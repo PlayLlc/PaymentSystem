@@ -20,7 +20,7 @@ public record ProtectedDataEnvelope3 : DataElement<BigInteger>, IEqualityCompare
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F72;
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
 
     #endregion
 

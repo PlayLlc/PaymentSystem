@@ -19,7 +19,7 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
 
     //TODO: figure out the best way to map these values with the logic needed
     public static readonly KernelIdentifier AmericanExpress;
-    public static readonly PlayEncodingId PlayEncodingId = BinaryCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly KernelIdentifier ChinaUnionPay;
     public static readonly KernelIdentifier Discover;
     public static readonly KernelIdentifier Jcb;
