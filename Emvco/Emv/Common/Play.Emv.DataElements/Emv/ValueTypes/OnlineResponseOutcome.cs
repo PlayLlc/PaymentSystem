@@ -8,7 +8,7 @@ public readonly struct OnlineResponseOutcome
 
     private static readonly ImmutableSortedDictionary<byte, OnlineResponseOutcome> _ValueObjectMap;
 
-    /// <value>Decimal: 0; Hexadecimal: 0x00</value>
+    /// <value>Decimal: 0; HexadecimalCodec: 0x00</value>
     public static readonly OnlineResponseOutcome NotAvailable;
 
     #endregion

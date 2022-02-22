@@ -54,7 +54,7 @@ public record ApplicationDedicatedFileName : DataElement<byte[]>, IEqualityCompa
     public int GetByteCount() => _Value.Length;
 
     public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
-        new(PlayEncoding.UnsignedInteger.GetUInt64(_Value[..5]));
+        new(PlayEncoding.UnsignedIntegerCodec.GetUInt64(_Value[..5]));
 
     public override Tag GetTag() => Tag;
     public bool IsFullMatch(ApplicationDedicatedFileName other) => Equals(other);

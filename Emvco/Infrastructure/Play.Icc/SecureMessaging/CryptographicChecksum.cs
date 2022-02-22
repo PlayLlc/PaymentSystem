@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
+using Play.Codecs;
 
 namespace Play.Icc.SecureMessaging;
 
@@ -17,7 +18,7 @@ public record CryptographicChecksum : PrimitiveValue, IEqualityComparer<Cryptogr
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = OctetStringCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = OctetStringCodec.Identifier;
     public static readonly Tag Tag = 0x8E;
     protected const byte _MinByteCount = 4;
     protected const byte _MaxByteCount = 8;
@@ -56,7 +57,7 @@ public record CryptographicChecksum : PrimitiveValue, IEqualityComparer<Cryptogr
     public byte[] AsByteArray() => _Value;
     public virtual TagLengthValue AsTagLengthValue() => AsTagLengthValue(GetTag());
     protected TagLengthValue AsTagLengthValue(Tag tag) => new(tag, _Value);
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public int GetByteCount() => _Value.Length;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => checked((ushort) _Value.Length);

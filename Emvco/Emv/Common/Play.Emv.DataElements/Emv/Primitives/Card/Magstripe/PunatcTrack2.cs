@@ -11,7 +11,7 @@ namespace Play.Emv.DataElements.Emv;
 /// <summary>
 ///     PunatcTrack2 stands for 'Position Of Unpredictable Number And Application Transaction Counter (Track2)'.
 ///     PUNATC(Track2) indicates to the Kernel the positions in the discretionary data field of Track 2 Data where the
-///     Unpredictable Number (Numeric) digits and Application Transaction Counter digits have to be copied.
+///     Unpredictable Number (NumericCodec) digits and Application Transaction Counter digits have to be copied.
 /// </summary>
 public record PunatcTrack2 : DataElement<ushort>
 {

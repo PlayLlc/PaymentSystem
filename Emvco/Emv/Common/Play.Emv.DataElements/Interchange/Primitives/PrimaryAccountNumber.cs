@@ -44,7 +44,7 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
     public bool IsIssuerIdentifierMatching(IssuerIdentificationNumber issuerIdentifier)
     {
         // We're 
-        uint thisPan = PlayEncoding.CompressedNumeric.DecodeToUInt16(PlayEncoding.CompressedNumeric.GetBytes(_Value));
+        uint thisPan = PlayEncoding.CompressedNumericCodec.DecodeToUInt16(PlayEncoding.CompressedNumericCodec.Encode(_Value));
 
         return thisPan == (uint) issuerIdentifier;
     }
@@ -67,14 +67,14 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
         // a '0' value. If we encoded that to a numeric value we would truncate the leading zero values
         // and wouldn't be able to encode the value back or do comparisons with the issuer identification
         // number
-        char[] result = PlayEncoding.CompressedNumeric.GetChars(value);
+        char[] result = PlayEncoding.CompressedNumericCodec.DecodeToChars(value);
 
         Check.Primitive.ForMaxCharLength(result.Length, maxCharLength, Tag);
 
         return new PrimaryAccountNumber(result);
     }
 
-    public new byte[] EncodeValue() => PlayEncoding.Numeric.GetBytes(_Value);
+    public new byte[] EncodeValue() => PlayEncoding.NumericCodec.Encode(_Value);
     public override byte[] EncodeValue(BerCodec berCodec) => EncodeValue();
 
     #endregion
@@ -83,7 +83,7 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
 
     public bool Equals(ReadOnlySpan<byte> value)
     {
-        byte[] encoded = PlayEncoding.CompressedNumeric.GetBytes(_Value);
+        byte[] encoded = PlayEncoding.CompressedNumericCodec.Encode(_Value);
 
         for (int i = 0; i < value.Length; i++)
         {

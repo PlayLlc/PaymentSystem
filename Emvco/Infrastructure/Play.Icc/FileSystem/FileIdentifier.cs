@@ -15,7 +15,7 @@ public record FileIdentifier : PrimitiveValue
 {
     #region Static Metadata
 
-    public static readonly BerEncodingId BerEncodingId = BinaryIntegerCodec.Identifier;
+    public static readonly PlayEncodingId PlayEncodingId = BinaryIntegerCodec.Identifier;
     public static readonly FileIdentifier CurrentDedicatedFile = new(new byte[] {0x3F, 0xFF});
     public static readonly FileIdentifier MasterFile = new(new byte[] {0x3F, 0x00});
     public static readonly uint Tag = 0x81;
@@ -37,28 +37,28 @@ public record FileIdentifier : PrimitiveValue
 
     public FileIdentifier(byte[] value)
     {
-        _Value = PlayEncoding.UnsignedInteger.GetUInt16(value);
+        _Value = PlayCodec.UnsignedIntegerCodec.DecodeToUInt16(value);
     }
 
     #endregion
 
     #region Instance Members
 
-    public byte[] AsByteArray() => PlayEncoding.UnsignedInteger.GetBytes(_Value);
+    public byte[] AsByteArray() => PlayCodec.UnsignedIntegerCodec.Encode(_Value);
 
     public byte[] AsRawTlv()
     {
         using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(GetTlvByteCount());
         Span<byte> buffer = spanOwner.Span;
 
-        PlayEncoding.UnsignedBinary.GetBytes(Tag).CopyTo(buffer);
-        PlayEncoding.UnsignedBinary.GetBytes(Specs.Integer.Int16.ByteCount).CopyTo(buffer[1..]);
-        PlayEncoding.UnsignedInteger.GetBytes(_Value).AsSpan().CopyTo(buffer[^Specs.Integer.Int16.ByteCount..]);
+        PlayCodec.UnsignedIntegerCodec.Encode(Tag).CopyTo(buffer);
+        PlayCodec.UnsignedIntegerCodec.Encode(Specs.Integer.Int16.ByteCount).CopyTo(buffer[1..]);
+        PlayCodec.UnsignedIntegerCodec.Encode(_Value).AsSpan().CopyTo(buffer[^Specs.Integer.Int16.ByteCount..]);
 
         return buffer.ToArray();
     }
 
-    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
     public override Tag GetTag() => Tag;
     private int GetTlvByteCount() => 4;
     public override ushort GetValueByteCount(BerCodec codec) => Specs.Integer.Int16.ByteCount;
@@ -76,15 +76,15 @@ public record FileIdentifier : PrimitiveValue
     /// <exception cref="InvalidOperationException"></exception>
     public static FileIdentifier Decode(BerCodec codec, ReadOnlySpan<byte> value)
     {
-        DecodedResult<ushort> result = codec.Decode(BerEncodingId, value) as DecodedResult<ushort>
+        DecodedResult<ushort> result = codec.Decode(PlayEncodingId, value) as DecodedResult<ushort>
             ?? throw new InvalidOperationException(
                 $"The {nameof(FileIdentifier)} could not be initialized because the {nameof(BinaryIntegerCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new FileIdentifier(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(BerEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(BerEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(PlayEncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(PlayEncodingId, _Value, length);
 
     #endregion
 

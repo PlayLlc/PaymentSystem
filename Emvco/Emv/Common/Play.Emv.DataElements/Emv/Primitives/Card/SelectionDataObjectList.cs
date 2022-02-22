@@ -12,7 +12,7 @@ namespace Play.Emv.DataElements.Emv;
 ///     Contains a list of terminal resident data objects (tags and lengths) needed by the card in processing the SEND POI
 ///     INFORMATION ((Send Point of Interaction) command. The SDOL can be used to request the following terminal data
 ///     objects:
-///     • Amount, Authorized Numeric (tag'9F02')
+///     • Amount, Authorized NumericCodec (tag'9F02')
 ///     • POI Information (tag '8B')
 ///     • Terminal Country Code (tag '9F1A')
 ///     • Transaction Currency Code (tag '5F2A')

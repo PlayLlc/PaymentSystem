@@ -24,7 +24,7 @@ public class NumericCodec : BerPrimitiveCodec
     #region Static Metadata
 
     private static readonly Numeric _Numeric = PlayEncoding.Numeric;
-    public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(NumericCodec));
+    public static readonly BerEncodingId Identifier = GetEncodingId(typeof(NumericCodec));
 
     #endregion
 

@@ -17,7 +17,7 @@ public class SpanBenchmarks
 
     #region Instance Values
 
-    private Hexadecimal Hexadecimal = PlayEncoding.Hexadecimal;
+    private HexadecimalCodec _HexadecimalCodec = PlayEncoding.HexadecimalCodec;
     private byte[] OneHundred;
     private byte[] OneThousand;
     private byte[] Ten;
@@ -79,7 +79,7 @@ public class SpanBenchmarks
     //{
     //	ReadOnlySpan<byte> a = Ten;
     //	for (int i = 0; i < Iterations; i++)
-    //		Hexadecimal.GetStringWithStackAlloc(a);
+    //		HexadecimalCodec.GetStringWithStackAlloc(a);
     //}
 
     //[Benchmark]
@@ -87,7 +87,7 @@ public class SpanBenchmarks
     //{
     //	ReadOnlySpan<byte> a = Ten;
     //	for (int i = 0; i < Iterations; i++)
-    //		Hexadecimal.GetStringWithStackAllocPinnable(a);
+    //		HexadecimalCodec.GetStringWithStackAllocPinnable(a);
     //}
 
     //[Benchmark]
@@ -95,7 +95,7 @@ public class SpanBenchmarks
     //{
     //	ReadOnlySpan<byte> a = OneHundred;
     //	for (int i = 0; i < Iterations; i++)
-    //		Hexadecimal.GetStringWithStackAlloc(a);
+    //		HexadecimalCodec.GetStringWithStackAlloc(a);
     //}
 
     //[Benchmark]
@@ -103,7 +103,7 @@ public class SpanBenchmarks
     //{
     //	ReadOnlySpan<byte> a = OneHundred;
     //	for (int i = 0; i < Iterations; i++)
-    //		Hexadecimal.GetStringWithStackAllocPinnable(a);
+    //		HexadecimalCodec.GetStringWithStackAllocPinnable(a);
     //}
 
     //[Benchmark]
@@ -111,7 +111,7 @@ public class SpanBenchmarks
     //{
     //	ReadOnlySpan<byte> a = OneHundred;
     //	for (int i = 0; i < Iterations; i++)
-    //		Hexadecimal.GetStringWithStackAlloc(a);
+    //		HexadecimalCodec.GetStringWithStackAlloc(a);
     //}
 
     //[Benchmark]
@@ -119,7 +119,7 @@ public class SpanBenchmarks
     //{
     //	ReadOnlySpan<byte> a = OneThousand;
     //	for (int i = 0; i < Iterations; i++)
-    //		Hexadecimal.GetStringWithStackAlloc(a);
+    //		HexadecimalCodec.GetStringWithStackAlloc(a);
     //}
 
     //[Benchmark]
@@ -127,7 +127,7 @@ public class SpanBenchmarks
     //{
     //	ReadOnlySpan<byte> a = TenThousand;
     //	for (int i = 0; i < Iterations; i++)
-    //		Hexadecimal.GetStringWithStackAlloc(a);
+    //		HexadecimalCodec.GetStringWithStackAlloc(a);
     //}
 
     //[Benchmark]
@@ -135,7 +135,7 @@ public class SpanBenchmarks
     //{
     //	ReadOnlySpan<byte> a = OneThousand;
     //	for (int i = 0; i < Iterations; i++)
-    //		Hexadecimal.GetStringWithStackAllocPinnable(a);
+    //		HexadecimalCodec.GetStringWithStackAllocPinnable(a);
     //}
 
     //[Benchmark]
@@ -143,7 +143,7 @@ public class SpanBenchmarks
     //{
     //	ReadOnlySpan<byte> a = OneThousand;
     //	for (int i = 0; i < Iterations; i++)
-    //		Hexadecimal.GetStringWithSpanOwnerPinnable(a);
+    //		HexadecimalCodec.GetStringWithSpanOwnerPinnable(a);
     //}
 
     //[Benchmark]
@@ -151,7 +151,7 @@ public class SpanBenchmarks
     //{
     //	ReadOnlySpan<byte> a = OneHundred;
     //	for (int i = 0; i < Iterations; i++)
-    //		Hexadecimal.GetStringWithSpanOwner(a);
+    //		HexadecimalCodec.GetStringWithSpanOwner(a);
     //}
 
     //[Benchmark]
@@ -159,7 +159,7 @@ public class SpanBenchmarks
     //{
     //	ReadOnlySpan<byte> a = OneThousand;
     //	for (int i = 0; i < Iterations; i++)
-    //		Hexadecimal.GetStringWithSpanOwner(a);
+    //		HexadecimalCodec.GetStringWithSpanOwner(a);
     //}
 
     //[Benchmark]
@@ -167,17 +167,17 @@ public class SpanBenchmarks
     //{
     //	ReadOnlySpan<byte> a = TenThousand;
     //	for (int i = 0; i < Iterations; i++)
-    //		Hexadecimal.GetStringWithSpanOwner(a);
+    //		HexadecimalCodec.GetStringWithSpanOwner(a);
     //}
 
-    //#region SpanOwner And GetChar
+    //#region SpanOwner And DecodeToChar
 
     //[Benchmark]
     //public void GetStringWithSpanOwnerAndCharTen()
     //{
     //	ReadOnlySpan<byte> a = Ten;
     //	for (int i = 0; i < Iterations; i++)
-    //		Hexadecimal.GetStringBySpanOwnerAndChar(a);
+    //		HexadecimalCodec.GetStringBySpanOwnerAndChar(a);
     //}
 
     //[Benchmark]
@@ -185,7 +185,7 @@ public class SpanBenchmarks
     //{
     //	ReadOnlySpan<byte> a = OneHundred;
     //	for (int i = 0; i < Iterations; i++)
-    //		Hexadecimal.GetStringBySpanOwnerAndChar(a);
+    //		HexadecimalCodec.GetStringBySpanOwnerAndChar(a);
     //}
 
     //[Benchmark]
@@ -193,7 +193,7 @@ public class SpanBenchmarks
     //{
     //	ReadOnlySpan<byte> a = OneThousand;
     //	for (int i = 0; i < Iterations; i++)
-    //		Hexadecimal.GetStringBySpanOwnerAndChar(a);
+    //		HexadecimalCodec.GetStringBySpanOwnerAndChar(a);
     //}
 
     ////[Benchmark]
@@ -201,19 +201,19 @@ public class SpanBenchmarks
     ////{
     ////	ReadOnlySpan<byte> a = TenThousand;
     ////	for (int i = 0; i < Iterations; i++)
-    ////		Hexadecimal.GetStringBySpanOwnerAndChar(a);
+    ////		HexadecimalCodec.GetStringBySpanOwnerAndChar(a);
     ////}
 
     //#endregion
 
-    //#region Stackalloc And GetChar
+    //#region Stackalloc And DecodeToChar
 
     //[Benchmark]
     //public void GetStringByStackallocAndCharTen()
     //{
     //	ReadOnlySpan<byte> a = Ten;
     //	for (int i = 0; i < Iterations; i++)
-    //		Hexadecimal.GetStringBySpanOwnerAndChar(a);
+    //		HexadecimalCodec.GetStringBySpanOwnerAndChar(a);
     //}
 
     //[Benchmark]
@@ -221,7 +221,7 @@ public class SpanBenchmarks
     //{
     //	ReadOnlySpan<byte> a = OneHundred;
     //	for (int i = 0; i < Iterations; i++)
-    //		Hexadecimal.GetStringBySpanOwnerAndChar(a);
+    //		HexadecimalCodec.GetStringBySpanOwnerAndChar(a);
     //}
 
     //[Benchmark]
@@ -229,7 +229,7 @@ public class SpanBenchmarks
     //{
     //	ReadOnlySpan<byte> a = OneThousand;
     //	for (int i = 0; i < Iterations; i++)
-    //		Hexadecimal.GetStringBySpanOwnerAndChar(a);
+    //		HexadecimalCodec.GetStringBySpanOwnerAndChar(a);
     //}
 
     ////[Benchmark]
@@ -237,7 +237,7 @@ public class SpanBenchmarks
     ////{
     ////	ReadOnlySpan<byte> a = TenThousand;
     ////	for (int i = 0; i < Iterations; i++)
-    ////		Hexadecimal.GetStringBySpanOwnerAndChar(a);
+    ////		HexadecimalCodec.GetStringBySpanOwnerAndChar(a);
     ////}
 
     //#endregion

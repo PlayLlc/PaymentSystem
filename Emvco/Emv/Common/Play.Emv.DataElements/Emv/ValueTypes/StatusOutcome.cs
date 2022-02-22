@@ -16,7 +16,7 @@ public readonly struct StatusOutcome
     /// <remarks>
     ///     A Final Outcome. Will be returned to the terminal
     /// </remarks>
-    /// <value>Decimal: 16; Hexadecimal: 0x10</value>
+    /// <value>Decimal: 16; HexadecimalCodec: 0x10</value>
     public static readonly StatusOutcome Approved;
 
     /// <summary>
@@ -27,7 +27,7 @@ public readonly struct StatusOutcome
     /// <remarks>
     ///     A Final Outcome. Will be returned to the terminal
     /// </remarks>
-    /// <value>Decimal: 32; Hexadecimal: 0x20</value>
+    /// <value>Decimal: 32; HexadecimalCodec: 0x20</value>
     public static readonly StatusOutcome Declined;
 
     /// <summary>
@@ -43,7 +43,7 @@ public readonly struct StatusOutcome
     /// <remarks>
     ///     A Final Outcome. Will be returned to the terminal
     /// </remarks>
-    /// <value>Decimal: 64; Hexadecimal: 0x40</value>
+    /// <value>Decimal: 64; HexadecimalCodec: 0x40</value>
     public static readonly StatusOutcome EndApplication;
 
     // TODO:
@@ -52,7 +52,7 @@ public readonly struct StatusOutcome
     /// <summary>
     ///     The status has not yet been set
     /// </summary>
-    /// <value>Decimal: 0; Hexadecimal: 0x0</value>
+    /// <value>Decimal: 0; HexadecimalCodec: 0x0</value>
     public static readonly StatusOutcome NotAvailable;
 
     /// <summary>
@@ -63,7 +63,7 @@ public readonly struct StatusOutcome
     /// <remarks>
     ///     A Final Outcome. Will be returned to the terminal
     /// </remarks>
-    /// <value>Decimal: 48; Hexadecimal: 0x30</value>
+    /// <value>Decimal: 48; HexadecimalCodec: 0x30</value>
     public static readonly StatusOutcome OnlineRequest;
 
     /// <summary>
@@ -73,7 +73,7 @@ public readonly struct StatusOutcome
     /// <remarks>
     ///     An Outcome. MainProcess will initiate processing again at Entry Point Start C
     /// </remarks>
-    /// <value>Decimal: 80; Hexadecimal: 0x50</value>
+    /// <value>Decimal: 80; HexadecimalCodec: 0x50</value>
     public static readonly StatusOutcome SelectNext;
 
     /// <summary>
@@ -84,7 +84,7 @@ public readonly struct StatusOutcome
     /// <remarks>
     ///     An Outcome. MainProcess will initiate processing again at Entry Point Start B
     /// </remarks>
-    /// <value>Decimal: 112; Hexadecimal: 0x70</value>
+    /// <value>Decimal: 112; HexadecimalCodec: 0x70</value>
     public static readonly StatusOutcome TryAgain;
 
     /// <summary>
@@ -95,7 +95,7 @@ public readonly struct StatusOutcome
     /// <remarks>
     ///     A Final Outcome. Will be returned to the terminal
     /// </remarks>
-    /// <value>Decimal: 96; Hexadecimal: 0x60</value>
+    /// <value>Decimal: 96; HexadecimalCodec: 0x60</value>
     public static readonly StatusOutcome TryAnotherInterface;
 
     #endregion

@@ -1,5 +1,11 @@
 ﻿using System.Runtime.CompilerServices;
 
+using Exceptions;
+using Exceptions;
+using Exceptions;
+using Exceptions;
+using Exceptions;
+
 using Play.Ber.Codecs;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
@@ -14,7 +20,7 @@ public class AlphaNumericSpecialCodec : BerPrimitiveCodec
     #region Static Metadata
 
     private static readonly AlphaNumericSpecial _AlphanumericSpecial = PlayEncoding.AlphaNumericSpecial;
-    public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(AlphaNumericSpecialCodec));
+    public static readonly BerEncodingId Identifier = GetEncodingId(typeof(AlphaNumericSpecialCodec));
 
     #endregion
 
@@ -23,14 +29,14 @@ public class AlphaNumericSpecialCodec : BerPrimitiveCodec
     public override BerEncodingId GetIdentifier() => Identifier;
     public override bool IsValid(ReadOnlySpan<byte> value) => _AlphanumericSpecial.IsValid(value);
 
-    /// <exception cref="EncodingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     protected override void Validate(ReadOnlySpan<byte> value)
     {
         if (!_AlphanumericSpecial.IsValid(value))
             throw new EncodingException(EncodingException.CharacterArrayContainsInvalidValue + " - The offending value was value[i]");
     }
 
-    /// <exception cref="EncodingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     public override byte[] Encode<T>(T[] value)
     {
         if (typeof(T) == typeof(char))
@@ -39,7 +45,7 @@ public class AlphaNumericSpecialCodec : BerPrimitiveCodec
         throw new NotImplementedException();
     }
 
-    /// <exception cref="EncodingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     public override byte[] Encode<T>(T[] value, int length)
     {
         if (typeof(T) == typeof(char))
@@ -51,10 +57,10 @@ public class AlphaNumericSpecialCodec : BerPrimitiveCodec
     public override byte[] Encode<T>(T value) => throw new NotImplementedException();
     public override byte[] Encode<T>(T value, int length) => throw new NotImplementedException();
 
-    /// <exception cref="EncodingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value) => _AlphanumericSpecial.GetBytes(value);
 
-    /// <exception cref="EncodingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value, int length)
     {
         if (value.Length == length)

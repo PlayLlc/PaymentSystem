@@ -7,11 +7,11 @@ using Play.Core.Extensions;
 
 namespace Play.Codecs.Integers;
 
-public class UnsignedInteger : PlayEncoding
+public class UnsignedIntegerCodec : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(UnsignedInteger));
+    public static readonly PlayEncodingId PlayEncodingId = new(typeof(UnsignedIntegerCodec));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = new Dictionary<char, byte>
     {
@@ -101,7 +101,7 @@ public class UnsignedInteger : PlayEncoding
 
     public byte[] GetBytes(BigInteger value) => value.ToByteArray();
 
-    public override byte[] GetBytes(ReadOnlySpan<char> value)
+    public override byte[] Encode(ReadOnlySpan<char> value)
     {
         Validate(value);
         byte[] result = new byte[value.Length];
@@ -112,16 +112,16 @@ public class UnsignedInteger : PlayEncoding
         return result;
     }
 
-    public override int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
+    public override int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
     {
         Validate(chars[charIndex..charCount]);
 
-        Array.ConstrainedCopy(GetBytes(chars), charIndex, bytes, byteIndex, charCount);
+        Array.ConstrainedCopy(Encode(chars), charIndex, bytes, byteIndex, charCount);
 
         return charCount;
     }
 
-    public override bool TryGetBytes(ReadOnlySpan<char> value, out byte[] result)
+    public override bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
     {
         if (!IsValid(value))
         {
@@ -138,7 +138,7 @@ public class UnsignedInteger : PlayEncoding
         return true;
     }
 
-    public override int GetByteCount(char[] chars, int index, int count) => GetBytes(chars).Length;
+    public override int GetByteCount(char[] chars, int index, int count) => Encode(chars).Length;
 
     // you're smarter than you think you are - this checks out
     public override int GetMaxByteCount(int charCount)
@@ -150,7 +150,7 @@ public class UnsignedInteger : PlayEncoding
         return (int) ((result % 1) == 0 ? result : result + 1);
     }
 
-    public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
+    public override int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
     {
         // TODO: optimize this later instead of defaulting to BigInteger
         BigInteger integerValue = GetBigInteger(bytes[byteIndex..byteCount]);
@@ -266,9 +266,9 @@ public class UnsignedInteger : PlayEncoding
     public nint GetCharCount(BigInteger value) => GetCharCount(value.ToByteArray());
     public override int GetCharCount(byte[] bytes, int index, int count) => throw new NotImplementedException();
     public override int GetMaxCharCount(int byteCount) => ((BigInteger) Math.Pow(2, byteCount * 8)).GetNumberOfDigits();
-    public override string GetString(ReadOnlySpan<byte> value) => new(GetChars(value));
+    public override string DecodeToString(ReadOnlySpan<byte> value) => new(GetChars(value));
 
-    public override bool TryGetString(ReadOnlySpan<byte> value, out string result)
+    public override bool TryDecodingToString(ReadOnlySpan<byte> value, out string result)
     {
         if (!TryGetChars(value, out char[] buffer))
         {

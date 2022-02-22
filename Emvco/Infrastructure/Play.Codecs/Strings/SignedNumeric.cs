@@ -12,7 +12,7 @@ using Play.Core.Specifications;
 namespace Play.Codecs.Strings;
 
 /// <summary>
-///     Numeric data elements consist of two numeric digits (having values in the range Hex '0' – '9') per byte and a
+///     NumericCodec data elements consist of two numeric digits (having values in the range Hex '0' – '9') per byte and a
 ///     leading byte that consists of either a 'C' for for a positive credit value or a 'D' for a negative debit value.
 ///     These digits are right justified and padded with leading hexadecimal zeroes
 /// </summary>
@@ -20,7 +20,7 @@ public class SignedNumeric : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(SignedNumeric));
+    public static readonly PlayEncodingId EncodingId = new(typeof(SignedNumeric));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = Enumerable.Range(0, 10)
         .Concat(new[] {67, 68}).ToImmutableSortedDictionary(a => (char) (a + 48), b => (byte) b);
@@ -75,7 +75,7 @@ public class SignedNumeric : PlayEncoding
         return false;
     }
 
-    public new byte[] GetBytes(string value)
+    public new byte[] Encode(string value)
     {
         if (value.Length == 0)
             return Array.Empty<byte>();
@@ -104,63 +104,63 @@ public class SignedNumeric : PlayEncoding
         }
     }
 
-    public byte[] GetBytes<T>(T value)
+    public byte[] Encode<T>(T value)
     {
         nint byteSize = Unsafe.SizeOf<T>();
 
         if (byteSize == Specs.Integer.Int8.ByteCount)
-            return GetBytes(Unsafe.As<T, sbyte>(ref value));
+            return Encode(Unsafe.As<T, sbyte>(ref value));
         if (byteSize == Specs.Integer.Int16.ByteCount)
-            return GetBytes(Unsafe.As<T, short>(ref value));
+            return Encode(Unsafe.As<T, short>(ref value));
         if (byteSize <= Specs.Integer.Int32.ByteCount)
-            return GetBytes(Unsafe.As<T, int>(ref value));
+            return Encode(Unsafe.As<T, int>(ref value));
         if (byteSize <= Specs.Integer.Int64.ByteCount)
-            return GetBytes(Unsafe.As<T, long>(ref value));
+            return Encode(Unsafe.As<T, long>(ref value));
 
-        return GetBytes(Unsafe.As<T, BigInteger>(ref value));
+        return Encode(Unsafe.As<T, BigInteger>(ref value));
     }
 
-    public byte[] GetBytes<T>(T value, int length)
+    public byte[] Encode<T>(T value, int length)
     {
         if (length == Specs.Integer.Int8.ByteCount)
-            return GetBytes(Unsafe.As<T, sbyte>(ref value));
+            return Encode(Unsafe.As<T, sbyte>(ref value));
         if (length == Specs.Integer.Int16.ByteCount)
-            return GetBytes(Unsafe.As<T, short>(ref value));
+            return Encode(Unsafe.As<T, short>(ref value));
         if (length == 3)
-            return GetBytes(Unsafe.As<T, int>(ref value), length);
+            return Encode(Unsafe.As<T, int>(ref value), length);
         if (length == Specs.Integer.UInt32.ByteCount)
-            return GetBytes(Unsafe.As<T, int>(ref value));
+            return Encode(Unsafe.As<T, int>(ref value));
         if (length < Specs.Integer.UInt64.ByteCount)
-            return GetBytes(Unsafe.As<T, long>(ref value), length);
+            return Encode(Unsafe.As<T, long>(ref value), length);
         if (length == Specs.Integer.UInt64.ByteCount)
-            return GetBytes(Unsafe.As<T, long>(ref value));
+            return Encode(Unsafe.As<T, long>(ref value));
 
-        return GetBytes(Unsafe.As<T, BigInteger>(ref value), length);
+        return Encode(Unsafe.As<T, BigInteger>(ref value), length);
     }
 
-    public byte[] GetBytes<T>(T[] value)
+    public byte[] Encode<T>(T[] value)
     {
         if (typeof(T) == typeof(char))
-            return GetBytes(Unsafe.As<T[], char[]>(ref value));
+            return Encode(Unsafe.As<T[], char[]>(ref value));
         if (typeof(T) == typeof(byte))
-            return GetBytes(Unsafe.As<T[], byte[]>(ref value));
+            return Encode(Unsafe.As<T[], byte[]>(ref value));
 
         throw new NotImplementedException();
     }
 
-    public byte[] GetBytes<T>(T[] value, int length)
+    public byte[] Encode<T>(T[] value, int length)
     {
         if (typeof(T) == typeof(char))
-            return GetBytes(Unsafe.As<T[], char[]>(ref value), length);
+            return Encode(Unsafe.As<T[], char[]>(ref value), length);
         if (typeof(T) == typeof(byte))
-            return GetBytes(Unsafe.As<T[], byte[]>(ref value));
+            return Encode(Unsafe.As<T[], byte[]>(ref value));
 
         throw new NotImplementedException();
     }
 
-    public override int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
+    public override int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
     {
-        ReadOnlySpan<byte> buffer = GetBytes(chars[charIndex..(charIndex + charCount)]);
+        ReadOnlySpan<byte> buffer = Encode(chars[charIndex..(charIndex + charCount)]);
 
         for (int i = 0, j = byteIndex; i < (buffer.Length + byteIndex); i++, j++)
             bytes[j] = buffer[i];
@@ -168,9 +168,9 @@ public class SignedNumeric : PlayEncoding
         return buffer.Length;
     }
 
-    public override byte[] GetBytes(ReadOnlySpan<char> value) => GetBytes(value, value.Length);
+    public override byte[] Encode(ReadOnlySpan<char> value) => Encode(value, value.Length);
 
-    public byte[] GetBytes(ReadOnlySpan<char> value, int length)
+    public byte[] Encode(ReadOnlySpan<char> value, int length)
     {
         if (value.Length == 0)
             return Array.Empty<byte>();
@@ -199,12 +199,12 @@ public class SignedNumeric : PlayEncoding
         }
     }
 
-    public byte[] GetBytes(byte value)
+    public byte[] Encode(byte value)
     {
         return new[] {value};
     }
 
-    public byte[] GetBytes(short value)
+    public byte[] Encode(short value)
     {
         const byte byteSize = Specs.Integer.Int16.ByteCount;
         byte numberOfDigits = value.GetNumberOfDigits();
@@ -224,7 +224,7 @@ public class SignedNumeric : PlayEncoding
         return buffer.ToArray();
     }
 
-    public byte[] GetBytes(int value)
+    public byte[] Encode(int value)
     {
         const byte byteSize = Specs.Integer.Int32.ByteCount;
         byte numberOfDigits = value.GetNumberOfDigits();
@@ -244,7 +244,7 @@ public class SignedNumeric : PlayEncoding
         return buffer.ToArray();
     }
 
-    public byte[] GetBytes(int value, int length)
+    public byte[] Encode(int value, int length)
     {
         byte numberOfDigits = value.GetNumberOfDigits();
         int numberOfBytes = numberOfDigits + 1;
@@ -263,7 +263,7 @@ public class SignedNumeric : PlayEncoding
         return buffer.ToArray();
     }
 
-    public byte[] GetBytes(long value)
+    public byte[] Encode(long value)
     {
         const byte byteSize = Specs.Integer.Int64.ByteCount;
         byte numberOfDigits = value.GetNumberOfDigits();
@@ -283,7 +283,7 @@ public class SignedNumeric : PlayEncoding
         return buffer.ToArray();
     }
 
-    public byte[] GetBytes(long value, int length)
+    public byte[] Encode(long value, int length)
     {
         byte numberOfDigits = value.GetNumberOfDigits();
         int numberOfBytes = numberOfDigits + 1;
@@ -303,7 +303,7 @@ public class SignedNumeric : PlayEncoding
     }
 
     // TODO: This is likely wrong
-    public byte[] GetBytes(BigInteger value)
+    public byte[] Encode(BigInteger value)
     {
         byte numberOfDigits = value.GetNumberOfDigits();
         using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate((numberOfDigits % 2) + (numberOfDigits / 2) + 1);
@@ -323,13 +323,13 @@ public class SignedNumeric : PlayEncoding
     }
 
     // TODO: This is likely wrong
-    public byte[] GetBytes(BigInteger value, int length)
+    public byte[] Encode(BigInteger value, int length)
     {
         byte numberOfDigits = value.GetNumberOfDigits();
         int numberOfBytes = numberOfDigits + 1;
 
         if (length == numberOfBytes)
-            return GetBytes(value);
+            return Encode(value);
 
         using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate((numberOfDigits % 2) + (numberOfDigits / 2));
         Span<byte> buffer = spanOwner.Span;
@@ -360,7 +360,7 @@ public class SignedNumeric : PlayEncoding
         return buffer.ToArray();
     }
 
-    public override bool TryGetBytes(ReadOnlySpan<char> value, out byte[] result)
+    public override bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
     {
         if (!IsValid(value))
         {
@@ -369,7 +369,7 @@ public class SignedNumeric : PlayEncoding
             return false;
         }
 
-        result = GetBytes(value, value.Length);
+        result = Encode(value, value.Length);
 
         return true;
     }
@@ -377,10 +377,10 @@ public class SignedNumeric : PlayEncoding
     public override int GetByteCount(char[] chars, int index, int count) => count;
     public override int GetMaxByteCount(int charCount) => charCount;
 
-    public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
+    public override int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
         throw new NotImplementedException();
 
-    public char[] GetChars(ReadOnlySpan<byte> value)
+    public char[] DecodeToChars(ReadOnlySpan<byte> value)
     {
         int length = value.Length * 2;
 
@@ -407,9 +407,9 @@ public class SignedNumeric : PlayEncoding
 
     public override int GetCharCount(byte[] bytes, int index, int count) => count;
     public override int GetMaxCharCount(int byteCount) => byteCount;
-    public override string GetString(ReadOnlySpan<byte> value) => new(GetChars(value));
+    public override string DecodeToString(ReadOnlySpan<byte> value) => new(DecodeToChars(value));
 
-    public override bool TryGetString(ReadOnlySpan<byte> value, out string result)
+    public override bool TryDecodingToString(ReadOnlySpan<byte> value, out string result)
     {
         if (!IsValid(value))
         {
@@ -418,12 +418,12 @@ public class SignedNumeric : PlayEncoding
             return false;
         }
 
-        result = GetString(value);
+        result = DecodeToString(value);
 
         return true;
     }
 
-    public BigInteger GetBigInteger(ReadOnlySpan<byte> value)
+    public BigInteger DecodeToBigInteger(ReadOnlySpan<byte> value)
     {
         for (byte i = 0; i < value.Length; i++)
         {
@@ -437,11 +437,11 @@ public class SignedNumeric : PlayEncoding
     }
 
     /// <summary>
-    ///     Takes the Numeric encoded byte array provided to <see cref="value" /> and returns an integer value
+    ///     Takes the NumericCodec encoded byte array provided to <see cref="value" /> and returns an integer value
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    public ushort GetInt16(ReadOnlySpan<byte> value)
+    public ushort DecodeToInt16(ReadOnlySpan<byte> value)
     {
         ushort result = 0;
 
@@ -449,11 +449,11 @@ public class SignedNumeric : PlayEncoding
     }
 
     /// <summary>
-    ///     Takes the Numeric encoded byte array provided to <see cref="value" /> and returns an integer value
+    ///     Takes the NumericCodec encoded byte array provided to <see cref="value" /> and returns an integer value
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    public uint GetInt32(ReadOnlySpan<byte> value)
+    public uint DecodeToInt32(ReadOnlySpan<byte> value)
     {
         if (!IsValid(value))
             throw new ArgumentOutOfRangeException(nameof(value));
@@ -464,11 +464,11 @@ public class SignedNumeric : PlayEncoding
     }
 
     /// <summary>
-    ///     Takes the Numeric encoded byte array provided to <see cref="value" /> and returns an integer value
+    ///     Takes the NumericCodec encoded byte array provided to <see cref="value" /> and returns an integer value
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    public ulong GetInt64(ReadOnlySpan<byte> value)
+    public ulong DecodeToInt64(ReadOnlySpan<byte> value)
     {
         for (byte i = 0; i < value.Length; i++)
         {

@@ -1,5 +1,11 @@
 ﻿using System.Runtime.CompilerServices;
 
+using Exceptions;
+using Exceptions;
+using Exceptions;
+using Exceptions;
+using Exceptions;
+
 using Play.Ber.Codecs;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
@@ -16,7 +22,7 @@ public class AlphaNumericCodec : BerPrimitiveCodec
     #region Static Metadata
 
     private static readonly AlphaNumeric _AlphaNumeric = PlayEncoding.AlphaNumeric;
-    public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(AlphaNumericCodec));
+    public static readonly BerEncodingId Identifier = GetEncodingId(typeof(AlphaNumericCodec));
 
     #endregion
 
@@ -43,7 +49,7 @@ public class AlphaNumericCodec : BerPrimitiveCodec
         throw new InternalEmvEncodingException("The code should not reach this point");
     }
 
-    /// <exception cref="EncodingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     public override byte[] Encode<T>(T[] value)
     {
         if (typeof(T) == typeof(char))
@@ -52,7 +58,7 @@ public class AlphaNumericCodec : BerPrimitiveCodec
         throw new InternalEmvEncodingException("The code should not reach this point");
     }
 
-    /// <exception cref="EncodingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     public override byte[] Encode<T>(T[] value, int length)
     {
         if (typeof(T) == typeof(char))
@@ -61,10 +67,10 @@ public class AlphaNumericCodec : BerPrimitiveCodec
         throw new InternalEmvEncodingException("The code should not reach this point");
     }
 
-    /// <exception cref="EncodingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     public static byte[] Encode(ReadOnlySpan<char> value) => _AlphaNumeric.GetBytes(value);
 
-    /// <exception cref="EncodingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value, int length)
     {
         if (value.Length == length)
@@ -92,7 +98,7 @@ public class AlphaNumericCodec : BerPrimitiveCodec
         throw new InternalEmvEncodingException("The code should not reach this point");
     }
 
-    /// <exception cref="EncodingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     protected override void Validate(ReadOnlySpan<byte> value)
     {
         if (!_AlphaNumeric.IsValid(value))

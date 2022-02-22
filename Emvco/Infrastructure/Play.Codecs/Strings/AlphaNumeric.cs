@@ -10,16 +10,16 @@ using Play.Core.Exceptions;
 namespace Play.Codecs.Strings;
 
 /// <summary>
-///     An encoder for encoding and decoding alphabetic and numeric ASCII characters
+///     An encoder for encoding and decoding alphabetic and numeric AsciiCodec characters
 /// </summary>
 /// <remarks>
 ///     Strict parsing is enforced. Exceptions will be raised if invalid data is attempted to be parsed
 /// </remarks>
-public class AlphaNumeric : PlayEncoding
+public class AlphaNumericCodec : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(AlphaNumeric));
+    public static readonly PlayEncodingId EncodingId = new(typeof(AlphaNumericCodec));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = new Dictionary<char, byte>
     {
@@ -242,12 +242,12 @@ public class AlphaNumeric : PlayEncoding
     }
 
     /// <summary>
-    ///     GetByte
+    ///     DecodeToByte
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="EncodingException"></exception>
-    public byte GetByte(char value)
+    public byte DecodeToByte(char value)
     {
         Validate(value);
 
@@ -255,7 +255,7 @@ public class AlphaNumeric : PlayEncoding
     }
 
     /// <exception cref="EncodingException"></exception>
-    public override byte[] GetBytes(ReadOnlySpan<char> value)
+    public override byte[] Encode(ReadOnlySpan<char> value)
     {
         Validate(value);
 
@@ -272,7 +272,7 @@ public class AlphaNumeric : PlayEncoding
         return byteArray;
     }
 
-    public override int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
+    public override int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
     {
         if (charIndex > chars.Length)
             throw new ArgumentNullException();
@@ -299,11 +299,11 @@ public class AlphaNumeric : PlayEncoding
     }
 
     /// <exception cref="EncodingException">Ignore.</exception>
-    public override bool TryGetBytes(ReadOnlySpan<char> value, out byte[] result)
+    public override bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
     {
         if (IsValid(value))
         {
-            result = GetBytes(value);
+            result = Encode(value);
 
             return true;
         }
@@ -316,7 +316,7 @@ public class AlphaNumeric : PlayEncoding
     public override int GetByteCount(char[] chars, int index, int count) => count;
     public override int GetMaxByteCount(int charCount) => charCount;
 
-    public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
+    public override int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
     {
         if (byteIndex > chars.Length)
             throw new ArgumentNullException();
@@ -342,7 +342,7 @@ public class AlphaNumeric : PlayEncoding
         return byteCount;
     }
 
-    public char[] GetChars(ReadOnlySpan<byte> value)
+    public char[] DecodeToChars(ReadOnlySpan<byte> value)
     {
         char[] result = new char[value.Length];
         for (int i = 0; i < value.Length; i++)
@@ -355,7 +355,7 @@ public class AlphaNumeric : PlayEncoding
     public override int GetMaxCharCount(int byteCount) => byteCount;
 
     /// <exception cref="EncodingException"></exception>
-    public override string GetString(ReadOnlySpan<byte> value)
+    public override string DecodeToString(ReadOnlySpan<byte> value)
     {
         Validate(value);
 
@@ -380,13 +380,13 @@ public class AlphaNumeric : PlayEncoding
     }
 
     /// <exception cref="EncodingException">Ignore.</exception>
-    public override bool TryGetString(ReadOnlySpan<byte> value, out string result)
+    public override bool TryDecodingToString(ReadOnlySpan<byte> value, out string result)
     {
         result = string.Empty;
 
         if (IsValid(value))
         {
-            result = GetString(value);
+            result = DecodeToString(value);
 
             return true;
         }
@@ -395,12 +395,12 @@ public class AlphaNumeric : PlayEncoding
     }
 
     /// <summary>
-    ///     GetChar
+    ///     DecodeToChar
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="EncodingException"></exception>
-    public char GetChar(byte value)
+    public char DecodeToChar(byte value)
     {
         Validate(value);
 

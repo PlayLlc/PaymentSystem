@@ -16,25 +16,25 @@ public readonly struct Status
 
     private static readonly ImmutableSortedDictionary<byte, Status> _ValueObjectMap;
 
-    /// <value>Decimal: 1; Hexadecimal: 0x1</value>
+    /// <value>Decimal: 1; HexadecimalCodec: 0x1</value>
     public static readonly Status CardReadSuccessful;
 
-    /// <value>Decimal: 2; Hexadecimal: 0x2</value>
+    /// <value>Decimal: 2; HexadecimalCodec: 0x2</value>
     public static readonly Status Idle;
 
-    /// <value>Decimal: 0; Hexadecimal: 0x0</value>
+    /// <value>Decimal: 0; HexadecimalCodec: 0x0</value>
     public static readonly Status NotAvailable;
 
-    /// <value>Decimal: 3; Hexadecimal: 0x3</value>
+    /// <value>Decimal: 3; HexadecimalCodec: 0x3</value>
     public static readonly Status NotReady;
 
-    /// <value>Decimal: 4; Hexadecimal: 0x4</value>
+    /// <value>Decimal: 4; HexadecimalCodec: 0x4</value>
     public static readonly Status Processing;
 
-    /// <value>Decimal: 5; Hexadecimal: 0x5</value>
+    /// <value>Decimal: 5; HexadecimalCodec: 0x5</value>
     public static readonly Status ProcessingError;
 
-    /// <value>Decimal: 6; Hexadecimal: 0x6</value>
+    /// <value>Decimal: 6; HexadecimalCodec: 0x6</value>
     public static readonly Status ReadyToRead;
 
     #endregion

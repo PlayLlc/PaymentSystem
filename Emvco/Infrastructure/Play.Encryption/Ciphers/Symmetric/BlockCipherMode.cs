@@ -18,13 +18,13 @@ public sealed record BlockCipherMode : EnumObject<byte>, IEqualityComparer<Block
     ///     'Cipher Block Chaining' mode encrypts each block is OR'd to the previous block before encrypting
     ///     which requires successfully decrypting each subsequent block to correctly decipher the next
     /// </summary>
-    /// <value>Decimal: 1; Hexadecimal: 0x01</value>
+    /// <value>Decimal: 1; HexadecimalCodec: 0x01</value>
     public static readonly BlockCipherMode Cbc;
 
     /// <summary>
     ///     'Electronic Codebook' mode enciphers each block individually without chaining
     /// </summary>
-    /// <value>Decimal: 2; Hexadecimal: 0x02</value>
+    /// <value>Decimal: 2; HexadecimalCodec: 0x02</value>
     public static readonly BlockCipherMode Ecb;
 
     #endregion

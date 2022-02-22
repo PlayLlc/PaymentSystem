@@ -17,7 +17,7 @@ public class UnsignedBinaryCodec : BerPrimitiveCodec
     #region Static Metadata
 
     private static readonly UnsignedInteger _UnsignedIntegerCodec = PlayEncoding.UnsignedInteger;
-    public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(UnsignedBinaryCodec));
+    public static readonly BerEncodingId Identifier = GetEncodingId(typeof(UnsignedBinaryCodec));
 
     #endregion
 

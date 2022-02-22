@@ -7,12 +7,12 @@ using Play.Core.Specifications;
 
 namespace Play.Codecs.Strings;
 
-public class Unicode : PlayEncoding
+public class UnicodeCodec : PlayEncoding
 {
     #region Static Metadata
 
-    private static readonly Encoding _UnicodeCodec = Unicode;
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(Unicode));
+    private static readonly Encoding _UnicodeCodec = UnicodeCodec;
+    public static readonly PlayEncodingId EncodingId = new(typeof(UnicodeCodec));
 
     #endregion
 
@@ -20,18 +20,18 @@ public class Unicode : PlayEncoding
 
     public override int GetByteCount(char[] chars, int index, int count) => _UnicodeCodec.GetByteCount(chars, index, count);
 
-    public override int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex) =>
+    public override int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex) =>
         _UnicodeCodec.GetBytes(chars, charIndex, charCount, bytes, byteIndex);
 
     public override int GetCharCount(byte[] bytes, int index, int count) => _UnicodeCodec.GetCharCount(bytes, index, count);
 
-    public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
+    public override int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
         _UnicodeCodec.GetChars(bytes, byteIndex, byteCount, chars, charIndex);
 
     public override int GetMaxByteCount(int charCount) => _UnicodeCodec.GetMaxByteCount(charCount);
     public override int GetMaxCharCount(int byteCount) => _UnicodeCodec.GetMaxCharCount(byteCount);
 
-    public override byte[] GetBytes(ReadOnlySpan<char> value)
+    public override byte[] Encode(ReadOnlySpan<char> value)
     {
         int byteCount = _UnicodeCodec.GetByteCount(value);
 
@@ -52,8 +52,8 @@ public class Unicode : PlayEncoding
         }
     }
 
-    public override int GetBytes(ReadOnlySpan<char> value, Span<byte> buffer) => _UnicodeCodec.GetBytes(value, buffer);
-    public override string GetString(ReadOnlySpan<byte> value) => _UnicodeCodec.GetString(value);
+    public override int Encode(ReadOnlySpan<char> value, Span<byte> buffer) => _UnicodeCodec.GetBytes(value, buffer);
+    public override string DecodeToString(ReadOnlySpan<byte> value) => _UnicodeCodec.GetString(value);
     public override bool IsValid(ReadOnlySpan<char> value) => true;
     private bool IsValid(byte value) => Rune.IsValid(value);
 
@@ -68,14 +68,14 @@ public class Unicode : PlayEncoding
         return true;
     }
 
-    public override bool TryGetBytes(ReadOnlySpan<char> value, out byte[] result)
+    public override bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
     {
-        result = GetBytes(value);
+        result = Encode(value);
 
         return true;
     }
 
-    public override bool TryGetString(ReadOnlySpan<byte> value, out string result)
+    public override bool TryDecodingToString(ReadOnlySpan<byte> value, out string result)
     {
         if (!IsValid(value))
         {
@@ -84,7 +84,7 @@ public class Unicode : PlayEncoding
             return false;
         }
 
-        result = GetString(value);
+        result = DecodeToString(value);
 
         return true;
     }

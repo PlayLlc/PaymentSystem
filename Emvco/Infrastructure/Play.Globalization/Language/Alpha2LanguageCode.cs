@@ -13,7 +13,7 @@ public readonly struct Alpha2LanguageCode
 {
     #region Static Metadata
 
-    private static readonly AlphaNumeric _AlphaNumericCodec = PlayEncoding.AlphaNumeric;
+    private static readonly AlphaNumericCodec _AlphaNumericCodecCodec = PlayEncoding.AlphaNumericCodec;
 
     #endregion
 
@@ -32,10 +32,10 @@ public readonly struct Alpha2LanguageCode
         CheckCore.ForEmptySequence(value, nameof(value));
         CheckCore.ForExactLength(value, 2, nameof(value));
 
-        if (!_AlphaNumericCodec.IsValid(value))
+        if (!_AlphaNumericCodecCodec.IsValid(value))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} was expecting a decimal representation of an ASCII alphabetic character");
+                $"The argument {nameof(value)} was expecting a decimal representation of an AsciiCodec alphabetic character");
         }
 
         _FirstChar = value[0];
@@ -47,10 +47,10 @@ public readonly struct Alpha2LanguageCode
         CheckCore.ForEmptySequence(value, nameof(value));
         CheckCore.ForExactLength(value, 2, nameof(value));
 
-        if (!_AlphaNumericCodec.IsValid(value))
+        if (!_AlphaNumericCodecCodec.IsValid(value))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} was expecting a decimal representation of an ASCII alphabetic character");
+                $"The argument {nameof(value)} was expecting a decimal representation of an AsciiCodec alphabetic character");
         }
 
         _FirstChar = (byte) value[0];
@@ -59,13 +59,13 @@ public readonly struct Alpha2LanguageCode
 
     public Alpha2LanguageCode(byte firstChar, byte secondChar)
     {
-        if (!_AlphaNumericCodec.IsValid(firstChar))
+        if (!_AlphaNumericCodecCodec.IsValid(firstChar))
         {
             throw new ArgumentOutOfRangeException(nameof(firstChar),
                 $"The argument {firstChar} was out of range of an alphabetic Ascii value");
         }
 
-        if (!_AlphaNumericCodec.IsValid(secondChar))
+        if (!_AlphaNumericCodecCodec.IsValid(secondChar))
         {
             throw new ArgumentOutOfRangeException(nameof(firstChar),
                 $"The argument {firstChar} was out of range of an alphabetic Ascii value");

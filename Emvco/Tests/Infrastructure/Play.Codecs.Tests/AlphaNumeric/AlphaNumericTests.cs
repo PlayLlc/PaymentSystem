@@ -1,4 +1,5 @@
 ﻿using Play.Codecs.Exceptions;
+using Play.Codecs.Strings;
 
 using Xunit;
 
@@ -8,7 +9,7 @@ public class AlphaNumericTests
 {
     #region Instance Values
 
-    private readonly Strings.AlphaNumeric _SystemUnderTest;
+    private readonly AlphaNumericCodec _SystemUnderTest;
 
     #endregion
 
@@ -16,7 +17,7 @@ public class AlphaNumericTests
 
     public AlphaNumericTests()
     {
-        _SystemUnderTest = PlayEncoding.AlphaNumeric;
+        _SystemUnderTest = PlayEncoding.AlphaNumericCodec;
     }
 
     #endregion
@@ -27,8 +28,8 @@ public class AlphaNumericTests
     [MemberData(nameof(AlphaNumericFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(AlphaNumericFixture))]
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
     {
-        string decoded = _SystemUnderTest.GetString(testValue);
-        byte[] encoded = _SystemUnderTest.GetBytes(decoded);
+        string decoded = _SystemUnderTest.DecodeToString(testValue);
+        byte[] encoded = _SystemUnderTest.Encode(decoded);
 
         Assert.Equal(testValue, encoded);
     }
@@ -37,8 +38,8 @@ public class AlphaNumericTests
     [MemberData(nameof(AlphaNumericFixture.GetRandomString), 100, 1, 300, MemberType = typeof(AlphaNumericFixture))]
     public void RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult(string testValue)
     {
-        byte[] decoded = _SystemUnderTest.GetBytes(testValue);
-        string encoded = _SystemUnderTest.GetString(decoded);
+        byte[] decoded = _SystemUnderTest.Encode(testValue);
+        string encoded = _SystemUnderTest.DecodeToString(decoded);
 
         Assert.Equal(testValue, encoded);
     }
@@ -48,7 +49,7 @@ public class AlphaNumericTests
     {
         const string testData = "FFC•3C01CD6E4F?A13021";
 
-        Assert.Throws<EncodingException>(() => _SystemUnderTest.GetBytes(testData));
+        Assert.Throws<PlayEncodingException>(() => _SystemUnderTest.Encode(testData));
     }
 
     #endregion

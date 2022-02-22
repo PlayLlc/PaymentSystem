@@ -49,7 +49,7 @@ public class CompressedNumericCodec : BerPrimitiveCodec
     }.ToImmutableSortedDictionary();
 
     private static KeyValuePair<byte, char> _PaddingKey;
-    public static BerEncodingId Identifier = GetBerEncodingId(typeof(CompressedNumericCodec));
+    public static BerEncodingId Identifier = GetEncodingId(typeof(CompressedNumericCodec));
     private const byte _PaddingByteKey = 70;
     private const char _PaddingCharKey = 'F';
     private const byte _LeftNibbleMask = (byte) (Bits.Eight | Bits.Seven | Bits.Six | Bits.Five);

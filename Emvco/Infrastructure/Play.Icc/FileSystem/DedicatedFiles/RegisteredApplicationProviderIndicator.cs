@@ -32,19 +32,19 @@ public readonly struct RegisteredApplicationProviderIndicator
     public RegisteredApplicationProviderIndicator(ReadOnlySpan<byte> value)
     {
         if (value.Length == ByteCount)
-            _Value = PlayEncoding.UnsignedInteger.GetUInt64(value);
+            _Value = PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(value);
 
         if (value.Length < ByteCount)
-            _Value = PlayEncoding.UnsignedInteger.GetUInt64(value.LeftPaddedArray(0x00, ByteCount - value.Length));
+            _Value = PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(value.LeftPaddedArray(0x00, ByteCount - value.Length));
 
-        _Value = PlayEncoding.UnsignedInteger.GetUInt64(value[..4]);
+        _Value = PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(value[..4]);
     }
 
     #endregion
 
     #region Instance Members
 
-    public byte[] AsByteArray() => PlayEncoding.UnsignedInteger.GetBytes(_Value);
+    public byte[] AsByteArray() => PlayCodec.UnsignedIntegerCodec.Encode(_Value);
     public int CompareTo(RegisteredApplicationProviderIndicator other) => _Value.CompareTo(other);
     public int GetByteCount() => ByteCount;
 

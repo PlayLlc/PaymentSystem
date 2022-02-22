@@ -17,7 +17,7 @@ public class GetStringTests
 
     #region Instance Values
 
-    private readonly Hexadecimal _Hexadecimal = PlayEncoding.Hexadecimal;
+    private readonly HexadecimalCodec _HexadecimalCodec = PlayEncoding.HexadecimalCodec;
     private byte[] OneHundred;
     private byte[] OneThousand;
     private byte[] Ten;
@@ -52,7 +52,7 @@ public class GetStringTests
     {
         ReadOnlySpan<byte> oneThousand = Ten;
         for (int i = 0; i < _Iterations; i++)
-            _Hexadecimal.GetString(oneThousand);
+            _HexadecimalCodec.DecodeToString(oneThousand);
     }
 
     [Benchmark]
@@ -60,7 +60,7 @@ public class GetStringTests
     {
         ReadOnlySpan<byte> oneThousand = OneHundred;
         for (int i = 0; i < _Iterations; i++)
-            _Hexadecimal.GetString(oneThousand);
+            _HexadecimalCodec.DecodeToString(oneThousand);
     }
 
     [Benchmark]
@@ -68,7 +68,7 @@ public class GetStringTests
     {
         ReadOnlySpan<byte> oneThousand = OneThousand;
         for (int i = 0; i < _Iterations; i++)
-            _Hexadecimal.GetString(oneThousand);
+            _HexadecimalCodec.DecodeToString(oneThousand);
     }
 
     [Benchmark]
@@ -76,7 +76,7 @@ public class GetStringTests
     {
         ReadOnlySpan<byte> oneThousand = TenThousand;
         for (int i = 0; i < _Iterations; i++)
-            _Hexadecimal.GetString(oneThousand);
+            _HexadecimalCodec.DecodeToString(oneThousand);
     }
 
     #endregion

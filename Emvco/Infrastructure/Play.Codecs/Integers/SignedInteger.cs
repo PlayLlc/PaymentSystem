@@ -7,11 +7,11 @@ using Play.Core.Extensions;
 
 namespace Play.Codecs.Integers;
 
-public class SignedInteger : PlayEncoding
+public class SignedIntegerCodec : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(SignedInteger));
+    public static readonly PlayEncodingId PlayEncodingId = new(typeof(SignedIntegerCodec));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap =
         Enumerable.Range(48, 57 - 48).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
@@ -98,16 +98,16 @@ public class SignedInteger : PlayEncoding
     public byte[] GetBytes(int value) => BitConverter.GetBytes(value);
     public byte[] GetBytes(long value) => BitConverter.GetBytes(value);
 
-    public override int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
+    public override int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
     {
         Validate(chars[charIndex..charCount]);
 
-        Array.ConstrainedCopy(GetBytes(chars), charIndex, bytes, byteIndex, charCount);
+        Array.ConstrainedCopy(Encode(chars), charIndex, bytes, byteIndex, charCount);
 
         return charCount;
     }
 
-    public override byte[] GetBytes(ReadOnlySpan<char> value)
+    public override byte[] Encode(ReadOnlySpan<char> value)
     {
         ReadOnlySpan<char> buffer = value[0] == '-' ? value[1..] : value;
         Validate(value);
@@ -119,7 +119,7 @@ public class SignedInteger : PlayEncoding
         return result;
     }
 
-    public override bool TryGetBytes(ReadOnlySpan<char> value, out byte[] result)
+    public override bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
     {
         if (!IsValid(value))
         {
@@ -147,7 +147,7 @@ public class SignedInteger : PlayEncoding
         return (int) ((result % 1) == 0 ? result : result + 1);
     }
 
-    public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
+    public override int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
     {
         dynamic integerValue = GetInteger(bytes[byteIndex..byteCount]);
 
@@ -265,9 +265,9 @@ public class SignedInteger : PlayEncoding
 
     // There is an extra character for a negative sign '-'
     public override int GetMaxCharCount(int byteCount) => ((BigInteger) Math.Pow(2, byteCount * 8)).GetNumberOfDigits() + 1;
-    public override string GetString(ReadOnlySpan<byte> value) => new(GetChars(value));
+    public override string DecodeToString(ReadOnlySpan<byte> value) => new(GetChars(value));
 
-    public override bool TryGetString(ReadOnlySpan<byte> value, out string result)
+    public override bool TryDecodingToString(ReadOnlySpan<byte> value, out string result)
     {
         if (!TryGetChars(value, out char[] buffer))
         {

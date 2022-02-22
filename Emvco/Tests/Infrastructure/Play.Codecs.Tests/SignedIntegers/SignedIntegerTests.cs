@@ -8,7 +8,7 @@ public class SignedIntegerTests
 {
     #region Instance Values
 
-    private readonly SignedInteger _SystemUnderTest;
+    private readonly SignedIntegerCodec _SystemUnderTest;
 
     #endregion
 
@@ -16,7 +16,7 @@ public class SignedIntegerTests
 
     public SignedIntegerTests()
     {
-        _SystemUnderTest = PlayEncoding.SignedInteger;
+        _SystemUnderTest = PlayEncoding.SignedIntegerCodec;
     }
 
     #endregion
@@ -27,8 +27,8 @@ public class SignedIntegerTests
     [MemberData(nameof(SignedIntegerFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(SignedIntegerFixture))]
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
     {
-        string decoded = _SystemUnderTest.GetString(testValue);
-        byte[] encoded = _SystemUnderTest.GetBytes(decoded);
+        string decoded = _SystemUnderTest.DecodeToString(testValue);
+        byte[] encoded = _SystemUnderTest.Encode(decoded);
 
         Assert.Equal(testValue, encoded);
     }

@@ -5,7 +5,7 @@ using Play.Codecs.Exceptions;
 
 namespace Play.Emv.Exceptions;
 
-public class InvalidSignalRequest : EncodingException
+public class InvalidSignalRequest : PlayEncodingException
 {
     #region Constructor
 

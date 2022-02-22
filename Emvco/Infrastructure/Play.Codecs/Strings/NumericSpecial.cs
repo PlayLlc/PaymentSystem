@@ -9,14 +9,15 @@ using Play.Core.Specifications;
 namespace Play.Codecs.Strings;
 
 /// <summary>
-///     Numeric Special Consists of Numeric Hex values in the range of '0' – '9' per byte or Special Ascii characters in
+///     NumericCodec Special Consists of NumericCodec Hex values in the range of '0' – '9' per byte or Special Ascii
+///     characters in
 ///     the ranges of 32 - 47, 58 - 64, 91 - 96, 123 - 126
 /// </summary>
 public class NumericSpecial : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(NumericSpecial));
+    public static readonly PlayEncodingId EncodingId = new(typeof(NumericSpecial));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = Enumerable.Range(0, 10).Concat(Enumerable.Range(32, 47 - 32))
         .Concat(Enumerable.Range(58, 64 - 58)).Concat(Enumerable.Range(91, 96 - 91)).Concat(Enumerable.Range(123, 126 - 123))
@@ -60,7 +61,7 @@ public class NumericSpecial : PlayEncoding
         return false;
     }
 
-    public new byte[] GetBytes(string value)
+    public new byte[] Encode(string value)
     {
         if (value.Length < Specs.ByteArray.StackAllocateCeiling)
         {
@@ -83,9 +84,9 @@ public class NumericSpecial : PlayEncoding
         }
     }
 
-    public override int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
+    public override int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
     {
-        ReadOnlySpan<byte> buffer = GetBytes(chars[charIndex..(charIndex + charCount)]);
+        ReadOnlySpan<byte> buffer = Encode(chars[charIndex..(charIndex + charCount)]);
 
         for (int i = 0, j = byteIndex; i < (buffer.Length + byteIndex); i++, j++)
             bytes[j] = buffer[i];
@@ -93,22 +94,22 @@ public class NumericSpecial : PlayEncoding
         return buffer.Length;
     }
 
-    public override byte[] GetBytes(ReadOnlySpan<char> value) => GetBytes(value, value.Length);
+    public override byte[] Encode(ReadOnlySpan<char> value) => Encode(value, value.Length);
 
-    public byte[] GetBytes(ReadOnlySpan<char> value, int length)
+    public byte[] Encode(ReadOnlySpan<char> value, int length)
     {
         if (value.Length == length)
-            return GetBytes(value);
+            return Encode(value);
 
         if (value.Length > length)
-            return GetBytes(value)[^length..];
+            return Encode(value)[^length..];
 
         if (length < Specs.ByteArray.StackAllocateCeiling)
         {
             Span<char> tempBuffer = stackalloc char[value.Length];
             value.CopyTo(tempBuffer);
 
-            return GetBytes(tempBuffer);
+            return Encode(tempBuffer);
         }
         else
         {
@@ -116,11 +117,11 @@ public class NumericSpecial : PlayEncoding
             Span<char> tempBuffer = spanCharOwner.Span;
             value.CopyTo(tempBuffer);
 
-            return GetBytes(tempBuffer);
+            return Encode(tempBuffer);
         }
     }
 
-    public override bool TryGetBytes(ReadOnlySpan<char> value, out byte[] result)
+    public override bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
     {
         if (!IsValid(value))
         {
@@ -129,7 +130,7 @@ public class NumericSpecial : PlayEncoding
             return false;
         }
 
-        result = GetBytes(value);
+        result = Encode(value);
 
         return true;
     }
@@ -137,10 +138,10 @@ public class NumericSpecial : PlayEncoding
     public override int GetByteCount(char[] chars, int index, int count) => count;
     public override int GetMaxByteCount(int charCount) => charCount;
 
-    public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
+    public override int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
         throw new NotImplementedException();
 
-    public char[] GetChars(ReadOnlySpan<byte> value)
+    public char[] DecodeToChars(ReadOnlySpan<byte> value)
     {
         int length = value.Length * 2;
 
@@ -167,9 +168,9 @@ public class NumericSpecial : PlayEncoding
 
     public override int GetCharCount(byte[] bytes, int index, int count) => GetMaxCharCount(count);
     public override int GetMaxCharCount(int byteCount) => byteCount * 2;
-    public override string GetString(ReadOnlySpan<byte> value) => new(GetChars(value));
+    public override string DecodeToString(ReadOnlySpan<byte> value) => new(DecodeToChars(value));
 
-    public override bool TryGetString(ReadOnlySpan<byte> value, out string result)
+    public override bool TryDecodingToString(ReadOnlySpan<byte> value, out string result)
     {
         if (!IsValid(value))
         {
@@ -178,7 +179,7 @@ public class NumericSpecial : PlayEncoding
             return false;
         }
 
-        result = GetString(value);
+        result = DecodeToString(value);
 
         return true;
     }

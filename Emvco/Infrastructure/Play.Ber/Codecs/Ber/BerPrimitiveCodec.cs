@@ -9,7 +9,7 @@ public abstract class BerPrimitiveCodec
 {
     #region Instance Members
 
-    protected static BerEncodingId GetBerEncodingId(Type encoder) => new(encoder);
+    protected static BerEncodingId GetEncodingId(Type encoder) => new(encoder);
 
     // A TLV object's Length is a uint. That accounts for one byte for the metadata and 2 subsequent
     // octets for the actual byte count of the Value content

@@ -6,7 +6,7 @@ using Play.Codecs.Strings;
 
 namespace Play.Codecs;
 
-public abstract class PlayEncoding : Encoding
+public abstract class PlayEncoding
 {
     #region Static Metadata
 
@@ -21,38 +21,44 @@ public abstract class PlayEncoding : Encoding
     ///     An override of the original <see cref="System.Text.Encoding.ASCII" /> that will enforce strict parsing.
     ///     Exceptions will be raised if invalid data is attempted to be parsed
     /// </summary>
-    public new static StrictAscii ASCII => new();
+    public static StrictAsciiCodec AsciiCodec => new();
 
     // ReSharper disable once InconsistentNaming
     /// <summary>
     ///     An override of the original <see cref="System.Text.Encoding.UTF8" /> that will enforce strict parsing.
     ///     Exceptions will be raised if invalid data is attempted to be parsed
     /// </summary>
-    public new static StrictUtf8 UTF8 => new();
+    public static StrictUtf8Codec Utf8Codec => new();
 
-    public new static Unicode Unicode => new();
-    public static StrictAscii StrictAscii => new();
-    public static Binary Binary => new();
-    public static Hexadecimal Hexadecimal => new();
-    public static Alphabetic Alphabetic => new();
-    public static AlphaNumeric AlphaNumeric => new();
-    public static AlphaNumericSpecial AlphaNumericSpecial => new();
-    public static CompressedNumeric CompressedNumeric => new();
-    public static Numeric Numeric => new();
-    public static UnsignedInteger UnsignedBinary => new();
-    public static UnsignedInteger UnsignedInteger => new();
-    public static SignedInteger SignedInteger => new();
+    public static UnicodeCodec UnicodeCodec => new();
+    public static StrictAsciiCodec StrictAsciiCodec => new();
+    public static BinaryCodec BinaryCodec => new();
+    public static HexadecimalCodec HexadecimalCodec => new();
+    public static AlphabeticCodec AlphabeticCodec => new();
+    public static AlphaNumericCodec AlphaNumericCodec => new();
+    public static AlphaNumericSpecialCodec AlphaNumericSpecialCodec => new();
+    public static CompressedNumericCodec CompressedNumericCodec => new();
+    public static NumericCodec NumericCodec => new();
+    public static UnsignedIntegerCodec UnsignedBinaryCodec => new();
+    public static UnsignedIntegerCodec UnsignedIntegerCodec => new();
+    public static SignedIntegerCodec SignedIntegerCodec => new();
 
     #endregion
 
     #region Instance Members
 
-    public abstract byte[] GetBytes(ReadOnlySpan<char> value);
-    public new abstract string GetString(ReadOnlySpan<byte> value);
+    public abstract byte[] Encode(ReadOnlySpan<char> value);
+    public abstract int GetByteCount(char[] chars, int index, int count);
+    public abstract int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex);
+    public abstract int GetCharCount(byte[] bytes, int index, int count);
+    public abstract int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex);
+    public abstract int GetMaxByteCount(int charCount);
+    public abstract int GetMaxCharCount(int byteCount);
+    public abstract string DecodeToString(ReadOnlySpan<byte> value);
     public abstract bool IsValid(ReadOnlySpan<char> value);
     public abstract bool IsValid(ReadOnlySpan<byte> value);
-    public abstract bool TryGetBytes(ReadOnlySpan<char> value, out byte[] result);
-    public abstract bool TryGetString(ReadOnlySpan<byte> value, out string result);
+    public abstract bool TryEncoding(ReadOnlySpan<char> value, out byte[] result);
+    public abstract bool TryDecodingToString(ReadOnlySpan<byte> value, out string result);
 
     #endregion
 }

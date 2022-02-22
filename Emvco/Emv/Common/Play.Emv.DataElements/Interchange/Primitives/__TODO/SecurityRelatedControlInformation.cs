@@ -27,7 +27,7 @@
 
 //        byte[] value = {pinKeyTypeIdentifier, pinKeyIdentifier};
 
-//        PlayEncoding.Numeric.GetChars(value, buffer, ref offset);
+//        PlayEncoding.NumericCodec.DecodeToChars(value, buffer, ref offset);
 
 //        return buffer.ToArray();
 //    }

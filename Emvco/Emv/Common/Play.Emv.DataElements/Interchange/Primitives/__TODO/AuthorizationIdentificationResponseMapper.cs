@@ -5,7 +5,7 @@
 //    #region Static Metadata
 
 //    public static readonly DataFieldId DataFieldId = new(38);
-//    public static readonly PlayEncodingId PlayEncodingId = AlphaNumeric.PlayEncodingId;
+//    public static readonly EncodingId EncodingId = AlphaNumericCodec.EncodingId;
 //    private const byte _ByteLength = 6;
 
 //    #endregion
@@ -14,7 +14,7 @@
 
 //    protected override ushort GetByteLength() => _ByteLength;
 //    public override DataFieldId GetDataFieldId() => DataFieldId;
-//    public override PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
+//    public override EncodingId GetPlayEncodingId() => EncodingId;
 
 //    #endregion
 //}

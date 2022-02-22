@@ -17,7 +17,7 @@ public class GetBytesTests
 
     #region Instance Values
 
-    private readonly Hexadecimal _Hexadecimal = PlayEncoding.Hexadecimal;
+    private readonly HexadecimalCodec _HexadecimalCodec = PlayEncoding.HexadecimalCodec;
     private string OneHundred;
     private string OneThousand;
     private string Ten;
@@ -60,21 +60,21 @@ public class GetBytesTests
     public void GetBytesBenchmark_Ten()
     {
         for (int i = 0; i < _Iterations; i++)
-            _Hexadecimal.GetBytes(Ten);
+            _HexadecimalCodec.Encode(Ten);
     }
 
     [Benchmark]
     public void GetBytesBenchmark_OneHundred()
     {
         for (int i = 0; i < _Iterations; i++)
-            _Hexadecimal.GetBytes(OneHundred);
+            _HexadecimalCodec.Encode(OneHundred);
     }
 
     [Benchmark]
     public void GetBytesBenchmark_OneThousand()
     {
         for (int i = 0; i < _Iterations; i++)
-            _Hexadecimal.GetBytes(OneThousand);
+            _HexadecimalCodec.Encode(OneThousand);
     }
 
     #endregion

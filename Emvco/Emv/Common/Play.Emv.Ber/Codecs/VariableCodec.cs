@@ -11,7 +11,7 @@ public class VariableCodec : BerPrimitiveCodec
     #region Static Metadata
 
     private static readonly OctetStringCodec _OctetStringCodec = new();
-    public static readonly BerEncodingId Identifier = GetBerEncodingId(typeof(VariableCodec));
+    public static readonly BerEncodingId Identifier = GetEncodingId(typeof(VariableCodec));
 
     #endregion
 

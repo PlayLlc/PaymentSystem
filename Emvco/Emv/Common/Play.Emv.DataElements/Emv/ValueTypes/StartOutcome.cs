@@ -8,19 +8,19 @@ public readonly struct StartOutcome
 
     private static readonly ImmutableSortedDictionary<byte, StartOutcome> _ValueObjectMap;
 
-    /// <value>Decimal: 0; Hexadecimal: 0x0</value>
+    /// <value>Decimal: 0; HexadecimalCodec: 0x0</value>
     public static readonly StartOutcome A;
 
-    /// <value>Decimal: 16; Hexadecimal: 0x10</value>
+    /// <value>Decimal: 16; HexadecimalCodec: 0x10</value>
     public static readonly StartOutcome B;
 
-    /// <value>Decimal: 32; Hexadecimal: 0x20</value>
+    /// <value>Decimal: 32; HexadecimalCodec: 0x20</value>
     public static readonly StartOutcome C;
 
-    /// <value>Decimal: 48; Hexadecimal: 0x30</value>
+    /// <value>Decimal: 48; HexadecimalCodec: 0x30</value>
     public static readonly StartOutcome D;
 
-    /// <value>Decimal: 240; Hexadecimal: 0xF0</value>
+    /// <value>Decimal: 240; HexadecimalCodec: 0xF0</value>
     public static readonly StartOutcome NotAvailable;
 
     #endregion

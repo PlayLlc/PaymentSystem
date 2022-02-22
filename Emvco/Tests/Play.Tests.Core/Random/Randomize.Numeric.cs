@@ -10,11 +10,11 @@ namespace Play.Tests.Core.Random;
 public partial class Randomize
 {
     /// <summary>
-    ///     Numeric data elements consist of two numeric digits (having values in the range Hex '0' – '9') per byte.
+    ///     NumericCodec data elements consist of two numeric digits (having values in the range Hex '0' – '9') per byte.
     ///     These digits are right justified and padded with leading hexadecimal zeroes. Other specifications sometimes
-    ///     refer to this data format as Binary Coded Decimal (“BCD”) or unsigned packed.
-    ///     Example: Amount, Authorized(Numeric) is defined as “n 12” with a length of six bytes.
-    ///     A value of 12345 is stored in Amount, Authorized (Numeric) as Hex '00 00 00 01 23 45'.
+    ///     refer to this data format as BinaryCodec Coded Decimal (“BCD”) or unsigned packed.
+    ///     Example: Amount, Authorized(NumericCodec) is defined as “n 12” with a length of six bytes.
+    ///     A value of 12345 is stored in Amount, Authorized (NumericCodec) as Hex '00 00 00 01 23 45'.
     /// </summary>
     public class Numeric
     {
@@ -36,28 +36,28 @@ public partial class Randomize
         {
             Span<byte> buffer = Bytes(Specs.Integer.UInt16.ByteCount);
 
-            return PlayEncoding.UnsignedInteger.GetUInt16(buffer);
+            return PlayEncoding.UnsignedIntegerCodec.GetUInt16(buffer);
         }
 
         public static uint UInt()
         {
             Span<byte> buffer = Bytes(Specs.Integer.UInt32.ByteCount);
 
-            return PlayEncoding.UnsignedInteger.GetUInt32(buffer);
+            return PlayEncoding.UnsignedIntegerCodec.GetUInt32(buffer);
         }
 
         public static ulong ULong()
         {
             Span<byte> buffer = Bytes(Specs.Integer.UInt64.ByteCount);
 
-            return PlayEncoding.UnsignedInteger.GetUInt64(buffer);
+            return PlayEncoding.UnsignedIntegerCodec.GetUInt64(buffer);
         }
 
         /// <summary>
-        ///     Returns a Numeric encoded byte array
+        ///     Returns a NumericCodec encoded byte array
         /// </summary>
         /// <param name="length">
-        ///     The length of char pairs returned. Numeric char length must consist of a multiple of 2
+        ///     The length of char pairs returned. NumericCodec char length must consist of a multiple of 2
         /// </param>
         /// <returns></returns>
         public static byte[] Bytes(int length)
@@ -72,10 +72,10 @@ public partial class Randomize
         }
 
         /// <summary>
-        ///     Returns a Numeric encoded string
+        ///     Returns a NumericCodec encoded string
         /// </summary>
         /// <param name="length">
-        ///     The length of char pairs returned. Numeric char length must consist of a multiple of 2
+        ///     The length of char pairs returned. NumericCodec char length must consist of a multiple of 2
         /// </param>
         /// <returns></returns>
         public static string String(int length)
@@ -95,11 +95,11 @@ public partial class Randomize
         }
 
         /// <summary>
-        ///     Returns a Numeric encoded string
+        ///     Returns a NumericCodec encoded string
         /// </summary>
         /// <param name="leftPad">Specifies the amount of '0' characters that will prepend this result</param>
         /// <param name="length">
-        ///     The length of char pairs returned. Numeric char length must consist of a multiple of 2
+        ///     The length of char pairs returned. NumericCodec char length must consist of a multiple of 2
         /// </param>
         /// <returns></returns>
         public static string String(int leftPad, int length)

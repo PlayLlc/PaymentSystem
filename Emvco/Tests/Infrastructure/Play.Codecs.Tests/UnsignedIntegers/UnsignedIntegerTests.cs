@@ -8,7 +8,7 @@ public class UnsignedIntegerTests
 {
     #region Instance Values
 
-    private readonly UnsignedInteger _SystemUnderTest;
+    private readonly UnsignedIntegerCodec _SystemUnderTest;
 
     #endregion
 
@@ -16,7 +16,7 @@ public class UnsignedIntegerTests
 
     public UnsignedIntegerTests()
     {
-        _SystemUnderTest = PlayEncoding.UnsignedInteger;
+        _SystemUnderTest = PlayEncoding.UnsignedIntegerCodec;
     }
 
     #endregion
@@ -27,8 +27,8 @@ public class UnsignedIntegerTests
     [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(UnsignedIntegerFixture))]
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
     {
-        string decoded = _SystemUnderTest.GetString(testValue);
-        byte[] encoded = _SystemUnderTest.GetBytes(decoded);
+        string decoded = _SystemUnderTest.DecodeToString(testValue);
+        byte[] encoded = _SystemUnderTest.Encode(decoded);
 
         Assert.Equal(testValue, encoded);
     }

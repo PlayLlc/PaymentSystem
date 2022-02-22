@@ -9,11 +9,11 @@ using Play.Core.Extensions;
 
 namespace Play.Codecs.Strings;
 
-public class Hexadecimal : PlayEncoding
+public class HexadecimalCodec : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(Hexadecimal));
+    public static readonly PlayEncodingId EncodingId = new(typeof(HexadecimalCodec));
 
     #endregion
 
@@ -40,7 +40,7 @@ public class Hexadecimal : PlayEncoding
     }
 
     /// <summary>
-    ///     Checks if the value contains valid Hexadecimal characters
+    ///     Checks if the value contains valid HexadecimalCodec characters
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -66,7 +66,7 @@ public class Hexadecimal : PlayEncoding
     }
 
     /// <summary>
-    ///     Encodes a valid Hexadecimal character into its equivalent byte value
+    ///     Encodes a valid HexadecimalCodec character into its equivalent byte value
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -83,7 +83,7 @@ public class Hexadecimal : PlayEncoding
 
     /// <exception cref="EncodingException"></exception>
     /// <exception cref="EncodingException"></exception>
-    public override int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
+    public override int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
     {
         CheckCore.ForEmptySequence(chars, nameof(chars));
 
@@ -116,7 +116,7 @@ public class Hexadecimal : PlayEncoding
     /// < returns></returns>
     /// < exception cref="EncodingException"></exception>
     /// <exception cref="EncodingException"></exception>
-    public override byte[] GetBytes(ReadOnlySpan<char> value)
+    public override byte[] Encode(ReadOnlySpan<char> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
 
@@ -140,13 +140,13 @@ public class Hexadecimal : PlayEncoding
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="EncodingException"></exception>
-    public override bool TryGetBytes(ReadOnlySpan<char> value, out byte[] result)
+    public override bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
     {
         try
         {
             CheckCore.ForEmptySequence(value, nameof(value));
 
-            result = GetBytes(value);
+            result = Encode(value);
 
             return true;
         }
@@ -178,7 +178,7 @@ public class Hexadecimal : PlayEncoding
     }
 
     /// <summary>
-    ///     GetChars
+    ///     DecodeToChars
     /// </summary>
     /// <param name="bytes"></param>
     /// <param name="byteIndex"></param>
@@ -187,7 +187,7 @@ public class Hexadecimal : PlayEncoding
     /// <param name="charIndex"></param>
     /// <returns></returns>
     /// <exception cref="EncodingException"></exception>
-    public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
+    public override int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
     {
         if (byteIndex > bytes.Length)
             throw new ArgumentOutOfRangeException();
@@ -207,7 +207,7 @@ public class Hexadecimal : PlayEncoding
     }
 
     /// <summary>
-    ///     Decodes a sequence of bytes into a Hexadecimal string
+    ///     Decodes a sequence of bytes into a HexadecimalCodec string
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -249,12 +249,12 @@ public class Hexadecimal : PlayEncoding
     public override int GetMaxCharCount(int byteCount) => byteCount * 2;
 
     /// <summary>
-    ///     Decodes a sequence of bytes into a Hexadecimal string
+    ///     Decodes a sequence of bytes into a HexadecimalCodec string
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="EncodingException"></exception>
-    public override string GetString(ReadOnlySpan<byte> value)
+    public override string DecodeToString(ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
 
@@ -278,18 +278,18 @@ public class Hexadecimal : PlayEncoding
     }
 
     /// <summary>
-    ///     Decodes a sequence of bytes into a Hexadecimal string
+    ///     Decodes a sequence of bytes into a HexadecimalCodec string
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="EncodingException"></exception>
-    public override bool TryGetString(ReadOnlySpan<byte> value, out string result)
+    public override bool TryDecodingToString(ReadOnlySpan<byte> value, out string result)
     {
         try
         {
             CheckCore.ForEmptySequence(value, nameof(value));
 
-            result = GetString(value);
+            result = DecodeToString(value);
 
             return true;
         }
@@ -301,28 +301,28 @@ public class Hexadecimal : PlayEncoding
         }
     }
 
-    public BigInteger GetBigInteger(ReadOnlySpan<char> value) => UnsignedInteger.GetBigInteger(GetBytes(value));
+    public BigInteger GetBigInteger(ReadOnlySpan<char> value) => UnsignedIntegerCodec.GetBigInteger(Encode(value));
 
     /// <summary>
-    ///     Returns an unsigned integer from the Hexadecimal string provided
+    ///     Returns an unsigned integer from the HexadecimalCodec string provided
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    public ushort GetUInt16(ReadOnlySpan<char> value) => UnsignedInteger.GetUInt16(GetBytes(value));
+    public ushort GetUInt16(ReadOnlySpan<char> value) => UnsignedIntegerCodec.GetUInt16(Encode(value));
 
     /// <summary>
-    ///     Returns an unsigned integer from the Hexadecimal string provided
+    ///     Returns an unsigned integer from the HexadecimalCodec string provided
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    public uint GetUInt32(ReadOnlySpan<char> value) => UnsignedInteger.GetUInt32(GetBytes(value));
+    public uint GetUInt32(ReadOnlySpan<char> value) => UnsignedIntegerCodec.GetUInt32(Encode(value));
 
     /// <summary>
-    ///     Returns an unsigned integer from the Hexadecimal string provided
+    ///     Returns an unsigned integer from the HexadecimalCodec string provided
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    public ulong GetUIn64(ReadOnlySpan<char> value) => UnsignedInteger.GetUInt64(GetBytes(value));
+    public ulong GetUIn64(ReadOnlySpan<char> value) => UnsignedIntegerCodec.GetUInt64(Encode(value));
 
     private static void ToCharsBuffer(byte value, Span<char> buffer, int startingIndex = 0)
     {
@@ -346,7 +346,7 @@ public class Hexadecimal : PlayEncoding
                 '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
             };
 
-        /// <summary>Map from an ASCII char to its hex value, e.g. arr['B'] == 11. 0xFF means it's not a hex digit.</summary>
+        /// <summary>Map from an AsciiCodec char to its hex value, e.g. arr['B'] == 11. 0xFF means it's not a hex digit.</summary>
         public static ReadOnlySpan<byte> CharToHex =>
             new byte[]
             {

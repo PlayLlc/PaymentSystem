@@ -1,4 +1,5 @@
-﻿using Play.Emv.TestData.Encoding;
+﻿using Play.Codecs.Strings;
+using Play.Emv.TestData.Encoding;
 
 using Xunit;
 
@@ -8,7 +9,7 @@ public class NumericTests
 {
     #region Instance Values
 
-    private readonly Strings.Numeric _SystemUnderTest;
+    private readonly NumericCodec _SystemUnderTest;
 
     #endregion
 
@@ -16,7 +17,7 @@ public class NumericTests
 
     public NumericTests()
     {
-        _SystemUnderTest = PlayEncoding.Numeric;
+        _SystemUnderTest = PlayEncoding.NumericCodec;
     }
 
     #endregion
@@ -27,8 +28,8 @@ public class NumericTests
     [MemberData(nameof(NumericFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(NumericFixture))]
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
     {
-        string decoded = _SystemUnderTest.GetString(testValue);
-        byte[] encoded = _SystemUnderTest.GetBytes(decoded);
+        string decoded = _SystemUnderTest.DecodeToString(testValue);
+        byte[] encoded = _SystemUnderTest.Encode(decoded);
 
         Assert.Equal(testValue, encoded);
     }
@@ -37,8 +38,8 @@ public class NumericTests
     [MemberData(nameof(NumericFixture.GetRandomString), 100, 1, 300, MemberType = typeof(NumericFixture))]
     public void RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult(string testValue)
     {
-        byte[] decoded = _SystemUnderTest.GetBytes(testValue);
-        string encoded = _SystemUnderTest.GetString(decoded);
+        byte[] decoded = _SystemUnderTest.Encode(testValue);
+        string encoded = _SystemUnderTest.DecodeToString(decoded);
 
         Assert.Equal(testValue, encoded);
     }
@@ -47,8 +48,8 @@ public class NumericTests
     [MemberData(nameof(NumericFixture.GetRandomUShort), 100, MemberType = typeof(NumericFixture))]
     public void RandomDecodedUShort_EncodingThenDecoding_ReturnsExpectedResult(ushort testValue)
     {
-        byte[]? decoded = _SystemUnderTest.GetBytes(testValue);
-        ushort encoded = _SystemUnderTest.GetUInt16(decoded);
+        byte[]? decoded = _SystemUnderTest.Encode(testValue);
+        ushort encoded = _SystemUnderTest.DecodeToUInt16(decoded);
 
         Assert.Equal(testValue, encoded);
     }
@@ -57,8 +58,8 @@ public class NumericTests
     [MemberData(nameof(NumericFixture.GetRandomUInt), 100, MemberType = typeof(NumericFixture))]
     public void RandomDecodedUInt_EncodingThenDecoding_ReturnsExpectedResult(uint testValue)
     {
-        byte[]? decoded = _SystemUnderTest.GetBytes(testValue);
-        uint encoded = _SystemUnderTest.GetUInt32(decoded);
+        byte[]? decoded = _SystemUnderTest.Encode(testValue);
+        uint encoded = _SystemUnderTest.DecodeToUInt32(decoded);
 
         Assert.Equal(testValue, encoded);
     }
@@ -67,8 +68,8 @@ public class NumericTests
     [MemberData(nameof(NumericFixture.GetRandomULong), 100, MemberType = typeof(NumericFixture))]
     public void RandomDecodedULong_EncodingThenDecoding_ReturnsExpectedResult(ulong testValue)
     {
-        byte[]? decoded = _SystemUnderTest.GetBytes(testValue);
-        ulong encoded = _SystemUnderTest.GetUInt64(decoded);
+        byte[]? decoded = _SystemUnderTest.Encode(testValue);
+        ulong encoded = _SystemUnderTest.DecodeToUInt64(decoded);
 
         Assert.Equal(testValue, encoded);
     }
@@ -78,7 +79,7 @@ public class NumericTests
     {
         ushort testData = EncodingTestDataFactory.Numeric.ValueUshort;
 
-        byte[] result = _SystemUnderTest.GetBytes(testData, 3);
+        byte[] result = _SystemUnderTest.Encode(testData, 3);
 
         Assert.Equal(result, EncodingTestDataFactory.Numeric.ValueBytes);
     }
@@ -87,7 +88,7 @@ public class NumericTests
     public void AmountUint_ConvertingToByteArray_ReturnsExpectedResult()
     {
         uint testData = EncodingTestDataFactory.Numeric.ValueUint;
-        byte[] result = _SystemUnderTest.GetBytes(testData, 3);
+        byte[] result = _SystemUnderTest.Encode(testData, 3);
 
         Assert.Equal(result, EncodingTestDataFactory.Numeric.ValueBytes);
     }
@@ -97,7 +98,7 @@ public class NumericTests
     {
         ulong testData = EncodingTestDataFactory.Numeric.ValueUlong;
 
-        byte[] result = _SystemUnderTest.GetBytes(testData, 3);
+        byte[] result = _SystemUnderTest.Encode(testData, 3);
 
         Assert.Equal(result, EncodingTestDataFactory.Numeric.ValueBytes);
     }

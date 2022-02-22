@@ -9,11 +9,11 @@ using Play.Core.Exceptions;
 
 namespace Play.Codecs.Strings;
 
-public class StrictUtf8 : PlayEncoding
+public class StrictUtf8Codec : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(StrictUtf8));
+    public static readonly PlayEncodingId EncodingId = new(typeof(StrictUtf8Codec));
     private static readonly UTF8Encoding _ErrorDetectingEncoder = new(false, true);
 
     #endregion
@@ -22,7 +22,7 @@ public class StrictUtf8 : PlayEncoding
 
     /// <summary>
     ///     This is validating that the sequence of characters are in the Basic Multilingual Plane
-    ///     and are not in the Unicode Surrogate range
+    ///     and are not in the UnicodeCodec Surrogate range
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -61,7 +61,7 @@ public class StrictUtf8 : PlayEncoding
         return byteCount == value.Length;
     }
 
-    public override int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex) =>
+    public override int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex) =>
         _ErrorDetectingEncoder.GetBytes(chars, charIndex, charCount, bytes, byteIndex);
 
     /// <summary>
@@ -69,7 +69,7 @@ public class StrictUtf8 : PlayEncoding
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="EncoderFallbackException"></exception>
-    public override byte[] GetBytes(ReadOnlySpan<char> value)
+    public override byte[] Encode(ReadOnlySpan<char> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
 
@@ -90,13 +90,13 @@ public class StrictUtf8 : PlayEncoding
         }
     }
 
-    public override bool TryGetBytes(ReadOnlySpan<char> value, out byte[] result)
+    public override bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
     {
         try
         {
             CheckCore.ForEmptySequence(value, nameof(value));
 
-            result = GetBytes(value);
+            result = Encode(value);
 
             return true;
         }
@@ -111,7 +111,7 @@ public class StrictUtf8 : PlayEncoding
     public override int GetByteCount(char[] chars, int index, int count) => _ErrorDetectingEncoder.GetByteCount(chars, index, count);
     public override int GetMaxByteCount(int charCount) => _ErrorDetectingEncoder.GetMaxByteCount(charCount);
 
-    public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
+    public override int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
         _ErrorDetectingEncoder.GetChars(bytes, byteIndex, byteCount, chars, charIndex);
 
     public override int GetCharCount(byte[] bytes, int index, int count) => _ErrorDetectingEncoder.GetCharCount(bytes, index, count);
@@ -122,7 +122,7 @@ public class StrictUtf8 : PlayEncoding
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="EncoderFallbackException"></exception>
-    public override string GetString(ReadOnlySpan<byte> value)
+    public override string DecodeToString(ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
 
@@ -143,13 +143,13 @@ public class StrictUtf8 : PlayEncoding
         }
     }
 
-    public override bool TryGetString(ReadOnlySpan<byte> value, out string result)
+    public override bool TryDecodingToString(ReadOnlySpan<byte> value, out string result)
     {
         try
         {
             CheckCore.ForEmptySequence(value, nameof(value));
 
-            result = GetString(value);
+            result = DecodeToString(value);
 
             return true;
         }

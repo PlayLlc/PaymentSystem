@@ -26,7 +26,7 @@ public partial class Randomize
         }
 
         /// <summary>
-        ///     Returns a Hexadecimal encoded char array
+        ///     Returns a HexadecimalCodec encoded char array
         /// </summary>
         /// <param name="length">
         ///     The length of hexadecimal characters returned
@@ -44,7 +44,7 @@ public partial class Randomize
         }
 
         /// <summary>
-        ///     Returns a Hexadecimal encoded string
+        ///     Returns a HexadecimalCodec encoded string
         /// </summary>
         /// <param name="length">
         ///     The length of hexadecimal characters returned

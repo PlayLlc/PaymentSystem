@@ -13,7 +13,7 @@ public readonly struct Alpha3LanguageCode
 {
     #region Static Metadata
 
-    private static readonly AlphaNumeric _AlphaNumericCodec = PlayEncoding.AlphaNumeric;
+    private static readonly AlphaNumericCodec _AlphaNumericCodecCodec = PlayEncoding.AlphaNumericCodec;
 
     #endregion
 
@@ -32,10 +32,10 @@ public readonly struct Alpha3LanguageCode
     {
         CheckCore.ForExactLength(value, 3, nameof(value));
 
-        if (!_AlphaNumericCodec.IsValid(value))
+        if (!_AlphaNumericCodecCodec.IsValid(value))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} was expecting a decimal representation of an ASCII alphabetic character");
+                $"The argument {nameof(value)} was expecting a decimal representation of an AsciiCodec alphabetic character");
         }
 
         _FirstChar = value[0];
@@ -48,10 +48,10 @@ public readonly struct Alpha3LanguageCode
         CheckCore.ForEmptySequence(value, nameof(value));
         CheckCore.ForExactLength(value, 2, nameof(value));
 
-        if (!_AlphaNumericCodec.IsValid(value))
+        if (!_AlphaNumericCodecCodec.IsValid(value))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} was expecting a decimal representation of an ASCII alphabetic character");
+                $"The argument {nameof(value)} was expecting a decimal representation of an AsciiCodec alphabetic character");
         }
 
         _FirstChar = (byte) value[0];

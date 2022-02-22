@@ -10,19 +10,19 @@ public readonly struct CvmPerformedOutcome
 
     private static readonly ImmutableSortedDictionary<byte, CvmPerformedOutcome> _ValueObjectMap;
 
-    /// <value>Decimal: 48; Hexadecimal: 0x30</value>
+    /// <value>Decimal: 48; HexadecimalCodec: 0x30</value>
     public static readonly CvmPerformedOutcome ConfirmationCodeVerified;
 
-    /// <value>Decimal: 0; Hexadecimal: 0x00</value>
+    /// <value>Decimal: 0; HexadecimalCodec: 0x00</value>
     public static readonly CvmPerformedOutcome NoCvm;
 
-    /// <value>Decimal: 240; Hexadecimal: 0xF0</value>
+    /// <value>Decimal: 240; HexadecimalCodec: 0xF0</value>
     public static readonly CvmPerformedOutcome NotAvailable;
 
-    /// <value>Decimal: 16; Hexadecimal: 0x10</value>
+    /// <value>Decimal: 16; HexadecimalCodec: 0x10</value>
     public static readonly CvmPerformedOutcome ObtainSignature;
 
-    /// <value>Decimal: 32; Hexadecimal: 0x20</value>
+    /// <value>Decimal: 32; HexadecimalCodec: 0x20</value>
     public static readonly CvmPerformedOutcome OnlinePin;
 
     #endregion

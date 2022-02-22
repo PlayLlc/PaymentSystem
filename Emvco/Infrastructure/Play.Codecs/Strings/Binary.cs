@@ -8,11 +8,11 @@ using Play.Core.Specifications;
 
 namespace Play.Codecs.Strings;
 
-public class Binary : PlayEncoding
+public class BinaryCodec : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(Binary));
+    public static readonly PlayEncodingId EncodingId = new(typeof(BinaryCodec));
 
     private static readonly Dictionary<byte, char[]> _CharArrayMap = new()
     {
@@ -61,14 +61,15 @@ public class Binary : PlayEncoding
     private void Validate(ReadOnlySpan<char> value)
     {
         if ((value.Length % 8) != 0)
-            throw new ArgumentOutOfRangeException(nameof(value), $"The {nameof(Binary)} Encoding expects a string that is divisible by 8");
+            throw new ArgumentOutOfRangeException(nameof(value),
+                $"The {nameof(BinaryCodec)} Encoding expects a string that is divisible by 8");
 
         for (int i = 0; i < value.Length; i++)
         {
             if ((value[i] != '0') && (value[i] != '1'))
             {
                 throw new ArgumentOutOfRangeException(
-                    $"The {nameof(Binary)} Encoding expects all string values to be either a '1' or a '0'");
+                    $"The {nameof(BinaryCodec)} Encoding expects all string values to be either a '1' or a '0'");
             }
         }
     }
@@ -89,10 +90,10 @@ public class Binary : PlayEncoding
 
     public override bool IsValid(ReadOnlySpan<byte> value) => true;
 
-    public override int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex) =>
+    public override int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex) =>
         throw new NotImplementedException();
 
-    public override byte[] GetBytes(ReadOnlySpan<char> value)
+    public override byte[] Encode(ReadOnlySpan<char> value)
     {
         Validate(value);
 
@@ -126,24 +127,24 @@ public class Binary : PlayEncoding
         }
     }
 
-    public override bool TryGetBytes(ReadOnlySpan<char> value, out byte[] result) => throw new NotImplementedException();
+    public override bool TryEncoding(ReadOnlySpan<char> value, out byte[] result) => throw new NotImplementedException();
     public override int GetByteCount(char[] chars, int index, int count) => throw new NotImplementedException();
     public override int GetMaxByteCount(int charCount) => throw new NotImplementedException();
 
-    public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
+    public override int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
         throw new NotImplementedException();
 
     public override int GetCharCount(byte[] bytes, int index, int count) => throw new NotImplementedException();
     public override int GetMaxCharCount(int byteCount) => throw new NotImplementedException();
-    public string GetString(byte value) => System.Convert.ToString(value, 2);
-    public string GetString(short value) => System.Convert.ToString(value, 2).PadLeft(value.GetMostSignificantByte() * 8, '0');
-    public string GetString(ushort value) => System.Convert.ToString(value, 2).PadLeft(value.GetMostSignificantByte() * 8, '0');
-    public string GetString(int value) => System.Convert.ToString(value, 2).PadLeft(value.GetMostSignificantByte() * 8, '0');
-    public string GetString(uint value) => System.Convert.ToString(value, 2).PadLeft(value.GetMostSignificantByte() * 8, '0');
-    public string GetString(long value) => System.Convert.ToString(value, 2).PadLeft(value.GetMostSignificantByte() * 8, '0');
-    public string GetString(ulong value) => throw new NotImplementedException();
+    public string DecodeToString(byte value) => Convert.ToString(value, 2);
+    public string DecodeToString(short value) => Convert.ToString(value, 2).PadLeft(value.GetMostSignificantByte() * 8, '0');
+    public string DecodeToString(ushort value) => Convert.ToString(value, 2).PadLeft(value.GetMostSignificantByte() * 8, '0');
+    public string DecodeToString(int value) => Convert.ToString(value, 2).PadLeft(value.GetMostSignificantByte() * 8, '0');
+    public string DecodeToString(uint value) => Convert.ToString(value, 2).PadLeft(value.GetMostSignificantByte() * 8, '0');
+    public string DecodeToString(long value) => Convert.ToString(value, 2).PadLeft(value.GetMostSignificantByte() * 8, '0');
+    public string DecodeToString(ulong value) => throw new NotImplementedException();
 
-    public override string GetString(ReadOnlySpan<byte> value)
+    public override string DecodeToString(ReadOnlySpan<byte> value)
     {
         int charCount = value.Length * 8;
 
@@ -167,7 +168,7 @@ public class Binary : PlayEncoding
         }
     }
 
-    public override bool TryGetString(ReadOnlySpan<byte> value, out string result) => throw new NotImplementedException();
+    public override bool TryDecodingToString(ReadOnlySpan<byte> value, out string result) => throw new NotImplementedException();
 
     private void GetByteFromString(char[] charBuffer, int offset, Span<byte> buffer)
     {

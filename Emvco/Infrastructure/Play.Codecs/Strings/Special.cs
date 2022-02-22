@@ -13,7 +13,7 @@ public class Special : PlayEncoding
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId PlayEncodingId = new(typeof(Special));
+    public static readonly PlayEncodingId EncodingId = new(typeof(Special));
 
     // 32 - 126
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = Enumerable.Range(32, 47 - 32)
@@ -92,12 +92,12 @@ public class Special : PlayEncoding
     }
 
     /// <summary>
-    ///     GetByte
+    ///     DecodeToByte
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="EncodingException"></exception>
-    public byte GetByte(char value)
+    public byte DecodeToByte(char value)
     {
         Validate(value);
 
@@ -105,7 +105,7 @@ public class Special : PlayEncoding
     }
 
     /// <exception cref="EncodingException"></exception>
-    public override byte[] GetBytes(ReadOnlySpan<char> value)
+    public override byte[] Encode(ReadOnlySpan<char> value)
     {
         Validate(value);
 
@@ -117,7 +117,7 @@ public class Special : PlayEncoding
         return byteArray;
     }
 
-    public override int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
+    public override int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
     {
         if (charIndex > chars.Length)
             throw new ArgumentNullException();
@@ -144,11 +144,11 @@ public class Special : PlayEncoding
     }
 
     /// <exception cref="EncodingException">Ignore.</exception>
-    public override bool TryGetBytes(ReadOnlySpan<char> value, out byte[] result)
+    public override bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
     {
         if (IsValid(value))
         {
-            result = GetBytes(value);
+            result = Encode(value);
 
             return true;
         }
@@ -161,7 +161,7 @@ public class Special : PlayEncoding
     public override int GetByteCount(char[] chars, int index, int count) => count;
     public override int GetMaxByteCount(int charCount) => charCount;
 
-    public override int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
+    public override int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
     {
         if (byteIndex > chars.Length)
             throw new ArgumentNullException();
@@ -200,7 +200,7 @@ public class Special : PlayEncoding
     public override int GetMaxCharCount(int byteCount) => byteCount;
 
     /// <exception cref="EncodingException"></exception>
-    public override string GetString(ReadOnlySpan<byte> value)
+    public override string DecodeToString(ReadOnlySpan<byte> value)
     {
         Validate(value);
 
@@ -225,13 +225,13 @@ public class Special : PlayEncoding
     }
 
     /// <exception cref="EncodingException">Ignore.</exception>
-    public override bool TryGetString(ReadOnlySpan<byte> value, out string result)
+    public override bool TryDecodingToString(ReadOnlySpan<byte> value, out string result)
     {
         result = string.Empty;
 
         if (IsValid(value))
         {
-            result = GetString(value);
+            result = DecodeToString(value);
 
             return true;
         }
@@ -240,12 +240,12 @@ public class Special : PlayEncoding
     }
 
     /// <summary>
-    ///     GetChar
+    ///     DecodeToChar
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="EncodingException"></exception>
-    public char GetChar(byte value)
+    public char DecodeToChar(byte value)
     {
         Validate(value);
 

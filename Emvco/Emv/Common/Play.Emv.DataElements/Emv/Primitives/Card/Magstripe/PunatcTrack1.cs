@@ -10,7 +10,7 @@ namespace Play.Emv.DataElements.Emv;
 
 /// <summary>
 ///     PUNATC(Track1) indicates to the Kernel the positions in the discretionary data field of Track 1 Data where the
-///     Unpredictable Number (Numeric) digits and Application Transaction Counter digits have to be copied.
+///     Unpredictable Number (NumericCodec) digits and Application Transaction Counter digits have to be copied.
 /// </summary>
 public record PunatcTrack1 : DataElement<ulong>
 {
