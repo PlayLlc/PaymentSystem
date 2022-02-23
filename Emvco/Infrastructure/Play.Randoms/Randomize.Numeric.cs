@@ -2,6 +2,7 @@
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
+using Play.Codecs;
 using Play.Core.Specifications;
 
 namespace Play.Randoms;
