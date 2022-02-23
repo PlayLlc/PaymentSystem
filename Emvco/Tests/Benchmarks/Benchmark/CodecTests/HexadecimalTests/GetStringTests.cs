@@ -2,6 +2,8 @@
 
 using BenchmarkDotNet.Attributes;
 
+using Play.Codecs;
+
 namespace Benchmark.CodecTests.HexadecimalTests;
 
 public class GetStringTests

@@ -115,6 +115,8 @@ public class StrictAsciiCodec
         }
     }
 
+    public int GetByteCount(ReadOnlySpan<char> value) => value.Length;
+    public int GetByteCount(string value) => value.Length;
     public int GetByteCount(char[] chars, int index, int count) => _ErrorDetectingEncoder.GetByteCount(chars, index, count);
     public int GetMaxByteCount(int charCount) => charCount;
 

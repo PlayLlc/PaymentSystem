@@ -8,8 +8,7 @@ using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Core.Extensions;
-
-using BinaryCodec = Play.Emv.Ber.Codecs.BinaryCodec;
+ 
 
 namespace Play.Emv.Terminal.Contracts;
 
@@ -83,15 +82,15 @@ public record TransactionStatusInformation : PrimitiveValue, IEqualityComparer<T
                 $"The Primitive Value {nameof(TransactionStatusInformation)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
-        DecodedResult<ushort> result = codec.Decode(PlayEncodingId, value) as DecodedResult<ushort>
+        DecodedResult<ushort> result = codec.Decode(EncodingId, value) as DecodedResult<ushort>
             ?? throw new InvalidOperationException(
                 $"The {nameof(TransactionStatusInformation)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new TransactionStatusInformation(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(PlayEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(PlayEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
 
     #endregion
 

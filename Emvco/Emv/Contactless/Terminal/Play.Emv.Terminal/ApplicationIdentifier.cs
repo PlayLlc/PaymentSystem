@@ -10,8 +10,6 @@ using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-using BinaryCodec = Play.Emv.Ber.Codecs.BinaryCodec;
-using PlayEncodingId = Play.Ber.Codecs.PlayEncodingId;
 
 namespace Play.Emv.Terminal;
 
@@ -48,7 +46,7 @@ public record ApplicationIdentifier : PrimitiveValue, IEqualityComparer<Applicat
     public override PlayEncodingId GetEncodingId() => EncodingId;
 
     public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
-        new(PlayEncoding.UnsignedInteger.DecodeToUInt64(_Value.ToByteArray()[..5]));
+        new(PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(_Value.ToByteArray()[..5]));
 
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
@@ -118,15 +116,15 @@ public record ApplicationIdentifier : PrimitiveValue, IEqualityComparer<Applicat
                 $"The Primitive Value {nameof(ApplicationIdentifier)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
         }
 
-        DecodedResult<BigInteger> result = codec.Decode(PlayEncodingId, value) as DecodedResult<BigInteger>
+        DecodedResult<BigInteger> result = codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
                 $"The {nameof(ApplicationIdentifier)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new ApplicationIdentifier(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(PlayEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(PlayEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
 
     #endregion
 

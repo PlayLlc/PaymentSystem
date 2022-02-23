@@ -35,7 +35,7 @@ public class UnsignedIntegerTests
     [MemberData(nameof(UnsignedIntegerFixture.GetRandomUShort), 100, MemberType = typeof(UnsignedIntegerFixture))]
     public void RandomDecodedUShort_EncodingThenDecoding_ReturnsExpectedResult(ushort testValue)
     {
-        byte[]? decoded = _SystemUnderTest.GetBytes(testValue);
+        byte[]? decoded = _SystemUnderTest.Encode(testValue);
         ushort encoded = _SystemUnderTest.DecodeToUInt16(decoded);
 
         Assert.Equal(testValue, encoded);
@@ -45,7 +45,7 @@ public class UnsignedIntegerTests
     [MemberData(nameof(UnsignedIntegerFixture.GetRandomUInt), 100, MemberType = typeof(UnsignedIntegerFixture))]
     public void RandomDecodedUInt_EncodingThenDecoding_ReturnsExpectedResult(ushort testValue)
     {
-        byte[]? decoded = _SystemUnderTest.GetBytes(testValue);
+        byte[]? decoded = _SystemUnderTest.Encode(testValue);
         uint encoded = _SystemUnderTest.DecodeToUInt32(decoded);
 
         Assert.Equal(testValue, encoded);
@@ -55,7 +55,7 @@ public class UnsignedIntegerTests
     [MemberData(nameof(UnsignedIntegerFixture.GetRandomULong), 100, MemberType = typeof(UnsignedIntegerFixture))]
     public void RandomDecodedULong_EncodingThenDecoding_ReturnsExpectedResult(ushort testValue)
     {
-        byte[]? decoded = _SystemUnderTest.GetBytes(testValue);
+        byte[]? decoded = _SystemUnderTest.Encode(testValue);
         ulong encoded = _SystemUnderTest.DecodeToUInt64(decoded);
 
         Assert.Equal(testValue, encoded);
