@@ -28,7 +28,7 @@ public record IssuerCodeTableIndex : DataElement<byte>, IEqualityComparer<Issuer
 
     #region Instance Members
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
     public static bool StaticEquals(IssuerCodeTableIndex? x, IssuerCodeTableIndex? y)

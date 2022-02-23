@@ -53,7 +53,7 @@ public record CardholderVerificationCode3Track2 : PrimitiveValue, IEqualityCompa
         return x.Equals(y);
     }
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 

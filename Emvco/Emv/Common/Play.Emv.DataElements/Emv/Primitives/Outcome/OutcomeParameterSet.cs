@@ -51,7 +51,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
     public AlternateInterfacePreferenceOutcome GetAlternateInterfacePreferenceOutcome() =>
         AlternateInterfacePreferenceOutcome.Get((byte) (_Value >> _AlternateInterfaceOutcomeOffset));
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public static Builder GetBuilder() => new();
     public CvmPerformedOutcome GetCvmPerformed() => CvmPerformedOutcome.Get((byte) (_Value >> _CvmOutcomeOffset));
     public FieldOffRequestOutcome GetFieldOffRequestOutcome() => new((byte) (_Value >> _FieldOffRequestOutcomeOffset));

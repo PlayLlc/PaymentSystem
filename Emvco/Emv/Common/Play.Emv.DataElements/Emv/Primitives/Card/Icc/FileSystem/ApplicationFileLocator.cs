@@ -40,7 +40,7 @@ public record ApplicationFileLocator : DataElement<byte[]>, IEqualityComparer<Ap
 
     #region Instance Members
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     /// <summary>
     ///     Gets a list containing Elementary Files and their relevant range of records that correspond to an Application

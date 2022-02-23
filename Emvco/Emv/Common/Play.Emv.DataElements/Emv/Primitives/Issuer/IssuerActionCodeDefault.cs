@@ -31,7 +31,7 @@ public record IssuerActionCodeDefault : DataElement<ulong>, IEqualityComparer<Is
     #region Instance Members
 
     public ActionCodes AsActionCodes() => new(_Value);
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 

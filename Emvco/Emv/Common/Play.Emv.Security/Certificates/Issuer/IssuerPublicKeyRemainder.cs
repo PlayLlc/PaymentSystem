@@ -44,7 +44,7 @@ public record IssuerPublicKeyRemainder : PrimitiveValue, IEqualityComparer<Issue
 
     public byte[] AsByteArray() => _Value;
     public PublicKeyRemainder AsPublicKeyRemainder() => new(_Value);
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public int GetByteCount() => _Value.Length;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);

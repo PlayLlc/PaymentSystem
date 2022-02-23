@@ -47,7 +47,7 @@ public record IssuerPublicKeyExponent : PrimitiveValue, IEqualityComparer<Issuer
 
     public byte[] AsByteArray() => PlayEncoding.UnsignedInteger.GetBytes(_Value);
     public PublicKeyExponent AsPublicKeyExponent() => PublicKeyExponent.Get(_Value);
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public int GetByteCount() => _Value.GetMostSignificantBit();
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);

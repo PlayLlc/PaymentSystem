@@ -32,7 +32,7 @@ public record PostGenAcPutDataStatus : DataElement<byte>, IEqualityComparer<Post
 
     #region Instance Members
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion

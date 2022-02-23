@@ -30,7 +30,7 @@ public record IntegratedDataStorageStatus : DataElement<byte>
 
     #region Instance Members
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public bool IsReadSet() => _Value.IsBitSet(Bits.Eight);
     public bool IsWriteSet() => _Value.IsBitSet(Bits.Seven);

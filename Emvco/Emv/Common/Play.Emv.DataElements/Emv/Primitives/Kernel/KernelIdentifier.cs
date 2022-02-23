@@ -56,7 +56,7 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
     #region Instance Members
 
     public ShortKernelIdTypes AsKernelId() => ShortKernelIdTypes.Get((byte) _Value);
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     /// <exception cref="InvalidOperationException"></exception>
     public KernelType GetKernelType()

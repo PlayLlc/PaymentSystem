@@ -42,7 +42,7 @@ public record IccPublicKeyCertificate : PrimitiveValue, IEqualityComparer<IccPub
 
     #region Instance Members
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public ushort GetByteCount() => (ushort) _Value.GetByteCount();
     public ReadOnlySpan<byte> GetEncipherment() => _Value.ToByteArray().AsSpan();
     public override Tag GetTag() => Tag;

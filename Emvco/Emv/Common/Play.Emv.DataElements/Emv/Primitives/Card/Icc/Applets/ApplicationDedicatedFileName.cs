@@ -51,7 +51,7 @@ public record ApplicationDedicatedFileName : DataElement<byte[]>, IEqualityCompa
 
     public byte[] AsByteArray() => _Value.CopyValue();
     public DedicatedFileName AsDedicatedFileName() => new(_Value);
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public int GetByteCount() => _Value.Length;
 
     public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>

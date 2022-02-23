@@ -56,7 +56,7 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
 
     #region Instance Members
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public Level1Error GetL1() => Level1Error.Get((byte) (_Value >> 40));
     public Level2Error GetL2() => Level2Error.Get((byte) (_Value >> 32));
     public Level3Error GetL3() => Level3Error.Get((byte) (_Value >> 24));

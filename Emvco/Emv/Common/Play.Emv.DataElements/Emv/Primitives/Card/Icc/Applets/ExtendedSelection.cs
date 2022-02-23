@@ -34,7 +34,7 @@ public record ExtendedSelection : DataElement<byte[]>, IEqualityComparer<Extende
     #region Instance Members
 
     public byte[] AsByteArray() => _Value.CopyValue();
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public int GetValueByteCount() => _Value.Length;

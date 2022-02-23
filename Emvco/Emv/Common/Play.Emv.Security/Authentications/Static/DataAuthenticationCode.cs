@@ -47,7 +47,7 @@ public record DataAuthenticationCode : PrimitiveValue, IEqualityComparer<DataAut
         return new[] {(byte) (_Value >> 8), (byte) _Value};
     }
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 

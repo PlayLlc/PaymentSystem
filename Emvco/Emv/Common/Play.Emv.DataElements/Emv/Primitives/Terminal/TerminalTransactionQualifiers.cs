@@ -33,7 +33,7 @@ public record TerminalTransactionQualifiers : DataElement<uint>, IEqualityCompar
     #region Instance Members
 
     public TerminalTransactionQualifiers AsValueCopy() => new(_Value);
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public TerminalTransactionQualifiers GetValueCopy() => new(_Value);

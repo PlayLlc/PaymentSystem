@@ -45,7 +45,7 @@ public record TransactionDate : DataElement<uint>, IEqualityComparer<Transaction
         return (uint) result;
     }
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion

@@ -29,7 +29,7 @@ public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
 
     #region Instance Members
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
     public bool IsMatch(ApplicationPan pan, ApplicationPanSequenceNumber sequenceNumber)

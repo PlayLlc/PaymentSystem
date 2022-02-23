@@ -43,7 +43,7 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
         return (byte) cryptogramTypes;
     }
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     /// <summary>
     ///     GetCryptogramType

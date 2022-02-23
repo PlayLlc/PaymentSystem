@@ -31,7 +31,7 @@ public record LastOnlineApplicationTransactionCounterRegister : DataElement<usho
 
     #region Instance Members
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public byte[] Encode() => _Codec.EncodeValue(PlayEncodingId, _Value, _ByteLength);
 

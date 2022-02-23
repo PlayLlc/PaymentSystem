@@ -39,7 +39,7 @@ public record TerminalIdentification : DataElement<ulong>, IEqualityComparer<Ter
     public Span<char> AsSpan() => _Value.AsSpanFromRight(_CharLength);
     public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
     public string AsToken() => _Value.AsStringFromRight(_CharLength);
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 

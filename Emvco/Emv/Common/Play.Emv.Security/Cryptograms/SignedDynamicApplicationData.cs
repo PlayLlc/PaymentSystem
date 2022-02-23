@@ -43,7 +43,7 @@ public record SignedDynamicApplicationData : PrimitiveValue, IEqualityComparer<S
     #region Instance Members
 
     public byte[] AsByteArray() => _Value.ToByteArray();
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public ushort GetByteCount() => (ushort) _Value.GetByteCount();
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);

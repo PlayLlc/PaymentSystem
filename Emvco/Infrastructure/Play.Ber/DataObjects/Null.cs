@@ -19,7 +19,7 @@ public record Null : PrimitiveValue, IEqualityComparer<Null>
     #region Instance Members
 
     public byte[] AsRawTlv() => new byte[2] {(byte) Tag, 0x00};
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => 0;
 

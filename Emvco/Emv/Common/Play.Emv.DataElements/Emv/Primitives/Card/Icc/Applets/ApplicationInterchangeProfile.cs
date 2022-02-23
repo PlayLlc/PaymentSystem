@@ -30,7 +30,7 @@ public record ApplicationInterchangeProfile : DataElement<ushort>, IEqualityComp
 
     #region Instance Members
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public bool IsCardholderVerificationSupported() => _Value.IsBitSet(13);

@@ -35,7 +35,7 @@ public record ApplicationVersionNumberTerminal : DataElement<ushort>, IEqualityC
     public bool IsCardholderVerificationIsSupported() => _Value.IsBitSet(5);
     public bool IsCdaSupported() => _Value.IsBitSet(1);
     public bool IsDdaSupported() => _Value.IsBitSet(6);
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public bool IsIssuerAuthenticationIsSupported19() => _Value.IsBitSet(3);

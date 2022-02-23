@@ -43,7 +43,7 @@ public record IccPublicKeyExponent : PrimitiveValue, IEqualityComparer<IccPublic
     #region Instance Members
 
     public PublicKeyExponent AsPublicKeyExponent() => PublicKeyExponent.Get(_Value);
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(PlayEncodingId, _Value);
 

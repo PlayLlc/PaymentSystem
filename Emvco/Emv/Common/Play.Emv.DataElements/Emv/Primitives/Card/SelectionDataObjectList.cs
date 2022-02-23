@@ -36,7 +36,7 @@ public record SelectionDataObjectList : DataObjectList, IEqualityComparer<Select
 
     #region Instance Members
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => checked((ushort) GetByteCount());
 

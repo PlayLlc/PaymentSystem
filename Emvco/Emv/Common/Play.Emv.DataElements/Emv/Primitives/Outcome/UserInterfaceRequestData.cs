@@ -46,7 +46,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
     public ulong? GetAmount() =>
         GetValueQualifier() == ValueQualifier.None ? null : ((ulong) (_Value >> _MoneyOffset)).GetMaskedValue(0xFFFF000000000000);
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public static Builder GetBuilder() => new();
     public Builder Update() => new(this);
     public NumericCurrencyCode GetCurrencyCode() => new((ushort) (_Value >> _CurrencyCodeOffset));

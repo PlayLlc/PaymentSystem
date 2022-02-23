@@ -27,7 +27,7 @@ public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<Ap
 
     #region Instance Members
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion

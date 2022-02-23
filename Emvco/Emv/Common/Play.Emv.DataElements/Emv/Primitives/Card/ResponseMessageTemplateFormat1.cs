@@ -34,7 +34,7 @@ public record ResponseMessageTemplateFormat1 : DataElement<byte[]>, IEqualityCom
     /// <returns></returns>
     public TagLengthValue[] DecodeValue() => _Codec.DecodeSiblings(_Value).AsTagLengthValues();
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion

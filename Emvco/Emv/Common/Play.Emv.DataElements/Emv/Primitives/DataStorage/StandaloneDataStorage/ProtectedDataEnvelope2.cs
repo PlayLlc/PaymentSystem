@@ -34,7 +34,7 @@ public record ProtectedDataEnvelope2 : DataElement<BigInteger>, IEqualityCompare
     #region Instance Members
 
     public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 

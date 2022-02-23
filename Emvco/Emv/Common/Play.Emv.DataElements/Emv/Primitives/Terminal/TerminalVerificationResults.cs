@@ -43,7 +43,7 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
     public bool DefaultTransactionCertificateDataObjectListUsed() => _Value.IsBitSet(8);
     public bool DynamicDataAuthenticationFailed() => _Value.IsBitSet(36);
     public bool ExpiredApplication() => _Value.IsBitSet(31);
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public bool IccAndTerminalHaveDifferentApplicationVersions() => _Value.IsBitSet(32);

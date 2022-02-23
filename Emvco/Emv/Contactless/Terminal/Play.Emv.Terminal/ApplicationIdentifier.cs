@@ -45,7 +45,7 @@ public record ApplicationIdentifier : PrimitiveValue, IEqualityComparer<Applicat
     #region Instance Members
 
     public byte[] AsByteArray() => _Value.ToByteArray();
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
         new(PlayEncoding.UnsignedInteger.GetUInt64(_Value.ToByteArray()[..5]));

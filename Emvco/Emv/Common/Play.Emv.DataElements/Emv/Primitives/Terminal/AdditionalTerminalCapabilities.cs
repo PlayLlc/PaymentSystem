@@ -52,7 +52,7 @@ public record AdditionalTerminalCapabilities : DataElement<ulong>, IEqualityComp
     public bool DisplayAttendant() => _Value.IsBitSet(14);
     public bool DisplayCardholder() => _Value.IsBitSet(13);
     public bool FunctionKeys() => _Value.IsBitSet(21);
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public bool Goods() => _Value.IsBitSet(39);

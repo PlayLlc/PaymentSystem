@@ -33,7 +33,7 @@ public record IssuerPublicKeyCertificate : DataElement<BigInteger>, IEqualityCom
     #region Instance Members
 
     public byte[] AsByteArray() => _Value.ToByteArray();
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public int GetByteCount() => _Value.GetByteCount();
     public ReadOnlySpan<byte> GetEncipherment() => _Value.ToByteArray().AsSpan();
     public override Tag GetTag() => Tag;

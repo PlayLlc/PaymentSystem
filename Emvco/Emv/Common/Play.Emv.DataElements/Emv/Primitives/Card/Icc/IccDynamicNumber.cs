@@ -29,7 +29,7 @@ public record IccDynamicNumber : DataElement<ulong>, IEqualityComparer<IccDynami
 
     #region Instance Members
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion

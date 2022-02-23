@@ -46,7 +46,7 @@ public record TransactionStatusInformation : PrimitiveValue, IEqualityComparer<T
     #region Instance Members
 
     public static TransactionStatusInformation Create() => new();
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 

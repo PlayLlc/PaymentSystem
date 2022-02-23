@@ -32,7 +32,7 @@ public record TerminalCategoriesSupportedList : DataElement<BigInteger>, IEquali
 
     #region Instance Members
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
     public TerminalCategoryCode[] GetTerminalCategoryCodes()

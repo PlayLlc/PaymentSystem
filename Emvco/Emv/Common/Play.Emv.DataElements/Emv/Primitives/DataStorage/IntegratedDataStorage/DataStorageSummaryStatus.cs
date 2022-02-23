@@ -33,7 +33,7 @@ public record DataStorageSummaryStatus : DataElement<byte>
 
     #region Instance Members
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public bool IsReadSuccessful() => _Value.IsBitSet(Bits.Eight);
     public bool IsSuccessfulWrite() => _Value.IsBitSet(Bits.Seven);

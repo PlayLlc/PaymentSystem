@@ -73,7 +73,7 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>, IEqualityC
         return result;
     }
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public ushort GetByteCount() => checked((ushort) (_Value.Length * 2));
     public Alpha2LanguageCode[] GetLanguageCodes() => _Value;
     public Alpha2LanguageCode GetPreferredLanguage() => _Value[0];

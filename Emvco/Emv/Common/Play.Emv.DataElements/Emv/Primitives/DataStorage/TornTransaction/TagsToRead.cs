@@ -51,7 +51,7 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<TagsToRead>
     #region Instance Members
 
     public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public Tag[] AsTags() => _Value.ToArray();
 
     /// TODO: Exqueese me? Making this guy shut up for now. Book C-2 section 3.6.2 says "The process continues until

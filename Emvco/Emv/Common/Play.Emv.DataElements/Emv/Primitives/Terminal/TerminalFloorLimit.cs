@@ -35,7 +35,7 @@ public record TerminalFloorLimit : DataElement<uint>, IEqualityComparer<Terminal
 
     public Money AsMoney(CultureProfile cultureProfile) => new(_Value, cultureProfile);
     public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 

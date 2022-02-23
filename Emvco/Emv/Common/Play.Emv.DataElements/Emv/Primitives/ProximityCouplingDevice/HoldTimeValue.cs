@@ -43,7 +43,7 @@ public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldT
     #region Instance Members
 
     public Milliseconds AsMilliseconds() => _Value;
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     /// <summary>
     ///     The hold time in units of 100 ms

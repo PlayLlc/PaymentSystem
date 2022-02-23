@@ -25,7 +25,7 @@ public record MaxLifetimeOfTornTransactionLogRecords : DataElement<byte>
 
     #region Instance Members
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion

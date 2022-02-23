@@ -32,7 +32,7 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
     #region Instance Members
 
     public bool CombinedDataAuthenticationIndicator() => _Value.IsBitSet(9);
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     public SdsSchemeIndicator GetSdsSchemeIndicator()
     {

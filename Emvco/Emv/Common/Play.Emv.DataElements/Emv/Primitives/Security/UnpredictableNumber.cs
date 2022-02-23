@@ -36,7 +36,7 @@ public record UnpredictableNumber : DataElement<uint>, IEqualityComparer<Unpredi
     #region Instance Members
 
     public ushort GetByteCount() => _ByteCount;
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
     #endregion

@@ -42,7 +42,7 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
 
     #region Instance Members
 
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public ushort GetByteCount() => 1;
     public override Tag GetTag() => Tag;
     public static bool IsValid(byte value) => value is >= _MinValue and <= _MaxValue;

@@ -64,7 +64,7 @@ public record DedicatedFileName : PrimitiveValue, IEqualityComparer<DedicatedFil
     #region Instance Members
 
     public byte[] AsByteArray() => _Value.CopyValue();
-    public override PlayEncodingId GetEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public ushort GetByteCount() => checked((ushort) _Value.Length);
 
     public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIdentifier() =>
