@@ -49,13 +49,17 @@ internal class Idle : TerminalState
         IGetTerminalState terminalStateResolver,
         ISettlementReconciliationService settlementReconciliationService,
         IGenerateSequenceTraceAuditNumbers sequenceGenerator,
-        IHandleAcquirerRequests acquirerEndpoint) : base(dataExchangeTerminalService)
+        IHandleAcquirerRequests acquirerEndpoint,
+        IHandleTerminalRequests terminalEndpoint,
+        IHandleReaderRequests readerEndpoint) : base(dataExchangeTerminalService)
     {
         _TerminalConfiguration = terminalConfiguration;
         _TerminalStateResolver = terminalStateResolver;
         _SettlementReconciliationService = settlementReconciliationService;
         _SequenceGenerator = sequenceGenerator;
         _AcquirerEndpoint = acquirerEndpoint;
+        _TerminalEndpoint = terminalEndpoint;
+        _ReaderEndpoint = readerEndpoint;
     }
 
     #endregion

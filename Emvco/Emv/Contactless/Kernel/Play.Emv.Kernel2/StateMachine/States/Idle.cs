@@ -541,14 +541,11 @@ public class Idle : KernelState
 
     #region Depricated - These should be handled by the Data Exchange Service
 
-    // HACK: I think this won't live here
     public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    // HACK: I think this won't live here
 
     #endregion
 }
