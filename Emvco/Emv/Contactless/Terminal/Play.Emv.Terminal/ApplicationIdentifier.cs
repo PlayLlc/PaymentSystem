@@ -126,7 +126,7 @@ public record ApplicationIdentifier : PrimitiveValue, IEqualityComparer<Applicat
     public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
     public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
 
-    #endregion
+    #endregion 
 
     #region Equality
 
