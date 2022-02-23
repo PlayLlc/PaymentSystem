@@ -14,7 +14,7 @@
 
 //    protected override ushort GetByteLength() => _ByteLength;
 //    public override DataFieldId GetDataFieldId() => DataFieldId;
-//    public override EncodingId GetPlayEncodingId() => EncodingId;
+//    public override EncodingId GetEncodingId() => EncodingId;
 
 //    #endregion
 //}

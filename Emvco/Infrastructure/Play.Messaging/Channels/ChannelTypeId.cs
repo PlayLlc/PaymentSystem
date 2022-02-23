@@ -14,7 +14,7 @@ public readonly record struct ChannelTypeId
 
     public ChannelTypeId(string type)
     {
-        _Value = PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(PlayCodec.AsciiCodec.Encode(type));
+        _Value = PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(PlayCodec.Ascii.Encode(type));
     }
 
     #endregion

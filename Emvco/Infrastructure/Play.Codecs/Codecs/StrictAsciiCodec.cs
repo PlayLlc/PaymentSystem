@@ -29,7 +29,7 @@ public class StrictAsciiCodec
 
     #region Instance Members
 
-    public PlayEncodingId GetPlayEncodingId() => EncodingId;
+    public PlayEncodingId GetEncodingId() => EncodingId;
 
     public bool IsValid(ReadOnlySpan<char> value)
     {
@@ -69,13 +69,13 @@ public class StrictAsciiCodec
             throw new ArgumentOutOfRangeException();
     }
 
-    public int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex) =>
+    public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex) =>
         _ErrorDetectingEncoder.GetBytes(chars, charIndex, charCount, bytes, byteIndex);
 
-    public byte[] GetBytes(string value) => GetBytes(value.AsSpan());
+    public byte[] Encode(string value) => Encode(value.AsSpan());
 
     /// <exception cref="EncodingException"></exception>
-    public byte[] GetBytes(ReadOnlySpan<char> value)
+    public byte[] Encode(ReadOnlySpan<char> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
 
@@ -97,13 +97,13 @@ public class StrictAsciiCodec
         }
     }
 
-    public bool TryGetBytes(ReadOnlySpan<char> value, out byte[] result)
+    public bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
 
         try
         {
-            result = GetBytes(value);
+            result = Encode(value);
 
             return true;
         }
@@ -118,10 +118,10 @@ public class StrictAsciiCodec
     public int GetByteCount(char[] chars, int index, int count) => _ErrorDetectingEncoder.GetByteCount(chars, index, count);
     public int GetMaxByteCount(int charCount) => charCount;
 
-    public int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
+    public int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
         _ErrorDetectingEncoder.GetChars(bytes, byteIndex, byteCount, chars, charIndex);
 
-    public char[] GetChars(ReadOnlySpan<byte> value)
+    public char[] DecodeToChars(ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
 
@@ -139,7 +139,7 @@ public class StrictAsciiCodec
     public int GetMaxCharCount(int byteCount) => byteCount;
 
     /// <exception cref="EncodingException"></exception>
-    public string GetString(ReadOnlySpan<byte> value)
+    public string DecodeToString(ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
 
@@ -149,13 +149,13 @@ public class StrictAsciiCodec
         return _ErrorDetectingEncoder.GetString(value);
     }
 
-    public bool TryGetString(ReadOnlySpan<byte> value, out string result)
+    public bool TryDecodingToString(ReadOnlySpan<byte> value, out string result)
     {
         try
         {
             CheckCore.ForEmptySequence(value, nameof(value));
 
-            result = GetString(value);
+            result = DecodeToString(value);
 
             return true;
         }

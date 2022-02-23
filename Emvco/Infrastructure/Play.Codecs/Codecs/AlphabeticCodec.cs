@@ -204,7 +204,7 @@ public class AlphabeticCodec : PlayCodec
     public byte[] Encode(string value) => Encode(value.AsSpan());
 
     /// <summary>
-    ///     GetBytes
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

@@ -455,7 +455,7 @@ public class HexadecimalCodec : PlayCodec
     #region Decode To Chars
 
     /// <summary>
-    ///     GetChars
+    ///     DecodeToChars
     /// </summary>
     /// <param name="bytes"></param>
     /// <param name="byteIndex"></param>
@@ -629,7 +629,7 @@ public class HexadecimalCodec : PlayCodec
                 '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
             };
 
-        /// <summary>Map from an ASCII char to its hex value, e.g. arr['B'] == 11. 0xFF means it's not a hex digit.</summary>
+        /// <summary>Map from an Ascii char to its hex value, e.g. arr['B'] == 11. 0xFF means it's not a hex digit.</summary>
         public static ReadOnlySpan<byte> CharToHex =>
             new byte[]
             {

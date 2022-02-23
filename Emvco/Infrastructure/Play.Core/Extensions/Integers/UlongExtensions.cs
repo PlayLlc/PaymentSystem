@@ -64,6 +64,22 @@ public static class UlongExtensions
     }
 
     /// <summary>
+    /// This method gets the number of bits that are set to 1 in the integer
+    /// </summary> 
+    public static int GetSetBitCount(this ulong value)
+    {
+        int result = 0;
+
+        for (byte i = 0; i < Specs.Integer.UInt64.BitCount; i++)
+        {
+            if (value.IsBitSet((byte)(1 << i)))
+                result++;
+        }
+
+        return result;
+    }
+
+    /// <summary>
     ///     Gets the digits from the value and returns a string of those digits. If the argument
     ///     <param name="numberOfDigitsFromRight"></param>
     ///     has more digits than

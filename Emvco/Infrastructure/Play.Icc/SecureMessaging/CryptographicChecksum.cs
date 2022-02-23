@@ -5,9 +5,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-
-using HexadecimalCodec = Play.Ber.Codecs.HexadecimalCodec;
-using PlayEncodingId = Play.Codecs.PlayEncodingId;
+ 
 
 namespace Play.Icc.SecureMessaging;
 
@@ -60,7 +58,7 @@ public record CryptographicChecksum : PrimitiveValue, IEqualityComparer<Cryptogr
     public byte[] AsByteArray() => _Value;
     public virtual TagLengthValue AsTagLengthValue() => AsTagLengthValue(GetTag());
     protected TagLengthValue AsTagLengthValue(Tag tag) => new(tag, _Value);
-    public override PlayEncodingId GetBerEncodingId() => PlayEncodingId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public int GetByteCount() => _Value.Length;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => checked((ushort) _Value.Length);

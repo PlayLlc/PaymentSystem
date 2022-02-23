@@ -14,7 +14,7 @@
 //    #region Instance Members
 
 //    public override DataFieldId GetDataFieldId() => DataFieldId;
-//    public override EncodingId GetPlayEncodingId() => EncodingId;
+//    public override EncodingId GetEncodingId() => EncodingId;
 //    protected override ushort GetMaxByteLength() => _MaxByteLength;
 //    protected override ushort GetLeadingOctetLength() => _LeadingOctetLength;
 

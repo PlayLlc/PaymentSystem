@@ -26,7 +26,7 @@
 //    /// <returns></returns>
 //    public new byte[] EncodeTagLengthValue()
 //    {
-//        Span<byte> a = _Codec.EncodeValue(GetBerEncodingId(), _Value!).AsSpan();
+//        Span<byte> a = _Codec.EncodeValue(GetEncodingId(), _Value!).AsSpan();
 
 //        // HACK: Extend the BerCodec and EmvCodecs to accept a Span<byte> buffer. This will allow us to populate the encoded value without creating a new byte array instance on the heap
 //        byte[] result = new byte[a.Length + 1];
@@ -38,7 +38,7 @@
 //    public void EncodeTagLengthValue(Span<byte> buffer, ref int offset)
 //    {
 //        // HACK: Extend the BerCodec and EmvCodecs to accept a Span<byte> buffer. This will allow us to populate the encoded value without creating a new byte array instance on the heap
-//        Span<byte> encodedValue = _Codec.EncodeValue(GetBerEncodingId(), _Value!).AsSpan();
+//        Span<byte> encodedValue = _Codec.EncodeValue(GetEncodingId(), _Value!).AsSpan();
 
 //        encodedValue.CopyTo(buffer[(offset + 1)..]);
 //        offset += encodedValue.Length + 2;
@@ -53,7 +53,7 @@
 //    /// <returns></returns>
 //    public new byte[] EncodeValue(int length)
 //    {
-//        Span<byte> berResult = _Codec.EncodeValue(GetBerEncodingId(), _Value!, length).AsSpan();
+//        Span<byte> berResult = _Codec.EncodeValue(GetEncodingId(), _Value!, length).AsSpan();
 
 //        // HACK: Extend the BerCodec and EmvCodecs to accept a Span<byte> buffer. This will allow us to populate the encoded value without creating a new byte array instance on the heap
 //        byte[] result = new byte[berResult.Length + 1];

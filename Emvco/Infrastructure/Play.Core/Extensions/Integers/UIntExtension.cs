@@ -45,7 +45,21 @@ public static class UIntExtension
     public static bool HasValue(this uint value, uint valueToCheck) => (value & valueToCheck) != 0;
     public static bool IsBitSet(this uint value, byte bitPosition) => (value & ((uint) 1 << bitPosition)) != 0;
     public static bool IsEven(this uint value) => (value % 2) == 0;
+    /// <summary>
+    /// This method gets the number of bits that are set to 1 in the integer
+    /// </summary> 
+    public static int GetSetBitCount(this uint value)
+    {
+        int result = 0;
 
+        for (byte i = 0; i < Specs.Integer.UInt32.BitCount; i++)
+        {
+            if (value.IsBitSet((byte)(1 << i)))
+                result++;
+        }
+
+        return result;
+    }
     public static byte LeftPaddedUnsetBitCount(this in uint value)
     {
         const byte maxBit = 32;

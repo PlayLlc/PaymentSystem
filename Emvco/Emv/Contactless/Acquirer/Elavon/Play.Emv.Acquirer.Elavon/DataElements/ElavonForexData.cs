@@ -28,7 +28,7 @@
 
 //    #region Instance Members
 
-//    public override BerEncodingId GetBerEncodingId() => BerEncodingId;
+//    public override BerEncodingId GetEncodingId() => BerEncodingId;
 //    public override Tag GetTag() => Tag;
 
 //    #endregion
