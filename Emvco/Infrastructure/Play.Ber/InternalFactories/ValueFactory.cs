@@ -38,7 +38,7 @@ internal sealed class ValueFactory
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
             throw new BerInternalException(
-                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the Fully Qualified Name: {playEncodingId.GetFullyQualifiedName()} and with Id: [{playEncodingId}]");
+                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
         }
 
         return codec.GetByteCount(value);
@@ -55,8 +55,8 @@ internal sealed class ValueFactory
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
-            throw new BerConfigurationException(
-                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the Fully Qualified Name: {playEncodingId.GetFullyQualifiedName()} and with Id: [{playEncodingId}]");
+            throw new BerInternalException(
+                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
         }
 
         return _BerPrimitiveCodecMap[playEncodingId].GetByteCount(value);
@@ -67,8 +67,8 @@ internal sealed class ValueFactory
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
-            throw new BerConfigurationException(
-                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the Fully Qualified Name: {playEncodingId.GetFullyQualifiedName()} and with Id: [{playEncodingId}]");
+            throw new BerInternalException(
+                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
         }
 
         return codec!.Encode(value);
@@ -79,8 +79,8 @@ internal sealed class ValueFactory
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
-            throw new BerConfigurationException(
-                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the Fully Qualified Name: {playEncodingId.GetFullyQualifiedName()} and with Id: [{playEncodingId}]");
+            throw new BerInternalException(
+                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
         }
 
         return codec!.Encode(value);
@@ -91,8 +91,8 @@ internal sealed class ValueFactory
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
-            throw new BerConfigurationException(
-                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the Fully Qualified Name: {playEncodingId.GetFullyQualifiedName()} and with Id: [{playEncodingId}]");
+            throw new BerInternalException(
+                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
         }
 
         return codec!.Encode(value, length);
@@ -103,8 +103,8 @@ internal sealed class ValueFactory
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
-            throw new BerConfigurationException(
-                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the Fully Qualified Name: {playEncodingId.GetFullyQualifiedName()} and with Id: [{playEncodingId}]");
+            throw new BerInternalException(
+                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
         }
 
         return codec!.Encode(value, length);
@@ -124,8 +124,8 @@ internal sealed class ValueFactory
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
-            throw new BerConfigurationException(
-                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the Fully Qualified Name: {playEncodingId.GetFullyQualifiedName()} and with Id: [{playEncodingId}]");
+            throw new BerInternalException(
+                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
         }
 
         return codec!.Decode(value);

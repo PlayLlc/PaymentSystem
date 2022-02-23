@@ -17,7 +17,7 @@ public sealed record DataToSend : DataExchangeResponse, IEqualityComparer<DataTo
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId EncodingId = BerEncodingIdType.VariableCodec BerEncodingIdType.VariableCodec;
+    public static readonly PlayEncodingId EncodingId = BerEncodingIdType.VariableCodec;
     public static readonly Tag Tag = 0xFF8104;
 
     #endregion

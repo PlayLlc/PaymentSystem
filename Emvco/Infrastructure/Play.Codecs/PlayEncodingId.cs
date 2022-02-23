@@ -1,11 +1,12 @@
-﻿namespace Play.Codecs;
+﻿using System.Numerics;
 
-public record PlayEncodingId
+namespace Play.Codecs;
+
+public readonly record struct PlayEncodingId
 {
     #region Instance Values
 
     private readonly int _Value;
-    private readonly string _FullyQualifiedName;
 
     #endregion
 
@@ -14,21 +15,11 @@ public record PlayEncodingId
     public PlayEncodingId(Type value)
     {
         _Value = PlayCodec.SignedIntegerCodec.DecodeToInt32(PlayCodec.UnicodeCodec.Encode(value.FullName));
-        _FullyQualifiedName = value.FullName!;
+ 
     }
 
     #endregion
+     
 
-    #region Instance Members
-
-    public string GetFullyQualifiedName() => _FullyQualifiedName;
-    public override string ToString() => $"{_FullyQualifiedName}";
-
-    #endregion
-
-    #region Operator Overrides
-
-    public static explicit operator int(PlayEncodingId value) => value._Value;
-
-    #endregion
+    
 }

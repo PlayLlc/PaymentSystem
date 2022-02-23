@@ -1,8 +1,6 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Codecs;
-
-using BinaryCodec = Play.Emv.Ber.Codecs.BinaryCodec;
+using Play.Codecs; 
 
 namespace Play.Emv.Ber.DataObjects;
 
