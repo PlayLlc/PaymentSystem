@@ -70,7 +70,7 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
                 $"The Primitive Value {nameof(ApplicationCapabilitiesInformation)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
         }
 
-        DecodedResult<uint> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<uint>
+        DecodedResult<uint> result = _Codec.Decode(EncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
                 $"The {nameof(ApplicationCapabilitiesInformation)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<uint>)}");
 

@@ -47,7 +47,7 @@ public record ApplicationCryptogram : DataElement<ulong>, IEqualityComparer<Appl
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<ulong>
+        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value) as DecodedResult<ulong>
             ?? throw new DataElementNullException(PlayEncodingId);
 
         return new ApplicationCryptogram(result.Value);

@@ -50,7 +50,7 @@ public record MerchantIdentifier : DataElement<char[]>, IEqualityComparer<Mercha
                 $"The Primitive Value {nameof(MerchantIdentifier)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
-        DecodedResult<char[]> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<char[]>
+        DecodedResult<char[]> result = _Codec.Decode(EncodingId, value) as DecodedResult<char[]>
             ?? throw new InvalidOperationException(
                 $"The {nameof(MerchantIdentifier)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
 

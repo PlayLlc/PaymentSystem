@@ -4,7 +4,7 @@
 
 //namespace Play.Core.Ber.Contents
 //{
-//    public sealed class EnumeratedCodec : BerPrimitiveCodec
+//    public sealed class EnumeratedCodec : PlayCodec
 //    {
 //        private static readonly string Identifier = typeof(EnumeratedCodec).FullName;
 

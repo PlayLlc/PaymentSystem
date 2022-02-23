@@ -32,7 +32,7 @@ public partial class BerCodec
     public BerCodec(BerConfiguration configuration)
     {
         _TagLengthFactory = new TagLengthFactory();
-        _ValueFactory = new ValueFactory(configuration._PrimitiveCodecMap);
+        _ValueFactory = new ValueFactory(configuration._PlayCodecMap);
     }
 
     #endregion

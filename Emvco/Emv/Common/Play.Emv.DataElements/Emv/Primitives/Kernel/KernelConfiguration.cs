@@ -59,7 +59,7 @@ public record KernelConfiguration : DataElement<byte>, IEqualityComparer<KernelC
                 $"The Primitive Value {nameof(KernelConfiguration)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
-        DecodedResult<byte> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<byte>
+        DecodedResult<byte> result = _Codec.Decode(EncodingId, value) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
                 $"The {nameof(KernelConfiguration)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 

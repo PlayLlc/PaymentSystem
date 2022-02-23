@@ -56,7 +56,7 @@ public record IssuerScriptCommand : DataElement<BigInteger>, IEqualityComparer<I
                 $"The Primitive Value {nameof(IssuerScriptCommand)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be less than {maxByteLength} bytes in length");
         }
 
-        DecodedResult<BigInteger> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<BigInteger>
+        DecodedResult<BigInteger> result = _Codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
                 $"The {nameof(IssuerScriptCommand)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 

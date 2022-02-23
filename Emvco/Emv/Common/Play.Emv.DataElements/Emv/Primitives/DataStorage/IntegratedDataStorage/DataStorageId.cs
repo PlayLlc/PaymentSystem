@@ -49,7 +49,7 @@ public record DataStorageId : DataElement<BigInteger>
         Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        DecodedResult<BigInteger> result = _Codec.Decode(PlayEncodingId, value).ToBigInteger()
+        DecodedResult<BigInteger> result = _Codec.Decode(EncodingId, value).ToBigInteger()
             ?? throw new DataElementNullException(PlayEncodingId);
 
         Check.Primitive.ForMinCharLength(result.CharCount, minCharLength, Tag);

@@ -50,7 +50,7 @@ public record TransactionReferenceCurrencyCode : DataElement<ushort>, IEqualityC
 
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ushort> result = _Codec.Decode(PlayEncodingId, value).ToUInt16Result()
+        DecodedResult<ushort> result = _Codec.Decode(EncodingId, value).ToUInt16Result()
             ?? throw new DataElementNullException(PlayEncodingId);
 
         Check.Primitive.ForCharLength(result.CharCount, charLength, Tag);

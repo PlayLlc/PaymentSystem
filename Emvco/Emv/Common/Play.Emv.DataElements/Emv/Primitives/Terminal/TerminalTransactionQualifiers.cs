@@ -90,7 +90,7 @@ public record TerminalTransactionQualifiers : DataElement<uint>, IEqualityCompar
                 $"The Primitive Value {nameof(TerminalTransactionQualifiers)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
         }
 
-        DecodedResult<uint> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<uint>
+        DecodedResult<uint> result = _Codec.Decode(EncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
                 $"The {nameof(TerminalTransactionQualifiers)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
 

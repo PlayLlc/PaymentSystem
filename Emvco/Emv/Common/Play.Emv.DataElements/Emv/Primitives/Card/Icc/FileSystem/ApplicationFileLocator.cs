@@ -99,7 +99,7 @@ public record ApplicationFileLocator : DataElement<byte[]>, IEqualityComparer<Ap
     {
         Validate(value);
 
-        DecodedResult<byte[]> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<byte[]>
+        DecodedResult<byte[]> result = _Codec.Decode(EncodingId, value) as DecodedResult<byte[]>
             ?? throw new InvalidOperationException(
                 $"The {nameof(ApplicationFileLocator)} could not be initialized because the {nameof(VariableCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
 

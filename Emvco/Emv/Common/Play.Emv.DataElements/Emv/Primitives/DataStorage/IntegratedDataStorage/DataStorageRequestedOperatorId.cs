@@ -42,7 +42,7 @@ public record DataStorageRequestedOperatorId : DataElement<ulong>
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(PlayEncodingId, value).ToUInt64Result()
+        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result()
             ?? throw new DataElementNullException(PlayEncodingId);
 
         return new DataStorageRequestedOperatorId(result.Value);

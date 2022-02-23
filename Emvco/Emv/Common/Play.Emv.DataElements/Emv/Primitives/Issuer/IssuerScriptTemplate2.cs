@@ -48,7 +48,7 @@ public record IssuerScriptTemplate2 : DataElement<BigInteger>, IEqualityComparer
     /// <exception cref="BerException"></exception>
     public static IssuerScriptTemplate2 Decode(ReadOnlySpan<byte> value)
     {
-        DecodedResult<BigInteger> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<BigInteger>
+        DecodedResult<BigInteger> result = _Codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
                 $"The {nameof(IssuerScriptTemplate2)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 

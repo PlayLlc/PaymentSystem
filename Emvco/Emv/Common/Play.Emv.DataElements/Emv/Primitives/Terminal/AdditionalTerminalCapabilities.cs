@@ -76,7 +76,7 @@ public record AdditionalTerminalCapabilities : DataElement<ulong>, IEqualityComp
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<ulong>
+        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value) as DecodedResult<ulong>
             ?? throw new InvalidOperationException(
                 $"The {nameof(AdditionalTerminalCapabilities)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 

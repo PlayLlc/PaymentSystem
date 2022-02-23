@@ -6,6 +6,7 @@ using Play.Codecs.Strings;
 using Play.Emv.DataElements.Emv;
 using Play.Emv.DataElements.Exceptions;
 
+using PlayCodec = Play.Codecs.PlayCodec;
 using PlayEncodingId = Play.Ber.Codecs.PlayEncodingId;
 
 namespace Play.Emv.DataElements.Interchange;

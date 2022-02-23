@@ -66,7 +66,7 @@ public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldT
 
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<uint> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<uint>
+        DecodedResult<uint> result = _Codec.Decode(EncodingId, value) as DecodedResult<uint>
             ?? throw new DataElementNullException(PlayEncodingId);
 
         Check.Primitive.ForCharLength(result.CharCount, charLength, Tag);

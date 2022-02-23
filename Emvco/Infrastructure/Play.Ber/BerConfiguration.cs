@@ -11,6 +11,8 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Codecs;
 
+using PlayCodec = Play.Codecs.PlayCodec;
+
 [assembly: InternalsVisibleTo("Play.Ber.Tests")]
 [assembly: InternalsVisibleTo("Play.Emv.Ber.Tests")]
 [assembly: InternalsVisibleTo("Play.Emv.TestData")]

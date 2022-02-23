@@ -42,8 +42,7 @@ public record ApplicationPanSequenceNumber : DataElement<byte>
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<byte> result = _Codec.Decode(PlayEncodingId, value).ToByteResult()
-            ?? throw new DataElementNullException(PlayEncodingId);
+        DecodedResult<byte> result = _Codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataElementNullException(PlayEncodingId);
 
         return new ApplicationPanSequenceNumber(result.Value);
     }

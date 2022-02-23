@@ -46,7 +46,7 @@ public record PunatcTrack1 : DataElement<ulong>
     {
         Check.Primitive.ForMaximumLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(PlayEncodingId, value).ToUInt64Result()
+        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result()
             ?? throw new DataElementNullException(PlayEncodingId);
 
         return new PunatcTrack1(result.Value);

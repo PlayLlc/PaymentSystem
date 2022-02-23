@@ -51,7 +51,7 @@ public record IssuerIdentificationNumber : DataElement<uint>, IEqualityComparer<
 
         Check.Primitive.ForExactLength(value, byteLength, Tag);
 
-        DecodedResult<uint> result = _Codec.Decode(PlayEncodingId, value).ToUInt32Result()
+        DecodedResult<uint> result = _Codec.Decode(EncodingId, value).ToUInt32Result()
             ?? throw new DataElementNullException(PlayEncodingId);
 
         Check.Primitive.ForCharLength(result.CharCount, charLength, Tag);

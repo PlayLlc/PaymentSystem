@@ -8,6 +8,8 @@ using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 
+using PlayCodec = Play.Codecs.PlayCodec;
+
 namespace Play.Emv.Ber;
 
 public class EmvCodec : BerCodec

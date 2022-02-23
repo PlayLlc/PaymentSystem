@@ -65,7 +65,7 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<uint> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<uint>
+        DecodedResult<uint> result = _Codec.Decode(EncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
                 $"The {nameof(TerminalCapabilities)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
 

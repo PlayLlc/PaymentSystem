@@ -52,7 +52,7 @@ public record AmountOtherNumeric : DataElement<ulong>, IEqualityComparer<AmountO
 
         Check.Primitive.ForExactLength(value, byteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<ulong>
+        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value) as DecodedResult<ulong>
             ?? throw new InvalidOperationException(
                 $"The {nameof(AmountOtherNumeric)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 

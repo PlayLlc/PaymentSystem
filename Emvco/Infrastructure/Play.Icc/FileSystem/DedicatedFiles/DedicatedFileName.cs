@@ -9,6 +9,7 @@ using Play.Codecs;
 using Play.Core.Extensions;
 
 using HexadecimalCodec = Play.Ber.Codecs.HexadecimalCodec;
+using PlayCodec = Play.Codecs.PlayCodec;
 using PlayEncodingId = Play.Codecs.PlayEncodingId;
 
 namespace Play.Icc.FileSystem.DedicatedFiles;

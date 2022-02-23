@@ -212,7 +212,7 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
                 $"The Primitive Value {nameof(KernelIdentifier)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
         }
 
-        DecodedResult<ulong> result = _Codec.Decode(PlayEncodingId, value).ToUInt64Result()
+        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result()
             ?? throw new InvalidOperationException(
                 $"The {nameof(KernelIdentifier)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 

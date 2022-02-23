@@ -71,7 +71,7 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
                 $"The Primitive Value {nameof(MessageHoldTime)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
-        DecodedResult<uint> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<uint>
+        DecodedResult<uint> result = _Codec.Decode(EncodingId, value) as DecodedResult<uint>
             ?? throw new DataElementNullException(PlayEncodingId);
 
         if (result.CharCount != charLength)

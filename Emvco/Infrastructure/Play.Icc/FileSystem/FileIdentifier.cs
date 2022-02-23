@@ -9,6 +9,7 @@ using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Core.Specifications;
 
+using PlayCodec = Play.Codecs.PlayCodec;
 using PlayEncodingId = Play.Codecs.PlayEncodingId;
 
 namespace Play.Icc.FileSystem;

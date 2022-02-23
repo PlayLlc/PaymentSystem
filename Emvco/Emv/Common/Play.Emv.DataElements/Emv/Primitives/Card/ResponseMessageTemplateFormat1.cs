@@ -47,7 +47,7 @@ public record ResponseMessageTemplateFormat1 : DataElement<byte[]>, IEqualityCom
     /// <exception cref="BerException"></exception>
     public static ResponseMessageTemplateFormat1 Decode(ReadOnlySpan<byte> value)
     {
-        DecodedResult<byte[]> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<byte[]>
+        DecodedResult<byte[]> result = _Codec.Decode(EncodingId, value) as DecodedResult<byte[]>
             ?? throw new InvalidOperationException(
                 $"The {nameof(ResponseMessageTemplateFormat1)} could not be initialized because the {nameof(VariableCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
 

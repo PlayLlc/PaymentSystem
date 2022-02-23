@@ -71,7 +71,7 @@ public record CaPublicKeyIndex : DataElement<byte>, IEqualityComparer<CaPublicKe
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<byte> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<byte>
+        DecodedResult<byte> result = _Codec.Decode(EncodingId, value) as DecodedResult<byte>
             ?? throw new DataElementNullException(PlayEncodingId);
 
         return new CaPublicKeyIndex(result.Value);
