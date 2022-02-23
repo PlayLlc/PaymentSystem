@@ -9,8 +9,6 @@ using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 
-
-
 namespace Play.Emv.Configuration;
 
 /// <summary>

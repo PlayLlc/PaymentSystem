@@ -7,7 +7,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
-using Play.Encryption.Certificates; 
+using Play.Encryption.Certificates;
 
 namespace Play.Emv.Security.Certificates.Icc;
 

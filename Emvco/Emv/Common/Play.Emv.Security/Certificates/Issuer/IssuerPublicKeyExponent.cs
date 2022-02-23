@@ -9,7 +9,6 @@ using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Encryption.Certificates;
- 
 
 namespace Play.Emv.Security.Certificates.Issuer;
 

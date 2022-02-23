@@ -1,7 +1,4 @@
-﻿namespace Play.Emv.Acquirer.Services
-{
-    public class Class1
-    {
+﻿namespace Play.Emv.Acquirer.Services;
 
-    }
-}
+public class Class1
+{ }

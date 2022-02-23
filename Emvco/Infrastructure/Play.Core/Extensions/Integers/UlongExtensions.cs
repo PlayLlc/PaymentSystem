@@ -64,15 +64,15 @@ public static class UlongExtensions
     }
 
     /// <summary>
-    /// This method gets the number of bits that are set to 1 in the integer
-    /// </summary> 
+    ///     This method gets the number of bits that are set to 1 in the integer
+    /// </summary>
     public static int GetSetBitCount(this ulong value)
     {
         int result = 0;
 
         for (byte i = 0; i < Specs.Integer.UInt64.BitCount; i++)
         {
-            if (value.IsBitSet((byte)(1 << i)))
+            if (value.IsBitSet((byte) (1 << i)))
                 result++;
         }
 

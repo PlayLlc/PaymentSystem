@@ -24,21 +24,20 @@ public static class ByteExtensions
     }
 
     /// <summary>
-    /// This method gets the number of bits that are set to 1 in the integer
-    /// </summary> 
+    ///     This method gets the number of bits that are set to 1 in the integer
+    /// </summary>
     public static int GetSetBitCount(this byte value)
     {
         int result = 0;
 
         for (byte i = 0; i < Specs.Integer.UInt8.BitCount; i++)
-        { 
-            if (value.IsBitSet((byte)(1 << i)))
+        {
+            if (value.IsBitSet((byte) (1 << i)))
                 result++;
         }
 
         return result;
     }
-
 
     public static ReadOnlySpan<byte> AsReadOnlySpan(this byte input)
     {
@@ -118,8 +117,8 @@ public static class ByteExtensions
     /// <returns></returns>
     /// <exception cref="PlayInternalException">Ignore.</exception>
     public static bool IsBitSet(this byte value, Bits bit) => (value & BitLookup.GetBit(bit)) != 0;
-    public static bool IsBitSet(this byte value, byte bit) => (value & bit) != 0;
 
+    public static bool IsBitSet(this byte value, byte bit) => (value & bit) != 0;
     public static bool IsEven(this byte value) => (value % 2) == 0;
     public static bool IsInRange(this byte input, MaxBit maxBit) => (input & (byte) maxBit) == 0;
 

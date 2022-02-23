@@ -12,21 +12,23 @@ public static class UShortExtension
     public static ushort ClearBits(this in ushort input, ushort bitsToClear) => (ushort) (input & ~bitsToClear);
     public static string GetBinaryString(this ushort value) => Convert.ToString(value, 2);
     public static byte GetMaskedValue(this in ushort value, in ushort bitsToMask) => (byte) (value & ~bitsToMask);
+
     /// <summary>
-    /// This method gets the number of bits that are set to 1 in the integer
-    /// </summary> 
+    ///     This method gets the number of bits that are set to 1 in the integer
+    /// </summary>
     public static int GetSetBitCount(this ushort value)
     {
         int result = 0;
 
         for (byte i = 0; i < Specs.Integer.UInt16.BitCount; i++)
         {
-            if (value.IsBitSet((byte)(1 << i)))
+            if (value.IsBitSet((byte) (1 << i)))
                 result++;
         }
 
         return result;
     }
+
     public static byte GetMostSignificantBit(this in ushort value)
     {
         if (value == 0)

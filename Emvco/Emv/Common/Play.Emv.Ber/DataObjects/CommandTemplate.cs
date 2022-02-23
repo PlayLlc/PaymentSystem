@@ -2,7 +2,6 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
- 
 
 namespace Play.Emv.Ber.DataObjects;
 

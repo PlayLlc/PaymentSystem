@@ -9,7 +9,6 @@ using Play.Encryption.Certificates;
 using Play.Encryption.Hashing;
 using Play.Encryption.Signing;
 using Play.Globalization.Time;
- 
 
 namespace Play.Emv.Security.Certificates;
 

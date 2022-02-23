@@ -6,6 +6,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
+using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.Exceptions;
 
 using PlayCodec = Play.Codecs.PlayCodec;

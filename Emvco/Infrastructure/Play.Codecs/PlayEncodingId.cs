@@ -15,11 +15,7 @@ public readonly record struct PlayEncodingId
     public PlayEncodingId(Type value)
     {
         _Value = PlayCodec.SignedIntegerCodec.DecodeToInt32(PlayCodec.UnicodeCodec.Encode(value.FullName));
- 
     }
 
     #endregion
-     
-
-    
 }

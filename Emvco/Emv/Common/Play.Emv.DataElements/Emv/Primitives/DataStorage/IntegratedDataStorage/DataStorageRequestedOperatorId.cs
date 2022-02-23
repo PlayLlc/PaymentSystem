@@ -41,8 +41,7 @@ public record DataStorageRequestedOperatorId : DataElement<ulong>
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result()
-            ?? throw new DataElementNullException(EncodingId);
+        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result() ?? throw new DataElementNullException(EncodingId);
 
         return new DataStorageRequestedOperatorId(result.Value);
     }

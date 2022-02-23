@@ -4,7 +4,6 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.DataElements.Emv;
 using Play.Emv.DataElements.Exceptions;
- 
 
 namespace Play.Emv.DataElements.Interchange;
 

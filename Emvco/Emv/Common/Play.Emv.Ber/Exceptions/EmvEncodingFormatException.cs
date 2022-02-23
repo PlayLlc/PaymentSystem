@@ -10,16 +10,16 @@ public class EmvEncodingFormatException : EmvEncodingException
         string message,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(EmvEncodingFormatException), fileName, memberName, lineNumber)} {message}")
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(EmvEncodingFormatException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public EmvEncodingFormatException(
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(EmvEncodingFormatException), fileName, memberName, lineNumber)}", innerException)
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(EmvEncodingFormatException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public EmvEncodingFormatException(
@@ -27,8 +27,8 @@ public class EmvEncodingFormatException : EmvEncodingException
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(EmvEncodingFormatException), fileName, memberName, lineNumber)} {message}", innerException)
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(EmvEncodingFormatException), fileName, memberName, lineNumber)} {message}", innerException)
     { }
 
     #endregion

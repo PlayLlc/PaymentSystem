@@ -49,8 +49,7 @@ public record TransactionReferenceCurrencyExponent : DataElement<byte>, IEqualit
 
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<byte> result = codec.Decode(EncodingId, value).ToByteResult()
-            ?? throw new DataElementNullException(EncodingId);
+        DecodedResult<byte> result = codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataElementNullException(EncodingId);
 
         Check.Primitive.ForCharLength(result.Value, charLength, Tag);
 

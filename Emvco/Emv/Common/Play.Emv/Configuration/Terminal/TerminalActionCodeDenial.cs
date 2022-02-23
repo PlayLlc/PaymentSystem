@@ -9,8 +9,6 @@ using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Emv.DataElements.Emv;
 
-
-
 namespace Play.Emv.Configuration;
 
 /// <summary>
