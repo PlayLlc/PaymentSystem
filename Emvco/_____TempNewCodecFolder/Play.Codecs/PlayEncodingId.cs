@@ -19,6 +19,13 @@ public record PlayEncodingId
 
     #endregion
 
+    #region Instance Members
+
+    public string GetFullyQualifiedName() => _FullyQualifiedName;
+    public override string ToString() => $"{_FullyQualifiedName}";
+
+    #endregion
+
     #region Operator Overrides
 
     public static explicit operator int(PlayEncodingId value) => value._Value;
