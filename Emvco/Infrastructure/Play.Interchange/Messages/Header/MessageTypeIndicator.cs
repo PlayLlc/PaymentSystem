@@ -7,7 +7,7 @@ namespace Play.Interchange.Messages.Header;
 ///     message type indicator includes the ISO 8583 version, the Message Class, the Message Function and the Message
 ///     Origin, as described below.
 /// </summary>
-public readonly struct MessageTypeIndicator
+internal readonly struct MessageTypeIndicator
 {
     #region Instance Values
 

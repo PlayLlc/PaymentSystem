@@ -16,7 +16,7 @@ public class InterchangeMessage
 
     #region Constructor
 
-    public InterchangeMessage(MessageTypeIndicator messageTypeIndicator, AcquirerBody body)
+    internal InterchangeMessage(MessageTypeIndicator messageTypeIndicator, AcquirerBody body)
     {
         using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(2 + body.GetByteCount());
         Span<byte> buffer = spanOwner.Span;
@@ -32,7 +32,7 @@ public class InterchangeMessage
 
     private int GetByteCount() => _Value.Length;
     public byte[] Encode() => _Value;
-    public MessageTypeIndicator GetMessageTypeIndicator() => new(PlayCodec.NumericCodec.DecodeToUInt16(_Value[..2]));
+    internal MessageTypeIndicator GetMessageTypeIndicator() => new(PlayCodec.NumericCodec.DecodeToUInt16(_Value[..2]));
 
     #endregion
 }

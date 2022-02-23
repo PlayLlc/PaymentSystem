@@ -3,7 +3,7 @@
 namespace Play.Emv.DataElements.Emv;
 
 /// <summary>
-///     Card brands such as Mastercard and Visa will have proprietary POS Entry Mode values they use for internally
+///     Card brands such as Mastercard and Visa will have proprietary POS Entry Mode values they use internally
 /// </summary>
 public record PosEntryModeTypes : EnumObject<byte>
 {

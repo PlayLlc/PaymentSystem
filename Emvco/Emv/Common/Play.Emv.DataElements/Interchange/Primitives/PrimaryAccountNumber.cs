@@ -15,10 +15,11 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
     #region Static Metadata
 
     /// <value>Hex: C2; Decimal: 194; Interchange: 2</value>
-    public static readonly Tag Tag = 0xC2;
+    public static readonly Tag Tag = CreateProprietaryTag(DataFieldId);
 
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     private const int _MaxByteLength = 10;
+    public const byte DataFieldId = 2;
 
     #endregion
 
@@ -31,6 +32,7 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
 
     #region Instance Members
 
+    public override ushort GetDataFieldId() => DataFieldId;
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
@@ -42,8 +44,7 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
     /// <returns></returns>
     public bool IsIssuerIdentifierMatching(IssuerIdentificationNumber issuerIdentifier)
     {
-        // We're 
-        uint thisPan = PlayCodec.CompressedNumericCodec.DecodeToUInt16(PlayCodec.CompressedNumericCodec.Encode(_Value));
+        uint thisPan = PlayCodec.NumericCodec.DecodeToUInt16(PlayCodec.NumericCodec.Encode(_Value));
 
         return thisPan == (uint) issuerIdentifier;
     }
@@ -66,7 +67,7 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
         // a '0' value. If we encoded that to a numeric value we would truncate the leading zero values
         // and wouldn't be able to encode the value back or do comparisons with the issuer identification
         // number
-        char[] result = PlayCodec.CompressedNumericCodec.DecodeToChars(value);
+        char[] result = PlayCodec.NumericCodec.DecodeToChars(value);
 
         Check.Primitive.ForMaxCharLength(result.Length, maxCharLength, Tag);
 
@@ -75,23 +76,6 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
 
     public new byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value);
     public override byte[] EncodeValue(BerCodec berCodec) => EncodeValue();
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(ReadOnlySpan<byte> value)
-    {
-        byte[] encoded = PlayCodec.CompressedNumericCodec.Encode(_Value);
-
-        for (int i = 0; i < value.Length; i++)
-        {
-            if (value[i] != encoded[i])
-                return false;
-        }
-
-        return true;
-    }
 
     #endregion
 }

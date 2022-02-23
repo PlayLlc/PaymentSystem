@@ -47,9 +47,9 @@ public record SystemTraceAuditNumber : InterchangeDataElement<uint>
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<uint> result = _Codec.Decode(EncodingId, value).ToUInt32Result() ?? throw new DataElementNullException(EncodingId);
+        uint result = PlayCodec.NumericCodec.DecodeToUInt32(value);
 
-        return new SystemTraceAuditNumber(result.Value);
+        return new SystemTraceAuditNumber(result);
     }
 
     #endregion

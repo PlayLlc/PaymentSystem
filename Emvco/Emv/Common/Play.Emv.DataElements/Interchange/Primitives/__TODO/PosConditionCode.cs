@@ -2,7 +2,7 @@
 
 namespace Play.Emv.DataElements.Interchange.__TODO;
 
-public record PosConditionCode : EnumObject<ushort>
+public record ReasonCode : EnumObject<ushort>
 {
     #region Static Metadata
 
@@ -23,7 +23,7 @@ public record PosConditionCode : EnumObject<ushort>
 
     #region Constructor
 
-    public PosConditionCode(ushort value) : base(value)
+    public ReasonCode(ushort value) : base(value)
     { }
 
     #endregion
