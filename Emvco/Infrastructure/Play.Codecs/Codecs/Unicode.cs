@@ -17,7 +17,7 @@ public class UnicodeCodec
 
     #region Instance Members
 
-    public PlayEncodingId GetPlayEncodingId() => PlayEncodingId;
+    public PlayEncodingId GetPlayEncodingId() => EncodingId;
     public int GetByteCount(char[] chars, int index, int count) => _UnicodeCodec.GetByteCount(chars, index, count);
 
     public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex) =>

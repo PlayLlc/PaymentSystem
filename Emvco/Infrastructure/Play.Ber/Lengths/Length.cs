@@ -101,7 +101,7 @@ public readonly struct Length
     }
 
     public override string ToString() =>
-        $"Hex: {PlayCodec.HexadecimalCodec.GetString(Serialize())}; Binary: {PlayCodec.BinaryCodec.DecodeToString(_Value)}";
+        $"Hex: {PlayCodec.HexadecimalCodec.DecodeToString(Serialize())}; Binary: {PlayCodec.BinaryCodec.DecodeToString(_Value)}";
 
     /// <summary>
     ///     Parses a raw BER encoded Length sequence into a Length object
@@ -124,7 +124,7 @@ public readonly struct Length
 
         LongLength.Validate(berLength[..LongLength.GetByteCount(berLength)]);
 
-        return new Length(PlayEncoding.UnsignedInteger.DecodeToUInt32(berLength[..LongLength.GetByteCount(berLength)]));
+        return new Length(PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(berLength[..LongLength.GetByteCount(berLength)]));
     }
 
     #endregion

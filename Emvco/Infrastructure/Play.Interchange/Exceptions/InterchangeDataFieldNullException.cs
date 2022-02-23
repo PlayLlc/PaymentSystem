@@ -1,5 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 
+using Play.Codecs;
+
 namespace Play.Interchange.Exceptions;
 
 public class InterchangeDataFieldNullException : InterchangeFormatException

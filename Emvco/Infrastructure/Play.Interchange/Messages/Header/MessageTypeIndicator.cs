@@ -1,4 +1,6 @@
-﻿namespace Play.Interchange.Messages.Header;
+﻿using Play.Codecs;
+
+namespace Play.Interchange.Messages.Header;
 
 /// <summary>
 ///     The message type indicator is a four-digit numeric field which indicates the overall function of the message. A

@@ -1,4 +1,6 @@
-﻿namespace Play.Interchange.DataFields;
+﻿using Play.Codecs;
+
+namespace Play.Interchange.DataFields;
 
 public interface IRetrieveInterchangeFieldMetadata
 {

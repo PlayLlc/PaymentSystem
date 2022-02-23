@@ -1,4 +1,5 @@
-﻿using Play.Interchange.DataFields;
+﻿using Play.Codecs;
+using Play.Interchange.DataFields;
 
 namespace Play.Interchange.Codecs.Dynamic.Fields;
 
