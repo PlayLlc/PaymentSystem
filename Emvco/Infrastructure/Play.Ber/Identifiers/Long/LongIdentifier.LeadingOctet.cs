@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.Exceptions;
+using Play.Codecs;
 using Play.Core.Exceptions;
 using Play.Core.Extensions;
 

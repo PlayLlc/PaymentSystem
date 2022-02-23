@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\_____TempNewCodecFolder\Play.Codecs\Play.Codecs.csproj" />
+    <ProjectReference Include="..\Play.Codecs\Play.Codecs.csproj" />
   </ItemGroup>
 
 </Project>

@@ -4,6 +4,7 @@ using System.Numerics;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
+using Play.Codecs;
 using Play.Core.Extensions;
 
 namespace Play.Encryption.Certificates;

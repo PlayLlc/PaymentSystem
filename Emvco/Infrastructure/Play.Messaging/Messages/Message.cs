@@ -1,4 +1,6 @@
-﻿namespace Play.Messaging;
+﻿using Play.Codecs;
+
+namespace Play.Messaging;
 
 public abstract record Message
 {

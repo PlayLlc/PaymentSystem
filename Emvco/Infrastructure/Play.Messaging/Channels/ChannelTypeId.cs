@@ -1,4 +1,6 @@
-﻿namespace Play.Messaging;
+﻿using Play.Codecs;
+
+namespace Play.Messaging;
 
 public readonly record struct ChannelTypeId
 {

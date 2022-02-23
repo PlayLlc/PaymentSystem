@@ -5,6 +5,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Lengths.Long;
 using Play.Ber.Lengths.Short;
+using Play.Codecs;
 using Play.Core.Extensions;
 
 namespace Play.Ber.Lengths;

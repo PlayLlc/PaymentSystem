@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
+using Play.Codecs.Exceptions;
+
 namespace Play.Emv.Exceptions;
 
 public class InvalidSignalRequest : PlayEncodingException

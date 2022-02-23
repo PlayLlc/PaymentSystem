@@ -9,8 +9,7 @@ using System.Text;
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-
-using PlayCodec = Play.Codecs.PlayCodec;
+using Play.Codecs;
 
 [assembly: InternalsVisibleTo("Play.Ber.Tests")]
 [assembly: InternalsVisibleTo("Play.Emv.Ber.Tests")]

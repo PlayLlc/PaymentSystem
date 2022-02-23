@@ -1,5 +1,10 @@
 ﻿using System.Collections.Immutable;
 
+using Microsoft.Toolkit.HighPerformance.Buffers;
+
+using Play.Codecs;
+using Play.Core.Specifications;
+
 namespace Play.Tests.Core.Random;
 
 public partial class Randomize

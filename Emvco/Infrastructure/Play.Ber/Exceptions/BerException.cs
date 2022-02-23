@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
+using Play.Codecs.Exceptions;
+
 namespace Play.Ber.Exceptions;
 
 public class BerException : PlayEncodingException

@@ -1,4 +1,6 @@
-﻿namespace Play.Tests.Core.Random;
+﻿using Microsoft.Toolkit.HighPerformance.Buffers;
+
+namespace Play.Tests.Core.Random;
 
 public partial class Randomize
 {

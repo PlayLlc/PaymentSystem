@@ -1,4 +1,6 @@
-﻿using Xunit;
+﻿using Play.Codecs.Exceptions;
+
+using Xunit;
 
 namespace Play.Codecs.Tests.AlphaNumeric;
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
+using Play.Codecs;
 
 using HexadecimalCodec = Play.Ber.Codecs.HexadecimalCodec;
 using PlayEncodingId = Play.Codecs.PlayEncodingId;

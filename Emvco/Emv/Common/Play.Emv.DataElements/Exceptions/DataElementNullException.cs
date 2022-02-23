@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
+using Play.Codecs;
 using Play.Emv.Ber;
 
 namespace Play.Emv.DataElements.Exceptions;

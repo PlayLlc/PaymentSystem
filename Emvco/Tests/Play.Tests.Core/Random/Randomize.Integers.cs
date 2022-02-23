@@ -1,4 +1,7 @@
-﻿namespace Play.Tests.Core.Random;
+﻿using Play.Codecs;
+using Play.Core.Extensions;
+
+namespace Play.Tests.Core.Random;
 
 public partial class Randomize
 {
