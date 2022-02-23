@@ -5,6 +5,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Lengths.Long;
 using Play.Ber.Lengths.Short;
+using Play.Codecs;
 using Play.Core.Extensions;
 
 namespace Play.Ber.Lengths;
@@ -37,7 +38,7 @@ public readonly struct Length
 
         LongLength.Validate(encodedContentOctets[..LongLength.GetByteCount(encodedContentOctets)]);
 
-        _Value = PlayEncoding.UnsignedInteger.GetUInt32(encodedContentOctets[..LongLength.GetByteCount(encodedContentOctets)]);
+        _Value = PlayCodec.UnsignedIntegerCodec.GetUInt32(encodedContentOctets[..LongLength.GetByteCount(encodedContentOctets)]);
     }
 
     /// <exception cref="BerException"></exception>
@@ -100,7 +101,7 @@ public readonly struct Length
     }
 
     public override string ToString() =>
-        $"Hex: {PlayEncoding.Hexadecimal.GetString(Serialize())}; Binary: {PlayEncoding.Binary.GetString(_Value)}";
+        $"Hex: {PlayCodec.HexadecimalCodec.GetString(Serialize())}; Binary: {PlayCodec.BinaryCodec.DecodeToString(_Value)}";
 
     /// <summary>
     ///     Parses a raw BER encoded Length sequence into a Length object

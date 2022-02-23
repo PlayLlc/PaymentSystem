@@ -4,6 +4,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers.Long;
 using Play.Ber.Identifiers.Short;
+using Play.Codecs;
 
 namespace Play.Ber.Identifiers;
 
@@ -31,7 +32,7 @@ public readonly record struct Tag
         byte byteCount = LongIdentifier.GetByteCount(value);
         LongIdentifier.Validate(value[..byteCount]);
 
-        _Value = PlayEncoding.UnsignedInteger.GetUInt32(value[..byteCount]);
+        _Value = PlayCodec.UnsignedIntegerCodec.GetUInt32(value[..byteCount]);
     }
 
     /// <exception cref="BerException"></exception>
@@ -55,7 +56,7 @@ public readonly record struct Tag
     #region Instance Members
 
     public override string ToString() =>
-        $"Hex: {PlayEncoding.Hexadecimal.GetString(Serialize())}; Binary: {PlayEncoding.Binary.GetString(_Value)}";
+        $"Hex: {PlayCodec.HexadecimalCodec.DecodeToString(Serialize())}; Binary: {PlayCodec.BinaryCodec.DecodeToString(_Value)}";
 
     public readonly byte GetByteCount() => GetByteCount(_Value);
 
@@ -144,9 +145,9 @@ public readonly record struct Tag
     #region Serialization
 
     /// <exception cref="BerException"></exception>
-    public byte[] Serialize() => PlayEncoding.UnsignedInteger.GetBytes(_Value, true);
+    public byte[] Serialize() => PlayCodec.UnsignedIntegerCodec.Encode(_Value, true);
 
-    public static byte[] Serialize(IEncodeBerDataObjects value) => PlayEncoding.UnsignedInteger.GetBytes(value.GetTag(), true);
+    public static byte[] Serialize(IEncodeBerDataObjects value) => PlayCodec.UnsignedIntegerCodec.Encode(value.GetTag(), true);
 
     #endregion
 

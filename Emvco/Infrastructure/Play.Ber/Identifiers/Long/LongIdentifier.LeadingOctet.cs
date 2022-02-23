@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.Exceptions;
+using Play.Codecs;
 using Play.Core.Exceptions;
 using Play.Core.Extensions;
 
@@ -71,7 +72,7 @@ internal static partial class LongIdentifier
             if (!IsLongIdentifierFlagPresent(value))
             {
                 throw new BerFormatException(
-                    $"The {nameof(Tag)} could not be initialized because the argument {PlayEncoding.Binary.GetString(value)} contained an invalid format",
+                    $"The {nameof(Tag)} could not be initialized because the argument {PlayCodec.BinaryCodec.DecodeToString(value)} contained an invalid format",
                     new ArgumentOutOfRangeException(nameof(value)));
             }
         }

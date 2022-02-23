@@ -56,7 +56,7 @@ public readonly struct PublicKeyExponent
     #region Instance Members
 
     public BigInteger AsBigInteger() => _Value;
-    public byte[] AsByteArray() => PlayCodec.UnsignedIntegerCodec.GetBytes(_Value);
+    public byte[] AsByteArray() => PlayCodec.UnsignedIntegerCodec.Encode(_Value);
 
     /// <exception cref="InvalidOperationException"></exception>
     public static PublicKeyExponent Get(uint value)
