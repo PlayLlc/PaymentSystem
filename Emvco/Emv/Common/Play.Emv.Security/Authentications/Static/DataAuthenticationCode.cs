@@ -6,9 +6,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Codecs;
-
-using BinaryCodec = Play.Emv.Ber.Codecs.BinaryCodec;
+using Play.Codecs; 
 
 namespace Play.Emv.Security.Authentications.Static;
 
@@ -69,15 +67,15 @@ public record DataAuthenticationCode : PrimitiveValue, IEqualityComparer<DataAut
                 $"The Primitive Value {nameof(DataAuthenticationCode)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
-        DecodedResult<ushort> result = codec.Decode(PlayEncodingId, value) as DecodedResult<ushort>
+        DecodedResult<ushort> result = codec.Decode(EncodingId, value) as DecodedResult<ushort>
             ?? throw new InvalidOperationException(
                 $"The {nameof(DataAuthenticationCode)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new DataAuthenticationCode(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(PlayEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(PlayEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
 
     #endregion
 

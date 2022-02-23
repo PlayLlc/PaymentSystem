@@ -61,7 +61,7 @@ public class GenerateAcCdaResponseFactory : TemplateFactory<GenerateAcCdaRespons
             out ReadOnlyMemory<byte> rawCardholderVerificationCode3Track1))
         {
             issuerApplicationData =
-                (_Codec.Decode(IssuerApplicationData.PlayEncodingId, rawCardholderVerificationCode3Track1.Span) as
+                (_Codec.Decode(IssuerApplicationData.EncodingId, rawCardholderVerificationCode3Track1.Span) as
                     DecodedResult<IssuerApplicationData>)!.Value;
         }
 
@@ -69,7 +69,7 @@ public class GenerateAcCdaResponseFactory : TemplateFactory<GenerateAcCdaRespons
             out ReadOnlyMemory<byte> rawPosCardholderInteractionInformation))
         {
             posCardholderInteractionInformation =
-                (_Codec.Decode(PosCardholderInteractionInformation.PlayEncodingId, rawPosCardholderInteractionInformation.Span) as
+                (_Codec.Decode(PosCardholderInteractionInformation.EncodingId, rawPosCardholderInteractionInformation.Span) as
                     DecodedResult<PosCardholderInteractionInformation>)!.Value;
         }
 

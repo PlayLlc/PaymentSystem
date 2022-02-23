@@ -2,6 +2,7 @@ using System;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
+using Play.Codecs;
 using Play.Encryption.Certificates;
 using Play.Encryption.Hashing;
 using Play.Encryption.Signing;
@@ -48,7 +49,7 @@ internal class DecodedSignedStaticApplicationData : DecodedSignature
     }
 
     public DataAuthenticationCode GetDataAuthenticationCode() =>
-        new(PlayEncoding.UnsignedInteger.DecodeToUInt16(_Message1.AsByteArray()[3..4]));
+        new(PlayCodec.UnsignedIntegerCodec.DecodeToUInt16(_Message1.AsByteArray()[3..4]));
 
     public HashAlgorithmIndicator GetHashAlgorithmIndicator()
     {

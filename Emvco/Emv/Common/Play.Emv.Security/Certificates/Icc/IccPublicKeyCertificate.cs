@@ -7,9 +7,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Codecs;
-
-using BinaryCodec = Play.Emv.Ber.Codecs.BinaryCodec;
+using Play.Codecs; 
 
 namespace Play.Emv.Security.Certificates.Icc;
 
@@ -58,15 +56,15 @@ public record IccPublicKeyCertificate : PrimitiveValue, IEqualityComparer<IccPub
     /// <exception cref="BerException"></exception>
     public static IccPublicKeyCertificate Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
-        DecodedResult<BigInteger> result = codec.Decode(PlayEncodingId, value) as DecodedResult<BigInteger>
+        DecodedResult<BigInteger> result = codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
                 $"The {nameof(IccPublicKeyCertificate)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new IccPublicKeyCertificate(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(PlayEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(PlayEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
 
     #endregion
 

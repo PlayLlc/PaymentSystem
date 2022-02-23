@@ -7,8 +7,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
-
-using BinaryCodec = Play.Emv.Ber.Codecs.BinaryCodec;
+ 
 
 namespace Play.Emv.Security.Checksum;
 
@@ -75,15 +74,15 @@ public record CardholderVerificationCode3Track1 : PrimitiveValue, IEqualityCompa
                 $"The Primitive Value {nameof(CardholderVerificationCode3Track1)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
-        DecodedResult<ushort> result = codec.Decode(PlayEncodingId, value) as DecodedResult<ushort>
+        DecodedResult<ushort> result = codec.Decode(EncodingId, value) as DecodedResult<ushort>
             ?? throw new InvalidOperationException(
                 $"The {nameof(CardholderVerificationCode3Track1)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new CardholderVerificationCode3Track1(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(PlayEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(PlayEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
 
     #endregion
 

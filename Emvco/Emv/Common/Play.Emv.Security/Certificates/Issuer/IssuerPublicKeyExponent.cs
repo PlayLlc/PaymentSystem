@@ -9,9 +9,7 @@ using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Encryption.Certificates;
-
-using BinaryCodec = Play.Emv.Ber.Codecs.BinaryCodec;
-using PlayEncodingId = Play.Ber.Codecs.PlayEncodingId;
+ 
 
 namespace Play.Emv.Security.Certificates.Issuer;
 
@@ -45,7 +43,7 @@ public record IssuerPublicKeyExponent : PrimitiveValue, IEqualityComparer<Issuer
 
     #region Instance Members
 
-    public byte[] AsByteArray() => PlayEncoding.UnsignedInteger.GetBytes(_Value);
+    public byte[] AsByteArray() => PlayCodec.UnsignedIntegerCodec.Encode(_Value);
     public PublicKeyExponent AsPublicKeyExponent() => PublicKeyExponent.Get(_Value);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public int GetByteCount() => _Value.GetMostSignificantBit();
@@ -71,15 +69,15 @@ public record IssuerPublicKeyExponent : PrimitiveValue, IEqualityComparer<Issuer
                 $"The Primitive Value {nameof(IssuerPublicKeyExponent)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
         }
 
-        DecodedResult<uint> result = codec.Decode(PlayEncodingId, value) as DecodedResult<uint>
+        DecodedResult<uint> result = codec.Decode(EncodingId, value) as DecodedResult<uint>
             ?? throw new InvalidOperationException(
                 $"The {nameof(IssuerPublicKeyExponent)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new IssuerPublicKeyExponent(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(PlayEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(PlayEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
 
     #endregion
 

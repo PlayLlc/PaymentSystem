@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Play.Codecs;
 using Play.Emv.DataElements.Emv;
 using Play.Encryption.Hashing;
 
@@ -30,7 +31,7 @@ internal class IccDynamicData
     public CryptogramInformationData GetCryptogramInformationData() => new(_Value[GetIccDynamicNumberLength() + 1]);
 
     public IccDynamicNumber GetIccDynamicNumber() =>
-        new(PlayEncoding.UnsignedBinary.DecodeToUInt64(_Value[1..GetIccDynamicNumberLength()]));
+        new(PlayCodec.UnsignedBinaryCodec.DecodeToUInt64(_Value[1..GetIccDynamicNumberLength()]));
 
     public byte GetIccDynamicNumberLength() => _Value[0];
     public Hash GetTransactionDataHashCode() => new(_Value[(GetIccDynamicNumberLength() + 10)..Hash.Length]);

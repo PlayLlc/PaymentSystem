@@ -6,8 +6,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-
-using BinaryCodec = Play.Emv.Ber.Codecs.BinaryCodec;
+ 
 
 namespace Play.Emv.Security.Authentications.Static.Signed;
 
@@ -59,8 +58,8 @@ public record SignedStaticApplicationData : PrimitiveValue, IEqualityComparer<Si
     /// <exception cref="BerException"></exception>
     public static SignedStaticApplicationData Decode(ReadOnlySpan<byte> value, BerCodec codec) => new(value.ToArray());
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(PlayEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(PlayEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
 
     #endregion
 

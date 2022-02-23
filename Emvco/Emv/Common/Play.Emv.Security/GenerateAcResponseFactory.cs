@@ -59,7 +59,7 @@ internal class GenerateAcResponseFactory : TemplateFactory<GenerateAcResponseMes
             out ReadOnlyMemory<byte> rawCardholderVerificationCode3Track1))
         {
             issuerApplicationData =
-                (_Codec.Decode(IssuerApplicationData.PlayEncodingId, rawCardholderVerificationCode3Track1.Span) as
+                (_Codec.Decode(IssuerApplicationData.EncodingId, rawCardholderVerificationCode3Track1.Span) as
                     DecodedResult<IssuerApplicationData>)!.Value;
         }
 

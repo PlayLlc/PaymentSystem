@@ -2,6 +2,7 @@
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
+using Play.Codecs;
 using Play.Emv.Security.Authentications.Static;
 using Play.Emv.Security.Certificates.Icc;
 using Play.Emv.Security.Certificates.Issuer;
@@ -21,7 +22,7 @@ internal partial class CertificateFactory
     {
         #region Static Metadata
 
-        private static readonly Randomize.Numeric _NumericCodec = new();
+        private static readonly NumericCodec _NumericCodec = new();
 
         #endregion
 

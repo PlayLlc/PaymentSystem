@@ -156,14 +156,14 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
             out ReadOnlyMemory<byte> rawTerminalCategoriesSupportedList))
         {
             terminalCategoriesSupportedList =
-                (_Codec.Decode(TerminalCategoriesSupportedList.PlayEncodingId, rawTerminalCategoriesSupportedList.Span) as
+                (_Codec.Decode(TerminalCategoriesSupportedList.EncodingId, rawTerminalCategoriesSupportedList.Span) as
                     DecodedResult<TerminalCategoriesSupportedList>)!.Value;
         }
 
         if (encodedTlvSiblings.TryGetValueOctetsOfChild(SelectionDataObjectList.Tag, out ReadOnlyMemory<byte> rawSelectionDataObjectList))
         {
             selectionDataObjectList =
-                ((DecodedResult<SelectionDataObjectList>) _Codec.Decode(SelectionDataObjectList.PlayEncodingId,
+                ((DecodedResult<SelectionDataObjectList>) _Codec.Decode(SelectionDataObjectList.EncodingId,
                     rawSelectionDataObjectList.Span)).Value;
         }
 
