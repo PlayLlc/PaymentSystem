@@ -1,10 +1,5 @@
 ﻿using System.Collections.Immutable;
 
-using Microsoft.Toolkit.HighPerformance.Buffers;
-
-using Play.Codecs;
-using Play.Core.Specifications;
-
 namespace Play.Tests.Core.Random;
 
 public partial class Randomize
@@ -36,21 +31,21 @@ public partial class Randomize
         {
             Span<byte> buffer = Bytes(Specs.Integer.UInt16.ByteCount);
 
-            return PlayCodec.UnsignedIntegerCodec.GetUInt16(buffer);
+            return PlayCodec.UnsignedIntegerCodec.DecodeToUInt16(buffer);
         }
 
         public static uint UInt()
         {
             Span<byte> buffer = Bytes(Specs.Integer.UInt32.ByteCount);
 
-            return PlayCodec.UnsignedIntegerCodec.GetUInt32(buffer);
+            return PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(buffer);
         }
 
         public static ulong ULong()
         {
             Span<byte> buffer = Bytes(Specs.Integer.UInt64.ByteCount);
 
-            return PlayCodec.UnsignedIntegerCodec.GetUInt64(buffer);
+            return PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(buffer);
         }
 
         /// <summary>

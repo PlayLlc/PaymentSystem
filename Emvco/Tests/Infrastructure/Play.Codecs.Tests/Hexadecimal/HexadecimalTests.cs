@@ -1,6 +1,5 @@
 ﻿using System;
 
-using Play.Codecs.Strings;
 using Play.Emv.TestData.Icc.Apdu;
 
 using Xunit;

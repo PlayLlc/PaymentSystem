@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Immutable;
-using System.Linq;
+﻿using System.Collections.Immutable;
 using System.Text;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs.Exceptions;
 using Play.Core.Exceptions;
+using Play.Core.Specifications;
 
-namespace Play.Codecs.Strings;
+namespace Play.Codecs;
 
-public class StrictAsciiCodec : PlayCodec
+public class StrictAsciiCodec
 {
     #region Static Metadata
 
@@ -30,7 +29,9 @@ public class StrictAsciiCodec : PlayCodec
 
     #region Instance Members
 
-    public override bool IsValid(ReadOnlySpan<char> value)
+    public PlayEncodingId GetPlayEncodingId() => EncodingId;
+
+    public bool IsValid(ReadOnlySpan<char> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
 
@@ -43,7 +44,7 @@ public class StrictAsciiCodec : PlayCodec
         return true;
     }
 
-    public override bool IsValid(ReadOnlySpan<byte> value)
+    public bool IsValid(ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
 
@@ -68,17 +69,17 @@ public class StrictAsciiCodec : PlayCodec
             throw new ArgumentOutOfRangeException();
     }
 
-    public override int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex) =>
+    public int GetBytes(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex) =>
         _ErrorDetectingEncoder.GetBytes(chars, charIndex, charCount, bytes, byteIndex);
 
-    public override byte[] Encode(string value) => Encode(value.AsSpan());
+    public byte[] GetBytes(string value) => GetBytes(value.AsSpan());
 
     /// <exception cref="EncodingException"></exception>
-    public override byte[] Encode(ReadOnlySpan<char> value)
+    public byte[] GetBytes(ReadOnlySpan<char> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
 
-        if (value.Length >= StackallocThreshold)
+        if (value.Length >= Specs.ByteArray.StackAllocateCeiling)
         {
             using SpanOwner<byte> owner = SpanOwner<byte>.Allocate(value.Length);
             Span<byte> buffer = owner.Span;
@@ -96,13 +97,13 @@ public class StrictAsciiCodec : PlayCodec
         }
     }
 
-    public override bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
+    public bool TryGetBytes(ReadOnlySpan<char> value, out byte[] result)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
 
         try
         {
-            result = Encode(value);
+            result = GetBytes(value);
 
             return true;
         }
@@ -114,13 +115,13 @@ public class StrictAsciiCodec : PlayCodec
         }
     }
 
-    public override int GetByteCount(char[] chars, int index, int count) => _ErrorDetectingEncoder.GetByteCount(chars, index, count);
-    public override int GetMaxByteCount(int charCount) => charCount;
+    public int GetByteCount(char[] chars, int index, int count) => _ErrorDetectingEncoder.GetByteCount(chars, index, count);
+    public int GetMaxByteCount(int charCount) => charCount;
 
-    public sealed override int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
+    public int GetChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex) =>
         _ErrorDetectingEncoder.GetChars(bytes, byteIndex, byteCount, chars, charIndex);
 
-    public char[] DecodeToChars(ReadOnlySpan<byte> value)
+    public char[] GetChars(ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
 
@@ -134,27 +135,27 @@ public class StrictAsciiCodec : PlayCodec
         return result;
     }
 
-    public override int GetCharCount(byte[] bytes, int index, int count) => _ErrorDetectingEncoder.GetCharCount(bytes, index, count);
-    public override int GetMaxCharCount(int byteCount) => byteCount;
+    public int GetCharCount(byte[] bytes, int index, int count) => _ErrorDetectingEncoder.GetCharCount(bytes, index, count);
+    public int GetMaxCharCount(int byteCount) => byteCount;
 
     /// <exception cref="EncodingException"></exception>
-    public override string DecodeToString(ReadOnlySpan<byte> value)
+    public string GetString(ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
 
         if (value.Length == 0)
-            throw new EncodingException(EncodingException.ByteArrayWasEmpty);
+            throw new PlayEncodingException(PlayEncodingException.ByteArrayWasEmpty);
 
         return _ErrorDetectingEncoder.GetString(value);
     }
 
-    public override bool TryDecodingToString(ReadOnlySpan<byte> value, out string result)
+    public bool TryGetString(ReadOnlySpan<byte> value, out string result)
     {
         try
         {
             CheckCore.ForEmptySequence(value, nameof(value));
 
-            result = DecodeToString(value);
+            result = GetString(value);
 
             return true;
         }
@@ -166,7 +167,8 @@ public class StrictAsciiCodec : PlayCodec
         }
     }
 
-    private static Encoding GetEncoder() => GetEncoding("us-ascii", new EncoderExceptionFallback(), new DecoderExceptionFallback());
+    private static Encoding GetEncoder() =>
+        Encoding.GetEncoding("us-ascii", new EncoderExceptionFallback(), new DecoderExceptionFallback());
 
     #endregion
 }

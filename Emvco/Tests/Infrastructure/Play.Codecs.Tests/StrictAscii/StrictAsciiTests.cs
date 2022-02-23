@@ -1,5 +1,4 @@
-﻿using Play.Codecs.Strings;
-using Play.Codecs.Tests.Numeric;
+﻿using Play.Codecs.Tests.Numeric;
 using Play.Emv.TestData.Encoding;
 
 using Xunit;

@@ -1,7 +1,4 @@
-﻿using Play.Codecs;
-using Play.Core.Extensions;
-
-namespace Play.Tests.Core.Random;
+﻿namespace Play.Tests.Core.Random;
 
 public partial class Randomize
 {
@@ -127,7 +124,7 @@ public partial class Randomize
             Span<byte> randNumberBuffer = stackalloc byte[8];
             _Random.NextBytes(randNumberBuffer);
 
-            return PlayCodec.UnsignedIntegerCodec.GetUInt64(randNumberBuffer);
+            return PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(randNumberBuffer);
         }
 
         private static long GetRandomFromHash(long min, long max, long hash)
@@ -138,7 +135,7 @@ public partial class Randomize
 
             Span<byte> randNumberBuffer = stackalloc byte[absoluteDistance.GetMostSignificantByte()];
             _Random.NextBytes(randNumberBuffer);
-            long correction = (long) PlayCodec.UnsignedIntegerCodec.GetUInt64(randNumberBuffer).GetMaskedValue(randomNumberMask);
+            long correction = (long) PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(randNumberBuffer).GetMaskedValue(randomNumberMask);
 
             return distanceData.MinMax == MinMax.Min ? hash - correction : hash + correction;
         }

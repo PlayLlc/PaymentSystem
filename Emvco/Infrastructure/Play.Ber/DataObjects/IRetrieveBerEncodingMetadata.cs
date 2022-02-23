@@ -1,6 +1,4 @@
-﻿using Play.Codecs;
-
-namespace Play.Ber.DataObjects;
+﻿namespace Play.Ber.DataObjects;
 
 public interface IRetrieveBerEncodingMetadata
 {

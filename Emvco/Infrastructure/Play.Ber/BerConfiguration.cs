@@ -9,7 +9,6 @@ using System.Text;
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Codecs;
 
 using PlayCodec = Play.Codecs.PlayCodec;
 

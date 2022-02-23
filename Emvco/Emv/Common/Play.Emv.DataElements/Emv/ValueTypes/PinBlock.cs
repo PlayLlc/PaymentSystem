@@ -1,6 +1,4 @@
-﻿using Play.Codecs;
-
-namespace Play.Emv.DataElements.Emv;
+﻿namespace Play.Emv.DataElements.Emv;
 
 /// <summary>
 ///     The encrypted PIN Block encoded as specified in EMV Book 3 Table 24
@@ -17,7 +15,7 @@ public readonly struct PinBlock
 
     public PinBlock(ReadOnlySpan<byte> value)
     {
-        _Value = PlayCodec.UnsignedIntegerCodec.GetUInt64(value);
+        _Value = PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(value);
     }
 
     public PinBlock(ulong value)

@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Infrastructure\Play.Codecs\Play.Codecs.csproj" />
     <ProjectReference Include="..\..\Play.Emv.TestData\Play.Emv.TestData.csproj" />
   </ItemGroup>
 

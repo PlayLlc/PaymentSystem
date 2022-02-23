@@ -1,6 +1,4 @@
-﻿using Play.Codecs.Integers;
-
-using Xunit;
+﻿using Xunit;
 
 namespace Play.Codecs.Tests.SignedIntegers;
 

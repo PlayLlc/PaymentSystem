@@ -2,9 +2,6 @@
 
 using BenchmarkDotNet.Attributes;
 
-using Play.Codecs;
-using Play.Codecs.Strings;
-
 namespace Benchmark;
 
 public class SpanBenchmarks

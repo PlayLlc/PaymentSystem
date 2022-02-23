@@ -56,7 +56,7 @@ internal partial class CertificateFactory
         }
 
         private static ShortDateValue GetCertificateExpirationDate(Message1 message1) =>
-            new(_NumericCodec.GetUInt16(message1[new Range(11, 13)]));
+            new(_NumericCodec.DecodeToUInt16(message1[new Range(11, 13)]));
 
         private static CertificateSerialNumber GetCertificateSerialNumber(Message1 message1) => new(message1[new Range(13, 16)]);
 

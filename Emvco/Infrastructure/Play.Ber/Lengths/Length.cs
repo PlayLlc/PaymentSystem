@@ -5,7 +5,6 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Lengths.Long;
 using Play.Ber.Lengths.Short;
-using Play.Codecs;
 using Play.Core.Extensions;
 
 namespace Play.Ber.Lengths;
@@ -38,7 +37,7 @@ public readonly struct Length
 
         LongLength.Validate(encodedContentOctets[..LongLength.GetByteCount(encodedContentOctets)]);
 
-        _Value = PlayCodec.UnsignedIntegerCodec.GetUInt32(encodedContentOctets[..LongLength.GetByteCount(encodedContentOctets)]);
+        _Value = PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(encodedContentOctets[..LongLength.GetByteCount(encodedContentOctets)]);
     }
 
     /// <exception cref="BerException"></exception>
@@ -124,7 +123,7 @@ public readonly struct Length
 
         LongLength.Validate(berLength[..LongLength.GetByteCount(berLength)]);
 
-        return new Length(PlayEncoding.UnsignedInteger.GetUInt32(berLength[..LongLength.GetByteCount(berLength)]));
+        return new Length(PlayEncoding.UnsignedInteger.DecodeToUInt32(berLength[..LongLength.GetByteCount(berLength)]));
     }
 
     #endregion

@@ -1,31 +1,28 @@
-﻿using System;
+﻿namespace Play.Codecs;
 
-namespace Play.Codecs;
-
-public readonly record struct PlayEncodingId
+public record PlayEncodingId
 {
     #region Instance Values
 
     private readonly int _Value;
+    private readonly string _FullyQualifiedName;
 
     #endregion
 
     #region Constructor
 
-    public PlayEncodingId(int value)
-    {
-        _Value = value;
-    }
-
-    public PlayEncodingId(ReadOnlySpan<char> value)
-    {
-        _Value = PlayCodec.SignedIntegerCodec.GetInt32(PlayCodec.UnicodeCodec.Encode(value));
-    }
-
     public PlayEncodingId(Type value)
     {
-        _Value = PlayCodec.SignedIntegerCodec.GetInt32(PlayCodec.UnicodeCodec.Encode(value.FullName));
+        _Value = PlayCodec.SignedIntegerCodec.DecodeToInt32(PlayCodec.UnicodeCodec.Encode(value.FullName));
+        _FullyQualifiedName = value.FullName!;
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public string GetFullyQualifiedName() => _FullyQualifiedName;
+    public override string ToString() => $"{_FullyQualifiedName}";
 
     #endregion
 

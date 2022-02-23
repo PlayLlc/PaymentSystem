@@ -10,8 +10,4 @@
     <PackageReference Include="Microsoft.Toolkit.HighPerformance" Version="7.1.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Play.Codecs\Play.Codecs.csproj" />
-  </ItemGroup>
-
 </Project>

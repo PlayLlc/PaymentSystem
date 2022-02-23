@@ -7,7 +7,6 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Codecs;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 using BinaryCodec = Play.Emv.Ber.Codecs.BinaryCodec;
@@ -48,7 +47,7 @@ public record ApplicationIdentifier : PrimitiveValue, IEqualityComparer<Applicat
     public override PlayEncodingId GetEncodingId() => EncodingId;
 
     public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
-        new(PlayEncoding.UnsignedInteger.GetUInt64(_Value.ToByteArray()[..5]));
+        new(PlayEncoding.UnsignedInteger.DecodeToUInt64(_Value.ToByteArray()[..5]));
 
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);

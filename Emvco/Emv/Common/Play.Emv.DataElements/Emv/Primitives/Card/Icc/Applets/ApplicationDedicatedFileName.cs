@@ -1,12 +1,8 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Codecs;
-using Play.Codecs.Strings;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Icc.FileSystem.DedicatedFiles;
-
-using PlayEncodingId = Play.Ber.Codecs.PlayEncodingId;
 
 namespace Play.Emv.DataElements.Emv;
 
@@ -55,7 +51,7 @@ public record ApplicationDedicatedFileName : DataElement<byte[]>, IEqualityCompa
     public int GetByteCount() => _Value.Length;
 
     public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
-        new(PlayCodec.UnsignedIntegerCodec.GetUInt64(_Value[..5]));
+        new(PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(_Value[..5]));
 
     public override Tag GetTag() => Tag;
     public bool IsFullMatch(ApplicationDedicatedFileName other) => Equals(other);

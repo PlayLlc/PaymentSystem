@@ -4,7 +4,6 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers.Long;
 using Play.Ber.Identifiers.Short;
-using Play.Codecs;
 
 namespace Play.Ber.Identifiers;
 
@@ -32,7 +31,7 @@ public readonly record struct Tag
         byte byteCount = LongIdentifier.GetByteCount(value);
         LongIdentifier.Validate(value[..byteCount]);
 
-        _Value = PlayCodec.UnsignedIntegerCodec.GetUInt32(value[..byteCount]);
+        _Value = PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(value[..byteCount]);
     }
 
     /// <exception cref="BerException"></exception>

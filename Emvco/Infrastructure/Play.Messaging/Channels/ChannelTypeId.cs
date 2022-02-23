@@ -1,6 +1,4 @@
-﻿using Play.Codecs;
-
-namespace Play.Messaging;
+﻿namespace Play.Messaging;
 
 public readonly record struct ChannelTypeId
 {
@@ -14,7 +12,7 @@ public readonly record struct ChannelTypeId
 
     public ChannelTypeId(string type)
     {
-        _Value = PlayCodec.UnsignedIntegerCodec.GetUInt64(PlayCodec.AsciiCodec.Encode(type));
+        _Value = PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(PlayCodec.AsciiCodec.Encode(type));
     }
 
     #endregion

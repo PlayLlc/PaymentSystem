@@ -13,7 +13,7 @@
 
 //        public uint GetInt()
 //        {
-//            return Value.GetUInt32();
+//            return Value.DecodeToUInt32();
 //        }
 //    }
 //}

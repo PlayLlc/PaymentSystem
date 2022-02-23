@@ -28,7 +28,8 @@ public record ChannelType : EnumObject<ChannelTypeId>
 
     #region Instance Members
 
-    private static ulong GetChannelTypeId(Type type) => PlayEncoding.UnsignedInteger.GetUInt64(PlayEncoding.ASCII.GetBytes(type.FullName));
+    private static ulong GetChannelTypeId(Type type) =>
+        PlayEncoding.UnsignedInteger.DecodeToUInt64(PlayEncoding.ASCII.GetBytes(type.FullName));
 
     public static string GetChannelTypeName(ChannelTypeId value)
     {

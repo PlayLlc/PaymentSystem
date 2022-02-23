@@ -2,7 +2,6 @@
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
-using Play.Codecs;
 using Play.Emv.DataElements.Emv;
 using Play.Emv.Security.Certificates.Issuer;
 using Play.Encryption.Certificates;
@@ -58,7 +57,7 @@ internal partial class CertificateFactory
         }
 
         private static ShortDateValue GetCertificateExpirationDate(Message1 message1) =>
-            new(_NumericCodec.GetUInt16(message1[new Range(5, 7)]));
+            new(_NumericCodec.DecodeToUInt16(message1[new Range(5, 7)]));
 
         private static CertificateSerialNumber GetCertificateSerialNumber(Message1 message1) => new(message1[new Range(7, 10)]);
 

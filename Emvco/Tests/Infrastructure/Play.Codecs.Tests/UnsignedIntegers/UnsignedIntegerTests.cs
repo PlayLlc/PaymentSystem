@@ -1,6 +1,4 @@
-﻿using Play.Codecs.Integers;
-
-using Xunit;
+﻿using Xunit;
 
 namespace Play.Codecs.Tests.UnsignedIntegers;
 
@@ -38,7 +36,7 @@ public class UnsignedIntegerTests
     public void RandomDecodedUShort_EncodingThenDecoding_ReturnsExpectedResult(ushort testValue)
     {
         byte[]? decoded = _SystemUnderTest.GetBytes(testValue);
-        ushort encoded = _SystemUnderTest.GetUInt16(decoded);
+        ushort encoded = _SystemUnderTest.DecodeToUInt16(decoded);
 
         Assert.Equal(testValue, encoded);
     }
@@ -48,7 +46,7 @@ public class UnsignedIntegerTests
     public void RandomDecodedUInt_EncodingThenDecoding_ReturnsExpectedResult(ushort testValue)
     {
         byte[]? decoded = _SystemUnderTest.GetBytes(testValue);
-        uint encoded = _SystemUnderTest.GetUInt32(decoded);
+        uint encoded = _SystemUnderTest.DecodeToUInt32(decoded);
 
         Assert.Equal(testValue, encoded);
     }
@@ -58,7 +56,7 @@ public class UnsignedIntegerTests
     public void RandomDecodedULong_EncodingThenDecoding_ReturnsExpectedResult(ushort testValue)
     {
         byte[]? decoded = _SystemUnderTest.GetBytes(testValue);
-        ulong encoded = _SystemUnderTest.GetUInt64(decoded);
+        ulong encoded = _SystemUnderTest.DecodeToUInt64(decoded);
 
         Assert.Equal(testValue, encoded);
     }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using Play.Ber.Codecs;
 using Play.Ber.Identifiers;
-using Play.Codecs;
 
 namespace Play.Ber.DataObjects;
 

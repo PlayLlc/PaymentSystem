@@ -1,6 +1,4 @@
-﻿using Play.Codecs;
-
-namespace Play.Interchange.DataFields;
+﻿namespace Play.Interchange.DataFields;
 
 public abstract record VariableDataField<T> : InterchangeDataField
 {

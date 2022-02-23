@@ -1,6 +1,5 @@
 ﻿using Microsoft.Toolkit.HighPerformance.Buffers;
 
-using Play.Codecs;
 using Play.Interchange.Messages.Body;
 using Play.Interchange.Messages.Header;
 
