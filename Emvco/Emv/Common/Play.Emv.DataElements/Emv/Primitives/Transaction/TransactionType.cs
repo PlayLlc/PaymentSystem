@@ -72,7 +72,7 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
                 $"The Primitive Value {nameof(TransactionType)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
         }
 
-        DecodedResult<byte> result = codec.Decode(PlayEncodingId, value) as DecodedResult<byte>
+        DecodedResult<byte> result = codec.Decode(EncodingId, value) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
                 $"The {nameof(TransactionType)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<byte>)}");
 

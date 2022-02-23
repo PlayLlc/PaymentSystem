@@ -32,7 +32,7 @@ public record LastOnlineApplicationTransactionCounterRegister : DataElement<usho
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public byte[] Encode() => _Codec.EncodeValue(PlayEncodingId, _Value, _ByteLength);
+    public byte[] Encode() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 

@@ -74,15 +74,15 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
                 $"The Primitive Value {nameof(ShortFileIdentifier)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
-        DecodedResult<byte> result = codec.Decode(PlayEncodingId, value) as DecodedResult<byte>
+        DecodedResult<byte> result = codec.Decode(EncodingId, value) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
                 $"The {nameof(ShortFileIdentifier)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new ShortFileIdentifier(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(PlayEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(PlayEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
 
     #endregion
 

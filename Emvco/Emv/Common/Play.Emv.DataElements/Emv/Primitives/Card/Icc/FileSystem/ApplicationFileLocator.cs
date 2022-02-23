@@ -101,18 +101,18 @@ public record ApplicationFileLocator : DataElement<byte[]>, IEqualityComparer<Ap
 
         DecodedResult<byte[]> result = _Codec.Decode(EncodingId, value) as DecodedResult<byte[]>
             ?? throw new InvalidOperationException(
-                $"The {nameof(ApplicationFileLocator)} could not be initialized because the {nameof(VariableCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
+                $"The {nameof(ApplicationFileLocator)} could not be initialized because the {nameof(BerEncodingIdType.VariableCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
 
         return new ApplicationFileLocator(result.Value);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(PlayEncodingId, _Value, GetValueByteCount());
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, GetValueByteCount());
     public new byte[] EncodeTagLengthValue() => _Codec.EncodeTagLengthValue(this, GetValueByteCount());
 
     public override byte[] EncodeValue(BerCodec codec) =>
-        codec.EncodeValue(PlayEncodingId, _Value, _Value.Length + (_Value.Length % _ByteLengthMultiple));
+        codec.EncodeValue(EncodingId, _Value, _Value.Length + (_Value.Length % _ByteLengthMultiple));
 
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(PlayEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
 
     #endregion
 

@@ -50,7 +50,7 @@ public record LogEntry : DataElement<ushort>, IEqualityComparer<LogEntry>
                 $"The Primitive Value {nameof(LogEntry)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
-        DecodedResult<ushort> result = codec.Decode(PlayEncodingId, value) as DecodedResult<ushort>
+        DecodedResult<ushort> result = codec.Decode(EncodingId, value) as DecodedResult<ushort>
             ?? throw new InvalidOperationException(
                 $"The {nameof(LogEntry)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 

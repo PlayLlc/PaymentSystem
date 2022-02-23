@@ -1,6 +1,4 @@
-﻿using Play.Codecs.Metadata;
-
-namespace Play.Codecs;
+﻿namespace Play.Codecs;
 
 public interface IDecodeToMetadata
 {

@@ -33,7 +33,7 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => _ByteLength;
     public new ushort GetValueByteCount() => _ByteLength;
-    public byte[] Encode() => _Codec.EncodeValue(PlayEncodingId, _Value, _ByteLength);
+    public byte[] Encode() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 
@@ -58,7 +58,7 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
         return new CvmResults(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec berCodec) => _Codec.EncodeValue(PlayEncodingId, _Value, _ByteLength);
+    public override byte[] EncodeValue(BerCodec berCodec) => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 

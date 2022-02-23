@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using Play.Ber.Exceptions;
 using Play.Codecs;
-using Play.Codecs.Metadata;
 
 namespace Play.Ber.InternalFactories;
 

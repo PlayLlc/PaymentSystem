@@ -45,7 +45,7 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
     public static MerchantCategoryCode Decode(ReadOnlyMemory<byte> value)
     {
         Check.Primitive.ForExactLength(value, 4, Tag);
-        DecodedResult<ushort> result = _Codec.Decode(PlayEncodingId, value.Span) as DecodedResult<ushort>
+        DecodedResult<ushort> result = _Codec.Decode(EncodingId, value.Span) as DecodedResult<ushort>
             ?? throw new EmvEncodingException(
                 $"The {nameof(MerchantCategoryCode)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 

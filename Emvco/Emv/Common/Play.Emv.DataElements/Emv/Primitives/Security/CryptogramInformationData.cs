@@ -94,7 +94,7 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
         return new CryptogramInformationData(result.Value);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(PlayEncodingId, _Value, 1);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, 1);
 
     #endregion
 

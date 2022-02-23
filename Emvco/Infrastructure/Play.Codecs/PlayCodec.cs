@@ -1,6 +1,4 @@
-﻿using Play.Codecs.Metadata;
-
-namespace Play.Codecs;
+﻿namespace Play.Codecs;
 
 /// <summary>
 ///     A simple codec base class that can be inherited to customize an encoding class specific to the encoding rules of

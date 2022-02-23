@@ -2,7 +2,7 @@
 
 using Play.Codecs.Exceptions;
 
-namespace Play.Codecs.Metadata;
+namespace Play.Codecs;
 
 public static class DecodedMetadataExtensions
 {

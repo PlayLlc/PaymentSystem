@@ -91,7 +91,7 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<byte> result = _Codec.Decode(PlayEncodingId, value.Span) as DecodedResult<byte>
+        DecodedResult<byte> result = _Codec.Decode(EncodingId, value.Span) as DecodedResult<byte>
             ?? throw new InvalidOperationException(
                 $"The {nameof(TerminalType)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Immutable;
 
 using Play.Codecs;
-using Play.Codecs.Metadata;
 using Play.Core.Exceptions;
 using Play.Interchange.DataFields;
 using Play.Interchange.Exceptions;

@@ -16,7 +16,7 @@ public record TimeoutValue : DataElement<ushort>, IEqualityComparer<TimeoutValue
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId EncodingId = BinaryIntegerCodec.Identifier;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF8127;
     private const byte _ByteLength = 2;
 

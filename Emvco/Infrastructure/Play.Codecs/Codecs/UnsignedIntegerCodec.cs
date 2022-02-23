@@ -3,7 +3,6 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 
 using Play.Codecs.Exceptions;
-using Play.Codecs.Metadata;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
 

@@ -42,7 +42,7 @@ public record PosEntryMode : DataElement<byte>, IEqualityComparer<PosEntryMode>
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<byte> result = _Codec.Decode(PlayEncodingId, value.Span) as DecodedResult<byte>
+        DecodedResult<byte> result = _Codec.Decode(EncodingId, value.Span) as DecodedResult<byte>
             ?? throw new DataElementNullException(EncodingId);
 
         return new PosEntryMode(result.Value);

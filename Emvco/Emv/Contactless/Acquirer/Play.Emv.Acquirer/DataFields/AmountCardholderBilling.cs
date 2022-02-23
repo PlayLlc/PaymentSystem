@@ -1,5 +1,4 @@
 ﻿using Play.Codecs;
-using Play.Codecs.Metadata;
 using Play.Emv.Acquirer.Exceptions;
 using Play.Interchange.DataFields;
 using Play.Interchange.Exceptions;

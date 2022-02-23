@@ -1,4 +1,4 @@
-﻿namespace Play.Codecs.Metadata;
+﻿namespace Play.Codecs;
 
 public record DecodedMetadata
 {

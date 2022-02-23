@@ -1,4 +1,4 @@
-﻿namespace Play.Codecs.Metadata;
+﻿namespace Play.Codecs;
 
 // TODO: This is a shitty implementation - you shouldn't have to expose metadata to the client and make them do a magic trick in order to decode something
 

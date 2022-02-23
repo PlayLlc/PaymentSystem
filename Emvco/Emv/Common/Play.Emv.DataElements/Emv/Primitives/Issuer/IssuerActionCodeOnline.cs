@@ -51,7 +51,7 @@ public record IssuerActionCodeOnline : DataElement<ulong>, IEqualityComparer<Iss
                 $"The Primitive Value {nameof(IssuerActionCodeOnline)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
-        DecodedResult<ulong> result = codec.Decode(PlayEncodingId, value) as DecodedResult<ulong>
+        DecodedResult<ulong> result = codec.Decode(EncodingId, value) as DecodedResult<ulong>
             ?? throw new InvalidOperationException(
                 $"The {nameof(IssuerActionCodeOnline)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
