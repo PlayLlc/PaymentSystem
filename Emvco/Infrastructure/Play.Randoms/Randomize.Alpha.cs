@@ -1,5 +1,7 @@
 ﻿using Microsoft.Toolkit.HighPerformance.Buffers;
 
+using Play.Core.Specifications;
+
 namespace Play.Randoms;
 
 public partial class Randomize
