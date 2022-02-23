@@ -75,7 +75,7 @@ public class SignedNumericCodec : PlayCodec
     #region Metadata
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
-    public static readonly PlayEncodingId EncodingId = new(nameof(SignedNumericCodec));
+    public static readonly PlayEncodingId EncodingId = new(typeof(SignedNumericCodec));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = Enumerable.Range(0, 10)
         .Concat(new[] {67, 68}).ToImmutableSortedDictionary(a => (char) (a + 48), b => (byte) b);

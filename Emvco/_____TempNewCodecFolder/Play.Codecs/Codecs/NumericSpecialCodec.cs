@@ -14,7 +14,7 @@ public class NumericSpecialCodec : PlayCodec
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId EncodingId = new(nameof(NumericSpecialCodec));
+    public static readonly PlayEncodingId EncodingId = new(typeof(NumericSpecialCodec));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = Enumerable.Range(0, 10).Concat(Enumerable.Range(32, 47 - 32))
         .Concat(Enumerable.Range(58, 64 - 58)).Concat(Enumerable.Range(91, 96 - 91)).Concat(Enumerable.Range(123, 126 - 123))

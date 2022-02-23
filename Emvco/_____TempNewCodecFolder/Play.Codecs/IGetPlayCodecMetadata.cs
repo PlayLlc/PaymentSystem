@@ -2,6 +2,6 @@
 
 public interface IGetPlayCodecMetadata
 {
-    protected static PlayEncodingId GetEncodingId(Type encoder) => new(encoder.FullName);
+    protected static PlayEncodingId GetEncodingId(Type encoder) => new(encoder);
     public PlayEncodingId GetEncodingId();
 }

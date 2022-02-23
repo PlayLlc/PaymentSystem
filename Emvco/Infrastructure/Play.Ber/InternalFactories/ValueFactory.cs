@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Codecs;
-
-using PlayCodec = Play.Ber.Codecs.PlayCodec;
+using Play.Codecs.Metadata;
 
 namespace Play.Ber.InternalFactories;
 
@@ -126,7 +125,7 @@ internal sealed class ValueFactory
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
-            throw new InvalidOperationException(
+            throw new BerConfigurationException(
                 $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the Fully Qualified Name: {playEncodingId.GetFullyQualifiedName()} and with Id: [{playEncodingId}]");
         }
 
