@@ -71,7 +71,7 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
         }
 
         DecodedResult<uint> result = _Codec.Decode(EncodingId, value) as DecodedResult<uint>
-            ?? throw new DataElementNullException(PlayEncodingId);
+            ?? throw new DataElementNullException(EncodingId);
 
         if (result.CharCount != charLength)
         {

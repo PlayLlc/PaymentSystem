@@ -47,7 +47,7 @@ public record ApplicationPan : DataElement<BigInteger>
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
         DecodedResult<BigInteger> result = _Codec.Decode(EncodingId, value).ToBigInteger()
-            ?? throw new DataElementNullException(PlayEncodingId);
+            ?? throw new DataElementNullException(EncodingId);
 
         return new ApplicationPan(result.Value);
     }

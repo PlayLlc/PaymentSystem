@@ -96,7 +96,7 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
         return new TerminalVerificationResults(result.Value);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(PlayEncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 

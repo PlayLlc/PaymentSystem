@@ -82,7 +82,7 @@ public record AdditionalTerminalCapabilities : DataElement<ulong>, IEqualityComp
         return new AdditionalTerminalCapabilities(result.Value);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(PlayEncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 

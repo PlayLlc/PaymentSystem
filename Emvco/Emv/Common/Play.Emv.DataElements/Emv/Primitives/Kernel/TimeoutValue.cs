@@ -51,12 +51,12 @@ public record TimeoutValue : DataElement<ushort>, IEqualityComparer<TimeoutValue
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         DecodedResult<ushort> result = _Codec.Decode(EncodingId, value) as DecodedResult<ushort>
-            ?? throw new DataElementNullException(PlayEncodingId);
+            ?? throw new DataElementNullException(EncodingId);
 
         return new TimeoutValue(result.Value);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(PlayEncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 

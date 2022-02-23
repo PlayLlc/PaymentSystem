@@ -104,7 +104,7 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<byte> result = _Codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataElementNullException(PlayEncodingId);
+        DecodedResult<byte> result = _Codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataElementNullException(EncodingId);
 
         return new TerminalType(result.Value);
     }

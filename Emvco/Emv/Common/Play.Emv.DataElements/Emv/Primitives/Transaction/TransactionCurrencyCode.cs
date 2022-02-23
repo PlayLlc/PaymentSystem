@@ -68,7 +68,7 @@ public record TransactionCurrencyCode : DataElement<NumericCurrencyCode>, IEqual
         return new TransactionCurrencyCode(new NumericCurrencyCode(result.Value));
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(PlayEncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 
