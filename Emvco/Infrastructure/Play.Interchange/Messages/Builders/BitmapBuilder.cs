@@ -8,7 +8,7 @@ namespace Play.Interchange.Messages.Builders;
 /// <summary>
 ///     In ISO 8583, a bitmap is a field or subfield within a message, which indicates whether other data elements or data
 ///     element sub-fields are present elsewhere in the message. The bitmap may be represented as 8 bytes of binary data or
-///     as 16 hexadecimal characters (0–9, A–F) in the Ascii or EBCDIC character sets. A message will contain at least one
+///     as 16 hexadecimal characters (0–9, A–F) in the AsciiCodec or EBCDIC character sets. A message will contain at least one
 ///     bitmap, called the primary bitmap, which indicates data elements 1 to 64 are present.
 /// </summary>
 //internal class BitmapBuilder

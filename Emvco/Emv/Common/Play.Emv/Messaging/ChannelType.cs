@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Play.Codecs;
 using Play.Core;
 using Play.Messaging;
 
@@ -29,7 +30,7 @@ public record ChannelType : EnumObject<ChannelTypeId>
     #region Instance Members
 
     private static ulong GetChannelTypeId(Type type) =>
-        PlayEncoding.UnsignedInteger.DecodeToUInt64(PlayEncoding.ASCII.GetBytes(type.FullName));
+        PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(PlayCodec.AsciiCodec.Encode(type.FullName!));
 
     public static string GetChannelTypeName(ChannelTypeId value)
     {

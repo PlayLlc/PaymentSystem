@@ -9,7 +9,7 @@ using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 
-using BinaryCodec = Play.Emv.Ber.Codecs.BinaryCodec;
+
 
 namespace Play.Emv.Configuration;
 
@@ -55,7 +55,7 @@ public record TerminalRiskManagementData : DataElement<ulong>, IEqualityComparer
                 $"The Primitive Value {nameof(TerminalRiskManagementData)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
         }
 
-        DecodedResult<ulong> result = _Codec.Decode(PlayEncodingId, value) as DecodedResult<ulong>
+        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value) as DecodedResult<ulong>
             ?? throw new InvalidOperationException(
                 $"The {nameof(TerminalRiskManagementData)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 

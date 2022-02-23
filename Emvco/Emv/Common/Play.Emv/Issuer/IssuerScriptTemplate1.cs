@@ -9,7 +9,7 @@ using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
 
-using BinaryCodec = Play.Emv.Ber.Codecs.BinaryCodec;
+
 
 namespace Play.Emv.Issuer;
 
@@ -59,15 +59,15 @@ public record IssuerScriptTemplate1 : PrimitiveValue, IEqualityComparer<IssuerSc
     /// <exception cref="BerException"></exception>
     public static IssuerScriptTemplate1 Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
-        DecodedResult<BigInteger> result = codec.Decode(PlayEncodingId, value) as DecodedResult<BigInteger>
+        DecodedResult<BigInteger> result = codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
                 $"The {nameof(IssuerScriptTemplate1)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new IssuerScriptTemplate1(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(PlayEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(PlayEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
 
     #endregion
 

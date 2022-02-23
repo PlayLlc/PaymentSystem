@@ -92,6 +92,7 @@ public class HexadecimalCodec : PlayCodec
         return resultWithoutRemainder + 1;
     }
 
+    public ushort GetByteCount(string value) => (ushort)(value.Length * 2);
     public override ushort GetByteCount<_T>(_T value) => throw new NotImplementedException();
     public override ushort GetByteCount<_T>(_T[] value) => throw new NotImplementedException();
 
@@ -628,7 +629,7 @@ public class HexadecimalCodec : PlayCodec
                 '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
             };
 
-        /// <summary>Map from an Ascii char to its hex value, e.g. arr['B'] == 11. 0xFF means it's not a hex digit.</summary>
+        /// <summary>Map from an AsciiCodec char to its hex value, e.g. arr['B'] == 11. 0xFF means it's not a hex digit.</summary>
         public static ReadOnlySpan<byte> CharToHex =>
             new byte[]
             {

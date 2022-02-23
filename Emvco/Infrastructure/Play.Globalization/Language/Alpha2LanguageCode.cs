@@ -61,13 +61,13 @@ public readonly struct Alpha2LanguageCode
         if (!_AlphaNumericCodecCodec.IsValid(firstChar))
         {
             throw new ArgumentOutOfRangeException(nameof(firstChar),
-                $"The argument {firstChar} was out of range of an alphabetic Ascii value");
+                $"The argument {firstChar} was out of range of an alphabetic AsciiCodec value");
         }
 
         if (!_AlphaNumericCodecCodec.IsValid(secondChar))
         {
             throw new ArgumentOutOfRangeException(nameof(firstChar),
-                $"The argument {firstChar} was out of range of an alphabetic Ascii value");
+                $"The argument {firstChar} was out of range of an alphabetic AsciiCodec value");
         }
 
         _FirstChar = firstChar;

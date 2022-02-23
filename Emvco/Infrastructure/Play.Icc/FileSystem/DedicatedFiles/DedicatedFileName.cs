@@ -30,13 +30,13 @@ public record DedicatedFileName : PrimitiveValue, IEqualityComparer<DedicatedFil
     ///     The Dedicated File Name for the File Control Information of a contact card environment. The FCI is optional in
     ///     a contact implementation
     /// </summary>
-    public static DedicatedFileName PaymentSystemEnvironment = new(PlayCodec.Ascii.Encode("1PAY.SYS.DDF01"));
+    public static DedicatedFileName PaymentSystemEnvironment = new(PlayCodec.AsciiCodec.Encode("1PAY.SYS.DDF01"));
 
     /// <summary>
     ///     The Dedicated File Name for the File Control Information of a contactless card system. The PPSE is required
     ///     in contactless card implementations so the expectation is it will always return a response for a SELECT C-APDU
     /// </summary>
-    public static DedicatedFileName ProximityPaymentSystemEnvironment = new(PlayCodec.Ascii.Encode("2PAY.SYS.DDF01"));
+    public static DedicatedFileName ProximityPaymentSystemEnvironment = new(PlayCodec.AsciiCodec.Encode("2PAY.SYS.DDF01"));
 
     /// <remarks>DecimalValue: 132; HexValue: 0x84</remarks>
     public static readonly Tag Tag = 0x84;

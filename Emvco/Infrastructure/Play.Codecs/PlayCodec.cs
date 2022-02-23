@@ -13,7 +13,7 @@ public abstract class PlayCodec : IGetPlayCodecMetadata, IEncodeStructs, IEncode
     ///     An override of the original <see cref="System.Text.Encoding.ASCII" /> that will enforce strict parsing.
     ///     Exceptions will be raised if invalid data is attempted to be parsed
     /// </summary>
-    public static StrictAsciiCodec Ascii => new();
+    public static StrictAsciiCodec AsciiCodec => new();
 
     public static UnicodeCodec UnicodeCodec => new();
     public static BinaryCodec BinaryCodec => new();

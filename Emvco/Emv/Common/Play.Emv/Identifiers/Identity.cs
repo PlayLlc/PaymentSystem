@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Play.Codecs;
+
 namespace Play.Emv.Identifiers;
 
 public record struct Identity
@@ -19,7 +21,7 @@ public record struct Identity
 
     public Identity(ReadOnlySpan<char> value)
     {
-        _Value = PlayEncoding.SignedInteger.GetInt32(PlayEncoding.Unicode.GetBytes(value));
+        _Value = PlayCodec.SignedIntegerCodec.DecodeToInt32(PlayCodec.UnicodeCodec.Encode(value));
     }
 
     #endregion

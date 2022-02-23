@@ -9,7 +9,7 @@ using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
 
-using BinaryCodec = Play.Emv.Ber.Codecs.BinaryCodec;
+
 
 namespace Play.Emv.Issuer;
 
@@ -67,15 +67,15 @@ public record IssuerScriptCommand : PrimitiveValue, IEqualityComparer<IssuerScri
                 $"The Primitive Value {nameof(IssuerScriptCommand)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be less than {maxByteLength} bytes in length");
         }
 
-        DecodedResult<BigInteger> result = codec.Decode(PlayEncodingId, value) as DecodedResult<BigInteger>
+        DecodedResult<BigInteger> result = codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
             ?? throw new InvalidOperationException(
                 $"The {nameof(IssuerScriptCommand)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new IssuerScriptCommand(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(PlayEncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(PlayEncodingId, _Value, length);
+    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
+    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
 
     #endregion
 
