@@ -1,8 +1,10 @@
 using System.Collections.Immutable;
 
+using Play.Core;
+
 namespace Play.Emv.Icc;
 
-public readonly struct Level3Error
+public record Level3Error : EnumObject<byte>
 {
     #region Static Metadata
 
@@ -11,12 +13,6 @@ public readonly struct Level3Error
     public static readonly Level3Error Ok;
     public static readonly Level3Error Stop;
     public static readonly Level3Error TimeOut;
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly byte _Value;
 
     #endregion
 
@@ -38,50 +34,14 @@ public readonly struct Level3Error
                 .ToImmutableSortedDictionary();
     }
 
-    private Level3Error(byte value)
-    {
-        _Value = value;
-    }
+    private Level3Error(byte value) : base(value)
+    { }
 
     #endregion
 
     #region Instance Members
 
     public static Level3Error Get(byte value) => _ValueObjectMap[value];
-
-    #endregion
-
-    #region Equality
-
-    public override bool Equals(object? obj) => obj is Level3Error l3 && Equals(l3);
-    public bool Equals(Level3Error other) => _Value == other._Value;
-    public bool Equals(Level3Error x, Level3Error y) => x.Equals(y);
-    public bool Equals(byte other) => _Value == other;
-
-    public override int GetHashCode()
-    {
-        const int hash = 138113;
-
-        return hash + _Value.GetHashCode();
-    }
-
-    #endregion
-
-    #region Operator Overrides
-
-    public static bool operator ==(Level3Error left, Level3Error right) => left._Value == right._Value;
-    public static bool operator ==(Level3Error left, byte right) => left._Value == right;
-    public static bool operator ==(byte left, Level3Error right) => left == right._Value;
-    public static explicit operator byte(Level3Error value) => value._Value;
-    public static explicit operator short(Level3Error value) => value._Value;
-    public static explicit operator ushort(Level3Error value) => value._Value;
-    public static explicit operator int(Level3Error value) => value._Value;
-    public static explicit operator uint(Level3Error value) => value._Value;
-    public static explicit operator long(Level3Error value) => value._Value;
-    public static explicit operator ulong(Level3Error value) => value._Value;
-    public static bool operator !=(Level3Error left, Level3Error right) => !(left == right);
-    public static bool operator !=(Level3Error left, byte right) => !(left == right);
-    public static bool operator !=(byte left, Level3Error right) => !(left == right);
 
     #endregion
 }

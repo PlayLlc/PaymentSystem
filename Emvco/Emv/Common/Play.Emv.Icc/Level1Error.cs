@@ -1,8 +1,10 @@
 using System.Collections.Immutable;
 
+using Play.Core;
+
 namespace Play.Emv.Icc;
 
-public readonly struct Level1Error
+public record Level1Error : EnumObject<byte>
 {
     #region Static Metadata
 
@@ -15,12 +17,6 @@ public readonly struct Level1Error
     ///     An error occurred during transmission such as a Card Collision the card was removed too quickly
     /// </summary>
     public static readonly Level1Error TransmissionError;
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly byte _Value;
 
     #endregion
 
@@ -43,50 +39,14 @@ public readonly struct Level1Error
         }.ToImmutableSortedDictionary();
     }
 
-    private Level1Error(byte value)
-    {
-        _Value = value;
-    }
+    private Level1Error(byte value) : base(value)
+    { }
 
     #endregion
 
     #region Instance Members
 
     public static Level1Error Get(byte value) => _ValueObjectMap[value];
-
-    #endregion
-
-    #region Equality
-
-    public override bool Equals(object? obj) => obj is Level1Error l1 && Equals(l1);
-    public bool Equals(Level1Error other) => _Value == other._Value;
-    public bool Equals(Level1Error x, Level1Error y) => x.Equals(y);
-    public bool Equals(byte other) => _Value == other;
-
-    public override int GetHashCode()
-    {
-        const int hash = 601423;
-
-        return hash + _Value.GetHashCode();
-    }
-
-    #endregion
-
-    #region Operator Overrides
-
-    public static bool operator ==(Level1Error left, Level1Error right) => left._Value == right._Value;
-    public static bool operator ==(Level1Error left, byte right) => left._Value == right;
-    public static bool operator ==(byte left, Level1Error right) => left == right._Value;
-    public static explicit operator byte(Level1Error value) => value._Value;
-    public static explicit operator short(Level1Error value) => value._Value;
-    public static explicit operator ushort(Level1Error value) => value._Value;
-    public static explicit operator int(Level1Error value) => value._Value;
-    public static explicit operator uint(Level1Error value) => value._Value;
-    public static explicit operator long(Level1Error value) => value._Value;
-    public static explicit operator ulong(Level1Error value) => value._Value;
-    public static bool operator !=(Level1Error left, Level1Error right) => !(left == right);
-    public static bool operator !=(Level1Error left, byte right) => !(left == right);
-    public static bool operator !=(byte left, Level1Error right) => !(left == right);
 
     #endregion
 }
