@@ -12,7 +12,7 @@ public record QueryTerminalResponse : ResponseSignal, IExchangeDataWithTheKernel
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = GetMessageTypeId(typeof(QueryTerminalResponse));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(QueryTerminalResponse));
     public static readonly ChannelTypeId ChannelTypeId = ChannelType.Terminal;
 
     #endregion

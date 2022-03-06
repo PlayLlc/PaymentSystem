@@ -8,7 +8,7 @@ public record StopReaderAcknowledgedResponse : ResponseSignal
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = GetMessageTypeId(typeof(StopReaderAcknowledgedResponse));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(StopReaderAcknowledgedResponse));
     public static readonly ChannelTypeId ChannelTypeId = ChannelType.Reader;
 
     #endregion

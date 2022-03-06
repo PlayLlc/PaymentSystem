@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Pcd.GetData;
 
 namespace Play.Emv.Pcd.Services;
 
@@ -9,7 +10,7 @@ namespace Play.Emv.Pcd.Services;
 ///     A facade that encapsulates card reading and writing functionality
 /// </summary>
 public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFileInformation, ISelectDirectoryDefinitionFileInformation,
-    ISelectProximityPaymentSystemEnvironmentInfo, ISendPoiInformation, IGetProcessingOptions, IManagePcdLifecycle
+    ISelectProximityPaymentSystemEnvironmentInfo, ISendPoiInformation, IGetProcessingOptions, IReadIccDataBatch, IManagePcdLifecycle
 {
     #region Instance Values
 
@@ -20,6 +21,7 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
     private readonly ISendPoiInformation _PoiClient;
     private readonly IGetProcessingOptions _GpoClient;
     private readonly IManagePcdLifecycle _PcdClient;
+    private readonly IReadIccDataBatch _DataBatchReader;
 
     #endregion
 
@@ -28,6 +30,7 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
     public CardClient(IProximityCouplingDeviceClient client)
     {
         _PcdClient = client;
+        _DataBatchReader = new DataBatchReader(new DataReader(client));
 
         _AppletClient = new ApplicationDefinitionFileInfoSelector(client);
         _DirectoryFciClient = new DirectoryDefinitionFileInformationSelector(client);
@@ -78,6 +81,8 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
 
     public async Task<SendPoiInformationResponse> Transceive(SendPoiInformationRequest command) =>
         await _PoiClient.Transceive(command).ConfigureAwait(false);
+
+    public Task<GetDataBatchResponse> Transceive(GetDataBatchRequest command) => _DataBatchReader.Transceive(command);
 
     #endregion
 }

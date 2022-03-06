@@ -9,7 +9,7 @@ public record SelectApplicationDefinitionFileInfoResponse : QueryPcdResponse
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = GetMessageTypeId(typeof(SelectApplicationDefinitionFileInfoResponse));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(SelectApplicationDefinitionFileInfoResponse));
 
     #endregion
 

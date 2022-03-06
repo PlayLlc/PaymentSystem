@@ -10,7 +10,7 @@ public record OutSelectionResponse : ResponseSignal
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = GetMessageTypeId(typeof(OutSelectionResponse));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(OutSelectionResponse));
     public static readonly ChannelTypeId ChannelTypeId = ChannelType.Selection;
 
     #endregion

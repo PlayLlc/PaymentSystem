@@ -1,6 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
+using Play.Ber.DataObjects;
+using Play.Ber.Identifiers;
 using Play.Emv.Sessions;
+using Play.Emv.Templates.Records;
 using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;
@@ -9,7 +13,7 @@ public record ReadApplicationDataResponse : QueryPcdResponse
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = GetMessageTypeId(typeof(ReadApplicationDataResponse));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(ReadApplicationDataResponse));
 
     #endregion
 
@@ -29,6 +33,20 @@ public record ReadApplicationDataResponse : QueryPcdResponse
         cardResponses.FirstOrDefault()!.GetRApduSignal())
     {
         _Records = cardResponses;
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    public TagLengthValue[] GetApplicationData()
+    {
+        List<TagLengthValue> buffer = new();
+
+        foreach (ReadElementaryFileRecordRangeResponse? record in _Records)
+            buffer.AddRange(record.AsTagLengthValues());
+
+        return buffer.ToArray();
     }
 
     #endregion

@@ -9,7 +9,7 @@ public record SelectDirectoryDefinitionFileResponse : QueryPcdResponse
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = GetMessageTypeId(typeof(SelectDirectoryDefinitionFileResponse));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(SelectDirectoryDefinitionFileResponse));
 
     #endregion
 

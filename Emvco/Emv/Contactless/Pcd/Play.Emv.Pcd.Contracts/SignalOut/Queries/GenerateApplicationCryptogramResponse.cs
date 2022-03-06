@@ -14,7 +14,7 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = GetMessageTypeId(typeof(GenerateApplicationCryptogramResponse));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(GenerateApplicationCryptogramResponse));
 
     #endregion
 

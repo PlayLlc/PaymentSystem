@@ -232,7 +232,7 @@ public class UnsignedIntegerCodec : PlayCodec
 
     protected void Validate(ReadOnlySpan<char> value)
     {
-        foreach (var character in value)
+        foreach (char character in value)
         {
             if (!IsValid(character))
                 throw new PlayEncodingFormatException(PlayEncodingFormatException.CharacterArrayContainsInvalidValue);

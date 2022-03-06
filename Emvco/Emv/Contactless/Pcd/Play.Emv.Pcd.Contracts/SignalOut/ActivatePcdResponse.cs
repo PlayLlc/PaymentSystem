@@ -12,7 +12,7 @@ public record ActivatePcdResponse : ResponseSignal
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = GetMessageTypeId(typeof(ActivatePcdResponse));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(ActivatePcdResponse));
     public static readonly ChannelTypeId ChannelTypeId = ChannelType.ProximityCouplingDevice;
 
     #endregion

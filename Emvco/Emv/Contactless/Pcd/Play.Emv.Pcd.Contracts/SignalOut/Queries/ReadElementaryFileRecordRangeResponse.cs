@@ -10,7 +10,7 @@ public record ReadElementaryFileRecordRangeResponse : QueryPcdResponse
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = GetMessageTypeId(typeof(ReadElementaryFileRecordRangeResponse));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(ReadElementaryFileRecordRangeResponse));
 
     #endregion
 

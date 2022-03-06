@@ -33,7 +33,7 @@ internal class BitMapBuilder
 
     public BitMap Create()
     {
-        var result = new BitMap(_Value);
+        BitMap? result = new BitMap(_Value);
         _Value = 0;
 
         return result;

@@ -9,7 +9,7 @@ public record GetProcessingOptionsResponse : QueryPcdResponse
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = GetMessageTypeId(typeof(GetProcessingOptionsResponse));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(GetProcessingOptionsResponse));
 
     #endregion
 

@@ -320,6 +320,12 @@ public class DataExchangeKernelService
         }
     }
 
+    private void Temp()
+    {
+        // TODO: You need to do the same thing you did with the ApplicationDataReader for
+        // TODO: TagsToRead. We need this to be a blocking wait until you get all your shit
+    }
+
     ///// <summary>
     /////     Checks for any non-empty values in the database from the remaining list of <see cref="TagsToRead" />. If any values
     /////     are present in the database it will dequeue the <see cref="Tag" /> from TagsToReadYet and Enqueue the

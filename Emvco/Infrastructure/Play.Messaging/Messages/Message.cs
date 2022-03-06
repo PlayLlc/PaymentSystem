@@ -22,10 +22,10 @@ public abstract record Message
     #region Instance Members
 
     public MessageIdentifier GetMessageIdentifier() => _MessageIdentifier;
-    public MessageTypeId GetMessageTypeId() => _MessageIdentifier.GetMessageTypeId();
+    public MessageTypeId CreateMessageTypeId() => _MessageIdentifier.GetMessageTypeId();
     public ChannelTypeId GetChannelTypeId() => _MessageIdentifier.GetChannelTypeId();
 
-    protected static MessageTypeId GetMessageTypeId(Type type) =>
+    protected static MessageTypeId CreateMessageTypeId(Type type) =>
         new(PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(PlayCodec.AsciiCodec.Encode(type.FullName!)));
 
     #endregion

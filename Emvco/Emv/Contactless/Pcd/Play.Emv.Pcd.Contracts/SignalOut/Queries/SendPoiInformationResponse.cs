@@ -8,7 +8,7 @@ public record SendPoiInformationResponse : QueryPcdResponse
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = GetMessageTypeId(typeof(SendPoiInformationResponse));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(SendPoiInformationResponse));
 
     #endregion
 
