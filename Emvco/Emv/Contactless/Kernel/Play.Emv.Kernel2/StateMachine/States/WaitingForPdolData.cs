@@ -1,6 +1,8 @@
 ﻿using System;
 
+using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements.Emv;
+using Play.Emv.DataExchange;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Kernel;
@@ -12,6 +14,7 @@ using Play.Emv.Kernel2.Databases;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
+using Play.Emv.Templates.FileControlInformation;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
 
@@ -59,10 +62,50 @@ internal class WaitingForPdolData : KernelState
 
     public override StateId GetStateId() => StateId;
 
+    private static void HandleRequestOutOfSync(KernelSession session, IExchangeDataWithTheTerminal signal)
+    {
+        if (signal.GetDataExchangeTerminalId().GetTransactionSessionId() != session.GetTransactionSessionId())
+        {
+            throw new RequestOutOfSyncException(
+                $"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
+        }
+    }
+
+    private static void HandleRequestOutOfSync(KernelSession session, IExchangeDataWithTheKernel signal)
+    {
+        if (signal.GetDataExchangeKernelId().GetKernelSessionId() != session.GetKernelSessionId())
+        {
+            throw new RequestOutOfSyncException(
+                $"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
+        }
+    }
+
     #region ACT
 
     public override KernelState Handle(KernelSession session, ActivateKernelRequest signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    #region S2.1
+
+    public bool HandleTimeout(KernelSession session)
+    {
+        if (!session.TimedOut())
+            return false;
+
+        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
+        builder.Set(StatusOutcome.EndApplication);
+        _KernelDatabase.Update(builder);
+        _KernelDatabase.Update(Level3Error.TimeOut);
+        _KernelDatabase.Initialize(DiscretionaryData.Tag);
+        _DataExchangeKernelService.Initialize(DekResponseType.DiscretionaryData);
+        _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _KernelDatabase.GetErrorIndication());
+
+        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+
+        return true;
+    }
+
+    #endregion
 
     #endregion
 
@@ -81,8 +124,71 @@ internal class WaitingForPdolData : KernelState
 
     #region DET
 
-    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal)
+    {
+        HandleRequestOutOfSync(session, signal);
+
+        if (HandleTimeout(session))
+            return _KernelStateResolver.GetKernelState(StateId);
+
+        UpdateDataExchangeSignal(signal);
+
+        Kernel2Session kernel2Session = (Kernel2Session) session;
+
+        if (IsPdolDataMissing(kernel2Session, out ProcessingOptionsDataObjectList pdol))
+            return _KernelStateResolver.GetKernelState(StateId);
+
+        // TODO: GOTO S2.8.1
+        GetProcessingOptionsCommand capdu = CreateGetProcessingOptionsCapdu(session, pdol);
+        StopTimer(kernel2Session);
+
+        _PcdEndpoint.Request(capdu);
+
+        return _KernelStateResolver.GetKernelState(StateId);
+    }
+
+    #region S2.6
+
+    private void UpdateDataExchangeSignal(QueryTerminalResponse signal)
+    {
+        _KernelDatabase.UpdateRange(signal.GetDataToSend().AsTagLengthValueArray());
+    }
+
+    #endregion
+
+    #region S2.7
+
+    private bool IsPdolDataMissing(Kernel2Session session, out ProcessingOptionsDataObjectList pdol)
+    {
+        pdol = ProcessingOptionsDataObjectList.Decode(_KernelDatabase.Get(ProcessingOptionsDataObjectList.Tag).EncodeValue().AsSpan());
+
+        if (!pdol!.IsRequestedDataAvailable(_KernelDatabase))
+            return false;
+
+        ((Kernel2Session) session).SetIsPdolDataMissing(false);
+
+        return true;
+    }
+
+    #endregion
+
+    #region S2.8.1 - S2.8.6
+
+    public GetProcessingOptionsCommand CreateGetProcessingOptionsCapdu(KernelSession session, ProcessingOptionsDataObjectList pdol) =>
+        !_KernelDatabase.IsPresentAndNotEmpty(ProcessingOptionsDataObjectList.Tag)
+            ? GetProcessingOptionsCommand.Create(session.GetTransactionSessionId())
+            : GetProcessingOptionsCommand.Create(pdol.AsDataObjectListResult(_KernelDatabase), session.GetTransactionSessionId());
+
+    #endregion
+
+    #region S2.9
+
+    public void StopTimer(Kernel2Session session)
+    {
+        session.StopTimeout();
+    }
+
+    #endregion
 
     public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
@@ -96,35 +202,18 @@ internal class WaitingForPdolData : KernelState
 
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
-        Kernel2Session kernel2Session = (Kernel2Session) session;
-        if (session.TimedOut())
-            HandleTimeout(kernel2Session);
-
-        throw new NotImplementedException();
-
-        //OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
-        //builder.Set(StatusOutcome.EndApplication);
-        //_KernelDatabase.GetKernelSession().Update(builder);
-        //_KernelDatabase.GetKernelSession().Update(Level3Error.Stop);
-
-        //_KernelEndpoint.Send(new OutKernelResponse(signal.GetCorrelationId(), signal.GetKernelSessionId(),
-        //                                           _KernelDatabase.GetKernelSession().GetOutcome()));
-
-        //return _KernelStateResolver.GetKernelState(KernelStateId); 
-    }
-
-    private void HandleTimeout(Kernel2Session session)
-    {
-        Kernel2Database kernel2Database = (Kernel2Database) _KernelDatabase;
         OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
         builder.Set(StatusOutcome.EndApplication);
-        kernel2Database.Update(Level3Error.TimeOut);
-        kernel2Database.Update(builder);
+        _KernelDatabase.Update(builder);
 
-        _DataExchangeKernelService.Initialize(DekResponseType.DiscretionaryData);
-        _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, kernel2Database.GetErrorIndication());
+        if (!_KernelDatabase.GetErrorIndication().IsErrorPresent())
+            _KernelDatabase.Update(Level3Error.Stop);
 
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), kernel2Database.GetOutcome()));
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), signal.GetKernelSessionId(), _KernelDatabase.GetOutcome()));
+
+        Clear();
+
+        return _KernelStateResolver.GetKernelState(StateId);
     }
 
     #endregion

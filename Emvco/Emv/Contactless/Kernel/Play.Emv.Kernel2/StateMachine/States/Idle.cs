@@ -75,11 +75,12 @@ public class Idle : KernelState
 
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
+        if (!_KernelDatabase.GetErrorIndication().IsErrorPresent())
+            _KernelDatabase.Update(Level3Error.Stop);
+
         OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
         builder.Set(StatusOutcome.EndApplication);
-
         _KernelDatabase.Update(builder);
-        _KernelDatabase.Update(Level3Error.Stop);
 
         _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), signal.GetKernelSessionId(), _KernelDatabase.GetOutcome()));
 
@@ -154,14 +155,14 @@ public class Idle : KernelState
     }
 
     /// <remarks>Book C-2 Section 6.3.3 - S1.7</remarks>
-    private void HandleBerEncodingException(CorrelationId correlationId, KernelSessionId kernelSessionId, Outcome outcome)
+    private void HandleBerEncodingException(CorrelationId correlationId, KernelSessionId kernelSessionId)
     {
         OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
         builder.Set(StatusOutcome.SelectNext);
         builder.Set(StartOutcome.C);
-        outcome.Update(builder);
+        _KernelDatabase.Update(builder);
 
-        _KernelEndpoint.Send(new OutKernelResponse(correlationId, kernelSessionId, outcome));
+        _KernelEndpoint.Send(new OutKernelResponse(correlationId, kernelSessionId, _KernelDatabase.GetOutcome()));
     }
 
     private void HandleSupportForFieldOffDetection(Kernel2Session session, FileControlInformationAdf fci)
@@ -197,19 +198,19 @@ public class Idle : KernelState
         {
             /* logging */
             signal.GetTransaction().Update(Level2Error.ParsingError);
-            HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId(), signal.GetOutcome());
+            HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
         }
         catch (BerException)
         {
             /* logging */
             signal.GetTransaction().Update(Level2Error.ParsingError);
-            HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId(), signal.GetOutcome());
+            HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
         }
         catch (CardDataMissingException)
         {
             /* logging */
             signal.GetTransaction().Update(Level2Error.CardDataError);
-            HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId(), signal.GetOutcome());
+            HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
         }
 
         result = null;
@@ -236,25 +237,25 @@ public class Idle : KernelState
         catch (BerInternalException)
         {
             transaction.Update(Level2Error.ParsingError);
-            HandleBerEncodingException(correlationId, kernelSessionId, transaction.GetOutcome());
+            HandleBerEncodingException(correlationId, kernelSessionId);
         }
         catch (BerException)
         {
             /* logging */
             transaction.Update(Level2Error.ParsingError);
-            HandleBerEncodingException(correlationId, kernelSessionId, transaction.GetOutcome());
+            HandleBerEncodingException(correlationId, kernelSessionId);
         }
         catch (CardDataMissingException)
         {
             /* logging */
             transaction.Update(Level2Error.ParsingError);
-            HandleBerEncodingException(correlationId, kernelSessionId, transaction.GetOutcome());
+            HandleBerEncodingException(correlationId, kernelSessionId);
         }
         catch (Exception)
         {
             /* logging */
             transaction.Update(Level2Error.ParsingError);
-            HandleBerEncodingException(correlationId, kernelSessionId, transaction.GetOutcome());
+            HandleBerEncodingException(correlationId, kernelSessionId);
         }
 
         return false;

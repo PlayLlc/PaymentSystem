@@ -50,7 +50,7 @@ public abstract record DataObjectList : DataElement<byte[]>
 
         foreach (TagLength item in DataObjects)
         {
-            if (database.IsKnown(item.GetTag()) && !database.IsPresentAndNotEmpty(item.GetTag()))
+            if (database.IsKnown(item.GetTag()) && !database.IsPresent(item.GetTag()))
                 return false;
         }
 
