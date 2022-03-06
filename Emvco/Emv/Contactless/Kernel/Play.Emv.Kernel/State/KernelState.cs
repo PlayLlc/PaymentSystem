@@ -1,6 +1,9 @@
-﻿using Play.Emv.Kernel.Contracts;
+﻿using Play.Emv.DataExchange;
+using Play.Emv.Exceptions;
+using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
+using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts.SignalOut;
@@ -41,6 +44,24 @@ public abstract class KernelState
     {
         _KernelDatabase.Deactivate();
         _DataExchangeKernelService.Clear();
+    }
+
+    protected static void HandleRequestOutOfSync(KernelSession session, IExchangeDataWithTheKernel signal)
+    {
+        if (signal.GetDataExchangeKernelId().GetKernelSessionId() != session.GetKernelSessionId())
+        {
+            throw new RequestOutOfSyncException(
+                $"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
+        }
+    }
+
+    protected static void HandleRequestOutOfSync(KernelSession session, IExchangeDataWithTheTerminal signal)
+    {
+        if (signal.GetDataExchangeTerminalId().GetTransactionSessionId() != session.GetTransactionSessionId())
+        {
+            throw new RequestOutOfSyncException(
+                $"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
+        }
     }
 
     #endregion

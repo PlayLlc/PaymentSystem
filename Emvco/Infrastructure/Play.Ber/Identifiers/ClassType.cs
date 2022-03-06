@@ -57,6 +57,8 @@ public sealed record ClassType : EnumObject<byte>, IEqualityComparer<ClassType>
 
     #region Instance Members
 
+    public static bool IsUniversal(byte tag) => tag.GetMaskedValue(UnrelatedBits).AreAnyBitsSet(0xFF);
+    public static bool IsApplicationSpecific(byte tag) => tag.GetMaskedValue(UnrelatedBits) == _Application;
     public static bool TryGet(byte value, out ClassType result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion

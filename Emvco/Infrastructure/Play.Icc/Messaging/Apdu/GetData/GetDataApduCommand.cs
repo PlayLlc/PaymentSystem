@@ -1,7 +1,14 @@
 ﻿using System;
 
+using Play.Ber.Identifiers;
+using Play.Icc.Exceptions;
+
 namespace Play.Icc.Messaging.Apdu.GetData;
 
+/// <summary>
+///     The GET DATA command is used to retrieve a primitive data object not encapsulated in a record within the current
+///     application.
+/// </summary>
 public class GetDataApduCommand : ApduCommand
 {
     #region Constructor
@@ -26,11 +33,40 @@ public class GetDataApduCommand : ApduCommand
 
     #region Instance Members
 
-    public static GetDataApduCommand Create(ProprietaryMessageIdentifier proprietaryMessageIdentifier, byte tag) =>
-        new(new Class(proprietaryMessageIdentifier), Instruction.GetData, 0, tag);
+    public static GetDataApduCommand Create(ProprietaryMessageIdentifier proprietaryMessageIdentifier, Tag tag)
+    {
+        if (tag.GetByteCount() > 2)
+        {
+            throw new Iso7816Exception(
+                $"The {nameof(ApduCommand)} could not be generated because the argument {nameof(Tag)} exceeded the maximum byte count of 2");
+        }
 
-    public static GetDataApduCommand Create(ProprietaryMessageIdentifier proprietaryMessageIdentifier, ushort tag) =>
-        new(new Class(proprietaryMessageIdentifier), Instruction.GetData, (byte) (tag >> 8), (byte) tag);
+        if (tag.GetByteCount() == 2)
+        {
+            if (!tag.IsPrimitive())
+            {
+                throw new Iso7816Exception(
+                    $"The {nameof(ApduCommand)} could not be generated because the argument {nameof(Tag)} had a length of 2 bytes but did not have a {nameof(DataObjectType)} of {nameof(DataObjectType.Primitive)}");
+            }
+
+            Span<byte> buffer = stackalloc byte[2];
+            tag.Serialize().CopyTo(buffer);
+
+            return new GetDataApduCommand(new Class(proprietaryMessageIdentifier), Instruction.GetData, buffer[0], buffer[1]);
+        }
+
+        if (tag.IsPrimitive())
+            return new GetDataApduCommand(new Class(proprietaryMessageIdentifier), Instruction.GetData, 0, tag.Serialize()[0]);
+
+        if (tag.IsApplicationSpecific())
+            return new GetDataApduCommand(new Class(proprietaryMessageIdentifier), Instruction.GetData, 1, tag.Serialize()[0]);
+
+        if (tag.IsConstructed())
+            return new GetDataApduCommand(new Class(proprietaryMessageIdentifier), Instruction.GetData, 2, tag.Serialize()[0]);
+
+        throw new Iso7816Exception(
+            $"The {nameof(ApduCommand)} could not be generated because the argument {nameof(Tag)} format wasn't recognized for a {nameof(GetDataApduCommand)}");
+    }
 
     #endregion
 }

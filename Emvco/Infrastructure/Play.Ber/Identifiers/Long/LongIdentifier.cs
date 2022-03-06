@@ -49,7 +49,7 @@ internal static partial class LongIdentifier
     ///     The GetClassType of the Tag
     /// </summary>
     /// <remarks><see cref="ITUT_X690" /> Section 8.1.2.2 a</remarks>
-    public static ClassType GetClass(uint value) => LeadingOctet.GetClassType(GetLeadingOctet(value));
+    public static ClassType GetClassType(uint value) => LeadingOctet.GetClassType(GetLeadingOctet(value));
 
     /// <summary>
     ///     Represents the Data Object type in the Value field of the BER-TLV object

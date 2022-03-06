@@ -5,6 +5,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers.Long;
 using Play.Ber.Identifiers.Short;
 using Play.Codecs;
+using Play.Core.Extensions;
 
 namespace Play.Ber.Identifiers;
 
@@ -90,7 +91,7 @@ public readonly record struct Tag
         if (IsShortTag(value))
             return ShortIdentifier.GetClassType((byte) value);
 
-        return LongIdentifier.GetClass(value);
+        return LongIdentifier.GetClassType(value);
     }
 
     /// <summary>
@@ -107,6 +108,16 @@ public readonly record struct Tag
             return ShortIdentifier.GetDataObject((byte) value);
 
         return LongIdentifier.GetDataObject(value);
+    }
+
+    public readonly ClassType GetClassType() => GetClassType(_Value);
+
+    private static ClassType GetClassType(uint value)
+    {
+        if (IsShortTag(value))
+            return ShortIdentifier.GetClassType((byte) value);
+
+        return LongIdentifier.GetClassType(value);
     }
 
     /// <summary>
@@ -130,6 +141,9 @@ public readonly record struct Tag
     }
 
     public readonly bool IsPrimitive() => GetDataObject().IsPrimitive();
+    public readonly bool IsConstructed() => !GetDataObject().IsPrimitive();
+    public readonly bool IsUniversal() => ClassType.IsUniversal(GetClassType());
+    public readonly bool IsApplicationSpecific() => ClassType.IsUniversal(GetClassType());
     private static bool IsShortTag(uint value) => ShortIdentifier.IsValid(value);
 
     /// <exception cref="InvalidOperationException"></exception>
