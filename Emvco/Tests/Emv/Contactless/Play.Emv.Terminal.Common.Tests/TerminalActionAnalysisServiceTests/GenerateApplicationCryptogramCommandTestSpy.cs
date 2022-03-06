@@ -65,9 +65,9 @@ public class GenerateApplicationCryptogramCommandTestSpy
     {
         GenerateApplicationCryptogramCommandTestSpy result = new();
 
-        Mock<GenerateApplicationCryptogramCommand> mock = new();
+        Mock<GenerateApplicationCryptogramRequest> mock = new();
 
-        mock.Setup(a => GenerateApplicationCryptogramCommand.Create(It.IsAny<TransactionSessionId>(), It.IsAny<CryptogramInformationData>(),
+        mock.Setup(a => GenerateApplicationCryptogramRequest.Create(It.IsAny<TransactionSessionId>(), It.IsAny<CryptogramInformationData>(),
             It.IsAny<DataObjectListResult>(), It.IsAny<DataObjectListResult?>())).Callback(
             (
                 TransactionSessionId transactionSessionId,
@@ -77,7 +77,7 @@ public class GenerateApplicationCryptogramCommandTestSpy
                 cryptogramInformationData, cardRiskDol, dataStorageDol));
 
         fixture.Register(() => mock.Object);
-        fixture.Freeze<GenerateApplicationCryptogramCommand>();
+        fixture.Freeze<GenerateApplicationCryptogramRequest>();
 
         return result;
     }

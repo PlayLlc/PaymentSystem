@@ -191,7 +191,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 
     private void CreateDenyTransactionResponse(TerminalActionAnalysisCommand command)
     {
-        _PcdEndpoint.Request(GenerateApplicationCryptogramCommand.Create(command.GetTransactionSessionId(),
+        _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessionId(),
             new CryptogramInformationData(CryptogramTypes.ApplicationAuthenticationCryptogram), command.GetCardRiskManagementDolResult(),
             command.GetDataStorageDolResult()));
     }
@@ -202,14 +202,14 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
             _AuthenticationTypeResolver.GetAuthenticationMethod(_TerminalCapabilities, command.GetApplicationInterchangeProfile())
             == AuthenticationTypes.CombinedDataAuthentication;
 
-        _PcdEndpoint.Request(GenerateApplicationCryptogramCommand.Create(command.GetTransactionSessionId(),
+        _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessionId(),
             new CryptogramInformationData(CryptogramTypes.TransactionCryptogram, isCdaRequested), command.GetCardRiskManagementDolResult(),
             command.GetDataStorageDolResult()));
     }
 
     private void CreateProceedOnlineResponse(TerminalActionAnalysisCommand command)
     {
-        _PcdEndpoint.Request(GenerateApplicationCryptogramCommand.Create(command.GetTransactionSessionId(),
+        _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessionId(),
             new CryptogramInformationData(CryptogramTypes.AuthorizationRequestCryptogram), command.GetCardRiskManagementDolResult(),
             command.GetDataStorageDolResult()));
     }

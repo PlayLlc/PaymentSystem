@@ -1,4 +1,5 @@
 ﻿using Play.Core;
+using Play.Emv.Acquirer.DataFields;
 
 namespace Play.Emv.DataElements.Interchange;
 

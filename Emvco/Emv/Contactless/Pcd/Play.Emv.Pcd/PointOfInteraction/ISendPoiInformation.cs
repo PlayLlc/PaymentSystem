@@ -2,5 +2,5 @@
 
 namespace Play.Emv.Pcd;
 
-public interface ISendPoiInformation : ITransceiveData<SendPoiInformationCommand, SendPoiInformationResponse>
+public interface ISendPoiInformation : ITransceiveData<SendPoiInformationRequest, SendPoiInformationResponse>
 { }

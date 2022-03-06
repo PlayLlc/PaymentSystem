@@ -7,17 +7,17 @@ using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;
 
-public record GenerateApplicationCryptogramCommand : QueryPcdRequest
+public record GenerateApplicationCryptogramRequest : QueryPcdRequest
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(GenerateApplicationCryptogramCommand));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(GenerateApplicationCryptogramRequest));
 
     #endregion
 
     #region Constructor
 
-    private GenerateApplicationCryptogramCommand(TransactionSessionId transactionSessionId, CApduSignal cApduSignal) : base(cApduSignal,
+    private GenerateApplicationCryptogramRequest(TransactionSessionId transactionSessionId, CApduSignal cApduSignal) : base(cApduSignal,
         MessageTypeId, transactionSessionId)
     { }
 
@@ -25,7 +25,7 @@ public record GenerateApplicationCryptogramCommand : QueryPcdRequest
 
     #region Instance Members
 
-    public static GenerateApplicationCryptogramCommand Create(
+    public static GenerateApplicationCryptogramRequest Create(
         TransactionSessionId sessionId,
         CryptogramInformationData cryptogramInformationData,
         DataObjectListResult cardRiskManagementDataObjectListResult,
@@ -33,12 +33,12 @@ public record GenerateApplicationCryptogramCommand : QueryPcdRequest
     {
         if (dataStorageDataObjectListResult is null)
         {
-            return new GenerateApplicationCryptogramCommand(sessionId,
+            return new GenerateApplicationCryptogramRequest(sessionId,
                 GenerateApplicationCryptogramCApduSignal.Create(cryptogramInformationData.GetCryptogramType(),
                     cryptogramInformationData.IsCdaSignatureRequested(), cardRiskManagementDataObjectListResult));
         }
 
-        return new GenerateApplicationCryptogramCommand(sessionId,
+        return new GenerateApplicationCryptogramRequest(sessionId,
             GenerateApplicationCryptogramCApduSignal.Create(cryptogramInformationData.GetCryptogramType(),
                 cryptogramInformationData.IsCdaSignatureRequested(), cardRiskManagementDataObjectListResult,
                 dataStorageDataObjectListResult));

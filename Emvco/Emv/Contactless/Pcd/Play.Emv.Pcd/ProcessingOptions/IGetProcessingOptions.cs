@@ -2,5 +2,5 @@
 
 namespace Play.Emv.Pcd;
 
-public interface IGetProcessingOptions : ITransceiveData<GetProcessingOptionsCommand, GetProcessingOptionsResponse>
+public interface IGetProcessingOptions : ITransceiveData<GetProcessingOptionsRequest, GetProcessingOptionsResponse>
 { }

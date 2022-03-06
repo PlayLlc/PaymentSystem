@@ -25,14 +25,14 @@ public class ApplicationDataReader : IReadApplicationData
 
     #region Instance Members
 
-    public async Task<ReadApplicationDataResponse> Transceive(ReadApplicationDataCommand command)
+    public async Task<ReadApplicationDataResponse> Transceive(ReadApplicationDataRequest command)
     {
         List<ReadElementaryFileRecordRangeResponse> buffer = new();
 
         foreach (RecordRange range in command.GetRecordRanges())
         {
             buffer.Add(await _RecordRangeReader
-                .Transceive(ReadElementaryFileRecordRangeCommand.Create(command.GetTransactionSessionId(), range)).ConfigureAwait(false));
+                .Transceive(ReadElementaryFileRecordRangeRequest.Create(command.GetTransactionSessionId(), range)).ConfigureAwait(false));
         }
 
         return new ReadApplicationDataResponse(command.GetCorrelationId(), command.GetTransactionSessionId(), buffer.ToArray());

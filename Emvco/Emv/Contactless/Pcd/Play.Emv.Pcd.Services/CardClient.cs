@@ -41,7 +41,7 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
 
     #region Instance Members
 
-    public async Task<GetProcessingOptionsResponse> Transceive(GetProcessingOptionsCommand command) =>
+    public async Task<GetProcessingOptionsResponse> Transceive(GetProcessingOptionsRequest command) =>
         await _GpoClient.Transceive(command).ConfigureAwait(false);
 
     public async Task<SelectProximityPaymentSystemEnvironmentResponse> Transceive(SelectProximityPaymentSystemEnvironmentRequest command) =>
@@ -67,16 +67,16 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
         _PcdClient.CloseSessionCardCheck();
     }
 
-    public async Task<ReadApplicationDataResponse> Transceive(ReadApplicationDataCommand command) =>
+    public async Task<ReadApplicationDataResponse> Transceive(ReadApplicationDataRequest command) =>
         await _ApplicationDataClient.Transceive(command).ConfigureAwait(false);
 
-    public async Task<SelectApplicationDefinitionFileInfoResponse> Transceive(SelectApplicationDefinitionFileInfoCommand command) =>
+    public async Task<SelectApplicationDefinitionFileInfoResponse> Transceive(SelectApplicationDefinitionFileInfoRequest command) =>
         await _AppletClient.Transceive(command).ConfigureAwait(false);
 
-    public async Task<SelectDirectoryDefinitionFileResponse> Transceive(SelectDirectoryDefinitionFileCommand command) =>
+    public async Task<SelectDirectoryDefinitionFileResponse> Transceive(SelectDirectoryDefinitionFileRequest command) =>
         await _DirectoryFciClient.Transceive(command).ConfigureAwait(false);
 
-    public async Task<SendPoiInformationResponse> Transceive(SendPoiInformationCommand command) =>
+    public async Task<SendPoiInformationResponse> Transceive(SendPoiInformationRequest command) =>
         await _PoiClient.Transceive(command).ConfigureAwait(false);
 
     #endregion

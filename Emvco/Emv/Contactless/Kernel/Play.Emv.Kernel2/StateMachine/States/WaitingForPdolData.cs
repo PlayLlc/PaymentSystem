@@ -132,7 +132,7 @@ internal class WaitingForPdolData : KernelState
             return _KernelStateResolver.GetKernelState(StateId);
 
         // TODO: GOTO S2.8.1
-        GetProcessingOptionsCommand capdu = CreateGetProcessingOptionsCapdu(session, pdol);
+        GetProcessingOptionsRequest capdu = CreateGetProcessingOptionsCapdu(session, pdol);
         StopTimer(kernel2Session);
 
         _PcdEndpoint.Request(capdu);
@@ -167,10 +167,10 @@ internal class WaitingForPdolData : KernelState
 
     #region S2.8.1 - S2.8.6
 
-    public GetProcessingOptionsCommand CreateGetProcessingOptionsCapdu(KernelSession session, ProcessingOptionsDataObjectList pdol) =>
+    public GetProcessingOptionsRequest CreateGetProcessingOptionsCapdu(KernelSession session, ProcessingOptionsDataObjectList pdol) =>
         !_KernelDatabase.IsPresentAndNotEmpty(ProcessingOptionsDataObjectList.Tag)
-            ? GetProcessingOptionsCommand.Create(session.GetTransactionSessionId())
-            : GetProcessingOptionsCommand.Create(pdol.AsDataObjectListResult(_KernelDatabase), session.GetTransactionSessionId());
+            ? GetProcessingOptionsRequest.Create(session.GetTransactionSessionId())
+            : GetProcessingOptionsRequest.Create(pdol.AsDataObjectListResult(_KernelDatabase), session.GetTransactionSessionId());
 
     #endregion
 

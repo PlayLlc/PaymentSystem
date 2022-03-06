@@ -26,7 +26,7 @@ public class DirectoryDefinitionFileInformationSelector : ISelectDirectoryDefini
 
     #region Instance Members
 
-    public async Task<SelectDirectoryDefinitionFileResponse> Transceive(SelectDirectoryDefinitionFileCommand command)
+    public async Task<SelectDirectoryDefinitionFileResponse> Transceive(SelectDirectoryDefinitionFileRequest command)
     {
         GetFileControlInformationRApduSignal response = new(await _PcdTransceiver
             .Transceive(GetFileControlInformationCApduSignal.Get(command.GetDirectoryDefinitionFileName()).Serialize())

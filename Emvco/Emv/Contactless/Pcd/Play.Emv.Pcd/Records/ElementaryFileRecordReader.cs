@@ -26,20 +26,20 @@ public class ElementaryFileRecordReader : IReadElementaryFileRecords
 
     #region Instance Members
 
-    public async Task<ReadElementaryFileRecordRangeResponse> Transceive(ReadElementaryFileRecordRangeCommand command)
+    public async Task<ReadElementaryFileRecordRangeResponse> Transceive(ReadElementaryFileRecordRangeRequest command)
     {
         List<ReadElementaryFileRecordResponse> buffer = new();
 
         foreach (RecordNumber recordNumber in command.GetRecordRange().GetRecords())
         {
-            buffer.Add(await Transceive(ReadElementaryFileRecordCommand.Create(command.GetTransactionSessionId(), command.GetShortFileId(),
+            buffer.Add(await Transceive(ReadElementaryFileRecordRequest.Create(command.GetTransactionSessionId(), command.GetShortFileId(),
                 recordNumber)).ConfigureAwait(false));
         }
 
         return new ReadElementaryFileRecordRangeResponse(command.GetCorrelationId(), command.GetTransactionSessionId(), buffer.ToArray());
     }
 
-    public async Task<ReadElementaryFileRecordResponse> Transceive(ReadElementaryFileRecordCommand command)
+    public async Task<ReadElementaryFileRecordResponse> Transceive(ReadElementaryFileRecordRequest command)
     {
         ReadRecordRApduSignal response = new(await _PcdTransceiver.Transceive(command.Serialize()).ConfigureAwait(false));
 

@@ -4,11 +4,11 @@ using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;
 
-public record ReadElementaryFileRecordRangeCommand : QueryPcdRequest
+public record ReadElementaryFileRecordRangeRequest : QueryPcdRequest
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(ReadElementaryFileRecordRangeCommand));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(ReadElementaryFileRecordRangeRequest));
 
     #endregion
 
@@ -20,7 +20,7 @@ public record ReadElementaryFileRecordRangeCommand : QueryPcdRequest
 
     #region Constructor
 
-    private ReadElementaryFileRecordRangeCommand(TransactionSessionId transactionSessionId, RecordRange recordRange) : base(default,
+    private ReadElementaryFileRecordRangeRequest(TransactionSessionId transactionSessionId, RecordRange recordRange) : base(default,
         MessageTypeId, transactionSessionId)
     {
         _RecordRange = recordRange;
@@ -30,7 +30,7 @@ public record ReadElementaryFileRecordRangeCommand : QueryPcdRequest
 
     #region Instance Members
 
-    public static ReadElementaryFileRecordRangeCommand Create(TransactionSessionId transactionSessionId, RecordRange recordRange) =>
+    public static ReadElementaryFileRecordRangeRequest Create(TransactionSessionId transactionSessionId, RecordRange recordRange) =>
         new(transactionSessionId, recordRange);
 
     public RecordRange GetRecordRange() => _RecordRange;

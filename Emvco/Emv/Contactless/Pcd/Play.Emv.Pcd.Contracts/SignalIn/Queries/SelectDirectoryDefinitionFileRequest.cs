@@ -6,11 +6,11 @@ using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;
 
-public record SelectDirectoryDefinitionFileCommand : QueryPcdRequest
+public record SelectDirectoryDefinitionFileRequest : QueryPcdRequest
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(SelectDirectoryDefinitionFileCommand));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(SelectDirectoryDefinitionFileRequest));
 
     #endregion
 
@@ -22,7 +22,7 @@ public record SelectDirectoryDefinitionFileCommand : QueryPcdRequest
 
     #region Constructor
 
-    private SelectDirectoryDefinitionFileCommand(
+    private SelectDirectoryDefinitionFileRequest(
         TransactionSessionId transactionSessionId,
         CApduSignal cApduSignal,
         DedicatedFileName directoryDefinitionFileName) : base(cApduSignal, MessageTypeId, transactionSessionId)
@@ -34,7 +34,7 @@ public record SelectDirectoryDefinitionFileCommand : QueryPcdRequest
 
     #region Instance Members
 
-    public static SelectDirectoryDefinitionFileCommand Create(
+    public static SelectDirectoryDefinitionFileRequest Create(
         TransactionSessionId transactionSessionId,
         DedicatedFileName dedicatedFileName) =>
         new(transactionSessionId, GetFileControlInformationCApduSignal.Get(dedicatedFileName), dedicatedFileName);

@@ -2,6 +2,6 @@
 
 namespace Play.Emv.Pcd;
 
-public interface ISelectApplicationDefinitionFileInformation : ITransceiveData<SelectApplicationDefinitionFileInfoCommand,
+public interface ISelectApplicationDefinitionFileInformation : ITransceiveData<SelectApplicationDefinitionFileInfoRequest,
     SelectApplicationDefinitionFileInfoResponse>
 { }

@@ -6,17 +6,17 @@ using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;
 
-public record ReadElementaryFileRecordCommand : QueryPcdRequest
+public record ReadElementaryFileRecordRequest : QueryPcdRequest
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(ReadElementaryFileRecordCommand));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(ReadElementaryFileRecordRequest));
 
     #endregion
 
     #region Constructor
 
-    public ReadElementaryFileRecordCommand(CApduSignal cApduSignal, TransactionSessionId transactionSessionId) : base(cApduSignal,
+    public ReadElementaryFileRecordRequest(CApduSignal cApduSignal, TransactionSessionId transactionSessionId) : base(cApduSignal,
         MessageTypeId, transactionSessionId)
     { }
 
@@ -24,7 +24,7 @@ public record ReadElementaryFileRecordCommand : QueryPcdRequest
 
     #region Instance Members
 
-    public static ReadElementaryFileRecordCommand Create(
+    public static ReadElementaryFileRecordRequest Create(
         TransactionSessionId transactionSessionId,
         ShortFileId shortFileId,
         RecordNumber recordNumber) =>

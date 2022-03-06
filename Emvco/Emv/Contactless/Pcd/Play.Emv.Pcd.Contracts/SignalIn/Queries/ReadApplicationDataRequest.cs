@@ -5,11 +5,11 @@ using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;
 
-public record ReadApplicationDataCommand : QueryPcdRequest
+public record ReadApplicationDataRequest : QueryPcdRequest
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(ReadApplicationDataCommand));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(ReadApplicationDataRequest));
 
     #endregion
 
@@ -22,7 +22,7 @@ public record ReadApplicationDataCommand : QueryPcdRequest
     #region Constructor
 
     // HACK: Do not inject a NULL value into this base class. This request might actually end up being multiple multiple record requests. We need to find a better pattern to allow that
-    public ReadApplicationDataCommand(ApplicationFileLocator applicationFileLocator, TransactionSessionId transactionSessionId) : base(null,
+    public ReadApplicationDataRequest(ApplicationFileLocator applicationFileLocator, TransactionSessionId transactionSessionId) : base(null,
         MessageTypeId, transactionSessionId)
     {
         _ApplicationFileLocator = applicationFileLocator;
@@ -35,7 +35,7 @@ public record ReadApplicationDataCommand : QueryPcdRequest
     public ApplicationFileLocator GetApplicationFileLocator() => _ApplicationFileLocator;
     public RecordRange[] GetRecordRanges() => _ApplicationFileLocator.GetRecordRanges();
 
-    public static ReadApplicationDataCommand Create(
+    public static ReadApplicationDataRequest Create(
         ApplicationFileLocator applicationFileLocator,
         TransactionSessionId transactionSessionId) =>
         new(applicationFileLocator, transactionSessionId);

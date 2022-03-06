@@ -24,7 +24,7 @@ public class ProcessingOptionsRetriever : IGetProcessingOptions
 
     #region Instance Members
 
-    public async Task<GetProcessingOptionsResponse> Transceive(GetProcessingOptionsCommand command)
+    public async Task<GetProcessingOptionsResponse> Transceive(GetProcessingOptionsRequest command)
     {
         GetProcessingOptionsRApduSignal response = new(await _ChipReader.Transceive(command.Serialize()).ConfigureAwait(false));
 

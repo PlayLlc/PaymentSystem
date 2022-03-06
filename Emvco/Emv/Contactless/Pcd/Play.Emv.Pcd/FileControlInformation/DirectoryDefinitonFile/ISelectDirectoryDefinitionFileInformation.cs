@@ -3,5 +3,5 @@
 namespace Play.Emv.Pcd;
 
 public interface
-    ISelectDirectoryDefinitionFileInformation : ITransceiveData<SelectDirectoryDefinitionFileCommand, SelectDirectoryDefinitionFileResponse>
+    ISelectDirectoryDefinitionFileInformation : ITransceiveData<SelectDirectoryDefinitionFileRequest, SelectDirectoryDefinitionFileResponse>
 { }

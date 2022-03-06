@@ -312,7 +312,7 @@ public class CombinationSelector
     private void SelectApplicationFileControlInformation(TransactionSessionId transactionSessionId, Combination combination)
     {
         _PcdEndpoint.Request(
-            SelectApplicationDefinitionFileInfoCommand.Create(transactionSessionId, combination.GetApplicationIdentifier()));
+            SelectApplicationDefinitionFileInfoRequest.Create(transactionSessionId, combination.GetApplicationIdentifier()));
     }
 
     /// <exception cref="InvalidOperationException">Ignore.</exception>
@@ -343,7 +343,7 @@ public class CombinationSelector
         CommandTemplate? commandTemplate =
             fileControlInformationTemplatePpse.AsCommandTemplate(_Codec, _PoiInformation, Array.Empty<TagLengthValue>());
 
-        _PcdEndpoint.Request(SendPoiInformationCommand.Create(transactionSessionId, commandTemplate));
+        _PcdEndpoint.Request(SendPoiInformationRequest.Create(transactionSessionId, commandTemplate));
     }
 
     private void ValidateVisaRequirement(

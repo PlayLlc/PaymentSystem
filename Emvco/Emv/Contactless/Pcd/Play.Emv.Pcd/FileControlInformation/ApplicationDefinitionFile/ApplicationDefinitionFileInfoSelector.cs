@@ -24,7 +24,7 @@ public class ApplicationDefinitionFileInfoSelector : ISelectApplicationDefinitio
 
     #region Instance Members
 
-    public async Task<SelectApplicationDefinitionFileInfoResponse> Transceive(SelectApplicationDefinitionFileInfoCommand infoCommand)
+    public async Task<SelectApplicationDefinitionFileInfoResponse> Transceive(SelectApplicationDefinitionFileInfoRequest infoCommand)
     {
         GetFileControlInformationRApduSignal response = new(await _PcdTransceiver.Transceive(infoCommand.Serialize()));
 

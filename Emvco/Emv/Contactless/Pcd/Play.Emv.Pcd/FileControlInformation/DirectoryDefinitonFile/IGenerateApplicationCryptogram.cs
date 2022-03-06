@@ -3,5 +3,5 @@
 namespace Play.Emv.Pcd;
 
 public interface
-    IGenerateApplicationCryptogram : ITransceiveData<GenerateApplicationCryptogramCommand, GenerateApplicationCryptogramResponse>
+    IGenerateApplicationCryptogram : ITransceiveData<GenerateApplicationCryptogramRequest, GenerateApplicationCryptogramResponse>
 { }

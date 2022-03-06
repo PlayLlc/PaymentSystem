@@ -340,13 +340,13 @@ public class Idle : KernelState
     /// <remarks>Book C-2 Section 6.3.3  S1.13.2 - S1.13.3</remarks>
     private void HandlePdolDataIsReady(TransactionSessionId transactionSessionId, ProcessingOptionsDataObjectList pdol)
     {
-        SendGetProcessingOptions(GetProcessingOptionsCommand.Create(pdol.AsCommandTemplate(_KernelDatabase), transactionSessionId));
+        SendGetProcessingOptions(GetProcessingOptionsRequest.Create(pdol.AsCommandTemplate(_KernelDatabase), transactionSessionId));
     }
 
     /// <remarks>Book C-2 Section 6.3.3 S1.13.4 - S1.13.5</remarks>
     private void HandlePdolDataIsEmpty(TransactionSessionId transactionSessionId)
     {
-        SendGetProcessingOptions(GetProcessingOptionsCommand.Create(transactionSessionId));
+        SendGetProcessingOptions(GetProcessingOptionsRequest.Create(transactionSessionId));
     }
 
     #endregion
@@ -354,7 +354,7 @@ public class Idle : KernelState
     #region S1.14
 
     /// <remarks>Book C-2 Section 6.3.3 S1.14</remarks>
-    public void SendGetProcessingOptions(GetProcessingOptionsCommand command)
+    public void SendGetProcessingOptions(GetProcessingOptionsRequest command)
     {
         _PcdEndpoint.Request(command);
     }

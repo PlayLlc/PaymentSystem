@@ -6,11 +6,11 @@ using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;
 
-public record SendPoiInformationCommand : QueryPcdRequest
+public record SendPoiInformationRequest : QueryPcdRequest
 {
     #region Static Metadata
 
-    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(SendPoiInformationCommand));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(SendPoiInformationRequest));
 
     #endregion
 
@@ -22,7 +22,7 @@ public record SendPoiInformationCommand : QueryPcdRequest
 
     #region Constructor
 
-    private SendPoiInformationCommand(CApduSignal cApduSignal, TransactionSessionId transactionSessionId, CommandTemplate commandTemplate) :
+    private SendPoiInformationRequest(CApduSignal cApduSignal, TransactionSessionId transactionSessionId, CommandTemplate commandTemplate) :
         base(cApduSignal, MessageTypeId, transactionSessionId)
     {
         _CommandTemplate = commandTemplate;
@@ -32,10 +32,10 @@ public record SendPoiInformationCommand : QueryPcdRequest
 
     #region Instance Members
 
-    public static SendPoiInformationCommand Create(TransactionSessionId transactionSessionId, CommandTemplate commandTemplate) =>
+    public static SendPoiInformationRequest Create(TransactionSessionId transactionSessionId, CommandTemplate commandTemplate) =>
         new(SendPoiInformationCApduSignal.Create(commandTemplate), transactionSessionId, commandTemplate);
 
-    public static SendPoiInformationCommand Create(TransactionSessionId transactionSessionId, DataObjectListResult dataObjectListResult) =>
+    public static SendPoiInformationRequest Create(TransactionSessionId transactionSessionId, DataObjectListResult dataObjectListResult) =>
         new(SendPoiInformationCApduSignal.Create(dataObjectListResult), transactionSessionId, dataObjectListResult.AsCommandTemplate());
 
     #endregion

@@ -100,7 +100,7 @@ internal class PcdStateMachine
 
     #endregion
 
-    #region TEMP WORKING REGION
+    #region QUERY
 
     public void Handle(CardClient cardClient, dynamic request)
     {
@@ -125,26 +125,43 @@ internal class PcdStateMachine
                     $"The {nameof(QueryPcdRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{request.GetTransactionSessionId()}] but the current {nameof(ChannelType.ProximityCouplingDevice)} session has a {nameof(TransactionSessionId)} of: [{_PcdSessionLock.Session.TransactionSessionId}]");
             }
 
-            if (request is GetProcessingOptionsCommand getProcessingOptionsCommand)
-                Handle(_CardClient, getProcessingOptionsCommand);
-            if (request is ReadApplicationDataCommand readApplicationDataCommand)
-                Handle(_CardClient, readApplicationDataCommand);
-            if (request is ReadElementaryFileRecordCommand readElementaryFileRecordCommand)
-                Handle(_CardClient, readElementaryFileRecordCommand);
-            if (request is SelectApplicationDefinitionFileInfoCommand selectApplicationDefinitionFileInfoCommand)
-                Handle(_CardClient, selectApplicationDefinitionFileInfoCommand);
-            if (request is SelectDirectoryDefinitionFileCommand selectDirectoryDefinitionFileCommand)
-                Handle(_CardClient, selectDirectoryDefinitionFileCommand);
-            if (request is SelectProximityPaymentSystemEnvironmentRequest ppseRequest)
-                Handle(_CardClient, ppseRequest);
-
-            if (request is SendPoiInformationCommand sendPoiInformationCommand)
-                Handle(_CardClient, sendPoiInformationCommand);
-
-            else
+            switch (request)
             {
-                throw new InvalidMessageRoutingException(
-                    $"The {nameof(QueryPcdRequest)} couldn't be be processed because there isn't a handler for the request type {request.GetType().FullName}");
+                case GenerateApplicationCryptogramRequest generateApplicationCryptogramRequest:
+                    Handle(_CardClient, generateApplicationCryptogramRequest);
+
+                    return;
+                case GetProcessingOptionsRequest getProcessingOptionsCommand:
+                    Handle(_CardClient, getProcessingOptionsCommand);
+
+                    return;
+                case ReadApplicationDataRequest readApplicationDataCommand:
+                    Handle(_CardClient, readApplicationDataCommand);
+
+                    return;
+                case ReadElementaryFileRecordRequest readElementaryFileRecordCommand:
+                    Handle(_CardClient, readElementaryFileRecordCommand);
+
+                    return;
+                case SelectApplicationDefinitionFileInfoRequest selectApplicationDefinitionFileInfoCommand:
+                    Handle(_CardClient, selectApplicationDefinitionFileInfoCommand);
+
+                    return;
+                case SelectDirectoryDefinitionFileRequest selectDirectoryDefinitionFileCommand:
+                    Handle(_CardClient, selectDirectoryDefinitionFileCommand);
+
+                    return;
+                case SelectProximityPaymentSystemEnvironmentRequest ppseRequest:
+                    Handle(_CardClient, ppseRequest);
+
+                    return;
+                case SendPoiInformationRequest sendPoiInformationCommand:
+                    Handle(_CardClient, sendPoiInformationCommand);
+
+                    return;
+                default:
+                    throw new InvalidMessageRoutingException(
+                        $"The {nameof(QueryPcdRequest)} couldn't be be processed because there isn't a handler for the request type {request.GetType().FullName}");
             }
         }
     }

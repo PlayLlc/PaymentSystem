@@ -2,5 +2,5 @@
 
 namespace Play.Emv.Pcd;
 
-public interface IReadApplicationData : ITransceiveDataBatches<ReadApplicationDataCommand, ReadApplicationDataResponse>
+public interface IReadApplicationData : ITransceiveDataBatches<ReadApplicationDataRequest, ReadApplicationDataResponse>
 { }
