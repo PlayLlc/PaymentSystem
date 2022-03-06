@@ -67,6 +67,8 @@ public class Idle : KernelState
 
     #endregion
 
+    #region Instance Members
+
     public override StateId GetStateId() => StateId;
 
     #region STOP
@@ -85,6 +87,13 @@ public class Idle : KernelState
 
         return _KernelStateResolver.GetKernelState(StateId);
     }
+
+    #endregion
+
+    #region RAPDU
+
+    public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
 
@@ -525,27 +534,18 @@ public class Idle : KernelState
 
     #endregion
 
-    #region RAPDU
-
-    public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    #endregion
-
     #region DET
 
     public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    #endregion
-
-    #region Depricated - These should be handled by the Data Exchange Service
 
     public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    #endregion
 
     #endregion
 }

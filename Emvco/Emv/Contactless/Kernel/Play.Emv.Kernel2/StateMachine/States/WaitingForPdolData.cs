@@ -81,13 +81,14 @@ internal class WaitingForPdolData : KernelState
 
     #region DET
 
-    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) => throw new NotImplementedException();
+    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
-    #endregion
+    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
-    // BUG: The messages below should be handled by the DEK
-    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) => throw new NotImplementedException();
-    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) => throw new NotImplementedException();
+    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
 
@@ -125,6 +126,8 @@ internal class WaitingForPdolData : KernelState
 
         _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), kernel2Database.GetOutcome()));
     }
+
+    #endregion
 
     #endregion
 }
