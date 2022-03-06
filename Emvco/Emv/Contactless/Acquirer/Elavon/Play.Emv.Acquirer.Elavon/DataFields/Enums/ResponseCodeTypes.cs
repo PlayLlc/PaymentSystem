@@ -1,6 +1,6 @@
 ﻿using Play.Core;
 
-namespace Play.Emv.DataElements.Interchange;
+namespace Play.Emv.Acquirer.Elavon.DataFields.Enums;
 
 public record ResponseCodeTypes : EnumObject<ushort>
 {

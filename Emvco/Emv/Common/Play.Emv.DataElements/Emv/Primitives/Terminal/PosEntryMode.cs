@@ -5,6 +5,7 @@ using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements.Exceptions;
+using Play.Emv.DataElements.Interchange;
 
 namespace Play.Emv.DataElements.Emv;
 

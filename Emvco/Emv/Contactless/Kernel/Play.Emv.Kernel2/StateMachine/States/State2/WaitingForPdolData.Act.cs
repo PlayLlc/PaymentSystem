@@ -23,24 +23,6 @@ public partial class WaitingForPdolData : KernelState
 
     #region S2.1
 
-    public bool HandleTimeout(KernelSession session)
-    {
-        if (!session.TimedOut())
-            return false;
-
-        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
-        builder.Set(StatusOutcome.EndApplication);
-        _KernelDatabase.Update(builder);
-        _KernelDatabase.Update(Level3Error.TimeOut);
-        _KernelDatabase.Initialize(DiscretionaryData.Tag);
-        _DataExchangeKernelService.Initialize(DekResponseType.DiscretionaryData);
-        _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _KernelDatabase.GetErrorIndication());
-
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
-
-        return true;
-    }
-
     #endregion
 
     #endregion

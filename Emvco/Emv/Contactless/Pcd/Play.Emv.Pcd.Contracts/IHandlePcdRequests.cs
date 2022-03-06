@@ -1,7 +1,5 @@
 ﻿using System.Threading.Tasks;
 
-using Play.Emv.Pcd.GetData;
-
 namespace Play.Emv.Pcd.Contracts;
 
 public interface IHandleBlockingPcdRequests

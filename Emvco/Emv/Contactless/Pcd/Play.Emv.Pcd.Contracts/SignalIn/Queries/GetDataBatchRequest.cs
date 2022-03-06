@@ -1,9 +1,8 @@
 ﻿using Play.Emv.DataElements.Emv;
-using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
 using Play.Messaging;
 
-namespace Play.Emv.Pcd.GetData;
+namespace Play.Emv.Pcd.Contracts;
 
 public record GetDataBatchRequest : QueryPcdRequest
 {

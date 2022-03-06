@@ -1,20 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Exceptions;
+using Play.Emv.Icc;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
+using Play.Emv.Kernel.State;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Pcd.GetData;
 using Play.Emv.Sessions;
+using Play.Emv.Templates.Exceptions;
 using Play.Emv.Terminal.Contracts;
+using Play.Icc.Exceptions;
 
-namespace Play.Emv.Kernel2.StateMachine.States.S3R1;
+namespace Play.Emv.Kernel2.StateMachine;
 // TODO: Note that symbols S3R1.10, S3R1.11, S3R1.12, S3R1.13 and S3R1.18 are only implemented for the IDS/TORN Implementation Option.
 
 public class S3R1
@@ -33,35 +35,62 @@ public class S3R1
 
     #region Instance Members
 
-    public async Task Process(KernelSession session, TagsToRead tagsToRead, ApplicationFileLocator? applicationFileLocator)
+    public async Task<KernelState> Process(KernelSession session)
     {
-        if (_DataExchangeKernelService.GetLength(DekRequestType.TagsToRead) != 0)
-        {
-            // HACK: We can only resolve the TagsToRead inside the DataExchangeKernelService, so we'll have to add the ProcessTagsToRead logic inside that service
-            await ProcessTagsToRead(session.GetTransactionSessionId(), tagsToRead).ConfigureAwait(false);
-        }
+        _DataExchangeKernelService.Resolve(DekRequestType.TagsToRead);
 
-        if (applicationFileLocator != null)
-            await ProcessApplicationData(session.GetTransactionSessionId(), applicationFileLocator!).ConfigureAwait(false);
+        if (_DataExchangeKernelService.TryGetDataBatchRequest(session.GetTransactionSessionId(),
+            out GetDataBatchRequest? getDataBatchRequest))
+            await ProcessTagsToRead(getDataBatchRequest!).ConfigureAwait(false);
+
+        if (_KernelDatabase.IsPresentAndNotEmpty(ApplicationFileLocator.Tag))
+
+        {
+            await ProcessApplicationData(session.GetTransactionSessionId(),
+                    ApplicationFileLocator.Decode(_KernelDatabase.Get(ApplicationFileLocator.Tag).EncodeTagLengthValue().AsSpan()))
+                .ConfigureAwait(false);
+        }
     }
 
-    // TODO: Resolve the GetDataResponse[] to TagLengthValue[] inside the GetDataBatchResponse
-    // TODO: Move this to DataExchangeKernelService
-    private async Task ProcessTagsToRead(TransactionSessionId sessionId, TagsToRead tagsToRead)
+    private void HandleEmptyApplicationFileLocator()
     {
-        GetDataBatchRequest capdu = GetDataBatchRequest.Create(sessionId, tagsToRead);
-        GetDataBatchResponse rapdu = await _PcdEndpoint.Transceive(capdu).ConfigureAwait(false);
+        _KernelDatabase.Update(Level2Error.CardDataError);
+    }
+
+    private async Task ProcessTagsToRead(GetDataBatchRequest request)
+    {
+        try
+        {
+            GetDataBatchResponse rapdu = await _PcdEndpoint.Transceive(request).ConfigureAwait(false);
+            _KernelDatabase.UpdateRange(rapdu.GetTagLengthValuesResult());
+        }
+        catch (BerInternalException)
+        {
+            //    /* logging */
+            //    _KernelDatabase.Update(Level2Error.ParsingError);
+            //    HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
+            //}
+            //catch (BerException)
+            //{
+            //    /* logging */
+            //    signal.GetTransaction().Update(Level2Error.ParsingError);
+            //    HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
+            //}
+            //catch (CardDataMissingException)
+            //{
+            //    /* logging */
+            //    signal.GetTransaction().Update(Level2Error.CardDataError);
+            //    HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
+        }
     }
 
     private async Task ProcessApplicationData(TransactionSessionId sessionId, ApplicationFileLocator applicationFileLocator)
     {
-        // TODO: Resolve the ReadElementaryFileRecordRangeResponse[] to TagLengthValue[] inside the GetDataBatchResponse
         ReadApplicationDataRequest capdu = ReadApplicationDataRequest.Create(applicationFileLocator, sessionId);
         ReadApplicationDataResponse rapdu = await _PcdEndpoint.Transceive(capdu).ConfigureAwait(false);
 
-        TagLengthValue[] applicationData = rapdu.GetApplicationData();
+        TagLengthValue[] applicationData = rapdu.GetTagLengthValuesResult();
 
-        // HACK: Are we sure these are initialized first?
         _KernelDatabase.UpdateRange(applicationData);
     }
 

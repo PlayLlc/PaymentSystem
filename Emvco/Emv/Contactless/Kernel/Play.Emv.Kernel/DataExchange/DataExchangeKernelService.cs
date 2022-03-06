@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
@@ -8,12 +10,15 @@ using Play.Emv.DataElements.Emv;
 using Play.Emv.DataExchange;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
+using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Messaging;
 
 namespace Play.Emv.Kernel.DataExchange;
+
+// HACK: This needs some serious love. This definitely isn't following Single Responsibility Principle. We're doing Double Dispatch with S3R1 because we're storing the DataObjectList items here instead of the TLV database. Take a look at the design of this and refactor
 
 public class DataExchangeKernelService
 {
@@ -31,7 +36,8 @@ public class DataExchangeKernelService
     public DataExchangeKernelService(
         IHandleTerminalRequests terminalEndpoint,
         KernelDatabase kernelDatabase,
-        ISendTerminalQueryResponse kernelEndpoint)
+        ISendTerminalQueryResponse kernelEndpoint,
+        IHandleBlockingPcdRequests pcdEndpoint)
     {
         _TerminalEndpoint = terminalEndpoint;
         _KernelEndpoint = kernelEndpoint;
@@ -261,14 +267,6 @@ public class DataExchangeKernelService
         }
     }
 
-    public int GetLength(DekRequestType typeItem)
-    {
-        lock (_Lock.Requests)
-        {
-            return _Lock.Requests[typeItem].Count();
-        }
-    }
-
     /// <summary>
     ///     Attempts to get requested tags that have not yet been read
     /// </summary>
@@ -291,8 +289,7 @@ public class DataExchangeKernelService
 
     /// <summary>
     ///     Checks for any non-empty values in the database from the remaining list of <see cref="TagsToRead" />. If any values
-    ///     are
-    ///     present in the database it will dequeue the <see cref="Tag" /> from TagsToReadYet and Enqueue the
+    ///     are present in the database it will dequeue the <see cref="Tag" /> from TagsToReadYet and Enqueue the
     ///     <see cref="DataToSend" />
     ///     buffer with the <see cref="DatabaseValue" />
     /// </summary>
@@ -305,53 +302,69 @@ public class DataExchangeKernelService
             if (listType == DekRequestType.DataNeeded)
                 return _Lock.Requests[listType].Count();
 
-            for (int i = 0; i < _Lock.Requests[DekRequestType.TagsToRead].Count(); i++)
-            {
-                if (!_Lock.Requests[listType].TryDequeue(out Tag tagToRead))
-                    throw new InvalidOperationException();
+            if (listType == DekRequestType.TagsToRead)
+                return Resolve((TagsToRead?) _Lock.Requests.GetValueOrDefault(TagsToRead.Tag), _TlvDatabase);
 
-                if (_TlvDatabase.IsPresentAndNotEmpty(tagToRead))
-                    _Lock.Responses[DekResponseType.DataToSend].Enqueue(_TlvDatabase.Get(tagToRead));
-                else
-                    _Lock.Requests[listType].Enqueue(tagToRead);
-            }
-
-            return _Lock.Requests[listType].Count();
+            throw new InvalidOperationException($"The {nameof(DekRequestType)} provided has not been implemented");
         }
     }
 
-    private void Temp()
+    private static int Resolve(TagsToRead? tagsToRead, IQueryTlvDatabase tlvDatabase)
     {
-        // TODO: You need to do the same thing you did with the ApplicationDataReader for
-        // TODO: TagsToRead. We need this to be a blocking wait until you get all your shit
+        if (tagsToRead == null)
+        {
+            throw new InvalidOperationException(
+                $"The {nameof(DataExchangeKernelService)} could not Resolve the {nameof(TagsToRead)} because the list has not been initialized");
+        }
+
+        for (int i = 0; i < tagsToRead.Count(); i++)
+        {
+            if (!tagsToRead.TryDequeue(out Tag tagToRead))
+                throw new InvalidOperationException();
+
+            if (tlvDatabase.IsPresentAndNotEmpty(tagToRead))
+                continue;
+
+            tagsToRead.Enqueue(tagToRead);
+        }
+
+        return tagsToRead.Count();
     }
 
-    ///// <summary>
-    /////     Checks for any non-empty values in the database from the remaining list of <see cref="TagsToRead" />. If any values
-    /////     are present in the database it will dequeue the <see cref="Tag" /> from TagsToReadYet and Enqueue the
-    /////     <see cref="DataToSend" /> buffer with the <see cref="DatabaseValue" />
-    ///// </summary>
-    ///// <param name="typeType"></param>
-    ///// <returns></returns>
-    ///// <exception cref="InvalidOperationException"></exception>
-    //public int Resolve(DekResponseType typeType)
-    //{
-    //    lock (_Lock)
-    //    {
-    //        for (int i = 0; i < _Responses[typeType].Count(); i++)
-    //        {
-    //            if (!_Requests[typeType].TryDequeue(out Tag tagToRead))
-    //                throw new InvalidOperationException();
+    /// <summary>
+    ///     Checks the <see cref="TagLengthValue" /> results provided by the <see cref="GetDataResponse" /> and resolves any
+    ///     matching values for <see cref="TagsToRead" />
+    /// </summary>
+    /// <param name="dataBatchResponse"></param>
+    /// <returns></returns>
+    public int Resolve(GetDataBatchResponse dataBatchResponse)
+    {
+        lock (_Lock.Requests)
+        {
+            TagsToRead tagsToRead = (TagsToRead) _Lock.Requests[DekRequestType.TagsToRead];
+            tagsToRead.Resolve(dataBatchResponse.GetTagLengthValuesResult());
 
-    //            if (_TlvDatabase.IsPresentAndNotEmpty(tagToRead))
-    //                _Responses[typeType].Enqueue(_TlvDatabase.Get(tagToRead));
-    //            else
-    //                _Requests[typeType].Enqueue(tagToRead);
-    //        }
+            return tagsToRead.Count();
+        }
+    }
 
-    //        return _Requests[typeType].Count();
-    //    }
-    //}
+    public bool TryGetDataBatchRequest(TransactionSessionId sessionId, out GetDataBatchRequest? result)
+    {
+        lock (_Lock.Requests)
+        {
+            if (!_Lock.Requests.ContainsKey(TagsToRead.Tag))
+            {
+                result = null;
+
+                return false;
+            }
+
+            result = GetDataBatchRequest.Create(sessionId,
+                TagsToRead.Decode(_Lock.Requests[TagsToRead.Tag].EncodeTagLengthValue().AsSpan()));
+
+            return true;
+        }
+    }
 
     // TODO: We might only be initializing DataNeeded here
     public void Initialize(DataExchangeRequest list)

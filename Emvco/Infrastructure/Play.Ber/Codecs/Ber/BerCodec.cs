@@ -60,6 +60,14 @@ public partial class BerCodec
         return new TagLength(tag, length);
     }
 
+    public TagLengthValue DecodeTagLengthValue(ReadOnlySpan<byte> value)
+    {
+        Tag tag = new(value);
+        Length length = Length.Parse(value[tag.GetByteCount()..]);
+
+        return new TagLengthValue(tag, value[((byte) tag.GetByteCount() + length.GetByteCount())..]);
+    }
+
     public Tag DecodeTag(ReadOnlySpan<byte> value) => new(value);
 
     /// <summary>

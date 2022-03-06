@@ -6,12 +6,6 @@ namespace Play.Emv.Templates.Records;
 
 public class ReadRecordResponse : ReadRecordResponseTemplate
 {
-    #region Static Metadata
-
-    public static Tag[] ChildTags = Array.Empty<Tag>();
-
-    #endregion
-
     #region Instance Values
 
     private readonly byte[] _Value;

@@ -1,4 +1,5 @@
 using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
@@ -33,34 +34,33 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<TagsToRead>
 
     #endregion
 
-    #region Equality
-
-    public bool Equals(TagsToRead? x, TagsToRead? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(TagsToRead obj) => obj.GetHashCode();
-
-    #endregion
-
     #region Instance Members
 
     public override Tag GetTag() => Tag;
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public Tag[] AsTags() => _Value.ToArray();
 
-    /// TODO: Exqueese me? Making this guy shut up for now. Book C-2 section 3.6.2 says "The process continues until
-    /// TODO: all records have been read" so unless there's some optimization reason that i find out about later
-    /// TODO: there's not really a use for this
+    /// <summary>
+    ///     Checks the Tags of the <see cref="TagLengthValue" /> array provided in the argument and removes any matching tags
+    ///     from this queue
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public int Resolve(TagLengthValue[] value)
+    {
+        for (nint i = 0; i < _Value.Count; i++)
+        {
+            if (!TryDequeue(out Tag result))
+                throw new InvalidOperationException();
 
-    //public override Tag GetNextAvailableTagFromCard() => throw new NotImplementedException();
+            if (value.All(a => a.GetTag() != result))
+                Enqueue(result);
+        }
+
+        return _Value.Count;
+    }
+
+    public Tag[] GetTagsToReadYet() => _Value.ToArray();
 
     #endregion
 
@@ -84,6 +84,23 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<TagsToRead>
         // This Value field is already BER encoded, which is what this object's _Value field requires
         return new TagsToRead(_Codec.DecodeTagSequence(value));
     }
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(TagsToRead? x, TagsToRead? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public int GetHashCode(TagsToRead obj) => obj.GetHashCode();
 
     #endregion
 }

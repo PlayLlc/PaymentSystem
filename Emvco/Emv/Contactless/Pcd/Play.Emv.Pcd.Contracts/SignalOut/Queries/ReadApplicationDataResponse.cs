@@ -39,7 +39,7 @@ public record ReadApplicationDataResponse : QueryPcdResponse
 
     #region Instance Members
 
-    public TagLengthValue[] GetApplicationData()
+    public TagLengthValue[] GetTagLengthValuesResult()
     {
         List<TagLengthValue> buffer = new();
 

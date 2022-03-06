@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 
-using Play.Emv.Pcd.Contracts;
+using Play.Ber.DataObjects;
 using Play.Emv.Sessions;
 using Play.Messaging;
 
-namespace Play.Emv.Pcd.GetData;
+namespace Play.Emv.Pcd.Contracts;
 
 public record GetDataBatchResponse : QueryPcdResponse
 {
@@ -35,7 +35,15 @@ public record GetDataBatchResponse : QueryPcdResponse
 
     #region Instance Members
 
-    public GetDataResponse[] GetDataBatch() => _DataBatchResponses;
+    public TagLengthValue[] GetTagLengthValuesResult()
+    {
+        TagLengthValue[] result = new TagLengthValue[_DataBatchResponses.Length];
+
+        for (nint i = 0; i < _DataBatchResponses.Length; i++)
+            result[i] = _DataBatchResponses[i].GetTagLengthValuesResult();
+
+        return result;
+    }
 
     #endregion
 }

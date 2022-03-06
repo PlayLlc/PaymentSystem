@@ -56,7 +56,7 @@ public partial class Idle : KernelState
         IGetKernelState kernelStateResolver,
         IKernelEndpoint kernelEndpoint,
         IHandleTerminalRequests terminalEndpoint,
-        IHandlePcdRequests pcdEndpoint) : base(kernelDatabase, dataExchange)
+        IHandlePcdRequests pcdEndpoint) : base(kernelDatabase, dataExchange, kernelEndpoint)
     {
         _KernelCleaner = kernelCleaner;
         _KernelStateResolver = kernelStateResolver;

@@ -47,7 +47,7 @@ public partial class WaitingForPdolData : KernelState
         IGetKernelState kernelStateResolver,
         ICleanTornTransactions kernelCleaner,
         KernelDatabase kernelDatabase,
-        DataExchangeKernelService dataExchangeKernelService) : base(kernelDatabase, dataExchangeKernelService)
+        DataExchangeKernelService dataExchangeKernelService) : base(kernelDatabase, dataExchangeKernelService, kernelEndpoint)
     {
         _KernelEndpoint = kernelEndpoint;
         _TerminalEndpoint = terminalEndpoint;

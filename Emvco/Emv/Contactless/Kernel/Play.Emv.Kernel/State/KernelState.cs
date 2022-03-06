@@ -1,5 +1,7 @@
-﻿using Play.Emv.DataExchange;
+﻿using Play.Emv.DataElements.Emv;
+using Play.Emv.DataExchange;
 using Play.Emv.Exceptions;
+using Play.Emv.Icc;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
@@ -7,6 +9,7 @@ using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts.SignalOut;
+using Play.Messaging;
 
 namespace Play.Emv.Kernel.State;
 
@@ -16,15 +19,17 @@ public abstract class KernelState
 
     protected readonly KernelDatabase _KernelDatabase;
     protected readonly DataExchangeKernelService _DataExchangeKernelService;
+    private readonly IKernelEndpoint _KernelEndpoint;
 
     #endregion
 
     #region Constructor
 
-    protected KernelState(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange)
+    protected KernelState(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange, IKernelEndpoint kernelEndpoint)
     {
         _KernelDatabase = kernelDatabase;
         _DataExchangeKernelService = dataExchange;
+        _KernelEndpoint = kernelEndpoint;
     }
 
     #endregion
@@ -44,6 +49,38 @@ public abstract class KernelState
     {
         _KernelDatabase.Deactivate();
         _DataExchangeKernelService.Clear();
+    }
+
+    #endregion
+
+    #region Exception Handling
+
+    private void HandleBerEncodingException(CorrelationId correlationId, KernelSessionId kernelSessionId)
+    {
+        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
+        builder.Set(StatusOutcome.SelectNext);
+        builder.Set(StartOutcome.C);
+        _KernelDatabase.Update(builder);
+
+        _KernelEndpoint.Send(new OutKernelResponse(correlationId, kernelSessionId, _KernelDatabase.GetOutcome()));
+    }
+
+    public bool TryHandleTimeout(KernelSession session)
+    {
+        if (!session.TimedOut())
+            return false;
+
+        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
+        builder.Set(StatusOutcome.EndApplication);
+        _KernelDatabase.Update(builder);
+        _KernelDatabase.Update(Level3Error.TimeOut);
+        _KernelDatabase.Initialize(DiscretionaryData.Tag);
+        _DataExchangeKernelService.Initialize(DekResponseType.DiscretionaryData);
+        _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _KernelDatabase.GetErrorIndication());
+
+        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+
+        return true;
     }
 
     protected static void HandleRequestOutOfSync(KernelSession session, IExchangeDataWithTheKernel signal)

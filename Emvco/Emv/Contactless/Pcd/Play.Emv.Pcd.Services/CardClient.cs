@@ -1,11 +1,14 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Pcd.Exceptions;
 using Play.Emv.Pcd.GetData;
 
 namespace Play.Emv.Pcd.Services;
 
-// TODO: Implement some IDisposable patterns so we can wrap the session in a using
+// BUG: Need to update the try-catch logic for all of these methods. We need to make sure we're logging the relevant information. We should also catch more specific exceptions so we can intercept and throw the most appropriate exception type
+
 /// <summary>
 ///     A facade that encapsulates card reading and writing functionality
 /// </summary>
@@ -44,45 +47,172 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
 
     #region Instance Members
 
-    public async Task<GetProcessingOptionsResponse> Transceive(GetProcessingOptionsRequest command) =>
-        await _GpoClient.Transceive(command).ConfigureAwait(false);
+    public async Task<GetProcessingOptionsResponse> Transceive(GetProcessingOptionsRequest command)
+    {
+        // TODO: catch more specific exceptions
+        try
+        {
+            return await _GpoClient.Transceive(command).ConfigureAwait(false);
+        }
+        catch (Exception exception)
+        {
+            // TODO: log and shit
 
-    public async Task<SelectProximityPaymentSystemEnvironmentResponse> Transceive(SelectProximityPaymentSystemEnvironmentRequest command) =>
-        await _PpseClient.Transceive(command).ConfigureAwait(false);
+            throw new CardReadException(exception);
+        }
+    }
+
+    public async Task<SelectProximityPaymentSystemEnvironmentResponse> Transceive(SelectProximityPaymentSystemEnvironmentRequest command)
+    {
+        // TODO: catch more specific exceptions
+        try
+        {
+            return await _PpseClient.Transceive(command).ConfigureAwait(false);
+        }
+        catch (Exception exception)
+        {
+            // TODO: log and shit
+
+            throw new CardReadException(exception);
+        }
+    }
 
     public void Abort()
     {
-        _PcdClient.Abort();
+        // TODO: catch more specific exceptions
+        try
+        {
+            _PcdClient.Abort();
+        }
+        catch (Exception exception)
+        {
+            // TODO: log and shit
+
+            throw new CardReadException(exception);
+        }
     }
 
     public void Activate()
     {
-        _PcdClient.Activate();
+        // TODO: catch more specific exceptions
+        try
+        {
+            _PcdClient.Activate();
+        }
+        catch (Exception exception)
+        {
+            // TODO: log and shit
+
+            throw new CardReadException(exception);
+        }
     }
 
     public void CloseSession()
     {
-        _PcdClient.CloseSession();
+        // TODO: catch more specific exceptions
+        try
+        {
+            _PcdClient.CloseSession();
+        }
+        catch (Exception exception)
+        {
+            // TODO: log and shit
+
+            throw new CardReadException(exception);
+        }
     }
 
     public void CloseSessionCardCheck()
     {
         _PcdClient.CloseSessionCardCheck();
+
+        // TODO: catch more specific exceptions
+        try
+        {
+            _PcdClient.CloseSession();
+        }
+        catch (Exception exception)
+        {
+            // TODO: log and shit
+
+            throw new CardReadException(exception);
+        }
     }
 
-    public async Task<ReadApplicationDataResponse> Transceive(ReadApplicationDataRequest command) =>
-        await _ApplicationDataClient.Transceive(command).ConfigureAwait(false);
+    public async Task<ReadApplicationDataResponse> Transceive(ReadApplicationDataRequest command)
+    {
+        // TODO: catch more specific exceptions
+        try
+        {
+            return await _ApplicationDataClient.Transceive(command).ConfigureAwait(false);
+        }
+        catch (Exception exception)
+        {
+            // TODO: log and shit
 
-    public async Task<SelectApplicationDefinitionFileInfoResponse> Transceive(SelectApplicationDefinitionFileInfoRequest command) =>
-        await _AppletClient.Transceive(command).ConfigureAwait(false);
+            throw new CardReadException(exception);
+        }
+    }
 
-    public async Task<SelectDirectoryDefinitionFileResponse> Transceive(SelectDirectoryDefinitionFileRequest command) =>
-        await _DirectoryFciClient.Transceive(command).ConfigureAwait(false);
+    public async Task<SelectApplicationDefinitionFileInfoResponse> Transceive(SelectApplicationDefinitionFileInfoRequest command)
+    {
+        // TODO: catch more specific exceptions
+        try
+        {
+            return await _AppletClient.Transceive(command).ConfigureAwait(false);
+        }
+        catch (Exception exception)
+        {
+            // TODO: log and shit
 
-    public async Task<SendPoiInformationResponse> Transceive(SendPoiInformationRequest command) =>
-        await _PoiClient.Transceive(command).ConfigureAwait(false);
+            throw new CardReadException(exception);
+        }
+    }
 
-    public Task<GetDataBatchResponse> Transceive(GetDataBatchRequest command) => _DataBatchReader.Transceive(command);
+    public async Task<SelectDirectoryDefinitionFileResponse> Transceive(SelectDirectoryDefinitionFileRequest command)
+    {
+        // TODO: catch more specific exceptions
+        try
+        {
+            return await _DirectoryFciClient.Transceive(command).ConfigureAwait(false);
+        }
+        catch (Exception exception)
+        {
+            // TODO: log and shit
+
+            throw new CardReadException(exception);
+        }
+    }
+
+    public async Task<SendPoiInformationResponse> Transceive(SendPoiInformationRequest command)
+    {
+        // TODO: catch more specific exceptions
+        try
+        {
+            return await _PoiClient.Transceive(command).ConfigureAwait(false);
+        }
+        catch (Exception exception)
+        {
+            // TODO: log and shit
+
+            throw new CardReadException(exception);
+        }
+    }
+
+    public Task<GetDataBatchResponse> Transceive(GetDataBatchRequest command)
+    {
+        // TODO: catch more specific exceptions
+        try
+        {
+            return _DataBatchReader.Transceive(command);
+        }
+        catch (Exception exception)
+        {
+            // TODO: log and shit
+
+            throw new CardReadException(exception);
+        }
+    }
 
     #endregion
 }
