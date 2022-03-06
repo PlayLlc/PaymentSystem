@@ -37,6 +37,8 @@ public class S3R1
 
     public async Task<KernelState> Process(KernelSession session)
     {
+        // TODO: Optimized AFL means we'll be sending GET DATA commands. Otherwise, we'll be sending READ FILE commands
+
         _DataExchangeKernelService.Resolve(DekRequestType.TagsToRead);
 
         if (_DataExchangeKernelService.TryGetDataBatchRequest(session.GetTransactionSessionId(),
