@@ -62,15 +62,6 @@ internal class WaitingForPdolData : KernelState
 
     public override StateId GetStateId() => StateId;
 
-    private static void HandleRequestOutOfSync(KernelSession session, IExchangeDataWithTheTerminal signal)
-    {
-        if (signal.GetDataExchangeTerminalId().GetTransactionSessionId() != session.GetTransactionSessionId())
-        {
-            throw new RequestOutOfSyncException(
-                $"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
-        }
-    }
-
     private static void HandleRequestOutOfSync(KernelSession session, IExchangeDataWithTheKernel signal)
     {
         if (signal.GetDataExchangeKernelId().GetKernelSessionId() != session.GetKernelSessionId())
@@ -123,6 +114,8 @@ internal class WaitingForPdolData : KernelState
     #endregion
 
     #region DET
+
+    #region QueryTerminalResponse
 
     public override KernelState Handle(KernelSession session, QueryTerminalResponse signal)
     {
@@ -187,6 +180,8 @@ internal class WaitingForPdolData : KernelState
     {
         session.StopTimeout();
     }
+
+    #endregion
 
     #endregion
 
