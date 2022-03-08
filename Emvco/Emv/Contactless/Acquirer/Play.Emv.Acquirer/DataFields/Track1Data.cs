@@ -44,6 +44,7 @@ public record Track1Data : VariableDataField<char[]>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
     /// <exception cref="InterchangeException"></exception>
+    /// <exception cref="InterchangeDataFieldNullException"></exception>
     public override Track1Data Decode(ReadOnlyMemory<byte> value)
     {
         Check.DataField.ForMaximumLength(value, _MaxByteCount, DataFieldId);

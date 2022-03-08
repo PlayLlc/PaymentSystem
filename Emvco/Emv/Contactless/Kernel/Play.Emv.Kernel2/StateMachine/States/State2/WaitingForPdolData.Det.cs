@@ -28,6 +28,7 @@ public partial class WaitingForPdolData : KernelState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     public override KernelState Handle(KernelSession session, QueryTerminalResponse signal)
     {
         HandleRequestOutOfSync(session, signal);

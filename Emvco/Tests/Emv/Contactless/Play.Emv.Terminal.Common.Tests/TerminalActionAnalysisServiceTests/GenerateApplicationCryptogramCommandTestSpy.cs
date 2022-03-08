@@ -67,6 +67,7 @@ public class GenerateApplicationCryptogramCommandTestSpy
     /// <param name="fixture"></param>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     public static GenerateApplicationCryptogramCommandTestSpy Setup(IFixture fixture)
     {
         GenerateApplicationCryptogramCommandTestSpy result = new();

@@ -44,6 +44,7 @@ public record PrimaryAccountNumberExtended : VariableDataField<byte[]>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
     /// <exception cref="InterchangeException"></exception>
+    /// <exception cref="InterchangeDataFieldNullException"></exception>
     public override PrimaryAccountNumberExtended Decode(ReadOnlyMemory<byte> value)
     {
         Check.DataField.ForMaximumLength(value, _MaxByteCount, DataFieldId);

@@ -42,6 +42,7 @@ public record ExtendedPaymentCode : FixedDataField<byte>
     /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
     /// <exception cref="InterchangeException"></exception>
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+    /// <exception cref="InterchangeDataFieldNullException"></exception>
     public override ExtendedPaymentCode Decode(ReadOnlyMemory<byte> value)
     {
         Check.DataField.ForExactLength(value, _ByteCount, DataFieldId);

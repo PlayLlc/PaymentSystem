@@ -41,6 +41,7 @@ public record ReplacementAmounts : FixedDataField<char[]>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
     /// <exception cref="InterchangeException"></exception>
+    /// <exception cref="InterchangeDataFieldNullException"></exception>
     public override ReplacementAmounts Decode(ReadOnlyMemory<byte> value)
     {
         Check.DataField.ForExactLength(value, _ByteCount, DataFieldId);

@@ -44,6 +44,7 @@ public record Reserved62 : VariableDataField<char[]>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
     /// <exception cref="InterchangeException"></exception>
+    /// <exception cref="InterchangeDataFieldNullException"></exception>
     public override Reserved62 Decode(ReadOnlyMemory<byte> value)
     {
         Check.DataField.ForMaximumLength(value, _MaxByteCount, DataFieldId);

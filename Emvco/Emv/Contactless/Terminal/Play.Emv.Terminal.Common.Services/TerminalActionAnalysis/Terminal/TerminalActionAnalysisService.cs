@@ -195,6 +195,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// </summary>
     /// <param name="command"></param>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     private void CreateDenyTransactionResponse(TerminalActionAnalysisCommand command)
     {
         _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessionId(),
@@ -207,6 +208,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// </summary>
     /// <param name="command"></param>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     private void CreateProceedOfflineResponse(TerminalActionAnalysisCommand command)
     {
         bool isCdaRequested =
@@ -223,6 +225,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// </summary>
     /// <param name="command"></param>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     private void CreateProceedOnlineResponse(TerminalActionAnalysisCommand command)
     {
         _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessionId(),

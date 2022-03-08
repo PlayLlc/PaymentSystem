@@ -44,6 +44,7 @@ internal class SelectionProcess : CommandProcessingQueue
     /// <param name="request"></param>
     /// <returns></returns>
     /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="Play.Emv.Exceptions.InvalidSignalRequest"></exception>
     public async Task Handle(ActivateSelectionRequest request)
     {
         await Task.Run(() => { _SelectionStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);

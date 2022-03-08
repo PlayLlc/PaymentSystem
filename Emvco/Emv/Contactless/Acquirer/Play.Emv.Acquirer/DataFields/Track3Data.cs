@@ -47,6 +47,7 @@ public record Track3Data : VariableDataField<BigInteger>
     /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
     /// <exception cref="InterchangeException"></exception>
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+    /// <exception cref="InterchangeDataFieldNullException"></exception>
     public override Track3Data Decode(ReadOnlyMemory<byte> value)
     {
         Check.DataField.ForMaximumLength(value, _MaxByteCount, DataFieldId);

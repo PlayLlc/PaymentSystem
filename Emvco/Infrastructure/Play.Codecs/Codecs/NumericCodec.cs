@@ -677,6 +677,12 @@ public class NumericCodec : PlayCodec
 
     #region Decode To Integers
 
+    /// <summary>
+    /// DecodeToBigInteger
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="PlayEncodingException"></exception>
     public BigInteger DecodeToBigInteger(ReadOnlySpan<byte> value)
     {
         for (byte i = 0; i < value.Length; i++)
@@ -711,6 +717,7 @@ public class NumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
+    /// <exception cref="PlayEncodingException"></exception>
     public uint DecodeToUInt32(ReadOnlySpan<byte> value)
     {
         uint result = 0;
@@ -723,6 +730,7 @@ public class NumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
+    /// <exception cref="PlayEncodingException"></exception>
     public ulong DecodeToUInt64(ReadOnlySpan<byte> value)
     {
         ulong result = 0;
@@ -735,6 +743,7 @@ public class NumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
+    /// <exception cref="PlayEncodingException"></exception>
     public ushort DecodeToUInt16(ReadOnlySpan<byte> value)
     {
         ushort result = 0;

@@ -64,6 +64,7 @@ public partial class Idle : KernelState
 
     /// <remarks>Book C-2 Section 6.3.3 S1.7</remarks>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerException"></exception>
     private void UpdateLanguagePreferences(Kernel2Session session, FileControlInformationAdf fci)
     {
         if (fci.TryGetLanguagePreference(out LanguagePreference? languagePreference))
@@ -147,6 +148,7 @@ public partial class Idle : KernelState
     }
 
     /// <remarks>Book C-2 Section 6.2.3; Book C-2 Section 6.3.3 - S1.7 & S1.8</remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool TryInitialize(CorrelationId correlationId, KernelSessionId kernelSessionId, Transaction transaction)
     {
         try
@@ -348,6 +350,7 @@ public partial class Idle : KernelState
     /// <remarks>Book C-2 Section 6.3.3  S1.17</remarks>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
+    /// <exception cref="Play.Emv.DataElements.Exceptions.DataElementNullException"></exception>
     public void HandleDataStorageVersionNumberTerm(Kernel2Session session)
     {
         if (!_KernelDatabase.IsPresentAndNotEmpty(DataStorageVersionNumberTerm.Tag))
@@ -408,6 +411,7 @@ public partial class Idle : KernelState
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
+    /// <exception cref="Play.Emv.DataElements.Exceptions.DataElementNullException"></exception>
     public KernelState RouteStateTransition(Kernel2Session session)
     {
         if (!_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out TagLengthValue? applicationCapabilitiesInformationTlv))
