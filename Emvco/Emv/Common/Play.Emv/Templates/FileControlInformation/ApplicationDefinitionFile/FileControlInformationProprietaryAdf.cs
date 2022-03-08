@@ -5,6 +5,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
@@ -15,7 +16,7 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
 {
     #region Instance Values
 
-    private readonly ApplicationLabel _ApplicationLabel;
+    private readonly ApplicationLabel? _ApplicationLabel;
     private readonly ApplicationPreferredName? _ApplicationPreferredName;
     private readonly ApplicationPriorityIndicator? _ApplicationPriorityIndicator;
     private readonly FileControlInformationIssuerDiscretionaryDataAdf _FileControlInformationIssuerDiscretionaryDataAdf;
@@ -29,7 +30,7 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
 
     public FileControlInformationProprietaryAdf(
         FileControlInformationIssuerDiscretionaryDataAdf fileControlInformationIssuerDiscretionaryData,
-        ApplicationLabel applicationLabel,
+        ApplicationLabel? applicationLabel,
         ApplicationPriorityIndicator? applicationPriorityIndicator,
         ProcessingOptionsDataObjectList? processingOptionsDataObjectList,
         LanguagePreference? languagePreference,
@@ -144,19 +145,36 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
             ?? throw new CardDataMissingException(
                 $"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataAdf)}. A {nameof(FileControlInformationIssuerDiscretionaryDataAdf)} was expected but could not be found");
 
-        ApplicationLabel applicationLabel = _Codec.AsPrimitive(ApplicationLabel.Decode, ApplicationLabel.Tag, encodedChildren)
-            ?? throw new CardDataMissingException(
-                $"A problem occurred while decoding {nameof(FileControlInformationProprietaryAdf)}. A {nameof(FileControlInformationProprietaryAdf)} was expected but could not be found");
-
+        ApplicationLabel? applicationLabel = null;
+        ApplicationPreferredName? applicationPreferredName = null;
+        IssuerCodeTableIndex? issuerCodeTableIndex = null;
+        LanguagePreference? languagePreference = null;
         ApplicationPriorityIndicator? applicationPriorityIndicator =
             _Codec.AsPrimitive(ApplicationPriorityIndicator.Decode, ApplicationPriorityIndicator.Tag, encodedChildren);
         ProcessingOptionsDataObjectList? processingOptionsDataObjectList = _Codec.AsPrimitive(ProcessingOptionsDataObjectList.Decode,
             ProcessingOptionsDataObjectList.Tag, encodedChildren);
-        LanguagePreference? languagePreference = _Codec.AsPrimitive(LanguagePreference.Decode, LanguagePreference.Tag, encodedChildren);
-        IssuerCodeTableIndex? issuerCodeTableIndex =
-            _Codec.AsPrimitive(IssuerCodeTableIndex.Decode, IssuerCodeTableIndex.Tag, encodedChildren);
-        ApplicationPreferredName? applicationPreferredName =
-            _Codec.AsPrimitive(ApplicationPreferredName.Decode, ApplicationPreferredName.Tag, encodedChildren);
+
+        // EMV Book 1 Section 12.2.4 tells us not to enforce encoding errors for the following data elements.
+        // Instead, we treat it as if it wasn't returned from the ICC at all
+        try
+        {
+            applicationLabel = _Codec.AsPrimitive(ApplicationLabel.Decode, ApplicationLabel.Tag, encodedChildren);
+            applicationPreferredName = _Codec.AsPrimitive(ApplicationPreferredName.Decode, ApplicationPreferredName.Tag, encodedChildren);
+            issuerCodeTableIndex = _Codec.AsPrimitive(IssuerCodeTableIndex.Decode, IssuerCodeTableIndex.Tag, encodedChildren);
+            languagePreference = _Codec.AsPrimitive(LanguagePreference.Decode, LanguagePreference.Tag, encodedChildren);
+        }
+        catch (BerParsingException)
+        {
+            // TODO: Logging
+        }
+        catch (CodecParsingException)
+        {
+            // TODO: Logging
+        }
+        catch (Exception)
+        {
+            // TODO: Logging
+        }
 
         return new FileControlInformationProprietaryAdf(fciProprietaryTemplate, applicationLabel, applicationPriorityIndicator,
             processingOptionsDataObjectList, languagePreference, issuerCodeTableIndex, applicationPreferredName);
