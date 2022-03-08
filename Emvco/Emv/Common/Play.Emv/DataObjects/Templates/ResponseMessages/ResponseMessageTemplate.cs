@@ -1,4 +1,9 @@
-﻿using Play.Emv.DataElements.Emv;
+﻿using System;
+
+using Play.Ber.DataObjects;
+using Play.Ber.Identifiers;
+using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements.Emv;
 
 namespace Play.Emv.Templates.ResponseMessages;
 

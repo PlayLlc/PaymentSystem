@@ -1,4 +1,7 @@
-﻿namespace Play.Emv.Templates.FileControlInformation;
+﻿using Play.Ber.Identifiers;
+using Play.Emv.Ber.DataObjects;
+
+namespace Play.Emv.Templates.FileControlInformation;
 
 public abstract class FileControlInformationProprietaryTemplate : Template
 {

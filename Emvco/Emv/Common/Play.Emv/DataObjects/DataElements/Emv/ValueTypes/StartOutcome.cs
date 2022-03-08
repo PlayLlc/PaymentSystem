@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 
 namespace Play.Emv.DataElements.Emv;

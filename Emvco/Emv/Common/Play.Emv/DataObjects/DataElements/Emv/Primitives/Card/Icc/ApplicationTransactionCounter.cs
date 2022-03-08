@@ -1,4 +1,11 @@
+using System;
+using System.Collections.Generic;
+
+using Play.Ber.Codecs;
+using Play.Ber.Exceptions;
+using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Emv.Ber.DataObjects;
 
 namespace Play.Emv.DataElements.Emv;
 

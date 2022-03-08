@@ -1,4 +1,6 @@
-﻿using Play.Core.Extensions;
+﻿using System;
+
+using Play.Core.Extensions;
 
 namespace Play.Emv.DataElements.Emv;
 

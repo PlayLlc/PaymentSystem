@@ -1,4 +1,11 @@
-﻿namespace Play.Emv.Templates.ResponseMessages;
+﻿using System;
+using System.Linq;
+
+using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
+using Play.Ber.Identifiers;
+
+namespace Play.Emv.Templates.ResponseMessages;
 
 public class ResponseMessageTemplateFormat2 : ConstructedValue
 {

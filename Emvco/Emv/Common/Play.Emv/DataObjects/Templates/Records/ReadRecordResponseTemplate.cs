@@ -1,4 +1,11 @@
-﻿namespace Play.Emv.Templates.Records;
+﻿using System;
+
+using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
+using Play.Ber.Identifiers;
+using Play.Emv.Ber.DataObjects;
+
+namespace Play.Emv.Templates.Records;
 
 public abstract class ReadRecordResponseTemplate : Template
 {

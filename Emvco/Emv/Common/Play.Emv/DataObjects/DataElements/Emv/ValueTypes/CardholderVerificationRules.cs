@@ -1,4 +1,6 @@
-﻿namespace Play.Emv.DataElements.Emv;
+﻿using System;
+
+namespace Play.Emv.DataElements.Emv;
 
 public readonly struct CardholderVerificationRules
 {

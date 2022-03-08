@@ -1,4 +1,6 @@
-﻿using Play.Ber.DataObjects;
+﻿using System.Reflection.PortableExecutable;
+
+using Play.Ber.DataObjects;
 using Play.Emv.TestData.Ber.Constructed;
 
 using Xunit;

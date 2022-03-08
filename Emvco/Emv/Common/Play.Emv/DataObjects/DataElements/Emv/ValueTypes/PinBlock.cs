@@ -1,4 +1,6 @@
-﻿using Play.Codecs;
+﻿using System;
+
+using Play.Codecs;
 
 namespace Play.Emv.DataElements.Emv;
 

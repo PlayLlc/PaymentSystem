@@ -1,4 +1,6 @@
-﻿using Play.Ber.Identifiers;
+﻿using System.Reflection.PortableExecutable;
+
+using Play.Ber.Identifiers;
 using Play.Emv.TestData.Ber.Primitive;
 
 namespace Play.Emv.TestData.Ber.Constructed;

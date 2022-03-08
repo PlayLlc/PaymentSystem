@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 
+using Play.Ber.DataObjects;
 using Play.Emv.Sessions;
 using Play.Messaging;
 

@@ -15,38 +15,63 @@ namespace Play.Emv.Kernel2.StateMachine._TempExceptionHandler;
 // TODO: so that it can be more or less a 1 - 1 mapping for the exception, the ErrorIndication, and how it's handled
 /*
  * 
+  ------------------------------------------------------------
  L1 - Hardware Error (Thrown in PCD Adapter/Driver)
+------------------------------------------------------------
 - PCD
     - Play.Icc
 
+------------------------------------------------------------
+L2 - Errors thrown in payment kernel
+------------------------------------------------------------
+Parsing Error
+    When there's an exception thrown in Play.Ber, Play.Emv.Ber, Play.Emv.DataElements, or Play.Emv.Templates while decoding
 
-L2 - Processing Error
-- Card Data Error
-- Parsing Error
+Card Data Error
+    If a format error is detected in data received from the Card, the Kernel must update the Error Indication data object as follows:
+
+Card Data Missing:
+    When a Template is missing a required Data Element
+
+Terminal Data Error
+    If a format error is detected in data received from the Terminal, the Kernel must update the Error Indication data object as follows
+
+Status Bytes
+    When the RAPDU returns with an invalid SW. We can throw in Play.Icc and Play.Emv.Icc
+
+Max Limit Exceeded
+    Amount, Authorized (Numeric) > Reader Contactless Transaction Limit
+
+Cryptographic Auth Method Failed
+    CDA, DDA, SDA fails
+
+Integrated Data Storage Reader Error
+    DS Summary 1 != DS Summary 2
+
+Integrated Data Storage Writer Error
+    DS Summary 2 != DS Summary 3 &&'Stop if write failed' in DS ODS Info For Reader is set
+
+Integrated Data Storage No Matching Application Cryptogram
+    Usable for AAC' in DS ODS Info For Reader is NOT set && 'Stop if no DS ODS Term' in DS ODS Info For Reader is set
+
+- Processing Error 
 - Empty Candidate List
-- Mag Not Supported
-- CamFailed;
-- CardDataError;
-- CardDataMissing;
+- Mag Not Supported 
+- CardDataError; 
 - EmptyCandidateList;
-- IdsDataError;
-- IdsNoMatchingAc;
-- IdsReaderError;
-- IdsWriterError;
-- MagStripeNotSupported;
-- MaxLimitExceeded;
+- IdsDataError; 
+- MagStripeNotSupported; 
 - NoPpse;
-- Ok;
 - ParsingError;
-- PpseFault;
-- StatusBytes;
-- TerminalDataError;
+- PpseFault; 
 
+------------------------------
 
+------------------------------------------------------------
 L3 - POS Error
+------------------------------------------------------------
 - Amount Not Present (Bad Request)
-- Timeout
-...
+- Timeout 
 */
 
 public abstract class ExceptionHandler

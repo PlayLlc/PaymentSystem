@@ -1,4 +1,12 @@
-﻿using Play.Emv.DataElements.Emv;
+﻿using System;
+using System.Collections.Generic;
+
+using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
+using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
+using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements.Emv;
 
 namespace Play.Emv.Templates.FileControlInformation;
 

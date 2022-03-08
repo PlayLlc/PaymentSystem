@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+using Play.Ber.DataObjects;
 using Play.Core.Math;
 using Play.Emv.DataElements;
 using Play.Emv.DataElements.Emv;

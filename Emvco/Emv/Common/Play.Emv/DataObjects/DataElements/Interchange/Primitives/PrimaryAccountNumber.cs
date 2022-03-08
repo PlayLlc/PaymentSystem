@@ -1,4 +1,9 @@
-﻿using Play.Codecs;
+﻿using System;
+
+using Play.Ber.Codecs;
+using Play.Ber.Exceptions;
+using Play.Ber.Identifiers;
+using Play.Codecs;
 using Play.Emv.DataElements.Emv;
 using Play.Emv.DataElements.Exceptions;
 

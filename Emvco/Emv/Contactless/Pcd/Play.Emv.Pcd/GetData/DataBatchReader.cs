@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using Play.Ber.Identifiers;
 using Play.Emv.DataElements.Emv;
 using Play.Emv.Pcd.Contracts;
 

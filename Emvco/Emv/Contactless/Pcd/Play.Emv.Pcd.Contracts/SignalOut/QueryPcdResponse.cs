@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Play.Ber.DataObjects;
+using Play.Emv.Ber;
 using Play.Emv.DataElements.Emv;
 using Play.Emv.Messaging;
 using Play.Emv.Sessions;

@@ -15,6 +15,7 @@
     <ProjectReference Include="..\..\..\Infrastructure\Play.Events\Play.Events.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\Play.Globalization\Play.Globalization.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\Play.Messaging\Play.Messaging.csproj" />
+    <ProjectReference Include="..\Play.Emv.Ber\Play.Emv.Ber.csproj" />
   </ItemGroup>
 
 </Project>
