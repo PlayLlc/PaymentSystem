@@ -27,7 +27,7 @@ public class DataObjectListResult : IEqualityComparer<DataObjectListResult>, IEq
     #region Instance Members
 
     /// <summary>
-    /// AsByteArray
+    ///     AsByteArray
     /// </summary>
     /// <returns></returns>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>

@@ -17,7 +17,7 @@ public class NumericCodec : PlayCodec
     #region Decode To DecodedMetadata
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -95,7 +95,7 @@ public class NumericCodec : PlayCodec
     #region Validation
 
     /// <summary>
-    /// Validate
+    ///     Validate
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="PlayEncodingException"></exception>
@@ -106,7 +106,7 @@ public class NumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Validate
+    ///     Validate
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="PlayEncodingException"></exception>
@@ -197,7 +197,7 @@ public class NumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -228,7 +228,7 @@ public class NumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -262,7 +262,7 @@ public class NumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -282,7 +282,7 @@ public class NumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -478,7 +478,7 @@ public class NumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>
@@ -514,7 +514,7 @@ public class NumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -553,7 +553,7 @@ public class NumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>
@@ -568,7 +568,7 @@ public class NumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -584,7 +584,7 @@ public class NumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -678,7 +678,7 @@ public class NumericCodec : PlayCodec
     #region Decode To Integers
 
     /// <summary>
-    /// DecodeToBigInteger
+    ///     DecodeToBigInteger
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -697,7 +697,7 @@ public class NumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// DecodeToByte
+    ///     DecodeToByte
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -761,7 +761,7 @@ public class NumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// BuildInteger
+    ///     BuildInteger
     /// </summary>
     /// <param name="resultBuffer"></param>
     /// <param name="value"></param>

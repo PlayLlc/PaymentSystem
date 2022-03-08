@@ -16,7 +16,7 @@ namespace Play.Ber.Codecs;
 public partial class BerCodec
 {
     #region Instance Members
-     
+
     /// <param name="index"></param>
     /// <param name="dataElements"></param>
     /// <returns></returns>

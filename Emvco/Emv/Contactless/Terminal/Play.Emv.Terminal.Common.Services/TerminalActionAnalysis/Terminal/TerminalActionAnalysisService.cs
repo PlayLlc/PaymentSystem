@@ -192,7 +192,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     #region CAPDU Commands
 
     /// <summary>
-    /// CreateDenyTransactionResponse
+    ///     CreateDenyTransactionResponse
     /// </summary>
     /// <param name="command"></param>
     /// <exception cref="InvalidOperationException"></exception>
@@ -205,7 +205,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     }
 
     /// <summary>
-    /// CreateProceedOfflineResponse
+    ///     CreateProceedOfflineResponse
     /// </summary>
     /// <param name="command"></param>
     /// <exception cref="InvalidOperationException"></exception>
@@ -222,7 +222,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     }
 
     /// <summary>
-    /// CreateProceedOnlineResponse
+    ///     CreateProceedOnlineResponse
     /// </summary>
     /// <param name="command"></param>
     /// <exception cref="InvalidOperationException"></exception>

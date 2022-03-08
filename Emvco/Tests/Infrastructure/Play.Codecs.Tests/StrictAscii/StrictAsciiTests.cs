@@ -25,7 +25,7 @@ public class StrictAsciiTests
     #region Instance Members
 
     /// <summary>
-    /// RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult
+    ///     RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult
     /// </summary>
     /// <param name="testValue"></param>
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
@@ -41,7 +41,7 @@ public class StrictAsciiTests
     }
 
     /// <summary>
-    /// RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult
+    ///     RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult
     /// </summary>
     /// <param name="testValue"></param>
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
@@ -56,7 +56,7 @@ public class StrictAsciiTests
     }
 
     /// <summary>
-    /// ApplicationLabelByteArray_ConvertingToAsciiString_ReturnsExpectedResult
+    ///     ApplicationLabelByteArray_ConvertingToAsciiString_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     [Fact]

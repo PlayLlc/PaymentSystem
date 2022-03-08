@@ -45,7 +45,7 @@ internal class Check
         }
 
         /// <summary>
-        /// ForExactLength
+        ///     ForExactLength
         /// </summary>
         /// <param name="value"></param>
         /// <param name="length"></param>
@@ -61,7 +61,7 @@ internal class Check
         }
 
         /// <summary>
-        /// ForMinimumLength
+        ///     ForMinimumLength
         /// </summary>
         /// <param name="value"></param>
         /// <param name="minLength"></param>
@@ -77,7 +77,7 @@ internal class Check
         }
 
         /// <summary>
-        /// ForMinimumLength
+        ///     ForMinimumLength
         /// </summary>
         /// <param name="value"></param>
         /// <param name="minLength"></param>
@@ -93,7 +93,7 @@ internal class Check
         }
 
         /// <summary>
-        /// ForMinimumLength
+        ///     ForMinimumLength
         /// </summary>
         /// <param name="value"></param>
         /// <param name="minLength"></param>
@@ -109,7 +109,7 @@ internal class Check
         }
 
         /// <summary>
-        /// ForMinimumLength
+        ///     ForMinimumLength
         /// </summary>
         /// <param name="value"></param>
         /// <param name="minLength"></param>
@@ -125,7 +125,7 @@ internal class Check
         }
 
         /// <summary>
-        /// ForMinimumLength
+        ///     ForMinimumLength
         /// </summary>
         /// <param name="value"></param>
         /// <param name="minLength"></param>
@@ -158,7 +158,7 @@ internal class Check
         }
 
         /// <summary>
-        /// ForMaximumLength
+        ///     ForMaximumLength
         /// </summary>
         /// <param name="value"></param>
         /// <param name="maxLength"></param>
@@ -191,7 +191,7 @@ internal class Check
         }
 
         /// <summary>
-        /// ForMaximumLength
+        ///     ForMaximumLength
         /// </summary>
         /// <param name="value"></param>
         /// <param name="maxLength"></param>
@@ -207,7 +207,7 @@ internal class Check
         }
 
         /// <summary>
-        /// ForMaximumLength
+        ///     ForMaximumLength
         /// </summary>
         /// <param name="value"></param>
         /// <param name="maxLength"></param>

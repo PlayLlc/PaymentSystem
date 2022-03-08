@@ -15,7 +15,7 @@ public partial class TerminalActionAnalysisServiceTests
     #region Transaction Cryptogram - Offline
 
     /// <summary>
-    /// OfflineOnlyTerminal_WithDefaultTerminalVerificationResults_GeneratesTransactionCryptogram
+    ///     OfflineOnlyTerminal_WithDefaultTerminalVerificationResults_GeneratesTransactionCryptogram
     /// </summary>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -32,7 +32,7 @@ public partial class TerminalActionAnalysisServiceTests
     }
 
     /// <summary>
-    /// OfflineOnlyTerminal_WithTerminalActionCodeOnline_GeneratesTransactionCryptogram
+    ///     OfflineOnlyTerminal_WithTerminalActionCodeOnline_GeneratesTransactionCryptogram
     /// </summary>
     /// <param name="actionCode"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
@@ -52,7 +52,7 @@ public partial class TerminalActionAnalysisServiceTests
     }
 
     /// <summary>
-    /// OfflineOnlyTerminal_WithIssuerActionCodeOnline_GeneratesTransactionCryptogram
+    ///     OfflineOnlyTerminal_WithIssuerActionCodeOnline_GeneratesTransactionCryptogram
     /// </summary>
     /// <param name="actionCode"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
@@ -72,7 +72,7 @@ public partial class TerminalActionAnalysisServiceTests
     }
 
     /// <summary>
-    /// OfflineOnlyTerminal_WithTerminalAndIssuerActionCodeOnline_GeneratesTransactionCryptogram
+    ///     OfflineOnlyTerminal_WithTerminalAndIssuerActionCodeOnline_GeneratesTransactionCryptogram
     /// </summary>
     /// <param name="terminalActionCode"></param>
     /// <param name="issuerActionCodes"></param>
@@ -100,7 +100,7 @@ public partial class TerminalActionAnalysisServiceTests
     #region Application Authentication Cryptogram - Deny
 
     /// <summary>
-    /// OfflineOnlyTerminal_WithTerminalActionCodeDefault_GeneratesAuthenticationRequestCryptogram
+    ///     OfflineOnlyTerminal_WithTerminalActionCodeDefault_GeneratesAuthenticationRequestCryptogram
     /// </summary>
     /// <param name="actionCode"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
@@ -120,7 +120,7 @@ public partial class TerminalActionAnalysisServiceTests
     }
 
     /// <summary>
-    /// OfflineOnlyTerminal_WithIssuerActionCodeDefault_GeneratesAuthenticationRequestCryptogram
+    ///     OfflineOnlyTerminal_WithIssuerActionCodeDefault_GeneratesAuthenticationRequestCryptogram
     /// </summary>
     /// <param name="actionCode"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
@@ -140,7 +140,7 @@ public partial class TerminalActionAnalysisServiceTests
     }
 
     /// <summary>
-    /// OfflineOnlyTerminal_WithTerminalActionCodeDenial_GeneratesApplicationAuthenticationCryptogram
+    ///     OfflineOnlyTerminal_WithTerminalActionCodeDenial_GeneratesApplicationAuthenticationCryptogram
     /// </summary>
     /// <param name="actionCode"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
@@ -160,7 +160,7 @@ public partial class TerminalActionAnalysisServiceTests
     }
 
     /// <summary>
-    /// OfflineOnlyTerminal_WithIssuerActionCodeDenial_GeneratesApplicationAuthenticationCryptogram
+    ///     OfflineOnlyTerminal_WithIssuerActionCodeDenial_GeneratesApplicationAuthenticationCryptogram
     /// </summary>
     /// <param name="actionCode"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
@@ -180,7 +180,7 @@ public partial class TerminalActionAnalysisServiceTests
     }
 
     /// <summary>
-    /// OfflineOnlyTerminal_WithTerminalAndIssuerActionCodeDefault_GeneratesApplicationAuthenticationCryptogram
+    ///     OfflineOnlyTerminal_WithTerminalAndIssuerActionCodeDefault_GeneratesApplicationAuthenticationCryptogram
     /// </summary>
     /// <param name="terminalActionCode"></param>
     /// <param name="issuerActionCodes"></param>
@@ -204,7 +204,7 @@ public partial class TerminalActionAnalysisServiceTests
     }
 
     /// <summary>
-    /// OfflineOnlyTerminal_WithTerminalAndIssuerActionCodeDenial_GeneratesApplicationAuthenticationCryptogram
+    ///     OfflineOnlyTerminal_WithTerminalAndIssuerActionCodeDenial_GeneratesApplicationAuthenticationCryptogram
     /// </summary>
     /// <param name="terminalActionCode"></param>
     /// <param name="issuerActionCodes"></param>

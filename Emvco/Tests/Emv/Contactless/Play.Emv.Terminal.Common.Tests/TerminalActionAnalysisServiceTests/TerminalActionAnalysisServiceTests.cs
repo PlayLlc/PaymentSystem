@@ -24,7 +24,7 @@ public partial class TerminalActionAnalysisServiceTests
     #region Constructor
 
     /// <summary>
-    /// ctor
+    ///     ctor
     /// </summary>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>

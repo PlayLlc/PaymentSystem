@@ -18,7 +18,7 @@ internal readonly ref struct DataFieldSpan
     #region Constructor
 
     /// <summary>
-    /// ctor
+    ///     ctor
     /// </summary>
     /// <param name="dataField"></param>
     /// <param name="value"></param>

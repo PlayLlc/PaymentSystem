@@ -29,7 +29,7 @@ public record GetProcessingOptionsRequest : QueryPcdRequest
     }
 
     /// <summary>
-    /// ctor
+    ///     ctor
     /// </summary>
     /// <param name="dataObjectListResult"></param>
     /// <param name="cApduSignal"></param>
@@ -57,7 +57,7 @@ public record GetProcessingOptionsRequest : QueryPcdRequest
         new(GetProcessingOptionsCApduSignal.Create(), transactionSessionId);
 
     /// <summary>
-    /// Create
+    ///     Create
     /// </summary>
     /// <param name="dataObjectListResult"></param>
     /// <param name="transactionSessionId"></param>

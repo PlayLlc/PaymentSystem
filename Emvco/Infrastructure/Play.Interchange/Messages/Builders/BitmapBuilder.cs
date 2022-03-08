@@ -27,7 +27,7 @@ internal class BitMapBuilder
     }
 
     /// <summary>
-    /// CopyTo
+    ///     CopyTo
     /// </summary>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
@@ -39,7 +39,7 @@ internal class BitMapBuilder
 
     public BitMap Create()
     {
-        BitMap? result = new BitMap(_Value);
+        BitMap? result = new(_Value);
         _Value = 0;
 
         return result;

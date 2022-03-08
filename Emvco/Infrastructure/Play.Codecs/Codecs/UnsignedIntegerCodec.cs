@@ -123,7 +123,7 @@ public class UnsignedIntegerCodec : PlayCodec
     public override ushort GetByteCount<_T>(_T value) => (ushort) Unsafe.SizeOf<_T>();
 
     /// <summary>
-    /// GetByteCount
+    ///     GetByteCount
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -237,7 +237,7 @@ public class UnsignedIntegerCodec : PlayCodec
     }
 
     /// <summary>
-    /// Validate
+    ///     Validate
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="PlayEncodingFormatException"></exception>
@@ -293,7 +293,7 @@ public class UnsignedIntegerCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -324,7 +324,7 @@ public class UnsignedIntegerCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -358,7 +358,7 @@ public class UnsignedIntegerCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -379,7 +379,7 @@ public class UnsignedIntegerCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -402,7 +402,7 @@ public class UnsignedIntegerCodec : PlayCodec
     public byte[] Encode(BigInteger value) => value.ToByteArray();
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -419,7 +419,7 @@ public class UnsignedIntegerCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="chars"></param>
     /// <param name="charIndex"></param>
@@ -440,7 +440,7 @@ public class UnsignedIntegerCodec : PlayCodec
     public PlayEncodingId GetPlayEncodingId() => EncodingId;
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>
@@ -476,7 +476,7 @@ public class UnsignedIntegerCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -513,7 +513,7 @@ public class UnsignedIntegerCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>
@@ -529,7 +529,7 @@ public class UnsignedIntegerCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>

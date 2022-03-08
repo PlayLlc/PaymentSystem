@@ -22,7 +22,7 @@ public class MessageRouter : IRouteMessages
     #region Instance Members
 
     /// <summary>
-    /// Subscribe
+    ///     Subscribe
     /// </summary>
     /// <param name="messageChannel"></param>
     /// <exception cref="Play.Messaging.Exceptions.MessagingException"></exception>
@@ -39,7 +39,7 @@ public class MessageRouter : IRouteMessages
     #region Requests
 
     /// <summary>
-    /// Send
+    ///     Send
     /// </summary>
     /// <param name="requestMessageEnvelop"></param>
     /// <exception cref="Play.Messaging.Exceptions.InvalidMessageRoutingException"></exception>
@@ -55,7 +55,7 @@ public class MessageRouter : IRouteMessages
     #region Replies
 
     /// <summary>
-    /// Send
+    ///     Send
     /// </summary>
     /// <param name="responseMessageEnvelope"></param>
     /// <exception cref="Play.Messaging.Exceptions.InvalidMessageRoutingException"></exception>

@@ -22,9 +22,8 @@ public record CvmList : DataElement<byte[]>
 
     #region Constructor
 
- 
     /// <summary>
-    /// ctor
+    ///     ctor
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="EmvEncodingException"></exception>

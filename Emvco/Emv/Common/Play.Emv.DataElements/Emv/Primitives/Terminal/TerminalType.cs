@@ -88,7 +88,7 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
     #region Serialization
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

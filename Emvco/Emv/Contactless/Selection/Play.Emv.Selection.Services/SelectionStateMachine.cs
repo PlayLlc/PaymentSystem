@@ -53,7 +53,7 @@ internal class SelectionStateMachine
     #region Instance Members
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -78,7 +78,7 @@ internal class SelectionStateMachine
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -106,7 +106,7 @@ internal class SelectionStateMachine
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="response"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -132,7 +132,7 @@ internal class SelectionStateMachine
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="response"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -158,7 +158,7 @@ internal class SelectionStateMachine
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="response"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -199,7 +199,7 @@ internal class SelectionStateMachine
     #region Activate
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -216,7 +216,7 @@ internal class SelectionStateMachine
     }
 
     /// <summary>
-    /// ProcessActivationSelectionRequest
+    ///     ProcessActivationSelectionRequest
     /// </summary>
     /// <param name="sessionLock"></param>
     /// <param name="request"></param>
@@ -229,7 +229,7 @@ internal class SelectionStateMachine
     }
 
     /// <summary>
-    /// ReprocessActivationSelectionRequest
+    ///     ReprocessActivationSelectionRequest
     /// </summary>
     /// <param name="sessionLock"></param>
     /// <param name="request"></param>
@@ -247,7 +247,7 @@ internal class SelectionStateMachine
     }
 
     /// <summary>
-    /// ProcessEntryPoint
+    ///     ProcessEntryPoint
     /// </summary>
     /// <param name="request"></param>
     /// <exception cref="InvalidSignalRequest"></exception>

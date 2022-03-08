@@ -33,7 +33,7 @@ public abstract record DataExchangeResponse : DataExchangeList<TagLengthValue>
     #region Serialization
 
     /// <summary>
-    /// EncodeValue
+    ///     EncodeValue
     /// </summary>
     /// <returns></returns>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>

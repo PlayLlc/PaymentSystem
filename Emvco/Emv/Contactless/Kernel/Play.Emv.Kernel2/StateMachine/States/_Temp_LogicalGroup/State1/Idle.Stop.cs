@@ -11,7 +11,7 @@ public partial class Idle : KernelState
     #region STOP
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>

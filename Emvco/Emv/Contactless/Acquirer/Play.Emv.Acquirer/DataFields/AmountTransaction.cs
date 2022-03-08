@@ -34,7 +34,7 @@ public record AmountTransaction : FixedDataField<ulong>
     #region Serialization
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

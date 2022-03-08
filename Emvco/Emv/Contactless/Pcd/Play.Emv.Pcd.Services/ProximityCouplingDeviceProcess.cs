@@ -33,7 +33,7 @@ internal class ProximityCouplingDeviceProcess : CommandProcessingQueue
     protected override async Task Handle(dynamic command) => await Handle(command).ConfigureAwait(false);
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -45,7 +45,7 @@ internal class ProximityCouplingDeviceProcess : CommandProcessingQueue
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -60,7 +60,7 @@ internal class ProximityCouplingDeviceProcess : CommandProcessingQueue
     #region STOP
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>

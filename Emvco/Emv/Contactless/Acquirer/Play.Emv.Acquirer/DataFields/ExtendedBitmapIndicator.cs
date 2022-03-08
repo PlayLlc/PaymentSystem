@@ -36,7 +36,7 @@ public record ExtendedBitmapIndicator : FixedDataField<BigInteger>
     #region Serialization
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

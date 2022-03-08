@@ -40,7 +40,7 @@ public record PosEntryMode : DataElement<byte>, IEqualityComparer<PosEntryMode>
     #region Serialization
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

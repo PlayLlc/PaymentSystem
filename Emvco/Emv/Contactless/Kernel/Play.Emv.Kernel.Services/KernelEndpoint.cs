@@ -45,7 +45,7 @@ public class KernelEndpoint : IMessageChannel, IHandleKernelRequests, ISendKerne
     #region Requests
 
     /// <summary>
-    /// Request
+    ///     Request
     /// </summary>
     /// <param name="message"></param>
     /// <exception cref="UnhandledRequestException"></exception>
@@ -82,9 +82,9 @@ public class KernelEndpoint : IMessageChannel, IHandleKernelRequests, ISendKerne
     #endregion
 
     #region Callbacks
-     
+
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="message"></param>
     /// <exception cref="InvalidMessageRoutingException"></exception>

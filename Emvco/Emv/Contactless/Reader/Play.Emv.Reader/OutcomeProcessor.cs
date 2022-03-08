@@ -61,7 +61,7 @@ public class OutcomeProcessor : IProcessOutcome
     }
 
     /// <summary>
-    /// Process
+    ///     Process
     /// </summary>
     /// <param name="correlationId"></param>
     /// <param name="sessionId"></param>

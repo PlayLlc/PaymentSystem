@@ -187,9 +187,8 @@ internal static partial class LongIdentifier
 
         private static bool TagByteCountIsInSupportedRange(ushort value) => true; // a ushort is always going to have 2 bytes
 
- 
         /// <summary>
-        /// Validate
+        ///     Validate
         /// </summary>
         /// <param name="value"></param>
         /// <exception cref="BerInternalException"></exception>

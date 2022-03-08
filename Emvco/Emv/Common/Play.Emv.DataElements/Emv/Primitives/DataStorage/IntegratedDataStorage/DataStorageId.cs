@@ -42,7 +42,7 @@ public record DataStorageId : DataElement<BigInteger>
     #region Serialization
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

@@ -37,7 +37,7 @@ public class TimeoutManager : IDisposable
     #region Stop
 
     /// <summary>
-    /// Stop
+    ///     Stop
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     public void Stop()

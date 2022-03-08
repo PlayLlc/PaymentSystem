@@ -61,7 +61,7 @@ public class WaitingForSettlementResponse : TerminalState
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -71,7 +71,7 @@ public class WaitingForSettlementResponse : TerminalState
         throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -81,7 +81,7 @@ public class WaitingForSettlementResponse : TerminalState
         throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -91,7 +91,7 @@ public class WaitingForSettlementResponse : TerminalState
         throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -111,7 +111,7 @@ public class WaitingForSettlementResponse : TerminalState
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>

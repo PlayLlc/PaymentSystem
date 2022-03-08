@@ -66,7 +66,7 @@ public class SpecialCodec : PlayCodec
     public override ushort GetByteCount<_T>(_T value) => (ushort) Unsafe.SizeOf<_T>();
 
     /// <summary>
-    /// GetByteCount
+    ///     GetByteCount
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -173,7 +173,7 @@ public class SpecialCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -191,7 +191,7 @@ public class SpecialCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -210,7 +210,7 @@ public class SpecialCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -228,7 +228,7 @@ public class SpecialCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -273,9 +273,9 @@ public class SpecialCodec : PlayCodec
 
         return byteArray;
     }
- 
+
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="chars"></param>
     /// <param name="charIndex"></param>
@@ -315,7 +315,7 @@ public class SpecialCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>
@@ -332,7 +332,7 @@ public class SpecialCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -350,7 +350,7 @@ public class SpecialCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>
@@ -367,7 +367,7 @@ public class SpecialCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -385,7 +385,7 @@ public class SpecialCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>
@@ -403,7 +403,7 @@ public class SpecialCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -427,7 +427,7 @@ public class SpecialCodec : PlayCodec
     #region Decode To Chars
 
     /// <summary>
-    /// DecodeToChars
+    ///     DecodeToChars
     /// </summary>
     /// <param name="bytes"></param>
     /// <param name="byteIndex"></param>

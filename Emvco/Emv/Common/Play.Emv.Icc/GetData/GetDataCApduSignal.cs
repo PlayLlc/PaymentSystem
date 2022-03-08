@@ -31,9 +31,9 @@ public class GetDataCApduSignal : CApduSignal
     #endregion
 
     #region Instance Members
- 
+
     /// <summary>
-    /// Create
+    ///     Create
     /// </summary>
     /// <param name="tag"></param>
     /// <returns></returns>

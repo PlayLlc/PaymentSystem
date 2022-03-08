@@ -15,7 +15,7 @@ public class ProcessingOptionsDataObjectListTests
     #region Instance Members
 
     /// <summary>
-    /// BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
+    ///     BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -28,7 +28,7 @@ public class ProcessingOptionsDataObjectListTests
     }
 
     /// <summary>
-    /// BerEncoding_EncodingDataElement_SerializesExpectedValue
+    ///     BerEncoding_EncodingDataElement_SerializesExpectedValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -44,7 +44,7 @@ public class ProcessingOptionsDataObjectListTests
     }
 
     /// <summary>
-    /// BerEncoding_EncodingDataElementTlv_SerializesExpectedValue
+    ///     BerEncoding_EncodingDataElementTlv_SerializesExpectedValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -60,7 +60,7 @@ public class ProcessingOptionsDataObjectListTests
     }
 
     /// <summary>
-    /// BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue
+    ///     BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -75,7 +75,7 @@ public class ProcessingOptionsDataObjectListTests
     }
 
     /// <summary>
-    /// TagLengthValue_SerializingToBer_ReturnsExpectedResult
+    ///     TagLengthValue_SerializingToBer_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -92,7 +92,7 @@ public class ProcessingOptionsDataObjectListTests
     }
 
     /// <summary>
-    /// TagLengthValue_CreatingDataObjectListResult_IsNotNull
+    ///     TagLengthValue_CreatingDataObjectListResult_IsNotNull
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -108,7 +108,7 @@ public class ProcessingOptionsDataObjectListTests
     }
 
     /// <summary>
-    /// TagLengthValue_CreatingDataObjectListResult_ReturnsExpectedResult
+    ///     TagLengthValue_CreatingDataObjectListResult_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -126,7 +126,7 @@ public class ProcessingOptionsDataObjectListTests
     }
 
     /// <summary>
-    /// TagLengthValue_CreatingCommandTemplate_IsNotNull
+    ///     TagLengthValue_CreatingCommandTemplate_IsNotNull
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -143,7 +143,7 @@ public class ProcessingOptionsDataObjectListTests
     }
 
     /// <summary>
-    /// TagLengthValue_CreatingCommandTemplate_ReturnsExpectedResult
+    ///     TagLengthValue_CreatingCommandTemplate_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>

@@ -27,7 +27,7 @@ public class HexadecimalTests
     #region Instance Members
 
     /// <summary>
-    /// RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult
+    ///     RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult
     /// </summary>
     /// <param name="testValue"></param>
     /// <exception cref="PlayEncodingException"></exception>
@@ -42,7 +42,7 @@ public class HexadecimalTests
     }
 
     /// <summary>
-    /// RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult
+    ///     RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult
     /// </summary>
     /// <param name="testValue"></param>
     /// <exception cref="PlayEncodingException"></exception>
@@ -57,7 +57,7 @@ public class HexadecimalTests
     }
 
     /// <summary>
-    /// SelectPpseRApduByteArray_ConvertingToHexadecimalString_ReturnsExpectedResult
+    ///     SelectPpseRApduByteArray_ConvertingToHexadecimalString_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="PlayEncodingException"></exception>
     [Fact]
@@ -71,7 +71,7 @@ public class HexadecimalTests
     }
 
     /// <summary>
-    /// SelectPpseCApduByteArray_ConvertingToHexadecimalString_ReturnsExpectedResult
+    ///     SelectPpseCApduByteArray_ConvertingToHexadecimalString_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="PlayEncodingException"></exception>
     [Fact]
@@ -141,7 +141,7 @@ public class HexadecimalTests
     }
 
     /// <summary>
-    /// GivenNullByteArray_GetString_ThrowsArgumentNullException
+    ///     GivenNullByteArray_GetString_ThrowsArgumentNullException
     /// </summary>
     /// <exception cref="PlayEncodingException"></exception>
     [Fact]
@@ -151,7 +151,7 @@ public class HexadecimalTests
     }
 
     /// <summary>
-    /// GivenValidHexadecimalByteArray_GetString_ReturnsExpectedString
+    ///     GivenValidHexadecimalByteArray_GetString_ReturnsExpectedString
     /// </summary>
     /// <exception cref="PlayEncodingException"></exception>
     [Fact]

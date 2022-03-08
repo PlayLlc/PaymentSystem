@@ -64,7 +64,7 @@ internal static class ShortLength
     #region Serialization
 
     /// <summary>
-    /// Serialize
+    ///     Serialize
     /// </summary>
     /// <param name="contentOctets"></param>
     /// <returns></returns>
@@ -78,7 +78,7 @@ internal static class ShortLength
     }
 
     /// <summary>
-    /// Serialize
+    ///     Serialize
     /// </summary>
     /// <param name="contentOctetLength"></param>
     /// <returns></returns>

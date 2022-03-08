@@ -33,7 +33,7 @@ public class InternalAuthenticateCApduSignal : CApduSignal
     #region Instance Members
 
     /// <summary>
-    /// Create
+    ///     Create
     /// </summary>
     /// <param name="dynamicAuthenticationDataObjectListResult"></param>
     /// <returns></returns>

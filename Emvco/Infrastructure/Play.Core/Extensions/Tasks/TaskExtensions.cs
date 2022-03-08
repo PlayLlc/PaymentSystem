@@ -9,7 +9,7 @@ public static class TaskExtensions
     #region Instance Members
 
     /// <summary>
-    /// TimeoutAfter
+    ///     TimeoutAfter
     /// </summary>
     /// <param name="task"></param>
     /// <param name="timeout"></param>
@@ -33,7 +33,7 @@ public static class TaskExtensions
     }
 
     /// <summary>
-    /// WithTimeout
+    ///     WithTimeout
     /// </summary>
     /// <param name="task"></param>
     /// <param name="timeout"></param>

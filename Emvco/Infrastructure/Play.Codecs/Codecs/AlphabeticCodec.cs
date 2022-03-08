@@ -64,7 +64,7 @@ public class AlphabeticCodec : PlayCodec
     public override ushort GetByteCount<T>(T value) where T : struct => throw new NotImplementedException();
 
     /// <summary>
-    /// GetByteCount
+    ///     GetByteCount
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -233,7 +233,7 @@ public class AlphabeticCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -296,9 +296,8 @@ public class AlphabeticCodec : PlayCodec
         throw new NotImplementedException();
     }
 
- 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>
@@ -313,7 +312,7 @@ public class AlphabeticCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -328,7 +327,7 @@ public class AlphabeticCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -353,7 +352,7 @@ public class AlphabeticCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>

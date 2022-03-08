@@ -89,7 +89,7 @@ public partial class Idle : KernelState
     }
 
     /// <summary>
-    /// HandleSupportForFieldOffDetection
+    ///     HandleSupportForFieldOffDetection
     /// </summary>
     /// <param name="session"></param>
     /// <param name="fci"></param>
@@ -378,7 +378,7 @@ public partial class Idle : KernelState
     #region S1.18
 
     /// <summary>
-    /// EnqueueDataStorageId
+    ///     EnqueueDataStorageId
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     private void EnqueueDataStorageId()
@@ -390,7 +390,7 @@ public partial class Idle : KernelState
     }
 
     /// <summary>
-    /// EnqueueApplicationCapabilitiesInformation
+    ///     EnqueueApplicationCapabilitiesInformation
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     private void EnqueueApplicationCapabilitiesInformation()
@@ -406,7 +406,7 @@ public partial class Idle : KernelState
     #region S1.19
 
     /// <summary>
-    /// RouteStateTransition
+    ///     RouteStateTransition
     /// </summary>
     /// <param name="session"></param>
     /// <returns></returns>
@@ -438,7 +438,7 @@ public partial class Idle : KernelState
     #region S1.20
 
     /// <summary>
-    /// SetIntegratedDataStorageReadStatus
+    ///     SetIntegratedDataStorageReadStatus
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     private void SetIntegratedDataStorageReadStatus()
@@ -457,7 +457,7 @@ public partial class Idle : KernelState
 
     // HACK
     /// <summary>
-    /// HandlePdolData
+    ///     HandlePdolData
     /// </summary>
     /// <param name="session"></param>
     /// <returns></returns>
@@ -482,7 +482,7 @@ public partial class Idle : KernelState
     #region S1.22
 
     /// <summary>
-    /// DispatchDataExchangeMessages
+    ///     DispatchDataExchangeMessages
     /// </summary>
     /// <param name="kernelSessionId"></param>
     /// <exception cref="InvalidOperationException"></exception>
@@ -499,7 +499,7 @@ public partial class Idle : KernelState
     #region S1.23
 
     /// <summary>
-    /// SetTimeout
+    ///     SetTimeout
     /// </summary>
     /// <param name="session"></param>
     /// <exception cref="InvalidOperationException"></exception>

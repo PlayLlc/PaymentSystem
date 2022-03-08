@@ -26,7 +26,7 @@ public class MockDataObjectListTestFactory
     public static MockDataObjectList Create() => MockDataObjectList.Decode(_DefaultContentOctets.AsSpan());
 
     /// <summary>
-    /// Create
+    ///     Create
     /// </summary>
     /// <param name="values"></param>
     /// <returns></returns>

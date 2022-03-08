@@ -233,7 +233,7 @@ public class SignedIntegerCodec : PlayCodec
     public override ushort GetByteCount<_T>(_T value) => (ushort) Unsafe.SizeOf<_T>();
 
     /// <summary>
-    /// GetByteCount
+    ///     GetByteCount
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -406,7 +406,7 @@ public class SignedIntegerCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -437,7 +437,7 @@ public class SignedIntegerCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -471,7 +471,7 @@ public class SignedIntegerCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -491,7 +491,7 @@ public class SignedIntegerCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -538,7 +538,7 @@ public class SignedIntegerCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>
@@ -574,7 +574,7 @@ public class SignedIntegerCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -613,7 +613,7 @@ public class SignedIntegerCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>
@@ -628,7 +628,7 @@ public class SignedIntegerCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>

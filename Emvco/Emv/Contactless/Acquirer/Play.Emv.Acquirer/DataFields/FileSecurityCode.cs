@@ -34,7 +34,7 @@ public record FileSecurityCode : FixedDataField<char[]>
     #region Serialization
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

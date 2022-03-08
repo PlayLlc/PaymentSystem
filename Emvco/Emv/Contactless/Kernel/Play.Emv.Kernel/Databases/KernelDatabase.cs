@@ -252,7 +252,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     }
 
     /// <summary>
-    /// Initialize
+    ///     Initialize
     /// </summary>
     /// <param name="tag"></param>
     /// <exception cref="InvalidOperationException"></exception>
@@ -277,7 +277,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     private OutcomeParameterSet GetOutcomeParameterSet() => OutcomeParameterSet.Decode(Get(OutcomeParameterSet.Tag).EncodeValue().AsSpan());
 
     /// <summary>
-    /// GetUserInterfaceRequestData
+    ///     GetUserInterfaceRequestData
     /// </summary>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
@@ -291,7 +291,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     }
 
     /// <summary>
-    /// GetDataRecord
+    ///     GetDataRecord
     /// </summary>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
@@ -304,7 +304,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     }
 
     /// <summary>
-    /// GetDiscretionaryData
+    ///     GetDiscretionaryData
     /// </summary>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
@@ -318,7 +318,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     }
 
     /// <summary>
-    /// Update
+    ///     Update
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="InvalidOperationException"></exception>
@@ -328,7 +328,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     }
 
     /// <summary>
-    /// Update
+    ///     Update
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="InvalidOperationException"></exception>
@@ -338,7 +338,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     }
 
     /// <summary>
-    /// Update
+    ///     Update
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="InvalidOperationException"></exception>
@@ -348,7 +348,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     }
 
     /// <summary>
-    /// Reset
+    ///     Reset
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="InvalidOperationException"></exception>
@@ -358,7 +358,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     }
 
     /// <summary>
-    /// Reset
+    ///     Reset
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="InvalidOperationException"></exception>
@@ -368,7 +368,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     }
 
     /// <summary>
-    /// Reset
+    ///     Reset
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="InvalidOperationException"></exception>
@@ -378,7 +378,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     }
 
     /// <summary>
-    /// Update
+    ///     Update
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="InvalidOperationException"></exception>
@@ -388,7 +388,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     }
 
     /// <summary>
-    /// Update
+    ///     Update
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="InvalidOperationException"></exception>

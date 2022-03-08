@@ -206,7 +206,7 @@ public class CompressedNumericCodec : PlayCodec
     #region Encode
 
     /// <summary>
-    /// TryEncoding
+    ///     TryEncoding
     /// </summary>
     /// <param name="value"></param>
     /// <param name="result"></param>
@@ -256,7 +256,7 @@ public class CompressedNumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -282,7 +282,7 @@ public class CompressedNumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -315,7 +315,7 @@ public class CompressedNumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -332,7 +332,7 @@ public class CompressedNumericCodec : PlayCodec
     public byte[] Encode(ReadOnlySpan<char> value) => Encode(value, value.Length);
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -439,7 +439,7 @@ public class CompressedNumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -488,7 +488,7 @@ public class CompressedNumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -578,7 +578,7 @@ public class CompressedNumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -630,7 +630,7 @@ public class CompressedNumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>

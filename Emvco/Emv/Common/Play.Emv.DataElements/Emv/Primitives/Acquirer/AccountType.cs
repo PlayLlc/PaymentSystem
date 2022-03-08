@@ -41,9 +41,9 @@ public record AccountType : DataElement<byte>, IEqualityComparer<AccountType>
     #region Serialization
 
     public static AccountType Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-     
+
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

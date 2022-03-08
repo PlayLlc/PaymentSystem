@@ -32,7 +32,7 @@ public class WaitingForGetDataResponse : KernelState
     public override StateId GetStateId() => StateId;
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>

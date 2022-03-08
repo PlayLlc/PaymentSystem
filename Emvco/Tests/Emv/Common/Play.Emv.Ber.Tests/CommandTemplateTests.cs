@@ -13,7 +13,7 @@ public class CommandTemplateTests
     #region Instance Members
 
     /// <summary>
-    /// NullBerEncoding_DeserializingCommandTemplate_CreatesCommandTemplate
+    ///     NullBerEncoding_DeserializingCommandTemplate_CreatesCommandTemplate
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -25,7 +25,7 @@ public class CommandTemplateTests
     }
 
     /// <summary>
-    /// PrimitiveBerEncoding_DeserializingCommandTemplate_CreatesCommandTemplate
+    ///     PrimitiveBerEncoding_DeserializingCommandTemplate_CreatesCommandTemplate
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -39,7 +39,7 @@ public class CommandTemplateTests
     }
 
     /// <summary>
-    /// ConstructedBerEncoding_DeserializingCommandTemplate_CreatesCommandTemplate
+    ///     ConstructedBerEncoding_DeserializingCommandTemplate_CreatesCommandTemplate
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>

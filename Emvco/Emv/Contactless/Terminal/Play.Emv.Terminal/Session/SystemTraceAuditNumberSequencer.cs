@@ -48,7 +48,7 @@ internal class SystemTraceAuditNumberSequencer : IGenerateSequenceTraceAuditNumb
     }
 
     /// <summary>
-    /// Reset
+    ///     Reset
     /// </summary>
     /// <param name="settlementAcknowledgement"></param>
     /// <exception cref="InvalidOperationException"></exception>

@@ -11,7 +11,7 @@ public partial class WaitingForGpoResponse : KernelState
     #region ACT
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>

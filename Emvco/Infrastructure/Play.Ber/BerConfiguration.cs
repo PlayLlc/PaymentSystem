@@ -129,9 +129,9 @@ public class BerConfiguration
             $"Duplicate {nameof(PlayEncodingId)} - There was a problem found while building the encoding mapping for {nameof(PlayCodec)} because there were duplicate values. "
             + $"Here is a list of the {nameof(PlayCodec)} that have a {nameof(PlayEncodingId)} that is not unique: [{string.Join(stringSeparator, duplicateValues)}");
     }
- 
+
     /// <summary>
-    /// ValidatePlayCodecIdentifiersAreUnique
+    ///     ValidatePlayCodecIdentifiersAreUnique
     /// </summary>
     /// <param name="playCodecs"></param>
     /// <exception cref="BerFormatException"></exception>

@@ -44,7 +44,7 @@ public class NumericTests
     }
 
     /// <summary>
-    /// RandomDecodedUShort_EncodingThenDecoding_ReturnsExpectedResult
+    ///     RandomDecodedUShort_EncodingThenDecoding_ReturnsExpectedResult
     /// </summary>
     /// <param name="testValue"></param>
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
@@ -59,7 +59,7 @@ public class NumericTests
     }
 
     /// <summary>
-    /// RandomDecodedUInt_EncodingThenDecoding_ReturnsExpectedResult
+    ///     RandomDecodedUInt_EncodingThenDecoding_ReturnsExpectedResult
     /// </summary>
     /// <param name="testValue"></param>
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
@@ -74,7 +74,7 @@ public class NumericTests
     }
 
     /// <summary>
-    /// RandomDecodedULong_EncodingThenDecoding_ReturnsExpectedResult
+    ///     RandomDecodedULong_EncodingThenDecoding_ReturnsExpectedResult
     /// </summary>
     /// <param name="testValue"></param>
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>

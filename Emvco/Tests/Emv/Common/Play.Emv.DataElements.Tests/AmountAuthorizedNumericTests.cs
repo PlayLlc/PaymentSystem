@@ -21,7 +21,7 @@ public class AmountAuthorizedNumericTests
     #region Instance Members
 
     /// <summary>
-    /// BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
+    ///     BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -34,7 +34,7 @@ public class AmountAuthorizedNumericTests
     }
 
     /// <summary>
-    /// BerEncoding_EncodingDataElement_SerializesExpectedValue
+    ///     BerEncoding_EncodingDataElement_SerializesExpectedValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -50,7 +50,7 @@ public class AmountAuthorizedNumericTests
     }
 
     /// <summary>
-    /// BerEncoding_EncodingDataElementTlv_SerializesExpectedValue
+    ///     BerEncoding_EncodingDataElementTlv_SerializesExpectedValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -66,7 +66,7 @@ public class AmountAuthorizedNumericTests
     }
 
     /// <summary>
-    /// BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue
+    ///     BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -82,7 +82,7 @@ public class AmountAuthorizedNumericTests
 
     // TODO: WARNING - this test is failing indeterminately. There is a bug here
     /// <summary>
-    /// TagLengthValue_SerializingToBer_ReturnsExpectedResult
+    ///     TagLengthValue_SerializingToBer_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>

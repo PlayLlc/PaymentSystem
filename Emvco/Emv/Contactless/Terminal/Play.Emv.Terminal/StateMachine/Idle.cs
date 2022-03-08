@@ -93,7 +93,7 @@ internal class Idle : TerminalState
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -103,7 +103,7 @@ internal class Idle : TerminalState
         throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -113,7 +113,7 @@ internal class Idle : TerminalState
         throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -135,7 +135,7 @@ internal class Idle : TerminalState
         throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>

@@ -32,7 +32,7 @@ public class Kernel2StateMachine : KernelStateMachine
     #region Instance Members
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="signal"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -51,9 +51,8 @@ public class Kernel2StateMachine : KernelStateMachine
         }
     }
 
- 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="signal"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -72,7 +71,7 @@ public class Kernel2StateMachine : KernelStateMachine
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="signal"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -98,7 +97,7 @@ public class Kernel2StateMachine : KernelStateMachine
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="signal"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -123,7 +122,7 @@ public class Kernel2StateMachine : KernelStateMachine
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="signal"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -148,7 +147,7 @@ public class Kernel2StateMachine : KernelStateMachine
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="signal"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -174,7 +173,7 @@ public class Kernel2StateMachine : KernelStateMachine
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="signal"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>

@@ -131,7 +131,6 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
 
     public static FileControlInformationProprietaryAdf Decode(ReadOnlyMemory<byte> rawBer) => Decode(_Codec.DecodeChildren(rawBer));
 
- 
     /// <exception cref="BerException"></exception>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="BerInternalException"></exception>

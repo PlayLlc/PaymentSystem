@@ -30,7 +30,7 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
     #region Constructor
 
     /// <summary>
-    /// ctor
+    ///     ctor
     /// </summary>
     /// <param name="correlation"></param>
     /// <param name="transactionSessionId"></param>
@@ -73,7 +73,7 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
     }
 
     /// <summary>
-    /// DecodeData
+    ///     DecodeData
     /// </summary>
     /// <param name="rapdu"></param>
     /// <returns></returns>

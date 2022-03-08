@@ -47,7 +47,7 @@ public class DisplayProcess : CommandProcessingQueue
     protected override async Task Handle(dynamic command) => await Handle(command).ConfigureAwait(false);
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>

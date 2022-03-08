@@ -62,7 +62,7 @@ public class GenerateApplicationCryptogramCommandTestSpy
     }
 
     /// <summary>
-    /// Setup
+    ///     Setup
     /// </summary>
     /// <param name="fixture"></param>
     /// <returns></returns>

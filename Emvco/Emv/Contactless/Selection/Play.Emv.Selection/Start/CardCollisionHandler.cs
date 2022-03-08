@@ -27,7 +27,7 @@ public class CardCollisionHandler
     #region Main
 
     /// <summary>
-    /// HandleCardCollisions
+    ///     HandleCardCollisions
     /// </summary>
     /// <param name="request"></param>
     /// <param name="outcome"></param>

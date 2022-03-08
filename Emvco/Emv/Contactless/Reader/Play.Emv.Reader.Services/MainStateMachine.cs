@@ -45,7 +45,7 @@ internal class MainStateMachine
     #region Instance Members
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -65,7 +65,7 @@ internal class MainStateMachine
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -107,7 +107,7 @@ internal class MainStateMachine
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -139,7 +139,7 @@ internal class MainStateMachine
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>

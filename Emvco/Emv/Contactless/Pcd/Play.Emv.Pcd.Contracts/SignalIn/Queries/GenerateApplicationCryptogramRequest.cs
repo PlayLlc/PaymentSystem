@@ -26,7 +26,7 @@ public record GenerateApplicationCryptogramRequest : QueryPcdRequest
     #region Instance Members
 
     /// <summary>
-    /// Create
+    ///     Create
     /// </summary>
     /// <param name="sessionId"></param>
     /// <param name="cryptogramInformationData"></param>

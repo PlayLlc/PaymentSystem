@@ -66,7 +66,7 @@ public static class DecodedMetadataExtensions
     }
 
     /// <summary>
-    /// ToByteResult
+    ///     ToByteResult
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -83,7 +83,7 @@ public static class DecodedMetadataExtensions
     }
 
     /// <summary>
-    /// ToBigInteger
+    ///     ToBigInteger
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

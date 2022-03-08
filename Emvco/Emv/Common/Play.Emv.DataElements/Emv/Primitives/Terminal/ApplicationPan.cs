@@ -40,9 +40,8 @@ public record ApplicationPan : DataElement<BigInteger>
 
     public static ApplicationPan Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

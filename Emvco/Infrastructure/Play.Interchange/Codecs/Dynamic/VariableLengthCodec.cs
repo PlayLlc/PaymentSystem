@@ -11,7 +11,7 @@ internal abstract class VariableLengthCodec : DataFieldCodec
     protected abstract ushort GetLeadingOctetLength();
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>
@@ -32,7 +32,7 @@ internal abstract class VariableLengthCodec : DataFieldCodec
     #region Serialization
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -45,7 +45,7 @@ internal abstract class VariableLengthCodec : DataFieldCodec
     }
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="concreteMapper"></param>

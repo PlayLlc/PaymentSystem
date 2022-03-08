@@ -12,7 +12,7 @@ public class FileControlInformationPpseTests
     #region Instance Members
 
     /// <summary>
-    /// BerEncoding_DeserializingTemplate_CreatesConstructedValue
+    ///     BerEncoding_DeserializingTemplate_CreatesConstructedValue
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
@@ -30,7 +30,7 @@ public class FileControlInformationPpseTests
     }
 
     /// <summary>
-    /// BerEncoding_DeserializingDTemplate_CorrectlyCreatesChildDataElements
+    ///     BerEncoding_DeserializingDTemplate_CorrectlyCreatesChildDataElements
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
@@ -46,7 +46,7 @@ public class FileControlInformationPpseTests
     }
 
     /// <summary>
-    /// Template_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult
+    ///     Template_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
@@ -60,7 +60,7 @@ public class FileControlInformationPpseTests
     }
 
     /// <summary>
-    /// Template_InvokingGetValueByteCount_ReturnsExpectedResult
+    ///     Template_InvokingGetValueByteCount_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
@@ -73,7 +73,7 @@ public class FileControlInformationPpseTests
     }
 
     /// <summary>
-    /// Template_InvokingAsTagLengthValue_ReturnsExpectedResult
+    ///     Template_InvokingAsTagLengthValue_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]

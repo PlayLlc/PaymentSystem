@@ -114,7 +114,7 @@ public readonly record struct Tag
     public readonly ClassType GetClassType() => GetClassType(_Value);
 
     /// <summary>
-    /// GetClassType
+    ///     GetClassType
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

@@ -64,7 +64,7 @@ public class AlphaNumericCodec : PlayCodec
     public override ushort GetByteCount<T>(T value) where T : struct => 1;
 
     /// <summary>
-    /// GetByteCount
+    ///     GetByteCount
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -188,7 +188,7 @@ public class AlphaNumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -202,7 +202,7 @@ public class AlphaNumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -285,7 +285,7 @@ public class AlphaNumericCodec : PlayCodec
     public PlayEncodingId GetPlayEncodingId() => EncodingId;
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>
@@ -300,7 +300,7 @@ public class AlphaNumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -316,7 +316,7 @@ public class AlphaNumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>
@@ -332,7 +332,7 @@ public class AlphaNumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -348,7 +348,7 @@ public class AlphaNumericCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>

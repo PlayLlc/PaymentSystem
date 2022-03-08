@@ -43,7 +43,7 @@ internal class TerminalStateMachine
 
     // TODO: I'm not sure if this is the correct way to implement this. I'm not sure what form of communication the point of sale will have with the Terminal. Keeping this here for now
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -84,7 +84,7 @@ internal class TerminalStateMachine
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="response"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -103,7 +103,7 @@ internal class TerminalStateMachine
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="response"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -123,7 +123,7 @@ internal class TerminalStateMachine
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="response"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -143,7 +143,7 @@ internal class TerminalStateMachine
 
     // HACK: This should be handled on a separate process
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>

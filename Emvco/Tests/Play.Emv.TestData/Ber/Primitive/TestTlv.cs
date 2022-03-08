@@ -20,7 +20,7 @@ public abstract class TestTlv
     }
 
     /// <summary>
-    /// ctor
+    ///     ctor
     /// </summary>
     /// <param name="childRank"></param>
     /// <param name="children"></param>
@@ -46,7 +46,7 @@ public abstract class TestTlv
     public TagLengthValue AsTagLengthValue() => new(GetTag(), EncodeValue());
 
     /// <summary>
-    /// ParseChildren
+    ///     ParseChildren
     /// </summary>
     /// <param name="childIndex"></param>
     /// <param name="children"></param>
@@ -82,7 +82,7 @@ public abstract class TestTlv
     #region Serialization
 
     /// <summary>
-    /// EncodeTagLengthValue
+    ///     EncodeTagLengthValue
     /// </summary>
     /// <returns></returns>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>

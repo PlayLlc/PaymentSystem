@@ -36,7 +36,7 @@ public record OriginalDataElements : FixedDataField<BigInteger>
     #region Serialization
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

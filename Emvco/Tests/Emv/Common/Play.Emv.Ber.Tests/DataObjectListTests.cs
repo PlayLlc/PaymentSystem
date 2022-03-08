@@ -19,7 +19,7 @@ public class DataObjectListTests
     #region Instance Members
 
     /// <summary>
-    /// BerEncodingTagLengths_Deserializing_CreatesDataObjectList
+    ///     BerEncodingTagLengths_Deserializing_CreatesDataObjectList
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -34,7 +34,7 @@ public class DataObjectListTests
     }
 
     /// <summary>
-    /// BerEncodingTagLengths_InvokingGetRequestedItems_ReturnsExpectedTags
+    ///     BerEncodingTagLengths_InvokingGetRequestedItems_ReturnsExpectedTags
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -54,7 +54,7 @@ public class DataObjectListTests
     }
 
     /// <summary>
-    /// BerEncodingNullTagLengths_InvokingGetRequestedItems_ReturnsExpectedTagLengthPairs
+    ///     BerEncodingNullTagLengths_InvokingGetRequestedItems_ReturnsExpectedTagLengthPairs
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -82,7 +82,7 @@ public class DataObjectListTests
     }
 
     /// <summary>
-    /// BerEncodingTagLengths_InvokingGetRequestedItems_ReturnsExpectedLength
+    ///     BerEncodingTagLengths_InvokingGetRequestedItems_ReturnsExpectedLength
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -105,7 +105,7 @@ public class DataObjectListTests
     }
 
     /// <summary>
-    /// BerEncodingTagLengths_InvokingAsCommandTemplate_ReturnsCommandTemplate
+    ///     BerEncodingTagLengths_InvokingAsCommandTemplate_ReturnsCommandTemplate
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -121,7 +121,7 @@ public class DataObjectListTests
     }
 
     /// <summary>
-    /// BerEncodingTagLengths_InvokingAsCommandTemplate_ReturnsExpectedCommandTemplate
+    ///     BerEncodingTagLengths_InvokingAsCommandTemplate_ReturnsExpectedCommandTemplate
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     /// <exception cref="InvalidOperationException"></exception>

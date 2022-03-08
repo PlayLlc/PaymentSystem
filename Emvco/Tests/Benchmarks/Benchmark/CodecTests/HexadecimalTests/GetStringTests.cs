@@ -47,7 +47,7 @@ public class GetStringTests
     }
 
     /// <summary>
-    /// GetStringBenchmark_Ten
+    ///     GetStringBenchmark_Ten
     /// </summary>
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     [Benchmark]
@@ -59,7 +59,7 @@ public class GetStringTests
     }
 
     /// <summary>
-    /// GetStringBenchmark_OneHundred
+    ///     GetStringBenchmark_OneHundred
     /// </summary>
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     [Benchmark]
@@ -71,7 +71,7 @@ public class GetStringTests
     }
 
     /// <summary>
-    /// GetStringBenchmark_OneThousand
+    ///     GetStringBenchmark_OneThousand
     /// </summary>
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     [Benchmark]
@@ -83,7 +83,7 @@ public class GetStringTests
     }
 
     /// <summary>
-    /// GetStringBenchmark_TenThousand
+    ///     GetStringBenchmark_TenThousand
     /// </summary>
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     [Benchmark]

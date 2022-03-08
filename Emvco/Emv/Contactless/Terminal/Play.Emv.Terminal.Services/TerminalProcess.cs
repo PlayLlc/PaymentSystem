@@ -69,7 +69,7 @@ internal class TerminalProcess : CommandProcessingQueue
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -85,7 +85,7 @@ internal class TerminalProcess : CommandProcessingQueue
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -96,7 +96,7 @@ internal class TerminalProcess : CommandProcessingQueue
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -112,7 +112,7 @@ internal class TerminalProcess : CommandProcessingQueue
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -123,7 +123,7 @@ internal class TerminalProcess : CommandProcessingQueue
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>

@@ -55,7 +55,7 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
     #region Requests
 
     /// <summary>
-    /// Request
+    ///     Request
     /// </summary>
     /// <param name="message"></param>
     /// <exception cref="InvalidMessageRoutingException"></exception>
@@ -113,7 +113,7 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
     #region Callbacks
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="message"></param>
     /// <exception cref="InvalidMessageRoutingException"></exception>

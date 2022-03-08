@@ -85,7 +85,7 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
     }
 
     /// <summary>
-    /// AsCommandTemplate
+    ///     AsCommandTemplate
     /// </summary>
     /// <param name="database"></param>
     /// <returns></returns>

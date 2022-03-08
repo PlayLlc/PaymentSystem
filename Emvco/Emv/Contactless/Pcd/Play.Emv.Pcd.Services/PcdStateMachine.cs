@@ -39,7 +39,7 @@ internal class PcdStateMachine
     #region Instance Members
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -59,9 +59,8 @@ internal class PcdStateMachine
         }
     }
 
-    
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <param name="abortHandler"></param>
@@ -92,7 +91,7 @@ internal class PcdStateMachine
     }
 
     /// <summary>
-    /// CloseSessionCardCheck
+    ///     CloseSessionCardCheck
     /// </summary>
     /// <param name="correlationId"></param>
     /// <param name="transactionSessionId"></param>
@@ -104,7 +103,7 @@ internal class PcdStateMachine
     }
 
     /// <summary>
-    /// CloseSession
+    ///     CloseSession
     /// </summary>
     /// <param name="correlationId"></param>
     /// <param name="transactionSessionId"></param>
@@ -116,7 +115,7 @@ internal class PcdStateMachine
     }
 
     /// <summary>
-    /// Abort
+    ///     Abort
     /// </summary>
     /// <param name="correlationId"></param>
     /// <param name="transactionSessionId"></param>
@@ -138,7 +137,7 @@ internal class PcdStateMachine
     #region Blocking
 
     /// <summary>
-    /// Transceive
+    ///     Transceive
     /// </summary>
     /// <param name="message"></param>
     /// <returns></returns>
@@ -166,7 +165,7 @@ internal class PcdStateMachine
     }
 
     /// <summary>
-    /// Transceive
+    ///     Transceive
     /// </summary>
     /// <param name="message"></param>
     /// <returns></returns>
@@ -198,7 +197,7 @@ internal class PcdStateMachine
     #region QUERY
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="cardClient"></param>
     /// <param name="request"></param>
@@ -211,7 +210,7 @@ internal class PcdStateMachine
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>

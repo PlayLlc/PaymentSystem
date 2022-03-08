@@ -146,7 +146,7 @@ public class AlphaNumericSpecialCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -156,7 +156,7 @@ public class AlphaNumericSpecialCodec : PlayCodec
             $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -167,7 +167,7 @@ public class AlphaNumericSpecialCodec : PlayCodec
             $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>
@@ -180,7 +180,7 @@ public class AlphaNumericSpecialCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -194,7 +194,7 @@ public class AlphaNumericSpecialCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>
@@ -212,7 +212,7 @@ public class AlphaNumericSpecialCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>

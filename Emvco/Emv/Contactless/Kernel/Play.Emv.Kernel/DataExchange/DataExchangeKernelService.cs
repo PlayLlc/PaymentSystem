@@ -88,7 +88,7 @@ public class DataExchangeKernelService
     #region Responses
 
     /// <summary>
-    /// SendResponse
+    ///     SendResponse
     /// </summary>
     /// <param name="kernelSessionId"></param>
     /// <exception cref="InvalidOperationException"></exception>
@@ -113,7 +113,7 @@ public class DataExchangeKernelService
     }
 
     /// <summary>
-    /// SendResponse
+    ///     SendResponse
     /// </summary>
     /// <param name="sessionId"></param>
     /// <param name="correlationId"></param>
@@ -177,7 +177,7 @@ public class DataExchangeKernelService
     }
 
     /// <summary>
-    /// Enqueue
+    ///     Enqueue
     /// </summary>
     /// <param name="type"></param>
     /// <param name="listItem"></param>
@@ -197,7 +197,7 @@ public class DataExchangeKernelService
     }
 
     /// <summary>
-    /// Enqueue
+    ///     Enqueue
     /// </summary>
     /// <param name="type"></param>
     /// <param name="listItems"></param>
@@ -217,7 +217,7 @@ public class DataExchangeKernelService
     }
 
     /// <summary>
-    /// Enqueue
+    ///     Enqueue
     /// </summary>
     /// <param name="type"></param>
     /// <param name="listItems"></param>
@@ -237,7 +237,7 @@ public class DataExchangeKernelService
     }
 
     /// <summary>
-    /// Enqueue
+    ///     Enqueue
     /// </summary>
     /// <param name="type"></param>
     /// <param name="listItems"></param>
@@ -346,7 +346,7 @@ public class DataExchangeKernelService
     }
 
     /// <summary>
-    /// Resolve
+    ///     Resolve
     /// </summary>
     /// <param name="tagsToRead"></param>
     /// <param name="tlvDatabase"></param>
@@ -393,7 +393,7 @@ public class DataExchangeKernelService
     }
 
     /// <summary>
-    /// TryGetDataBatchRequest
+    ///     TryGetDataBatchRequest
     /// </summary>
     /// <param name="sessionId"></param>
     /// <param name="result"></param>
@@ -431,7 +431,7 @@ public class DataExchangeKernelService
     }
 
     /// <summary>
-    /// Enqueue
+    ///     Enqueue
     /// </summary>
     /// <param name="type"></param>
     /// <param name="listItem"></param>
@@ -451,7 +451,7 @@ public class DataExchangeKernelService
     }
 
     /// <summary>
-    /// Enqueue
+    ///     Enqueue
     /// </summary>
     /// <param name="type"></param>
     /// <param name="listItems"></param>

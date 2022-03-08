@@ -54,7 +54,7 @@ public class NumericSpecialCodec : PlayCodec
     public override ushort GetByteCount<_T>(_T value) => (ushort) Unsafe.SizeOf<_T>();
 
     /// <summary>
-    /// GetByteCount
+    ///     GetByteCount
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -92,7 +92,7 @@ public class NumericSpecialCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -102,7 +102,7 @@ public class NumericSpecialCodec : PlayCodec
             $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -113,7 +113,7 @@ public class NumericSpecialCodec : PlayCodec
             $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>
@@ -126,7 +126,7 @@ public class NumericSpecialCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
@@ -140,7 +140,7 @@ public class NumericSpecialCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>
@@ -158,7 +158,7 @@ public class NumericSpecialCodec : PlayCodec
     }
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>

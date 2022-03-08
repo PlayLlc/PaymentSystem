@@ -37,7 +37,7 @@ public record AccountIdentification1 : VariableDataField<char[]>
     #region Serialization
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

@@ -47,7 +47,7 @@ internal class MainProcess : CommandProcessingQueue
     protected override async Task Handle(dynamic command) => await Handle(command).ConfigureAwait(false);
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -58,7 +58,7 @@ internal class MainProcess : CommandProcessingQueue
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -69,7 +69,7 @@ internal class MainProcess : CommandProcessingQueue
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -80,7 +80,7 @@ internal class MainProcess : CommandProcessingQueue
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>

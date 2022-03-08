@@ -39,7 +39,7 @@ public record Track3Data : VariableDataField<BigInteger>
     #region Serialization
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

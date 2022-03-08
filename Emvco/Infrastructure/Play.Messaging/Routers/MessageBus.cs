@@ -22,7 +22,7 @@ internal class MessageBus
     #region Instance Members
 
     /// <summary>
-    /// Subscribe
+    ///     Subscribe
     /// </summary>
     /// <param name="messageChannel"></param>
     /// <exception cref="MessagingException"></exception>
@@ -52,7 +52,7 @@ internal class MessageBus
     }
 
     /// <summary>
-    /// Send
+    ///     Send
     /// </summary>
     /// <param name="requestMessage"></param>
     /// <exception cref="InvalidMessageRoutingException"></exception>
@@ -71,7 +71,7 @@ internal class MessageBus
     }
 
     /// <summary>
-    /// Send
+    ///     Send
     /// </summary>
     /// <param name="responseMessage"></param>
     /// <exception cref="InvalidMessageRoutingException"></exception>

@@ -30,7 +30,7 @@ public class AuthenticateCombinedDataResponse
     }
 
     /// <summary>
-    /// ctor
+    ///     ctor
     /// </summary>
     /// <param name="terminalVerificationResult"></param>
     /// <param name="errorIndication"></param>

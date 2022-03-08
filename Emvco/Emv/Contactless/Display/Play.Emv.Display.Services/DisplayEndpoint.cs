@@ -46,7 +46,7 @@ public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposa
     #region Requests
 
     /// <summary>
-    /// Request
+    ///     Request
     /// </summary>
     /// <param name="message"></param>
     /// <exception cref="UnhandledRequestException"></exception>
@@ -75,7 +75,7 @@ public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposa
     #region Callbacks
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="message"></param>
     /// <exception cref="InvalidMessageRoutingException"></exception>

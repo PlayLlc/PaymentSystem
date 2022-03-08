@@ -9,7 +9,7 @@ internal abstract class FixedLengthCodec : DataFieldCodec
     protected abstract ushort GetByteLength();
 
     /// <summary>
-    /// Encode
+    ///     Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>
@@ -27,7 +27,7 @@ internal abstract class FixedLengthCodec : DataFieldCodec
     #region Serialization
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -40,7 +40,7 @@ internal abstract class FixedLengthCodec : DataFieldCodec
     }
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="concreteMapper"></param>

@@ -22,7 +22,7 @@ public class DataObjectListResultTests
     }
 
     /// <summary>
-    /// BerEncodingTagLength_Encoding_ReturnsExpectedResult
+    ///     BerEncodingTagLength_Encoding_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
@@ -36,7 +36,7 @@ public class DataObjectListResultTests
     }
 
     /// <summary>
-    /// BerEncodingTagLengths_Encoding_ReturnsExpectedResult
+    ///     BerEncodingTagLengths_Encoding_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
@@ -56,7 +56,7 @@ public class DataObjectListResultTests
     }
 
     /// <summary>
-    /// BerEncodingTagLengths_InvokingAsCommandTemplate_CreatesCommandTemplate
+    ///     BerEncodingTagLengths_InvokingAsCommandTemplate_CreatesCommandTemplate
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
@@ -68,7 +68,7 @@ public class DataObjectListResultTests
     }
 
     /// <summary>
-    /// BerEncodingTagLengths_InvokingAsCommandTemplate_CreatesExpectedCommandTemplate
+    ///     BerEncodingTagLengths_InvokingAsCommandTemplate_CreatesExpectedCommandTemplate
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]

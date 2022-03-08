@@ -56,7 +56,7 @@ public abstract class KernelState
     #region Exception Handling
 
     /// <summary>
-    /// HandleBerEncodingException
+    ///     HandleBerEncodingException
     /// </summary>
     /// <param name="correlationId"></param>
     /// <param name="kernelSessionId"></param>
@@ -72,7 +72,7 @@ public abstract class KernelState
     }
 
     /// <summary>
-    /// TryHandleTimeout
+    ///     TryHandleTimeout
     /// </summary>
     /// <param name="session"></param>
     /// <returns></returns>
@@ -96,7 +96,7 @@ public abstract class KernelState
     }
 
     /// <summary>
-    /// HandleRequestOutOfSync
+    ///     HandleRequestOutOfSync
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -111,7 +111,7 @@ public abstract class KernelState
     }
 
     /// <summary>
-    /// HandleRequestOutOfSync
+    ///     HandleRequestOutOfSync
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>

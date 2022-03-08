@@ -44,7 +44,7 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
         Create(cryptogramTypes, isCdaRequested, cardRiskManagementDataObjectListResult.AsCommandTemplate());
 
     /// <summary>
-    /// Create
+    ///     Create
     /// </summary>
     /// <param name="cryptogramTypes"></param>
     /// <param name="isCdaRequested"></param>

@@ -34,7 +34,7 @@ public record SystemTraceAuditNumberStan : FixedDataField<uint>
     #region Serialization
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

@@ -34,7 +34,7 @@ public record AmountCardholderBillingFee : FixedDataField<uint>
     #region Serialization
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

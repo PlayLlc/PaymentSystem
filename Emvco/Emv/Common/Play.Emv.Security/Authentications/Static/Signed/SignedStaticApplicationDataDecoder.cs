@@ -42,7 +42,7 @@ internal class SignedStaticApplicationDataDecoder
     }
 
     /// <summary>
-    /// IsValid
+    ///     IsValid
     /// </summary>
     /// <param name="issuerPublicKeyCertificate"></param>
     /// <param name="signedStaticApplicationData"></param>

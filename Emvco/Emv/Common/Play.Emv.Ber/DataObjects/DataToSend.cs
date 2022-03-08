@@ -44,7 +44,7 @@ public sealed record DataToSend : DataExchangeResponse, IEqualityComparer<DataTo
     #region Serialization
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

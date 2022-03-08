@@ -48,7 +48,7 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
     #region Instance Members
 
     /// <summary>
-    /// Transceive
+    ///     Transceive
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
@@ -68,9 +68,8 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
         }
     }
 
- 
     /// <summary>
-    /// Transceive
+    ///     Transceive
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
@@ -91,7 +90,7 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
     }
 
     /// <summary>
-    /// Abort
+    ///     Abort
     /// </summary>
     /// <exception cref="CardReadException"></exception>
     public void Abort()
@@ -110,7 +109,7 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
     }
 
     /// <summary>
-    /// Activate
+    ///     Activate
     /// </summary>
     /// <exception cref="CardReadException"></exception>
     public void Activate()
@@ -129,7 +128,7 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
     }
 
     /// <summary>
-    /// CloseSession
+    ///     CloseSession
     /// </summary>
     /// <exception cref="CardReadException"></exception>
     public void CloseSession()
@@ -148,7 +147,7 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
     }
 
     /// <summary>
-    /// CloseSessionCardCheck
+    ///     CloseSessionCardCheck
     /// </summary>
     /// <exception cref="CardReadException"></exception>
     public void CloseSessionCardCheck()
@@ -169,7 +168,7 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
     }
 
     /// <summary>
-    /// Transceive
+    ///     Transceive
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
@@ -190,7 +189,7 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
     }
 
     /// <summary>
-    /// Transceive
+    ///     Transceive
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
@@ -211,7 +210,7 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
     }
 
     /// <summary>
-    /// Transceive
+    ///     Transceive
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
@@ -232,7 +231,7 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
     }
 
     /// <summary>
-    /// Transceive
+    ///     Transceive
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
@@ -253,7 +252,7 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
     }
 
     /// <summary>
-    /// Transceive
+    ///     Transceive
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>

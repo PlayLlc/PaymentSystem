@@ -39,7 +39,7 @@ public record ForwardingInstitutionIdentificationCode : VariableDataField<BigInt
     #region Serialization
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

@@ -34,7 +34,7 @@ public class GetDataApduCommand : ApduCommand
     #region Instance Members
 
     /// <summary>
-    /// Create
+    ///     Create
     /// </summary>
     /// <param name="proprietaryMessageIdentifier"></param>
     /// <param name="tag"></param>

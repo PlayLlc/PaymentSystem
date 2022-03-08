@@ -34,7 +34,7 @@ public record Payee : FixedDataField<char[]>
     #region Serialization
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

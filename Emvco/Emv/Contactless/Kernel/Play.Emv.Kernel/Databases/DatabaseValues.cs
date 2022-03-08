@@ -32,7 +32,7 @@ public class DatabaseValues : IReadOnlyCollection<DatabaseValue> // IEnumerable<
     #region Instance Members
 
     /// <summary>
-    /// EncodeTagLengthValues
+    ///     EncodeTagLengthValues
     /// </summary>
     /// <returns></returns>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>

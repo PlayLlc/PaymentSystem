@@ -38,7 +38,7 @@ public class GetFileControlInformationCApduSignalTests
     }
 
     /// <summary>
-    /// CApduSignal_InitializingWithDedicatedFileName_CreatesExpectedResult
+    ///     CApduSignal_InitializingWithDedicatedFileName_CreatesExpectedResult
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>

@@ -29,7 +29,7 @@ public class KernelCertificateDatabase : IKernelCertificateDatabase
     #region Instance Members
 
     /// <summary>
-    /// IsRevoked
+    ///     IsRevoked
     /// </summary>
     /// <param name="rid"></param>
     /// <param name="caPublicKeyIndex"></param>
@@ -50,7 +50,7 @@ public class KernelCertificateDatabase : IKernelCertificateDatabase
     }
 
     /// <summary>
-    /// TryGet
+    ///     TryGet
     /// </summary>
     /// <param name="rid"></param>
     /// <param name="index"></param>

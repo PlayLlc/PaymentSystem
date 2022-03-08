@@ -33,7 +33,7 @@ public record BitMap
     public int GetDataFieldCount() => _Value.GetSetBitCount();
 
     /// <summary>
-    /// GetDataFieldIds
+    ///     GetDataFieldIds
     /// </summary>
     /// <param name="buffer"></param>
     /// <exception cref="System.IndexOutOfRangeException"></exception>
@@ -63,7 +63,7 @@ public record BitMap
     }
 
     /// <summary>
-    /// CopyTo
+    ///     CopyTo
     /// </summary>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>

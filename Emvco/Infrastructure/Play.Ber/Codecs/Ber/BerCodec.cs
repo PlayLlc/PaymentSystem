@@ -61,7 +61,7 @@ public partial class BerCodec
     }
 
     /// <summary>
-    /// DecodeTagLengthValue
+    ///     DecodeTagLengthValue
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

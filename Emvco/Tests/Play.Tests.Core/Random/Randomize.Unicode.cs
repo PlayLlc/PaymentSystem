@@ -16,7 +16,7 @@ public partial class Randomize
         }
 
         /// <summary>
-        /// GetRandomDecimalInRange
+        ///     GetRandomDecimalInRange
         /// </summary>
         /// <param name="minRange"></param>
         /// <param name="maxRange"></param>

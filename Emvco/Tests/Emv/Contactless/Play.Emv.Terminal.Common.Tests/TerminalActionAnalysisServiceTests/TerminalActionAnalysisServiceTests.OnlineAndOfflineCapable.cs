@@ -17,7 +17,7 @@ public partial class TerminalActionAnalysisServiceTests
     #region Transaction Cryptogram - Offline
 
     /// <summary>
-    /// OnlineAndOfflineCapableTerminal_WithDefaultTerminalVerificationResults_GeneratesTransactionCryptogram
+    ///     OnlineAndOfflineCapableTerminal_WithDefaultTerminalVerificationResults_GeneratesTransactionCryptogram
     /// </summary>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -40,7 +40,7 @@ public partial class TerminalActionAnalysisServiceTests
     #region Authorization Request Cryptogram - Online
 
     /// <summary>
-    /// OnlineAndOfflineCapableTerminal_WithTerminalActionCodeOnline_GeneratesAuthorizationRequestCryptogram
+    ///     OnlineAndOfflineCapableTerminal_WithTerminalActionCodeOnline_GeneratesAuthorizationRequestCryptogram
     /// </summary>
     /// <param name="actionCode"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
@@ -60,7 +60,7 @@ public partial class TerminalActionAnalysisServiceTests
     }
 
     /// <summary>
-    /// OnlineAndOfflineCapableTerminal_WithIssuerActionCodeOnline_GeneratesAuthorizationRequestCryptogram
+    ///     OnlineAndOfflineCapableTerminal_WithIssuerActionCodeOnline_GeneratesAuthorizationRequestCryptogram
     /// </summary>
     /// <param name="actionCode"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
@@ -80,7 +80,7 @@ public partial class TerminalActionAnalysisServiceTests
     }
 
     /// <summary>
-    /// OnlineAndOfflineCapableTerminal_WithTerminalAndIssuerActionCodeOnline_GeneratesAuthorizationRequestCryptogram
+    ///     OnlineAndOfflineCapableTerminal_WithTerminalAndIssuerActionCodeOnline_GeneratesAuthorizationRequestCryptogram
     /// </summary>
     /// <param name="terminalActionCode"></param>
     /// <param name="issuerActionCodes"></param>
@@ -104,7 +104,7 @@ public partial class TerminalActionAnalysisServiceTests
     }
 
     /// <summary>
-    /// OnlineAndOfflineCapableTerminal_WithoutTimeoutAndIssuerActionCodeDefault_GeneratesAuthenticationRequestCryptogram
+    ///     OnlineAndOfflineCapableTerminal_WithoutTimeoutAndIssuerActionCodeDefault_GeneratesAuthenticationRequestCryptogram
     /// </summary>
     /// <param name="actionCode"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
@@ -125,7 +125,7 @@ public partial class TerminalActionAnalysisServiceTests
     }
 
     /// <summary>
-    /// OnlineAndOfflineCapableTerminal_WithoutTimeoutTerminalAndIssuerActionCodeDefault_GeneratesApplicationAuthenticationCryptogram
+    ///     OnlineAndOfflineCapableTerminal_WithoutTimeoutTerminalAndIssuerActionCodeDefault_GeneratesApplicationAuthenticationCryptogram
     /// </summary>
     /// <param name="terminalActionCode"></param>
     /// <param name="issuerActionCodes"></param>
@@ -154,7 +154,7 @@ public partial class TerminalActionAnalysisServiceTests
     #region Application Authentication Cryptogram - Deny
 
     /// <summary>
-    /// OnlineAndOfflineCapableTerminal_WithTimeoutAndTerminalActionCodeDefault_GeneratesAuthenticationRequestCryptogram
+    ///     OnlineAndOfflineCapableTerminal_WithTimeoutAndTerminalActionCodeDefault_GeneratesAuthenticationRequestCryptogram
     /// </summary>
     /// <param name="actionCode"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
@@ -176,7 +176,7 @@ public partial class TerminalActionAnalysisServiceTests
     }
 
     /// <summary>
-    /// OnlineAndOfflineCapableTerminal_WithTimeoutAndIssuerActionCodeDefault_GeneratesAuthenticationRequestCryptogram
+    ///     OnlineAndOfflineCapableTerminal_WithTimeoutAndIssuerActionCodeDefault_GeneratesAuthenticationRequestCryptogram
     /// </summary>
     /// <param name="actionCode"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
@@ -198,7 +198,7 @@ public partial class TerminalActionAnalysisServiceTests
     }
 
     /// <summary>
-    /// OnlineAndOfflineCapableTerminal_WithTimeoutAndTerminalAndIssuerActionCodeDefault_GeneratesApplicationAuthenticationCryptogram
+    ///     OnlineAndOfflineCapableTerminal_WithTimeoutAndTerminalAndIssuerActionCodeDefault_GeneratesApplicationAuthenticationCryptogram
     /// </summary>
     /// <param name="terminalActionCode"></param>
     /// <param name="issuerActionCodes"></param>
@@ -223,7 +223,7 @@ public partial class TerminalActionAnalysisServiceTests
     }
 
     /// <summary>
-    /// OnlineAndOfflineCapableTerminal_WithTerminalActionCodeDenial_GeneratesApplicationAuthenticationCryptogram
+    ///     OnlineAndOfflineCapableTerminal_WithTerminalActionCodeDenial_GeneratesApplicationAuthenticationCryptogram
     /// </summary>
     /// <param name="actionCode"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
@@ -244,7 +244,7 @@ public partial class TerminalActionAnalysisServiceTests
     }
 
     /// <summary>
-    /// OnlineAndOfflineCapableTerminal_WithIssuerActionCodeDenial_GeneratesApplicationAuthenticationCryptogram
+    ///     OnlineAndOfflineCapableTerminal_WithIssuerActionCodeDenial_GeneratesApplicationAuthenticationCryptogram
     /// </summary>
     /// <param name="actionCode"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
@@ -265,7 +265,7 @@ public partial class TerminalActionAnalysisServiceTests
     }
 
     /// <summary>
-    /// OnlineAndOfflineCapableTerminal_WithTerminalAndIssuerActionCodeDenial_GeneratesApplicationAuthenticationCryptogram
+    ///     OnlineAndOfflineCapableTerminal_WithTerminalAndIssuerActionCodeDenial_GeneratesApplicationAuthenticationCryptogram
     /// </summary>
     /// <param name="terminalActionCode"></param>
     /// <param name="issuerActionCodes"></param>

@@ -85,7 +85,7 @@ public partial class TagTests
     }
 
     /// <summary>
-    /// Byte_WithValueLessThan31_CreatesTagWithCorrectTagNumber
+    ///     Byte_WithValueLessThan31_CreatesTagWithCorrectTagNumber
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
@@ -179,7 +179,7 @@ public partial class TagTests
     }
 
     /// <summary>
-    /// RandomByte_WithValueLessThan31_CreatesTagWithCorrectTagNumber
+    ///     RandomByte_WithValueLessThan31_CreatesTagWithCorrectTagNumber
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
@@ -196,7 +196,7 @@ public partial class TagTests
     }
 
     /// <summary>
-    /// RandomShortIdentifierComponentParts_WhenInitializing_CreatesByteWithCorrectValue
+    ///     RandomShortIdentifierComponentParts_WhenInitializing_CreatesByteWithCorrectValue
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]

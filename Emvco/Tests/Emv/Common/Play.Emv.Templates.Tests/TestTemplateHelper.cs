@@ -13,7 +13,7 @@ internal class TestTemplateHelper
     #region Instance Members
 
     /// <summary>
-    /// GetEncodedTemplate
+    ///     GetEncodedTemplate
     /// </summary>
     /// <param name="constructedValue"></param>
     /// <param name="dataElements"></param>

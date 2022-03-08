@@ -28,7 +28,7 @@ public class DataBatchReader : IReadIccDataBatch
     #region Instance Members
 
     /// <summary>
-    /// Transceive
+    ///     Transceive
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>

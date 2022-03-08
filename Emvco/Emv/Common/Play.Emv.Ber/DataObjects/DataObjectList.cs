@@ -164,9 +164,8 @@ public abstract record DataObjectList : DataElement<byte[]>
 
     public TagLength[] GetRequestedItems() => DataObjects;
 
- 
     /// <summary>
-    /// ValidateCommandTemplate
+    ///     ValidateCommandTemplate
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="EmvEncodingFormatException"></exception>

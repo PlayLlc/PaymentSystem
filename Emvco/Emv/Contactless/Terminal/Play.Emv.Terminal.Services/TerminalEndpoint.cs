@@ -47,9 +47,9 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
     public ChannelIdentifier GetChannelIdentifier() => ChannelIdentifier;
 
     #region Requests
-     
+
     /// <summary>
-    /// Request
+    ///     Request
     /// </summary>
     /// <param name="message"></param>
     /// <exception cref="UnhandledRequestException"></exception>
@@ -92,7 +92,7 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
     #region Callbacks
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="message"></param>
     /// <exception cref="InvalidMessageRoutingException"></exception>

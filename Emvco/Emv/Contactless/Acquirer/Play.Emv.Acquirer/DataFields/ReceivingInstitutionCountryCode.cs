@@ -34,7 +34,7 @@ public record ReceivingInstitutionCountryCode : FixedDataField<ushort>
     #region Serialization
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

@@ -113,7 +113,7 @@ internal static partial class LongLength
         #region Serialization
 
         /// <summary>
-        /// Serialize
+        ///     Serialize
         /// </summary>
         /// <param name="contentOctets"></param>
         /// <returns></returns>

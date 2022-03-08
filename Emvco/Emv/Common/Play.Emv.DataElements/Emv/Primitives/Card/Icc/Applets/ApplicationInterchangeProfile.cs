@@ -51,9 +51,8 @@ public record ApplicationInterchangeProfile : DataElement<ushort>, IEqualityComp
 
     public static ApplicationInterchangeProfile Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
- 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

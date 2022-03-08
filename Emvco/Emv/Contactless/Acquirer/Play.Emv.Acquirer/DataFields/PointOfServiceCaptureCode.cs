@@ -34,7 +34,7 @@ public record PointOfServiceCaptureCode : FixedDataField<byte>
     #region Serialization
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

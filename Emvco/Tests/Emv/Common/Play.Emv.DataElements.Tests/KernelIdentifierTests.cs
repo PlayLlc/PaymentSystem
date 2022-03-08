@@ -13,7 +13,7 @@ public class KernelIdentifierTests
     #region Instance Members
 
     /// <summary>
-    /// Test
+    ///     Test
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -29,7 +29,7 @@ public class KernelIdentifierTests
     }
 
     /// <summary>
-    /// Test2
+    ///     Test2
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -45,7 +45,7 @@ public class KernelIdentifierTests
     }
 
     /// <summary>
-    /// Test3
+    ///     Test3
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -62,7 +62,7 @@ public class KernelIdentifierTests
     }
 
     /// <summary>
-    /// BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
+    ///     BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -76,7 +76,7 @@ public class KernelIdentifierTests
     }
 
     /// <summary>
-    /// BerEncoding_EncodingDataElement_SerializesExpectedValue
+    ///     BerEncoding_EncodingDataElement_SerializesExpectedValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -93,7 +93,7 @@ public class KernelIdentifierTests
     }
 
     /// <summary>
-    /// BerEncoding_EncodingDataElementTlv_SerializesExpectedValue
+    ///     BerEncoding_EncodingDataElementTlv_SerializesExpectedValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -110,7 +110,7 @@ public class KernelIdentifierTests
     }
 
     /// <summary>
-    /// BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue
+    ///     BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -126,7 +126,7 @@ public class KernelIdentifierTests
     }
 
     /// <summary>
-    /// TagLengthValue_SerializingToBer_ReturnsExpectedResult
+    ///     TagLengthValue_SerializingToBer_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>

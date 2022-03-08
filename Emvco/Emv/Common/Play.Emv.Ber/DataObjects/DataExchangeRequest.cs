@@ -23,7 +23,7 @@ public abstract record DataExchangeRequest : DataExchangeList<Tag>
     #region Serialization
 
     /// <summary>
-    /// EncodeValue
+    ///     EncodeValue
     /// </summary>
     /// <returns></returns>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>

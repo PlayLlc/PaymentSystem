@@ -61,7 +61,7 @@ internal class Check
         }
 
         /// <summary>
-        /// ForMaximumLength
+        ///     ForMaximumLength
         /// </summary>
         /// <param name="value"></param>
         /// <param name="maxLength"></param>

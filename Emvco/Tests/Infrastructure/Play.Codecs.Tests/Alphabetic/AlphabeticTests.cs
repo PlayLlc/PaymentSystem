@@ -24,7 +24,7 @@ public class AlphabeticTests
     #region Instance Members
 
     /// <summary>
-    /// RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult
+    ///     RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult
     /// </summary>
     /// <param name="testValue"></param>
     /// <exception cref="PlayEncodingException"></exception>
@@ -39,7 +39,7 @@ public class AlphabeticTests
     }
 
     /// <summary>
-    /// RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult
+    ///     RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult
     /// </summary>
     /// <param name="testValue"></param>
     /// <exception cref="PlayEncodingException"></exception>

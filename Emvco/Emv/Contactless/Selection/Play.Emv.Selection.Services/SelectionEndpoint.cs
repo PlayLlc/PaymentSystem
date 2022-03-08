@@ -49,7 +49,7 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
     #region Requests
 
     /// <summary>
-    /// Request
+    ///     Request
     /// </summary>
     /// <param name="message"></param>
     /// <exception cref="UnhandledRequestException"></exception>
@@ -89,7 +89,7 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
     #region Callbacks
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="message"></param>
     /// <exception cref="InvalidMessageRoutingException"></exception>

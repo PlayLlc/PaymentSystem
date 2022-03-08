@@ -36,7 +36,7 @@ public class S3R1
     #region Instance Members
 
     /// <summary>
-    /// Process
+    ///     Process
     /// </summary>
     /// <param name="session"></param>
     /// <returns></returns>
@@ -59,10 +59,12 @@ public class S3R1
                     ApplicationFileLocator.Decode(_KernelDatabase.Get(ApplicationFileLocator.Tag).EncodeTagLengthValue().AsSpan()))
                 .ConfigureAwait(false);
         }
+
+        throw new NotImplementedException();
     }
 
     /// <summary>
-    /// HandleEmptyApplicationFileLocator
+    ///     HandleEmptyApplicationFileLocator
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     private void HandleEmptyApplicationFileLocator()
@@ -71,7 +73,7 @@ public class S3R1
     }
 
     /// <summary>
-    /// ProcessTagsToRead
+    ///     ProcessTagsToRead
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -104,7 +106,7 @@ public class S3R1
     }
 
     /// <summary>
-    /// ProcessApplicationData
+    ///     ProcessApplicationData
     /// </summary>
     /// <param name="sessionId"></param>
     /// <param name="applicationFileLocator"></param>

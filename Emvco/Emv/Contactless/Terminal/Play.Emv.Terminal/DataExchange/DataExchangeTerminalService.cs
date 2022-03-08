@@ -85,7 +85,7 @@ public class DataExchangeTerminalService
     }
 
     /// <summary>
-    /// Initialize
+    ///     Initialize
     /// </summary>
     /// <param name="listType"></param>
     /// <exception cref="InvalidOperationException"></exception>
@@ -105,7 +105,7 @@ public class DataExchangeTerminalService
     }
 
     /// <summary>
-    /// Initialize
+    ///     Initialize
     /// </summary>
     /// <param name="list"></param>
     /// <exception cref="InvalidOperationException"></exception>
@@ -125,7 +125,7 @@ public class DataExchangeTerminalService
     }
 
     /// <summary>
-    /// Enqueue
+    ///     Enqueue
     /// </summary>
     /// <param name="type"></param>
     /// <param name="listItem"></param>
@@ -145,7 +145,7 @@ public class DataExchangeTerminalService
     }
 
     /// <summary>
-    /// Enqueue
+    ///     Enqueue
     /// </summary>
     /// <param name="type"></param>
     /// <param name="listItems"></param>
@@ -165,7 +165,7 @@ public class DataExchangeTerminalService
     }
 
     /// <summary>
-    /// Enqueue
+    ///     Enqueue
     /// </summary>
     /// <param name="type"></param>
     /// <param name="listItems"></param>
@@ -205,7 +205,7 @@ public class DataExchangeTerminalService
 
     // Hack: Passing in the TerminalSession seems like a hack to me. Is there a better pattern than this? Let's look at the system flow and related objects
     /// <summary>
-    /// Resolve
+    ///     Resolve
     /// </summary>
     /// <param name="terminalSession"></param>
     /// <exception cref="InvalidOperationException"></exception>
@@ -262,7 +262,7 @@ public class DataExchangeTerminalService
     }
 
     /// <summary>
-    /// Initialize
+    ///     Initialize
     /// </summary>
     /// <param name="list"></param>
     /// <exception cref="InvalidOperationException"></exception>
@@ -282,7 +282,7 @@ public class DataExchangeTerminalService
     }
 
     /// <summary>
-    /// Enqueue
+    ///     Enqueue
     /// </summary>
     /// <param name="listItem"></param>
     /// <exception cref="InvalidOperationException"></exception>
@@ -301,7 +301,7 @@ public class DataExchangeTerminalService
     }
 
     /// <summary>
-    /// Enqueue
+    ///     Enqueue
     /// </summary>
     /// <param name="type"></param>
     /// <param name="listItems"></param>
@@ -321,7 +321,7 @@ public class DataExchangeTerminalService
     }
 
     /// <summary>
-    /// Enqueue
+    ///     Enqueue
     /// </summary>
     /// <param name="listItems"></param>
     /// <exception cref="InvalidOperationException"></exception>

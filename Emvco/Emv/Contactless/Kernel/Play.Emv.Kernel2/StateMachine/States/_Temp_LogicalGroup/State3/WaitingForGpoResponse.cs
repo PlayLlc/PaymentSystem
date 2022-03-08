@@ -55,7 +55,7 @@ public partial class WaitingForGpoResponse : KernelState
     #region DET
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -65,7 +65,7 @@ public partial class WaitingForGpoResponse : KernelState
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -75,7 +75,7 @@ public partial class WaitingForGpoResponse : KernelState
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>

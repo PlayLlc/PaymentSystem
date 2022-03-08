@@ -37,7 +37,7 @@ public record DetResponseType : EnumObject<Tag>
     #region Instance Members
 
     /// <summary>
-    /// GetName
+    ///     GetName
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

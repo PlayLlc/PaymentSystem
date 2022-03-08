@@ -39,7 +39,7 @@ internal class SelectionProcess : CommandProcessingQueue
     internal void Enqueue(SendPoiInformationResponse request) => Enqueue((dynamic) request);
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -51,7 +51,7 @@ internal class SelectionProcess : CommandProcessingQueue
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -62,7 +62,7 @@ internal class SelectionProcess : CommandProcessingQueue
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -74,7 +74,7 @@ internal class SelectionProcess : CommandProcessingQueue
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -85,7 +85,7 @@ internal class SelectionProcess : CommandProcessingQueue
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -96,7 +96,7 @@ internal class SelectionProcess : CommandProcessingQueue
     }
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>

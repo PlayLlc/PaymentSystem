@@ -13,7 +13,7 @@ public class ApplicationFileLocatorTests
     #region Instance Members
 
     /// <summary>
-    /// BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
+    ///     BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -26,7 +26,7 @@ public class ApplicationFileLocatorTests
     }
 
     /// <summary>
-    /// BerEncoding_EncodingDataElement_SerializesExpectedValue
+    ///     BerEncoding_EncodingDataElement_SerializesExpectedValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -42,7 +42,7 @@ public class ApplicationFileLocatorTests
     }
 
     /// <summary>
-    /// BerEncoding_EncodingDataElementTlv_SerializesExpectedValue
+    ///     BerEncoding_EncodingDataElementTlv_SerializesExpectedValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -58,7 +58,7 @@ public class ApplicationFileLocatorTests
     }
 
     /// <summary>
-    /// BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue
+    ///     BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -73,7 +73,7 @@ public class ApplicationFileLocatorTests
     }
 
     /// <summary>
-    /// TagLengthValue_SerializingToBer_ReturnsExpectedResult
+    ///     TagLengthValue_SerializingToBer_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -89,7 +89,7 @@ public class ApplicationFileLocatorTests
     }
 
     /// <summary>
-    /// InvalidBerEncoding_DeserializingDataElement_Throws
+    ///     InvalidBerEncoding_DeserializingDataElement_Throws
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -102,7 +102,7 @@ public class ApplicationFileLocatorTests
     }
 
     /// <summary>
-    /// DataElement_InvokingGetValueByteCount_ReturnsExpectedResult
+    ///     DataElement_InvokingGetValueByteCount_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -118,7 +118,7 @@ public class ApplicationFileLocatorTests
     }
 
     /// <summary>
-    /// DataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult
+    ///     DataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -134,7 +134,7 @@ public class ApplicationFileLocatorTests
     }
 
     /// <summary>
-    /// CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult
+    ///     CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
@@ -150,7 +150,7 @@ public class ApplicationFileLocatorTests
     }
 
     /// <summary>
-    /// CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult
+    ///     CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>

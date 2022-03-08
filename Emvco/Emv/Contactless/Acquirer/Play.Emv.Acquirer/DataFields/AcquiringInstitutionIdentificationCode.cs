@@ -39,7 +39,7 @@ public record AcquiringInstitutionIdentificationCode : VariableDataField<BigInte
     #region Serialization
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

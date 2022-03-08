@@ -52,7 +52,7 @@ internal class WaitingForFinalOutcome : TerminalState
     public override TerminalState Handle(TerminalSession? session, InitiateSettlementRequest signal) => throw new NotImplementedException();
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -62,7 +62,7 @@ internal class WaitingForFinalOutcome : TerminalState
         throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -103,7 +103,7 @@ internal class WaitingForFinalOutcome : TerminalState
         throw new NotImplementedException();
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -113,7 +113,7 @@ internal class WaitingForFinalOutcome : TerminalState
         throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>

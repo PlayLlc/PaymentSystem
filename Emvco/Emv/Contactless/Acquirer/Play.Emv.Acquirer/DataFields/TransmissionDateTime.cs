@@ -34,7 +34,7 @@ public record TransmissionDateTime : FixedDataField<ulong>
     #region Serialization
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
