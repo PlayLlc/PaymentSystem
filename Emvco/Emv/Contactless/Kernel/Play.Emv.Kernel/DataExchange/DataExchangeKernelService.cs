@@ -85,6 +85,193 @@ public class DataExchangeKernelService
         #endregion
     }
 
+    #region Requests
+
+    public void SendRequest(KernelSessionId sessionId)
+    {
+        lock (_Lock)
+        {
+            if (!_Lock.Responses.ContainsKey(DekRequestType.DataNeeded))
+                return;
+
+            QueryTerminalRequest queryKernelResponse = new(new DataExchangeKernelId(sessionId.GetKernelId(), sessionId),
+                (DataNeeded) _Lock.Requests[DekRequestType.DataNeeded]);
+
+            _TerminalEndpoint.Request(queryKernelResponse);
+            _Lock.Responses[DekRequestType.DataNeeded].Clear();
+        }
+    }
+
+    /// <summary>
+    ///     Attempts to get requested tags that have not yet been read
+    /// </summary>
+    /// <param name="result"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public bool TryDequeue(out Tag result)
+    {
+        lock (_Lock.Requests)
+        {
+            if (!_Lock.Requests.ContainsKey(DekRequestType.TagsToRead))
+            {
+                throw new InvalidOperationException(
+                    $"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
+            }
+
+            return _Lock.Requests[DekRequestType.TagsToRead].TryDequeue(out result);
+        }
+    }
+
+    /// <summary>
+    ///     Checks for any non-empty values in the database from the remaining list of <see cref="TagsToRead" />. If any values
+    ///     are present in the database it will dequeue the <see cref="Tag" /> from TagsToReadYet and Enqueue the
+    ///     <see cref="DataToSend" />
+    ///     buffer with the <see cref="DatabaseValue" />
+    /// </summary>
+    /// <param name="listType"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public int Resolve(DekRequestType listType)
+    {
+        lock (_Lock.Requests)
+        {
+            if (listType == DekRequestType.DataNeeded)
+                return _Lock.Requests[listType].Count();
+
+            if (listType == DekRequestType.TagsToRead)
+                return Resolve((TagsToRead?) _Lock.Requests.GetValueOrDefault(TagsToRead.Tag), _TlvDatabase);
+
+            throw new InvalidOperationException($"The {nameof(DekRequestType)} provided has not been implemented");
+        }
+    }
+
+    /// <summary>
+    ///     Resolve
+    /// </summary>
+    /// <param name="tagsToRead"></param>
+    /// <param name="tlvDatabase"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    private static int Resolve(TagsToRead? tagsToRead, IQueryTlvDatabase tlvDatabase)
+    {
+        if (tagsToRead == null)
+        {
+            throw new InvalidOperationException(
+                $"The {nameof(DataExchangeKernelService)} could not Resolve the {nameof(TagsToRead)} because the list has not been initialized");
+        }
+
+        for (int i = 0; i < tagsToRead.Count(); i++)
+        {
+            if (!tagsToRead.TryDequeue(out Tag tagToRead))
+                throw new InvalidOperationException();
+
+            if (tlvDatabase.IsPresentAndNotEmpty(tagToRead))
+                continue;
+
+            tagsToRead.Enqueue(tagToRead);
+        }
+
+        return tagsToRead.Count();
+    }
+
+    /// <summary>
+    ///     Checks the <see cref="TagLengthValue" /> results provided by the <see cref="GetDataResponse" /> and resolves any
+    ///     matching values for <see cref="TagsToRead" />
+    /// </summary>
+    /// <param name="dataBatchResponse"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public int Resolve(GetDataBatchResponse dataBatchResponse)
+    {
+        lock (_Lock.Requests)
+        {
+            TagsToRead tagsToRead = (TagsToRead) _Lock.Requests[DekRequestType.TagsToRead];
+            tagsToRead.Resolve(dataBatchResponse.GetTagLengthValuesResult());
+
+            return tagsToRead.Count();
+        }
+    }
+
+    /// <summary>
+    ///     TryGetDataBatchRequest
+    /// </summary>
+    /// <param name="sessionId"></param>
+    /// <param name="result"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public bool TryGetDataBatchRequest(TransactionSessionId sessionId, out GetDataBatchRequest? result)
+    {
+        lock (_Lock.Requests)
+        {
+            if (!_Lock.Requests.ContainsKey(TagsToRead.Tag))
+            {
+                result = null;
+
+                return false;
+            }
+
+            result = GetDataBatchRequest.Create(sessionId,
+                TagsToRead.Decode(_Lock.Requests[TagsToRead.Tag].EncodeTagLengthValue().AsSpan()));
+
+            return true;
+        }
+    }
+
+    // TODO: We might only be initializing DataNeeded here
+    public void Initialize(DataExchangeRequest list)
+    {
+        lock (_Lock.Requests)
+        {
+            if (_Lock.Requests.ContainsKey(list.GetTag()))
+                _Lock.Requests[list.GetTag()].Enqueue(list);
+
+            _ = _Lock.Requests.TryAdd(list.GetTag(), list);
+        }
+    }
+
+    /// <summary>
+    ///     Enqueue
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="listItem"></param>
+    /// <exception cref="InvalidOperationException"></exception>
+    public void Enqueue(DekRequestType type, Tag listItem)
+    {
+        lock (_Lock.Requests)
+        {
+            if (!_Lock.Requests.ContainsKey(type))
+            {
+                throw new InvalidOperationException(
+                    $"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
+            }
+
+            _Lock.Requests[type].Enqueue(listItem);
+        }
+    }
+
+    /// <summary>
+    ///     Enqueue
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="listItems"></param>
+    /// <exception cref="InvalidOperationException"></exception>
+    public void Enqueue(DekRequestType type, Tag[] listItems)
+    {
+        lock (_Lock.Requests)
+        {
+            if (!_Lock.Requests.ContainsKey(type))
+            {
+                throw new InvalidOperationException(
+                    $"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
+            }
+
+            _Lock.Requests[type].Enqueue(listItems);
+        }
+    }
+
+    #endregion
+
     #region Responses
 
     /// <summary>
@@ -280,193 +467,6 @@ public class DataExchangeKernelService
             }
 
             return _Lock.Requests[typeType].Count();
-        }
-    }
-
-    #endregion
-
-    #region Requests
-
-    public void SendRequest(KernelSessionId sessionId)
-    {
-        lock (_Lock)
-        {
-            if (!_Lock.Responses.ContainsKey(DekRequestType.DataNeeded))
-                return;
-
-            QueryTerminalRequest queryKernelResponse = new(new DataExchangeKernelId(sessionId.GetKernelId(), sessionId),
-                (DataNeeded) _Lock.Requests[DekRequestType.DataNeeded]);
-
-            _TerminalEndpoint.Request(queryKernelResponse);
-            _Lock.Responses[DekRequestType.DataNeeded].Clear();
-        }
-    }
-
-    /// <summary>
-    ///     Attempts to get requested tags that have not yet been read
-    /// </summary>
-    /// <param name="result"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    public bool TryDequeue(out Tag result)
-    {
-        lock (_Lock.Requests)
-        {
-            if (!_Lock.Requests.ContainsKey(DekRequestType.TagsToRead))
-            {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
-            }
-
-            return _Lock.Requests[DekRequestType.TagsToRead].TryDequeue(out result);
-        }
-    }
-
-    /// <summary>
-    ///     Checks for any non-empty values in the database from the remaining list of <see cref="TagsToRead" />. If any values
-    ///     are present in the database it will dequeue the <see cref="Tag" /> from TagsToReadYet and Enqueue the
-    ///     <see cref="DataToSend" />
-    ///     buffer with the <see cref="DatabaseValue" />
-    /// </summary>
-    /// <param name="listType"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    public int Resolve(DekRequestType listType)
-    {
-        lock (_Lock.Requests)
-        {
-            if (listType == DekRequestType.DataNeeded)
-                return _Lock.Requests[listType].Count();
-
-            if (listType == DekRequestType.TagsToRead)
-                return Resolve((TagsToRead?) _Lock.Requests.GetValueOrDefault(TagsToRead.Tag), _TlvDatabase);
-
-            throw new InvalidOperationException($"The {nameof(DekRequestType)} provided has not been implemented");
-        }
-    }
-
-    /// <summary>
-    ///     Resolve
-    /// </summary>
-    /// <param name="tagsToRead"></param>
-    /// <param name="tlvDatabase"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    private static int Resolve(TagsToRead? tagsToRead, IQueryTlvDatabase tlvDatabase)
-    {
-        if (tagsToRead == null)
-        {
-            throw new InvalidOperationException(
-                $"The {nameof(DataExchangeKernelService)} could not Resolve the {nameof(TagsToRead)} because the list has not been initialized");
-        }
-
-        for (int i = 0; i < tagsToRead.Count(); i++)
-        {
-            if (!tagsToRead.TryDequeue(out Tag tagToRead))
-                throw new InvalidOperationException();
-
-            if (tlvDatabase.IsPresentAndNotEmpty(tagToRead))
-                continue;
-
-            tagsToRead.Enqueue(tagToRead);
-        }
-
-        return tagsToRead.Count();
-    }
-
-    /// <summary>
-    ///     Checks the <see cref="TagLengthValue" /> results provided by the <see cref="GetDataResponse" /> and resolves any
-    ///     matching values for <see cref="TagsToRead" />
-    /// </summary>
-    /// <param name="dataBatchResponse"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    public int Resolve(GetDataBatchResponse dataBatchResponse)
-    {
-        lock (_Lock.Requests)
-        {
-            TagsToRead tagsToRead = (TagsToRead) _Lock.Requests[DekRequestType.TagsToRead];
-            tagsToRead.Resolve(dataBatchResponse.GetTagLengthValuesResult());
-
-            return tagsToRead.Count();
-        }
-    }
-
-    /// <summary>
-    ///     TryGetDataBatchRequest
-    /// </summary>
-    /// <param name="sessionId"></param>
-    /// <param name="result"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public bool TryGetDataBatchRequest(TransactionSessionId sessionId, out GetDataBatchRequest? result)
-    {
-        lock (_Lock.Requests)
-        {
-            if (!_Lock.Requests.ContainsKey(TagsToRead.Tag))
-            {
-                result = null;
-
-                return false;
-            }
-
-            result = GetDataBatchRequest.Create(sessionId,
-                TagsToRead.Decode(_Lock.Requests[TagsToRead.Tag].EncodeTagLengthValue().AsSpan()));
-
-            return true;
-        }
-    }
-
-    // TODO: We might only be initializing DataNeeded here
-    public void Initialize(DataExchangeRequest list)
-    {
-        lock (_Lock.Requests)
-        {
-            if (_Lock.Requests.ContainsKey(list.GetTag()))
-                _Lock.Requests[list.GetTag()].Enqueue(list);
-
-            _ = _Lock.Requests.TryAdd(list.GetTag(), list);
-        }
-    }
-
-    /// <summary>
-    ///     Enqueue
-    /// </summary>
-    /// <param name="type"></param>
-    /// <param name="listItem"></param>
-    /// <exception cref="InvalidOperationException"></exception>
-    public void Enqueue(DekRequestType type, Tag listItem)
-    {
-        lock (_Lock.Requests)
-        {
-            if (!_Lock.Requests.ContainsKey(type))
-            {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
-            }
-
-            _Lock.Requests[type].Enqueue(listItem);
-        }
-    }
-
-    /// <summary>
-    ///     Enqueue
-    /// </summary>
-    /// <param name="type"></param>
-    /// <param name="listItems"></param>
-    /// <exception cref="InvalidOperationException"></exception>
-    public void Enqueue(DekRequestType type, Tag[] listItems)
-    {
-        lock (_Lock.Requests)
-        {
-            if (!_Lock.Requests.ContainsKey(type))
-            {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
-            }
-
-            _Lock.Requests[type].Enqueue(listItems);
         }
     }
 

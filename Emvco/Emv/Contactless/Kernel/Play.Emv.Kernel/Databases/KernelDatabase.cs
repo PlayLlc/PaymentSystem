@@ -22,6 +22,9 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     protected readonly ITlvDatabase _TlvDatabase;
     protected KernelSessionId? _KernelSessionId;
     protected IHandleTerminalRequests _TerminalEndpoint;
+    protected OutcomeParameterSet.Builder _OutcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
+    protected UserInterfaceRequestData.Builder _UserInterfaceRequestDataBuilder = UserInterfaceRequestData.GetBuilder();
+    protected ErrorIndication.Builder _ErrorIndicationBuilder = ErrorIndication.GetBuilder();
 
     #endregion
 
@@ -274,16 +277,16 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     public ErrorIndication GetErrorIndication() => ErrorIndication.Decode(Get(ErrorIndication.Tag).EncodeValue().AsSpan());
     private OutcomeParameterSet GetOutcomeParameterSet() => OutcomeParameterSet.Decode(Get(OutcomeParameterSet.Tag).EncodeValue().AsSpan());
 
-    /// <summary>
-    ///     GetUserInterfaceRequestData
-    /// </summary>
-    /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    private UserInterfaceRequestData? GetUserInterfaceRequestData()
+    private UserInterfaceRequestData GetUserInterfaceRequestData()
     {
         if (IsPresentAndNotEmpty(UserInterfaceRequestData.Tag))
-            return null;
+        {
+            UserInterfaceRequestData.Builder builder = UserInterfaceRequestData.GetBuilder();
+
+            return builder.Complete();
+        }
 
         return UserInterfaceRequestData.Decode(Get(UserInterfaceRequestData.Tag).EncodeValue().AsSpan());
     }
@@ -315,6 +318,92 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         return DiscretionaryData.Decode(Get(DiscretionaryData.Tag).EncodeValue().AsSpan());
     }
 
+    #region Write Outcome
+
+    public void Update(MessageIdentifier value)
+    {
+        _UserInterfaceRequestDataBuilder.Reset(GetUserInterfaceRequestData());
+        _UserInterfaceRequestDataBuilder.Set(value);
+        Update(_UserInterfaceRequestDataBuilder.Complete());
+    }
+
+    public void Update(Status value)
+    {
+        _UserInterfaceRequestDataBuilder.Reset(GetUserInterfaceRequestData());
+        _UserInterfaceRequestDataBuilder.Set(value);
+        Update(_UserInterfaceRequestDataBuilder.Complete());
+    }
+
+    public void Update(MessageHoldTime value)
+    {
+        _UserInterfaceRequestDataBuilder.Reset(GetUserInterfaceRequestData());
+        _UserInterfaceRequestDataBuilder.Set(value);
+        Update(_UserInterfaceRequestDataBuilder.Complete());
+    }
+
+    public void Update(StatusOutcome value)
+    {
+        _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
+        _OutcomeParameterSetBuilder.Set(value);
+        Update(_OutcomeParameterSetBuilder.Complete());
+    }
+
+    public void Update(CvmPerformedOutcome value)
+    {
+        _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
+        _OutcomeParameterSetBuilder.Set(value);
+        Update(_OutcomeParameterSetBuilder.Complete());
+    }
+
+    public void Update(OnlineResponseOutcome value)
+    {
+        _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
+        _OutcomeParameterSetBuilder.Set(value);
+        Update(_OutcomeParameterSetBuilder.Complete());
+    }
+
+    public void Update(FieldOffRequestOutcome value)
+    {
+        _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
+        _OutcomeParameterSetBuilder.Set(value);
+        Update(_OutcomeParameterSetBuilder.Complete());
+    }
+
+    public void Update(StartOutcome value)
+    {
+        _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
+        _OutcomeParameterSetBuilder.Set(value);
+        Update(_OutcomeParameterSetBuilder.Complete());
+    }
+
+    public void SetUiRequestOnRestartPresent(bool value)
+    {
+        _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
+        _OutcomeParameterSetBuilder.SetIsUiRequestOnOutcomePresent(value);
+        Update(_OutcomeParameterSetBuilder.Complete());
+    }
+
+    public void SetIsDataRecordPresent(bool value)
+    {
+        _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
+        _OutcomeParameterSetBuilder.SetIsDataRecordPresent(value);
+        Update(_OutcomeParameterSetBuilder.Complete());
+    }
+
+    public void SetIsDiscretionaryDataPresent(bool value)
+    {
+        _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
+        _OutcomeParameterSetBuilder.SetIsDiscretionaryDataPresent(value);
+        Update(_OutcomeParameterSetBuilder.Complete());
+    }
+
+    public void SetIsReceiptPresent(bool value)
+    {
+        _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
+        _OutcomeParameterSetBuilder.SetIsUiRequestOnRestartPresent(value);
+        Update(_OutcomeParameterSetBuilder.Complete());
+    }
+
     /// <summary>
     ///     Update
     /// </summary>
@@ -322,7 +411,9 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// <exception cref="InvalidOperationException"></exception>
     public void Update(Level1Error value)
     {
-        Update(new ErrorIndication(GetErrorIndication(), value));
+        _ErrorIndicationBuilder.Reset(GetErrorIndication());
+        _ErrorIndicationBuilder.Set(value);
+        Update(_ErrorIndicationBuilder.Complete());
     }
 
     /// <summary>
@@ -332,7 +423,9 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// <exception cref="InvalidOperationException"></exception>
     public void Update(Level2Error value)
     {
-        Update(new ErrorIndication(GetErrorIndication(), value));
+        _ErrorIndicationBuilder.Reset(GetErrorIndication());
+        _ErrorIndicationBuilder.Set(value);
+        Update(_ErrorIndicationBuilder.Complete());
     }
 
     /// <summary>
@@ -342,7 +435,9 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// <exception cref="InvalidOperationException"></exception>
     public void Update(Level3Error value)
     {
-        Update(new ErrorIndication(GetErrorIndication(), value));
+        _ErrorIndicationBuilder.Reset(GetErrorIndication());
+        _ErrorIndicationBuilder.Set(value);
+        Update(_ErrorIndicationBuilder.Complete());
     }
 
     /// <summary>
@@ -375,31 +470,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         Update(value);
     }
 
-    /// <summary>
-    ///     Update
-    /// </summary>
-    /// <param name="value"></param>
-    /// <exception cref="InvalidOperationException"></exception>
-    public void Update(OutcomeParameterSet.Builder value)
-    {
-        Update(GetOutcomeParameterSet() | value.Complete());
-    }
-
-    /// <summary>
-    ///     Update
-    /// </summary>
-    /// <param name="value"></param>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public void Update(UserInterfaceRequestData.Builder value)
-    {
-        UserInterfaceRequestData? userInterfaceRequestData = GetUserInterfaceRequestData();
-
-        if (userInterfaceRequestData == null)
-            Update(value.Complete());
-
-        Update(GetUserInterfaceRequestData()! | value.Complete());
-    }
+    #endregion
 
     public Outcome GetOutcome() =>
         new(GetErrorIndication(), GetOutcomeParameterSet(), GetDataRecord(), GetDiscretionaryData(), GetUserInterfaceRequestData());

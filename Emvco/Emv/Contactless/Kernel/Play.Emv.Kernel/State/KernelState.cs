@@ -63,10 +63,8 @@ public abstract class KernelState
     /// <exception cref="System.InvalidOperationException"></exception>
     private void HandleBerEncodingException(CorrelationId correlationId, KernelSessionId kernelSessionId)
     {
-        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
-        builder.Set(StatusOutcome.SelectNext);
-        builder.Set(StartOutcome.C);
-        _KernelDatabase.Update(builder);
+        _KernelDatabase.Update(StatusOutcome.SelectNext);
+        _KernelDatabase.Update(StartOutcome.C);
 
         _KernelEndpoint.Send(new OutKernelResponse(correlationId, kernelSessionId, _KernelDatabase.GetOutcome()));
     }
@@ -82,9 +80,7 @@ public abstract class KernelState
         if (!session.TimedOut())
             return false;
 
-        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
-        builder.Set(StatusOutcome.EndApplication);
-        _KernelDatabase.Update(builder);
+        _KernelDatabase.Update(StatusOutcome.EndApplication);
         _KernelDatabase.Update(Level3Error.TimeOut);
         _KernelDatabase.Initialize(DiscretionaryData.Tag);
         _DataExchangeKernelService.Initialize(DekResponseType.DiscretionaryData);
@@ -95,15 +91,39 @@ public abstract class KernelState
         return true;
     }
 
-    /// <summary>
-    ///     HandleRequestOutOfSync
-    /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
     protected static void HandleRequestOutOfSync(KernelSession session, IExchangeDataWithTheKernel signal)
     {
         if (signal.GetDataExchangeKernelId().GetKernelSessionId() != session.GetKernelSessionId())
+        {
+            throw new RequestOutOfSyncException(
+                $"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
+        }
+    }
+
+    protected static void HandleRequestOutOfSync(KernelSession session, StopKernelRequest signal)
+    {
+        if (signal.GetTransactionSessionId() != session.GetTransactionSessionId())
+        {
+            throw new RequestOutOfSyncException(
+                $"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
+        }
+    }
+
+    protected static void HandleRequestOutOfSync(KernelSession session, ActivateKernelRequest signal)
+    {
+        if (signal.GetTransactionSessionId() != session.GetTransactionSessionId())
+        {
+            throw new RequestOutOfSyncException(
+                $"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
+        }
+    }
+
+    protected static void HandleRequestOutOfSync(KernelSession session, QueryPcdResponse signal)
+    {
+        if (signal.GetTransactionSessionId() != session.GetTransactionSessionId())
         {
             throw new RequestOutOfSyncException(
                 $"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");

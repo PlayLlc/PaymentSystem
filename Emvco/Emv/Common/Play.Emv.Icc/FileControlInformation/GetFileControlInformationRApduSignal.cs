@@ -11,6 +11,8 @@ public class GetFileControlInformationRApduSignal : RApduSignal
 
     #region Instance Members
 
+    public override bool IsSuccessful() => throw new NotImplementedException();
+
     public override Level1Error GetLevel1Error() =>
         throw
 

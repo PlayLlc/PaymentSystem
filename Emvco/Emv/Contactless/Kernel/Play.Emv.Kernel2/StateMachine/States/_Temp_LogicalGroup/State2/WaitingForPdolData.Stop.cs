@@ -21,9 +21,9 @@ public partial class WaitingForPdolData : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
-        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
-        builder.Set(StatusOutcome.EndApplication);
-        _KernelDatabase.Update(builder);
+        HandleRequestOutOfSync(session, signal);
+
+        _KernelDatabase.Update(StatusOutcome.EndApplication);
 
         if (!_KernelDatabase.GetErrorIndication().IsErrorPresent())
             _KernelDatabase.Update(Level3Error.Stop);

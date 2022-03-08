@@ -13,8 +13,9 @@ public abstract class RApduSignal : ApduResponse
 
     #region Instance Members
 
-    public bool Success() => (_StatusWords == StatusWords._9000) && (GetLevel1Error() == Level1Error.Ok);
+    public abstract bool IsSuccessful();
     public abstract Level1Error GetLevel1Error();
+    public StatusWords GetStatusWords() => _StatusWords;
 
     #endregion
 }

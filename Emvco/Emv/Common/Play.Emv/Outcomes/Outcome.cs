@@ -22,7 +22,7 @@ public class Outcome
     private ErrorIndication _ErrorIndication;
     private OutcomeParameterSet _OutcomeParameterSet;
     private UserInterfaceRequestData? _UserInterfaceRequestData;
-    private TerminalVerificationResults _TerminalVerificationResults;
+    private readonly TerminalVerificationResults _TerminalVerificationResults;
 
     #endregion
 
@@ -163,41 +163,6 @@ public class Outcome
     public void Reset(ErrorIndication errorIndication)
     {
         _ErrorIndication = errorIndication;
-    }
-
-    public void Update(Level1Error level1Error)
-    {
-        _ErrorIndication = new ErrorIndication(_ErrorIndication, level1Error);
-    }
-
-    public void Update(Level2Error level2Error)
-    {
-        _ErrorIndication = new ErrorIndication(_ErrorIndication, level2Error);
-    }
-
-    public void Update(Level3Error level3Error)
-    {
-        _ErrorIndication = new ErrorIndication(_ErrorIndication, level3Error);
-    }
-
-    public void Update(TerminalVerificationResult value)
-    {
-        _TerminalVerificationResults |= new TerminalVerificationResults(value);
-    }
-
-    public void Reset(TerminalVerificationResults value)
-    {
-        _TerminalVerificationResults = value;
-    }
-
-    public void Reset(OutcomeParameterSet outcomeParameterSet)
-    {
-        _OutcomeParameterSet = outcomeParameterSet;
-    }
-
-    public void Reset(UserInterfaceRequestData userInterfaceRequestData)
-    {
-        _UserInterfaceRequestData = userInterfaceRequestData;
     }
 
     public bool TryGetUserInterfaceRequestData(out UserInterfaceRequestData? result)

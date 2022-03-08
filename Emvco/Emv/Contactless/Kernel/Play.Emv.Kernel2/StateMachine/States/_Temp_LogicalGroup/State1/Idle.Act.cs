@@ -30,6 +30,8 @@ public partial class Idle : KernelState
     /// <exception cref="DataElementParsingException"></exception>
     public override KernelState Handle(KernelSession session, ActivateKernelRequest signal)
     {
+        HandleRequestOutOfSync(session, signal);
+
         Kernel2Session kernel2Session = (Kernel2Session) session;
 
         if (!TryInitialize(signal.GetCorrelationId(), signal.GetKernelSessionId(), signal.GetTransaction()))
@@ -64,21 +66,15 @@ public partial class Idle : KernelState
     private void UpdateLanguagePreferences(Kernel2Session session, FileControlInformationAdf fci)
     {
         if (fci.TryGetLanguagePreference(out LanguagePreference? languagePreference))
-        {
-            UserInterfaceRequestData.Builder builder = UserInterfaceRequestData.GetBuilder();
-            builder.Set(languagePreference!);
-            ((Kernel2Database) _KernelDatabase).Update(builder);
-        }
+            ((Kernel2Database) _KernelDatabase).Update(languagePreference!);
     }
 
     /// <remarks>Book C-2 Section 6.3.3 - S1.7</remarks>
     /// <exception cref="InvalidOperationException"></exception>
     private void HandleBerEncodingException(CorrelationId correlationId, KernelSessionId kernelSessionId)
     {
-        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
-        builder.Set(StatusOutcome.SelectNext);
-        builder.Set(StartOutcome.C);
-        _KernelDatabase.Update(builder);
+        _KernelDatabase.Update(StatusOutcome.SelectNext);
+        _KernelDatabase.Update(StartOutcome.C);
 
         _KernelEndpoint.Send(new OutKernelResponse(correlationId, kernelSessionId, _KernelDatabase.GetOutcome()));
     }
@@ -96,10 +92,7 @@ public partial class Idle : KernelState
             if (result!.IsSupportForFieldOffDetectionSet())
             {
                 byte holdTime = _KernelDatabase.Get(MessageHoldTime.Tag).EncodeValue()[0];
-                OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
-                builder.Set(new FieldOffRequestOutcome(holdTime));
-                ((Kernel2Database) _KernelDatabase).Update(builder);
-                _KernelDatabase.Update(builder);
+                _KernelDatabase.Update(new FieldOffRequestOutcome(holdTime));
             }
         }
     }
@@ -122,14 +115,14 @@ public partial class Idle : KernelState
         catch (BerParsingException)
         {
             /* logging */
-            signal.GetTransaction().Update(Level2Error.ParsingError);
+            _KernelDatabase.Update(Level2Error.ParsingError);
             HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
         }
 
         catch (CardDataMissingException)
         {
             /* logging */
-            signal.GetTransaction().Update(Level2Error.CardDataError);
+            _KernelDatabase.Update(Level2Error.CardDataError);
             HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
         }
 
@@ -151,26 +144,26 @@ public partial class Idle : KernelState
             userInterfaceBuilder.Set(MessageHoldTime.Decode(_KernelDatabase.Get(KnownObjects.MessageHoldTime).EncodeValue()));
             _KernelDatabase.Reset(outcomeParameterSetBuilder.Complete());
             _KernelDatabase.Reset(userInterfaceBuilder.Complete());
-            _KernelDatabase.Reset(new ErrorIndication(0));
+            _KernelDatabase.Reset(new ErrorIndication());
 
             return true;
         }
         catch (BerParsingException)
         {
-            transaction.Update(Level2Error.ParsingError);
+            _KernelDatabase.Update(Level2Error.ParsingError);
             HandleBerEncodingException(correlationId, kernelSessionId);
         }
 
         catch (CardDataMissingException)
         {
             /* logging */
-            transaction.Update(Level2Error.ParsingError);
+            _KernelDatabase.Update(Level2Error.ParsingError);
             HandleBerEncodingException(correlationId, kernelSessionId);
         }
         catch (Exception)
         {
             /* logging */
-            transaction.Update(Level2Error.ParsingError);
+            _KernelDatabase.Update(Level2Error.ParsingError);
             HandleBerEncodingException(correlationId, kernelSessionId);
         }
 

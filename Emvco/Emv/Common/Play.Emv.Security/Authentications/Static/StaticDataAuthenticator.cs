@@ -39,8 +39,11 @@ internal class StaticDataAuthenticator
         TerminalVerificationResult terminalVerificationResult = TerminalVerificationResult.Create();
         terminalVerificationResult.SetStaticDataAuthenticationFailed();
 
-        return new AuthenticateStaticDataResponse(terminalVerificationResult,
-            new ErrorIndication(Level2Error.TerminalDataError, StatusWords.NotAvailable));
+        ErrorIndication.Builder builder = ErrorIndication.GetBuilder();
+        builder.Set(Level2Error.TerminalDataError);
+        builder.Set(StatusWords.NotAvailable);
+
+        return new AuthenticateStaticDataResponse(terminalVerificationResult, builder.Complete());
     }
 
     // another option would be to pass a reference value of the outcome to each private

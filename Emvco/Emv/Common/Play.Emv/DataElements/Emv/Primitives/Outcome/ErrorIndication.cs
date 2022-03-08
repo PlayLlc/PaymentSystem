@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
@@ -9,6 +10,7 @@ using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
+using Play.Globalization.Currency;
 using Play.Icc.Messaging.Apdu;
 
 namespace Play.Emv.DataElements;
@@ -22,7 +24,7 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
     #region Static Metadata
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
-    public static readonly ErrorIndication Default = new(0);
+    public static readonly ErrorIndication Default = new();
     public static readonly Tag Tag = 0xDF8115;
 
     #endregion
@@ -32,58 +34,47 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
     public ErrorIndication() : base(0)
     { }
 
-    public ErrorIndication(Level1Error[] level1Errors, Level2Error[] level2Errors, Level3Error[] level3Errors) : base(
-        BuildErrorIndication(level1Errors, level2Errors, level3Errors))
-    { }
+    //public ErrorIndication(Level1Error[] level1Errors, Level2Error[] level2Errors, Level3Error[] level3Errors) : base(
+    //    BuildErrorIndication(level1Errors, level2Errors, level3Errors))
+    //{ }
 
-    public ErrorIndication(ErrorIndication errorIndication, Level1Error level1Error) : base(errorIndication | SetLevel1Error(level1Error))
-    { }
+    //public ErrorIndication(ErrorIndication errorIndication, Level1Error level1Error) : base(errorIndication | SetLevel1Error(level1Error))
+    //{ }
 
-    public ErrorIndication(ErrorIndication errorIndication, Level2Error level2Error) : base(errorIndication | SetLevel2Error(level2Error))
-    { }
+    //public ErrorIndication(ErrorIndication errorIndication, Level2Error level2Error) : base(errorIndication | SetLevel2Error(level2Error))
+    //{ }
 
-    public ErrorIndication(ErrorIndication errorIndication, Level3Error level3Error) : base(errorIndication | SetLevel3Error(level3Error))
-    { }
+    //public ErrorIndication(ErrorIndication errorIndication, Level3Error level3Error) : base(errorIndication | SetLevel3Error(level3Error))
+    //{ }
 
-    public ErrorIndication(ulong value) : base(value)
-    { }
-
-    public ErrorIndication(Level1Error level1Error, StatusWords statusWords) : base(SetLevel1Error(level1Error)
-        | SetStatusWords(statusWords))
-    { }
-
-    public ErrorIndication(Level2Error level2Error, StatusWords statusWords) : base(SetLevel2Error(level2Error)
-        | SetStatusWords(statusWords))
-    { }
-
-    public ErrorIndication(StatusWords statusWords) : base(SetStatusWords(statusWords))
+    private ErrorIndication(ulong value) : base(value)
     { }
 
     #endregion
 
     #region Instance Members
 
-    private static ulong BuildErrorIndication(Level1Error[] level1Errors, Level2Error[] level2Errors, Level3Error[] level3Errors)
-    {
-        ulong result = 0;
+    //private static ulong BuildErrorIndication(Level1Error[] level1Errors, Level2Error[] level2Errors, Level3Error[] level3Errors)
+    //{
+    //    ulong result = 0;
 
-        for (nint i = 0; i < level1Errors?.Length; i++)
-            result |= SetLevel1Error(level1Errors![i]);
+    //    for (nint i = 0; i < level1Errors?.Length; i++)
+    //        result |= SetLevel1Error(level1Errors![i]);
 
-        for (nint i = 0; i < level2Errors?.Length; i++)
-            result |= SetLevel2Error(level2Errors![i]);
+    //    for (nint i = 0; i < level2Errors?.Length; i++)
+    //        result |= SetLevel2Error(level2Errors![i]);
 
-        for (nint i = 0; i < level3Errors?.Length; i++)
-            result |= SetLevel3Error(level3Errors![i]);
+    //    for (nint i = 0; i < level3Errors?.Length; i++)
+    //        result |= SetLevel3Error(level3Errors![i]);
 
-        return result;
-    }
-
+    //    return result;
+    //}
+    public static Builder GetBuilder() => new();
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public Level1Error GetL1() => Level1Error.Get((byte) (_Value >> 40));
     public Level2Error GetL2() => Level2Error.Get((byte) (_Value >> 32));
     public Level3Error GetL3() => Level3Error.Get((byte) (_Value >> 24));
-    public MessageIdentifier GetMessageIdentifier() => MessageIdentifier.Get((byte) _Value);
+    public MessageOnErrorIdentifier GetMessageIdentifier() => (MessageOnErrorIdentifier) MessageOnErrorIdentifier.Get((byte) _Value);
     public StatusWords GetStatusWords() => new(new StatusWord((byte) (_Value >> 16)), new StatusWord((byte) (_Value >> 8)));
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
@@ -91,34 +82,6 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
     public bool IsErrorPresent(Level1Error value) => ((byte) (_Value >> 40)).AreBitsSet(value);
     public bool IsErrorPresent(Level2Error value) => ((byte) (_Value >> 40)).AreBitsSet(value);
     public bool IsErrorPresent(Level3Error value) => ((byte) (_Value >> 40)).AreBitsSet(value);
-
-    private static ulong SetLevel1Error(Level1Error error)
-    {
-        const byte offset = 40;
-
-        return (ulong) error >> offset;
-    }
-
-    private static ulong SetLevel2Error(Level2Error error)
-    {
-        const byte offset = 32;
-
-        return (ulong) error >> offset;
-    }
-
-    private static ulong SetLevel3Error(Level3Error error)
-    {
-        const byte offset = 24;
-
-        return (ulong) error >> offset;
-    }
-
-    private static ulong SetStatusWords(StatusWords statusWords)
-    {
-        const byte offset = 8;
-
-        return (ulong) statusWords >> offset;
-    }
 
     #endregion
 
@@ -172,4 +135,79 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
     public static implicit operator ulong(ErrorIndication value) => value._Value;
 
     #endregion
+
+    //public ErrorIndication(Level1Error level1Error, StatusWords statusWords) : base(SetLevel1Error(level1Error)
+    //    | SetStatusWords(statusWords))
+    //{ }
+
+    //public ErrorIndication(Level2Error level2Error, StatusWords statusWords) : base(SetLevel2Error(level2Error)
+    //    | SetStatusWords(statusWords))
+    //{ }
+
+    public class Builder : PrimitiveValueBuilder<ulong>
+    {
+        #region Constructor
+
+        internal Builder(ErrorIndication value)
+        {
+            _Value = value._Value;
+        }
+
+        internal Builder()
+        {
+            _Value = 0;
+        }
+
+        #endregion
+
+        #region Instance Members
+
+        public void Reset(ErrorIndication value)
+        {
+            _Value = value._Value;
+        }
+
+        public void Set(Level1Error error)
+        {
+            const byte offset = 40;
+            _Value.ClearBits(byte.MaxValue << offset);
+            _Value |= (ulong) error >> offset;
+        }
+
+        public void Set(Level2Error error)
+        {
+            const byte offset = 32;
+            _Value.ClearBits(byte.MaxValue << offset);
+            _Value |= (ulong) error >> offset;
+        }
+
+        public void Set(Level3Error error)
+        {
+            const byte offset = 24;
+
+            _Value |= (ulong) error >> offset;
+        }
+
+        public void Set(StatusWords statusWords)
+        {
+            const byte offset = 8;
+            _Value.ClearBits(ushort.MaxValue << offset);
+            _Value |= (ulong) statusWords >> offset;
+        }
+
+        public void Set(MessageIdentifier value)
+        {
+            _Value.ClearBits(byte.MaxValue);
+            _Value |= (ulong) value;
+        }
+
+        public override ErrorIndication Complete() => new(_Value);
+
+        protected override void Set(ulong bitsToSet)
+        {
+            _Value |= bitsToSet;
+        }
+
+        #endregion
+    }
 }

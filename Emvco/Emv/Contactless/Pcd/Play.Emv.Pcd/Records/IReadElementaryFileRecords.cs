@@ -2,6 +2,6 @@
 
 namespace Play.Emv.Pcd;
 
-public interface IReadElementaryFileRecords : ITransceiveData<ReadElementaryFileRecordRequest, ReadElementaryFileRecordResponse>,
+public interface IReadElementaryFileRecords :
     ITransceiveDataBatches<ReadElementaryFileRecordRangeRequest, ReadElementaryFileRecordRangeResponse>
 { }

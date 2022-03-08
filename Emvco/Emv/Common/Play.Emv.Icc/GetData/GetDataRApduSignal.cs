@@ -20,6 +20,7 @@ public class GetDataRApduSignal : RApduSignal
 
     #region Instance Members
 
+    public override bool IsSuccessful() => throw new NotImplementedException();
     public TagLengthValue GetTagLengthValuesResult() => _Codec.DecodeTagLengthValue(_Data);
 
     public override Level1Error GetLevel1Error() =>

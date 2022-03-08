@@ -19,12 +19,11 @@ public partial class Idle : KernelState
     /// <exception cref="System.InvalidOperationException"></exception>
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
-        if (!_KernelDatabase.GetErrorIndication().IsErrorPresent())
-            _KernelDatabase.Update(Level3Error.Stop);
+        HandleRequestOutOfSync(session, signal);
 
-        OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
-        builder.Set(StatusOutcome.EndApplication);
-        _KernelDatabase.Update(builder);
+        _KernelDatabase.Update(Level3Error.Stop);
+
+        _KernelDatabase.Update(StatusOutcome.EndApplication);
 
         _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), signal.GetKernelSessionId(), _KernelDatabase.GetOutcome()));
 

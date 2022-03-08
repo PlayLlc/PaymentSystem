@@ -87,61 +87,10 @@ public class Transaction
     public CultureProfile GetCultureProfile() => new(_TerminalCountryCode.AsCountryCode(), _LanguagePreference.GetPreferredLanguage());
     public ref readonly Outcome GetOutcome() => ref _Outcome;
     public TerminalVerificationResults GetTerminalVerificationResults() => _Outcome.GetTerminalVerificationResults();
-
-    public void Update(TerminalVerificationResult value)
-    {
-        _Outcome.Update(value);
-    }
-
-    public void Update(OutcomeParameterSet.Builder value)
-    {
-        _Outcome.Update(value);
-    }
-
-    public void Update(UserInterfaceRequestData.Builder value)
-    {
-        _Outcome.Update(value);
-    }
-
-    public void Reset(TerminalVerificationResults value)
-    {
-        _Outcome.Reset(value);
-    }
-
-    public void Reset(ErrorIndication errorIndication)
-    {
-        _Outcome.Reset(errorIndication);
-    }
-
-    public void Reset(OutcomeParameterSet outcomeParameterSet)
-    {
-        _Outcome.Reset(outcomeParameterSet);
-    }
-
-    public void Reset(UserInterfaceRequestData userInterfaceRequestData)
-    {
-        _Outcome.Reset(userInterfaceRequestData);
-    }
-
     public TransactionDate GetTransactionDate() => _TransactionDate;
     public TransactionSessionId GetTransactionSessionId() => _TransactionSessionId;
     public bool TryGetUserInterfaceRequestData(out UserInterfaceRequestData? result) => _Outcome.TryGetUserInterfaceRequestData(out result);
     public TransactionType GetTransactionType() => _TransactionType;
-
-    public void Update(Level1Error level1Error)
-    {
-        _Outcome.Update(level1Error);
-    }
-
-    public void Update(Level2Error level2Error)
-    {
-        _Outcome.Update(level2Error);
-    }
-
-    public void Update(Level3Error level3Error)
-    {
-        _Outcome.Update(level3Error);
-    }
 
     #endregion
 }

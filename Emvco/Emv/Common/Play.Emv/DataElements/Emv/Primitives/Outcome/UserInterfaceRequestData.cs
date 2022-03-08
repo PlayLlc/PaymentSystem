@@ -37,7 +37,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
 
     #region Constructor
 
-    public UserInterfaceRequestData(BigInteger value) : base(value)
+    private UserInterfaceRequestData(BigInteger value) : base(value)
     { }
 
     #endregion
@@ -49,7 +49,6 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public static Builder GetBuilder() => new();
-    public Builder Update() => new(this);
     public NumericCurrencyCode GetCurrencyCode() => new((ushort) (_Value >> _CurrencyCodeOffset));
 
     public MessageHoldTime GetHoldTimeValue() =>
@@ -113,7 +112,6 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
 
     #endregion
 
-    // TODO: Well, obviously unit test i guess. initially the bit shifting was backwards
     public class Builder : PrimitiveValueBuilder<BigInteger>
     {
         #region Constructor
@@ -136,6 +134,11 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
         #endregion
 
         #region Instance Members
+
+        public void Reset(UserInterfaceRequestData value)
+        {
+            _Value = value._Value;
+        }
 
         public void Set(MessageIdentifier bitsToSet)
         {

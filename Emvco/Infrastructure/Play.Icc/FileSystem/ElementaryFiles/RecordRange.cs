@@ -12,6 +12,11 @@ public readonly struct RecordRange
     #region Instance Values
 
     /// <summary>
+    ///     The Short File Identifier of an Elementary File relevant to an Application
+    /// </summary>
+    private readonly byte _ShortFileIdentifier;
+
+    /// <summary>
     ///     The position of the first record in a range of records for an Elementary File
     /// </summary>
     private readonly byte _FirstRecordOrdinal;
@@ -25,11 +30,6 @@ public readonly struct RecordRange
     ///     The number of records in this range of records
     /// </summary>
     private readonly byte _Length;
-
-    /// <summary>
-    ///     The Short File Identifier of an Elementary File relevant to an Application
-    /// </summary>
-    private readonly byte _ShortFileIdentifier;
 
     #endregion
 

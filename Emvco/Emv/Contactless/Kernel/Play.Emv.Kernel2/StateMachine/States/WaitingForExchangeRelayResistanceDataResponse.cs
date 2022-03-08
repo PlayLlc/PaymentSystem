@@ -72,4 +72,5 @@ internal class WaitingForExchangeRelayResistanceDataResponse : KernelState
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
-#endregion
+    #endregion
+}

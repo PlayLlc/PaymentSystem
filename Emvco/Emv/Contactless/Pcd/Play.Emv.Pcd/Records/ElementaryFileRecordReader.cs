@@ -7,7 +7,7 @@ using Play.Icc.FileSystem.ElementaryFiles;
 
 namespace Play.Emv.Pcd;
 
-public class ElementaryFileRecordReader : IReadElementaryFileRecords
+public class ElementaryFileRecordReader : IReadElementaryFileRecords, IReadElementaryFileRecord
 {
     #region Instance Values
 

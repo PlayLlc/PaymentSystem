@@ -76,7 +76,6 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
     public bool IsTimeout() => GetOnlineResponseOutcome() == OnlineResponseOutcome.NotAvailable;
     public bool IsUiRequestOnOutcomePresent() => _Value.IsBitSet(40);
     public bool IsUiRequestOnRestartPresent() => _Value.IsBitSet(39);
-    public Builder Update() => new(this);
 
     #endregion
 
@@ -151,6 +150,11 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
         #endregion
 
         #region Instance Members
+
+        public void Reset(OutcomeParameterSet value)
+        {
+            _Value = value._Value;
+        }
 
         public void Set(StatusOutcome bitsToSet)
         {

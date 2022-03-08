@@ -44,13 +44,22 @@ public record QueryPcdResponse : ResponseSignal
     #region Instance Members
 
     public bool IsTransactionActive(TransactionSessionId currentTransactionSession) => _TransactionSessionId == currentTransactionSession;
-    public bool Success() => _RApduSignal.Success();
+    public bool IsSuccessful() => _RApduSignal.IsSuccessful();
     public TransactionSessionId GetTransactionSessionId() => _TransactionSessionId;
     public TagLengthValue[] AsTagLengthValues() => _Codec.DecodeTagLengthValues(GetData().AsSpan());
     public RApduSignal GetRApduSignal() => _RApduSignal;
-    public ErrorIndication GetErrorIndication() => new(_RApduSignal.GetLevel1Error(), _RApduSignal.GetStatusWords());
+
+    public ErrorIndication GetErrorIndication()
+    {
+        ErrorIndication.Builder builder = ErrorIndication.GetBuilder();
+        builder.Set(_RApduSignal.GetLevel1Error());
+        builder.Set(_RApduSignal.GetStatusWords());
+
+        return builder.Complete();
+    }
+
     public Level1Error GetLevel1Error() => _RApduSignal.GetLevel1Error();
-    public StatusWords GetStatusWords() => GetErrorIndication().GetStatusWords();
+    public StatusWords GetStatusWords() => _RApduSignal.GetStatusWords();
     public byte[] GetData() => _RApduSignal.GetData();
 
     #endregion

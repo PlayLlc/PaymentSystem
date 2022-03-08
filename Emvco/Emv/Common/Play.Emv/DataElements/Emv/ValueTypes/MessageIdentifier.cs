@@ -2,15 +2,16 @@
 using System.Collections.Immutable;
 using System.Numerics;
 
+using Play.Core;
+
 namespace Play.Emv.DataElements;
 
 /// <summary>
-///     Indicates the text string to be displayed, with the different standard messages defined in  Book A
-///     section 9.4.
-///     If the Message EncodingId is not recognized, the reader should ignore it and the message currently
-///     displayed should not be changed as a result of the User Interface Request.
+///     Indicates the text string to be displayed, with the different standard messages defined in  Book A section 9.4. If
+///     the Message EncodingId is not recognized, the reader should ignore it and the message currently displayed should
+///     not be changed as a result of the User Interface Request.
 /// </summary>
-public readonly struct MessageIdentifier
+public record MessageIdentifier : EnumObject<byte>
 {
     #region Static Metadata
 
@@ -48,12 +49,6 @@ public readonly struct MessageIdentifier
     public static readonly MessageIdentifier UseChipReader;
     public static readonly MessageIdentifier UseMagStripe;
     public static readonly MessageIdentifier Welcome;
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly byte _Value;
 
     #endregion
 
@@ -184,52 +179,21 @@ public readonly struct MessageIdentifier
         #endregion
     }
 
-    private MessageIdentifier(byte value)
-    {
-        _Value = value;
-    }
+    protected MessageIdentifier(byte value) : base(value)
+    { }
 
     #endregion
 
     #region Instance Members
 
     public static MessageIdentifier Get(byte value) =>
-        _ValueObjectMap.TryGetValue(value, out MessageIdentifier result) ? result : NotAvailable;
-
-    #endregion
-
-    #region Equality
-
-    public override bool Equals(object? obj) => obj is MessageIdentifier MessageIdentifier && Equals(MessageIdentifier);
-    public bool Equals(MessageIdentifier other) => _Value == other._Value;
-    public bool Equals(MessageIdentifier x, MessageIdentifier y) => x.Equals(y);
-    public bool Equals(byte other) => _Value == other;
-
-    public override int GetHashCode()
-    {
-        const int hash = 297581;
-
-        return hash + _Value.GetHashCode();
-    }
+        _ValueObjectMap.TryGetValue(value, out MessageIdentifier? result) ? result : NotAvailable;
 
     #endregion
 
     #region Operator Overrides
 
-    public static bool operator ==(MessageIdentifier left, MessageIdentifier right) => left._Value == right._Value;
-    public static bool operator ==(MessageIdentifier left, byte right) => left._Value == right;
-    public static bool operator ==(byte left, MessageIdentifier right) => left == right._Value;
-    public static explicit operator short(MessageIdentifier value) => value._Value;
-    public static explicit operator ushort(MessageIdentifier value) => value._Value;
-    public static explicit operator int(MessageIdentifier value) => value._Value;
-    public static explicit operator uint(MessageIdentifier value) => value._Value;
-    public static explicit operator long(MessageIdentifier value) => value._Value;
-    public static explicit operator ulong(MessageIdentifier value) => value._Value;
     public static explicit operator BigInteger(MessageIdentifier value) => value._Value;
-    public static implicit operator byte(MessageIdentifier value) => value._Value;
-    public static bool operator !=(MessageIdentifier left, MessageIdentifier right) => !(left == right);
-    public static bool operator !=(MessageIdentifier left, byte right) => !(left == right);
-    public static bool operator !=(byte left, MessageIdentifier right) => !(left == right);
 
     #endregion
 }

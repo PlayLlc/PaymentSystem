@@ -12,11 +12,13 @@ namespace Play.Emv.Pcd.Services;
 /// <summary>
 ///     A facade that encapsulates card reading and writing functionality
 /// </summary>
-public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFileInformation, ISelectDirectoryDefinitionFileInformation,
-    ISelectProximityPaymentSystemEnvironmentInfo, ISendPoiInformation, IGetProcessingOptions, IReadIccDataBatch, IManagePcdLifecycle
+public class CardClient : IReadElementaryFileRecords, IReadApplicationData, ISelectApplicationDefinitionFileInformation,
+    ISelectDirectoryDefinitionFileInformation, ISelectProximityPaymentSystemEnvironmentInfo, ISendPoiInformation, IGetProcessingOptions,
+    IReadIccDataBatch, IManagePcdLifecycle
 {
     #region Instance Values
 
+    private readonly IReadElementaryFileRecords _RecordReader;
     private readonly IReadApplicationData _ApplicationDataClient;
     private readonly ISelectApplicationDefinitionFileInformation _AppletClient;
     private readonly ISelectDirectoryDefinitionFileInformation _DirectoryFciClient;
@@ -33,6 +35,7 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
     public CardClient(IProximityCouplingDeviceClient client)
     {
         _PcdClient = client;
+        _RecordReader = new ElementaryFileRecordReader(client);
         _DataBatchReader = new DataBatchReader(new DataReader(client));
 
         _AppletClient = new ApplicationDefinitionFileInfoSelector(client);
@@ -263,6 +266,21 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
         try
         {
             return _DataBatchReader.Transceive(command);
+        }
+        catch (Exception exception)
+        {
+            // TODO: log and shit
+
+            throw new CardReadException(exception);
+        }
+    }
+
+    public async Task<ReadElementaryFileRecordRangeResponse> Transceive(ReadElementaryFileRecordRangeRequest command)
+    {
+        // TODO: catch more specific exceptions
+        try
+        {
+            return await _RecordReader.Transceive(command).ConfigureAwait(false);
         }
         catch (Exception exception)
         {
