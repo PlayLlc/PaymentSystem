@@ -21,7 +21,7 @@ public partial class WaitingForPdolData : KernelState
     #region QueryTerminalResponse
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -55,7 +55,7 @@ public partial class WaitingForPdolData : KernelState
     #region S2.6
 
     /// <summary>
-    /// UpdateDataExchangeSignal
+    ///     UpdateDataExchangeSignal
     /// </summary>
     /// <param name="signal"></param>
     /// <exception cref="InvalidOperationException"></exception>
@@ -69,7 +69,7 @@ public partial class WaitingForPdolData : KernelState
     #region S2.7
 
     /// <summary>
-    /// IsPdolDataMissing
+    ///     IsPdolDataMissing
     /// </summary>
     /// <param name="session"></param>
     /// <param name="pdol"></param>
@@ -109,26 +109,6 @@ public partial class WaitingForPdolData : KernelState
     #endregion
 
     #endregion
-
-    /// <summary>
-    /// Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    /// <summary>
-    /// Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
 }

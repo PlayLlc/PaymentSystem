@@ -9,8 +9,4 @@
     <ProjectReference Include="..\Play.Emv.Kernel\Play.Emv.Kernel.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="StateMachine\States\SR1\" />
-  </ItemGroup>
-
 </Project>
