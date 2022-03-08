@@ -1,7 +1,12 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Primitives.Card;
+using Play.Emv.DataElements.Emv.Primitives.Merchant;
+using Play.Emv.DataElements.Emv.Primitives.Security;
+using Play.Emv.DataElements.Emv.Primitives.Terminal;
+using Play.Emv.DataElements.Emv.Primitives.Transaction;
+using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Globalization.Country;
 using Play.Globalization.Currency;
 

@@ -1,5 +1,5 @@
 ﻿using Play.Ber.Identifiers;
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Primitives.Card;
 
 namespace Play.Emv.TestData.Ber.Primitive;
 

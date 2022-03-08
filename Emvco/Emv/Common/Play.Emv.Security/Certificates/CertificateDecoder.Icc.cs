@@ -3,6 +3,7 @@
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Security.Authentications.Static;
 using Play.Emv.Security.Certificates.Icc;
 using Play.Emv.Security.Certificates.Issuer;
@@ -11,7 +12,7 @@ using Play.Encryption.Hashing;
 using Play.Encryption.Signing;
 using Play.Globalization.Time;
 
-using PrimaryAccountNumber = Play.Emv.DataElements.Interchange.PrimaryAccountNumber;
+using PrimaryAccountNumber = Play.Emv.DataElements.Interchange.Primitives.PrimaryAccountNumber;
 
 namespace Play.Emv.Security.Certificates;
 
@@ -143,7 +144,7 @@ internal partial class CertificateFactory
         /// <param name="primaryAccountNumber"></param>
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+        /// <exception cref="CodecParsingException"></exception>
         private static bool IsValid(
             SignatureService signatureService,
             DecodedIssuerPublicKeyCertificate issuerPublicKeyCertificate,

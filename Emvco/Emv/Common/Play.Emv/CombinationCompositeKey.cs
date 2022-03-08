@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Enums;
+using Play.Emv.DataElements.Emv.Primitives.Transaction;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv;

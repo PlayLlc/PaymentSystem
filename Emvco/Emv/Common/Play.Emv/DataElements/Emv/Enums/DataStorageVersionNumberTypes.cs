@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Play.Core;
 using Play.Core.Extensions;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Enums;
 
 public sealed record DataStorageVersionNumberTypes : EnumObject<byte>
 {

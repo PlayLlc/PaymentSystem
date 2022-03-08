@@ -2,7 +2,7 @@
 
 using Play.Codecs;
 
-namespace Play.Emv.DataElements.Interchange;
+namespace Play.Emv.DataElements.Interchange.ValueTypes;
 
 /// <summary>
 ///     The message type indicator is a four-digit numeric field which indicates the overall function of the message. A

@@ -4,9 +4,9 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
 
-namespace Play.Emv.Templates.FileControlInformation;
+namespace Play.Emv.Templates.FileControlInformation.DirectoryDefinitionFile;
 
 public class FileControlInformationIssuerDiscretionaryDataDdf : FileControlInformationIssuerDiscretionaryDataTemplate
 {

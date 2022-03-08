@@ -9,7 +9,7 @@ using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Icc;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Security;
 
 /// <summary>
 ///     Indicates the type of cryptogram and the actions to be performed by the terminal

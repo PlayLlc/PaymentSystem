@@ -3,7 +3,7 @@ using System.Collections.Immutable;
 
 using Play.Core;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Terminal;
 
 public partial record TerminalType
 {

@@ -8,6 +8,8 @@ using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
 
+using CodecParsingException = Play.Codecs.Exceptions._Temp.CodecParsingException;
+
 namespace Play.Codecs;
 
 public class NumericCodec : PlayCodec
@@ -21,7 +23,7 @@ public class NumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
     {
         ReadOnlySpan<byte> trimmedValue = value.TrimStart((byte) 0);
@@ -98,22 +100,22 @@ public class NumericCodec : PlayCodec
     ///     Validate
     /// </summary>
     /// <param name="value"></param>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     private void Validate(byte value)
     {
         if (!IsValid(value))
-            throw new PlayEncodingException(PlayEncodingException.ByteArrayContainsInvalidValue);
+            throw new Exceptions.CodecParsingException(CodecParsingException.ByteArrayContainsInvalidValue);
     }
 
     /// <summary>
     ///     Validate
     /// </summary>
     /// <param name="value"></param>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public void Validate(ReadOnlySpan<byte> value)
     {
         if (!IsValid(value))
-            throw new PlayEncodingException(PlayEncodingException.ByteArrayContainsInvalidValue);
+            throw new Exceptions.CodecParsingException(CodecParsingException.ByteArrayContainsInvalidValue);
     }
 
     public bool IsValid(ReadOnlySpan<char> value)
@@ -201,7 +203,7 @@ public class NumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -211,7 +213,7 @@ public class NumericCodec : PlayCodec
             return Encode(Unsafe.As<_T, char>(ref value));
 
         if (!type.IsNumericType())
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
 
         nint byteSize = Unsafe.SizeOf<_T>();
 
@@ -233,7 +235,7 @@ public class NumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T value, int length)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -243,7 +245,7 @@ public class NumericCodec : PlayCodec
             return Encode(Unsafe.As<_T, char>(ref value));
 
         if (!type.IsNumericType())
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
 
         if (length == Specs.Integer.UInt8.ByteCount)
             return Encode(Unsafe.As<_T, byte>(ref value));
@@ -266,7 +268,7 @@ public class NumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T[] value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -276,7 +278,7 @@ public class NumericCodec : PlayCodec
             return Encode(Unsafe.As<_T[], char[]>(ref value));
 
         if (!type.IsByte())
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
 
         return Encode(Unsafe.As<_T[], byte[]>(ref value));
     }
@@ -287,7 +289,7 @@ public class NumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T[] value, int length)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -297,7 +299,7 @@ public class NumericCodec : PlayCodec
             return Encode(Unsafe.As<_T[], char[]>(ref value), length);
 
         if (!type.IsByte())
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
 
         return Encode(Unsafe.As<_T[], byte[]>(ref value), length);
     }
@@ -483,7 +485,7 @@ public class NumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -497,7 +499,7 @@ public class NumericCodec : PlayCodec
         }
 
         if (!type.IsNumericType())
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
 
         nint byteSize = Unsafe.SizeOf<_T>();
 
@@ -520,7 +522,7 @@ public class NumericCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -534,7 +536,7 @@ public class NumericCodec : PlayCodec
         }
 
         if (!type.IsNumericType())
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
 
         if (length == Specs.Integer.UInt8.ByteCount)
             Encode(Unsafe.As<_T, byte>(ref value));
@@ -558,13 +560,13 @@ public class NumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
     {
         if (typeof(_T).IsChar())
             Encode(Unsafe.As<_T[], char[]>(ref value));
         else
-            throw new InternalPlayEncodingException(this, typeof(_T));
+            throw new CodecParsingException(this, typeof(_T));
     }
 
     /// <summary>
@@ -574,13 +576,13 @@ public class NumericCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
     {
         if (typeof(_T) == typeof(char))
             Encode(Unsafe.As<_T[], char[]>(ref value), length);
         else
-            throw new InternalPlayEncodingException(this, typeof(_T));
+            throw new CodecParsingException(this, typeof(_T));
     }
 
     /// <summary>
@@ -590,7 +592,7 @@ public class NumericCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public void Encode(ReadOnlySpan<char> value, int length, Span<byte> buffer, ref int offset)
     {
         int byteSize = (value.Length / 2) + (value.Length % 2);
@@ -682,7 +684,7 @@ public class NumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public BigInteger DecodeToBigInteger(ReadOnlySpan<byte> value)
     {
         for (byte i = 0; i < value.Length; i++)
@@ -701,7 +703,7 @@ public class NumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public byte DecodeToByte(byte value)
     {
         Validate(value);
@@ -717,7 +719,7 @@ public class NumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public uint DecodeToUInt32(ReadOnlySpan<byte> value)
     {
         uint result = 0;
@@ -730,7 +732,7 @@ public class NumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public ulong DecodeToUInt64(ReadOnlySpan<byte> value)
     {
         ulong result = 0;
@@ -743,7 +745,7 @@ public class NumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public ushort DecodeToUInt16(ReadOnlySpan<byte> value)
     {
         ushort result = 0;
@@ -766,7 +768,7 @@ public class NumericCodec : PlayCodec
     /// <param name="resultBuffer"></param>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     private dynamic BuildInteger(dynamic resultBuffer, ReadOnlySpan<byte> value)
     {
         if (resultBuffer != byte.MinValue)

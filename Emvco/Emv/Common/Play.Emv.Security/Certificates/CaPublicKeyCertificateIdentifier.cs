@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Primitives.Security;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Security.Certificates;

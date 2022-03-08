@@ -8,7 +8,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Globalization.Time;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Transaction;
 
 /// <summary>
 ///     Local date that the transaction was authorized

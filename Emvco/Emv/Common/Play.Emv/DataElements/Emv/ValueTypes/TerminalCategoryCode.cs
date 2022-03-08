@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.ValueTypes;
 // TODO: Terminal Category Codes
 // TODO: https://wallethub.com/edu/cc/merchant-category-code/25837#:~:text=A%20transaction%20category%20code%20is,MCC%20then%20provides%20the%20specifics.
 

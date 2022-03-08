@@ -5,10 +5,10 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Exceptions;
+using Play.Emv.Exceptions;
 using Play.Globalization.Time;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.ProximityCouplingDevice;
 
 /// <summary>
 ///     Indicates the time that the field is to be turned off after the transaction is completed if requested to do so by

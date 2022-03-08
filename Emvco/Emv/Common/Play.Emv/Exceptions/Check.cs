@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Play.Ber.Identifiers;
 using Play.Core.Exceptions;
 
-namespace Play.Emv.DataElements.Exceptions;
+namespace Play.Emv.Exceptions;
 
 internal class Check
 {

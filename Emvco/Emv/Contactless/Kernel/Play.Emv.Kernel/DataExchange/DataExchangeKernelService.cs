@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Primitives.DataStorage.TornTransaction;
 using Play.Emv.DataExchange;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;

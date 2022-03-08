@@ -3,9 +3,10 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.DataElements.Exceptions;
+using Play.Codecs.Exceptions;
+using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Interchange;
+namespace Play.Emv.DataElements.Interchange.Primitives;
 
 public record SystemTraceAuditNumber : InterchangeDataElement<uint>
 {
@@ -44,7 +45,7 @@ public record SystemTraceAuditNumber : InterchangeDataElement<uint>
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
-    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static SystemTraceAuditNumber Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

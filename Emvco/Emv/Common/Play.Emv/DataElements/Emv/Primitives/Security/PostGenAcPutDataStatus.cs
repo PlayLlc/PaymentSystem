@@ -5,9 +5,9 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Exceptions;
+using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Security;
 
 /// <summary>
 ///     Information reported by the Kernel to the Terminal, about the  processing of PUT DATA commands after processing the

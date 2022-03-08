@@ -7,11 +7,12 @@ using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
-using Play.Emv.DataElements.Emv;
-using Play.Emv.Templates.Exceptions;
+using Play.Emv.DataElements.Emv.Primitives.Card;
+using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+using Play.Emv.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace Play.Emv.Templates.FileControlInformation;
+namespace Play.Emv.Templates.FileControlInformation.ApplicationDefinitionFile;
 
 public class FileControlInformationAdf : FileControlInformationTemplate
 {

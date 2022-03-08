@@ -3,7 +3,9 @@
 using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Emv.Ber;
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+using Play.Emv.DataElements.Emv.Primitives.Issuer;
+using Play.Emv.DataElements.Emv.Primitives.Security;
 using Play.Emv.Icc;
 using Play.Emv.Security.Checksum;
 using Play.Emv.Security.Cryptograms;

@@ -30,7 +30,7 @@ public class HexadecimalTests
     ///     RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult
     /// </summary>
     /// <param name="testValue"></param>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Theory]
     [MemberData(nameof(HexadecimalFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(HexadecimalFixture))]
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
@@ -45,7 +45,7 @@ public class HexadecimalTests
     ///     RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult
     /// </summary>
     /// <param name="testValue"></param>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Theory]
     [MemberData(nameof(HexadecimalFixture.GetRandomString), 100, 1, 300, MemberType = typeof(HexadecimalFixture))]
     public void RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult(string testValue)
@@ -59,7 +59,7 @@ public class HexadecimalTests
     /// <summary>
     ///     SelectPpseRApduByteArray_ConvertingToHexadecimalString_ReturnsExpectedResult
     /// </summary>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Fact]
     public void SelectPpseRApduByteArray_ConvertingToHexadecimalString_ReturnsExpectedResult()
     {
@@ -73,7 +73,7 @@ public class HexadecimalTests
     /// <summary>
     ///     SelectPpseCApduByteArray_ConvertingToHexadecimalString_ReturnsExpectedResult
     /// </summary>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Fact]
     public void SelectPpseCApduByteArray_ConvertingToHexadecimalString_ReturnsExpectedResult()
     {
@@ -129,7 +129,7 @@ public class HexadecimalTests
     {
         string testData = "Hello how are you people?";
 
-        Assert.Throws<PlayEncodingException>(() => PlayCodec.HexadecimalCodec.Encode(testData));
+        Assert.Throws<CodecParsingException>(() => PlayCodec.HexadecimalCodec.Encode(testData));
     }
 
     [Fact]
@@ -137,13 +137,13 @@ public class HexadecimalTests
     {
         const string testData = "FFC•3C01CD6E4F?A13021";
 
-        Assert.Throws<PlayEncodingException>(() => PlayCodec.HexadecimalCodec.Encode(testData));
+        Assert.Throws<CodecParsingException>(() => PlayCodec.HexadecimalCodec.Encode(testData));
     }
 
     /// <summary>
     ///     GivenNullByteArray_GetString_ThrowsArgumentNullException
     /// </summary>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Fact]
     public void GivenNullByteArray_GetString_ThrowsArgumentNullException()
     {
@@ -153,7 +153,7 @@ public class HexadecimalTests
     /// <summary>
     ///     GivenValidHexadecimalByteArray_GetString_ReturnsExpectedString
     /// </summary>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Fact]
     public void GivenValidHexadecimalByteArray_GetString_ReturnsExpectedString()
     {

@@ -25,47 +25,93 @@ namespace Play.Emv.Kernel2.StateMachine._TempExceptionHandler;
 ------------------------------------------------------------
 L2 - Errors thrown in payment kernel
 ------------------------------------------------------------
+
+
+============================================================
 Parsing Error
+------------------------------------------------------------
     When there's an exception thrown in Play.Ber, Play.Emv.Ber, Play.Emv.DataElements, or Play.Emv.Templates while decoding
-
+------------------------------------------------------------
+    Play.Ber, Play.Emv.Ber
+============================================================
 Card Data Error
-    If a format error is detected in data received from the Card, the Kernel must update the Error Indication data object as follows:
-
-Card Data Missing:
+------------------------------------------------------------
+    When data from the card is an incorrect value or different than expected
+------------------------------------------------------------
+    Play.Emv.Kernel
+============================================================
+Card Data Missing
+------------------------------------------------------------
     When a Template is missing a required Data Element
-
+------------------------------------------------------------
+    Play.Emv.Templates
+============================================================ 
 Terminal Data Error
+------------------------------------------------------------
     If a format error is detected in data received from the Terminal, the Kernel must update the Error Indication data object as follows
-
+------------------------------------------------------------
+    Play.Ber, Play.Emv.Ber
+============================================================
 Status Bytes
+------------------------------------------------------------
     When the RAPDU returns with an invalid SW. We can throw in Play.Icc and Play.Emv.Icc
-
+------------------------------------------------------------
+    Play.Icc, Play.Emv.Icc
+============================================================
 Max Limit Exceeded
+------------------------------------------------------------
     Amount, Authorized (Numeric) > Reader Contactless Transaction Limit
-
+------------------------------------------------------------
+    Play.Emv.Terminal.Common
+============================================================
 Cryptographic Auth Method Failed
+------------------------------------------------------------
     CDA, DDA, SDA fails
-
+------------------------------------------------------------
+    Play.Emv.Security
+============================================================
 Integrated Data Storage Reader Error
+------------------------------------------------------------
     DS Summary 1 != DS Summary 2
-
+------------------------------------------------------------
+    Play.Emv.Terminal.Common
+============================================================
 Integrated Data Storage Writer Error
+------------------------------------------------------------
     DS Summary 2 != DS Summary 3 &&'Stop if write failed' in DS ODS Info For Reader is set
-
+------------------------------------------------------------
+    Play.Emv.Terminal.Common
+============================================================
 Integrated Data Storage No Matching Application Cryptogram
+------------------------------------------------------------
     Usable for AAC' in DS ODS Info For Reader is NOT set && 'Stop if no DS ODS Term' in DS ODS Info For Reader is set
-
+------------------------------------------------------------
+    Play.Emv.Security
+============================================================
  Empty Candidate List
+ ------------------------------------------------------------
     If the Candidate List is empty at Entry Point Start C
-
+------------------------------------------------------------
+    Play.Emv.Selection
+============================================================
 Magstripe Not Supported 
+------------------------------------------------------------
     When the kernel and the card do not have a matching operating mode
-
+------------------------------------------------------------
+    Play.Emv.Kernel2
+============================================================
 Integrated Data Storage Error
+------------------------------------------------------------
     if false (DS AC Type and DS ODS Info For Reader is not empty)
-
+------------------------------------------------------------
+    Play.Emv.Terminal.Common
+============================================================
 No Proximity Payment System Environment
+------------------------------------------------------------
     When the card does not return the requested PPSE
+------------------------------------------------------------
+    Play.Icc
+============================================================
 
 ------------------------------
 

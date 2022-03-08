@@ -3,7 +3,7 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Primitives.Card;
 using Play.Icc.Messaging.Apdu;
 
 namespace Play.Emv.Templates.ResponseMessages;

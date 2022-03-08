@@ -1,6 +1,6 @@
 ﻿using Play.Core;
 
-namespace Play.Emv.DataElements.Interchange.__TODO;
+namespace Play.Emv.DataElements.Interchange.Primitives.__TODO;
 
 public record ReasonCode : EnumObject<ushort>
 {

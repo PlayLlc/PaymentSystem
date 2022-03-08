@@ -4,10 +4,11 @@ using System.Numerics;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Exceptions;
+using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Terminal;
 
 /// <summary>
 ///     Valid cardholder account number
@@ -47,7 +48,7 @@ public record ApplicationPan : DataElement<BigInteger>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="BerInternalException"></exception>
-    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="DataElementNullException"></exception>
     public static ApplicationPan Decode(ReadOnlySpan<byte> value)
     {

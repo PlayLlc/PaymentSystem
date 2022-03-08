@@ -6,7 +6,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Issuer;
 
 /// <summary>
 ///     Indicates the code table according to ISO/IEC 8859 for displaying the Application Preferred Name

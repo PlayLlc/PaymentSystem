@@ -1,6 +1,6 @@
 ﻿using Play.Emv.Icc;
 using Play.Emv.Sessions;
-using Play.Emv.Templates.FileControlInformation;
+using Play.Emv.Templates.FileControlInformation.DirectoryDefinitionFile;
 using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;

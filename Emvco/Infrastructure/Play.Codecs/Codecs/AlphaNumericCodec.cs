@@ -7,6 +7,8 @@ using Play.Codecs.Exceptions;
 using Play.Core.Exceptions;
 using Play.Core.Specifications;
 
+using CodecParsingException = Play.Codecs.Exceptions._Temp.CodecParsingException;
+
 namespace Play.Codecs;
 
 public class AlphaNumericCodec : PlayCodec
@@ -20,7 +22,7 @@ public class AlphaNumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public byte DecodeToByte(char value)
     {
         Validate(value);
@@ -68,13 +70,13 @@ public class AlphaNumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
     public override ushort GetByteCount<T>(T[] value) where T : struct
     {
         if (typeof(T) == typeof(char))
             return checked((ushort) value.Length);
 
-        throw new InternalPlayEncodingException("The code should not reach this point");
+        throw new CodecParsingException("The code should not reach this point");
     }
 
     public int GetCharCount(byte[] bytes, int index, int count) => count;
@@ -130,21 +132,21 @@ public class AlphaNumericCodec : PlayCodec
         return value is >= bigA and <= bigZ or >= littleA and <= littleZ or >= zero and <= nine;
     }
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     private void Validate(byte value)
     {
         if (!IsValid(value))
-            throw new PlayEncodingException(PlayEncodingException.CharacterArrayContainsInvalidValue);
+            throw new Exceptions.CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
     }
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     private void Validate(char value)
     {
         if (!IsValid(value))
-            throw new PlayEncodingException(PlayEncodingException.CharacterArrayContainsInvalidValue);
+            throw new Exceptions.CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
     }
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     protected void Validate(ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -152,11 +154,11 @@ public class AlphaNumericCodec : PlayCodec
         for (int i = 0; i <= (value.Length - 1); i++)
         {
             if (!IsValid(value[i]))
-                throw new PlayEncodingException(PlayEncodingException.CharacterArrayContainsInvalidValue);
+                throw new Exceptions.CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
         }
     }
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     private void Validate(ReadOnlySpan<char> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -164,7 +166,7 @@ public class AlphaNumericCodec : PlayCodec
         for (int i = 0; i <= (value.Length - 1); i++)
         {
             if (!IsValid(value[i]))
-                throw new PlayEncodingException(PlayEncodingException.CharacterArrayContainsInvalidValue);
+                throw new Exceptions.CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
         }
     }
 
@@ -172,7 +174,7 @@ public class AlphaNumericCodec : PlayCodec
 
     #region Encode
 
-    /// <exception cref="PlayEncodingException">Ignore.</exception>
+    /// <exception cref="Exceptions.CodecParsingException">Ignore.</exception>
     public bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
     {
         if (IsValid(value))
@@ -192,13 +194,13 @@ public class AlphaNumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override byte[] Encode<T>(T value) where T : struct
     {
         if (typeof(T) == typeof(char))
             return new byte[] {DecodeToByte(Unsafe.As<T, char>(ref value))};
 
-        throw new InternalPlayEncodingException("The code should not reach this point");
+        throw new CodecParsingException("The code should not reach this point");
     }
 
     /// <summary>
@@ -207,7 +209,7 @@ public class AlphaNumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T value, int length) where T : struct
     {
         CheckCore.ForRange(length, 1, 1, nameof(length));
@@ -215,30 +217,30 @@ public class AlphaNumericCodec : PlayCodec
         if (typeof(T) == typeof(char))
             return Encode(Unsafe.As<T, char>(ref value), length);
 
-        throw new InternalPlayEncodingException("The code should not reach this point");
+        throw new CodecParsingException("The code should not reach this point");
     }
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override byte[] Encode<T>(T[] value) where T : struct
     {
         if (typeof(T) == typeof(char))
             return Encode(Unsafe.As<T[], char[]>(ref value).AsSpan());
 
-        throw new InternalPlayEncodingException("The code should not reach this point");
+        throw new CodecParsingException("The code should not reach this point");
     }
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override byte[] Encode<T>(T[] value, int length) where T : struct
     {
         if (typeof(T) == typeof(char))
             return Encode(Unsafe.As<T[], char[]>(ref value), length);
 
-        throw new InternalPlayEncodingException("The code should not reach this point");
+        throw new CodecParsingException("The code should not reach this point");
     }
 
     public byte[] Encode(string value) => Encode(value.AsSpan());
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value)
     {
         Validate(value);
@@ -248,7 +250,7 @@ public class AlphaNumericCodec : PlayCodec
         for (int i = 0; i < value.Length; i++)
         {
             if (!_ByteMapper.ContainsKey(value[i]))
-                throw new PlayEncodingException(PlayEncodingException.CharacterArrayContainsInvalidValue);
+                throw new Exceptions.CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
 
             byteArray[i] = _ByteMapper[value[i]];
         }
@@ -290,13 +292,13 @@ public class AlphaNumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) == typeof(char))
             Encode(Unsafe.As<T, char>(ref value), buffer, ref offset);
         else
-            throw new InternalPlayEncodingException("The code should not reach this point");
+            throw new CodecParsingException("The code should not reach this point");
     }
 
     /// <summary>
@@ -306,13 +308,13 @@ public class AlphaNumericCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) == typeof(char))
             Encode(Unsafe.As<T, char>(ref value), buffer, ref offset);
         else
-            throw new InternalPlayEncodingException("The code should not reach this point");
+            throw new CodecParsingException("The code should not reach this point");
     }
 
     /// <summary>
@@ -321,14 +323,14 @@ public class AlphaNumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) == typeof(char))
             Encode(Unsafe.As<T[], char[]>(ref value).AsSpan(), buffer, ref offset);
         else
-            throw new InternalPlayEncodingException("The code should not reach this point");
+            throw new CodecParsingException("The code should not reach this point");
     }
 
     /// <summary>
@@ -338,13 +340,13 @@ public class AlphaNumericCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) == typeof(char))
             Encode(Unsafe.As<T[], char[]>(ref value), length, buffer, ref offset);
         else
-            throw new InternalPlayEncodingException("The code should not reach this point");
+            throw new CodecParsingException("The code should not reach this point");
     }
 
     /// <summary>
@@ -353,7 +355,7 @@ public class AlphaNumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public void Encode(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
     {
         Validate(value);
@@ -361,7 +363,7 @@ public class AlphaNumericCodec : PlayCodec
         for (int i = 0; i < value.Length; i++)
         {
             if (!_ByteMapper.ContainsKey(value[i]))
-                throw new PlayEncodingException(PlayEncodingException.CharacterArrayContainsInvalidValue);
+                throw new Exceptions.CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
 
             buffer[offset++] = _ByteMapper[value[i]];
         }
@@ -406,7 +408,7 @@ public class AlphaNumericCodec : PlayCodec
         return result;
     }
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public char DecodeToChar(byte value)
     {
         Validate(value);
@@ -418,7 +420,7 @@ public class AlphaNumericCodec : PlayCodec
 
     #region Decode To String
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public string DecodeToString(ReadOnlySpan<byte> value)
     {
         Validate(value);
@@ -443,7 +445,7 @@ public class AlphaNumericCodec : PlayCodec
         }
     }
 
-    /// <exception cref="PlayEncodingException">Ignore.</exception>
+    /// <exception cref="Exceptions.CodecParsingException">Ignore.</exception>
     public bool TryDecodingToString(ReadOnlySpan<byte> value, out string result)
     {
         result = string.Empty;

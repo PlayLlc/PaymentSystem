@@ -8,7 +8,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Issuer;
 
 /// <summary>
 ///     Contains proprietary application data for transmission to the issuer in an online transaction. Note: For

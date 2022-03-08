@@ -3,8 +3,9 @@ using System.Collections.Immutable;
 
 using Play.Core;
 using Play.Core.Extensions;
+using Play.Emv.DataElements.Emv.ValueTypes;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Enums;
 
 public sealed record ApplicationPriorityRankTypes : EnumObject<ApplicationPriorityRank>
 {

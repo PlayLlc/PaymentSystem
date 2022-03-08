@@ -4,7 +4,7 @@ using Play.Core.Exceptions;
 
 namespace Play.Codecs.Exceptions;
 
-public class PlayEncodingException : PlayException
+public class CodecParsingException : PlayException
 {
     #region Static Metadata
 
@@ -23,38 +23,38 @@ public class PlayEncodingException : PlayException
 
     #region Constructor
 
-    public PlayEncodingException(
+    public CodecParsingException(
         string message,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(PlayEncodingException), fileName, memberName, lineNumber)} {message}")
+        $"{TraceExceptionMessage(typeof(CodecParsingException), fileName, memberName, lineNumber)} {message}")
     { }
 
-    public PlayEncodingException(
+    public CodecParsingException(
         string message,
         string value,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(PlayEncodingException), fileName, memberName, lineNumber)} {message}. The offending value was: {value}")
+        $"{TraceExceptionMessage(typeof(CodecParsingException), fileName, memberName, lineNumber)} {message}. The offending value was: {value}")
     { }
 
-    public PlayEncodingException(
+    public CodecParsingException(
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(PlayEncodingException), fileName, memberName, lineNumber)}", innerException)
+        $"{TraceExceptionMessage(typeof(CodecParsingException), fileName, memberName, lineNumber)}", innerException)
     { }
 
-    public PlayEncodingException(
+    public CodecParsingException(
         string message,
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(PlayEncodingException), fileName, memberName, lineNumber)} {message}", innerException)
+        $"{TraceExceptionMessage(typeof(CodecParsingException), fileName, memberName, lineNumber)} {message}", innerException)
     { }
 
     #endregion

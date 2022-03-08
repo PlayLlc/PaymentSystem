@@ -7,9 +7,9 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Exceptions;
+using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Terminal;
 
 /// <summary>
 ///     Description: Indicates the card data input, CVM, and security capabilities of the Terminal and Reader. The CVM

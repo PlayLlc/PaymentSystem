@@ -1,7 +1,7 @@
 ﻿using Play.Core;
 using Play.Core.Extensions;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.ValueTypes;
 
 public record TerminalVerificationResultCodes : EnumObject<TerminalVerificationResult>
 {

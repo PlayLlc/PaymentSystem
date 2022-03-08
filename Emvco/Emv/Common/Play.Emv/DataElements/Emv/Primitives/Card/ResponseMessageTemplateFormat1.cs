@@ -8,7 +8,7 @@ using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Card;
 
 /// <summary>
 ///     Contains the data objects (without tags and lengths) returned by the ICC in response to a command

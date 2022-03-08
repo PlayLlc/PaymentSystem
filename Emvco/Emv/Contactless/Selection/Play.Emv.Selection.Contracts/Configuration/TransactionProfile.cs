@@ -1,4 +1,10 @@
-﻿using Play.Emv.DataElements.Emv;
+﻿using Play.Emv.DataElements.Emv.Enums;
+using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+using Play.Emv.DataElements.Emv.Primitives.CVM;
+using Play.Emv.DataElements.Emv.Primitives.Merchant;
+using Play.Emv.DataElements.Emv.Primitives.Terminal;
+using Play.Emv.DataElements.Emv.Primitives.Transaction;
+using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Selection.Contracts;

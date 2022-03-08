@@ -5,7 +5,7 @@ using Play.Codecs.Exceptions;
 
 namespace Play.Ber.Exceptions;
 
-public class BerException : PlayEncodingException
+public class BerException : CodecParsingException
 {
     #region Static Metadata
 

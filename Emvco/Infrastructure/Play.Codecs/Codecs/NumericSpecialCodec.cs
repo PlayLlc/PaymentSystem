@@ -7,6 +7,8 @@ using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
 
+using CodecParsingException = Play.Codecs.Exceptions._Temp.CodecParsingException;
+
 namespace Play.Codecs;
 
 public class NumericSpecialCodec : PlayCodec
@@ -58,7 +60,7 @@ public class NumericSpecialCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
     public override ushort GetByteCount<_T>(_T[] value)
     {
         Type type = typeof(_T);
@@ -68,26 +70,26 @@ public class NumericSpecialCodec : PlayCodec
         if (type.IsChar())
             return (ushort) value.Length;
 
-        throw new InternalPlayEncodingException(this, type);
+        throw new CodecParsingException(this, type);
     }
 
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T[] value) where T : struct
     {
         if (typeof(T) == typeof(char))
             return Encode<char>(Unsafe.As<T[], char[]>(ref value));
 
-        throw new InternalPlayEncodingException(
+        throw new CodecParsingException(
             $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }
 
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T[] value, int length) where T : struct
     {
         if (typeof(T) == typeof(char))
             return Encode(Unsafe.As<T[], char[]>(ref value), length);
 
-        throw new InternalPlayEncodingException(
+        throw new CodecParsingException(
             $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }
 
@@ -96,9 +98,9 @@ public class NumericSpecialCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T value) where T : struct =>
-        throw new InternalPlayEncodingException(
+        throw new CodecParsingException(
             $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
 
     /// <summary>
@@ -107,9 +109,9 @@ public class NumericSpecialCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T value, int length) where T : struct =>
-        throw new InternalPlayEncodingException(
+        throw new CodecParsingException(
             $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
 
     /// <summary>
@@ -118,10 +120,10 @@ public class NumericSpecialCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
     {
-        throw new InternalPlayEncodingException(
+        throw new CodecParsingException(
             $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }
 
@@ -132,10 +134,10 @@ public class NumericSpecialCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
-        throw new InternalPlayEncodingException(
+        throw new CodecParsingException(
             $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }
 
@@ -145,14 +147,14 @@ public class NumericSpecialCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) == typeof(char))
             Encode<char>(Unsafe.As<T[], char[]>(ref value), buffer, ref offset);
         else
         {
-            throw new InternalPlayEncodingException(
+            throw new CodecParsingException(
                 $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
         }
     }
@@ -164,14 +166,14 @@ public class NumericSpecialCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) == typeof(char))
             Encode(Unsafe.As<T[], char[]>(ref value), length, buffer, ref offset);
         else
         {
-            throw new InternalPlayEncodingException(
+            throw new CodecParsingException(
                 $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
         }
     }

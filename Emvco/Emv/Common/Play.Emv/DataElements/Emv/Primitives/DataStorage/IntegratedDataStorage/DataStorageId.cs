@@ -4,10 +4,11 @@ using System.Numerics;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Exceptions;
+using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.IntegratedDataStorage;
 
 /// <summary>
 ///     Data Storage EncodingId constructed as follows: Application PAN (without any 'F' padding) || Application PAN
@@ -47,7 +48,7 @@ public record DataStorageId : DataElement<BigInteger>
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
-    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="DataElementNullException"></exception>
     public static DataStorageId Decode(ReadOnlySpan<byte> value)
     {

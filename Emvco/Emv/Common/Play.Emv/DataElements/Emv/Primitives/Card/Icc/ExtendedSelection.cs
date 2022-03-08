@@ -8,7 +8,7 @@ using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Card.Icc;
 
 /// <summary>
 ///     The value to be appended to the ADF Name in the data field of the SELECT command, if the Extended Selection Support

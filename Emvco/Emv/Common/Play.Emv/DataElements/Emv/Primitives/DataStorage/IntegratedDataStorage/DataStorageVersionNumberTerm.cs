@@ -5,7 +5,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.IntegratedDataStorage;
 
 /// <summary>
 ///     Integrated data storage support by the Kernel depends on the  presence of this data object. If it is absent, or is

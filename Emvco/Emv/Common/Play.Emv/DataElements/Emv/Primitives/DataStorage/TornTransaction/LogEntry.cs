@@ -7,7 +7,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.TornTransaction;
 
 /// <summary>
 ///     Provides the SFI of the Transaction Log file and its number of records

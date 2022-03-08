@@ -4,8 +4,9 @@ using System.Collections.Immutable;
 
 using Play.Core;
 using Play.Core.Extensions;
+using Play.Emv.DataElements.Emv.Primitives.Kernel;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Enums;
 
 public sealed record ShortKernelIdTypes : EnumObject<byte>, IEqualityComparer<ShortKernelIdTypes>
 {

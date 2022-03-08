@@ -7,7 +7,10 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Enums;
+using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+using Play.Emv.DataElements.Emv.Primitives.Kernel;
+using Play.Emv.DataElements.Emv.ValueTypes;
 
 namespace Play.Emv.Templates.FileControlInformation;
 

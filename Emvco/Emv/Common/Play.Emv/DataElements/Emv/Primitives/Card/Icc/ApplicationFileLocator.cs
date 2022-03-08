@@ -9,7 +9,7 @@ using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Icc.FileSystem.ElementaryFiles;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Card.Icc;
 
 // TODO: there needs to be some service that reads all the files referenced by AFL. If the following are not
 // TODO: present after reading, then something fucked up - Book 3 table 26

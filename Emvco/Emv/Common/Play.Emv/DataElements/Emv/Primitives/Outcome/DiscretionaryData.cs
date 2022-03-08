@@ -8,7 +8,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Outcome;
 
 /// <summary>
 ///     Description: The Discretionary Data is a list of Kernel-specific data objects sent to the Terminal as a separate

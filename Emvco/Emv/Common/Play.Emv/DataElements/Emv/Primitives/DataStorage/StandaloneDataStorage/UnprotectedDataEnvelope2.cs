@@ -8,7 +8,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.StandaloneDataStorage;
 
 /// <summary>
 ///     Description: The Unprotected Data Envelopes contain proprietary information from the issuer, payment system or

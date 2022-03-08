@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Primitives.DataStorage.TornTransaction;
+using Play.Emv.DataElements.Emv.Primitives.Terminal;
 using Play.Emv.Terminal.Contracts;
 using Play.Globalization.Time;
 

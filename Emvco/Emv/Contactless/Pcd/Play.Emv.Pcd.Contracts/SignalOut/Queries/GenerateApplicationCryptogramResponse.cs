@@ -2,7 +2,10 @@
 using System.Linq;
 
 using Play.Ber.DataObjects;
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+using Play.Emv.DataElements.Emv.Primitives.Issuer;
+using Play.Emv.DataElements.Emv.Primitives.Security;
+using Play.Emv.Exceptions;
 using Play.Emv.Icc.GenerateApplicationCryptogram;
 using Play.Emv.Sessions;
 using Play.Emv.Templates.ResponseMessages;
@@ -37,7 +40,7 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
     /// <param name="response"></param>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
-    /// <exception cref="Play.Emv.DataElements.Exceptions.DataElementNullException"></exception>
+    /// <exception cref="DataElementNullException"></exception>
     public GenerateApplicationCryptogramResponse(
         CorrelationId correlation,
         TransactionSessionId transactionSessionId,
@@ -79,7 +82,7 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
-    /// <exception cref="Play.Emv.DataElements.Exceptions.DataElementNullException"></exception>
+    /// <exception cref="DataElementNullException"></exception>
     private static GenerateApplicationCryptogramResponseMetadata DecodeData(GenerateApplicationCryptogramRApduSignal rapdu)
     {
         TagLengthValue[] a = ResponseMessageTemplate.DecodeData(rapdu);

@@ -6,8 +6,9 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements.Emv.Enums;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Kernel;
 
 /// <summary>
 ///     Description: Contains a value that uniquely identifies each Kernel. There is one occurrence of this data object for

@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Enums;
+using Play.Emv.DataElements.Emv.Primitives.Kernel;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Services;
 

@@ -8,7 +8,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Randoms;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Security;
 
 /// <summary>
 ///     Value to provide variability and uniqueness to the generation of a cryptogram

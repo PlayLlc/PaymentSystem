@@ -3,6 +3,7 @@
 using BenchmarkDotNet.Attributes;
 
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 
 namespace Benchmark.CodecTests.HexadecimalTests;
 
@@ -49,7 +50,7 @@ public class GetStringTests
     /// <summary>
     ///     GetStringBenchmark_Ten
     /// </summary>
-    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Benchmark]
     public void GetStringBenchmark_Ten()
     {
@@ -61,7 +62,7 @@ public class GetStringTests
     /// <summary>
     ///     GetStringBenchmark_OneHundred
     /// </summary>
-    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Benchmark]
     public void GetStringBenchmark_OneHundred()
     {
@@ -73,7 +74,7 @@ public class GetStringTests
     /// <summary>
     ///     GetStringBenchmark_OneThousand
     /// </summary>
-    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Benchmark]
     public void GetStringBenchmark_OneThousand()
     {
@@ -85,7 +86,7 @@ public class GetStringTests
     /// <summary>
     ///     GetStringBenchmark_TenThousand
     /// </summary>
-    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Benchmark]
     public void GetStringBenchmark_TenThousand()
     {

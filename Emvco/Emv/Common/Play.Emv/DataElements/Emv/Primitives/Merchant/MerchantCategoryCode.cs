@@ -7,9 +7,9 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Ber.Exceptions;
-using Play.Emv.DataElements.Exceptions;
+using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Merchant;
 
 /// <summary>
 ///     Classifies the type of business being done by the merchant, represented according to ISO 8583:1993 for Card

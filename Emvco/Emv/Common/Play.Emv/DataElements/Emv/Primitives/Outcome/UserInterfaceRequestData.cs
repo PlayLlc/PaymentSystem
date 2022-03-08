@@ -9,10 +9,12 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements.Emv.Primitives.DataExchange;
+using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Globalization.Currency;
 using Play.Globalization.Time;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Outcome;
 
 /// <summary>
 ///     Description: Combines all parameters to be sent with the OUT DataExchangeSignal or MSG DataExchangeSignal.

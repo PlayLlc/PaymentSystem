@@ -7,7 +7,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.TornTransaction;
 
 /// <summary>
 ///     Contains the Terminal data writing requests to be sent to the Card after processing the GENERATE AC command or th

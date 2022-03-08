@@ -4,10 +4,11 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.DataElements.Emv;
-using Play.Emv.DataElements.Exceptions;
+using Play.Codecs.Exceptions;
+using Play.Emv.DataElements.Emv.Primitives.Issuer;
+using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Interchange;
+namespace Play.Emv.DataElements.Interchange.Primitives;
 
 /// <summary>
 ///     The Account Number associated to Issuer Card
@@ -44,7 +45,7 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
     /// </summary>
     /// <param name="issuerIdentifier"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public bool IsIssuerIdentifierMatching(IssuerIdentificationNumber issuerIdentifier)
     {
         uint thisPan = PlayCodec.NumericCodec.DecodeToUInt16(PlayCodec.NumericCodec.Encode(_Value));

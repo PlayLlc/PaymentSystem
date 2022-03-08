@@ -1,4 +1,6 @@
-﻿using Play.Emv.DataElements.Emv;
+﻿using Play.Emv.DataElements.Emv.Primitives.Outcome;
+using Play.Emv.DataElements.Emv.Primitives.Transaction;
+using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Emv.Outcomes;
 using Play.Globalization;
 using Play.Globalization.Time;

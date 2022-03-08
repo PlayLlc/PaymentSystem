@@ -7,7 +7,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Card.Icc;
 
 /// <summary>
 ///     Counter maintained by the application in the ICC (incrementing the ATC is managed by the ICC)

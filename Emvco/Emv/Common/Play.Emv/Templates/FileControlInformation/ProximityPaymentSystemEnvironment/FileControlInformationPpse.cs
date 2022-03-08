@@ -7,10 +7,11 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+using Play.Emv.DataElements.Emv.Primitives.Terminal;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace Play.Emv.Templates.FileControlInformation;
+namespace Play.Emv.Templates.FileControlInformation.ProximityPaymentSystemEnvironment;
 
 public class FileControlInformationPpse : FileControlInformationTemplate
 {

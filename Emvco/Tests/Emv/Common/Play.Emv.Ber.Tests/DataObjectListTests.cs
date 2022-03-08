@@ -7,7 +7,9 @@ using Play.Ber.InternalFactories;
 using Play.Ber.Lengths;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Ber.Tests.TestDoubles;
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Primitives.Card;
+using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+using Play.Emv.DataElements.Emv.Primitives.Kernel;
 using Play.Emv.TestData.Ber.Primitive;
 
 using Xunit;

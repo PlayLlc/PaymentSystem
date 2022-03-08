@@ -2,7 +2,12 @@
 
 using Play.Core.Extensions;
 using Play.Emv.Configuration;
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Enums;
+using Play.Emv.DataElements.Emv.Primitives.Issuer;
+using Play.Emv.DataElements.Emv.Primitives.Outcome;
+using Play.Emv.DataElements.Emv.Primitives.Security;
+using Play.Emv.DataElements.Emv.Primitives.Terminal;
+using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Emv.Icc;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;

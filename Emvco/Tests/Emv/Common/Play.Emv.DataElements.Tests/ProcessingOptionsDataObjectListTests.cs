@@ -3,7 +3,7 @@ using System.Linq;
 
 using Play.Ber.DataObjects;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Primitives.Card;
 using Play.Emv.TestData.Ber.Primitive;
 
 using Xunit;

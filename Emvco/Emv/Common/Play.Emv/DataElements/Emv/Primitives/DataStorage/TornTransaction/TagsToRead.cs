@@ -9,7 +9,7 @@ using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.TornTransaction;
 
 /// <summary>
 ///     Description: List of tags indicating the data the Terminal has requested to be read. This data item is present if

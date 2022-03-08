@@ -8,7 +8,7 @@ using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Card.Icc;
 
 /// <summary>
 ///     Identifies the Dedicated File that represents an Application in a chip

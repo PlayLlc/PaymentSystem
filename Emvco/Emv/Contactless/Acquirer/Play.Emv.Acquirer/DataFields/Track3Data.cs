@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Acquirer.Exceptions;
 using Play.Interchange.DataFields;
 using Play.Interchange.Exceptions;
@@ -46,7 +47,7 @@ public record Track3Data : VariableDataField<BigInteger>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
     /// <exception cref="InterchangeException"></exception>
-    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InterchangeDataFieldNullException"></exception>
     public override Track3Data Decode(ReadOnlyMemory<byte> value)
     {

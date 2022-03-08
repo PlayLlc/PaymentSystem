@@ -5,10 +5,11 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Exceptions;
+using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Transaction;
 
 /// <summary>
 ///     Indicates the implied position of the decimal point from the right of the transaction amount represented according
@@ -46,7 +47,7 @@ public record TransactionCurrencyExponent : DataElement<byte>, IEqualityComparer
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
     /// <exception cref="DataElementNullException"></exception>
-    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static TransactionCurrencyExponent Decode(ReadOnlySpan<byte> value)
     {
         const ushort charLength = 1;

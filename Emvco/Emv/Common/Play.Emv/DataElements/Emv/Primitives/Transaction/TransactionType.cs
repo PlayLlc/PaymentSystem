@@ -8,7 +8,7 @@ using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Transaction;
 
 /// <summary>
 ///     Indicates the type of financial transaction, represented by the first two digits of the ISO 8583:1987 Processing

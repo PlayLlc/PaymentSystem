@@ -7,9 +7,10 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Globalization.Time;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Outcome;
 
 /// <summary>
 ///     Description: This data object is used to indicate to the Terminal the outcome of the transaction processing by the

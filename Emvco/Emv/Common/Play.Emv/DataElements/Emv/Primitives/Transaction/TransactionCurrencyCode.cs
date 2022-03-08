@@ -9,7 +9,7 @@ using Play.Emv.Ber.DataObjects;
 using Play.Globalization;
 using Play.Globalization.Currency;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Transaction;
 
 /// <summary>
 ///     Indicates the currency code of the transaction according to ISO 4217

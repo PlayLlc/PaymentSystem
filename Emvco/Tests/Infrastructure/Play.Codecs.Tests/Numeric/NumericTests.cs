@@ -1,4 +1,5 @@
-﻿using Play.Emv.TestData.Encoding;
+﻿using Play.Codecs.Exceptions;
+using Play.Emv.TestData.Encoding;
 
 using Xunit;
 
@@ -47,7 +48,7 @@ public class NumericTests
     ///     RandomDecodedUShort_EncodingThenDecoding_ReturnsExpectedResult
     /// </summary>
     /// <param name="testValue"></param>
-    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Theory]
     [MemberData(nameof(NumericFixture.GetRandomUShort), 100, MemberType = typeof(NumericFixture))]
     public void RandomDecodedUShort_EncodingThenDecoding_ReturnsExpectedResult(ushort testValue)
@@ -62,7 +63,7 @@ public class NumericTests
     ///     RandomDecodedUInt_EncodingThenDecoding_ReturnsExpectedResult
     /// </summary>
     /// <param name="testValue"></param>
-    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Theory]
     [MemberData(nameof(NumericFixture.GetRandomUInt), 100, MemberType = typeof(NumericFixture))]
     public void RandomDecodedUInt_EncodingThenDecoding_ReturnsExpectedResult(uint testValue)
@@ -77,7 +78,7 @@ public class NumericTests
     ///     RandomDecodedULong_EncodingThenDecoding_ReturnsExpectedResult
     /// </summary>
     /// <param name="testValue"></param>
-    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Theory]
     [MemberData(nameof(NumericFixture.GetRandomULong), 100, MemberType = typeof(NumericFixture))]
     public void RandomDecodedULong_EncodingThenDecoding_ReturnsExpectedResult(ulong testValue)

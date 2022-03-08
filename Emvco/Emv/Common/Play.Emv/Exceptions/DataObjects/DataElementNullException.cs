@@ -3,9 +3,8 @@ using System.Runtime.CompilerServices;
 
 using Play.Codecs;
 using Play.Emv.Ber;
-using Play.Emv.DataElements.Exceptionszz;
 
-namespace Play.Emv.DataElements.Exceptions;
+namespace Play.Emv.Exceptions;
 
 public class DataElementNullException : DataElementException
 {

@@ -4,9 +4,10 @@ using System.Runtime.CompilerServices;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
-using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
+
+using CodecParsingException = Play.Codecs.Exceptions._Temp.CodecParsingException;
 
 namespace Play.Codecs;
 
@@ -211,7 +212,7 @@ public class CompressedNumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="result"></param>
     /// <returns></returns>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
     {
         if (!IsValid(value))
@@ -260,12 +261,12 @@ public class CompressedNumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
     public override byte[] Encode<T>(T value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
         if (!typeof(T).IsNumericType())
-            throw new InternalPlayEncodingException(this, typeof(T));
+            throw new CodecParsingException(this, typeof(T));
 
         nint byteSize = Unsafe.SizeOf<T>();
 
@@ -320,7 +321,7 @@ public class CompressedNumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override byte[] Encode<T>(T[] value, int length)
     {
         if (typeof(T) == typeof(char))
@@ -337,7 +338,7 @@ public class CompressedNumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value, int length)
     {
         int byteSize = (value.Length / 2) + (value.Length % 2);
@@ -360,7 +361,7 @@ public class CompressedNumericCodec : PlayCodec
                 }
                 catch (IndexOutOfRangeException exception)
                 {
-                    throw new PlayEncodingException(
+                    throw new Exceptions.CodecParsingException(
                         $"The value could not be encoded by {nameof(CompressedNumericCodec)} because there was an invalid character",
                         exception);
                 }
@@ -385,7 +386,7 @@ public class CompressedNumericCodec : PlayCodec
                 }
                 catch (IndexOutOfRangeException exception)
                 {
-                    throw new PlayEncodingException(
+                    throw new Exceptions.CodecParsingException(
                         $"The value could not be encoded by {nameof(CompressedNumericCodec)} because there was an invalid character",
                         exception);
                 }
@@ -584,7 +585,7 @@ public class CompressedNumericCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset)
     {
         if (typeof(T) == typeof(char))
@@ -636,7 +637,7 @@ public class CompressedNumericCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public void Encode(ReadOnlySpan<char> value, int length, Span<byte> buffer, ref int offset)
     {
         int byteSize = (length / 2) + (length % 2);
@@ -654,7 +655,7 @@ public class CompressedNumericCodec : PlayCodec
             }
             catch (IndexOutOfRangeException exception)
             {
-                throw new PlayEncodingException(
+                throw new Exceptions.CodecParsingException(
                     $"The value could not be encoded by {nameof(CompressedNumericCodec)} because there was an invalid character",
                     exception);
             }

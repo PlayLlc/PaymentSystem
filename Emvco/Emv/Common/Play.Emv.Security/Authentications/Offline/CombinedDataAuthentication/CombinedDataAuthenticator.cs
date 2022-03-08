@@ -1,7 +1,9 @@
 ﻿using System;
 
 using Play.Ber.Codecs;
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Primitives.Outcome;
+using Play.Emv.DataElements.Emv.Primitives.Security;
+using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Emv.Security.Certificates.Icc;
 using Play.Emv.Security.Cryptograms;
 using Play.Emv.Security.Messages.CDA;

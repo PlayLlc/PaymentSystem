@@ -1,6 +1,9 @@
 ﻿using System;
 
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+using Play.Emv.DataElements.Emv.Primitives.Outcome;
+using Play.Emv.DataElements.Emv.Primitives.Security;
+using Play.Emv.DataElements.Emv.ValueTypes;
 
 namespace Play.Emv.Security.Messages.CDA;
 

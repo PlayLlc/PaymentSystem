@@ -6,7 +6,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Card;
 
 /// <summary>
 ///     Contains a list of terminal resident data objects (tags and lengths) needed by the ICC in processing the GET

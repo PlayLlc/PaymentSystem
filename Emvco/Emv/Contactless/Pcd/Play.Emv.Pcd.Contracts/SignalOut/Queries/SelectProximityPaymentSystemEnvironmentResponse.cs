@@ -1,6 +1,6 @@
 ﻿using Play.Emv.Icc.FileControlInformation;
 using Play.Emv.Sessions;
-using Play.Emv.Templates.FileControlInformation;
+using Play.Emv.Templates.FileControlInformation.ProximityPaymentSystemEnvironment;
 using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;

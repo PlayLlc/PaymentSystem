@@ -1,9 +1,9 @@
 ﻿using Play.Emv.Acquirer.Contracts.SignalOut;
 using Play.Emv.Configuration;
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Primitives.Transaction;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Kernel2.StateMachine;
+using Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup;
 using Play.Emv.Messaging;
 using Play.Emv.Reader.Contracts.SignalOut;
 using Play.Emv.Sessions;

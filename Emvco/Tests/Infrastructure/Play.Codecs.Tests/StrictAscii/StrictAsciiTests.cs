@@ -1,4 +1,5 @@
-﻿using Play.Codecs.Tests.Numeric;
+﻿using Play.Codecs.Exceptions;
+using Play.Codecs.Tests.Numeric;
 using Play.Emv.TestData.Encoding;
 
 using Xunit;
@@ -28,7 +29,7 @@ public class StrictAsciiTests
     ///     RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult
     /// </summary>
     /// <param name="testValue"></param>
-    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Theory]
     [MemberData(nameof(AsciiFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(NumericFixture))]
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
@@ -44,7 +45,7 @@ public class StrictAsciiTests
     ///     RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult
     /// </summary>
     /// <param name="testValue"></param>
-    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Theory]
     [MemberData(nameof(AsciiFixture.GetRandomString), 100, 1, 300, MemberType = typeof(NumericFixture))]
     public void RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult(string testValue)
@@ -58,7 +59,7 @@ public class StrictAsciiTests
     /// <summary>
     ///     ApplicationLabelByteArray_ConvertingToAsciiString_ReturnsExpectedResult
     /// </summary>
-    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Fact]
     public void ApplicationLabelByteArray_ConvertingToAsciiString_ReturnsExpectedResult()
     {

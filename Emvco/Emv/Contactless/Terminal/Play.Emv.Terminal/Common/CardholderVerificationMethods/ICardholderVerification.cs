@@ -1,4 +1,4 @@
-﻿using Play.Emv.DataElements.Emv;
+﻿using Play.Emv.DataElements.Emv.Primitives.CVM;
 
 namespace Play.Emv.Terminal.CardholderVerificationMethods;
 

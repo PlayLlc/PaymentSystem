@@ -9,7 +9,7 @@ using Play.Emv.Ber.DataObjects;
 using Play.Globalization;
 using Play.Globalization.Country;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Terminal;
 
 /// <summary>
 ///     Indicates the country of the terminal, represented according to ISO 3166

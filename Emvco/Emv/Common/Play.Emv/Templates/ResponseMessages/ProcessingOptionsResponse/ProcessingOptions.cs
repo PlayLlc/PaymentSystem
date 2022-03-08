@@ -5,9 +5,9 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
 
-namespace Play.Emv.Templates.ResponseMessages;
+namespace Play.Emv.Templates.ResponseMessages.ProcessingOptionsResponse;
 
 public class ProcessingOptions : ResponseMessageTemplate
 {

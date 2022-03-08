@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Primitives.Security;
 using Play.Encryption.Certificates;
 using Play.Encryption.Hashing;
 using Play.Globalization.Time;

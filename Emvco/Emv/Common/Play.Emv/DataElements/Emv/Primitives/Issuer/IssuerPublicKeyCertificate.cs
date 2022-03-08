@@ -8,7 +8,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Issuer;
 
 /// <summary>
 ///     Provided by the appropriate certification  authority to the card issuer. When the terminal verifies this data

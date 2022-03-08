@@ -6,10 +6,11 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Exceptions;
+using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Terminal;
 
 /// <summary>
 ///     Indicates the environment of the terminal, its communications capability, and its operational control
@@ -110,7 +111,7 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
     /// <exception cref="DataElementNullException"></exception>
-    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static TerminalType Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

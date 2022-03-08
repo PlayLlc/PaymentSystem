@@ -1,5 +1,7 @@
 ﻿using Play.Emv.Ber;
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Enums;
+using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+using Play.Emv.DataElements.Emv.Primitives.Terminal;
 using Play.Emv.Security.Authentications.Offline.CombinedDataAuthentication;
 using Play.Emv.Security.Authentications.Offline.DynamicDataAuthentication;
 using Play.Emv.Security.Authentications.Static;

@@ -3,7 +3,11 @@ using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
 using Play.Emv.DataElements;
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Primitives.Acquirer;
+using Play.Emv.DataElements.Emv.Primitives.Outcome;
+using Play.Emv.DataElements.Emv.Primitives.Terminal;
+using Play.Emv.DataElements.Emv.Primitives.Transaction;
+using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Emv.Icc;
 using Play.Emv.Outcomes;
 using Play.Globalization;

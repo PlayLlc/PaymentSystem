@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Primitives.DataStorage.TornTransaction;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;

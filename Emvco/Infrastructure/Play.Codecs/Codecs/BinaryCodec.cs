@@ -7,6 +7,8 @@ using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
 
+using CodecParsingException = Play.Codecs.Exceptions._Temp.CodecParsingException;
+
 namespace Play.Codecs;
 
 public class BinaryCodec : PlayCodec
@@ -111,7 +113,7 @@ public class BinaryCodec : PlayCodec
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
     public override ushort GetByteCount<T>(T value) where T : struct
     {
         nint byteSize = Unsafe.SizeOf<T>();
@@ -125,7 +127,7 @@ public class BinaryCodec : PlayCodec
         if (byteSize <= Specs.Integer.UInt64.ByteCount)
             return Unsafe.As<T, ulong>(ref value).GetMostSignificantByte();
 
-        throw new InternalPlayEncodingException($"The {nameof(BinaryCodec)} could not find the byte count for a type of {typeof(T)}");
+        throw new CodecParsingException($"The {nameof(BinaryCodec)} could not find the byte count for a type of {typeof(T)}");
     }
 
     public override ushort GetByteCount<T>(T[] value) where T : struct => checked((ushort) value.Length);
@@ -184,7 +186,7 @@ public class BinaryCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T value) where T : struct
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -194,7 +196,7 @@ public class BinaryCodec : PlayCodec
             return Encode(Unsafe.As<T, char>(ref value));
 
         if (!type.IsNumericType())
-            throw new InternalPlayEncodingException(this, typeof(T));
+            throw new CodecParsingException(this, typeof(T));
 
         nint byteSize = Unsafe.SizeOf<T>();
 
@@ -216,7 +218,7 @@ public class BinaryCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T value, int length) where T : struct
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -226,7 +228,7 @@ public class BinaryCodec : PlayCodec
             return Encode(Unsafe.As<T, char>(ref value));
 
         if (!type.IsNumericType())
-            throw new InternalPlayEncodingException(this, typeof(T));
+            throw new CodecParsingException(this, typeof(T));
 
         if (length == Specs.Integer.UInt8.ByteCount)
             return Encode(Unsafe.As<T, byte>(ref value));
@@ -249,7 +251,7 @@ public class BinaryCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T[] value) where T : struct
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -260,7 +262,7 @@ public class BinaryCodec : PlayCodec
         if (type.IsNumericType())
             return Encode(Unsafe.As<T[], byte[]>(ref value));
 
-        throw new InternalPlayEncodingException(this, typeof(T));
+        throw new CodecParsingException(this, typeof(T));
     }
 
     /// <summary>
@@ -269,7 +271,7 @@ public class BinaryCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T[] value, int length) where T : struct
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -280,7 +282,7 @@ public class BinaryCodec : PlayCodec
         if (type.IsNumericType())
             return Unsafe.As<T[], byte[]>(ref value);
 
-        throw new InternalPlayEncodingException(this, typeof(T));
+        throw new CodecParsingException(this, typeof(T));
     }
 
     public byte[] Encode(byte value)
@@ -354,7 +356,7 @@ public class BinaryCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -368,7 +370,7 @@ public class BinaryCodec : PlayCodec
         }
 
         if (!type.IsNumericType())
-            throw new InternalPlayEncodingException(this, typeof(T));
+            throw new CodecParsingException(this, typeof(T));
 
         nint byteSize = Unsafe.SizeOf<T>();
 
@@ -391,7 +393,7 @@ public class BinaryCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -405,7 +407,7 @@ public class BinaryCodec : PlayCodec
         }
 
         if (!type.IsNumericType())
-            throw new InternalPlayEncodingException(this, typeof(T));
+            throw new CodecParsingException(this, typeof(T));
 
         if (length == Specs.Integer.UInt8.ByteCount)
             Encode(Unsafe.As<T, byte>(ref value), buffer, ref offset);
@@ -429,7 +431,7 @@ public class BinaryCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow 
@@ -439,7 +441,7 @@ public class BinaryCodec : PlayCodec
             Encode(Unsafe.As<T[], char[]>(ref value), buffer, ref offset);
         else if (typeof(T).IsNumericType())
         {
-            throw new InternalPlayEncodingException(
+            throw new CodecParsingException(
                 $"The {nameof(BinaryCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
         }
         else
@@ -453,7 +455,7 @@ public class BinaryCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow 
@@ -465,7 +467,7 @@ public class BinaryCodec : PlayCodec
             Encode(Unsafe.As<T[], byte[]>(ref value), length, buffer, ref offset);
         else
         {
-            throw new InternalPlayEncodingException(
+            throw new CodecParsingException(
                 $"The {nameof(BinaryCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
         }
     }

@@ -27,7 +27,7 @@ public class AlphaNumericTests
     ///     RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult
     /// </summary>
     /// <param name="testValue"></param>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Theory]
     [MemberData(nameof(AlphaNumericFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(AlphaNumericFixture))]
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
@@ -42,7 +42,7 @@ public class AlphaNumericTests
     ///     RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult
     /// </summary>
     /// <param name="testValue"></param>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Theory]
     [MemberData(nameof(AlphaNumericFixture.GetRandomString), 100, 1, 300, MemberType = typeof(AlphaNumericFixture))]
     public void RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult(string testValue)
@@ -58,7 +58,7 @@ public class AlphaNumericTests
     {
         const string testData = "FFC•3C01CD6E4F?A13021";
 
-        Assert.Throws<PlayEncodingException>(() => _SystemUnderTest.Encode(testData));
+        Assert.Throws<CodecParsingException>(() => _SystemUnderTest.Encode(testData));
     }
 
     #endregion

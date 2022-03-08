@@ -3,7 +3,10 @@
 using Play.Ber.DataObjects;
 using Play.Core.Math;
 using Play.Emv.DataElements;
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Primitives.Acquirer;
+using Play.Emv.DataElements.Emv.Primitives.Merchant;
+using Play.Emv.DataElements.Emv.Primitives.Terminal;
+using Play.Emv.DataElements.Emv.Primitives.Transaction;
 using Play.Globalization;
 using Play.Globalization.Currency;
 

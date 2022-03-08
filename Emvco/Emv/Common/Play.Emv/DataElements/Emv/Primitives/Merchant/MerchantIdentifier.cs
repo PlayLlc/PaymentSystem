@@ -6,7 +6,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Merchant;
 
 /// <summary>
 ///     When concatenated with the Acquirer EncodingId, uniquely identifies a given merchant

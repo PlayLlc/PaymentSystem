@@ -5,10 +5,10 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Exceptions;
+using Play.Emv.Exceptions;
 using Play.Globalization.Time;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.DataExchange;
 
 /// <summary>
 ///     Description: Indicates the default delay for the processing of the next MSG DataExchangeSignal. The Message Hold

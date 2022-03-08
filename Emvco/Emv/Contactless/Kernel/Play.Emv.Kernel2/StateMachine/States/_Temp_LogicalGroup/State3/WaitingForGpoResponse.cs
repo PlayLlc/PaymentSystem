@@ -12,7 +12,7 @@ using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
 
-namespace Play.Emv.Kernel2.StateMachine.State3;
+namespace Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup.State3;
 
 public partial class WaitingForGpoResponse : KernelState
 {

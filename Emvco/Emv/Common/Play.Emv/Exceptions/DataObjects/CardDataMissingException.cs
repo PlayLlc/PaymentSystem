@@ -3,8 +3,11 @@ using System.Runtime.CompilerServices;
 
 using Play.Core.Exceptions;
 
-namespace Play.Emv.Templates.Exceptions;
+namespace Play.Emv.Exceptions;
 
+/// <summary>
+///     When a Template is missing a required Data Element
+/// </summary>
 public class CardDataMissingException : PlayException
 {
     #region Constructor

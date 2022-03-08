@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 using Play.Core.Exceptions;
 
-namespace Play.Emv.DataElements.Exceptionszz;
+namespace Play.Emv.Exceptions;
 
 public class DataElementException : PlayException
 {

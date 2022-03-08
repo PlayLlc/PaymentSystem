@@ -9,8 +9,9 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Specifications;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements.Emv.ValueTypes;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Terminal;
 
 /// <summary>
 ///     Contains a list of one or more <see cref="TerminalCategoryCode" /> supported by the terminal

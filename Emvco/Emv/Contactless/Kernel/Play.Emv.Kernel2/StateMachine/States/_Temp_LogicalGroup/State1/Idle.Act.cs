@@ -4,22 +4,33 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Enums;
+using Play.Emv.DataElements.Emv.Primitives.Card;
+using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+using Play.Emv.DataElements.Emv.Primitives.CVM;
+using Play.Emv.DataElements.Emv.Primitives.DataExchange;
+using Play.Emv.DataElements.Emv.Primitives.DataStorage.IntegratedDataStorage;
+using Play.Emv.DataElements.Emv.Primitives.DataStorage.TornTransaction;
+using Play.Emv.DataElements.Emv.Primitives.Kernel;
+using Play.Emv.DataElements.Emv.Primitives.Outcome;
+using Play.Emv.DataElements.Emv.Primitives.Security;
+using Play.Emv.DataElements.Emv.Primitives.Terminal;
+using Play.Emv.DataElements.Emv.ValueTypes;
+using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
-using Play.Emv.Kernel2.StateMachine.State3;
+using Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup.State3;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
-using Play.Emv.Templates.Exceptions;
-using Play.Emv.Templates.FileControlInformation;
+using Play.Emv.Templates.FileControlInformation.ApplicationDefinitionFile;
 using Play.Globalization.Time;
 using Play.Messaging;
 
-namespace Play.Emv.Kernel2.StateMachine;
+namespace Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup;
 
 public partial class Idle : KernelState
 {
@@ -28,7 +39,7 @@ public partial class Idle : KernelState
     /// <remarks>Book C-2 Section 6.3.3</remarks>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
-    /// <exception cref="Play.Emv.DataElements.Exceptions.DataElementNullException"></exception>
+    /// <exception cref="DataElementNullException"></exception>
     public override KernelState Handle(KernelSession session, ActivateKernelRequest signal)
     {
         Kernel2Session kernel2Session = (Kernel2Session) session;
@@ -347,7 +358,7 @@ public partial class Idle : KernelState
     /// <remarks>Book C-2 Section 6.3.3  S1.17</remarks>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
-    /// <exception cref="Play.Emv.DataElements.Exceptions.DataElementNullException"></exception>
+    /// <exception cref="DataElementNullException"></exception>
     public void HandleDataStorageVersionNumberTerm(Kernel2Session session)
     {
         if (!_KernelDatabase.IsPresentAndNotEmpty(DataStorageVersionNumberTerm.Tag))
@@ -408,7 +419,7 @@ public partial class Idle : KernelState
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
-    /// <exception cref="Play.Emv.DataElements.Exceptions.DataElementNullException"></exception>
+    /// <exception cref="DataElementNullException"></exception>
     public KernelState RouteStateTransition(Kernel2Session session)
     {
         if (!_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out TagLengthValue? applicationCapabilitiesInformationTlv))
@@ -459,7 +470,7 @@ public partial class Idle : KernelState
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
-    /// <exception cref="Play.Emv.DataElements.Exceptions.DataElementNullException"></exception>
+    /// <exception cref="DataElementNullException"></exception>
     private KernelState HandlePdolData(Kernel2Session session)
     {
         if (session.IsPdolDataMissing())
@@ -500,7 +511,7 @@ public partial class Idle : KernelState
     /// <param name="session"></param>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
-    /// <exception cref="Play.Emv.DataElements.Exceptions.DataElementNullException"></exception>
+    /// <exception cref="DataElementNullException"></exception>
     public void SetTimeout(Kernel2Session session)
     {
         TimeoutValue timeout = TimeoutValue.Decode(_KernelDatabase.Get(TimeoutValue.Tag).GetValue().AsSpan());

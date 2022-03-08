@@ -1,4 +1,5 @@
-﻿using Play.Emv.DataElements.Emv;
+﻿using Play.Emv.DataElements.Emv.Primitives.Acquirer;
+using Play.Emv.DataElements.Emv.Primitives.Terminal;
 
 namespace Play.Emv.Terminal.Configuration.ApplicationDependent;
 

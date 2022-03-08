@@ -8,6 +8,8 @@ using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
 
+using CodecParsingException = Play.Codecs.Exceptions._Temp.CodecParsingException;
+
 namespace Play.Codecs;
 
 public class SignedNumericCodec : PlayCodec
@@ -192,13 +194,13 @@ public class SignedNumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T value)
     {
         Type type = typeof(_T);
 
         if (!type.IsByte())
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
 
         nint byteSize = Unsafe.SizeOf<_T>();
 
@@ -220,13 +222,13 @@ public class SignedNumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T value, int length)
     {
         Type type = typeof(_T);
 
         if (!type.IsSignedInteger())
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
 
         if (length == Specs.Integer.Int8.ByteCount)
             return Encode(Unsafe.As<_T, sbyte>(ref value));
@@ -249,7 +251,7 @@ public class SignedNumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T[] value)
     {
         Type type = typeof(_T);
@@ -259,7 +261,7 @@ public class SignedNumericCodec : PlayCodec
         if (type.IsByte())
             return Encode(Unsafe.As<_T[], byte[]>(ref value));
 
-        throw new InternalPlayEncodingException(this, typeof(_T));
+        throw new CodecParsingException(this, typeof(_T));
     }
 
     /// <summary>
@@ -268,7 +270,7 @@ public class SignedNumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T[] value, int length)
     {
         if (typeof(_T) == typeof(char))
@@ -276,7 +278,7 @@ public class SignedNumericCodec : PlayCodec
         if (typeof(_T) == typeof(byte))
             return Encode(Unsafe.As<_T[], byte[]>(ref value));
 
-        throw new InternalPlayEncodingException(this, typeof(_T));
+        throw new CodecParsingException(this, typeof(_T));
     }
 
     public byte[] Encode(ReadOnlySpan<char> value) => Encode(value, value.Length);
@@ -557,13 +559,13 @@ public class SignedNumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
 
         if (!type.IsSignedInteger())
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
 
         nint byteSize = Unsafe.SizeOf<_T>();
 
@@ -586,10 +588,10 @@ public class SignedNumericCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset)
     {
-        throw new InternalPlayEncodingException(this, typeof(_T));
+        throw new CodecParsingException(this, typeof(_T));
     }
 
     /// <summary>
@@ -598,11 +600,11 @@ public class SignedNumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
     {
         if (!typeof(_T).IsChar())
-            throw new InternalPlayEncodingException(this, typeof(_T));
+            throw new CodecParsingException(this, typeof(_T));
 
         Encode(Unsafe.As<_T[], char[]>(ref value), buffer, ref offset);
     }
@@ -614,11 +616,11 @@ public class SignedNumericCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
     {
         if (!typeof(_T).IsChar())
-            throw new InternalPlayEncodingException(this, typeof(_T));
+            throw new CodecParsingException(this, typeof(_T));
 
         Encode(Unsafe.As<_T[], char[]>(ref value)[..length], buffer, ref offset);
     }

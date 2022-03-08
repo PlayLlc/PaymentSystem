@@ -4,9 +4,9 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Exceptions;
+using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.Card.Magstripe;
 
 /// <summary>
 ///     PUNATC(Track1) indicates to the Kernel the positions in the discretionary data field of Track 1 Data where the

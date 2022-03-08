@@ -3,9 +3,10 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.DataElements.Exceptions;
+using Play.Emv.DataElements.Emv.Primitives.Transaction;
+using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.CVM;
 
 /// <summary>
 ///     Indicates the transaction amount above which the transaction is not allowed, when on device cardholder verification

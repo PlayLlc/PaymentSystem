@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Enums;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.Services;

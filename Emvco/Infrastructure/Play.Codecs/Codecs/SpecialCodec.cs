@@ -8,6 +8,8 @@ using Play.Core.Exceptions;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
 
+using CodecParsingException = Play.Codecs.Exceptions._Temp.CodecParsingException;
+
 namespace Play.Codecs;
 
 public class SpecialCodec : PlayCodec
@@ -21,7 +23,7 @@ public class SpecialCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public byte DecodeToByte(char value)
     {
         Validate(value);
@@ -70,14 +72,14 @@ public class SpecialCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
     public override ushort GetByteCount<_T>(_T[] value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
 
         return (ushort) Unsafe.As<_T[], char[]>(ref value).Length;
     }
@@ -114,21 +116,21 @@ public class SpecialCodec : PlayCodec
     public bool IsValid(byte value) => _CharMapper.ContainsKey(value);
     public bool IsValid(char value) => _ByteMapper.ContainsKey(value);
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     private void Validate(byte value)
     {
         if (!IsValid(value))
-            throw new PlayEncodingException(PlayEncodingException.CharacterArrayContainsInvalidValue);
+            throw new Exceptions.CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
     }
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     private void Validate(char value)
     {
         if (!IsValid(value))
-            throw new PlayEncodingException(PlayEncodingException.CharacterArrayContainsInvalidValue);
+            throw new Exceptions.CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
     }
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     protected void Validate(ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -136,12 +138,12 @@ public class SpecialCodec : PlayCodec
         for (int i = 0; i <= (value.Length - 1); i++)
         {
             if (!IsValid(value[i]))
-                throw new PlayEncodingException(PlayEncodingException.CharacterArrayContainsInvalidValue);
+                throw new Exceptions.CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
         }
     }
 
-    /// <exception cref="PlayEncodingException"></exception>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     private void Validate(ReadOnlySpan<char> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -149,7 +151,7 @@ public class SpecialCodec : PlayCodec
         for (int i = 0; i <= (value.Length - 1); i++)
         {
             if (!IsValid(value[i]))
-                throw new PlayEncodingException(PlayEncodingException.CharacterArrayContainsInvalidValue);
+                throw new Exceptions.CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
         }
     }
 
@@ -157,7 +159,7 @@ public class SpecialCodec : PlayCodec
 
     #region Encode
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
     {
         if (IsValid(value))
@@ -177,15 +179,15 @@ public class SpecialCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
 
         return new byte[] {DecodeToByte(Unsafe.As<_T, char>(ref value))};
     }
@@ -196,15 +198,15 @@ public class SpecialCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T value, int length)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
 
         return new byte[] {DecodeToByte(Unsafe.As<_T, char>(ref value))};
     }
@@ -214,15 +216,15 @@ public class SpecialCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T[] value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
 
         return Encode(Unsafe.As<_T[], char[]>(ref value));
     }
@@ -233,20 +235,20 @@ public class SpecialCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T[] value, int length)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
 
         return Encode(Unsafe.As<_T[], char[]>(ref value), length);
     }
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value)
     {
         byte[] byteArray = new byte[value.Length];
@@ -260,7 +262,7 @@ public class SpecialCodec : PlayCodec
         return byteArray;
     }
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value, int length)
     {
         byte[] byteArray = new byte[length];
@@ -283,27 +285,27 @@ public class SpecialCodec : PlayCodec
     /// <param name="bytes"></param>
     /// <param name="byteIndex"></param>
     /// <returns></returns>
-    /// <exception cref="PlayEncodingFormatException"></exception>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingFormatException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
     {
         if (charIndex > chars.Length)
-            throw new PlayEncodingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
+            throw new CodecParsingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
 
         if (byteIndex > bytes.Length)
-            throw new PlayEncodingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
+            throw new CodecParsingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
 
         if ((byteIndex + charCount) > bytes.Length)
-            throw new PlayEncodingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
+            throw new CodecParsingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
 
         if (charIndex > chars.Length)
-            throw new PlayEncodingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
+            throw new CodecParsingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
 
         if ((byteIndex + charCount) > (bytes.Length - byteIndex))
-            throw new PlayEncodingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
+            throw new CodecParsingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
 
         if ((bytes.Length - byteIndex) < charCount)
-            throw new PlayEncodingFormatException("The byte array buffer provided was smaller than expected");
+            throw new CodecParsingFormatException("The byte array buffer provided was smaller than expected");
 
         for (int i = charIndex, j = byteIndex; j < charCount; i++, j++)
         {
@@ -320,7 +322,7 @@ public class SpecialCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public void Encode(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
     {
         for (int j = 0; j < value.Length; offset++)
@@ -338,7 +340,7 @@ public class SpecialCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public void Encode(ReadOnlySpan<char> value, int length, Span<byte> buffer, ref int offset)
     {
         for (int j = 0; j < value.Length; offset++)
@@ -355,13 +357,13 @@ public class SpecialCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
 
         buffer[offset++] = _ByteMapper[Unsafe.As<_T, char>(ref value)];
     }
@@ -373,13 +375,13 @@ public class SpecialCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
 
         buffer[offset++] = _ByteMapper[Unsafe.As<_T, char>(ref value)];
     }
@@ -390,14 +392,14 @@ public class SpecialCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
 
         Encode(Unsafe.As<_T[], char[]>(ref value), buffer, ref offset);
     }
@@ -409,15 +411,15 @@ public class SpecialCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
 
         Encode(Unsafe.As<_T[], char[]>(ref value), length, buffer, ref offset);
     }
@@ -435,26 +437,26 @@ public class SpecialCodec : PlayCodec
     /// <param name="chars"></param>
     /// <param name="charIndex"></param>
     /// <returns></returns>
-    /// <exception cref="PlayEncodingFormatException"></exception>
+    /// <exception cref="CodecParsingFormatException"></exception>
     public int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
     {
         if (byteIndex > chars.Length)
-            throw new PlayEncodingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
+            throw new CodecParsingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
 
         if (charIndex > chars.Length)
-            throw new PlayEncodingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
+            throw new CodecParsingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
 
         if ((charIndex + byteCount) > bytes.Length)
-            throw new PlayEncodingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
+            throw new CodecParsingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
 
         if (byteIndex > bytes.Length)
-            throw new PlayEncodingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
+            throw new CodecParsingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
 
         if ((charIndex + byteCount) > (chars.Length - charIndex))
-            throw new PlayEncodingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
+            throw new CodecParsingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
 
         if ((chars.Length - charIndex) < byteCount)
-            throw new PlayEncodingFormatException("The byte array buffer provided was smaller than expected");
+            throw new CodecParsingFormatException("The byte array buffer provided was smaller than expected");
 
         for (int i = byteIndex, j = charIndex; j < byteCount; i++, j++)
             bytes[j] = _ByteMapper[chars[i]];
@@ -476,7 +478,7 @@ public class SpecialCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public char DecodeToChar(byte value)
     {
         Validate(value);
@@ -488,7 +490,7 @@ public class SpecialCodec : PlayCodec
 
     #region Decode To String
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public string DecodeToString(ReadOnlySpan<byte> value)
     {
         Validate(value);
@@ -513,7 +515,7 @@ public class SpecialCodec : PlayCodec
         }
     }
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public bool TryDecodingToString(ReadOnlySpan<byte> value, out string result)
     {
         result = string.Empty;

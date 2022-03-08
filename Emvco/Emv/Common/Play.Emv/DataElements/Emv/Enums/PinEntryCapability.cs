@@ -1,6 +1,7 @@
 ﻿using Play.Core;
+using Play.Emv.DataElements.Emv.Primitives.Terminal;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Enums;
 
 public record PinEntryCapability : EnumObject<byte>
 {

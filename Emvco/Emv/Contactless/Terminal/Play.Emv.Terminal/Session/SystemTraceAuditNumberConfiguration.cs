@@ -1,4 +1,4 @@
-﻿using Play.Emv.DataElements.Interchange;
+﻿using Play.Emv.DataElements.Interchange.Primitives;
 
 namespace Play.Emv.Terminal.Session;
 

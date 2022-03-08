@@ -1,44 +1,44 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Play.Codecs.Exceptions;
+namespace Play.Codecs.Exceptions._Tempz;
 
-public class InternalPlayEncodingException : PlayEncodingException
+public class CodecParsingException : Exceptions.CodecParsingException
 {
     #region Constructor
 
-    public InternalPlayEncodingException(
+    public CodecParsingException(
         PlayCodec codec,
         Type encodedType,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(InternalPlayEncodingException), fileName, memberName, lineNumber)} "
+        $"{TraceExceptionMessage(typeof(CodecParsingException), fileName, memberName, lineNumber)} "
         + $"The {codec.GetType().Name} does not have the capability to {memberName} the type: [{encodedType.Name}]")
     { }
 
-    public InternalPlayEncodingException(
+    public CodecParsingException(
         string message,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(InternalPlayEncodingException), fileName, memberName, lineNumber)} {message}")
+        $"{TraceExceptionMessage(typeof(CodecParsingException), fileName, memberName, lineNumber)} {message}")
     { }
 
-    public InternalPlayEncodingException(
+    public CodecParsingException(
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(InternalPlayEncodingException), fileName, memberName, lineNumber)}", innerException)
+        $"{TraceExceptionMessage(typeof(CodecParsingException), fileName, memberName, lineNumber)}", innerException)
     { }
 
-    public InternalPlayEncodingException(
+    public CodecParsingException(
         string message,
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(InternalPlayEncodingException), fileName, memberName, lineNumber)} {message}", innerException)
+        $"{TraceExceptionMessage(typeof(CodecParsingException), fileName, memberName, lineNumber)} {message}", innerException)
     { }
 
     #endregion

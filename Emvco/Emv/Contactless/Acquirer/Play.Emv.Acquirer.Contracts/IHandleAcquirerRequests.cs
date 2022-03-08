@@ -1,5 +1,5 @@
 ﻿using Play.Emv.Acquirer.Contracts.SignalIn;
-using Play.Emv.DataElements.Interchange;
+using Play.Emv.DataElements.Interchange.ValueTypes;
 
 namespace Play.Emv.Acquirer.Contracts;
 

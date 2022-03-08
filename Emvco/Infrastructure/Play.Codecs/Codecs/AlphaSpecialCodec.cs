@@ -17,7 +17,7 @@ public class AlphaSpecialCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public byte GetByte(char value)
     {
         Validate(value);
@@ -93,21 +93,21 @@ public class AlphaSpecialCodec : PlayCodec
     public bool IsValid(byte value) => _CharMapper.ContainsKey(value);
     public bool IsValid(char value) => _ByteMapper.ContainsKey(value);
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private void Validate(byte value)
     {
         if (!IsValid(value))
-            throw new PlayEncodingException(PlayEncodingException.CharacterArrayContainsInvalidValue);
+            throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
     }
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private void Validate(char value)
     {
         if (!IsValid(value))
-            throw new PlayEncodingException(PlayEncodingException.CharacterArrayContainsInvalidValue);
+            throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
     }
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     protected void Validate(ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -115,11 +115,11 @@ public class AlphaSpecialCodec : PlayCodec
         for (int i = 0; i <= (value.Length - 1); i++)
         {
             if (!IsValid(value[i]))
-                throw new PlayEncodingException(PlayEncodingException.CharacterArrayContainsInvalidValue);
+                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
         }
     }
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private void Validate(ReadOnlySpan<char> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -127,7 +127,7 @@ public class AlphaSpecialCodec : PlayCodec
         for (int i = 0; i <= (value.Length - 1); i++)
         {
             if (!IsValid(value[i]))
-                throw new PlayEncodingException(PlayEncodingException.CharacterArrayContainsInvalidValue);
+                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
         }
     }
 
@@ -135,7 +135,7 @@ public class AlphaSpecialCodec : PlayCodec
 
     #region Encode
 
-    /// <exception cref="PlayEncodingException">Ignore.</exception>
+    /// <exception cref="CodecParsingException">Ignore.</exception>
     public bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
     {
         if (IsValid(value))
@@ -155,7 +155,7 @@ public class AlphaSpecialCodec : PlayCodec
     public override byte[] Encode<_T>(_T[] value) => throw new NotImplementedException();
     public override byte[] Encode<_T>(_T[] value, int length) => throw new NotImplementedException();
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value)
     {
         Validate(value);
@@ -258,7 +258,7 @@ public class AlphaSpecialCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public char DecodeToChar(byte value)
     {
         Validate(value);
@@ -270,7 +270,7 @@ public class AlphaSpecialCodec : PlayCodec
 
     #region Decode To String
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public string DecodeToString(ReadOnlySpan<byte> value)
     {
         Validate(value);
@@ -296,7 +296,7 @@ public class AlphaSpecialCodec : PlayCodec
     }
 
     /// <exception cref="EncodingException">Ignore.</exception>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public bool DecodingToString(ReadOnlySpan<byte> value, out string result)
     {
         result = string.Empty;

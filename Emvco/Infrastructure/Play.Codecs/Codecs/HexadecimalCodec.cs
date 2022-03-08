@@ -8,6 +8,8 @@ using Play.Core.Exceptions;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
 
+using CodecParsingException = Play.Codecs.Exceptions._Temp.CodecParsingException;
+
 namespace Play.Codecs;
 
 public class HexadecimalCodec : PlayCodec
@@ -179,7 +181,7 @@ public class HexadecimalCodec : PlayCodec
 
             return true;
         }
-        catch (PlayEncodingException)
+        catch (Exceptions.CodecParsingException)
         {
             result = new byte[0];
 
@@ -192,8 +194,8 @@ public class HexadecimalCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// < returns></returns>
-    /// < exception cref="PlayEncodingException"></exception>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// < exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -223,8 +225,8 @@ public class HexadecimalCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T value)
     {
         Type type = typeof(_T);
@@ -233,7 +235,7 @@ public class HexadecimalCodec : PlayCodec
             return new byte[] {DecodeToByte(Unsafe.As<_T, char>(ref value))};
 
         if (!type.IsUnsignedInteger())
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
 
         nint byteSize = Unsafe.SizeOf<_T>();
 
@@ -255,8 +257,8 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T value, int length)
     {
         Type type = typeof(_T);
@@ -265,7 +267,7 @@ public class HexadecimalCodec : PlayCodec
             return new byte[] {DecodeToByte(Unsafe.As<_T, char>(ref value))};
 
         if (!type.IsUnsignedInteger())
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
 
         if (length == Specs.Integer.UInt8.ByteCount)
             return Encode(Unsafe.As<_T, byte>(ref value));
@@ -289,8 +291,8 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
@@ -303,7 +305,7 @@ public class HexadecimalCodec : PlayCodec
         }
 
         if (!type.IsUnsignedInteger())
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
 
         nint byteSize = Unsafe.SizeOf<_T>();
 
@@ -326,7 +328,7 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset)
     {
         // HACK: Figure out how to implement this with the length argument
@@ -342,7 +344,7 @@ public class HexadecimalCodec : PlayCodec
         }
 
         if (!type.IsUnsignedInteger())
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
 
         nint byteSize = Unsafe.SizeOf<_T>();
 
@@ -363,7 +365,7 @@ public class HexadecimalCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T[] value)
     {
         Type type = typeof(_T);
@@ -373,7 +375,7 @@ public class HexadecimalCodec : PlayCodec
         if (type.IsByte())
             return Encode(Unsafe.As<_T[], byte[]>(ref value));
 
-        throw new InternalPlayEncodingException(this, type);
+        throw new CodecParsingException(this, type);
     }
 
     /// <summary>
@@ -382,7 +384,7 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T[] value, int length)
     {
         Type type = typeof(_T);
@@ -392,7 +394,7 @@ public class HexadecimalCodec : PlayCodec
         if (type.IsByte())
             return Encode(Unsafe.As<_T[], byte[]>(ref value)[..length]);
 
-        throw new InternalPlayEncodingException(this, type);
+        throw new CodecParsingException(this, type);
     }
 
     /// <summary>
@@ -401,8 +403,8 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
@@ -412,7 +414,7 @@ public class HexadecimalCodec : PlayCodec
         else if (type.IsByte())
             Encode(Unsafe.As<_T[], byte[]>(ref value), buffer, ref offset);
         else
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
     }
 
     /// <summary>
@@ -422,8 +424,8 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
@@ -433,10 +435,10 @@ public class HexadecimalCodec : PlayCodec
         else if (type.IsByte())
             Encode(Unsafe.As<_T[], byte[]>(ref value)[..length], buffer, ref offset);
         else
-            throw new InternalPlayEncodingException(this, type);
+            throw new CodecParsingException(this, type);
     }
 
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
     {
         CheckCore.ForEmptySequence(chars, nameof(chars));
@@ -489,7 +491,7 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public void Encode(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -512,7 +514,7 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public void Encode(ReadOnlySpan<char> value, int length, Span<byte> buffer, ref int offset)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -607,7 +609,7 @@ public class HexadecimalCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public string DecodeToString(ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -647,7 +649,7 @@ public class HexadecimalCodec : PlayCodec
 
             return true;
         }
-        catch (PlayEncodingException)
+        catch (Exceptions.CodecParsingException)
         {
             result = null;
 
@@ -683,15 +685,17 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="EncodingException"></exception>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     private static byte DecodeToByte(char value)
     {
         if ((value > 0xFF) || (value < 0))
-            throw new PlayEncodingException(PlayEncodingException.ByteWasOutOfRangeOfHexadecimalCharacter);
+            throw new Exceptions.CodecParsingException(CodecParsingException.ByteWasOutOfRangeOfHexadecimalCharacter);
 
         byte result = Lookup.CharToHex[value];
 
-        return result == 0xFF ? throw new PlayEncodingException(PlayEncodingException.ByteWasOutOfRangeOfHexadecimalCharacter) : result;
+        return result == 0xFF
+            ? throw new Exceptions.CodecParsingException(CodecParsingException.ByteWasOutOfRangeOfHexadecimalCharacter)
+            : result;
     }
 
     #endregion

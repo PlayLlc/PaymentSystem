@@ -1,4 +1,5 @@
-﻿using Play.Emv.DataElements.Emv;
+﻿using Play.Emv.DataElements.Emv.Enums;
+using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Emv.Icc;
 using Play.Emv.Kernel;
 using Play.Emv.Sessions;

@@ -1,5 +1,7 @@
 ﻿using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+using Play.Emv.DataElements.Emv.Primitives.Outcome;
+using Play.Emv.DataElements.Emv.Primitives.Terminal;
 using Play.Emv.Sessions;
 
 namespace Play.Emv.Terminal.Contracts.Messages.Commands;

@@ -26,7 +26,7 @@ public static class DecodedMetadataExtensions
         if (value is DecodedResult<uint> decodedResultUInt)
             return new DecodedResult<ulong>(decodedResultUInt.Value, decodedResultUInt.CharCount);
 
-        throw new PlayEncodingException("This error should never be thrown");
+        throw new CodecParsingException("This error should never be thrown");
     }
 
     /// <summary>
@@ -45,7 +45,7 @@ public static class DecodedMetadataExtensions
         if (value is DecodedResult<ushort> decodedResultUShort)
             return new DecodedResult<uint>(decodedResultUShort.Value, decodedResultUShort.CharCount);
 
-        throw new PlayEncodingException("This error should never be thrown");
+        throw new CodecParsingException("This error should never be thrown");
     }
 
     /// <summary>
@@ -62,7 +62,7 @@ public static class DecodedMetadataExtensions
         if (value is DecodedResult<byte> decodedResultByte)
             return new DecodedResult<ushort>(decodedResultByte.Value, decodedResultByte.CharCount);
 
-        throw new PlayEncodingException("This error should never be thrown");
+        throw new CodecParsingException("This error should never be thrown");
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public static class DecodedMetadataExtensions
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static DecodedResult<byte>? ToByteResult(this DecodedMetadata? value)
     {
         if (value == null)
@@ -79,7 +79,7 @@ public static class DecodedMetadataExtensions
         if (value is DecodedResult<byte> decodedResultByte)
             return new DecodedResult<byte>(decodedResultByte.Value, decodedResultByte.CharCount);
 
-        throw new PlayEncodingException("This error should never be thrown");
+        throw new CodecParsingException("This error should never be thrown");
     }
 
     /// <summary>
@@ -87,7 +87,7 @@ public static class DecodedMetadataExtensions
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static DecodedResult<BigInteger>? ToBigInteger(this DecodedMetadata? value)
     {
         if (value == null)
@@ -102,7 +102,7 @@ public static class DecodedMetadataExtensions
         if (value is DecodedResult<ulong> decodedResultULong)
             return new DecodedResult<BigInteger>(decodedResultULong.Value, decodedResultULong.CharCount);
 
-        throw new PlayEncodingException("This error should never be thrown");
+        throw new CodecParsingException("This error should never be thrown");
     }
 
     #endregion

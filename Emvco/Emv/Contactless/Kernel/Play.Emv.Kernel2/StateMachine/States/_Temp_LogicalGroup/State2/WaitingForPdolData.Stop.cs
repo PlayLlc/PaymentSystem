@@ -1,12 +1,13 @@
 ﻿using System;
 
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Primitives.Outcome;
+using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Emv.Icc;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.State;
 
-namespace Play.Emv.Kernel2.StateMachine;
+namespace Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup;
 
 public partial class WaitingForPdolData : KernelState
 {

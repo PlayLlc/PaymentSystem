@@ -7,7 +7,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Icc;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.IntegratedDataStorage;
 
 /// <summary>
 ///     Contains the AC type indicated by the Terminal for which Integrated Data Storage data must be stored in the Card.

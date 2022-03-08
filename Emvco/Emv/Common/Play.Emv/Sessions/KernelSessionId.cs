@@ -2,7 +2,9 @@
 
 using Play.Core;
 using Play.Core.Extensions;
-using Play.Emv.DataElements.Emv;
+using Play.Emv.DataElements.Emv.Enums;
+using Play.Emv.DataElements.Emv.Primitives.Kernel;
+using Play.Emv.DataElements.Emv.Primitives.Transaction;
 
 namespace Play.Emv.Sessions;
 

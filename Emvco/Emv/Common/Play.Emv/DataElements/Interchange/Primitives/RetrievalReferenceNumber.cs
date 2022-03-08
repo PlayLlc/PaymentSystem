@@ -3,9 +3,9 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.DataElements.Exceptions;
+using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Interchange;
+namespace Play.Emv.DataElements.Interchange.Primitives;
 
 internal record RetrievalReferenceNumber : InterchangeDataElement<char[]>
 {

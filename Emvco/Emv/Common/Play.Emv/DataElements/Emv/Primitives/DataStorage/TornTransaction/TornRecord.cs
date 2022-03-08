@@ -6,8 +6,9 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements.Emv.Primitives.Terminal;
 
-namespace Play.Emv.DataElements.Emv;
+namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.TornTransaction;
 
 /// <summary>
 ///     A copy of a record from the Torn Transaction Log that is expired.Torn Record is sent to the
