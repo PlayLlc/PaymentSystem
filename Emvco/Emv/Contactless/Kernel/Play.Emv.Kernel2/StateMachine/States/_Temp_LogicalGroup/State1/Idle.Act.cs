@@ -29,7 +29,7 @@ public partial class Idle : KernelState
     /// <remarks>Book C-2 Section 6.3.3</remarks>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="DataObjectParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public override KernelState Handle(KernelSession session, ActivateKernelRequest signal)
     {
         Kernel2Session kernel2Session = (Kernel2Session) session;
@@ -338,7 +338,7 @@ public partial class Idle : KernelState
     /// <remarks>Book C-2 Section 6.3.3  S1.17</remarks>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="DataObjectParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public void HandleDataStorageVersionNumberTerm(Kernel2Session session)
     {
         if (!_KernelDatabase.IsPresentAndNotEmpty(DataStorageVersionNumberTerm.Tag))
@@ -399,7 +399,7 @@ public partial class Idle : KernelState
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="DataObjectParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public KernelState RouteStateTransition(Kernel2Session session)
     {
         if (!_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out TagLengthValue? applicationCapabilitiesInformationTlv))
@@ -450,7 +450,7 @@ public partial class Idle : KernelState
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="DataObjectParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     private KernelState HandlePdolData(Kernel2Session session)
     {
         if (session.IsPdolDataMissing())
@@ -491,7 +491,7 @@ public partial class Idle : KernelState
     /// <param name="session"></param>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="DataObjectParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public void SetTimeout(Kernel2Session session)
     {
         TimeoutValue timeout = TimeoutValue.Decode(_KernelDatabase.Get(TimeoutValue.Tag).GetValue().AsSpan());

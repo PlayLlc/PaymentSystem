@@ -108,7 +108,7 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>, IEqualityC
 
         if (value.Length is < minByteLength and <= maxByteLength)
         {
-            throw new ArgumentOutOfRangeException(
+            throw new DataElementParsingException(
                 $"The Primitive Value {nameof(LanguagePreference)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
         }
 

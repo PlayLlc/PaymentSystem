@@ -52,7 +52,7 @@ public record IssuerIdentificationNumber : DataElement<uint>, IEqualityComparer<
 
         Check.Primitive.ForExactLength(value, byteLength, Tag);
 
-        DecodedResult<uint> result = _Codec.Decode(EncodingId, value).ToUInt32Result() ?? throw new DataObjectParsingException(EncodingId);
+        DecodedResult<uint> result = _Codec.Decode(EncodingId, value).ToUInt32Result() ?? throw new DataElementParsingException(EncodingId);
 
         Check.Primitive.ForCharLength(result.CharCount, charLength, Tag);
 

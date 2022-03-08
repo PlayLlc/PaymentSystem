@@ -46,7 +46,7 @@ public record TransactionReferenceCurrencyExponent : DataElement<byte>, IEqualit
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="DataObjectParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public static TransactionReferenceCurrencyExponent Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
@@ -54,7 +54,7 @@ public record TransactionReferenceCurrencyExponent : DataElement<byte>, IEqualit
 
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<byte> result = codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataObjectParsingException(EncodingId);
+        DecodedResult<byte> result = codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataElementParsingException(EncodingId);
 
         Check.Primitive.ForCharLength(result.Value, charLength, Tag);
 

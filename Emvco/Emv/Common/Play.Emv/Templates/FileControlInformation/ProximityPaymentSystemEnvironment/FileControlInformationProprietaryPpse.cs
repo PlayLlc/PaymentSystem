@@ -7,6 +7,7 @@ using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.Templates;
 
@@ -75,7 +76,7 @@ public class FileControlInformationProprietaryPpse : FileControlInformationPropr
         FileControlInformationIssuerDiscretionaryDataPpse fciProprietary =
             _Codec.AsConstructed(FileControlInformationIssuerDiscretionaryDataPpse.Decode,
                 FileControlInformationIssuerDiscretionaryDataTemplate.Tag, encodedTlvSiblings)
-            ?? throw new InvalidOperationException(
+            ?? throw new CardDataMissingException(
                 $"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataPpse)}. A {nameof(FileControlInformationIssuerDiscretionaryDataPpse)} was expected but could not be found");
 
         return new FileControlInformationProprietaryPpse(fciProprietary);

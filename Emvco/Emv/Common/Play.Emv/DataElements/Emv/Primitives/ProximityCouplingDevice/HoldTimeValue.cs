@@ -61,7 +61,7 @@ public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldT
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="DataObjectParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     private static HoldTimeValue Decode(ReadOnlySpan<byte> value)
     {
         const ushort charLength = 6;
@@ -69,7 +69,7 @@ public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldT
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         DecodedResult<uint> result = _Codec.Decode(EncodingId, value) as DecodedResult<uint>
-            ?? throw new DataObjectParsingException(EncodingId);
+            ?? throw new DataElementParsingException(EncodingId);
 
         Check.Primitive.ForCharLength(result.CharCount, charLength, Tag);
 

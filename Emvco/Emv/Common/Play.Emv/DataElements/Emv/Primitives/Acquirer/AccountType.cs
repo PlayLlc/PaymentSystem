@@ -52,12 +52,12 @@ public record AccountType : DataElement<byte>, IEqualityComparer<AccountType>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="DataObjectParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public static AccountType Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<byte> result = _Codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataObjectParsingException(EncodingId);
+        DecodedResult<byte> result = _Codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataElementParsingException(EncodingId);
 
         return new AccountType(result.Value);
     }

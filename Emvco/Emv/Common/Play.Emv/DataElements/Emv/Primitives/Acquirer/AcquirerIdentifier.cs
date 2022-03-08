@@ -69,7 +69,7 @@ public record AcquirerIdentifier : DataElement<ulong>, IEqualityComparer<Acquire
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result() ?? throw new DataObjectParsingException(EncodingId);
+        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result() ?? throw new DataElementParsingException(EncodingId);
 
         return new AcquirerIdentifier(result.Value);
     }

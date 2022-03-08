@@ -8,6 +8,7 @@ using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.Templates;
 
@@ -189,7 +190,7 @@ public class DirectoryEntry : Template
             encodedTlvSiblings.TryGetValueOctetsOfChild(ApplicationDedicatedFileName.Tag,
                 out ReadOnlyMemory<byte> rawApplicationDedicatedFileName)
                 ? ApplicationDedicatedFileName.Decode(rawApplicationDedicatedFileName)
-                : throw new InvalidOperationException(
+                : throw new CardDataMissingException(
                     $"A problem occurred while decoding {nameof(DirectoryEntry)}. A {nameof(ApplicationDedicatedFileName)} was expected but could not be found");
 
         ApplicationPriorityIndicator applicationPriorityIndicator =

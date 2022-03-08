@@ -48,13 +48,13 @@ public record ApplicationPan : DataElement<BigInteger>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="DataObjectParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public static ApplicationPan Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
         DecodedResult<BigInteger> result = _Codec.Decode(EncodingId, value).ToBigInteger()
-            ?? throw new DataObjectParsingException(EncodingId);
+            ?? throw new DataElementParsingException(EncodingId);
 
         return new ApplicationPan(result.Value);
     }

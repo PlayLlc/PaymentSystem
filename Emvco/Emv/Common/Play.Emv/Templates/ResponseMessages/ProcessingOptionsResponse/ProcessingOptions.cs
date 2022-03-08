@@ -6,6 +6,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.DataElements;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.Templates;
 
@@ -65,12 +66,12 @@ public class ProcessingOptions : ResponseMessageTemplate
     {
         ApplicationFileLocator applicationFileLocator =
             _Codec.AsPrimitive(ApplicationFileLocator.Decode, ApplicationFileLocator.Tag, encodedTlvSiblings)
-            ?? throw new InvalidOperationException(
+            ?? throw new CardDataMissingException(
                 $"A problem occurred while decoding {nameof(ProcessingOptions)}. A {nameof(ApplicationFileLocator)} was expected but could not be found");
 
         ApplicationInterchangeProfile applicationInterchangeProfile =
             _Codec.AsPrimitive(ApplicationInterchangeProfile.Decode, ApplicationInterchangeProfile.Tag, encodedTlvSiblings)
-            ?? throw new InvalidOperationException(
+            ?? throw new CardDataMissingException(
                 $"A problem occurred while decoding {nameof(ProcessingOptions)}. A {nameof(ApplicationInterchangeProfile)} was expected but could not be found");
 
         return new ProcessingOptions(applicationFileLocator, applicationInterchangeProfile);

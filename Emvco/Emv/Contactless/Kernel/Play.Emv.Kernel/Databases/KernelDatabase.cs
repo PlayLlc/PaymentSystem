@@ -48,7 +48,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// </summary>
     /// <param name="kernelSessionId"></param>
     /// <param name="transaction"></param>
-    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
+    
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public virtual void Activate(KernelSessionId kernelSessionId, Transaction transaction)

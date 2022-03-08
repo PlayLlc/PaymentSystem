@@ -5,6 +5,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.DataElements;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.Templates;
 
@@ -54,18 +55,17 @@ public class FileControlInformationProprietaryDdf : FileControlInformationPropri
     public static FileControlInformationProprietaryDdf Decode(ReadOnlyMemory<byte> rawBer) => Decode(_Codec.DecodeChildren(rawBer));
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
+    /// <exception cref="BerParsingException"></exception> 
     public static FileControlInformationProprietaryDdf Decode(EncodedTlvSiblings encodedChildren)
     {
         FileControlInformationIssuerDiscretionaryDataDdf fciProprietaryTemplate =
             _Codec.AsConstructed(FileControlInformationIssuerDiscretionaryDataDdf.Decode,
                 FileControlInformationIssuerDiscretionaryDataDdf.Tag, encodedChildren)
-            ?? throw new InvalidOperationException(
+            ?? throw new CardDataMissingException(
                 $"A problem occurred while decoding {nameof(FileControlInformationProprietaryDdf)}. A {nameof(FileControlInformationIssuerDiscretionaryDataDdf)} was expected but could not be found");
 
         ShortFileIdentifier shortFileIdentifier = _Codec.AsPrimitive(ShortFileIdentifier.Decode, ShortFileIdentifier.Tag, encodedChildren)
-            ?? throw new InvalidOperationException(
+            ?? throw new CardDataMissingException(
                 $"A problem occurred while decoding {nameof(ShortFileIdentifier)}. A {nameof(FileControlInformationProprietaryDdf)} was expected but could not be found");
 
         return new FileControlInformationProprietaryDdf(fciProprietaryTemplate, shortFileIdentifier);

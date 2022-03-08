@@ -12,6 +12,7 @@ using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.Templates;
 
@@ -150,15 +151,14 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
         Decode(_Codec.DecodeChildren(value));
 
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
+    /// <exception cref="InvalidOperationException"></exception> 
     public static FileControlInformationIssuerDiscretionaryDataPpse Decode(EncodedTlvSiblings encodedTlvSiblings)
     {
         TerminalCategoriesSupportedList? terminalCategoriesSupportedList = default;
         SelectionDataObjectList? selectionDataObjectList = default;
 
         if (!encodedTlvSiblings.TryGetRawSetOf(DirectoryEntry.Tag, out Span<ReadOnlyMemory<byte>> sequenceOfResult))
-            throw new InvalidOperationException();
+            throw new CardDataMissingException($"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataDdf)}. A Set of {nameof(DirectoryEntry)} objects were expected but could not be found");
 
         SetOf<DirectoryEntry> directoryEntry = new(sequenceOfResult.ToArray().Select(DirectoryEntry.Decode).ToArray());
 

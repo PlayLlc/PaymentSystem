@@ -61,7 +61,7 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="DataObjectParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     private static MessageHoldTime Decode(ReadOnlySpan<byte> value)
     {
         const ushort byteLength = 3;
@@ -74,7 +74,7 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
         }
 
         DecodedResult<uint> result = _Codec.Decode(EncodingId, value) as DecodedResult<uint>
-            ?? throw new DataObjectParsingException(EncodingId);
+            ?? throw new DataElementParsingException(EncodingId);
 
         if (result.CharCount != charLength)
         {

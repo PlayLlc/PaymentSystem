@@ -48,13 +48,13 @@ public record TimeoutValue : DataElement<ushort>, IEqualityComparer<TimeoutValue
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="DataObjectParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public static TimeoutValue Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         DecodedResult<ushort> result = _Codec.Decode(EncodingId, value) as DecodedResult<ushort>
-            ?? throw new DataObjectParsingException(EncodingId);
+            ?? throw new DataElementParsingException(EncodingId);
 
         return new TimeoutValue(result.Value);
     }

@@ -68,13 +68,13 @@ public record CaPublicKeyIndex : DataElement<byte>, IEqualityComparer<CaPublicKe
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="DataObjectParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public static CaPublicKeyIndex Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         DecodedResult<byte> result = _Codec.Decode(EncodingId, value) as DecodedResult<byte>
-            ?? throw new DataObjectParsingException(EncodingId);
+            ?? throw new DataElementParsingException(EncodingId);
 
         return new CaPublicKeyIndex(result.Value);
     }

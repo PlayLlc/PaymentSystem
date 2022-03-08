@@ -49,7 +49,7 @@ public record DataStorageId : DataElement<BigInteger>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="DataObjectParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public static DataStorageId Decode(ReadOnlySpan<byte> value)
     {
         const byte minCharLength = 16;
@@ -58,7 +58,7 @@ public record DataStorageId : DataElement<BigInteger>
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
         DecodedResult<BigInteger> result = _Codec.Decode(EncodingId, value).ToBigInteger()
-            ?? throw new DataObjectParsingException(EncodingId);
+            ?? throw new DataElementParsingException(EncodingId);
 
         Check.Primitive.ForMinCharLength(result.CharCount, minCharLength, Tag);
         Check.Primitive.ForMaxCharLength(result.CharCount, maxCharLength, Tag);

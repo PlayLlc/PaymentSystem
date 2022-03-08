@@ -8,6 +8,7 @@ using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
+using Play.Emv.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Templates;
@@ -90,8 +91,7 @@ public class FileControlInformationPpse : FileControlInformationTemplate
     public static FileControlInformationPpse Decode(ReadOnlyMemory<byte> rawBer) => Decode(_Codec.DecodeChildren(rawBer));
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
+    /// <exception cref="BerParsingException"></exception> 
     private static FileControlInformationPpse Decode(EncodedTlvSiblings encodedTlvSiblings)
     {
         DedicatedFileName? dedicatedFileName = _Codec.AsPrimitive(DedicatedFileName.Decode, DedicatedFileName.Tag, encodedTlvSiblings);
@@ -99,7 +99,7 @@ public class FileControlInformationPpse : FileControlInformationTemplate
         FileControlInformationProprietaryPpse fciProprietaryPpse =
             _Codec.AsConstructed(FileControlInformationProprietaryPpse.Decode, FileControlInformationProprietaryTemplate.Tag,
                 encodedTlvSiblings)
-            ?? throw new InvalidOperationException(
+            ?? throw new CardDataMissingException(
                 $"A problem occurred while decoding {nameof(FileControlInformationPpse)}. A {nameof(FileControlInformationProprietaryPpse)} was expected but could not be found");
 
         return new FileControlInformationPpse(dedicatedFileName, fciProprietaryPpse);

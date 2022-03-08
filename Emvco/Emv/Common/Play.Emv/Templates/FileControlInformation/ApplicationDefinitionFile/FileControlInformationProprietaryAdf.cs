@@ -134,15 +134,14 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
     public static FileControlInformationProprietaryAdf Decode(ReadOnlyMemory<byte> rawBer) => Decode(_Codec.DecodeChildren(rawBer));
 
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="System.InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception> 
     /// <exception cref="CardDataMissingException"></exception>
     public static FileControlInformationProprietaryAdf Decode(EncodedTlvSiblings encodedChildren)
     {
         FileControlInformationIssuerDiscretionaryDataAdf fciProprietaryTemplate =
             _Codec.AsConstructed(FileControlInformationIssuerDiscretionaryDataAdf.Decode,
                 FileControlInformationIssuerDiscretionaryDataAdf.Tag, encodedChildren)
-            ?? throw new InvalidOperationException(
+            ?? throw new CardDataMissingException(
                 $"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataAdf)}. A {nameof(FileControlInformationIssuerDiscretionaryDataAdf)} was expected but could not be found");
 
         ApplicationLabel applicationLabel = _Codec.AsPrimitive(ApplicationLabel.Decode, ApplicationLabel.Tag, encodedChildren)
