@@ -23,8 +23,10 @@ internal class WaitingForExchangeRelayResistanceDataResponse : KernelState
 
     #region Constructor
 
-    public WaitingForExchangeRelayResistanceDataResponse(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange) : base(
-        kernelDatabase, dataExchange)
+    public WaitingForExchangeRelayResistanceDataResponse(
+        KernelDatabase kernelDatabase,
+        DataExchangeKernelService dataExchange,
+        IKernelEndpoint kernelEndpoint) : base(kernelDatabase, dataExchange, kernelEndpoint)
     { }
 
     #endregion

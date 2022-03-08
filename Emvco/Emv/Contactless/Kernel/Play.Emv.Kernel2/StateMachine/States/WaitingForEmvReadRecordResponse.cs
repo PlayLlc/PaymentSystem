@@ -23,8 +23,10 @@ internal class WaitingForEmvReadRecordResponse : KernelState
 
     #region Constructor
 
-    public WaitingForEmvReadRecordResponse(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange) : base(kernelDatabase,
-        dataExchange)
+    public WaitingForEmvReadRecordResponse(
+        KernelDatabase kernelDatabase,
+        DataExchangeKernelService dataExchange,
+        IKernelEndpoint kernelEndpoint) : base(kernelDatabase, dataExchange, kernelEndpoint)
     { }
 
     #endregion

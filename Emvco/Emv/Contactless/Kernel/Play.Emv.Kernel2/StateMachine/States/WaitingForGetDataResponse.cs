@@ -23,8 +23,8 @@ public class WaitingForGetDataResponse : KernelState
 
     #region Constructor
 
-    public WaitingForGetDataResponse(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange) : base(kernelDatabase,
-        dataExchange)
+    public WaitingForGetDataResponse(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange, IKernelEndpoint kernelEndpoint)
+        : base(kernelDatabase, dataExchange, kernelEndpoint)
     { }
 
     #endregion

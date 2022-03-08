@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using Play.Emv.Exceptions;
@@ -37,7 +38,7 @@ internal class PcdStateMachine
 
     #region Instance Members
 
-    public void Handle(ActivatePcdRequest request)
+    internal void Handle(ActivatePcdRequest request)
     {
         lock (_PcdSessionLock)
         {
@@ -96,6 +97,52 @@ internal class PcdStateMachine
         _PcdEndpoint.Send(new StopPcdAcknowledgedResponse(correlationId, transactionSessionId, Level1Error.ProtocolError));
 
         throw new NotImplementedException();
+    }
+
+    #endregion
+
+    #region Blocking
+
+    internal Task<GetDataBatchResponse> Transceive(GetDataBatchRequest message)
+    {
+        Task<GetDataBatchResponse> result;
+
+        lock (_PcdSessionLock)
+        {
+            if (_PcdSessionLock.Session != null)
+            {
+                throw new RequestOutOfSyncException(
+                    $"The {nameof(ActivatePcdRequest)} can't be processed because a {nameof(ChannelType.ProximityCouplingDevice)} already exists for {nameof(TransactionSessionId)}: [{_PcdSessionLock.Session!.TransactionSessionId}]");
+            }
+
+            Task<GetDataBatchResponse> rapdu = _CardClient.Transceive(message);
+
+            Task.WhenAny(rapdu);
+            result = rapdu;
+        }
+
+        return result;
+    }
+
+    internal Task<ReadApplicationDataResponse> Transceive(ReadApplicationDataRequest message)
+    {
+        Task<ReadApplicationDataResponse> result;
+
+        lock (_PcdSessionLock)
+        {
+            if (_PcdSessionLock.Session != null)
+            {
+                throw new RequestOutOfSyncException(
+                    $"The {nameof(ActivatePcdRequest)} can't be processed because a {nameof(ChannelType.ProximityCouplingDevice)} already exists for {nameof(TransactionSessionId)}: [{_PcdSessionLock.Session!.TransactionSessionId}]");
+            }
+
+            Task<ReadApplicationDataResponse> rapdu = _CardClient.Transceive(message);
+
+            Task.WhenAny(rapdu);
+            result = rapdu;
+        }
+
+        return result;
     }
 
     #endregion

@@ -59,4 +59,14 @@ internal class ProximityCouplingDeviceProcess : CommandProcessingQueue
     #endregion
 
     #endregion
+
+    #region Blocking
+
+    internal async Task<GetDataBatchResponse> Transceive(GetDataBatchRequest message) =>
+        await _PcdStateMachine.Transceive(message).ConfigureAwait(false);
+
+    internal async Task<ReadApplicationDataResponse> Transceive(ReadApplicationDataRequest message) =>
+        await _PcdStateMachine.Transceive(message).ConfigureAwait(false);
+
+    #endregion
 }

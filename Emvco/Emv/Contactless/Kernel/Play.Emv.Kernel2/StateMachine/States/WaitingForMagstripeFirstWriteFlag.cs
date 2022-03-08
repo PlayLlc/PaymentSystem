@@ -23,8 +23,10 @@ public class WaitingForMagstripeFirstWriteFlag : KernelState
 
     #region Constructor
 
-    public WaitingForMagstripeFirstWriteFlag(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange) : base(kernelDatabase,
-        dataExchange)
+    public WaitingForMagstripeFirstWriteFlag(
+        KernelDatabase kernelDatabase,
+        DataExchangeKernelService dataExchange,
+        IKernelEndpoint kernelEndpoint) : base(kernelDatabase, dataExchange, kernelEndpoint)
     { }
 
     #endregion

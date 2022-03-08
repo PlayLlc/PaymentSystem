@@ -23,8 +23,10 @@ public class WaitingForGenerateAcResponse1 : KernelState
 
     #region Constructor
 
-    public WaitingForGenerateAcResponse1(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange) : base(kernelDatabase,
-        dataExchange)
+    public WaitingForGenerateAcResponse1(
+        KernelDatabase kernelDatabase,
+        DataExchangeKernelService dataExchange,
+        IKernelEndpoint kernelEndpoint) : base(kernelDatabase, dataExchange, kernelEndpoint)
     { }
 
     #endregion

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
@@ -113,6 +114,16 @@ public class ProximityCouplingDeviceEndpoint : IMessageChannel, IHandlePcdReques
     {
         _EndpointClient.Unsubscribe();
     }
+
+    #endregion
+
+    #region Blocking
+
+    public async Task<GetDataBatchResponse> Transceive(GetDataBatchRequest message) =>
+        await _ProximityCouplingDeviceProcess.Transceive(message).ConfigureAwait(false);
+
+    public async Task<ReadApplicationDataResponse> Transceive(ReadApplicationDataRequest message) =>
+        await _ProximityCouplingDeviceProcess.Transceive(message).ConfigureAwait(false);
 
     #endregion
 }
