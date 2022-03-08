@@ -43,6 +43,7 @@ public class EmvCodec : BerCodec
 
     public static EmvCodec GetBerCodec() => _Codec;
 
+
     /// <summary>
     ///     Parses a sequence of metadata containing concatenated Tag-Length values and returns an array
     ///     of the Tag-Length pairs.

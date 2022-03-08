@@ -164,6 +164,7 @@ public abstract record DataObjectList : DataElement<byte[]>
 
     public TagLength[] GetRequestedItems() => DataObjects;
 
+ 
     /// <summary>
     /// ValidateCommandTemplate
     /// </summary>

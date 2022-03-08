@@ -284,6 +284,7 @@ public class SpecialCodec : PlayCodec
     /// <param name="byteIndex"></param>
     /// <returns></returns>
     /// <exception cref="PlayEncodingFormatException"></exception>
+    /// <exception cref="PlayEncodingException"></exception>
     public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
     {
         if (charIndex > chars.Length)

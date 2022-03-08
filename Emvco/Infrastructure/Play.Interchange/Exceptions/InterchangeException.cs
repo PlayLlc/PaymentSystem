@@ -4,7 +4,7 @@ using Play.Core.Exceptions;
 
 namespace Play.Interchange.Exceptions;
 
-internal class InterchangeException : PlayException
+public class InterchangeException : PlayException
 {
     #region Constructor
 

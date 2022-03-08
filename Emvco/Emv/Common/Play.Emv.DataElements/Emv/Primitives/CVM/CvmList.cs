@@ -22,6 +22,7 @@ public record CvmList : DataElement<byte[]>
 
     #region Constructor
 
+ 
     /// <summary>
     /// ctor
     /// </summary>

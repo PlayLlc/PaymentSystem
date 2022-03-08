@@ -31,10 +31,11 @@ public class GetDataCApduSignal : CApduSignal
     #endregion
 
     #region Instance Members
-
-    /// <param name="tag">
-    ///     The <see cref="Tag" /> must be less than or equal to a <see cref="ushort" /> value
-    /// </param>
+ 
+    /// <summary>
+    /// Create
+    /// </summary>
+    /// <param name="tag"></param>
     /// <returns></returns>
     /// <exception cref="Play.Icc.Exceptions.Iso7816Exception"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>

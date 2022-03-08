@@ -59,14 +59,15 @@ internal class PcdStateMachine
         }
     }
 
+    
     /// <summary>
     /// Handle
     /// </summary>
     /// <param name="request"></param>
     /// <param name="abortHandler"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    /// <exception cref="InvalidSignalRequest"></exception>
     /// <exception cref="Play.Emv.Pcd.Exceptions.CardReadException"></exception>
+    /// <exception cref="InvalidSignalRequest"></exception>
     public void Handle(StopPcdRequest request, Action abortHandler)
     {
         lock (_PcdSessionLock)

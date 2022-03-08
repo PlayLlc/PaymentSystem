@@ -82,7 +82,7 @@ public class KernelEndpoint : IMessageChannel, IHandleKernelRequests, ISendKerne
     #endregion
 
     #region Callbacks
-
+     
     /// <summary>
     /// Handle
     /// </summary>

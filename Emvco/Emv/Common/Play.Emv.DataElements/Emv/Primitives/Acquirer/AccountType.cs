@@ -41,11 +41,16 @@ public record AccountType : DataElement<byte>, IEqualityComparer<AccountType>
     #region Serialization
 
     public static AccountType Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="DataElementNullException"></exception>
+     
+    /// <summary>
+    /// Decode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="BerInternalException"></exception>
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+    /// <exception cref="DataElementNullException"></exception>
     public static AccountType Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

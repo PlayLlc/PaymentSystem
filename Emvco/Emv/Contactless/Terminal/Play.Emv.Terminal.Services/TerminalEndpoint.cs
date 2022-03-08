@@ -47,7 +47,7 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
     public ChannelIdentifier GetChannelIdentifier() => ChannelIdentifier;
 
     #region Requests
-
+     
     /// <summary>
     /// Request
     /// </summary>

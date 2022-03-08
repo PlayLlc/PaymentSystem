@@ -68,6 +68,7 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
         }
     }
 
+ 
     /// <summary>
     /// Transceive
     /// </summary>
