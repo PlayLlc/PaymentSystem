@@ -18,7 +18,7 @@ public readonly record struct Tag
 
     #region Constructor
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
     public Tag(ReadOnlySpan<byte> value)
@@ -36,9 +36,9 @@ public readonly record struct Tag
         _Value = PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(value[..byteCount]);
     }
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     public Tag(uint value)
     {
         if (ShortIdentifier.IsValid(value))
@@ -85,7 +85,7 @@ public readonly record struct Tag
     /// </remarks>
     public readonly ClassType GetClass() => GetClass(_Value);
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private static ClassType GetClass(uint value)
     {
         if (IsShortTag(value))
@@ -117,7 +117,7 @@ public readonly record struct Tag
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private static ClassType GetClassType(uint value)
     {
         if (IsShortTag(value))
@@ -134,10 +134,10 @@ public readonly record struct Tag
     ///     <see cref="ITUT_X690" /> Section 8.1.2.4.2
     /// </remarks>
     /// <returns>byte</returns>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public readonly ushort GetTagNumber() => GetTagNumber(_Value);
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private static ushort GetTagNumber(uint value)
     {
         if (IsShortTag(value))
@@ -153,7 +153,7 @@ public readonly record struct Tag
     private static bool IsShortTag(uint value) => ShortIdentifier.IsValid(value);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static bool IsValid(uint value) => ShortIdentifier.IsValid(value) || LongIdentifier.IsValid(value);
 
     public static bool IsValid(ReadOnlySpan<byte> value) => ShortIdentifier.IsValid(value) || LongIdentifier.IsValid(value);
@@ -164,7 +164,7 @@ public readonly record struct Tag
 
     #region Serialization
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public byte[] Serialize() => PlayCodec.UnsignedIntegerCodec.Encode(_Value, true);
 
     public static byte[] Serialize(IEncodeBerDataObjects value) => PlayCodec.UnsignedIntegerCodec.Encode(value.GetTag(), true);

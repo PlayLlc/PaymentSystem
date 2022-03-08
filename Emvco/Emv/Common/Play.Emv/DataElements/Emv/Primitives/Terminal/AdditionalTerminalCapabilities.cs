@@ -9,7 +9,7 @@ using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Terminal;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Description: Indicates the data input and output capabilities of the Terminal and Reader.
@@ -72,7 +72,7 @@ public record AdditionalTerminalCapabilities : DataElement<ulong>, IEqualityComp
     public static AdditionalTerminalCapabilities Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static AdditionalTerminalCapabilities Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

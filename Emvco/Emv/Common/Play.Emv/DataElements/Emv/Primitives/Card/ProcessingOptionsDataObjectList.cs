@@ -6,7 +6,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Card;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Contains a list of terminal resident data objects (tags and lengths) needed by the ICC in processing the GET
@@ -56,7 +56,7 @@ public record ProcessingOptionsDataObjectList : DataObjectList
     public static ProcessingOptionsDataObjectList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static ProcessingOptionsDataObjectList Decode(ReadOnlySpan<byte> value) => new(value.ToArray());
 
     #endregion

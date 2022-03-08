@@ -1,4 +1,4 @@
-﻿using Play.Emv.DataElements.Emv.Primitives.DataStorage.TornTransaction;
+﻿using Play.Emv.DataElements;
 using Play.Emv.DataExchange;
 using Play.Emv.Messaging;
 using Play.Emv.Sessions;

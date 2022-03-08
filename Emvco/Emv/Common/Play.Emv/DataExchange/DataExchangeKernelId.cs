@@ -1,4 +1,4 @@
-﻿using Play.Emv.DataElements.Emv.Enums;
+﻿using Play.Emv.DataElements;
 using Play.Emv.Sessions;
 
 namespace Play.Emv.DataExchange;

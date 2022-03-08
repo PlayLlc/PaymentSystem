@@ -35,7 +35,7 @@ public abstract record DataObjectList : DataElement<byte[]>
 
     #region Constructor
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     protected DataObjectList(ReadOnlySpan<byte> value) : base(value.ToArray())
     { }
@@ -96,7 +96,7 @@ public abstract record DataObjectList : DataElement<byte[]>
         return true;
     }
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <remarks>Book 3 Section 5.4</remarks>
     public virtual DataObjectListResult AsDataObjectListResult(TagLengthValue[] dataObjects)
@@ -115,7 +115,7 @@ public abstract record DataObjectList : DataElement<byte[]>
         return new DataObjectListResult(result.ToArray());
     }
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <remarks>Book 3 Section 5.4</remarks>
     public virtual DataObjectListResult AsDataObjectListResult(IQueryTlvDatabase database)

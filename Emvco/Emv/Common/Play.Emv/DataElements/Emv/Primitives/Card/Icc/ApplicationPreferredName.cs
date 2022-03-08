@@ -7,7 +7,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Preferred mnemonic associated with the AID
@@ -51,7 +51,7 @@ public record ApplicationPreferredName : DataElement<char[]>, IEqualityComparer<
     public static ApplicationPreferredName Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static ApplicationPreferredName Decode(ReadOnlySpan<byte> value)
     {
         const ushort minByteLength = 1;

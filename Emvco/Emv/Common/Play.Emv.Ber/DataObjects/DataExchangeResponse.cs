@@ -1,4 +1,5 @@
 ﻿using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 
 namespace Play.Emv.Ber.DataObjects;
@@ -36,7 +37,7 @@ public abstract record DataExchangeResponse : DataExchangeList<TagLengthValue>
     ///     EncodeValue
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public new byte[] EncodeValue()
     {
         return _Value.ToArray().SelectMany(a => a.EncodeTagLengthValue()).ToArray();

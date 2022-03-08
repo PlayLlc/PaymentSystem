@@ -8,7 +8,7 @@ using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Kernel;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Description: Indicates the Kernel configuration options.
@@ -49,7 +49,7 @@ public record KernelConfiguration : DataElement<byte>, IEqualityComparer<KernelC
     public static KernelConfiguration Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static KernelConfiguration Decode(ReadOnlySpan<byte> value)
     {
         const ushort byteLength = 1;

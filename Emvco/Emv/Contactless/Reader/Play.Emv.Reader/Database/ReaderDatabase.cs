@@ -2,10 +2,6 @@
 using System.Linq;
 
 using Play.Emv.DataElements;
-using Play.Emv.DataElements.Emv.Primitives.Issuer;
-using Play.Emv.DataElements.Emv.Primitives.Kernel;
-using Play.Emv.DataElements.Emv.Primitives.Merchant;
-using Play.Emv.DataElements.Emv.Primitives.Terminal;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Pcd.Contracts;

@@ -54,7 +54,7 @@ public record SignedStaticApplicationData : PrimitiveValue, IEqualityComparer<Si
     public static SignedStaticApplicationData Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static SignedStaticApplicationData Decode(ReadOnlySpan<byte> value, BerCodec codec) => new(value.ToArray());
 
     public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);

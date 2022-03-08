@@ -1,4 +1,4 @@
-﻿using Play.Emv.DataElements.Emv.Primitives.Kernel;
+﻿using Play.Emv.DataElements;
 using Play.Emv.Sessions;
 
 namespace Play.Emv.DataExchange;

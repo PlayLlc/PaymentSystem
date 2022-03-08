@@ -8,7 +8,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Issuer;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Contains a command for transmission to the ICC
@@ -45,7 +45,7 @@ public record IssuerScriptCommand : DataElement<BigInteger>, IEqualityComparer<I
     public static IssuerScriptCommand Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static IssuerScriptCommand Decode(ReadOnlySpan<byte> value)
     {
         const ushort maxByteLength = 261;

@@ -6,9 +6,8 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.ValueTypes;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Issuer;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Specifies the issuer's conditions that cause a transaction to be transmitted online
@@ -43,7 +42,7 @@ public record IssuerActionCodeOnline : DataElement<ulong>, IEqualityComparer<Iss
     public static IssuerActionCodeOnline Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static IssuerActionCodeOnline Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         const ushort byteLength = 5;

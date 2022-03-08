@@ -4,8 +4,6 @@ using System.Collections.Immutable;
 
 using Play.Core.Exceptions;
 using Play.Emv.DataElements;
-using Play.Emv.DataElements.Emv.Primitives.Terminal;
-using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Globalization;
 
 namespace Play.Emv.Display.Contracts;

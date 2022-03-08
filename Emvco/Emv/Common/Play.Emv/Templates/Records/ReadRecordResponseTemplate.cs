@@ -5,7 +5,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.Templates.Records;
+namespace Play.Emv.Templates;
 
 public abstract class ReadRecordResponseTemplate : Template
 {

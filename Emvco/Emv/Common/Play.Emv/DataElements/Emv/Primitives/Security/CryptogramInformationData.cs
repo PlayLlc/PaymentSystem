@@ -9,7 +9,7 @@ using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Icc;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Security;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates the type of cryptogram and the actions to be performed by the terminal
@@ -78,7 +78,7 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
     public static CryptogramInformationData Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static CryptogramInformationData Decode(ReadOnlySpan<byte> value)
     {
         const ushort byteLength = 1;

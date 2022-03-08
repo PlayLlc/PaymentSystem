@@ -1,26 +1,18 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.Enums;
-using Play.Emv.DataElements.Emv.Primitives.DataExchange;
-using Play.Emv.DataElements.Emv.Primitives.Kernel;
-using Play.Emv.DataElements.Emv.Primitives.Outcome;
-using Play.Emv.DataElements.Emv.Primitives.Terminal;
-using Play.Emv.DataElements.Emv.Primitives.Transaction;
-using Play.Emv.DataElements.Emv.ValueTypes;
+using Play.Emv.DataElements;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Selection.Contracts;
 using Play.Emv.Sessions;
-using Play.Emv.Templates.FileControlInformation;
-using Play.Emv.Templates.FileControlInformation.ApplicationDefinitionFile;
-using Play.Emv.Templates.FileControlInformation.ProximityPaymentSystemEnvironment;
+using Play.Emv.Templates;
 using Play.Globalization.Time;
 using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Icc.Messaging.Apdu;
 using Play.Messaging;
 
-using MessageIdentifier = Play.Emv.DataElements.Emv.ValueTypes.MessageIdentifier;
+using MessageIdentifier = Play.Emv.DataElements.MessageIdentifier;
 
 namespace Play.Emv.Selection.Start;
 

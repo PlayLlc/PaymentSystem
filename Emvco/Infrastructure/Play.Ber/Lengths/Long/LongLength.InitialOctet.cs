@@ -4,6 +4,8 @@ using Play.Ber.Exceptions;
 using Play.Core.Exceptions;
 using Play.Core.Extensions;
 
+
+
 namespace Play.Ber.Lengths.Long;
 
 internal static partial class LongLength
@@ -79,7 +81,7 @@ internal static partial class LongLength
         ///     Validate
         /// </summary>
         /// <param name="value"></param>
-        /// <exception cref="BerException"></exception>
+        /// <exception cref="BerParsingException"></exception>
         public static void Validate(ReadOnlySpan<byte> value)
         {
             CheckCore.ForExactLength(value, 1, nameof(value));
@@ -87,22 +89,22 @@ internal static partial class LongLength
             Validate(value[0]);
         }
 
-        /// <exception cref="BerException"></exception>
-        /// <exception cref="BerInternalException">Ignore.</exception>
+        /// <exception cref="BerParsingException"></exception>
+        /// <exception cref="Exceptions._Temp.BerFormatException">Ignore.</exception>
         public static void Validate(byte value)
         {
             if (!InitialOctetHasBitEightSet(value))
-                throw new BerFormatException(new ArgumentOutOfRangeException(nameof(value)));
+                throw new BerParsingException(new ArgumentOutOfRangeException(nameof(value)));
 
             if (!RawValueDoesNotHaveAllBitsSet(value))
-                throw new BerFormatException(new ArgumentOutOfRangeException(nameof(value)));
+                throw new BerParsingException(new ArgumentOutOfRangeException(nameof(value)));
 
             if (!SubsequentOctetCountIsNotZero(value))
-                throw new BerFormatException($"The Subsequent Octet Count can not be zero in the context of a {nameof(LongLength)}");
+                throw new BerParsingException($"The Subsequent Octet Count can not be zero in the context of a {nameof(LongLength)}");
 
             if (!SubsequentOctetCountIsSupportedByThisCodeBase(value))
             {
-                throw new BerInternalException(
+                throw new BerParsingException(
                     "This is embarrassing. Our code base doesn't support the amount of bytes needed to support the "
                     + $"{nameof(SubsequentOctets)} for the requested {nameof(LongLength)} object");
             }
@@ -110,22 +112,6 @@ internal static partial class LongLength
 
         #endregion
 
-        #region Serialization
-
-        /// <summary>
-        ///     Serialize
-        /// </summary>
-        /// <param name="contentOctets"></param>
-        /// <returns></returns>
-        /// <exception cref="BerFormatException"></exception>
-        public static int Serialize(ReadOnlySpan<byte> contentOctets)
-        {
-            if (contentOctets.Length > sbyte.MaxValue)
-                throw new BerFormatException("This code base only supports content octets that are 127 bytes in length");
-
-            return contentOctets.Length | LongLengthFlag;
-        }
-
-        #endregion
+       
     }
 }

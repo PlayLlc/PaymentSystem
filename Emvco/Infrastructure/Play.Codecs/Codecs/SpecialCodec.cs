@@ -79,7 +79,7 @@ public class SpecialCodec : PlayCodec
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new CodecParsingException(this, type);
+            throw new Exceptions.CodecParsingException(this, type);
 
         return (ushort) Unsafe.As<_T[], char[]>(ref value).Length;
     }
@@ -120,14 +120,14 @@ public class SpecialCodec : PlayCodec
     private void Validate(byte value)
     {
         if (!IsValid(value))
-            throw new Exceptions.CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+            throw new Exceptions.CodecParsingException(Exceptions.CodecParsingException.CharacterArrayContainsInvalidValue);
     }
 
     /// <exception cref="Exceptions.CodecParsingException"></exception>
     private void Validate(char value)
     {
         if (!IsValid(value))
-            throw new Exceptions.CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+            throw new Exceptions.CodecParsingException(Exceptions.CodecParsingException.CharacterArrayContainsInvalidValue);
     }
 
     /// <exception cref="Exceptions.CodecParsingException"></exception>
@@ -138,7 +138,7 @@ public class SpecialCodec : PlayCodec
         for (int i = 0; i <= (value.Length - 1); i++)
         {
             if (!IsValid(value[i]))
-                throw new Exceptions.CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+                throw new Exceptions.CodecParsingException(Exceptions.CodecParsingException.CharacterArrayContainsInvalidValue);
         }
     }
 
@@ -151,7 +151,7 @@ public class SpecialCodec : PlayCodec
         for (int i = 0; i <= (value.Length - 1); i++)
         {
             if (!IsValid(value[i]))
-                throw new Exceptions.CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+                throw new Exceptions.CodecParsingException(Exceptions.CodecParsingException.CharacterArrayContainsInvalidValue);
         }
     }
 
@@ -179,7 +179,7 @@ public class SpecialCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T value)
     {
@@ -187,7 +187,7 @@ public class SpecialCodec : PlayCodec
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new CodecParsingException(this, type);
+            throw new Exceptions.CodecParsingException(this, type);
 
         return new byte[] {DecodeToByte(Unsafe.As<_T, char>(ref value))};
     }
@@ -198,7 +198,7 @@ public class SpecialCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T value, int length)
     {
@@ -206,7 +206,7 @@ public class SpecialCodec : PlayCodec
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new CodecParsingException(this, type);
+            throw new Exceptions.CodecParsingException(this, type);
 
         return new byte[] {DecodeToByte(Unsafe.As<_T, char>(ref value))};
     }
@@ -216,7 +216,7 @@ public class SpecialCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T[] value)
     {
@@ -224,7 +224,7 @@ public class SpecialCodec : PlayCodec
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new CodecParsingException(this, type);
+            throw new Exceptions.CodecParsingException(this, type);
 
         return Encode(Unsafe.As<_T[], char[]>(ref value));
     }
@@ -235,7 +235,7 @@ public class SpecialCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T[] value, int length)
     {
@@ -243,7 +243,7 @@ public class SpecialCodec : PlayCodec
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new CodecParsingException(this, type);
+            throw new Exceptions.CodecParsingException(this, type);
 
         return Encode(Unsafe.As<_T[], char[]>(ref value), length);
     }
@@ -285,27 +285,27 @@ public class SpecialCodec : PlayCodec
     /// <param name="bytes"></param>
     /// <param name="byteIndex"></param>
     /// <returns></returns>
-    /// <exception cref="CodecParsingFormatException"></exception>
+    /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
     /// <exception cref="Exceptions.CodecParsingException"></exception>
     public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
     {
         if (charIndex > chars.Length)
-            throw new CodecParsingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
+            throw new CodecParsingException(new ArgumentOutOfRangeException(nameof(chars)));
 
         if (byteIndex > bytes.Length)
-            throw new CodecParsingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
+            throw new CodecParsingException(new ArgumentOutOfRangeException(nameof(chars)));
 
         if ((byteIndex + charCount) > bytes.Length)
-            throw new CodecParsingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
+            throw new CodecParsingException(new ArgumentOutOfRangeException(nameof(chars)));
 
         if (charIndex > chars.Length)
-            throw new CodecParsingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
+            throw new CodecParsingException(new ArgumentOutOfRangeException(nameof(chars)));
 
         if ((byteIndex + charCount) > (bytes.Length - byteIndex))
-            throw new CodecParsingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
+            throw new CodecParsingException(new ArgumentOutOfRangeException(nameof(chars)));
 
         if ((bytes.Length - byteIndex) < charCount)
-            throw new CodecParsingFormatException("The byte array buffer provided was smaller than expected");
+            throw new CodecParsingException("The byte array buffer provided was smaller than expected");
 
         for (int i = charIndex, j = byteIndex; j < charCount; i++, j++)
         {
@@ -357,13 +357,13 @@ public class SpecialCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new CodecParsingException(this, type);
+            throw new Exceptions.CodecParsingException(this, type);
 
         buffer[offset++] = _ByteMapper[Unsafe.As<_T, char>(ref value)];
     }
@@ -375,13 +375,13 @@ public class SpecialCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new CodecParsingException(this, type);
+            throw new Exceptions.CodecParsingException(this, type);
 
         buffer[offset++] = _ByteMapper[Unsafe.As<_T, char>(ref value)];
     }
@@ -392,14 +392,14 @@ public class SpecialCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new CodecParsingException(this, type);
+            throw new Exceptions.CodecParsingException(this, type);
 
         Encode(Unsafe.As<_T[], char[]>(ref value), buffer, ref offset);
     }
@@ -411,7 +411,7 @@ public class SpecialCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
     /// <exception cref="Exceptions.CodecParsingException"></exception>
     public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
     {
@@ -419,7 +419,7 @@ public class SpecialCodec : PlayCodec
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new CodecParsingException(this, type);
+            throw new Exceptions.CodecParsingException(this, type);
 
         Encode(Unsafe.As<_T[], char[]>(ref value), length, buffer, ref offset);
     }
@@ -437,26 +437,26 @@ public class SpecialCodec : PlayCodec
     /// <param name="chars"></param>
     /// <param name="charIndex"></param>
     /// <returns></returns>
-    /// <exception cref="CodecParsingFormatException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
     {
         if (byteIndex > chars.Length)
-            throw new CodecParsingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
+            throw new CodecParsingException(new ArgumentOutOfRangeException(nameof(chars)));
 
         if (charIndex > chars.Length)
-            throw new CodecParsingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
+            throw new CodecParsingException(new ArgumentOutOfRangeException(nameof(chars)));
 
         if ((charIndex + byteCount) > bytes.Length)
-            throw new CodecParsingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
+            throw new CodecParsingException(new ArgumentOutOfRangeException(nameof(chars)));
 
         if (byteIndex > bytes.Length)
-            throw new CodecParsingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
+            throw new CodecParsingException(new ArgumentOutOfRangeException(nameof(chars)));
 
         if ((charIndex + byteCount) > (chars.Length - charIndex))
-            throw new CodecParsingFormatException(new ArgumentOutOfRangeException(nameof(chars)));
+            throw new CodecParsingException(new ArgumentOutOfRangeException(nameof(chars)));
 
         if ((chars.Length - charIndex) < byteCount)
-            throw new CodecParsingFormatException("The byte array buffer provided was smaller than expected");
+            throw new CodecParsingException("The byte array buffer provided was smaller than expected");
 
         for (int i = byteIndex, j = charIndex; j < byteCount; i++, j++)
             bytes[j] = _ByteMapper[chars[i]];

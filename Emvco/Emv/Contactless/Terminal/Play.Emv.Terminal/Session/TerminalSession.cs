@@ -1,5 +1,4 @@
-﻿using Play.Emv.DataElements.Interchange.Primitives;
-using Play.Emv.DataElements.Interchange.ValueTypes;
+﻿using Play.Emv.DataElements;
 using Play.Emv.Outcomes;
 using Play.Emv.Sessions;
 

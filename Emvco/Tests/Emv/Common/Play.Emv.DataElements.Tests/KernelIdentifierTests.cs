@@ -1,8 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
-using Play.Emv.DataElements.Emv.Primitives.Kernel;
+using Play.Ber.Exceptions;
 using Play.Emv.TestData.Ber.Primitive;
 
 using Xunit;
@@ -17,7 +16,7 @@ public class KernelIdentifierTests
     ///     Test
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void Test()
     {
@@ -33,7 +32,7 @@ public class KernelIdentifierTests
     ///     Test2
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void Test2()
     {
@@ -49,7 +48,7 @@ public class KernelIdentifierTests
     ///     Test3
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Exception"></exception>
     [Fact]
     public void Test3()
@@ -66,7 +65,7 @@ public class KernelIdentifierTests
     ///     BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Exception"></exception>
     [Fact]
     public void BerEncoding_DeserializingDataElement_CreatesPrimitiveValue()
@@ -80,7 +79,7 @@ public class KernelIdentifierTests
     ///     BerEncoding_EncodingDataElement_SerializesExpectedValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Exception"></exception>
     [Fact]
     public void BerEncoding_EncodingDataElement_SerializesExpectedValue()
@@ -97,7 +96,7 @@ public class KernelIdentifierTests
     ///     BerEncoding_EncodingDataElementTlv_SerializesExpectedValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Exception"></exception>
     [Fact]
     public void BerEncoding_EncodingDataElementTlv_SerializesExpectedValue()
@@ -114,7 +113,7 @@ public class KernelIdentifierTests
     ///     BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Exception"></exception>
     [Fact]
     public void BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue()
@@ -130,7 +129,7 @@ public class KernelIdentifierTests
     ///     TagLengthValue_SerializingToBer_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Exception"></exception>
     [Fact]
     public void TagLengthValue_SerializingToBer_ReturnsExpectedResult()

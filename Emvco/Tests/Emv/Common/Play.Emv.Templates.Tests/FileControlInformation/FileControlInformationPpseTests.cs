@@ -1,5 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Emv.Templates.FileControlInformation.ProximityPaymentSystemEnvironment;
+using Play.Ber.Exceptions;
 using Play.Emv.TestData.Ber.Constructed;
 using Play.Emv.TestData.Ber.Primitive;
 
@@ -14,7 +14,7 @@ public class FileControlInformationPpseTests
     /// <summary>
     ///     BerEncoding_DeserializingTemplate_CreatesConstructedValue
     /// </summary>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void BerEncoding_DeserializingTemplate_CreatesConstructedValue()
     {
@@ -32,7 +32,7 @@ public class FileControlInformationPpseTests
     /// <summary>
     ///     BerEncoding_DeserializingDTemplate_CorrectlyCreatesChildDataElements
     /// </summary>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void BerEncoding_DeserializingDTemplate_CorrectlyCreatesChildDataElements()
     {
@@ -48,7 +48,7 @@ public class FileControlInformationPpseTests
     /// <summary>
     ///     Template_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult
     /// </summary>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void Template_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
@@ -62,7 +62,7 @@ public class FileControlInformationPpseTests
     /// <summary>
     ///     Template_InvokingGetValueByteCount_ReturnsExpectedResult
     /// </summary>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void Template_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
@@ -75,7 +75,7 @@ public class FileControlInformationPpseTests
     /// <summary>
     ///     Template_InvokingAsTagLengthValue_ReturnsExpectedResult
     /// </summary>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void Template_InvokingAsTagLengthValue_ReturnsExpectedResult()
     {

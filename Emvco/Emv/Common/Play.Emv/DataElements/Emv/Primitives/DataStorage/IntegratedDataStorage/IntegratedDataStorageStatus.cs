@@ -7,7 +7,7 @@ using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.IntegratedDataStorage;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates if the transaction performs an IDS read and/or write
@@ -50,7 +50,7 @@ public record IntegratedDataStorageStatus : DataElement<byte>
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static IntegratedDataStorageStatus Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     #endregion

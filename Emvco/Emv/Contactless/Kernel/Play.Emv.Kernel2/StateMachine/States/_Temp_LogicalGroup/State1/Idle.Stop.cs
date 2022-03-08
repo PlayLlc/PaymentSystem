@@ -1,5 +1,4 @@
-﻿using Play.Emv.DataElements.Emv.Primitives.Outcome;
-using Play.Emv.DataElements.Emv.ValueTypes;
+﻿using Play.Emv.DataElements;
 using Play.Emv.Icc;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;

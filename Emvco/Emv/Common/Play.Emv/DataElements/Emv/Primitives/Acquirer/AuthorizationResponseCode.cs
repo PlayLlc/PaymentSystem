@@ -7,7 +7,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Acquirer;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Code that defines the disposition of a message
@@ -41,7 +41,7 @@ public record AuthorizationResponseCode : DataElement<ushort>, IEqualityComparer
     public static AuthorizationResponseCode Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static AuthorizationResponseCode Decode(ReadOnlySpan<byte> value)
     {
         const ushort byteLength = 2;

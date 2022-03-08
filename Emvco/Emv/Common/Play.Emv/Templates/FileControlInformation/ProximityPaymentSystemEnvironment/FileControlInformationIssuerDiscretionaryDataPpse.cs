@@ -11,11 +11,9 @@ using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.Primitives.Card;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
-using Play.Emv.DataElements.Emv.Primitives.Terminal;
+using Play.Emv.DataElements;
 
-namespace Play.Emv.Templates.FileControlInformation.ProximityPaymentSystemEnvironment;
+namespace Play.Emv.Templates;
 
 public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInformationIssuerDiscretionaryDataTemplate
 {
@@ -151,9 +149,9 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
     public static FileControlInformationIssuerDiscretionaryDataPpse Decode(ReadOnlyMemory<byte> value) =>
         Decode(_Codec.DecodeChildren(value));
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
     public static FileControlInformationIssuerDiscretionaryDataPpse Decode(EncodedTlvSiblings encodedTlvSiblings)
     {
         TerminalCategoriesSupportedList? terminalCategoriesSupportedList = default;

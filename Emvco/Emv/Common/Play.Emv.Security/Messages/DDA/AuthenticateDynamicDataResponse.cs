@@ -1,5 +1,4 @@
-﻿using Play.Emv.DataElements.Emv.Primitives.Outcome;
-using Play.Emv.DataElements.Emv.ValueTypes;
+﻿using Play.Emv.DataElements;
 
 namespace Play.Emv.Security.Messages.DDA;
 

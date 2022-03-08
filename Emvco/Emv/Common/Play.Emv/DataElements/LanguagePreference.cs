@@ -100,7 +100,7 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>, IEqualityC
     public static LanguagePreference Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static LanguagePreference Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         const ushort minByteLength = 2;

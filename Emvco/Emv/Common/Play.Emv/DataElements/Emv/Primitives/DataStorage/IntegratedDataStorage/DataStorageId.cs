@@ -8,7 +8,7 @@ using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.IntegratedDataStorage;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Data Storage EncodingId constructed as follows: Application PAN (without any 'F' padding) || Application PAN
@@ -49,7 +49,7 @@ public record DataStorageId : DataElement<BigInteger>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="DataElementNullException"></exception>
+    /// <exception cref="DataObjectParsingException"></exception>
     public static DataStorageId Decode(ReadOnlySpan<byte> value)
     {
         const byte minCharLength = 16;
@@ -58,7 +58,7 @@ public record DataStorageId : DataElement<BigInteger>
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
         DecodedResult<BigInteger> result = _Codec.Decode(EncodingId, value).ToBigInteger()
-            ?? throw new DataElementNullException(EncodingId);
+            ?? throw new DataObjectParsingException(EncodingId);
 
         Check.Primitive.ForMinCharLength(result.CharCount, minCharLength, Tag);
         Check.Primitive.ForMaxCharLength(result.CharCount, maxCharLength, Tag);
@@ -67,7 +67,7 @@ public record DataStorageId : DataElement<BigInteger>
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static DataStorageId Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     #endregion

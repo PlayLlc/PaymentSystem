@@ -94,7 +94,7 @@ public sealed record DataObjectType : EnumObject<byte>, IEqualityComparer<DataOb
     {
         if (!TryGet(classType, out DataObjectType result))
         {
-            throw new BerFormatException(new ArgumentOutOfRangeException(nameof(classType),
+            throw new BerParsingException(new ArgumentOutOfRangeException(nameof(classType),
                 $"The {nameof(DataObjectType)} could not be found from the number supplied to the argument: {classType}"));
         }
 

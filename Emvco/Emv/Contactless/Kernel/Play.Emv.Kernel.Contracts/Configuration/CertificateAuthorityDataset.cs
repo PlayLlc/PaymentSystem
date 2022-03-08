@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Play.Core.Exceptions;
-using Play.Emv.DataElements.Emv.Primitives.Security;
+using Play.Emv.DataElements;
 using Play.Emv.Security.Certificates;
 using Play.Icc.FileSystem.DedicatedFiles;
 

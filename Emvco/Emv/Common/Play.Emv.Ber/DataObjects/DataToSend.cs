@@ -1,4 +1,5 @@
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.Codecs;
@@ -47,9 +48,9 @@ public sealed record DataToSend : DataExchangeResponse, IEqualityComparer<DataTo
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="System.InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerInternalException"></exception>
+    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
     public static DataToSend Decode(ReadOnlyMemory<byte> value)
     {
         if (value.IsEmpty)

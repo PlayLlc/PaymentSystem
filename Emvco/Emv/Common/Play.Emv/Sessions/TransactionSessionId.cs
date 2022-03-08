@@ -1,4 +1,4 @@
-﻿using Play.Emv.DataElements.Emv.Primitives.Transaction;
+﻿using Play.Emv.DataElements;
 using Play.Randoms;
 
 namespace Play.Emv.Sessions;

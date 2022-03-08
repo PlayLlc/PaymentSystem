@@ -1,10 +1,10 @@
 ﻿using Play.Core.Math;
 using Play.Emv.Configuration;
-using Play.Emv.DataElements.Emv.Primitives.Transaction;
+using Play.Emv.DataElements;
 using Play.Globalization;
 using Play.Globalization.Currency;
 
-using PrimaryAccountNumber = Play.Emv.DataElements.Interchange.Primitives.PrimaryAccountNumber;
+using PrimaryAccountNumber = Play.Emv.DataElements.PrimaryAccountNumber;
 
 namespace Play.Emv.Terminal.Contracts.Messages.Commands;
 

@@ -4,9 +4,9 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+using Play.Emv.DataElements;
 
-namespace Play.Emv.Templates.FileControlInformation.DirectoryDefinitionFile;
+namespace Play.Emv.Templates;
 
 public class FileControlInformationIssuerDiscretionaryDataDdf : FileControlInformationIssuerDiscretionaryDataTemplate
 {
@@ -66,9 +66,9 @@ public class FileControlInformationIssuerDiscretionaryDataDdf : FileControlInfor
     public static FileControlInformationIssuerDiscretionaryDataDdf Decode(ReadOnlyMemory<byte> rawBer) =>
         Decode(_Codec.DecodeChildren(rawBer));
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
     public static FileControlInformationIssuerDiscretionaryDataDdf Decode(EncodedTlvSiblings encodedChildren) =>
         new(_Codec.AsPrimitive(ApplicationCapabilitiesInformation.Decode, ApplicationCapabilitiesInformation.Tag, encodedChildren));
 

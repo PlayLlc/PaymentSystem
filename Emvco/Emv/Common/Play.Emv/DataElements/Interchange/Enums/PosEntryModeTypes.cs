@@ -1,6 +1,6 @@
 ﻿using Play.Core;
 
-namespace Play.Emv.DataElements.Interchange.Enums;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Card brands such as Mastercard and Visa will have proprietary POS Entry Mode values they use internally

@@ -7,10 +7,9 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Interchange.Enums;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Terminal;
+namespace Play.Emv.DataElements;
 
 public record PosEntryMode : DataElement<byte>, IEqualityComparer<PosEntryMode>
 {
@@ -48,27 +47,27 @@ public record PosEntryMode : DataElement<byte>, IEqualityComparer<PosEntryMode>
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
-    /// <exception cref="DataElementNullException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="DataObjectParsingException"></exception>
+    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
     public static PosEntryMode Decode(ReadOnlyMemory<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         DecodedResult<byte> result = _Codec.Decode(EncodingId, value.Span) as DecodedResult<byte>
-            ?? throw new DataElementNullException(EncodingId);
+            ?? throw new DataObjectParsingException(EncodingId);
 
         return new PosEntryMode(result.Value);
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="DataElementNullException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataObjectParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public static PosEntryMode Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<byte> result = _Codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataElementNullException(EncodingId);
+        DecodedResult<byte> result = _Codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataObjectParsingException(EncodingId);
 
         return new PosEntryMode(result.Value);
     }

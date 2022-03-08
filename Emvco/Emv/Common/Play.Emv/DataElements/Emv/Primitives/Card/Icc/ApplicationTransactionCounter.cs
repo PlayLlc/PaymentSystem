@@ -7,7 +7,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Counter maintained by the application in the ICC (incrementing the ATC is managed by the ICC)
@@ -41,7 +41,7 @@ public record ApplicationTransactionCounter : DataElement<ushort>, IEqualityComp
     public static ApplicationTransactionCounter Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static ApplicationTransactionCounter Decode(ReadOnlySpan<byte> value)
     {
         const ushort byteLength = 2;

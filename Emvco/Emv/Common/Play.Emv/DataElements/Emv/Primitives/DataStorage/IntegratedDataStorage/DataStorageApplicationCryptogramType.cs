@@ -7,7 +7,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Icc;
 
-namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.IntegratedDataStorage;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Contains the AC type indicated by the Terminal for which Integrated Data Storage data must be stored in the Card.
@@ -43,7 +43,7 @@ public record DataStorageApplicationCryptogramType : DataElement<byte>, IEqualit
     public static DataStorageApplicationCryptogramType Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static DataStorageApplicationCryptogramType Decode(ReadOnlySpan<byte> value) => new(value[0]);
 
     #endregion

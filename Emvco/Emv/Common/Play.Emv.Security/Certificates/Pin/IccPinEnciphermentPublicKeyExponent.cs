@@ -49,7 +49,7 @@ public record IccPinEnciphermentPublicKeyExponent : PrimitiveValue, IEqualityCom
     public static IccPinEnciphermentPublicKeyExponent Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static IccPinEnciphermentPublicKeyExponent Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         const ushort minByteLength = 1;

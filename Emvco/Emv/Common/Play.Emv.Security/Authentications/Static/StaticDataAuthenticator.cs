@@ -1,9 +1,7 @@
 ﻿using System;
 
 using Play.Ber.Exceptions;
-using Play.Emv.DataElements.Emv.Primitives.Issuer;
-using Play.Emv.DataElements.Emv.Primitives.Outcome;
-using Play.Emv.DataElements.Emv.ValueTypes;
+using Play.Emv.DataElements;
 using Play.Emv.Icc;
 using Play.Emv.Security.Authentications.Static.Signed;
 using Play.Emv.Security.Certificates;
@@ -59,7 +57,7 @@ internal class StaticDataAuthenticator
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public AuthenticateStaticDataResponse Authenticate(AuthenticateStaticDataCommand command)
     {
         if (command.GetCaPublicKeyCertificate().IsRevoked())

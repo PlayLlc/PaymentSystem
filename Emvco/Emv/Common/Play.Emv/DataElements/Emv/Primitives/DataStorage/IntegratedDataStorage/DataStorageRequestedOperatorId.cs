@@ -6,7 +6,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.IntegratedDataStorage;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Contains the Terminal determined operator identifier for data  storage. It is sent to the Card in the GET
@@ -49,13 +49,13 @@ public record DataStorageRequestedOperatorId : DataElement<ulong>
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result() ?? throw new DataElementNullException(EncodingId);
+        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result() ?? throw new DataObjectParsingException(EncodingId);
 
         return new DataStorageRequestedOperatorId(result.Value);
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static DataStorageRequestedOperatorId Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     #endregion

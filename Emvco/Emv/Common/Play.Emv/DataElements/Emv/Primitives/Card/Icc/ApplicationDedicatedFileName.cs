@@ -8,7 +8,7 @@ using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Identifies the Dedicated File that represents an Application in a chip
@@ -124,7 +124,7 @@ public record ApplicationDedicatedFileName : DataElement<byte[]>, IEqualityCompa
     public static ApplicationDedicatedFileName Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static ApplicationDedicatedFileName Decode(ReadOnlySpan<byte> value)
     {
         const ushort minByteLength = 5;

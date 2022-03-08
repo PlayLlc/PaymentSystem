@@ -6,7 +6,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Issuer;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates the code table according to ISO/IEC 8859 for displaying the Application Preferred Name
@@ -50,7 +50,7 @@ public record IssuerCodeTableIndex : DataElement<byte>, IEqualityComparer<Issuer
     public static IssuerCodeTableIndex Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static IssuerCodeTableIndex Decode(ReadOnlySpan<byte> value)
     {
         const ushort byteLength = 1;

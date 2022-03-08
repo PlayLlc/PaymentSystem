@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.TestData.Ber.Primitive;
 
@@ -24,7 +25,7 @@ public class DataObjectListResultTests
     /// <summary>
     ///     BerEncodingTagLength_Encoding_ReturnsExpectedResult
     /// </summary>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void BerEncodingTagLength_Encoding_ReturnsExpectedResult()
     {
@@ -38,7 +39,7 @@ public class DataObjectListResultTests
     /// <summary>
     ///     BerEncodingTagLengths_Encoding_ReturnsExpectedResult
     /// </summary>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void BerEncodingTagLengths_Encoding_ReturnsExpectedResult()
     {
@@ -58,7 +59,7 @@ public class DataObjectListResultTests
     /// <summary>
     ///     BerEncodingTagLengths_InvokingAsCommandTemplate_CreatesCommandTemplate
     /// </summary>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void BerEncodingTagLengths_InvokingAsCommandTemplate_CreatesCommandTemplate()
     {
@@ -70,7 +71,7 @@ public class DataObjectListResultTests
     /// <summary>
     ///     BerEncodingTagLengths_InvokingAsCommandTemplate_CreatesExpectedCommandTemplate
     /// </summary>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void BerEncodingTagLengths_InvokingAsCommandTemplate_CreatesExpectedCommandTemplate()
     {

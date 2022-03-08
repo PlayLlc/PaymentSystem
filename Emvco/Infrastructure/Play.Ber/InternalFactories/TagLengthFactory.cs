@@ -7,6 +7,8 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.Lengths;
 
+
+
 namespace Play.Ber.InternalFactories;
 
 /// <summary>
@@ -20,9 +22,9 @@ internal sealed class TagLengthFactory
 {
     #region Instance Members
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     internal TagLength[] GetTagLengthArray(ReadOnlySpan<byte> value)
     {
         if (value.IsEmpty)
@@ -48,12 +50,12 @@ internal sealed class TagLengthFactory
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     internal Dictionary<Tag, TagLength[]> ParseDescendents(ReadOnlySpan<byte> value, TagLength parent)
     {
         if (parent.GetTag().GetDataObject() != DataObjectType.Constructed)
-            throw new BerFormatException("A primitive object does not have a descendent tree to traverse");
+            throw new BerParsingException("A primitive object does not have a descendent tree to traverse");
 
         Dictionary<Tag, TagLength[]> descendents = new();
         ReadOnlySpan<byte> parentContentOctets = value[parent.ValueRange()];
@@ -79,9 +81,9 @@ internal sealed class TagLengthFactory
         return descendents;
     }
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     internal TagLength ParseFirst(ReadOnlySpan<byte> value)
     {
         Tag tag = new(value);
@@ -92,16 +94,16 @@ internal sealed class TagLengthFactory
         return new TagLength(tag, length);
     }
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     internal bool TryGetOffset(Tag tag, ReadOnlySpan<byte> value, out int startIndexResult)
     {
         if (value.IsEmpty)
-            throw new BerException("An empty sequence was passed. No siblings could be parsed");
+            throw new BerParsingException("An empty sequence was passed. No siblings could be parsed");
 
         if (value.Length < 2)
-            throw new BerException("No siblings could be parsed. A TLV object needs at least 2 bytes for the tag and length");
+            throw new BerParsingException("No siblings could be parsed. A TLV object needs at least 2 bytes for the tag and length");
 
         if (new Tag(value) == tag)
         {
@@ -135,9 +137,9 @@ internal sealed class TagLengthFactory
     /// <param name="value"></param>
     /// <param name="result"></param>
     /// <returns></returns>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     internal bool TryParseFirst(ReadOnlySpan<byte> value, out TagLength? result)
     {
         if (!Tag.IsValid(value))

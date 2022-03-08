@@ -6,7 +6,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.TornTransaction;
+namespace Play.Emv.DataElements;
 
 public record MaxLifetimeOfTornTransactionLogRecords : DataElement<byte>
 {
@@ -36,7 +36,7 @@ public record MaxLifetimeOfTornTransactionLogRecords : DataElement<byte>
     public static MaxLifetimeOfTornTransactionLogRecords Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static MaxLifetimeOfTornTransactionLogRecords Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, 1, Tag);

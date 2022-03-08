@@ -6,7 +6,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Card.Magstripe;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     PUNATC(Track1) indicates to the Kernel the positions in the discretionary data field of Track 1 Data where the
@@ -41,13 +41,13 @@ public record PunatcTrack1 : DataElement<ulong>
     public static PunatcTrack1 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="System.Exception"></exception>
     public static PunatcTrack1 Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result() ?? throw new DataElementNullException(EncodingId);
+        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result() ?? throw new DataObjectParsingException(EncodingId);
 
         return new PunatcTrack1(result.Value);
     }

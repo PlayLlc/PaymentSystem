@@ -9,9 +9,8 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Specifications;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.ValueTypes;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Terminal;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Contains a list of one or more <see cref="TerminalCategoryCode" /> supported by the terminal
@@ -66,7 +65,7 @@ public record TerminalCategoriesSupportedList : DataElement<BigInteger>, IEquali
     public static TerminalCategoriesSupportedList Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static TerminalCategoriesSupportedList Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         DecodedResult<BigInteger> result = codec.Decode(EncodingId, value) as DecodedResult<BigInteger>

@@ -1,4 +1,5 @@
-﻿using Play.Core.Extensions;
+﻿using Play.Ber.Exceptions;
+using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Icc.Messaging.Apdu;
 
@@ -51,7 +52,7 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
     /// <param name="cardRiskManagementDataObjectListResult"></param>
     /// <param name="dataStorageDataObjectListResult"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static GenerateApplicationCryptogramCApduSignal Create(
         CryptogramTypes cryptogramTypes,
         bool isCdaRequested,

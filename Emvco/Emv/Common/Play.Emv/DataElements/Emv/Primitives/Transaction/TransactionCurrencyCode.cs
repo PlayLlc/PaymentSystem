@@ -9,7 +9,7 @@ using Play.Emv.Ber.DataObjects;
 using Play.Globalization;
 using Play.Globalization.Currency;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Transaction;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates the currency code of the transaction according to ISO 4217
@@ -46,7 +46,7 @@ public record TransactionCurrencyCode : DataElement<NumericCurrencyCode>, IEqual
     public static TransactionCurrencyCode Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static TransactionCurrencyCode Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         const ushort charLength = 3;

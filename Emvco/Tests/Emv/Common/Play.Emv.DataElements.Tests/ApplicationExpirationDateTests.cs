@@ -1,7 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+using Play.Ber.Exceptions;
 using Play.Emv.TestData.Ber.Primitive;
 
 using Xunit;
@@ -16,7 +16,7 @@ public class ApplicationExpirationDateTests
     ///     BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void BerEncoding_DeserializingDataElement_CreatesPrimitiveValue()
     {
@@ -29,7 +29,7 @@ public class ApplicationExpirationDateTests
     ///     BerEncoding_EncodingDataElement_SerializesExpectedValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void BerEncoding_EncodingDataElement_SerializesExpectedValue()
     {
@@ -45,7 +45,7 @@ public class ApplicationExpirationDateTests
     ///     BerEncoding_EncodingDataElementTlv_SerializesExpectedValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void BerEncoding_EncodingDataElementTlv_SerializesExpectedValue()
     {
@@ -61,7 +61,7 @@ public class ApplicationExpirationDateTests
     ///     BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue()
     {
@@ -76,7 +76,7 @@ public class ApplicationExpirationDateTests
     ///     TagLengthValue_SerializingToBer_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void TagLengthValue_SerializingToBer_ReturnsExpectedResult()
     {

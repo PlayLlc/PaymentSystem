@@ -7,7 +7,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Terminal;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates the card data input capability of the Terminal and Reader.
@@ -41,7 +41,7 @@ public record SecurityCapability : DataElement<byte>, IEqualityComparer<Security
     public static SecurityCapability Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static SecurityCapability Decode(ReadOnlySpan<byte> value)
     {
         DecodedResult<byte> result = _Codec.Decode(EncodingId, value) as DecodedResult<byte>

@@ -50,7 +50,7 @@ public record IccPinEnciphermentPublicKeyRemainder : PrimitiveValue, IEqualityCo
     public static IccPinEnciphermentPublicKeyRemainder Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static IccPinEnciphermentPublicKeyRemainder Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         DecodedResult<BigInteger> result = codec.Decode(EncodingId, value) as DecodedResult<BigInteger>

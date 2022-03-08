@@ -1,8 +1,6 @@
 ﻿using Play.Core.Extensions;
-using Play.Emv.DataElements.Emv.Enums;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
-using Play.Emv.DataElements.Emv.ValueTypes;
-using Play.Emv.Templates.FileControlInformation;
+using Play.Emv.DataElements;
+using Play.Emv.Templates;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Selection;

@@ -7,10 +7,9 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Globalization.Time;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Outcome;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Description: This data object is used to indicate to the Terminal the outcome of the transaction processing by the
@@ -85,7 +84,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
     public static OutcomeParameterSet Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static OutcomeParameterSet Decode(ReadOnlySpan<byte> value)
     {
         const ushort byteLength = 8;

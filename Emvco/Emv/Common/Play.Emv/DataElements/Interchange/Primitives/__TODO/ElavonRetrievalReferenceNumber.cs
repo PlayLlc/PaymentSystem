@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.DataElements.Interchange.Primitives.__TODO;
+﻿namespace Play.Emv.DataElements.__TODO;
 
 /// <summary>
 ///     The Elavon RRN value will be returned to the POS or partner host system in the event of an approval of a sale

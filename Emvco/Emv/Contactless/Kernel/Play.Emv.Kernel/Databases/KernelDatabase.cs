@@ -4,9 +4,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.Primitives.Kernel;
-using Play.Emv.DataElements.Emv.Primitives.Outcome;
-using Play.Emv.DataElements.Emv.Primitives.Security;
+using Play.Emv.DataElements;
 using Play.Emv.Icc;
 using Play.Emv.Outcomes;
 using Play.Emv.Security.Certificates;
@@ -50,8 +48,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// </summary>
     /// <param name="kernelSessionId"></param>
     /// <param name="transaction"></param>
-    /// <exception cref="BerInternalException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public virtual void Activate(KernelSessionId kernelSessionId, Transaction transaction)
     {
@@ -282,7 +280,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// </summary>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private UserInterfaceRequestData? GetUserInterfaceRequestData()
     {
         if (IsPresentAndNotEmpty(UserInterfaceRequestData.Tag))
@@ -309,7 +307,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// </summary>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private DiscretionaryData? GetDiscretionaryData()
     {
         if (IsPresentAndNotEmpty(DiscretionaryData.Tag))
@@ -393,7 +391,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public void Update(UserInterfaceRequestData.Builder value)
     {
         UserInterfaceRequestData? userInterfaceRequestData = GetUserInterfaceRequestData();

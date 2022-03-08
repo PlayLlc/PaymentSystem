@@ -1,4 +1,4 @@
-﻿using Play.Emv.DataElements.Emv.ValueTypes;
+﻿using Play.Emv.DataElements;
 using Play.Globalization.Currency;
 
 namespace Play.Emv.Display.Contracts;

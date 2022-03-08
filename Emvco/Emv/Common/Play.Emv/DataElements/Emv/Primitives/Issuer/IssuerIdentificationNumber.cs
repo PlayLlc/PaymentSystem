@@ -8,7 +8,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Issuer;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     The number that identifies the major industry and the card issuer and that forms the first part of the Primary
@@ -43,7 +43,7 @@ public record IssuerIdentificationNumber : DataElement<uint>, IEqualityComparer<
     public static IssuerIdentificationNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="System.Exception"></exception>
     public static IssuerIdentificationNumber Decode(ReadOnlySpan<byte> value)
     {
@@ -52,7 +52,7 @@ public record IssuerIdentificationNumber : DataElement<uint>, IEqualityComparer<
 
         Check.Primitive.ForExactLength(value, byteLength, Tag);
 
-        DecodedResult<uint> result = _Codec.Decode(EncodingId, value).ToUInt32Result() ?? throw new DataElementNullException(EncodingId);
+        DecodedResult<uint> result = _Codec.Decode(EncodingId, value).ToUInt32Result() ?? throw new DataObjectParsingException(EncodingId);
 
         Check.Primitive.ForCharLength(result.CharCount, charLength, Tag);
 

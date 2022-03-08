@@ -1,4 +1,4 @@
-﻿using Play.Emv.DataElements.Emv.Primitives.Security;
+﻿using Play.Emv.DataElements;
 using Play.Emv.Security.Certificates;
 using Play.Icc.FileSystem.DedicatedFiles;
 

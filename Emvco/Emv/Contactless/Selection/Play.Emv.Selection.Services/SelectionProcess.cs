@@ -1,5 +1,5 @@
 ﻿using Play.Core.Threads;
-using Play.Emv.DataElements.Emv.Primitives.Terminal;
+using Play.Emv.DataElements;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Selection.Contracts;

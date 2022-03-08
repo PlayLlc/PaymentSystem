@@ -6,10 +6,8 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.Primitives.Merchant;
-using Play.Emv.DataElements.Emv.ValueTypes;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Terminal;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Specifies Terminal Category Codes for the PICC that are specific to <see cref="TerminalCategoryCode.TransitGate" />
@@ -64,7 +62,7 @@ public record PoiInformation : DataElement<byte[]>, IEqualityComparer<PoiInforma
     public static PoiInformation Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static PoiInformation Decode(ReadOnlySpan<byte> value)
     {
         const ushort maxByteLength = 64;

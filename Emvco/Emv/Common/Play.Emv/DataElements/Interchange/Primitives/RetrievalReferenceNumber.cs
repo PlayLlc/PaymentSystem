@@ -5,7 +5,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Interchange.Primitives;
+namespace Play.Emv.DataElements;
 
 internal record RetrievalReferenceNumber : InterchangeDataElement<char[]>
 {
@@ -40,7 +40,7 @@ internal record RetrievalReferenceNumber : InterchangeDataElement<char[]>
     public static PrimaryAccountNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static PrimaryAccountNumber Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

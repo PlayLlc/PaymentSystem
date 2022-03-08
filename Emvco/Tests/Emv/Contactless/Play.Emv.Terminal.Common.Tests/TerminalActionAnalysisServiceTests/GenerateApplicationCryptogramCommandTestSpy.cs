@@ -2,8 +2,9 @@
 
 using Moq;
 
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.Primitives.Security;
+using Play.Emv.DataElements;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
 
@@ -67,7 +68,7 @@ public class GenerateApplicationCryptogramCommandTestSpy
     /// <param name="fixture"></param>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static GenerateApplicationCryptogramCommandTestSpy Setup(IFixture fixture)
     {
         GenerateApplicationCryptogramCommandTestSpy result = new();

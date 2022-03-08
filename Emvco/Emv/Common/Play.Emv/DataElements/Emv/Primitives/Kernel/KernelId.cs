@@ -6,9 +6,8 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.Enums;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Kernel;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Description: Contains a value that uniquely identifies each Kernel. There is one occurrence of this data object for
@@ -45,7 +44,7 @@ public record KernelId : DataElement<byte>, IEqualityComparer<KernelId>
     public static KernelId Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static KernelId Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         const ushort byteLength = 1;

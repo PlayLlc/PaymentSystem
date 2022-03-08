@@ -8,7 +8,7 @@ using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 using Play.Globalization.Time;
 
-namespace Play.Emv.DataElements.Emv.Primitives.DataExchange;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Description: Indicates the default delay for the processing of the next MSG DataExchangeSignal. The Message Hold
@@ -60,8 +60,8 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
     public static MessageHoldTime Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="DataElementNullException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataObjectParsingException"></exception>
     private static MessageHoldTime Decode(ReadOnlySpan<byte> value)
     {
         const ushort byteLength = 3;
@@ -74,7 +74,7 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
         }
 
         DecodedResult<uint> result = _Codec.Decode(EncodingId, value) as DecodedResult<uint>
-            ?? throw new DataElementNullException(EncodingId);
+            ?? throw new DataObjectParsingException(EncodingId);
 
         if (result.CharCount != charLength)
         {

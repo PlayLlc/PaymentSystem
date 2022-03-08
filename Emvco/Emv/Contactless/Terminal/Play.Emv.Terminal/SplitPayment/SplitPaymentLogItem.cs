@@ -3,7 +3,7 @@
 using Play.Globalization.Currency;
 using Play.Globalization.Time;
 
-using PrimaryAccountNumber = Play.Emv.DataElements.Interchange.Primitives.PrimaryAccountNumber;
+using PrimaryAccountNumber = Play.Emv.DataElements.PrimaryAccountNumber;
 
 namespace Play.Emv.Terminal.SplitPayment;
 

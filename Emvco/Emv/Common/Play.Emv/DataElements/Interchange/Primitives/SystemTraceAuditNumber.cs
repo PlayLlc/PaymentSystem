@@ -6,7 +6,7 @@ using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Interchange.Primitives;
+namespace Play.Emv.DataElements;
 
 public record SystemTraceAuditNumber : InterchangeDataElement<uint>
 {
@@ -44,7 +44,7 @@ public record SystemTraceAuditNumber : InterchangeDataElement<uint>
     public static SystemTraceAuditNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public static SystemTraceAuditNumber Decode(ReadOnlySpan<byte> value)
     {

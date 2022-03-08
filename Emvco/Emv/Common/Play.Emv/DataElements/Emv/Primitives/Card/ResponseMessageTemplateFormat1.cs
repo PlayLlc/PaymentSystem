@@ -8,7 +8,7 @@ using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Card;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Contains the data objects (without tags and lengths) returned by the ICC in response to a command
@@ -47,7 +47,7 @@ public record ResponseMessageTemplateFormat1 : DataElement<byte[]>, IEqualityCom
     public static ResponseMessageTemplateFormat1 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static ResponseMessageTemplateFormat1 Decode(ReadOnlySpan<byte> value)
     {
         DecodedResult<byte[]> result = _Codec.Decode(EncodingId, value) as DecodedResult<byte[]>

@@ -4,7 +4,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.Templates.FileControlInformation;
+namespace Play.Emv.Templates;
 
 public abstract class FileControlInformationIssuerDiscretionaryDataTemplate : Template
 {

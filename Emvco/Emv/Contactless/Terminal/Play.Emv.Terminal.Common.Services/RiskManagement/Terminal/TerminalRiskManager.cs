@@ -1,13 +1,13 @@
 ﻿using System.Threading.Tasks;
 
 using Play.Core.Math;
-using Play.Emv.DataElements.Emv.ValueTypes;
+using Play.Emv.DataElements;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
 using Play.Emv.Terminal.SplitPayment;
 using Play.Globalization.Currency;
 
-using PrimaryAccountNumber = Play.Emv.DataElements.Interchange.Primitives.PrimaryAccountNumber;
+using PrimaryAccountNumber = Play.Emv.DataElements.PrimaryAccountNumber;
 
 namespace Play.Emv.Terminal.Common.Services.RiskManagement.Terminal;
 

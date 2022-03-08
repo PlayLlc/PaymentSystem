@@ -3,6 +3,8 @@
 using Play.Ber.Exceptions;
 using Play.Core.Extensions;
 
+
+
 namespace Play.Ber.Identifiers.Long;
 
 /// <summary>
@@ -39,7 +41,7 @@ internal static partial class LongIdentifier
 
     public static byte GetByteCount(uint value) => value.GetMostSignificantByte();
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static byte GetByteCount(ReadOnlySpan<byte> value) =>
 
         // Adding 1 because Indexes are 0 based, and also to include the byte for the Initial Octet
@@ -60,7 +62,7 @@ internal static partial class LongIdentifier
     public static DataObjectType GetDataObject(uint value) => LeadingOctet.GetDataObjectType(GetLeadingOctet(value));
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static byte GetLeadingOctet(uint value)
     {
         byte initialOctet = ShiftBitsToGetLeadingOctet(GetByteCount(value));
@@ -87,8 +89,8 @@ internal static partial class LongIdentifier
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
-    /// <exception cref="BerFormatException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
+    
     private static ushort GetSubsequentOctets(uint value)
     {
         ushort subsequentOctets = (ushort) value.GetMaskedValue(GetSubsequentOctetMask(GetByteCount(value)));
@@ -107,7 +109,7 @@ internal static partial class LongIdentifier
             }
             catch (OverflowException exception)
             {
-                throw new BerInternalException(
+                throw new BerParsingException(
                     $"This code base only supports a Long Length object with {MaxLongIdentifierByteCount} bytes or less", exception);
             }
         }
@@ -122,14 +124,14 @@ internal static partial class LongIdentifier
     internal static bool IsValid(ReadOnlySpan<byte> value) => value[0].AreBitsSet(LongIdentifierFlag);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static bool IsValid(uint value) =>
         LeadingOctet.IsValid(GetLeadingOctet(value)) && SubsequentOctets.IsValid(GetSubsequentOctets(value));
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    
     public static void Validate(uint value)
     {
         LeadingOctet.Validate(GetLeadingOctet(value));
@@ -137,7 +139,7 @@ internal static partial class LongIdentifier
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
     public static void Validate(ReadOnlySpan<byte> value)
     {

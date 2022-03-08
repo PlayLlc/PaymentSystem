@@ -1,12 +1,13 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.Primitives.Card;
+using Play.Emv.DataElements;
 using Play.Icc.Messaging.Apdu;
 
-namespace Play.Emv.Templates.ResponseMessages;
+namespace Play.Emv.Templates;
 
 public abstract class ResponseMessageTemplate : Template
 {
@@ -24,7 +25,7 @@ public abstract class ResponseMessageTemplate : Template
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static TagLengthValue[] DecodeData(ApduResponse value)
     {
         Tag tag = _Codec.GetFirstTag(value.GetData().AsSpan());

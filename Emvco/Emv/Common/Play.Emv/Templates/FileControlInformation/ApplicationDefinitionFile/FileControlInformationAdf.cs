@@ -7,12 +7,10 @@ using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
-using Play.Emv.DataElements.Emv.Primitives.Card;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
 using Play.Emv.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace Play.Emv.Templates.FileControlInformation.ApplicationDefinitionFile;
+namespace Play.Emv.Templates;
 
 public class FileControlInformationAdf : FileControlInformationTemplate
 {
@@ -78,8 +76,8 @@ public class FileControlInformationAdf : FileControlInformationTemplate
     public static FileControlInformationAdf Decode(ReadOnlyMemory<byte> rawBer) => Decode(_Codec.DecodeChildren(rawBer));
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
     /// <exception cref="CardDataMissingException"></exception>
     private static FileControlInformationAdf Decode(EncodedTlvSiblings encodedSiblings)
     {

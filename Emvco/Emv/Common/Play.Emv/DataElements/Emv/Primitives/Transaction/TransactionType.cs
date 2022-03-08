@@ -8,7 +8,7 @@ using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Transaction;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates the type of financial transaction, represented by the first two digits of the ISO 8583:1987 Processing
@@ -65,7 +65,7 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
     public static TransactionType Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static TransactionType Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         if (value.Length != _ByteLength)

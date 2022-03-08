@@ -9,7 +9,7 @@ using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 using Play.Globalization.Time;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Kernel;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Defines the time in ms before the timer generates a TIMEOUT Signal.
@@ -47,14 +47,14 @@ public record TimeoutValue : DataElement<ushort>, IEqualityComparer<TimeoutValue
     public static TimeoutValue Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="DataElementNullException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataObjectParsingException"></exception>
     public static TimeoutValue Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         DecodedResult<ushort> result = _Codec.Decode(EncodingId, value) as DecodedResult<ushort>
-            ?? throw new DataElementNullException(EncodingId);
+            ?? throw new DataObjectParsingException(EncodingId);
 
         return new TimeoutValue(result.Value);
     }

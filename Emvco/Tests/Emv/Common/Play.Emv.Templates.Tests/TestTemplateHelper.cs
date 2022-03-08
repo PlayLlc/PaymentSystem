@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
 
@@ -18,7 +19,7 @@ internal class TestTemplateHelper
     /// <param name="constructedValue"></param>
     /// <param name="dataElements"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static byte[] GetEncodedTemplate(Template constructedValue, Dictionary<Tag, byte[]> dataElements)
     {
         TagLengthValue tlv = new(constructedValue.GetTag(), GetContentOctets(constructedValue.GetChildTags(), dataElements));

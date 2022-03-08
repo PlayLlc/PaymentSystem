@@ -8,7 +8,7 @@ using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Terminal;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates the requirements for online and CVM processing as a result of Entry Point processing. The scope of this
@@ -82,7 +82,7 @@ public record TerminalTransactionQualifiers : DataElement<uint>, IEqualityCompar
     public static TerminalTransactionQualifiers Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static TerminalTransactionQualifiers Decode(ReadOnlySpan<byte> value)
     {
         if (value.Length != _ByteLength)

@@ -8,7 +8,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Issuer;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Contains proprietary issuer data for transmission to the ICC after the second GENERATE AC command
@@ -45,7 +45,7 @@ public record IssuerScriptTemplate2 : DataElement<BigInteger>, IEqualityComparer
     public static IssuerScriptTemplate2 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static IssuerScriptTemplate2 Decode(ReadOnlySpan<byte> value)
     {
         DecodedResult<BigInteger> result = _Codec.Decode(EncodingId, value) as DecodedResult<BigInteger>

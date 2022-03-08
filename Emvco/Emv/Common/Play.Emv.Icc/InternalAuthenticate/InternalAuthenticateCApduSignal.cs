@@ -1,4 +1,5 @@
-﻿using Play.Emv.Ber.DataObjects;
+﻿using Play.Ber.Exceptions;
+using Play.Emv.Ber.DataObjects;
 using Play.Icc.Messaging.Apdu.InternalAuthenticate;
 
 namespace Play.Emv.Icc.InternalAuthenticate;
@@ -37,7 +38,7 @@ public class InternalAuthenticateCApduSignal : CApduSignal
     /// </summary>
     /// <param name="dynamicAuthenticationDataObjectListResult"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static InternalAuthenticateCApduSignal Create(DataObjectListResult dynamicAuthenticationDataObjectListResult)
     {
         InternalAuthenticateApduCommand cApdu =

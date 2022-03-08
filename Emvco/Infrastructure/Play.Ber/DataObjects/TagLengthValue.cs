@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Play.Ber.Codecs;
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.Lengths;
 
@@ -53,7 +54,7 @@ public class TagLengthValue : IEncodeBerDataObjects, IEquatable<TagLengthValue>,
     ///     EncodeTagLengthValue
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public byte[] EncodeTagLengthValue()
     {
         Length length = GetLength();

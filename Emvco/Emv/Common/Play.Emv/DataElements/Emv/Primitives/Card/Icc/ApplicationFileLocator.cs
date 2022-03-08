@@ -9,7 +9,7 @@ using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Icc.FileSystem.ElementaryFiles;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+namespace Play.Emv.DataElements;
 
 // TODO: there needs to be some service that reads all the files referenced by AFL. If the following are not
 // TODO: present after reading, then something fucked up - Book 3 table 26
@@ -97,7 +97,7 @@ public record ApplicationFileLocator : DataElement<byte[]>, IEqualityComparer<Ap
     public static ApplicationFileLocator Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static ApplicationFileLocator Decode(ReadOnlySpan<byte> value)
     {
         Validate(value);

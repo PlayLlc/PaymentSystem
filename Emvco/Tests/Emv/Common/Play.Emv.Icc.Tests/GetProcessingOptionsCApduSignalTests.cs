@@ -1,7 +1,8 @@
 ﻿using System;
 
+using Play.Ber.Exceptions;
 using Play.Emv.Ber;
-using Play.Emv.DataElements.Emv.Primitives.Card;
+using Play.Emv.DataElements;
 using Play.Emv.Icc.GetProcessingOptions;
 using Play.Emv.TestData.Ber.Primitive;
 
@@ -23,7 +24,7 @@ public class GetProcessingOptionsCApduSignalTests
     ///     CApduSignal_Initializing_CreatesRApduSignal
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void CApduSignal_Initializing_CreatesRApduSignal()
     {

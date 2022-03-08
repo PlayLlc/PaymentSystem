@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Numerics;
 
-using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Terminal;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Valid cardholder account number
@@ -47,15 +46,15 @@ public record ApplicationPan : DataElement<BigInteger>
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="DataElementNullException"></exception>
+    /// <exception cref="DataObjectParsingException"></exception>
     public static ApplicationPan Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
         DecodedResult<BigInteger> result = _Codec.Decode(EncodingId, value).ToBigInteger()
-            ?? throw new DataElementNullException(EncodingId);
+            ?? throw new DataObjectParsingException(EncodingId);
 
         return new ApplicationPan(result.Value);
     }

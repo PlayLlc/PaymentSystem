@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 
@@ -30,7 +31,7 @@ public class MockDataObjectListTestFactory
     /// </summary>
     /// <param name="values"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public static MockDataObjectList Create(params TagLength[] values)
     {

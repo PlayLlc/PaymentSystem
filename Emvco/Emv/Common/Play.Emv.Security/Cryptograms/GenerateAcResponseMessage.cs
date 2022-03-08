@@ -3,11 +3,9 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
-using Play.Emv.DataElements.Emv.Primitives.Issuer;
-using Play.Emv.DataElements.Emv.Primitives.Security;
+using Play.Emv.DataElements;
 using Play.Emv.Security.Checksum;
-using Play.Emv.Templates.ResponseMessages;
+using Play.Emv.Templates;
 
 namespace Play.Emv.Security.Cryptograms;
 

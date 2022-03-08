@@ -26,7 +26,7 @@ public record UnknownPrimitiveValue : PrimitiveValue
 
     #region Constructor
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public UnknownPrimitiveValue(TagLength value)
     {
@@ -34,7 +34,7 @@ public record UnknownPrimitiveValue : PrimitiveValue
         _Length = value.GetLength();
     }
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public UnknownPrimitiveValue(Tag tag, Length length)
     {
@@ -57,7 +57,7 @@ public record UnknownPrimitiveValue : PrimitiveValue
     public override Tag GetTag() => _Tag;
     public override ushort GetValueByteCount(BerCodec codec) => throw new NotImplementedException();
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public byte[] Encode()
     {
         Span<byte> buffer = stackalloc byte[_Length.GetContentLength()];
@@ -78,7 +78,7 @@ public record UnknownPrimitiveValue : PrimitiveValue
 
     #region Serialization
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public static PrimitiveValue Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
@@ -88,8 +88,8 @@ public record UnknownPrimitiveValue : PrimitiveValue
     /// <param name="value"></param>
     /// <param name="codec"></param>
     /// <returns></returns>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     public static PrimitiveValue Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         Tag tag = new(value);
@@ -98,7 +98,7 @@ public record UnknownPrimitiveValue : PrimitiveValue
         return new UnknownPrimitiveValue(tag, length);
     }
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public override byte[] EncodeValue(BerCodec codec) => Encode();
 
     public override byte[] EncodeValue(BerCodec codec, int length) => Encode(length);

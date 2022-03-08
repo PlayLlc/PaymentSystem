@@ -5,7 +5,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.IntegratedDataStorage;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Integrated data storage support by the Kernel depends on the  presence of this data object. If it is absent, or is
@@ -43,7 +43,7 @@ public record DataStorageVersionNumberTerm : DataElement<byte[]>
     public static DataStorageVersionNumberTerm Decode(ReadOnlySpan<byte> value) => new(value.ToArray());
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static DataStorageVersionNumberTerm Decode(ReadOnlyMemory<byte> value) => new(value.ToArray());
 
     #endregion

@@ -1,7 +1,6 @@
 ﻿using System;
 
-using Play.Emv.DataElements.Emv.Primitives.Outcome;
-using Play.Emv.DataElements.Emv.ValueTypes;
+using Play.Emv.DataElements;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Outcomes;
 using Play.Emv.Reader.Contracts.SignalOut;

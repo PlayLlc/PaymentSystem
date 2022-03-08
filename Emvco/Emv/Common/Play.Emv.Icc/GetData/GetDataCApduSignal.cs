@@ -1,4 +1,5 @@
-﻿using Play.Ber.Identifiers;
+﻿using Play.Ber.Exceptions;
+using Play.Ber.Identifiers;
 using Play.Icc.Messaging.Apdu;
 using Play.Icc.Messaging.Apdu.GetData;
 
@@ -37,7 +38,7 @@ public class GetDataCApduSignal : CApduSignal
     /// <param name="tag"></param>
     /// <returns></returns>
     /// <exception cref="Play.Icc.Exceptions.Iso7816Exception"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static GetDataCApduSignal Create(Tag tag)
     {
         GetDataApduCommand cApdu = GetDataApduCommand.Create(ProprietaryMessageIdentifier._8x, tag);

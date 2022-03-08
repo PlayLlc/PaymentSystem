@@ -1,13 +1,9 @@
 ﻿using System;
 
+using Play.Ber.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Configuration;
-using Play.Emv.DataElements.Emv.Enums;
-using Play.Emv.DataElements.Emv.Primitives.Issuer;
-using Play.Emv.DataElements.Emv.Primitives.Outcome;
-using Play.Emv.DataElements.Emv.Primitives.Security;
-using Play.Emv.DataElements.Emv.Primitives.Terminal;
-using Play.Emv.DataElements.Emv.ValueTypes;
+using Play.Emv.DataElements;
 using Play.Emv.Icc;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
@@ -69,7 +65,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <param name="command"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public void Process(TerminalActionAnalysisCommand command)
     {
         ActionFlag resultFlag = ActionFlag.None;
@@ -201,7 +197,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// </summary>
     /// <param name="command"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private void CreateDenyTransactionResponse(TerminalActionAnalysisCommand command)
     {
         _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessionId(),
@@ -214,7 +210,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// </summary>
     /// <param name="command"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private void CreateProceedOfflineResponse(TerminalActionAnalysisCommand command)
     {
         bool isCdaRequested =
@@ -231,7 +227,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// </summary>
     /// <param name="command"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private void CreateProceedOnlineResponse(TerminalActionAnalysisCommand command)
     {
         _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessionId(),

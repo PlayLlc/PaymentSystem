@@ -8,7 +8,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Transaction;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Code defining the common currency used by the terminal in case the Transaction Currency Code is different from the
@@ -44,7 +44,7 @@ public record TransactionReferenceCurrencyCode : DataElement<ushort>, IEqualityC
     public static TransactionReferenceCurrencyCode Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="System.Exception"></exception>
     public static TransactionReferenceCurrencyCode Decode(ReadOnlySpan<byte> value)
     {
@@ -52,7 +52,7 @@ public record TransactionReferenceCurrencyCode : DataElement<ushort>, IEqualityC
 
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ushort> result = _Codec.Decode(EncodingId, value).ToUInt16Result() ?? throw new DataElementNullException(EncodingId);
+        DecodedResult<ushort> result = _Codec.Decode(EncodingId, value).ToUInt16Result() ?? throw new DataObjectParsingException(EncodingId);
 
         Check.Primitive.ForCharLength(result.CharCount, charLength, Tag);
 

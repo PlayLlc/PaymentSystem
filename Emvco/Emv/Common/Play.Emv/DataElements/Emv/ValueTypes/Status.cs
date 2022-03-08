@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Numerics;
 
-namespace Play.Emv.DataElements.Emv.ValueTypes;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Identifies the status of the transaction (for example when the card can be removed) to be indicated through the

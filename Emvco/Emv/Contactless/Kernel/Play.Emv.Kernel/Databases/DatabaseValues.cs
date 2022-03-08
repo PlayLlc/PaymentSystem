@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 
 namespace Play.Emv.Kernel.Databases;
 
@@ -35,7 +36,7 @@ public class DatabaseValues : IReadOnlyCollection<DatabaseValue> // IEnumerable<
     ///     EncodeTagLengthValues
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public byte[] EncodeTagLengthValues()
     {
         return _Values.SelectMany(a => a.EncodeTagLengthValue()).ToArray();

@@ -7,10 +7,8 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.Enums;
-using Play.Emv.DataElements.Emv.ValueTypes;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates the priority of a given application or group of applications in a directory
@@ -57,7 +55,7 @@ public record ApplicationPriorityIndicator : DataElement<byte>, IEqualityCompare
     public static ApplicationPriorityIndicator Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static ApplicationPriorityIndicator Decode(ReadOnlySpan<byte> value)
     {
         const ushort byteLength = 1;

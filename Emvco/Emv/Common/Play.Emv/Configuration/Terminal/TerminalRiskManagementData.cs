@@ -43,7 +43,7 @@ public record TerminalRiskManagementData : DataElement<ulong>, IEqualityComparer
     public static TerminalRiskManagementData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static TerminalRiskManagementData Decode(ReadOnlySpan<byte> value)
     {
         if (value.Length != _ByteLength)

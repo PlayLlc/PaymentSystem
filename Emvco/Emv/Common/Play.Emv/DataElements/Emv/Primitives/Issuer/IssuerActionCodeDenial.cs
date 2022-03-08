@@ -6,9 +6,8 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.ValueTypes;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Issuer;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Specifies the issuer's conditions that cause the denial of a transaction without attempt to go online
@@ -43,7 +42,7 @@ public record IssuerActionCodeDenial : DataElement<ulong>, IEqualityComparer<Iss
     public static IssuerActionCodeDenial Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static IssuerActionCodeDenial Decode(ReadOnlySpan<byte> value)
     {
         const ushort byteLength = 5;

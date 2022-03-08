@@ -1,6 +1,5 @@
 ﻿using Play.Ber.Identifiers;
-using Play.Emv.Templates.ResponseMessages;
-using Play.Emv.Templates.ResponseMessages.ProcessingOptionsResponse;
+using Play.Emv.Templates;
 using Play.Emv.TestData.Ber.Primitive;
 
 namespace Play.Emv.TestData.Ber.Constructed;

@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.Lengths;
 
@@ -58,7 +59,7 @@ public readonly record struct TagLength
     ///     Encode
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public byte[] Encode()
     {
         int byteLength = GetTagLengthByteCount();

@@ -10,7 +10,7 @@ using Play.Emv.Exceptions;
 using Play.Globalization;
 using Play.Globalization.Currency;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Transaction;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Secondary amount associated with the transaction representing a cashback amount
@@ -45,7 +45,7 @@ public record AmountOtherNumeric : DataElement<ulong>, IEqualityComparer<AmountO
     public static AmountOtherNumeric Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static AmountOtherNumeric Decode(ReadOnlySpan<byte> value)
     {
         const ushort byteLength = 6;

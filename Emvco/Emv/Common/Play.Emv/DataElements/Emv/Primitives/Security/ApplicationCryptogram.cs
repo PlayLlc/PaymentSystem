@@ -8,7 +8,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Security;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Cryptogram returned by the Card in response to the GENERATE AC or RECOVER AC command.
@@ -43,14 +43,14 @@ public record ApplicationCryptogram : DataElement<ulong>, IEqualityComparer<Appl
     public static ApplicationCryptogram Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="DataElementNullException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataObjectParsingException"></exception>
     public static ApplicationCryptogram Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         DecodedResult<ulong> result = _Codec.Decode(EncodingId, value) as DecodedResult<ulong>
-            ?? throw new DataElementNullException(EncodingId);
+            ?? throw new DataObjectParsingException(EncodingId);
 
         return new ApplicationCryptogram(result.Value);
     }

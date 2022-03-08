@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Immutable;
 
-using Play.Emv.DataElements.Emv.ValueTypes;
+using Play.Emv.DataElements;
 using Play.Emv.Display.Contracts;
 using Play.Globalization;
 

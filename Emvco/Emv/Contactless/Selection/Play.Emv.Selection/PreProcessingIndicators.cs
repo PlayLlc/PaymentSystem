@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 
-using Play.Emv.DataElements.Emv.Primitives.Kernel;
-using Play.Emv.DataElements.Emv.Primitives.Terminal;
-using Play.Emv.DataElements.Emv.Primitives.Transaction;
+using Play.Emv.DataElements;
 using Play.Emv.Selection.Contracts;
 using Play.Globalization;
 using Play.Icc.FileSystem.DedicatedFiles;

@@ -3,9 +3,10 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.Primitives.DataStorage.TornTransaction;
+using Play.Emv.DataElements;
 using Play.Emv.DataExchange;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
@@ -398,7 +399,7 @@ public class DataExchangeKernelService
     /// <param name="result"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public bool TryGetDataBatchRequest(TransactionSessionId sessionId, out GetDataBatchRequest? result)
     {
         lock (_Lock.Requests)

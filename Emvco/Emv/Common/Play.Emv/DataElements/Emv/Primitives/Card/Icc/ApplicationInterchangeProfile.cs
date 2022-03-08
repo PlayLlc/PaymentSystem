@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 
 using Play.Ber.Codecs;
-using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates the capabilities of the card to support specific functions in the application
@@ -59,7 +58,7 @@ public record ApplicationInterchangeProfile : DataElement<ushort>, IEqualityComp
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
     public static ApplicationInterchangeProfile Decode(ReadOnlySpan<byte> value)
     {
         const ushort byteLength = 2;

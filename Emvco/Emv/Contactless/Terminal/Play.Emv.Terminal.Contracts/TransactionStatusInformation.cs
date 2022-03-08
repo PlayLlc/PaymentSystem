@@ -69,7 +69,7 @@ public record TransactionStatusInformation : PrimitiveValue, IEqualityComparer<T
     public static TransactionStatusInformation Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static TransactionStatusInformation Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         const ushort byteLength = 2;

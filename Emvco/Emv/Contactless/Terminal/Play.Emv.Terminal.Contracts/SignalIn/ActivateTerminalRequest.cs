@@ -1,8 +1,4 @@
-﻿using Play.Emv.DataElements.Emv.Primitives.Acquirer;
-using Play.Emv.DataElements.Emv.Primitives.Merchant;
-using Play.Emv.DataElements.Emv.Primitives.Terminal;
-using Play.Emv.DataElements.Emv.Primitives.Transaction;
-using Play.Emv.DataElements.Interchange.ValueTypes;
+﻿using Play.Emv.DataElements;
 using Play.Emv.Messaging;
 using Play.Messaging;
 

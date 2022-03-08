@@ -8,7 +8,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.StandaloneDataStorage;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Description: The Unprotected Data Envelopes contain proprietary information from the issuer, payment system or
@@ -45,7 +45,7 @@ public record UnprotectedDataEnvelope3 : DataElement<BigInteger>, IEqualityCompa
     public static UnprotectedDataEnvelope3 Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static UnprotectedDataEnvelope3 Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         const ushort maxByteLength = 192;

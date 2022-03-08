@@ -7,7 +7,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.CVM;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates the results of the last CVM performed
@@ -44,7 +44,7 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
     public static CvmResults Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static CvmResults Decode(ReadOnlySpan<byte> value)
     {
         if (value.Length != _ByteLength)

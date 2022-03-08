@@ -2,7 +2,7 @@
 using System.Collections.Immutable;
 using System.Numerics;
 
-namespace Play.Emv.DataElements.Emv.ValueTypes;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates the text string to be displayed, with the different standard messages defined in  Book A

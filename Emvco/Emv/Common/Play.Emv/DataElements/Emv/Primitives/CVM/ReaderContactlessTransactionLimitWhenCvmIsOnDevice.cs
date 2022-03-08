@@ -3,10 +3,9 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.DataElements.Emv.Primitives.Transaction;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.CVM;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates the transaction amount above which the transaction is not allowed, when on device cardholder verification
@@ -38,13 +37,13 @@ public record ReaderContactlessTransactionLimitWhenCvmIsOnDevice : ReaderContact
     public static ReaderContactlessTransactionLimitWhenCvmIsOnDevice Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="System.Exception"></exception>
     public static ReaderContactlessTransactionLimitWhenCvmIsOnDevice Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result() ?? throw new DataElementNullException(EncodingId);
+        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result() ?? throw new DataObjectParsingException(EncodingId);
 
         return new ReaderContactlessTransactionLimitWhenCvmIsOnDevice(result.Value);
     }

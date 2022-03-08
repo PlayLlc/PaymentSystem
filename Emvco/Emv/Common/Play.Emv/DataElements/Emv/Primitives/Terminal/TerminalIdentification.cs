@@ -9,7 +9,7 @@ using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Terminal;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Designates the unique location of a terminal at a merchant
@@ -51,7 +51,7 @@ public record TerminalIdentification : DataElement<ulong>, IEqualityComparer<Ter
     public static TerminalIdentification Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static TerminalIdentification Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         const byte byteLength = 8;

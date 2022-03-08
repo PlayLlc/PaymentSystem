@@ -9,7 +9,7 @@ using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Card;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Contains a list of terminal resident data objects (tags and lengths) needed by the card in processing the SEND POI
@@ -63,7 +63,7 @@ public record SelectionDataObjectList : DataObjectList, IEqualityComparer<Select
     public static SelectionDataObjectList Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static SelectionDataObjectList Decode(ReadOnlySpan<byte> value, BerCodec codec) => new(value.ToArray());
 
     #endregion

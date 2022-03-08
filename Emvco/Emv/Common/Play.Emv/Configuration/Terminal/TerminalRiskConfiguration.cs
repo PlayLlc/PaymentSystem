@@ -1,5 +1,5 @@
 ﻿using Play.Core.Math;
-using Play.Emv.DataElements.Emv.Primitives.Terminal;
+using Play.Emv.DataElements;
 using Play.Globalization;
 using Play.Globalization.Currency;
 

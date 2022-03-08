@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.Primitives.DataStorage.TornTransaction;
-using Play.Emv.DataElements.Emv.Primitives.Kernel;
-using Play.Emv.DataElements.Emv.Primitives.Terminal;
-using Play.Emv.DataElements.Emv.Primitives.Transaction;
+using Play.Emv.DataElements;
 using Play.Emv.Messaging;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;

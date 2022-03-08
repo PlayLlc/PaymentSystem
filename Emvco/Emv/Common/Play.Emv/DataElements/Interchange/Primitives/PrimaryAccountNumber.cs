@@ -5,10 +5,9 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
-using Play.Emv.DataElements.Emv.Primitives.Issuer;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Interchange.Primitives;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     The Account Number associated to Issuer Card
@@ -60,7 +59,7 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
     public static PrimaryAccountNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static PrimaryAccountNumber Decode(ReadOnlySpan<byte> value)
     {
         const byte maxCharLength = 19;

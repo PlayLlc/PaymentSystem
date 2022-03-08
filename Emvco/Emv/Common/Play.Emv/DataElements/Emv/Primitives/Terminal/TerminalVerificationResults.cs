@@ -7,9 +7,8 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.ValueTypes;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Terminal;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Description: Status of the different functions from the Terminal perspective. The Terminal Verification Results is
@@ -83,7 +82,7 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
     public static TerminalVerificationResults Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static TerminalVerificationResults Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         if (value.Length != _ByteLength)

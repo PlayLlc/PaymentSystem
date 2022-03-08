@@ -113,7 +113,7 @@ public sealed record ClassType : EnumObject<byte>, IEqualityComparer<ClassType>
     {
         if (!TryGet(classType, out ClassType result))
         {
-            throw new BerFormatException(new ArgumentOutOfRangeException(nameof(classType),
+            throw new BerParsingException(new ArgumentOutOfRangeException(nameof(classType),
                 $"The {nameof(ClassType)} could not be found from the number supplied to the argument: {classType}"));
         }
 

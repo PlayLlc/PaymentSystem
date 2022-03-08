@@ -1,5 +1,5 @@
 ﻿using Play.Ber.Identifiers;
-using Play.Emv.Templates.FileControlInformation.ProximityPaymentSystemEnvironment;
+using Play.Emv.Templates;
 using Play.Emv.TestData.Ber.Primitive;
 
 namespace Play.Emv.TestData.Ber.Constructed;

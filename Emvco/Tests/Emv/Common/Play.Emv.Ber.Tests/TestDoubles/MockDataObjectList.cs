@@ -37,7 +37,7 @@ public record MockDataObjectList : DataObjectList
     public static MockDataObjectList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static MockDataObjectList Decode(ReadOnlySpan<byte> value) => new(value.ToArray());
 
     #endregion

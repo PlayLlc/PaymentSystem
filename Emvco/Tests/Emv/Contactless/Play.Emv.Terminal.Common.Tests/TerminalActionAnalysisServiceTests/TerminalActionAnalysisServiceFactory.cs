@@ -7,11 +7,7 @@ using AutoFixture;
 using Moq;
 
 using Play.Emv.Configuration;
-using Play.Emv.DataElements.Emv.Enums;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
-using Play.Emv.DataElements.Emv.Primitives.Issuer;
-using Play.Emv.DataElements.Emv.Primitives.Terminal;
-using Play.Emv.DataElements.Emv.ValueTypes;
+using Play.Emv.DataElements;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
 using Play.Emv.Terminal.Common.Services.TerminalActionAnalysis.Terminal;

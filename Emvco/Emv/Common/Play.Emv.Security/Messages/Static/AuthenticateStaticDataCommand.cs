@@ -1,7 +1,5 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
-using Play.Emv.DataElements.Emv.Primitives.Issuer;
-using Play.Emv.DataElements.Emv.Primitives.Security;
+using Play.Emv.DataElements;
 using Play.Emv.Security.Authentications.Static;
 using Play.Emv.Security.Authentications.Static.Signed;
 using Play.Emv.Security.Certificates;

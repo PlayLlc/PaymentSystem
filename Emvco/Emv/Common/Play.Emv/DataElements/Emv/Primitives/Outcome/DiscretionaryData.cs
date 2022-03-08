@@ -8,7 +8,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Outcome;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Description: The Discretionary Data is a list of Kernel-specific data objects sent to the Terminal as a separate
@@ -43,7 +43,7 @@ public record DiscretionaryData : DataExchangeResponse, IEqualityComparer<Discre
     public static DiscretionaryData Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodeTagLengthValues(value));
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static DiscretionaryData Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodeTagLengthValues(value));
 
     #endregion

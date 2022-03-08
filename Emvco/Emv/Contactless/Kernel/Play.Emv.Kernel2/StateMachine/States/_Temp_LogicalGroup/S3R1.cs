@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+using Play.Emv.DataElements;
 using Play.Emv.Icc;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Databases;
@@ -12,6 +12,8 @@ using Play.Emv.Kernel.State;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts;
+
+
 
 namespace Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup;
 // TODO: Note that symbols S3R1.10, S3R1.11, S3R1.12, S3R1.13 and S3R1.18 are only implemented for the IDS/TORN Implementation Option.
@@ -38,7 +40,7 @@ public class S3R1
     /// <param name="session"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public async Task<KernelState> Process(KernelSession session)
     {
         // TODO: Optimized AFL means we'll be sending GET DATA commands. Otherwise, we'll be sending READ FILE commands
@@ -82,7 +84,7 @@ public class S3R1
             GetDataBatchResponse rapdu = await _PcdEndpoint.Transceive(request).ConfigureAwait(false);
             _KernelDatabase.UpdateRange(rapdu.GetTagLengthValuesResult());
         }
-        catch (BerInternalException)
+        catch (BerParsingException)
         {
             //    /* logging */
             //    _KernelDatabase.Update(Level2Error.ParsingError);

@@ -7,7 +7,7 @@ using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Terminal;
+namespace Play.Emv.DataElements;
 
 public record ApplicationPanSequenceNumber : DataElement<byte>
 {
@@ -38,14 +38,14 @@ public record ApplicationPanSequenceNumber : DataElement<byte>
     public static ApplicationPanSequenceNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="DataElementNullException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataObjectParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public static ApplicationPanSequenceNumber Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<byte> result = _Codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataElementNullException(EncodingId);
+        DecodedResult<byte> result = _Codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataObjectParsingException(EncodingId);
 
         return new ApplicationPanSequenceNumber(result.Value);
     }

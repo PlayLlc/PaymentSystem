@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 
-using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Acquirer;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Uniquely identifies the acquirer within each payment system
@@ -51,14 +50,14 @@ public record AccountType : DataElement<byte>, IEqualityComparer<AccountType>
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="DataElementNullException"></exception>
+    /// <exception cref="DataObjectParsingException"></exception>
     public static AccountType Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<byte> result = _Codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataElementNullException(EncodingId);
+        DecodedResult<byte> result = _Codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataObjectParsingException(EncodingId);
 
         return new AccountType(result.Value);
     }

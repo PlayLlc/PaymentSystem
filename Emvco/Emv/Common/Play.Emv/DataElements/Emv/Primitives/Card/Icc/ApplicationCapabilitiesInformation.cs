@@ -7,9 +7,8 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.ValueTypes;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Description: Lists a number of card features beyond regular payment.
@@ -63,7 +62,7 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
     public static ApplicationCapabilitiesInformation Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static ApplicationCapabilitiesInformation Decode(ReadOnlySpan<byte> value)
     {
         if (value.Length != _ByteLength)

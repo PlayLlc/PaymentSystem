@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.DataElements.Interchange.Primitives.__TODO;
+﻿namespace Play.Emv.DataElements.__TODO;
 
 //public class AuthorizationIdentificationResponseMapper : FixedLengthDataFieldMapper
 //{

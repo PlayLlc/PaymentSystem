@@ -8,7 +8,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Globalization.Time;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Transaction;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Local date that the transaction was authorized
@@ -56,7 +56,7 @@ public record TransactionTime : DataElement<uint>, IEqualityComparer<Transaction
     public static TransactionTime Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static TransactionTime Decode(ReadOnlySpan<byte> value)
     {
         const ushort charLength = 6;

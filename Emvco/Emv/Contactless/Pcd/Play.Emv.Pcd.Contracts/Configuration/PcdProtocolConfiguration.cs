@@ -1,5 +1,4 @@
-﻿using Play.Emv.DataElements.Emv.Primitives.Merchant;
-using Play.Emv.DataElements.Emv.Primitives.Terminal;
+﻿using Play.Emv.DataElements;
 
 namespace Play.Emv.Pcd.Contracts;
 

@@ -8,7 +8,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Icc.FileSystem.ElementaryFiles;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Identifies the AEF referenced in commands related to a given ADF or DDF. It is a binary data object having a value
@@ -65,7 +65,7 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
     public static ShortFileIdentifier Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static ShortFileIdentifier Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         const ushort byteLength = 1;

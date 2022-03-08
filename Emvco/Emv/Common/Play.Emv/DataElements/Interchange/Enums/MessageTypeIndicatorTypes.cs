@@ -3,7 +3,7 @@ using System.Collections.Immutable;
 
 using Play.Core;
 
-namespace Play.Emv.DataElements.Interchange.Enums;
+namespace Play.Emv.DataElements;
 
 /*
  permutations:

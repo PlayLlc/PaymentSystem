@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 
 namespace Play.Ber.Codecs;
 
@@ -14,7 +15,7 @@ public partial class BerCodec
     /// <param name="value"></param>
     /// <param name="berCodec"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public byte[] AsSetOf<T>(SetOf<T> value, BerCodec berCodec) where T : PrimitiveValue
     {
         List<byte> buffer = new();

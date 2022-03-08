@@ -8,7 +8,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Randoms;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Security;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Value to provide variability and uniqueness to the generation of a cryptogram
@@ -47,7 +47,7 @@ public record UnpredictableNumber : DataElement<uint>, IEqualityComparer<Unpredi
     public static UnpredictableNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static UnpredictableNumber Decode(ReadOnlySpan<byte> value)
     {
         if (value.Length != _ByteCount)

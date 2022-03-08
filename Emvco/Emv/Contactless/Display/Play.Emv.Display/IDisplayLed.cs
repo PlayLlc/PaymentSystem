@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-using Play.Emv.DataElements.Emv.ValueTypes;
+using Play.Emv.DataElements;
 
 namespace Play.Emv.Display;
 

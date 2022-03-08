@@ -7,11 +7,10 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
-using Play.Emv.DataElements.Emv.Primitives.Terminal;
+using Play.Emv.DataElements;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace Play.Emv.Templates.FileControlInformation.ProximityPaymentSystemEnvironment;
+namespace Play.Emv.Templates;
 
 public class FileControlInformationPpse : FileControlInformationTemplate
 {
@@ -91,8 +90,8 @@ public class FileControlInformationPpse : FileControlInformationTemplate
     public static FileControlInformationPpse Decode(ReadOnlyMemory<byte> rawBer) => Decode(_Codec.DecodeChildren(rawBer));
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
     private static FileControlInformationPpse Decode(EncodedTlvSiblings encodedTlvSiblings)
     {
         DedicatedFileName? dedicatedFileName = _Codec.AsPrimitive(DedicatedFileName.Decode, DedicatedFileName.Tag, encodedTlvSiblings);

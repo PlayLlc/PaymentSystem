@@ -8,7 +8,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Security;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Description: List of tags of primitive data objects defined in this specification for which the value fields must
@@ -43,7 +43,7 @@ public record StaticDataAuthenticationTagList : DataElement<BigInteger>, IEquali
     public static StaticDataAuthenticationTagList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static StaticDataAuthenticationTagList Decode(ReadOnlySpan<byte> value)
     {
         const ushort maxByteLength = 250;

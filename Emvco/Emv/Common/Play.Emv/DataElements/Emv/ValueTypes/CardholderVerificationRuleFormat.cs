@@ -1,6 +1,6 @@
 ﻿using Play.Core.Extensions;
 
-namespace Play.Emv.DataElements.Emv.ValueTypes;
+namespace Play.Emv.DataElements;
 
 public readonly struct CardholderVerificationRuleFormat
 {

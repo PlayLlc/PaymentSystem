@@ -8,7 +8,7 @@ using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 using Play.Globalization.Time;
 
-namespace Play.Emv.DataElements.Emv.Primitives.ProximityCouplingDevice;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates the time that the field is to be turned off after the transaction is completed if requested to do so by
@@ -60,8 +60,8 @@ public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldT
     public static HoldTimeValue Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="DataElementNullException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataObjectParsingException"></exception>
     private static HoldTimeValue Decode(ReadOnlySpan<byte> value)
     {
         const ushort charLength = 6;
@@ -69,7 +69,7 @@ public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldT
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         DecodedResult<uint> result = _Codec.Decode(EncodingId, value) as DecodedResult<uint>
-            ?? throw new DataElementNullException(EncodingId);
+            ?? throw new DataObjectParsingException(EncodingId);
 
         Check.Primitive.ForCharLength(result.CharCount, charLength, Tag);
 

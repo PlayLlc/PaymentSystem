@@ -1,4 +1,5 @@
 ﻿using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 
@@ -24,7 +25,7 @@ public abstract class TestTlv
     /// </summary>
     /// <param name="childRank"></param>
     /// <param name="children"></param>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     protected TestTlv(Tag[] childRank, params TestTlv[] children)
     {
         _ContentOctets = ParseChildren(childRank, children);
@@ -51,7 +52,7 @@ public abstract class TestTlv
     /// <param name="childIndex"></param>
     /// <param name="children"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private static byte[] ParseChildren(Tag[] childIndex, TestTlv[] children)
     {
         if (children.Length > childIndex.Length)
@@ -85,7 +86,7 @@ public abstract class TestTlv
     ///     EncodeTagLengthValue
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public byte[] EncodeTagLengthValue()
     {
         TagLength tagLength = GetTagLength();

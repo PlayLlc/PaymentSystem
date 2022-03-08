@@ -9,7 +9,7 @@ using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Terminal;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Version number assigned by the payment system for the application
@@ -50,13 +50,13 @@ public record ApplicationVersionNumberTerminal : DataElement<ushort>, IEqualityC
     public static ApplicationVersionNumberTerminal Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="System.Exception"></exception>
     public static ApplicationVersionNumberTerminal Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ushort> result = _Codec.Decode(EncodingId, value).ToUInt16Result() ?? throw new DataElementNullException(EncodingId);
+        DecodedResult<ushort> result = _Codec.Decode(EncodingId, value).ToUInt16Result() ?? throw new DataObjectParsingException(EncodingId);
 
         return new ApplicationVersionNumberTerminal(result.Value);
     }

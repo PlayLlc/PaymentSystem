@@ -11,6 +11,8 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Codecs;
 
+
+
 [assembly: InternalsVisibleTo("Play.Ber.Tests")]
 [assembly: InternalsVisibleTo("Play.Emv.Ber.Tests")]
 [assembly: InternalsVisibleTo("Play.Emv.TestData")]
@@ -37,10 +39,10 @@ public class BerConfiguration
     ///     <see cref="PlayCodec" />. The assemblies will be scanned for the derived classes and an internal encoding
     ///     map for those types will be created.
     /// </param>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public BerConfiguration(IList<Assembly> assembliesToMap)
     {
-        Assembly[] assemblies = assembliesToMap?.ToArray() ?? throw new BerFormatException(nameof(assembliesToMap));
+        Assembly[] assemblies = assembliesToMap?.ToArray() ?? throw new BerParsingException(nameof(assembliesToMap));
 
         List<PlayCodec> playCodecs = GetPlayCodecs(assemblies);
 
@@ -99,21 +101,21 @@ public class BerConfiguration
     ///     This method is generic so that each list can be validated independently so that the exception can be thrown
     ///     as soon as it is found for each type being validated
     /// </remarks>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private void Validate(IList<PlayCodec> values)
     {
         ValidatePlayCodecIdentifiersAreUnique(values);
         ValidateBerEncodingIdsAreUnique(values.Select(a => a.GetEncodingId()).ToList());
     }
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private void Validate(IList<PlayCodec> playCodecs, IList<PrimitiveValue> primitiveValues)
     {
         ValidatePrimitiveValuesAreAllMappedToAPlayCodec(new HashSet<PlayCodec>(playCodecs), new HashSet<PrimitiveValue>(primitiveValues));
     }
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private static void ValidateBerEncodingIdsAreUnique(IList<PlayEncodingId> mappingValue)
     {
         List<PlayEncodingId> distinct = mappingValue.Select(a => a).Distinct().ToList();
@@ -125,7 +127,7 @@ public class BerConfiguration
 
         const string stringSeparator = ", ";
 
-        throw new BerFormatException(
+        throw new BerParsingException(
             $"Duplicate {nameof(PlayEncodingId)} - There was a problem found while building the encoding mapping for {nameof(PlayCodec)} because there were duplicate values. "
             + $"Here is a list of the {nameof(PlayCodec)} that have a {nameof(PlayEncodingId)} that is not unique: [{string.Join(stringSeparator, duplicateValues)}");
     }
@@ -134,7 +136,7 @@ public class BerConfiguration
     ///     ValidatePlayCodecIdentifiersAreUnique
     /// </summary>
     /// <param name="playCodecs"></param>
-    /// <exception cref="BerFormatException"></exception>
+    
     private static void ValidatePlayCodecIdentifiersAreUnique(IList<PlayCodec> playCodecs)
     {
         List<PlayEncodingId> allTags = playCodecs.Select(a => a.GetEncodingId()).ToList();
@@ -167,12 +169,12 @@ public class BerConfiguration
             builder.Append($"{string.Join(stringSeparator, keyValue.Value)}] \n");
         }
 
-        throw new BerFormatException(
+        throw new BerParsingException(
             $"Duplicate Identifiers - There was a problem found while building the encoding mapping for {nameof(PlayCodec)} because some of the types use the same identifier. The Fully Qualified Name of each {nameof(PlayCodec)} implementation must be unique. Here is a list of the types that implement the same Identifier: {builder}");
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     private static void ValidatePrimitiveValuesAreAllMappedToAPlayCodec(HashSet<PlayCodec> codecs, HashSet<PrimitiveValue> primitiveValues)
     {
         HashSet<PlayEncodingId> encodingIds = new(codecs.Select(a => a.GetEncodingId()));
@@ -198,7 +200,7 @@ public class BerConfiguration
             builder.Append($"{string.Join(stringSeparator, keyValue.Value)}] \n");
         }
 
-        throw new BerInternalException(
+        throw new BerParsingException(
             $"There was a runtime error when validating that all {nameof(PrimitiveValue)} subclasses are correctly mapped to a {nameof(PlayCodec)}. Please check the {nameof(BerConfiguration)} for any errors. Here's a list of unmapped {nameof(PrimitiveValue)} subclasses: {builder}");
     }
 
@@ -212,7 +214,7 @@ public class BerConfiguration
     /// <warning>
     ///     NOTE: This method is NOT intended to be run in a production environment
     /// </warning>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public void ValidateRuntimeConfiguration(IList<Assembly> asn1CompiledAssemblies)
     {
@@ -233,7 +235,7 @@ public class BerConfiguration
     /// <warning>
     ///     NOTE: This method is NOT intended to be run in a production environment
     /// </warning>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public void ValidateRuntimeConfiguration(IList<Assembly> primitiveValueAssemblies, IList<Assembly> constructedValueAssemblies)
     {

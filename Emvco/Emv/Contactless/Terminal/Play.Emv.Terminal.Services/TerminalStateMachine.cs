@@ -1,6 +1,6 @@
 ﻿using Play.Emv.Acquirer.Contracts.SignalOut;
 using Play.Emv.Configuration;
-using Play.Emv.DataElements.Emv.Primitives.Transaction;
+using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup;

@@ -4,7 +4,7 @@ using Play.Ber.Exceptions;
 
 namespace Play.Emv.Ber.Exceptions;
 
-public class EmvEncodingException : BerException
+public class EmvEncodingException : BerParsingException
 {
     #region Constructor
 
@@ -13,14 +13,14 @@ public class EmvEncodingException : BerException
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(BerException), fileName, memberName, lineNumber)} {message}")
+        $"{TraceExceptionMessage(typeof(BerParsingException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public EmvEncodingException(
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base($"{TraceExceptionMessage(typeof(BerException), fileName, memberName, lineNumber)}",
+        [CallerLineNumber] int lineNumber = 0) : base($"{TraceExceptionMessage(typeof(BerParsingException), fileName, memberName, lineNumber)}",
         innerException)
     { }
 
@@ -30,7 +30,7 @@ public class EmvEncodingException : BerException
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(BerException), fileName, memberName, lineNumber)} {message}", innerException)
+        $"{TraceExceptionMessage(typeof(BerParsingException), fileName, memberName, lineNumber)} {message}", innerException)
     { }
 
     #endregion

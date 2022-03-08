@@ -11,7 +11,7 @@ using Play.Emv.Exceptions;
 using Play.Globalization;
 using Play.Globalization.Currency;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Transaction;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Authorized amount of the transaction (excluding adjustments)
@@ -46,7 +46,7 @@ public record AmountAuthorizedNumeric : DataElement<ulong>, IEqualityComparer<Am
     public static AmountAuthorizedNumeric Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static AmountAuthorizedNumeric Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

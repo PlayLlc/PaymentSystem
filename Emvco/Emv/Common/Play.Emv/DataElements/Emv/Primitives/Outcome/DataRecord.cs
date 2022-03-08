@@ -8,7 +8,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Outcome;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Description: The Data Record is a list of TLV encoded data objects returned with the Outcome Parameter Set on the
@@ -43,7 +43,7 @@ public record DataRecord : DataExchangeResponse, IEqualityComparer<DataRecord>
     public static DataRecord Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodeTagLengthValues(value));
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static DataRecord Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodeTagLengthValues(value));
 
     #endregion

@@ -9,7 +9,7 @@ using Play.Emv.Ber.DataObjects;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Merchant;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Classifies the type of business being done by the merchant, represented according to ISO 8583:1993 for Card
@@ -50,7 +50,7 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
     /// <exception cref="EmvEncodingException"></exception>
     public static MerchantCategoryCode Decode(ReadOnlyMemory<byte> value)
     {
@@ -63,7 +63,7 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static MerchantCategoryCode Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, 4, Tag);

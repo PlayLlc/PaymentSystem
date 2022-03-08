@@ -9,7 +9,7 @@ using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Transaction;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates the implied position of the decimal point from the right of the transaction amount, with the Transaction
@@ -45,8 +45,8 @@ public record TransactionReferenceCurrencyExponent : DataElement<byte>, IEqualit
     public static TransactionReferenceCurrencyExponent Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="DataElementNullException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataObjectParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public static TransactionReferenceCurrencyExponent Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
@@ -54,7 +54,7 @@ public record TransactionReferenceCurrencyExponent : DataElement<byte>, IEqualit
 
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<byte> result = codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataElementNullException(EncodingId);
+        DecodedResult<byte> result = codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataObjectParsingException(EncodingId);
 
         Check.Primitive.ForCharLength(result.Value, charLength, Tag);
 

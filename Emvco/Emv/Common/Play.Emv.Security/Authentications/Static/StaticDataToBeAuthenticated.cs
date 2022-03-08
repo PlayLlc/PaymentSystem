@@ -4,8 +4,8 @@ using System.Linq;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
-using Play.Emv.DataElements.Emv.Primitives.Security;
+using Play.Ber.Exceptions;
+using Play.Emv.DataElements;
 
 namespace Play.Emv.Security.Authentications.Static;
 
@@ -55,7 +55,7 @@ public class StaticDataToBeAuthenticated
     /// <remarks>
     ///     Book 3 Section 10.3
     /// </remarks>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public byte[] AsByteArray()
     {
         // TODO: According to BOOK 3 Section 10.3 - might need to iterate through each result and ensure that the Record Result Template Format that returned is of tag 0x70. We would also need to strip some of the primitives down to the TLV encoded Value field if the SFI is 11-30. We can do that by passing a RecordResult Factory - or can take care of this at a higher level process

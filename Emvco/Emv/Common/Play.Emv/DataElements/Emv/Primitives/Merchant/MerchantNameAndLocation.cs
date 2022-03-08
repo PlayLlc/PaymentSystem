@@ -6,7 +6,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Merchant;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates the name and location of the merchant
@@ -39,7 +39,7 @@ public record MerchantNameAndLocation : DataElement<char[]>, IEqualityComparer<M
     public static MerchantNameAndLocation Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static MerchantNameAndLocation Decode(ReadOnlySpan<byte> value)
     {
         DecodedResult<char[]> result = _Codec.Decode(EncodingId, value) as DecodedResult<char[]>

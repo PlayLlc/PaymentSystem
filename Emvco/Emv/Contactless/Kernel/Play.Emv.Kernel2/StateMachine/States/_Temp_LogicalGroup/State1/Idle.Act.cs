@@ -4,18 +4,6 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
-using Play.Emv.DataElements.Emv.Enums;
-using Play.Emv.DataElements.Emv.Primitives.Card;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
-using Play.Emv.DataElements.Emv.Primitives.CVM;
-using Play.Emv.DataElements.Emv.Primitives.DataExchange;
-using Play.Emv.DataElements.Emv.Primitives.DataStorage.IntegratedDataStorage;
-using Play.Emv.DataElements.Emv.Primitives.DataStorage.TornTransaction;
-using Play.Emv.DataElements.Emv.Primitives.Kernel;
-using Play.Emv.DataElements.Emv.Primitives.Outcome;
-using Play.Emv.DataElements.Emv.Primitives.Security;
-using Play.Emv.DataElements.Emv.Primitives.Terminal;
-using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Kernel;
@@ -26,9 +14,11 @@ using Play.Emv.Kernel2.Databases;
 using Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup.State3;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
-using Play.Emv.Templates.FileControlInformation.ApplicationDefinitionFile;
+using Play.Emv.Templates;
 using Play.Globalization.Time;
 using Play.Messaging;
+
+
 
 namespace Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup;
 
@@ -38,8 +28,8 @@ public partial class Idle : KernelState
 
     /// <remarks>Book C-2 Section 6.3.3</remarks>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="DataElementNullException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataObjectParsingException"></exception>
     public override KernelState Handle(KernelSession session, ActivateKernelRequest signal)
     {
         Kernel2Session kernel2Session = (Kernel2Session) session;
@@ -72,7 +62,7 @@ public partial class Idle : KernelState
 
     /// <remarks>Book C-2 Section 6.3.3 S1.7</remarks>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private void UpdateLanguagePreferences(Kernel2Session session, FileControlInformationAdf fci)
     {
         if (fci.TryGetLanguagePreference(out LanguagePreference? languagePreference))
@@ -131,18 +121,13 @@ public partial class Idle : KernelState
 
             return true;
         }
-        catch (BerInternalException)
+        catch (BerParsingException)
         {
             /* logging */
             signal.GetTransaction().Update(Level2Error.ParsingError);
             HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
         }
-        catch (BerException)
-        {
-            /* logging */
-            signal.GetTransaction().Update(Level2Error.ParsingError);
-            HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
-        }
+ 
         catch (CardDataMissingException)
         {
             /* logging */
@@ -172,17 +157,12 @@ public partial class Idle : KernelState
 
             return true;
         }
-        catch (BerInternalException)
+        catch (BerParsingException)
         {
             transaction.Update(Level2Error.ParsingError);
             HandleBerEncodingException(correlationId, kernelSessionId);
         }
-        catch (BerException)
-        {
-            /* logging */
-            transaction.Update(Level2Error.ParsingError);
-            HandleBerEncodingException(correlationId, kernelSessionId);
-        }
+        
         catch (CardDataMissingException)
         {
             /* logging */
@@ -205,7 +185,7 @@ public partial class Idle : KernelState
 
     /// <remarks>Book C-2 Section 6.3.3 - S1.9</remarks>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private void InitializeEmvDataObjects()
     {
         CardDataInputCapability cardDataInputCapability =
@@ -357,8 +337,8 @@ public partial class Idle : KernelState
 
     /// <remarks>Book C-2 Section 6.3.3  S1.17</remarks>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="DataElementNullException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataObjectParsingException"></exception>
     public void HandleDataStorageVersionNumberTerm(Kernel2Session session)
     {
         if (!_KernelDatabase.IsPresentAndNotEmpty(DataStorageVersionNumberTerm.Tag))
@@ -418,8 +398,8 @@ public partial class Idle : KernelState
     /// <param name="session"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="DataElementNullException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataObjectParsingException"></exception>
     public KernelState RouteStateTransition(Kernel2Session session)
     {
         if (!_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out TagLengthValue? applicationCapabilitiesInformationTlv))
@@ -469,8 +449,8 @@ public partial class Idle : KernelState
     /// <param name="session"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="DataElementNullException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataObjectParsingException"></exception>
     private KernelState HandlePdolData(Kernel2Session session)
     {
         if (session.IsPdolDataMissing())
@@ -510,8 +490,8 @@ public partial class Idle : KernelState
     /// </summary>
     /// <param name="session"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="DataElementNullException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataObjectParsingException"></exception>
     public void SetTimeout(Kernel2Session session)
     {
         TimeoutValue timeout = TimeoutValue.Decode(_KernelDatabase.Get(TimeoutValue.Tag).GetValue().AsSpan());

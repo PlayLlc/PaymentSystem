@@ -7,7 +7,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Terminal;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Unique and permanent serial number assigned to the Interface Device by the manufacturer. In other words it's the
@@ -42,7 +42,7 @@ public record InterfaceDeviceSerialNumber : DataElement<ulong>, IEqualityCompare
     public static InterfaceDeviceSerialNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static InterfaceDeviceSerialNumber Decode(ReadOnlySpan<byte> value)
     {
         const ushort byteLength = 8;

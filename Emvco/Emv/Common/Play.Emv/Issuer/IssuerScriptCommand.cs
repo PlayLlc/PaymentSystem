@@ -53,7 +53,7 @@ public record IssuerScriptCommand : PrimitiveValue, IEqualityComparer<IssuerScri
     public static IssuerScriptCommand Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static IssuerScriptCommand Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         const ushort maxByteLength = 261;

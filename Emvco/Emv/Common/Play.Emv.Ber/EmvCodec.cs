@@ -47,7 +47,7 @@ public class EmvCodec : BerCodec
     ///     Parses a sequence of metadata containing concatenated Tag-Length values and returns an array
     ///     of the Tag-Length pairs.
     /// </summary>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="InternalEmvEncodingException"></exception>
     /// <remarks>
@@ -74,7 +74,7 @@ public class EmvCodec : BerCodec
     /// <summary>
     ///     Parses a sequence of metadata containing a concatenation of Tag identifiers and returns an array of Tags.
     /// </summary>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <remarks>
     ///     This method expects that the argument provided will only contain Tag-Length pairs. It will

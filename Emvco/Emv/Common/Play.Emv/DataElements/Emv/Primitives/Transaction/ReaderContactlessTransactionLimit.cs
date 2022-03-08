@@ -5,7 +5,7 @@ using Play.Emv.Ber.DataObjects;
 using Play.Globalization;
 using Play.Globalization.Currency;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Transaction;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates the transaction amount above which the transaction is not allowed. This data object is instantiated with

@@ -2,7 +2,7 @@
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Interchange;
+namespace Play.Emv.DataElements;
 
 public abstract record InterchangeDataElement<T> : DataElement<T>
 {

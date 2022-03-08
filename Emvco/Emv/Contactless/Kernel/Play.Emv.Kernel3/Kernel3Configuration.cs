@@ -1,4 +1,4 @@
-﻿using Play.Emv.DataElements.Emv.Primitives.Kernel;
+﻿using Play.Emv.DataElements;
 
 namespace Play.Emv.Kernel3;
 

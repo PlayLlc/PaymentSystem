@@ -6,9 +6,8 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.Primitives.Terminal;
 
-namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.TornTransaction;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     A copy of a record from the Torn Transaction Log that is expired.Torn Record is sent to the
@@ -53,7 +52,7 @@ public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
     public static TornRecord Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodeTagLengthValues(value));
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static TornRecord Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodeTagLengthValues(value));
 
     #endregion

@@ -8,7 +8,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Security;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     List of data objects (tag and length) to be passed to the ICC in the INTERNAL AUTHENTICATE command
@@ -42,7 +42,7 @@ public record DynamicDataAuthenticationDataObjectList : DataElement<byte[]>, IEq
     public static DynamicDataAuthenticationDataObjectList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static DynamicDataAuthenticationDataObjectList Decode(ReadOnlySpan<byte> value)
     {
         const ushort maxByteLength = 252;

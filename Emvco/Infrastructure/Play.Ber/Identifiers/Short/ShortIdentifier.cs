@@ -36,7 +36,7 @@ internal static class ShortIdentifier
     /// </remarks>
     /// <param name="value"></param>
     /// <returns cref="ClassType">ClassType</returns>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static ClassType GetClassType(byte value) => (ClassType) value.GetMaskedValue(ClassType.UnrelatedBits);
 
     /// <summary>
@@ -59,13 +59,13 @@ internal static class ShortIdentifier
     /// </remarks>
     /// <param name="value"></param>
     /// <returns>byte</returns>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static byte GetTagNumber(byte value)
     {
         byte tagNumber = value.GetMaskedValue(TagNumber.UnrelatedBits);
 
         return tagNumber > TagNumber.MaxValue
-            ? throw new BerException($"The {nameof(TagNumber)} must be between 0 and 30 for a short Identifier {nameof(Tag)}")
+            ? throw new BerParsingException($"The {nameof(TagNumber)} must be between 0 and 30 for a short Identifier {nameof(Tag)}")
             : tagNumber;
     }
 
@@ -102,11 +102,11 @@ internal static class ShortIdentifier
     ///     Validates that the Tag Number is in the range of a Short Identifier
     /// </summary>
     /// <param name="value"></param>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static void Validate(byte value)
     {
         if (!IsTagNumberInRange(value))
-            throw new BerException($"The {nameof(TagNumber)} must be between 0 and 30 for a short Identifier {nameof(Tag)}");
+            throw new BerParsingException($"The {nameof(TagNumber)} must be between 0 and 30 for a short Identifier {nameof(Tag)}");
     }
 
     #endregion

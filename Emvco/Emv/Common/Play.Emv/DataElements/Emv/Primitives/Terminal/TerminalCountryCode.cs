@@ -9,7 +9,7 @@ using Play.Emv.Ber.DataObjects;
 using Play.Globalization;
 using Play.Globalization.Country;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Terminal;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates the country of the terminal, represented according to ISO 3166
@@ -49,7 +49,7 @@ public record TerminalCountryCode : DataElement<NumericCountryCode>, IEqualityCo
     public static TerminalCountryCode Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static TerminalCountryCode Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         const ushort charLength = 3;

@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Play.Codecs\Play.Codecs.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Exceptions\_Temp\" />
+  </ItemGroup>
+
 </Project>

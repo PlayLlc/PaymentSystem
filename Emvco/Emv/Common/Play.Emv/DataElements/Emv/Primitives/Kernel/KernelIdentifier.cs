@@ -6,12 +6,10 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.Enums;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
 using Play.Globalization.Currency;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Kernel;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates the card's preference for the kernel on which the contactless application can be processed.
@@ -202,7 +200,7 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
     public static KernelIdentifier Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="System.Exception"></exception>
     public static KernelIdentifier Decode(ReadOnlySpan<byte> value)
     {

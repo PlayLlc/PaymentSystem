@@ -3,6 +3,8 @@
 using Play.Ber.Exceptions;
 using Play.Core.Extensions;
 
+
+
 namespace Play.Ber.Lengths.Long;
 
 internal static partial class LongLength
@@ -36,12 +38,12 @@ internal static partial class LongLength
             : (byte) (resultWithoutRemainder + 1);
     }
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static byte GetByteCount(ReadOnlySpan<byte> value) => (byte) (InitialOctet.GetSubsequentOctetCount(value[0]) + 1);
 
     public static ushort GetContentLength(in uint value) => GetSubsequentOctets(value);
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public static byte GetInitialOctet(uint value)
     {
@@ -61,7 +63,7 @@ internal static partial class LongLength
             }
             catch (OverflowException exception)
             {
-                throw new BerInternalException(
+                throw new BerParsingException(
                     "Uh oh, something wasn't coded correctly. This code base only supports a Long Length object with 3 bytes or less",
                     exception);
             }
@@ -73,9 +75,9 @@ internal static partial class LongLength
     /// </summary>
     /// <param name="value"></param>
     /// <returns>The raw value of the Subsequent Octets as a <see cref="ushort" /></returns>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    
     private static ushort GetSubsequentOctets(uint value)
     {
         ushort subsequentOctets = (ushort) value.GetMaskedValue(GetSubsequentOctetMask(GetByteCount(value)));
@@ -94,24 +96,24 @@ internal static partial class LongLength
             }
             catch (OverflowException exception)
             {
-                throw new BerInternalException(
+                throw new BerParsingException(
                     "Uh oh, something wasn't coded correctly. This code base only supports a Long Length object with 3 bytes or less",
                     exception);
             }
         }
     }
 
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    
     public static void Validate(ReadOnlySpan<byte> value)
     {
         InitialOctet.Validate(value[..1]);
         SubsequentOctets.Validate(value[1..]);
     }
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    
     public static void Validate(uint value)
     {
         InitialOctet.Validate(GetInitialOctet(value));

@@ -8,7 +8,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Issuer;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Provided by the appropriate certification  authority to the card issuer. When the terminal verifies this data
@@ -46,7 +46,7 @@ public record IssuerPublicKeyCertificate : DataElement<BigInteger>, IEqualityCom
     public static IssuerPublicKeyCertificate Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static IssuerPublicKeyCertificate Decode(ReadOnlySpan<byte> value)
     {
         DecodedResult<BigInteger> result = _Codec.Decode(EncodingId, value) as DecodedResult<BigInteger>

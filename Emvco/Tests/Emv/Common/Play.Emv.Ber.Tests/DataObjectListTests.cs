@@ -2,14 +2,13 @@
 using System.Linq;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Ber.Lengths;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Ber.Tests.TestDoubles;
-using Play.Emv.DataElements.Emv.Primitives.Card;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
-using Play.Emv.DataElements.Emv.Primitives.Kernel;
+using Play.Emv.DataElements;
 using Play.Emv.TestData.Ber.Primitive;
 
 using Xunit;
@@ -23,7 +22,7 @@ public class DataObjectListTests
     /// <summary>
     ///     BerEncodingTagLengths_Deserializing_CreatesDataObjectList
     /// </summary>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     [Fact]
     public void BerEncodingTagLengths_Deserializing_CreatesDataObjectList()
@@ -38,7 +37,7 @@ public class DataObjectListTests
     /// <summary>
     ///     BerEncodingTagLengths_InvokingGetRequestedItems_ReturnsExpectedTags
     /// </summary>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     [Fact]
     public void BerEncodingTagLengths_InvokingGetRequestedItems_ReturnsExpectedTags()
@@ -58,7 +57,7 @@ public class DataObjectListTests
     /// <summary>
     ///     BerEncodingNullTagLengths_InvokingGetRequestedItems_ReturnsExpectedTagLengthPairs
     /// </summary>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     [Fact]
     public void BerEncodingNullTagLengths_InvokingGetRequestedItems_ReturnsExpectedTagLengthPairs()
@@ -86,7 +85,7 @@ public class DataObjectListTests
     /// <summary>
     ///     BerEncodingTagLengths_InvokingGetRequestedItems_ReturnsExpectedLength
     /// </summary>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     [Fact]
     public void BerEncodingTagLengths_InvokingGetRequestedItems_ReturnsExpectedLength()
@@ -109,7 +108,7 @@ public class DataObjectListTests
     /// <summary>
     ///     BerEncodingTagLengths_InvokingAsCommandTemplate_ReturnsCommandTemplate
     /// </summary>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     [Fact]
     public void BerEncodingTagLengths_InvokingAsCommandTemplate_ReturnsCommandTemplate()
@@ -125,7 +124,7 @@ public class DataObjectListTests
     /// <summary>
     ///     BerEncodingTagLengths_InvokingAsCommandTemplate_ReturnsExpectedCommandTemplate
     /// </summary>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     [Fact]
     public void BerEncodingTagLengths_InvokingAsCommandTemplate_ReturnsExpectedCommandTemplate()

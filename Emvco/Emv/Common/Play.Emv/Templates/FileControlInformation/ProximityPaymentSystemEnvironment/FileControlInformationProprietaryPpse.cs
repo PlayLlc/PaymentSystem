@@ -6,10 +6,9 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
-using Play.Emv.DataElements.Emv.Primitives.Terminal;
+using Play.Emv.DataElements;
 
-namespace Play.Emv.Templates.FileControlInformation.ProximityPaymentSystemEnvironment;
+namespace Play.Emv.Templates;
 
 public class FileControlInformationProprietaryPpse : FileControlInformationProprietaryTemplate
 {
@@ -69,8 +68,8 @@ public class FileControlInformationProprietaryPpse : FileControlInformationPropr
     public static FileControlInformationProprietaryPpse Decode(ReadOnlyMemory<byte> value) => Decode(_Codec.DecodeChildren(value));
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
     public static FileControlInformationProprietaryPpse Decode(EncodedTlvSiblings encodedTlvSiblings)
     {
         FileControlInformationIssuerDiscretionaryDataPpse fciProprietary =

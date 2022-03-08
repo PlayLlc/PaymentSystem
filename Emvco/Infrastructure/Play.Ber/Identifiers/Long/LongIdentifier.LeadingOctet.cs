@@ -28,7 +28,7 @@ internal static partial class LongIdentifier
         /// </remarks>
         /// <param name="value"></param>
         /// <returns cref="ClassType">ClassType</returns>
-        /// <exception cref="BerException"></exception>
+        /// <exception cref="BerParsingException"></exception>
         public static ClassType GetClassType(byte value) => (ClassType) value.GetMaskedValue(ClassType.UnrelatedBits);
 
         /// <summary>
@@ -66,12 +66,12 @@ internal static partial class LongIdentifier
 
         public static bool IsValid(byte value) => IsLongIdentifierFlagPresent(value);
 
-        /// <exception cref="BerException"></exception>
+        /// <exception cref="BerParsingException"></exception>
         public static void Validate(byte value)
         {
             if (!IsLongIdentifierFlagPresent(value))
             {
-                throw new BerFormatException(
+                throw new BerParsingException(
                     $"The {nameof(Tag)} could not be initialized because the argument {PlayCodec.BinaryCodec.DecodeToString(value)} contained an invalid format",
                     new ArgumentOutOfRangeException(nameof(value)));
             }

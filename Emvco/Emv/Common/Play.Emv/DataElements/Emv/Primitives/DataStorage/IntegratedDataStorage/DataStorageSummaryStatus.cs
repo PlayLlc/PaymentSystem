@@ -7,7 +7,7 @@ using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.IntegratedDataStorage;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Information reported by the Kernel to the Terminal about:
@@ -51,7 +51,7 @@ public record DataStorageSummaryStatus : DataElement<byte>
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static DataStorageSummaryStatus Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     #endregion

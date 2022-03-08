@@ -19,8 +19,4 @@
     <ProjectReference Include="..\Play.Emv.Icc\Play.Emv.Icc.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DataObjects\" />
-  </ItemGroup>
-
 </Project>

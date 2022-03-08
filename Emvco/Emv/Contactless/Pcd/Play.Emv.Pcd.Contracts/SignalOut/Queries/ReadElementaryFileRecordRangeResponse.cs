@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 
 using Play.Emv.Sessions;
-using Play.Emv.Templates.Records;
+using Play.Emv.Templates;
 using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;

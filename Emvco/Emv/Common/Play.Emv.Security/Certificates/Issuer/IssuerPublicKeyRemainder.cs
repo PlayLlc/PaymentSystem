@@ -54,7 +54,7 @@ public record IssuerPublicKeyRemainder : PrimitiveValue, IEqualityComparer<Issue
     public static IssuerPublicKeyRemainder Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static IssuerPublicKeyRemainder Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         DecodedResult<byte[]> result = codec.Decode(EncodingId, value) as DecodedResult<byte[]>

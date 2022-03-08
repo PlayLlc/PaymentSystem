@@ -2,8 +2,8 @@
 using System.Linq;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.Primitives.Card;
 using Play.Emv.TestData.Ber.Primitive;
 
 using Xunit;
@@ -18,7 +18,7 @@ public class ProcessingOptionsDataObjectListTests
     ///     BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void BerEncoding_DeserializingDataElement_CreatesPrimitiveValue()
     {
@@ -31,7 +31,7 @@ public class ProcessingOptionsDataObjectListTests
     ///     BerEncoding_EncodingDataElement_SerializesExpectedValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void BerEncoding_EncodingDataElement_SerializesExpectedValue()
     {
@@ -47,7 +47,7 @@ public class ProcessingOptionsDataObjectListTests
     ///     BerEncoding_EncodingDataElementTlv_SerializesExpectedValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void BerEncoding_EncodingDataElementTlv_SerializesExpectedValue()
     {
@@ -63,7 +63,7 @@ public class ProcessingOptionsDataObjectListTests
     ///     BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue()
     {
@@ -78,7 +78,7 @@ public class ProcessingOptionsDataObjectListTests
     ///     TagLengthValue_SerializingToBer_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void TagLengthValue_SerializingToBer_ReturnsExpectedResult()
     {
@@ -95,7 +95,7 @@ public class ProcessingOptionsDataObjectListTests
     ///     TagLengthValue_CreatingDataObjectListResult_IsNotNull
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void TagLengthValue_CreatingDataObjectListResult_IsNotNull()
     {
@@ -111,7 +111,7 @@ public class ProcessingOptionsDataObjectListTests
     ///     TagLengthValue_CreatingDataObjectListResult_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void TagLengthValue_CreatingDataObjectListResult_ReturnsExpectedResult()
     {
@@ -129,7 +129,7 @@ public class ProcessingOptionsDataObjectListTests
     ///     TagLengthValue_CreatingCommandTemplate_IsNotNull
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void TagLengthValue_CreatingCommandTemplate_IsNotNull()
     {
@@ -146,7 +146,7 @@ public class ProcessingOptionsDataObjectListTests
     ///     TagLengthValue_CreatingCommandTemplate_ReturnsExpectedResult
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void TagLengthValue_CreatingCommandTemplate_ReturnsExpectedResult()
     {

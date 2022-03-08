@@ -6,6 +6,8 @@ using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Ber.Lengths;
 
+
+
 namespace Play.Ber.Codecs;
 
 // TODO: You need to consolidate the Decoding in here. Also, the Primitive Value Encoding is confusing as it only encodes
@@ -50,8 +52,8 @@ public partial class BerCodec
     /// <returns>
     ///     <see cref="TagLength" />
     /// </returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerInternalException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     public TagLength DecodeTagLength(ReadOnlySpan<byte> value)
     {
         Tag tag = new(value);
@@ -65,8 +67,8 @@ public partial class BerCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     public TagLengthValue DecodeTagLengthValue(ReadOnlySpan<byte> value)
     {
         Tag tag = new(value);
@@ -82,9 +84,9 @@ public partial class BerCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerInternalException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     public TagLengthValue[] DecodeTagLengthValues(ReadOnlyMemory<byte> value) => DecodeTagLengthValues(value.Span);
 
     /// <summary>
@@ -92,9 +94,9 @@ public partial class BerCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerInternalException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     public TagLengthValue[] DecodeTagLengthValues(ReadOnlySpan<byte> value)
     {
         TagLength[]? tagLengthArray = _TagLengthFactory.GetTagLengthArray(value);
@@ -140,7 +142,7 @@ public partial class BerCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private byte[] EncodeValue(IEncodeBerDataObjects value)
     {
@@ -153,7 +155,7 @@ public partial class BerCodec
         if (value is SetOf setOfValues)
             return EncodeValue(setOfValues);
 
-        throw new BerInternalException("This exception should never be thrown");
+        throw new BerParsingException("This exception should never be thrown");
     }
 
     #endregion

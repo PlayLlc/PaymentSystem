@@ -1,7 +1,5 @@
 ﻿using Play.Emv.Configuration;
-using Play.Emv.DataElements.Emv.Primitives.Acquirer;
-using Play.Emv.DataElements.Emv.Primitives.Merchant;
-using Play.Emv.DataElements.Emv.Primitives.Terminal;
+using Play.Emv.DataElements;
 
 namespace Play.Emv.Terminal.Configuration;
 

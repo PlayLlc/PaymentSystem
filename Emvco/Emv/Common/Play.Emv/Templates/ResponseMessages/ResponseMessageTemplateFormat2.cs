@@ -3,9 +3,10 @@ using System.Linq;
 
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 
-namespace Play.Emv.Templates.ResponseMessages;
+namespace Play.Emv.Templates;
 
 public class ResponseMessageTemplateFormat2 : ConstructedValue
 {
@@ -61,7 +62,7 @@ public class ResponseMessageTemplateFormat2 : ConstructedValue
     /// </summary>
     /// <param name="codec"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public override byte[] EncodeValue(BerCodec codec)
     {
         return _Value.SelectMany(a => a.EncodeTagLengthValue()).ToArray();

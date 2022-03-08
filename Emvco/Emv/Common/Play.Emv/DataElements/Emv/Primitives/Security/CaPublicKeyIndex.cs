@@ -8,7 +8,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Security;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Contains a binary number that indicates which of the application's certification authority public keys and its
@@ -67,14 +67,14 @@ public record CaPublicKeyIndex : DataElement<byte>, IEqualityComparer<CaPublicKe
     public static CaPublicKeyIndex Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="DataElementNullException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataObjectParsingException"></exception>
     public static CaPublicKeyIndex Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         DecodedResult<byte> result = _Codec.Decode(EncodingId, value) as DecodedResult<byte>
-            ?? throw new DataElementNullException(EncodingId);
+            ?? throw new DataObjectParsingException(EncodingId);
 
         return new CaPublicKeyIndex(result.Value);
     }

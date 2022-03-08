@@ -6,7 +6,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.TornTransaction;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates the maximum number of records that can be stored in the Torn Transaction Log.
@@ -39,7 +39,7 @@ public record MaxNumberOfTornTransactionLogRecords : DataElement<byte>
     public static MaxNumberOfTornTransactionLogRecords Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static MaxNumberOfTornTransactionLogRecords Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, 1, Tag);

@@ -7,7 +7,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Security;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Information reported by the Kernel to the Terminal, about the  processing of PUT DATA commands after processing the
@@ -49,7 +49,7 @@ public record PostGenAcPutDataStatus : DataElement<byte>, IEqualityComparer<Post
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static PostGenAcPutDataStatus Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

@@ -20,7 +20,7 @@ public abstract class ConstructedValue : IEncodeBerDataObjects, IRetrieveConstru
     ///     The byte count of the Tag, Length and Value fields for this Constructed TLV object
     /// </summary>
     /// <param name="codec"></param>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="System.InvalidOperationException"></exception>
     public uint GetTagLengthValueByteCount(BerCodec codec)
     {

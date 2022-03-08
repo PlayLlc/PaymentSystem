@@ -1,4 +1,5 @@
 ﻿using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataObjects;
 
@@ -30,7 +31,7 @@ public class DataObjectListResult : IEqualityComparer<DataObjectListResult>, IEq
     ///     AsByteArray
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public byte[] AsByteArray()
     {
         return _Value.SelectMany(a => a.EncodeTagLengthValue()).ToArray();
@@ -40,7 +41,7 @@ public class DataObjectListResult : IEqualityComparer<DataObjectListResult>, IEq
     ///     AsCommandTemplate
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public CommandTemplate AsCommandTemplate()
     {
         List<byte> buffer = new();

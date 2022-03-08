@@ -5,9 +5,9 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+using Play.Emv.DataElements;
 
-namespace Play.Emv.Templates.ResponseMessages.ProcessingOptionsResponse;
+namespace Play.Emv.Templates;
 
 public class ProcessingOptions : ResponseMessageTemplate
 {
@@ -60,7 +60,7 @@ public class ProcessingOptions : ResponseMessageTemplate
     public static ProcessingOptions Decode(ReadOnlyMemory<byte> rawBer) => Decode(_Codec.DecodeChildren(rawBer));
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private static ProcessingOptions Decode(EncodedTlvSiblings encodedTlvSiblings)
     {
         ApplicationFileLocator applicationFileLocator =

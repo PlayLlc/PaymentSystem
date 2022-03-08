@@ -3,7 +3,7 @@
 using Play.Emv.Icc;
 using Play.Emv.Icc.FileControlInformation;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Templates.FileControlInformation.DirectoryDefinitionFile;
+using Play.Emv.Templates;
 
 namespace Play.Emv.Pcd;
 

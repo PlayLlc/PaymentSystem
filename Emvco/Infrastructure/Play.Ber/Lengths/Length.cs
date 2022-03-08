@@ -8,6 +8,8 @@ using Play.Ber.Lengths.Short;
 using Play.Codecs;
 using Play.Core.Extensions;
 
+
+
 namespace Play.Ber.Lengths;
 
 public readonly struct Length
@@ -23,8 +25,8 @@ public readonly struct Length
     /// <summary>
     ///     Takes a sequence of content octets and creates a Length object
     /// </summary>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     internal Length(ReadOnlySpan<byte> contentOctets)
     {
         Span<byte> encodedContentOctets = Serialize(contentOctets);
@@ -41,9 +43,9 @@ public readonly struct Length
         _Value = PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(encodedContentOctets[..LongLength.GetByteCount(encodedContentOctets)]);
     }
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     internal Length(uint value)
     {
         if (ShortLength.IsValid((byte) value))
@@ -109,13 +111,13 @@ public readonly struct Length
     /// <param name="berLength"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     internal static Length Parse(ReadOnlySpan<byte> berLength)
     {
         if (berLength.Length == 0)
         {
-            throw new BerFormatException(new ArgumentOutOfRangeException(nameof(berLength),
+            throw new BerParsingException(new ArgumentOutOfRangeException(nameof(berLength),
                 $"A {nameof(Length)} object cannot be initialized with an empty {nameof(berLength)} argument "));
         }
 
@@ -149,12 +151,12 @@ public readonly struct Length
     /// <param name="contentOctets"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    /// <exception cref="BerFormatException"></exception>
+    
     internal static byte[] Serialize(ReadOnlySpan<byte> contentOctets)
     {
         if (contentOctets.Length > LongLength.MaxLengthSupported)
         {
-            throw new BerFormatException(new ArgumentOutOfRangeException(nameof(contentOctets),
+            throw new BerParsingException(new ArgumentOutOfRangeException(nameof(contentOctets),
                 $"This code base supports a TLV with a maximum Length field with {LongLength.MaxLengthSupported} bytes"));
         }
 

@@ -63,7 +63,7 @@ public record DataNeeded : DataExchangeRequest
     public static DataNeeded Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static DataNeeded Decode(ReadOnlySpan<byte> value)
     {
         if (value.IsEmpty)

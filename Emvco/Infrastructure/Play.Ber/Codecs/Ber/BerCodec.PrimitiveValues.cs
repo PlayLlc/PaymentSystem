@@ -3,6 +3,7 @@
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Core.Exceptions;
@@ -58,7 +59,7 @@ public partial class BerCodec
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerInternalException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     public DecodedMetadata Decode(PlayEncodingId codecIdentifier, ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -88,7 +89,7 @@ public partial class BerCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public byte[] EncodeTagLengthValue(PrimitiveValue value, int length)
     {
         ReadOnlySpan<byte> contentOctets = value.EncodeValue(this, length);
@@ -102,7 +103,7 @@ public partial class BerCodec
     /// <param name="value"></param>
     /// <param name="contentOctets"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private byte[] EncodeTagLengthValue(PrimitiveValue value, ReadOnlySpan<byte> contentOctets)
     {
         TagLength tagLength = new(value.GetTag(), contentOctets);
@@ -131,7 +132,7 @@ public partial class BerCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public byte[] EncodeTagLengthValue(PrimitiveValue value)
     {
         ReadOnlySpan<byte> contentOctets = value.EncodeValue(this);

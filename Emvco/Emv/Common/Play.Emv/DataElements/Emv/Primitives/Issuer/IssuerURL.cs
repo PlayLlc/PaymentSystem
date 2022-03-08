@@ -7,7 +7,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Issuer;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     The URL provides the location of the Issuer�s Library Server on the Internet.
@@ -41,7 +41,7 @@ public record IssuerUrl : DataElement<char[]>, IEqualityComparer<IssuerUrl>
     public static IssuerUrl Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static IssuerUrl Decode(ReadOnlySpan<byte> value)
     {
         DecodedResult<char[]> result = _Codec.Decode(EncodingId, value) as DecodedResult<char[]>

@@ -4,6 +4,9 @@ using Play.Core.Exceptions;
 
 namespace Play.Codecs.Exceptions;
 
+/// <summary>
+/// When there's a problem encoding or decoding due to a format error
+/// </summary>
 public class CodecParsingException : PlayException
 {
     #region Static Metadata
@@ -22,6 +25,15 @@ public class CodecParsingException : PlayException
     #endregion
 
     #region Constructor
+    public CodecParsingException(
+        PlayCodec codec,
+        Type encodedType,
+        [CallerFilePath] string fileName = "",
+        [CallerMemberName] string memberName = "",
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(CodecParsingException), fileName, memberName, lineNumber)} "
+        + $"The {codec.GetType().Name} does not have the capability to {memberName} the type: [{encodedType.Name}]")
+    { }
 
     public CodecParsingException(
         string message,

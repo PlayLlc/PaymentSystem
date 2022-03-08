@@ -1,4 +1,4 @@
-﻿using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+﻿using Play.Emv.DataElements;
 using Play.Emv.Sessions;
 using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Messaging;

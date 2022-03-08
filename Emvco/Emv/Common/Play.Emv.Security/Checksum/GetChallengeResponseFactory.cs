@@ -3,7 +3,7 @@
 using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Emv.Ber;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+using Play.Emv.DataElements;
 using Play.Emv.Icc;
 
 namespace Play.Emv.Security.Checksum;
@@ -33,7 +33,7 @@ public class GetChallengeResponseFactory : TemplateFactory<GetChallengeResponseM
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerInternalException"></exception>
+    
     public override GetChallengeResponseMessage Create(RApduSignal value)
     {
         EncodedTlvSiblings encodedTlvSiblings = _Codec.DecodeSiblings(value.GetData());

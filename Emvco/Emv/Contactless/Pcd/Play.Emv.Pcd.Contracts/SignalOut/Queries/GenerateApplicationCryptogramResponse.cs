@@ -2,13 +2,12 @@
 using System.Linq;
 
 using Play.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
-using Play.Emv.DataElements.Emv.Primitives.Issuer;
-using Play.Emv.DataElements.Emv.Primitives.Security;
+using Play.Ber.Exceptions;
+using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc.GenerateApplicationCryptogram;
 using Play.Emv.Sessions;
-using Play.Emv.Templates.ResponseMessages;
+using Play.Emv.Templates;
 using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;
@@ -39,8 +38,8 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
     /// <param name="transactionSessionId"></param>
     /// <param name="response"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
-    /// <exception cref="DataElementNullException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataObjectParsingException"></exception>
     public GenerateApplicationCryptogramResponse(
         CorrelationId correlation,
         TransactionSessionId transactionSessionId,
@@ -81,8 +80,8 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
     /// <param name="rapdu"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
-    /// <exception cref="DataElementNullException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataObjectParsingException"></exception>
     private static GenerateApplicationCryptogramResponseMetadata DecodeData(GenerateApplicationCryptogramRApduSignal rapdu)
     {
         TagLengthValue[] a = ResponseMessageTemplate.DecodeData(rapdu);

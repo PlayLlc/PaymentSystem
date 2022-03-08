@@ -10,7 +10,7 @@ using Play.Emv.Ber.DataObjects;
 using Play.Globalization;
 using Play.Globalization.Currency;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Terminal;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates the floor limit in the terminal in conjunction with the AID
@@ -47,7 +47,7 @@ public record TerminalFloorLimit : DataElement<uint>, IEqualityComparer<Terminal
     public static TerminalFloorLimit Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static TerminalFloorLimit Decode(ReadOnlySpan<byte> value)
     {
         if (value.Length != _ByteLength)

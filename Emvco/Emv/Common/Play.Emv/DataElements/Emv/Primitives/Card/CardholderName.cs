@@ -6,7 +6,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Card;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates cardholder name according
@@ -41,7 +41,7 @@ public record CardholderName : DataElement<char[]>, IEqualityComparer<Cardholder
     public static CardholderName Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static CardholderName Decode(ReadOnlySpan<byte> value)
     {
         const ushort minByteLength = 2;

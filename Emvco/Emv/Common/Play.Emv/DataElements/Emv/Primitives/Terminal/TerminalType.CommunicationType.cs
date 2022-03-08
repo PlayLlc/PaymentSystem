@@ -4,7 +4,7 @@ using System.Collections.Immutable;
 
 using Play.Core;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Terminal;
+namespace Play.Emv.DataElements;
 
 public partial record TerminalType
 {

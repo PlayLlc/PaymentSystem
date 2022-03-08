@@ -7,7 +7,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.TornTransaction;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     List of data objects indicating the Terminal data writing  requests to be sent to the Card before processing the
@@ -42,7 +42,7 @@ public record TagsToWriteBeforeGenAc : DataExchangeResponse, IEqualityComparer<T
     public static TagsToWriteBeforeGenAc Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodeTagLengthValues(value));
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static TagsToWriteBeforeGenAc Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodeTagLengthValues(value));
 
     #endregion

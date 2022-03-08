@@ -103,6 +103,6 @@ public class SetOf<T> : SetOf, IReadOnlyList<T> where T : IEncodeBerDataObjects,
     public T this[int index] =>
         _Values.Length != 0
             ? _Values[index]
-            : throw new BerFormatException(new ArgumentOutOfRangeException(nameof(index),
+            : throw new BerParsingException(new ArgumentOutOfRangeException(nameof(index),
                 $"The {nameof(SetOf<T>)} could not retrieve the requested {typeof(T).Name} because the index value [{index}] was out of range"));
 }

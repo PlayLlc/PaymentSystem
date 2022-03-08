@@ -5,7 +5,10 @@ using Play.Codecs.Exceptions;
 
 namespace Play.Ber.Exceptions;
 
-public class BerException : CodecParsingException
+/// <summary>
+/// When there's a problem encoding or decoding a primitive or constructed TLV object due to a format error
+/// </summary>
+public class BerParsingException : CodecParsingException
 {
     #region Static Metadata
 
@@ -18,29 +21,29 @@ public class BerException : CodecParsingException
 
     #region Constructor
 
-    public BerException(
+    public BerParsingException(
         string message,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(BerException), fileName, memberName, lineNumber)} {message}")
+        $"{TraceExceptionMessage(typeof(BerParsingException), fileName, memberName, lineNumber)} {message}")
     { }
 
-    public BerException(
+    public BerParsingException(
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base($"{TraceExceptionMessage(typeof(BerException), fileName, memberName, lineNumber)}",
+        [CallerLineNumber] int lineNumber = 0) : base($"{TraceExceptionMessage(typeof(BerParsingException), fileName, memberName, lineNumber)}",
         innerException)
     { }
 
-    public BerException(
+    public BerParsingException(
         string message,
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(BerException), fileName, memberName, lineNumber)} {message}", innerException)
+        $"{TraceExceptionMessage(typeof(BerParsingException), fileName, memberName, lineNumber)} {message}", innerException)
     { }
 
     #endregion

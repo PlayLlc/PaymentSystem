@@ -1,6 +1,7 @@
 ﻿using System;
 
-using Play.Emv.DataElements.Emv.Primitives.Card;
+using Play.Ber.Exceptions;
+using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.State;
@@ -24,7 +25,7 @@ public partial class WaitingForPdolData : KernelState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public override KernelState Handle(KernelSession session, QueryTerminalResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
@@ -71,7 +72,7 @@ public partial class WaitingForPdolData : KernelState
     /// <param name="pdol"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private bool IsPdolDataMissing(Kernel2Session session, out ProcessingOptionsDataObjectList pdol)
     {
         pdol = ProcessingOptionsDataObjectList.Decode(_KernelDatabase.Get(ProcessingOptionsDataObjectList.Tag).EncodeValue().AsSpan());

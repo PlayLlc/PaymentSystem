@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Play.Ber.Identifiers;
-using Play.Emv.DataElements.Emv.Primitives.DataStorage.TornTransaction;
+using Play.Emv.DataElements;
 using Play.Emv.Pcd.Contracts;
 
 namespace Play.Emv.Pcd.GetData;

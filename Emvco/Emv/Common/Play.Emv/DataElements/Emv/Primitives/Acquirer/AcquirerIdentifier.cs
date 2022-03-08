@@ -9,7 +9,7 @@ using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Acquirer;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Uniquely identifies the acquirer within each payment system
@@ -63,13 +63,13 @@ public record AcquirerIdentifier : DataElement<ulong>, IEqualityComparer<Acquire
     public static AcquirerIdentifier Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="System.Exception"></exception>
     public static AcquirerIdentifier Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result() ?? throw new DataElementNullException(EncodingId);
+        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result() ?? throw new DataObjectParsingException(EncodingId);
 
         return new AcquirerIdentifier(result.Value);
     }

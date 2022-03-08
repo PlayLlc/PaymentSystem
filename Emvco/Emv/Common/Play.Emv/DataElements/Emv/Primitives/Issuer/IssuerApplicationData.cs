@@ -8,7 +8,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Issuer;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Contains proprietary application data for transmission to the issuer in an online transaction. Note: For
@@ -57,7 +57,7 @@ public record IssuerApplicationData : DataElement<BigInteger>, IEqualityComparer
     public static IssuerApplicationData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static IssuerApplicationData Decode(ReadOnlySpan<byte> value)
     {
         const ushort maxByteLength = 32;

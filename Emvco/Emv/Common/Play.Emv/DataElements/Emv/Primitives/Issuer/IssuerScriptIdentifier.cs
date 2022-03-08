@@ -7,7 +7,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Issuer;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Identification of the Issuer Script
@@ -44,7 +44,7 @@ public record IssuerScriptIdentifier : DataElement<uint>, IEqualityComparer<Issu
     public static IssuerScriptIdentifier Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static IssuerScriptIdentifier Decode(ReadOnlySpan<byte> value)
     {
         const ushort byteLength = 4;

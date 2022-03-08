@@ -68,11 +68,11 @@ internal static class ShortLength
     /// </summary>
     /// <param name="contentOctets"></param>
     /// <returns></returns>
-    /// <exception cref="BerFormatException"></exception>
+    
     public static byte Serialize(ReadOnlySpan<byte> contentOctets)
     {
         if (contentOctets.Length > sbyte.MaxValue)
-            throw new BerFormatException(new ArgumentOutOfRangeException());
+            throw new BerParsingException(new ArgumentOutOfRangeException());
 
         return (byte) contentOctets.Length;
     }
@@ -82,11 +82,11 @@ internal static class ShortLength
     /// </summary>
     /// <param name="contentOctetLength"></param>
     /// <returns></returns>
-    /// <exception cref="BerFormatException"></exception>
+    
     public static byte Serialize(byte contentOctetLength)
     {
         if (contentOctetLength > sbyte.MaxValue)
-            throw new BerFormatException(new ArgumentOutOfRangeException());
+            throw new BerParsingException(new ArgumentOutOfRangeException());
 
         return contentOctetLength;
     }

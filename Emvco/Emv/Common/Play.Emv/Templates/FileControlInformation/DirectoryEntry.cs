@@ -7,12 +7,9 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv.Enums;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
-using Play.Emv.DataElements.Emv.Primitives.Kernel;
-using Play.Emv.DataElements.Emv.ValueTypes;
+using Play.Emv.DataElements;
 
-namespace Play.Emv.Templates.FileControlInformation;
+namespace Play.Emv.Templates;
 
 public class DirectoryEntry : Template
 {
@@ -180,7 +177,7 @@ public class DirectoryEntry : Template
 
     public static DirectoryEntry Decode(ReadOnlyMemory<byte> value) => Decode(_Codec.DecodeChildren(value));
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public static DirectoryEntry Decode(EncodedTlvSiblings encodedTlvSiblings)
     {

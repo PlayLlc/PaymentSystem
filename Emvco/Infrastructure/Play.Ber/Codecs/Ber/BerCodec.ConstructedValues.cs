@@ -11,6 +11,8 @@ using Play.Ber.Lengths;
 using Play.Core.Exceptions;
 using Play.Core.Specifications;
 
+
+
 namespace Play.Ber.Codecs;
 
 public partial class BerCodec
@@ -20,7 +22,7 @@ public partial class BerCodec
     /// <param name="index"></param>
     /// <param name="dataElements"></param>
     /// <returns></returns>
-    /// <exception cref="BerFormatException"></exception>
+    
     public IEncodeBerDataObjects[] GetIndexedDataElements(Tag[] index, IEncodeBerDataObjects[] dataElements)
     {
         CheckCore.ForMaximumLength(dataElements, index.Length,
@@ -39,16 +41,16 @@ public partial class BerCodec
 
         if (result.Length < dataElements.Count())
         {
-            throw new BerFormatException(new ArgumentOutOfRangeException(nameof(index),
+            throw new BerParsingException(new ArgumentOutOfRangeException(nameof(index),
                 $"The argument {nameof(index)} has is missing an item in the {nameof(dataElements)} argument. Please ensure that all {nameof(IEncodeBerDataObjects)} children have been indexed"));
         }
 
         return result;
     }
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     public T? AsConstructed<T>(Func<EncodedTlvSiblings, T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings)
         where T : ConstructedValue
     {
@@ -58,9 +60,9 @@ public partial class BerCodec
         return decodeFunc.Invoke(new EncodedTlvSiblings(_TagLengthFactory.GetTagLengthArray(rawValueContent.Span), rawValueContent));
     }
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     public T? AsConstructed<T>(Func<BerCodec, EncodedTlvSiblings, T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings)
         where T : ConstructedValue
     {
@@ -75,9 +77,9 @@ public partial class BerCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     public EncodedTlvSiblings DecodeChildren(ReadOnlyMemory<byte> value)
     {
         TagLength tagLength = _TagLengthFactory.ParseFirst(value.Span);
@@ -110,7 +112,7 @@ public partial class BerCodec
         return checked((ushort) tagLength.GetTagLengthValueByteCount());
     }
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
 
     //public uint GetTagLengthValueByteCount<T>(ConstructedValue value) where T : ConstructedValue => value.GetTagLengthValueByteCount(this);
@@ -125,7 +127,7 @@ public partial class BerCodec
     /// <param name="childIndex"></param>
     /// <param name="children"></param>
     /// <returns></returns>
-    /// <exception cref="BerFormatException"></exception>
+    
     public byte[] EncodeValue(ConstructedValue parent, Tag[] childIndex, params IEncodeBerDataObjects?[] children)
     {
         return EncodeValue(parent, GetIndexedDataElements(childIndex, children.Where(a => a != null).Select(x => x!).ToArray()));
@@ -175,14 +177,14 @@ public partial class BerCodec
     /// <param name="childIndex"></param>
     /// <param name="children"></param>
     /// <returns></returns>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public byte[] EncodeTagLengthValue(ConstructedValue parent, Tag[] childIndex, params IEncodeBerDataObjects?[] children)
     {
         return EncodeTagLengthValue(parent, GetIndexedDataElements(childIndex, children.Where(a => a != null).Select(x => x!).ToArray()));
     }
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public byte[] EncodeTagLengthValue(ConstructedValue parent, params IEncodeBerDataObjects[] children)
     {

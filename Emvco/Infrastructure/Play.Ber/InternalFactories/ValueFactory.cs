@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Play.Ber.Exceptions;
 using Play.Codecs;
 
+
+
 namespace Play.Ber.InternalFactories;
 
 internal sealed class ValueFactory
@@ -32,12 +34,12 @@ internal sealed class ValueFactory
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T value) where T : struct
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
-            throw new BerInternalException(
+            throw new BerParsingException(
                 $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
         }
 
@@ -51,12 +53,12 @@ internal sealed class ValueFactory
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    
     public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T[] value) where T : struct
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
-            throw new BerInternalException(
+            throw new BerParsingException(
                 $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
         }
 
@@ -64,12 +66,12 @@ internal sealed class ValueFactory
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    
     internal byte[] Encode<T>(PlayEncodingId playEncodingId, T value) where T : struct
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
-            throw new BerInternalException(
+            throw new BerParsingException(
                 $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
         }
 
@@ -77,12 +79,12 @@ internal sealed class ValueFactory
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    
     internal byte[] Encode<T>(PlayEncodingId playEncodingId, T[] value) where T : struct
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
-            throw new BerInternalException(
+            throw new BerParsingException(
                 $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
         }
 
@@ -90,12 +92,12 @@ internal sealed class ValueFactory
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    
     internal byte[] Encode<T>(PlayEncodingId playEncodingId, T value, int length) where T : struct
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
-            throw new BerInternalException(
+            throw new BerParsingException(
                 $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
         }
 
@@ -103,12 +105,12 @@ internal sealed class ValueFactory
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    
     internal byte[] Encode<T>(PlayEncodingId playEncodingId, T[] value, int length) where T : struct
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
-            throw new BerInternalException(
+            throw new BerParsingException(
                 $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
         }
 
@@ -125,12 +127,12 @@ internal sealed class ValueFactory
     ///     decoded according to the format requirements of that codec
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    
     public DecodedMetadata Decode(PlayEncodingId playEncodingId, ReadOnlySpan<byte> value)
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
-            throw new BerInternalException(
+            throw new BerParsingException(
                 $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
         }
 

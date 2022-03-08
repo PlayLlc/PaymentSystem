@@ -9,6 +9,8 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Core.Exceptions;
 
+
+
 namespace Play.Ber.InternalFactories;
 
 /// <summary>
@@ -51,7 +53,7 @@ public readonly struct EncodedTlvSiblings
     /// </summary>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     public TagLengthValue[] AsTagLengthValues()
     {
         TagLengthValue[]? result = new TagLengthValue[_ChildMetadata.Length];
@@ -81,7 +83,7 @@ public readonly struct EncodedTlvSiblings
     }
 
     /// <exception cref="EncodingException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     internal Tag GetTag(uint value)
     {
         for (int i = 0; i < _ChildMetadata.Length; i++)
@@ -90,7 +92,7 @@ public readonly struct EncodedTlvSiblings
                 return _ChildMetadata.Span[i].GetTag();
         }
 
-        throw new BerException($"The Tag provided with a value of {value:X} could not be found"
+        throw new BerParsingException($"The Tag provided with a value of {value:X} could not be found"
             + $"from the {nameof(BerConfiguration)} mappings provided. Please make sure your {nameof(PrimitiveValue)} and {nameof(ConstructedValue)} objects have the correct "
             + "tags and try again");
     }
@@ -111,7 +113,7 @@ public readonly struct EncodedTlvSiblings
     /// <param name="tag"></param>
     /// <param name="sequenceNumber"></param>
     /// <returns></returns>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     private ReadOnlyMemory<byte> GetRawTlvForNextInstanceInSetOf(uint tag, int sequenceNumber)
     {
         int offset = 0;
@@ -128,10 +130,10 @@ public readonly struct EncodedTlvSiblings
             offset += _ChildMetadata.Span[i].GetTagLengthValueByteCount();
         }
 
-        throw new BerInternalException("There is an internal error when decoding Sequence Of values");
+        throw new BerParsingException("There is an internal error when decoding Sequence Of values");
     }
 
-    /// <exception cref="BerInternalException">Ignore.</exception>
+    /// <exception cref="BerFormatException">Ignore.</exception>
     private ReadOnlyMemory<byte> GetValueOctetsForNextInstanceInSetOf(uint tag, int sequenceNumber)
     {
         int offset = 0;
@@ -152,7 +154,7 @@ public readonly struct EncodedTlvSiblings
             offset += _ChildMetadata.Span[i].GetTagLengthValueByteCount();
         }
 
-        throw new BerInternalException("There is an internal error when decoding Sequence Of values");
+        throw new BerParsingException("There is an internal error when decoding Sequence Of values");
     }
 
     public int SiblingCount() => _ChildMetadata.Length;
@@ -161,7 +163,7 @@ public readonly struct EncodedTlvSiblings
     ///     Searches for all children with the tag provided and returns the raw encoded value content
     /// </summary>
     /// ///
-    /// <exception cref="BerInternalException"></exception>
+    
     public bool TryGetRawSetOf(uint tag, out Span<ReadOnlyMemory<byte>> sequenceOfResult)
     {
         int setOfCount = GetSequenceOfCount(tag);
@@ -188,11 +190,11 @@ public readonly struct EncodedTlvSiblings
     /// <param name="tag"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    
     private ReadOnlyMemory<byte> GetValueOctetsOfChild(Tag tag)
     {
         if (!TryGetValueOctetsOfChild(tag, out ReadOnlyMemory<byte> encodedChild))
-            throw new BerInternalException($"The {nameof(EncodedTlvSiblings)} did not contain a sibling with the tag {tag.ToString()}");
+            throw new BerParsingException($"The {nameof(EncodedTlvSiblings)} did not contain a sibling with the tag {tag.ToString()}");
 
         return encodedChild;
     }

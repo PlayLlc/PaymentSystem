@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Play.Ber.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Icc.FileControlInformation;
 using Play.Emv.TestData.Icc.Apdu;
@@ -41,7 +42,7 @@ public class GetFileControlInformationCApduSignalTests
     ///     CApduSignal_InitializingWithDedicatedFileName_CreatesExpectedResult
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void CApduSignal_InitializingWithDedicatedFileName_CreatesExpectedResult()
     {

@@ -38,8 +38,8 @@ public class Kernel2Database : KernelDatabase
     /// </summary>
     /// <param name="kernelSessionId"></param>
     /// <param name="transaction"></param>
-    /// <exception cref="BerInternalException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public override void Activate(KernelSessionId kernelSessionId, Transaction transaction)
     {

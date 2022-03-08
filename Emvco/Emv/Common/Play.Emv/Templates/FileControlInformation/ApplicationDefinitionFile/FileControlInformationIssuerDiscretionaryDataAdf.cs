@@ -4,10 +4,9 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
-using Play.Emv.DataElements.Emv.Primitives.DataStorage.TornTransaction;
+using Play.Emv.DataElements;
 
-namespace Play.Emv.Templates.FileControlInformation.ApplicationDefinitionFile;
+namespace Play.Emv.Templates;
 
 public class FileControlInformationIssuerDiscretionaryDataAdf : FileControlInformationIssuerDiscretionaryDataTemplate
 {
@@ -69,9 +68,9 @@ public class FileControlInformationIssuerDiscretionaryDataAdf : FileControlInfor
     public static FileControlInformationIssuerDiscretionaryDataAdf Decode(ReadOnlyMemory<byte> value) =>
         Decode(_Codec.DecodeChildren(value));
 
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
     public static FileControlInformationIssuerDiscretionaryDataAdf Decode(EncodedTlvSiblings encodedTlvSiblings) =>
         new(_Codec.AsPrimitive(LogEntry.Decode, LogEntry.Tag, encodedTlvSiblings),
             _Codec.AsPrimitive(ApplicationCapabilitiesInformation.Decode, ApplicationCapabilitiesInformation.Tag, encodedTlvSiblings));

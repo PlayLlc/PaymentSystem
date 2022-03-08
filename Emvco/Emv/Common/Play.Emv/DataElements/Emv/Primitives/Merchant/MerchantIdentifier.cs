@@ -6,7 +6,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Merchant;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     When concatenated with the Acquirer EncodingId, uniquely identifies a given merchant
@@ -39,7 +39,7 @@ public record MerchantIdentifier : DataElement<char[]>, IEqualityComparer<Mercha
     public static MerchantIdentifier Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static MerchantIdentifier Decode(ReadOnlySpan<byte> value)
     {
         const ushort byteLength = 15;

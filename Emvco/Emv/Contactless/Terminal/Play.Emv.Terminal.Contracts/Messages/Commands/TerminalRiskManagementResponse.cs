@@ -1,4 +1,4 @@
-﻿using Play.Emv.DataElements.Emv.ValueTypes;
+﻿using Play.Emv.DataElements;
 
 namespace Play.Emv.Terminal.Contracts.Messages.Commands;
 

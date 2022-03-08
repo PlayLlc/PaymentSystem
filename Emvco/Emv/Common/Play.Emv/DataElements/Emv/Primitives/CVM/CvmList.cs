@@ -5,11 +5,9 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Ber.Exceptions;
-using Play.Emv.DataElements.Emv.Primitives.Card;
-using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.CVM;
+namespace Play.Emv.DataElements;
 
 public record CvmList : DataElement<byte[]>
 {
@@ -63,7 +61,7 @@ public record CvmList : DataElement<byte[]>
     public static CvmList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static CvmList Decode(ReadOnlySpan<byte> value) => new(value);
 
     #endregion

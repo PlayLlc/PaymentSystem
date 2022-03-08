@@ -48,12 +48,12 @@ internal static partial class LongLength
         ///     Validate
         /// </summary>
         /// <param name="value"></param>
-        /// <exception cref="BerInternalException"></exception>
+        /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
         public static void Validate(ReadOnlySpan<byte> value)
         {
             if (!IsLengthSupportedInThisCodeBase(value))
             {
-                throw new BerInternalException(
+                throw new BerParsingException(
                     "This is embarrassing. The length of the TLV content is outside of what is currently supported in this code base");
             }
         }
@@ -62,12 +62,12 @@ internal static partial class LongLength
         ///     Validate
         /// </summary>
         /// <param name="value"></param>
-        /// <exception cref="BerInternalException"></exception>
+        
         public static void Validate(in uint value)
         {
             if (!IsLengthSupportedInThisCodeBase(value))
             {
-                throw new BerInternalException(
+                throw new BerParsingException(
                     $"This code base currently only supports a long Length with Subsequent Octets of {MaxByteCount} bytes or less");
             }
         }

@@ -8,7 +8,7 @@ using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Card.Icc;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     The value to be appended to the ADF Name in the data field of the SELECT command, if the Extended Selection Support
@@ -48,7 +48,7 @@ public record ExtendedSelection : DataElement<byte[]>, IEqualityComparer<Extende
     public static ExtendedSelection Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static ExtendedSelection Decode(ReadOnlySpan<byte> value) => new(value);
 
     #endregion

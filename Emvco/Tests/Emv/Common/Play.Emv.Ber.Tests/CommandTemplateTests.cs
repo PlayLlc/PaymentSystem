@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.TestData.Ber.Constructed;
 using Play.Emv.TestData.Ber.Primitive;
@@ -16,7 +17,7 @@ public class CommandTemplateTests
     ///     NullBerEncoding_DeserializingCommandTemplate_CreatesCommandTemplate
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void NullBerEncoding_DeserializingCommandTemplate_CreatesCommandTemplate()
     {
@@ -28,7 +29,7 @@ public class CommandTemplateTests
     ///     PrimitiveBerEncoding_DeserializingCommandTemplate_CreatesCommandTemplate
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void PrimitiveBerEncoding_DeserializingCommandTemplate_CreatesCommandTemplate()
     {
@@ -42,7 +43,7 @@ public class CommandTemplateTests
     ///     ConstructedBerEncoding_DeserializingCommandTemplate_CreatesCommandTemplate
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void ConstructedBerEncoding_DeserializingCommandTemplate_CreatesCommandTemplate()
     {

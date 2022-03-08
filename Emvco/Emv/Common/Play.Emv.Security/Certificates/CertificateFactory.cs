@@ -1,10 +1,10 @@
-﻿using Play.Emv.DataElements.Emv.Primitives.Issuer;
+﻿using Play.Emv.DataElements;
 using Play.Emv.Security.Authentications.Static;
 using Play.Emv.Security.Certificates.Icc;
 using Play.Emv.Security.Certificates.Issuer;
 using Play.Encryption.Signing;
 
-using PrimaryAccountNumber = Play.Emv.DataElements.Interchange.Primitives.PrimaryAccountNumber;
+using PrimaryAccountNumber = Play.Emv.DataElements.PrimaryAccountNumber;
 
 namespace Play.Emv.Security.Certificates;
 

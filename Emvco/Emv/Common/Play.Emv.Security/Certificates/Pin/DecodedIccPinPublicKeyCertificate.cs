@@ -1,4 +1,4 @@
-﻿using Play.Emv.DataElements.Emv.Primitives.Issuer;
+﻿using Play.Emv.DataElements;
 using Play.Encryption.Certificates;
 using Play.Encryption.Hashing;
 using Play.Globalization.Time;

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
-namespace Play.Emv.DataElements.Emv.ValueTypes;
+namespace Play.Emv.DataElements;
 
 public readonly struct StatusOutcome
 {

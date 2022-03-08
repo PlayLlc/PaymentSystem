@@ -6,7 +6,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Card.Magstripe;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     PunatcTrack2 stands for 'Position Of Unpredictable Number And Application Transaction Counter (Track2)'.
@@ -42,13 +42,13 @@ public record PunatcTrack2 : DataElement<ushort>
     public static PunatcTrack2 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="System.Exception"></exception>
     public static PunatcTrack2 Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _ByteLength, Tag);
 
-        DecodedResult<ushort> result = _Codec.Decode(EncodingId, value).ToUInt16Result() ?? throw new DataElementNullException(EncodingId);
+        DecodedResult<ushort> result = _Codec.Decode(EncodingId, value).ToUInt16Result() ?? throw new DataObjectParsingException(EncodingId);
 
         return new PunatcTrack2(result.Value);
     }

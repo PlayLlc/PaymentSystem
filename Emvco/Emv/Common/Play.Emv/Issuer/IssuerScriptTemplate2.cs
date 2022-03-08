@@ -53,7 +53,7 @@ public record IssuerScriptTemplate2 : PrimitiveValue, IEqualityComparer<IssuerSc
     public static IssuerScriptTemplate2 Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static IssuerScriptTemplate2 Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         DecodedResult<BigInteger> result = codec.Decode(EncodingId, value) as DecodedResult<BigInteger>

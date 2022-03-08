@@ -1,8 +1,7 @@
 ﻿using System;
 
 using Play.Codecs;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icc;
-using Play.Emv.DataElements.Emv.Primitives.Security;
+using Play.Emv.DataElements;
 using Play.Encryption.Hashing;
 
 namespace Play.Emv.Security.Authentications.Offline.CombinedDataAuthentication;

@@ -1,4 +1,5 @@
-﻿using Play.Ber.Identifiers;
+﻿using Play.Ber.Exceptions;
+using Play.Ber.Identifiers;
 using Play.Ber.Identifiers.Long;
 using Play.Ber.Identifiers.Short;
 using Play.Ber.Tests.TestData;
@@ -87,7 +88,7 @@ public partial class TagTests
     /// <summary>
     ///     Byte_WithValueLessThan31_CreatesTagWithCorrectTagNumber
     /// </summary>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void Byte_WithValueLessThan31_CreatesTagWithCorrectTagNumber()
     {
@@ -181,7 +182,7 @@ public partial class TagTests
     /// <summary>
     ///     RandomByte_WithValueLessThan31_CreatesTagWithCorrectTagNumber
     /// </summary>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void RandomByte_WithValueLessThan31_CreatesTagWithCorrectTagNumber()
     {
@@ -198,7 +199,7 @@ public partial class TagTests
     /// <summary>
     ///     RandomShortIdentifierComponentParts_WhenInitializing_CreatesByteWithCorrectValue
     /// </summary>
-    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void RandomShortIdentifierComponentParts_WhenInitializing_CreatesByteWithCorrectValue()
     {
