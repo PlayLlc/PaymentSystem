@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Emv.DataElements.Emv;
+using Play.Emv.Icc;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;

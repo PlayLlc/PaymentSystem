@@ -1,4 +1,7 @@
-﻿using Play.Emv.Sessions;
+﻿using Play.Emv.Icc;
+using Play.Emv.Icc.ReadRecord;
+using Play.Emv.Sessions;
+using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;

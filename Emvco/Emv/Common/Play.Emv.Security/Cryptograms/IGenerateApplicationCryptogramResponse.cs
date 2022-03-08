@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Icc;
 
 namespace Play.Emv.Security.Cryptograms;
 

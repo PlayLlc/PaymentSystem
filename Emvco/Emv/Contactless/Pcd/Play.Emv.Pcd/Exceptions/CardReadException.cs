@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
+using Play.Icc.Exceptions;
+
 namespace Play.Emv.Pcd.Exceptions;
 
 public class CardReadException : Iso7816Exception

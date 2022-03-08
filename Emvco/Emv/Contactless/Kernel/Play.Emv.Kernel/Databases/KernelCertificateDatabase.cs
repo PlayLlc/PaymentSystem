@@ -5,6 +5,7 @@ using System.Linq;
 using Play.Emv.DataElements.Emv;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Security.Certificates;
+using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Kernel.Databases;
 

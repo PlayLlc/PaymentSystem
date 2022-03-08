@@ -1,5 +1,6 @@
 ﻿using Play.Emv.DataElements.Emv;
 using Play.Emv.Security.Certificates;
+using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Kernel.Databases;
 

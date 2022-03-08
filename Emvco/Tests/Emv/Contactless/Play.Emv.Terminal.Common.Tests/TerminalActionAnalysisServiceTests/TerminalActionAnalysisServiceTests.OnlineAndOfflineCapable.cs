@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 
 using Play.Emv.DataElements.Emv;
+using Play.Emv.Icc;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Common.Services.TerminalActionAnalysis.Terminal;
 using Play.Emv.Terminal.Contracts.Messages.Commands;

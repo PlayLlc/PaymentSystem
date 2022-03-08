@@ -1,4 +1,5 @@
-﻿using Play.Emv.Sessions;
+﻿using Play.Emv.Icc.ReadRecord;
+using Play.Emv.Sessions;
 using Play.Emv.Templates.Records;
 using Play.Messaging;
 

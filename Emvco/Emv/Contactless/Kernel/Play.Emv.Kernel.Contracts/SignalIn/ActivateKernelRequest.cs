@@ -10,6 +10,8 @@ using Play.Globalization;
 using Play.Globalization.Country;
 using Play.Globalization.Currency;
 using Play.Globalization.Language;
+using Play.Icc.FileSystem.DedicatedFiles;
+using Play.Icc.Messaging.Apdu;
 using Play.Messaging;
 
 namespace Play.Emv.Kernel.Contracts;

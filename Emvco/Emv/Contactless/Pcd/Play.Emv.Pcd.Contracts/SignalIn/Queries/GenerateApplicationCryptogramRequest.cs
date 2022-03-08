@@ -1,5 +1,7 @@
 ﻿using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements.Emv;
+using Play.Emv.Icc;
+using Play.Emv.Icc.GenerateApplicationCryptogram;
 using Play.Emv.Sessions;
 using Play.Messaging;
 

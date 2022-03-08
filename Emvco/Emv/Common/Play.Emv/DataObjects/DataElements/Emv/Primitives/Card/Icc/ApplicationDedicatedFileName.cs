@@ -6,6 +6,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
+using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.DataElements.Emv;
 

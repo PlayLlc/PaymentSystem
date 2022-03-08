@@ -4,6 +4,7 @@ using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Emv.Ber;
 using Play.Emv.DataElements.Emv;
+using Play.Emv.Icc;
 
 namespace Play.Emv.Security.Checksum;
 

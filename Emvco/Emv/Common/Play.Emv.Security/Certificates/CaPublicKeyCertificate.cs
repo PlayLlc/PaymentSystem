@@ -8,6 +8,7 @@ using Play.Emv.DataElements.Emv;
 using Play.Encryption.Certificates;
 using Play.Encryption.Hashing;
 using Play.Globalization.Time;
+using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Security.Certificates;
 

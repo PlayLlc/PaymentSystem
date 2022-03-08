@@ -2,12 +2,14 @@
 
 using Play.Ber.Exceptions;
 using Play.Emv.DataElements.Emv;
+using Play.Emv.Icc;
 using Play.Emv.Security.Authentications.Static.Signed;
 using Play.Emv.Security.Certificates;
 using Play.Emv.Security.Certificates.Issuer;
 using Play.Emv.Security.Messages.Static;
 using Play.Encryption.Certificates;
 using Play.Encryption.Signing;
+using Play.Icc.Messaging.Apdu;
 
 namespace Play.Emv.Security.Authentications.Static;
 

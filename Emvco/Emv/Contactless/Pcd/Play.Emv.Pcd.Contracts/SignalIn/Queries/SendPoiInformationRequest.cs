@@ -1,4 +1,6 @@
 ﻿using Play.Emv.Ber.DataObjects;
+using Play.Emv.Icc;
+using Play.Emv.Icc.SendPoiInformation;
 using Play.Emv.Sessions;
 using Play.Messaging;
 

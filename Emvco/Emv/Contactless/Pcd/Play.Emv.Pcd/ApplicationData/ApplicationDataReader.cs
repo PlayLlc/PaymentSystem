@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using Play.Emv.Pcd.Contracts;
+using Play.Icc.FileSystem.ElementaryFiles;
 
 namespace Play.Emv.Pcd;
 

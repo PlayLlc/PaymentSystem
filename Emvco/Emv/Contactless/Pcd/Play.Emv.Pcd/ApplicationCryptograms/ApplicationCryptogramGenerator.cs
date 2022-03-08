@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 
+using Play.Emv.Icc.GenerateApplicationCryptogram;
 using Play.Emv.Pcd.Contracts;
 
 namespace Play.Emv.Pcd.ApplicationCryptograms;
