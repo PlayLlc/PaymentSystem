@@ -61,6 +61,10 @@ public class S3R1
         }
     }
 
+    /// <summary>
+    /// HandleEmptyApplicationFileLocator
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
     private void HandleEmptyApplicationFileLocator()
     {
         _KernelDatabase.Update(Level2Error.CardDataError);

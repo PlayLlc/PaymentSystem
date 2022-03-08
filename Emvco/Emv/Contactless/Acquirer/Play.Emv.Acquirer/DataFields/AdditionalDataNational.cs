@@ -43,6 +43,7 @@ public record AdditionalDataNational : VariableDataField<char[]>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
+    /// <exception cref="InterchangeException"></exception>
     public override AdditionalDataNational Decode(ReadOnlyMemory<byte> value)
     {
         Check.DataField.ForMaximumLength(value, _MaxByteCount, DataFieldId);

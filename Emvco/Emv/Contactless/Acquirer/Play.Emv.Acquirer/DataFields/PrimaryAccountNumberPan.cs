@@ -45,6 +45,8 @@ public record PrimaryAccountNumberPan : VariableDataField<BigInteger>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
+    /// <exception cref="InterchangeException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     public override PrimaryAccountNumberPan Decode(ReadOnlyMemory<byte> value)
     {
         Check.DataField.ForMaximumLength(value, _MaxByteCount, DataFieldId);

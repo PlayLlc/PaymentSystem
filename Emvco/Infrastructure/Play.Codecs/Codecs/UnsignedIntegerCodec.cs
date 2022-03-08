@@ -363,6 +363,7 @@ public class UnsignedIntegerCodec : PlayCodec
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="PlayEncodingFormatException"></exception>
     public override byte[] Encode<_T>(_T[] value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -518,6 +519,7 @@ public class UnsignedIntegerCodec : PlayCodec
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
     /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="PlayEncodingFormatException"></exception>
     public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
     {
         if (typeof(_T).IsChar())

@@ -37,6 +37,7 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
     /// <param name="response"></param>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="Play.Emv.DataElements.Exceptions.DataElementNullException"></exception>
     public GenerateApplicationCryptogramResponse(
         CorrelationId correlation,
         TransactionSessionId transactionSessionId,

@@ -63,6 +63,7 @@ public partial class Idle : KernelState
     #region S1.7
 
     /// <remarks>Book C-2 Section 6.3.3 S1.7</remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     private void UpdateLanguagePreferences(Kernel2Session session, FileControlInformationAdf fci)
     {
         if (fci.TryGetLanguagePreference(out LanguagePreference? languagePreference))
@@ -74,6 +75,7 @@ public partial class Idle : KernelState
     }
 
     /// <remarks>Book C-2 Section 6.3.3 - S1.7</remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     private void HandleBerEncodingException(CorrelationId correlationId, KernelSessionId kernelSessionId)
     {
         OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
@@ -243,6 +245,7 @@ public partial class Idle : KernelState
     #region S1.12
 
     /// <remarks>Book C-2 Section 6.3.3 - S1.12</remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     public void HandleProcessingOptionsDataObjectList(Kernel2Session session, FileControlInformationAdf fci)
     {
         if (fci.TryGetProcessingOptionsDataObjectList(out ProcessingOptionsDataObjectList? pdol))
@@ -344,6 +347,7 @@ public partial class Idle : KernelState
 
     /// <remarks>Book C-2 Section 6.3.3  S1.17</remarks>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerException"></exception>
     public void HandleDataStorageVersionNumberTerm(Kernel2Session session)
     {
         if (!_KernelDatabase.IsPresentAndNotEmpty(DataStorageVersionNumberTerm.Tag))
@@ -454,6 +458,7 @@ public partial class Idle : KernelState
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
+    /// <exception cref="Play.Emv.DataElements.Exceptions.DataElementNullException"></exception>
     private KernelState HandlePdolData(Kernel2Session session)
     {
         if (session.IsPdolDataMissing())

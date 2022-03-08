@@ -48,6 +48,7 @@ public record DataStorageId : DataElement<BigInteger>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+    /// <exception cref="DataElementNullException"></exception>
     public static DataStorageId Decode(ReadOnlySpan<byte> value)
     {
         const byte minCharLength = 16;

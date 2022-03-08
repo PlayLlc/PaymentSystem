@@ -21,6 +21,11 @@ public class UnsignedIntegerTests
 
     #region Instance Members
 
+    /// <summary>
+    /// RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult
+    /// </summary>
+    /// <param name="testValue"></param>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingFormatException"></exception>
     [Theory]
     [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(UnsignedIntegerFixture))]
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)

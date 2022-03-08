@@ -392,6 +392,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerException"></exception>
     public void Update(UserInterfaceRequestData.Builder value)
     {
         UserInterfaceRequestData? userInterfaceRequestData = GetUserInterfaceRequestData();

@@ -27,6 +27,7 @@ public partial class WaitingForPdolData : KernelState
     /// <param name="signal"></param>
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public override KernelState Handle(KernelSession session, QueryTerminalResponse signal)
     {
         HandleRequestOutOfSync(session, signal);

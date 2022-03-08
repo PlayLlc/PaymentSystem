@@ -203,6 +203,7 @@ internal class SelectionStateMachine
     /// </summary>
     /// <param name="request"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="InvalidSignalRequest"></exception>
     public void Handle(ActivateSelectionRequest request)
     {
         lock (_Lock)

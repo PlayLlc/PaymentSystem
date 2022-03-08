@@ -23,6 +23,10 @@ public partial class TerminalActionAnalysisServiceTests
 
     #region Constructor
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public TerminalActionAnalysisServiceTests()
     {
         _Fixture = new Fixture();

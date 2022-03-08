@@ -198,6 +198,7 @@ public class AlphabeticCodec : PlayCodec
     }
 
     /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public override byte[] Encode<T>(T[] value, int length) where T : struct
     {
         if (typeof(T) == typeof(char))
@@ -319,6 +320,7 @@ public class AlphabeticCodec : PlayCodec
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
     /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) == typeof(char))

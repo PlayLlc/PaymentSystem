@@ -34,6 +34,7 @@ public record GenerateApplicationCryptogramRequest : QueryPcdRequest
     /// <param name="dataStorageDataObjectListResult"></param>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     public static GenerateApplicationCryptogramRequest Create(
         TransactionSessionId sessionId,
         CryptogramInformationData cryptogramInformationData,

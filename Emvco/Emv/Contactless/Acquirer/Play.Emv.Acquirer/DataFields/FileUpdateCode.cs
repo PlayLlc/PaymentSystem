@@ -40,6 +40,7 @@ public record FileUpdateCode : FixedDataField<char[]>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
+    /// <exception cref="InterchangeException"></exception>
     public override FileUpdateCode Decode(ReadOnlyMemory<byte> value)
     {
         Check.DataField.ForExactLength(value, _ByteCount, DataFieldId);

@@ -16,6 +16,12 @@ public class NumericCodec : PlayCodec
 
     #region Decode To DecodedMetadata
 
+    /// <summary>
+    /// Decode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="PlayEncodingException"></exception>
     public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
     {
         ReadOnlySpan<byte> trimmedValue = value.TrimStart((byte) 0);
@@ -577,6 +583,14 @@ public class NumericCodec : PlayCodec
             throw new InternalPlayEncodingException(this, typeof(_T));
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="PlayEncodingException"></exception>
     public void Encode(ReadOnlySpan<char> value, int length, Span<byte> buffer, ref int offset)
     {
         int byteSize = (value.Length / 2) + (value.Length % 2);
@@ -737,6 +751,13 @@ public class NumericCodec : PlayCodec
         return result;
     }
 
+    /// <summary>
+    /// BuildInteger
+    /// </summary>
+    /// <param name="resultBuffer"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="PlayEncodingException"></exception>
     private dynamic BuildInteger(dynamic resultBuffer, ReadOnlySpan<byte> value)
     {
         if (resultBuffer != byte.MinValue)

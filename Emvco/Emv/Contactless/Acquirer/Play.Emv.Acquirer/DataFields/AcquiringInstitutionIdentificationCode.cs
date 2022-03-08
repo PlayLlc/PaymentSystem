@@ -45,6 +45,8 @@ public record AcquiringInstitutionIdentificationCode : VariableDataField<BigInte
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
+    /// <exception cref="InterchangeException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     public override AcquiringInstitutionIdentificationCode Decode(ReadOnlyMemory<byte> value)
     {
         Check.DataField.ForMaximumLength(value, _MaxByteCount, DataFieldId);

@@ -10,6 +10,13 @@ public partial class Idle : KernelState
 {
     #region STOP
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <returns></returns>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
         if (!_KernelDatabase.GetErrorIndication().IsErrorPresent())

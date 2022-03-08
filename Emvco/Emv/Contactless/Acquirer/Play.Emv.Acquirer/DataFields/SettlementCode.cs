@@ -40,6 +40,8 @@ public record SettlementCode : FixedDataField<byte>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
+    /// <exception cref="InterchangeException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     public override SettlementCode Decode(ReadOnlyMemory<byte> value)
     {
         Check.DataField.ForExactLength(value, _ByteCount, DataFieldId);

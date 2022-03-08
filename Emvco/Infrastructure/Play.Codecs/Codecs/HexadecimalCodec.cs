@@ -402,6 +402,7 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
     /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="PlayEncodingException"></exception>
     public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
@@ -422,6 +423,7 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
     /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="PlayEncodingException"></exception>
     public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);

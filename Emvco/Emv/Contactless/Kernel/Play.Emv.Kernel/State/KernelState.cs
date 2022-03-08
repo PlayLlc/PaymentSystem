@@ -55,6 +55,12 @@ public abstract class KernelState
 
     #region Exception Handling
 
+    /// <summary>
+    /// HandleBerEncodingException
+    /// </summary>
+    /// <param name="correlationId"></param>
+    /// <param name="kernelSessionId"></param>
+    /// <exception cref="System.InvalidOperationException"></exception>
     private void HandleBerEncodingException(CorrelationId correlationId, KernelSessionId kernelSessionId)
     {
         OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();

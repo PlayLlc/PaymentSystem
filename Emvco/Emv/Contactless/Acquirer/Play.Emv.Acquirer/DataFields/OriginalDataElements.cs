@@ -42,6 +42,8 @@ public record OriginalDataElements : FixedDataField<BigInteger>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
+    /// <exception cref="InterchangeException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     public override OriginalDataElements Decode(ReadOnlyMemory<byte> value)
     {
         Check.DataField.ForExactLength(value, _ByteCount, DataFieldId);

@@ -93,6 +93,7 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="BerInternalException"></exception>
     public static TerminalType Decode(ReadOnlyMemory<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

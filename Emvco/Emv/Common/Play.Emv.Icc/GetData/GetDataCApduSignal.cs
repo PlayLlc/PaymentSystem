@@ -37,6 +37,7 @@ public class GetDataCApduSignal : CApduSignal
     /// </param>
     /// <returns></returns>
     /// <exception cref="Play.Icc.Exceptions.Iso7816Exception"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     public static GetDataCApduSignal Create(Tag tag)
     {
         GetDataApduCommand cApdu = GetDataApduCommand.Create(ProprietaryMessageIdentifier._8x, tag);

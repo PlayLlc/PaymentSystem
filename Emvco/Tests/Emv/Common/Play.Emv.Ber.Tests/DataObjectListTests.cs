@@ -22,6 +22,7 @@ public class DataObjectListTests
     /// BerEncodingTagLengths_Deserializing_CreatesDataObjectList
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     [Fact]
     public void BerEncodingTagLengths_Deserializing_CreatesDataObjectList()
     {
@@ -36,6 +37,7 @@ public class DataObjectListTests
     /// BerEncodingTagLengths_InvokingGetRequestedItems_ReturnsExpectedTags
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     [Fact]
     public void BerEncodingTagLengths_InvokingGetRequestedItems_ReturnsExpectedTags()
     {
@@ -55,6 +57,7 @@ public class DataObjectListTests
     /// BerEncodingNullTagLengths_InvokingGetRequestedItems_ReturnsExpectedTagLengthPairs
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     [Fact]
     public void BerEncodingNullTagLengths_InvokingGetRequestedItems_ReturnsExpectedTagLengthPairs()
     {
@@ -82,6 +85,7 @@ public class DataObjectListTests
     /// BerEncodingTagLengths_InvokingGetRequestedItems_ReturnsExpectedLength
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     [Fact]
     public void BerEncodingTagLengths_InvokingGetRequestedItems_ReturnsExpectedLength()
     {
@@ -104,6 +108,7 @@ public class DataObjectListTests
     /// BerEncodingTagLengths_InvokingAsCommandTemplate_ReturnsCommandTemplate
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     [Fact]
     public void BerEncodingTagLengths_InvokingAsCommandTemplate_ReturnsCommandTemplate()
     {
@@ -119,6 +124,7 @@ public class DataObjectListTests
     /// BerEncodingTagLengths_InvokingAsCommandTemplate_ReturnsExpectedCommandTemplate
     /// </summary>
     /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     [Fact]
     public void BerEncodingTagLengths_InvokingAsCommandTemplate_ReturnsExpectedCommandTemplate()
     {

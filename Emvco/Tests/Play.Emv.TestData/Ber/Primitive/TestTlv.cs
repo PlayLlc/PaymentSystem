@@ -19,6 +19,12 @@ public abstract class TestTlv
         _ContentOctets = contentOctets;
     }
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="childRank"></param>
+    /// <param name="children"></param>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     protected TestTlv(Tag[] childRank, params TestTlv[] children)
     {
         _ContentOctets = ParseChildren(childRank, children);

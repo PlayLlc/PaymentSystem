@@ -46,6 +46,7 @@ public record PosEntryMode : DataElement<byte>, IEqualityComparer<PosEntryMode>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="DataElementNullException"></exception>
+    /// <exception cref="BerInternalException"></exception>
     public static PosEntryMode Decode(ReadOnlyMemory<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

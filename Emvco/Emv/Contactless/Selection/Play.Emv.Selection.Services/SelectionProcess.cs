@@ -38,6 +38,12 @@ internal class SelectionProcess : CommandProcessingQueue
     internal void Enqueue(SelectProximityPaymentSystemEnvironmentResponse request) => Enqueue((dynamic) request);
     internal void Enqueue(SendPoiInformationResponse request) => Enqueue((dynamic) request);
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
     public async Task Handle(ActivateSelectionRequest request)
     {
         await Task.Run(() => { _SelectionStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
@@ -60,6 +66,7 @@ internal class SelectionProcess : CommandProcessingQueue
     /// <param name="request"></param>
     /// <returns></returns>
     /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public async Task Handle(ActivatePcdResponse request)
     {
         await Task.Run(() => { _SelectionStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);

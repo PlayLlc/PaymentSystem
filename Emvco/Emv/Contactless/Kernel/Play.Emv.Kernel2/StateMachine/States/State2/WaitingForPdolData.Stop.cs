@@ -17,6 +17,13 @@ public partial class WaitingForPdolData : KernelState
 {
     #region STOP
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
         OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
