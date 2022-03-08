@@ -1,34 +1,36 @@
 ﻿using System.Runtime.CompilerServices;
 
+using Play.Ber.Exceptions;
+
 namespace Play.Emv.Ber.Exceptions;
 
-public class EmvEncodingFormatException : EmvEncodingException
+public class EmvParsingException : BerParsingException
 {
     #region Constructor
 
-    public EmvEncodingFormatException(
+    public EmvParsingException(
         string message,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(EmvEncodingFormatException), fileName, memberName, lineNumber)} {message}")
+        $"{TraceExceptionMessage(typeof(EmvParsingException), fileName, memberName, lineNumber)} {message}")
     { }
 
-    public EmvEncodingFormatException(
+    public EmvParsingException(
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(EmvEncodingFormatException), fileName, memberName, lineNumber)}", innerException)
+        $"{TraceExceptionMessage(typeof(EmvParsingException), fileName, memberName, lineNumber)}", innerException)
     { }
 
-    public EmvEncodingFormatException(
+    public EmvParsingException(
         string message,
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(EmvEncodingFormatException), fileName, memberName, lineNumber)} {message}", innerException)
+        $"{TraceExceptionMessage(typeof(EmvParsingException), fileName, memberName, lineNumber)} {message}", innerException)
     { }
 
     #endregion

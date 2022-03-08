@@ -56,7 +56,7 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
     {
         Check.Primitive.ForExactLength(value, 4, Tag);
         DecodedResult<ushort> result = _Codec.Decode(EncodingId, value.Span) as DecodedResult<ushort>
-            ?? throw new EmvEncodingException(
+            ?? throw new EmvParsingException(
                 $"The {nameof(MerchantCategoryCode)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new MerchantCategoryCode(result.Value);
@@ -69,7 +69,7 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
         Check.Primitive.ForExactLength(value, 4, Tag);
 
         DecodedResult<ushort> result = _Codec.Decode(EncodingId, value) as DecodedResult<ushort>
-            ?? throw new EmvEncodingException(
+            ?? throw new EmvParsingException(
                 $"The {nameof(MerchantCategoryCode)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new MerchantCategoryCode(result.Value);

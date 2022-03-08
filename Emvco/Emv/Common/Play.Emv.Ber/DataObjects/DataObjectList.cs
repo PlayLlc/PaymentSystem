@@ -168,14 +168,14 @@ public abstract record DataObjectList : DataElement<byte[]>
     ///     ValidateCommandTemplate
     /// </summary>
     /// <param name="value"></param>
-    /// <exception cref="EmvEncodingFormatException"></exception>
+    /// <exception cref="EmvParsingException"></exception>
     private void ValidateCommandTemplate(TagLengthValue[] value)
     {
         for (int i = 0; i < value.Length; i++)
         {
             if (DataObjects.All(a => a.GetTag() != value[i].GetTag()))
             {
-                throw new EmvEncodingFormatException(new ArgumentOutOfRangeException(
+                throw new EmvParsingException(new ArgumentOutOfRangeException(
                     $"The argument {nameof(value)} did not contain a value for the requested object with the tag: {DataObjects[i].GetTag()}"));
             }
         }

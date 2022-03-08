@@ -32,7 +32,7 @@ public record CvmList : DataElement<byte[]>
     public CvmList(ReadOnlySpan<byte> value) : base(value.ToArray())
     {
         if (value.Length != 2)
-            throw new EmvEncodingException($"The length of the {nameof(CvmList)} must be even but the length was {value.Length}");
+            throw new EmvParsingException($"The length of the {nameof(CvmList)} must be even but the length was {value.Length}");
 
         Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
