@@ -9,6 +9,7 @@ using Play.Emv.Kernel.State;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
+using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup.State5;
@@ -18,6 +19,16 @@ public partial class WaitingForGetDataResponse : KernelState
     #region Static Metadata
 
     public static readonly StateId StateId = new(nameof(WaitingForGetDataResponse));
+
+    #endregion
+
+    #region Instance Values
+
+    private readonly IKernelEndpoint _KernelEndpoint;
+    private readonly IHandleTerminalRequests _TerminalEndpoint;
+    private readonly IHandlePcdRequests _PcdEndpoint;
+    private readonly IGetKernelState _KernelStateResolver;
+    private readonly ICleanTornTransactions _KernelCleaner;
 
     #endregion
 
