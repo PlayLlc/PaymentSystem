@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Core.Exceptions;
+using Play.Icc.Exceptions;
 
 namespace Play.Icc.FileSystem.DedicatedFiles;
 
@@ -58,14 +59,14 @@ internal readonly struct ApplicationIdentifier
 
         if (value.Length < _MinLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The argument {nameof(value)} was out of range. ApplicationIdentifier (AID) must be at least 5 bytes in length");
+            throw new IccProtocolException(new ArgumentOutOfRangeException(
+                $"The argument {nameof(value)} was out of range. ApplicationIdentifier (AID) must be at least 5 bytes in length"));
         }
 
         if (value.Length < _MaxLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The argument {nameof(value)} was out of range. ApplicationIdentifier (AID) must be less than 16 bytes in length");
+            throw new IccProtocolException(new ArgumentOutOfRangeException(
+                $"The argument {nameof(value)} was out of range. ApplicationIdentifier (AID) must be less than 16 bytes in length"));
         }
     }
 

@@ -5,11 +5,14 @@ using Play.Core.Exceptions;
 
 namespace Play.Icc.Exceptions;
 
-public class Iso7816Exception : PlayException
+/// <summary>
+/// Thrown when the RAPDU returned contains a status word that is considered an error or a failure
+/// </summary>
+public class StatusBytesException : PlayException
 {
     #region Constructor
 
-    public Iso7816Exception(
+    public StatusBytesException(
         string parameterName,
         string message,
         [CallerFilePath] string fileName = "",
@@ -18,7 +21,7 @@ public class Iso7816Exception : PlayException
         $"{TraceExceptionMessage(typeof(PlayInternalException), fileName, memberName, lineNumber)}. Parameter {parameterName} experienced an issue. {message}")
     { }
 
-    public Iso7816Exception(
+    public StatusBytesException(
         string message,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
@@ -26,7 +29,7 @@ public class Iso7816Exception : PlayException
         $"{TraceExceptionMessage(typeof(PlayInternalException), fileName, memberName, lineNumber)} {message}")
     { }
 
-    public Iso7816Exception(
+    public StatusBytesException(
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
@@ -34,7 +37,7 @@ public class Iso7816Exception : PlayException
         $"{TraceExceptionMessage(typeof(PlayInternalException), fileName, memberName, lineNumber)}", innerException)
     { }
 
-    public Iso7816Exception(
+    public StatusBytesException(
         string message,
         Exception innerException,
         [CallerFilePath] string fileName = "",

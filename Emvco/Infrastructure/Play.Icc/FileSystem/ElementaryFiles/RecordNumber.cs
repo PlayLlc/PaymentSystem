@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Play.Icc.Exceptions;
+
 namespace Play.Icc.FileSystem.ElementaryFiles;
 
 public readonly struct RecordNumber
@@ -23,8 +25,8 @@ public readonly struct RecordNumber
     {
         if ((value < _MinValue) || (value > _MaxValue))
         {
-            throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} value {value} was out of range. {nameof(RecordNumber)} must be initialized with a value between {_MinValue} and {_MaxValue}");
+            throw new IccProtocolException(new ArgumentOutOfRangeException(nameof(value),
+                $"The argument {nameof(value)} value {value} was out of range. {nameof(RecordNumber)} must be initialized with a value between {_MinValue} and {_MaxValue}"));
         }
 
         _Value = value;

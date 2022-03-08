@@ -5,7 +5,7 @@ using Play.Icc.Exceptions;
 
 namespace Play.Emv.Pcd.Exceptions;
 
-public class CardReadException : Iso7816Exception
+public class CardReadException : StatusBytesException
 {
     #region Constructor
 

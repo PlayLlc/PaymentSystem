@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Play.Icc.Exceptions;
+
 namespace Play.Icc.Messaging.Apdu;
 
 public class StatusWords : IEquatable<StatusWords>, IEqualityComparer<StatusWords>
@@ -62,7 +64,7 @@ public class StatusWords : IEquatable<StatusWords>, IEqualityComparer<StatusWord
     public StatusWords(ReadOnlySpan<byte> value)
     {
         if (value.Length < 2)
-            throw new ArgumentOutOfRangeException(nameof(value));
+            throw new IccProtocolException(nameof(value));
 
         _StatusWord1 = value[0];
         _StatusWord2 = value[1];

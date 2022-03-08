@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 
 using Play.Core.Extensions;
+using Play.Icc.Exceptions;
 
 namespace Play.Icc.Messaging.Apdu;
 
@@ -65,7 +66,7 @@ public readonly struct LogicalChannel
     private LogicalChannel(byte value)
     {
         if (value > 3)
-            throw new ArgumentOutOfRangeException(nameof(value));
+            throw new IccProtocolException(nameof(value));
 
         _Value = value;
     }

@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Play.Icc.Exceptions;
+
 namespace Play.Icc.Messaging.Apdu.ExternalAuthenticate;
 
 public class ExternalAuthenticateApduCommand : ApduCommand
@@ -43,8 +45,8 @@ public class ExternalAuthenticateApduCommand : ApduCommand
     {
         if ((issuerAuthenticationData.Length < 8) || (issuerAuthenticationData.Length > 16))
         {
-            throw new ArgumentOutOfRangeException(nameof(issuerAuthenticationData),
-                $"The argument {nameof(issuerAuthenticationData)} had an unexpected byte count. The {nameof(issuerAuthenticationData)} must be between 8 and 16 bytes in length");
+            throw new IccProtocolException(new ArgumentOutOfRangeException(nameof(issuerAuthenticationData),
+                $"The argument {nameof(issuerAuthenticationData)} had an unexpected byte count. The {nameof(issuerAuthenticationData)} must be between 8 and 16 bytes in length"));
         }
 
         return new ExternalAuthenticateApduCommand(new Class(SecureMessaging.NotRecognized, LogicalChannel.BasicChannel),

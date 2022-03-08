@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 
 using Play.Core;
+using Play.Icc.Exceptions;
 
 namespace Play.Icc.FileSystem.DedicatedFiles;
 
@@ -107,8 +108,8 @@ public sealed record RegisteredApplicationProviderIndicators : EnumObject<Regist
     {
         if (!TryGet(registeredApplicationProviderIndicator, out RegisteredApplicationProviderIndicators result))
         {
-            throw new ArgumentOutOfRangeException(nameof(registeredApplicationProviderIndicator),
-                $"The {nameof(RegisteredApplicationProviderIndicators)} could not be found from the number supplied to the argument: {registeredApplicationProviderIndicator}");
+            throw new IccProtocolException(new ArgumentOutOfRangeException(nameof(registeredApplicationProviderIndicator),
+                $"The {nameof(RegisteredApplicationProviderIndicators)} could not be found from the number supplied to the argument: {registeredApplicationProviderIndicator}"));
         }
 
         return result;

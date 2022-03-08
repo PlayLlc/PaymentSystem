@@ -7,6 +7,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
+using Play.Icc.Exceptions;
 
 namespace Play.Icc.FileSystem.DedicatedFiles;
 
@@ -116,8 +117,8 @@ public record DedicatedFileName : PrimitiveValue, IEqualityComparer<DedicatedFil
 
         if (value.Length is < minByteLength and <= maxByteLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(DedicatedFileName)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
+            throw new IccProtocolException(new ArgumentOutOfRangeException(
+                $"The Primitive Value {nameof(DedicatedFileName)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}"));
         }
 
         return new DedicatedFileName(value);

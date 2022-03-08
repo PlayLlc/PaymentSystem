@@ -2,6 +2,7 @@
 
 using Play.Codecs;
 using Play.Core.Extensions;
+using Play.Icc.Exceptions;
 
 namespace Play.Icc.FileSystem.DedicatedFiles;
 
@@ -24,7 +25,7 @@ public readonly struct RegisteredApplicationProviderIndicator
     public RegisteredApplicationProviderIndicator(ulong value)
     {
         if (value.GetMostSignificantByte() != ByteCount)
-            throw new ArgumentOutOfRangeException(nameof(value), $"The value {value} must be {ByteCount} bytes in length");
+            throw new IccProtocolException(new ArgumentOutOfRangeException(nameof(value), $"The value {value} must be {ByteCount} bytes in length"));
 
         _Value = value;
     }

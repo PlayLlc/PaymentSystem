@@ -7,6 +7,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Specifications;
+using Play.Icc.Exceptions;
 
 using PlayCodec = Play.Codecs.PlayCodec;
 using PlayEncodingId = Play.Codecs.PlayEncodingId;
@@ -80,8 +81,8 @@ public record FileIdentifier : PrimitiveValue
     public static FileIdentifier Decode(BerCodec codec, ReadOnlySpan<byte> value)
     {
         DecodedResult<ushort> result = codec.Decode(EncodingId, value) as DecodedResult<ushort>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(FileIdentifier)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+            ?? throw new IccProtocolException(new InvalidOperationException(
+                $"The {nameof(FileIdentifier)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}"));
 
         return new FileIdentifier(result.Value);
     }

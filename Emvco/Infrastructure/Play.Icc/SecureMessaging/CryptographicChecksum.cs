@@ -5,6 +5,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Icc.Exceptions;
 
 namespace Play.Icc.SecureMessaging;
 
@@ -37,14 +38,14 @@ public record CryptographicChecksum : PrimitiveValue, IEqualityComparer<Cryptogr
     {
         if (value.Length < _MinByteCount)
         {
-            throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} must be between {_MinByteCount} and {_MaxByteCount}");
+            throw new IccProtocolException(new ArgumentOutOfRangeException(nameof(value),
+                $"The argument {nameof(value)} must be between {_MinByteCount} and {_MaxByteCount}"));
         }
 
         if (value.Length < _MaxByteCount)
         {
-            throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} must be between {_MinByteCount} and {_MaxByteCount}");
+            throw new IccProtocolException(new ArgumentOutOfRangeException(nameof(value),
+                $"The argument {nameof(value)} must be between {_MinByteCount} and {_MaxByteCount}"));
         }
 
         _Value = value.ToArray();
@@ -79,7 +80,7 @@ public record CryptographicChecksum : PrimitiveValue, IEqualityComparer<Cryptogr
     public override byte[] EncodeValue(BerCodec codec, int length)
     {
         if (length > _Value.Length)
-            throw new InvalidOperationException($"The argument {nameof(length)} is larger than the underlying value");
+            throw new IccProtocolException(new InvalidOperationException($"The argument {nameof(length)} is larger than the underlying value"));
 
         return _Value[..length];
     }

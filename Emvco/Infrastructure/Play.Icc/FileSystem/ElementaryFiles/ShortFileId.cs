@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Play.Icc.Exceptions;
+
 namespace Play.Icc.FileSystem.ElementaryFiles;
 
 /// <summary>
@@ -25,8 +27,8 @@ public readonly struct ShortFileId
     {
         if (value > _MaxValue)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The argument {nameof(value)} was out of range. ShortFileIdentifier (SFI) can not be more than five bits in length");
+            throw new IccProtocolException(new ArgumentOutOfRangeException(
+                $"The argument {nameof(value)} was out of range. ShortFileIdentifier (SFI) can not be more than five bits in length"));
         }
 
         _Value = value;

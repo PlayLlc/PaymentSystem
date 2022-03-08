@@ -40,13 +40,13 @@ public class GetDataApduCommand : ApduCommand
     /// <param name="proprietaryMessageIdentifier"></param>
     /// <param name="tag"></param>
     /// <returns></returns>
-    /// <exception cref="Iso7816Exception"></exception>
+    /// <exception cref="StatusBytesException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public static GetDataApduCommand Create(ProprietaryMessageIdentifier proprietaryMessageIdentifier, Tag tag)
     {
         if (tag.GetByteCount() > 2)
         {
-            throw new Iso7816Exception(
+            throw new IccProtocolException(
                 $"The {nameof(ApduCommand)} could not be generated because the argument {nameof(Tag)} exceeded the maximum byte count of 2");
         }
 
@@ -54,7 +54,7 @@ public class GetDataApduCommand : ApduCommand
         {
             if (!tag.IsPrimitive())
             {
-                throw new Iso7816Exception(
+                throw new IccProtocolException(
                     $"The {nameof(ApduCommand)} could not be generated because the argument {nameof(Tag)} had a length of 2 bytes but did not have a {nameof(DataObjectType)} of {nameof(DataObjectType.Primitive)}");
             }
 
@@ -73,7 +73,7 @@ public class GetDataApduCommand : ApduCommand
         if (tag.IsConstructed())
             return new GetDataApduCommand(new Class(proprietaryMessageIdentifier), Instruction.GetData, 2, tag.Serialize()[0]);
 
-        throw new Iso7816Exception(
+        throw new StatusBytesException(
             $"The {nameof(ApduCommand)} could not be generated because the argument {nameof(Tag)} format wasn't recognized for a {nameof(GetDataApduCommand)}");
     }
 
