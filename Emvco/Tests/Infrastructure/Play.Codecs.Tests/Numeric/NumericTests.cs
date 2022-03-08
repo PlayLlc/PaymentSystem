@@ -43,6 +43,11 @@ public class NumericTests
         Assert.Equal(testValue, encoded);
     }
 
+    /// <summary>
+    /// RandomDecodedUShort_EncodingThenDecoding_ReturnsExpectedResult
+    /// </summary>
+    /// <param name="testValue"></param>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     [Theory]
     [MemberData(nameof(NumericFixture.GetRandomUShort), 100, MemberType = typeof(NumericFixture))]
     public void RandomDecodedUShort_EncodingThenDecoding_ReturnsExpectedResult(ushort testValue)
@@ -53,6 +58,11 @@ public class NumericTests
         Assert.Equal(testValue, encoded);
     }
 
+    /// <summary>
+    /// RandomDecodedUInt_EncodingThenDecoding_ReturnsExpectedResult
+    /// </summary>
+    /// <param name="testValue"></param>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     [Theory]
     [MemberData(nameof(NumericFixture.GetRandomUInt), 100, MemberType = typeof(NumericFixture))]
     public void RandomDecodedUInt_EncodingThenDecoding_ReturnsExpectedResult(uint testValue)
@@ -63,6 +73,11 @@ public class NumericTests
         Assert.Equal(testValue, encoded);
     }
 
+    /// <summary>
+    /// RandomDecodedULong_EncodingThenDecoding_ReturnsExpectedResult
+    /// </summary>
+    /// <param name="testValue"></param>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     [Theory]
     [MemberData(nameof(NumericFixture.GetRandomULong), 100, MemberType = typeof(NumericFixture))]
     public void RandomDecodedULong_EncodingThenDecoding_ReturnsExpectedResult(ulong testValue)

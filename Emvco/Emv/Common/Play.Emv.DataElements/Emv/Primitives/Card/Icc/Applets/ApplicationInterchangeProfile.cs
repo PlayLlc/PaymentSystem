@@ -51,8 +51,14 @@ public record ApplicationInterchangeProfile : DataElement<ushort>, IEqualityComp
 
     public static ApplicationInterchangeProfile Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
+ 
+    /// <summary>
+    /// Decode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="BerInternalException"></exception>
     public static ApplicationInterchangeProfile Decode(ReadOnlySpan<byte> value)
     {
         const ushort byteLength = 2;

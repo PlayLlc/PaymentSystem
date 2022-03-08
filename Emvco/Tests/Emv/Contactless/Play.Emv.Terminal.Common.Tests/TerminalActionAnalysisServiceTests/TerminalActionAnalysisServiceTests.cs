@@ -27,6 +27,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// ctor
     /// </summary>
     /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     public TerminalActionAnalysisServiceTests()
     {
         _Fixture = new Fixture();

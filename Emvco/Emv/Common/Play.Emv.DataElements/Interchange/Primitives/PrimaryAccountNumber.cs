@@ -42,6 +42,7 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
     /// </summary>
     /// <param name="issuerIdentifier"></param>
     /// <returns></returns>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     public bool IsIssuerIdentifierMatching(IssuerIdentificationNumber issuerIdentifier)
     {
         uint thisPan = PlayCodec.NumericCodec.DecodeToUInt16(PlayCodec.NumericCodec.Encode(_Value));

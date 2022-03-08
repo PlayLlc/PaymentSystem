@@ -64,6 +64,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <param name="command"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     public void Process(TerminalActionAnalysisCommand command)
     {
         ActionFlag resultFlag = ActionFlag.None;

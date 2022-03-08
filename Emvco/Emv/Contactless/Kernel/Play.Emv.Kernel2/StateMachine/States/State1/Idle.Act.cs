@@ -32,6 +32,7 @@ public partial class Idle : KernelState
     /// <remarks>Book C-2 Section 6.3.3</remarks>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
+    /// <exception cref="Play.Emv.DataElements.Exceptions.DataElementNullException"></exception>
     public override KernelState Handle(KernelSession session, ActivateKernelRequest signal)
     {
         Kernel2Session kernel2Session = (Kernel2Session) session;

@@ -43,6 +43,7 @@ public record SystemTraceAuditNumber : InterchangeDataElement<uint>
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     public static SystemTraceAuditNumber Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

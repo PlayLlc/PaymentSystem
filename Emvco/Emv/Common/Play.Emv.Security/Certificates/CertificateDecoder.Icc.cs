@@ -144,6 +144,7 @@ internal partial class CertificateFactory
         /// <param name="primaryAccountNumber"></param>
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
         private static bool IsValid(
             SignatureService signatureService,
             DecodedIssuerPublicKeyCertificate issuerPublicKeyCertificate,
