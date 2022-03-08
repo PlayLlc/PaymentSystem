@@ -79,7 +79,7 @@ public class SpecialCodec : PlayCodec
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new Exceptions.CodecParsingException(this, type);
+            throw new CodecParsingException(this, type);
 
         return (ushort) Unsafe.As<_T[], char[]>(ref value).Length;
     }
@@ -120,14 +120,14 @@ public class SpecialCodec : PlayCodec
     private void Validate(byte value)
     {
         if (!IsValid(value))
-            throw new Exceptions.CodecParsingException(Exceptions.CodecParsingException.CharacterArrayContainsInvalidValue);
+            throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
     }
 
     /// <exception cref="Exceptions.CodecParsingException"></exception>
     private void Validate(char value)
     {
         if (!IsValid(value))
-            throw new Exceptions.CodecParsingException(Exceptions.CodecParsingException.CharacterArrayContainsInvalidValue);
+            throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
     }
 
     /// <exception cref="Exceptions.CodecParsingException"></exception>
@@ -138,7 +138,7 @@ public class SpecialCodec : PlayCodec
         for (int i = 0; i <= (value.Length - 1); i++)
         {
             if (!IsValid(value[i]))
-                throw new Exceptions.CodecParsingException(Exceptions.CodecParsingException.CharacterArrayContainsInvalidValue);
+                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
         }
     }
 
@@ -151,7 +151,7 @@ public class SpecialCodec : PlayCodec
         for (int i = 0; i <= (value.Length - 1); i++)
         {
             if (!IsValid(value[i]))
-                throw new Exceptions.CodecParsingException(Exceptions.CodecParsingException.CharacterArrayContainsInvalidValue);
+                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
         }
     }
 
@@ -187,7 +187,7 @@ public class SpecialCodec : PlayCodec
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new Exceptions.CodecParsingException(this, type);
+            throw new CodecParsingException(this, type);
 
         return new byte[] {DecodeToByte(Unsafe.As<_T, char>(ref value))};
     }
@@ -206,7 +206,7 @@ public class SpecialCodec : PlayCodec
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new Exceptions.CodecParsingException(this, type);
+            throw new CodecParsingException(this, type);
 
         return new byte[] {DecodeToByte(Unsafe.As<_T, char>(ref value))};
     }
@@ -224,7 +224,7 @@ public class SpecialCodec : PlayCodec
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new Exceptions.CodecParsingException(this, type);
+            throw new CodecParsingException(this, type);
 
         return Encode(Unsafe.As<_T[], char[]>(ref value));
     }
@@ -243,7 +243,7 @@ public class SpecialCodec : PlayCodec
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new Exceptions.CodecParsingException(this, type);
+            throw new CodecParsingException(this, type);
 
         return Encode(Unsafe.As<_T[], char[]>(ref value), length);
     }
@@ -363,7 +363,7 @@ public class SpecialCodec : PlayCodec
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new Exceptions.CodecParsingException(this, type);
+            throw new CodecParsingException(this, type);
 
         buffer[offset++] = _ByteMapper[Unsafe.As<_T, char>(ref value)];
     }
@@ -381,7 +381,7 @@ public class SpecialCodec : PlayCodec
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new Exceptions.CodecParsingException(this, type);
+            throw new CodecParsingException(this, type);
 
         buffer[offset++] = _ByteMapper[Unsafe.As<_T, char>(ref value)];
     }
@@ -399,7 +399,7 @@ public class SpecialCodec : PlayCodec
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new Exceptions.CodecParsingException(this, type);
+            throw new CodecParsingException(this, type);
 
         Encode(Unsafe.As<_T[], char[]>(ref value), buffer, ref offset);
     }
@@ -419,7 +419,7 @@ public class SpecialCodec : PlayCodec
         Type type = typeof(_T);
 
         if (!type.IsChar())
-            throw new Exceptions.CodecParsingException(this, type);
+            throw new CodecParsingException(this, type);
 
         Encode(Unsafe.As<_T[], char[]>(ref value), length, buffer, ref offset);
     }

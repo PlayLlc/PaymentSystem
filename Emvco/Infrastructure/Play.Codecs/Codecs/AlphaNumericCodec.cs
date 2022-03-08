@@ -136,14 +136,14 @@ public class AlphaNumericCodec : PlayCodec
     private void Validate(byte value)
     {
         if (!IsValid(value))
-            throw new Exceptions.CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+            throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
     }
 
     /// <exception cref="Exceptions.CodecParsingException"></exception>
     private void Validate(char value)
     {
         if (!IsValid(value))
-            throw new Exceptions.CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+            throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
     }
 
     /// <exception cref="Exceptions.CodecParsingException"></exception>
@@ -154,7 +154,7 @@ public class AlphaNumericCodec : PlayCodec
         for (int i = 0; i <= (value.Length - 1); i++)
         {
             if (!IsValid(value[i]))
-                throw new Exceptions.CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
         }
     }
 
@@ -166,7 +166,7 @@ public class AlphaNumericCodec : PlayCodec
         for (int i = 0; i <= (value.Length - 1); i++)
         {
             if (!IsValid(value[i]))
-                throw new Exceptions.CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
         }
     }
 
@@ -250,7 +250,7 @@ public class AlphaNumericCodec : PlayCodec
         for (int i = 0; i < value.Length; i++)
         {
             if (!_ByteMapper.ContainsKey(value[i]))
-                throw new Exceptions.CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
 
             byteArray[i] = _ByteMapper[value[i]];
         }
@@ -363,7 +363,7 @@ public class AlphaNumericCodec : PlayCodec
         for (int i = 0; i < value.Length; i++)
         {
             if (!_ByteMapper.ContainsKey(value[i]))
-                throw new Exceptions.CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
 
             buffer[offset++] = _ByteMapper[value[i]];
         }

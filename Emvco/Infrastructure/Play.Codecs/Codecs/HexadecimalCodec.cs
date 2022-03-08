@@ -181,7 +181,7 @@ public class HexadecimalCodec : PlayCodec
 
             return true;
         }
-        catch (Exceptions.CodecParsingException)
+        catch (CodecParsingException)
         {
             result = new byte[0];
 
@@ -649,7 +649,7 @@ public class HexadecimalCodec : PlayCodec
 
             return true;
         }
-        catch (Exceptions.CodecParsingException)
+        catch (CodecParsingException)
         {
             result = null;
 
@@ -689,12 +689,12 @@ public class HexadecimalCodec : PlayCodec
     private static byte DecodeToByte(char value)
     {
         if ((value > 0xFF) || (value < 0))
-            throw new Exceptions.CodecParsingException(CodecParsingException.ByteWasOutOfRangeOfHexadecimalCharacter);
+            throw new CodecParsingException(CodecParsingException.ByteWasOutOfRangeOfHexadecimalCharacter);
 
         byte result = Lookup.CharToHex[value];
 
         return result == 0xFF
-            ? throw new Exceptions.CodecParsingException(CodecParsingException.ByteWasOutOfRangeOfHexadecimalCharacter)
+            ? throw new CodecParsingException(CodecParsingException.ByteWasOutOfRangeOfHexadecimalCharacter)
             : result;
     }
 

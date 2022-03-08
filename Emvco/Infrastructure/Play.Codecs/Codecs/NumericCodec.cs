@@ -104,7 +104,7 @@ public class NumericCodec : PlayCodec
     private void Validate(byte value)
     {
         if (!IsValid(value))
-            throw new Exceptions.CodecParsingException(CodecParsingException.ByteArrayContainsInvalidValue);
+            throw new CodecParsingException(CodecParsingException.ByteArrayContainsInvalidValue);
     }
 
     /// <summary>
@@ -115,7 +115,7 @@ public class NumericCodec : PlayCodec
     public void Validate(ReadOnlySpan<byte> value)
     {
         if (!IsValid(value))
-            throw new Exceptions.CodecParsingException(CodecParsingException.ByteArrayContainsInvalidValue);
+            throw new CodecParsingException(CodecParsingException.ByteArrayContainsInvalidValue);
     }
 
     public bool IsValid(ReadOnlySpan<char> value)

@@ -133,7 +133,7 @@ public class UnsignedIntegerCodec : PlayCodec
     public override ushort GetByteCount<_T>(_T[] value)
     {
         if (!typeof(_T).IsUnsignedInteger())
-            throw new Exceptions.CodecParsingException(this, typeof(_T));
+            throw new CodecParsingException(this, typeof(_T));
 
         return (ushort) value.Length;
     }
@@ -309,7 +309,7 @@ public class UnsignedIntegerCodec : PlayCodec
             return Encode(Unsafe.As<_T, char>(ref value));
 
         if (!type.IsUnsignedInteger())
-            throw new Exceptions.CodecParsingException(this, type);
+            throw new CodecParsingException(this, type);
 
         nint byteSize = Unsafe.SizeOf<_T>();
 
@@ -341,7 +341,7 @@ public class UnsignedIntegerCodec : PlayCodec
             return Encode(Unsafe.As<_T, char>(ref value));
 
         if (!type.IsUnsignedInteger())
-            throw new Exceptions.CodecParsingException(this, type);
+            throw new CodecParsingException(this, type);
 
         if (length == Specs.Integer.UInt8.ByteCount)
             return Encode(Unsafe.As<_T, byte>(ref value));
@@ -375,7 +375,7 @@ public class UnsignedIntegerCodec : PlayCodec
             return Encode(Unsafe.As<_T[], char[]>(ref value));
 
         if (!type.IsByte())
-            throw new Exceptions.CodecParsingException(this, type);
+            throw new CodecParsingException(this, type);
 
         return Encode(Unsafe.As<_T[], byte[]>(ref value));
     }
@@ -396,7 +396,7 @@ public class UnsignedIntegerCodec : PlayCodec
             return Encode(Unsafe.As<_T[], char[]>(ref value), length);
 
         if (!type.IsByte())
-            throw new Exceptions.CodecParsingException(this, type);
+            throw new CodecParsingException(this, type);
 
         return Encode(Unsafe.As<_T[], byte[]>(ref value), length);
     }
@@ -461,7 +461,7 @@ public class UnsignedIntegerCodec : PlayCodec
         }
 
         if (!type.IsNumericType())
-            throw new Exceptions.CodecParsingException(this, type);
+            throw new CodecParsingException(this, type);
 
         nint byteSize = Unsafe.SizeOf<_T>();
 
@@ -498,7 +498,7 @@ public class UnsignedIntegerCodec : PlayCodec
         }
 
         if (!type.IsNumericType())
-            throw new Exceptions.CodecParsingException(this, type);
+            throw new CodecParsingException(this, type);
 
         nint byteSize = Unsafe.SizeOf<_T>();
 
@@ -527,7 +527,7 @@ public class UnsignedIntegerCodec : PlayCodec
         if (typeof(_T).IsChar())
             Encode(Unsafe.As<_T[], char[]>(ref value));
         else
-            throw new Exceptions.CodecParsingException(this, typeof(_T));
+            throw new CodecParsingException(this, typeof(_T));
     }
 
     /// <summary>
@@ -543,7 +543,7 @@ public class UnsignedIntegerCodec : PlayCodec
         if (typeof(_T) == typeof(char))
             Encode(Unsafe.As<_T[], char[]>(ref value), length);
         else
-            throw new Exceptions.CodecParsingException(this, typeof(_T));
+            throw new CodecParsingException(this, typeof(_T));
     }
 
     public void Encode(ushort value, Span<byte> buffer, ref int offset)
