@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Play.Core;
 using Play.Core.Extensions;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
 
@@ -38,8 +39,8 @@ public sealed record DataStorageVersionNumberTypes : EnumObject<byte>
 
         if (!_ValueMap.ContainsKey(value.GetMaskedValue(bitMask)))
         {
-            throw new ArgumentOutOfRangeException(nameof(value),
-                $"No {nameof(DataStorageVersionNumberTypes)} could be retrieved because the argument provided does not match a definition value");
+            throw new DataElementParsingException(new ArgumentOutOfRangeException(nameof(value),
+                $"No {nameof(DataStorageVersionNumberTypes)} could be retrieved because the argument provided does not match a definition value"));
         }
 
         return _ValueMap[value.GetMaskedValue(bitMask)];
