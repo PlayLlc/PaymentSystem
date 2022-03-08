@@ -55,16 +55,17 @@ Integrated Data Storage Writer Error
 Integrated Data Storage No Matching Application Cryptogram
     Usable for AAC' in DS ODS Info For Reader is NOT set && 'Stop if no DS ODS Term' in DS ODS Info For Reader is set
 
-- Processing Error 
-- Empty Candidate List
-- Mag Not Supported 
-- CardDataError; 
-- EmptyCandidateList;
-- IdsDataError; 
-- MagStripeNotSupported; 
-- NoPpse;
-- ParsingError;
-- PpseFault; 
+ Empty Candidate List
+    If the Candidate List is empty at Entry Point Start C
+
+Magstripe Not Supported 
+    When the kernel and the card do not have a matching operating mode
+
+Integrated Data Storage Error
+    if false (DS AC Type and DS ODS Info For Reader is not empty)
+
+No Proximity Payment System Environment
+    When the card does not return the requested PPSE
 
 ------------------------------
 

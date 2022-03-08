@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Emv.Ber;
+using Play.Emv.DataElements.Emv;
 using Play.Emv.Icc.GetProcessingOptions;
 using Play.Emv.TestData.Ber.Primitive;
 

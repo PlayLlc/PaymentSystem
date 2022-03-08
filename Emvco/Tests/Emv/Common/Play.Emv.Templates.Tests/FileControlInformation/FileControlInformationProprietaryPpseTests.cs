@@ -1,4 +1,5 @@
 ﻿using Play.Ber.DataObjects;
+using Play.Emv.Templates.FileControlInformation;
 using Play.Emv.TestData.Ber.Constructed;
 
 using Xunit;
