@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Play.Emv.Identifiers;
+using Play.Codecs;
 
 namespace Play.Emv.Sessions;
 
@@ -8,7 +8,7 @@ public readonly record struct StateId
 {
     #region Instance Values
 
-    private readonly Identity _Identity;
+    private readonly int _Value;
 
     #endregion
 
@@ -16,8 +16,14 @@ public readonly record struct StateId
 
     public StateId(ReadOnlySpan<char> value)
     {
-        _Identity = new Identity(value);
+        _Value = PlayCodec.SignedIntegerCodec.DecodeToInt32(PlayCodec.UnicodeCodec.Encode(value));
     }
+
+    #endregion
+
+    #region Operator Overrides
+
+    public static explicit operator int(StateId value) => value._Value;
 
     #endregion
 }

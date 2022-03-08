@@ -3,7 +3,6 @@ using Play.Emv.DataElements.Emv;
 using Play.Emv.Selection.Contracts;
 using Play.Globalization;
 using Play.Globalization.Currency;
-using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Selection;
 

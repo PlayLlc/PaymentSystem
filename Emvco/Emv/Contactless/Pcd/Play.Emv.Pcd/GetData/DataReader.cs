@@ -1,8 +1,5 @@
-﻿using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-using Play.Emv.Icc;
-using Play.Emv.Icc.GetData;
 using Play.Emv.Pcd.Contracts;
 
 namespace Play.Emv.Pcd.GetData;

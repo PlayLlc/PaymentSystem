@@ -1,5 +1,4 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Emv.Templates.ResponseMessages;
 using Play.Emv.TestData.Ber.Constructed;
 
 using Xunit;

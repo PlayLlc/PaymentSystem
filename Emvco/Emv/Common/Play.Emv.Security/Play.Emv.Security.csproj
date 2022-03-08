@@ -24,8 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Infrastructure\Play.Encryption\Play.Encryption.csproj" />
     <ProjectReference Include="..\Play.Emv.Ber\Play.Emv.Ber.csproj" />
-    <ProjectReference Include="..\Play.Emv.DataElements\Play.Emv.DataElements.csproj" />
-    <ProjectReference Include="..\Play.Emv.Templates\Play.Emv.Templates.csproj" />
+    <ProjectReference Include="..\Play.Emv\Play.Emv.csproj" />
   </ItemGroup>
 
 </Project>

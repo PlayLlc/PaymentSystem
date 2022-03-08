@@ -8,8 +8,6 @@ using Play.Emv.Selection.Contracts;
 using Play.Emv.Sessions;
 using Play.Emv.Templates.FileControlInformation;
 using Play.Globalization.Time;
-using Play.Icc.FileSystem.DedicatedFiles;
-using Play.Icc.Messaging.Apdu;
 using Play.Messaging;
 
 using MessageIdentifier = Play.Emv.DataElements.Emv.MessageIdentifier;

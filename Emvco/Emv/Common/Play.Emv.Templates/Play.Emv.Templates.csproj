@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Play.Emv.Ber\Play.Emv.Ber.csproj" />
-    <ProjectReference Include="..\Play.Emv.DataElements\Play.Emv.DataElements.csproj" />
   </ItemGroup>
 
 </Project>

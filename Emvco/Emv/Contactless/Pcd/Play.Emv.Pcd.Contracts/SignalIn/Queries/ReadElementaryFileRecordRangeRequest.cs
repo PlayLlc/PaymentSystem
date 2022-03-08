@@ -1,5 +1,4 @@
 ﻿using Play.Emv.Sessions;
-using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;

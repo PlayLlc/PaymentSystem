@@ -1,7 +1,4 @@
-﻿using Play.Ber.Identifiers;
-using Play.Emv.Icc;
-using Play.Emv.Icc.GetData;
-using Play.Emv.Sessions;
+﻿using Play.Emv.Sessions;
 using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;

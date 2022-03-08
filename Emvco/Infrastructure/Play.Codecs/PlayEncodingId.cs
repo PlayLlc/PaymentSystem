@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace Play.Codecs;
+﻿namespace Play.Codecs;
 
 public readonly record struct PlayEncodingId
 {

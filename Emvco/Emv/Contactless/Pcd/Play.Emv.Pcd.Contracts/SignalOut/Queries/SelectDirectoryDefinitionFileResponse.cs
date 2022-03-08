@@ -1,5 +1,4 @@
-﻿using Play.Emv.Icc;
-using Play.Emv.Sessions;
+﻿using Play.Emv.Sessions;
 using Play.Emv.Templates.FileControlInformation;
 using Play.Messaging;
 

@@ -6,9 +6,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Ber.InternalFactories;
 using Play.Codecs;
-using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Terminal;
 

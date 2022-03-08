@@ -1,5 +1,4 @@
 ﻿using Play.Ber.Identifiers;
-using Play.Core;
 using Play.Icc.Messaging.Apdu;
 using Play.Icc.Messaging.Apdu.GetData;
 

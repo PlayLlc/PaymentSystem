@@ -4,17 +4,13 @@ using System.Threading.Tasks;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Emv.DataElements.Emv;
-using Play.Emv.DataElements.Exceptions;
-using Play.Emv.Icc;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
-using Play.Emv.Templates.Exceptions;
 using Play.Emv.Terminal.Contracts;
-using Play.Icc.Exceptions;
 
 namespace Play.Emv.Kernel2.StateMachine;
 // TODO: Note that symbols S3R1.10, S3R1.11, S3R1.12, S3R1.13 and S3R1.18 are only implemented for the IDS/TORN Implementation Option.

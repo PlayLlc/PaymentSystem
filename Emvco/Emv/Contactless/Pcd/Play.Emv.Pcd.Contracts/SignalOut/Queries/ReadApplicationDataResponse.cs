@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
 using Play.Emv.Sessions;
-using Play.Emv.Templates.Records;
 using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;

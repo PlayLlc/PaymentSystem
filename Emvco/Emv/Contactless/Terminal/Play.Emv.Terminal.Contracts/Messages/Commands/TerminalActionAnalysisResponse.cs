@@ -1,6 +1,4 @@
-﻿using Play.Emv.Icc;
-
-namespace Play.Emv.Terminal.Contracts.Messages.Commands;
+﻿namespace Play.Emv.Terminal.Contracts.Messages.Commands;
 
 public class TerminalActionAnalysisResponse
 {

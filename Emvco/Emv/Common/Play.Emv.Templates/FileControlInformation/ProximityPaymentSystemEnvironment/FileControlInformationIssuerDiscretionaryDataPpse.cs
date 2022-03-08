@@ -7,7 +7,6 @@ using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements.Emv;
 
 namespace Play.Emv.Templates.FileControlInformation;
 

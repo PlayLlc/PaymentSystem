@@ -1,12 +1,8 @@
 ﻿using System;
 
-using Play.Ber.DataObjects;
-using Play.Emv.Ber;
 using Play.Emv.DataElements.Emv;
-using Play.Emv.Icc;
 using Play.Emv.Messaging;
 using Play.Emv.Sessions;
-using Play.Icc.Messaging.Apdu;
 using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;

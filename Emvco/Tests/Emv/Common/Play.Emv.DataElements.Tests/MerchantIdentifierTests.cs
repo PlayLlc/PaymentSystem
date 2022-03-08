@@ -3,7 +3,6 @@
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Emv.Ber;
-using Play.Emv.DataElements.Emv;
 using Play.Emv.TestData.Ber.Primitive;
 
 using Xunit;

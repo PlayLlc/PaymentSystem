@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-using Play.Ber.DataObjects;
 using Play.Emv.DataElements.Emv;
-using Play.Emv.Icc.GenerateApplicationCryptogram;
 using Play.Emv.Sessions;
 using Play.Emv.Templates.ResponseMessages;
 using Play.Messaging;

@@ -5,7 +5,6 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers.Long;
 using Play.Ber.Identifiers.Short;
 using Play.Codecs;
-using Play.Core.Extensions;
 
 namespace Play.Ber.Identifiers;
 

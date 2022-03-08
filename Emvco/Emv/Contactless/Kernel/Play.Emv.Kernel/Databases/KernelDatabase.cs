@@ -6,12 +6,10 @@ using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements.Emv;
 using Play.Emv.DataExchange;
-using Play.Emv.Icc;
 using Play.Emv.Outcomes;
 using Play.Emv.Security.Certificates;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts;
-using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Kernel.Databases;
 

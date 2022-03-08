@@ -1,6 +1,4 @@
-﻿using Play.Emv.Icc;
-using Play.Emv.Icc.FileControlInformation;
-using Play.Emv.Sessions;
+﻿using Play.Emv.Sessions;
 using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;

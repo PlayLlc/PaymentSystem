@@ -3,7 +3,6 @@
 using Play.Core.Extensions;
 using Play.Emv.Configuration;
 using Play.Emv.DataElements.Emv;
-using Play.Emv.Icc;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
 using Play.Emv.Terminal.Contracts.Messages.Commands;

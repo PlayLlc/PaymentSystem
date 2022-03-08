@@ -5,7 +5,6 @@ using Play.Ber.Identifiers;
 using Play.Emv.DataElements.Emv;
 using Play.Emv.Security.Certificates;
 using Play.Emv.Sessions;
-using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Kernel.Databases;
 
