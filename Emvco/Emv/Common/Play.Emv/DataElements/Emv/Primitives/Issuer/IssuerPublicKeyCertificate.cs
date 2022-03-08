@@ -7,6 +7,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
 
@@ -50,7 +51,7 @@ public record IssuerPublicKeyCertificate : DataElement<BigInteger>, IEqualityCom
     public static IssuerPublicKeyCertificate Decode(ReadOnlySpan<byte> value)
     {
         DecodedResult<BigInteger> result = _Codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new InvalidOperationException(
+            ?? throw new DataElementParsingException(
                 $"The {nameof(IssuerPublicKeyCertificate)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new IssuerPublicKeyCertificate(result.Value);

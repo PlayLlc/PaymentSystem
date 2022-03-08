@@ -6,6 +6,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.DataElements;
@@ -40,7 +41,7 @@ public record ApplicationDedicatedFileName : DataElement<byte[]>, IEqualityCompa
     {
         if (_Value.Length < RegisteredApplicationProviderIndicator.ByteCount)
         {
-            throw new ArgumentOutOfRangeException(
+            throw new DataElementParsingException(
                 $"The {nameof(ApplicationDedicatedFileName)} requires a {nameof(RegisteredApplicationProviderIndicator)} but none could be found");
         }
     }
@@ -132,7 +133,7 @@ public record ApplicationDedicatedFileName : DataElement<byte[]>, IEqualityCompa
 
         if (value.Length is < minByteLength and <= maxByteLength)
         {
-            throw new ArgumentOutOfRangeException(
+            throw new DataElementParsingException(
                 $"The Primitive Value {nameof(ApplicationDedicatedFileName)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
         }
 

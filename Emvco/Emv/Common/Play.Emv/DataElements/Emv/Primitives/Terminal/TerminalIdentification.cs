@@ -8,6 +8,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
 
@@ -29,7 +30,7 @@ public record TerminalIdentification : DataElement<ulong>, IEqualityComparer<Ter
     public TerminalIdentification(ulong value) : base(value)
     {
         if (value.GetNumberOfDigits() > 8)
-            throw new ArgumentOutOfRangeException(nameof(value), $"The argument {nameof(value)} must have 8 digits or less");
+            throw new DataElementParsingException(nameof(value), $"The argument {nameof(value)} must have 8 digits or less");
     }
 
     #endregion
@@ -58,17 +59,17 @@ public record TerminalIdentification : DataElement<ulong>, IEqualityComparer<Ter
 
         if (value.Length != byteLength)
         {
-            throw new ArgumentOutOfRangeException(
+            throw new DataElementParsingException(
                 $"The Primitive Value {nameof(TerminalIdentification)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<ulong> result = codec.Decode(EncodingId, value) as DecodedResult<ulong>
-            ?? throw new InvalidOperationException(
+            ?? throw new DataElementParsingException(
                 $"The {nameof(TerminalIdentification)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         if (result.CharCount != _CharLength)
         {
-            throw new ArgumentOutOfRangeException(
+            throw new DataElementParsingException(
                 $"The Primitive Value {nameof(TerminalIdentification)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {_CharLength} bytes in length");
         }
 

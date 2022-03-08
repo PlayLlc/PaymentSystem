@@ -6,6 +6,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
 
@@ -69,7 +70,7 @@ public record PoiInformation : DataElement<byte[]>, IEqualityComparer<PoiInforma
 
         if (value.Length > maxByteLength)
         {
-            throw new ArgumentOutOfRangeException(
+            throw new DataElementParsingException(
                 $"The Primitive Value {nameof(PoiInformation)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be less than {maxByteLength} bytes in length");
         }
 

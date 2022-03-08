@@ -7,6 +7,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
 
@@ -52,12 +53,12 @@ public record IssuerScriptCommand : DataElement<BigInteger>, IEqualityComparer<I
 
         if (value.Length > maxByteLength)
         {
-            throw new ArgumentOutOfRangeException(
+            throw new DataElementParsingException(
                 $"The Primitive Value {nameof(IssuerScriptCommand)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be less than {maxByteLength} bytes in length");
         }
 
         DecodedResult<BigInteger> result = _Codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new InvalidOperationException(
+            ?? throw new DataElementParsingException(
                 $"The {nameof(IssuerScriptCommand)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new IssuerScriptCommand(result.Value);

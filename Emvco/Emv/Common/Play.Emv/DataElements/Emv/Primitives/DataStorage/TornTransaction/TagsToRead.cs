@@ -8,6 +8,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
 
@@ -55,7 +56,7 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<TagsToRead>
         for (nint i = 0; i < _Value.Count; i++)
         {
             if (!TryDequeue(out Tag result))
-                throw new InvalidOperationException();
+                throw new DataElementParsingException($"The {nameof(TagsToRead)} could not dequeue a value from memory");
 
             if (value.All(a => a.GetTag() != result))
                 Enqueue(result);

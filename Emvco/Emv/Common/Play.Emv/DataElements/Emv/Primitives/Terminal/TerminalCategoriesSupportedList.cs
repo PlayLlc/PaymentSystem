@@ -9,6 +9,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Specifications;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
 
@@ -69,7 +70,7 @@ public record TerminalCategoriesSupportedList : DataElement<BigInteger>, IEquali
     public static TerminalCategoriesSupportedList Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         DecodedResult<BigInteger> result = codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new InvalidOperationException(
+            ?? throw new DataElementParsingException(
                 $"The {nameof(TerminalCategoriesSupportedList)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new TerminalCategoriesSupportedList(result.Value);

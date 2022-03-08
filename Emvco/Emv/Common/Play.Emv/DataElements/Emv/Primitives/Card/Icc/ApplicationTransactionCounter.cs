@@ -6,6 +6,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
 
@@ -48,12 +49,12 @@ public record ApplicationTransactionCounter : DataElement<ushort>, IEqualityComp
 
         if (value.Length != byteLength)
         {
-            throw new ArgumentOutOfRangeException(
+            throw new DataElementParsingException(
                 $"The Primitive Value {nameof(ApplicationTransactionCounter)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<ushort> result = _Codec.Decode(EncodingId, value) as DecodedResult<ushort>
-            ?? throw new InvalidOperationException(
+            ?? throw new DataElementParsingException(
                 $"The {nameof(ApplicationTransactionCounter)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new ApplicationTransactionCounter(result.Value);

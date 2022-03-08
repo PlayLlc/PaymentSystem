@@ -7,6 +7,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 
 namespace Play.Emv.DataElements;
@@ -55,7 +56,7 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
     {
         if (!CryptogramTypes.TryGet(_Value, out CryptogramTypes? result))
         {
-            throw new InvalidOperationException(
+            throw new DataElementParsingException(
                 $"The {nameof(CryptogramInformationData)} expected a {nameof(CryptogramTypes)} but none could be found");
         }
 
@@ -85,12 +86,12 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
 
         if (value.Length != byteLength)
         {
-            throw new ArgumentOutOfRangeException(
+            throw new DataElementParsingException(
                 $"The Primitive Value {nameof(CryptogramInformationData)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<byte> result = _Codec.Decode(EncodingId, value) as DecodedResult<byte>
-            ?? throw new InvalidOperationException(
+            ?? throw new DataElementParsingException(
                 $"The {nameof(CryptogramInformationData)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new CryptogramInformationData(result.Value);

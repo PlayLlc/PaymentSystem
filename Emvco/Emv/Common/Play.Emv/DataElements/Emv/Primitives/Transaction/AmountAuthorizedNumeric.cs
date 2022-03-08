@@ -52,7 +52,7 @@ public record AmountAuthorizedNumeric : DataElement<ulong>, IEqualityComparer<Am
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         DecodedResult<ulong> result = _Codec.Decode(EncodingId, value) as DecodedResult<ulong>
-            ?? throw new InvalidOperationException(
+            ?? throw new DataElementParsingException(
                 $"The {nameof(AmountAuthorizedNumeric)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new AmountAuthorizedNumeric(result.Value);

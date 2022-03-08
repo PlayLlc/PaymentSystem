@@ -6,6 +6,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Exceptions;
 using Play.Icc.FileSystem.ElementaryFiles;
 
 namespace Play.Emv.DataElements;
@@ -31,7 +32,7 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
     {
         if (value > _MaxValue)
         {
-            throw new ArgumentOutOfRangeException(
+            throw new DataElementParsingException(
                 $"The argument {nameof(value)} was out of range. {nameof(ShortFileIdentifier)} objects must have a decimal value between {_MinValue} and {_MaxValue}");
         }
     }
@@ -72,12 +73,12 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
 
         if (value.Length != byteLength)
         {
-            throw new ArgumentOutOfRangeException(
+            throw new DataElementParsingException(
                 $"The Primitive Value {nameof(ShortFileIdentifier)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<byte> result = codec.Decode(EncodingId, value) as DecodedResult<byte>
-            ?? throw new InvalidOperationException(
+            ?? throw new DataElementParsingException(
                 $"The {nameof(ShortFileIdentifier)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new ShortFileIdentifier(result.Value);

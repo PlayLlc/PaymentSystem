@@ -2,6 +2,7 @@
 using System.Collections.Immutable;
 
 using Play.Core;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
 
@@ -97,7 +98,7 @@ public partial record TerminalType
         {
             if (!TryGet(terminalOperatorType, out TerminalOperatorType result))
             {
-                throw new ArgumentOutOfRangeException(nameof(TerminalOperatorType),
+                throw new DataElementParsingException(nameof(TerminalOperatorType),
                     $"The {nameof(TerminalOperatorType)} could not be found from the number supplied to the argument: {nameof(terminalOperatorType)}");
             }
 

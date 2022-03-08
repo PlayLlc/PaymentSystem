@@ -6,6 +6,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Exceptions;
 using Play.Randoms;
 
 namespace Play.Emv.DataElements;
@@ -52,12 +53,12 @@ public record UnpredictableNumber : DataElement<uint>, IEqualityComparer<Unpredi
     {
         if (value.Length != _ByteCount)
         {
-            throw new ArgumentOutOfRangeException(
+            throw new DataElementParsingException(
                 $"The Primitive Value {nameof(UnpredictableNumber)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteCount} bytes in length");
         }
 
         DecodedResult<uint> result = _Codec.Decode(EncodingId, value) as DecodedResult<uint>
-            ?? throw new InvalidOperationException(
+            ?? throw new DataElementParsingException(
                 $"The {nameof(UnpredictableNumber)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new UnpredictableNumber(result.Value);

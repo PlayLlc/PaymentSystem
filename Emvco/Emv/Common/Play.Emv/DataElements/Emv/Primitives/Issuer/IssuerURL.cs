@@ -6,6 +6,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
 
@@ -45,7 +46,7 @@ public record IssuerUrl : DataElement<char[]>, IEqualityComparer<IssuerUrl>
     public static IssuerUrl Decode(ReadOnlySpan<byte> value)
     {
         DecodedResult<char[]> result = _Codec.Decode(EncodingId, value) as DecodedResult<char[]>
-            ?? throw new InvalidOperationException(
+            ?? throw new DataElementParsingException(
                 $"The {nameof(IssuerUrl)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
 
         return new IssuerUrl(result.Value);

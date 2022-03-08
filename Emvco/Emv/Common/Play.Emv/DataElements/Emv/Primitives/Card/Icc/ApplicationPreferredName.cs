@@ -6,6 +6,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
 
@@ -59,12 +60,12 @@ public record ApplicationPreferredName : DataElement<char[]>, IEqualityComparer<
 
         if (value.Length is not >= minByteLength and <= maxByteLength)
         {
-            throw new ArgumentOutOfRangeException(
+            throw new DataElementParsingException(
                 $"The Primitive Value {nameof(ApplicationPreferredName)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
         }
 
         DecodedResult<char[]> result = _Codec.Decode(EncodingId, value) as DecodedResult<char[]>
-            ?? throw new InvalidOperationException(
+            ?? throw new DataElementParsingException(
                 $"The {nameof(ApplicationPreferredName)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
 
         return new ApplicationPreferredName(result.Value);

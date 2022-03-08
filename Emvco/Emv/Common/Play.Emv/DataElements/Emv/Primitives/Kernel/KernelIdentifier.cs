@@ -6,6 +6,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Exceptions;
 using Play.Globalization.Currency;
 using Play.Icc.FileSystem.DedicatedFiles;
 
@@ -65,7 +66,7 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
         const byte bitOffset = 7;
 
         if (KernelType.TryGet((byte) (_Value >> bitOffset), out KernelType? result))
-            throw new InvalidOperationException($"The {nameof(KernelType)} could not be determined from the {nameof(KernelIdentifier)}");
+            throw new DataElementParsingException($"The {nameof(KernelType)} could not be determined from the {nameof(KernelIdentifier)}");
 
         return result;
     }
@@ -209,12 +210,12 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
 
         if (value.Length is not >= minByteLength and <= maxByteLength)
         {
-            throw new ArgumentOutOfRangeException(
+            throw new DataElementParsingException(
                 $"The Primitive Value {nameof(KernelIdentifier)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
         }
 
         DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result()
-            ?? throw new InvalidOperationException(
+            ?? throw new DataElementParsingException(
                 $"The {nameof(KernelIdentifier)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
         return new KernelIdentifier(result.Value);

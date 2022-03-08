@@ -54,7 +54,7 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
         byte communicationTypeValue = (byte) ((_Value % 10) <= 3 ? _Value % 10 : (_Value % 10) - 3);
 
         if (!CommunicationType.TryGet(communicationTypeValue, out CommunicationType result))
-            throw new InvalidOperationException($"There was an internal error trying to resolve {nameof(CommunicationType)}");
+            throw new DataElementParsingException($"There was an internal error trying to resolve {nameof(CommunicationType)}");
 
         return result;
     }
@@ -79,7 +79,7 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
         byte terminalOperatorTypeValue = (byte) ((_Value / 10) * 10);
 
         if (!TerminalOperatorType.TryGet(terminalOperatorTypeValue, out TerminalOperatorType result))
-            throw new InvalidOperationException($"There was an internal error trying to resolve {nameof(CommunicationType)}");
+            throw new DataElementParsingException($"There was an internal error trying to resolve {nameof(CommunicationType)}");
 
         return result;
     }
@@ -102,7 +102,7 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         DecodedResult<byte> result = _Codec.Decode(EncodingId, value.Span) as DecodedResult<byte>
-            ?? throw new InvalidOperationException(
+            ?? throw new DataElementParsingException(
                 $"The {nameof(TerminalType)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
 
         return new TerminalType(result.Value);
