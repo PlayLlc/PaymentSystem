@@ -7,7 +7,7 @@ using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
 
-using CodecParsingException = Play.Codecs.Exceptions._Temp.CodecParsingException;
+
 
 namespace Play.Codecs;
 

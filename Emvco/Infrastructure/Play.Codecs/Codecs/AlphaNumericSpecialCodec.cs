@@ -6,7 +6,7 @@ using Microsoft.Toolkit.HighPerformance.Buffers;
 using Play.Codecs.Exceptions;
 using Play.Core.Specifications;
 
-using CodecParsingException = Play.Codecs.Exceptions._Temp.CodecParsingException;
+
 
 namespace Play.Codecs;
 
