@@ -296,13 +296,13 @@ public class AlphabeticCodec : PlayCodec
         throw new NotImplementedException();
     }
 
+ 
     /// <summary>
     /// Encode
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="InternalPlayEncodingException"></exception>
     /// <exception cref="PlayEncodingException"></exception>
     public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct
     {

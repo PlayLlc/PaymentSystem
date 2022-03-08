@@ -40,10 +40,16 @@ public record ApplicationPan : DataElement<BigInteger>
 
     public static ApplicationPan Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerException"></exception>
-    /// <exception cref="DataElementNullException"></exception>
+    
+    /// <summary>
+    /// Decode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="BerInternalException"></exception>
     /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
+    /// <exception cref="DataElementNullException"></exception>
     public static ApplicationPan Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
