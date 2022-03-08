@@ -59,6 +59,7 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
+    /// <exception cref="DataElementNullException"></exception>
     private static MessageHoldTime Decode(ReadOnlySpan<byte> value)
     {
         const ushort byteLength = 3;

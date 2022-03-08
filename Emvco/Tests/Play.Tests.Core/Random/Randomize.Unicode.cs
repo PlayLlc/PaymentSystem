@@ -15,6 +15,13 @@ public partial class Randomize
             return decimalValue;
         }
 
+        /// <summary>
+        /// GetRandomDecimalInRange
+        /// </summary>
+        /// <param name="minRange"></param>
+        /// <param name="maxRange"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         private static int GetRandomDecimalInRange(int minRange, int maxRange)
         {
             if ((minRange < char.MinValue) || (maxRange > char.MaxValue))

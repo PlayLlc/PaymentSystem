@@ -38,6 +38,12 @@ internal class PcdStateMachine
 
     #region Instance Members
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="Play.Emv.Pcd.Exceptions.CardReadException"></exception>
     internal void Handle(ActivatePcdRequest request)
     {
         lock (_PcdSessionLock)
@@ -53,6 +59,13 @@ internal class PcdStateMachine
         }
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="abortHandler"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="InvalidSignalRequest"></exception>
     public void Handle(StopPcdRequest request, Action abortHandler)
     {
         lock (_PcdSessionLock)
@@ -76,18 +89,37 @@ internal class PcdStateMachine
         }
     }
 
+    /// <summary>
+    /// CloseSessionCardCheck
+    /// </summary>
+    /// <param name="correlationId"></param>
+    /// <param name="transactionSessionId"></param>
+    /// <exception cref="Play.Emv.Pcd.Exceptions.CardReadException"></exception>
     private void CloseSessionCardCheck(CorrelationId correlationId, TransactionSessionId transactionSessionId)
     {
         _CardClient.CloseSessionCardCheck();
         _PcdEndpoint.Send(new StopPcdAcknowledgedResponse(correlationId, transactionSessionId, Level1Error.Ok));
     }
 
+    /// <summary>
+    /// CloseSession
+    /// </summary>
+    /// <param name="correlationId"></param>
+    /// <param name="transactionSessionId"></param>
+    /// <exception cref="Play.Emv.Pcd.Exceptions.CardReadException"></exception>
     private void CloseSession(CorrelationId correlationId, TransactionSessionId transactionSessionId)
     {
         _CardClient.CloseSession();
         _PcdEndpoint.Send(new StopPcdAcknowledgedResponse(correlationId, transactionSessionId, Level1Error.Ok));
     }
 
+    /// <summary>
+    /// Abort
+    /// </summary>
+    /// <param name="correlationId"></param>
+    /// <param name="transactionSessionId"></param>
+    /// <param name="abortHandler"></param>
+    /// <exception cref="Play.Emv.Pcd.Exceptions.CardReadException"></exception>
     private void Abort(CorrelationId correlationId, TransactionSessionId transactionSessionId, Action abortHandler)
     {
         abortHandler.Invoke();
@@ -103,6 +135,13 @@ internal class PcdStateMachine
 
     #region Blocking
 
+    /// <summary>
+    /// Transceive
+    /// </summary>
+    /// <param name="message"></param>
+    /// <returns></returns>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="Play.Emv.Pcd.Exceptions.CardReadException"></exception>
     internal Task<GetDataBatchResponse> Transceive(GetDataBatchRequest message)
     {
         Task<GetDataBatchResponse> result;
@@ -124,6 +163,13 @@ internal class PcdStateMachine
         return result;
     }
 
+    /// <summary>
+    /// Transceive
+    /// </summary>
+    /// <param name="message"></param>
+    /// <returns></returns>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="Play.Emv.Pcd.Exceptions.CardReadException"></exception>
     internal Task<ReadApplicationDataResponse> Transceive(ReadApplicationDataRequest message)
     {
         Task<ReadApplicationDataResponse> result;
@@ -149,6 +195,12 @@ internal class PcdStateMachine
 
     #region QUERY
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="cardClient"></param>
+    /// <param name="request"></param>
+    /// <exception cref="Play.Emv.Pcd.Exceptions.CardReadException"></exception>
     public void Handle(CardClient cardClient, dynamic request)
     {
         Task<dynamic> response = cardClient.Transceive(request);
@@ -156,6 +208,12 @@ internal class PcdStateMachine
         _PcdEndpoint.Send(response.Result);
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Handle(QueryPcdRequest request)
     {
         lock (_PcdSessionLock)

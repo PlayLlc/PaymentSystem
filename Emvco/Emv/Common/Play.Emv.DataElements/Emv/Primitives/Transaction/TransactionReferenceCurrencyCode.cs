@@ -43,6 +43,7 @@ public record TransactionReferenceCurrencyCode : DataElement<ushort>, IEqualityC
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
+    /// <exception cref="System.Exception"></exception>
     public static TransactionReferenceCurrencyCode Decode(ReadOnlySpan<byte> value)
     {
         const ushort charLength = 3;

@@ -41,6 +41,13 @@ public record DataStorageId : DataElement<BigInteger>
 
     #region Serialization
 
+    /// <summary>
+    /// Decode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     public static DataStorageId Decode(ReadOnlySpan<byte> value)
     {
         const byte minCharLength = 16;

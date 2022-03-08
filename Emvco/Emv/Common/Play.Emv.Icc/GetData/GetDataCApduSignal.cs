@@ -36,6 +36,7 @@ public class GetDataCApduSignal : CApduSignal
     ///     The <see cref="Tag" /> must be less than or equal to a <see cref="ushort" /> value
     /// </param>
     /// <returns></returns>
+    /// <exception cref="Play.Icc.Exceptions.Iso7816Exception"></exception>
     public static GetDataCApduSignal Create(Tag tag)
     {
         GetDataApduCommand cApdu = GetDataApduCommand.Create(ProprietaryMessageIdentifier._8x, tag);

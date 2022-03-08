@@ -46,6 +46,12 @@ public class DisplayProcess : CommandProcessingQueue
     public void Enqueue(StopDisplayRequest request) => Enqueue((dynamic) request);
     protected override async Task Handle(dynamic command) => await Handle(command).ConfigureAwait(false);
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    /// <exception cref="NetworkInformationException"></exception>
     public async Task Handle(DisplayMessageRequest request)
     {
         DisplayMessage displayMessage =

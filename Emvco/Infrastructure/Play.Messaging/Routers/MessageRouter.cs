@@ -21,6 +21,11 @@ public class MessageRouter : IRouteMessages
 
     #region Instance Members
 
+    /// <summary>
+    /// Subscribe
+    /// </summary>
+    /// <param name="messageChannel"></param>
+    /// <exception cref="Play.Messaging.Exceptions.MessagingException"></exception>
     void IRouteMessages.Subscribe(IMessageChannel messageChannel)
     {
         _MessageBus.Subscribe(messageChannel);
@@ -33,6 +38,11 @@ public class MessageRouter : IRouteMessages
 
     #region Requests
 
+    /// <summary>
+    /// Send
+    /// </summary>
+    /// <param name="requestMessageEnvelop"></param>
+    /// <exception cref="Play.Messaging.Exceptions.InvalidMessageRoutingException"></exception>
     void IRouteMessages.Send(RequestMessageEnvelope requestMessageEnvelop)
     {
         _MessageBus.Send(requestMessageEnvelop.GetMessage());
@@ -44,6 +54,11 @@ public class MessageRouter : IRouteMessages
 
     #region Replies
 
+    /// <summary>
+    /// Send
+    /// </summary>
+    /// <param name="responseMessageEnvelope"></param>
+    /// <exception cref="Play.Messaging.Exceptions.InvalidMessageRoutingException"></exception>
     void IRouteMessages.Send(ResponseMessageEnvelope responseMessageEnvelope)
     {
         _MessageBus.Send(responseMessageEnvelope.GetMessage());

@@ -31,6 +31,11 @@ public class DatabaseValues : IReadOnlyCollection<DatabaseValue> // IEnumerable<
 
     #region Instance Members
 
+    /// <summary>
+    /// EncodeTagLengthValues
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     public byte[] EncodeTagLengthValues()
     {
         return _Values.SelectMany(a => a.EncodeTagLengthValue()).ToArray();

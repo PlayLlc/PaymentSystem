@@ -39,6 +39,13 @@ public record PosEntryMode : DataElement<byte>, IEqualityComparer<PosEntryMode>
 
     #region Serialization
 
+    /// <summary>
+    /// Decode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="DataElementNullException"></exception>
     public static PosEntryMode Decode(ReadOnlyMemory<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -51,6 +58,8 @@ public record PosEntryMode : DataElement<byte>, IEqualityComparer<PosEntryMode>
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
+    /// <exception cref="DataElementNullException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     public static PosEntryMode Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

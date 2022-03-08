@@ -49,6 +49,7 @@ public record ApplicationVersionNumberTerminal : DataElement<ushort>, IEqualityC
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
+    /// <exception cref="System.Exception"></exception>
     public static ApplicationVersionNumberTerminal Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

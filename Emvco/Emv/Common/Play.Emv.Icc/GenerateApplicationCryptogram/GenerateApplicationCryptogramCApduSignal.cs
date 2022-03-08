@@ -43,6 +43,15 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
         DataObjectListResult cardRiskManagementDataObjectListResult) =>
         Create(cryptogramTypes, isCdaRequested, cardRiskManagementDataObjectListResult.AsCommandTemplate());
 
+    /// <summary>
+    /// Create
+    /// </summary>
+    /// <param name="cryptogramTypes"></param>
+    /// <param name="isCdaRequested"></param>
+    /// <param name="cardRiskManagementDataObjectListResult"></param>
+    /// <param name="dataStorageDataObjectListResult"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     public static GenerateApplicationCryptogramCApduSignal Create(
         CryptogramTypes cryptogramTypes,
         bool isCdaRequested,

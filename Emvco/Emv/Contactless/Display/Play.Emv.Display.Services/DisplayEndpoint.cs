@@ -45,6 +45,11 @@ public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposa
 
     #region Requests
 
+    /// <summary>
+    /// Request
+    /// </summary>
+    /// <param name="message"></param>
+    /// <exception cref="UnhandledRequestException"></exception>
     public void Request(RequestMessage message)
     {
         if (message is DisplayMessageRequest activatePcdRequest)
@@ -69,6 +74,11 @@ public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposa
 
     #region Callbacks
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="message"></param>
+    /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Handle(ResponseMessage message)
     {
         throw new InvalidMessageRoutingException(message, this);

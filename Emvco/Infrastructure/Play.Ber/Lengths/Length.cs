@@ -149,6 +149,7 @@ public readonly struct Length
     /// <param name="contentOctets"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <exception cref="BerFormatException"></exception>
     internal static byte[] Serialize(ReadOnlySpan<byte> contentOctets)
     {
         if (contentOctets.Length > LongLength.MaxLengthSupported)

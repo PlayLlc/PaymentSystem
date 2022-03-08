@@ -42,6 +42,7 @@ public record ApplicationCryptogram : DataElement<ulong>, IEqualityComparer<Appl
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
+    /// <exception cref="DataElementNullException"></exception>
     public static ApplicationCryptogram Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

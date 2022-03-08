@@ -77,6 +77,7 @@ public class FileControlInformationAdf : FileControlInformationTemplate
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
     /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="CardDataMissingException"></exception>
     private static FileControlInformationAdf Decode(EncodedTlvSiblings encodedSiblings)
     {
         DedicatedFileName dedicatedFileName = _Codec.AsPrimitive(DedicatedFileName.Decode, DedicatedFileName.Tag, encodedSiblings)

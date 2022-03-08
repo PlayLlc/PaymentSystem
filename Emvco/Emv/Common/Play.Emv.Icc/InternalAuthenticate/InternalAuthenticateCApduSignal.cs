@@ -32,6 +32,12 @@ public class InternalAuthenticateCApduSignal : CApduSignal
 
     #region Instance Members
 
+    /// <summary>
+    /// Create
+    /// </summary>
+    /// <param name="dynamicAuthenticationDataObjectListResult"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     public static InternalAuthenticateCApduSignal Create(DataObjectListResult dynamicAuthenticationDataObjectListResult)
     {
         InternalAuthenticateApduCommand cApdu =

@@ -26,6 +26,11 @@ public class HexadecimalTests
 
     #region Instance Members
 
+    /// <summary>
+    /// RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult
+    /// </summary>
+    /// <param name="testValue"></param>
+    /// <exception cref="PlayEncodingException"></exception>
     [Theory]
     [MemberData(nameof(HexadecimalFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(HexadecimalFixture))]
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
@@ -36,6 +41,11 @@ public class HexadecimalTests
         Assert.Equal(testValue, encoded);
     }
 
+    /// <summary>
+    /// RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult
+    /// </summary>
+    /// <param name="testValue"></param>
+    /// <exception cref="PlayEncodingException"></exception>
     [Theory]
     [MemberData(nameof(HexadecimalFixture.GetRandomString), 100, 1, 300, MemberType = typeof(HexadecimalFixture))]
     public void RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult(string testValue)
@@ -46,6 +56,10 @@ public class HexadecimalTests
         Assert.Equal(testValue, encoded);
     }
 
+    /// <summary>
+    /// SelectPpseRApduByteArray_ConvertingToHexadecimalString_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="PlayEncodingException"></exception>
     [Fact]
     public void SelectPpseRApduByteArray_ConvertingToHexadecimalString_ReturnsExpectedResult()
     {
@@ -56,6 +70,10 @@ public class HexadecimalTests
         Assert.Equal(result, ApduTestData.RApdu.Select.Ppse.PpseHex);
     }
 
+    /// <summary>
+    /// SelectPpseCApduByteArray_ConvertingToHexadecimalString_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="PlayEncodingException"></exception>
     [Fact]
     public void SelectPpseCApduByteArray_ConvertingToHexadecimalString_ReturnsExpectedResult()
     {
@@ -122,12 +140,20 @@ public class HexadecimalTests
         Assert.Throws<PlayEncodingException>(() => PlayCodec.HexadecimalCodec.Encode(testData));
     }
 
+    /// <summary>
+    /// GivenNullByteArray_GetString_ThrowsArgumentNullException
+    /// </summary>
+    /// <exception cref="PlayEncodingException"></exception>
     [Fact]
     public void GivenNullByteArray_GetString_ThrowsArgumentNullException()
     {
         Assert.Throws<ArgumentNullException>(() => PlayCodec.HexadecimalCodec.DecodeToString(null));
     }
 
+    /// <summary>
+    /// GivenValidHexadecimalByteArray_GetString_ReturnsExpectedString
+    /// </summary>
+    /// <exception cref="PlayEncodingException"></exception>
     [Fact]
     public void GivenValidHexadecimalByteArray_GetString_ReturnsExpectedString()
     {

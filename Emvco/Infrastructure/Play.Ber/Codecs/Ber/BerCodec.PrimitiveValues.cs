@@ -58,6 +58,7 @@ public partial class BerCodec
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerInternalException"></exception>
     public DecodedMetadata Decode(PlayEncodingId codecIdentifier, ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));

@@ -35,6 +35,13 @@ public record NetSettlementAmount : FixedDataField<BigInteger>
 
     #region Serialization
 
+    /// <summary>
+    /// Decode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
     public override NetSettlementAmount Decode(ReadOnlyMemory<byte> value)
     {
         Check.DataField.ForExactLength(value, _ByteCount, DataFieldId);

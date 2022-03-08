@@ -46,6 +46,7 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<TagsToRead>
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public int Resolve(TagLengthValue[] value)
     {
         for (nint i = 0; i < _Value.Count; i++)
@@ -66,6 +67,13 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<TagsToRead>
 
     #region Serialization
 
+    /// <summary>
+    /// Decode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="BerException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public static TagsToRead Decode(ReadOnlyMemory<byte> value)
     {
         if (value.IsEmpty)

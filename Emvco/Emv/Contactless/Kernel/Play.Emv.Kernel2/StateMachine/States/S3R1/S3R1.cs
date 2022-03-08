@@ -35,6 +35,13 @@ public class S3R1
 
     #region Instance Members
 
+    /// <summary>
+    /// Process
+    /// </summary>
+    /// <param name="session"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerException"></exception>
     public async Task<KernelState> Process(KernelSession session)
     {
         // TODO: Optimized AFL means we'll be sending GET DATA commands. Otherwise, we'll be sending READ FILE commands
@@ -59,6 +66,12 @@ public class S3R1
         _KernelDatabase.Update(Level2Error.CardDataError);
     }
 
+    /// <summary>
+    /// ProcessTagsToRead
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     private async Task ProcessTagsToRead(GetDataBatchRequest request)
     {
         try
@@ -86,6 +99,13 @@ public class S3R1
         }
     }
 
+    /// <summary>
+    /// ProcessApplicationData
+    /// </summary>
+    /// <param name="sessionId"></param>
+    /// <param name="applicationFileLocator"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     private async Task ProcessApplicationData(TransactionSessionId sessionId, ApplicationFileLocator applicationFileLocator)
     {
         ReadApplicationDataRequest capdu = ReadApplicationDataRequest.Create(applicationFileLocator, sessionId);

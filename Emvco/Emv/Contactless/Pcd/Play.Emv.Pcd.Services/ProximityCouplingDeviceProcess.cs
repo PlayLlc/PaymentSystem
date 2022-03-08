@@ -32,11 +32,23 @@ internal class ProximityCouplingDeviceProcess : CommandProcessingQueue
     internal void Enqueue(StopPcdRequest request) => Enqueue((dynamic) request);
     protected override async Task Handle(dynamic command) => await Handle(command).ConfigureAwait(false);
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
     public async Task Handle(ActivatePcdRequest request)
     {
         await Task.Run(() => { _PcdStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
     public async Task Handle(QueryPcdRequest request)
     {
         await Task.Run(() => { _PcdStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
@@ -44,6 +56,12 @@ internal class ProximityCouplingDeviceProcess : CommandProcessingQueue
 
     #region STOP
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
     public async Task Handle(StopPcdRequest request)
     {
         await Task.Run(() =>

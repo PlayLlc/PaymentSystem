@@ -26,6 +26,11 @@ public class DataObjectListResult : IEqualityComparer<DataObjectListResult>, IEq
 
     #region Instance Members
 
+    /// <summary>
+    /// AsByteArray
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     public byte[] AsByteArray()
     {
         return _Value.SelectMany(a => a.EncodeTagLengthValue()).ToArray();

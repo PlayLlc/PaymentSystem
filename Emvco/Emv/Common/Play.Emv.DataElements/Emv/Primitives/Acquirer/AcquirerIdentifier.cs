@@ -62,6 +62,7 @@ public record AcquirerIdentifier : DataElement<ulong>, IEqualityComparer<Acquire
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
+    /// <exception cref="System.Exception"></exception>
     public static AcquirerIdentifier Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

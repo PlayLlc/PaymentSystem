@@ -92,12 +92,33 @@ internal class Idle : TerminalState
         return _TerminalStateResolver.GetKernelState(WaitingForFinalOutcome.StateId);
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <returns></returns>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override TerminalState Handle(TerminalSession session, OutReaderResponse signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <returns></returns>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override TerminalState Handle(TerminalSession session, QueryKernelResponse signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <returns></returns>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override TerminalState Handle(TerminalSession session, StopReaderAcknowledgedResponse signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
 
@@ -113,6 +134,13 @@ internal class Idle : TerminalState
     public override TerminalState Handle(TerminalSession? session, AcquirerResponseSignal signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <returns></returns>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override TerminalState Handle(TerminalSession session, QueryTerminalRequest signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
 

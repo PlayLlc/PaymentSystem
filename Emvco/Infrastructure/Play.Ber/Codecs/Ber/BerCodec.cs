@@ -60,6 +60,13 @@ public partial class BerCodec
         return new TagLength(tag, length);
     }
 
+    /// <summary>
+    /// DecodeTagLengthValue
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="BerException"></exception>
+    /// <exception cref="BerInternalException"></exception>
     public TagLengthValue DecodeTagLengthValue(ReadOnlySpan<byte> value)
     {
         Tag tag = new(value);

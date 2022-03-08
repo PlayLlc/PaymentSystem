@@ -37,6 +37,11 @@ public class GetFileControlInformationCApduSignalTests
         Assert.Equal(expectedResult, testValue);
     }
 
+    /// <summary>
+    /// CApduSignal_InitializingWithDedicatedFileName_CreatesExpectedResult
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void CApduSignal_InitializingWithDedicatedFileName_CreatesExpectedResult()
     {

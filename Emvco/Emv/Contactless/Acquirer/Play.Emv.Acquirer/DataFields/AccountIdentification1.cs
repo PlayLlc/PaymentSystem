@@ -36,6 +36,13 @@ public record AccountIdentification1 : VariableDataField<char[]>
 
     #region Serialization
 
+    /// <summary>
+    /// Decode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
     public override AccountIdentification1 Decode(ReadOnlyMemory<byte> value)
     {
         Check.DataField.ForMaximumLength(value, _MaxByteCount, DataFieldId);

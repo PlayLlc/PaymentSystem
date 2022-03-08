@@ -22,6 +22,11 @@ public abstract record DataExchangeRequest : DataExchangeList<Tag>
 
     #region Serialization
 
+    /// <summary>
+    /// EncodeValue
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     public new byte[] EncodeValue()
     {
         return _Value.ToArray().SelectMany(a => a.Serialize()).ToArray();

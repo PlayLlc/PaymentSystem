@@ -54,6 +54,11 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
 
     #region Requests
 
+    /// <summary>
+    /// Request
+    /// </summary>
+    /// <param name="message"></param>
+    /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Request(RequestMessage message)
     {
         throw new InvalidMessageRoutingException(message, this);
@@ -107,6 +112,11 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
 
     #region Callbacks
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="message"></param>
+    /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Handle(ResponseMessage message)
     {
         if (message is OutSelectionResponse outSelectionResponse)

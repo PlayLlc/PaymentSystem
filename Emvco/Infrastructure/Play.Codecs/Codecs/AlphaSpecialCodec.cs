@@ -296,6 +296,7 @@ public class AlphaSpecialCodec : PlayCodec
     }
 
     /// <exception cref="EncodingException">Ignore.</exception>
+    /// <exception cref="PlayEncodingException"></exception>
     public bool DecodingToString(ReadOnlySpan<byte> value, out string result)
     {
         result = string.Empty;

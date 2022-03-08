@@ -232,6 +232,12 @@ public class SignedIntegerCodec : PlayCodec
 
     public override ushort GetByteCount<_T>(_T value) => (ushort) Unsafe.SizeOf<_T>();
 
+    /// <summary>
+    /// GetByteCount
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override ushort GetByteCount<_T>(_T[] value)
     {
         Type type = typeof(_T);
@@ -399,6 +405,12 @@ public class SignedIntegerCodec : PlayCodec
         return true;
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<_T>(_T value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -424,6 +436,13 @@ public class SignedIntegerCodec : PlayCodec
         return Encode(Unsafe.As<_T, BigInteger>(ref value));
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<_T>(_T value, int length)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -451,6 +470,12 @@ public class SignedIntegerCodec : PlayCodec
         return Encode(Unsafe.As<_T, BigInteger>(ref value), length);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<_T>(_T[] value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -465,6 +490,13 @@ public class SignedIntegerCodec : PlayCodec
         return Encode(Unsafe.As<_T[], byte[]>(ref value));
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<_T>(_T[] value, int length)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -505,6 +537,13 @@ public class SignedIntegerCodec : PlayCodec
         return charCount;
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -534,6 +573,14 @@ public class SignedIntegerCodec : PlayCodec
             Encode(Unsafe.As<_T, BigInteger>(ref value), buffer, ref offset);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -565,6 +612,13 @@ public class SignedIntegerCodec : PlayCodec
             Encode(Unsafe.As<_T, BigInteger>(ref value), length, buffer, ref offset);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
     {
         if (typeof(_T).IsChar())
@@ -573,6 +627,14 @@ public class SignedIntegerCodec : PlayCodec
             throw new InternalPlayEncodingException(this, typeof(_T));
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
     {
         if (typeof(_T) == typeof(char))

@@ -43,6 +43,8 @@ public record TransactionCurrencyExponent : DataElement<byte>, IEqualityComparer
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
+    /// <exception cref="DataElementNullException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     public static TransactionCurrencyExponent Decode(ReadOnlySpan<byte> value)
     {
         const ushort charLength = 1;

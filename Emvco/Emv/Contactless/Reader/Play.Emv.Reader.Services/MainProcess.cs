@@ -46,21 +46,45 @@ internal class MainProcess : CommandProcessingQueue
     internal void Enqueue(StopPcdAcknowledgedResponse message) => Enqueue((dynamic) message);
     protected override async Task Handle(dynamic command) => await Handle(command).ConfigureAwait(false);
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
     private async Task Handle(ActivateReaderRequest request)
     {
         await Task.Run(() => { _MainStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
     private async Task Handle(OutSelectionResponse request)
     {
         await Task.Run(() => { _MainStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
     private async Task Handle(OutKernelResponse request)
     {
         await Task.Run(() => { _MainStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
     private async Task Handle(StopReaderRequest request)
     {
         await Task.Run(() => { _MainStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);

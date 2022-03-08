@@ -18,6 +18,10 @@ public class DataObjectListTests
 {
     #region Instance Members
 
+    /// <summary>
+    /// BerEncodingTagLengths_Deserializing_CreatesDataObjectList
+    /// </summary>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncodingTagLengths_Deserializing_CreatesDataObjectList()
     {
@@ -28,6 +32,10 @@ public class DataObjectListTests
         Assert.NotNull(sut);
     }
 
+    /// <summary>
+    /// BerEncodingTagLengths_InvokingGetRequestedItems_ReturnsExpectedTags
+    /// </summary>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncodingTagLengths_InvokingGetRequestedItems_ReturnsExpectedTags()
     {
@@ -43,6 +51,10 @@ public class DataObjectListTests
         }
     }
 
+    /// <summary>
+    /// BerEncodingNullTagLengths_InvokingGetRequestedItems_ReturnsExpectedTagLengthPairs
+    /// </summary>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncodingNullTagLengths_InvokingGetRequestedItems_ReturnsExpectedTagLengthPairs()
     {
@@ -66,6 +78,10 @@ public class DataObjectListTests
         }
     }
 
+    /// <summary>
+    /// BerEncodingTagLengths_InvokingGetRequestedItems_ReturnsExpectedLength
+    /// </summary>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncodingTagLengths_InvokingGetRequestedItems_ReturnsExpectedLength()
     {
@@ -84,6 +100,10 @@ public class DataObjectListTests
         }
     }
 
+    /// <summary>
+    /// BerEncodingTagLengths_InvokingAsCommandTemplate_ReturnsCommandTemplate
+    /// </summary>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncodingTagLengths_InvokingAsCommandTemplate_ReturnsCommandTemplate()
     {
@@ -95,6 +115,10 @@ public class DataObjectListTests
         Assert.NotNull(commandTemplate);
     }
 
+    /// <summary>
+    /// BerEncodingTagLengths_InvokingAsCommandTemplate_ReturnsExpectedCommandTemplate
+    /// </summary>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncodingTagLengths_InvokingAsCommandTemplate_ReturnsExpectedCommandTemplate()
     {

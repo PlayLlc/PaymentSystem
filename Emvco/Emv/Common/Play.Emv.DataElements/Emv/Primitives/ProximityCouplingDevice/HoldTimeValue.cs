@@ -59,6 +59,7 @@ public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldT
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
+    /// <exception cref="DataElementNullException"></exception>
     private static HoldTimeValue Decode(ReadOnlySpan<byte> value)
     {
         const ushort charLength = 6;

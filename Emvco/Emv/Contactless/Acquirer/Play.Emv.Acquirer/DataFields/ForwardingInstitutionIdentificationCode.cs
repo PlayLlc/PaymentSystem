@@ -38,6 +38,13 @@ public record ForwardingInstitutionIdentificationCode : VariableDataField<BigInt
 
     #region Serialization
 
+    /// <summary>
+    /// Decode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
     public override ForwardingInstitutionIdentificationCode Decode(ReadOnlyMemory<byte> value)
     {
         Check.DataField.ForMaximumLength(value, _MaxByteCount, DataFieldId);

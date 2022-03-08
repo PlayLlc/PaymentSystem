@@ -28,6 +28,13 @@ public class KernelCertificateDatabase : IKernelCertificateDatabase
 
     #region Instance Members
 
+    /// <summary>
+    /// IsRevoked
+    /// </summary>
+    /// <param name="rid"></param>
+    /// <param name="caPublicKeyIndex"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public bool IsRevoked(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex caPublicKeyIndex)
     {
         if (!TryGet(rid, caPublicKeyIndex, out CaPublicKeyCertificate? result))
@@ -42,6 +49,14 @@ public class KernelCertificateDatabase : IKernelCertificateDatabase
             _Certificates.ElementAt(i).Value.PurgeRevokedCertificates();
     }
 
+    /// <summary>
+    /// TryGet
+    /// </summary>
+    /// <param name="rid"></param>
+    /// <param name="index"></param>
+    /// <param name="result"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public bool TryGet(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex index, out CaPublicKeyCertificate? result)
     {
         if (!_Certificates.TryGetValue(rid, out CertificateAuthorityDataset? dataset))

@@ -88,6 +88,7 @@ internal static partial class LongIdentifier
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="BerFormatException"></exception>
     private static ushort GetSubsequentOctets(uint value)
     {
         ushort subsequentOctets = (ushort) value.GetMaskedValue(GetSubsequentOctetMask(GetByteCount(value)));
@@ -137,6 +138,7 @@ internal static partial class LongIdentifier
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
+    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
     public static void Validate(ReadOnlySpan<byte> value)
     {
         LeadingOctet.Validate(value[0]);

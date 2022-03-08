@@ -41,6 +41,12 @@ public abstract record FixedDataField<T> : InterchangeDataField
 
     #region Serialization
 
+    /// <summary>
+    /// Decode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
     public byte[] Decode(ReadOnlySpan<byte> value)
     {
         Check.DataField.ForExactLength(value, GetByteCount(), GetDataFieldId());

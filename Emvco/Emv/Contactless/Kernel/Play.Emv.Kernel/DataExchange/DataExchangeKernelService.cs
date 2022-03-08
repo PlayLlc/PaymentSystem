@@ -87,6 +87,11 @@ public class DataExchangeKernelService
 
     #region Responses
 
+    /// <summary>
+    /// SendResponse
+    /// </summary>
+    /// <param name="kernelSessionId"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void SendResponse(KernelSessionId kernelSessionId)
     {
         lock (_Lock)
@@ -107,6 +112,12 @@ public class DataExchangeKernelService
         }
     }
 
+    /// <summary>
+    /// SendResponse
+    /// </summary>
+    /// <param name="sessionId"></param>
+    /// <param name="correlationId"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void SendResponse(KernelSessionId sessionId, CorrelationId correlationId)
     {
         lock (_Lock)
@@ -165,6 +176,12 @@ public class DataExchangeKernelService
         }
     }
 
+    /// <summary>
+    /// Enqueue
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="listItem"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Enqueue(DekResponseType type, TagLengthValue listItem)
     {
         lock (_Lock)
@@ -179,6 +196,12 @@ public class DataExchangeKernelService
         }
     }
 
+    /// <summary>
+    /// Enqueue
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="listItems"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Enqueue(DekResponseType type, TagLengthValue[] listItems)
     {
         lock (_Lock)
@@ -193,6 +216,12 @@ public class DataExchangeKernelService
         }
     }
 
+    /// <summary>
+    /// Enqueue
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="listItems"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Enqueue(DekResponseType type, DataExchangeResponse listItems)
     {
         lock (_Lock)
@@ -207,6 +236,12 @@ public class DataExchangeKernelService
         }
     }
 
+    /// <summary>
+    /// Enqueue
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="listItems"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Enqueue(DekRequestType type, DataExchangeRequest listItems)
     {
         lock (_Lock.Requests)
@@ -295,6 +330,7 @@ public class DataExchangeKernelService
     /// </summary>
     /// <param name="listType"></param>
     /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public int Resolve(DekRequestType listType)
     {
         lock (_Lock.Requests)
@@ -309,6 +345,13 @@ public class DataExchangeKernelService
         }
     }
 
+    /// <summary>
+    /// Resolve
+    /// </summary>
+    /// <param name="tagsToRead"></param>
+    /// <param name="tlvDatabase"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     private static int Resolve(TagsToRead? tagsToRead, IQueryTlvDatabase tlvDatabase)
     {
         if (tagsToRead == null)
@@ -337,6 +380,7 @@ public class DataExchangeKernelService
     /// </summary>
     /// <param name="dataBatchResponse"></param>
     /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public int Resolve(GetDataBatchResponse dataBatchResponse)
     {
         lock (_Lock.Requests)
@@ -348,6 +392,14 @@ public class DataExchangeKernelService
         }
     }
 
+    /// <summary>
+    /// TryGetDataBatchRequest
+    /// </summary>
+    /// <param name="sessionId"></param>
+    /// <param name="result"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     public bool TryGetDataBatchRequest(TransactionSessionId sessionId, out GetDataBatchRequest? result)
     {
         lock (_Lock.Requests)
@@ -378,6 +430,12 @@ public class DataExchangeKernelService
         }
     }
 
+    /// <summary>
+    /// Enqueue
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="listItem"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Enqueue(DekRequestType type, Tag listItem)
     {
         lock (_Lock.Requests)
@@ -392,6 +450,12 @@ public class DataExchangeKernelService
         }
     }
 
+    /// <summary>
+    /// Enqueue
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="listItems"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Enqueue(DekRequestType type, Tag[] listItems)
     {
         lock (_Lock.Requests)

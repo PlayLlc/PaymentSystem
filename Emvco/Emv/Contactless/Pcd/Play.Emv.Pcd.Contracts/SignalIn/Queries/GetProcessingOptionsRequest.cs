@@ -28,6 +28,13 @@ public record GetProcessingOptionsRequest : QueryPcdRequest
         _CommandTemplate = commandTemplate;
     }
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="dataObjectListResult"></param>
+    /// <param name="cApduSignal"></param>
+    /// <param name="transactionSessionId"></param>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     private GetProcessingOptionsRequest(
         DataObjectListResult dataObjectListResult,
         CApduSignal cApduSignal,
@@ -49,6 +56,13 @@ public record GetProcessingOptionsRequest : QueryPcdRequest
     public static GetProcessingOptionsRequest Create(TransactionSessionId transactionSessionId) =>
         new(GetProcessingOptionsCApduSignal.Create(), transactionSessionId);
 
+    /// <summary>
+    /// Create
+    /// </summary>
+    /// <param name="dataObjectListResult"></param>
+    /// <param name="transactionSessionId"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     public static GetProcessingOptionsRequest Create(DataObjectListResult dataObjectListResult, TransactionSessionId transactionSessionId)
     {
         CommandTemplate commandTemplate = dataObjectListResult.AsCommandTemplate();

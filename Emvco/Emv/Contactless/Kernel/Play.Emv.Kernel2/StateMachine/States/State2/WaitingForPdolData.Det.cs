@@ -20,6 +20,13 @@ public partial class WaitingForPdolData : KernelState
 
     #region QueryTerminalResponse
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <returns></returns>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryTerminalResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
@@ -45,6 +52,11 @@ public partial class WaitingForPdolData : KernelState
 
     #region S2.6
 
+    /// <summary>
+    /// UpdateDataExchangeSignal
+    /// </summary>
+    /// <param name="signal"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     private void UpdateDataExchangeSignal(QueryTerminalResponse signal)
     {
         _KernelDatabase.UpdateRange(signal.GetDataToSend().AsTagLengthValueArray());
@@ -54,6 +66,14 @@ public partial class WaitingForPdolData : KernelState
 
     #region S2.7
 
+    /// <summary>
+    /// IsPdolDataMissing
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="pdol"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     private bool IsPdolDataMissing(Kernel2Session session, out ProcessingOptionsDataObjectList pdol)
     {
         pdol = ProcessingOptionsDataObjectList.Decode(_KernelDatabase.Get(ProcessingOptionsDataObjectList.Tag).EncodeValue().AsSpan());
@@ -88,9 +108,23 @@ public partial class WaitingForPdolData : KernelState
 
     #endregion
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <returns></returns>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <returns></returns>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 

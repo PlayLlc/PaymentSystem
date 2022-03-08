@@ -112,6 +112,12 @@ internal static partial class LongLength
 
         #region Serialization
 
+        /// <summary>
+        /// Serialize
+        /// </summary>
+        /// <param name="contentOctets"></param>
+        /// <returns></returns>
+        /// <exception cref="BerFormatException"></exception>
         public static int Serialize(ReadOnlySpan<byte> contentOctets)
         {
             if (contentOctets.Length > sbyte.MaxValue)

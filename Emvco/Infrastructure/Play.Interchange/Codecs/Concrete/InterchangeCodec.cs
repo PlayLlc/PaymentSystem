@@ -80,6 +80,7 @@ public class InterchangeCodec
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="InterchangeException"></exception>
     public DecodedMetadata Decode(PlayEncodingId codecIdentifier, ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));

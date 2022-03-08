@@ -33,6 +33,13 @@ public record ReplacementAmounts : FixedDataField<char[]>
 
     #region Serialization
 
+    /// <summary>
+    /// Decode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
     public override ReplacementAmounts Decode(ReadOnlyMemory<byte> value)
     {
         Check.DataField.ForExactLength(value, _ByteCount, DataFieldId);

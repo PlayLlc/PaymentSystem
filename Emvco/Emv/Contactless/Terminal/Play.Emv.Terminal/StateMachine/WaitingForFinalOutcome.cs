@@ -51,9 +51,24 @@ internal class WaitingForFinalOutcome : TerminalState
     public override StateId GetStateId() => StateId;
     public override TerminalState Handle(TerminalSession? session, InitiateSettlementRequest signal) => throw new NotImplementedException();
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <returns></returns>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override TerminalState Handle(TerminalSession session, ActivateTerminalRequest signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <returns></returns>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public override TerminalState Handle(TerminalSession session, OutReaderResponse signal)
     {
         if (session.GetTransactionSessionId() != signal.GetTransactionSessionId())
@@ -87,9 +102,23 @@ internal class WaitingForFinalOutcome : TerminalState
     public override TerminalState Handle(TerminalSession session, StopReaderAcknowledgedResponse signal) =>
         throw new NotImplementedException();
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <returns></returns>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override TerminalState Handle(TerminalSession? session, AcquirerResponseSignal signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public override TerminalState Handle(TerminalSession session, QueryTerminalRequest signal)
     {
         // TODO: Control flow logic

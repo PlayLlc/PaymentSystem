@@ -47,6 +47,11 @@ internal class SystemTraceAuditNumberSequencer : IGenerateSequenceTraceAuditNumb
         return new SystemTraceAuditNumber(_Stan);
     }
 
+    /// <summary>
+    /// Reset
+    /// </summary>
+    /// <param name="settlementAcknowledgement"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Reset(AcquirerResponseSignal settlementAcknowledgement)
     {
         if (settlementAcknowledgement.MessageTypeIndicator != MessageTypeIndicatorTypes.Reconciliation.ReconciliationResponse)

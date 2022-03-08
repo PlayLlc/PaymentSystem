@@ -21,6 +21,7 @@ public readonly record struct DataFieldId
     /// <summary>
     /// </summary>
     /// <param name="value">Max value of 128</param>
+    /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
     public DataFieldId(byte value)
     {
         if (value > _MaxValue)

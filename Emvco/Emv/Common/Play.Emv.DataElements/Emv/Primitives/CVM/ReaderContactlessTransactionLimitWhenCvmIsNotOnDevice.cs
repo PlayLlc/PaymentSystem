@@ -37,6 +37,7 @@ public record ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice : ReaderCont
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
+    /// <exception cref="System.Exception"></exception>
     public static ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

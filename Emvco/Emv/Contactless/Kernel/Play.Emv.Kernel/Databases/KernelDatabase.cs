@@ -138,6 +138,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     ///     is before the certificate's active date or after the certificate's expiry date, then the certificate is
     ///     revoked. Certificates can also be revoked by the issuer
     /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
     public virtual bool IsRevoked(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex caPublicKeyIndex)
     {
         if (!IsActive())
@@ -169,6 +170,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     ///     provided. If the <see cref="CaPublicKeyCertificate" /> is revoked or none
     ///     can be found then the return value will be false
     /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
     public virtual bool TryGet(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex index, out CaPublicKeyCertificate? result)
     {
         if (!IsActive())
@@ -186,6 +188,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// </summary>
     /// <param name="tag"></param>
     /// <param name="result"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public virtual bool TryGet(Tag tag, out TagLengthValue? result)
     {
         if (!IsActive())
@@ -218,6 +221,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     ///     it is not recognized
     /// </summary>
     /// <param name="value"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public virtual void Update(TagLengthValue value)
     {
         if (!IsActive())
@@ -235,6 +239,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     ///     provided it is not recognized
     /// </summary>
     /// <param name="values"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public virtual void UpdateRange(TagLengthValue[] values)
     {
         if (!IsActive())
@@ -246,6 +251,11 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         _TlvDatabase.UpdateRange(values);
     }
 
+    /// <summary>
+    /// Initialize
+    /// </summary>
+    /// <param name="tag"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public virtual void Initialize(Tag tag)
     {
         if (!IsActive())
@@ -266,6 +276,12 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     public ErrorIndication GetErrorIndication() => ErrorIndication.Decode(Get(ErrorIndication.Tag).EncodeValue().AsSpan());
     private OutcomeParameterSet GetOutcomeParameterSet() => OutcomeParameterSet.Decode(Get(OutcomeParameterSet.Tag).EncodeValue().AsSpan());
 
+    /// <summary>
+    /// GetUserInterfaceRequestData
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerException"></exception>
     private UserInterfaceRequestData? GetUserInterfaceRequestData()
     {
         if (IsPresentAndNotEmpty(UserInterfaceRequestData.Tag))
@@ -274,6 +290,11 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         return UserInterfaceRequestData.Decode(Get(UserInterfaceRequestData.Tag).EncodeValue().AsSpan());
     }
 
+    /// <summary>
+    /// GetDataRecord
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     private DataRecord? GetDataRecord()
     {
         if (IsPresentAndNotEmpty(DataRecord.Tag))
@@ -282,6 +303,12 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         return DataRecord.Decode(Get(DataRecord.Tag).EncodeValue().AsSpan());
     }
 
+    /// <summary>
+    /// GetDiscretionaryData
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerException"></exception>
     private DiscretionaryData? GetDiscretionaryData()
     {
         if (IsPresentAndNotEmpty(DiscretionaryData.Tag))
@@ -290,41 +317,81 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         return DiscretionaryData.Decode(Get(DiscretionaryData.Tag).EncodeValue().AsSpan());
     }
 
+    /// <summary>
+    /// Update
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Update(Level1Error value)
     {
         Update(new ErrorIndication(GetErrorIndication(), value));
     }
 
+    /// <summary>
+    /// Update
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Update(Level2Error value)
     {
         Update(new ErrorIndication(GetErrorIndication(), value));
     }
 
+    /// <summary>
+    /// Update
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Update(Level3Error value)
     {
         Update(new ErrorIndication(GetErrorIndication(), value));
     }
 
+    /// <summary>
+    /// Reset
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Reset(OutcomeParameterSet value)
     {
         Update(value);
     }
 
+    /// <summary>
+    /// Reset
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Reset(UserInterfaceRequestData value)
     {
         Update(value);
     }
 
+    /// <summary>
+    /// Reset
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Reset(ErrorIndication value)
     {
         Update(value);
     }
 
+    /// <summary>
+    /// Update
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Update(OutcomeParameterSet.Builder value)
     {
         Update(GetOutcomeParameterSet() | value.Complete());
     }
 
+    /// <summary>
+    /// Update
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Update(UserInterfaceRequestData.Builder value)
     {
         UserInterfaceRequestData? userInterfaceRequestData = GetUserInterfaceRequestData();

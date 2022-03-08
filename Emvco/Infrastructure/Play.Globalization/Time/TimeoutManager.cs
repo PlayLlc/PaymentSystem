@@ -36,6 +36,10 @@ public class TimeoutManager : IDisposable
 
     #region Stop
 
+    /// <summary>
+    /// Stop
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Stop()
     {
         lock (_TimeoutSession)

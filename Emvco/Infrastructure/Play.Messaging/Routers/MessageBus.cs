@@ -21,6 +21,11 @@ internal class MessageBus
 
     #region Instance Members
 
+    /// <summary>
+    /// Subscribe
+    /// </summary>
+    /// <param name="messageChannel"></param>
+    /// <exception cref="MessagingException"></exception>
     public void Subscribe(IMessageChannel messageChannel)
     {
         lock (_ChannelMap)
@@ -46,6 +51,11 @@ internal class MessageBus
         }
     }
 
+    /// <summary>
+    /// Send
+    /// </summary>
+    /// <param name="requestMessage"></param>
+    /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Send(RequestMessage requestMessage)
     {
         lock (_ChannelMap)
@@ -60,6 +70,11 @@ internal class MessageBus
         }
     }
 
+    /// <summary>
+    /// Send
+    /// </summary>
+    /// <param name="responseMessage"></param>
+    /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Send(ResponseMessage responseMessage)
     {
         CorrelationId? correlationId = responseMessage.GetCorrelationId();

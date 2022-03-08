@@ -63,6 +63,12 @@ public class AlphaNumericCodec : PlayCodec
     public int GetMaxByteCount(int charCount) => charCount;
     public override ushort GetByteCount<T>(T value) where T : struct => 1;
 
+    /// <summary>
+    /// GetByteCount
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override ushort GetByteCount<T>(T[] value) where T : struct
     {
         if (typeof(T) == typeof(char))
@@ -181,6 +187,12 @@ public class AlphaNumericCodec : PlayCodec
         return false;
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="PlayEncodingException"></exception>
     public override byte[] Encode<T>(T value) where T : struct
     {
         if (typeof(T) == typeof(char))
@@ -189,6 +201,13 @@ public class AlphaNumericCodec : PlayCodec
         throw new InternalPlayEncodingException("The code should not reach this point");
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<T>(T value, int length) where T : struct
     {
         CheckCore.ForRange(length, 1, 1, nameof(length));
@@ -265,6 +284,13 @@ public class AlphaNumericCodec : PlayCodec
 
     public PlayEncodingId GetPlayEncodingId() => EncodingId;
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) == typeof(char))
@@ -273,6 +299,14 @@ public class AlphaNumericCodec : PlayCodec
             throw new InternalPlayEncodingException("The code should not reach this point");
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) == typeof(char))
@@ -281,6 +315,14 @@ public class AlphaNumericCodec : PlayCodec
             throw new InternalPlayEncodingException("The code should not reach this point");
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="PlayEncodingException"></exception>
     public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) == typeof(char))
@@ -289,6 +331,14 @@ public class AlphaNumericCodec : PlayCodec
             throw new InternalPlayEncodingException("The code should not reach this point");
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) == typeof(char))
@@ -297,6 +347,13 @@ public class AlphaNumericCodec : PlayCodec
             throw new InternalPlayEncodingException("The code should not reach this point");
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="PlayEncodingException"></exception>
     public void Encode(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
     {
         Validate(value);

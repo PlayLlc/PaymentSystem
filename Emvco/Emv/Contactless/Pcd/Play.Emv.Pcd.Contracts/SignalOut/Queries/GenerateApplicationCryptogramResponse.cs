@@ -29,6 +29,14 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
 
     #region Constructor
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="correlation"></param>
+    /// <param name="transactionSessionId"></param>
+    /// <param name="response"></param>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     public GenerateApplicationCryptogramResponse(
         CorrelationId correlation,
         TransactionSessionId transactionSessionId,
@@ -63,6 +71,14 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
         return true;
     }
 
+    /// <summary>
+    /// DecodeData
+    /// </summary>
+    /// <param name="rapdu"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="Play.Emv.DataElements.Exceptions.DataElementNullException"></exception>
     private static GenerateApplicationCryptogramResponseMetadata DecodeData(GenerateApplicationCryptogramRApduSignal rapdu)
     {
         TagLengthValue[] a = ResponseMessageTemplate.DecodeData(rapdu);

@@ -84,6 +84,12 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
         return new CommandTemplate(Array.Empty<byte>());
     }
 
+    /// <summary>
+    /// AsCommandTemplate
+    /// </summary>
+    /// <param name="database"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public CommandTemplate AsCommandTemplate(IQueryTlvDatabase database)
     {
         if ((_SelectionDataObjectList != null) && (!_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))

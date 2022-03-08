@@ -63,6 +63,12 @@ public class AlphabeticCodec : PlayCodec
     public int GetMaxByteCount(int charCount) => (charCount % 2) == 0 ? charCount / 2 : (charCount / 2) + 1;
     public override ushort GetByteCount<T>(T value) where T : struct => throw new NotImplementedException();
 
+    /// <summary>
+    /// GetByteCount
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override ushort GetByteCount<T>(T[] value) where T : struct
     {
         if (typeof(T) == typeof(char))
@@ -225,6 +231,14 @@ public class AlphabeticCodec : PlayCodec
         return byteArray;
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value, int length)
     {
         Validate(value);
@@ -281,6 +295,14 @@ public class AlphabeticCodec : PlayCodec
         throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="PlayEncodingException"></exception>
     public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) == typeof(char))
@@ -289,12 +311,29 @@ public class AlphabeticCodec : PlayCodec
         throw new InternalPlayEncodingException(this, typeof(T));
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="PlayEncodingException"></exception>
     public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) == typeof(char))
             Encode(Unsafe.As<T[], char[]>(ref value).AsSpan(), length, buffer, ref offset);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="PlayEncodingException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public void Encode(ReadOnlySpan<char> value, int length, Span<byte> buffer, ref int offset)
     {
         Validate(value);
@@ -311,6 +350,13 @@ public class AlphabeticCodec : PlayCodec
         }
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="PlayEncodingException"></exception>
     public void Encode(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
     {
         Validate(value);

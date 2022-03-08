@@ -46,6 +46,10 @@ public class GetStringTests
         TenThousand = tenThousand;
     }
 
+    /// <summary>
+    /// GetStringBenchmark_Ten
+    /// </summary>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     [Benchmark]
     public void GetStringBenchmark_Ten()
     {
@@ -54,6 +58,10 @@ public class GetStringTests
             _HexadecimalCodec.DecodeToString(oneThousand);
     }
 
+    /// <summary>
+    /// GetStringBenchmark_OneHundred
+    /// </summary>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     [Benchmark]
     public void GetStringBenchmark_OneHundred()
     {
@@ -62,6 +70,10 @@ public class GetStringTests
             _HexadecimalCodec.DecodeToString(oneThousand);
     }
 
+    /// <summary>
+    /// GetStringBenchmark_OneThousand
+    /// </summary>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     [Benchmark]
     public void GetStringBenchmark_OneThousand()
     {
@@ -70,6 +82,10 @@ public class GetStringTests
             _HexadecimalCodec.DecodeToString(oneThousand);
     }
 
+    /// <summary>
+    /// GetStringBenchmark_TenThousand
+    /// </summary>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     [Benchmark]
     public void GetStringBenchmark_TenThousand()
     {

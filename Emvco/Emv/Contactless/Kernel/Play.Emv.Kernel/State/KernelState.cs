@@ -65,6 +65,12 @@ public abstract class KernelState
         _KernelEndpoint.Send(new OutKernelResponse(correlationId, kernelSessionId, _KernelDatabase.GetOutcome()));
     }
 
+    /// <summary>
+    /// TryHandleTimeout
+    /// </summary>
+    /// <param name="session"></param>
+    /// <returns></returns>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public bool TryHandleTimeout(KernelSession session)
     {
         if (!session.TimedOut())
@@ -83,6 +89,12 @@ public abstract class KernelState
         return true;
     }
 
+    /// <summary>
+    /// HandleRequestOutOfSync
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     protected static void HandleRequestOutOfSync(KernelSession session, IExchangeDataWithTheKernel signal)
     {
         if (signal.GetDataExchangeKernelId().GetKernelSessionId() != session.GetKernelSessionId())
@@ -92,6 +104,12 @@ public abstract class KernelState
         }
     }
 
+    /// <summary>
+    /// HandleRequestOutOfSync
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     protected static void HandleRequestOutOfSync(KernelSession session, IExchangeDataWithTheTerminal signal)
     {
         if (signal.GetDataExchangeTerminalId().GetTransactionSessionId() != session.GetTransactionSessionId())

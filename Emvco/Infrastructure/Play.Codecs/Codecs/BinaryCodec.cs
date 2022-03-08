@@ -111,6 +111,7 @@ public class BinaryCodec : PlayCodec
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override ushort GetByteCount<T>(T value) where T : struct
     {
         nint byteSize = Unsafe.SizeOf<T>();
@@ -178,6 +179,12 @@ public class BinaryCodec : PlayCodec
 
     public bool TryEncoding(ReadOnlySpan<char> value, out byte[] result) => throw new NotImplementedException();
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<T>(T value) where T : struct
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -203,6 +210,13 @@ public class BinaryCodec : PlayCodec
         return Encode(Unsafe.As<T, BigInteger>(ref value));
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<T>(T value, int length) where T : struct
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -230,6 +244,12 @@ public class BinaryCodec : PlayCodec
         return Encode(Unsafe.As<T, BigInteger>(ref value), length);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<T>(T[] value) where T : struct
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -243,6 +263,13 @@ public class BinaryCodec : PlayCodec
         throw new InternalPlayEncodingException(this, typeof(T));
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<T>(T[] value, int length) where T : struct
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -321,6 +348,13 @@ public class BinaryCodec : PlayCodec
     public void Encode(ulong value, int length, Span<byte> buffer, ref int offset) =>
         UnsignedIntegerCodec.Encode(value, buffer, ref offset);
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -350,6 +384,14 @@ public class BinaryCodec : PlayCodec
             Encode(Unsafe.As<T, BigInteger>(ref value), buffer, ref offset);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -381,6 +423,13 @@ public class BinaryCodec : PlayCodec
             Encode(Unsafe.As<T, BigInteger>(ref value), length, buffer, ref offset);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow 
@@ -397,6 +446,14 @@ public class BinaryCodec : PlayCodec
             Encode(Unsafe.As<T[], byte[]>(ref value), buffer, ref offset);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow 

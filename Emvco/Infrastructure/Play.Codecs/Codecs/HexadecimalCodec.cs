@@ -193,6 +193,7 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="value"></param>
     /// < returns></returns>
     /// < exception cref="PlayEncodingException"></exception>
+    /// <exception cref="PlayEncodingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -217,6 +218,13 @@ public class HexadecimalCodec : PlayCodec
     public byte[] Encode(ulong value) => UnsignedIntegerCodec.Encode(value);
     public byte[] Encode(BigInteger value) => value.ToByteArray();
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="PlayEncodingException"></exception>
     public override byte[] Encode<_T>(_T value)
     {
         Type type = typeof(_T);
@@ -241,6 +249,14 @@ public class HexadecimalCodec : PlayCodec
         return Encode(Unsafe.As<_T, BigInteger>(ref value));
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="PlayEncodingException"></exception>
     public override byte[] Encode<_T>(_T value, int length)
     {
         Type type = typeof(_T);
@@ -267,6 +283,14 @@ public class HexadecimalCodec : PlayCodec
         return Encode(Unsafe.As<_T, BigInteger>(ref value), length);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="PlayEncodingException"></exception>
     public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
@@ -295,6 +319,14 @@ public class HexadecimalCodec : PlayCodec
             Encode(Unsafe.As<_T, BigInteger>(ref value), buffer, ref offset);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="PlayEncodingException"></exception>
     public override void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset)
     {
         // HACK: Figure out how to implement this with the length argument
@@ -326,6 +358,12 @@ public class HexadecimalCodec : PlayCodec
             Encode(Unsafe.As<_T, BigInteger>(ref value), buffer, ref offset);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<_T>(_T[] value)
     {
         Type type = typeof(_T);
@@ -338,6 +376,13 @@ public class HexadecimalCodec : PlayCodec
         throw new InternalPlayEncodingException(this, type);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<_T>(_T[] value, int length)
     {
         Type type = typeof(_T);
@@ -350,6 +395,13 @@ public class HexadecimalCodec : PlayCodec
         throw new InternalPlayEncodingException(this, type);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
@@ -362,6 +414,14 @@ public class HexadecimalCodec : PlayCodec
             throw new InternalPlayEncodingException(this, type);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
@@ -421,6 +481,13 @@ public class HexadecimalCodec : PlayCodec
         UnsignedIntegerCodec.Encode(value, buffer, ref offset);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="PlayEncodingException"></exception>
     public void Encode(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -436,6 +503,14 @@ public class HexadecimalCodec : PlayCodec
             buffer[offset++] = (byte) ((DecodeToByte(value[stringIndex]) << 4) | DecodeToByte(value[stringIndex + 1]));
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="PlayEncodingException"></exception>
     public void Encode(ReadOnlySpan<char> value, int length, Span<byte> buffer, ref int offset)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -606,6 +681,7 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="EncodingException"></exception>
+    /// <exception cref="PlayEncodingException"></exception>
     private static byte DecodeToByte(char value)
     {
         if ((value > 0xFF) || (value < 0))

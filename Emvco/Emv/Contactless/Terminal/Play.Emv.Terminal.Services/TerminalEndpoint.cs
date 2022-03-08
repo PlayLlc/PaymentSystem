@@ -48,6 +48,11 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
 
     #region Requests
 
+    /// <summary>
+    /// Request
+    /// </summary>
+    /// <param name="message"></param>
+    /// <exception cref="UnhandledRequestException"></exception>
     public void Request(RequestMessage message)
     {
         if (message is ActivateTerminalRequest activatePcdRequest)
@@ -86,6 +91,11 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
 
     #region Callbacks
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="message"></param>
+    /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Handle(ResponseMessage message)
     {
         if (message is OutReaderResponse outReaderResponse)

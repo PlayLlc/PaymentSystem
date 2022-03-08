@@ -22,6 +22,11 @@ public record CvmList : DataElement<byte[]>
 
     #region Constructor
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="EmvEncodingException"></exception>
     public CvmList(ReadOnlySpan<byte> value) : base(value.ToArray())
     {
         if (value.Length != 2)

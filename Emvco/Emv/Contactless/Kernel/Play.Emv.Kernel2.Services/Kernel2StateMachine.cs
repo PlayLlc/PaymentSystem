@@ -31,6 +31,11 @@ public class Kernel2StateMachine : KernelStateMachine
 
     #region Instance Members
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="signal"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override void Handle(ActivateKernelRequest signal)
     {
         lock (_Lock)
@@ -46,6 +51,11 @@ public class Kernel2StateMachine : KernelStateMachine
         }
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="signal"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override void Handle(CleanKernelRequest signal)
     {
         lock (_Lock)
@@ -60,6 +70,11 @@ public class Kernel2StateMachine : KernelStateMachine
         }
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="signal"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override void Handle(StopKernelRequest signal)
     {
         lock (_Lock)
@@ -81,6 +96,11 @@ public class Kernel2StateMachine : KernelStateMachine
         }
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="signal"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override void Handle(QueryPcdResponse signal)
     {
         lock (_Lock)
@@ -101,6 +121,11 @@ public class Kernel2StateMachine : KernelStateMachine
         }
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="signal"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override void Handle(QueryTerminalResponse signal)
     {
         lock (_Lock)
@@ -121,6 +146,11 @@ public class Kernel2StateMachine : KernelStateMachine
         }
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="signal"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override void Handle(UpdateKernelRequest signal)
     {
         lock (_Lock)
@@ -142,6 +172,11 @@ public class Kernel2StateMachine : KernelStateMachine
         }
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="signal"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override void Handle(QueryKernelRequest signal)
     {
         lock (_Lock)

@@ -21,6 +21,7 @@ public readonly record struct Tag
 
     /// <exception cref="BerException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
     public Tag(ReadOnlySpan<byte> value)
     {
         if (ShortIdentifier.IsValid(value[0]))
@@ -112,6 +113,12 @@ public readonly record struct Tag
 
     public readonly ClassType GetClassType() => GetClassType(_Value);
 
+    /// <summary>
+    /// GetClassType
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="BerException"></exception>
     private static ClassType GetClassType(uint value)
     {
         if (IsShortTag(value))

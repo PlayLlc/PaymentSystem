@@ -27,6 +27,12 @@ public class DataBatchReader : IReadIccDataBatch
 
     #region Instance Members
 
+    /// <summary>
+    /// Transceive
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public async Task<GetDataBatchResponse> Transceive(GetDataBatchRequest command)
     {
         TagsToRead? tagsToRead = command.GetTagsToRead();

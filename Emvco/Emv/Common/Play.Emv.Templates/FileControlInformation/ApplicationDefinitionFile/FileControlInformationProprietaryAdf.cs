@@ -134,6 +134,7 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
     /// <exception cref="BerInternalException"></exception>
+    /// <exception cref="CardDataMissingException"></exception>
     public static FileControlInformationProprietaryAdf Decode(EncodedTlvSiblings encodedChildren)
     {
         FileControlInformationIssuerDiscretionaryDataAdf fciProprietaryTemplate =

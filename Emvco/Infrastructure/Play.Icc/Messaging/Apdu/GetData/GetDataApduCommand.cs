@@ -33,6 +33,14 @@ public class GetDataApduCommand : ApduCommand
 
     #region Instance Members
 
+    /// <summary>
+    /// Create
+    /// </summary>
+    /// <param name="proprietaryMessageIdentifier"></param>
+    /// <param name="tag"></param>
+    /// <returns></returns>
+    /// <exception cref="Iso7816Exception"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     public static GetDataApduCommand Create(ProprietaryMessageIdentifier proprietaryMessageIdentifier, Tag tag)
     {
         if (tag.GetByteCount() > 2)

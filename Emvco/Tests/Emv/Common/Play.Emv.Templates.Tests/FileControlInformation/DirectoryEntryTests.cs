@@ -10,6 +10,10 @@ public class DirectoryEntryTests
 {
     #region Instance Members
 
+    /// <summary>
+    /// BerEncoding_DeserializingTemplate_CreatesConstructedValue
+    /// </summary>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncoding_DeserializingTemplate_CreatesConstructedValue()
     {
@@ -18,6 +22,10 @@ public class DirectoryEntryTests
         Assert.NotNull(sut);
     }
 
+    /// <summary>
+    /// BerEncoding_DeserializingDTemplate_CorrectlyCreatesChildDataElements
+    /// </summary>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncoding_DeserializingDTemplate_CorrectlyCreatesChildDataElements()
     {
@@ -28,6 +36,10 @@ public class DirectoryEntryTests
         Assert.Equal(expectedResult, testValue);
     }
 
+    /// <summary>
+    /// Template_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void Template_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
@@ -37,6 +49,10 @@ public class DirectoryEntryTests
         Assert.NotNull(sut);
     }
 
+    /// <summary>
+    /// Template_InvokingGetValueByteCount_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void Template_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
@@ -45,6 +61,10 @@ public class DirectoryEntryTests
         Assert.True(sut.GetValueByteCount() == testData.EncodeValue().Length);
     }
 
+    /// <summary>
+    /// Template_InvokingAsTagLengthValue_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void Template_InvokingAsTagLengthValue_ReturnsExpectedResult()
     {

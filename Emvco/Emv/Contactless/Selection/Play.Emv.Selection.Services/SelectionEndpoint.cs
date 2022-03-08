@@ -48,6 +48,11 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
 
     #region Requests
 
+    /// <summary>
+    /// Request
+    /// </summary>
+    /// <param name="message"></param>
+    /// <exception cref="UnhandledRequestException"></exception>
     public void Request(RequestMessage message)
     {
         if (message is ActivatePcdRequest activatePcdRequest)
@@ -83,6 +88,11 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
 
     #region Callbacks
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="message"></param>
+    /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Handle(ResponseMessage message)
     {
         if (message is SelectApplicationDefinitionFileInfoResponse appletFci)

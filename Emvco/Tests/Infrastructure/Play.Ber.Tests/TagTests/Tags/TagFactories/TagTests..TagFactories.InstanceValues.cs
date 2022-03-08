@@ -84,6 +84,10 @@ public partial class TagTests
         Assert.Equal(result, ClassType.Universal);
     }
 
+    /// <summary>
+    /// Byte_WithValueLessThan31_CreatesTagWithCorrectTagNumber
+    /// </summary>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void Byte_WithValueLessThan31_CreatesTagWithCorrectTagNumber()
     {
@@ -174,6 +178,10 @@ public partial class TagTests
         Assert.Equal(result, ClassType.Universal);
     }
 
+    /// <summary>
+    /// RandomByte_WithValueLessThan31_CreatesTagWithCorrectTagNumber
+    /// </summary>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void RandomByte_WithValueLessThan31_CreatesTagWithCorrectTagNumber()
     {
@@ -187,6 +195,10 @@ public partial class TagTests
         Assert.Equal(result, tagNumber);
     }
 
+    /// <summary>
+    /// RandomShortIdentifierComponentParts_WhenInitializing_CreatesByteWithCorrectValue
+    /// </summary>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void RandomShortIdentifierComponentParts_WhenInitializing_CreatesByteWithCorrectValue()
     {

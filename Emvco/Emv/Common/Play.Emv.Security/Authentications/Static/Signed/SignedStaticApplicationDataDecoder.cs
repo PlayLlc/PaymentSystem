@@ -41,6 +41,14 @@ internal class SignedStaticApplicationDataDecoder
         return buffer.ToArray();
     }
 
+    /// <summary>
+    /// IsValid
+    /// </summary>
+    /// <param name="issuerPublicKeyCertificate"></param>
+    /// <param name="signedStaticApplicationData"></param>
+    /// <param name="staticDataToBeAuthenticated"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public bool IsValid(
         PublicKeyCertificate issuerPublicKeyCertificate,
         SignedStaticApplicationData signedStaticApplicationData,

@@ -12,6 +12,11 @@ public class CommandTemplateTests
 {
     #region Instance Members
 
+    /// <summary>
+    /// NullBerEncoding_DeserializingCommandTemplate_CreatesCommandTemplate
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void NullBerEncoding_DeserializingCommandTemplate_CreatesCommandTemplate()
     {
@@ -19,6 +24,11 @@ public class CommandTemplateTests
         Assert.NotNull(testValue);
     }
 
+    /// <summary>
+    /// PrimitiveBerEncoding_DeserializingCommandTemplate_CreatesCommandTemplate
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void PrimitiveBerEncoding_DeserializingCommandTemplate_CreatesCommandTemplate()
     {
@@ -28,6 +38,11 @@ public class CommandTemplateTests
         Assert.Equal(expectedResult, testValue);
     }
 
+    /// <summary>
+    /// ConstructedBerEncoding_DeserializingCommandTemplate_CreatesCommandTemplate
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void ConstructedBerEncoding_DeserializingCommandTemplate_CreatesCommandTemplate()
     {

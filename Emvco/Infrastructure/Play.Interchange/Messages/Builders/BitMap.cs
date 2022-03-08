@@ -32,6 +32,11 @@ public record BitMap
 
     public int GetDataFieldCount() => _Value.GetSetBitCount();
 
+    /// <summary>
+    /// GetDataFieldIds
+    /// </summary>
+    /// <param name="buffer"></param>
+    /// <exception cref="System.IndexOutOfRangeException"></exception>
     public void GetDataFieldIds(Span<ulong> buffer)
     {
         if (buffer.Length != GetDataFieldCount())
@@ -57,6 +62,12 @@ public record BitMap
         return result;
     }
 
+    /// <summary>
+    /// CopyTo
+    /// </summary>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="Play.Codecs.Exceptions.InternalPlayEncodingException"></exception>
     public void CopyTo(Span<byte> buffer, ref int offset)
     {
         PlayCodec.NumericCodec.Encode(_Value, buffer, ref offset);

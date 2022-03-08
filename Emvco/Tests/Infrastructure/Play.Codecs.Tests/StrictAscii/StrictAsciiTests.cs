@@ -24,6 +24,11 @@ public class StrictAsciiTests
 
     #region Instance Members
 
+    /// <summary>
+    /// RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult
+    /// </summary>
+    /// <param name="testValue"></param>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     [Theory]
     [MemberData(nameof(AsciiFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(NumericFixture))]
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
@@ -35,6 +40,11 @@ public class StrictAsciiTests
         Assert.Equal(testValue, encoded);
     }
 
+    /// <summary>
+    /// RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult
+    /// </summary>
+    /// <param name="testValue"></param>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     [Theory]
     [MemberData(nameof(AsciiFixture.GetRandomString), 100, 1, 300, MemberType = typeof(NumericFixture))]
     public void RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult(string testValue)
@@ -45,6 +55,10 @@ public class StrictAsciiTests
         Assert.Equal(testValue, encoded);
     }
 
+    /// <summary>
+    /// ApplicationLabelByteArray_ConvertingToAsciiString_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="Play.Codecs.Exceptions.PlayEncodingException"></exception>
     [Fact]
     public void ApplicationLabelByteArray_ConvertingToAsciiString_ReturnsExpectedResult()
     {

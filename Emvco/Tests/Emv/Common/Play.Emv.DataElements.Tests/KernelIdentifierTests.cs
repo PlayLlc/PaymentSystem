@@ -12,6 +12,11 @@ public class KernelIdentifierTests
 {
     #region Instance Members
 
+    /// <summary>
+    /// Test
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void Test()
     {
@@ -23,6 +28,11 @@ public class KernelIdentifierTests
         Assert.Equal(expectedResult, testResult);
     }
 
+    /// <summary>
+    /// Test2
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void Test2()
     {
@@ -34,6 +44,12 @@ public class KernelIdentifierTests
         Assert.Equal(expectedResult, testResult);
     }
 
+    /// <summary>
+    /// Test3
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="Exception"></exception>
     [Fact]
     public void Test3()
     {
@@ -45,6 +61,12 @@ public class KernelIdentifierTests
         Assert.Equal(expectedResult, testResult);
     }
 
+    /// <summary>
+    /// BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="Exception"></exception>
     [Fact]
     public void BerEncoding_DeserializingDataElement_CreatesPrimitiveValue()
     {
@@ -53,6 +75,12 @@ public class KernelIdentifierTests
         Assert.NotNull(testValue);
     }
 
+    /// <summary>
+    /// BerEncoding_EncodingDataElement_SerializesExpectedValue
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="Exception"></exception>
     [Fact]
     public void BerEncoding_EncodingDataElement_SerializesExpectedValue()
     {
@@ -64,6 +92,12 @@ public class KernelIdentifierTests
         Assert.Equal(testValue, expectedResult);
     }
 
+    /// <summary>
+    /// BerEncoding_EncodingDataElementTlv_SerializesExpectedValue
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="Exception"></exception>
     [Fact]
     public void BerEncoding_EncodingDataElementTlv_SerializesExpectedValue()
     {
@@ -75,6 +109,12 @@ public class KernelIdentifierTests
         Assert.Equal(testValue, expectedResult);
     }
 
+    /// <summary>
+    /// BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="Exception"></exception>
     [Fact]
     public void BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue()
     {
@@ -85,6 +125,12 @@ public class KernelIdentifierTests
         Assert.Equal(testValue, expectedResult);
     }
 
+    /// <summary>
+    /// TagLengthValue_SerializingToBer_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="Exception"></exception>
     [Fact]
     public void TagLengthValue_SerializingToBer_ReturnsExpectedResult()
     {

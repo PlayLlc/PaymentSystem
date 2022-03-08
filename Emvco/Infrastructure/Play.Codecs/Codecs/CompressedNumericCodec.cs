@@ -205,6 +205,13 @@ public class CompressedNumericCodec : PlayCodec
 
     #region Encode
 
+    /// <summary>
+    /// TryEncoding
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="result"></param>
+    /// <returns></returns>
+    /// <exception cref="PlayEncodingException"></exception>
     public bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
     {
         if (!IsValid(value))
@@ -248,6 +255,12 @@ public class CompressedNumericCodec : PlayCodec
         }
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<T>(T value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -268,6 +281,13 @@ public class CompressedNumericCodec : PlayCodec
         return Encode(Unsafe.As<T, BigInteger>(ref value));
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    /// <exception cref="System.Exception"></exception>
     public override byte[] Encode<T>(T value, int length)
     {
         if (length == Specs.Integer.UInt8.ByteCount)
@@ -294,6 +314,13 @@ public class CompressedNumericCodec : PlayCodec
         throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    /// <exception cref="PlayEncodingException"></exception>
     public override byte[] Encode<T>(T[] value, int length)
     {
         if (typeof(T) == typeof(char))
@@ -304,6 +331,13 @@ public class CompressedNumericCodec : PlayCodec
 
     public byte[] Encode(ReadOnlySpan<char> value) => Encode(value, value.Length);
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    /// <exception cref="PlayEncodingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value, int length)
     {
         int byteSize = (value.Length / 2) + (value.Length % 2);
@@ -404,6 +438,13 @@ public class CompressedNumericCodec : PlayCodec
         return buffer.ToArray();
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    /// <exception cref="System.Exception"></exception>
     public byte[] Encode(uint value, int length)
     {
         const byte byteSize = Specs.Integer.UInt32.ByteCount;
@@ -446,6 +487,13 @@ public class CompressedNumericCodec : PlayCodec
         return buffer.ToArray();
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    /// <exception cref="System.Exception"></exception>
     public byte[] Encode(ulong value, int length)
     {
         const byte byteSize = Specs.Integer.UInt64.ByteCount;
@@ -529,6 +577,14 @@ public class CompressedNumericCodec : PlayCodec
             throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="PlayEncodingException"></exception>
     public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset)
     {
         if (typeof(T) == typeof(char))
@@ -573,6 +629,14 @@ public class CompressedNumericCodec : PlayCodec
             Encode(Unsafe.As<T, BigInteger>(ref value), length, buffer, ref offset);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="PlayEncodingException"></exception>
     public void Encode(ReadOnlySpan<char> value, int length, Span<byte> buffer, ref int offset)
     {
         int byteSize = (length / 2) + (length % 2);

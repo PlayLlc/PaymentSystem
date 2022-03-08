@@ -63,6 +63,12 @@ internal static class ShortLength
 
     #region Serialization
 
+    /// <summary>
+    /// Serialize
+    /// </summary>
+    /// <param name="contentOctets"></param>
+    /// <returns></returns>
+    /// <exception cref="BerFormatException"></exception>
     public static byte Serialize(ReadOnlySpan<byte> contentOctets)
     {
         if (contentOctets.Length > sbyte.MaxValue)
@@ -71,6 +77,12 @@ internal static class ShortLength
         return (byte) contentOctets.Length;
     }
 
+    /// <summary>
+    /// Serialize
+    /// </summary>
+    /// <param name="contentOctetLength"></param>
+    /// <returns></returns>
+    /// <exception cref="BerFormatException"></exception>
     public static byte Serialize(byte contentOctetLength)
     {
         if (contentOctetLength > sbyte.MaxValue)

@@ -60,6 +60,13 @@ public class OutcomeProcessor : IProcessOutcome
                 userInterfaceRequestData, dataRecord)));
     }
 
+    /// <summary>
+    /// Process
+    /// </summary>
+    /// <param name="correlationId"></param>
+    /// <param name="sessionId"></param>
+    /// <param name="transaction"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public virtual void Process(CorrelationId correlationId, TransactionSessionId sessionId, Transaction transaction)
     {
         HandleFieldOffRequest(transaction.GetOutcome());

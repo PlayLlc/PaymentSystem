@@ -47,6 +47,11 @@ public class ProximityCouplingDeviceEndpoint : IMessageChannel, IHandlePcdReques
 
     #region Requests
 
+    /// <summary>
+    /// Request
+    /// </summary>
+    /// <param name="message"></param>
+    /// <exception cref="UnhandledRequestException"></exception>
     public void Request(RequestMessage message)
     {
         if (message is ActivatePcdRequest activatePcdRequest)
@@ -97,6 +102,11 @@ public class ProximityCouplingDeviceEndpoint : IMessageChannel, IHandlePcdReques
 
     #region Callbacks
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="message"></param>
+    /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Handle(ResponseMessage message)
     {
         throw new InvalidMessageRoutingException(message, this);

@@ -20,6 +20,11 @@ public class AmountAuthorizedNumericTests
 
     #region Instance Members
 
+    /// <summary>
+    /// BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncoding_DeserializingDataElement_CreatesPrimitiveValue()
     {
@@ -28,6 +33,11 @@ public class AmountAuthorizedNumericTests
         Assert.NotNull(testValue);
     }
 
+    /// <summary>
+    /// BerEncoding_EncodingDataElement_SerializesExpectedValue
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncoding_EncodingDataElement_SerializesExpectedValue()
     {
@@ -39,6 +49,11 @@ public class AmountAuthorizedNumericTests
         Assert.Equal(testValue, expectedResult);
     }
 
+    /// <summary>
+    /// BerEncoding_EncodingDataElementTlv_SerializesExpectedValue
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncoding_EncodingDataElementTlv_SerializesExpectedValue()
     {
@@ -50,6 +65,11 @@ public class AmountAuthorizedNumericTests
         Assert.Equal(testValue, expectedResult);
     }
 
+    /// <summary>
+    /// BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue()
     {
@@ -61,6 +81,11 @@ public class AmountAuthorizedNumericTests
     }
 
     // TODO: WARNING - this test is failing indeterminately. There is a bug here
+    /// <summary>
+    /// TagLengthValue_SerializingToBer_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void TagLengthValue_SerializingToBer_ReturnsExpectedResult()
     {

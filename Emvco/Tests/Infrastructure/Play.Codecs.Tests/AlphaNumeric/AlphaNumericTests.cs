@@ -23,6 +23,11 @@ public class AlphaNumericTests
 
     #region Instance Members
 
+    /// <summary>
+    /// RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult
+    /// </summary>
+    /// <param name="testValue"></param>
+    /// <exception cref="PlayEncodingException"></exception>
     [Theory]
     [MemberData(nameof(AlphaNumericFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(AlphaNumericFixture))]
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
@@ -33,6 +38,11 @@ public class AlphaNumericTests
         Assert.Equal(testValue, encoded);
     }
 
+    /// <summary>
+    /// RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult
+    /// </summary>
+    /// <param name="testValue"></param>
+    /// <exception cref="PlayEncodingException"></exception>
     [Theory]
     [MemberData(nameof(AlphaNumericFixture.GetRandomString), 100, 1, 300, MemberType = typeof(AlphaNumericFixture))]
     public void RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult(string testValue)

@@ -141,6 +141,7 @@ public class StrictAsciiCodec
     public int GetMaxCharCount(int byteCount) => byteCount;
 
     /// <exception cref="EncodingException"></exception>
+    /// <exception cref="PlayEncodingException"></exception>
     public string DecodeToString(ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));

@@ -31,6 +31,7 @@ public partial class Idle : KernelState
 
     /// <remarks>Book C-2 Section 6.3.3</remarks>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerException"></exception>
     public override KernelState Handle(KernelSession session, ActivateKernelRequest signal)
     {
         Kernel2Session kernel2Session = (Kernel2Session) session;
@@ -83,6 +84,12 @@ public partial class Idle : KernelState
         _KernelEndpoint.Send(new OutKernelResponse(correlationId, kernelSessionId, _KernelDatabase.GetOutcome()));
     }
 
+    /// <summary>
+    /// HandleSupportForFieldOffDetection
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="fci"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     private void HandleSupportForFieldOffDetection(Kernel2Session session, FileControlInformationAdf fci)
     {
         if (fci!.TryGetApplicationCapabilitiesInformation(out ApplicationCapabilitiesInformation? result))
@@ -103,6 +110,7 @@ public partial class Idle : KernelState
     #region S1.7 & S1.8
 
     /// <remarks>Book C-2 Section 6.3.3 - S1.7 & S1.8</remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool TryParseTemplateAndAddTransactionDataToDatabase(ActivateKernelRequest signal, out FileControlInformationAdf? result)
     {
         try
@@ -184,6 +192,8 @@ public partial class Idle : KernelState
     #region S1.9
 
     /// <remarks>Book C-2 Section 6.3.3 - S1.9</remarks>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerException"></exception>
     private void InitializeEmvDataObjects()
     {
         CardDataInputCapability cardDataInputCapability =
@@ -204,6 +214,7 @@ public partial class Idle : KernelState
     #region S1.10
 
     /// <remarks>Book C-2 Section 6.3.3 - S1.10</remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     private void InitializeDataExchangeObjects(TagsToRead? tagsToRead)
     {
         // TODO: DataExchangeKernelService
@@ -282,6 +293,7 @@ public partial class Idle : KernelState
     #region S1.15
 
     /// <remarks>Book C-2 Section 6.3.3  S1.15</remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     private void AddKnownObjectsToDataToSend()
     {
         _DataExchangeKernelService.Resolve(DekRequestType.TagsToRead);
@@ -292,6 +304,7 @@ public partial class Idle : KernelState
     #region S1.16
 
     /// <remarks>Book C-2 Section 6.3.3  S1.16</remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     private void InitializeAcPutData()
     {
         _KernelDatabase.Update(new PostGenAcPutDataStatus(0));
@@ -317,6 +330,7 @@ public partial class Idle : KernelState
     #region S1.16.1
 
     /// <remarks>Book C-2 Section 6.3.3  S1.16.1</remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     private void UpdateIntegratedDataStorage()
     {
         _KernelDatabase.Update(new IntegratedDataStorageStatus(0));
@@ -329,6 +343,7 @@ public partial class Idle : KernelState
     #region S1.17
 
     /// <remarks>Book C-2 Section 6.3.3  S1.17</remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     public void HandleDataStorageVersionNumberTerm(Kernel2Session session)
     {
         if (!_KernelDatabase.IsPresentAndNotEmpty(DataStorageVersionNumberTerm.Tag))
@@ -354,6 +369,10 @@ public partial class Idle : KernelState
 
     #region S1.18
 
+    /// <summary>
+    /// EnqueueDataStorageId
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
     private void EnqueueDataStorageId()
     {
         if (_KernelDatabase.TryGet(DataStorageId.Tag, out TagLengthValue? dataStorageId))
@@ -362,6 +381,10 @@ public partial class Idle : KernelState
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, new DataStorageId(0));
     }
 
+    /// <summary>
+    /// EnqueueApplicationCapabilitiesInformation
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
     private void EnqueueApplicationCapabilitiesInformation()
     {
         if (_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out TagLengthValue? applicationCapabilitiesInformation))
@@ -374,6 +397,13 @@ public partial class Idle : KernelState
 
     #region S1.19
 
+    /// <summary>
+    /// RouteStateTransition
+    /// </summary>
+    /// <param name="session"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerException"></exception>
     public KernelState RouteStateTransition(Kernel2Session session)
     {
         if (!_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out TagLengthValue? applicationCapabilitiesInformationTlv))
@@ -398,6 +428,10 @@ public partial class Idle : KernelState
 
     #region S1.20
 
+    /// <summary>
+    /// SetIntegratedDataStorageReadStatus
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
     private void SetIntegratedDataStorageReadStatus()
     {
         if (_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out TagLengthValue? integratedDataStorageStatusTlv))
@@ -413,6 +447,13 @@ public partial class Idle : KernelState
     #region S1.21
 
     // HACK
+    /// <summary>
+    /// HandlePdolData
+    /// </summary>
+    /// <param name="session"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerException"></exception>
     private KernelState HandlePdolData(Kernel2Session session)
     {
         if (session.IsPdolDataMissing())
@@ -430,6 +471,11 @@ public partial class Idle : KernelState
 
     #region S1.22
 
+    /// <summary>
+    /// DispatchDataExchangeMessages
+    /// </summary>
+    /// <param name="kernelSessionId"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void DispatchDataExchangeMessages(KernelSessionId kernelSessionId)
     {
         _DataExchangeKernelService.SendResponse(kernelSessionId);
@@ -442,6 +488,13 @@ public partial class Idle : KernelState
 
     #region S1.23
 
+    /// <summary>
+    /// SetTimeout
+    /// </summary>
+    /// <param name="session"></param>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerException"></exception>
+    /// <exception cref="Play.Emv.DataElements.Exceptions.DataElementNullException"></exception>
     public void SetTimeout(Kernel2Session session)
     {
         TimeoutValue timeout = TimeoutValue.Decode(_KernelDatabase.Get(TimeoutValue.Tag).GetValue().AsSpan());

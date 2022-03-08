@@ -29,6 +29,12 @@ public class AuthenticateCombinedDataResponse
         _IccDynamicNumber = iccDynamicNumber;
     }
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="terminalVerificationResult"></param>
+    /// <param name="errorIndication"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public AuthenticateCombinedDataResponse(TerminalVerificationResult terminalVerificationResult, ErrorIndication errorIndication)
     {
         if (!terminalVerificationResult.CombinationDataAuthenticationFailed())

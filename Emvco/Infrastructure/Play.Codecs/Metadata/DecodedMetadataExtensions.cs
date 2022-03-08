@@ -65,6 +65,12 @@ public static class DecodedMetadataExtensions
         throw new PlayEncodingException("This error should never be thrown");
     }
 
+    /// <summary>
+    /// ToByteResult
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="PlayEncodingException"></exception>
     public static DecodedResult<byte>? ToByteResult(this DecodedMetadata? value)
     {
         if (value == null)
@@ -76,6 +82,12 @@ public static class DecodedMetadataExtensions
         throw new PlayEncodingException("This error should never be thrown");
     }
 
+    /// <summary>
+    /// ToBigInteger
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="PlayEncodingException"></exception>
     public static DecodedResult<BigInteger>? ToBigInteger(this DecodedMetadata? value)
     {
         if (value == null)

@@ -12,6 +12,13 @@ internal class TestTemplateHelper
 {
     #region Instance Members
 
+    /// <summary>
+    /// GetEncodedTemplate
+    /// </summary>
+    /// <param name="constructedValue"></param>
+    /// <param name="dataElements"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     public static byte[] GetEncodedTemplate(Template constructedValue, Dictionary<Tag, byte[]> dataElements)
     {
         TagLengthValue tlv = new(constructedValue.GetTag(), GetContentOctets(constructedValue.GetChildTags(), dataElements));

@@ -42,6 +42,13 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
 
     #region Serialization
 
+    /// <summary>
+    /// Decode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="EmvEncodingException"></exception>
     public static MerchantCategoryCode Decode(ReadOnlyMemory<byte> value)
     {
         Check.Primitive.ForExactLength(value, 4, Tag);

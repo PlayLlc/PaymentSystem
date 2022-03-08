@@ -43,6 +43,14 @@ public sealed record DataToSend : DataExchangeResponse, IEqualityComparer<DataTo
 
     #region Serialization
 
+    /// <summary>
+    /// Decode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerInternalException"></exception>
     public static DataToSend Decode(ReadOnlyMemory<byte> value)
     {
         if (value.IsEmpty)

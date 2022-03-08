@@ -16,6 +16,10 @@ public partial class TerminalActionAnalysisServiceTests
 
     #region Transaction Cryptogram - Offline
 
+    /// <summary>
+    /// OnlineAndOfflineCapableTerminal_WithDefaultTerminalVerificationResults_GeneratesTransactionCryptogram
+    /// </summary>
+    /// <exception cref="System.InvalidOperationException"></exception>
     [Fact]
     public void OnlineAndOfflineCapableTerminal_WithDefaultTerminalVerificationResults_GeneratesTransactionCryptogram()
     {
@@ -34,6 +38,11 @@ public partial class TerminalActionAnalysisServiceTests
 
     #region Authorization Request Cryptogram - Online
 
+    /// <summary>
+    /// OnlineAndOfflineCapableTerminal_WithTerminalActionCodeOnline_GeneratesAuthorizationRequestCryptogram
+    /// </summary>
+    /// <param name="actionCode"></param>
+    /// <exception cref="System.InvalidOperationException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalActionCodeOnline), 10,
         MemberType = typeof(TerminalActionAnalysisServiceFixture))]
@@ -48,6 +57,11 @@ public partial class TerminalActionAnalysisServiceTests
         Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
     }
 
+    /// <summary>
+    /// OnlineAndOfflineCapableTerminal_WithIssuerActionCodeOnline_GeneratesAuthorizationRequestCryptogram
+    /// </summary>
+    /// <param name="actionCode"></param>
+    /// <exception cref="System.InvalidOperationException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomIssuerActionCodeOnline), 10,
         MemberType = typeof(TerminalActionAnalysisServiceFixture))]
@@ -62,6 +76,12 @@ public partial class TerminalActionAnalysisServiceTests
         Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
     }
 
+    /// <summary>
+    /// OnlineAndOfflineCapableTerminal_WithTerminalAndIssuerActionCodeOnline_GeneratesAuthorizationRequestCryptogram
+    /// </summary>
+    /// <param name="terminalActionCode"></param>
+    /// <param name="issuerActionCodes"></param>
+    /// <exception cref="System.InvalidOperationException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalAndIssuerActionCodeOnline), 10,
         MemberType = typeof(TerminalActionAnalysisServiceFixture))]
@@ -79,6 +99,11 @@ public partial class TerminalActionAnalysisServiceTests
         Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
     }
 
+    /// <summary>
+    /// OnlineAndOfflineCapableTerminal_WithoutTimeoutAndIssuerActionCodeDefault_GeneratesAuthenticationRequestCryptogram
+    /// </summary>
+    /// <param name="actionCode"></param>
+    /// <exception cref="System.InvalidOperationException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomIssuerActionCodeDefault), 10,
         MemberType = typeof(TerminalActionAnalysisServiceFixture))]
@@ -94,6 +119,12 @@ public partial class TerminalActionAnalysisServiceTests
         Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
     }
 
+    /// <summary>
+    /// OnlineAndOfflineCapableTerminal_WithoutTimeoutTerminalAndIssuerActionCodeDefault_GeneratesApplicationAuthenticationCryptogram
+    /// </summary>
+    /// <param name="terminalActionCode"></param>
+    /// <param name="issuerActionCodes"></param>
+    /// <exception cref="System.InvalidOperationException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalAndIssuerActionCodeDefault), 10,
         MemberType = typeof(TerminalActionAnalysisServiceFixture))]
@@ -116,6 +147,11 @@ public partial class TerminalActionAnalysisServiceTests
 
     #region Application Authentication Cryptogram - Deny
 
+    /// <summary>
+    /// OnlineAndOfflineCapableTerminal_WithTimeoutAndTerminalActionCodeDefault_GeneratesAuthenticationRequestCryptogram
+    /// </summary>
+    /// <param name="actionCode"></param>
+    /// <exception cref="System.InvalidOperationException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalActionCodeDefault), 10,
         MemberType = typeof(TerminalActionAnalysisServiceFixture))]
@@ -132,6 +168,11 @@ public partial class TerminalActionAnalysisServiceTests
         Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
     }
 
+    /// <summary>
+    /// OnlineAndOfflineCapableTerminal_WithTimeoutAndIssuerActionCodeDefault_GeneratesAuthenticationRequestCryptogram
+    /// </summary>
+    /// <param name="actionCode"></param>
+    /// <exception cref="System.InvalidOperationException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomIssuerActionCodeDefault), 10,
         MemberType = typeof(TerminalActionAnalysisServiceFixture))]
@@ -148,6 +189,12 @@ public partial class TerminalActionAnalysisServiceTests
         Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
     }
 
+    /// <summary>
+    /// OnlineAndOfflineCapableTerminal_WithTimeoutAndTerminalAndIssuerActionCodeDefault_GeneratesApplicationAuthenticationCryptogram
+    /// </summary>
+    /// <param name="terminalActionCode"></param>
+    /// <param name="issuerActionCodes"></param>
+    /// <exception cref="System.InvalidOperationException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalAndIssuerActionCodeDefault), 10,
         MemberType = typeof(TerminalActionAnalysisServiceFixture))]
@@ -166,6 +213,11 @@ public partial class TerminalActionAnalysisServiceTests
         Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
     }
 
+    /// <summary>
+    /// OnlineAndOfflineCapableTerminal_WithTerminalActionCodeDenial_GeneratesApplicationAuthenticationCryptogram
+    /// </summary>
+    /// <param name="actionCode"></param>
+    /// <exception cref="System.InvalidOperationException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalActionCodeDenial), 10,
         MemberType = typeof(TerminalActionAnalysisServiceFixture))]
@@ -181,6 +233,11 @@ public partial class TerminalActionAnalysisServiceTests
         Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
     }
 
+    /// <summary>
+    /// OnlineAndOfflineCapableTerminal_WithIssuerActionCodeDenial_GeneratesApplicationAuthenticationCryptogram
+    /// </summary>
+    /// <param name="actionCode"></param>
+    /// <exception cref="System.InvalidOperationException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomIssuerActionCodeDenial), 10,
         MemberType = typeof(TerminalActionAnalysisServiceFixture))]
@@ -196,6 +253,12 @@ public partial class TerminalActionAnalysisServiceTests
         Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
     }
 
+    /// <summary>
+    /// OnlineAndOfflineCapableTerminal_WithTerminalAndIssuerActionCodeDenial_GeneratesApplicationAuthenticationCryptogram
+    /// </summary>
+    /// <param name="terminalActionCode"></param>
+    /// <param name="issuerActionCodes"></param>
+    /// <exception cref="System.InvalidOperationException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalAndIssuerActionCodeDenial), 10,
         MemberType = typeof(TerminalActionAnalysisServiceFixture))]

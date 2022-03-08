@@ -68,6 +68,12 @@ internal class TerminalProcess : CommandProcessingQueue
         Enqueue((dynamic) request);
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
     private async Task Handle(InitiateSettlementRequest request)
     {
         await Task.Run(() => { _TerminalStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
@@ -78,11 +84,23 @@ internal class TerminalProcess : CommandProcessingQueue
         await Task.Run(() => { _TerminalStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
     private async Task Handle(ActivateTerminalRequest request)
     {
         await Task.Run(() => { _TerminalStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
     private async Task Handle(QueryTerminalRequest request)
     {
         await Task.Run(() => { _TerminalStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
@@ -93,11 +111,23 @@ internal class TerminalProcess : CommandProcessingQueue
         await Task.Run(() => { _TerminalStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
     private async Task Handle(QueryKernelResponse request)
     {
         await Task.Run(() => { _TerminalStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
     private async Task Handle(StopReaderAcknowledgedResponse request)
     {
         await Task.Run(() => { _TerminalStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);

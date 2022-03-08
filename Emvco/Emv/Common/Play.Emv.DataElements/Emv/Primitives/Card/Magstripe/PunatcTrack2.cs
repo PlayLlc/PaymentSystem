@@ -42,6 +42,7 @@ public record PunatcTrack2 : DataElement<ushort>
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
+    /// <exception cref="System.Exception"></exception>
     public static PunatcTrack2 Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _ByteLength, Tag);

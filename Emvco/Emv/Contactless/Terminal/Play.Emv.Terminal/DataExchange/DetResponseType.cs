@@ -36,6 +36,12 @@ public record DetResponseType : EnumObject<Tag>
 
     #region Instance Members
 
+    /// <summary>
+    /// GetName
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public static string GetName(DetResponseType value)
     {
         if (value == DataToSend)

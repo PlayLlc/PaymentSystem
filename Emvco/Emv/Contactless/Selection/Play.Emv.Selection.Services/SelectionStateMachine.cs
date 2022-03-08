@@ -52,6 +52,11 @@ internal class SelectionStateMachine
 
     #region Instance Members
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public void Handle(StopSelectionRequest request)
     {
         lock (_Lock)
@@ -72,6 +77,12 @@ internal class SelectionStateMachine
         }
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public void Handle(ActivatePcdResponse request)
     {
         lock (_Lock)
@@ -94,6 +105,11 @@ internal class SelectionStateMachine
         }
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="response"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public void Handle(SelectProximityPaymentSystemEnvironmentResponse response)
     {
         lock (_Lock)
@@ -115,6 +131,11 @@ internal class SelectionStateMachine
         }
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="response"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public void Handle(SendPoiInformationResponse response)
     {
         lock (_Lock)
@@ -136,6 +157,11 @@ internal class SelectionStateMachine
         }
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="response"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public void Handle(SelectApplicationDefinitionFileInfoResponse response)
     {
         lock (_Lock)
@@ -172,6 +198,11 @@ internal class SelectionStateMachine
 
     #region Activate
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public void Handle(ActivateSelectionRequest request)
     {
         lock (_Lock)
@@ -183,6 +214,12 @@ internal class SelectionStateMachine
         }
     }
 
+    /// <summary>
+    /// ProcessActivationSelectionRequest
+    /// </summary>
+    /// <param name="sessionLock"></param>
+    /// <param name="request"></param>
+    /// <exception cref="InvalidSignalRequest"></exception>
     public void ProcessActivationSelectionRequest(SelectionSessionLock sessionLock, ActivateSelectionRequest request)
     {
         sessionLock.Session = new SelectionSession(request.GetTransaction(), request.GetCorrelationId());
@@ -190,6 +227,13 @@ internal class SelectionStateMachine
         ProcessEntryPoint(request);
     }
 
+    /// <summary>
+    /// ReprocessActivationSelectionRequest
+    /// </summary>
+    /// <param name="sessionLock"></param>
+    /// <param name="request"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="InvalidSignalRequest"></exception>
     public void ReprocessActivationSelectionRequest(SelectionSessionLock sessionLock, ActivateSelectionRequest request)
     {
         if (sessionLock.Session!.GetTransactionSessionId() != request.GetTransactionSessionId())
@@ -201,6 +245,11 @@ internal class SelectionStateMachine
         ProcessEntryPoint(request);
     }
 
+    /// <summary>
+    /// ProcessEntryPoint
+    /// </summary>
+    /// <param name="request"></param>
+    /// <exception cref="InvalidSignalRequest"></exception>
     private void ProcessEntryPoint(ActivateSelectionRequest request)
     {
         if (request.GetStartOutcome() == StartOutcome.A)

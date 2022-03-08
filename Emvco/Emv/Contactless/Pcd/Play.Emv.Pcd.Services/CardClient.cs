@@ -47,6 +47,12 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
 
     #region Instance Members
 
+    /// <summary>
+    /// Transceive
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    /// <exception cref="CardReadException"></exception>
     public async Task<GetProcessingOptionsResponse> Transceive(GetProcessingOptionsRequest command)
     {
         // TODO: catch more specific exceptions
@@ -62,6 +68,12 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
         }
     }
 
+    /// <summary>
+    /// Transceive
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    /// <exception cref="CardReadException"></exception>
     public async Task<SelectProximityPaymentSystemEnvironmentResponse> Transceive(SelectProximityPaymentSystemEnvironmentRequest command)
     {
         // TODO: catch more specific exceptions
@@ -77,6 +89,10 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
         }
     }
 
+    /// <summary>
+    /// Abort
+    /// </summary>
+    /// <exception cref="CardReadException"></exception>
     public void Abort()
     {
         // TODO: catch more specific exceptions
@@ -92,6 +108,10 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
         }
     }
 
+    /// <summary>
+    /// Activate
+    /// </summary>
+    /// <exception cref="CardReadException"></exception>
     public void Activate()
     {
         // TODO: catch more specific exceptions
@@ -107,6 +127,10 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
         }
     }
 
+    /// <summary>
+    /// CloseSession
+    /// </summary>
+    /// <exception cref="CardReadException"></exception>
     public void CloseSession()
     {
         // TODO: catch more specific exceptions
@@ -122,6 +146,10 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
         }
     }
 
+    /// <summary>
+    /// CloseSessionCardCheck
+    /// </summary>
+    /// <exception cref="CardReadException"></exception>
     public void CloseSessionCardCheck()
     {
         _PcdClient.CloseSessionCardCheck();
@@ -139,6 +167,12 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
         }
     }
 
+    /// <summary>
+    /// Transceive
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    /// <exception cref="CardReadException"></exception>
     public async Task<ReadApplicationDataResponse> Transceive(ReadApplicationDataRequest command)
     {
         // TODO: catch more specific exceptions
@@ -154,6 +188,12 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
         }
     }
 
+    /// <summary>
+    /// Transceive
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    /// <exception cref="CardReadException"></exception>
     public async Task<SelectApplicationDefinitionFileInfoResponse> Transceive(SelectApplicationDefinitionFileInfoRequest command)
     {
         // TODO: catch more specific exceptions
@@ -169,6 +209,12 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
         }
     }
 
+    /// <summary>
+    /// Transceive
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    /// <exception cref="CardReadException"></exception>
     public async Task<SelectDirectoryDefinitionFileResponse> Transceive(SelectDirectoryDefinitionFileRequest command)
     {
         // TODO: catch more specific exceptions
@@ -184,6 +230,12 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
         }
     }
 
+    /// <summary>
+    /// Transceive
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    /// <exception cref="CardReadException"></exception>
     public async Task<SendPoiInformationResponse> Transceive(SendPoiInformationRequest command)
     {
         // TODO: catch more specific exceptions
@@ -199,6 +251,12 @@ public class CardClient : IReadApplicationData, ISelectApplicationDefinitionFile
         }
     }
 
+    /// <summary>
+    /// Transceive
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    /// <exception cref="CardReadException"></exception>
     public Task<GetDataBatchResponse> Transceive(GetDataBatchRequest command)
     {
         // TODO: catch more specific exceptions

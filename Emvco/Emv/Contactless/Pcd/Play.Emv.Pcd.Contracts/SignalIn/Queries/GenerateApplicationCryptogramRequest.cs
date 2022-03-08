@@ -25,6 +25,15 @@ public record GenerateApplicationCryptogramRequest : QueryPcdRequest
 
     #region Instance Members
 
+    /// <summary>
+    /// Create
+    /// </summary>
+    /// <param name="sessionId"></param>
+    /// <param name="cryptogramInformationData"></param>
+    /// <param name="cardRiskManagementDataObjectListResult"></param>
+    /// <param name="dataStorageDataObjectListResult"></param>
+    /// <returns></returns>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public static GenerateApplicationCryptogramRequest Create(
         TransactionSessionId sessionId,
         CryptogramInformationData cryptogramInformationData,

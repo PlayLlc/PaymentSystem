@@ -84,6 +84,11 @@ public class DataExchangeTerminalService
         }
     }
 
+    /// <summary>
+    /// Initialize
+    /// </summary>
+    /// <param name="listType"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Initialize(DetResponseType listType)
     {
         lock (_Lock)
@@ -99,6 +104,11 @@ public class DataExchangeTerminalService
         }
     }
 
+    /// <summary>
+    /// Initialize
+    /// </summary>
+    /// <param name="list"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Initialize(DataExchangeResponse list)
     {
         lock (_Lock)
@@ -114,6 +124,12 @@ public class DataExchangeTerminalService
         }
     }
 
+    /// <summary>
+    /// Enqueue
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="listItem"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Enqueue(DetResponseType type, TagLengthValue listItem)
     {
         lock (_Lock)
@@ -128,6 +144,12 @@ public class DataExchangeTerminalService
         }
     }
 
+    /// <summary>
+    /// Enqueue
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="listItems"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Enqueue(DetResponseType type, TagLengthValue[] listItems)
     {
         lock (_Lock)
@@ -142,6 +164,12 @@ public class DataExchangeTerminalService
         }
     }
 
+    /// <summary>
+    /// Enqueue
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="listItems"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Enqueue(DetResponseType type, DataExchangeResponse listItems)
     {
         lock (_Lock)
@@ -176,6 +204,11 @@ public class DataExchangeTerminalService
     }
 
     // Hack: Passing in the TerminalSession seems like a hack to me. Is there a better pattern than this? Let's look at the system flow and related objects
+    /// <summary>
+    /// Resolve
+    /// </summary>
+    /// <param name="terminalSession"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Resolve(in TerminalSession terminalSession)
     {
         lock (_Lock)
@@ -228,6 +261,11 @@ public class DataExchangeTerminalService
         }
     }
 
+    /// <summary>
+    /// Initialize
+    /// </summary>
+    /// <param name="list"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Initialize(DataExchangeRequest list)
     {
         lock (_Lock)
@@ -243,6 +281,11 @@ public class DataExchangeTerminalService
         }
     }
 
+    /// <summary>
+    /// Enqueue
+    /// </summary>
+    /// <param name="listItem"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Enqueue(Tag listItem)
     {
         lock (_Lock)
@@ -257,6 +300,12 @@ public class DataExchangeTerminalService
         }
     }
 
+    /// <summary>
+    /// Enqueue
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="listItems"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Enqueue(DetRequestType type, Tag[] listItems)
     {
         lock (_Lock)
@@ -271,6 +320,11 @@ public class DataExchangeTerminalService
         }
     }
 
+    /// <summary>
+    /// Enqueue
+    /// </summary>
+    /// <param name="listItems"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Enqueue(DataExchangeRequest listItems)
     {
         lock (_Lock)

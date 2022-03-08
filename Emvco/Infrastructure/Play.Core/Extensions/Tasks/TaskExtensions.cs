@@ -8,6 +8,13 @@ public static class TaskExtensions
 {
     #region Instance Members
 
+    /// <summary>
+    /// TimeoutAfter
+    /// </summary>
+    /// <param name="task"></param>
+    /// <param name="timeout"></param>
+    /// <returns></returns>
+    /// <exception cref="TimeoutException"></exception>
     public static async Task<TResult> TimeoutAfter<TResult>(this Task<TResult> task, TimeSpan timeout)
     {
         using (CancellationTokenSource? timeoutCancellationTokenSource = new())
@@ -25,6 +32,13 @@ public static class TaskExtensions
         }
     }
 
+    /// <summary>
+    /// WithTimeout
+    /// </summary>
+    /// <param name="task"></param>
+    /// <param name="timeout"></param>
+    /// <returns></returns>
+    /// <exception cref="TimeoutException"></exception>
     public static async Task<TResult> WithTimeout<TResult>(this Task<TResult> task, TimeSpan timeout)
     {
         if (await Task.WhenAny(task, Task.Delay(timeout)) != task)

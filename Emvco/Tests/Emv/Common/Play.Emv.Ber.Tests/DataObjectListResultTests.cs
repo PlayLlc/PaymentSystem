@@ -21,6 +21,10 @@ public class DataObjectListResultTests
         Assert.NotNull(testValue);
     }
 
+    /// <summary>
+    /// BerEncodingTagLength_Encoding_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncodingTagLength_Encoding_ReturnsExpectedResult()
     {
@@ -31,6 +35,10 @@ public class DataObjectListResultTests
         Assert.Equal(expectedResult, testValue);
     }
 
+    /// <summary>
+    /// BerEncodingTagLengths_Encoding_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncodingTagLengths_Encoding_ReturnsExpectedResult()
     {
@@ -47,6 +55,10 @@ public class DataObjectListResultTests
         Assert.Equal(expectedResult, testValue);
     }
 
+    /// <summary>
+    /// BerEncodingTagLengths_InvokingAsCommandTemplate_CreatesCommandTemplate
+    /// </summary>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncodingTagLengths_InvokingAsCommandTemplate_CreatesCommandTemplate()
     {
@@ -55,6 +67,10 @@ public class DataObjectListResultTests
         Assert.NotNull(testValue);
     }
 
+    /// <summary>
+    /// BerEncodingTagLengths_InvokingAsCommandTemplate_CreatesExpectedCommandTemplate
+    /// </summary>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncodingTagLengths_InvokingAsCommandTemplate_CreatesExpectedCommandTemplate()
     {

@@ -12,6 +12,11 @@ public class ApplicationFileLocatorTests
 {
     #region Instance Members
 
+    /// <summary>
+    /// BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncoding_DeserializingDataElement_CreatesPrimitiveValue()
     {
@@ -20,6 +25,11 @@ public class ApplicationFileLocatorTests
         Assert.NotNull(testValue);
     }
 
+    /// <summary>
+    /// BerEncoding_EncodingDataElement_SerializesExpectedValue
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncoding_EncodingDataElement_SerializesExpectedValue()
     {
@@ -31,6 +41,11 @@ public class ApplicationFileLocatorTests
         Assert.Equal(testValue, expectedResult);
     }
 
+    /// <summary>
+    /// BerEncoding_EncodingDataElementTlv_SerializesExpectedValue
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncoding_EncodingDataElementTlv_SerializesExpectedValue()
     {
@@ -42,6 +57,11 @@ public class ApplicationFileLocatorTests
         Assert.Equal(testValue, expectedResult);
     }
 
+    /// <summary>
+    /// BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue()
     {
@@ -52,6 +72,11 @@ public class ApplicationFileLocatorTests
         Assert.Equal(testValue, expectedResult);
     }
 
+    /// <summary>
+    /// TagLengthValue_SerializingToBer_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void TagLengthValue_SerializingToBer_ReturnsExpectedResult()
     {
@@ -63,6 +88,11 @@ public class ApplicationFileLocatorTests
         Assert.Equal(testValue, expectedResult);
     }
 
+    /// <summary>
+    /// InvalidBerEncoding_DeserializingDataElement_Throws
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void InvalidBerEncoding_DeserializingDataElement_Throws()
     {
@@ -71,6 +101,11 @@ public class ApplicationFileLocatorTests
         Assert.Throws<ArgumentOutOfRangeException>(() => ApplicationFileLocator.Decode(testData.EncodeValue().AsSpan()));
     }
 
+    /// <summary>
+    /// DataElement_InvokingGetValueByteCount_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void DataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
@@ -82,6 +117,11 @@ public class ApplicationFileLocatorTests
         Assert.Equal(expectedResult, testResult);
     }
 
+    /// <summary>
+    /// DataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void DataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {
@@ -93,6 +133,11 @@ public class ApplicationFileLocatorTests
         Assert.Equal(expectedResult, testResult);
     }
 
+    /// <summary>
+    /// CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void CustomDataElement_InvokingGetValueByteCount_ReturnsExpectedResult()
     {
@@ -104,6 +149,11 @@ public class ApplicationFileLocatorTests
         Assert.Equal(expectedResult, testResult);
     }
 
+    /// <summary>
+    /// CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void CustomDataElement_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
     {

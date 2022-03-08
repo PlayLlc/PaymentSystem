@@ -44,6 +44,11 @@ internal class MainStateMachine
 
     #region Instance Members
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public void Handle(ActivateReaderRequest request)
     {
         lock (_Lock)
@@ -59,6 +64,11 @@ internal class MainStateMachine
         }
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public void Handle(OutSelectionResponse request)
     {
         lock (_Lock)
@@ -96,6 +106,11 @@ internal class MainStateMachine
         }
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public void Handle(OutKernelResponse request)
     {
         lock (_Lock)
@@ -123,6 +138,11 @@ internal class MainStateMachine
         throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public void Handle(StopReaderRequest request)
     {
         lock (_Lock)

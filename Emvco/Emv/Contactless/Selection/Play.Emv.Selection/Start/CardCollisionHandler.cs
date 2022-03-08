@@ -26,6 +26,12 @@ public class CardCollisionHandler
 
     #region Main
 
+    /// <summary>
+    /// HandleCardCollisions
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="outcome"></param>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public void HandleCardCollisions(ActivatePcdResponse request, Outcome outcome)
     {
         if (!outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData))

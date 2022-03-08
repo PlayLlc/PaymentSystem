@@ -16,7 +16,11 @@ namespace Play.Ber.Codecs;
 public partial class BerCodec
 {
     #region Instance Members
-
+     
+    /// <param name="index"></param>
+    /// <param name="dataElements"></param>
+    /// <returns></returns>
+    /// <exception cref="BerFormatException"></exception>
     public IEncodeBerDataObjects[] GetIndexedDataElements(Tag[] index, IEncodeBerDataObjects[] dataElements)
     {
         CheckCore.ForMaximumLength(dataElements, index.Length,
@@ -117,6 +121,11 @@ public partial class BerCodec
 
     private byte[] EncodeValue(ConstructedValue value) => value.EncodeValue(this);
 
+    /// <param name="parent"></param>
+    /// <param name="childIndex"></param>
+    /// <param name="children"></param>
+    /// <returns></returns>
+    /// <exception cref="BerFormatException"></exception>
     public byte[] EncodeValue(ConstructedValue parent, Tag[] childIndex, params IEncodeBerDataObjects?[] children)
     {
         return EncodeValue(parent, GetIndexedDataElements(childIndex, children.Where(a => a != null).Select(x => x!).ToArray()));

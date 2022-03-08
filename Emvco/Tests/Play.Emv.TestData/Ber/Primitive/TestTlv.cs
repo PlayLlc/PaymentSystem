@@ -39,6 +39,13 @@ public abstract class TestTlv
     public int GetValueByteCount() => _ContentOctets.Length;
     public TagLengthValue AsTagLengthValue() => new(GetTag(), EncodeValue());
 
+    /// <summary>
+    /// ParseChildren
+    /// </summary>
+    /// <param name="childIndex"></param>
+    /// <param name="children"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     private static byte[] ParseChildren(Tag[] childIndex, TestTlv[] children)
     {
         if (children.Length > childIndex.Length)
@@ -68,6 +75,11 @@ public abstract class TestTlv
 
     #region Serialization
 
+    /// <summary>
+    /// EncodeTagLengthValue
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     public byte[] EncodeTagLengthValue()
     {
         TagLength tagLength = GetTagLength();

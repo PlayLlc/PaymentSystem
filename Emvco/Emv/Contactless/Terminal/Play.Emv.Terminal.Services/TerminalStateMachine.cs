@@ -42,6 +42,11 @@ internal class TerminalStateMachine
     #region Instance Members
 
     // TODO: I'm not sure if this is the correct way to implement this. I'm not sure what form of communication the point of sale will have with the Terminal. Keeping this here for now
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public void Handle(ActivateTerminalRequest request)
     {
         lock (_Lock)
@@ -78,6 +83,11 @@ internal class TerminalStateMachine
         }
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="response"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public void Handle(QueryKernelResponse response)
     {
         lock (_Lock)
@@ -92,6 +102,11 @@ internal class TerminalStateMachine
         }
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="response"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public void Handle(StopReaderAcknowledgedResponse response)
     {
         lock (_Lock)
@@ -107,6 +122,11 @@ internal class TerminalStateMachine
         }
     }
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="response"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public void Handle(InitiateSettlementRequest response)
     {
         lock (_Lock)
@@ -122,6 +142,11 @@ internal class TerminalStateMachine
     }
 
     // HACK: This should be handled on a separate process
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="request"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public void Handle(QueryTerminalRequest request)
     {
         lock (_Lock)

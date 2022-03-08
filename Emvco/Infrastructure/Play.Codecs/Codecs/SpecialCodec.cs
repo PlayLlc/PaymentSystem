@@ -65,6 +65,12 @@ public class SpecialCodec : PlayCodec
     public int GetMaxByteCount(int charCount) => charCount;
     public override ushort GetByteCount<_T>(_T value) => (ushort) Unsafe.SizeOf<_T>();
 
+    /// <summary>
+    /// GetByteCount
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override ushort GetByteCount<_T>(_T[] value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -166,6 +172,13 @@ public class SpecialCodec : PlayCodec
         return false;
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="PlayEncodingException"></exception>
     public override byte[] Encode<_T>(_T value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -177,6 +190,14 @@ public class SpecialCodec : PlayCodec
         return new byte[] {DecodeToByte(Unsafe.As<_T, char>(ref value))};
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="PlayEncodingException"></exception>
     public override byte[] Encode<_T>(_T value, int length)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -188,6 +209,13 @@ public class SpecialCodec : PlayCodec
         return new byte[] {DecodeToByte(Unsafe.As<_T, char>(ref value))};
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="PlayEncodingException"></exception>
     public override byte[] Encode<_T>(_T[] value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -199,6 +227,14 @@ public class SpecialCodec : PlayCodec
         return Encode(Unsafe.As<_T[], char[]>(ref value));
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="PlayEncodingException"></exception>
     public override byte[] Encode<_T>(_T[] value, int length)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -238,6 +274,17 @@ public class SpecialCodec : PlayCodec
         return byteArray;
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="chars"></param>
+    /// <param name="charIndex"></param>
+    /// <param name="charCount"></param>
+    /// <param name="bytes"></param>
+    /// <param name="byteIndex"></param>
+    /// <returns></returns>
+    /// <exception cref="PlayEncodingFormatException"></exception>
+    /// <exception cref="PlayEncodingException"></exception>
     public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
     {
         if (charIndex > chars.Length)
@@ -267,6 +314,13 @@ public class SpecialCodec : PlayCodec
         return charCount;
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="PlayEncodingException"></exception>
     public void Encode(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
     {
         for (int j = 0; j < value.Length; offset++)
@@ -277,6 +331,14 @@ public class SpecialCodec : PlayCodec
         }
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="PlayEncodingException"></exception>
     public void Encode(ReadOnlySpan<char> value, int length, Span<byte> buffer, ref int offset)
     {
         for (int j = 0; j < value.Length; offset++)
@@ -287,6 +349,13 @@ public class SpecialCodec : PlayCodec
         }
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
@@ -297,6 +366,14 @@ public class SpecialCodec : PlayCodec
         buffer[offset++] = _ByteMapper[Unsafe.As<_T, char>(ref value)];
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
@@ -307,6 +384,14 @@ public class SpecialCodec : PlayCodec
         buffer[offset++] = _ByteMapper[Unsafe.As<_T, char>(ref value)];
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="PlayEncodingException"></exception>
     public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
@@ -317,6 +402,15 @@ public class SpecialCodec : PlayCodec
         Encode(Unsafe.As<_T[], char[]>(ref value), buffer, ref offset);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
+    /// <exception cref="PlayEncodingException"></exception>
     public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -332,6 +426,16 @@ public class SpecialCodec : PlayCodec
 
     #region Decode To Chars
 
+    /// <summary>
+    /// DecodeToChars
+    /// </summary>
+    /// <param name="bytes"></param>
+    /// <param name="byteIndex"></param>
+    /// <param name="byteCount"></param>
+    /// <param name="chars"></param>
+    /// <param name="charIndex"></param>
+    /// <returns></returns>
+    /// <exception cref="PlayEncodingFormatException"></exception>
     public int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
     {
         if (byteIndex > chars.Length)

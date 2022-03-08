@@ -61,6 +61,12 @@ public class GenerateApplicationCryptogramCommandTestSpy
         _DataStorageDol = null;
     }
 
+    /// <summary>
+    /// Setup
+    /// </summary>
+    /// <param name="fixture"></param>
+    /// <returns></returns>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public static GenerateApplicationCryptogramCommandTestSpy Setup(IFixture fixture)
     {
         GenerateApplicationCryptogramCommandTestSpy result = new();

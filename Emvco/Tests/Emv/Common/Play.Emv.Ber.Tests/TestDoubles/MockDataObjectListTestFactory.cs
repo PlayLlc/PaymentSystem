@@ -25,6 +25,13 @@ public class MockDataObjectListTestFactory
 
     public static MockDataObjectList Create() => MockDataObjectList.Decode(_DefaultContentOctets.AsSpan());
 
+    /// <summary>
+    /// Create
+    /// </summary>
+    /// <param name="values"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public static MockDataObjectList Create(params TagLength[] values)
     {
         byte[]? encoded = values[0].Encode();

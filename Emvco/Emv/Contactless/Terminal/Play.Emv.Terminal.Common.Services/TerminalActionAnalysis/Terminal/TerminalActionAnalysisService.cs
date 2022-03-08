@@ -154,6 +154,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     ///     specify the conditions that cause the transaction to be rejected if it might have been approved online but the
     ///     terminal is for any reason unable to process the transaction online
     /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
     private void ProcessDefaultActionCodes(
         TerminalVerificationResults terminalVerificationResult,
         OutcomeParameterSet outcomeParameterSet,
@@ -189,6 +190,11 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 
     #region CAPDU Commands
 
+    /// <summary>
+    /// CreateDenyTransactionResponse
+    /// </summary>
+    /// <param name="command"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     private void CreateDenyTransactionResponse(TerminalActionAnalysisCommand command)
     {
         _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessionId(),
@@ -196,6 +202,11 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
             command.GetDataStorageDolResult()));
     }
 
+    /// <summary>
+    /// CreateProceedOfflineResponse
+    /// </summary>
+    /// <param name="command"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     private void CreateProceedOfflineResponse(TerminalActionAnalysisCommand command)
     {
         bool isCdaRequested =
@@ -207,6 +218,11 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
             command.GetDataStorageDolResult()));
     }
 
+    /// <summary>
+    /// CreateProceedOnlineResponse
+    /// </summary>
+    /// <param name="command"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     private void CreateProceedOnlineResponse(TerminalActionAnalysisCommand command)
     {
         _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessionId(),

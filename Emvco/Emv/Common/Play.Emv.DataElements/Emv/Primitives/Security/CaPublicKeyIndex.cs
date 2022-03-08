@@ -66,6 +66,7 @@ public record CaPublicKeyIndex : DataElement<byte>, IEqualityComparer<CaPublicKe
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerException"></exception>
+    /// <exception cref="DataElementNullException"></exception>
     public static CaPublicKeyIndex Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

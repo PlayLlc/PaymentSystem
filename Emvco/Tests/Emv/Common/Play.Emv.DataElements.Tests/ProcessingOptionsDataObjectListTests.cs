@@ -14,6 +14,11 @@ public class ProcessingOptionsDataObjectListTests
 {
     #region Instance Members
 
+    /// <summary>
+    /// BerEncoding_DeserializingDataElement_CreatesPrimitiveValue
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncoding_DeserializingDataElement_CreatesPrimitiveValue()
     {
@@ -22,6 +27,11 @@ public class ProcessingOptionsDataObjectListTests
         Assert.NotNull(testValue);
     }
 
+    /// <summary>
+    /// BerEncoding_EncodingDataElement_SerializesExpectedValue
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncoding_EncodingDataElement_SerializesExpectedValue()
     {
@@ -33,6 +43,11 @@ public class ProcessingOptionsDataObjectListTests
         Assert.Equal(testValue, expectedResult);
     }
 
+    /// <summary>
+    /// BerEncoding_EncodingDataElementTlv_SerializesExpectedValue
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncoding_EncodingDataElementTlv_SerializesExpectedValue()
     {
@@ -44,6 +59,11 @@ public class ProcessingOptionsDataObjectListTests
         Assert.Equal(testValue, expectedResult);
     }
 
+    /// <summary>
+    /// BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue()
     {
@@ -54,6 +74,11 @@ public class ProcessingOptionsDataObjectListTests
         Assert.Equal(testValue, expectedResult);
     }
 
+    /// <summary>
+    /// TagLengthValue_SerializingToBer_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void TagLengthValue_SerializingToBer_ReturnsExpectedResult()
     {
@@ -66,6 +91,11 @@ public class ProcessingOptionsDataObjectListTests
         Assert.Equal(testValue, expectedResult);
     }
 
+    /// <summary>
+    /// TagLengthValue_CreatingDataObjectListResult_IsNotNull
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void TagLengthValue_CreatingDataObjectListResult_IsNotNull()
     {
@@ -77,6 +107,11 @@ public class ProcessingOptionsDataObjectListTests
         Assert.NotNull(testValue);
     }
 
+    /// <summary>
+    /// TagLengthValue_CreatingDataObjectListResult_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void TagLengthValue_CreatingDataObjectListResult_ReturnsExpectedResult()
     {
@@ -90,6 +125,11 @@ public class ProcessingOptionsDataObjectListTests
         Assert.Equal(expectedResult, testValue);
     }
 
+    /// <summary>
+    /// TagLengthValue_CreatingCommandTemplate_IsNotNull
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void TagLengthValue_CreatingCommandTemplate_IsNotNull()
     {
@@ -102,6 +142,11 @@ public class ProcessingOptionsDataObjectListTests
         Assert.NotNull(testValue);
     }
 
+    /// <summary>
+    /// TagLengthValue_CreatingCommandTemplate_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void TagLengthValue_CreatingCommandTemplate_ReturnsExpectedResult()
     {

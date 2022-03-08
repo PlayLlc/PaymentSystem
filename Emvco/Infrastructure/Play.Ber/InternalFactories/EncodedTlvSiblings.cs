@@ -51,6 +51,7 @@ public readonly struct EncodedTlvSiblings
     /// </summary>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerInternalException"></exception>
     public TagLengthValue[] AsTagLengthValues()
     {
         TagLengthValue[]? result = new TagLengthValue[_ChildMetadata.Length];
@@ -187,6 +188,7 @@ public readonly struct EncodedTlvSiblings
     /// <param name="tag"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerInternalException"></exception>
     private ReadOnlyMemory<byte> GetValueOctetsOfChild(Tag tag)
     {
         if (!TryGetValueOctetsOfChild(tag, out ReadOnlyMemory<byte> encodedChild))

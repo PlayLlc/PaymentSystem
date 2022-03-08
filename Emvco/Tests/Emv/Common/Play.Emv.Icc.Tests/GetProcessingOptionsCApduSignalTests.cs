@@ -19,6 +19,11 @@ public class GetProcessingOptionsCApduSignalTests
 
     #region Instance Members
 
+    /// <summary>
+    /// CApduSignal_Initializing_CreatesRApduSignal
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerException"></exception>
     [Fact]
     public void CApduSignal_Initializing_CreatesRApduSignal()
     {

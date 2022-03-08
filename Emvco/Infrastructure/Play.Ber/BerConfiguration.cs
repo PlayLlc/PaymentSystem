@@ -172,6 +172,7 @@ public class BerConfiguration
     }
 
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerInternalException"></exception>
     private static void ValidatePrimitiveValuesAreAllMappedToAPlayCodec(HashSet<PlayCodec> codecs, HashSet<PrimitiveValue> primitiveValues)
     {
         HashSet<PlayEncodingId> encodingIds = new(codecs.Select(a => a.GetEncodingId()));

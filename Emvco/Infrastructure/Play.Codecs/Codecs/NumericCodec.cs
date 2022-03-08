@@ -88,12 +88,22 @@ public class NumericCodec : PlayCodec
 
     #region Validation
 
+    /// <summary>
+    /// Validate
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="PlayEncodingException"></exception>
     private void Validate(byte value)
     {
         if (!IsValid(value))
             throw new PlayEncodingException(PlayEncodingException.ByteArrayContainsInvalidValue);
     }
 
+    /// <summary>
+    /// Validate
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="PlayEncodingException"></exception>
     public void Validate(ReadOnlySpan<byte> value)
     {
         if (!IsValid(value))
@@ -180,6 +190,12 @@ public class NumericCodec : PlayCodec
         }
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<_T>(_T value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -205,6 +221,13 @@ public class NumericCodec : PlayCodec
         return Encode(Unsafe.As<_T, BigInteger>(ref value));
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<_T>(_T value, int length)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -232,6 +255,12 @@ public class NumericCodec : PlayCodec
         return Encode(Unsafe.As<_T, BigInteger>(ref value), length);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<_T>(_T[] value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -246,6 +275,13 @@ public class NumericCodec : PlayCodec
         return Encode(Unsafe.As<_T[], byte[]>(ref value));
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<_T>(_T[] value, int length)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -435,6 +471,13 @@ public class NumericCodec : PlayCodec
         return buffer.Length;
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -464,6 +507,14 @@ public class NumericCodec : PlayCodec
             Encode(Unsafe.As<_T, BigInteger>(ref value), buffer, ref offset);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -495,6 +546,13 @@ public class NumericCodec : PlayCodec
             Encode(Unsafe.As<_T, BigInteger>(ref value), length, buffer, ref offset);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
     {
         if (typeof(_T).IsChar())
@@ -503,6 +561,14 @@ public class NumericCodec : PlayCodec
             throw new InternalPlayEncodingException(this, typeof(_T));
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
     {
         if (typeof(_T) == typeof(char))
@@ -610,6 +676,12 @@ public class NumericCodec : PlayCodec
         return BuildInteger(result, value);
     }
 
+    /// <summary>
+    /// DecodeToByte
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="PlayEncodingException"></exception>
     public byte DecodeToByte(byte value)
     {
         Validate(value);

@@ -122,6 +122,12 @@ public class UnsignedIntegerCodec : PlayCodec
 
     public override ushort GetByteCount<_T>(_T value) => (ushort) Unsafe.SizeOf<_T>();
 
+    /// <summary>
+    /// GetByteCount
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override ushort GetByteCount<_T>(_T[] value)
     {
         if (!typeof(_T).IsUnsignedInteger())
@@ -230,6 +236,11 @@ public class UnsignedIntegerCodec : PlayCodec
         return value is >= minIntegerChar and <= maxIntegerChar;
     }
 
+    /// <summary>
+    /// Validate
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="PlayEncodingFormatException"></exception>
     protected void Validate(ReadOnlySpan<char> value)
     {
         foreach (char character in value)
@@ -281,6 +292,12 @@ public class UnsignedIntegerCodec : PlayCodec
         return trimEmptyBytes ? GetTrimmedBytes(value) : GetAllBytes(value, byteCount);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<_T>(_T value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -306,6 +323,13 @@ public class UnsignedIntegerCodec : PlayCodec
         return Encode(Unsafe.As<_T, BigInteger>(ref value));
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<_T>(_T value, int length)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -333,6 +357,12 @@ public class UnsignedIntegerCodec : PlayCodec
         return Encode(Unsafe.As<_T, BigInteger>(ref value), length);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<_T>(_T[] value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -347,6 +377,13 @@ public class UnsignedIntegerCodec : PlayCodec
         return Encode(Unsafe.As<_T[], byte[]>(ref value));
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override byte[] Encode<_T>(_T[] value, int length)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -363,6 +400,12 @@ public class UnsignedIntegerCodec : PlayCodec
 
     public byte[] Encode(BigInteger value) => value.ToByteArray();
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="PlayEncodingFormatException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value)
     {
         Validate(value);
@@ -374,6 +417,16 @@ public class UnsignedIntegerCodec : PlayCodec
         return result;
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="chars"></param>
+    /// <param name="charIndex"></param>
+    /// <param name="charCount"></param>
+    /// <param name="bytes"></param>
+    /// <param name="byteIndex"></param>
+    /// <returns></returns>
+    /// <exception cref="PlayEncodingFormatException"></exception>
     public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
     {
         Validate(chars[charIndex..charCount]);
@@ -385,6 +438,13 @@ public class UnsignedIntegerCodec : PlayCodec
 
     public PlayEncodingId GetPlayEncodingId() => EncodingId;
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -414,6 +474,14 @@ public class UnsignedIntegerCodec : PlayCodec
             Encode(Unsafe.As<_T, BigInteger>(ref value), buffer, ref offset);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -443,6 +511,13 @@ public class UnsignedIntegerCodec : PlayCodec
             Encode(Unsafe.As<_T, BigInteger>(ref value), length, buffer, ref offset);
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
     {
         if (typeof(_T).IsChar())
@@ -451,6 +526,14 @@ public class UnsignedIntegerCodec : PlayCodec
             throw new InternalPlayEncodingException(this, typeof(_T));
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="InternalPlayEncodingException"></exception>
     public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
     {
         if (typeof(_T) == typeof(char))
