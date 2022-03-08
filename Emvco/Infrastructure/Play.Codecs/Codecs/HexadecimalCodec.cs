@@ -8,8 +8,6 @@ using Play.Core.Exceptions;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
 
-
-
 namespace Play.Codecs;
 
 public class HexadecimalCodec : PlayCodec
@@ -693,9 +691,7 @@ public class HexadecimalCodec : PlayCodec
 
         byte result = Lookup.CharToHex[value];
 
-        return result == 0xFF
-            ? throw new CodecParsingException(CodecParsingException.ByteWasOutOfRangeOfHexadecimalCharacter)
-            : result;
+        return result == 0xFF ? throw new CodecParsingException(CodecParsingException.ByteWasOutOfRangeOfHexadecimalCharacter) : result;
     }
 
     #endregion

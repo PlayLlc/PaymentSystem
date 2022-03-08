@@ -6,7 +6,7 @@ using Play.Core.Exceptions;
 namespace Play.Icc.Exceptions;
 
 /// <summary>
-/// Thrown when the RAPDU returned contains a status word that is considered an error or a failure
+///     Thrown when the RAPDU returned contains a status word that is considered an error or a failure
 /// </summary>
 public class StatusBytesException : PlayException
 {

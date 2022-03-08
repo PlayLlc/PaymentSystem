@@ -48,7 +48,8 @@ public record PunatcTrack2 : DataElement<ushort>
     {
         Check.Primitive.ForMaximumLength(value, _ByteLength, Tag);
 
-        DecodedResult<ushort> result = _Codec.Decode(EncodingId, value).ToUInt16Result() ?? throw new DataElementParsingException(EncodingId);
+        DecodedResult<ushort> result = _Codec.Decode(EncodingId, value).ToUInt16Result()
+            ?? throw new DataElementParsingException(EncodingId);
 
         return new PunatcTrack2(result.Value);
     }

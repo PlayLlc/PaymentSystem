@@ -77,7 +77,6 @@ public record FileIdentifier : PrimitiveValue
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    
     public static FileIdentifier Decode(BerCodec codec, ReadOnlySpan<byte> value)
     {
         DecodedResult<ushort> result = codec.Decode(EncodingId, value) as DecodedResult<ushort>

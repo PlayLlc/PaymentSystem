@@ -3,8 +3,6 @@
 using Play.Ber.Exceptions;
 using Play.Core.Extensions;
 
-
-
 namespace Play.Ber.Lengths.Long;
 
 internal static partial class LongLength
@@ -77,7 +75,6 @@ internal static partial class LongLength
     /// <returns>The raw value of the Subsequent Octets as a <see cref="ushort" /></returns>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    
     private static ushort GetSubsequentOctets(uint value)
     {
         ushort subsequentOctets = (ushort) value.GetMaskedValue(GetSubsequentOctetMask(GetByteCount(value)));
@@ -104,7 +101,6 @@ internal static partial class LongLength
     }
 
     /// <exception cref="BerParsingException"></exception>
-    
     public static void Validate(ReadOnlySpan<byte> value)
     {
         InitialOctet.Validate(value[..1]);
@@ -113,7 +109,6 @@ internal static partial class LongLength
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    
     public static void Validate(uint value)
     {
         InitialOctet.Validate(GetInitialOctet(value));

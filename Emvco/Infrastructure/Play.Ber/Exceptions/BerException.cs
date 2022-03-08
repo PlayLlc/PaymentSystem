@@ -6,7 +6,7 @@ using Play.Codecs.Exceptions;
 namespace Play.Ber.Exceptions;
 
 /// <summary>
-/// When there's a problem encoding or decoding a primitive or constructed TLV object due to a format error
+///     When there's a problem encoding or decoding a primitive or constructed TLV object due to a format error
 /// </summary>
 public class BerParsingException : CodecParsingException
 {
@@ -33,8 +33,8 @@ public class BerParsingException : CodecParsingException
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base($"{TraceExceptionMessage(typeof(BerParsingException), fileName, memberName, lineNumber)}",
-        innerException)
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(BerParsingException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public BerParsingException(

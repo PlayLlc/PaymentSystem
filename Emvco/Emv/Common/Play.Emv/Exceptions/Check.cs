@@ -29,7 +29,7 @@ internal class Check
         {
             if (value.Length != length)
             {
-                throw new DataElementParsingException( 
+                throw new DataElementParsingException(
                     $"The Primitive Value with the Tag {tag} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {length} bytes in length");
             }
         }

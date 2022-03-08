@@ -56,7 +56,8 @@ public record ApplicationVersionNumberTerminal : DataElement<ushort>, IEqualityC
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ushort> result = _Codec.Decode(EncodingId, value).ToUInt16Result() ?? throw new DataElementParsingException(EncodingId);
+        DecodedResult<ushort> result = _Codec.Decode(EncodingId, value).ToUInt16Result()
+            ?? throw new DataElementParsingException(EncodingId);
 
         return new ApplicationVersionNumberTerminal(result.Value);
     }

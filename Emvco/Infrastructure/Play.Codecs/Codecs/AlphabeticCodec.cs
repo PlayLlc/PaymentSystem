@@ -7,8 +7,6 @@ using Play.Codecs.Exceptions;
 using Play.Core.Exceptions;
 using Play.Core.Specifications;
 
-
-
 namespace Play.Codecs;
 
 public class AlphabeticCodec : PlayCodec

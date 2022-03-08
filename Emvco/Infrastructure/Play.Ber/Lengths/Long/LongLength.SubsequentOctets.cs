@@ -62,7 +62,6 @@ internal static partial class LongLength
         ///     Validate
         /// </summary>
         /// <param name="value"></param>
-        
         public static void Validate(in uint value)
         {
             if (!IsLengthSupportedInThisCodeBase(value))

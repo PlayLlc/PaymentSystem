@@ -7,8 +7,6 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.Lengths;
 
-
-
 namespace Play.Ber.InternalFactories;
 
 /// <summary>

@@ -80,7 +80,8 @@ public record CryptographicChecksum : PrimitiveValue, IEqualityComparer<Cryptogr
     public override byte[] EncodeValue(BerCodec codec, int length)
     {
         if (length > _Value.Length)
-            throw new IccProtocolException(new InvalidOperationException($"The argument {nameof(length)} is larger than the underlying value"));
+            throw new IccProtocolException(
+                new InvalidOperationException($"The argument {nameof(length)} is larger than the underlying value"));
 
         return _Value[..length];
     }

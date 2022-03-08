@@ -4,8 +4,6 @@ using Play.Ber.Exceptions;
 using Play.Core.Exceptions;
 using Play.Core.Extensions;
 
-
-
 namespace Play.Ber.Identifiers.Long;
 
 internal static partial class LongIdentifier
@@ -39,7 +37,6 @@ internal static partial class LongIdentifier
         /// </remarks>
         /// <param name="value"></param>
         /// <returns></returns>
-        
         private static bool BitsAreSetCorrectly(ReadOnlySpan<byte> value)
         {
             const Bits bitEight = Bits.Eight;
@@ -194,7 +191,6 @@ internal static partial class LongIdentifier
         /// </summary>
         /// <param name="value"></param>
         /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
-        
         public static void Validate(ReadOnlySpan<byte> value)
         {
             CheckCore.ForEmptySequence(value, nameof(value));
@@ -220,7 +216,6 @@ internal static partial class LongIdentifier
 
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="PlayInternalException">Ignore.</exception>
-        
         public static void Validate(ushort value)
         {
             if (!TagByteCountIsInSupportedRange(value))

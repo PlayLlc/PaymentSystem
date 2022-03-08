@@ -55,7 +55,7 @@ public class FileControlInformationProprietaryDdf : FileControlInformationPropri
     public static FileControlInformationProprietaryDdf Decode(ReadOnlyMemory<byte> rawBer) => Decode(_Codec.DecodeChildren(rawBer));
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception> 
+    /// <exception cref="BerParsingException"></exception>
     public static FileControlInformationProprietaryDdf Decode(EncodedTlvSiblings encodedChildren)
     {
         FileControlInformationIssuerDiscretionaryDataDdf fciProprietaryTemplate =

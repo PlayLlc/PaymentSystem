@@ -49,15 +49,14 @@ public record AccountType : DataElement<byte>, IEqualityComparer<AccountType>
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="System.InvalidOperationException"></exception> 
+    /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     public static AccountType Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<byte> result = _Codec.Decode(EncodingId, value).ToByteResult()
-            ?? throw new DataElementParsingException(EncodingId);
+        DecodedResult<byte> result = _Codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataElementParsingException(EncodingId);
 
         return new AccountType(result.Value);
     }

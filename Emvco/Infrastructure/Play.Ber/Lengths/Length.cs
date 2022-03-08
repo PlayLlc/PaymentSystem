@@ -8,8 +8,6 @@ using Play.Ber.Lengths.Short;
 using Play.Codecs;
 using Play.Core.Extensions;
 
-
-
 namespace Play.Ber.Lengths;
 
 public readonly struct Length
@@ -151,7 +149,6 @@ public readonly struct Length
     /// <param name="contentOctets"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    
     internal static byte[] Serialize(ReadOnlySpan<byte> contentOctets)
     {
         if (contentOctets.Length > LongLength.MaxLengthSupported)

@@ -134,7 +134,7 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
     public static FileControlInformationProprietaryAdf Decode(ReadOnlyMemory<byte> rawBer) => Decode(_Codec.DecodeChildren(rawBer));
 
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="System.InvalidOperationException"></exception> 
+    /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="CardDataMissingException"></exception>
     public static FileControlInformationProprietaryAdf Decode(EncodedTlvSiblings encodedChildren)
     {

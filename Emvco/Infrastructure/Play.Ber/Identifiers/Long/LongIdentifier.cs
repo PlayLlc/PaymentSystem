@@ -3,8 +3,6 @@
 using Play.Ber.Exceptions;
 using Play.Core.Extensions;
 
-
-
 namespace Play.Ber.Identifiers.Long;
 
 /// <summary>
@@ -90,7 +88,6 @@ internal static partial class LongIdentifier
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
-    
     private static ushort GetSubsequentOctets(uint value)
     {
         ushort subsequentOctets = (ushort) value.GetMaskedValue(GetSubsequentOctetMask(GetByteCount(value)));
@@ -131,7 +128,6 @@ internal static partial class LongIdentifier
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    
     public static void Validate(uint value)
     {
         LeadingOctet.Validate(GetLeadingOctet(value));

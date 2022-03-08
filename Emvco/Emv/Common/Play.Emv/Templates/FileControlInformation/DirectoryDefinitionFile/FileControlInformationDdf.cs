@@ -53,7 +53,7 @@ public class FileControlInformationDdf : FileControlInformationTemplate
     public static FileControlInformationDdf Decode(ReadOnlyMemory<byte> rawBer) => Decode(_Codec.DecodeChildren(rawBer));
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception> 
+    /// <exception cref="BerParsingException"></exception>
     private static FileControlInformationDdf Decode(EncodedTlvSiblings encodedSiblings)
     {
         DedicatedFileName dedicatedFileName = _Codec.AsPrimitive(DedicatedFileName.Decode, DedicatedFileName.Tag, encodedSiblings)

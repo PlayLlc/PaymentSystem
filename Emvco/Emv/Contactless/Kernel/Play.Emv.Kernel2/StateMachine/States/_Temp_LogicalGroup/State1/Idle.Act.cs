@@ -18,8 +18,6 @@ using Play.Emv.Templates;
 using Play.Globalization.Time;
 using Play.Messaging;
 
-
-
 namespace Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup;
 
 public partial class Idle : KernelState
@@ -127,7 +125,7 @@ public partial class Idle : KernelState
             signal.GetTransaction().Update(Level2Error.ParsingError);
             HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
         }
- 
+
         catch (CardDataMissingException)
         {
             /* logging */
@@ -162,7 +160,7 @@ public partial class Idle : KernelState
             transaction.Update(Level2Error.ParsingError);
             HandleBerEncodingException(correlationId, kernelSessionId);
         }
-        
+
         catch (CardDataMissingException)
         {
             /* logging */

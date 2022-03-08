@@ -4,8 +4,6 @@ using Play.Ber.Exceptions;
 using Play.Core.Exceptions;
 using Play.Core.Extensions;
 
-
-
 namespace Play.Ber.Lengths.Long;
 
 internal static partial class LongLength
@@ -111,7 +109,5 @@ internal static partial class LongLength
         }
 
         #endregion
-
-       
     }
 }

@@ -9,8 +9,6 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Core.Exceptions;
 
-
-
 namespace Play.Ber.InternalFactories;
 
 /// <summary>
@@ -163,7 +161,6 @@ public readonly struct EncodedTlvSiblings
     ///     Searches for all children with the tag provided and returns the raw encoded value content
     /// </summary>
     /// ///
-    
     public bool TryGetRawSetOf(uint tag, out Span<ReadOnlyMemory<byte>> sequenceOfResult)
     {
         int setOfCount = GetSequenceOfCount(tag);
@@ -190,7 +187,6 @@ public readonly struct EncodedTlvSiblings
     /// <param name="tag"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    
     private ReadOnlyMemory<byte> GetValueOctetsOfChild(Tag tag)
     {
         if (!TryGetValueOctetsOfChild(tag, out ReadOnlyMemory<byte> encodedChild))

@@ -12,12 +12,8 @@ public record DekResponseType : EnumObject<Tag>
 {
     #region Static Metadata
 
-    public static readonly DekResponseType TagsToWriteBeforeGenAc =
-        new(DataElements.TagsToWriteBeforeGenAc.Tag);
-
-    public static readonly DekResponseType TagsToWriteAfterGenAc =
-        new(DataElements.TagsToWriteAfterGenAc.Tag);
-
+    public static readonly DekResponseType TagsToWriteBeforeGenAc = new(DataElements.TagsToWriteBeforeGenAc.Tag);
+    public static readonly DekResponseType TagsToWriteAfterGenAc = new(DataElements.TagsToWriteAfterGenAc.Tag);
     public static readonly DekResponseType DataToSend = new(Ber.DataObjects.DataToSend.Tag);
     public static readonly DekResponseType DataRecord = new(DataElements.DataRecord.Tag);
     public static readonly DekResponseType DiscretionaryData = new(DataElements.DiscretionaryData.Tag);

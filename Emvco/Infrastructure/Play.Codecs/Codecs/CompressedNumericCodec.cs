@@ -8,8 +8,6 @@ using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
 
-
-
 namespace Play.Codecs;
 
 public class CompressedNumericCodec : PlayCodec

@@ -8,7 +8,7 @@ using Play.Emv.Ber;
 namespace Play.Emv.Exceptions;
 
 /// <summary>
-/// When there's a problem encoding or decoding a Data Element due to a format error
+///     When there's a problem encoding or decoding a Data Element due to a format error
 /// </summary>
 public class DataElementParsingException : BerParsingException
 {

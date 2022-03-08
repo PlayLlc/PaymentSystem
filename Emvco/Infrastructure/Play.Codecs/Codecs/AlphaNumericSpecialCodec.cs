@@ -6,8 +6,6 @@ using Microsoft.Toolkit.HighPerformance.Buffers;
 using Play.Codecs.Exceptions;
 using Play.Core.Specifications;
 
-
-
 namespace Play.Codecs;
 
 public class AlphaNumericSpecialCodec : PlayCodec

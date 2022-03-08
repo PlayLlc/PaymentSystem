@@ -6,8 +6,6 @@ using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Ber.Lengths;
 
-
-
 namespace Play.Ber.Codecs;
 
 // TODO: You need to consolidate the Decoding in here. Also, the Primitive Value Encoding is confusing as it only encodes

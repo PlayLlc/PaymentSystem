@@ -8,8 +8,6 @@ using Play.Core.Exceptions;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
 
-
-
 namespace Play.Codecs;
 
 public class SpecialCodec : PlayCodec

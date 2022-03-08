@@ -11,8 +11,6 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Codecs;
 
-
-
 [assembly: InternalsVisibleTo("Play.Ber.Tests")]
 [assembly: InternalsVisibleTo("Play.Emv.Ber.Tests")]
 [assembly: InternalsVisibleTo("Play.Emv.TestData")]
@@ -136,7 +134,6 @@ public class BerConfiguration
     ///     ValidatePlayCodecIdentifiersAreUnique
     /// </summary>
     /// <param name="playCodecs"></param>
-    
     private static void ValidatePlayCodecIdentifiersAreUnique(IList<PlayCodec> playCodecs)
     {
         List<PlayEncodingId> allTags = playCodecs.Select(a => a.GetEncodingId()).ToList();
