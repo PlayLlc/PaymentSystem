@@ -10,44 +10,44 @@ using Play.Core.Exceptions;
 namespace Play.Emv.Kernel.Exceptions
 {
     /// <summary>
-    /// When data from the card is an incorrect value or different than expected
+    /// When the kernel and the card do not have a matching operating mode
     /// </summary>
-    public class CardDataException : PlayException
+    public class MagstripeNotSupportedException : PlayException
     {
         #region Constructor
 
-        public CardDataException(
+        public MagstripeNotSupportedException(
             string parameterName,
             string message,
             [CallerFilePath] string fileName = "",
             [CallerMemberName] string memberName = "",
             [CallerLineNumber] int lineNumber = 0) : base(
-            $"{TraceExceptionMessage(typeof(CardDataException), fileName, memberName, lineNumber)}. Parameter {parameterName} experienced an issue. {message}")
+            $"{TraceExceptionMessage(typeof(MagstripeNotSupportedException), fileName, memberName, lineNumber)}. Parameter {parameterName} experienced an issue. {message}")
         { }
 
-        public CardDataException(
+        public MagstripeNotSupportedException(
             string message,
             [CallerFilePath] string fileName = "",
             [CallerMemberName] string memberName = "",
             [CallerLineNumber] int lineNumber = 0) : base(
-            $"{TraceExceptionMessage(typeof(CardDataException), fileName, memberName, lineNumber)} {message}")
+            $"{TraceExceptionMessage(typeof(MagstripeNotSupportedException), fileName, memberName, lineNumber)} {message}")
         { }
 
-        public CardDataException(
+        public MagstripeNotSupportedException(
             Exception innerException,
             [CallerFilePath] string fileName = "",
             [CallerMemberName] string memberName = "",
             [CallerLineNumber] int lineNumber = 0) : base(
-            $"{TraceExceptionMessage(typeof(CardDataException), fileName, memberName, lineNumber)}", innerException)
+            $"{TraceExceptionMessage(typeof(MagstripeNotSupportedException), fileName, memberName, lineNumber)}", innerException)
         { }
 
-        public CardDataException(
+        public MagstripeNotSupportedException(
             string message,
             Exception innerException,
             [CallerFilePath] string fileName = "",
             [CallerMemberName] string memberName = "",
             [CallerLineNumber] int lineNumber = 0) : base(
-            $"{TraceExceptionMessage(typeof(CardDataException), fileName, memberName, lineNumber)} {message}", innerException)
+            $"{TraceExceptionMessage(typeof(MagstripeNotSupportedException), fileName, memberName, lineNumber)} {message}", innerException)
         { }
 
         #endregion

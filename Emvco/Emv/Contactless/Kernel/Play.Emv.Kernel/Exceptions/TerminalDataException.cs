@@ -9,6 +9,9 @@ using Play.Core.Exceptions;
 
 namespace Play.Emv.Kernel.Exceptions
 {
+    /// <summary>
+    /// When data from the terminal is an incorrect value or different than expected
+    /// </summary>
     public class TerminalDataException : PlayException
     {
         #region Constructor
