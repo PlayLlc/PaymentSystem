@@ -33,20 +33,44 @@ public class WaitingForGenerateAcResponse2 : KernelState
 
     public override StateId GetStateId() => StateId;
 
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
+    #region ACT
+
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, ActivateKernelRequest signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
-    public override KernelState Handle(CleanKernelRequest signal) => throw new NotImplementedException();
-    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) => throw new NotImplementedException();
-    public override KernelState Handle(KernelSession session, StopKernelRequest signal) => throw new NotImplementedException();
-    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) => throw new NotImplementedException();
-    public override KernelState Handle(KernelSession session, QueryPcdResponse signal) => throw new NotImplementedException();
-    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) => throw new NotImplementedException();
+    #endregion
+
+    #region STOP
+
+    public override KernelState Handle(KernelSession session, StopKernelRequest signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    #endregion
+
+    #region CLEAN
+
+    public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    #endregion
+
+    #region DET
+
+    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    #endregion
+
+    #region RAPDU
+
+    public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    #endregion
 }
