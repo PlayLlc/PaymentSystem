@@ -49,7 +49,7 @@ public class Kernel2Database : KernelDatabase
         }
 
         _KernelSessionId = kernelSessionId;
-        UpdateRange(transaction.AsTagLengthValueArray().Select(a => new DatabaseValue(a)).ToArray());
+        Update(transaction.AsTagLengthValueArray().Select(a => new DatabaseValue(a)).ToArray());
     }
 
     public override Kernel2Configuration GetKernelConfiguration() => _Kernel2Configuration;

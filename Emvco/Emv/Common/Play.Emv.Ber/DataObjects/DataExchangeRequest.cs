@@ -14,6 +14,8 @@ public abstract record DataExchangeRequest : DataExchangeList<Tag>
 
     #region Instance Members
 
+    public bool TryPeek(out Tag result) => _Value.TryPeek(out result);
+
     public void Enqueue(DataExchangeRequest item)
     {
         Enqueue(item._Value.ToArray());

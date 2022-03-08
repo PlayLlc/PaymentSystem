@@ -33,7 +33,7 @@ public partial class WaitingForGetDataResponse : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     private void UpdateDataExchangeSignal(QueryTerminalResponse signal)
     {
-        _KernelDatabase.UpdateRange(signal.GetDataToSend().AsTagLengthValueArray());
+        _KernelDatabase.Update(signal.GetDataToSend().AsTagLengthValueArray());
     }
 
     #endregion

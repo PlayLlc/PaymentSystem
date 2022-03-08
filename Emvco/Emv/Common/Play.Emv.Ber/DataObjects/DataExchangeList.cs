@@ -1,25 +1,27 @@
-﻿namespace Play.Emv.Ber.DataObjects;
+﻿using Play.Ber.Identifiers;
 
-public abstract record DataExchangeList<T> : DataElement<T[]>
+namespace Play.Emv.Ber.DataObjects;
+
+public abstract record DataExchangeList<_T> : DataElement<_T[]>
 {
     #region Instance Values
 
-    protected new readonly Queue<T> _Value;
+    protected new readonly Queue<_T> _Value;
 
     #endregion
 
     #region Constructor
 
-    protected DataExchangeList(T[] value) : base(value)
+    protected DataExchangeList(_T[] value) : base(value)
     {
-        _Value = new Queue<T>(value);
+        _Value = new Queue<_T>(value);
     }
 
     #endregion
 
     #region Instance Members
 
-    public T[] AsArray() => _Value.Count == 0 ? Array.Empty<T>() : _Value.ToArray();
+    public _T[] AsArray() => _Value.Count == 0 ? Array.Empty<_T>() : _Value.ToArray();
 
     public void Clear()
     {
@@ -29,7 +31,7 @@ public abstract record DataExchangeList<T> : DataElement<T[]>
     public int Count() => _Value.Count;
     public bool IsEmpty() => Count() == 0;
 
-    public void Enqueue(T item)
+    public void Enqueue(_T item)
     {
         if (_Value.Contains(item))
             return;
@@ -37,15 +39,15 @@ public abstract record DataExchangeList<T> : DataElement<T[]>
         _Value.Enqueue(item);
     }
 
-    public void Enqueue(T[] items)
+    public void Enqueue(_T[] items)
     {
         for (nint i = 0; i < items.Length; i++)
             Enqueue(items[i]);
     }
 
-    public bool TryDequeue(out T? result)
+    public bool TryDequeue(out _T? result)
     {
-        if (!_Value.TryDequeue(out T localResult))
+        if (!_Value.TryDequeue(out _T? localResult))
         {
             result = default;
 

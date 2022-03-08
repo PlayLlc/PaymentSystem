@@ -23,7 +23,7 @@ public record GetDataResponse : QueryPcdResponse
 
     #region Instance Members
 
-    public TagLengthValue GetTagLengthValuesResult() => ((GetDataRApduSignal) GetRApduSignal()).GetTagLengthValuesResult();
+    public TagLengthValue GetTagLengthValueResult() => ((GetDataRApduSignal) GetRApduSignal()).GetTagLengthValuesResult();
 
     #endregion
 }

@@ -107,7 +107,7 @@ public partial class Idle : KernelState
     {
         try
         {
-            _KernelDatabase.UpdateRange(signal.AsTagLengthValueArray());
+            _KernelDatabase.Update(signal.AsTagLengthValueArray());
             result = signal.GetFileControlInformationCardResponse().GetFileControlInformation();
 
             return true;

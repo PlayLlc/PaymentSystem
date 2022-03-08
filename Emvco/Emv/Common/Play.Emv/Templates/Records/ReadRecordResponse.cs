@@ -38,11 +38,7 @@ public class ReadRecordResponse : ReadRecordResponseTemplate
     }
 
     public bool IsEmpty() => !_Value.Any();
-
-    protected override IEncodeBerDataObjects?[] GetChildren()
-    {
-        return GetPrimitiveValues(_Codec).Select(a => (IEncodeBerDataObjects) a).ToArray();
-    }
+    protected override IEncodeBerDataObjects?[] GetChildren() => throw new NotImplementedException();
 
     #endregion
 

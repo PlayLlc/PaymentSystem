@@ -63,7 +63,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
         _KernelSessionId = kernelSessionId;
 
-        UpdateRange(transaction.AsTagLengthValueArray());
+        Update(transaction.AsTagLengthValueArray());
     }
 
     /// <summary>
@@ -241,12 +241,12 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// </summary>
     /// <param name="values"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    public virtual void UpdateRange(TagLengthValue[] values)
+    public virtual void Update(TagLengthValue[] values)
     {
         if (!IsActive())
         {
             throw new InvalidOperationException(
-                $"The method {nameof(UpdateRange)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+                $"The method {nameof(Update)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         _TlvDatabase.UpdateRange(values);

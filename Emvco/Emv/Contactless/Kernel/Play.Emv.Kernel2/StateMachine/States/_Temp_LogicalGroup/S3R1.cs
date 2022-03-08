@@ -80,7 +80,7 @@ public class S3R1
         try
         {
             GetDataBatchResponse rapdu = await _PcdEndpoint.Transceive(request).ConfigureAwait(false);
-            _KernelDatabase.UpdateRange(rapdu.GetTagLengthValuesResult());
+            _KernelDatabase.Update(rapdu.GetTagLengthValuesResult());
         }
         catch (BerParsingException)
         {
@@ -116,7 +116,7 @@ public class S3R1
 
         TagLengthValue[] applicationData = rapdu.GetTagLengthValuesResult();
 
-        _KernelDatabase.UpdateRange(applicationData);
+        _KernelDatabase.Update(applicationData);
     }
 
     #endregion

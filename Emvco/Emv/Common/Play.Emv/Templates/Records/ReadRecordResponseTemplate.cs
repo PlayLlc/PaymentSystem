@@ -38,7 +38,6 @@ public abstract class ReadRecordResponseTemplate : Template
     #region Instance Members
 
     public byte[] AsByteArray() => _Values;
-    public TagLengthValue[] GetPrimitiveValues(BerCodec berCodec) => berCodec.DecodeTagLengthValues(_Values.AsSpan());
 
     #endregion
 }

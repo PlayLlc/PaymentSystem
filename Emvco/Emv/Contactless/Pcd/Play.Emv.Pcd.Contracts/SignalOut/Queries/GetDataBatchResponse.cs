@@ -40,7 +40,7 @@ public record GetDataBatchResponse : QueryPcdResponse
         TagLengthValue[] result = new TagLengthValue[_DataBatchResponses.Length];
 
         for (nint i = 0; i < _DataBatchResponses.Length; i++)
-            result[i] = _DataBatchResponses[i].GetTagLengthValuesResult();
+            result[i] = _DataBatchResponses[i].GetTagLengthValueResult();
 
         return result;
     }

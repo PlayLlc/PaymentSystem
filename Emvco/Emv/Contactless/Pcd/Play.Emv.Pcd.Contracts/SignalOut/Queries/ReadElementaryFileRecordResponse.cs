@@ -26,6 +26,8 @@ public record ReadElementaryFileRecordResponse : QueryPcdResponse
     #region Instance Members
 
     public ReadRecordResponse GetReadRecordResponseTemplate() => new(GetData());
+    public byte[] GetRawRecord() => GetData();
+    public int GetValueByteCount() => GetData().Length;
 
     #endregion
 }

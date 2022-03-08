@@ -65,6 +65,30 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<TagsToRead>
         return _Value.Count;
     }
 
+    public void Resolve(TagLengthValue value)
+    {
+        if (!TryPeek(out Tag firstTag))
+            throw new DataElementParsingException($"The {nameof(TagsToRead)} could not dequeue a value from memory");
+
+        if (value.GetTag() == firstTag)
+        {
+            _Value.Dequeue();
+
+            return;
+        }
+
+        for (nint i = 0; i < _Value.Count; i++)
+        {
+            if (!TryDequeue(out Tag currentTag))
+                throw new DataElementParsingException($"The {nameof(TagsToRead)} could not dequeue a value from memory");
+
+            if (value.GetTag() == currentTag)
+                return;
+
+            Enqueue(currentTag);
+        }
+    }
+
     public Tag[] GetTagsToReadYet() => _Value.ToArray();
 
     #endregion

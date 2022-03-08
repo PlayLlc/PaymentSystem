@@ -102,13 +102,22 @@ public class DataExchangeKernelService
         }
     }
 
-    /// <summary>
-    ///     Attempts to get requested tags that have not yet been read
-    /// </summary>
-    /// <param name="result"></param>
-    /// <returns></returns>
+    public bool TryPeek(DekRequestType type, out Tag result)
+    {
+        lock (_Lock.Requests)
+        {
+            if (!_Lock.Requests.ContainsKey(type))
+            {
+                throw new InvalidOperationException(
+                    $"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
+            }
+
+            return _Lock.Requests[type].TryPeek(out result);
+        }
+    }
+
     /// <exception cref="InvalidOperationException"></exception>
-    public bool TryDequeue(out Tag result)
+    public void Resolve(GetDataResponse dataResponse)
     {
         lock (_Lock.Requests)
         {
@@ -118,7 +127,7 @@ public class DataExchangeKernelService
                     $"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
             }
 
-            return _Lock.Requests[DekRequestType.TagsToRead].TryDequeue(out result);
+            ((TagsToRead) _Lock.Requests[DekRequestType.TagsToRead]).Resolve(dataResponse.GetTagLengthValueResult());
         }
     }
 
@@ -131,90 +140,28 @@ public class DataExchangeKernelService
     /// <param name="listType"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public int Resolve(DekRequestType listType)
+    public void Resolve(IQueryTlvDatabase listType)
     {
         lock (_Lock.Requests)
         {
-            if (listType == DekRequestType.DataNeeded)
-                return _Lock.Requests[listType].Count();
-
-            if (listType == DekRequestType.TagsToRead)
-                return Resolve((TagsToRead?) _Lock.Requests.GetValueOrDefault(TagsToRead.Tag), _TlvDatabase);
-
-            throw new InvalidOperationException($"The {nameof(DekRequestType)} provided has not been implemented");
-        }
-    }
-
-    /// <summary>
-    ///     Resolve
-    /// </summary>
-    /// <param name="tagsToRead"></param>
-    /// <param name="tlvDatabase"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    private static int Resolve(TagsToRead? tagsToRead, IQueryTlvDatabase tlvDatabase)
-    {
-        if (tagsToRead == null)
-        {
-            throw new InvalidOperationException(
-                $"The {nameof(DataExchangeKernelService)} could not Resolve the {nameof(TagsToRead)} because the list has not been initialized");
-        }
-
-        for (int i = 0; i < tagsToRead.Count(); i++)
-        {
-            if (!tagsToRead.TryDequeue(out Tag tagToRead))
-                throw new InvalidOperationException();
-
-            if (tlvDatabase.IsPresentAndNotEmpty(tagToRead))
-                continue;
-
-            tagsToRead.Enqueue(tagToRead);
-        }
-
-        return tagsToRead.Count();
-    }
-
-    /// <summary>
-    ///     Checks the <see cref="TagLengthValue" /> results provided by the <see cref="GetDataResponse" /> and resolves any
-    ///     matching values for <see cref="TagsToRead" />
-    /// </summary>
-    /// <param name="dataBatchResponse"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    public int Resolve(GetDataBatchResponse dataBatchResponse)
-    {
-        lock (_Lock.Requests)
-        {
-            TagsToRead tagsToRead = (TagsToRead) _Lock.Requests[DekRequestType.TagsToRead];
-            tagsToRead.Resolve(dataBatchResponse.GetTagLengthValuesResult());
-
-            return tagsToRead.Count();
-        }
-    }
-
-    /// <summary>
-    ///     TryGetDataBatchRequest
-    /// </summary>
-    /// <param name="sessionId"></param>
-    /// <param name="result"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public bool TryGetDataBatchRequest(TransactionSessionId sessionId, out GetDataBatchRequest? result)
-    {
-        lock (_Lock.Requests)
-        {
-            if (!_Lock.Requests.ContainsKey(TagsToRead.Tag))
+            if (!_Lock.Requests.ContainsKey(DekRequestType.TagsToRead))
             {
-                result = null;
-
-                return false;
+                throw new InvalidOperationException(
+                    $"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
             }
 
-            result = GetDataBatchRequest.Create(sessionId,
-                TagsToRead.Decode(_Lock.Requests[TagsToRead.Tag].EncodeTagLengthValue().AsSpan()));
+            TagsToRead tagsToRead = (TagsToRead) _Lock.Requests[DekRequestType.TagsToRead];
 
-            return true;
+            for (int i = 0; i < tagsToRead.Count(); i++)
+            {
+                if (!tagsToRead.TryDequeue(out Tag tagToRead))
+                    throw new InvalidOperationException();
+
+                if (_TlvDatabase.IsPresentAndNotEmpty(tagToRead))
+                    continue;
+
+                tagsToRead.Enqueue(tagToRead);
+            }
         }
     }
 
@@ -322,24 +269,6 @@ public class DataExchangeKernelService
             _Lock.Responses[DekResponseType.DataToSend].Clear();
         }
     }
-
-    //public void SendResponse(CorrelationId correlationId, DekResponseType type)
-    //{
-    //    lock (_Lock)
-    //    {
-    //        if (!_Lock.Responses.ContainsKey(type))
-    //            return;
-
-    //        // TODO: I'm pretty sure we're only supposed to be sending DataToSend. If that's correct, then let's fix this method so that's the only list we're able to send to the terminal
-
-    //        QueryKernelResponse queryKernelResponse = new(correlationId, new DataToSend(_Lock.Responses[type].AsArray()),
-    //                                                      new DataExchangeTerminalId(_KernelSessionId.GetKernelId(),
-    //                                                                                 _KernelSessionId.GetTransactionSessionId()));
-
-    //        _KernelEndpoint.Send(queryKernelResponse);
-    //        _Lock.Responses[type].Clear();
-    //    }
-    //}
 
     public void Initialize(DekResponseType listType)
     {
@@ -457,10 +386,13 @@ public class DataExchangeKernelService
         {
             for (int i = 0; i < _Lock.Responses[typeType].Count(); i++)
             {
-                if (!_Lock.Requests[typeType].TryDequeue(out Tag tagToRead))
+                if (!_Lock.Requests.ContainsKey(DekRequestType.TagsToRead))
                     throw new InvalidOperationException();
 
-                if (_TlvDatabase.IsPresentAndNotEmpty(tagToRead))
+                if (!_Lock.Requests[DekRequestType.TagsToRead].TryDequeue(out Tag tagToRead))
+                    return 0;
+
+                if (_TlvDatabase.IsPresent(tagToRead))
                     _Lock.Responses[typeType].Enqueue(_TlvDatabase.Get(tagToRead));
                 else
                     _Lock.Requests[typeType].Enqueue(tagToRead);

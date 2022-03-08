@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
+using Play.Ber.DataObjects;
+using Play.Emv.Ber;
 using Play.Emv.Sessions;
 using Play.Emv.Templates;
 using Play.Messaging;
@@ -10,6 +13,7 @@ public record ReadElementaryFileRecordRangeResponse : QueryPcdResponse
 {
     #region Static Metadata
 
+    private static readonly EmvCodec _Codec = EmvCodec.GetBerCodec();
     public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(ReadElementaryFileRecordRangeResponse));
 
     #endregion
@@ -36,13 +40,17 @@ public record ReadElementaryFileRecordRangeResponse : QueryPcdResponse
 
     #region Instance Members
 
-    public ReadRecordResponseTemplate[] GetTemplates()
+    public TagLengthValue GetTagLengthValue()
     {
-        ReadRecordResponseTemplate[] response = new ReadRecordResponseTemplate[_Records.Length];
-        for (int i = 0; i < _Records.Length; i++)
-            response[i] = new ReadRecordResponse(_Records[i].GetData());
+        Span<byte> buffer = stackalloc byte[_Records.Sum(a => a.GetValueByteCount())];
 
-        return response;
+        for (int i = 0, j = 0; i < _Records.Length; i++)
+        {
+            _Records[i].GetRawRecord().CopyTo(buffer);
+            j += _Records[i].GetValueByteCount();
+        }
+
+        return _Codec.DecodeTagLengthValue(buffer);
     }
 
     #endregion

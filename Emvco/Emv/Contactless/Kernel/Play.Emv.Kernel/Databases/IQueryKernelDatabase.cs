@@ -75,7 +75,7 @@ public interface IQueryKernelDatabase
     ///     provided it is not recognized
     /// </summary>
     /// <param name="values"></param>
-    public void UpdateRange(TagLengthValue[] values);
+    public void Update(TagLengthValue[] values);
 
     #endregion
 }
