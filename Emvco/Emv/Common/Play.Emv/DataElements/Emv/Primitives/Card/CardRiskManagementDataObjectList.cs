@@ -1,0 +1,56 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using Play.Ber.Codecs;
+using Play.Ber.Exceptions;
+using Play.Ber.Identifiers;
+using Play.Codecs;
+using Play.Emv.Ber.DataObjects;
+using Play.Emv.Exceptions;
+
+namespace Play.Emv.DataElements.Emv.Primitives.Card;
+
+/// <summary>
+///     A data object in the Card that provides the Kernel with a list of data objects that must be passed to the Card in
+///     the data field of the GENERATE AC command.
+/// </summary>
+public record CardRiskManagementDataObjectList1 : DataObjectList
+{
+    #region Static Metadata
+
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
+    public static readonly Tag Tag = 0x8C;
+    private static readonly byte _MaxByteLength = 250;
+
+    #endregion
+
+    #region Constructor
+
+    public CardRiskManagementDataObjectList1(byte[] value) : base(value)
+    {
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+
+    #endregion
+
+    #region Serialization
+
+    public static CardRiskManagementDataObjectList1 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public static CardRiskManagementDataObjectList1 Decode(ReadOnlySpan<byte> value) => new(value.ToArray());
+
+    #endregion
+}

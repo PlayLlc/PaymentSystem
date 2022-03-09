@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
@@ -6,6 +7,8 @@ using Play.Ber.Identifiers;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv.Primitives.Card;
+using Play.Emv.DataElements.Emv.Primitives.DataStorage;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Icc.GetData;
@@ -40,6 +43,9 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
             return _KernelStateResolver.GetKernelState(StateId);
 
         IsOfflineDataAuthenticationRecordPresent(session, ref isRecordSigned);
+
+        if (!TryResolveActiveRecords(session, (ReadRecordResponse) signal, out Tag[] resolvedRecords))
+            return _KernelStateResolver.GetKernelState(StateId);
 
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
     }
@@ -109,33 +115,51 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     #endregion
 
-    #region S4.14
+    #region S4.14, S4.24 - S4.25, S5.27.1 - S5.27.2
 
-    public void UpdateActiveTag(KernelSession session, ReadRecordResponse rapdu)
+    public bool TryResolveActiveRecords(KernelSession session, ReadRecordResponse rapdu, out Tag[] resolvedRecords)
     {
         try
         {
-            _KernelDatabase.Update(session.ResolveActiveTag(rapdu));
+            TagLengthValue[] records = session.ResolveActiveTag(rapdu);
+
+            _KernelDatabase.Update(records);
+
+            resolvedRecords = records.Select(a => a.GetTag()).ToArray();
+
+            return true;
         }
         catch (EmvParsingException)
         {
             // TODO: Logging
             HandleBerParsingException(session, _DataExchangeKernelService, _KernelDatabase, _KernelEndpoint);
+            resolvedRecords = Array.Empty<Tag>();
+
+            return false;
         }
         catch (BerParsingException)
         {
             // TODO: Logging
             HandleBerParsingException(session, _DataExchangeKernelService, _KernelDatabase, _KernelEndpoint);
+            resolvedRecords = Array.Empty<Tag>();
+
+            return false;
         }
         catch (CodecParsingException)
         {
             // TODO: Logging
             HandleBerParsingException(session, _DataExchangeKernelService, _KernelDatabase, _KernelEndpoint);
+            resolvedRecords = Array.Empty<Tag>();
+
+            return false;
         }
         catch (Exception)
         {
             // TODO: Logging
             HandleBerParsingException(session, _DataExchangeKernelService, _KernelDatabase, _KernelEndpoint);
+            resolvedRecords = Array.Empty<Tag>();
+
+            return false;
         }
     }
 
@@ -155,6 +179,31 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     }
 
     #endregion
+
+    #region S4.28
+
+    #endregion
+
+    public void UpdateDataToSend(Tag[] resolvedRecords)
+    {
+        for (int i = 0; i < resolvedRecords.Length; i++)
+        {
+            if (resolvedRecords[i] == CardRiskManagementDataObjectList1.Tag)
+                HandleCdol1(CardRiskManagementDataObjectList1.Decode(_KernelDatabase.Get(CardRiskManagementDataObjectList1.Tag)
+                    .EncodeTagLengthValue().AsSpan()));
+
+            if (resolvedRecords[i] == DataStorageDataObjectList.Tag)
+                HandleDsdol();
+        }
+    }
+
+    public void HandleCdol1(CardRiskManagementDataObjectList1 cdol)
+    {
+        _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, cdol.GetNeededData(_KernelDatabase));
+    }
+
+    public void HandleDsdol(DataStorageDataObjectList dsdol)
+    { }
 
     #endregion
 }
