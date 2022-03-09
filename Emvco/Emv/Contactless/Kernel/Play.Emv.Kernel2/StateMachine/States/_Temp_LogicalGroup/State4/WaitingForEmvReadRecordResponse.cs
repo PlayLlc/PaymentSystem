@@ -13,7 +13,7 @@ using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup.State4;
 
-internal class WaitingForEmvReadRecordResponse : KernelState
+public partial class WaitingForEmvReadRecordResponse : KernelState
 {
     #region Static Metadata
 
@@ -31,6 +31,8 @@ internal class WaitingForEmvReadRecordResponse : KernelState
 
     #endregion
 
+    #region Instance Members
+
     public override StateId GetStateId() => StateId;
 
     #region ACT
@@ -41,36 +43,11 @@ internal class WaitingForEmvReadRecordResponse : KernelState
 
     #endregion
 
-    #region STOP
-
-    public override KernelState Handle(KernelSession session, StopKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    #endregion
-
     #region CLEAN
 
     public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
-
-    #region DET
-
-    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    #endregion
-
-    #region RAPDU
-
-    public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
 }

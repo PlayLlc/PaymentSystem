@@ -42,7 +42,7 @@ public class ReadRecordApduCommand : ApduCommand
     /// <param name="shortFileId"></param>
     /// <returns></returns>
     public static ReadRecordApduCommand ReadAllRecords(ShortFileId shortFileId) =>
-        new ReadRecordApduCommand(new Class(SecureMessaging.NotRecognized, LogicalChannel.BasicChannel), Instruction.ReadRecord,
+        new(new Class(SecureMessaging.NotRecognized, LogicalChannel.BasicChannel), Instruction.ReadRecord,
             0x00, // current record, which will be the first record
             (byte) ((shortFileId << 4) | ReadRecordBehavior.FromRecordToEnd), 0);
 

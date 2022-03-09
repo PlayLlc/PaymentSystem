@@ -25,8 +25,10 @@ public readonly struct RegisteredApplicationProviderIndicator
     public RegisteredApplicationProviderIndicator(ulong value)
     {
         if (value.GetMostSignificantByte() != ByteCount)
+        {
             throw new IccProtocolException(new ArgumentOutOfRangeException(nameof(value),
                 $"The value {value} must be {ByteCount} bytes in length"));
+        }
 
         _Value = value;
     }

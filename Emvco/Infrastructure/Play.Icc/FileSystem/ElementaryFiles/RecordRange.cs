@@ -4,8 +4,7 @@ namespace Play.Icc.FileSystem.ElementaryFiles;
 
 /// <summary>
 ///     Identifies an Elementary File of record structure and a sequential range of records by identifying the ordinal
-///     position
-///     of the first and last record in this range
+///     position of the first and last record in this range
 /// </summary>
 public readonly struct RecordRange
 {
@@ -27,9 +26,11 @@ public readonly struct RecordRange
     private readonly byte _LastRecordOrdinal;
 
     /// <summary>
-    ///     The number of records in this range of records
+    ///     The fourth byte indicates the number of records involved in offline data authentication starting with the record
+    ///     number coded in the second byte. The fourth byte may range from zero to the value of the third byte less the value
+    ///     of the second byte plus 1.
     /// </summary>
-    private readonly byte _Length;
+    private readonly byte _OfflineDataAuthenticationLength;
 
     #endregion
 
@@ -40,15 +41,15 @@ public readonly struct RecordRange
         _ShortFileIdentifier = (byte) (value >> 24);
         _FirstRecordOrdinal = (byte) (value >> 16);
         _LastRecordOrdinal = (byte) (value >> 8);
-        _Length = (byte) value;
+        _OfflineDataAuthenticationLength = (byte) value;
     }
 
-    public RecordRange(byte shortFileIdentifier, byte firstRecordOrdinal, byte lastRecordOrdinal, byte length)
+    public RecordRange(byte shortFileIdentifier, byte firstRecordOrdinal, byte lastRecordOrdinal, byte offlineDataAuthenticationLength)
     {
         _ShortFileIdentifier = shortFileIdentifier;
         _FirstRecordOrdinal = firstRecordOrdinal;
         _LastRecordOrdinal = lastRecordOrdinal;
-        _Length = length;
+        _OfflineDataAuthenticationLength = offlineDataAuthenticationLength;
     }
 
     #endregion
@@ -57,12 +58,12 @@ public readonly struct RecordRange
 
     public byte GetFirstRecordOrdinal() => _FirstRecordOrdinal;
     public byte GetLastRecordOrdinal() => _LastRecordOrdinal;
-    public byte GetRangeLength() => _Length;
+    public byte GetRangeLength() => _OfflineDataAuthenticationLength;
 
     public RecordNumber[] GetRecords()
     {
-        RecordNumber[] result = new RecordNumber[_Length];
-        for (byte i = 0, j = _FirstRecordOrdinal; i < _Length; i++, j++)
+        RecordNumber[] result = new RecordNumber[_OfflineDataAuthenticationLength];
+        for (byte i = 0, j = _FirstRecordOrdinal; i < _OfflineDataAuthenticationLength; i++, j++)
             result[i] = new RecordNumber(j);
 
         return result;
@@ -81,7 +82,7 @@ public readonly struct RecordRange
         (_ShortFileIdentifier == other._ShortFileIdentifier)
         && (_FirstRecordOrdinal == other._FirstRecordOrdinal)
         && (_LastRecordOrdinal == other._LastRecordOrdinal)
-        && (_Length == other._Length);
+        && (_OfflineDataAuthenticationLength == other._OfflineDataAuthenticationLength);
 
     public bool Equals(RecordRange x, RecordRange y) => x.Equals(y);
 
@@ -95,7 +96,7 @@ public readonly struct RecordRange
             result += hash * _ShortFileIdentifier.GetHashCode();
             result += hash * _FirstRecordOrdinal.GetHashCode();
             result += hash * _LastRecordOrdinal.GetHashCode();
-            result += hash * _Length.GetHashCode();
+            result += hash * _OfflineDataAuthenticationLength.GetHashCode();
 
             return result;
         }

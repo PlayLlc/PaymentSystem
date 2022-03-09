@@ -25,18 +25,24 @@ public partial class WaitingForGetDataResponse : KernelState
     #region Instance Values
 
     private readonly IKernelEndpoint _KernelEndpoint;
-    private readonly IHandleTerminalRequests _TerminalEndpoint;
     private readonly IHandlePcdRequests _PcdEndpoint;
     private readonly IGetKernelState _KernelStateResolver;
-    private readonly ICleanTornTransactions _KernelCleaner;
 
     #endregion
 
     #region Constructor
 
-    public WaitingForGetDataResponse(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange, IKernelEndpoint kernelEndpoint)
-        : base(kernelDatabase, dataExchange, kernelEndpoint)
-    { }
+    public WaitingForGetDataResponse(
+        KernelDatabase kernelDatabase,
+        DataExchangeKernelService dataExchange,
+        IKernelEndpoint kernelEndpoint,
+        IHandlePcdRequests pcdEndpoint,
+        IGetKernelState kernelStateResolver) : base(kernelDatabase, dataExchange, kernelEndpoint)
+    {
+        _KernelEndpoint = kernelEndpoint;
+        _PcdEndpoint = pcdEndpoint;
+        _KernelStateResolver = kernelStateResolver;
+    }
 
     #endregion
 

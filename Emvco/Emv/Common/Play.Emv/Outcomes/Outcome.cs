@@ -19,10 +19,10 @@ public class Outcome
 
     private readonly DataRecord? _DataRecord;
     private readonly DiscretionaryData? _DiscretionaryData;
+    private readonly TerminalVerificationResults _TerminalVerificationResults;
     private ErrorIndication _ErrorIndication;
     private OutcomeParameterSet _OutcomeParameterSet;
     private UserInterfaceRequestData? _UserInterfaceRequestData;
-    private readonly TerminalVerificationResults _TerminalVerificationResults;
 
     #endregion
 
