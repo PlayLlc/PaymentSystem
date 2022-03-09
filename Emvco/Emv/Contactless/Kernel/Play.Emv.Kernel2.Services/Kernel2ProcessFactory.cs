@@ -15,8 +15,6 @@ public class Kernel2ProcessFactory
 {
     #region Instance Members
 
-    //Kernel2Configuration kernel2Configuration,  ITlvDatabase tlvDatabase,
-    //    ICertificateAuthorityDatabase certificateAuthorityDatabase
     public static Kernel2Process Create(
         ICleanTornTransactions tornTransactionCleaner,
         Kernel2Configuration kernel2Configuration,
