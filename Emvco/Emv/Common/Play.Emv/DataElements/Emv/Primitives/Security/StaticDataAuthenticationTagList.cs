@@ -15,7 +15,7 @@ namespace Play.Emv.DataElements;
 ///     Description: List of tags of primitive data objects defined in this specification for which the value fields must
 ///     be included in the static data to be signed.
 /// </summary>
-public record StaticDataAuthenticationTagList : DataElement<BigInteger>, IEqualityComparer<StaticDataAuthenticationTagList>
+public record StaticDataAuthenticationTagList : DataElement<Tag[]>, IEqualityComparer<StaticDataAuthenticationTagList>
 {
     #region Static Metadata
 
@@ -26,13 +26,14 @@ public record StaticDataAuthenticationTagList : DataElement<BigInteger>, IEquali
 
     #region Constructor
 
-    public StaticDataAuthenticationTagList(BigInteger value) : base(value)
+    public StaticDataAuthenticationTagList(ReadOnlySpan<byte> value) : base(_Codec.DecodeTagSequence(value))
     { }
 
     #endregion
 
     #region Instance Members
 
+    public Tag[] GetRequiredTags() => _Value;
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
@@ -49,17 +50,9 @@ public record StaticDataAuthenticationTagList : DataElement<BigInteger>, IEquali
     {
         const ushort maxByteLength = 250;
 
-        if (value.Length > maxByteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(StaticDataAuthenticationTagList)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be less than {maxByteLength} bytes in length");
-        }
+        Check.Primitive.ForMaximumLength(value, maxByteLength, Tag);
 
-        DecodedResult<BigInteger> result = _Codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(StaticDataAuthenticationTagList)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
-
-        return new StaticDataAuthenticationTagList(result.Value);
+        return new StaticDataAuthenticationTagList(value);
     }
 
     #endregion

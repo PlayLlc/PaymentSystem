@@ -23,17 +23,14 @@ public class AuthenticateStaticDataCommand
     #region Constructor
 
     public AuthenticateStaticDataCommand(
-        TagLengthValue[] applicationFileLocatorResult,
+        StaticDataToBeAuthenticated staticDataToBeAuthenticated,
         SignedStaticApplicationData signedStaticApplicationData,
         CaPublicKeyCertificate caPublicKeyCertificate,
         IssuerPublicKeyCertificate issuerPublicKeyCertificate,
         IssuerPublicKeyExponent issuerPublicKeyExponent,
-        IssuerPublicKeyRemainder issuerPublicKeyRemainder,
-        ApplicationInterchangeProfile applicationInterchangeProfile,
-        StaticDataAuthenticationTagList staticDataAuthenticationTagList)
+        IssuerPublicKeyRemainder issuerPublicKeyRemainder)
     {
-        _StaticDataToBeAuthenticated = new StaticDataToBeAuthenticated(applicationFileLocatorResult, staticDataAuthenticationTagList,
-            applicationInterchangeProfile);
+        _StaticDataToBeAuthenticated = staticDataToBeAuthenticated;
         _SignedStaticApplicationData = signedStaticApplicationData;
         _CaPublicKeyCertificate = caPublicKeyCertificate;
         _IssuerPublicKeyCertificate = issuerPublicKeyCertificate;

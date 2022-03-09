@@ -8,6 +8,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber;
+using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
 using Play.Emv.Pcd;
 using Play.Emv.Security.Exceptions;
@@ -24,6 +25,8 @@ public class StaticDataToBeAuthenticated
     #endregion
 
     #region Instance Members
+
+    public int GetByteCount() => _Value.Count;
 
     /// <comments>
     ///     Only those records identified in the AFL as participating in offline data authentication are to be processed.
@@ -73,9 +76,26 @@ public class StaticDataToBeAuthenticated
     ///     AIP is to be concatenated to the current end of the input string. The tag and length of the AIP are not included in
     ///     the concatenation.
     /// </comments>
-    /// <param name="aip"></param>
-    public void Enqueue(ApplicationInterchangeProfile aip)
+    /// <param name="tagList"></param>
+    /// <param name="database"></param>
+    public void Enqueue(StaticDataAuthenticationTagList tagList, IQueryTlvDatabase database)
     {
+        Tag[] requiredTags = tagList.GetRequiredTags();
+
+        if (requiredTags.Length > 1)
+        {
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"Static Data Authentication has failed because {nameof(StaticDataAuthenticationTagList)} contained an unexpected {nameof(Tag)}. Only {ApplicationInterchangeProfile.Tag} should be present");
+        }
+
+        if (requiredTags[0] != ApplicationInterchangeProfile.Tag)
+        {
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"Static Data Authentication has failed because {nameof(StaticDataAuthenticationTagList)} contained an unexpected {nameof(Tag)}. Only {ApplicationInterchangeProfile.Tag} should be provided but the {nameof(Tag)} value: [{requiredTags[0]}] was present");
+        }
+
+        TagLengthValue aip = database.Get(ApplicationInterchangeProfile.Tag);
+
         _Value.AddRange(aip.EncodeValue());
     }
 
