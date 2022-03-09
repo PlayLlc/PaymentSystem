@@ -36,8 +36,7 @@ public class DataExchangeKernelService
     public DataExchangeKernelService(
         IHandleTerminalRequests terminalEndpoint,
         KernelDatabase kernelDatabase,
-        ISendTerminalQueryResponse kernelEndpoint,
-        IHandleBlockingPcdRequests pcdEndpoint)
+        ISendTerminalQueryResponse kernelEndpoint)
     {
         _TerminalEndpoint = terminalEndpoint;
         _KernelEndpoint = kernelEndpoint;

@@ -38,6 +38,7 @@ public abstract class ReadRecordResponseTemplate : Template
     #region Instance Members
 
     public byte[] AsByteArray() => _Values;
+    public static TagLengthValue[] GetRecords(ReadOnlyMemory<byte> value) => _Codec.DecodeTagLengthValues(value);
 
     #endregion
 }

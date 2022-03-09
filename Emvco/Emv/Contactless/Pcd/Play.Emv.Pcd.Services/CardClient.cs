@@ -12,21 +12,19 @@ namespace Play.Emv.Pcd.Services;
 /// <summary>
 ///     A facade that encapsulates card reading and writing functionality
 /// </summary>
-public class CardClient : IReadElementaryFileRecords, IReadApplicationData, ISelectApplicationDefinitionFileInformation,
-    ISelectDirectoryDefinitionFileInformation, ISelectProximityPaymentSystemEnvironmentInfo, ISendPoiInformation, IGetProcessingOptions,
-    IReadIccDataBatch, IManagePcdLifecycle
+public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformation, ISelectDirectoryDefinitionFileInformation,
+    ISelectProximityPaymentSystemEnvironmentInfo, ISendPoiInformation, IGetProcessingOptions, IGetData, IManagePcdLifecycle
 {
     #region Instance Values
 
-    private readonly IReadElementaryFileRecords _RecordReader;
-    private readonly IReadApplicationData _ApplicationDataClient;
+    private readonly IReadRecords _RecordReader;
     private readonly ISelectApplicationDefinitionFileInformation _AppletClient;
     private readonly ISelectDirectoryDefinitionFileInformation _DirectoryFciClient;
     private readonly ISelectProximityPaymentSystemEnvironmentInfo _PpseClient;
     private readonly ISendPoiInformation _PoiClient;
     private readonly IGetProcessingOptions _GpoClient;
     private readonly IManagePcdLifecycle _PcdClient;
-    private readonly IReadIccDataBatch _DataBatchReader;
+    private readonly IGetData _DataReader;
 
     #endregion
 
@@ -35,15 +33,14 @@ public class CardClient : IReadElementaryFileRecords, IReadApplicationData, ISel
     public CardClient(IProximityCouplingDeviceClient client)
     {
         _PcdClient = client;
-        _RecordReader = new ElementaryFileRecordReader(client);
-        _DataBatchReader = new DataBatchReader(new DataReader(client));
+        _RecordReader = new RecordReader(client);
+        _DataReader = new DataBatchReader(client);
 
         _AppletClient = new ApplicationDefinitionFileInfoSelector(client);
         _DirectoryFciClient = new DirectoryDefinitionFileInformationSelector(client);
         _PpseClient = new ProximityPaymentSystemEnvironmentInfoSelector(client);
         _PoiClient = default;
         _GpoClient = new ProcessingOptionsRetriever(client);
-        _ApplicationDataClient = new ApplicationDataReader(new ElementaryFileRecordReader(client));
     }
 
     #endregion
@@ -176,27 +173,6 @@ public class CardClient : IReadElementaryFileRecords, IReadApplicationData, ISel
     /// <param name="command"></param>
     /// <returns></returns>
     /// <exception cref="CardReadException"></exception>
-    public async Task<ReadApplicationDataResponse> Transceive(ReadApplicationDataRequest command)
-    {
-        // TODO: catch more specific exceptions
-        try
-        {
-            return await _ApplicationDataClient.Transceive(command).ConfigureAwait(false);
-        }
-        catch (Exception exception)
-        {
-            // TODO: log and shit
-
-            throw new CardReadException(exception);
-        }
-    }
-
-    /// <summary>
-    ///     Transceive
-    /// </summary>
-    /// <param name="command"></param>
-    /// <returns></returns>
-    /// <exception cref="CardReadException"></exception>
     public async Task<SelectApplicationDefinitionFileInfoResponse> Transceive(SelectApplicationDefinitionFileInfoRequest command)
     {
         // TODO: catch more specific exceptions
@@ -260,12 +236,12 @@ public class CardClient : IReadElementaryFileRecords, IReadApplicationData, ISel
     /// <param name="command"></param>
     /// <returns></returns>
     /// <exception cref="CardReadException"></exception>
-    public Task<GetDataBatchResponse> Transceive(GetDataBatchRequest command)
+    public Task<GetDataResponse> Transceive(GetDataRequest command)
     {
         // TODO: catch more specific exceptions
         try
         {
-            return _DataBatchReader.Transceive(command);
+            return _DataReader.Transceive(command);
         }
         catch (Exception exception)
         {
@@ -275,12 +251,12 @@ public class CardClient : IReadElementaryFileRecords, IReadApplicationData, ISel
         }
     }
 
-    public async Task<ReadElementaryFileRecordRangeResponse> Transceive(ReadElementaryFileRecordRangeRequest command)
+    public Task<ReadRecordResponse> Transceive(ReadRecordRequest command)
     {
         // TODO: catch more specific exceptions
         try
         {
-            return await _RecordReader.Transceive(command).ConfigureAwait(false);
+            return _RecordReader.Transceive(command);
         }
         catch (Exception exception)
         {

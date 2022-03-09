@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
+using Play.Ber.Identifiers;
 using Play.Emv.DataElements;
 using Play.Emv.Icc;
 using Play.Emv.Kernel;
@@ -24,9 +25,9 @@ public class S3R1
     protected readonly DataExchangeKernelService _DataExchangeKernelService;
     private readonly IKernelEndpoint _KernelEndpoint;
     private readonly IHandleTerminalRequests _TerminalEndpoint;
-    private readonly IHandleBlockingPcdRequests _PcdEndpoint;
     private readonly IGetKernelState _KernelStateResolver;
     private readonly ICleanTornTransactions _KernelCleaner;
+    private readonly IHandlePcdRequests _PcdEndpoint;
 
     #endregion
 
@@ -43,19 +44,18 @@ public class S3R1
     {
         // TODO: Optimized AFL means we'll be sending GET DATA commands. Otherwise, we'll be sending READ FILE commands
 
-        _DataExchangeKernelService.Resolve(DekRequestType.TagsToRead);
+        _DataExchangeKernelService.Resolve(_KernelDatabase);
 
-        if (_DataExchangeKernelService.TryGetDataBatchRequest(session.GetTransactionSessionId(),
-            out GetDataBatchRequest? getDataBatchRequest))
-            await ProcessTagsToRead(getDataBatchRequest!).ConfigureAwait(false);
+        if (_DataExchangeKernelService.TryPeek(DekRequestType.TagsToRead, out Tag tagToRead))
+            _PcdEndpoint.Request(GetDataRequest.Create(tagToRead, session.GetTransactionSessionId()));
 
-        if (_KernelDatabase.IsPresentAndNotEmpty(ApplicationFileLocator.Tag))
+        //if (_KernelDatabase.IsPresentAndNotEmpty(ApplicationFileLocator.Tag))
 
-        {
-            await ProcessApplicationData(session.GetTransactionSessionId(),
-                    ApplicationFileLocator.Decode(_KernelDatabase.Get(ApplicationFileLocator.Tag).EncodeTagLengthValue().AsSpan()))
-                .ConfigureAwait(false);
-        }
+        //{
+        //    await ProcessApplicationData(session.GetTransactionSessionId(),
+        //            ApplicationFileLocator.Decode(_KernelDatabase.Get(ApplicationFileLocator.Tag).EncodeTagLengthValue().AsSpan()))
+        //        .ConfigureAwait(false);
+        //}
 
         throw new NotImplementedException();
     }
@@ -67,56 +67,6 @@ public class S3R1
     private void HandleEmptyApplicationFileLocator()
     {
         _KernelDatabase.Update(Level2Error.CardDataError);
-    }
-
-    /// <summary>
-    ///     ProcessTagsToRead
-    /// </summary>
-    /// <param name="request"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    private async Task ProcessTagsToRead(GetDataBatchRequest request)
-    {
-        try
-        {
-            GetDataBatchResponse rapdu = await _PcdEndpoint.Transceive(request).ConfigureAwait(false);
-            _KernelDatabase.Update(rapdu.GetTagLengthValuesResult());
-        }
-        catch (BerParsingException)
-        {
-            //    /* logging */
-            //    _KernelDatabase.Update(Level2Error.ParsingError);
-            //    HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
-            //}
-            //catch (BerException)
-            //{
-            //    /* logging */
-            //    signal.GetTransaction().Update(Level2Error.ParsingError);
-            //    HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
-            //}
-            //catch (CardDataMissingException)
-            //{
-            //    /* logging */
-            //    signal.GetTransaction().Update(Level2Error.CardDataError);
-            //    HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
-        }
-    }
-
-    /// <summary>
-    ///     ProcessApplicationData
-    /// </summary>
-    /// <param name="sessionId"></param>
-    /// <param name="applicationFileLocator"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    private async Task ProcessApplicationData(TransactionSessionId sessionId, ApplicationFileLocator applicationFileLocator)
-    {
-        ReadApplicationDataRequest capdu = ReadApplicationDataRequest.Create(applicationFileLocator, sessionId);
-        ReadApplicationDataResponse rapdu = await _PcdEndpoint.Transceive(capdu).ConfigureAwait(false);
-
-        TagLengthValue[] applicationData = rapdu.GetTagLengthValuesResult();
-
-        _KernelDatabase.Update(applicationData);
     }
 
     #endregion

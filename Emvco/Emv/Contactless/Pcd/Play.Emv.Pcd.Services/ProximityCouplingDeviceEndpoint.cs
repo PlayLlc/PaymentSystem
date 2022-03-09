@@ -126,14 +126,4 @@ public class ProximityCouplingDeviceEndpoint : IMessageChannel, IHandlePcdReques
     }
 
     #endregion
-
-    #region Blocking
-
-    public async Task<GetDataBatchResponse> Transceive(GetDataBatchRequest message) =>
-        await _ProximityCouplingDeviceProcess.Transceive(message).ConfigureAwait(false);
-
-    public async Task<ReadApplicationDataResponse> Transceive(ReadApplicationDataRequest message) =>
-        await _ProximityCouplingDeviceProcess.Transceive(message).ConfigureAwait(false);
-
-    #endregion
 }

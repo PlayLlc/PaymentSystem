@@ -1,4 +1,5 @@
-﻿using Play.Icc.Messaging.Apdu.ReadRecord;
+﻿using Play.Icc.FileSystem.ElementaryFiles;
+using Play.Icc.Messaging.Apdu.ReadRecord;
 
 namespace Play.Emv.Icc.ReadRecord;
 
@@ -25,6 +26,14 @@ public class ReadRecordCApduSignal : CApduSignal
     #endregion
 
     #region Instance Members
+
+    public static ReadRecordCApduSignal ReadAllRecords(ShortFileId shortFileIdentifier)
+    {
+        ReadRecordApduCommand cApdu = ReadRecordApduCommand.ReadAllRecords(shortFileIdentifier);
+
+        return new ReadRecordCApduSignal(cApdu.GetClass(), cApdu.GetInstruction(), cApdu.GetParameter1(), cApdu.GetParameter2(),
+            cApdu.GetLe());
+    }
 
     /// <summary>
     ///     Selects an Elementary File matching the

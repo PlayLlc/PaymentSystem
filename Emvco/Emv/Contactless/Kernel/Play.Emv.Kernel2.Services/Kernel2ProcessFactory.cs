@@ -30,7 +30,7 @@ public class Kernel2ProcessFactory
             new KernelCertificateDatabase(certificates));
 
         Kernel2StateResolver kernel2StateResolver = Kernel2StateResolver.Create(tornTransactionCleaner, kernel2Database,
-            new DataExchangeKernelService(terminalEndpoint, kernel2Database, kernelEndpoint, pcdEndpoint), terminalEndpoint, kernelEndpoint,
+            new DataExchangeKernelService(terminalEndpoint, kernel2Database, kernelEndpoint), terminalEndpoint, kernelEndpoint,
             pcdEndpoint);
         Kernel2StateMachine stateMachine = new(kernel2StateResolver.GetKernelState(Idle.StateId));
 

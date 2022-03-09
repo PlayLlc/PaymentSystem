@@ -2,5 +2,5 @@
 
 namespace Play.Emv.Pcd.GetData;
 
-public interface IReadIccData : ITransceiveData<GetDataRequest, GetDataResponse>
+public interface IGetData : ITransceiveData<GetDataRequest, GetDataResponse>
 { }

@@ -4,53 +4,38 @@ using System.Threading.Tasks;
 
 using Play.Ber.Identifiers;
 using Play.Emv.DataElements;
+using Play.Emv.Icc.GetData;
+using Play.Emv.Icc.ReadRecord;
 using Play.Emv.Pcd.Contracts;
 
 namespace Play.Emv.Pcd.GetData;
 
-public class DataBatchReader : IReadIccDataBatch
+public class DataBatchReader : IGetData
 {
     #region Instance Values
 
-    private readonly IReadIccData _DataReader;
+    private readonly IPcdTransceiver _Client;
 
     #endregion
 
     #region Constructor
 
-    public DataBatchReader(IReadIccData dataReader)
+    public DataBatchReader(IPcdTransceiver cardClient)
     {
-        _DataReader = dataReader;
+        _Client = cardClient;
     }
 
     #endregion
 
     #region Instance Members
 
-    /// <summary>
-    ///     Transceive
-    /// </summary>
-    /// <param name="command"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    public async Task<GetDataBatchResponse> Transceive(GetDataBatchRequest command)
+    public async Task<GetDataResponse> Transceive(GetDataRequest command)
     {
-        TagsToRead? tagsToRead = command.GetTagsToRead();
-        List<GetDataResponse> buffer = new();
+        GetDataRApduSignal response = new(await _Client.Transceive(command.Serialize()).ConfigureAwait(false));
 
-        for (int i = 0; i < tagsToRead.Count(); i++)
-        {
-            if (!tagsToRead.TryDequeue(out Tag result))
-            {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataBatchReader)} was unable to extract the next {nameof(Tag)} from the {nameof(TagsToRead)}");
-            }
+        // TODO Handle for Status  Words
 
-            buffer.Add(await _DataReader.Transceive(GetDataRequest.Create(result, command.GetTransactionSessionId()))
-                .ConfigureAwait(false));
-        }
-
-        return new GetDataBatchResponse(command.GetCorrelationId(), command.GetTransactionSessionId(), buffer.ToArray());
+        return new GetDataResponse(command.GetCorrelationId(), command.GetTransactionSessionId(), response);
     }
 
     #endregion

@@ -10,7 +10,7 @@ namespace Play.Emv.Pcd.GetData;
 ///     <see cref="ApplicationDataReader" /> is used to retrieve application specific data from the ApplicationFileLocator
 ///     provided by the application
 /// </summary>
-public class DataReader : IReadIccData
+public class DataReader : IGetData
 {
     #region Instance Values
 

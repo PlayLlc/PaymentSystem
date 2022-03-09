@@ -280,7 +280,7 @@ public partial class Idle : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     private void AddKnownObjectsToDataToSend()
     {
-        _DataExchangeKernelService.Resolve(DekRequestType.TagsToRead);
+        _DataExchangeKernelService.Resolve(_KernelDatabase);
     }
 
     #endregion

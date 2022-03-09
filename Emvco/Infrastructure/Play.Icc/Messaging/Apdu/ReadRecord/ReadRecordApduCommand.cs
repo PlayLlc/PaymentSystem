@@ -36,6 +36,17 @@ public class ReadRecordApduCommand : ApduCommand
     #region Instance Members
 
     /// <summary>
+    ///     Reads all the records from the elementary file indicated by the <see cref="ShortFileId" />. The
+    ///     <see cref="ShortFileId" /> is only relevant within the currently selected Directory File
+    /// </summary>
+    /// <param name="shortFileId"></param>
+    /// <returns></returns>
+    public static ReadRecordApduCommand ReadAllRecords(ShortFileId shortFileId) =>
+        new ReadRecordApduCommand(new Class(SecureMessaging.NotRecognized, LogicalChannel.BasicChannel), Instruction.ReadRecord,
+            0x00, // current record, which will be the first record
+            (byte) ((shortFileId << 4) | ReadRecordBehavior.FromRecordToEnd), 0);
+
+    /// <summary>
     ///     Reads the whole record from the currently selected Elementary File
     /// </summary>
     /// <param name="recordNumber"></param>

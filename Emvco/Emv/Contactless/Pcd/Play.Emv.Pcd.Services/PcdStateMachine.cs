@@ -133,66 +133,6 @@ internal class PcdStateMachine
 
     #endregion
 
-    #region Blocking
-
-    /// <summary>
-    ///     Transceive
-    /// </summary>
-    /// <param name="message"></param>
-    /// <returns></returns>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    /// <exception cref="Play.Emv.Pcd.Exceptions.CardReadException"></exception>
-    internal Task<GetDataBatchResponse> Transceive(GetDataBatchRequest message)
-    {
-        Task<GetDataBatchResponse> result;
-
-        lock (_PcdSessionLock)
-        {
-            if (_PcdSessionLock.Session != null)
-            {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(ActivatePcdRequest)} can't be processed because a {nameof(ChannelType.ProximityCouplingDevice)} already exists for {nameof(TransactionSessionId)}: [{_PcdSessionLock.Session!.TransactionSessionId}]");
-            }
-
-            Task<GetDataBatchResponse> rapdu = _CardClient.Transceive(message);
-
-            Task.WhenAny(rapdu);
-            result = rapdu;
-        }
-
-        return result;
-    }
-
-    /// <summary>
-    ///     Transceive
-    /// </summary>
-    /// <param name="message"></param>
-    /// <returns></returns>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    /// <exception cref="Play.Emv.Pcd.Exceptions.CardReadException"></exception>
-    internal Task<ReadApplicationDataResponse> Transceive(ReadApplicationDataRequest message)
-    {
-        Task<ReadApplicationDataResponse> result;
-
-        lock (_PcdSessionLock)
-        {
-            if (_PcdSessionLock.Session != null)
-            {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(ActivatePcdRequest)} can't be processed because a {nameof(ChannelType.ProximityCouplingDevice)} already exists for {nameof(TransactionSessionId)}: [{_PcdSessionLock.Session!.TransactionSessionId}]");
-            }
-
-            Task<ReadApplicationDataResponse> rapdu = _CardClient.Transceive(message);
-
-            Task.WhenAny(rapdu);
-            result = rapdu;
-        }
-
-        return result;
-    }
-
-    #endregion
-
     #region QUERY
 
     /// <summary>
@@ -233,22 +173,6 @@ internal class PcdStateMachine
 
             switch (request)
             {
-                case GenerateApplicationCryptogramRequest generateApplicationCryptogramRequest:
-                    Handle(_CardClient, generateApplicationCryptogramRequest);
-
-                    return;
-                case GetProcessingOptionsRequest getProcessingOptionsCommand:
-                    Handle(_CardClient, getProcessingOptionsCommand);
-
-                    return;
-                case ReadApplicationDataRequest readApplicationDataCommand:
-                    Handle(_CardClient, readApplicationDataCommand);
-
-                    return;
-                case ReadElementaryFileRecordRequest readElementaryFileRecordCommand:
-                    Handle(_CardClient, readElementaryFileRecordCommand);
-
-                    return;
                 case SelectApplicationDefinitionFileInfoRequest selectApplicationDefinitionFileInfoCommand:
                     Handle(_CardClient, selectApplicationDefinitionFileInfoCommand);
 
@@ -261,6 +185,23 @@ internal class PcdStateMachine
                     Handle(_CardClient, ppseRequest);
 
                     return;
+                case GetProcessingOptionsRequest getProcessingOptionsCommand:
+                    Handle(_CardClient, getProcessingOptionsCommand);
+
+                    return;
+                case GetDataRequest getDataRequest:
+                    Handle(_CardClient, getDataRequest);
+
+                    return;
+                case ReadRecordRequest readRecordRequest:
+                    Handle(_CardClient, readRecordRequest);
+
+                    return;
+                case GenerateApplicationCryptogramRequest generateApplicationCryptogramRequest:
+                    Handle(_CardClient, generateApplicationCryptogramRequest);
+
+                    return;
+
                 case SendPoiInformationRequest sendPoiInformationCommand:
                     Handle(_CardClient, sendPoiInformationCommand);
 

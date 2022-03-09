@@ -7,77 +7,79 @@ using Play.Ber.Identifiers;
 
 namespace Play.Emv.Templates;
 
-public class ReadRecordResponse : ReadRecordResponseTemplate
-{
-    #region Instance Values
+//public class ReadRecordResponse : ReadRecordResponseTemplate
+//{
+//    #region Instance Values
 
-    private readonly byte[] _Value;
+//    private readonly byte[] _Value;
 
-    #endregion
+//    #endregion
 
-    #region Constructor
+//    #region Constructor
 
-    public ReadRecordResponse(byte[] value)
-    {
-        _Value = value;
-    }
+//    private ReadRecordResponse(byte[] value)
+//    {
+//        _Value = value;
+//    }
 
-    #endregion
+//    #endregion
 
-    #region Instance Members
+//    #region Instance Members
 
-    public override Tag[] GetChildTags() => _Codec.DecodeTagLengthValues(_Value.AsSpan()).Select(a => a.GetTag()).ToArray();
-    public override Tag GetTag() => Tag;
+//    public TagLengthValue[] GetRecords() => _Codec.DecodeTagLengthValues(_Value.AsMemory());
+//    public override Tag[] GetChildTags() => _Codec.DecodeTagLengthValues(_Value.AsSpan()).Select(a => a.GetTag()).ToArray();
+//    public override Tag GetTag() => Tag;
 
-    public override ushort GetValueByteCount(BerCodec codec)
-    {
-        checked
-        {
-            return (ushort) _Value.Length;
-        }
-    }
+//    public override ushort GetValueByteCount(BerCodec codec)
+//    {
+//        checked
+//        {
+//            return (ushort) _Value.Length;
+//        }
+//    }
 
-    public bool IsEmpty() => !_Value.Any();
-    protected override IEncodeBerDataObjects?[] GetChildren() => throw new NotImplementedException();
+//    public bool IsEmpty() => !_Value.Any();
+//    protected override IEncodeBerDataObjects?[] GetChildren() => throw new NotImplementedException();
 
-    #endregion
+//    #endregion
 
-    #region Serialization
+//    #region Serialization
 
-    public override byte[] EncodeTagLengthValue(BerCodec codec) => throw new NotImplementedException();
-    public override byte[] EncodeValue(BerCodec codec) => _Value;
+//    public static ReadRecordResponse Decode(ReadOnlySpan<byte> value) => new(_Codec.GetContentOctets(value));
+//    public override byte[] EncodeTagLengthValue(BerCodec codec) => throw new NotImplementedException();
+//    public override byte[] EncodeValue(BerCodec codec) => _Value;
 
-    #endregion
+//    #endregion
 
-    #region Equality
+//    #region Equality
 
-    public override bool Equals(object? obj) =>
-        obj is ReadRecordResponseTemplate readRecordResponseTemplate && Equals(readRecordResponseTemplate);
+//    public override bool Equals(object? obj) =>
+//        obj is ReadRecordResponseTemplate readRecordResponseTemplate && Equals(readRecordResponseTemplate);
 
-    public override bool Equals(ConstructedValue? x, ConstructedValue? y)
-    {
-        if (x == null)
-            return y == null;
+//    public override bool Equals(ConstructedValue? x, ConstructedValue? y)
+//    {
+//        if (x == null)
+//            return y == null;
 
-        if (y == null)
-            return false;
+//        if (y == null)
+//            return false;
 
-        return x.Equals(y);
-    }
+//        return x.Equals(y);
+//    }
 
-    public bool Equals(ReadRecordResponse x, ReadRecordResponse y) => x.Equals(y);
-    public bool Equals(ReadRecordResponse other) => (GetTag() == other.GetTag()) && _Value.Equals(other._Value);
-    public override bool Equals(ConstructedValue? other) => other is ReadRecordResponse response && Equals(response);
+//    public bool Equals(ReadRecordResponse x, ReadRecordResponse y) => x.Equals(y);
+//    public bool Equals(ReadRecordResponse other) => (GetTag() == other.GetTag()) && _Value.Equals(other._Value);
+//    public override bool Equals(ConstructedValue? other) => other is ReadRecordResponse response && Equals(response);
 
-    public override int GetHashCode()
-    {
-        unchecked
-        {
-            return GetTag().GetHashCode() + _Value.GetHashCode();
-        }
-    }
+//    public override int GetHashCode()
+//    {
+//        unchecked
+//        {
+//            return GetTag().GetHashCode() + _Value.GetHashCode();
+//        }
+//    }
 
-    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
+//    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
 
-    #endregion
-}
+//    #endregion
+//}

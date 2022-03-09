@@ -12,6 +12,7 @@ using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Messaging;
 using Play.Emv.Outcomes;
+using Play.Emv.Pcd;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
 using Play.Icc.FileSystem.ElementaryFiles;
@@ -93,7 +94,7 @@ public partial class WaitingForGetDataResponse : KernelState
         if (!session.TryDequeueActiveApplicationFileLocator(out RecordRange? recordRange))
             return;
 
-        _PcdEndpoint.Request(ReadElementaryFileRecordRangeRequest.Create(session.GetTransactionSessionId(), recordRange!.Value));
+        _PcdEndpoint.Request(ReadRecordRequest.Create(session.GetTransactionSessionId(), recordRange!.Value.GetShortFileIdentifier()));
     }
 
     #endregion
