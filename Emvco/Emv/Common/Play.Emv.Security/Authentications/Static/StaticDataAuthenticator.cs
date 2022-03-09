@@ -75,7 +75,7 @@ internal class StaticDataAuthenticator
             return HandleStaticDataAuthenticationFailedResponse();
 
         if (!IsStaticDataToBeAuthenticatedValid(decodedIssuerCertificate!, command.GetSignedStaticApplicationData(),
-            command.GetStaticDataToBeAuthenticated().AsByteArray()))
+            command.GetStaticDataToBeAuthenticated().Encode()))
             return HandleStaticDataAuthenticationFailedResponse();
 
         return new AuthenticateStaticDataResponse(TerminalVerificationResult.Create(), ErrorIndication.Default);

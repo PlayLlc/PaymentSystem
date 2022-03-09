@@ -55,8 +55,6 @@ public record ThirdPartyData : DataElement<BigInteger>
             ?? throw new DataElementParsingException(
                 $"The {nameof(ThirdPartyData)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
-        Check.Primitive.ForMaxCharLength(result.CharCount, 12, Tag);
-
         return new ThirdPartyData(result.Value);
     }
 

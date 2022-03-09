@@ -29,13 +29,13 @@ public record Kernel2Configuration : KernelConfiguration
         bool isTornTransactionRecoverySupported = false) : base(kernelConfiguration)
     {
         _IsIntegratedDataStorageSupported = false;
-        _IsMagstripeModeSupported = !kernelConfiguration.IsMagstripeModeContactlessTransactionsNotSupported();
-        _IsMagstripeModeSupported = !kernelConfiguration.IsMagstripeModeContactlessTransactionsNotSupported();
+        _IsMagstripeModeSupported = !kernelConfiguration.IsMagstripeModeSupported();
+        _IsMagstripeModeSupported = !kernelConfiguration.IsMagstripeModeSupported();
         _IsBalanceReadingSupported = false;
         _IsTornTransactionRecoverySupported = false;
         _IsOnDeviceCardholderVerificationSupported = kernelConfiguration.IsOnDeviceCardholderVerificationSupported();
         _IsRelayResistantProtocolSupported = kernelConfiguration.IsRelayResistanceProtocolSupported();
-        _IsDeactivateOptimizationWhenNoCdaSupported = kernelConfiguration.IsReadAllRecordsEvenWhenNoCdaActivated();
+        _IsDeactivateOptimizationWhenNoCdaSupported = kernelConfiguration.IsReadAllRecordsActivated();
     }
 
     #endregion

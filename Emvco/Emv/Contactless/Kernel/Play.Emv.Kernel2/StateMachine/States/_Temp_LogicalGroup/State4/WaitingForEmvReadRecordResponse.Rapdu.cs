@@ -5,10 +5,9 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs.Exceptions;
+using Play.Emv.Ber;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.DataElements;
-using Play.Emv.DataElements.Emv.Primitives.Card;
-using Play.Emv.DataElements.Emv.Primitives.DataStorage;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Icc.GetData;
@@ -18,6 +17,7 @@ using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Exceptions;
 using Play.Emv.Kernel.State;
+using Play.Emv.Kernel2.Databases;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd;
 using Play.Emv.Pcd.Contracts;
@@ -46,6 +46,8 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
         if (!TryResolveActiveRecords(session, (ReadRecordResponse) signal, out Tag[] resolvedRecords))
             return _KernelStateResolver.GetKernelState(StateId);
+
+        UpdateDataNeeded((Kernel2Session) session, (ReadRecordResponse) signal, resolvedRecords, isRecordSigned);
 
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
     }
@@ -180,29 +182,141 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     #endregion
 
-    #region S4.28
+    #region S4.28 - S4.33
+
+    public void UpdateDataNeeded(Kernel2Session session, ReadRecordResponse rapdu, Tag[] resolvedRecords, bool isRecordSigned)
+    {
+        if (_KernelDatabase.IsIntegratedDataStorageSupported())
+            UpdateDataNeededWhenIdsIsSupported(session, rapdu, resolvedRecords, isRecordSigned);
+        else
+            UpdateDataNeededWhenIdsIsNotSupported(resolvedRecords);
+    }
 
     #endregion
 
-    public void UpdateDataToSend(Tag[] resolvedRecords)
+    #region S4.28,  S4.29
+
+    public void UpdateDataNeededWhenIdsIsNotSupported(Tag[] resolvedRecords)
     {
         for (int i = 0; i < resolvedRecords.Length; i++)
         {
             if (resolvedRecords[i] == CardRiskManagementDataObjectList1.Tag)
+            {
                 HandleCdol1(CardRiskManagementDataObjectList1.Decode(_KernelDatabase.Get(CardRiskManagementDataObjectList1.Tag)
                     .EncodeTagLengthValue().AsSpan()));
-
-            if (resolvedRecords[i] == DataStorageDataObjectList.Tag)
-                HandleDsdol();
+            }
         }
     }
+
+    #endregion
+
+    #region S4.28, S4.29, S4.33
+
+    public void UpdateDataNeededWhenIdsIsSupported(
+        Kernel2Session session,
+        ReadRecordResponse rapdu,
+        Tag[] resolvedRecords,
+        bool isRecordSigned)
+    {
+        if (!_KernelDatabase.IsPresent(DataStorageRequestedOperatorId.Tag))
+        {
+            UpdateDataNeededWhenIdsIsNotSupported(resolvedRecords);
+
+            return;
+        }
+
+        for (int i = 0; i < resolvedRecords.Length; i++)
+        {
+            if (resolvedRecords[i] == CardRiskManagementDataObjectList1.Tag)
+            {
+                HandleCdol1(CardRiskManagementDataObjectList1.Decode(_KernelDatabase.Get(CardRiskManagementDataObjectList1.Tag)
+                    .EncodeTagLengthValue().AsSpan()));
+            }
+
+            if (resolvedRecords[i] == DataStorageDataObjectList.Tag)
+            {
+                HandleDsdol(session, rapdu, isRecordSigned,
+                    DataStorageDataObjectList.Decode(_KernelDatabase.Get(DataStorageDataObjectList.Tag).EncodeTagLengthValue().AsSpan()));
+            }
+        }
+    }
+
+    #endregion
+
+    #region S4.29
 
     public void HandleCdol1(CardRiskManagementDataObjectList1 cdol)
     {
         _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, cdol.GetNeededData(_KernelDatabase));
     }
 
-    public void HandleDsdol(DataStorageDataObjectList dsdol)
+    #endregion
+
+    #region S4.32 - S4.33
+
+    public void HandleDsdol(Kernel2Session session, ReadRecordResponse rapdu, bool isRecordSigned, DataStorageDataObjectList dsdol)
+    {
+        if (!_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out TagLengthValue? idsStatus))
+            UpdateStaticDataToBeAuthenticated(session, rapdu, isRecordSigned);
+
+        if (!IntegratedDataStorageStatus.Decode(idsStatus!.EncodeValue().AsSpan()).IsReadSet())
+            UpdateStaticDataToBeAuthenticated(session, rapdu, isRecordSigned);
+
+        if (!_KernelDatabase.TryGet(DataStorageSlotManagementControl.Tag, out TagLengthValue? dsSlotControl))
+            UpdateStaticDataToBeAuthenticated(session, rapdu, isRecordSigned);
+
+        if (!DataStorageSlotManagementControl.Decode(dsSlotControl!.EncodeTagLengthValue().AsSpan()).IsLocked())
+            UpdateStaticDataToBeAuthenticated(session, rapdu, isRecordSigned);
+
+        _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, dsdol.GetNeededData(_KernelDatabase));
+    }
+
+    #endregion
+
+    private void UpdateStaticDataToBeAuthenticated(Kernel2Session session, ReadRecordResponse rapdu, bool isRecordSigned)
+    {
+        if (!isRecordSigned)
+        {
+            S436(session);
+
+            return;
+        }
+
+        if (session.GetOdaStatus() != OdaStatusTypes.Cda)
+        {
+            S436(session);
+
+            return;
+        }
+
+        S435(session, rapdu);
+    }
+
+    private void S435(Kernel2Session session, ReadRecordResponse rapdu)
+    {
+        session.EnqueueStaticDataToBeAuthenticated(EmvCodec.GetBerCodec(), rapdu);
+    }
+
+    private void S436(Kernel2Session session)
+    {
+        if (_KernelDatabase.IsReadAllRecordsActivated())
+            SetNextCommand();
+
+        if (session.GetOdaStatus() != OdaStatusTypes.Cda)
+            SetNextCommand();
+
+        OptimizeRead(session);
+        SetNextCommand();
+        S456.Process();
+    }
+
+    private void OptimizeRead(KernelSession session)
+    {
+        // TODO: Check if you have the minimum required shit to process without offline auth
+        session.ClearActiveTags();
+    }
+
+    private void SetNextCommand()
     { }
 
     #endregion

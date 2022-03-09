@@ -274,6 +274,20 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     #endregion
 
+    #region Configuration
+
+    /// <remarks>EMV Book C-2 Section 3.3</remarks>
+    public bool IsIntegratedDataStorageSupported() =>
+        IsPresent(DataStorageRequestedOperatorId.Tag) && IsPresentAndNotEmpty(DataStorageVersionNumberTerm.Tag);
+
+    public bool IsEmvModeSupported() => GetKernelConfiguration().IsEmvModeSupported();
+    public bool IsMagstripeModeSupported() => GetKernelConfiguration().IsMagstripeModeSupported();
+    public bool IsOnDeviceCardholderVerificationSupported() => GetKernelConfiguration().IsOnDeviceCardholderVerificationSupported();
+    public bool IsRelayResistanceProtocolSupported() => GetKernelConfiguration().IsRelayResistanceProtocolSupported();
+    public bool IsReadAllRecordsActivated() => GetKernelConfiguration().IsReadAllRecordsActivated();
+
+    #endregion
+
     #region Outcome
 
     public void CreateEmvDiscretionaryData(DataExchangeKernelService dataExchanger)

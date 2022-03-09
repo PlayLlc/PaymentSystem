@@ -1,11 +1,15 @@
-﻿namespace Play.Emv.Icc.ReadRecord;
+﻿using Play.Icc.FileSystem.ElementaryFiles;
+
+namespace Play.Emv.Icc.ReadRecord;
 
 public class ReadRecordRApduSignal : RApduSignal
 {
     #region Constructor
 
-    public ReadRecordRApduSignal(byte[] response) : base(response)
-    { }
+    public ReadRecordRApduSignal(ShortFileId shortFileId, byte[] response) : base(response)
+    {
+        _ShortFileId = shortFileId;
+    }
 
     #endregion
 

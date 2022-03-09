@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
@@ -11,7 +7,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.DataStorage;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     A data object in the Card that provides the Kernel with a list of data objects that must be passed to the Card in

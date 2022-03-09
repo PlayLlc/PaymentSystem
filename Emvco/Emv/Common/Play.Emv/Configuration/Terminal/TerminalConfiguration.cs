@@ -25,6 +25,7 @@ public abstract record TerminalConfiguration
     private readonly TerminalType _TerminalType;
     private readonly TransactionCurrencyCode _TransactionCurrencyCode;
     private readonly ApplicationVersionNumberTerminal _ApplicationVersionNumberTerminal;
+    private readonly DataStorageRequestedOperatorId _DataStorageRequestedOperatorId;
 
     // BUG: TerminalRiskManagementData is transient per transaction. This should live with the transaction session, not the terminal configuration
     private readonly TerminalRiskManagementData _TerminalRiskManagementData;
@@ -68,7 +69,8 @@ public abstract record TerminalConfiguration
         AdditionalTerminalCapabilities additionalTerminalCapabilities,
         TransactionReferenceCurrencyCode transactionReferenceCurrencyCode,
         TransactionReferenceCurrencyExponent transactionReferenceCurrencyExponent,
-        AcquirerIdentifier acquirerIdentifier)
+        AcquirerIdentifier acquirerIdentifier,
+        DataStorageRequestedOperatorId dataStorageRequestedOperatorId)
     {
         _TerminalIdentification = terminalIdentification;
         _TransactionCurrencyCode = transactionCurrencyCode;
@@ -91,6 +93,7 @@ public abstract record TerminalConfiguration
         _TransactionReferenceCurrencyCode = transactionReferenceCurrencyCode;
         _TransactionReferenceCurrencyExponent = transactionReferenceCurrencyExponent;
         _AcquirerIdentifier = acquirerIdentifier;
+        _DataStorageRequestedOperatorId = dataStorageRequestedOperatorId;
 
         _TagLengthValues.Add(_TerminalIdentification);
         _TagLengthValues.Add(_TransactionCurrencyCode);
@@ -161,6 +164,7 @@ public abstract record TerminalConfiguration
     public bool PlaintextPinForIccVerification() => _TerminalCapabilities.IsPlaintextPinForIccVerificationSupported();
     public bool SignaturePaper() => _TerminalCapabilities.IsSignaturePaperSupported();
     public bool StaticDataAuthentication() => _TerminalCapabilities.IsStaticDataAuthenticationSupported();
+    public DataStorageRequestedOperatorId GetDataStorageRequestedOperatorId() => _DataStorageRequestedOperatorId;
 
     #endregion
 }

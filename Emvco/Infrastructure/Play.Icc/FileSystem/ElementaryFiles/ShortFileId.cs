@@ -36,6 +36,12 @@ public readonly struct ShortFileId
 
     #endregion
 
+    #region Instance Members
+
+    public bool IsUniversalFile() => _Value <= 10;
+
+    #endregion
+
     #region Equality
 
     public override bool Equals(object? obj) => obj is ShortFileId shortFileId && Equals(shortFileId);

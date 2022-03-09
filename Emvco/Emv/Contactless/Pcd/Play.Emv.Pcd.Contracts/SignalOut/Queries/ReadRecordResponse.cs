@@ -19,16 +19,28 @@ public record ReadRecordResponse : QueryPcdResponse
 
     #endregion
 
+    #region Instance Values
+
+    private readonly ShortFileId _ShortFileId;
+
+    #endregion
+
     #region Constructor
 
-    public ReadRecordResponse(CorrelationId correlationId, TransactionSessionId transactionSessionId, ReadRecordRApduSignal rApdu) : base(
-        correlationId, MessageTypeId, transactionSessionId, rApdu)
-    { }
+    public ReadRecordResponse(
+        CorrelationId correlationId,
+        TransactionSessionId transactionSessionId,
+        ReadRecordRApduSignal rApdu,
+        ShortFileId shortFileId) : base(correlationId, MessageTypeId, transactionSessionId, rApdu)
+    {
+        _ShortFileId = shortFileId;
+    }
 
     #endregion
 
     #region Instance Members
 
+    public ShortFileId GetShortFileId() => _ShortFileId;
     public TagLengthValue[] GetRecords() => ReadRecordResponseTemplate.GetRecords(GetData());
     public int GetValueByteCount() => GetData().Length;
 

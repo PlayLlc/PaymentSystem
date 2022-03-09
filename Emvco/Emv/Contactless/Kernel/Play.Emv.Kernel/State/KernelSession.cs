@@ -2,8 +2,12 @@
 
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
+using Play.Emv.Ber;
+using Play.Emv.DataElements;
+using Play.Emv.Kernel.Exceptions;
 using Play.Emv.Kernel.State;
 using Play.Emv.Pcd;
+using Play.Emv.Security.Authentications.Static;
 using Play.Emv.Sessions;
 using Play.Globalization.Time;
 using Play.Icc.FileSystem.ElementaryFiles;
@@ -20,6 +24,7 @@ public class KernelSession
     private readonly TimeoutManager _TimeoutManager;
     private readonly CorrelationId _CorrelationId;
     private readonly ActiveApplicationFileLocator _ActiveApplicationFileLocator = new();
+    private readonly StaticDataToBeAuthenticated _StaticDataToBeAuthenticated = new();
 
     #endregion
 
@@ -47,6 +52,22 @@ public class KernelSession
         _ = _ActiveApplicationFileLocator.TryDequeue(out RecordRange? result);
 
         return rapdu.GetRecords();
+    }
+
+    public void ClearActiveTags() => _ActiveApplicationFileLocator.Clear();
+
+    public void EnqueueStaticDataToBeAuthenticated(EmvCodec codec, ReadRecordResponse rapdu) =>
+        _StaticDataToBeAuthenticated.Enqueue(codec, rapdu);
+
+    public void EnqueueStaticDataToBeAuthenticated(ApplicationInterchangeProfile aip)
+    {
+        if (!_ActiveApplicationFileLocator.IsEmpty())
+        {
+            throw new TerminalDataException(
+                $"The Kernel attempted to add the {nameof(ApplicationInterchangeProfile)} out of order. The records identified by the {nameof(ApplicationFileLocator)} must enqueue first");
+        }
+
+        _StaticDataToBeAuthenticated.Enqueue(aip);
     }
 
     #endregion

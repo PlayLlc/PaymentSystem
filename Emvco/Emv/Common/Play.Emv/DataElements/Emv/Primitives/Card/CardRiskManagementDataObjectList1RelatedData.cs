@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Card;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Command data field of the GENERATE AC command, coded according to CDOL1.
