@@ -51,6 +51,8 @@ public class ActiveApplicationFileLocator
             Enqueue(items[i]);
     }
 
+    public bool TryPeek(out RecordRange result) => _Value.TryPeek(out result);
+
     public bool TryDequeue(out RecordRange? result)
     {
         if (!_Value.TryDequeue(out RecordRange localResult))

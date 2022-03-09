@@ -18,6 +18,12 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     {
         HandleRequestOutOfSync(session, signal);
 
+        if (TryHandleL1Error(session, signal))
+            return _KernelStateResolver.GetKernelState(StateId);
+
+        if (TryHandleInvalidResultCode(session, signal))
+            return _KernelStateResolver.GetKernelState(StateId);
+
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
     }
 
@@ -31,9 +37,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         _KernelDatabase.Update(MessageIdentifier.TryAgain);
         _KernelDatabase.Update(Status.ReadyToRead);
         _KernelDatabase.Update(new MessageHoldTime(0));
-
         _KernelDatabase.Update(StatusOutcome.EndApplication);
-
         _KernelDatabase.Update(StartOutcome.B);
         _KernelDatabase.SetUiRequestOnRestartPresent(true);
         _KernelDatabase.Update(signal.GetLevel1Error());
@@ -44,6 +48,10 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
         return true;
     }
+
+    #endregion
+
+    #region S4.9 & S4.10.1 - S4.10.2
 
     private bool TryHandleInvalidResultCode(KernelSession session, QueryPcdResponse signal)
     {
@@ -65,6 +73,13 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     }
 
     #endregion
+
+    private void HandleOfflineDataAuthenticationRecords(KernelSession session, QueryPcdResponse signal)
+    {
+        if(session.TryDequeueActiveApplicationFileLocator())
+    }
+
+
 
     #endregion
 }

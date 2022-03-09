@@ -59,11 +59,12 @@ public readonly struct RecordRange
     public byte GetFirstRecordOrdinal() => _FirstRecordOrdinal;
     public byte GetLastRecordOrdinal() => _LastRecordOrdinal;
     public byte GetRangeLength() => _OfflineDataAuthenticationLength;
+    public byte GetRecordCount() => (byte) ((GetLastRecordOrdinal() - GetFirstRecordOrdinal()) + 1);
 
     public RecordNumber[] GetRecords()
     {
-        RecordNumber[] result = new RecordNumber[_OfflineDataAuthenticationLength];
-        for (byte i = 0, j = _FirstRecordOrdinal; i < _OfflineDataAuthenticationLength; i++, j++)
+        RecordNumber[] result = new RecordNumber[GetRecordCount()];
+        for (byte i = 0, j = _FirstRecordOrdinal; i < GetRecordCount(); i++, j++)
             result[i] = new RecordNumber(j);
 
         return result;

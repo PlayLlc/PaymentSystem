@@ -1,10 +1,13 @@
 ﻿using System;
 
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Emv.Kernel.State;
+using Play.Emv.Pcd;
 using Play.Emv.Sessions;
 using Play.Globalization.Time;
 using Play.Icc.FileSystem.ElementaryFiles;
+using Play.Icc.Messaging.Apdu.ReadRecord;
 using Play.Messaging;
 
 namespace Play.Emv.Kernel;
@@ -36,8 +39,15 @@ public class KernelSession
     public CorrelationId GetCorrelationId() => _CorrelationId;
     public KernelSessionId GetKernelSessionId() => _KernelSessionId;
     public TransactionSessionId GetTransactionSessionId() => _KernelSessionId.GetTransactionSessionId();
-    public void EnqueueActiveApplicationFileLocator(RecordRange[] values) => _ActiveApplicationFileLocator.Enqueue(values);
-    public bool TryDequeueActiveApplicationFileLocator(out RecordRange? result) => _ActiveApplicationFileLocator.TryDequeue(out result);
+    public void EnqueueActiveTag(RecordRange[] values) => _ActiveApplicationFileLocator.Enqueue(values);
+    public bool TryPeekActiveTag(out RecordRange result) => _ActiveApplicationFileLocator.TryPeek(out result);
+
+    public TagLengthValue[] ResolveActiveTag(ReadRecordResponse rapdu)
+    {
+        _ = _ActiveApplicationFileLocator.TryDequeue(out RecordRange? result);
+
+        return rapdu.GetRecords();
+    }
 
     #endregion
 
