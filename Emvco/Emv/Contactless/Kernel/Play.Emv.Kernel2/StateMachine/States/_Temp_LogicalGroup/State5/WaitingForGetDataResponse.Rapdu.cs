@@ -3,11 +3,14 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Codecs.Exceptions;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc.GetData;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
+using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Messaging;
@@ -91,10 +94,10 @@ public partial class WaitingForGetDataResponse : KernelState
 
     public void HandleRemainingApplicationFilesToRead(KernelSession session)
     {
-        if (!session.TryDequeueActiveApplicationFileLocator(out RecordRange? recordRange))
+        if (!session.TryPeekActiveTag(out RecordRange recordRange))
             return;
 
-        _PcdEndpoint.Request(ReadRecordRequest.Create(session.GetTransactionSessionId(), recordRange!.Value.GetShortFileIdentifier()));
+        _PcdEndpoint.Request(ReadRecordRequest.Create(session.GetTransactionSessionId(), recordRange.GetShortFileIdentifier()));
     }
 
     #endregion
@@ -115,22 +118,41 @@ public partial class WaitingForGetDataResponse : KernelState
             _KernelDatabase.Update(((GetDataResponse) signal).GetTagLengthValueResult());
             _DataExchangeKernelService.Resolve((GetDataResponse) signal);
         }
+        catch (EmvParsingException)
+        {
+            // TODO: Logging
+            HandleBerParsingException(signal, _DataExchangeKernelService, _KernelDatabase);
+        }
         catch (BerParsingException)
         {
             // TODO: Logging
-
-            _DataExchangeKernelService.TryPeek(DekRequestType.TagsToRead, out Tag result);
-            TagLengthValue nullResult = new(result, Array.Empty<byte>());
-
-            byte[] emptyRapduBytes = new byte[nullResult.GetTagLengthValueByteCount() + 2];
-            emptyRapduBytes[0] = StatusWords._9000.GetStatusWord1();
-            emptyRapduBytes[1] = StatusWords._9000.GetStatusWord2();
-            nullResult.EncodeTagLengthValue().AsSpan().CopyTo(emptyRapduBytes[2..]);
-
-            _KernelDatabase.Update(nullResult);
-            _DataExchangeKernelService.Resolve(new GetDataResponse(signal.GetCorrelationId(), signal.GetTransactionSessionId(),
-                new GetDataRApduSignal(emptyRapduBytes)));
+            HandleBerParsingException(signal, _DataExchangeKernelService, _KernelDatabase);
         }
+        catch (CodecParsingException)
+        {
+            // TODO: Logging
+            HandleBerParsingException(signal, _DataExchangeKernelService, _KernelDatabase);
+        }
+        catch (Exception)
+        {
+            // TODO: Logging
+            HandleBerParsingException(signal, _DataExchangeKernelService, _KernelDatabase);
+        }
+    }
+
+    private static void HandleBerParsingException(QueryPcdResponse signal, DataExchangeKernelService dataExchanger, KernelDatabase database)
+    {
+        dataExchanger.TryPeek(DekRequestType.TagsToRead, out Tag result);
+        TagLengthValue nullResult = new(result, Array.Empty<byte>());
+
+        byte[] emptyRapduBytes = new byte[nullResult.GetTagLengthValueByteCount() + 2];
+        emptyRapduBytes[0] = StatusWords._9000.GetStatusWord1();
+        emptyRapduBytes[1] = StatusWords._9000.GetStatusWord2();
+        nullResult.EncodeTagLengthValue().AsSpan().CopyTo(emptyRapduBytes[2..]);
+
+        database.Update(nullResult);
+        dataExchanger.Resolve(new GetDataResponse(signal.GetCorrelationId(), signal.GetTransactionSessionId(),
+            new GetDataRApduSignal(emptyRapduBytes)));
     }
 
     #endregion
