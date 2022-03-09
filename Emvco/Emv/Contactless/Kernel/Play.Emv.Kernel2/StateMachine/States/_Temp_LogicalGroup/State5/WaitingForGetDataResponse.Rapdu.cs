@@ -58,7 +58,7 @@ public partial class WaitingForGetDataResponse : KernelState
         _KernelDatabase.SetUiRequestOnRestartPresent(true);
         _KernelDatabase.Update(signal.GetLevel1Error());
         _KernelDatabase.Update(MessageOnErrorIdentifier.TryAgain);
-        KernelOutcome.CreateEmvDiscretionaryData(_KernelDatabase, _DataExchangeKernelService);
+        _KernelDatabase.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
         _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
 

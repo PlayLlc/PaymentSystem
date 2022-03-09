@@ -21,13 +21,13 @@ public partial class WaitingForGetDataResponse : KernelState
         _KernelDatabase.Update(StatusOutcome.EndApplication);
 
         // HACK: This is being called twice when a STOP signal is requested by the Kernel State itself
-        KernelOutcome.CreateEmvDiscretionaryData(_KernelDatabase, _DataExchangeKernelService);
+        _KernelDatabase.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
         _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _KernelDatabase.GetOutcome()));
 
         Clear();
 
-        return _KernelStateResolver.GetKernelState(StateId);
+        return _KernelStateResolver.GetKernelState(Idle.StateId);
     }
 
     #endregion

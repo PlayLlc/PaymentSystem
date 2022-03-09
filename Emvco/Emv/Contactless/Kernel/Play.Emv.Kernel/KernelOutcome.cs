@@ -11,7 +11,7 @@ using Play.Emv.Kernel.DataExchange;
 
 namespace Play.Emv.Kernel;
 
-public class KernelOutcome
+internal class KernelOutcome
 {
     #region Static Metadata
 

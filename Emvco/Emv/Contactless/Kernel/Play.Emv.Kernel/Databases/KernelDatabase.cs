@@ -6,11 +6,13 @@ using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
 using Play.Emv.Icc;
+using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Outcomes;
 using Play.Emv.Security.Certificates;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts;
 using Play.Icc.FileSystem.DedicatedFiles;
+using Play.Icc.Messaging.Apdu;
 
 namespace Play.Emv.Kernel.Databases;
 
@@ -274,6 +276,16 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     #region Outcome
 
+    public void CreateEmvDiscretionaryData(DataExchangeKernelService dataExchanger)
+    {
+        KernelOutcome.CreateEmvDiscretionaryData(this, dataExchanger);
+    }
+
+    public void CreateMagstripeDiscretionaryData(DataExchangeKernelService dataExchanger)
+    {
+        KernelOutcome.CreateMagstripeDiscretionaryData(this, dataExchanger);
+    }
+
     public ErrorIndication GetErrorIndication() => ErrorIndication.Decode(Get(ErrorIndication.Tag).EncodeValue().AsSpan());
     private OutcomeParameterSet GetOutcomeParameterSet() => OutcomeParameterSet.Decode(Get(OutcomeParameterSet.Tag).EncodeValue().AsSpan());
 
@@ -434,6 +446,13 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// <param name="value"></param>
     /// <exception cref="InvalidOperationException"></exception>
     public void Update(Level3Error value)
+    {
+        _ErrorIndicationBuilder.Reset(GetErrorIndication());
+        _ErrorIndicationBuilder.Set(value);
+        Update(_ErrorIndicationBuilder.Complete());
+    }
+
+    public void Update(StatusWords value)
     {
         _ErrorIndicationBuilder.Reset(GetErrorIndication());
         _ErrorIndicationBuilder.Set(value);

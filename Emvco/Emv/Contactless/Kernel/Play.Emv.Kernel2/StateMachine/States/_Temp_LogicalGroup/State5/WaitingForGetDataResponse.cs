@@ -45,6 +45,7 @@ public partial class WaitingForGetDataResponse : KernelState
     }
 
     #endregion
+    #region Instance Members
 
     public override StateId GetStateId() => StateId;
 
@@ -60,5 +61,6 @@ public partial class WaitingForGetDataResponse : KernelState
 
     public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
+    #endregion
     #endregion
 }

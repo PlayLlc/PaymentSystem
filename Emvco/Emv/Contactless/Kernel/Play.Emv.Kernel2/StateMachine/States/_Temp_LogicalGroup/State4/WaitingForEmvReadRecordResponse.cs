@@ -9,6 +9,7 @@ using Play.Emv.Kernel.State;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
+using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup.State4;
@@ -21,17 +22,31 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     #endregion
 
-    #region Constructor
+    #region Instance Values
 
-    public WaitingForEmvReadRecordResponse(
-        KernelDatabase kernelDatabase,
-        DataExchangeKernelService dataExchange,
-        IKernelEndpoint kernelEndpoint) : base(kernelDatabase, dataExchange, kernelEndpoint)
-    { }
+    private readonly IHandleTerminalRequests _TerminalEndpoint;
+    private readonly IHandlePcdRequests _PcdEndpoint;
+    private readonly IGetKernelState _KernelStateResolver;
+    private readonly ICleanTornTransactions _KernelCleaner;
 
     #endregion
 
     #region Instance Members
+
+    public WaitingForEmvReadRecordResponse(
+        KernelDatabase kernelDatabase,
+        DataExchangeKernelService dataExchange,
+        IKernelEndpoint kernelEndpoint,
+        IHandleTerminalRequests terminalEndpoint,
+        IHandlePcdRequests pcdEndpoint,
+        IGetKernelState kernelStateResolver,
+        ICleanTornTransactions kernelCleaner) : base(kernelDatabase, dataExchange, kernelEndpoint)
+    {
+        _TerminalEndpoint = terminalEndpoint;
+        _PcdEndpoint = pcdEndpoint;
+        _KernelStateResolver = kernelStateResolver;
+        _KernelCleaner = kernelCleaner;
+    }
 
     public override StateId GetStateId() => StateId;
 

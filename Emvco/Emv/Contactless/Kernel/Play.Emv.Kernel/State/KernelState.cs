@@ -19,7 +19,7 @@ public abstract class KernelState
 
     protected readonly KernelDatabase _KernelDatabase;
     protected readonly DataExchangeKernelService _DataExchangeKernelService;
-    private readonly IKernelEndpoint _KernelEndpoint;
+    protected readonly IKernelEndpoint _KernelEndpoint;
 
     #endregion
 
