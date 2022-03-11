@@ -1,4 +1,5 @@
 ﻿using Play.Core.Exceptions;
+using Play.Encryption.Hashing;
 
 namespace Play.Encryption.Signing;
 
@@ -6,7 +7,7 @@ public class DecodedSignature
 {
     #region Instance Values
 
-    protected readonly byte[] _Hash;
+    protected readonly Hash _Hash;
     protected readonly byte _LeadingByte;
     protected readonly Message1 _Message1;
     protected readonly byte _TrailingByte;
@@ -20,14 +21,14 @@ public class DecodedSignature
         CheckCore.ForEmptySequence(value, nameof(value));
 
         _LeadingByte = value[0];
-        _Message1 = new Message1(value[2..^23]);
-        _Hash = value[^22..^2];
+        _Message1 = new Message1(value[1..^21]);
+        _Hash = new Hash(value[^21..^1]);
         _TrailingByte = value[^1];
     }
 
-    public DecodedSignature(byte leadingByte, Message1 message1, byte[] hash, byte trailingByte)
+    public DecodedSignature(byte leadingByte, Message1 message1, Hash hash, byte trailingByte)
     {
-        Validate(leadingByte, hash, trailingByte);
+        Validate(leadingByte, trailingByte);
         _LeadingByte = leadingByte;
         _Message1 = message1;
         _Hash = hash;
@@ -43,31 +44,22 @@ public class DecodedSignature
         Span<byte> result = stackalloc byte[_Message1.GetByteCount() + 20 + 1 + 1];
         result[0] = _LeadingByte;
         _Message1.AsSpan().CopyTo(result[2..(2 + _Message1.GetByteCount())]);
-        _Hash.AsSpan().CopyTo(result[^21..2]);
+        _Hash.Encode(result, 1);
         result[^1] = _TrailingByte;
 
         return result.ToArray();
     }
 
-    public int GetByteCount() => _Message1.GetByteCount() + _Hash.Length + 2;
-    public byte[] GetHash() => _Hash;
+    public int GetByteCount() => _Message1.GetByteCount() + Hash.Length + 2;
+    public Hash GetHash() => _Hash;
     public byte GetLeadingByte() => _LeadingByte;
     public Message1 GetMessage1() => _Message1;
     public byte GetTrailingByte() => _TrailingByte;
 
-    private static void Validate(byte leadingByte, ReadOnlySpan<byte> hash, byte trailingByte)
+    private static void Validate(byte leadingByte, byte trailingByte)
     {
         ValidateLeadingByte(leadingByte);
-        ValidateHash(hash);
         ValidateTrailingByte(trailingByte);
-    }
-
-    private static void ValidateHash(ReadOnlySpan<byte> hash)
-    {
-        CheckCore.ForEmptySequence(hash, nameof(hash));
-
-        if (hash.Length != SignatureSpecifications.HashLength)
-            throw new ArgumentOutOfRangeException(nameof(hash), "A SHA-1 hash with 20 bytes was expected");
     }
 
     /// <exception cref="ArgumentOutOfRangeException"></exception>

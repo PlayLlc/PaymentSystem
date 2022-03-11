@@ -54,6 +54,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     #region S4.4 - S4.6
 
+    /// <remarks>Book C-2 Section S4.4 - S4.6</remarks>
     private bool TryHandleL1Error(KernelSession session, QueryPcdResponse signal)
     {
         if (!signal.IsSuccessful())
@@ -78,6 +79,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     #region S4.9 & S4.10.1 - S4.10.2
 
+    /// <remarks>Book C-2 Section S4.9 & S4.10.1 - S4.10.2</remarks>
     private bool TryHandleInvalidResultCode(KernelSession session, QueryPcdResponse signal)
     {
         if (signal.GetStatusWords() == StatusWords._9000)
@@ -101,6 +103,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     #region S4.11 - S4.13
 
+    /// <remarks>Book C-2 Section S4.11 - S4.13</remarks>
     private void IsOfflineDataAuthenticationRecordPresent(KernelSession session, ref bool isRecordSigned)
     {
         if (!session.TryPeekActiveTag(out RecordRange result))
@@ -119,6 +122,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     #region S4.14, S4.24 - S4.25, S5.27.1 - S5.27.2
 
+    /// <remarks>Book C-2 Section S4.14, S4.24 - S4.25, S5.27.1 - S5.27.2</remarks>
     public bool TryResolveActiveRecords(KernelSession session, ReadRecordResponse rapdu, out Tag[] resolvedRecords)
     {
         try
@@ -184,6 +188,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     #region S4.28 - S4.33
 
+    /// <remarks>Book C-2 Section S4.28 - S4.33</remarks>
     public void UpdateDataNeeded(Kernel2Session session, ReadRecordResponse rapdu, Tag[] resolvedRecords, bool isRecordSigned)
     {
         if (_KernelDatabase.IsIntegratedDataStorageSupported())
@@ -196,6 +201,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     #region S4.28,  S4.29
 
+    /// <remarks>Book C-2 Section S4.28,  S4.29</remarks>
     public void UpdateDataNeededWhenIdsIsNotSupported(Tag[] resolvedRecords)
     {
         for (int i = 0; i < resolvedRecords.Length; i++)
@@ -212,6 +218,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     #region S4.28, S4.29, S4.33
 
+    /// <remarks>Book C-2 Section S4.28, S4.29, S4.33</remarks>
     public void UpdateDataNeededWhenIdsIsSupported(
         Kernel2Session session,
         ReadRecordResponse rapdu,
@@ -245,6 +252,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     #region S4.29
 
+    /// <remarks>Book C-2 Section S4.29</remarks>
     public void HandleCdol1(CardRiskManagementDataObjectList1 cdol)
     {
         _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, cdol.GetNeededData(_KernelDatabase));
@@ -254,6 +262,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     #region S4.32 - S4.33
 
+    /// <remarks>Book C-2 Section S4.32 - S4.33</remarks>
     public void HandleDsdol(Kernel2Session session, ReadRecordResponse rapdu, bool isRecordSigned, DataStorageDataObjectList dsdol)
     {
         if (!_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out TagLengthValue? idsStatus))
@@ -273,6 +282,9 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     #endregion
 
+    #region S4.34 - S4.35
+
+    /// <remarks>Book C-2 Section S4.34 - S4.35</remarks>
     private void UpdateStaticDataToBeAuthenticated(Kernel2Session session, ReadRecordResponse rapdu, bool isRecordSigned)
     {
         if (!isRecordSigned)
@@ -318,6 +330,8 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     private void SetNextCommand()
     { }
+
+    #endregion
 
     #endregion
 }

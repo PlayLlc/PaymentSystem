@@ -4,15 +4,16 @@ using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Emv.DataElements;
 using Play.Emv.Security.Authentications.Static;
 using Play.Emv.Security.Certificates.Icc;
 using Play.Emv.Security.Certificates.Issuer;
+using Play.Emv.Security.Certificates.Pin;
+using Play.Emv.Security.Exceptions;
 using Play.Encryption.Certificates;
 using Play.Encryption.Hashing;
 using Play.Encryption.Signing;
 using Play.Globalization.Time;
-
-using PrimaryAccountNumber = Play.Emv.DataElements.PrimaryAccountNumber;
 
 namespace Play.Emv.Security.Certificates;
 
@@ -22,219 +23,120 @@ internal partial class CertificateFactory
     {
         #region Static Metadata
 
-        private static readonly NumericCodec _NumericCodec = new();
+        private static readonly SignatureService _SignatureService = new();
 
         #endregion
 
         #region Instance Members
 
         /// <summary>
-        ///     Create
         /// </summary>
-        /// <param name="issuerPublicKeyCertificate"></param>
-        /// <param name="publicKeyRemainder"></param>
-        /// <param name="publicKeyExponent"></param>
-        /// <param name="message1"></param>
-        /// <returns></returns>
-        /// <exception cref="InvalidOperationException"></exception>
-        private static DecodedIccPublicKeyCertificate Create(
-            DecodedIssuerPublicKeyCertificate issuerPublicKeyCertificate,
-            PrimaryAccountNumber primaryAccountNumber,
-            PublicKeyRemainder publicKeyRemainder,
-            PublicKeyExponent publicKeyExponent,
-            Message1 message1)
-        {
-            CertificateSerialNumber serialNumber = GetCertificateSerialNumber(message1);
-            HashAlgorithmIndicator hashAlgorithm = GetHashAlgorithmIndicator(message1);
-            PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator = GetPublicKeyAlgorithmIndicator(message1);
-            DateRange validityPeriod = new(ShortDateValue.MinValue, GetCertificateExpirationDate(message1));
-
-            PublicKeyModulus publicKeyModulus = GetPublicKeyModulus(issuerPublicKeyCertificate, message1, publicKeyRemainder);
-            PublicKeyInfo publicKeyInfo = new(publicKeyModulus, publicKeyExponent);
-
-            return new DecodedIccPublicKeyCertificate(primaryAccountNumber, validityPeriod, serialNumber, hashAlgorithm,
-                publicKeyAlgorithmIndicator, publicKeyInfo);
-        }
-
-        private static ShortDateValue GetCertificateExpirationDate(Message1 message1) =>
-            new(_NumericCodec.DecodeToUInt16(message1[new Range(11, 13)]));
-
-        private static CertificateSerialNumber GetCertificateSerialNumber(Message1 message1) => new(message1[new Range(13, 16)]);
-
-        // TODO: The remainder and exponent will be coming from the TLV Database. No need to pass those with the
-        // TODO: command. You can pass the ITlvDatabase and query when it's relevant
-
-        /// <exception cref="InvalidOperationException"></exception>
-        private static byte[] GetConcatenatedValuesForHash(
-            DecodedIssuerPublicKeyCertificate issuerPublicKeyCertificate,
-            Message1 message1,
-            PublicKeyRemainder publicKeyRemainder,
-            PublicKeyExponent publicKeyExponent,
-            StaticDataToBeAuthenticated staticDataToBeAuthenticated)
-        {
-            using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(message1.GetByteCount()
-                + publicKeyRemainder.GetByteCount()
-                + publicKeyExponent.GetByteCount()
-                + staticDataToBeAuthenticated.GetByteCount());
-
-            Span<byte> buffer = spanOwner.Span;
-
-            message1[2..(2 + 14)].ToArray().AsSpan().CopyTo(buffer);
-
-            GetPublicKeyModulus(issuerPublicKeyCertificate, message1, publicKeyRemainder).AsByteArray().AsSpan().CopyTo(buffer[17..]);
-            publicKeyExponent.AsByteArray().AsSpan().CopyTo(buffer[^publicKeyExponent.GetByteCount()..]);
-
-            return buffer.ToArray();
-        }
-
-        private static HashAlgorithmIndicator GetHashAlgorithmIndicator(Message1 message1) => HashAlgorithmIndicator.Get(message1[16]);
-        private static byte GetIccPublicKeyLength(Message1 message1) => message1[18];
-
-        private static Range GetLeftmostIssuerPublicKeyRange(DecodedIssuerPublicKeyCertificate issuerPublicKeyCertificate) =>
-            new(20, issuerPublicKeyCertificate.GetPublicKeyModulus().GetByteCount() - 42);
-
-        private static PublicKeyAlgorithmIndicator GetPublicKeyAlgorithmIndicator(Message1 message1) =>
-            PublicKeyAlgorithmIndicator.Get(message1[17]);
-
-        /// <exception cref="InvalidOperationException"></exception>
-        private static PublicKeyModulus GetPublicKeyModulus(
-            DecodedIssuerPublicKeyCertificate issuerPublicKeyCertificate,
-            Message1 message1,
-            PublicKeyRemainder publicKeyRemainder)
-        {
-            if (IsIssuerPublicKeySplit(issuerPublicKeyCertificate, message1))
-            {
-                if (publicKeyRemainder.IsEmpty())
-                    throw new InvalidOperationException($"A {nameof(PublicKeyRemainder)} was expected but could not be retrieved");
-
-                Span<byte> modulusBuffer = stackalloc byte[GetIccPublicKeyLength(message1)];
-                message1[GetLeftmostIssuerPublicKeyRange(issuerPublicKeyCertificate)].CopyTo(modulusBuffer);
-                publicKeyRemainder.AsSpan().CopyTo(modulusBuffer[^publicKeyRemainder.GetByteCount()..]);
-
-                return new PublicKeyModulus(modulusBuffer.ToArray());
-            }
-
-            return new PublicKeyModulus(message1[GetLeftmostIssuerPublicKeyRange(issuerPublicKeyCertificate)]);
-        }
-
-        private static bool IsCertificateFormatValid(Message1 message1) => message1[0] == CertificateFormat.Icc;
-
-        private static bool IsExpiryDateValid(Message1 message1)
-        {
-            DateTime today = DateTime.UtcNow;
-            DateTime expiryDate = GetCertificateExpirationDate(message1).AsDateTimeUtc();
-
-            return new DateTime(today.Year, today.Month, today.Day)
-                <= new DateTime(expiryDate.Year, expiryDate.Month, DateTime.DaysInMonth(expiryDate.Year, expiryDate.Month));
-        }
-
-        private static bool IsIssuerPublicKeySplit(DecodedIssuerPublicKeyCertificate issuerPublicKeyCertificate, Message1 message1) =>
-            GetIccPublicKeyLength(message1) > issuerPublicKeyCertificate.GetPublicKeyModulus().GetByteCount();
-
-        /// <summary>
-        ///     IsValid
-        /// </summary>
-        /// <param name="signatureService"></param>
-        /// <param name="issuerPublicKeyCertificate"></param>
-        /// <param name="decodedSignature"></param>
-        /// <param name="encipheredCertificate"></param>
-        /// <param name="publicKeyExponent"></param>
-        /// <param name="publicKeyRemainder"></param>
+        /// <param name="issuerCertificate"></param>
         /// <param name="staticDataToBeAuthenticated"></param>
-        /// <param name="primaryAccountNumber"></param>
+        /// <param name="encipheredCertificate"></param>
+        /// <param name="applicationPan"></param>
+        /// <param name="encipheredPublicKeyRemainder"></param>
         /// <returns></returns>
-        /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="CodecParsingException"></exception>
-        private static bool IsValid(
-            SignatureService signatureService,
-            DecodedIssuerPublicKeyCertificate issuerPublicKeyCertificate,
-            DecodedSignature decodedSignature,
-            IccPublicKeyCertificate encipheredCertificate,
-            PublicKeyExponent publicKeyExponent,
-            PublicKeyRemainder publicKeyRemainder,
+        /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
+        /// <remarks>EMV Book 2 Section 6.4</remarks>
+        public static DecodedIccPublicKeyCertificate TryCreate(
+            DecodedIssuerPublicKeyCertificate issuerCertificate,
             StaticDataToBeAuthenticated staticDataToBeAuthenticated,
-            PrimaryAccountNumber primaryAccountNumber)
+            IccPublicKeyCertificate encipheredCertificate,
+            ApplicationPan applicationPan,
+            IccPublicKeyRemainder? encipheredPublicKeyRemainder = null)
         {
             // Step 1
-            if (issuerPublicKeyCertificate.GetPublicKeyModulus().GetByteCount() != encipheredCertificate.GetByteCount())
-                return false;
+            if (issuerCertificate.GetPublicKeyModulus().GetByteCount() != encipheredCertificate.GetValueByteCount())
+            {
+                throw new CryptographicAuthenticationMethodFailedException(
+                    $"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the length of the Issuer Public Key Modulus is different than {nameof(IccPublicKeyCertificate)}");
+            }
 
-            // Step 10 (placed before other steps because we're using this indicator to validate the signature)
-            if (GetHashAlgorithmIndicator(decodedSignature.GetMessage1()) != HashAlgorithmIndicator.NotAvailable)
-                return false;
+            // Step 2
+            DecodedSignature decodedSignature = _SignatureService.Decrypt(encipheredCertificate.EncodeValue(), issuerCertificate);
 
-            // Step 2.b, 3, 5, 6, 7, 
-            if (!signatureService.IsSignatureValid(GetHashAlgorithmIndicator(decodedSignature.GetMessage1()),
-                GetConcatenatedValuesForHash(issuerPublicKeyCertificate, decodedSignature.GetMessage1(), publicKeyRemainder,
-                    publicKeyExponent, staticDataToBeAuthenticated), decodedSignature))
-                return false;
+            CertificateFormat certificateFormat;
+            ApplicationPan recoveredPan;
+            ShortDateValue expirationDate;
+            CertificateSerialNumber serialNumber;
+            HashAlgorithmIndicator hashAlgorithmIndicator;
+            byte iccModulusLength;
+            IccPublicKeyExponent exponent;
 
-            // Step 4
-            if (IsCertificateFormatValid(decodedSignature.GetMessage1()))
-                return false;
-
-            // Step 5.b
-            if (!staticDataToBeAuthenticated.IsValid())
-                return false;
-
-            // Step 8
-            if (primaryAccountNumber.IsIssuerIdentifierMatching(issuerPublicKeyCertificate.GetIssuerIdentificationNumber()))
-                return false;
-
-            // Step 9
-            if (IsExpiryDateValid(decodedSignature.GetMessage1()))
-                return false;
-
-            return true;
-        }
-
-        /// <remarks>
-        ///     Book 2 Section 5.3
-        /// </remarks>
-        /// <exception cref="InvalidOperationException"></exception>
-        public static bool TryCreate(
-            SignatureService signatureService,
-            StaticDataToBeAuthenticated staticDataToBeAuthenticated,
-            PrimaryAccountNumber primaryAccountNumber,
-            DecodedIssuerPublicKeyCertificate publicKeyCertificate,
-            IccPublicKeyCertificate encipheredCertificate,
-            IccPublicKeyExponent encipheredPublicKeyExponent,
-            IccPublicKeyRemainder enciphermentPublicKeyRemainder,
-            out DecodedIccPublicKeyCertificate? result)
-        {
+            // Resolving decoded signature values
             try
             {
-                ReadOnlySpan<byte> encipherment = encipheredCertificate.GetEncipherment();
-                DecodedSignature decodedSignature = signatureService.Decrypt(encipherment, publicKeyCertificate);
+                certificateFormat = CertificateFormat.Get(decodedSignature.GetMessage1()[0]);
+                recoveredPan = ApplicationPan.Decode(decodedSignature.GetMessage1()[1..11]);
+                expirationDate =
+                    new ShortDateValue(PlayCodec.NumericCodec.DecodeToUInt16(decodedSignature.GetMessage1()[new Range(11, 13)]));
+                serialNumber = new CertificateSerialNumber(decodedSignature.GetMessage1()[13..16]);
+                hashAlgorithmIndicator = HashAlgorithmIndicator.Get(decodedSignature.GetMessage1()[16]);
 
-                if (!IsValid(signatureService, publicKeyCertificate, decodedSignature, encipheredCertificate,
-                    encipheredPublicKeyExponent.AsPublicKeyExponent(), enciphermentPublicKeyRemainder.AsPublicKeyRemainder(),
-                    staticDataToBeAuthenticated, primaryAccountNumber))
-                {
-                    result = null;
-
-                    return false;
-                }
-
-                result = Create(publicKeyCertificate, primaryAccountNumber, enciphermentPublicKeyRemainder.AsPublicKeyRemainder(),
-                    encipheredPublicKeyExponent.AsPublicKeyExponent(), decodedSignature.GetMessage1());
-
-                return true;
+                iccModulusLength = decodedSignature.GetMessage1()[18];
+                byte iccExponentLength = decodedSignature.GetMessage1()[19];
+                exponent = iccExponentLength > 1
+                    ? new IccPublicKeyExponent(PublicKeyExponent._65537)
+                    : new IccPublicKeyExponent(PublicKeyExponent._3);
             }
-            catch (InvalidOperationException invalidOperationException)
+            catch (CodecParsingException exception)
             {
-                // TODO: LOG
-                result = null;
-
-                return false;
+                // TODO: Logging
+                throw new CryptographicAuthenticationMethodFailedException(exception);
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                // TODO: LOG
-                result = null;
-
-                return false;
+                // TODO: Logging
+                throw new CryptographicAuthenticationMethodFailedException(exception);
             }
+
+            // Step 4
+            if (certificateFormat != CertificateFormat.Icc)
+            {
+                throw new CryptographicAuthenticationMethodFailedException(
+                    $"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the {nameof(CertificateFormat)} expected is {CertificateFormat.Icc} but the format provided was: [{certificateFormat}]");
+            }
+
+            // Step 5
+            byte[] hashSeed = DecodedIccPublicKeyCertificate.ConcatenateRecoveryHash(decodedSignature, exponent,
+                staticDataToBeAuthenticated, encipheredPublicKeyRemainder);
+
+            // Step 3, 4, 6, 7, 
+            if (!_SignatureService.IsSignatureValid(hashAlgorithmIndicator, hashSeed, decodedSignature))
+            {
+                throw new CryptographicAuthenticationMethodFailedException(
+                    $"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the hash validation failed");
+            }
+
+            // Step 8
+            if (recoveredPan != applicationPan)
+            {
+                throw new CryptographicAuthenticationMethodFailedException(
+                    $"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the {nameof(ApplicationPan)} is different than the value recovered from {nameof(IccPublicKeyCertificate)}");
+            }
+
+            // Step 9
+            if (DateTimeUtc.Today() > expirationDate)
+            {
+                throw new CryptographicAuthenticationMethodFailedException(
+                    $"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the {nameof(IccPublicKeyCertificate)} has expired");
+            }
+
+            // Step 10
+            if (!PublicKeyAlgorithmIndicator.TryGet(decodedSignature.GetMessage1()[17],
+                out PublicKeyAlgorithmIndicator? publicKeyAlgorithmIndicator))
+            {
+                throw new CryptographicAuthenticationMethodFailedException(
+                    $"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the {nameof(PublicKeyAlgorithmIndicator)} value: [{decodedSignature.GetMessage1()[17]}] could not be recognized");
+            }
+
+            PublicKeyModulus publicKeyModulus = DecodedIccPublicKeyCertificate.ResolvePublicKeyModulus(iccModulusLength, issuerCertificate,
+                decodedSignature.GetMessage1(), encipheredPublicKeyRemainder?.AsPublicKeyRemainder());
+
+            return new DecodedIccPublicKeyCertificate(new DateRange(ShortDateValue.MinValue, expirationDate), serialNumber,
+                hashAlgorithmIndicator, publicKeyAlgorithmIndicator!,
+                new PublicKeyInfo(publicKeyModulus, exponent.AsPublicKeyExponent(), encipheredPublicKeyRemainder?.AsPublicKeyRemainder()));
         }
 
         #endregion

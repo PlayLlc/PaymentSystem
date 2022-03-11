@@ -21,17 +21,7 @@ public readonly struct CertificateSerialNumber
 
     #region Constructor
 
-    public CertificateSerialNumber(byte[] value)
-    {
-        if (value.Length != _ByteCount)
-        {
-            throw new ArgumentOutOfRangeException(nameof(value),
-                $"{nameof(CertificateSerialNumber)} was expecting a value with {_ByteCount} bytes");
-        }
-
-        _Value = new BigInteger(value);
-    }
-
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public CertificateSerialNumber(ReadOnlySpan<byte> value)
     {
         if (value.Length != _ByteCount)
@@ -40,7 +30,7 @@ public readonly struct CertificateSerialNumber
                 $"{nameof(CertificateSerialNumber)} was expecting a value with {_ByteCount} bytes");
         }
 
-        _Value = new BigInteger(value);
+        _Value = new BigInteger(value.ToArray());
     }
 
     #endregion

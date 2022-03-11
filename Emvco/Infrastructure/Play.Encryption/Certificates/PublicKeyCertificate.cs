@@ -29,7 +29,7 @@ public class PublicKeyCertificate
     protected readonly PublicKeyInfo _PublicKeyInfo;
 
     /// <summary>
-    ///     The period of time in which this public key is valid
+    ///     The date range that this certificate is valid
     /// </summary>
     protected readonly DateRange _ValidityPeriod;
 
@@ -55,12 +55,15 @@ public class PublicKeyCertificate
 
     #region Instance Members
 
+    public bool IsPublicKeySplit() => _PublicKeyInfo.IsPublicKeySplit();
     public HashAlgorithmIndicator GetHashAlgorithmIndicator() => _HashAlgorithmIndicator;
     public PublicKeyAlgorithmIndicator GetPublicKeyAlgorithmIndicator() => _PublicKeyAlgorithmIndicator;
     public PublicKeyExponent GetPublicKeyExponent() => _PublicKeyInfo.GetPublicKeyExponent();
     public PublicKeyInfo GetPublicKeyInfo() => _PublicKeyInfo;
     public PublicKeyModulus GetPublicKeyModulus() => _PublicKeyInfo.GetPublicKeyModulus();
     public CertificateSerialNumber GetPublicKeySerialNumber() => _CertificateSerialNumber;
+    public ShortDateValue GetExpirationDate() => _ValidityPeriod.GetExpirationDate();
+    public ShortDateValue GetActivationDate() => _ValidityPeriod.GetActivationDate();
     public bool IsExpired() => _ValidityPeriod.IsExpired();
 
     #endregion

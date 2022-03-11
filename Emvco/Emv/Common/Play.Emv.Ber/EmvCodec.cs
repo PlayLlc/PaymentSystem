@@ -6,6 +6,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
+using Play.Core.Specifications;
 using Play.Emv.Ber.Codecs;
 
 using PlayCodec = Play.Codecs.PlayCodec;
@@ -70,6 +71,21 @@ public class EmvCodec : BerCodec
         return buffer[..bufferOffset].ToArray();
     }
 
+    public bool IsTagPresent(Tag tagToSearch, ReadOnlySpan<byte> value)
+    {
+        for (int i = 0; i < value.Length;)
+        {
+            Tag currentTag = new(value[i..]);
+
+            if (currentTag == tagToSearch)
+                return true;
+
+            i += currentTag.GetByteCount();
+        }
+
+        return false;
+    }
+
     /// <summary>
     ///     Parses a sequence of metadata containing a concatenation of Tag identifiers and returns an array of Tags.
     /// </summary>
@@ -81,18 +97,35 @@ public class EmvCodec : BerCodec
     /// </remarks>
     public Tag[] DecodeTagSequence(ReadOnlySpan<byte> value)
     {
-        using SpanOwner<Tag> spanOwner = SpanOwner<Tag>.Allocate(value.Length);
-        Span<Tag> buffer = spanOwner.Span;
-        int i = 0;
-
-        for (int j = 0; j < value.Length; i++)
+        if (value.Length < Specs.ByteArray.StackAllocateCeiling)
         {
-            Tag tempValue = new(value[j..]);
-            buffer[i] = tempValue;
-            j += tempValue.GetByteCount();
-        }
+            Span<Tag> buffer = stackalloc Tag[value.Length];
+            int i = 0;
 
-        return buffer[..i].ToArray();
+            for (int j = 0; j < value.Length; i++)
+            {
+                Tag tempValue = new(value[j..]);
+                buffer[i] = tempValue;
+                j += tempValue.GetByteCount();
+            }
+
+            return buffer[..i].ToArray();
+        }
+        else
+        {
+            using SpanOwner<Tag> spanOwner = SpanOwner<Tag>.Allocate(value.Length);
+            Span<Tag> buffer = spanOwner.Span;
+            int i = 0;
+
+            for (int j = 0; j < value.Length; i++)
+            {
+                Tag tempValue = new(value[j..]);
+                buffer[i] = tempValue;
+                j += tempValue.GetByteCount();
+            }
+
+            return buffer[..i].ToArray();
+        }
     }
 
     #endregion

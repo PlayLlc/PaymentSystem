@@ -1,20 +1,18 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
 using Play.Emv.Ber;
+using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
 using Play.Emv.Kernel.Exceptions;
-using Play.Emv.Kernel.State;
-using Play.Emv.Pcd;
+using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security.Authentications.Static;
 using Play.Emv.Sessions;
 using Play.Globalization.Time;
 using Play.Icc.FileSystem.ElementaryFiles;
-using Play.Icc.Messaging.Apdu.ReadRecord;
 using Play.Messaging;
 
-namespace Play.Emv.Kernel;
+namespace Play.Emv.Kernel.State;
 
 public class KernelSession
 {
@@ -59,7 +57,10 @@ public class KernelSession
     public void EnqueueStaticDataToBeAuthenticated(EmvCodec codec, ReadRecordResponse rapdu) =>
         _StaticDataToBeAuthenticated.Enqueue(codec, rapdu);
 
-    public void EnqueueStaticDataToBeAuthenticated(ApplicationInterchangeProfile aip)
+    /// <param name="tagList"></param>
+    /// <param name="database"></param>
+    /// <exception cref="TerminalDataException"></exception>
+    public void EnqueueStaticDataToBeAuthenticated(StaticDataAuthenticationTagList tagList, IQueryTlvDatabase database)
     {
         if (!_ActiveApplicationFileLocator.IsEmpty())
         {
@@ -67,7 +68,7 @@ public class KernelSession
                 $"The Kernel attempted to add the {nameof(ApplicationInterchangeProfile)} out of order. The records identified by the {nameof(ApplicationFileLocator)} must enqueue first");
         }
 
-        _StaticDataToBeAuthenticated.Enqueue(aip);
+        _StaticDataToBeAuthenticated.Enqueue(tagList, database);
     }
 
     #endregion

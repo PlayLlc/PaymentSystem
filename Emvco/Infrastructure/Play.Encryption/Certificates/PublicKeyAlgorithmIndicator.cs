@@ -38,6 +38,7 @@ public class PublicKeyAlgorithmIndicator : IEqualityComparer<PublicKeyAlgorithmI
     #region Instance Members
 
     public static bool Exists(byte value) => _ValueObjectMap.ContainsKey(value);
+    public static bool TryGet(byte value, out PublicKeyAlgorithmIndicator? result) => _ValueObjectMap.TryGetValue(value, out result);
 
     public static PublicKeyAlgorithmIndicator Get(byte value)
     {

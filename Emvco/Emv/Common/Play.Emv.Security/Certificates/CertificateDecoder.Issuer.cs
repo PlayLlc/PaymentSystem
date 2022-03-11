@@ -78,7 +78,7 @@ internal partial class CertificateFactory
 
             message1[2..(2 + 14)].ToArray().AsSpan().CopyTo(buffer);
             GetPublicKeyModulus(caPublicKeyCertificate, message1, publicKeyRemainder).AsByteArray().AsSpan().CopyTo(buffer[17..]);
-            publicKeyExponent.AsByteArray().AsSpan().CopyTo(buffer[^publicKeyExponent.GetByteCount()..]);
+            publicKeyExponent.Encode().AsSpan().CopyTo(buffer[^publicKeyExponent.GetByteCount()..]);
 
             return buffer.ToArray();
         }

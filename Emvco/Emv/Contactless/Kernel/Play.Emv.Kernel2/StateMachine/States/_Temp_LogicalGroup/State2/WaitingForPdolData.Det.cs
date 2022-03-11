@@ -56,6 +56,7 @@ public partial class WaitingForPdolData : KernelState
     /// </summary>
     /// <param name="signal"></param>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <remarks>Book C-2 Section S2.6</remarks>
     private void UpdateDataExchangeSignal(QueryTerminalResponse signal)
     {
         _KernelDatabase.Update(signal.GetDataToSend().AsTagLengthValueArray());
@@ -73,6 +74,7 @@ public partial class WaitingForPdolData : KernelState
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <remarks>Book C-2 Section S2.7</remarks>
     private bool IsPdolDataMissing(Kernel2Session session, out ProcessingOptionsDataObjectList pdol)
     {
         pdol = ProcessingOptionsDataObjectList.Decode(_KernelDatabase.Get(ProcessingOptionsDataObjectList.Tag).EncodeValue().AsSpan());
@@ -89,6 +91,7 @@ public partial class WaitingForPdolData : KernelState
 
     #region S2.8.1 - S2.8.6
 
+    /// <remarks>Book C-2 Section S2.8.1 - S2.8.6</remarks>
     public GetProcessingOptionsRequest CreateGetProcessingOptionsCapdu(KernelSession session, ProcessingOptionsDataObjectList pdol) =>
         !_KernelDatabase.IsPresentAndNotEmpty(ProcessingOptionsDataObjectList.Tag)
             ? GetProcessingOptionsRequest.Create(session.GetTransactionSessionId())
@@ -98,6 +101,7 @@ public partial class WaitingForPdolData : KernelState
 
     #region S2.9
 
+    /// <remarks>Book C-2 Section S2.9</remarks>
     public void StopTimer(Kernel2Session session)
     {
         session.StopTimeout();

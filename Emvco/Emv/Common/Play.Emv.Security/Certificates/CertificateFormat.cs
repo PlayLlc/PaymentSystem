@@ -45,6 +45,15 @@ public sealed record CertificateFormat : EnumObject<byte>, IEqualityComparer<Cer
     public int GetByteSize() => _Value;
     public static bool TryGet(byte value, out CertificateFormat? result) => _ValueObjectMap.TryGetValue(value, out result);
 
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public static CertificateFormat Get(byte value)
+    {
+        if (!_ValueObjectMap.TryGetValue(value, out CertificateFormat? result))
+            throw new ArgumentOutOfRangeException(nameof(value));
+
+        return result!;
+    }
+
     #endregion
 
     #region Equality

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 using Play.Emv.Icc.ReadRecord;
+using Play.Emv.Pcd.Contracts;
 
 namespace Play.Emv.Pcd;
 
@@ -25,11 +26,12 @@ public class RecordReader : IReadRecords
 
     public async Task<ReadRecordResponse> Transceive(ReadRecordRequest command)
     {
-        ReadRecordRApduSignal response = new(await _PcdTransceiver.Transceive(command.Serialize()).ConfigureAwait(false));
+        ReadRecordRApduSignal response = new(await _PcdTransceiver.Transceive(command.Serialize()).ConfigureAwait(false),
+            command.GetShortFileId());
 
         // TODO Handle for Status  Words
 
-        return new ReadRecordResponse(command.GetCorrelationId(), command.GetTransactionSessionId(), response);
+        return new ReadRecordResponse(command.GetCorrelationId(), command.GetTransactionSessionId(), response, command.GetShortFileId());
     }
 
     #endregion

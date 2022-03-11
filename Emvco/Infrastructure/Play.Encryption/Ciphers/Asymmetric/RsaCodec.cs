@@ -18,7 +18,7 @@ internal class RsaCodec : IAsymmetricCodec
     private static RSACryptoServiceProvider GetRsaProvider(PublicKeyExponent exponent, PublicKeyModulus modulus)
     {
         RSACryptoServiceProvider? rsaProvider = new();
-        RSAParameters rsaConfig = new() {Exponent = exponent.AsByteArray(), Modulus = modulus.AsByteArray()};
+        RSAParameters rsaConfig = new() {Exponent = exponent.Encode(), Modulus = modulus.AsByteArray()};
 
         rsaProvider.ImportParameters(rsaConfig);
 

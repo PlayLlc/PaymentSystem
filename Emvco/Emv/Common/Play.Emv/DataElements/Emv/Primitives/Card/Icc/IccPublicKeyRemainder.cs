@@ -1,19 +1,21 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 using Play.Ber.Codecs;
-using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Emv.Ber.DataObjects;
+using Play.Emv.Exceptions;
 using Play.Encryption.Certificates;
 
-namespace Play.Emv.Security.Certificates.Icc;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Remaining digits of the ICC Public Key Modulus
 /// </summary>
-public record IccPublicKeyRemainder : PrimitiveValue, IEqualityComparer<IccPublicKeyRemainder>
+public record IccPublicKeyRemainder : DataElement<BigInteger>, IEqualityComparer<IccPublicKeyRemainder>
 {
     #region Static Metadata
 
@@ -22,18 +24,10 @@ public record IccPublicKeyRemainder : PrimitiveValue, IEqualityComparer<IccPubli
 
     #endregion
 
-    #region Instance Values
-
-    private readonly byte[] _Value;
-
-    #endregion
-
     #region Constructor
 
-    public IccPublicKeyRemainder(ReadOnlySpan<byte> value)
-    {
-        _Value = value.ToArray();
-    }
+    public IccPublicKeyRemainder(BigInteger value) : base(value)
+    { }
 
     #endregion
 
@@ -41,7 +35,7 @@ public record IccPublicKeyRemainder : PrimitiveValue, IEqualityComparer<IccPubli
 
     public PublicKeyRemainder AsPublicKeyRemainder() => new(_Value);
     public override PlayEncodingId GetEncodingId() => EncodingId;
-    public ushort GetByteCount() => (ushort) _Value.Length;
+    public ushort GetByteCount() => (ushort) _Value.GetByteCount();
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => GetByteCount();
 
@@ -55,8 +49,8 @@ public record IccPublicKeyRemainder : PrimitiveValue, IEqualityComparer<IccPubli
     /// <exception cref="BerParsingException"></exception>
     public static IccPublicKeyRemainder Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
-        DecodedResult<byte[]> result = codec.Decode(EncodingId, value) as DecodedResult<byte[]>
-            ?? throw new InvalidOperationException(
+        DecodedResult<BigInteger> result = codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
+            ?? throw new DataElementParsingException(
                 $"The {nameof(IccPublicKeyRemainder)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
 
         return new IccPublicKeyRemainder(result.Value);

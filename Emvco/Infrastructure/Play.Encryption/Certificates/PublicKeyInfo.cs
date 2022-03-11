@@ -12,13 +12,10 @@ public class PublicKeyInfo
 
     #region Constructor
 
-    public PublicKeyInfo(PublicKeyModulus publicKeyModulus, PublicKeyExponent publicKeyExponent)
-    {
-        _PublicKeyModulus = publicKeyModulus;
-        _PublicKeyExponent = publicKeyExponent;
-    }
-
-    public PublicKeyInfo(PublicKeyModulus publicKeyModulus, PublicKeyExponent publicKeyExponent, PublicKeyRemainder? publicKeyRemainder)
+    public PublicKeyInfo(
+        PublicKeyModulus publicKeyModulus,
+        PublicKeyExponent publicKeyExponent,
+        PublicKeyRemainder? publicKeyRemainder = null)
     {
         _PublicKeyModulus = publicKeyModulus;
         _PublicKeyExponent = publicKeyExponent;
@@ -29,6 +26,7 @@ public class PublicKeyInfo
 
     #region Instance Members
 
+    public bool IsPublicKeySplit() => _PublicKeyRemainder != null;
     public PublicKeyExponent GetPublicKeyExponent() => _PublicKeyExponent;
     public PublicKeyModulus GetPublicKeyModulus() => _PublicKeyModulus;
 

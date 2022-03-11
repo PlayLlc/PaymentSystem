@@ -13,7 +13,7 @@ namespace Play.Emv.DataElements;
 /// <summary>
 ///     List of data objects (tag and length) to be passed to the ICC in the INTERNAL AUTHENTICATE command
 /// </summary>
-public record DynamicDataAuthenticationDataObjectList : DataElement<byte[]>, IEqualityComparer<DynamicDataAuthenticationDataObjectList>
+public record DynamicDataAuthenticationDataObjectList : DataObjectList, IEqualityComparer<DynamicDataAuthenticationDataObjectList>
 {
     #region Static Metadata
 
@@ -25,7 +25,11 @@ public record DynamicDataAuthenticationDataObjectList : DataElement<byte[]>, IEq
     #region Constructor
 
     public DynamicDataAuthenticationDataObjectList(ReadOnlySpan<byte> value) : base(value.ToArray())
-    { }
+    {
+        if (!_Codec.IsTagPresent(UnpredictableNumber.Tag, value))
+            throw new CardDataMissingException(
+                $"The {nameof(DynamicDataAuthenticationDataObjectList)} must contain a tag for {nameof(UnpredictableNumber)}");
+    }
 
     #endregion
 

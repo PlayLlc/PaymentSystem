@@ -11,6 +11,7 @@ using Play.Emv.Ber;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
 using Play.Emv.Pcd;
+using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security.Exceptions;
 using Play.Emv.Templates;
 

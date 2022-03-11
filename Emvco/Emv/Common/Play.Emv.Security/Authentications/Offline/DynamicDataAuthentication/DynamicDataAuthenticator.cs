@@ -32,7 +32,7 @@ internal class DynamicDataAuthenticator : IAuthenticateDynamicData
         if (!IsEncipheredSignatureLengthValid(command.GetSignedDynamicApplicationData(), command.GetIssuerPublicKeyCertificate()))
             return CreateDynamicAuthenticationFailed();
 
-        DecodedSignedDynamicApplicationDataDda decodedSignature =
+        DecodedSignedDynamicApplicationData decodedSignature =
             RecoverSignedDynamicApplicationData(command.GetIssuerPublicKeyCertificate(), command.GetSignedDynamicApplicationData());
 
         if (!IsSignedDataFormatValid(decodedSignature.GetSignedDataFormat()))
@@ -74,20 +74,20 @@ internal class DynamicDataAuthenticator : IAuthenticateDynamicData
     private bool IsSignedDataFormatValid(SignedDataFormat signedDataFormat) => signedDataFormat == SignedDataFormat._3;
 
     private bool IsSignedDataValid(
-        DecodedSignedDynamicApplicationDataDda decodedSignature,
+        DecodedSignedDynamicApplicationData decodedSignature,
         DataObjectListResult dynamicDataObjectListResult) =>
         _SignatureService.IsSignatureValid(decodedSignature.GetHashAlgorithmIndicator(),
             ReconstructDynamicDataToBeSigned(decodedSignature, dynamicDataObjectListResult), decodedSignature);
 
     private byte[] ReconstructDynamicDataToBeSigned(
-        DecodedSignedDynamicApplicationDataDda signedDataDda,
+        DecodedSignedDynamicApplicationData signedData,
         DataObjectListResult dynamicDataObjectListResult) =>
-        signedDataDda.GetMessage1().AsSpan().ConcatArrays(dynamicDataObjectListResult.AsByteArray());
+        signedData.GetMessage1().AsSpan().ConcatArrays(dynamicDataObjectListResult.AsByteArray());
 
     /// <remarks>
     ///     Book 2 Section 6.6.2 Step 2
     /// </remarks>
-    private DecodedSignedDynamicApplicationDataDda RecoverSignedDynamicApplicationData(
+    private DecodedSignedDynamicApplicationData RecoverSignedDynamicApplicationData(
         PublicKeyCertificate issuerPublicKeyCertificate,
         SignedDynamicApplicationData encipheredData) =>
         new(_SignatureService.Decrypt(encipheredData.AsByteArray(), issuerPublicKeyCertificate));

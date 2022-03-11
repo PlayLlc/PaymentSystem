@@ -1,16 +1,23 @@
-﻿namespace Play.Encryption.Certificates;
+﻿using System.Numerics;
 
-public readonly struct PublicKeyRemainder
+namespace Play.Encryption.Certificates;
+
+public record PublicKeyRemainder
 {
     #region Instance Values
 
-    private readonly byte[] _Value;
+    private readonly BigInteger _Value;
 
     #endregion
 
     #region Constructor
 
-    public PublicKeyRemainder(byte[] value)
+    public PublicKeyRemainder(ReadOnlySpan<byte> value)
+    {
+        _Value = new BigInteger(value.ToArray());
+    }
+
+    public PublicKeyRemainder(BigInteger value)
     {
         _Value = value;
     }
@@ -19,44 +26,9 @@ public readonly struct PublicKeyRemainder
 
     #region Instance Members
 
-    public byte[] AsByteArray() => _Value;
-    public Span<byte> AsSpan() => _Value;
-    public int GetByteCount() => _Value.Length;
-    public bool IsEmpty() => _Value.Length == 0;
+    public Span<byte> AsSpan() => _Value.ToByteArray().AsSpan();
+    public int GetByteCount() => _Value.GetByteCount();
+    public bool IsEmpty() => _Value == 0;
 
     #endregion
-
-    //#region IEqualityComparer
-
-    //public bool Equals([AllowNull] PublicKeyRemainder x, [AllowNull] PublicKeyRemainder y)
-    //{
-    //    return x.Equals(y);
-    //}
-
-    //public int GetHashCode(PublicKeyRemainder obj) => obj.GetHashCode();
-
-    //#endregion
-
-    //#region Object Overrides
-
-    //public override bool Equals([AllowNull] object obj) => obj is PublicKeyRemainder publicKeyRemainder && Equals(publicKeyRemainder);
-
-    //public override int GetHashCode()
-    //{
-    //    return unchecked(85691 * _Value.GetHashCode());
-    //}
-
-    //#endregion
-
-    //#region Operator Overrides
-
-    //public static bool operator ==(PublicKeyRemainder left, PublicKeyRemainder right) => left._Value == right._Value;
-    //public static bool operator !=(PublicKeyRemainder left, PublicKeyRemainder right) => !(left == right);
-
-    //public static bool operator <(PublicKeyRemainder left, PublicKeyRemainder right) => left._Value < right._Value;
-    //public static bool operator <=(PublicKeyRemainder left, PublicKeyRemainder right) => left._Value <= right._Value;
-    //public static bool operator >(PublicKeyRemainder left, PublicKeyRemainder right) => left._Value > right._Value;
-    //public static bool operator >=(PublicKeyRemainder left, PublicKeyRemainder right) => left._Value >= right._Value;
-
-    //#endregion
 }

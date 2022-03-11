@@ -4,11 +4,11 @@ using Play.Encryption.Signing;
 
 namespace Play.Emv.Security.Authentications.Offline.DynamicDataAuthentication;
 
-internal class DecodedSignedDynamicApplicationDataDda : DecodedSignature
+internal class DecodedSignedDynamicApplicationData : DecodedSignature
 {
     #region Constructor
 
-    public DecodedSignedDynamicApplicationDataDda(DecodedSignature decodedSignature) : base(decodedSignature.GetLeadingByte(),
+    public DecodedSignedDynamicApplicationData(DecodedSignature decodedSignature) : base(decodedSignature.GetLeadingByte(),
         decodedSignature.GetMessage1(), decodedSignature.GetHash(), decodedSignature.GetTrailingByte())
     { }
 

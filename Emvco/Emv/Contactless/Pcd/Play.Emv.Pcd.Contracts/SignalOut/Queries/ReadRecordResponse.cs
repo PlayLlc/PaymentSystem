@@ -1,15 +1,11 @@
-﻿using System.Collections.Generic;
-
-using Play.Ber.DataObjects;
+﻿using Play.Ber.DataObjects;
 using Play.Emv.Icc.ReadRecord;
-using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
 using Play.Emv.Templates;
 using Play.Icc.FileSystem.ElementaryFiles;
-using Play.Icc.Messaging.Apdu.ReadRecord;
 using Play.Messaging;
 
-namespace Play.Emv.Pcd;
+namespace Play.Emv.Pcd.Contracts;
 
 public record ReadRecordResponse : QueryPcdResponse
 {

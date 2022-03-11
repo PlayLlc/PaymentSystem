@@ -31,6 +31,12 @@ public class Hash : IEquatable<Hash>, IEqualityComparer<Hash>
 
     #region Instance Members
 
+    public void Encode(Span<byte> buffer, int offset)
+    {
+        _Value.CopyTo(buffer[..offset]);
+        offset += 20;
+    }
+
     public ReadOnlySpan<byte> AsReadOnlySpan() => _Value;
     public int GetByteCount() => Length;
 

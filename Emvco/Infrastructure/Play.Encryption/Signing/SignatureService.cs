@@ -36,24 +36,11 @@ public class SignatureService
         return new DecodedSignature(decipheredSignature);
     }
 
-    private bool IsHashValid(HashAlgorithmIndicator hashAlgorithmIndicator, DecodedSignature decodedSignature, ReadOnlySpan<byte> message)
-    {
-        using SpanOwner<byte> spanOwner = new();
-        Span<byte> decipheredHash = decodedSignature.GetHash();
-        Span<byte> generatedHash = stackalloc byte[20];
-
-        // TODO: This should be able to pass in PublicKeyAlgorithmIdentifier so the algorithm type
-        // TODO: isn't hardcoded
-        _HashAlgorithmProvider.Generate(message, hashAlgorithmIndicator);
-
-        for (int i = 0; i < 20; i++)
-        {
-            if (decipheredHash[i] != generatedHash[i])
-                return false;
-        }
-
-        return true;
-    }
+    private bool IsHashValid(
+        HashAlgorithmIndicator hashAlgorithmIndicator,
+        DecodedSignature decodedSignature,
+        ReadOnlySpan<byte> message) =>
+        decodedSignature.GetHash() == _HashAlgorithmProvider.Generate(message, hashAlgorithmIndicator);
 
     private bool IsLeadingByteValid(DecodedSignature decodedSignature) =>
         decodedSignature.GetLeadingByte() == SignatureSpecifications.LeadingByte;

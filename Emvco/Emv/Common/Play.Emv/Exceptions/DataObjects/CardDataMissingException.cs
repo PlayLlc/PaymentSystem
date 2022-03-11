@@ -6,7 +6,7 @@ using Play.Core.Exceptions;
 namespace Play.Emv.Exceptions;
 
 /// <summary>
-///     When a Template is missing a required Data Element
+///     When a Template or Data Object List is missing a required Data Element
 /// </summary>
 public class CardDataMissingException : PlayException
 {

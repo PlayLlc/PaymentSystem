@@ -55,7 +55,7 @@ public class CaPublicKeyCertificate : PublicKeyCertificate
         key.GetRegisteredApplicationProviderIndicator().AsByteArray().AsSpan().CopyTo(buffer[..5]);
         buffer[5] = (byte) key.GetCaPublicKeyIndex();
         modulus.AsByteArray().AsSpan().CopyTo(buffer[6..(modulus.GetByteCount() + 6)]);
-        exponent.AsByteArray().AsSpan().CopyTo(buffer[(modulus.GetByteCount() + 6)..]);
+        exponent.Encode().AsSpan().CopyTo(buffer[(modulus.GetByteCount() + 6)..]);
 
         return new BigInteger(SHA1.HashData(buffer));
     }

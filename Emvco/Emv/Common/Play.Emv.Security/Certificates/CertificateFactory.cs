@@ -2,6 +2,7 @@
 using Play.Emv.Security.Authentications.Static;
 using Play.Emv.Security.Certificates.Icc;
 using Play.Emv.Security.Certificates.Issuer;
+using Play.Emv.Security.Exceptions;
 using Play.Encryption.Signing;
 
 using PrimaryAccountNumber = Play.Emv.DataElements.PrimaryAccountNumber;
@@ -27,6 +28,7 @@ internal partial class CertificateFactory
 
     #region Instance Members
 
+    // HACK: This needs to throw a CryptographicAuthenticationMethodFailedException when validation does not pass
     public bool TryCreate(
         CaPublicKeyCertificate publicKeyCertificate,
         IssuerPublicKeyCertificate encipheredCertificate,
@@ -36,16 +38,22 @@ internal partial class CertificateFactory
         Issuer.TryCreate(_SignatureService, publicKeyCertificate, encipheredCertificate, encipheredPublicKeyExponent,
             enciphermentPublicKeyRemainder, out result);
 
-    public bool TryCreate(
+    /// <summary>
+    /// </summary>
+    /// <param name="issuerCertificate"></param>
+    /// <param name="staticDataToBeAuthenticated"></param>
+    /// <param name="encipheredCertificate"></param>
+    /// <param name="applicationPan"></param>
+    /// <param name="encipheredPublicKeyRemainder"></param>
+    /// <returns></returns>
+    /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
+    public static DecodedIccPublicKeyCertificate TryCreate(
+        DecodedIssuerPublicKeyCertificate issuerCertificate,
         StaticDataToBeAuthenticated staticDataToBeAuthenticated,
-        PrimaryAccountNumber primaryAccountNumber,
-        DecodedIssuerPublicKeyCertificate publicKeyCertificate,
         IccPublicKeyCertificate encipheredCertificate,
-        IccPublicKeyExponent encipheredPublicKeyExponent,
-        IccPublicKeyRemainder enciphermentPublicKeyRemainder,
-        out DecodedIccPublicKeyCertificate? result) =>
-        Icc.TryCreate(_SignatureService, staticDataToBeAuthenticated, primaryAccountNumber, publicKeyCertificate, encipheredCertificate,
-            encipheredPublicKeyExponent, enciphermentPublicKeyRemainder, out result);
+        ApplicationPan applicationPan,
+        IccPublicKeyRemainder? encipheredPublicKeyRemainder = null) =>
+        Icc.TryCreate(issuerCertificate, staticDataToBeAuthenticated, encipheredCertificate, applicationPan, encipheredPublicKeyRemainder);
 
     #endregion
 }

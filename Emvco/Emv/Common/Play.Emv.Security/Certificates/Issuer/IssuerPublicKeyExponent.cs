@@ -42,7 +42,7 @@ public record IssuerPublicKeyExponent : PrimitiveValue, IEqualityComparer<Issuer
     #region Instance Members
 
     public byte[] AsByteArray() => PlayCodec.UnsignedIntegerCodec.Encode(_Value);
-    public PublicKeyExponent AsPublicKeyExponent() => PublicKeyExponent.Get(_Value);
+    public PublicKeyExponent AsPublicKeyExponent() => PublicKeyExponent.Create(_Value);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public int GetByteCount() => _Value.GetMostSignificantBit();
     public override Tag GetTag() => Tag;

@@ -1,53 +1,39 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs;
-using Play.Codecs.Exceptions;
 using Play.Emv.DataElements;
 using Play.Emv.Security.Authentications.Static;
 using Play.Emv.Security.Certificates.Icc;
+using Play.Emv.Security.Certificates.Issuer;
 using Play.Emv.Security.Exceptions;
 using Play.Encryption.Certificates;
 using Play.Encryption.Hashing;
 using Play.Encryption.Signing;
 using Play.Globalization.Time;
 
-namespace Play.Emv.Security.Certificates.Issuer;
+namespace Play.Emv.Security.Certificates;
 
-public class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
+internal class __Temp
 {
     #region Static Metadata
 
-    private static readonly CertificateFormat _CertificateFormat = CertificateFormat.Issuer;
-    private static readonly SignatureService _SignatureService = new();
+    private static readonly NumericCodec _Codec = PlayCodec.NumericCodec;
 
     #endregion
 
     #region Instance Values
 
-    private readonly IssuerIdentificationNumber _IssuerIdentificationNumber;
-
-    #endregion
-
-    #region Constructor
-
-    public DecodedIssuerPublicKeyCertificate(
-        IssuerIdentificationNumber issuerIdentificationNumber,
-        CertificateSerialNumber certificateSerialNumber,
-        HashAlgorithmIndicator hashAlgorithmIndicator,
-        PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator,
-        DateRange validityPeriod,
-        PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber, hashAlgorithmIndicator, publicKeyAlgorithmIndicator, validityPeriod,
-        publicKeyInfo)
-    {
-        _IssuerIdentificationNumber = issuerIdentificationNumber;
-    }
+    private readonly SignatureService _SignatureService = new();
 
     #endregion
 
     #region Instance Members
-
-    public CertificateFormat GetCertificateFormat() => _CertificateFormat;
-    public IssuerIdentificationNumber GetIssuerIdentificationNumber() => _IssuerIdentificationNumber;
 
     /// <summary>
     /// </summary>
@@ -59,8 +45,7 @@ public class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
     /// <returns></returns>
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
     /// <remarks>EMV Book 2 Section 6.4</remarks>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static DecodedIccPublicKeyCertificate Create(
+    private DecodedIccPublicKeyCertificate Create(
         DecodedIssuerPublicKeyCertificate issuerCertificate,
         StaticDataToBeAuthenticated staticDataToBeAuthenticated,
         IccPublicKeyCertificate encipheredCertificate,
@@ -77,38 +62,19 @@ public class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
         // Step 2
         DecodedSignature decodedSignature = _SignatureService.Decrypt(encipheredCertificate.EncodeValue(), issuerCertificate);
 
-        CertificateFormat certificateFormat;
-        ApplicationPan recoveredPan;
-        ShortDateValue expirationDate;
-        CertificateSerialNumber serialNumber;
-        HashAlgorithmIndicator hashAlgorithmIndicator;
-        byte iccModulusLength;
-        IccPublicKeyExponent exponent;
+        // created shit
 
-        try
-        {
-            certificateFormat = CertificateFormat.Get(decodedSignature.GetMessage1()[0]);
-            recoveredPan = ApplicationPan.Decode(decodedSignature.GetMessage1()[1..11]);
-            expirationDate = new ShortDateValue(PlayCodec.NumericCodec.DecodeToUInt16(decodedSignature.GetMessage1()[new Range(11, 13)]));
-            serialNumber = new CertificateSerialNumber(decodedSignature.GetMessage1()[13..16]);
-            hashAlgorithmIndicator = HashAlgorithmIndicator.Get(decodedSignature.GetMessage1()[16]);
+        CertificateFormat certificateFormat = CertificateFormat.Get(decodedSignature.GetMessage1()[0]);
+        ApplicationPan recoveredPan = ApplicationPan.Decode(decodedSignature.GetMessage1()[1..11]);
+        ShortDateValue expirationDate = new(PlayCodec.NumericCodec.DecodeToUInt16(decodedSignature.GetMessage1()[new Range(11, 13)]));
+        CertificateSerialNumber serialNumber = new(decodedSignature.GetMessage1()[13..16]);
+        HashAlgorithmIndicator hashAlgorithmIndicator = HashAlgorithmIndicator.Get(decodedSignature.GetMessage1()[16]);
 
-            iccModulusLength = decodedSignature.GetMessage1()[18];
-            byte iccExponentLength = decodedSignature.GetMessage1()[19];
-            exponent = iccExponentLength > 1
-                ? new IccPublicKeyExponent(PublicKeyExponent._65537)
-                : new IccPublicKeyExponent(PublicKeyExponent._3);
-        }
-        catch (CodecParsingException exception)
-        {
-            // TODO: Logging
-            throw new CryptographicAuthenticationMethodFailedException(exception);
-        }
-        catch (Exception exception)
-        {
-            // TODO: Logging
-            throw new CryptographicAuthenticationMethodFailedException(exception);
-        }
+        var iccModulusLength = decodedSignature.GetMessage1()[18];
+        var iccExponentLength = decodedSignature.GetMessage1()[19];
+        IccPublicKeyExponent exponent = iccExponentLength > 1
+            ? new IccPublicKeyExponent(PublicKeyExponent._65537)
+            : new IccPublicKeyExponent(PublicKeyExponent._3);
 
         // Step 4
         if (certificateFormat != CertificateFormat.Icc)

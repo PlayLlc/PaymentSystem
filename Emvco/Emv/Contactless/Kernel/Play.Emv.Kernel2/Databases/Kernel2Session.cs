@@ -1,6 +1,7 @@
 ﻿using Play.Emv.DataElements;
 using Play.Emv.Icc;
 using Play.Emv.Kernel;
+using Play.Emv.Kernel.State;
 using Play.Emv.Sessions;
 using Play.Messaging;
 
