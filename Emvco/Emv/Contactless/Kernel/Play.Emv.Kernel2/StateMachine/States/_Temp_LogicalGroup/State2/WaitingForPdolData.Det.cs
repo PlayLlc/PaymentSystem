@@ -82,7 +82,7 @@ public partial class WaitingForPdolData : KernelState
         if (!pdol!.IsRequestedDataAvailable(_KernelDatabase))
             return false;
 
-        ((Kernel2Session) session).SetIsPdolDataMissing(false);
+        session.SetIsPdolDataMissing(false);
 
         return true;
     }

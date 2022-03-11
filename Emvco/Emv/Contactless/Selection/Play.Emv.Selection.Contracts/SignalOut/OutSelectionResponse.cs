@@ -47,7 +47,7 @@ public record OutSelectionResponse : ResponseSignal
     //public DedicatedFileName GetApplicationId() => _ApplicationId;
     public ErrorIndication GetErrorIndication() => _Transaction.GetOutcome().GetErrorIndication();
     public SelectApplicationDefinitionFileInfoResponse GetApplicationFileInformationResponse() => _ApplicationFileInformationResponse;
-    public KernelId GetKernelId() => (KernelId) _CombinationCompositeKey!.GetKernelId();
+    public KernelId GetKernelId() => _CombinationCompositeKey!.GetKernelId();
     public Transaction GetTransaction() => _Transaction;
     public CombinationCompositeKey GetCombinationCompositeKey() => _CombinationCompositeKey;
     public TerminalTransactionQualifiers GetTerminalTransactionQualifiers() => _TerminalTransactionQualifiers;

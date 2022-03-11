@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,16 +13,18 @@ using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements.Emv.Primitives.DataStorage.IntegratedDataStoraged;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.IntegratedDataStorage;
+namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.IntegratedDataStoraged;
 
 /// <summary>
-///     Contains Terminal provided data to be forwarded to the Card with the GENERATE AC command, as per DSDOL formatting.
+///     Contains instructions from the Terminal on how to proceed with the transaction if:
+///     • The AC requested by the Terminal does not match the AC proposed by the Kernel
+///     • The update of the slot data has failed
 /// </summary>
-public record DataStorageOperatorDataSetInfo : DataElement<byte>
+public record DataStorageOperatorDataSetInfoForReader : DataElement<byte>
 {
     #region Static Metadata
 
-    public static readonly Tag Tag = 0x9F54;
+    public static readonly Tag Tag = 0xDF810A;
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     private const byte _ByteLength = 1;
 
@@ -31,7 +32,7 @@ public record DataStorageOperatorDataSetInfo : DataElement<byte>
 
     #region Constructor
 
-    public DataStorageOperatorDataSetInfo(byte value) : base(value)
+    public DataStorageOperatorDataSetInfoForReader(byte value) : base(value)
     { }
 
     #endregion
@@ -42,16 +43,19 @@ public record DataStorageOperatorDataSetInfo : DataElement<byte>
     public override Tag GetTag() => Tag;
 
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
-    public bool IsPermanent() => _Value.IsBitSet(Bits.Eight);
+    public bool IsUsableForTransactionCryptogram() => _Value.IsBitSet(Bits.Eight);
 
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
-    public bool IsVolatile() => _Value.IsBitSet(Bits.Seven);
+    public bool IsUsableForAuthorizationRequestCryptogram() => _Value.IsBitSet(Bits.Seven);
 
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
-    public bool IsLowVolatility() => _Value.IsBitSet(Bits.Six);
+    public bool IsUsableForApplicationCryptogram() => _Value.IsBitSet(Bits.Six);
 
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
-    public bool IsDeclineOnDataStorageErrorSet() => _Value.IsBitSet(Bits.Four);
+    public bool IsStopIfNoDataStorageOperatorSetTerminalSet() => _Value.IsBitSet(Bits.Three);
+
+    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    public bool IsStopIfWriteFailedSet() => _Value.IsBitSet(Bits.Two);
 
     #endregion
 
@@ -59,16 +63,16 @@ public record DataStorageOperatorDataSetInfo : DataElement<byte>
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    public static DataStorageOperatorDataSetTerminal Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public static DataStorageOperatorDataSetCard Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    public static DataStorageOperatorDataSetTerminal Decode(ReadOnlySpan<byte> value)
+    public static DataStorageOperatorDataSetCard Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        return new DataStorageOperatorDataSetTerminal(value[0]);
+        return new DataStorageOperatorDataSetCard(value[0]);
     }
 
     #endregion

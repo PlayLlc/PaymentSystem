@@ -101,6 +101,28 @@ public class DataExchangeKernelService
         }
     }
 
+    /// <exception cref="InvalidOperationException"></exception>
+    public bool IsEmpty(DekRequestType type)
+    {
+        lock (_Lock.Requests)
+        {
+            if (!_Lock.Requests.ContainsKey(type))
+            {
+                throw new InvalidOperationException(
+                    $"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
+            }
+
+            if (!_Lock.Requests.ContainsKey(type))
+                return true;
+
+            if (_Lock.Requests[type].Count() == 0)
+                return true;
+
+            return false;
+        }
+    }
+
+    /// <exception cref="InvalidOperationException"></exception>
     public bool TryPeek(DekRequestType type, out Tag result)
     {
         lock (_Lock.Requests)
@@ -176,6 +198,17 @@ public class DataExchangeKernelService
         }
     }
 
+    public void Initialize(DekRequestType listType)
+    {
+        lock (_Lock)
+        {
+            if (_Lock.Requests.ContainsKey(listType))
+                return;
+
+            _ = _Lock.Requests.TryAdd(listType, DekRequestType.GetDefault(listType));
+        }
+    }
+
     /// <summary>
     ///     Enqueue
     /// </summary>
@@ -219,6 +252,27 @@ public class DataExchangeKernelService
     #endregion
 
     #region Responses
+
+    /// <exception cref="InvalidOperationException"></exception>
+    public bool IsEmpty(DekResponseType type)
+    {
+        lock (_Lock.Responses)
+        {
+            if (!_Lock.Responses.ContainsKey(type))
+            {
+                throw new InvalidOperationException(
+                    $"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
+            }
+
+            if (!_Lock.Responses.ContainsKey(type))
+                return true;
+
+            if (_Lock.Responses[type].Count() == 0)
+                return true;
+
+            return false;
+        }
+    }
 
     /// <summary>
     ///     SendResponse

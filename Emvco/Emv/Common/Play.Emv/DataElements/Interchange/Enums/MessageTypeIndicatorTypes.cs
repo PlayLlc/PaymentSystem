@@ -126,7 +126,7 @@ public sealed record MessageTypeIndicatorTypes : EnumObject<ushort>
 
     #region Instance Members
 
-    public int CompareTo(MessageTypeIndicatorTypes other) => ((ushort) _Value).CompareTo(other._Value);
+    public int CompareTo(MessageTypeIndicatorTypes other) => _Value.CompareTo(other._Value);
 
     #endregion
 

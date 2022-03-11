@@ -35,8 +35,12 @@ public record IntegratedDataStorageStatus : DataElement<byte>
     public override Tag GetTag() => Tag;
     public bool IsReadSet() => _Value.IsBitSet(Bits.Eight);
     public bool IsWriteSet() => _Value.IsBitSet(Bits.Seven);
-    public IntegratedDataStorageStatus SetRead() => new((byte) _Value.SetBits(Bits.Eight));
-    public IntegratedDataStorageStatus SetWrite() => new((byte) _Value.SetBits(Bits.Seven));
+
+    public IntegratedDataStorageStatus SetRead(bool value) =>
+        value ? new IntegratedDataStorageStatus(_Value.SetBits(Bits.Eight)) : new IntegratedDataStorageStatus(_Value.ClearBits(Bits.Eight));
+
+    public IntegratedDataStorageStatus SetWrite(bool value) =>
+        value ? new IntegratedDataStorageStatus(_Value.SetBits(Bits.Seven)) : new IntegratedDataStorageStatus(_Value.ClearBits(Bits.Seven));
 
     #endregion
 

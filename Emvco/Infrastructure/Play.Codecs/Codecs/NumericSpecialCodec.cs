@@ -273,7 +273,7 @@ public class NumericSpecialCodec : PlayCodec
             Span<char> buffer = stackalloc char[length];
 
             for (int i = 0, j = 0; i < value.Length; i++, j += 2)
-                buffer[i++] = _CharMap[(byte) value[i]];
+                buffer[i++] = _CharMap[value[i]];
 
             return buffer.ToArray();
         }
@@ -283,7 +283,7 @@ public class NumericSpecialCodec : PlayCodec
             Span<char> buffer = spanOwner.Span;
 
             for (int i = 0, j = 0; i < value.Length; i++, j += 2)
-                buffer[i++] = _CharMap[(byte) value[i]];
+                buffer[i++] = _CharMap[value[i]];
 
             return buffer.ToArray();
         }

@@ -54,6 +54,7 @@ public static class ByteExtensions
     }
 
     public static byte ClearBits(this byte input, byte bitsToClear) => (byte) (input & ~bitsToClear);
+    public static byte ClearBits(this byte input, Bits bitsToClear) => (byte) (input & ~(byte) bitsToClear);
     public static string GetBinaryString(this byte value) => Convert.ToString(value, 2);
 
     public static byte GetByteWithBitSet(this byte input, byte pos)

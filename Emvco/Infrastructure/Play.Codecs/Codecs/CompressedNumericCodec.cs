@@ -169,12 +169,12 @@ public class CompressedNumericCodec : PlayCodec
         {
             if ((padCount % 2) != 0)
             {
-                if (!_CharMap.ContainsKey((byte) value[i].GetMaskedValue(_PaddedLeftNibble)))
+                if (!_CharMap.ContainsKey(value[i].GetMaskedValue(_PaddedLeftNibble)))
                     return false;
             }
             else
             {
-                if (!_CharMap.ContainsKey((byte) value[i].GetMaskedValue(_PaddedRightNibble)))
+                if (!_CharMap.ContainsKey(value[i].GetMaskedValue(_PaddedRightNibble)))
                     return false;
             }
         }

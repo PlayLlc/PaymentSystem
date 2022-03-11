@@ -284,7 +284,17 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// <returns></returns>
     /// <remarks>EMV Book C-2 Section 3.3</remarks>
     public bool IsIntegratedDataStorageSupported() =>
-        IsPresent(DataStorageRequestedOperatorId.Tag) && IsPresentAndNotEmpty(DataStorageVersionNumberTerm.Tag);
+        IsPresent(DataStorageRequestedOperatorId.Tag) && IsPresentAndNotEmpty(DataStorageVersionNumberTerminal.Tag);
+
+    /// <summary>
+    ///     Through the number of entries possible in the torn transaction log, indicated by the value of data object Max
+    ///     Number of Torn Transaction Log Records If Max Number of Torn Transaction Log Records is present and set to a value
+    ///     different from zero, then torn transaction recovery is supported.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsTornTransactionRecoverySupported() =>
+        IsPresentAndNotEmpty(MaxNumberOfTornTransactionLogRecords.Tag)
+        && (Get(MaxNumberOfTornTransactionLogRecords.Tag).GetValueByteCount() > 0);
 
     public bool IsEmvModeSupported() => GetKernelConfiguration().IsEmvModeSupported();
     public bool IsMagstripeModeSupported() => GetKernelConfiguration().IsMagstripeModeSupported();

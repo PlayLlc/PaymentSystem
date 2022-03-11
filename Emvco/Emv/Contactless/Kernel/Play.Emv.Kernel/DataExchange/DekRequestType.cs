@@ -1,5 +1,11 @@
-﻿using Play.Ber.Identifiers;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using Play.Ber.Identifiers;
 using Play.Core;
+using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements;
 
 namespace Play.Emv.Kernel.DataExchange;
 
@@ -13,6 +19,11 @@ public record DekRequestType : EnumObject<Tag>
     // to card (Dequeued)   
     public static readonly DekRequestType TagsToRead = new(DataElements.TagsToRead.Tag);
 
+    private static readonly Dictionary<DekRequestType, Func<DataExchangeRequest>> _Defaults = new()
+    {
+        {DataNeeded, () => new DataNeeded()}, {TagsToRead, () => new TagsToRead()}
+    };
+
     #endregion
 
     #region Constructor
@@ -22,6 +33,12 @@ public record DekRequestType : EnumObject<Tag>
 
     private DekRequestType(byte value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public static DataExchangeRequest GetDefault(DekRequestType type) => _Defaults[type].Invoke();
 
     #endregion
 

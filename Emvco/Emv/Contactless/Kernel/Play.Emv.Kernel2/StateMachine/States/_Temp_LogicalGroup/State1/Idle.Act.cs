@@ -332,7 +332,7 @@ public partial class Idle : KernelState
     /// <exception cref="DataElementParsingException"></exception>
     public void HandleDataStorageVersionNumberTerm(Kernel2Session session)
     {
-        if (!_KernelDatabase.IsPresentAndNotEmpty(DataStorageVersionNumberTerm.Tag))
+        if (!_KernelDatabase.IsPresentAndNotEmpty(DataStorageVersionNumberTerminal.Tag))
         {
             EnqueueDataStorageId();
             EnqueueApplicationCapabilitiesInformation();

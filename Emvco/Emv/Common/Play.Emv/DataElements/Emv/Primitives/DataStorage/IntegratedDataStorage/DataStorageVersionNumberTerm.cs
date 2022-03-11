@@ -15,7 +15,7 @@ namespace Play.Emv.DataElements;
 ///     earlier versions of the specification. As this  is the first version, no legacy support is described and no
 ///     additional bytes are present.
 /// </summary>
-public record DataStorageVersionNumberTerm : DataElement<byte[]>
+public record DataStorageVersionNumberTerminal : DataElement<byte[]>
 {
     #region Static Metadata
 
@@ -26,7 +26,7 @@ public record DataStorageVersionNumberTerm : DataElement<byte[]>
 
     #region Constructor
 
-    public DataStorageVersionNumberTerm(byte[] value) : base(value)
+    public DataStorageVersionNumberTerminal(byte[] value) : base(value)
     { }
 
     #endregion
@@ -40,11 +40,11 @@ public record DataStorageVersionNumberTerm : DataElement<byte[]>
 
     #region Serialization
 
-    public static DataStorageVersionNumberTerm Decode(ReadOnlySpan<byte> value) => new(value.ToArray());
+    public static DataStorageVersionNumberTerminal Decode(ReadOnlySpan<byte> value) => new(value.ToArray());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static DataStorageVersionNumberTerm Decode(ReadOnlyMemory<byte> value) => new(value.ToArray());
+    public static DataStorageVersionNumberTerminal Decode(ReadOnlyMemory<byte> value) => new(value.ToArray());
 
     #endregion
 }
