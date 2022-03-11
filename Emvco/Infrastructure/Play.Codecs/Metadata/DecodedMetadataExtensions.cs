@@ -13,7 +13,7 @@ public static class DecodedMetadataExtensions
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Exception"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static DecodedResult<ulong>? ToUInt64Result(this DecodedMetadata? value)
     {
         if (value == null)

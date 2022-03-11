@@ -202,7 +202,7 @@ public class DataExchangeKernelService
     /// <param name="type"></param>
     /// <param name="listItems"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    public void Enqueue(DekRequestType type, Tag[] listItems)
+    public void Enqueue(DekRequestType type, params Tag[] listItems)
     {
         lock (_Lock.Requests)
         {

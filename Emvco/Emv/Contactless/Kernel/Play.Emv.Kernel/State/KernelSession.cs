@@ -42,17 +42,10 @@ public class KernelSession
     public CorrelationId GetCorrelationId() => _CorrelationId;
     public KernelSessionId GetKernelSessionId() => _KernelSessionId;
     public TransactionSessionId GetTransactionSessionId() => _KernelSessionId.GetTransactionSessionId();
-    public void EnqueueActiveTag(RecordRange[] values) => _ActiveApplicationFileLocator.Enqueue(values);
-    public bool TryPeekActiveTag(out RecordRange result) => _ActiveApplicationFileLocator.TryPeek(out result);
 
-    public TagLengthValue[] ResolveActiveTag(ReadRecordResponse rapdu)
-    {
-        _ = _ActiveApplicationFileLocator.TryDequeue(out RecordRange? result);
+    #endregion
 
-        return rapdu.GetRecords();
-    }
-
-    public void ClearActiveTags() => _ActiveApplicationFileLocator.Clear();
+    #region Static Data To Be Authenticated
 
     public void EnqueueStaticDataToBeAuthenticated(EmvCodec codec, ReadRecordResponse rapdu) =>
         _StaticDataToBeAuthenticated.Enqueue(codec, rapdu);
@@ -70,6 +63,22 @@ public class KernelSession
 
         _StaticDataToBeAuthenticated.Enqueue(tagList, database);
     }
+
+    #endregion
+
+    #region Active Application File Locator
+
+    public void EnqueueActiveTag(RecordRange[] values) => _ActiveApplicationFileLocator.Enqueue(values);
+    public bool TryPeekActiveTag(out RecordRange result) => _ActiveApplicationFileLocator.TryPeek(out result);
+
+    public TagLengthValue[] ResolveActiveTag(ReadRecordResponse rapdu)
+    {
+        _ = _ActiveApplicationFileLocator.TryDequeue(out RecordRange? result);
+
+        return rapdu.GetRecords();
+    }
+
+    public void ClearActiveTags() => _ActiveApplicationFileLocator.Clear();
 
     #endregion
 

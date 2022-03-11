@@ -276,6 +276,12 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     #region Configuration
 
+    /// <summary>
+    ///     IDS builds the reading and writing functions into existing payment commands (GET PROCESSING OPTIONS and GENERATE
+    ///     AC). The command-response sequence exchanged between the Card and Kernel is therefore unchanged from a normal
+    ///     purchase transaction. It also addresses the security mechanisms of those exchanges.
+    /// </summary>
+    /// <returns></returns>
     /// <remarks>EMV Book C-2 Section 3.3</remarks>
     public bool IsIntegratedDataStorageSupported() =>
         IsPresent(DataStorageRequestedOperatorId.Tag) && IsPresentAndNotEmpty(DataStorageVersionNumberTerm.Tag);
