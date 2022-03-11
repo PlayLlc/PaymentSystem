@@ -47,8 +47,7 @@ public record DataStorageSlotManagementControl : DataElement<byte>
 
     public static DataStorageSlotManagementControl Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public static DataStorageSlotManagementControl Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

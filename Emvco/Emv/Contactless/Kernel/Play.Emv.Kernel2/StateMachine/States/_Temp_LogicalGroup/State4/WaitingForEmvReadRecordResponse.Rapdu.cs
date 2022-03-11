@@ -21,6 +21,7 @@ using Play.Emv.Kernel2.Databases;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd;
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Sessions;
 using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Icc.Messaging.Apdu;
 
@@ -28,12 +29,15 @@ namespace Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup.State4;
 
 public partial class WaitingForEmvReadRecordResponse : KernelState
 {
-    #region RAPDU
-
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
 
+        Kernel2Session kernel2Session = (Kernel2Session) session;
+        ReadRecordResponse rapdu = (ReadRecordResponse) signal;
         bool isRecordSigned = false;
 
         if (TryHandleL1Error(session, signal))
@@ -42,14 +46,21 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         if (TryHandleInvalidResultCode(session, signal))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        IsOfflineDataAuthenticationRecordPresent(session, ref isRecordSigned);
+        isRecordSigned = IsOfflineDataAuthenticationRecordPresent(session);
 
-        if (!TryResolveActiveRecords(session, (ReadRecordResponse) signal, out Tag[] resolvedRecords))
+        if (!TryResolveActiveRecords(session, rapdu, out Tag[] resolvedRecords))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        UpdateDataNeeded((Kernel2Session) session, (ReadRecordResponse) signal, resolvedRecords, isRecordSigned);
+        UpdateDataNeeded(kernel2Session, rapdu, resolvedRecords, isRecordSigned);
 
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+        AttemptToUpdateStaticDataToBeAuthenticated(kernel2Session, rapdu, isRecordSigned);
+
+        if (!IsReadingRequired(kernel2Session))
+            OptimizeRead(session);
+
+        AttemptNextCommand(session);
+
+        return S456.Process();
     }
 
     #region S4.4 - S4.6
@@ -103,8 +114,9 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     #region S4.11 - S4.13
 
+    /// <exception cref="TerminalDataException"></exception>
     /// <remarks>Book C-2 Section S4.11 - S4.13</remarks>
-    private void IsOfflineDataAuthenticationRecordPresent(KernelSession session, ref bool isRecordSigned)
+    private bool IsOfflineDataAuthenticationRecordPresent(KernelSession session)
     {
         if (!session.TryPeekActiveTag(out RecordRange result))
         {
@@ -112,10 +124,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
                 $"The state {nameof(WaitingForEmvReadRecordResponse)} expected the {nameof(KernelSession)} to return a {nameof(RecordRange)} because the {nameof(ApplicationFileLocator)} indicated more files need to be read");
         }
 
-        if (result.GetOfflineDataAuthenticationLength() > 0)
-            isRecordSigned = true;
-
-        isRecordSigned = false;
+        return result.GetOfflineDataAuthenticationLength() > 0;
     }
 
     #endregion
@@ -189,6 +198,8 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     #region S4.28 - S4.33
 
     /// <remarks>Book C-2 Section S4.28 - S4.33</remarks>
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public void UpdateDataNeeded(Kernel2Session session, ReadRecordResponse rapdu, Tag[] resolvedRecords, bool isRecordSigned)
     {
         if (_KernelDatabase.IsIntegratedDataStorageSupported())
@@ -202,6 +213,8 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     #region S4.28,  S4.29
 
     /// <remarks>Book C-2 Section S4.28,  S4.29</remarks>
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public void UpdateDataNeededWhenIdsIsNotSupported(Tag[] resolvedRecords)
     {
         for (int i = 0; i < resolvedRecords.Length; i++)
@@ -219,6 +232,8 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     #region S4.28, S4.29, S4.33
 
     /// <remarks>Book C-2 Section S4.28, S4.29, S4.33</remarks>
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public void UpdateDataNeededWhenIdsIsSupported(
         Kernel2Session session,
         ReadRecordResponse rapdu,
@@ -263,19 +278,21 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     #region S4.32 - S4.33
 
     /// <remarks>Book C-2 Section S4.32 - S4.33</remarks>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public void HandleDsdol(Kernel2Session session, ReadRecordResponse rapdu, bool isRecordSigned, DataStorageDataObjectList dsdol)
     {
         if (!_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out TagLengthValue? idsStatus))
-            UpdateStaticDataToBeAuthenticated(session, rapdu, isRecordSigned);
+            AttemptToUpdateStaticDataToBeAuthenticated(session, rapdu, isRecordSigned);
 
         if (!IntegratedDataStorageStatus.Decode(idsStatus!.EncodeValue().AsSpan()).IsReadSet())
-            UpdateStaticDataToBeAuthenticated(session, rapdu, isRecordSigned);
+            AttemptToUpdateStaticDataToBeAuthenticated(session, rapdu, isRecordSigned);
 
         if (!_KernelDatabase.TryGet(DataStorageSlotManagementControl.Tag, out TagLengthValue? dsSlotControl))
-            UpdateStaticDataToBeAuthenticated(session, rapdu, isRecordSigned);
+            AttemptToUpdateStaticDataToBeAuthenticated(session, rapdu, isRecordSigned);
 
         if (!DataStorageSlotManagementControl.Decode(dsSlotControl!.EncodeTagLengthValue().AsSpan()).IsLocked())
-            UpdateStaticDataToBeAuthenticated(session, rapdu, isRecordSigned);
+            AttemptToUpdateStaticDataToBeAuthenticated(session, rapdu, isRecordSigned);
 
         _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, dsdol.GetNeededData(_KernelDatabase));
     }
@@ -285,51 +302,103 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     #region S4.34 - S4.35
 
     /// <remarks>Book C-2 Section S4.34 - S4.35</remarks>
-    private void UpdateStaticDataToBeAuthenticated(Kernel2Session session, ReadRecordResponse rapdu, bool isRecordSigned)
+    private void AttemptToUpdateStaticDataToBeAuthenticated(Kernel2Session session, ReadRecordResponse rapdu, bool isRecordSigned)
     {
         if (!isRecordSigned)
-        {
-            S436(session);
-
             return;
-        }
 
         if (session.GetOdaStatus() != OdaStatusTypes.Cda)
-        {
-            S436(session);
-
             return;
-        }
 
-        S435(session, rapdu);
-    }
-
-    private void S435(Kernel2Session session, ReadRecordResponse rapdu)
-    {
+        //  S4.35
         session.EnqueueStaticDataToBeAuthenticated(EmvCodec.GetBerCodec(), rapdu);
     }
 
-    private void S436(Kernel2Session session)
+    #endregion
+
+    #region S4.36
+
+    private bool IsReadingRequired(Kernel2Session session)
     {
-        if (_KernelDatabase.IsReadAllRecordsActivated())
-            SetNextCommand();
+        if (!_KernelDatabase.IsReadAllRecordsActivated())
+            return true;
 
         if (session.GetOdaStatus() != OdaStatusTypes.Cda)
-            SetNextCommand();
+            return true;
 
-        OptimizeRead(session);
-        SetNextCommand();
-        S456.Process();
+        return false;
     }
+
+    #endregion
+
+    #region S4.37 - S4.38
 
     private void OptimizeRead(KernelSession session)
     {
-        // TODO: Check if you have the minimum required shit to process without offline auth
+        if (!_KernelDatabase.IsPresentAndNotEmpty(ApplicationExpirationDate.Tag))
+        {
+            AttemptNextCommand(session);
+
+            return;
+        }
+
+        if (!_KernelDatabase.IsPresentAndNotEmpty(ApplicationPan.Tag))
+            return;
+        if (!_KernelDatabase.IsPresentAndNotEmpty(ApplicationPanSequenceNumber.Tag))
+            return;
+        if (!_KernelDatabase.IsPresentAndNotEmpty(ApplicationUsageControl.Tag))
+            return;
+        if (!_KernelDatabase.IsPresentAndNotEmpty(CvmList.Tag))
+            return;
+        if (!_KernelDatabase.IsPresentAndNotEmpty(IssuerActionCodeDefault.Tag))
+            return;
+        if (!_KernelDatabase.IsPresentAndNotEmpty(IssuerActionCodeDenial.Tag))
+            return;
+        if (!_KernelDatabase.IsPresentAndNotEmpty(IssuerActionCodeOnline.Tag))
+            return;
+        if (!_KernelDatabase.IsPresentAndNotEmpty(IssuerCountryCode.Tag))
+            return;
+        if (!_KernelDatabase.IsPresentAndNotEmpty(Track2EquivalentData.Tag))
+            return;
+        if (!_KernelDatabase.IsPresentAndNotEmpty(CardRiskManagementDataObjectList1.Tag))
+            return;
+
         session.ClearActiveTags();
     }
 
-    private void SetNextCommand()
-    { }
+    #endregion
+
+    #region S4.15 - S4.23
+
+    public void AttemptNextCommand(KernelSession session)
+    {
+        if (!TryHandleGetDataToBeDone(session.GetTransactionSessionId()))
+            HandleRemainingApplicationFilesToRead(session);
+    }
+
+    #endregion
+
+    #region S4.15 - S4.18
+
+    public bool TryHandleGetDataToBeDone(TransactionSessionId sessionId)
+    {
+        if (!_DataExchangeKernelService.TryPeek(DekRequestType.TagsToRead, out Tag tagToRead))
+            return false;
+
+        _PcdEndpoint.Request(GetDataRequest.Create(tagToRead, sessionId));
+
+        return true;
+    }
+
+    #region S4.19 - S4.23
+
+    public void HandleRemainingApplicationFilesToRead(KernelSession session)
+    {
+        if (!session.TryPeekActiveTag(out RecordRange recordRange))
+            return;
+
+        _PcdEndpoint.Request(ReadRecordRequest.Create(session.GetTransactionSessionId(), recordRange.GetShortFileIdentifier()));
+    }
 
     #endregion
 

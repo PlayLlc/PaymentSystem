@@ -53,7 +53,7 @@ public record ThirdPartyData : DataElement<BigInteger>
 
         DecodedResult<BigInteger> result = _Codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
             ?? throw new DataElementParsingException(
-                $"The {nameof(ThirdPartyData)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+                $"The {nameof(ThirdPartyData)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new ThirdPartyData(result.Value);
     }

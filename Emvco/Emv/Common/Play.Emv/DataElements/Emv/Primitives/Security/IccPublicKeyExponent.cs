@@ -1,15 +1,13 @@
 using System;
-using System.Collections.Generic;
 
 using Play.Ber.Codecs;
-using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Encryption.Certificates;
 
-namespace Play.Emv.Security.Certificates.Icc;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     ICC Public Key Exponent used for the verification of the Signed Dynamic Application Data

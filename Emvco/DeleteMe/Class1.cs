@@ -1,7 +1,4 @@
-﻿namespace DeleteMe
-{
-    public class Class1
-    {
+﻿namespace DeleteMe;
 
-    }
-}
+public class Class1
+{ }

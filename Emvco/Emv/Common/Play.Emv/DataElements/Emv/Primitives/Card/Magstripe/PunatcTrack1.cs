@@ -45,7 +45,7 @@ public record PunatcTrack1 : DataElement<ulong>
     /// <exception cref="System.Exception"></exception>
     public static PunatcTrack1 Decode(ReadOnlySpan<byte> value)
     {
-        Check.Primitive.ForMaximumLength(value, _ByteLength, Tag);
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result()
             ?? throw new DataElementParsingException(EncodingId);

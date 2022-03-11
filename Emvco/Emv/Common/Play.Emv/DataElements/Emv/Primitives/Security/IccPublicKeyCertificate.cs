@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Numerics;
 
 using Play.Ber.Codecs;
-using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.Security.Certificates.Icc;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     ICC Public Key certified by the issuer

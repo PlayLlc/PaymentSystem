@@ -27,8 +27,10 @@ public record DynamicDataAuthenticationDataObjectList : DataObjectList, IEqualit
     public DynamicDataAuthenticationDataObjectList(ReadOnlySpan<byte> value) : base(value.ToArray())
     {
         if (!_Codec.IsTagPresent(UnpredictableNumber.Tag, value))
+        {
             throw new CardDataMissingException(
                 $"The {nameof(DynamicDataAuthenticationDataObjectList)} must contain a tag for {nameof(UnpredictableNumber)}");
+        }
     }
 
     #endregion
