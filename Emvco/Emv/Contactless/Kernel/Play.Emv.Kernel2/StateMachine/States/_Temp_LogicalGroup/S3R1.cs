@@ -58,10 +58,16 @@ public class S3R1
 
         if (DoesTheCardAndTerminalSupportCombinedDataAuth(session))
             SetCombinedDataAuthFlag(session);
-        else if(_KernelDatabase.IsIntegratedDataStorageSupported())
+        else if (_KernelDatabase.IsTornTransactionRecoverySupported())
 
-        throw new NotImplementedException();
+            throw new NotImplementedException();
     }
+
+    #region S3R1.18
+
+    public void 
+
+    #endregion
 
     #region S3R1.1 - S3R1.4
 
