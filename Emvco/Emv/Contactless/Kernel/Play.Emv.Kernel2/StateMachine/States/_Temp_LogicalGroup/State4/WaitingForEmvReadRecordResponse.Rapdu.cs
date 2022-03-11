@@ -29,6 +29,8 @@ namespace Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup.State4;
 
 public partial class WaitingForEmvReadRecordResponse : KernelState
 {
+    #region RAPDU
+
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="BerParsingException"></exception>
@@ -389,6 +391,8 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
         return true;
     }
+
+    #endregion
 
     #region S4.19 - S4.23
 

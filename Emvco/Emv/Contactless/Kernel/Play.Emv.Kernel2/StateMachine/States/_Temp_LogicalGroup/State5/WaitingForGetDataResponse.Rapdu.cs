@@ -27,8 +27,6 @@ public partial class WaitingForGetDataResponse : KernelState
 {
     #region RAPDU
 
-    // HACK: Okay, this one was a little weird because I didn't implement the Active Tag, Current Tag, TagsToReadYet exactly like the book. Go back and double check this logic
-
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
