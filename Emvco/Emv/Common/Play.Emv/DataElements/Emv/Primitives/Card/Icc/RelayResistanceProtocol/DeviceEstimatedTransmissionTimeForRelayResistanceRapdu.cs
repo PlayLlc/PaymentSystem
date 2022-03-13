@@ -56,4 +56,10 @@ public record DeviceEstimatedTransmissionTimeForRelayResistanceRapdu : DataEleme
     public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
+
+    #region Operator Overrides
+
+    public static explicit operator ushort(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu value) => value._Value;
+
+    #endregion
 }

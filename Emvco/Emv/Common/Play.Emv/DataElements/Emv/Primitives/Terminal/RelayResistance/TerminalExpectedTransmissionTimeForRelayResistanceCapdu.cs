@@ -8,23 +8,23 @@ using Play.Emv.Exceptions;
 namespace Play.Emv.DataElements
 {
     /// <summary>
-    ///     The Minimum Relay Resistance Grace Period and Maximum Rela Resistance Grace Period represent how far outside the
-    ///     window defined by the Card that the measured time may be and yet still be considered acceptable. The Maximum Relay
-    ///     Resistance Grace Period is expressed in units of hundreds of microseconds.
+    ///     Represents the time that the Kernel expects to need for transmitting the EXCHANGE RELAY RESISTANCE DATA command to
+    ///     the Card. The Terminal Expected Transmission Time For Relay Resistance C-APDU is expressed in units of hundreds of
+    ///     microseconds.
     /// </summary>
-    public record MaximumRelayResistanceGracePeriod : DataElement<ushort>
+    public record TerminalExpectedTransmissionTimeForRelayResistanceCapdu : DataElement<ushort>
     {
         #region Static Metadata
 
         public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
-        public static readonly Tag Tag = 0xDF8133;
+        public static readonly Tag Tag = 0xDF8134;
         private const byte _ByteLength = 2;
 
         #endregion
 
         #region Constructor
 
-        public MaximumRelayResistanceGracePeriod(ushort value) : base(value)
+        public TerminalExpectedTransmissionTimeForRelayResistanceCapdu(ushort value) : base(value)
         { }
 
         #endregion
@@ -40,17 +40,17 @@ namespace Play.Emv.DataElements
 
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-        public static MaximumRelayResistanceGracePeriod Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+        public static TerminalExpectedTransmissionTimeForRelayResistanceCapdu Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-        public static MaximumRelayResistanceGracePeriod Decode(ReadOnlySpan<byte> value)
+        public static TerminalExpectedTransmissionTimeForRelayResistanceCapdu Decode(ReadOnlySpan<byte> value)
         {
             Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
             ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
 
-            return new MaximumRelayResistanceGracePeriod(result);
+            return new TerminalExpectedTransmissionTimeForRelayResistanceCapdu(result);
         }
 
         public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
@@ -60,7 +60,7 @@ namespace Play.Emv.DataElements
 
         #region Operator Overrides
 
-        public static explicit operator ushort(MaximumRelayResistanceGracePeriod value) => value._Value;
+        public static explicit operator ushort(TerminalExpectedTransmissionTimeForRelayResistanceCapdu value) => value._Value;
 
         #endregion
     }

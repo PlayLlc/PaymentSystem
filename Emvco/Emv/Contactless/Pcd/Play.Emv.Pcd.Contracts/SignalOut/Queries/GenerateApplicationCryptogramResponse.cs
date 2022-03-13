@@ -87,7 +87,7 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
         TagLengthValue[] a = ResponseMessageTemplate.DecodeData(rapdu);
 
         CryptogramInformationData cryptogramInformationData =
-            CryptogramInformationData.Decode(a.First(a => a.GetTag() == CryptogramInformationData.Tag).GetValue());
+            CryptogramInformationData.Decode(a.First(a => a.GetTag() == CryptogramInformationData.Tag).GetValue().AsSpan());
         ApplicationTransactionCounter applicationTransactionCounter =
             ApplicationTransactionCounter.Decode(a.First(a => a.GetTag() == ApplicationTransactionCounter.Tag).GetValue().AsSpan());
         ApplicationCryptogram applicationCryptogram =
@@ -96,14 +96,14 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
         if (!a.Any(a => a.GetTag() == IssuerApplicationData.Tag))
         {
             return new GenerateApplicationCryptogramResponseMetadata(cryptogramInformationData, applicationTransactionCounter,
-                applicationCryptogram, null);
+                                                                     applicationCryptogram, null);
         }
 
         IssuerApplicationData issuerApplicationData =
             IssuerApplicationData.Decode(a.First(a => a.GetTag() == IssuerApplicationData.Tag).GetValue().AsSpan());
 
         return new GenerateApplicationCryptogramResponseMetadata(cryptogramInformationData, applicationTransactionCounter,
-            applicationCryptogram, issuerApplicationData);
+                                                                 applicationCryptogram, issuerApplicationData);
     }
 
     #endregion

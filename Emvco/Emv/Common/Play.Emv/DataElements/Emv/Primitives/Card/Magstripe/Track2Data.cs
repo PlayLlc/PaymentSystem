@@ -28,7 +28,7 @@ public record Track2Data : DataElement<BigInteger>
 
     public Track2Data(BigInteger value) : base(value)
     {
-        Check.Primitive.ForMaximumValue((byte) value.GetByteCount(), (byte) _MaxByteLength, Tag);
+        Check.Primitive.ForMaximumValue((byte) value.GetByteCount(), _MaxByteLength, Tag);
     }
 
     #endregion

@@ -7,19 +7,23 @@ public class ComputeCryptographicChecksumCApduSignal : CApduSignal
 {
     #region Constructor
 
-    public ComputeCryptographicChecksumCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class,
-        instruction, parameter1, parameter2)
+    private ComputeCryptographicChecksumCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) :
+        base(@class, instruction, parameter1, parameter2)
     { }
 
-    public ComputeCryptographicChecksumCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint le) : base(@class,
-        instruction, parameter1, parameter2, le)
+    private ComputeCryptographicChecksumCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint le) :
+        base(@class, instruction, parameter1, parameter2, le)
     { }
 
-    public ComputeCryptographicChecksumCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data)
-        : base(@class, instruction, parameter1, parameter2, data)
+    private ComputeCryptographicChecksumCApduSignal(
+        byte @class,
+        byte instruction,
+        byte parameter1,
+        byte parameter2,
+        ReadOnlySpan<byte> data) : base(@class, instruction, parameter1, parameter2, data)
     { }
 
-    public ComputeCryptographicChecksumCApduSignal(
+    private ComputeCryptographicChecksumCApduSignal(
         byte @class,
         byte instruction,
         byte parameter1,

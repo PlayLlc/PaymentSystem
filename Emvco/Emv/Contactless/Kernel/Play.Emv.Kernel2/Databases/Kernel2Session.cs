@@ -15,6 +15,7 @@ public class Kernel2Session : KernelSession
     private OdaStatusTypes _OdaStatusTypes = OdaStatusTypes.NotAvailable;
     private RrpCounter _RrpCounter = new(0);
     private bool _IsPdolDataMissing = true;
+    private byte _RelayResistanceProtocolCount = 0;
 
     #endregion
 
@@ -27,6 +28,7 @@ public class Kernel2Session : KernelSession
 
     #region Read
 
+    public byte GetRelayResistanceProtocolCount() => _RelayResistanceProtocolCount;
     public CryptogramTypes GetAcType() => _ApplicationCryptogramTypes;
     public OdaStatusTypes GetOdaStatus() => _OdaStatusTypes;
     public RrpCounter GetRrpCounter() => _RrpCounter;
@@ -36,6 +38,7 @@ public class Kernel2Session : KernelSession
 
     #region Write
 
+    public void IncrementRelayResistanceProtocolCount() => _RelayResistanceProtocolCount++;
     public void SetIsPdolDataMissing(bool value) => _IsPdolDataMissing = value;
     public void Update(CryptogramTypes value) => _ApplicationCryptogramTypes = value;
     public void Update(OdaStatusTypes value) => _OdaStatusTypes = value;

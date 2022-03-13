@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Play.Globalization.Timed;
+
 namespace Play.Globalization.Time;
 
 /// <summary>
@@ -10,14 +12,15 @@ public readonly record struct Milliseconds
     #region Static Metadata
 
     public static readonly Milliseconds Zero = new(0);
-    private const ushort _NanosecondToMillisecondDivisor = 10000;
-    private const ulong _MaxTickValue = long.MaxValue / _NanosecondToMillisecondDivisor;
+    private const ushort _TicksToMillisecondsDivisor = 10000;
+    private const ushort _MillisecondsToDecisecondsDivisor = 100;
+    private const ushort _MillisecondsToSecondsDivisor = 1000;
 
     #endregion
 
     #region Instance Values
 
-    private readonly ulong _Value;
+    private readonly long _Value;
 
     #endregion
 
@@ -28,11 +31,8 @@ public readonly record struct Milliseconds
     /// </remarks>
     /// <param name="value"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    public Milliseconds(ulong value)
+    public Milliseconds(long value)
     {
-        if (value > _MaxTickValue)
-            throw new InvalidOperationException($"The maximum value to instantiate a {nameof(Milliseconds)} is {_MaxTickValue}");
-
         _Value = value;
     }
 
@@ -51,12 +51,17 @@ public readonly record struct Milliseconds
         _Value = value;
     }
 
-    private Milliseconds(Seconds value)
+    public Milliseconds(Deciseconds value)
     {
-        _Value = (uint) value * 1000;
+        _Value = (long) value * _MillisecondsToDecisecondsDivisor;
     }
 
-    private Milliseconds(TimeSpan value)
+    public Milliseconds(Seconds value)
+    {
+        _Value = (long) value * _MillisecondsToSecondsDivisor;
+    }
+
+    public Milliseconds(TimeSpan value)
     {
         _Value = (uint) value.Milliseconds;
     }
@@ -65,7 +70,8 @@ public readonly record struct Milliseconds
 
     #region Instance Members
 
-    public TimeSpan AsTimeSpan() => new((long) _Value * _NanosecondToMillisecondDivisor);
+    public TimeSpan AsTimeSpan() => new(_Value * _TicksToMillisecondsDivisor);
+    public Seconds AsSeconds() => new(this);
 
     #endregion
 
@@ -74,7 +80,7 @@ public readonly record struct Milliseconds
     public bool Equals(Milliseconds other) => _Value == other._Value;
     public bool Equals(TimeSpan other) => AsTimeSpan() == other;
     public static bool Equals(Milliseconds x, Milliseconds y) => x.Equals(y);
-    public bool Equals(ulong other) => _Value == other;
+    public bool Equals(long other) => _Value == other;
 
     public override int GetHashCode()
     {
@@ -87,21 +93,23 @@ public readonly record struct Milliseconds
 
     #region Operator Overrides
 
-    public static bool operator >(ulong left, Milliseconds right) => left > right._Value;
-    public static bool operator <(ulong left, Milliseconds right) => left < right._Value;
-    public static bool operator >=(ulong left, Milliseconds right) => left >= right._Value;
-    public static bool operator <=(ulong left, Milliseconds right) => left <= right._Value;
-    public static bool operator ==(ulong left, Milliseconds right) => left == right._Value;
-    public static bool operator !=(ulong left, Milliseconds right) => left != right._Value;
-    public static bool operator >(Milliseconds left, ulong right) => left._Value > right;
-    public static bool operator <(Milliseconds left, ulong right) => left._Value < right;
-    public static bool operator >=(Milliseconds left, ulong right) => left._Value >= right;
-    public static bool operator <=(Milliseconds left, ulong right) => left._Value <= right;
-    public static bool operator ==(Milliseconds left, ulong right) => left._Value == right;
-    public static bool operator !=(Milliseconds left, ulong right) => left._Value != right;
+    public static Milliseconds operator -(Milliseconds left, Milliseconds right) => new(left._Value - right._Value);
+    public static Milliseconds operator +(Milliseconds left, Milliseconds right) => new(left._Value + right._Value);
+    public static bool operator >(long left, Milliseconds right) => left > right._Value;
+    public static bool operator <(long left, Milliseconds right) => left < right._Value;
+    public static bool operator >=(long left, Milliseconds right) => left >= right._Value;
+    public static bool operator <=(long left, Milliseconds right) => left <= right._Value;
+    public static bool operator ==(long left, Milliseconds right) => left == right._Value;
+    public static bool operator !=(long left, Milliseconds right) => left != right._Value;
+    public static bool operator >(Milliseconds left, long right) => left._Value > right;
+    public static bool operator <(Milliseconds left, long right) => left._Value < right;
+    public static bool operator >=(Milliseconds left, long right) => left._Value >= right;
+    public static bool operator <=(Milliseconds left, long right) => left._Value <= right;
+    public static bool operator ==(Milliseconds left, long right) => left._Value == right;
+    public static bool operator !=(Milliseconds left, long right) => left._Value != right;
     public static bool operator ==(Milliseconds left, TimeSpan right) => left.Equals(right);
     public static bool operator ==(TimeSpan left, Milliseconds right) => right.Equals(left);
-    public static explicit operator ulong(Milliseconds value) => value._Value;
+    public static explicit operator long(Milliseconds value) => value._Value;
     public static bool operator >(Milliseconds left, Milliseconds right) => left._Value > right._Value;
     public static bool operator >(Milliseconds left, TimeSpan right) => left.AsTimeSpan() > right;
     public static bool operator >(TimeSpan left, Milliseconds right) => right.AsTimeSpan() > left;
@@ -120,6 +128,7 @@ public readonly record struct Milliseconds
     public static bool operator <=(Milliseconds left, TimeSpan right) => left.AsTimeSpan() <= right;
     public static bool operator <=(TimeSpan left, Milliseconds right) => right.AsTimeSpan() <= left;
     public static implicit operator Milliseconds(Seconds value) => new(value);
+    public static implicit operator Milliseconds(Deciseconds value) => new(value);
 
     #endregion
 }

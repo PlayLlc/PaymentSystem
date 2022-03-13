@@ -57,5 +57,11 @@ namespace Play.Emv.DataElements
         public new byte[] EncodeValue(int length) => EncodeValue();
 
         #endregion
+
+        #region Operator Overrides
+
+        public static explicit operator ushort(MinimumRelayResistanceGracePeriod value) => value._Value;
+
+        #endregion
     }
 }

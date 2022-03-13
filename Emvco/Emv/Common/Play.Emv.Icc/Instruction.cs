@@ -26,6 +26,9 @@ internal record Instruction : EnumObject<byte>, IComparable<Instruction>
     /// <value>Hexadecimal: 0xA8</value>
     public static readonly Instruction GetProcessingOptions;
 
+    /// <value>Hexadecimal: 0xEA</value>
+    public static readonly Instruction ExchangeRelayResistanceData;
+
     #endregion
 
     #region Constructor

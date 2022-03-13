@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Pcd.Contracts.SignalIn.Quereies;
+using Play.Emv.Pcd.Contracts.SignalOut.Queddries;
 using Play.Emv.Pcd.Exceptions;
 using Play.Emv.Pcd.GetData;
 
@@ -13,7 +15,8 @@ namespace Play.Emv.Pcd.Services;
 ///     A facade that encapsulates card reading and writing functionality
 /// </summary>
 public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformation, ISelectDirectoryDefinitionFileInformation,
-    ISelectProximityPaymentSystemEnvironmentInfo, ISendPoiInformation, IGetProcessingOptions, IGetData, IManagePcdLifecycle
+    ISelectProximityPaymentSystemEnvironmentInfo, ISendPoiInformation, IGetProcessingOptions, IGetData, IManagePcdLifecycle,
+    IExchangeRelayResistanceData
 {
     #region Instance Values
 
@@ -24,15 +27,17 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
     private readonly ISendPoiInformation _PoiClient;
     private readonly IGetProcessingOptions _GpoClient;
     private readonly IManagePcdLifecycle _PcdClient;
+    private readonly IExchangeRelayResistanceData _RelayResistanceDataExchanger;
     private readonly IGetData _DataReader;
 
     #endregion
 
     #region Constructor
 
-    public CardClient(IProximityCouplingDeviceClient client)
+    public CardClient(IProximityCouplingDeviceClient client, IExchangeRelayResistanceData relayResistanceDataExchanger)
     {
         _PcdClient = client;
+        _RelayResistanceDataExchanger = relayResistanceDataExchanger;
         _RecordReader = new RecordReader(client);
         _DataReader = new DataBatchReader(client);
 
@@ -257,6 +262,21 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
         try
         {
             return _RecordReader.Transceive(command);
+        }
+        catch (Exception exception)
+        {
+            // TODO: log and shit
+
+            throw new CardReadException(exception);
+        }
+    }
+
+    public Task<ExchangeRelayResistanceDataResponse> Transceive(ExchangeRelayResistanceDataRequest command)
+    {
+        // TODO: catch more specific exceptions
+        try
+        {
+            return _RelayResistanceDataExchanger.Transceive(command);
         }
         catch (Exception exception)
         {

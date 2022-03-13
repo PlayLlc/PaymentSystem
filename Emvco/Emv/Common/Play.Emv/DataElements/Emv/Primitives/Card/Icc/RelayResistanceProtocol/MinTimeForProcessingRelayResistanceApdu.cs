@@ -56,4 +56,10 @@ public record MinTimeForProcessingRelayResistanceApdu : DataElement<ushort>
     public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
+
+    #region Operator Overrides
+
+    public static explicit operator ushort(MinTimeForProcessingRelayResistanceApdu value) => value._Value;
+
+    #endregion
 }

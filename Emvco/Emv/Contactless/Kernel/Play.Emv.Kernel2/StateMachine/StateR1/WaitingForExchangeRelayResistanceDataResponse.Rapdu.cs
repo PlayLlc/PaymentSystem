@@ -12,9 +12,12 @@ using Play.Emv.Icc.GetData;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
+using Play.Emv.Kernel.Exceptions;
 using Play.Emv.Kernel.State;
+using Play.Emv.Kernel2.Databases;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Pcd.Contracts.SignalOut.Queddries;
 using Play.Globalization.Time;
 using Play.Icc.Messaging.Apdu;
 
@@ -27,6 +30,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
@@ -40,7 +44,17 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         if (TryHandleInvalidResultCode(session, signal))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        PersistRapdu(signal);
+        if (TryPersistingRapdu(session, signal))
+            return _KernelStateResolver.GetKernelState(StateId);
+
+        MeasuredRelayResistanceProcessingTime processingTime = CalculateMeasuredRrpTime(timeElapsed);
+
+        if (IsRelayResistanceWithinMinimumRange(processingTime))
+        {
+            HandleRelayResistanceProtocolFailed(session, signal);
+
+            return _KernelStateResolver.GetKernelState(StateId);
+        }
 
         throw new NotImplementedException();
     }
@@ -101,51 +115,147 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 
     #endregion
 
-    #region SR1.14
+    #region SR1.14 - SR1.17
 
-    public void PersistRapdu(QueryPcdResponse signal)
+    /// <remarks>Book C-2 Section SR1.14 - SR1.17 </remarks>
+    /// <exception cref="TerminalDataException"></exception>
+    private bool TryPersistingRapdu(KernelSession session, QueryPcdResponse signal)
     {
+        if (signal.GetStatusWords() == StatusWords._9000)
+            return false;
+
         try
         {
             _KernelDatabase.Update(((GetDataResponse) signal).GetTagLengthValueResult());
             _DataExchangeKernelService.Resolve((GetDataResponse) signal);
+
+            return true;
         }
-        catch (EmvParsingException)
+        catch (TerminalDataException)
         {
             // TODO: Logging
-            HandleBerParsingException(signal, _DataExchangeKernelService, _KernelDatabase);
-        }
-        catch (BerParsingException)
-        {
-            // TODO: Logging
-            HandleBerParsingException(signal, _DataExchangeKernelService, _KernelDatabase);
-        }
-        catch (CodecParsingException)
-        {
-            // TODO: Logging
-            HandleBerParsingException(signal, _DataExchangeKernelService, _KernelDatabase);
+
+            HandleBerParsingException(session, signal);
+
+            return false;
         }
         catch (Exception)
         {
             // TODO: Logging
-            HandleBerParsingException(signal, _DataExchangeKernelService, _KernelDatabase);
+
+            HandleBerParsingException(session, signal);
+
+            return false;
         }
     }
 
-    private static void HandleBerParsingException(QueryPcdResponse signal, DataExchangeKernelService dataExchanger, KernelDatabase database)
+    /// <exception cref="TerminalDataException"></exception>
+    private void HandleBerParsingException(KernelSession session, QueryPcdResponse signal)
     {
-        dataExchanger.TryPeek(DekRequestType.TagsToRead, out Tag result);
-        TagLengthValue nullResult = new(result, Array.Empty<byte>());
+        _KernelDatabase.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
+        _KernelDatabase.Update(Status.NotReady);
+        _KernelDatabase.Update(StatusOutcome.EndApplication);
+        _KernelDatabase.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
+        _KernelDatabase.Update(Level2Error.ParsingError);
+        _KernelDatabase.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+        _KernelDatabase.SetUiRequestOnRestartPresent(true);
 
-        byte[] emptyRapduBytes = new byte[nullResult.GetTagLengthValueByteCount() + 2];
-        emptyRapduBytes[0] = StatusWords._9000.GetStatusWord1();
-        emptyRapduBytes[1] = StatusWords._9000.GetStatusWord2();
-        nullResult.EncodeTagLengthValue().AsSpan().CopyTo(emptyRapduBytes[2..]);
-
-        database.Update(nullResult);
-        dataExchanger.Resolve(new GetDataResponse(signal.GetCorrelationId(), signal.GetTransactionSessionId(),
-                                                  new GetDataRApduSignal(emptyRapduBytes)));
+        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
     }
 
     #endregion
+
+    #region SR1.18
+
+    /// <remarks>Book C-2 Section SR1.18</remarks>
+    /// <exception cref="TerminalDataException"></exception>
+    private MeasuredRelayResistanceProcessingTime CalculateMeasuredRrpTime(Seconds timeElapsed)
+    {
+        TerminalExpectedTransmissionTimeForRelayResistanceCapdu terminalExpectedCapduTransmissionTime =
+            TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Decode(_KernelDatabase
+                                                                               .Get(TerminalExpectedTransmissionTimeForRelayResistanceCapdu
+                                                                                        .Tag).EncodeValue().AsSpan());
+        TerminalExpectedTransmissionTimeForRelayResistanceRapdu terminalExpectedRapduTransmissionTime =
+            TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Decode(_KernelDatabase
+                                                                               .Get(TerminalExpectedTransmissionTimeForRelayResistanceRapdu
+                                                                                        .Tag).EncodeValue().AsSpan());
+        DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceExpectedRapduTransmissionTime =
+            DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Decode(_KernelDatabase
+                                                                              .Get(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu
+                                                                                       .Tag).EncodeValue().AsSpan());
+
+        MeasuredRelayResistanceProcessingTime processingTime =
+            MeasuredRelayResistanceProcessingTime.Create(timeElapsed, terminalExpectedCapduTransmissionTime,
+                                                         terminalExpectedRapduTransmissionTime, deviceExpectedRapduTransmissionTime);
+
+        _KernelDatabase.Update(processingTime);
+
+        return processingTime;
+    }
+
+    #endregion
+
+    #region SR1.19
+
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public bool IsRelayResistanceWithinMinimumRange(MeasuredRelayResistanceProcessingTime processingTime)
+    {
+        MinTimeForProcessingRelayResistanceApdu minTimeForProcessingRelayResistanceApdu =
+            MinTimeForProcessingRelayResistanceApdu.Decode(_KernelDatabase.Get(MinTimeForProcessingRelayResistanceApdu.Tag).EncodeValue()
+                                                               .AsSpan());
+        MinimumRelayResistanceGracePeriod minGracePeriod =
+            MinimumRelayResistanceGracePeriod.Decode(_KernelDatabase.Get(MinimumRelayResistanceGracePeriod.Tag).EncodeValue().AsSpan());
+
+        int expectedProcessingTime = (ushort) minTimeForProcessingRelayResistanceApdu - (ushort) minGracePeriod;
+
+        if ((ushort) processingTime < (expectedProcessingTime < 0 ? 0 : expectedProcessingTime))
+            return false;
+
+        return true;
+    }
+
+    #endregion
+
+    #region SR1.20 - SR1.21
+
+    /// <exception cref="TerminalDataException"></exception>
+    private void HandleRelayResistanceProtocolFailed(KernelSession session, QueryPcdResponse signal)
+    {
+        _KernelDatabase.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
+        _KernelDatabase.Update(Status.NotReady);
+        _KernelDatabase.Update(StatusOutcome.EndApplication);
+        _KernelDatabase.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
+        _KernelDatabase.Update(Level2Error.CardDataError);
+        _KernelDatabase.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+        _KernelDatabase.SetUiRequestOnRestartPresent(true);
+
+        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+    }
+
+    #endregion
+
+    private void TryRepeatExchangeRelayResistanceData(Kernel2Session session)
+    {
+        if (session.GetRelayResistanceProtocolCount() > 2)
+            return;
+
+        UnpredictableNumber unpredictableNumber = _UnpredictableNumberGenerator.GenerateUnpredictableNumber();
+    }
+
+    private void RangeCheck(MeasuredRelayResistanceProcessingTime processingTime)
+    {
+        MaxTimeForProcessingRelayResistanceApdu maxProcessingTime =
+            MaxTimeForProcessingRelayResistanceApdu.Decode(_KernelDatabase
+                                                               .Get(MaxTimeForProcessingRelayResistanceApdu
+                                                                        .Tag).EncodeValue().AsSpan());
+        MaximumRelayResistanceGracePeriod maxGraceTime =
+            MaximumRelayResistanceGracePeriod.Decode(_KernelDatabase
+                                                         .Get(MaximumRelayResistanceGracePeriod
+                                                                  .Tag).EncodeValue().AsSpan());
+
+
+
+    }
 }

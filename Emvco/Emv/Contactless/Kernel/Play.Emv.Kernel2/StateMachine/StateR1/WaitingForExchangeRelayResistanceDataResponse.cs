@@ -9,6 +9,7 @@ using Play.Emv.Kernel.State;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
+using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel2.StateMachine;
@@ -23,6 +24,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 
     #region Instance Values
 
+    private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
     private readonly IGetKernelState _KernelStateResolver;
 
     #endregion
@@ -33,9 +35,11 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         KernelDatabase kernelDatabase,
         DataExchangeKernelService dataExchange,
         IKernelEndpoint kernelEndpoint,
-        IGetKernelState kernelStateResolver) : base(kernelDatabase, dataExchange, kernelEndpoint)
+        IGetKernelState kernelStateResolver,
+        IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(kernelDatabase, dataExchange, kernelEndpoint)
     {
         _KernelStateResolver = kernelStateResolver;
+        _UnpredictableNumberGenerator = unpredictableNumberGenerator;
     }
 
     #endregion
