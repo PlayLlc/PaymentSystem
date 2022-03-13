@@ -39,7 +39,7 @@ public partial class WaitingForGetDataResponse : KernelState
         if (!TryHandleGetDataToBeDone(session.GetTransactionSessionId()))
             HandleRemainingApplicationFilesToRead(session);
 
-        return S456.Process();
+        return CommonProcessingS456.Process();
     }
 
     #region S5.5 - S5.6
@@ -150,7 +150,7 @@ public partial class WaitingForGetDataResponse : KernelState
 
         database.Update(nullResult);
         dataExchanger.Resolve(new GetDataResponse(signal.GetCorrelationId(), signal.GetTransactionSessionId(),
-            new GetDataRApduSignal(emptyRapduBytes)));
+                                                  new GetDataRApduSignal(emptyRapduBytes)));
     }
 
     #endregion

@@ -37,8 +37,8 @@ internal sealed class ValueFactory
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
-            throw new BerParsingException(
-                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
+            throw new
+                BerParsingException($"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
         }
 
         return codec.GetByteCount(value);
@@ -55,8 +55,8 @@ internal sealed class ValueFactory
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
-            throw new BerParsingException(
-                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
+            throw new
+                BerParsingException($"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
         }
 
         return _BerPrimitiveCodecMap[playEncodingId].GetByteCount(value);
@@ -67,8 +67,8 @@ internal sealed class ValueFactory
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
-            throw new BerParsingException(
-                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
+            throw new
+                BerParsingException($"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
         }
 
         return codec!.Encode(value);
@@ -79,8 +79,8 @@ internal sealed class ValueFactory
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
-            throw new BerParsingException(
-                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
+            throw new
+                BerParsingException($"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
         }
 
         return codec!.Encode(value);
@@ -91,8 +91,8 @@ internal sealed class ValueFactory
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
-            throw new BerParsingException(
-                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
+            throw new
+                BerParsingException($"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
         }
 
         return codec!.Encode(value, length);
@@ -103,8 +103,8 @@ internal sealed class ValueFactory
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
-            throw new BerParsingException(
-                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
+            throw new
+                BerParsingException($"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
         }
 
         return codec!.Encode(value, length);
@@ -119,13 +119,13 @@ internal sealed class ValueFactory
     ///     sequence provided can be
     ///     decoded according to the format requirements of that codec
     /// </summary>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public DecodedMetadata Decode(PlayEncodingId playEncodingId, ReadOnlySpan<byte> value)
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
-            throw new BerParsingException(
-                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
+            throw new
+                BerParsingException($"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
         }
 
         return codec!.Decode(value);

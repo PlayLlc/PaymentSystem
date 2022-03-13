@@ -141,7 +141,7 @@ public partial class Idle : KernelState
             OutcomeParameterSet.Builder outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
             UserInterfaceRequestData.Builder userInterfaceBuilder = UserInterfaceRequestData.GetBuilder();
 
-            userInterfaceBuilder.Set(MessageHoldTime.Decode(_KernelDatabase.Get(KnownObjects.MessageHoldTime).EncodeValue()));
+            userInterfaceBuilder.Set(MessageHoldTime.Decode(_KernelDatabase.Get(KnownObjects.MessageHoldTime).EncodeValue().AsSpan()));
             _KernelDatabase.Reset(outcomeParameterSetBuilder.Complete());
             _KernelDatabase.Reset(userInterfaceBuilder.Complete());
             _KernelDatabase.Reset(new ErrorIndication());
@@ -359,6 +359,7 @@ public partial class Idle : KernelState
     ///     EnqueueDataStorageId
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <remarks> EMV Book C-2 Section S1.18 </remarks>
     private void EnqueueDataStorageId()
     {
         if (_KernelDatabase.TryGet(DataStorageId.Tag, out TagLengthValue? dataStorageId))
@@ -391,6 +392,7 @@ public partial class Idle : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
+    /// <remarks> EMV Book C-2 Section S1.19 </remarks>
     public KernelState RouteStateTransition(Kernel2Session session)
     {
         if (!_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out TagLengthValue? applicationCapabilitiesInformationTlv))
@@ -419,6 +421,7 @@ public partial class Idle : KernelState
     ///     SetIntegratedDataStorageReadStatus
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <remarks> EMV Book C-2 Section S1.20 </remarks>
     private void SetIntegratedDataStorageReadStatus()
     {
         if (_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out TagLengthValue? integratedDataStorageStatusTlv))
@@ -442,6 +445,7 @@ public partial class Idle : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
+    /// <remarks> EMV Book C-2 Section S1.21 </remarks>
     private KernelState HandlePdolData(Kernel2Session session)
     {
         if (session.IsPdolDataMissing())
@@ -464,6 +468,7 @@ public partial class Idle : KernelState
     /// </summary>
     /// <param name="kernelSessionId"></param>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <remarks> EMV Book C-2 Section S1.22 </remarks>
     public void DispatchDataExchangeMessages(KernelSessionId kernelSessionId)
     {
         _DataExchangeKernelService.SendResponse(kernelSessionId);
@@ -483,6 +488,7 @@ public partial class Idle : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
+    /// <remarks> EMV Book C-2 Section S1.23 </remarks>
     public void SetTimeout(Kernel2Session session)
     {
         TimeoutValue timeout = TimeoutValue.Decode(_KernelDatabase.Get(TimeoutValue.Tag).GetValue().AsSpan());

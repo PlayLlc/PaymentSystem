@@ -25,7 +25,7 @@ using Play.Icc.FileSystem.ElementaryFiles;
 namespace Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup;
 // TODO: Note that symbols S3R1.10, S3R1.11, S3R1.12, S3R1.13 and S3R1.18 are only implemented for the IDS/TORN Implementation Option.
 
-public class S3R1
+public class CommonProcessingS3R1
 {
     #region Instance Values
 
@@ -305,6 +305,7 @@ public class S3R1
 
     #region S3R1.19
 
+    /// <remarks> EMV Book C-2 Section S3R1.19 </remarks>
     public void SetCombinedDataAuthFlag(Kernel2Session session)
     {
         session.Update(OdaStatusTypes.Cda);
@@ -317,6 +318,7 @@ public class S3R1
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <remarks> EMV Book C-2 Section S3R1.20 </remarks>
     public void SetOfflineAuthNotPerformed()
     {
         _KernelDatabase.Set(TerminalVerificationResultCodes.OfflineDataAuthenticationWasNotPerformed);

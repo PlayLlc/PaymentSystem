@@ -4,7 +4,7 @@
 ///     A simple codec base class that can be inherited to customize an encoding class specific to the encoding rules of
 ///     the implementing class
 /// </summary>
-public abstract class PlayCodec : IGetPlayCodecMetadata, IEncodeStructs, IEncodeStructsToBuffer //, IDecodeToMetadata
+public abstract class PlayCodec : IGetPlayCodecMetadata, IEncodeStructs, IEncodeStructsToBuffer, IDecodeToMetadata
 {
     #region Instance Values
 
@@ -47,9 +47,14 @@ public abstract class PlayCodec : IGetPlayCodecMetadata, IEncodeStructs, IEncode
 
     #endregion
 
+    #region Serialization
+
     #region Decode To DecodedMetadata
 
-    //public abstract DecodedMetadata Decode(ReadOnlySpan<byte> value);
+    // HACK: We need to phase this out from the code base. This can throw runtime errors that can't  be caught before hand, and is a lot less performant than explicitly decoding and encoding the type. This is only syntactic sugar and needs to be removed
+    public abstract DecodedMetadata Decode(ReadOnlySpan<byte> value);
+
+    #endregion
 
     #endregion
 

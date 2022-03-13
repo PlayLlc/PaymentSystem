@@ -62,7 +62,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
         AttemptNextCommand(session);
 
-        return S456.Process();
+        return CommonProcessingS456.Process();
     }
 
     #region S4.4 - S4.6
@@ -122,8 +122,8 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     {
         if (!session.TryPeekActiveTag(out RecordRange result))
         {
-            throw new TerminalDataException(
-                $"The state {nameof(WaitingForEmvReadRecordResponse)} expected the {nameof(KernelSession)} to return a {nameof(RecordRange)} because the {nameof(ApplicationFileLocator)} indicated more files need to be read");
+            throw new
+                TerminalDataException($"The state {nameof(WaitingForEmvReadRecordResponse)} expected the {nameof(KernelSession)} to return a {nameof(RecordRange)} because the {nameof(ApplicationFileLocator)} indicated more files need to be read");
         }
 
         return result.GetOfflineDataAuthenticationLength() > 0;
@@ -224,7 +224,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
             if (resolvedRecords[i] == CardRiskManagementDataObjectList1.Tag)
             {
                 HandleCdol1(CardRiskManagementDataObjectList1.Decode(_KernelDatabase.Get(CardRiskManagementDataObjectList1.Tag)
-                    .EncodeTagLengthValue().AsSpan()));
+                                                                         .EncodeTagLengthValue().AsSpan()));
             }
         }
     }
@@ -254,13 +254,14 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
             if (resolvedRecords[i] == CardRiskManagementDataObjectList1.Tag)
             {
                 HandleCdol1(CardRiskManagementDataObjectList1.Decode(_KernelDatabase.Get(CardRiskManagementDataObjectList1.Tag)
-                    .EncodeTagLengthValue().AsSpan()));
+                                                                         .EncodeTagLengthValue().AsSpan()));
             }
 
             if (resolvedRecords[i] == DataStorageDataObjectList.Tag)
             {
                 HandleDsdol(session, rapdu, isRecordSigned,
-                    DataStorageDataObjectList.Decode(_KernelDatabase.Get(DataStorageDataObjectList.Tag).EncodeTagLengthValue().AsSpan()));
+                            DataStorageDataObjectList.Decode(_KernelDatabase.Get(DataStorageDataObjectList.Tag).EncodeTagLengthValue()
+                                                                 .AsSpan()));
             }
         }
     }

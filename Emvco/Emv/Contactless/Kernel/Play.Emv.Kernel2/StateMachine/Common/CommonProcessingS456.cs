@@ -4,7 +4,7 @@ using Play.Emv.Kernel.State;
 
 namespace Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup;
 
-public class S456
+public class CommonProcessingS456
 {
     #region Instance Members
 
