@@ -247,15 +247,9 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     private void RangeCheck(MeasuredRelayResistanceProcessingTime processingTime)
     {
         MaxTimeForProcessingRelayResistanceApdu maxProcessingTime =
-            MaxTimeForProcessingRelayResistanceApdu.Decode(_KernelDatabase
-                                                               .Get(MaxTimeForProcessingRelayResistanceApdu
-                                                                        .Tag).EncodeValue().AsSpan());
+            MaxTimeForProcessingRelayResistanceApdu.Decode(_KernelDatabase.Get(MaxTimeForProcessingRelayResistanceApdu.Tag).EncodeValue()
+                                                               .AsSpan());
         MaximumRelayResistanceGracePeriod maxGraceTime =
-            MaximumRelayResistanceGracePeriod.Decode(_KernelDatabase
-                                                         .Get(MaximumRelayResistanceGracePeriod
-                                                                  .Tag).EncodeValue().AsSpan());
-
-
-
+            MaximumRelayResistanceGracePeriod.Decode(_KernelDatabase.Get(MaximumRelayResistanceGracePeriod.Tag).EncodeValue().AsSpan());
     }
 }
