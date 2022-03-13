@@ -95,8 +95,8 @@ namespace Play.Globalization.Time.Seconds
 
         #region Operator Overrides
 
-        public static Microseconds operator *(Ticks left, Ticks right) => new(left._Value * right._Value);
-        public static Microseconds operator /(Ticks left, Ticks right) => new(left._Value / right._Value);
+        public static Ticks operator *(Ticks left, Ticks right) => new(left._Value * right._Value);
+        public static Ticks operator /(Ticks left, Ticks right) => new(left._Value / right._Value);
         public static Ticks operator -(Ticks left, Ticks right) => new(left._Value - right._Value);
         public static Ticks operator +(Ticks left, Ticks right) => new(left._Value + right._Value);
         public static bool operator >(long left, Ticks right) => left > right._Value;
