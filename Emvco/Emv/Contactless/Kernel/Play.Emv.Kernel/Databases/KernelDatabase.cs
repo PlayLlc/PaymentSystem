@@ -83,14 +83,11 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// <summary>
     /// </summary>
     /// <param name="tag"></param>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public virtual TagLengthValue Get(Tag tag)
     {
         if (!IsActive())
-        {
-            throw new InvalidOperationException(
-                $"The method {nameof(Get)} cannot be accessed because {nameof(KernelDatabase)} is not active");
-        }
+            throw new TerminalDataException($"The method {nameof(Get)} cannot be accessed because {nameof(KernelDatabase)} is not active");
 
         return _TlvDatabase.Get(tag);
     }
@@ -107,12 +104,12 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// </summary>
     /// <param name="tag"></param>
     /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public virtual bool IsPresent(Tag tag)
     {
         if (!IsActive())
         {
-            throw new InvalidOperationException(
+            throw new TerminalDataException(
                 $"The method {nameof(IsPresent)} cannot be accessed because {nameof(KernelDatabase)} is not active");
         }
 
@@ -126,12 +123,12 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// </summary>
     /// <param name="tag"></param>
     /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public virtual bool IsPresentAndNotEmpty(Tag tag)
     {
         if (!IsActive())
         {
-            throw new InvalidOperationException(
+            throw new TerminalDataException(
                 $"The method {nameof(IsPresentAndNotEmpty)} cannot be accessed because {nameof(KernelDatabase)} is not active");
         }
 
@@ -143,12 +140,12 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     ///     is before the certificate's active date or after the certificate's expiry date, then the certificate is
     ///     revoked. Certificates can also be revoked by the issuer
     /// </summary>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public virtual bool IsRevoked(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex caPublicKeyIndex)
     {
         if (!IsActive())
         {
-            throw new InvalidOperationException(
+            throw new TerminalDataException(
                 $"The method {nameof(IsRevoked)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
@@ -175,12 +172,12 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     ///     provided. If the <see cref="CaPublicKeyCertificate" /> is revoked or none
     ///     can be found then the return value will be false
     /// </summary>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public virtual bool TryGet(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex index, out CaPublicKeyCertificate? result)
     {
         if (!IsActive())
         {
-            throw new InvalidOperationException(
+            throw new TerminalDataException(
                 $"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
@@ -193,12 +190,12 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// </summary>
     /// <param name="tag"></param>
     /// <param name="result"></param>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public virtual bool TryGet(Tag tag, out TagLengthValue? result)
     {
         if (!IsActive())
         {
-            throw new InvalidOperationException(
+            throw new TerminalDataException(
                 $"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
@@ -285,6 +282,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// </summary>
     /// <returns></returns>
     /// <remarks>EMV Book C-2 Section 3.3</remarks>
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsIntegratedDataStorageSupported() =>
         IsPresent(DataStorageRequestedOperatorId.Tag) && IsPresentAndNotEmpty(DataStorageVersionNumberTerminal.Tag);
 
@@ -294,6 +292,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     ///     different from zero, then torn transaction recovery is supported.
     /// </summary>
     /// <returns></returns>
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsTornTransactionRecoverySupported() =>
         IsPresentAndNotEmpty(MaxNumberOfTornTransactionLogRecords.Tag)
         && (Get(MaxNumberOfTornTransactionLogRecords.Tag).GetValueByteCount() > 0);
@@ -320,19 +319,23 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public ErrorIndication GetErrorIndication() => ErrorIndication.Decode(Get(ErrorIndication.Tag).EncodeValue().AsSpan());
 
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private OutcomeParameterSet GetOutcomeParameterSet() => OutcomeParameterSet.Decode(Get(OutcomeParameterSet.Tag).EncodeValue().AsSpan());
 
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private TerminalVerificationResults GetTerminalVerificationResults() =>
         TerminalVerificationResults.Decode(Get(TerminalVerificationResults.Tag).EncodeValue().AsSpan());
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     private UserInterfaceRequestData GetUserInterfaceRequestData()
     {
         if (IsPresentAndNotEmpty(UserInterfaceRequestData.Tag))
@@ -349,7 +352,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     ///     GetDataRecord
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private DataRecord? GetDataRecord()
     {
         if (IsPresentAndNotEmpty(DataRecord.Tag))
@@ -362,8 +365,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     ///     GetDiscretionaryData
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private DiscretionaryData? GetDiscretionaryData()
     {
         if (IsPresentAndNotEmpty(DiscretionaryData.Tag))
@@ -376,6 +379,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void Update(MessageIdentifier value)
     {
         _UserInterfaceRequestDataBuilder.Reset(GetUserInterfaceRequestData());
@@ -385,6 +389,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void Update(Status value)
     {
         _UserInterfaceRequestDataBuilder.Reset(GetUserInterfaceRequestData());
@@ -394,6 +399,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void Update(MessageHoldTime value)
     {
         _UserInterfaceRequestDataBuilder.Reset(GetUserInterfaceRequestData());
@@ -403,6 +409,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void Update(StatusOutcome value)
     {
         _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
@@ -412,6 +419,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void Update(CvmPerformedOutcome value)
     {
         _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
@@ -421,6 +429,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void Update(OnlineResponseOutcome value)
     {
         _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
@@ -430,6 +439,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void Update(FieldOffRequestOutcome value)
     {
         _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
@@ -439,6 +449,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void Update(StartOutcome value)
     {
         _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
@@ -448,6 +459,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void Set(TerminalVerificationResult value)
     {
         _TerminalVerificationResultBuilder.Reset(GetTerminalVerificationResults());
@@ -457,6 +469,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void SetUiRequestOnRestartPresent(bool value)
     {
         _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
@@ -466,6 +479,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void SetIsDataRecordPresent(bool value)
     {
         _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
@@ -475,6 +489,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void SetIsDiscretionaryDataPresent(bool value)
     {
         _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
@@ -484,6 +499,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void SetIsReceiptPresent(bool value)
     {
         _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
@@ -497,6 +513,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// <param name="value"></param>
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void Update(Level1Error value)
     {
         _ErrorIndicationBuilder.Reset(GetErrorIndication());
@@ -510,6 +527,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// <param name="value"></param>
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void Update(Level2Error value)
     {
         _ErrorIndicationBuilder.Reset(GetErrorIndication());
@@ -523,6 +541,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// <param name="value"></param>
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void Update(Level3Error value)
     {
         _ErrorIndicationBuilder.Reset(GetErrorIndication());
@@ -532,6 +551,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void Update(StatusWords value)
     {
         _ErrorIndicationBuilder.Reset(GetErrorIndication());
@@ -543,6 +563,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     ///     Reset
     /// </summary>
     /// <param name="value"></param>
+    /// <exception cref="TerminalDataException"></exception>
     public void Reset(OutcomeParameterSet value)
     {
         Update(value);
@@ -552,7 +573,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     ///     Reset
     /// </summary>
     /// <param name="value"></param>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void Reset(UserInterfaceRequestData value)
     {
         Update(value);
@@ -562,7 +583,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     ///     Reset
     /// </summary>
     /// <param name="value"></param>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void Reset(ErrorIndication value)
     {
         Update(value);
@@ -570,6 +591,9 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     #endregion
 
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public Outcome GetOutcome() =>
         new(GetErrorIndication(), GetOutcomeParameterSet(), GetDataRecord(), GetDiscretionaryData(), GetUserInterfaceRequestData());
 
