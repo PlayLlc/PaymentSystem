@@ -3,8 +3,10 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
+using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Exceptions;
@@ -62,8 +64,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (IsActive())
         {
-            throw new InvalidOperationException(
-                $"A command to initialize the Kernel Database was invoked but the {nameof(KernelDatabase)} is already active");
+            throw new
+                InvalidOperationException($"A command to initialize the Kernel Database was invoked but the {nameof(KernelDatabase)} is already active");
         }
 
         _KernelSessionId = kernelSessionId;
@@ -110,8 +112,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new TerminalDataException(
-                $"The method {nameof(IsPresent)} cannot be accessed because {nameof(KernelDatabase)} is not active");
+            throw new
+                TerminalDataException($"The method {nameof(IsPresent)} cannot be accessed because {nameof(KernelDatabase)} is not active");
         }
 
         return _TlvDatabase.IsPresent(tag);
@@ -129,8 +131,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new TerminalDataException(
-                $"The method {nameof(IsPresentAndNotEmpty)} cannot be accessed because {nameof(KernelDatabase)} is not active");
+            throw new
+                TerminalDataException($"The method {nameof(IsPresentAndNotEmpty)} cannot be accessed because {nameof(KernelDatabase)} is not active");
         }
 
         return _TlvDatabase.IsPresentAndNotEmpty(tag);
@@ -146,8 +148,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new TerminalDataException(
-                $"The method {nameof(IsRevoked)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            throw new
+                TerminalDataException($"The method {nameof(IsRevoked)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         return _KernelCertificateDatabase!.IsRevoked(rid, caPublicKeyIndex);
@@ -178,8 +180,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new TerminalDataException(
-                $"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            throw new
+                TerminalDataException($"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         return _KernelCertificateDatabase.TryGet(rid, index, out result);
@@ -196,8 +198,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new TerminalDataException(
-                $"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            throw new
+                TerminalDataException($"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         return _TlvDatabase.TryGet(tag, out result);
@@ -229,8 +231,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new TerminalDataException(
-                $"The method {nameof(Update)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            throw new
+                TerminalDataException($"The method {nameof(Update)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         _TlvDatabase.Update(value);
@@ -247,8 +249,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new TerminalDataException(
-                $"The method {nameof(Update)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            throw new
+                TerminalDataException($"The method {nameof(Update)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         _TlvDatabase.UpdateRange(values);
@@ -263,8 +265,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     {
         if (!IsActive())
         {
-            throw new TerminalDataException(
-                $"The method {nameof(Initialize)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            throw new
+                TerminalDataException($"The method {nameof(Initialize)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         _TlvDatabase.Update(new DatabaseValue(tag));
@@ -385,186 +387,419 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     #region Write Outcome
 
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     public void Update(MessageIdentifier value)
     {
-        _UserInterfaceRequestDataBuilder.Reset(GetUserInterfaceRequestData());
-        _UserInterfaceRequestDataBuilder.Set(value);
-        Update(_UserInterfaceRequestDataBuilder.Complete());
+        try
+        {
+            _UserInterfaceRequestDataBuilder.Reset(GetUserInterfaceRequestData());
+            _UserInterfaceRequestDataBuilder.Set(value);
+            Update(_UserInterfaceRequestDataBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
+                                            exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
+                                            exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
+                                            exception);
+        }
     }
 
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     public void Update(Status value)
     {
-        _UserInterfaceRequestDataBuilder.Reset(GetUserInterfaceRequestData());
-        _UserInterfaceRequestDataBuilder.Set(value);
-        Update(_UserInterfaceRequestDataBuilder.Complete());
+        try
+        {
+            _UserInterfaceRequestDataBuilder.Reset(GetUserInterfaceRequestData());
+            _UserInterfaceRequestDataBuilder.Set(value);
+            Update(_UserInterfaceRequestDataBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
+                                            exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
+                                            exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
+                                            exception);
+        }
     }
 
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     public void Update(MessageHoldTime value)
     {
-        _UserInterfaceRequestDataBuilder.Reset(GetUserInterfaceRequestData());
-        _UserInterfaceRequestDataBuilder.Set(value);
-        Update(_UserInterfaceRequestDataBuilder.Complete());
+        try
+        {
+            _UserInterfaceRequestDataBuilder.Reset(GetUserInterfaceRequestData());
+            _UserInterfaceRequestDataBuilder.Set(value);
+            Update(_UserInterfaceRequestDataBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
+                                            exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
+                                            exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
+                                            exception);
+        }
     }
 
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    /// <exception cref="TerminalDataException"></exception>
-    public void Update(StatusOutcome value)
-    {
-        _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
-        _OutcomeParameterSetBuilder.Set(value);
-        Update(_OutcomeParameterSetBuilder.Complete());
-    }
-
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    /// <exception cref="TerminalDataException"></exception>
-    public void Update(CvmPerformedOutcome value)
-    {
-        _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
-        _OutcomeParameterSetBuilder.Set(value);
-        Update(_OutcomeParameterSetBuilder.Complete());
-    }
-
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    /// <exception cref="TerminalDataException"></exception>
-    public void Update(OnlineResponseOutcome value)
-    {
-        _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
-        _OutcomeParameterSetBuilder.Set(value);
-        Update(_OutcomeParameterSetBuilder.Complete());
-    }
-
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    /// <exception cref="TerminalDataException"></exception>
-    public void Update(FieldOffRequestOutcome value)
-    {
-        _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
-        _OutcomeParameterSetBuilder.Set(value);
-        Update(_OutcomeParameterSetBuilder.Complete());
-    }
-
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    /// <exception cref="TerminalDataException"></exception>
-    public void Update(StartOutcome value)
-    {
-        _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
-        _OutcomeParameterSetBuilder.Set(value);
-        Update(_OutcomeParameterSetBuilder.Complete());
-    }
-
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     public void Set(TerminalVerificationResult value)
     {
-        _TerminalVerificationResultBuilder.Reset(GetTerminalVerificationResults());
-        _TerminalVerificationResultBuilder.Set(value);
-        Update(_TerminalVerificationResultBuilder.Complete());
+        try
+        {
+            _TerminalVerificationResultBuilder.Reset(GetTerminalVerificationResults());
+            _TerminalVerificationResultBuilder.Set(value);
+            Update(_TerminalVerificationResultBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(TerminalVerificationResults)}",
+                                            exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(TerminalVerificationResults)}",
+                                            exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(TerminalVerificationResults)}",
+                                            exception);
+        }
     }
 
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    public void Update(StatusOutcome value)
+    {
+        try
+        {
+            _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
+            _OutcomeParameterSetBuilder.Set(value);
+            Update(_OutcomeParameterSetBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+    }
+
+    /// <exception cref="TerminalDataException"></exception>
+    public void Update(CvmPerformedOutcome value)
+    {
+        try
+        {
+            _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
+            _OutcomeParameterSetBuilder.Set(value);
+            Update(_OutcomeParameterSetBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+    }
+
+    /// <exception cref="TerminalDataException"></exception>
+    public void Update(OnlineResponseOutcome value)
+    {
+        try
+        {
+            _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
+            _OutcomeParameterSetBuilder.Set(value);
+            Update(_OutcomeParameterSetBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+    }
+
+    /// <exception cref="TerminalDataException"></exception>
+    public void Update(FieldOffRequestOutcome value)
+    {
+        try
+        {
+            _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
+            _OutcomeParameterSetBuilder.Set(value);
+            Update(_OutcomeParameterSetBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+    }
+
+    /// <exception cref="TerminalDataException"></exception>
+    public void Update(StartOutcome value)
+    {
+        try
+        {
+            _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
+            _OutcomeParameterSetBuilder.Set(value);
+            Update(_OutcomeParameterSetBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+    }
+
     /// <exception cref="TerminalDataException"></exception>
     public void SetUiRequestOnRestartPresent(bool value)
     {
-        _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
-        _OutcomeParameterSetBuilder.SetIsUiRequestOnOutcomePresent(value);
-        Update(_OutcomeParameterSetBuilder.Complete());
+        try
+        {
+            _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
+            _OutcomeParameterSetBuilder.SetIsUiRequestOnOutcomePresent(value);
+            Update(_OutcomeParameterSetBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
     }
 
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     public void SetIsDataRecordPresent(bool value)
     {
-        _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
-        _OutcomeParameterSetBuilder.SetIsDataRecordPresent(value);
-        Update(_OutcomeParameterSetBuilder.Complete());
+        try
+        {
+            _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
+            _OutcomeParameterSetBuilder.SetIsDataRecordPresent(value);
+            Update(_OutcomeParameterSetBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
     }
 
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     public void SetIsDiscretionaryDataPresent(bool value)
     {
-        _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
-        _OutcomeParameterSetBuilder.SetIsDiscretionaryDataPresent(value);
-        Update(_OutcomeParameterSetBuilder.Complete());
+        try
+        {
+            _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
+            _OutcomeParameterSetBuilder.SetIsDiscretionaryDataPresent(value);
+            Update(_OutcomeParameterSetBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
     }
 
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     public void SetIsReceiptPresent(bool value)
     {
-        _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
-        _OutcomeParameterSetBuilder.SetIsUiRequestOnRestartPresent(value);
-        Update(_OutcomeParameterSetBuilder.Complete());
+        try
+        {
+            _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
+            _OutcomeParameterSetBuilder.SetIsUiRequestOnRestartPresent(value);
+            Update(_OutcomeParameterSetBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
     }
 
     /// <summary>
     ///     Update
     /// </summary>
     /// <param name="value"></param>
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     public void Update(Level1Error value)
     {
-        _ErrorIndicationBuilder.Reset(GetErrorIndication());
-        _ErrorIndicationBuilder.Set(value);
-        Update(_ErrorIndicationBuilder.Complete());
+        try
+        {
+            _ErrorIndicationBuilder.Reset(GetErrorIndication());
+            _ErrorIndicationBuilder.Set(value);
+            Update(_ErrorIndicationBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(ErrorIndication)}", exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(ErrorIndication)}", exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(ErrorIndication)}", exception);
+        }
     }
 
     /// <summary>
     ///     Update
     /// </summary>
     /// <param name="value"></param>
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     public void Update(Level2Error value)
     {
-        _ErrorIndicationBuilder.Reset(GetErrorIndication());
-        _ErrorIndicationBuilder.Set(value);
-        Update(_ErrorIndicationBuilder.Complete());
+        try
+        {
+            _ErrorIndicationBuilder.Reset(GetErrorIndication());
+            _ErrorIndicationBuilder.Set(value);
+            Update(_ErrorIndicationBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(ErrorIndication)}", exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(ErrorIndication)}", exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(ErrorIndication)}", exception);
+        }
     }
 
     /// <summary>
     ///     Update
     /// </summary>
     /// <param name="value"></param>
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     public void Update(Level3Error value)
     {
-        _ErrorIndicationBuilder.Reset(GetErrorIndication());
-        _ErrorIndicationBuilder.Set(value);
-        Update(_ErrorIndicationBuilder.Complete());
+        try
+        {
+            _ErrorIndicationBuilder.Reset(GetErrorIndication());
+            _ErrorIndicationBuilder.Set(value);
+            Update(_ErrorIndicationBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(ErrorIndication)}", exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(ErrorIndication)}", exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(ErrorIndication)}", exception);
+        }
     }
 
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     public void Update(StatusWords value)
     {
-        _ErrorIndicationBuilder.Reset(GetErrorIndication());
-        _ErrorIndicationBuilder.Set(value);
-        Update(_ErrorIndicationBuilder.Complete());
+        try
+        {
+            _ErrorIndicationBuilder.Reset(GetErrorIndication());
+            _ErrorIndicationBuilder.Set(value);
+            Update(_ErrorIndicationBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(ErrorIndication)}", exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(ErrorIndication)}", exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(ErrorIndication)}", exception);
+        }
     }
 
     /// <summary>
@@ -599,9 +834,6 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     #endregion
 
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    /// <exception cref="TerminalDataException"></exception>
     public Outcome GetOutcome() =>
         new(GetErrorIndication(), GetOutcomeParameterSet(), GetDataRecord(), GetDiscretionaryData(), GetUserInterfaceRequestData());
 

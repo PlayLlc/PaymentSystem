@@ -59,9 +59,9 @@ public class CommonProcessingS3R1 : CommonProcessing
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    public KernelState Process(IGetKernelStateId kernelStateId, Kernel2Session session)
+    public override KernelState Process(IGetKernelStateId kernelStateId, Kernel2Session session)
     {
-        HandleRequestOutOfSync(kernelStateId.GetStateId(), session);
+        HandleRequestOutOfSync(kernelStateId.GetStateId());
 
         if (!TrySendingNextCommand(session))
             HandleCardDataError(session);

@@ -13,7 +13,7 @@ using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
-internal class WaitingForExchangeRelayResistanceDataResponse : KernelState
+public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 {
     #region Static Metadata
 
@@ -41,13 +41,6 @@ internal class WaitingForExchangeRelayResistanceDataResponse : KernelState
 
     #endregion
 
-    #region STOP
-
-    public override KernelState Handle(KernelSession session, StopKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    #endregion
-
     #region CLEAN
 
     public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
@@ -63,13 +56,6 @@ internal class WaitingForExchangeRelayResistanceDataResponse : KernelState
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    #endregion
-
-    #region RAPDU
-
-    public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion

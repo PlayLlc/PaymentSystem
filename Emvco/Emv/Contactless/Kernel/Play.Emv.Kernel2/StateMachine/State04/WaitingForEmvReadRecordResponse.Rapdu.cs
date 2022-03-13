@@ -26,11 +26,18 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForEmvReadRecordResponse : KernelState
 {
+    #region Instance Values
+
+    private readonly CommonProcessingS456 _S456;
+
+    #endregion
+
     #region RAPDU
 
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
@@ -59,7 +66,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
         AttemptNextCommand(session);
 
-        return CommonProcessingS456.Process();
+        return _S456.Process(this, kernel2Session);
     }
 
     #region S4.4 - S4.6

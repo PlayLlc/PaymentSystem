@@ -60,7 +60,9 @@ public abstract class KernelState : IGetKernelStateId
     /// </summary>
     /// <param name="correlationId"></param>
     /// <param name="kernelSessionId"></param>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="Exceptions.TerminalDataException"></exception>
     private void HandleBerEncodingException(CorrelationId correlationId, KernelSessionId kernelSessionId)
     {
         _KernelDatabase.Update(StatusOutcome.SelectNext);
@@ -74,7 +76,9 @@ public abstract class KernelState : IGetKernelStateId
     /// </summary>
     /// <param name="session"></param>
     /// <returns></returns>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="Exceptions.TerminalDataException"></exception>
     public bool TryHandleTimeout(KernelSession session)
     {
         if (!session.TimedOut())
@@ -103,6 +107,7 @@ public abstract class KernelState : IGetKernelStateId
         }
     }
 
+    /// <exception cref="RequestOutOfSyncException"></exception>
     protected static void HandleRequestOutOfSync(KernelSession session, StopKernelRequest signal)
     {
         if (signal.GetTransactionSessionId() != session.GetTransactionSessionId())
@@ -112,6 +117,7 @@ public abstract class KernelState : IGetKernelStateId
         }
     }
 
+    /// <exception cref="RequestOutOfSyncException"></exception>
     protected static void HandleRequestOutOfSync(KernelSession session, ActivateKernelRequest signal)
     {
         if (signal.GetTransactionSessionId() != session.GetTransactionSessionId())
@@ -121,6 +127,7 @@ public abstract class KernelState : IGetKernelStateId
         }
     }
 
+    /// <exception cref="RequestOutOfSyncException"></exception>
     protected static void HandleRequestOutOfSync(KernelSession session, QueryPcdResponse signal)
     {
         if (signal.GetTransactionSessionId() != session.GetTransactionSessionId())
