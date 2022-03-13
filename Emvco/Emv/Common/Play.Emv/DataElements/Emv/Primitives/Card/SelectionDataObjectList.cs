@@ -60,6 +60,7 @@ public record SelectionDataObjectList : DataObjectList, IEqualityComparer<Select
 
     #region Serialization
 
+    /// <exception cref="BerParsingException"></exception>
     public static SelectionDataObjectList Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
     /// <exception cref="InvalidOperationException"></exception>

@@ -8,6 +8,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
@@ -18,7 +19,7 @@ namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.IntegratedDataStorage
 ///     Control[8]=1b), remains applicable or becomes applicable (DS ODS Info[8]=1b). DS Input (Term) is used by the Kernel
 ///     as input to calculate DS Digest H.
 /// </summary>
-public record DataStorageInputTerminal : DataElement<byte>
+public record DataStorageInputTerminal : DataElement<ulong>
 {
     #region Static Metadata
 
@@ -30,7 +31,7 @@ public record DataStorageInputTerminal : DataElement<byte>
 
     #region Constructor
 
-    public DataStorageInputTerminal(byte value) : base(value)
+    public DataStorageInputTerminal(ulong value) : base(value)
     { }
 
     #endregion
@@ -43,23 +44,35 @@ public record DataStorageInputTerminal : DataElement<byte>
     #endregion
 
     #region Serialization
+ 
+     
 
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
+
+
+
+
+
+
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DataStorageInputTerminal Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DataStorageInputTerminal Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result()
-            ?? throw new DataElementParsingException(EncodingId);
+        ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
+         
 
-        return new DataStorageInputTerminal(value[0]);
+        return new DataStorageInputTerminal(result);
     }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 }

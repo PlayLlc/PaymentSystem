@@ -40,7 +40,8 @@ public record PostGenAcPutDataStatus : DataElement<byte>, IEqualityComparer<Post
     #endregion
 
     #region Serialization
-
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static PostGenAcPutDataStatus Decode(ReadOnlyMemory<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -48,8 +49,8 @@ public record PostGenAcPutDataStatus : DataElement<byte>, IEqualityComparer<Post
         return new PostGenAcPutDataStatus(value.Span[0]);
     }
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static PostGenAcPutDataStatus Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

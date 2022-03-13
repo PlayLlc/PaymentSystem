@@ -197,29 +197,32 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
     #endregion
 
     #region Serialization
+     
 
+
+    private const byte _MinByteLength = 1;
+
+
+    private const byte _MaxByteLength = 8;
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static KernelIdentifier Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="System.Exception"></exception>
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static KernelIdentifier Decode(ReadOnlySpan<byte> value)
     {
-        const ushort minByteLength = 1;
-        const ushort maxByteLength = 8;
+        Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
+        Check.Primitive.ForMinimumLength(value, _MaxByteLength, Tag);
 
-        if (value.Length is not >= minByteLength and <= maxByteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(KernelIdentifier)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
-        }
+        ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
+         
 
-        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result()
-            ?? throw new DataElementParsingException(
-                $"The {nameof(KernelIdentifier)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
-
-        return new KernelIdentifier(result.Value);
+        return new KernelIdentifier(result);
     }
+     
 
     #endregion
 

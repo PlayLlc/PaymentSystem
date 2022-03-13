@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Numerics;
 
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
 
@@ -15,7 +18,7 @@ namespace Play.Emv.DataElements;
 ///     earlier versions of the specification. As this  is the first version, no legacy support is described and no
 ///     additional bytes are present.
 /// </summary>
-public record DataStorageVersionNumberTerminal : DataElement<byte[]>
+public record DataStorageVersionNumberTerminal : DataElement<BigInteger>
 {
     #region Static Metadata
 
@@ -26,7 +29,7 @@ public record DataStorageVersionNumberTerminal : DataElement<byte[]>
 
     #region Constructor
 
-    public DataStorageVersionNumberTerminal(byte[] value) : base(value)
+    public DataStorageVersionNumberTerminal(BigInteger value) : base(value)
     { }
 
     #endregion
@@ -39,13 +42,24 @@ public record DataStorageVersionNumberTerminal : DataElement<byte[]>
     #endregion
 
     #region Serialization
+     
 
-    public static DataStorageVersionNumberTerminal Decode(ReadOnlySpan<byte> value) => new DataStorageVersionNumberTerminal(value.ToArray());
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static DataStorageVersionNumberTerminal Decode(ReadOnlyMemory<byte> value) =>
-        new DataStorageVersionNumberTerminal(value.ToArray());
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static DataStorageVersionNumberTerminal Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static DataStorageVersionNumberTerminal Decode(ReadOnlySpan<byte> value)
+    { 
+
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value); 
+
+        return new DataStorageVersionNumberTerminal(result);
+    }
+     
 
     #endregion
 }

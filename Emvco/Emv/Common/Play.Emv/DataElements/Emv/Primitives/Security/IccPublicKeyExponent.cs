@@ -4,7 +4,9 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Exceptions;
 using Play.Encryption.Certificates;
 
 namespace Play.Emv.DataElements;
@@ -43,29 +45,30 @@ public record IccPublicKeyExponent : DataElement<uint>
     #endregion
 
     #region Serialization
+     
 
+    private const byte _MinByteLength = 1;
+    private const byte _MaxByteLength = 3;
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IccPublicKeyExponent Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IccPublicKeyExponent Decode(ReadOnlySpan<byte> value)
     {
-        const ushort minByteLength = 1;
-        const ushort maxByteLength = 3;
+        Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        if (value.Length is < minByteLength and <= maxByteLength)
-        {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(IccPublicKeyExponent)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
-        }
+        ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
+         
 
-        DecodedResult<uint> result = _Codec.Decode(EncodingId, value) as DecodedResult<uint>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(IccPublicKeyExponent)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
-
-        return new IccPublicKeyExponent(result.Value);
+        return new IccPublicKeyExponent(result);
     }
+     
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 }

@@ -41,31 +41,30 @@ public record KernelId : DataElement<byte>, IEqualityComparer<KernelId>
     #endregion
 
     #region Serialization
+     
 
-    public static KernelId Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static KernelId Decode(ReadOnlySpan<byte> value, BerCodec codec)
+
+    private const byte _ByteLength = 1;
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static KernelId Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static KernelId Decode(ReadOnlySpan<byte> value)
     {
-        const ushort byteLength = 1;
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        if (value.Length != byteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(KernelId)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
-        }
-
-        DecodedResult<byte> result = codec.Decode(EncodingId, value) as DecodedResult<byte>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(KernelId)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
-
-        return new KernelId(result.Value);
+        byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
+ 
+        return new KernelId(result);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
-
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
     #endregion
 
     #region Equality

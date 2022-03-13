@@ -649,6 +649,9 @@ public class UnsignedIntegerCodec : PlayCodec
     {
         const byte byteLength = Specs.Integer.UInt32.ByteCount;
 
+        if (value.Length == 0)
+            return 0;
+
         if (value.Length < byteLength)
         {
             Span<byte> buffer = stackalloc byte[byteLength];
@@ -676,6 +679,9 @@ public class UnsignedIntegerCodec : PlayCodec
     public ulong DecodeToUInt64(ReadOnlySpan<byte> value)
     {
         const byte byteLength = Specs.Integer.UInt64.ByteCount;
+
+        if (value.Length == 0)
+            return 0;
 
         if (value.Length < byteLength)
         {
@@ -705,6 +711,9 @@ public class UnsignedIntegerCodec : PlayCodec
     {
         const byte byteLength = Specs.Integer.UInt16.ByteCount;
 
+        if (value.Length == 0)
+            return 0;
+
         if (value.Length < byteLength)
         {
             Span<byte> buffer = stackalloc byte[byteLength];
@@ -727,6 +736,14 @@ public class UnsignedIntegerCodec : PlayCodec
         result |= value[^1];
 
         return result;
+    }
+
+    public byte DecodeToByte(ReadOnlySpan<byte> value)
+    { 
+        if (value.Length == 0)
+            return 0;
+         
+        return value[0];
     }
 
     #endregion

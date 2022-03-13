@@ -32,17 +32,28 @@ public record MaxLifetimeOfTornTransactionLogRecords : DataElement<byte>
     #endregion
 
     #region Serialization
+     
 
+    private const byte _ByteLength = 1;
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static MaxLifetimeOfTornTransactionLogRecords Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static MaxLifetimeOfTornTransactionLogRecords Decode(ReadOnlySpan<byte> value)
     {
-        Check.Primitive.ForExactLength(value, 1, Tag);
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        return new MaxLifetimeOfTornTransactionLogRecords(value[0]);
+        byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
+
+          return new MaxLifetimeOfTornTransactionLogRecords(result);
     }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

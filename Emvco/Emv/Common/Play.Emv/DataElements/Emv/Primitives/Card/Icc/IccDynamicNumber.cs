@@ -38,31 +38,31 @@ public record IccDynamicNumber : DataElement<ulong>, IEqualityComparer<IccDynami
 
     #region Serialization
 
+    private const byte _MinByteLength = 2;
+    private const byte _MaxByteLength = 8;
+
+     
+
+
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IccDynamicNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IccDynamicNumber Decode(ReadOnlySpan<byte> value)
     {
-        const ushort minByteLength = 2;
-        const ushort maxByteLength = 8;
+        Check.Primitive.ForMaximumLength(value, _MinByteLength, Tag);
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        if (value.Length is < minByteLength and <= maxByteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(IccDynamicNumber)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
-        }
+        ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
+         
 
-        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value) as DecodedResult<ulong>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(IccDynamicNumber)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
-
-        return new IccDynamicNumber(result.Value);
+        return new IccDynamicNumber(result);
     }
-
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
-
+     
     #endregion
 
     #region Equality

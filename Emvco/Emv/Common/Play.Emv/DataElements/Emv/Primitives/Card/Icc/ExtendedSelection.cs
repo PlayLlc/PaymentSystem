@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
@@ -7,6 +8,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
 
@@ -16,19 +18,19 @@ namespace Play.Emv.DataElements;
 ///     depends on the length of ADF Name in the same directory entry such that Length of Extended Selection + Length of
 ///     ADF Name <= 16.
 /// </summary>
-public record ExtendedSelection : DataElement<byte[]>, IEqualityComparer<ExtendedSelection>
+public record ExtendedSelection : DataElement<BigInteger>, IEqualityComparer<ExtendedSelection>
 {
     #region Static Metadata
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
-    public static readonly ExtendedSelection Default = new ExtendedSelection(Array.Empty<byte>());
+    public static readonly ExtendedSelection Default = new ExtendedSelection(0);
     public static readonly Tag Tag = 0x9F29;
 
     #endregion
 
     #region Constructor
 
-    public ExtendedSelection(ReadOnlySpan<byte> value) : base(value.ToArray())
+    public ExtendedSelection(BigInteger value) : base(value)
     { }
 
     #endregion
@@ -44,12 +46,24 @@ public record ExtendedSelection : DataElement<byte[]>, IEqualityComparer<Extende
     #endregion
 
     #region Serialization
+     
 
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ExtendedSelection Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static ExtendedSelection Decode(ReadOnlySpan<byte> value) => new ExtendedSelection(value);
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static ExtendedSelection Decode(ReadOnlySpan<byte> value)
+    { 
+
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
+         
+
+        return new ExtendedSelection(result);
+    }
+     
 
     #endregion
 

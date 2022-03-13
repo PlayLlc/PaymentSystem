@@ -23,7 +23,7 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
     public static readonly Tag Tag = 0x88;
     private const byte _MinValue = 1;
     private const byte _MaxValue = 30;
-
+    private const byte _ByteLength = 1;
     #endregion
 
     #region Constructor
@@ -62,9 +62,7 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
     #endregion
 
     #region Serialization
-
-    public static ShortFileIdentifier Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
-
+     
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public static ShortFileIdentifier Decode(ReadOnlySpan<byte> value, BerCodec codec)
@@ -84,8 +82,32 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
         return new ShortFileIdentifier(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
+
+
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static AuthorizationResponseCode Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static AuthorizationResponseCode Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
+
+
+        ushort result = PlayCodec.BinaryCodec.DecodeToByte(value);
+
+        Check.Primitive.ForMinimumValue(result, _MinValue, Tag);
+        Check.Primitive.ForMaximumValue(result, _MaxValue, Tag);
+
+
+        return new AuthorizationResponseCode(result);
+    }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

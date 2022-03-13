@@ -256,6 +256,62 @@ internal class Check
             }
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /// <exception cref="DataElementParsingException"></exception>
+        public static void ForMinimumValue(byte value, byte minValue, Tag tag)
+        {
+            if (value < minValue)
+            {
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {minValue}");
+            }
+        }
+
+        /// <exception cref="DataElementParsingException"></exception>
+        public static void ForMinimumValue(ushort value, ushort minValue, Tag tag)
+        {
+            if (value < minValue)
+            {
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no less than {minValue}");
+            }
+        }
+
+        /// <exception cref="DataElementParsingException"></exception>
+        public static void ForMinimumValue(uint value, uint minValue, Tag tag)
+        {
+            if (value < minValue)
+            {
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no less than {minValue}");
+            }
+        }
+
+        /// <exception cref="DataElementParsingException"></exception>
+        public static void ForMinimumValue(ulong value, ulong minValue, Tag tag)
+        {
+            if (value < minValue)
+            {
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no less than {minValue}");
+            }
+        }
+
         #endregion
     }
 }

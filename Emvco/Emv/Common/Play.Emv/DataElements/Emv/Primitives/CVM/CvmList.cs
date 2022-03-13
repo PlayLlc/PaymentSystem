@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
@@ -9,7 +10,7 @@ using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
 
-public record CvmList : DataElement<byte[]>
+public record CvmList : DataElement<BigInteger>
 {
     #region Static Metadata
 
@@ -24,18 +25,13 @@ public record CvmList : DataElement<byte[]>
 
     #region Constructor
 
-    /// <summary>
-    ///     ctor
-    /// </summary>
-    /// <param name="value"></param>
-    /// <exception cref="EmvEncodingException"></exception>
-    public CvmList(ReadOnlySpan<byte> value) : base(value.ToArray())
-    {
-        if (value.Length != 2)
-            throw new EmvParsingException($"The length of the {nameof(CvmList)} must be even but the length was {value.Length}");
 
-        Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
-        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
+    /// <exception cref="DataElementParsingException"></exception>
+    public CvmList(BigInteger value) : base(value)
+    {
+ 
+        Check.Primitive.ForMinimumLength((byte)value.GetByteCount(), _MinByteLength, Tag);
+        Check.Primitive.ForMaximumLength((byte)value.GetByteCount(), _MaxByteLength, Tag);
     }
 
     #endregion
@@ -58,11 +54,18 @@ public record CvmList : DataElement<byte[]>
 
     #region Serialization
 
+    /// <exception cref="DataElementParsingException"></exception>
     public static CvmList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static CvmList Decode(ReadOnlySpan<byte> value) => new CvmList(value);
+    /// <exception cref="DataElementParsingException"></exception>
+    public static CvmList Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
+
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
+        return new CvmList(result);
+    }
 
     #endregion
 

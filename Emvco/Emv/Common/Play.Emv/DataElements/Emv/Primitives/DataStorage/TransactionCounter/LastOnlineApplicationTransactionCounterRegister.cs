@@ -40,27 +40,28 @@ public record LastOnlineApplicationTransactionCounterRegister : DataElement<usho
     #endregion
 
     #region Serialization
+     
 
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static LastOnlineApplicationTransactionCounterRegister Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static LastOnlineApplicationTransactionCounterRegister Decode(ReadOnlySpan<byte> value)
     {
-        if (value.Length != _ByteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(LastOnlineApplicationTransactionCounterRegister)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
-        }
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ushort> result = _Codec.Decode(EncodingId, value) as DecodedResult<ushort>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(LastOnlineApplicationTransactionCounterRegister)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+        ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
 
-        return new LastOnlineApplicationTransactionCounterRegister(result.Value);
+       
+        return new LastOnlineApplicationTransactionCounterRegister(result);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => Encode();
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

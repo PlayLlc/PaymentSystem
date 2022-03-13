@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 
 namespace Play.Emv.DataElements;
@@ -39,13 +41,34 @@ public record DataStorageApplicationCryptogramType : DataElement<byte>, IEqualit
     #endregion
 
     #region Serialization
+     
+   
 
+    private const byte _ByteLength = 1;
+
+
+
+
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DataStorageApplicationCryptogramType Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static DataStorageApplicationCryptogramType Decode(ReadOnlySpan<byte> value) =>
-        new DataStorageApplicationCryptogramType(value[0]);
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static DataStorageApplicationCryptogramType Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
+
+        byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
+         
+
+        return new DataStorageApplicationCryptogramType(result);
+    }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

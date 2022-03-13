@@ -6,6 +6,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
@@ -41,19 +42,29 @@ public record StaticDataAuthenticationTagList : DataElement<Tag[]>, IEqualityCom
     #endregion
 
     #region Serialization
+     
 
+
+
+    private const byte _MaxByteLength = 250;
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static StaticDataAuthenticationTagList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static StaticDataAuthenticationTagList Decode(ReadOnlySpan<byte> value)
     {
-        const ushort maxByteLength = 250;
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        Check.Primitive.ForMaximumLength(value, maxByteLength, Tag);
+        ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
+         
 
-        return new StaticDataAuthenticationTagList(value);
+        return new StaticDataAuthenticationTagList(result);
     }
+     
 
     #endregion
 

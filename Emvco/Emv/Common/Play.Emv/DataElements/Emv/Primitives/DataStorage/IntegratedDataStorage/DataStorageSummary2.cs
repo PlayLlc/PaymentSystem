@@ -40,22 +40,25 @@ public record DataStorageSummary2 : DataElement<BigInteger>
     #endregion
 
     #region Serialization
+     
 
+
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DataStorageSummary2 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DataStorageSummary2 Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        DecodedResult<BigInteger> result = _Codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(DataStorageSummary2)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
-        return new DataStorageSummary2(result.Value);
+        return new DataStorageSummary2(result);
     }
-
     #endregion
 }

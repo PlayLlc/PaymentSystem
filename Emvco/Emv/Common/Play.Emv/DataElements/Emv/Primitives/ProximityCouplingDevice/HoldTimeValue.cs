@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 using Play.Globalization.Time;
@@ -56,27 +57,32 @@ public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldT
     #endregion
 
     #region Serialization
+     
 
+
+
+    private const byte _CharLength = 6;
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static HoldTimeValue Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="DataElementParsingException"></exception>
-    private static HoldTimeValue Decode(ReadOnlySpan<byte> value)
-    {
-        const ushort charLength = 6;
 
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static HoldTimeValue Decode(ReadOnlySpan<byte> value)
+    {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<uint> result = _Codec.Decode(EncodingId, value) as DecodedResult<uint>
-            ?? throw new DataElementParsingException(EncodingId);
+        ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
 
-        Check.Primitive.ForCharLength(result.CharCount, charLength, Tag);
+        Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
 
-        return new HoldTimeValue(new Milliseconds(result.Value * 100));
+        return new HoldTimeValue(result);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(GetEncodingId(), _Value, _ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

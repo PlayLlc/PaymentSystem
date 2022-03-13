@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
@@ -20,7 +21,7 @@ namespace Play.Emv.DataElements;
 ///     The second part is the Proprietary Application EncodingId Extension. The first part is required and the second part
 ///     is optional
 /// </remarks>
-public record ApplicationDedicatedFileName : DataElement<byte[]>, IEqualityComparer<ApplicationDedicatedFileName>
+public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityComparer<ApplicationDedicatedFileName>
 {
     #region Static Metadata
 
@@ -39,9 +40,9 @@ public record ApplicationDedicatedFileName : DataElement<byte[]>, IEqualityCompa
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="OverflowException"></exception>
-    public ApplicationDedicatedFileName(ReadOnlySpan<byte> value) : base(value.ToArray())
+    public ApplicationDedicatedFileName(BigInteger value) : base(value)
     {
-        if (_Value.Length < RegisteredApplicationProviderIndicator.ByteCount)
+        if (value.GetByteCount() < RegisteredApplicationProviderIndicator.ByteCount)
         {
             throw new DataElementParsingException(
                 $"The {nameof(ApplicationDedicatedFileName)} requires a {nameof(RegisteredApplicationProviderIndicator)} but none could be found");
@@ -124,27 +125,29 @@ public record ApplicationDedicatedFileName : DataElement<byte[]>, IEqualityCompa
 
     #region Serialization
 
+    private const byte _MinByteLength = 5;
+    private const byte _MaxByteLength = 16; 
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ApplicationDedicatedFileName Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="OverflowException"></exception>
     public static ApplicationDedicatedFileName Decode(ReadOnlySpan<byte> value)
     {
-        const ushort minByteLength = 5;
-        const ushort maxByteLength = 16;
+        Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
+        Check.Primitive.ForMinimumLength(value, _MaxByteLength, Tag);
 
-        Check.Primitive.ForMinimumLength(value, minByteLength, Tag);
-        Check.Primitive.ForMaximumLength(value, maxByteLength, Tag);
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value); 
 
-        if (value.Length is < minByteLength and <= maxByteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(ApplicationDedicatedFileName)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
-        }
-
-        return new ApplicationDedicatedFileName(value);
+        return new ApplicationDedicatedFileName(result);
     }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

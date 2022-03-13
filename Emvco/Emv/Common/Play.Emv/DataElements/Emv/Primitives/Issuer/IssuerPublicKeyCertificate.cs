@@ -43,18 +43,16 @@ public record IssuerPublicKeyCertificate : DataElement<BigInteger>, IEqualityCom
     #endregion
 
     #region Serialization
-
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerPublicKeyCertificate Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerPublicKeyCertificate Decode(ReadOnlySpan<byte> value)
     {
-        DecodedResult<BigInteger> result = _Codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(IssuerPublicKeyCertificate)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
-
-        return new IssuerPublicKeyCertificate(result.Value);
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
+        return new IssuerPublicKeyCertificate(result);
     }
 
     #endregion

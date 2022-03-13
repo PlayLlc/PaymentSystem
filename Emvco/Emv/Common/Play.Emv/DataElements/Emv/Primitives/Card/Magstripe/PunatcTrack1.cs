@@ -37,20 +37,19 @@ public record PunatcTrack1 : DataElement<ulong>
     #endregion
 
     #region Serialization
-
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static PunatcTrack1 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="System.Exception"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static PunatcTrack1 Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result()
-            ?? throw new DataElementParsingException(EncodingId);
+        ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
 
-        return new PunatcTrack1(result.Value);
+        return new PunatcTrack1(result);
     }
 
     public new byte[] EncodeValue() => EncodeValue(_ByteLength);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
@@ -13,20 +14,23 @@ namespace Play.Emv.DataElements;
 ///     sentinel and LRC. The Track 2 Data has a maximum length of 37 positions and is present in the file read using the
 ///     READ RECORD command during a mag-stripe mode transaction. It is made up of the following sub-fields:
 /// </summary>
-public record Track2Data : DataElement<byte[]>
+public record Track2Data : DataElement<BigInteger>
 {
     #region Static Metadata
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F6B;
-    private const byte _ByteLength = 19;
+    private const byte _MaxByteLength = 19;
 
     #endregion
 
     #region Constructor
 
-    public Track2Data(byte[] value) : base(value)
-    { }
+    public Track2Data(BigInteger value) : base(value)
+    {
+
+        Check.Primitive.ForMaximumValue((byte)value.GetByteCount(), (byte)_MaxByteLength, Tag);
+    }
 
     #endregion
 
@@ -48,13 +52,15 @@ public record Track2Data : DataElement<byte[]>
     /// <exception cref="System.Exception"></exception>
     public static Track2Data Decode(ReadOnlySpan<byte> value)
     {
-        Check.Primitive.ForMaximumLength(value, _ByteLength, Tag);
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        return new Track2Data(value.ToArray());
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
+
+        return new Track2Data(result);
     }
 
-    public new byte[] EncodeValue() => _Value;
-    public new byte[] EncodeValue(int length) => _Value[..length];
+    public new byte[] EncodeValue() => _Value.ToByteArray();
+    public new byte[] EncodeValue(int length) => _Value.ToByteArray()[..length];
 
     #endregion
 }

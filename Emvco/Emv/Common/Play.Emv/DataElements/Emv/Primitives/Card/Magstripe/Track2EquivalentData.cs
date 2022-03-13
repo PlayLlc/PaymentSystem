@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
@@ -8,7 +9,7 @@ using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
 
-public record Track2EquivalentData : DataElement<byte[]>
+public record Track2EquivalentData : DataElement<BigInteger>
 {
     #region Static Metadata
 
@@ -20,7 +21,7 @@ public record Track2EquivalentData : DataElement<byte[]>
 
     #region Constructor
 
-    public Track2EquivalentData(byte[] value) : base(value)
+    public Track2EquivalentData(BigInteger value) : base(value)
     { }
 
     #endregion
@@ -45,11 +46,14 @@ public record Track2EquivalentData : DataElement<byte[]>
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        return new Track2EquivalentData(value.ToArray());
+
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
+
+        return new Track2EquivalentData(result);
     }
 
-    public new byte[] EncodeValue() => _Value;
-    public new byte[] EncodeValue(int length) => _Value[..length];
+    public new byte[] EncodeValue() => _Value.ToByteArray();
+    public new byte[] EncodeValue(int length) => _Value.ToByteArray()[..length];
 
     #endregion
 }

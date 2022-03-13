@@ -39,26 +39,30 @@ public record LogEntry : DataElement<ushort>, IEqualityComparer<LogEntry>
 
     #region Serialization
 
-    public static LogEntry Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static LogEntry Decode(ReadOnlySpan<byte> value, BerCodec codec)
+    private const byte _ByteLength = 2;
+
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static LogEntry Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static LogEntry Decode(ReadOnlySpan<byte> value)
     {
-        const ushort byteLength = 2;
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        if (value.Length != byteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(LogEntry)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
-        }
+        ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
+ 
 
-        DecodedResult<ushort> result = codec.Decode(EncodingId, value) as DecodedResult<ushort>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(LogEntry)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
-
-        return new LogEntry(result.Value);
+        return new LogEntry(result);
     }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

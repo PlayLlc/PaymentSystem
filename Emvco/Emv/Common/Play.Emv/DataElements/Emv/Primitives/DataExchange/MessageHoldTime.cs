@@ -30,11 +30,12 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
     /// <param name="value">
     ///     Minimum Value: 100 ms
     /// </param>
+    /// <exception cref="DataElementParsingException"></exception>
     public MessageHoldTime(Milliseconds value) : base(value)
     {
         if (value < _MinimumValue)
         {
-            throw new DataElementParsingException(nameof(value),
+            throw new DataElementParsingException( 
                 $"The argument {nameof(value)} must be at least 100 ms to initialize a {nameof(MessageHoldTime)}");
         }
     }
@@ -57,33 +58,33 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
 
     #region Serialization
 
+    private const byte _ByteLength = 3; 
+     
+
+
+
+
+
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static MessageHoldTime Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+
     /// <exception cref="DataElementParsingException"></exception>
-    private static MessageHoldTime Decode(ReadOnlySpan<byte> value)
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static MessageHoldTime Decode(ReadOnlySpan<byte> value)
     {
-        const ushort byteLength = 3;
-        const ushort charLength = 6;
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        if (value.Length != byteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(MessageHoldTime)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
-        }
+        uint result = PlayCodec.BinaryCodec.DecodeToUInt32(value);
+         
 
-        DecodedResult<uint> result = _Codec.Decode(EncodingId, value) as DecodedResult<uint>
-            ?? throw new DataElementParsingException(EncodingId);
-
-        if (result.CharCount != charLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(MessageHoldTime)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
-        }
-
-        return new MessageHoldTime(new Milliseconds(result.Value * 100));
+        return new MessageHoldTime(new Milliseconds(result * 100));
     }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

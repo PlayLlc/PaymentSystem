@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,20 +16,24 @@ namespace Play.Emv.DataElements.Emv.Primitives.Card.Magstripe;
 /// <summary>
 ///     Discretionary part of track 2 according to [ISO/IEC 7813].
 /// </summary>
-public record Track2DiscretionaryData : DataElement<byte[]>
+public record Track2DiscretionaryData : DataElement<BigInteger>
 {
     #region Static Metadata
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F20;
-    private const byte _ByteLength = 16;
+    private const byte _MaxByteLength = 16;
 
     #endregion
 
     #region Constructor
 
-    public Track2DiscretionaryData(byte[] value) : base(value)
-    { }
+    /// <exception cref="DataElementParsingException"></exception>
+    public Track2DiscretionaryData(BigInteger value) : base(value)
+    {
+
+        Check.Primitive.ForMaximumLength((byte)value.GetByteCount(), _MaxByteLength, Tag);
+    }
 
     #endregion
 
@@ -50,13 +55,15 @@ public record Track2DiscretionaryData : DataElement<byte[]>
     /// <exception cref="System.Exception"></exception>
     public static Track2DiscretionaryData Decode(ReadOnlySpan<byte> value)
     {
-        Check.Primitive.ForMaximumLength(value, _ByteLength, Tag);
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        return new Track2DiscretionaryData(value.ToArray());
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
+
+        return new Track2DiscretionaryData(result);
     }
 
-    public new byte[] EncodeValue() => _Value;
-    public new byte[] EncodeValue(int length) => _Value[..length];
+    public new byte[] EncodeValue() => _Value.ToByteArray();
+    public new byte[] EncodeValue(int length) => _Value.ToByteArray()[..length];
 
     #endregion
 }

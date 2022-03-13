@@ -20,7 +20,7 @@ namespace Play.Emv.DataElements.Emv.Primitives.DataStorage.IntegratedDataStorage
 ///     to be supplied by the Kernel. The data is forwarded to the Card with the GENERATE AC command, as per DSDOL
 ///     formatting
 /// </summary>
-public record DataStorageInputCard : DataElement<byte>
+public record DataStorageInputCard : DataElement<ulong>
 {
     #region Static Metadata
 
@@ -32,7 +32,7 @@ public record DataStorageInputCard : DataElement<byte>
 
     #region Constructor
 
-    public DataStorageInputCard(byte value) : base(value)
+    public DataStorageInputCard(ulong value) : base(value)
     { }
 
     #endregion
@@ -45,22 +45,29 @@ public record DataStorageInputCard : DataElement<byte>
     #endregion
 
     #region Serialization
+     
 
-    /// <exception cref="BerParsingException"></exception>
+
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DataStorageInputCard Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DataStorageInputCard Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result()
-            ?? throw new DataElementParsingException(EncodingId);
+        ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
+         
 
-        return new DataStorageInputCard(value[0]);
+        return new DataStorageInputCard(result);
     }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 }

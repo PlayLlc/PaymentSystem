@@ -64,27 +64,34 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
     #endregion
 
     #region Serialization
+     
 
-    public static UserInterfaceRequestData Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+
+
+
+    private const byte _ByteLength = 22;
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static UserInterfaceRequestData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static UserInterfaceRequestData Decode(ReadOnlySpan<byte> value)
     {
-        const ushort byteLength = 22;
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        if (value.Length != byteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(UserInterfaceRequestData)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
-        }
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
-        DecodedResult<BigInteger> result = _Codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(UserInterfaceRequestData)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
-        return new UserInterfaceRequestData(result.Value);
+        return new UserInterfaceRequestData(result);
     }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
+
 
     #endregion
 

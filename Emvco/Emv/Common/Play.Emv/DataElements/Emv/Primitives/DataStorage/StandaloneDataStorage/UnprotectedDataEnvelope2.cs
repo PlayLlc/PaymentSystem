@@ -42,26 +42,22 @@ public record UnprotectedDataEnvelope2 : DataElement<BigInteger>, IEqualityCompa
     #endregion
 
     #region Serialization
+    private const byte _MaxByteLength = 192;
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static UnprotectedDataEnvelope2 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public static UnprotectedDataEnvelope2 Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static UnprotectedDataEnvelope2 Decode(ReadOnlySpan<byte> value, BerCodec codec)
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static UnprotectedDataEnvelope2 Decode(ReadOnlySpan<byte> value)
     {
-        const ushort maxByteLength = 192;
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        if (value.Length > maxByteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(UnprotectedDataEnvelope2)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be less than {maxByteLength} bytes in length");
-        }
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
-        DecodedResult<BigInteger> result = codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(UnprotectedDataEnvelope2)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
-        return new UnprotectedDataEnvelope2(result.Value);
+        return new UnprotectedDataEnvelope2(result);
     }
 
     #endregion

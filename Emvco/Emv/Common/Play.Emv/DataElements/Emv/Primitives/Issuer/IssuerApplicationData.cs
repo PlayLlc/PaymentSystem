@@ -54,27 +54,29 @@ public record IssuerApplicationData : DataElement<BigInteger>, IEqualityComparer
     #endregion
 
     #region Serialization
+     
 
+
+    private const byte _MaxByteLength = 32;
+
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerApplicationData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerApplicationData Decode(ReadOnlySpan<byte> value)
     {
-        const ushort maxByteLength = 32;
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        if (value.Length > maxByteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(IssuerApplicationData)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be less than {maxByteLength} bytes in length");
-        }
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
+         
 
-        DecodedResult<BigInteger> result = _Codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(IssuerApplicationData)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
-
-        return new IssuerApplicationData(result.Value);
+        return new IssuerApplicationData(result);
     }
+     
 
     #endregion
 

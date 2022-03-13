@@ -43,17 +43,13 @@ public record IccPublicKeyRemainder : DataElement<BigInteger>, IEqualityComparer
 
     #region Serialization
 
-    public static IccPublicKeyRemainder Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    public static IccPublicKeyRemainder Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static IccPublicKeyRemainder Decode(ReadOnlySpan<byte> value, BerCodec codec)
+ 
+    public static IccPublicKeyRemainder Decode(ReadOnlySpan<byte> value)
     {
-        DecodedResult<BigInteger> result = codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(IccPublicKeyRemainder)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
-
-        return new IccPublicKeyRemainder(result.Value);
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value); 
+        return new IccPublicKeyRemainder(result);
     }
 
     public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);

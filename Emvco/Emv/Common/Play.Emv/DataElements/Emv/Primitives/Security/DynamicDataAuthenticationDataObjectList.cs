@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
@@ -44,22 +45,29 @@ public record DynamicDataAuthenticationDataObjectList : DataObjectList, IEqualit
     #endregion
 
     #region Serialization
+     
+    private const byte _MaxByteLength = 252;
 
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DynamicDataAuthenticationDataObjectList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DynamicDataAuthenticationDataObjectList Decode(ReadOnlySpan<byte> value)
     {
-        const ushort maxByteLength = 252;
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
+         
 
-        Check.Primitive.ForMaximumLength(value, maxByteLength, Tag);
-
+     
         return new DynamicDataAuthenticationDataObjectList(value);
     }
+     
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
+
+
+
 
     #endregion
 

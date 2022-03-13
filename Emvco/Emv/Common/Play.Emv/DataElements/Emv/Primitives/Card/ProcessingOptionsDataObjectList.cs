@@ -53,6 +53,7 @@ public record ProcessingOptionsDataObjectList : DataObjectList
 
     #region Serialization
 
+    /// <exception cref="BerParsingException"></exception>
     public static ProcessingOptionsDataObjectList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
