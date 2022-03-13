@@ -111,8 +111,8 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
     public static bool operator ==(ShortFileIdentifier left, Tag right) => left.Equals(right);
     public static bool operator ==(Tag left, ShortFileIdentifier right) => right.Equals(left);
     public static explicit operator byte(ShortFileIdentifier value) => value._Value;
-    public static explicit operator ShortFileIdentifier(byte value) => new(value);
-    public static implicit operator ShortFileId(ShortFileIdentifier value) => new(value._Value);
+    public static explicit operator ShortFileIdentifier(byte value) => new ShortFileIdentifier(value);
+    public static implicit operator ShortFileId(ShortFileIdentifier value) => new ShortFileId(value._Value);
     public static bool operator !=(ShortFileIdentifier left, Tag right) => !left.Equals(right);
     public static bool operator !=(Tag left, ShortFileIdentifier right) => !right.Equals(left);
 

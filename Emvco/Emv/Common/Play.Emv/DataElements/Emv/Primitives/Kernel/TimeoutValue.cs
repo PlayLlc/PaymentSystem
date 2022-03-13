@@ -82,7 +82,7 @@ public record TimeoutValue : DataElement<ushort>, IEqualityComparer<TimeoutValue
 
     #region Operator Overrides
 
-    public static explicit operator Milliseconds(TimeoutValue value) => new(value._Value);
+    public static explicit operator Milliseconds(TimeoutValue value) => new Milliseconds(value._Value);
 
     #endregion
 }

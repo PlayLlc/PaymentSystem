@@ -53,12 +53,12 @@ public record ApplicationDedicatedFileName : DataElement<byte[]>, IEqualityCompa
     #region Instance Members
 
     public byte[] AsByteArray() => _Value.CopyValue();
-    public DedicatedFileName AsDedicatedFileName() => new(_Value);
+    public DedicatedFileName AsDedicatedFileName() => new DedicatedFileName(_Value);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public int GetByteCount() => _Value.Length;
 
     public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
-        new(PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(_Value[..5]));
+        new RegisteredApplicationProviderIndicator(PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(_Value[..5]));
 
     public override Tag GetTag() => Tag;
     public bool IsFullMatch(ApplicationDedicatedFileName other) => Equals(other);
@@ -167,7 +167,7 @@ public record ApplicationDedicatedFileName : DataElement<byte[]>, IEqualityCompa
 
     #region Operator Overrides
 
-    public static implicit operator DedicatedFileName(ApplicationDedicatedFileName value) => new(value._Value);
+    public static implicit operator DedicatedFileName(ApplicationDedicatedFileName value) => new DedicatedFileName(value._Value);
 
     #endregion
 }

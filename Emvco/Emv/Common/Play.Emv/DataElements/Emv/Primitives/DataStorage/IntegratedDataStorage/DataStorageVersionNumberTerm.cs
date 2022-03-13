@@ -40,11 +40,12 @@ public record DataStorageVersionNumberTerminal : DataElement<byte[]>
 
     #region Serialization
 
-    public static DataStorageVersionNumberTerminal Decode(ReadOnlySpan<byte> value) => new(value.ToArray());
+    public static DataStorageVersionNumberTerminal Decode(ReadOnlySpan<byte> value) => new DataStorageVersionNumberTerminal(value.ToArray());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static DataStorageVersionNumberTerminal Decode(ReadOnlyMemory<byte> value) => new(value.ToArray());
+    public static DataStorageVersionNumberTerminal Decode(ReadOnlyMemory<byte> value) =>
+        new DataStorageVersionNumberTerminal(value.ToArray());
 
     #endregion
 }

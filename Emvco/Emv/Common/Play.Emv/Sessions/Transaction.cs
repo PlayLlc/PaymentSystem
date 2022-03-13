@@ -62,7 +62,7 @@ public class Transaction
 
     public TagLengthValue[] AsTagLengthValueArray()
     {
-        List<TagLengthValue> buffer = new()
+        List<TagLengthValue> buffer = new List<TagLengthValue>
         {
             _AmountAuthorizedNumeric.AsTagLengthValue(),
             _AmountOtherNumeric.AsTagLengthValue(),
@@ -83,8 +83,9 @@ public class Transaction
     public AmountOtherNumeric GetAmountOtherNumeric() => _AmountOtherNumeric;
     public LanguagePreference GetLanguagePreference() => _LanguagePreference;
     public TerminalCountryCode GetTerminalCountryCode() => _TerminalCountryCode;
-    public TransactionCurrencyCode GetTransactionCurrencyCode() => new(GetCultureProfile());
-    public CultureProfile GetCultureProfile() => new(_TerminalCountryCode.AsCountryCode(), _LanguagePreference.GetPreferredLanguage());
+    public TransactionCurrencyCode GetTransactionCurrencyCode() => new TransactionCurrencyCode(GetCultureProfile());
+    public CultureProfile GetCultureProfile() =>
+        new CultureProfile(_TerminalCountryCode.AsCountryCode(), _LanguagePreference.GetPreferredLanguage());
     public ref readonly Outcome GetOutcome() => ref _Outcome;
     public TerminalVerificationResults GetTerminalVerificationResults() => _Outcome.GetTerminalVerificationResults();
     public TransactionDate GetTransactionDate() => _TransactionDate;

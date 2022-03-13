@@ -62,7 +62,7 @@ public record CvmList : DataElement<byte[]>
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static CvmList Decode(ReadOnlySpan<byte> value) => new(value);
+    public static CvmList Decode(ReadOnlySpan<byte> value) => new CvmList(value);
 
     #endregion
 

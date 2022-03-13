@@ -41,7 +41,7 @@ public record PoiInformation : DataElement<byte[]>, IEqualityComparer<PoiInforma
 
     public TerminalCategoryCode[] GetTerminalCategoryCodes()
     {
-        HashSet<TerminalCategoryCode> buffer = new();
+        HashSet<TerminalCategoryCode> buffer = new HashSet<TerminalCategoryCode>();
         ReadOnlySpan<byte> temp = _Value;
 
         while (true)

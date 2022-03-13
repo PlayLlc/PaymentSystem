@@ -39,11 +39,12 @@ public record TagsToWriteBeforeGenAc : DataExchangeResponse, IEqualityComparer<T
 
     #region Serialization
 
-    public static TagsToWriteBeforeGenAc Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodeTagLengthValues(value));
+    public static TagsToWriteBeforeGenAc Decode(ReadOnlyMemory<byte> value) =>
+        new TagsToWriteBeforeGenAc(_Codec.DecodeTagLengthValues(value));
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static TagsToWriteBeforeGenAc Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodeTagLengthValues(value));
+    public static TagsToWriteBeforeGenAc Decode(ReadOnlySpan<byte> value) => new TagsToWriteBeforeGenAc(_Codec.DecodeTagLengthValues(value));
 
     #endregion
 

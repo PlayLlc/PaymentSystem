@@ -35,8 +35,8 @@ public record TerminalFloorLimit : DataElement<uint>, IEqualityComparer<Terminal
 
     #region Instance Members
 
-    public Money AsMoney(CultureProfile cultureProfile) => new(_Value, cultureProfile);
-    public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
+    public Money AsMoney(CultureProfile cultureProfile) => new Money(_Value, cultureProfile);
+    public TagLengthValue AsTagLengthValue(BerCodec codec) => new TagLengthValue(GetTag(), EncodeValue(codec));
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
@@ -92,7 +92,7 @@ public record TerminalFloorLimit : DataElement<uint>, IEqualityComparer<Terminal
     public static bool operator ==(TerminalFloorLimit left, uint right) => left._Value == right;
     public static bool operator ==(uint left, TerminalFloorLimit right) => left == right._Value;
     public static implicit operator uint(TerminalFloorLimit value) => value._Value;
-    public static implicit operator TerminalFloorLimit(uint value) => new(value);
+    public static implicit operator TerminalFloorLimit(uint value) => new TerminalFloorLimit(value);
     public static implicit operator ulong(TerminalFloorLimit value) => value._Value;
     public static bool operator !=(TerminalFloorLimit left, ulong right) => !(left == right);
     public static bool operator !=(ulong left, TerminalFloorLimit right) => !(left == right);

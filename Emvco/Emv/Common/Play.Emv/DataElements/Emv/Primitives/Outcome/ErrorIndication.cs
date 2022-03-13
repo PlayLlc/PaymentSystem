@@ -24,7 +24,7 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
     #region Static Metadata
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
-    public static readonly ErrorIndication Default = new();
+    public static readonly ErrorIndication Default = new ErrorIndication();
     public static readonly Tag Tag = 0xDF8115;
 
     #endregion
@@ -69,13 +69,13 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
 
     //    return result;
     //}
-    public static Builder GetBuilder() => new();
+    public static Builder GetBuilder() => new Builder();
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public Level1Error GetL1() => Level1Error.Get((byte) (_Value >> 40));
     public Level2Error GetL2() => Level2Error.Get((byte) (_Value >> 32));
     public Level3Error GetL3() => Level3Error.Get((byte) (_Value >> 24));
     public MessageOnErrorIdentifier GetMessageIdentifier() => (MessageOnErrorIdentifier) MessageOnErrorIdentifier.Get((byte) _Value);
-    public StatusWords GetStatusWords() => new(new StatusWord((byte) (_Value >> 16)), new StatusWord((byte) (_Value >> 8)));
+    public StatusWords GetStatusWords() => new StatusWords(new StatusWord((byte) (_Value >> 16)), new StatusWord((byte) (_Value >> 8)));
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public bool IsErrorPresent() => (GetL1() != Level1Error.Ok) || (GetL2() != Level2Error.Ok) || (GetL3() != Level3Error.Ok);
@@ -201,7 +201,7 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
             _Value |= (ulong) value;
         }
 
-        public override ErrorIndication Complete() => new(_Value);
+        public override ErrorIndication Complete() => new ErrorIndication(_Value);
 
         protected override void Set(ulong bitsToSet)
         {

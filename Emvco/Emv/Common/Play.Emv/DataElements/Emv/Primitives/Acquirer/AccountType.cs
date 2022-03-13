@@ -18,10 +18,10 @@ public record AccountType : DataElement<byte>, IEqualityComparer<AccountType>
 
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F01;
-    public static readonly AccountType Default = new(0);
-    public static readonly AccountType Savings = new(10);
-    public static readonly AccountType Checking = new(20);
-    public static readonly AccountType Credit = new(30);
+    public static readonly AccountType Default = new AccountType(0);
+    public static readonly AccountType Savings = new AccountType(10);
+    public static readonly AccountType Checking = new AccountType(20);
+    public static readonly AccountType Credit = new AccountType(30);
     private const byte _ByteLength = 1;
 
     #endregion

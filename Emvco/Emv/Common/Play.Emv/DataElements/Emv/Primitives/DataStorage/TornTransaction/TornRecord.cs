@@ -49,11 +49,11 @@ public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
 
     #region Serialization
 
-    public static TornRecord Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodeTagLengthValues(value));
+    public static TornRecord Decode(ReadOnlyMemory<byte> value) => new TornRecord(_Codec.DecodeTagLengthValues(value));
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static TornRecord Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodeTagLengthValues(value));
+    public static TornRecord Decode(ReadOnlySpan<byte> value) => new TornRecord(_Codec.DecodeTagLengthValues(value));
 
     #endregion
 

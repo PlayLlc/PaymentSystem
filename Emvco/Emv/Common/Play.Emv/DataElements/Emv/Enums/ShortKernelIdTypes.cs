@@ -114,7 +114,7 @@ public sealed record ShortKernelIdTypes : EnumObject<byte>, IEqualityComparer<Sh
     public static bool operator ==(byte left, ShortKernelIdTypes right) => left == right._Value;
     public static explicit operator byte(ShortKernelIdTypes value) => value._Value;
     public static explicit operator ShortKernelIdTypes(byte value) => Get(value);
-    public static implicit operator KernelId(ShortKernelIdTypes value) => new(value._Value);
+    public static implicit operator KernelId(ShortKernelIdTypes value) => new KernelId(value._Value);
     public static bool operator !=(ShortKernelIdTypes left, byte right) => !(left == right);
     public static bool operator !=(byte left, ShortKernelIdTypes right) => !(left == right);
 

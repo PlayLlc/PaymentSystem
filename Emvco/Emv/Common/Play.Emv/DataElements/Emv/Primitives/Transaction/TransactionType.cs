@@ -24,11 +24,11 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
     /// <summary>
     ///     Also known as 'Cash Withdrawal'
     /// </summary>
-    public static readonly TransactionType CashAdvance = new(0x01);
+    public static readonly TransactionType CashAdvance = new TransactionType(0x01);
 
-    public static readonly TransactionType Purchase = new(0x00);
-    public static readonly TransactionType PurchaseWithCashback = new(0x09);
-    public static readonly TransactionType Refund = new(0x20);
+    public static readonly TransactionType Purchase = new TransactionType(0x00);
+    public static readonly TransactionType PurchaseWithCashback = new TransactionType(0x09);
+    public static readonly TransactionType Refund = new TransactionType(0x20);
     public static readonly Tag Tag = 0x9C;
     private const byte _ByteLength = 1;
     private const byte _CharLength = 2;

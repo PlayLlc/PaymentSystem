@@ -18,9 +18,9 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
 {
     #region Static Metadata
 
-    private static readonly Milliseconds _MinimumValue = new(100);
+    private static readonly Milliseconds _MinimumValue = new Milliseconds(100);
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
-    public static readonly MessageHoldTime MinimumValue = new(_MinimumValue);
+    public static readonly MessageHoldTime MinimumValue = new MessageHoldTime(_MinimumValue);
     public static readonly Tag Tag = 0xDF812D;
 
     #endregion

@@ -10,7 +10,7 @@ internal class Check
 {
     #region Static Metadata
 
-    public static readonly CheckCore Core = new();
+    public static readonly CheckCore Core = new CheckCore();
 
     #endregion
 

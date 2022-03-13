@@ -40,11 +40,11 @@ public record DataRecord : DataExchangeResponse, IEqualityComparer<DataRecord>
 
     #region Serialization
 
-    public static DataRecord Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodeTagLengthValues(value));
+    public static DataRecord Decode(ReadOnlySpan<byte> value) => new DataRecord(_Codec.DecodeTagLengthValues(value));
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static DataRecord Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodeTagLengthValues(value));
+    public static DataRecord Decode(ReadOnlyMemory<byte> value) => new DataRecord(_Codec.DecodeTagLengthValues(value));
 
     #endregion
 

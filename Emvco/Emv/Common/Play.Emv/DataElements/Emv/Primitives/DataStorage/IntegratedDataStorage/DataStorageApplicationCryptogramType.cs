@@ -44,7 +44,8 @@ public record DataStorageApplicationCryptogramType : DataElement<byte>, IEqualit
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static DataStorageApplicationCryptogramType Decode(ReadOnlySpan<byte> value) => new(value[0]);
+    public static DataStorageApplicationCryptogramType Decode(ReadOnlySpan<byte> value) =>
+        new DataStorageApplicationCryptogramType(value[0]);
 
     #endregion
 

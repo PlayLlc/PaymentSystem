@@ -26,7 +26,7 @@ public readonly struct TransactionSessionId
     #region Instance Members
 
     private static ulong GetConstructorValueTransactionType(TransactionType transactionType) => (ulong) transactionType << (7 * 8);
-    public TransactionType GetTransactionType() => new((byte) (_Value >> (7 * 8)));
+    public TransactionType GetTransactionType() => new TransactionType((byte) (_Value >> (7 * 8)));
 
     #endregion
 

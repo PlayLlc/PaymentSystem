@@ -11,9 +11,9 @@ public sealed record OdaStatusTypes : EnumObject<byte>
 {
     #region Static Metadata
 
-    public static readonly OdaStatusTypes Cda = new(0b10000000);
-    public static readonly OdaStatusTypes NotAvailable = new(0);
-    private static readonly Dictionary<byte, OdaStatusTypes> _ValueMap = new() {{Cda, Cda}};
+    public static readonly OdaStatusTypes Cda = new OdaStatusTypes(0b10000000);
+    public static readonly OdaStatusTypes NotAvailable = new OdaStatusTypes(0);
+    private static readonly Dictionary<byte, OdaStatusTypes> _ValueMap = new Dictionary<byte, OdaStatusTypes> {{Cda, Cda}};
 
     #endregion
 

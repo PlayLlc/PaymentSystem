@@ -20,7 +20,7 @@ public record KernelId : DataElement<byte>, IEqualityComparer<KernelId>
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF810C;
-    public static readonly KernelId Unavailable = new(0);
+    public static readonly KernelId Unavailable = new KernelId(0);
 
     #endregion
 

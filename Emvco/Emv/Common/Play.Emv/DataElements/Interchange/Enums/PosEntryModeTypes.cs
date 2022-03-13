@@ -9,20 +9,20 @@ public record PosEntryModeTypes : EnumObject<byte>
 {
     #region Static Metadata
 
-    public static readonly PosEntryModeTypes Unknown = new(0);
-    public static readonly PosEntryModeTypes ManualEntry = new(1);
-    private static readonly PosEntryModeTypes _Magstripe = new(2);
-    private static readonly PosEntryModeTypes _Barcode = new(3);
-    private static readonly PosEntryModeTypes _OpticalCharacterRecognition = new(4);
-    private static readonly PosEntryModeTypes _Icc = new(5);
-    private static readonly PosEntryModeTypes _Picc = new(7);
-    private static readonly PosEntryModeTypes _CredentialsOnFile = new(10);
-    private static readonly PosEntryModeTypes _ManualEntryFallbackForIccOrMagstripe = new(79);
-    private static readonly PosEntryModeTypes _MagstripeFallbackForIcc = new(80);
-    private static readonly PosEntryModeTypes _ManualEntryForEcommerce = new(81);
-    private static readonly PosEntryModeTypes _TrackData = new(90);
-    private static readonly PosEntryModeTypes _Token = new(91);
-    private static readonly PosEntryModeTypes _IccWithoutCvv = new(95);
+    public static readonly PosEntryModeTypes Unknown = new PosEntryModeTypes(0);
+    public static readonly PosEntryModeTypes ManualEntry = new PosEntryModeTypes(1);
+    private static readonly PosEntryModeTypes _Magstripe = new PosEntryModeTypes(2);
+    private static readonly PosEntryModeTypes _Barcode = new PosEntryModeTypes(3);
+    private static readonly PosEntryModeTypes _OpticalCharacterRecognition = new PosEntryModeTypes(4);
+    private static readonly PosEntryModeTypes _Icc = new PosEntryModeTypes(5);
+    private static readonly PosEntryModeTypes _Picc = new PosEntryModeTypes(7);
+    private static readonly PosEntryModeTypes _CredentialsOnFile = new PosEntryModeTypes(10);
+    private static readonly PosEntryModeTypes _ManualEntryFallbackForIccOrMagstripe = new PosEntryModeTypes(79);
+    private static readonly PosEntryModeTypes _MagstripeFallbackForIcc = new PosEntryModeTypes(80);
+    private static readonly PosEntryModeTypes _ManualEntryForEcommerce = new PosEntryModeTypes(81);
+    private static readonly PosEntryModeTypes _TrackData = new PosEntryModeTypes(90);
+    private static readonly PosEntryModeTypes _Token = new PosEntryModeTypes(91);
+    private static readonly PosEntryModeTypes _IccWithoutCvv = new PosEntryModeTypes(95);
 
     #endregion
 

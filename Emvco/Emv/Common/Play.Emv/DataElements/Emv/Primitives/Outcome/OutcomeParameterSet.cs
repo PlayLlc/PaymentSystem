@@ -55,9 +55,10 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
         AlternateInterfacePreferenceOutcome.Get((byte) (_Value >> _AlternateInterfaceOutcomeOffset));
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
-    public static Builder GetBuilder() => new();
+    public static Builder GetBuilder() => new Builder();
     public CvmPerformedOutcome GetCvmPerformed() => CvmPerformedOutcome.Get((byte) (_Value >> _CvmOutcomeOffset));
-    public FieldOffRequestOutcome GetFieldOffRequestOutcome() => new((byte) (_Value >> _FieldOffRequestOutcomeOffset));
+    public FieldOffRequestOutcome GetFieldOffRequestOutcome() =>
+        new FieldOffRequestOutcome((byte) (_Value >> _FieldOffRequestOutcomeOffset));
     public OnlineResponseOutcome GetOnlineResponseOutcome() => OnlineResponseOutcome.Get((byte) (_Value >> _OnlineResponseOutcomeOffset));
     public StartOutcome GetStartOutcome() => StartOutcome.Get((byte) (_Value >> _StartOutcomeOffset));
     public StatusOutcome GetStatusOutcome() => StatusOutcome.Get((byte) (_Value >> _StatusOutcomeOffset));
@@ -119,7 +120,8 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
 
     #region Operator Overrides
 
-    public static OutcomeParameterSet operator |(OutcomeParameterSet left, OutcomeParameterSet right) => new(left._Value | right._Value);
+    public static OutcomeParameterSet operator |(OutcomeParameterSet left, OutcomeParameterSet right) =>
+        new OutcomeParameterSet(left._Value | right._Value);
 
     #endregion
 
@@ -196,7 +198,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
         }
 
         // TODO: Rename this to Complete, this is confusing
-        public override OutcomeParameterSet Complete() => new(_Value);
+        public override OutcomeParameterSet Complete() => new OutcomeParameterSet(_Value);
 
         public void SetIsDataRecordPresent(bool value)
         {

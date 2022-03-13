@@ -40,7 +40,7 @@ public record TerminalIdentification : DataElement<char[]>, IEqualityComparer<Te
 
     public override string ToString() => AsToken();
     public Span<char> AsSpan() => _Value.AsSpanFromRight(_CharLength);
-    public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
+    public TagLengthValue AsTagLengthValue(BerCodec codec) => new TagLengthValue(GetTag(), EncodeValue(codec));
     public string AsToken() => _Value.AsStringFromRight(_CharLength);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;

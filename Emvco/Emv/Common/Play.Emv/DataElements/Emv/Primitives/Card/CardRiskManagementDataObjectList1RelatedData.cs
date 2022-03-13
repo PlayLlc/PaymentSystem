@@ -41,7 +41,8 @@ public record CardRiskManagementDataObjectList1RelatedData : DataObjectList
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static CardRiskManagementDataObjectList1 Decode(ReadOnlySpan<byte> value) => new(value.ToArray());
+    public static CardRiskManagementDataObjectList1 Decode(ReadOnlySpan<byte> value) =>
+        new CardRiskManagementDataObjectList1(value.ToArray());
 
     #endregion
 }

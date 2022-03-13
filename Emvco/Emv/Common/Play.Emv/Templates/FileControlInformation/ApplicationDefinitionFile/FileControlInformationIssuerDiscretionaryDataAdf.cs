@@ -72,7 +72,7 @@ public class FileControlInformationIssuerDiscretionaryDataAdf : FileControlInfor
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
     public static FileControlInformationIssuerDiscretionaryDataAdf Decode(EncodedTlvSiblings encodedTlvSiblings) =>
-        new(_Codec.AsPrimitive(LogEntry.Decode, LogEntry.Tag, encodedTlvSiblings),
+        new FileControlInformationIssuerDiscretionaryDataAdf(_Codec.AsPrimitive(LogEntry.Decode, LogEntry.Tag, encodedTlvSiblings),
             _Codec.AsPrimitive(ApplicationCapabilitiesInformation.Decode, ApplicationCapabilitiesInformation.Tag, encodedTlvSiblings));
 
     #endregion

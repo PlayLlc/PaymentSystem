@@ -78,7 +78,7 @@ public record ApplicationCryptogram : DataElement<ulong>, IEqualityComparer<Appl
 
     #region Operator Overrides
 
-    public static explicit operator ApplicationCryptogram(byte value) => new(value);
+    public static explicit operator ApplicationCryptogram(byte value) => new ApplicationCryptogram(value);
 
     #endregion
 }

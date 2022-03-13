@@ -103,7 +103,7 @@ public record CaPublicKeyIndex : DataElement<byte>, IEqualityComparer<CaPublicKe
     #region Operator Overrides
 
     public static explicit operator byte(CaPublicKeyIndex value) => value._Value;
-    public static explicit operator CaPublicKeyIndex(byte value) => new(value);
+    public static explicit operator CaPublicKeyIndex(byte value) => new CaPublicKeyIndex(value);
 
     #endregion
 }
