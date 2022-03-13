@@ -4,7 +4,6 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Emv.DataElements;
-using Play.Emv.DataElements.Emv.Primitives.DataStorage.IntegratedDataStoraged;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Kernel;

@@ -4,8 +4,8 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements.TrackData;
 using Play.Emv.Exceptions;
-using Play.Emv.Kernel.Exceptions;
 
 namespace Play.Emv.DataElements;
 

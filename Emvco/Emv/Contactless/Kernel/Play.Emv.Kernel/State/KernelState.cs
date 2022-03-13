@@ -81,7 +81,7 @@ public abstract class KernelState : IGetKernelStateId
     /// <exception cref="Exceptions.TerminalDataException"></exception>
     public bool TryHandleTimeout(KernelSession session)
     {
-        if (!session.TimedOut())
+        if (!session.IsTimedOut())
             return false;
 
         _KernelDatabase.Update(StatusOutcome.EndApplication);

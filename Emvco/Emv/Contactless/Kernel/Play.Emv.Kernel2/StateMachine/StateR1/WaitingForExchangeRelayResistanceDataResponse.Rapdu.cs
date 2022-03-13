@@ -1,10 +1,21 @@
-﻿using Play.Emv.DataElements;
+﻿using System;
+
+using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
+using Play.Ber.Identifiers;
+using Play.Codecs.Exceptions;
+using Play.Emv.Ber.Exceptions;
+using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
+using Play.Emv.Icc.GetData;
 using Play.Emv.Kernel.Contracts;
+using Play.Emv.Kernel.Databases;
+using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
+using Play.Globalization.Time;
 using Play.Icc.Messaging.Apdu;
 
 namespace Play.Emv.Kernel2.StateMachine;
@@ -13,21 +24,40 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 {
     #region RAPDU
 
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
 
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+        if (TryHandleL1Error(session, signal))
+            return _KernelStateResolver.GetKernelState(StateId);
+
+        // SR1.10
+        Milliseconds timeElapsed = session.StopTimeout();
+
+        if (TryHandleInvalidResultCode(session, signal))
+            return _KernelStateResolver.GetKernelState(StateId);
+
+        PersistRapdu(signal);
+
+        throw new NotImplementedException();
     }
 
     #endregion
 
+    #region SR1.3 - SR1.4, SR1.5.1 - SR1.5.2
+
+    /// <remarks>Book C-2 Section SR1.3 - SR1.4, SR1.5.1 - SR1.5.2</remarks>
+    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     private bool TryHandleL1Error(KernelSession session, QueryPcdResponse signal)
     {
         if (!signal.IsSuccessful())
             return false;
+
+        session.StopTimeout();
 
         _KernelDatabase.Update(MessageIdentifier.TryAgain);
         _KernelDatabase.Update(Status.ReadyToRead);
@@ -44,6 +74,12 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         return true;
     }
 
+    #endregion
+
+    #region SR1.11 - SR1.13
+
+    /// <remarks>Book C-2 Section SR1.11 - SR1.13 </remarks>
+    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
     private bool TryHandleInvalidResultCode(KernelSession session, QueryPcdResponse signal)
     {
         if (signal.GetStatusWords() == StatusWords._9000)
@@ -62,4 +98,54 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 
         return true;
     }
+
+    #endregion
+
+    #region SR1.14
+
+    public void PersistRapdu(QueryPcdResponse signal)
+    {
+        try
+        {
+            _KernelDatabase.Update(((GetDataResponse) signal).GetTagLengthValueResult());
+            _DataExchangeKernelService.Resolve((GetDataResponse) signal);
+        }
+        catch (EmvParsingException)
+        {
+            // TODO: Logging
+            HandleBerParsingException(signal, _DataExchangeKernelService, _KernelDatabase);
+        }
+        catch (BerParsingException)
+        {
+            // TODO: Logging
+            HandleBerParsingException(signal, _DataExchangeKernelService, _KernelDatabase);
+        }
+        catch (CodecParsingException)
+        {
+            // TODO: Logging
+            HandleBerParsingException(signal, _DataExchangeKernelService, _KernelDatabase);
+        }
+        catch (Exception)
+        {
+            // TODO: Logging
+            HandleBerParsingException(signal, _DataExchangeKernelService, _KernelDatabase);
+        }
+    }
+
+    private static void HandleBerParsingException(QueryPcdResponse signal, DataExchangeKernelService dataExchanger, KernelDatabase database)
+    {
+        dataExchanger.TryPeek(DekRequestType.TagsToRead, out Tag result);
+        TagLengthValue nullResult = new(result, Array.Empty<byte>());
+
+        byte[] emptyRapduBytes = new byte[nullResult.GetTagLengthValueByteCount() + 2];
+        emptyRapduBytes[0] = StatusWords._9000.GetStatusWord1();
+        emptyRapduBytes[1] = StatusWords._9000.GetStatusWord2();
+        nullResult.EncodeTagLengthValue().AsSpan().CopyTo(emptyRapduBytes[2..]);
+
+        database.Update(nullResult);
+        dataExchanger.Resolve(new GetDataResponse(signal.GetCorrelationId(), signal.GetTransactionSessionId(),
+                                                  new GetDataRApduSignal(emptyRapduBytes)));
+    }
+
+    #endregion
 }

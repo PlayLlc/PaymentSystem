@@ -2,7 +2,7 @@
 
 using Play.Core.Math;
 
-namespace Play.Emv.Terminal;
+namespace Play.Emv.Terminal.Contracts;
 
 public interface IPercentageSelectionQueue
 {

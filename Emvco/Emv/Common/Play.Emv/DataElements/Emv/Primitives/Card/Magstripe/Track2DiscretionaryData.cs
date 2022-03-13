@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
@@ -11,7 +7,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.Emv.Primitives.Card.Magstripe;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Discretionary part of track 2 according to [ISO/IEC 7813].

@@ -3,7 +3,7 @@
 using Play.Globalization.Currency;
 using Play.Globalization.Time;
 
-using PrimaryAccountNumber = Play.Emv.DataElements.PrimaryAccountNumber;
+using PrimaryAccountNumber = Play.Emv.DataElements.TrackData.PrimaryAccountNumber;
 
 namespace Play.Emv.Terminal.SplitPayment;
 
@@ -58,7 +58,7 @@ public class SplitPaymentLogItem : PaymentLogItem
         if (!_Subtotal.IsCurrencyEqual(amountAuthorizedNumeric))
         {
             throw new ArgumentOutOfRangeException(nameof(amountAuthorizedNumeric),
-                $"The argument {nameof(amountAuthorizedNumeric)} is not in the same currency");
+                                                  $"The argument {nameof(amountAuthorizedNumeric)} is not in the same currency");
         }
 
         if (primaryAccountNumber != _PrimaryAccountNumber)

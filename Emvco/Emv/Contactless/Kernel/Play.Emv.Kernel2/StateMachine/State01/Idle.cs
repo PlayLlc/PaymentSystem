@@ -25,11 +25,11 @@ public partial class Idle : KernelState
 
     #region Instance Values
 
-    private readonly IKernelEndpoint _KernelEndpoint;
     private readonly IHandleTerminalRequests _TerminalEndpoint;
     private readonly IHandlePcdRequests _PcdEndpoint;
     private readonly IGetKernelState _KernelStateResolver;
     private readonly ICleanTornTransactions _KernelCleaner;
+    private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
 
     #endregion
 
@@ -42,13 +42,14 @@ public partial class Idle : KernelState
         IGetKernelState kernelStateResolver,
         IKernelEndpoint kernelEndpoint,
         IHandleTerminalRequests terminalEndpoint,
-        IHandlePcdRequests pcdEndpoint) : base(kernelDatabase, dataExchange, kernelEndpoint)
+        IHandlePcdRequests pcdEndpoint,
+        IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(kernelDatabase, dataExchange, kernelEndpoint)
     {
         _KernelCleaner = kernelCleaner;
         _KernelStateResolver = kernelStateResolver;
-        _KernelEndpoint = kernelEndpoint;
         _TerminalEndpoint = terminalEndpoint;
         _PcdEndpoint = pcdEndpoint;
+        _UnpredictableNumberGenerator = unpredictableNumberGenerator;
     }
 
     #endregion

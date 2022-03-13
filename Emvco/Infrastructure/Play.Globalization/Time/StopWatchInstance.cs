@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace Play.Globalization.Time;
 
@@ -27,6 +28,15 @@ internal class StopWatchInstance
 
     #region Instance Members
 
+    public Milliseconds Stop()
+    {
+        TimeSpan elapsed = _Stopwatch.Elapsed;
+        _Stopwatch.Stop();
+
+        return elapsed;
+    }
+
+    public Milliseconds GetElapsedTime() => _Stopwatch.Elapsed;
     public bool IsRunning() => (ulong) _Stopwatch.ElapsedMilliseconds < _Timeout;
 
     #endregion

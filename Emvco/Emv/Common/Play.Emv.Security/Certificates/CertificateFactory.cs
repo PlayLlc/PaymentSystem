@@ -5,7 +5,7 @@ using Play.Emv.Security.Certificates.Issuer;
 using Play.Emv.Security.Exceptions;
 using Play.Encryption.Signing;
 
-using PrimaryAccountNumber = Play.Emv.DataElements.PrimaryAccountNumber;
+using PrimaryAccountNumber = Play.Emv.DataElements.TrackData.PrimaryAccountNumber;
 
 namespace Play.Emv.Security.Certificates;
 
@@ -36,7 +36,7 @@ internal partial class CertificateFactory
         IssuerPublicKeyRemainder enciphermentPublicKeyRemainder,
         out DecodedIssuerPublicKeyCertificate? result) =>
         Issuer.TryCreate(_SignatureService, publicKeyCertificate, encipheredCertificate, encipheredPublicKeyExponent,
-            enciphermentPublicKeyRemainder, out result);
+                         enciphermentPublicKeyRemainder, out result);
 
     /// <summary>
     /// </summary>

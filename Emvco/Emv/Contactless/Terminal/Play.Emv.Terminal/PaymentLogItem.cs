@@ -1,6 +1,5 @@
-﻿using Play.Globalization.Time;
-
-using PrimaryAccountNumber = Play.Emv.DataElements.PrimaryAccountNumber;
+﻿using Play.Emv.DataElements.TrackData;
+using Play.Globalization.Time;
 
 namespace Play.Emv.Terminal;
 

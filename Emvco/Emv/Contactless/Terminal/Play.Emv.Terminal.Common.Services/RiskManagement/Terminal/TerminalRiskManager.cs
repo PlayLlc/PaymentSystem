@@ -7,7 +7,7 @@ using Play.Emv.Terminal.Contracts.Messages.Commands;
 using Play.Emv.Terminal.SplitPayment;
 using Play.Globalization.Currency;
 
-using PrimaryAccountNumber = Play.Emv.DataElements.PrimaryAccountNumber;
+using PrimaryAccountNumber = Play.Emv.DataElements.TrackData.PrimaryAccountNumber;
 
 namespace Play.Emv.Terminal.Common.Services.RiskManagement.Terminal;
 
@@ -52,7 +52,7 @@ internal class TerminalRiskManager : IManageTerminalRisk
         terminalVerificationResult.SetTransactionExceedsFloorLimit();
 
         return new TerminalRiskManagementResponse(terminalVerificationResult,
-            TransactionStatusInformationFlagTypes.TerminalRiskManagementPerformed);
+                                                  TransactionStatusInformationFlagTypes.TerminalRiskManagementPerformed);
     }
 
     private static TerminalRiskManagementResponse CreateRandomlySelectedForOnlineProcessResponse()
@@ -61,7 +61,7 @@ internal class TerminalRiskManager : IManageTerminalRisk
         terminalVerificationResult.SetTransactionSelectedRandomlyForOnlineProcessing();
 
         return new TerminalRiskManagementResponse(terminalVerificationResult,
-            TransactionStatusInformationFlagTypes.TerminalRiskManagementPerformed);
+                                                  TransactionStatusInformationFlagTypes.TerminalRiskManagementPerformed);
     }
 
     private static TerminalRiskManagementResponse CreateVelocityCheckDoesNotHaveRequiredItemsResponse()
@@ -71,7 +71,7 @@ internal class TerminalRiskManager : IManageTerminalRisk
         terminalVerificationResult.SetLowerConsecutiveOfflineLimitExceeded();
 
         return new TerminalRiskManagementResponse(terminalVerificationResult,
-            TransactionStatusInformationFlagTypes.TerminalRiskManagementPerformed);
+                                                  TransactionStatusInformationFlagTypes.TerminalRiskManagementPerformed);
     }
 
     private static TerminalRiskManagementResponse CreateVelocityLowerThresholdExceededResponse()
@@ -80,7 +80,7 @@ internal class TerminalRiskManager : IManageTerminalRisk
         terminalVerificationResult.SetLowerConsecutiveOfflineLimitExceeded();
 
         return new TerminalRiskManagementResponse(terminalVerificationResult,
-            TransactionStatusInformationFlagTypes.TerminalRiskManagementPerformed);
+                                                  TransactionStatusInformationFlagTypes.TerminalRiskManagementPerformed);
     }
 
     private static TerminalRiskManagementResponse CreateVelocityUpperThresholdExceededResponse()
@@ -89,7 +89,7 @@ internal class TerminalRiskManager : IManageTerminalRisk
         terminalVerificationResult.SetUpperConsecutiveOfflineLimitExceeded();
 
         return new TerminalRiskManagementResponse(terminalVerificationResult,
-            TransactionStatusInformationFlagTypes.TerminalRiskManagementPerformed);
+                                                  TransactionStatusInformationFlagTypes.TerminalRiskManagementPerformed);
     }
 
     private bool DoesVelocityCheckHaveRequiredItems(ushort? applicationTransactionCount, ushort? lastOnlineApplicationTransactionCount)
@@ -140,8 +140,9 @@ internal class TerminalRiskManager : IManageTerminalRisk
             return false;
 
         return await _PercentageSelectionQueue.IsRandomSelection(GetTransactionTargetPercentage(amountAuthorizedNumeric, terminalFloorLimit,
-                biasedRandomSelectionThreshold, biasedRandomSelectionMaximumTargetPercentage, randomSelectionTargetPercentage))
-            .ConfigureAwait(false);
+                                                                  biasedRandomSelectionThreshold,
+                                                                  biasedRandomSelectionMaximumTargetPercentage,
+                                                                  randomSelectionTargetPercentage)).ConfigureAwait(false);
     }
 
     // TODO: Not sure if we're supposed to be looking at sequence number here 
@@ -233,30 +234,32 @@ internal class TerminalRiskManager : IManageTerminalRisk
             return CreateFloorLimitExceededResponse();
 
         if (await IsRandomSelection(command.GetAmountAuthorizedNumeric(), command.GetTerminalFloorLimit(),
-                command.GetRandomSelectionTargetPercentage()).ConfigureAwait(false))
+                                    command.GetRandomSelectionTargetPercentage()).ConfigureAwait(false))
             return CreateRandomlySelectedForOnlineProcessResponse();
 
         if (await IsBiasedRandomSelection(command.GetAmountAuthorizedNumeric(), command.GetBiasedRandomSelectionThreshold(),
-            command.GetTerminalFloorLimit(), command.GetBiasedRandomSelectionMaximumPercentage(),
-            command.GetRandomSelectionTargetPercentage()))
+                                          command.GetTerminalFloorLimit(), command.GetBiasedRandomSelectionMaximumPercentage(),
+                                          command.GetRandomSelectionTargetPercentage()))
             return CreateRandomlySelectedForOnlineProcessResponse();
 
         if (!command.IsVelocityCheckSupported())
         {
             return new TerminalRiskManagementResponse(TerminalVerificationResult.Create(),
-                TransactionStatusInformationFlagTypes.NotAvailable);
+                                                      TransactionStatusInformationFlagTypes.NotAvailable);
         }
 
         if (!DoesVelocityCheckHaveRequiredItems(command.GetApplicationTransactionCount(),
-            command.GetLastOnlineApplicationTransactionCount()))
+                                                command.GetLastOnlineApplicationTransactionCount()))
             return CreateVelocityCheckDoesNotHaveRequiredItemsResponse();
 
         if (IsLowerVelocityThresholdExceeded(command.GetLowerConsecutiveOfflineLimit()!.Value,
-            command.GetApplicationTransactionCount()!.Value, command.GetLastOnlineApplicationTransactionCount()!.Value))
+                                             command.GetApplicationTransactionCount()!.Value,
+                                             command.GetLastOnlineApplicationTransactionCount()!.Value))
             return CreateVelocityLowerThresholdExceededResponse();
 
         if (IsUpperVelocityThresholdExceeded(command.GetUpperConsecutiveOfflineLimit()!.Value,
-            command.GetApplicationTransactionCount()!.Value, command.GetLastOnlineApplicationTransactionCount()!.Value))
+                                             command.GetApplicationTransactionCount()!.Value,
+                                             command.GetLastOnlineApplicationTransactionCount()!.Value))
             return CreateVelocityUpperThresholdExceededResponse();
 
         return new TerminalRiskManagementResponse(TerminalVerificationResult.Create(), TransactionStatusInformationFlagTypes.NotAvailable);

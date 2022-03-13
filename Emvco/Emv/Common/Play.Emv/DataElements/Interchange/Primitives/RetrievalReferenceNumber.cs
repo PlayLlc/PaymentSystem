@@ -3,6 +3,7 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Emv.DataElements.TrackData;
 using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;

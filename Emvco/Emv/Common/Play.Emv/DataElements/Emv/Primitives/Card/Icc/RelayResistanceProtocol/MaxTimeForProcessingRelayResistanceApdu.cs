@@ -7,25 +7,19 @@ using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
 
-/// <summary>
-///     Contains Terminal provided data if permanent data storage in the Card was applicable (DS Slot Management
-///     Control[8]=1b), remains applicable, or becomes applicable (DS ODS Info[8]=1b). Otherwise this data item is a filler
-///     to be supplied by the Kernel. The data is forwarded to the Card with the GENERATE AC command, as per DSDOL
-///     formatting
-/// </summary>
-public record DataStorageInputCard : DataElement<ulong>
+public record MaxTimeForProcessingRelayResistanceApdu : DataElement<ushort>
 {
     #region Static Metadata
 
-    public static readonly Tag Tag = 0xDF60;
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
-    private const byte _ByteLength = 8;
+    public static readonly Tag Tag = 0xDF8304;
+    private const byte _ByteLength = 2;
 
     #endregion
 
     #region Constructor
 
-    public DataStorageInputCard(ulong value) : base(value)
+    public MaxTimeForProcessingRelayResistanceApdu(ushort value) : base(value)
     { }
 
     #endregion
@@ -41,17 +35,17 @@ public record DataStorageInputCard : DataElement<ulong>
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static DataStorageInputCard Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public static MaxTimeForProcessingRelayResistanceApdu Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static DataStorageInputCard Decode(ReadOnlySpan<byte> value)
+    public static MaxTimeForProcessingRelayResistanceApdu Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
+        ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
 
-        return new DataStorageInputCard(result);
+        return new MaxTimeForProcessingRelayResistanceApdu(result);
     }
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);

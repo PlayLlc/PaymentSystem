@@ -1,13 +1,12 @@
 ﻿using System;
 
-using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.DataElements.TrackData;
 
 /// <summary>
 ///     The Account Number associated to Issuer Card

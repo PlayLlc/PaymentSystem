@@ -7,6 +7,7 @@ using Play.Emv.DataElements;
 using Play.Emv.Icc;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
+using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
 
 namespace Play.Emv.Terminal.Common.Services.TerminalActionAnalysis.Terminal;
@@ -201,8 +202,10 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     private void CreateDenyTransactionResponse(TerminalActionAnalysisCommand command)
     {
         _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessionId(),
-            new CryptogramInformationData(CryptogramTypes.ApplicationAuthenticationCryptogram), command.GetCardRiskManagementDolResult(),
-            command.GetDataStorageDolResult()));
+                                                                         new CryptogramInformationData(CryptogramTypes
+                                                                             .ApplicationAuthenticationCryptogram),
+                                                                         command.GetCardRiskManagementDolResult(),
+                                                                         command.GetDataStorageDolResult()));
     }
 
     /// <summary>
@@ -218,8 +221,10 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
             == AuthenticationTypes.CombinedDataAuthentication;
 
         _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessionId(),
-            new CryptogramInformationData(CryptogramTypes.TransactionCryptogram, isCdaRequested), command.GetCardRiskManagementDolResult(),
-            command.GetDataStorageDolResult()));
+                                                                         new
+                                                                             CryptogramInformationData(CryptogramTypes.TransactionCryptogram,
+                                                                              isCdaRequested), command.GetCardRiskManagementDolResult(),
+                                                                         command.GetDataStorageDolResult()));
     }
 
     /// <summary>
@@ -231,8 +236,10 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     private void CreateProceedOnlineResponse(TerminalActionAnalysisCommand command)
     {
         _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessionId(),
-            new CryptogramInformationData(CryptogramTypes.AuthorizationRequestCryptogram), command.GetCardRiskManagementDolResult(),
-            command.GetDataStorageDolResult()));
+                                                                         new CryptogramInformationData(CryptogramTypes
+                                                                             .AuthorizationRequestCryptogram),
+                                                                         command.GetCardRiskManagementDolResult(),
+                                                                         command.GetDataStorageDolResult()));
     }
 
     #endregion

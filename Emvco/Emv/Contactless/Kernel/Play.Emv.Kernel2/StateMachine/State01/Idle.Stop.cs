@@ -15,7 +15,8 @@ public partial class Idle : KernelState
     /// <param name="session"></param>
     /// <param name="signal"></param>
     /// <returns></returns>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
         HandleRequestOutOfSync(session, signal);

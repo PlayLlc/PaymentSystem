@@ -21,13 +21,22 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 
     #endregion
 
+    #region Instance Values
+
+    private readonly IGetKernelState _KernelStateResolver;
+
+    #endregion
+
     #region Constructor
 
     public WaitingForExchangeRelayResistanceDataResponse(
         KernelDatabase kernelDatabase,
         DataExchangeKernelService dataExchange,
-        IKernelEndpoint kernelEndpoint) : base(kernelDatabase, dataExchange, kernelEndpoint)
-    { }
+        IKernelEndpoint kernelEndpoint,
+        IGetKernelState kernelStateResolver) : base(kernelDatabase, dataExchange, kernelEndpoint)
+    {
+        _KernelStateResolver = kernelStateResolver;
+    }
 
     #endregion
 

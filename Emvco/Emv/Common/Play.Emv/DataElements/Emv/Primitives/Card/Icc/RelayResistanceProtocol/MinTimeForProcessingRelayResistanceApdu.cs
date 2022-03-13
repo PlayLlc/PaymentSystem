@@ -8,24 +8,22 @@ using Play.Emv.Exceptions;
 namespace Play.Emv.DataElements;
 
 /// <summary>
-///     Contains Terminal provided data if permanent data storage in the Card was applicable (DS Slot Management
-///     Control[8]=1b), remains applicable, or becomes applicable (DS ODS Info[8]=1b). Otherwise this data item is a filler
-///     to be supplied by the Kernel. The data is forwarded to the Card with the GENERATE AC command, as per DSDOL
-///     formatting
+///     Indicates the minimum estimated time the Card requires for processing the EXCHANGE RELAY RESISTANCE DATA command.
+///     The Min Time For Processing Relay Resistance APDU is expressed in units of hundreds of microseconds.
 /// </summary>
-public record DataStorageInputCard : DataElement<ulong>
+public record MinTimeForProcessingRelayResistanceApdu : DataElement<ushort>
 {
     #region Static Metadata
 
-    public static readonly Tag Tag = 0xDF60;
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
-    private const byte _ByteLength = 8;
+    public static readonly Tag Tag = 0xDF8303;
+    private const byte _ByteLength = 2;
 
     #endregion
 
     #region Constructor
 
-    public DataStorageInputCard(ulong value) : base(value)
+    public MinTimeForProcessingRelayResistanceApdu(ushort value) : base(value)
     { }
 
     #endregion
@@ -41,17 +39,17 @@ public record DataStorageInputCard : DataElement<ulong>
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static DataStorageInputCard Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public static MinTimeForProcessingRelayResistanceApdu Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static DataStorageInputCard Decode(ReadOnlySpan<byte> value)
+    public static MinTimeForProcessingRelayResistanceApdu Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
+        ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
 
-        return new DataStorageInputCard(result);
+        return new MinTimeForProcessingRelayResistanceApdu(result);
     }
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
