@@ -8,6 +8,7 @@ using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 using Play.Globalization.Time;
+using Play.Globalization.Time.Seconds;
 
 namespace Play.Emv.DataElements;
 
@@ -37,7 +38,7 @@ public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldT
         if (value < _MinimumValue)
         {
             throw new DataElementParsingException(nameof(value),
-                $"The argument {nameof(value)} must be at least 100 ms to initialize a {nameof(HoldTimeValue)}");
+                                                  $"The argument {nameof(value)} must be at least 100 ms to initialize a {nameof(HoldTimeValue)}");
         }
     }
 

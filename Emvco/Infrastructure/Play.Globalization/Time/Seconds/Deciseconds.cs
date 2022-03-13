@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using Play.Globalization.Time;
-
-namespace Play.Globalization.Timed
+namespace Play.Globalization.Time.Seconds
 {
     /// <summary>
     ///     Decisecond is one tenth of a second
@@ -16,19 +10,22 @@ namespace Play.Globalization.Timed
         #region Static Metadata
 
         public static readonly Deciseconds Zero = new(0);
-        private const int _TicksToDecisecondsDivisor = 1000000;
-        private const int _MillisecondsToDecisecondsDivisor = 100;
-        private const int _DecisecondsToSecondsDivisor = 10;
+        public const int Precision = 10;
 
         #endregion
 
         #region Instance Values
 
-        private readonly int _Value;
+        private readonly long _Value;
 
         #endregion
 
         #region Constructor
+
+        public Deciseconds(long value)
+        {
+            _Value = value;
+        }
 
         public Deciseconds(int value)
         {
@@ -45,26 +42,32 @@ namespace Play.Globalization.Timed
             _Value = value;
         }
 
-        private Deciseconds(Seconds value)
+        public Deciseconds(Seconds value)
         {
-            _Value = (int) value * _DecisecondsToSecondsDivisor;
+            _Value = (int) value * (Precision / Seconds.Precision);
         }
 
-        private Deciseconds(Milliseconds value)
+        public Deciseconds(Microseconds value)
         {
-            _Value = (int) value / _MillisecondsToDecisecondsDivisor;
+            _Value = (long) value / (Microseconds.Precision / Precision);
         }
 
-        private Deciseconds(TimeSpan value)
+        public Deciseconds(Milliseconds value)
         {
-            _Value = value.Milliseconds / _MillisecondsToDecisecondsDivisor;
+            _Value = (long) value / (Milliseconds.Precision / Precision);
+        }
+
+        public Deciseconds(TimeSpan value)
+        {
+            _Value = value.Ticks / (Ticks.Precision / Precision);
+            ;
         }
 
         #endregion
 
         #region Instance Members
 
-        public TimeSpan AsTimeSpan() => new(_Value * _TicksToDecisecondsDivisor);
+        public TimeSpan AsTimeSpan() => new(_Value * (Ticks.Precision / Precision));
         public Seconds AsSeconds() => new(this);
 
         #endregion
@@ -87,6 +90,8 @@ namespace Play.Globalization.Timed
 
         #region Operator Overrides
 
+        public static Deciseconds operator *(Deciseconds left, Deciseconds right) => new(left._Value * right._Value);
+        public static Deciseconds operator /(Deciseconds left, Deciseconds right) => new(left._Value / right._Value);
         public static Deciseconds operator -(Deciseconds left, Deciseconds right) => new(left._Value - right._Value);
         public static Deciseconds operator +(Deciseconds left, Deciseconds right) => new(left._Value + right._Value);
         public static bool operator >(long left, Deciseconds right) => left > right._Value;

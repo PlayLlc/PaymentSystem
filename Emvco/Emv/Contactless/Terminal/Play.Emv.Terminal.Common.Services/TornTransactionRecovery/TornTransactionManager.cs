@@ -4,6 +4,7 @@ using System.Linq;
 using Play.Emv.DataElements;
 using Play.Emv.Terminal.Contracts;
 using Play.Globalization.Time;
+using Play.Globalization.Time.Seconds;
 
 namespace Play.Emv.Terminal.Common.Services.TornTransactionRecovery;
 

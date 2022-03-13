@@ -1,8 +1,6 @@
 ﻿using System;
 
-using Play.Globalization.Timed;
-
-namespace Play.Globalization.Time;
+namespace Play.Globalization.Time.Seconds;
 
 /// <summary>
 ///     This struct represents a <see cref="TimeSpan" /> that is initialized with Milliseconds
@@ -12,9 +10,7 @@ public readonly record struct Milliseconds
     #region Static Metadata
 
     public static readonly Milliseconds Zero = new(0);
-    private const ushort _TicksToMillisecondsDivisor = 10000;
-    private const ushort _MillisecondsToDecisecondsDivisor = 100;
-    private const ushort _MillisecondsToSecondsDivisor = 1000;
+    public const int Precision = 1000;
 
     #endregion
 
@@ -53,24 +49,24 @@ public readonly record struct Milliseconds
 
     public Milliseconds(Deciseconds value)
     {
-        _Value = (long) value * _MillisecondsToDecisecondsDivisor;
+        _Value = (long) value * (Precision / Deciseconds.Precision);
     }
 
     public Milliseconds(Seconds value)
     {
-        _Value = (long) value * _MillisecondsToSecondsDivisor;
+        _Value = (long) value * (Precision / Seconds.Precision);
     }
 
     public Milliseconds(TimeSpan value)
     {
-        _Value = (uint) value.Milliseconds;
+        _Value = value.Milliseconds;
     }
 
     #endregion
 
     #region Instance Members
 
-    public TimeSpan AsTimeSpan() => new(_Value * _TicksToMillisecondsDivisor);
+    public TimeSpan AsTimeSpan() => new(_Value * (Ticks.Precision / Precision));
     public Seconds AsSeconds() => new(this);
 
     #endregion
@@ -95,6 +91,8 @@ public readonly record struct Milliseconds
 
     public static Milliseconds operator -(Milliseconds left, Milliseconds right) => new(left._Value - right._Value);
     public static Milliseconds operator +(Milliseconds left, Milliseconds right) => new(left._Value + right._Value);
+    public static Milliseconds operator *(Milliseconds left, Milliseconds right) => new(left._Value * right._Value);
+    public static Milliseconds operator /(Milliseconds left, Milliseconds right) => new(left._Value / right._Value);
     public static bool operator >(long left, Milliseconds right) => left > right._Value;
     public static bool operator <(long left, Milliseconds right) => left < right._Value;
     public static bool operator >=(long left, Milliseconds right) => left >= right._Value;

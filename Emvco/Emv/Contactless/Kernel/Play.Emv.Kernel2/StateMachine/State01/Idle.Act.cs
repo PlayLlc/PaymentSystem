@@ -14,6 +14,7 @@ using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
 using Play.Emv.Templates;
 using Play.Globalization.Time;
+using Play.Globalization.Time.Seconds;
 using Play.Messaging;
 
 namespace Play.Emv.Kernel2.StateMachine;

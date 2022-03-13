@@ -8,6 +8,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 using Play.Globalization.Time;
+using Play.Globalization.Time.Seconds;
 
 namespace Play.Emv.DataElements;
 

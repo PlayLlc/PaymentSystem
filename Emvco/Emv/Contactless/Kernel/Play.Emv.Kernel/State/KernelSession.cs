@@ -9,6 +9,7 @@ using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security.Authentications.Static;
 using Play.Emv.Sessions;
 using Play.Globalization.Time;
+using Play.Globalization.Time.Seconds;
 using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Messaging;
 

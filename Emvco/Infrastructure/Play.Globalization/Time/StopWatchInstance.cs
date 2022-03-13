@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 
+using Play.Globalization.Time.Seconds;
+
 namespace Play.Globalization.Time;
 
 /// <summary>
@@ -22,6 +24,7 @@ internal class StopWatchInstance
         _Stopwatch = new Stopwatch();
         _Timeout = timeout;
         _Stopwatch.Start();
+        _Stopwatch.Elapsed
     }
 
     #endregion

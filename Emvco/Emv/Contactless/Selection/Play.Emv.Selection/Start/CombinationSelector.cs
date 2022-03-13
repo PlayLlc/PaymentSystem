@@ -8,6 +8,7 @@ using Play.Emv.Selection.Contracts;
 using Play.Emv.Sessions;
 using Play.Emv.Templates;
 using Play.Globalization.Time;
+using Play.Globalization.Time.Seconds;
 using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Icc.Messaging.Apdu;
 using Play.Messaging;
@@ -74,8 +75,8 @@ public class CombinationSelector
     {
         if (preProcessingIndicators.TryGetValue(compositeKey, out PreProcessingIndicator? result))
         {
-            throw new InvalidOperationException(
-                $"A {nameof(PreProcessingIndicator)} was expected to be found for the {nameof(CombinationCompositeKey)} but none was found");
+            throw new
+                InvalidOperationException($"A {nameof(PreProcessingIndicator)} was expected to be found for the {nameof(CombinationCompositeKey)} but none was found");
         }
 
         return Combination.Create(directoryEntry, result!);
@@ -91,8 +92,8 @@ public class CombinationSelector
         Action<OutSelectionResponse> callback)
     {
         OutSelectionResponse outSelectionResponse = new(correlationId, transaction,
-            combinationOutcome.Combination.GetCombinationCompositeKey(), preProcessingIndicatorResult.GetTerminalTransactionQualifiers(),
-            appletFci);
+                                                        combinationOutcome.Combination.GetCombinationCompositeKey(),
+                                                        preProcessingIndicatorResult.GetTerminalTransactionQualifiers(), appletFci);
 
         callback.Invoke(outSelectionResponse);
     }
@@ -147,7 +148,7 @@ public class CombinationSelector
         if (sendPoiInformationResponse.GetStatusWords() == StatusWords._9000)
         {
             ProcessStep2(transactionSessionId, candidateList, preProcessingIndicators, outcome, transactionType,
-                FileControlInformationPpse.Decode(sendPoiInformationResponse.GetData()));
+                         FileControlInformationPpse.Decode(sendPoiInformationResponse.GetData()));
         }
         else
             ProcessStep3(transactionSessionId, candidateList, outcome);
@@ -217,7 +218,7 @@ public class CombinationSelector
             }
 
             CombinationCompositeKey combinationKey = new(directoryEntry.GetApplicationDedicatedFileName().AsDedicatedFileName(),
-                kernelIdentifier!.AsKernelId(), transactionType);
+                                                         kernelIdentifier!.AsKernelId(), transactionType);
 
             combinations.Add(CreateCombination(preProcessingIndicators, combinationKey, directoryEntry));
         }
@@ -256,7 +257,7 @@ public class CombinationSelector
                 ProcessStep1A(transactionSessionId, ppseFileControlInformation);
 
             ProcessStep2(transactionSessionId, candidateList, preProcessingIndicators, outcome, transactionType,
-                ppseFileControlInformation);
+                         ppseFileControlInformation);
 
             return;
         }
@@ -311,8 +312,8 @@ public class CombinationSelector
     /// </remarks>
     private void SelectApplicationFileControlInformation(TransactionSessionId transactionSessionId, Combination combination)
     {
-        _PcdEndpoint.Request(
-            SelectApplicationDefinitionFileInfoRequest.Create(transactionSessionId, combination.GetApplicationIdentifier()));
+        _PcdEndpoint.Request(SelectApplicationDefinitionFileInfoRequest.Create(transactionSessionId,
+                                                                               combination.GetApplicationIdentifier()));
     }
 
     /// <exception cref="InvalidOperationException">Ignore.</exception>

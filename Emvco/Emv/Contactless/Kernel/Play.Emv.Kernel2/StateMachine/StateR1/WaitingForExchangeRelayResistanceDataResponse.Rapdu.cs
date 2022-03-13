@@ -19,6 +19,7 @@ using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Pcd.Contracts.SignalOut.Queddries;
 using Play.Globalization.Time;
+using Play.Globalization.Time.Seconds;
 using Play.Icc.Messaging.Apdu;
 
 namespace Play.Emv.Kernel2.StateMachine;

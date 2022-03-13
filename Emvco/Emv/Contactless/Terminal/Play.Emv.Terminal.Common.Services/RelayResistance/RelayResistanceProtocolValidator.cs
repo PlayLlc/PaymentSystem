@@ -11,6 +11,7 @@ using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Exceptions;
 using Play.Emv.Sessions;
 using Play.Globalization.Time;
+using Play.Globalization.Time.Seconds;
 
 namespace Play.Emv.Terminal.Common.Services.RelayResistance
 {
@@ -47,8 +48,10 @@ namespace Play.Emv.Terminal.Common.Services.RelayResistance
         private bool IsInRange(TransactionSessionId transactionSessionId, Milliseconds timeElapsed, IQueryTlvDatabase tlvDatabase)
         {
             if (transactionSessionId != _SessionId)
+            {
                 throw new
                     TerminalDataException($"The {nameof(RelayResistanceProtocolValidator)} recieved a request with an invalid {nameof(TransactionSessionId)}. The expected {nameof(TransactionSessionId)} was: [{_SessionId}], but the value received was: [{transactionSessionId}]");
+            }
 
             MeasuredRelayResistanceProcessingTime processingTime = CalculateMeasuredRrpTime(timeElapsed, tlvDatabase);
 
