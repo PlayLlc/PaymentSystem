@@ -58,22 +58,29 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
 
     #region Serialization
 
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalCapabilities Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalCapabilities Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<uint> result = _Codec.Decode(EncodingId, value) as DecodedResult<uint>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(TerminalCapabilities)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
-        return new TerminalCapabilities(result.Value);
+        uint result = PlayCodec.BinaryCodec.DecodeToUInt32(value);
+        return new TerminalCapabilities(result);
     }
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+
+    public new byte[] EncodeValue(int length) => EncodeValue();
+
+
+
+
 
     #endregion
 

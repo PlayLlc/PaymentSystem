@@ -7,13 +7,17 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Extensions;
+using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.Issuer;
 
 /// <summary>
 ///     Data sent to the ICC for online issuer authentication
 /// </summary>
-public record IssuerAuthenticationData : PrimitiveValue, IEqualityComparer<IssuerAuthenticationData>
+public record IssuerAuthenticationData : DataElement<BigInteger>, IEqualityComparer<IssuerAuthenticationData>
 {
     #region Static Metadata
 
@@ -21,16 +25,11 @@ public record IssuerAuthenticationData : PrimitiveValue, IEqualityComparer<Issue
     public static readonly Tag Tag = 0x91;
 
     #endregion
-
-    #region Instance Values
-
-    private readonly BigInteger _Value;
-
-    #endregion
+     
 
     #region Constructor
 
-    public IssuerAuthenticationData(BigInteger value)
+    public IssuerAuthenticationData(BigInteger value) : base(value)
     {
         _Value = value;
     }
@@ -69,9 +68,31 @@ public record IssuerAuthenticationData : PrimitiveValue, IEqualityComparer<Issue
         return new IssuerAuthenticationData(result.Value);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
 
+
+
+
+
+    private const byte _MinByteLength = 8;
+    private const byte _MaxByteLength = 16;
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static IssuerAuthenticationData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static IssuerAuthenticationData Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
+
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value); 
+
+        return new IssuerAuthenticationData(result);
+    }
+     
     #endregion
 
     #region Equality

@@ -6,6 +6,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 using Play.Globalization;
@@ -45,26 +46,26 @@ public record TerminalFloorLimit : DataElement<uint>, IEqualityComparer<Terminal
 
     #region Serialization
 
+     
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalFloorLimit Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalFloorLimit Decode(ReadOnlySpan<byte> value)
     {
-        if (value.Length != _ByteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(TerminalFloorLimit)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
-        }
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<uint> result = _Codec.Decode(EncodingId, value) as DecodedResult<uint>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(TerminalFloorLimit)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
+        uint result = PlayCodec.BinaryCodec.DecodeToUInt32(value); 
 
-        return new TerminalFloorLimit(result.Value);
+        return new TerminalFloorLimit(result);
     }
 
-    public new byte[] EncodeValue() => EncodeValue(_ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

@@ -39,19 +39,20 @@ public record SecurityCapability : DataElement<byte>, IEqualityComparer<Security
 
     #region Serialization
 
+    private const byte _ByteLength = 1;
     public static SecurityCapability Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public static SecurityCapability Decode(ReadOnlySpan<byte> value)
     {
-        DecodedResult<byte> result = _Codec.Decode(EncodingId, value) as DecodedResult<byte>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(SecurityCapability)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
 
-        return new SecurityCapability(result.Value);
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
+        byte result = PlayCodec.BinaryCodec.DecodeToByte(value); 
+        return new SecurityCapability(result);
     }
-
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
     #endregion
 
     #region Equality

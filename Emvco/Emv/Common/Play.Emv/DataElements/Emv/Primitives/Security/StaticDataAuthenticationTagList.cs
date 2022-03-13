@@ -27,7 +27,7 @@ public record StaticDataAuthenticationTagList : DataElement<Tag[]>, IEqualityCom
 
     #region Constructor
 
-    public StaticDataAuthenticationTagList(ReadOnlySpan<byte> value) : base(_Codec.DecodeTagSequence(value))
+    public StaticDataAuthenticationTagList(Tag[] value) : base(value)
     { }
 
     #endregion
@@ -58,11 +58,10 @@ public record StaticDataAuthenticationTagList : DataElement<Tag[]>, IEqualityCom
     public static StaticDataAuthenticationTagList Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
-
-        ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
+         
          
 
-        return new StaticDataAuthenticationTagList(result);
+        return new StaticDataAuthenticationTagList(_Codec.DecodeTagSequence(value));
     }
      
 

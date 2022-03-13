@@ -6,6 +6,9 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Extensions;
+using Play.Emv.Ber.DataObjects;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.Issuer;
 
@@ -13,7 +16,7 @@ namespace Play.Emv.Issuer;
 ///     Description: Represents the amount of offline spending available in the Card. The OfflineOnly Accumulator Balance
 ///     is  retrievable by the GET DATA command, if allowed by the Card configuration.
 /// </summary>
-public record OfflineAccumulatorBalance : PrimitiveValue, IEqualityComparer<OfflineAccumulatorBalance>
+public record OfflineAccumulatorBalance : DataElement<ulong>, IEqualityComparer<OfflineAccumulatorBalance>
 {
     #region Static Metadata
 
@@ -21,18 +24,12 @@ public record OfflineAccumulatorBalance : PrimitiveValue, IEqualityComparer<Offl
     public static readonly Tag Tag = 0x9F50;
 
     #endregion
-
-    #region Instance Values
-
-    private readonly ulong _Value;
-
-    #endregion
+     
 
     #region Constructor
 
-    public OfflineAccumulatorBalance(ulong value)
-    {
-        _Value = value;
+    public OfflineAccumulatorBalance(ulong value) : base(value)
+    { 
     }
 
     #endregion
@@ -46,37 +43,33 @@ public record OfflineAccumulatorBalance : PrimitiveValue, IEqualityComparer<Offl
     #endregion
 
     #region Serialization
+     
 
-    public static OfflineAccumulatorBalance Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static OfflineAccumulatorBalance Decode(ReadOnlySpan<byte> value, BerCodec codec)
+
+    private const byte _ByteLength = 6;
+    private const byte _CharLength = 12;
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static OfflineAccumulatorBalance Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static OfflineAccumulatorBalance Decode(ReadOnlySpan<byte> value)
     {
-        const ushort byteLength = 6;
-        const ushort charLength = 12;
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        if (value.Length != byteLength)
-        {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(OfflineAccumulatorBalance)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
-        }
+        ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
 
-        DecodedResult<ulong> result = codec.Decode(EncodingId, value) as DecodedResult<ulong>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(OfflineAccumulatorBalance)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+        Check.Primitive.ForCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
 
-        if (result.CharCount != charLength)
-        {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(OfflineAccumulatorBalance)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
-        }
-
-        return new OfflineAccumulatorBalance(result.Value);
+        return new OfflineAccumulatorBalance(result);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

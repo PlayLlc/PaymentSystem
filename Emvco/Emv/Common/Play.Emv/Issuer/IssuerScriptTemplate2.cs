@@ -7,6 +7,8 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Emv.Ber.DataObjects;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.Issuer;
 
@@ -16,7 +18,7 @@ namespace Play.Emv.Issuer;
 /// <remarks>
 ///     Book 3 Section 10.10
 /// </remarks>
-public record IssuerScriptTemplate2 : PrimitiveValue, IEqualityComparer<IssuerScriptTemplate2>
+public record IssuerScriptTemplate2 : DataElement<BigInteger>, IEqualityComparer<IssuerScriptTemplate2>
 {
     #region Static Metadata
 
@@ -24,18 +26,12 @@ public record IssuerScriptTemplate2 : PrimitiveValue, IEqualityComparer<IssuerSc
     public static readonly Tag Tag = 0x72;
 
     #endregion
-
-    #region Instance Values
-
-    private readonly BigInteger _Value;
-
-    #endregion
+     
 
     #region Constructor
 
-    public IssuerScriptTemplate2(BigInteger value)
-    {
-        _Value = value;
+    public IssuerScriptTemplate2(BigInteger value): base(value)
+    { 
     }
 
     #endregion
@@ -50,21 +46,23 @@ public record IssuerScriptTemplate2 : PrimitiveValue, IEqualityComparer<IssuerSc
 
     #region Serialization
 
-    public static IssuerScriptTemplate2 Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static IssuerScriptTemplate2 Decode(ReadOnlySpan<byte> value, BerCodec codec)
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static IssuerScriptTemplate2 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static IssuerScriptTemplate2 Decode(ReadOnlySpan<byte> value)
     {
-        DecodedResult<BigInteger> result = codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(IssuerScriptTemplate2)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
-        return new IssuerScriptTemplate2(result.Value);
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
+
+
+        return new IssuerScriptTemplate2(result);
     }
-
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
 
     #endregion
 

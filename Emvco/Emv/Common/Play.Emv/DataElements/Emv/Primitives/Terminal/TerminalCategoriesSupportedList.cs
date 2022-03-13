@@ -62,18 +62,16 @@ public record TerminalCategoriesSupportedList : DataElement<BigInteger>, IEquali
     #endregion
 
     #region Serialization
-
-    public static TerminalCategoriesSupportedList Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
-
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static TerminalCategoriesSupportedList Decode(ReadOnlySpan<byte> value, BerCodec codec)
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static TerminalCategoriesSupportedList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static TerminalCategoriesSupportedList Decode(ReadOnlySpan<byte> value)
     {
-        DecodedResult<BigInteger> result = codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(TerminalCategoriesSupportedList)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
-        return new TerminalCategoriesSupportedList(result.Value);
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
+        return new TerminalCategoriesSupportedList(result);
     }
 
     public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
@@ -15,7 +16,7 @@ namespace Play.Emv.DataElements;
 ///     and <see cref="TerminalCategoryCode.Loyalty" />. If the terminal does not belong to one of those categories, the
 ///     Terminal Category ID L V is not listed in this object
 /// </summary>
-public record PoiInformation : DataElement<byte[]>, IEqualityComparer<PoiInformation>
+public record PoiInformation : DataElement<BigInteger>, IEqualityComparer<PoiInformation>
 {
     #region Static Metadata
 
@@ -26,7 +27,7 @@ public record PoiInformation : DataElement<byte[]>, IEqualityComparer<PoiInforma
 
     #region Constructor
 
-    public PoiInformation(ReadOnlySpan<byte> value) : base(value.ToArray())
+    public PoiInformation(BigInteger value) : base(value)
     { }
 
     #endregion
@@ -59,23 +60,30 @@ public record PoiInformation : DataElement<byte[]>, IEqualityComparer<PoiInforma
     #endregion
 
     #region Serialization
+     
 
+    private const byte _MaxByteLength = 64;
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static PoiInformation Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static PoiInformation Decode(ReadOnlySpan<byte> value)
     {
-        const ushort maxByteLength = 64;
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        if (value.Length > maxByteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(PoiInformation)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be less than {maxByteLength} bytes in length");
-        }
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
+         
 
-        return new PoiInformation(value);
+        return new PoiInformation(result);
     }
+     
+
+
+
 
     #endregion
 
