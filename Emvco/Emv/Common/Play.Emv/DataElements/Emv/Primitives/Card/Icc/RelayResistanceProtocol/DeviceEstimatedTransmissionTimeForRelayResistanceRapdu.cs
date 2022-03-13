@@ -3,6 +3,7 @@
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
@@ -11,7 +12,7 @@ namespace Play.Emv.DataElements;
 ///     Indicates the time the Card expects to need for transmitting the EXCHANGE RELAY RESISTANCE DATA R-APDU. The Device
 ///     Estimated Transmission Time For Relay Resistance RAPDU is expressed in units of hundreds of microseconds.
 /// </summary>
-public record DeviceEstimatedTransmissionTimeForRelayResistanceRapdu : DataElement<ushort>
+public record DeviceEstimatedTransmissionTimeForRelayResistanceRapdu : DataElement<RelaySeconds>
 {
     #region Static Metadata
 
@@ -23,7 +24,7 @@ public record DeviceEstimatedTransmissionTimeForRelayResistanceRapdu : DataEleme
 
     #region Constructor
 
-    public DeviceEstimatedTransmissionTimeForRelayResistanceRapdu(ushort value) : base(value)
+    public DeviceEstimatedTransmissionTimeForRelayResistanceRapdu(RelaySeconds value) : base(value)
     { }
 
     #endregion
@@ -59,7 +60,7 @@ public record DeviceEstimatedTransmissionTimeForRelayResistanceRapdu : DataEleme
 
     #region Operator Overrides
 
-    public static explicit operator ushort(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu value) => value._Value;
+    public static explicit operator RelaySeconds(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu value) => value._Value;
 
     #endregion
 }

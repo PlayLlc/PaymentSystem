@@ -3,6 +3,7 @@
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements
@@ -60,6 +61,7 @@ namespace Play.Emv.DataElements
 
         #region Operator Overrides
 
+        public static explicit operator RelaySeconds(TerminalExpectedTransmissionTimeForRelayResistanceCapdu value) => value._Value;
         public static explicit operator ushort(TerminalExpectedTransmissionTimeForRelayResistanceCapdu value) => value._Value;
 
         #endregion

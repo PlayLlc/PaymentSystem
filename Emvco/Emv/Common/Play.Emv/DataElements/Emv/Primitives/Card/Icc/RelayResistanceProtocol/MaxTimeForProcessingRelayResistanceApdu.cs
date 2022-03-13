@@ -3,11 +3,12 @@
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
 
-public record MaxTimeForProcessingRelayResistanceApdu : DataElement<ushort>
+public record MaxTimeForProcessingRelayResistanceApdu : DataElement<RelaySeconds>
 {
     #region Static Metadata
 
@@ -19,7 +20,7 @@ public record MaxTimeForProcessingRelayResistanceApdu : DataElement<ushort>
 
     #region Constructor
 
-    public MaxTimeForProcessingRelayResistanceApdu(ushort value) : base(value)
+    public MaxTimeForProcessingRelayResistanceApdu(RelaySeconds value) : base(value)
     { }
 
     #endregion
@@ -55,6 +56,7 @@ public record MaxTimeForProcessingRelayResistanceApdu : DataElement<ushort>
 
     #region Operator Overrides
 
+    public static explicit operator RelaySeconds(MaxTimeForProcessingRelayResistanceApdu value) => value._Value;
     public static explicit operator ushort(MaxTimeForProcessingRelayResistanceApdu value) => value._Value;
 
     #endregion

@@ -3,6 +3,7 @@
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Emv.Exceptions;
 using Play.Globalization.Time;
 using Play.Globalization.Time.Seconds;
@@ -13,7 +14,7 @@ namespace Play.Emv.DataElements
     ///     Contains the time measured by the Kernel for processing the EXCHANGE RELAY RESISTANCE DATA command. The Measured
     ///     Relay Resistance Processing Time is expressed in units of hundreds of microseconds.
     /// </summary>
-    public record MeasuredRelayResistanceProcessingTime : DataElement<ushort>
+    public record MeasuredRelayResistanceProcessingTime : DataElement<RelaySeconds>
     {
         #region Static Metadata
 
@@ -25,7 +26,7 @@ namespace Play.Emv.DataElements
 
         #region Constructor
 
-        public MeasuredRelayResistanceProcessingTime(ushort value) : base(value)
+        public MeasuredRelayResistanceProcessingTime(RelaySeconds value) : base(value)
         { }
 
         #endregion
@@ -81,7 +82,7 @@ namespace Play.Emv.DataElements
 
         #region Operator Overrides
 
-        public static explicit operator ushort(MeasuredRelayResistanceProcessingTime value) => value._Value;
+        public static explicit operator RelaySeconds(MeasuredRelayResistanceProcessingTime value) => value._Value;
 
         #endregion
     }

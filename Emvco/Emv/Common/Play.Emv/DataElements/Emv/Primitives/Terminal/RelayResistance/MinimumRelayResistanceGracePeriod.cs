@@ -3,6 +3,7 @@
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements
@@ -12,7 +13,7 @@ namespace Play.Emv.DataElements
     ///     window defined by the Card that the measured time may be and yet still be considered acceptable. The Minimum Relay
     ///     Resistance Grace Period is expressed in units of hundreds of microseconds.
     /// </summary>
-    public record MinimumRelayResistanceGracePeriod : DataElement<ushort>
+    public record MinimumRelayResistanceGracePeriod : DataElement<RelaySeconds>
     {
         #region Static Metadata
 
@@ -24,7 +25,7 @@ namespace Play.Emv.DataElements
 
         #region Constructor
 
-        public MinimumRelayResistanceGracePeriod(ushort value) : base(value)
+        public MinimumRelayResistanceGracePeriod(RelaySeconds value) : base(value)
         { }
 
         #endregion
@@ -60,7 +61,7 @@ namespace Play.Emv.DataElements
 
         #region Operator Overrides
 
-        public static explicit operator ushort(MinimumRelayResistanceGracePeriod value) => value._Value;
+        public static explicit operator RelaySeconds(MinimumRelayResistanceGracePeriod value) => value._Value;
 
         #endregion
     }

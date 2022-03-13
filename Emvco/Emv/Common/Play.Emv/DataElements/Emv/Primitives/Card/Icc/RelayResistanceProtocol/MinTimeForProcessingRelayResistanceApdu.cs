@@ -3,6 +3,7 @@
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
@@ -11,7 +12,7 @@ namespace Play.Emv.DataElements;
 ///     Indicates the minimum estimated time the Card requires for processing the EXCHANGE RELAY RESISTANCE DATA command.
 ///     The Min Time For Processing Relay Resistance APDU is expressed in units of hundreds of microseconds.
 /// </summary>
-public record MinTimeForProcessingRelayResistanceApdu : DataElement<ushort>
+public record MinTimeForProcessingRelayResistanceApdu : DataElement<RelaySeconds>
 {
     #region Static Metadata
 
@@ -23,7 +24,7 @@ public record MinTimeForProcessingRelayResistanceApdu : DataElement<ushort>
 
     #region Constructor
 
-    public MinTimeForProcessingRelayResistanceApdu(ushort value) : base(value)
+    public MinTimeForProcessingRelayResistanceApdu(RelaySeconds value) : base(value)
     { }
 
     #endregion
@@ -59,7 +60,7 @@ public record MinTimeForProcessingRelayResistanceApdu : DataElement<ushort>
 
     #region Operator Overrides
 
-    public static explicit operator ushort(MinTimeForProcessingRelayResistanceApdu value) => value._Value;
+    public static explicit operator RelaySeconds(MinTimeForProcessingRelayResistanceApdu value) => value._Value;
 
     #endregion
 }

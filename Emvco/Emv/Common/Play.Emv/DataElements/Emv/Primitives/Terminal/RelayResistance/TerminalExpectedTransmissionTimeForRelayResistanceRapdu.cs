@@ -3,6 +3,7 @@
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements
@@ -12,7 +13,7 @@ namespace Play.Emv.DataElements
     ///     DATA R-APDU. The Terminal Expected Transmission Time For Relay Resistance R-APDU is expressed in units of hundreds
     ///     of microseconds.
     /// </summary>
-    public record TerminalExpectedTransmissionTimeForRelayResistanceRapdu : DataElement<ushort>
+    public record TerminalExpectedTransmissionTimeForRelayResistanceRapdu : DataElement<RelaySeconds>
     {
         #region Static Metadata
 
@@ -24,7 +25,7 @@ namespace Play.Emv.DataElements
 
         #region Constructor
 
-        public TerminalExpectedTransmissionTimeForRelayResistanceRapdu(ushort value) : base(value)
+        public TerminalExpectedTransmissionTimeForRelayResistanceRapdu(RelaySeconds value) : base(value)
         { }
 
         #endregion
@@ -60,6 +61,7 @@ namespace Play.Emv.DataElements
 
         #region Operator Overrides
 
+        public static explicit operator RelaySeconds(TerminalExpectedTransmissionTimeForRelayResistanceRapdu value) => value._Value;
         public static explicit operator ushort(TerminalExpectedTransmissionTimeForRelayResistanceRapdu value) => value._Value;
 
         #endregion

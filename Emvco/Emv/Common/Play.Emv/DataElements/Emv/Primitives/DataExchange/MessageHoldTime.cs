@@ -15,11 +15,11 @@ namespace Play.Emv.DataElements;
 ///     Description: Indicates the default delay for the processing of the next MSG DataExchangeSignal. The Message Hold
 ///     Time is an integer in units of 100ms.
 /// </summary>
-public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<MessageHoldTime>
+public record MessageHoldTime : DataElement<Deciseconds>, IEqualityComparer<MessageHoldTime>
 {
     #region Static Metadata
 
-    private static readonly Milliseconds _MinimumValue = new(100);
+    private static readonly Deciseconds _MinimumValue = new(0);
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly MessageHoldTime MinimumValue = new(_MinimumValue);
     public static readonly Tag Tag = 0xDF812D;
@@ -33,7 +33,7 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
     ///     Minimum Value: 100 ms
     /// </param>
     /// <exception cref="DataElementParsingException"></exception>
-    public MessageHoldTime(Milliseconds value) : base(value)
+    public MessageHoldTime(Deciseconds value) : base(value)
     {
         if (value < _MinimumValue)
         {
@@ -52,7 +52,7 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
     /// <summary>
     ///     The hold time in units of 100 ms
     /// </summary>
-    public ulong GetHoldTime() => (ulong) _Value / 100;
+    public Deciseconds GetHoldTime() => _Value;
 
     public override Tag GetTag() => Tag;
 
@@ -72,7 +72,7 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
 
         uint result = PlayCodec.BinaryCodec.DecodeToUInt32(value);
 
-        return new MessageHoldTime(new Milliseconds(result * 100));
+        return new MessageHoldTime(new Deciseconds(result));
     }
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
@@ -94,6 +94,12 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
     }
 
     public int GetHashCode(MessageHoldTime obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator Deciseconds(MessageHoldTime value) => value._Value;
 
     #endregion
 }

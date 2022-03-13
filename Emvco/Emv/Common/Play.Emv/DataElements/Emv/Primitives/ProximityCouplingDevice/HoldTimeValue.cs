@@ -16,11 +16,11 @@ namespace Play.Emv.DataElements;
 ///     Indicates the time that the field is to be turned off after the transaction is completed if requested to do so by
 ///     the  cardholder device
 /// </summary>
-public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldTimeValue>
+public record HoldTimeValue : DataElement<Deciseconds>, IEqualityComparer<HoldTimeValue>
 {
     #region Static Metadata
 
-    private static readonly Milliseconds _MinimumValue = new(100);
+    private static readonly Deciseconds _MinimumValue = new(0);
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF8130;
     private const byte _ByteLength = 3;
@@ -33,12 +33,13 @@ public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldT
     /// <param name="value">
     ///     Minimum Value: 100 ms
     /// </param>
-    public HoldTimeValue(Milliseconds value) : base(value)
+    /// <exception cref="DataElementParsingException"></exception>
+    public HoldTimeValue(Deciseconds value) : base(value)
     {
         if (value < _MinimumValue)
         {
-            throw new DataElementParsingException(nameof(value),
-                                                  $"The argument {nameof(value)} must be at least 100 ms to initialize a {nameof(HoldTimeValue)}");
+            throw new DataElementParsingException(new ArgumentOutOfRangeException(nameof(value),
+                                                                                  $"The argument {nameof(value)} must be at least 100 ms to initialize a {nameof(HoldTimeValue)}"));
         }
     }
 
@@ -52,7 +53,7 @@ public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldT
     /// <summary>
     ///     The hold time in units of 100 ms
     /// </summary>
-    public ulong GetHoldTime() => (ulong) _Value / 100;
+    public Deciseconds GetHoldTime() => _Value;
 
     public override Tag GetTag() => Tag;
 
@@ -96,6 +97,12 @@ public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldT
     }
 
     public int GetHashCode(HoldTimeValue obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Operator Overrides
+
+    public static explicit operator Deciseconds(HoldTimeValue value) => value._Value;
 
     #endregion
 }

@@ -5,6 +5,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
+using Play.Globalization.Time.Seconds;
 
 namespace Play.Emv.DataElements;
 
@@ -74,6 +75,7 @@ public record MaxLifetimeOfTornTransactionLogRecords : DataElement<byte>
     #region Operator Overrides
 
     public static explicit operator byte(MaxLifetimeOfTornTransactionLogRecords value) => value._Value;
+    public static implicit operator Seconds(MaxLifetimeOfTornTransactionLogRecords value) => new(value._Value);
 
     #endregion
 }

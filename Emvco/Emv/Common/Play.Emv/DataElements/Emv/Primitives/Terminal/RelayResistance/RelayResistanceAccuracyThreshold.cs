@@ -3,6 +3,7 @@
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements
@@ -12,7 +13,7 @@ namespace Play.Emv.DataElements
     ///     Processing Time and Min Time For Processing Relay Resistance APDU no longer acceptable. The Relay Resistance
     ///     Accuracy Threshold is expressed in units of hundreds of microseconds.
     /// </summary>
-    public record RelayResistanceAccuracyThreshold : DataElement<ushort>
+    public record RelayResistanceAccuracyThreshold : DataElement<RelaySeconds>
     {
         #region Static Metadata
 
@@ -24,7 +25,7 @@ namespace Play.Emv.DataElements
 
         #region Constructor
 
-        public RelayResistanceAccuracyThreshold(ushort value) : base(value)
+        public RelayResistanceAccuracyThreshold(RelaySeconds value) : base(value)
         { }
 
         #endregion
@@ -55,6 +56,12 @@ namespace Play.Emv.DataElements
 
         public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
         public new byte[] EncodeValue(int length) => EncodeValue();
+
+        #endregion
+
+        #region Operator Overrides
+
+        public static explicit operator RelaySeconds(RelayResistanceAccuracyThreshold value) => value._Value;
 
         #endregion
     }

@@ -15,7 +15,7 @@ namespace Play.Emv.DataElements;
 /// <summary>
 ///     Defines the time in ms before the timer generates a TIMEOUT Signal.
 /// </summary>
-public record TimeoutValue : DataElement<ushort>, IEqualityComparer<TimeoutValue>
+public record TimeoutValue : DataElement<Milliseconds>, IEqualityComparer<TimeoutValue>
 {
     #region Static Metadata
 
@@ -26,9 +26,6 @@ public record TimeoutValue : DataElement<ushort>, IEqualityComparer<TimeoutValue
     #endregion
 
     #region Constructor
-
-    public TimeoutValue(ushort value) : base(value)
-    { }
 
     public TimeoutValue(Milliseconds value) : base((ushort) value)
     { }

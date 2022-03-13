@@ -3,6 +3,7 @@
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements
@@ -10,7 +11,7 @@ namespace Play.Emv.DataElements
     /// <summary>
     ///     Random number returned by the Card in the response to the EXCHANGE RELAY RESISTANCE DATA command.
     /// </summary>
-    public record DeviceRelayResistanceEntropy : DataElement<ushort>
+    public record DeviceRelayResistanceEntropy : DataElement<RelaySeconds>
     {
         #region Static Metadata
 
@@ -22,7 +23,7 @@ namespace Play.Emv.DataElements
 
         #region Constructor
 
-        public DeviceRelayResistanceEntropy(ushort value) : base(value)
+        public DeviceRelayResistanceEntropy(RelaySeconds value) : base(value)
         { }
 
         #endregion
@@ -53,6 +54,12 @@ namespace Play.Emv.DataElements
 
         public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
         public new byte[] EncodeValue(int length) => EncodeValue();
+
+        #endregion
+
+        #region Operator Overrides
+
+        public static explicit operator RelaySeconds(DeviceRelayResistanceEntropy value) => value._Value;
 
         #endregion
     }
