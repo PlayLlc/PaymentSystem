@@ -1,10 +1,9 @@
 ﻿using Play.Emv.Exceptions;
-using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.State;
 using Play.Emv.Messaging;
 
-namespace Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup.State3;
+namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForGpoResponse : KernelState
 {

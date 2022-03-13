@@ -57,8 +57,8 @@ public class KernelSession
     {
         if (!_ActiveApplicationFileLocator.IsEmpty())
         {
-            throw new TerminalDataException(
-                $"The Kernel attempted to add the {nameof(ApplicationInterchangeProfile)} out of order. The records identified by the {nameof(ApplicationFileLocator)} must enqueue first");
+            throw new
+                TerminalDataException($"The Kernel attempted to add the {nameof(ApplicationInterchangeProfile)} out of order. The records identified by the {nameof(ApplicationFileLocator)} must enqueue first");
         }
 
         _StaticDataToBeAuthenticated.Enqueue(tagList, database);

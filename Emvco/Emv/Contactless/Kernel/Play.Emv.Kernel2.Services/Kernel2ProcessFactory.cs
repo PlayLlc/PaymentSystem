@@ -5,7 +5,6 @@ using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel2.Configuration;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Kernel2.StateMachine;
-using Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts;
 
@@ -25,11 +24,12 @@ public class Kernel2ProcessFactory
         CertificateAuthorityDataset[] certificates)
     {
         Kernel2Database kernel2Database = new(kernel2Configuration, terminalEndpoint, new Kernel2TlvDatabase(kernel2PersistentValues),
-            new KernelCertificateDatabase(certificates));
+                                              new KernelCertificateDatabase(certificates));
 
         Kernel2StateResolver kernel2StateResolver = Kernel2StateResolver.Create(tornTransactionCleaner, kernel2Database,
-            new DataExchangeKernelService(terminalEndpoint, kernel2Database, kernelEndpoint), terminalEndpoint, kernelEndpoint,
-            pcdEndpoint);
+                                                                                new DataExchangeKernelService(terminalEndpoint,
+                                                                                 kernel2Database, kernelEndpoint), terminalEndpoint,
+                                                                                kernelEndpoint, pcdEndpoint);
         Kernel2StateMachine stateMachine = new(kernel2StateResolver.GetKernelState(Idle.StateId));
 
         return new Kernel2Process(stateMachine);

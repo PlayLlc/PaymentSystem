@@ -9,7 +9,7 @@ using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts;
 
-namespace Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup;
+namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForPdolData : KernelState
 {

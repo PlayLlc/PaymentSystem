@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
@@ -15,40 +14,14 @@ using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Exceptions;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
-using Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup.State4;
-using Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup.State5;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
-using Play.Emv.Terminal.Contracts;
 using Play.Icc.FileSystem.ElementaryFiles;
 
-namespace Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup;
+namespace Play.Emv.Kernel2.StateMachine;
 // TODO: Note that symbols S3R1.10, S3R1.11, S3R1.12, S3R1.13 and S3R1.18 are only implemented for the IDS/TORN Implementation Option.
 
-public abstract class CommonProcessing
-{
-    #region Instance Members
-
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    protected static void HandleRequestOutOfSync(KernelSession session, params StateId[] validStates)
-    {
-        if (session.St)
-
-        {
-            if (signal.GetDataExchangeKernelId().GetKernelSessionId() != session.GetKernelSessionId())
-            {
-                throw new
-                    RequestOutOfSyncException($"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
-            }
-        }
-    }
-
-    #endregion
-}
-
-public class CommonProcessingS3R1
+public class CommonProcessingS3R1 : CommonProcessing
 {
     #region Instance Values
 
@@ -57,6 +30,11 @@ public class CommonProcessingS3R1
     private readonly IKernelEndpoint _KernelEndpoint;
     private readonly IGetKernelState _KernelStateResolver;
     private readonly IHandlePcdRequests _PcdEndpoint;
+
+    protected override StateId[] _ValidStateIds { get; } = new StateId[]
+    {
+        WaitingForGpoResponse.StateId, WaitingForExchangeRelayResistanceDataResponse.StateId
+    };
 
     #endregion
 
@@ -78,13 +56,13 @@ public class CommonProcessingS3R1
 
     #endregion
 
-    #region Instance Members
-
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    public KernelState Process(Kernel2Session session)
+    public KernelState Process(IGetKernelStateId kernelStateId, Kernel2Session session)
     {
+        HandleRequestOutOfSync(kernelStateId.GetStateId(), session);
+
         if (!TrySendingNextCommand(session))
             HandleCardDataError(session);
 
@@ -140,21 +118,6 @@ public class CommonProcessingS3R1
         SetCombinedDataAuthFlag(session);
     }
 
-    #region S3R1.1 - S3R1.4
-
-    /// <remarks> EMV Book C-2 Section S3R1.1 - S3R1.4 </remarks>
-    public bool TryHandleGetDataToBeDone(TransactionSessionId sessionId)
-    {
-        if (!_DataExchangeKernelService.TryPeek(DekRequestType.TagsToRead, out Tag tagToRead))
-            return false;
-
-        _PcdEndpoint.Request(GetDataRequest.Create(tagToRead, sessionId));
-
-        return true;
-    }
-
-    #endregion
-
     // HACK: This should live in State 3 Section C
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -170,6 +133,19 @@ public class CommonProcessingS3R1
         _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _KernelDatabase.GetErrorIndication());
         _KernelDatabase.SetUiRequestOnRestartPresent(true);
         _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+
+        return true;
+    }
+
+    #region S3R1.1 - S3R1.4
+
+    /// <remarks> EMV Book C-2 Section S3R1.1 - S3R1.4 </remarks>
+    public bool TryHandleGetDataToBeDone(TransactionSessionId sessionId)
+    {
+        if (!_DataExchangeKernelService.TryPeek(DekRequestType.TagsToRead, out Tag tagToRead))
+            return false;
+
+        _PcdEndpoint.Request(GetDataRequest.Create(tagToRead, sessionId));
 
         return true;
     }

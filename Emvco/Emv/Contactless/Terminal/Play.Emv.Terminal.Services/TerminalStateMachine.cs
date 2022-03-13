@@ -3,7 +3,7 @@ using Play.Emv.Configuration;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup;
+using Play.Emv.Kernel2.StateMachine;
 using Play.Emv.Messaging;
 using Play.Emv.Reader.Contracts.SignalOut;
 using Play.Emv.Sessions;
@@ -53,14 +53,15 @@ internal class TerminalStateMachine
         {
             if (_Lock.Session != null)
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(ActivateTerminalRequest)} can't be processed because the {nameof(ChannelType.Terminal)} already has an active session in progress");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(ActivateTerminalRequest)} can't be processed because the {nameof(ChannelType.Terminal)} already has an active session in progress");
             }
 
             Transaction transaction = new(new TransactionSessionId(request.GetTransactionType()), request.GetAccountType(),
-                request.GetAmountAuthorizedNumeric(), request.GetAmountOtherNumeric(), request.GetTransactionType(),
-                _TerminalConfiguration.GetLanguagePreference(), _TerminalConfiguration.GetTerminalCountryCode(),
-                new TransactionDate(DateTimeUtc.Now()), new TransactionTime(DateTimeUtc.Now()));
+                                          request.GetAmountAuthorizedNumeric(), request.GetAmountOtherNumeric(),
+                                          request.GetTransactionType(), _TerminalConfiguration.GetLanguagePreference(),
+                                          _TerminalConfiguration.GetTerminalCountryCode(), new TransactionDate(DateTimeUtc.Now()),
+                                          new TransactionTime(DateTimeUtc.Now()));
 
             _Lock.Session = new TerminalSession(_SequenceGenerator.Generate(), request.GetMessageTypeIndicator(), transaction);
             _Lock.State = _Lock.State.Handle(_Lock.Session, request);
@@ -94,8 +95,8 @@ internal class TerminalStateMachine
         {
             if (_Lock.Session != null)
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(QueryKernelResponse)} can't be processed because the {nameof(TerminalStateMachine)} has an active session");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(QueryKernelResponse)} can't be processed because the {nameof(TerminalStateMachine)} has an active session");
             }
 
             _Lock.State = _Lock.State.Handle(_Lock.Session!, response);
@@ -113,8 +114,8 @@ internal class TerminalStateMachine
         {
             if (_Lock.Session == null)
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(QueryKernelResponse)} can't be processed because the {nameof(TerminalStateMachine)} does not have an active session");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(QueryKernelResponse)} can't be processed because the {nameof(TerminalStateMachine)} does not have an active session");
             }
 
             // Clear state inside the handler
@@ -133,8 +134,8 @@ internal class TerminalStateMachine
         {
             if (_Lock.Session != null)
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(QueryKernelResponse)} can't be processed because the {nameof(TerminalStateMachine)} has an active session");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(QueryKernelResponse)} can't be processed because the {nameof(TerminalStateMachine)} has an active session");
             }
 
             _Lock.State = _Lock.State.Handle(_Lock.Session!, response);
@@ -153,8 +154,8 @@ internal class TerminalStateMachine
         {
             if (_Lock.Session != null)
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(QueryKernelResponse)} can't be processed because the {nameof(TerminalStateMachine)} has an active session");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(QueryKernelResponse)} can't be processed because the {nameof(TerminalStateMachine)} has an active session");
             }
 
             _Lock.State = _Lock.State.Handle(_Lock.Session!, request);

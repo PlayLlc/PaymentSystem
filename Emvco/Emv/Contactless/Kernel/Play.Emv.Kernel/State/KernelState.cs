@@ -13,7 +13,7 @@ using Play.Messaging;
 
 namespace Play.Emv.Kernel.State;
 
-public abstract class KernelState
+public abstract class KernelState : IGetKernelStateId
 {
     #region Instance Values
 
@@ -98,8 +98,8 @@ public abstract class KernelState
     {
         if (signal.GetDataExchangeKernelId().GetKernelSessionId() != session.GetKernelSessionId())
         {
-            throw new RequestOutOfSyncException(
-                $"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
+            throw new
+                RequestOutOfSyncException($"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
         }
     }
 
@@ -107,8 +107,8 @@ public abstract class KernelState
     {
         if (signal.GetTransactionSessionId() != session.GetTransactionSessionId())
         {
-            throw new RequestOutOfSyncException(
-                $"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
+            throw new
+                RequestOutOfSyncException($"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
         }
     }
 
@@ -116,8 +116,8 @@ public abstract class KernelState
     {
         if (signal.GetTransactionSessionId() != session.GetTransactionSessionId())
         {
-            throw new RequestOutOfSyncException(
-                $"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
+            throw new
+                RequestOutOfSyncException($"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
         }
     }
 
@@ -125,8 +125,8 @@ public abstract class KernelState
     {
         if (signal.GetTransactionSessionId() != session.GetTransactionSessionId())
         {
-            throw new RequestOutOfSyncException(
-                $"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
+            throw new
+                RequestOutOfSyncException($"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
         }
     }
 
@@ -140,8 +140,8 @@ public abstract class KernelState
     {
         if (signal.GetDataExchangeTerminalId().GetTransactionSessionId() != session.GetTransactionSessionId())
         {
-            throw new RequestOutOfSyncException(
-                $"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
+            throw new
+                RequestOutOfSyncException($"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
         }
     }
 

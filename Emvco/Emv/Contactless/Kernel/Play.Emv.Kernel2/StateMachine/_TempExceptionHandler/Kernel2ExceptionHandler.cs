@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using Play.Emv.Icc;
 using Play.Emv.Kernel;
-using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel2.Databases;
 
 namespace Play.Emv.Kernel2.StateMachine._TempExceptionHandler;
@@ -121,50 +120,6 @@ L3 - POS Error
 - Amount Not Present (Bad Request)
 - Timeout 
 */
-
-public abstract class ExceptionHandler
-{
-    #region Instance Values
-
-    protected readonly IKernelEndpoint _KernelEndpoint;
-    protected readonly KernelDatabase _KernelDatabase;
-
-    #endregion
-
-    #region Constructor
-
-    protected ExceptionHandler(IKernelEndpoint kernelEndpoint, KernelDatabase kernelDatabase)
-    {
-        _KernelEndpoint = kernelEndpoint;
-        _KernelDatabase = kernelDatabase;
-    }
-
-    #endregion
-
-    #region Instance Members
-
-    public abstract Level1Error GetLevel1Error();
-    public abstract bool TryCatchError(Action action);
-
-    #endregion
-}
-
-public class TimeoutExceptionHandler : ExceptionHandler
-{
-    #region Constructor
-
-    public TimeoutExceptionHandler(IKernelEndpoint kernelEndpoint, KernelDatabase kernelDatabase) : base(kernelEndpoint, kernelDatabase)
-    { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override Level1Error GetLevel1Error() => Level1Error.TimeOutError;
-    public override bool TryCatchError(Action action) => throw new NotImplementedException();
-
-    #endregion
-}
 
 // TODO: Actions are expensive to pass around. Let's see if there's a way to compile the action or pass interfaces or something
 internal class Kernel2ExceptionHandler

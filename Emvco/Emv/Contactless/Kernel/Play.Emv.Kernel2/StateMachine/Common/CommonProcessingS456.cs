@@ -5,11 +5,12 @@ using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts;
 
-namespace Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup;
+namespace Play.Emv.Kernel2.StateMachine;
 
-public class CommonProcessingS456
+public class CommonProcessingS456 : CommonProcessing
 {
     #region Instance Values
 
@@ -28,4 +29,6 @@ public class CommonProcessingS456
     public static KernelState Process() => throw new NotImplementedException();
 
     #endregion
+
+    protected override StateId[] _ValidStateIds { get; }
 }

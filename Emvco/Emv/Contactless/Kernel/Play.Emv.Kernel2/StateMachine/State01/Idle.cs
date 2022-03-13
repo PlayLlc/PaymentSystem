@@ -10,7 +10,7 @@ using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
 
-namespace Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup;
+namespace Play.Emv.Kernel2.StateMachine;
 
 /// <remarks>
 ///     The first state entered after wakeup

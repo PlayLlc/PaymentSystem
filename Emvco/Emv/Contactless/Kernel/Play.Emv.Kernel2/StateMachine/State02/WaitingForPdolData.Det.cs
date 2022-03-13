@@ -3,13 +3,12 @@
 using Play.Ber.Exceptions;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
-using Play.Emv.Kernel;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
 
-namespace Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup;
+namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForPdolData : KernelState
 {
