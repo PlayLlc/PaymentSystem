@@ -5,6 +5,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 using Play.Globalization.Time;
@@ -21,6 +22,7 @@ public record TransactionTime : DataElement<uint>, IEqualityComparer<Transaction
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F21;
     private const byte _ByteLength = 3;
+    private const byte _CharLength = 6;
 
     #endregion
 
@@ -54,35 +56,25 @@ public record TransactionTime : DataElement<uint>, IEqualityComparer<Transaction
 
     #region Serialization
 
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TransactionTime Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TransactionTime Decode(ReadOnlySpan<byte> value)
     {
-        const ushort charLength = 6;
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        if (value.Length != _ByteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(TransactionTime)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
-        }
+        uint result = PlayCodec.NumericCodec.DecodeToUInt32(value);
 
-        DecodedResult<uint> result = _Codec.Decode(EncodingId, value) as DecodedResult<uint>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(TransactionTime)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<uint>)}");
+        Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
 
-        if (result.CharCount != charLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(TransactionTime)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
-        }
-
-        return new TransactionTime(result.Value);
+        return new TransactionTime(result);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(GetEncodingId(), _Value, _ByteLength);
-    public override byte[] EncodeValue(BerCodec berCodec) => EncodeValue();
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

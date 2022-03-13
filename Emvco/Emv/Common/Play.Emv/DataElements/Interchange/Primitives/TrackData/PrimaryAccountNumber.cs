@@ -21,19 +21,21 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
 
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     private const int _MaxByteLength = 10;
+    private const byte _MaxCharLength = 19;
     public const byte DataFieldId = 2;
 
     #endregion
 
     #region Constructor
 
-    public PrimaryAccountNumber(char[] value) : base(value)
+    public PrimaryAccountNumber(ReadOnlySpan<char> value) : base(value.ToArray())
     { }
 
     #endregion
 
     #region Instance Members
 
+    public static byte GetMaxByteLength() => _MaxByteLength;
     public override ushort GetDataFieldId() => DataFieldId;
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
@@ -56,29 +58,26 @@ public record PrimaryAccountNumber : InterchangeDataElement<char[]>
 
     #region Serialization
 
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static PrimaryAccountNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public static PrimaryAccountNumber Decode(ReadOnlySpan<byte> value)
     {
-        const byte maxCharLength = 19;
-
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
         // The reason we're decoding to a char array is because some Primary Account Numbers start with
         // a '0' value. If we encoded that to a numeric value we would truncate the leading zero values
         // and wouldn't be able to encode the value back or do comparisons with the issuer identification
         // number
-        char[] result = PlayCodec.NumericCodec.DecodeToChars(value);
+        ReadOnlySpan<char> result = PlayCodec.NumericCodec.DecodeToChars(value);
 
-        Check.Primitive.ForMaxCharLength(result.Length, maxCharLength, Tag);
+        Check.Primitive.ForMaxCharLength(result.Length, _MaxCharLength, Tag);
 
         return new PrimaryAccountNumber(result);
     }
-
-    public new byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value);
-    public override byte[] EncodeValue(BerCodec berCodec) => EncodeValue();
 
     #endregion
 }

@@ -7,6 +7,8 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.Configuration;
 
@@ -40,26 +42,23 @@ public record TerminalRiskManagementData : DataElement<ulong>, IEqualityComparer
 
     #region Serialization
 
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalRiskManagementData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalRiskManagementData Decode(ReadOnlySpan<byte> value)
     {
-        if (value.Length != _ByteLength)
-        {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(TerminalRiskManagementData)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
-        }
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value) as DecodedResult<ulong>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(TerminalRiskManagementData)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+        ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
 
-        return new TerminalRiskManagementData(result.Value);
+        return new TerminalRiskManagementData(result);
     }
 
-    public new byte[] EncodeValue() => EncodeValue(_ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

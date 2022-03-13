@@ -6,6 +6,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
@@ -22,6 +23,7 @@ public record TransactionReferenceCurrencyExponent : DataElement<byte>, IEqualit
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F3D;
     private const byte _ByteLength = 1;
+    private const byte _CharLength = 1;
 
     #endregion
 
@@ -42,26 +44,25 @@ public record TransactionReferenceCurrencyExponent : DataElement<byte>, IEqualit
 
     #region Serialization
 
-    public static TransactionReferenceCurrencyExponent Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
-
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    public static TransactionReferenceCurrencyExponent Decode(ReadOnlySpan<byte> value, BerCodec codec)
-    {
-        const ushort charLength = 1;
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static TransactionReferenceCurrencyExponent Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static TransactionReferenceCurrencyExponent Decode(ReadOnlySpan<byte> value)
+    {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<byte> result = codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataElementParsingException(EncodingId);
+        byte result = PlayCodec.NumericCodec.DecodeToByte(value);
 
-        Check.Primitive.ForCharLength(result.Value, charLength, Tag);
+        Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
 
-        return new TransactionReferenceCurrencyExponent(result.Value);
+        return new TransactionReferenceCurrencyExponent(result);
     }
 
-    public new byte[] EncodeValue() => EncodeValue(_ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

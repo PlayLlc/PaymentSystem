@@ -63,24 +63,25 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
 
     #region Serialization
 
-    public static TransactionType Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static TransactionType Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static TransactionType Decode(ReadOnlySpan<byte> value, BerCodec codec)
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static TransactionType Decode(ReadOnlySpan<byte> value)
     {
-        if (value.Length != _ByteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(TransactionType)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
-        }
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<byte> result = codec.Decode(EncodingId, value) as DecodedResult<byte>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(TransactionType)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<byte>)}");
+        byte result = PlayCodec.NumericCodec.DecodeToByte(value);
 
-        return new TransactionType(result.Value);
+        Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
+
+        return new TransactionType(result);
     }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

@@ -5,6 +5,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
@@ -21,6 +22,7 @@ public record TransactionReferenceCurrencyCode : DataElement<ushort>, IEqualityC
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F3C;
     private const byte _ByteLength = 2;
+    private const byte _CharLength = 3;
 
     #endregion
 
@@ -41,26 +43,25 @@ public record TransactionReferenceCurrencyCode : DataElement<ushort>, IEqualityC
 
     #region Serialization
 
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TransactionReferenceCurrencyCode Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="System.Exception"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TransactionReferenceCurrencyCode Decode(ReadOnlySpan<byte> value)
     {
-        const ushort charLength = 3;
-
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ushort> result = _Codec.Decode(EncodingId, value).ToUInt16Result()
-            ?? throw new DataElementParsingException(EncodingId);
+        ushort result = PlayCodec.NumericCodec.DecodeToUInt16(value);
 
-        Check.Primitive.ForCharLength(result.CharCount, charLength, Tag);
+        Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
 
-        return new TransactionReferenceCurrencyCode(result.Value);
+        return new TransactionReferenceCurrencyCode(result);
     }
 
-    public new byte[] EncodeValue() => EncodeValue(_ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

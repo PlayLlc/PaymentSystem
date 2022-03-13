@@ -5,6 +5,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
+using Play.Emv.Kernel.Exceptions;
 
 namespace Play.Emv.DataElements;
 
@@ -13,7 +14,7 @@ namespace Play.Emv.DataElements;
 ///     sentinel, end sentinel and LRC. The Track 1 Data may be present in the file read using the READ RECORD command
 ///     during a mag-stripe mode transaction. It is made up of the following sub-fields:
 /// </summary>
-public record Track1Data : DataElement<char[]>
+public record Track1Data : DataElement<byte[]>
 {
     #region Static Metadata
 
@@ -25,7 +26,7 @@ public record Track1Data : DataElement<char[]>
 
     #region Constructor
 
-    public Track1Data(char[] value) : base(value)
+    public Track1Data(ReadOnlySpan<byte> value) : base(value.ToArray())
     { }
 
     #endregion
@@ -34,6 +35,33 @@ public record Track1Data : DataElement<char[]>
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
+
+    /// <exception cref="CardDataException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public PrimaryAccountNumber GetPrimaryAccountNumber(PunatcTrack1 value)
+    {
+        const byte startSentinel = (byte) '%';
+        const byte formatCode = (byte) 'B';
+        const byte fieldSeparator = (byte) '=';
+
+        int offset = 0;
+
+        if (_Value[0] == startSentinel)
+            offset++;
+
+        if (_Value[offset++] != formatCode)
+            throw new CardDataException($"The {nameof(PrimaryAccountNumber)} was provided in an unknown format");
+
+        int startRange = offset;
+
+        for (; offset < PrimaryAccountNumber.GetMaxByteLength(); offset++)
+        {
+            if (_Value[offset] == fieldSeparator)
+                return PrimaryAccountNumber.Decode(_Value.AsSpan()[startRange..offset]);
+        }
+
+        throw new CardDataException($"The {nameof(PrimaryAccountNumber)} was provided in an unknown format");
+    }
 
     #endregion
 
@@ -52,7 +80,7 @@ public record Track1Data : DataElement<char[]>
 
         char[] result = PlayCodec.AlphaNumericSpecialCodec.DecodeToChars(value);
 
-        return new Track1Data(result);
+        return new Track1Data(value);
     }
 
     #endregion

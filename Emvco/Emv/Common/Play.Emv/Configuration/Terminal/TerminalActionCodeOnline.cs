@@ -6,7 +6,10 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Extensions;
+using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.Configuration;
 
@@ -14,27 +17,20 @@ namespace Play.Emv.Configuration;
 ///     Description: Specifies the acquirer's conditions that cause a transaction to be transmitted online on an online
 ///     capable Terminal.
 /// </summary>
-public record TerminalActionCodeOnline : PrimitiveValue, IEqualityComparer<TerminalActionCodeOnline>
+public record TerminalActionCodeOnline : DataElement<ulong>, IEqualityComparer<TerminalActionCodeOnline>
 {
     #region Static Metadata
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF8122;
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly ulong _Value;
+    private const byte _ByteLength = 5;
 
     #endregion
 
     #region Constructor
 
-    public TerminalActionCodeOnline(ulong value)
-    {
-        _Value = value;
-    }
+    public TerminalActionCodeOnline(ulong value) : base(value)
+    { }
 
     #endregion
 
@@ -49,29 +45,23 @@ public record TerminalActionCodeOnline : PrimitiveValue, IEqualityComparer<Termi
 
     #region Serialization
 
-    public static TerminalActionCodeOnline Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static TerminalActionCodeOnline Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static TerminalActionCodeOnline Decode(ReadOnlySpan<byte> value, BerCodec codec)
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static TerminalActionCodeOnline Decode(ReadOnlySpan<byte> value)
     {
-        const ushort byteLength = 5;
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        if (value.Length != byteLength)
-        {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(TerminalActionCodeOnline)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
-        }
+        ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
 
-        DecodedResult<ulong> result = codec.Decode(EncodingId, value) as DecodedResult<ulong>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(TerminalActionCodeOnline)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ulong>)}");
-
-        return new TerminalActionCodeOnline(result.Value);
+        return new TerminalActionCodeOnline(result);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

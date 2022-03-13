@@ -216,6 +216,46 @@ internal class Check
             }
         }
 
+        /// <exception cref="DataElementParsingException"></exception>
+        public static void ForMaximumValue(byte value, byte maxValue, Tag tag)
+        {
+            if (value > maxValue)
+            {
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxValue}");
+            }
+        }
+
+        /// <exception cref="DataElementParsingException"></exception>
+        public static void ForMaximumValue(ushort value, ushort maxValue, Tag tag)
+        {
+            if (value > maxValue)
+            {
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxValue}");
+            }
+        }
+
+        /// <exception cref="DataElementParsingException"></exception>
+        public static void ForMaximumValue(uint value, uint maxValue, Tag tag)
+        {
+            if (value > maxValue)
+            {
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxValue}");
+            }
+        }
+
+        /// <exception cref="DataElementParsingException"></exception>
+        public static void ForMaximumValue(ulong value, ulong maxValue, Tag tag)
+        {
+            if (value > maxValue)
+            {
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxValue}");
+            }
+        }
+
         #endregion
     }
 }

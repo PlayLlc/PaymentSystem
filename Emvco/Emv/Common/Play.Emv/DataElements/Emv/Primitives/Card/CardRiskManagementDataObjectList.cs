@@ -25,6 +25,8 @@ public record CardRiskManagementDataObjectList1 : DataObjectList
 
     #region Constructor
 
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public CardRiskManagementDataObjectList1(byte[] value) : base(value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
@@ -42,10 +44,9 @@ public record CardRiskManagementDataObjectList1 : DataObjectList
 
     #region Serialization
 
+    /// <exception cref="BerParsingException"></exception>
     public static CardRiskManagementDataObjectList1 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
     public static CardRiskManagementDataObjectList1 Decode(ReadOnlySpan<byte> value) => new(value.ToArray());
 
     #endregion
