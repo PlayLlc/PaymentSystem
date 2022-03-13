@@ -26,6 +26,7 @@ public partial class WaitingForPdolData : KernelState
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
     public override KernelState Handle(KernelSession session, QueryTerminalResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
@@ -57,6 +58,7 @@ public partial class WaitingForPdolData : KernelState
     /// <param name="signal"></param>
     /// <exception cref="InvalidOperationException"></exception>
     /// <remarks>Book C-2 Section S2.6</remarks>
+    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
     private void UpdateDataExchangeSignal(QueryTerminalResponse signal)
     {
         _KernelDatabase.Update(signal.GetDataToSend().AsTagLengthValueArray());
@@ -75,6 +77,7 @@ public partial class WaitingForPdolData : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <remarks>Book C-2 Section S2.7</remarks>
+    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
     private bool IsPdolDataMissing(Kernel2Session session, out ProcessingOptionsDataObjectList pdol)
     {
         pdol = ProcessingOptionsDataObjectList.Decode(_KernelDatabase.Get(ProcessingOptionsDataObjectList.Tag).EncodeValue().AsSpan());
@@ -92,6 +95,8 @@ public partial class WaitingForPdolData : KernelState
     #region S2.8.1 - S2.8.6
 
     /// <remarks>Book C-2 Section S2.8.1 - S2.8.6</remarks>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
     public GetProcessingOptionsRequest CreateGetProcessingOptionsCapdu(KernelSession session, ProcessingOptionsDataObjectList pdol) =>
         !_KernelDatabase.IsPresentAndNotEmpty(ProcessingOptionsDataObjectList.Tag)
             ? GetProcessingOptionsRequest.Create(session.GetTransactionSessionId())

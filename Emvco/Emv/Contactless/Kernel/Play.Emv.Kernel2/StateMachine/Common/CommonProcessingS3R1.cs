@@ -25,6 +25,29 @@ using Play.Icc.FileSystem.ElementaryFiles;
 namespace Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup;
 // TODO: Note that symbols S3R1.10, S3R1.11, S3R1.12, S3R1.13 and S3R1.18 are only implemented for the IDS/TORN Implementation Option.
 
+public abstract class CommonProcessing
+{
+    #region Instance Members
+
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    protected static void HandleRequestOutOfSync(KernelSession session, params StateId[] validStates)
+    {
+        if (session.St)
+
+        {
+            if (signal.GetDataExchangeKernelId().GetKernelSessionId() != session.GetKernelSessionId())
+            {
+                throw new
+                    RequestOutOfSyncException($"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
+            }
+        }
+    }
+
+    #endregion
+}
+
 public class CommonProcessingS3R1
 {
     #region Instance Values
@@ -32,10 +55,26 @@ public class CommonProcessingS3R1
     protected readonly KernelDatabase _KernelDatabase;
     protected readonly DataExchangeKernelService _DataExchangeKernelService;
     private readonly IKernelEndpoint _KernelEndpoint;
-    private readonly IHandleTerminalRequests _TerminalEndpoint;
     private readonly IGetKernelState _KernelStateResolver;
-    private readonly ICleanTornTransactions _KernelCleaner;
     private readonly IHandlePcdRequests _PcdEndpoint;
+
+    #endregion
+
+    #region Constructor
+
+    public CommonProcessingS3R1(
+        KernelDatabase kernelDatabase,
+        DataExchangeKernelService dataExchangeKernelService,
+        IKernelEndpoint kernelEndpoint,
+        IGetKernelState kernelStateResolver,
+        IHandlePcdRequests pcdEndpoint)
+    {
+        _KernelDatabase = kernelDatabase;
+        _DataExchangeKernelService = dataExchangeKernelService;
+        _KernelEndpoint = kernelEndpoint;
+        _KernelStateResolver = kernelStateResolver;
+        _PcdEndpoint = pcdEndpoint;
+    }
 
     #endregion
 
