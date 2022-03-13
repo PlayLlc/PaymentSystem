@@ -61,8 +61,7 @@ namespace Play.Emv.DataElements
 
         #region Operator Overrides
 
-        public static explicit operator RelaySeconds(TerminalExpectedTransmissionTimeForRelayResistanceCapdu value) => value._Value;
-        public static explicit operator ushort(TerminalExpectedTransmissionTimeForRelayResistanceCapdu value) => value._Value;
+        public static implicit operator RelaySeconds(TerminalExpectedTransmissionTimeForRelayResistanceCapdu value) => value._Value;
 
         #endregion
     }

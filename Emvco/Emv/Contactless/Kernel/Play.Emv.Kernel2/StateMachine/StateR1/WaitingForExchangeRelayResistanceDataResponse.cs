@@ -24,8 +24,10 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 
     #region Instance Values
 
+    private readonly CommonProcessingS3R1 _S3R1;
     private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
     private readonly IGetKernelState _KernelStateResolver;
+    private readonly IHandlePcdRequests _PcdEndpoint;
 
     #endregion
 
@@ -36,10 +38,14 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         DataExchangeKernelService dataExchange,
         IKernelEndpoint kernelEndpoint,
         IGetKernelState kernelStateResolver,
-        IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(kernelDatabase, dataExchange, kernelEndpoint)
+        IGenerateUnpredictableNumber unpredictableNumberGenerator,
+        CommonProcessingS3R1 s3R1,
+        IHandlePcdRequests pcdEndpoint) : base(kernelDatabase, dataExchange, kernelEndpoint)
     {
         _KernelStateResolver = kernelStateResolver;
         _UnpredictableNumberGenerator = unpredictableNumberGenerator;
+        _S3R1 = s3R1;
+        _PcdEndpoint = pcdEndpoint;
     }
 
     #endregion

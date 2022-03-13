@@ -61,7 +61,7 @@ namespace Play.Emv.DataElements
 
         #region Operator Overrides
 
-        public static explicit operator RelaySeconds(MinimumRelayResistanceGracePeriod value) => value._Value;
+        public static implicit operator RelaySeconds(MinimumRelayResistanceGracePeriod value) => value._Value;
 
         #endregion
     }

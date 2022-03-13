@@ -42,7 +42,7 @@ public class TimeoutManager : IDisposable
     ///     Stop
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    public Milliseconds Stop()
+    public Microseconds Stop()
     {
         lock (_TimeoutSession)
         {
@@ -102,7 +102,7 @@ public class TimeoutManager : IDisposable
     /// <exception cref="InvalidOperationException"></exception>
     public void Start(Seconds.Seconds timeout)
     {
-        Start((Milliseconds) timeout);
+        Start(new Milliseconds(timeout));
     }
 
     /// <summary>

@@ -56,8 +56,7 @@ public record MaxTimeForProcessingRelayResistanceApdu : DataElement<RelaySeconds
 
     #region Operator Overrides
 
-    public static explicit operator RelaySeconds(MaxTimeForProcessingRelayResistanceApdu value) => value._Value;
-    public static explicit operator ushort(MaxTimeForProcessingRelayResistanceApdu value) => value._Value;
+    public static implicit operator RelaySeconds(MaxTimeForProcessingRelayResistanceApdu value) => value._Value;
 
     #endregion
 }

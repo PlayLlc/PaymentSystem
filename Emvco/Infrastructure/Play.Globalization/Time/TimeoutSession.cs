@@ -58,7 +58,7 @@ internal class TimeoutSession
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    public Milliseconds GetElapsedTime()
+    public Microseconds GetElapsedTime()
     {
         if (!IsRunning())
         {
@@ -70,7 +70,7 @@ internal class TimeoutSession
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    public Milliseconds Stop()
+    public Microseconds Stop()
     {
         if (!IsRunning())
         {
@@ -78,7 +78,7 @@ internal class TimeoutSession
                 InvalidOperationException($"The {nameof(TimeoutSession)} could not be stopped because there currently is not a session available");
         }
 
-        Milliseconds elapsed = _TimeoutBuddy!.Stop();
+        Microseconds elapsed = _TimeoutBuddy!.Stop();
         _TimeoutBuddy = null;
 
         return elapsed;

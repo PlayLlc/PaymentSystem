@@ -27,6 +27,8 @@ public record TerminalVerificationResultCodes : EnumObject<TerminalVerificationR
     public static TerminalVerificationResultCodes PinTryLimitExceeded;
     public static TerminalVerificationResultCodes RelayResistanceThresholdExceeded;
     public static TerminalVerificationResultCodes RelayResistanceTimeLimitsExceeded;
+    public static TerminalVerificationResultCodes RelayResistancePerformed;
+    public static TerminalVerificationResultCodes RelayResistanceNotPerformed;
     public static TerminalVerificationResultCodes RequestedServiceNotAllowedForCardProduct;
     public static TerminalVerificationResultCodes ScriptProcessingFailedAfterFinalGenerateAc;
     public static TerminalVerificationResultCodes ScriptProcessingFailedBeforeFinalGenerateAc;
@@ -69,6 +71,9 @@ public record TerminalVerificationResultCodes : EnumObject<TerminalVerificationR
         PinTryLimitExceeded = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(22)));
         RelayResistanceThresholdExceeded = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(4)));
         RelayResistanceTimeLimitsExceeded = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(3)));
+        RelayResistancePerformed = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(2)));
+        RelayResistanceNotPerformed = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(1)));
+
         RequestedServiceNotAllowedForCardProduct =
             new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(29)));
         ScriptProcessingFailedAfterFinalGenerateAc =

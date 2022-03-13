@@ -60,7 +60,7 @@ public record MinTimeForProcessingRelayResistanceApdu : DataElement<RelaySeconds
 
     #region Operator Overrides
 
-    public static explicit operator RelaySeconds(MinTimeForProcessingRelayResistanceApdu value) => value._Value;
+    public static implicit operator RelaySeconds(MinTimeForProcessingRelayResistanceApdu value) => value._Value;
 
     #endregion
 }

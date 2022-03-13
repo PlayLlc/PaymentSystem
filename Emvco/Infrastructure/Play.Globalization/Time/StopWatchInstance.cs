@@ -24,14 +24,13 @@ internal class StopWatchInstance
         _Stopwatch = new Stopwatch();
         _Timeout = timeout;
         _Stopwatch.Start();
-        _Stopwatch.Elapsed
     }
 
     #endregion
 
     #region Instance Members
 
-    public Milliseconds Stop()
+    public Microseconds Stop()
     {
         TimeSpan elapsed = _Stopwatch.Elapsed;
         _Stopwatch.Stop();
@@ -39,8 +38,7 @@ internal class StopWatchInstance
         return elapsed;
     }
 
-    public Milliseconds GetElapsedTime() => _Stopwatch.Elapsed;
-    public bool IsRunning() => (ulong) _Stopwatch.ElapsedMilliseconds < _Timeout;
+    public Microseconds GetElapsedTime() => _Stopwatch.Elapsed;
 
     #endregion
 }

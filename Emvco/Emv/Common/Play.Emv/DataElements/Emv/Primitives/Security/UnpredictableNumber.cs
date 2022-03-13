@@ -77,4 +77,10 @@ public record UnpredictableNumber : DataElement<uint>, IEqualityComparer<Unpredi
     public int GetHashCode(UnpredictableNumber obj) => obj.GetHashCode();
 
     #endregion
+
+    #region Operator Overrides
+
+    public static explicit operator uint(UnpredictableNumber value) => value._Value;
+
+    #endregion
 }

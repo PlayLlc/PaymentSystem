@@ -6,6 +6,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.DataElements;
+using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Icc.GetData;
@@ -17,6 +18,7 @@ using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Pcd.Contracts.SignalIn.Quereies;
 using Play.Emv.Pcd.Contracts.SignalOut.Queddries;
 using Play.Globalization.Time;
 using Play.Globalization.Time.Seconds;
@@ -40,7 +42,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
             return _KernelStateResolver.GetKernelState(StateId);
 
         // SR1.10
-        Milliseconds timeElapsed = session.StopTimeout();
+        Microseconds timeElapsed = session.StopTimeout();
 
         if (TryHandleInvalidResultCode(session, signal))
             return _KernelStateResolver.GetKernelState(StateId);
@@ -50,14 +52,17 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 
         MeasuredRelayResistanceProcessingTime processingTime = CalculateMeasuredRrpTime(timeElapsed);
 
-        if (IsRelayResistanceWithinMinimumRange(processingTime))
+        if (IsRelayOutOfLowerBounds(processingTime))
         {
             HandleRelayResistanceProtocolFailed(session, signal);
 
             return _KernelStateResolver.GetKernelState(StateId);
         }
 
-        throw new NotImplementedException();
+        if (IsRelayRetryNeeded((Kernel2Session) session, processingTime))
+            return RetryRelayResistanceProtocol((Kernel2Session) session);
+
+        return CompleteRelayResistance((Kernel2Session) session, processingTime);
     }
 
     #endregion
@@ -170,7 +175,10 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 
     /// <remarks>Book C-2 Section SR1.18</remarks>
     /// <exception cref="TerminalDataException"></exception>
-    private MeasuredRelayResistanceProcessingTime CalculateMeasuredRrpTime(Seconds timeElapsed)
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <remarks>Book C-2 Section SR1.18 </remarks>
+    private MeasuredRelayResistanceProcessingTime CalculateMeasuredRrpTime(Microseconds timeElapsed)
     {
         TerminalExpectedTransmissionTimeForRelayResistanceCapdu terminalExpectedCapduTransmissionTime =
             TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Decode(_KernelDatabase
@@ -201,7 +209,8 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    public bool IsRelayResistanceWithinMinimumRange(MeasuredRelayResistanceProcessingTime processingTime)
+    /// <remarks>Book C-2 Section SR1.19 </remarks>
+    public bool IsRelayOutOfLowerBounds(MeasuredRelayResistanceProcessingTime processingTime)
     {
         MinTimeForProcessingRelayResistanceApdu minTimeForProcessingRelayResistanceApdu =
             MinTimeForProcessingRelayResistanceApdu.Decode(_KernelDatabase.Get(MinTimeForProcessingRelayResistanceApdu.Tag).EncodeValue()
@@ -209,9 +218,9 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         MinimumRelayResistanceGracePeriod minGracePeriod =
             MinimumRelayResistanceGracePeriod.Decode(_KernelDatabase.Get(MinimumRelayResistanceGracePeriod.Tag).EncodeValue().AsSpan());
 
-        int expectedProcessingTime = (ushort) minTimeForProcessingRelayResistanceApdu - (ushort) minGracePeriod;
+        RelaySeconds minRelayTime = (RelaySeconds) minTimeForProcessingRelayResistanceApdu - minGracePeriod;
 
-        if ((ushort) processingTime < (expectedProcessingTime < 0 ? 0 : expectedProcessingTime))
+        if (processingTime < (minRelayTime < RelaySeconds.Zero ? RelaySeconds.Zero : minRelayTime))
             return false;
 
         return true;
@@ -222,6 +231,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     #region SR1.20 - SR1.21
 
     /// <exception cref="TerminalDataException"></exception>
+    /// <remarks>Book C-2 Section SR1.20 - SR1.21 </remarks>
     private void HandleRelayResistanceProtocolFailed(KernelSession session, QueryPcdResponse signal)
     {
         _KernelDatabase.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
@@ -237,20 +247,172 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 
     #endregion
 
-    private void TryRepeatExchangeRelayResistanceData(Kernel2Session session)
+    #region SR1.22
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <remarks>Book C-2 Section SR1.22 </remarks>
+    private bool IsRelayRetryNeeded(Kernel2Session session, MeasuredRelayResistanceProcessingTime relayTime)
     {
         if (session.GetRelayResistanceProtocolCount() > 2)
-            return;
+            return false;
 
-        UnpredictableNumber unpredictableNumber = _UnpredictableNumberGenerator.GenerateUnpredictableNumber();
+        return IsRelayOutOfUpperBounds(relayTime);
     }
 
-    private void RangeCheck(MeasuredRelayResistanceProcessingTime processingTime)
+    #endregion
+
+    #region SR1.23 - SR1.27
+
+    /// <exception cref="TerminalDataException"></exception>
+    /// <remarks>Book C-2 Section SR1.23 - SR1.27 </remarks>
+    private KernelState RetryRelayResistanceProtocol(Kernel2Session session)
+    {
+        // SR1.23
+        UnpredictableNumber unpredictableNumber = _UnpredictableNumberGenerator.GenerateUnpredictableNumber();
+        _KernelDatabase.Update(unpredictableNumber);
+
+        TerminalRelayResistanceEntropy entropy = new(unpredictableNumber);
+        _KernelDatabase.Update(entropy);
+
+        // SR1.24
+        session.IncrementRelayResistanceProtocolCount();
+
+        // SR1.25
+        ExchangeRelayResistanceDataRequest capdu = ExchangeRelayResistanceDataRequest.Create(session.GetTransactionSessionId(), entropy);
+
+        // HACK: I  don't think we're supposed to set a timeout value for this. We're only viewing the time it takes. Which, I guess we can set the max expected time, but I don't think TimeoutValue is correct here
+        TimeoutValue timeout = TimeoutValue.Decode(_KernelDatabase.Get(TimeoutValue.Tag).GetValue().AsSpan());
+
+        // SR1.26
+        // BUG: We need to create a Timer in addition to the TimeoutManager we have
+        session.StartTimeout(new Milliseconds(long.MaxValue));
+
+        _PcdEndpoint.Request(capdu);
+
+        return _KernelStateResolver.GetKernelState(StateId);
+    }
+
+    #endregion
+
+    #region SR1.28 - SR1.32
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <remarks>Book C-2 Section SR1.28 - SR1.32 </remarks>
+    private KernelState CompleteRelayResistance(Kernel2Session session, MeasuredRelayResistanceProcessingTime relayTime)
+    {
+        if (IsRelayOutOfUpperBounds(relayTime))
+            SetRelayTimeLimitExceeded();
+
+        if (IsAccuracyThresholdExceeded(relayTime))
+            SetRelayResistanceThresholdExceeded();
+
+        SetRelayResistancePerformed();
+
+        return _S3R1.Process(this, session);
+    }
+
+    #endregion
+
+    #region SR1.29
+
+    /// <exception cref="TerminalDataException"></exception>
+    public void SetRelayTimeLimitExceeded()
+    {
+        _KernelDatabase.Set(TerminalVerificationResultCodes.RelayResistanceTimeLimitsExceeded);
+    }
+
+    #endregion
+
+    #region SR1.30
+
+    /// <remarks>Book C-2 Section SR1.30 </remarks>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    public bool IsAccuracyThresholdExceeded(MeasuredRelayResistanceProcessingTime processingTime)
+    {
+        if (!_KernelDatabase.IsPresentAndNotEmpty(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag))
+            return false;
+        if (!_KernelDatabase.IsPresentAndNotEmpty(TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Tag))
+            return false;
+
+        DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceEstimate =
+            DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Decode(_KernelDatabase
+                                                                              .Get(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu
+                                                                                       .Tag).EncodeValue().AsSpan());
+        TerminalExpectedTransmissionTimeForRelayResistanceRapdu terminalEstimate =
+            TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Decode(_KernelDatabase
+                                                                               .Get(TerminalExpectedTransmissionTimeForRelayResistanceRapdu
+                                                                                        .Tag).EncodeValue().AsSpan());
+        RelayResistanceTransmissionTimeMismatchThreshold mismatchThreshold =
+            RelayResistanceTransmissionTimeMismatchThreshold.Decode(_KernelDatabase
+                                                                        .Get(RelayResistanceTransmissionTimeMismatchThreshold.Tag)
+                                                                        .EncodeValue().AsSpan());
+        MinTimeForProcessingRelayResistanceApdu minThreshold =
+            MinTimeForProcessingRelayResistanceApdu.Decode(_KernelDatabase.Get(MinTimeForProcessingRelayResistanceApdu.Tag).EncodeValue()
+                                                               .AsSpan());
+        RelayResistanceAccuracyThreshold accuracyThreshold =
+            RelayResistanceAccuracyThreshold.Decode(_KernelDatabase.Get(RelayResistanceAccuracyThreshold.Tag).EncodeValue().AsSpan());
+        RelaySeconds minThresholdCheck = ((RelaySeconds) processingTime - minThreshold) < RelaySeconds.Zero
+            ? RelaySeconds.Zero
+            : (RelaySeconds) processingTime - minThreshold;
+
+        RelaySeconds a = ((RelaySeconds) deviceEstimate * 100) / (RelaySeconds) terminalEstimate;
+
+        if ((((RelaySeconds) deviceEstimate * 100) / (RelaySeconds) terminalEstimate) < (RelaySeconds) mismatchThreshold)
+            return true;
+
+        if ((((RelaySeconds) terminalEstimate * 100) / (RelaySeconds) deviceEstimate) < (RelaySeconds) mismatchThreshold)
+            return true;
+
+        if (minThresholdCheck > (RelaySeconds) accuracyThreshold)
+            return true;
+
+        return false;
+    }
+
+    #endregion
+
+    #region SR1.31
+
+    /// <remarks>Book C-2 Section SR1.31 </remarks>
+    public void SetRelayResistanceThresholdExceeded()
+    {
+        _KernelDatabase.Set(TerminalVerificationResultCodes.RelayResistanceThresholdExceeded);
+    }
+
+    #endregion
+
+    #region SR1.32
+
+    /// <remarks>Book C-2 Section SR1.32 </remarks>
+    public void SetRelayResistancePerformed()
+    {
+        _KernelDatabase.Set(TerminalVerificationResultCodes.RelayResistancePerformed);
+    }
+
+    #endregion
+
+    #region Shared
+
+    private bool IsRelayOutOfUpperBounds(MeasuredRelayResistanceProcessingTime relayTime)
     {
         MaxTimeForProcessingRelayResistanceApdu maxProcessingTime =
             MaxTimeForProcessingRelayResistanceApdu.Decode(_KernelDatabase.Get(MaxTimeForProcessingRelayResistanceApdu.Tag).EncodeValue()
                                                                .AsSpan());
         MaximumRelayResistanceGracePeriod maxGraceTime =
             MaximumRelayResistanceGracePeriod.Decode(_KernelDatabase.Get(MaximumRelayResistanceGracePeriod.Tag).EncodeValue().AsSpan());
+
+        RelaySeconds maxRelayTime = (RelaySeconds) maxProcessingTime + maxGraceTime;
+
+        if (relayTime > maxRelayTime)
+            return true;
+
+        return false;
     }
+
+    #endregion
 }

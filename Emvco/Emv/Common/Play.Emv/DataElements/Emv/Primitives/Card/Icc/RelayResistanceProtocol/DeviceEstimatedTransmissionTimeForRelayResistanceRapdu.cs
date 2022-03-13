@@ -60,7 +60,7 @@ public record DeviceEstimatedTransmissionTimeForRelayResistanceRapdu : DataEleme
 
     #region Operator Overrides
 
-    public static explicit operator RelaySeconds(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu value) => value._Value;
+    public static implicit operator RelaySeconds(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu value) => value._Value;
 
     #endregion
 }

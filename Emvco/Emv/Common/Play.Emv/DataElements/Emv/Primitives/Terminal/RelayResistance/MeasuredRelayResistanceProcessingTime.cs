@@ -38,22 +38,22 @@ namespace Play.Emv.DataElements
 
         /// <remarks>Creates the <see cref="MeasuredRelayResistanceProcessingTime" /> according to EMV Book C-2 Section SR1.18 </remarks>
         public static MeasuredRelayResistanceProcessingTime Create(
-            Milliseconds timeElapsed,
+            Microseconds timeElapsed,
             TerminalExpectedTransmissionTimeForRelayResistanceCapdu terminalExpectedCapduTransmissionTime,
             TerminalExpectedTransmissionTimeForRelayResistanceRapdu terminalExpectedRapduTransmissionTime,
             DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceEstimatedTransmissionTime)
         {
-            Seconds timeElapsedInSeconds = timeElapsed.AsSeconds();
+            RelaySeconds timeElapsedInRelaySeconds = new(timeElapsed);
 
-            ushort fastestExpectedTransmissionTime =
-                (ushort) terminalExpectedRapduTransmissionTime < (ushort) deviceEstimatedTransmissionTime
-                    ? (ushort) deviceEstimatedTransmissionTime
-                    : (ushort) terminalExpectedRapduTransmissionTime;
+            RelaySeconds fastestExpectedTransmissionTime =
+                terminalExpectedRapduTransmissionTime < (RelaySeconds) deviceEstimatedTransmissionTime
+                    ? deviceEstimatedTransmissionTime
+                    : terminalExpectedRapduTransmissionTime;
 
-            Seconds expectedResponseTime = new((ushort) terminalExpectedCapduTransmissionTime - fastestExpectedTransmissionTime);
-            Seconds processingTime = timeElapsedInSeconds - expectedResponseTime;
+            RelaySeconds expectedResponseTime = new(terminalExpectedCapduTransmissionTime - fastestExpectedTransmissionTime);
+            RelaySeconds processingTime = timeElapsedInRelaySeconds - expectedResponseTime;
 
-            return new MeasuredRelayResistanceProcessingTime((ushort) (processingTime < Seconds.Zero ? 0 : (ushort) processingTime));
+            return new MeasuredRelayResistanceProcessingTime(processingTime < RelaySeconds.Zero ? 0 : (ushort) processingTime);
         }
 
         #endregion
@@ -82,7 +82,7 @@ namespace Play.Emv.DataElements
 
         #region Operator Overrides
 
-        public static explicit operator RelaySeconds(MeasuredRelayResistanceProcessingTime value) => value._Value;
+        public static implicit operator RelaySeconds(MeasuredRelayResistanceProcessingTime value) => value._Value;
 
         #endregion
     }

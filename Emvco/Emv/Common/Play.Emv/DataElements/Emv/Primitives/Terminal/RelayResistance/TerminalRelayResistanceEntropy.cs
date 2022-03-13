@@ -11,7 +11,7 @@ namespace Play.Emv.DataElements
     /// <summary>
     ///     Contains a Kernel challenge (random) to be used in the value field of the EXCHANGE RELAY RESISTANCE DATA command.
     /// </summary>
-    public record TerminalRelayResistanceEntropy : DataElement<RelaySeconds>
+    public record TerminalRelayResistanceEntropy : DataElement<uint>
     {
         #region Static Metadata
 
@@ -23,7 +23,10 @@ namespace Play.Emv.DataElements
 
         #region Constructor
 
-        public TerminalRelayResistanceEntropy(RelaySeconds value) : base(value)
+        public TerminalRelayResistanceEntropy(uint value) : base(value)
+        { }
+
+        public TerminalRelayResistanceEntropy(UnpredictableNumber unpredictableNumber) : base((uint) unpredictableNumber)
         { }
 
         #endregion
@@ -54,12 +57,6 @@ namespace Play.Emv.DataElements
 
         public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
         public new byte[] EncodeValue(int length) => EncodeValue();
-
-        #endregion
-
-        #region Operator Overrides
-
-        public static explicit operator RelaySeconds(TerminalRelayResistanceEntropy value) => value._Value;
 
         #endregion
     }
