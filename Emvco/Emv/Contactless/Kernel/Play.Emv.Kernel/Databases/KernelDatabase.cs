@@ -7,6 +7,7 @@ using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
 using Play.Emv.Icc;
 using Play.Emv.Kernel.DataExchange;
+using Play.Emv.Kernel.Exceptions;
 using Play.Emv.Outcomes;
 using Play.Emv.Security.Certificates;
 using Play.Emv.Sessions;
@@ -27,6 +28,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     protected OutcomeParameterSet.Builder _OutcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
     protected UserInterfaceRequestData.Builder _UserInterfaceRequestDataBuilder = UserInterfaceRequestData.GetBuilder();
     protected ErrorIndication.Builder _ErrorIndicationBuilder = ErrorIndication.GetBuilder();
+    protected TerminalVerificationResults.Builder _TerminalVerificationResultBuilder = TerminalVerificationResults.GetBuilder();
 
     #endregion
 
@@ -224,12 +226,12 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     ///     it is not recognized
     /// </summary>
     /// <param name="value"></param>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public virtual void Update(TagLengthValue value)
     {
         if (!IsActive())
         {
-            throw new InvalidOperationException(
+            throw new TerminalDataException(
                 $"The method {nameof(Update)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
@@ -242,12 +244,12 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     ///     provided it is not recognized
     /// </summary>
     /// <param name="values"></param>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public virtual void Update(TagLengthValue[] values)
     {
         if (!IsActive())
         {
-            throw new InvalidOperationException(
+            throw new TerminalDataException(
                 $"The method {nameof(Update)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
@@ -258,12 +260,12 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     ///     Initialize
     /// </summary>
     /// <param name="tag"></param>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public virtual void Initialize(Tag tag)
     {
         if (!IsActive())
         {
-            throw new InvalidOperationException(
+            throw new TerminalDataException(
                 $"The method {nameof(Initialize)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
@@ -316,8 +318,18 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         KernelOutcome.CreateMagstripeDiscretionaryData(this, dataExchanger);
     }
 
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public ErrorIndication GetErrorIndication() => ErrorIndication.Decode(Get(ErrorIndication.Tag).EncodeValue().AsSpan());
+
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     private OutcomeParameterSet GetOutcomeParameterSet() => OutcomeParameterSet.Decode(Get(OutcomeParameterSet.Tag).EncodeValue().AsSpan());
+
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    private TerminalVerificationResults GetTerminalVerificationResults() =>
+        TerminalVerificationResults.Decode(Get(TerminalVerificationResults.Tag).EncodeValue().AsSpan());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
@@ -362,6 +374,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     #region Write Outcome
 
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public void Update(MessageIdentifier value)
     {
         _UserInterfaceRequestDataBuilder.Reset(GetUserInterfaceRequestData());
@@ -369,6 +383,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         Update(_UserInterfaceRequestDataBuilder.Complete());
     }
 
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public void Update(Status value)
     {
         _UserInterfaceRequestDataBuilder.Reset(GetUserInterfaceRequestData());
@@ -376,6 +392,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         Update(_UserInterfaceRequestDataBuilder.Complete());
     }
 
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public void Update(MessageHoldTime value)
     {
         _UserInterfaceRequestDataBuilder.Reset(GetUserInterfaceRequestData());
@@ -383,6 +401,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         Update(_UserInterfaceRequestDataBuilder.Complete());
     }
 
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public void Update(StatusOutcome value)
     {
         _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
@@ -390,6 +410,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         Update(_OutcomeParameterSetBuilder.Complete());
     }
 
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public void Update(CvmPerformedOutcome value)
     {
         _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
@@ -397,6 +419,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         Update(_OutcomeParameterSetBuilder.Complete());
     }
 
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public void Update(OnlineResponseOutcome value)
     {
         _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
@@ -404,6 +428,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         Update(_OutcomeParameterSetBuilder.Complete());
     }
 
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public void Update(FieldOffRequestOutcome value)
     {
         _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
@@ -411,6 +437,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         Update(_OutcomeParameterSetBuilder.Complete());
     }
 
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public void Update(StartOutcome value)
     {
         _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
@@ -418,6 +446,17 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         Update(_OutcomeParameterSetBuilder.Complete());
     }
 
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public void Set(TerminalVerificationResult value)
+    {
+        _TerminalVerificationResultBuilder.Reset(GetTerminalVerificationResults());
+        _TerminalVerificationResultBuilder.Set(value);
+        Update(_TerminalVerificationResultBuilder.Complete());
+    }
+
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public void SetUiRequestOnRestartPresent(bool value)
     {
         _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
@@ -425,6 +464,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         Update(_OutcomeParameterSetBuilder.Complete());
     }
 
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public void SetIsDataRecordPresent(bool value)
     {
         _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
@@ -432,6 +473,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         Update(_OutcomeParameterSetBuilder.Complete());
     }
 
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public void SetIsDiscretionaryDataPresent(bool value)
     {
         _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
@@ -439,6 +482,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         Update(_OutcomeParameterSetBuilder.Complete());
     }
 
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public void SetIsReceiptPresent(bool value)
     {
         _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
@@ -450,7 +495,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     ///     Update
     /// </summary>
     /// <param name="value"></param>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public void Update(Level1Error value)
     {
         _ErrorIndicationBuilder.Reset(GetErrorIndication());
@@ -462,7 +508,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     ///     Update
     /// </summary>
     /// <param name="value"></param>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public void Update(Level2Error value)
     {
         _ErrorIndicationBuilder.Reset(GetErrorIndication());
@@ -474,7 +521,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     ///     Update
     /// </summary>
     /// <param name="value"></param>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public void Update(Level3Error value)
     {
         _ErrorIndicationBuilder.Reset(GetErrorIndication());
@@ -482,6 +530,8 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         Update(_ErrorIndicationBuilder.Complete());
     }
 
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public void Update(StatusWords value)
     {
         _ErrorIndicationBuilder.Reset(GetErrorIndication());
@@ -493,7 +543,6 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     ///     Reset
     /// </summary>
     /// <param name="value"></param>
-    /// <exception cref="InvalidOperationException"></exception>
     public void Reset(OutcomeParameterSet value)
     {
         Update(value);

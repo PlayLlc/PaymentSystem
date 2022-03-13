@@ -129,6 +129,8 @@ public class S3R1
         return true;
     }
 
+    #endregion
+
     #region S3R1.10 - S3R1.11
 
     /// <remarks> EMV Book C-2 Section S3R1.10 - S3R1.11 </remarks>
@@ -266,7 +268,15 @@ public class S3R1
 
     #endregion
 
+    #region S3R1.20
+
+    public void SetOfflineAuthNotPerformed()
+    {
+        _KernelDatabase.Get
+    }
+
     #endregion
 
     #endregion
+
 }

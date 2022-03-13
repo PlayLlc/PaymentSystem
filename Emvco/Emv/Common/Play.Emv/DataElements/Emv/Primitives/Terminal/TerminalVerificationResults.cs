@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
@@ -38,6 +40,7 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
 
     #region Instance Members
 
+    public static Builder GetBuilder() => new();
     public bool ApplicationNotYetEffective() => _Value.IsBitSet(30);
     public bool CardAppearsOnTerminalExceptionFile() => _Value.IsBitSet(37);
     public bool CardholderVerificationWasNotSuccessful() => _Value.IsBitSet(24);
@@ -131,4 +134,50 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
         new(left._Value | right._Value);
 
     #endregion
+
+    public class Builder : PrimitiveValueBuilder<ulong>
+    {
+        #region Constructor
+
+        internal Builder(TerminalVerificationResults outcomeParameterSet)
+        {
+            _Value = outcomeParameterSet._Value;
+        }
+
+        internal Builder()
+        { }
+
+        #endregion
+
+        #region Instance Members
+
+        public void Reset(TerminalVerificationResults value)
+        {
+            _Value = value._Value;
+        }
+
+        public void Set(TerminalVerificationResult bitToSet)
+        {
+            _Value |= (ulong) bitToSet;
+        }
+
+        public void Clear(TerminalVerificationResult bitToClear)
+        {
+            _Value.ClearBits((ulong) bitToClear);
+        }
+
+        public override TerminalVerificationResults Complete() => new(_Value);
+
+        protected override void Set(ulong bitsToSet)
+        {
+            _Value |= bitsToSet;
+        }
+
+        protected void Clear(ulong bitsToClear)
+        {
+            _Value.ClearBit(38);
+        }
+
+        #endregion
+    }
 }

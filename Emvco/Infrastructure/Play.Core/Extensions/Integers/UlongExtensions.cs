@@ -118,12 +118,12 @@ public static class UlongExtensions
         return input & (~ (ulong) bitToClear << ((bytePosition * 8) - 8));
     }
 
-    public static ulong ClearBit(this in ulong input, byte bitsToClear)
+    public static ulong ClearBit(this in ulong input, byte bitToClear)
     {
-        if (bitsToClear > Specs.Integer.UInt64.ByteCount)
-            throw new ArgumentOutOfRangeException(nameof(bitsToClear));
+        if (bitToClear > Specs.Integer.UInt64.ByteCount)
+            throw new ArgumentOutOfRangeException(nameof(bitToClear));
 
-        return input & ~((ulong) (bitsToClear * 8) - 8);
+        return input & ~((ulong) (bitToClear * 8) - 8);
     }
 
     public static ulong ClearBits(this in ulong input, ulong bitsToClear) => input & ~bitsToClear;
