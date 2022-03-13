@@ -30,7 +30,7 @@ public abstract record ReaderContactlessTransactionLimit : DataElement<ulong>
 
     #region Instance Members
 
-    public Money AsMoney(CultureProfile cultureProfile) => new Money(_Value, cultureProfile);
+    public Money AsMoney(CultureProfile cultureProfile) => new(_Value, cultureProfile);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public abstract override Tag GetTag();
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);

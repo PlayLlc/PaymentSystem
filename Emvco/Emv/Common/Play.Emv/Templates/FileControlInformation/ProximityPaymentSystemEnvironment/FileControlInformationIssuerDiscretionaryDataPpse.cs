@@ -163,7 +163,7 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
                 $"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataDdf)}. A Set of {nameof(DirectoryEntry)} objects were expected but could not be found");
         }
 
-        SetOf<DirectoryEntry> directoryEntry = new SetOf<DirectoryEntry>(sequenceOfResult.ToArray().Select(DirectoryEntry.Decode).ToArray());
+        SetOf<DirectoryEntry> directoryEntry = new(sequenceOfResult.ToArray().Select(DirectoryEntry.Decode).ToArray());
 
         if (encodedTlvSiblings.TryGetValueOctetsOfChild(TerminalCategoriesSupportedList.Tag,
             out ReadOnlyMemory<byte> rawTerminalCategoriesSupportedList))

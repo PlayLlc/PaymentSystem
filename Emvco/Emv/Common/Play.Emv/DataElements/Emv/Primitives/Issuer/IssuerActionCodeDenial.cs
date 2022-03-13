@@ -19,6 +19,7 @@ public record IssuerActionCodeDenial : DataElement<ulong>, IEqualityComparer<Iss
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F0E;
+    private const byte _ByteLength = 5;
 
     #endregion
 
@@ -31,7 +32,7 @@ public record IssuerActionCodeDenial : DataElement<ulong>, IEqualityComparer<Iss
 
     #region Instance Members
 
-    public ActionCodes AsActionCodes() => new ActionCodes(_Value);
+    public ActionCodes AsActionCodes() => new(_Value);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
@@ -39,17 +40,10 @@ public record IssuerActionCodeDenial : DataElement<ulong>, IEqualityComparer<Iss
     #endregion
 
     #region Serialization
-     
-
-
-    private const byte _ByteLength = 5;
-
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerActionCodeDenial Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -58,7 +52,6 @@ public record IssuerActionCodeDenial : DataElement<ulong>, IEqualityComparer<Iss
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
-
 
         return new IssuerActionCodeDenial(result);
     }

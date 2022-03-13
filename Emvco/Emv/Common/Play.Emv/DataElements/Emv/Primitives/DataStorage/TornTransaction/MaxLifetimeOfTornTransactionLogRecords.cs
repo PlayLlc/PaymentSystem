@@ -14,6 +14,7 @@ public record MaxLifetimeOfTornTransactionLogRecords : DataElement<byte>
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF811C;
+    private const byte _ByteLength = 1;
 
     #endregion
 
@@ -32,14 +33,10 @@ public record MaxLifetimeOfTornTransactionLogRecords : DataElement<byte>
     #endregion
 
     #region Serialization
-     
-
-    private const byte _ByteLength = 1;
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static MaxLifetimeOfTornTransactionLogRecords Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -49,7 +46,7 @@ public record MaxLifetimeOfTornTransactionLogRecords : DataElement<byte>
 
         byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
 
-          return new MaxLifetimeOfTornTransactionLogRecords(result);
+        return new MaxLifetimeOfTornTransactionLogRecords(result);
     }
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);

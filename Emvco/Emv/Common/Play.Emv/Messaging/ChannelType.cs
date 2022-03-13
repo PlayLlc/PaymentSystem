@@ -10,13 +10,13 @@ public record ChannelType : EnumObject<ChannelTypeId>
 {
     #region Static Metadata
 
-    public static readonly ChannelType Terminal = new ChannelType(new ChannelTypeId(nameof(Terminal)));
-    public static readonly ChannelType Reader = new ChannelType(new ChannelTypeId(nameof(Reader)));
-    public static readonly ChannelType Kernel = new ChannelType(new ChannelTypeId(nameof(Kernel)));
-    public static readonly ChannelType ProximityCouplingDevice = new ChannelType(new ChannelTypeId(nameof(ProximityCouplingDevice)));
-    public static readonly ChannelType Display = new ChannelType(new ChannelTypeId(nameof(Display)));
-    public static readonly ChannelType Selection = new ChannelType(new ChannelTypeId(nameof(Selection)));
-    public static readonly ChannelType Acquirer = new ChannelType(new ChannelTypeId(nameof(Acquirer)));
+    public static readonly ChannelType Terminal = new(new ChannelTypeId(nameof(Terminal)));
+    public static readonly ChannelType Reader = new(new ChannelTypeId(nameof(Reader)));
+    public static readonly ChannelType Kernel = new(new ChannelTypeId(nameof(Kernel)));
+    public static readonly ChannelType ProximityCouplingDevice = new(new ChannelTypeId(nameof(ProximityCouplingDevice)));
+    public static readonly ChannelType Display = new(new ChannelTypeId(nameof(Display)));
+    public static readonly ChannelType Selection = new(new ChannelTypeId(nameof(Selection)));
+    public static readonly ChannelType Acquirer = new(new ChannelTypeId(nameof(Acquirer)));
 
     #endregion
 

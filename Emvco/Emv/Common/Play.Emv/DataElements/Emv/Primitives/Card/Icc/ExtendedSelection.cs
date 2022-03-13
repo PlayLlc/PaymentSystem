@@ -23,7 +23,7 @@ public record ExtendedSelection : DataElement<BigInteger>, IEqualityComparer<Ext
     #region Static Metadata
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
-    public static readonly ExtendedSelection Default = new ExtendedSelection(0);
+    public static readonly ExtendedSelection Default = new(0);
     public static readonly Tag Tag = 0x9F29;
 
     #endregion
@@ -46,24 +46,19 @@ public record ExtendedSelection : DataElement<BigInteger>, IEqualityComparer<Ext
     #endregion
 
     #region Serialization
-     
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ExtendedSelection Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ExtendedSelection Decode(ReadOnlySpan<byte> value)
-    { 
-
+    {
         BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
-         
 
         return new ExtendedSelection(result);
     }
-     
 
     #endregion
 

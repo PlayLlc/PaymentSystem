@@ -41,7 +41,7 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
 
     #region Instance Members
 
-    public TagLengthValue AsTagLengthValue(BerCodec codec) => new TagLengthValue(GetTag(), EncodeValue(codec));
+    public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
     public override PlayEncodingId GetEncodingId() => EncodingId;
 
     /// <summary>

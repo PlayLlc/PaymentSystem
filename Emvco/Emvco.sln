@@ -207,8 +207,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Acquirer.Elavon", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Codecs", "Infrastructure\Play.Codecs\Play.Codecs.csproj", "{120416FF-9470-40DA-93D3-B9D02EA66DC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeleteMe", "DeleteMe\DeleteMe.csproj", "{C8E85574-A3F8-4566-BB2B-BA489095362D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -495,10 +493,6 @@ Global
 		{120416FF-9470-40DA-93D3-B9D02EA66DC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{120416FF-9470-40DA-93D3-B9D02EA66DC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{120416FF-9470-40DA-93D3-B9D02EA66DC6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C8E85574-A3F8-4566-BB2B-BA489095362D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C8E85574-A3F8-4566-BB2B-BA489095362D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C8E85574-A3F8-4566-BB2B-BA489095362D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C8E85574-A3F8-4566-BB2B-BA489095362D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

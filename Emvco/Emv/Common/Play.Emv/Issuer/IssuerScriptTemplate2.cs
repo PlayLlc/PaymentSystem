@@ -26,13 +26,11 @@ public record IssuerScriptTemplate2 : DataElement<BigInteger>, IEqualityComparer
     public static readonly Tag Tag = 0x72;
 
     #endregion
-     
 
     #region Constructor
 
-    public IssuerScriptTemplate2(BigInteger value): base(value)
-    { 
-    }
+    public IssuerScriptTemplate2(BigInteger value) : base(value)
+    { }
 
     #endregion
 
@@ -46,20 +44,15 @@ public record IssuerScriptTemplate2 : DataElement<BigInteger>, IEqualityComparer
 
     #region Serialization
 
-
-
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerScriptTemplate2 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerScriptTemplate2 Decode(ReadOnlySpan<byte> value)
     {
-
         BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
-
 
         return new IssuerScriptTemplate2(result);
     }

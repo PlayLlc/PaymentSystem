@@ -20,6 +20,7 @@ public record ApplicationTransactionCounter : DataElement<ushort>, IEqualityComp
 
     public static readonly Tag Tag = 0x9F36;
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
+    private const byte _ByteLength = 2;
 
     #endregion
 
@@ -40,19 +41,9 @@ public record ApplicationTransactionCounter : DataElement<ushort>, IEqualityComp
 
     #region Serialization
 
-    private const byte _ByteLength = 2; 
-     
-
-
-
-
-
-
-
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ApplicationTransactionCounter Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -61,7 +52,6 @@ public record ApplicationTransactionCounter : DataElement<ushort>, IEqualityComp
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
-         
 
         return new ApplicationTransactionCounter(result);
     }

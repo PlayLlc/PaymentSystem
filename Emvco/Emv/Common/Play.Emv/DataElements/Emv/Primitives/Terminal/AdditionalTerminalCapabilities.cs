@@ -68,6 +68,7 @@ public record AdditionalTerminalCapabilities : DataElement<ulong>, IEqualityComp
     #endregion
 
     #region Serialization
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static AdditionalTerminalCapabilities Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
@@ -78,8 +79,8 @@ public record AdditionalTerminalCapabilities : DataElement<ulong>, IEqualityComp
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-
         ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
+
         return new AdditionalTerminalCapabilities(result);
     }
 

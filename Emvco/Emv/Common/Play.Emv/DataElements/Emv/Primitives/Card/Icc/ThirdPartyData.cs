@@ -41,14 +41,10 @@ public record ThirdPartyData : DataElement<BigInteger>
     #endregion
 
     #region Serialization
-     
-     
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ThirdPartyData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -58,10 +54,9 @@ public record ThirdPartyData : DataElement<BigInteger>
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
         BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
-         
+
         return new ThirdPartyData(result);
     }
-     
 
     #endregion
 }

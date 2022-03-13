@@ -65,7 +65,7 @@ public record SelectionDataObjectList : DataObjectList, IEqualityComparer<Select
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static SelectionDataObjectList Decode(ReadOnlySpan<byte> value, BerCodec codec) => new SelectionDataObjectList(value.ToArray());
+    public static SelectionDataObjectList Decode(ReadOnlySpan<byte> value, BerCodec codec) => new(value.ToArray());
 
     #endregion
 

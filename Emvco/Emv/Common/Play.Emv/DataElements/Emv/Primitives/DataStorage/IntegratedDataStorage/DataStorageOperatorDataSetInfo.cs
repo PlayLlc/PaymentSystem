@@ -55,15 +55,11 @@ public record DataStorageOperatorDataSetInfo : DataElement<byte>
 
     #endregion
 
-    #region Serialization 
-
-
-
+    #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DataStorageOperatorDataSetInfo Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -72,7 +68,6 @@ public record DataStorageOperatorDataSetInfo : DataElement<byte>
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
-         
 
         return new DataStorageOperatorDataSetInfo(result);
     }

@@ -34,11 +34,11 @@ public record TerminalTransactionQualifiers : DataElement<uint>, IEqualityCompar
 
     #region Instance Members
 
-    public TerminalTransactionQualifiers AsValueCopy() => new TerminalTransactionQualifiers(_Value);
+    public TerminalTransactionQualifiers AsValueCopy() => new(_Value);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public TerminalTransactionQualifiers GetValueCopy() => new TerminalTransactionQualifiers(_Value);
+    public TerminalTransactionQualifiers GetValueCopy() => new(_Value);
     public bool IsCvmRequired() => _Value.IsBitSet(15);
     public bool IsCvmSupportedOnConsumerDevice() => _Value.IsBitSet(23);
     public bool IsEmvContactSupported() => _Value.IsBitSet(5);
@@ -80,11 +80,9 @@ public record TerminalTransactionQualifiers : DataElement<uint>, IEqualityCompar
 
     #region Serialization
 
-
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalTransactionQualifiers Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>

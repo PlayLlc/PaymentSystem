@@ -25,13 +25,11 @@ public record CvmList : DataElement<BigInteger>
 
     #region Constructor
 
-
     /// <exception cref="DataElementParsingException"></exception>
     public CvmList(BigInteger value) : base(value)
     {
- 
-        Check.Primitive.ForMinimumLength((byte)value.GetByteCount(), _MinByteLength, Tag);
-        Check.Primitive.ForMaximumLength((byte)value.GetByteCount(), _MaxByteLength, Tag);
+        Check.Primitive.ForMinimumLength((byte) value.GetByteCount(), _MinByteLength, Tag);
+        Check.Primitive.ForMaximumLength((byte) value.GetByteCount(), _MaxByteLength, Tag);
     }
 
     #endregion
@@ -64,6 +62,7 @@ public record CvmList : DataElement<BigInteger>
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
         BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
+
         return new CvmList(result);
     }
 

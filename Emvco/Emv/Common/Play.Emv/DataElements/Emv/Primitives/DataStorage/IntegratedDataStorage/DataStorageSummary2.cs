@@ -40,14 +40,10 @@ public record DataStorageSummary2 : DataElement<BigInteger>
     #endregion
 
     #region Serialization
-     
-
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DataStorageSummary2 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -60,5 +56,6 @@ public record DataStorageSummary2 : DataElement<BigInteger>
 
         return new DataStorageSummary2(result);
     }
+
     #endregion
 }

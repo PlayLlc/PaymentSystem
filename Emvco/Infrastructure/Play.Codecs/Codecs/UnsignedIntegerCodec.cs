@@ -739,10 +739,10 @@ public class UnsignedIntegerCodec : PlayCodec
     }
 
     public byte DecodeToByte(ReadOnlySpan<byte> value)
-    { 
+    {
         if (value.Length == 0)
             return 0;
-         
+
         return value[0];
     }
 

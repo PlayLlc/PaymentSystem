@@ -31,7 +31,6 @@ public class BinaryCodec : PlayCodec
 
     #endregion
 
-
     #region Serialization
 
     #region Decode To DecodedMetadata
@@ -523,6 +522,7 @@ public class BinaryCodec : PlayCodec
     #endregion
 
     #region Decode To Integers
+
     public BigInteger DecodeToBigInteger(ReadOnlySpan<byte> value) => UnsignedIntegerCodec.DecodeToBigInteger(value);
     public uint DecodeToUInt32(ReadOnlySpan<byte> value) => UnsignedIntegerCodec.DecodeToUInt32(value);
     public ulong DecodeToUInt64(ReadOnlySpan<byte> value) => UnsignedIntegerCodec.DecodeToUInt64(value);

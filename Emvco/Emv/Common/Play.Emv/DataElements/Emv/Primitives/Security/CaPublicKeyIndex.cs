@@ -63,12 +63,10 @@ public record CaPublicKeyIndex : DataElement<byte>, IEqualityComparer<CaPublicKe
     #endregion
 
     #region Serialization
-     
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static CaPublicKeyIndex Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -77,7 +75,6 @@ public record CaPublicKeyIndex : DataElement<byte>, IEqualityComparer<CaPublicKe
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
-         
 
         return new CaPublicKeyIndex(result);
     }
@@ -107,7 +104,7 @@ public record CaPublicKeyIndex : DataElement<byte>, IEqualityComparer<CaPublicKe
     #region Operator Overrides
 
     public static explicit operator byte(CaPublicKeyIndex value) => value._Value;
-    public static explicit operator CaPublicKeyIndex(byte value) => new CaPublicKeyIndex(value);
+    public static explicit operator CaPublicKeyIndex(byte value) => new(value);
 
     #endregion
 }

@@ -44,20 +44,10 @@ public record DataStorageInputTerminal : DataElement<ulong>
     #endregion
 
     #region Serialization
- 
-     
-
-
-
-
-
-
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DataStorageInputTerminal Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -66,7 +56,6 @@ public record DataStorageInputTerminal : DataElement<ulong>
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
-         
 
         return new DataStorageInputTerminal(result);
     }

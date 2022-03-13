@@ -38,6 +38,7 @@ public record PunatcTrack2 : DataElement<ushort>
     #endregion
 
     #region Serialization
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static PunatcTrack2 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
@@ -47,7 +48,6 @@ public record PunatcTrack2 : DataElement<ushort>
     public static PunatcTrack2 Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _ByteLength, Tag);
-
 
         ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
 

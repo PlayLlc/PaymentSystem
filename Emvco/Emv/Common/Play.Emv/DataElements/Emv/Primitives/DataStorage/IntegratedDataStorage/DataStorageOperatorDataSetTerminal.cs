@@ -42,15 +42,11 @@ public record DataStorageOperatorDataSetTerminal : DataElement<BigInteger>
 
     #endregion
 
-    #region Serialization 
-
-
-
+    #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DataStorageOperatorDataSetTerminal Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -59,11 +55,9 @@ public record DataStorageOperatorDataSetTerminal : DataElement<BigInteger>
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
         BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
-         
 
         return new DataStorageOperatorDataSetTerminal(result);
     }
-     
 
     #endregion
 }

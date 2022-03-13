@@ -46,7 +46,6 @@ public record Track2EquivalentData : DataElement<BigInteger>
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-
         BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
         return new Track2EquivalentData(result);

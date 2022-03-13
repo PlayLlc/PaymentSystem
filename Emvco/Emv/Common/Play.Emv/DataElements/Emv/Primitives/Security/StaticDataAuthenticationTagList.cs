@@ -22,6 +22,7 @@ public record StaticDataAuthenticationTagList : DataElement<Tag[]>, IEqualityCom
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F4A;
+    private const byte _MaxByteLength = 250;
 
     #endregion
 
@@ -42,28 +43,19 @@ public record StaticDataAuthenticationTagList : DataElement<Tag[]>, IEqualityCom
     #endregion
 
     #region Serialization
-     
-
-
-
-    private const byte _MaxByteLength = 250;
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static StaticDataAuthenticationTagList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static StaticDataAuthenticationTagList Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
-         
-         
 
         return new StaticDataAuthenticationTagList(_Codec.DecodeTagSequence(value));
     }
-     
 
     #endregion
 

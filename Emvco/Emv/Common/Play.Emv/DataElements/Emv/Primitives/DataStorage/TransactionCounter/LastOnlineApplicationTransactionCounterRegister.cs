@@ -40,13 +40,10 @@ public record LastOnlineApplicationTransactionCounterRegister : DataElement<usho
     #endregion
 
     #region Serialization
-     
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static LastOnlineApplicationTransactionCounterRegister Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -56,7 +53,6 @@ public record LastOnlineApplicationTransactionCounterRegister : DataElement<usho
 
         ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
 
-       
         return new LastOnlineApplicationTransactionCounterRegister(result);
     }
 

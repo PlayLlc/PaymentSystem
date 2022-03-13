@@ -20,6 +20,7 @@ public record DynamicDataAuthenticationDataObjectList : DataObjectList, IEqualit
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F49;
+    private const byte _MaxByteLength = 252;
 
     #endregion
 
@@ -45,29 +46,19 @@ public record DynamicDataAuthenticationDataObjectList : DataObjectList, IEqualit
     #endregion
 
     #region Serialization
-     
-    private const byte _MaxByteLength = 252;
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DynamicDataAuthenticationDataObjectList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DynamicDataAuthenticationDataObjectList Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
-         
 
-     
         return new DynamicDataAuthenticationDataObjectList(value);
     }
-     
-
-
-
-
 
     #endregion
 

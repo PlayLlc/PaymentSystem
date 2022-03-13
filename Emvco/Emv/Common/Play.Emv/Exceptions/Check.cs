@@ -10,7 +10,7 @@ internal class Check
 {
     #region Static Metadata
 
-    public static readonly CheckCore Core = new CheckCore();
+    public static readonly CheckCore Core = new();
 
     #endregion
 
@@ -255,22 +255,6 @@ internal class Check
                     $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxValue}");
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         /// <exception cref="DataElementParsingException"></exception>
         public static void ForMinimumValue(byte value, byte minValue, Tag tag)

@@ -18,10 +18,11 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
 {
     #region Static Metadata
 
-    private static readonly Milliseconds _MinimumValue = new Milliseconds(100);
+    private static readonly Milliseconds _MinimumValue = new(100);
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
-    public static readonly MessageHoldTime MinimumValue = new MessageHoldTime(_MinimumValue);
+    public static readonly MessageHoldTime MinimumValue = new(_MinimumValue);
     public static readonly Tag Tag = 0xDF812D;
+    private const byte _ByteLength = 3;
 
     #endregion
 
@@ -35,7 +36,7 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
     {
         if (value < _MinimumValue)
         {
-            throw new DataElementParsingException( 
+            throw new DataElementParsingException(
                 $"The argument {nameof(value)} must be at least 100 ms to initialize a {nameof(MessageHoldTime)}");
         }
     }
@@ -58,18 +59,9 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
 
     #region Serialization
 
-    private const byte _ByteLength = 3; 
-     
-
-
-
-
-
-
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static MessageHoldTime Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -78,7 +70,6 @@ public record MessageHoldTime : DataElement<Milliseconds>, IEqualityComparer<Mes
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         uint result = PlayCodec.BinaryCodec.DecodeToUInt32(value);
-         
 
         return new MessageHoldTime(new Milliseconds(result * 100));
     }

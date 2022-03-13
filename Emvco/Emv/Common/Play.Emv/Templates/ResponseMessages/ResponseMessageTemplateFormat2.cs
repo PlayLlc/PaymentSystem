@@ -53,7 +53,7 @@ public class ResponseMessageTemplateFormat2 : ConstructedValue
     #region Serialization
 
     public static ResponseMessageTemplateFormat2 Decode(BerCodec codec, ReadOnlyMemory<byte> rawBer) =>
-        new ResponseMessageTemplateFormat2(codec.DecodeTagLengthValues(codec.GetContentOctets(rawBer.Span).AsSpan()));
+        new(codec.DecodeTagLengthValues(codec.GetContentOctets(rawBer.Span).AsSpan()));
 
     public override byte[] EncodeTagLengthValue(BerCodec codec) => throw new NotImplementedException();
 

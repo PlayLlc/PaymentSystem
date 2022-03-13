@@ -28,6 +28,8 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
     public static readonly KernelIdentifier MasterCard;
     public static readonly Tag Tag = 0x9F2A;
     public static readonly KernelIdentifier VisaInternational;
+    private const byte _MinByteLength = 1;
+    private const byte _MaxByteLength = 8;
 
     #endregion
 
@@ -197,18 +199,10 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
     #endregion
 
     #region Serialization
-     
-
-
-    private const byte _MinByteLength = 1;
-
-
-    private const byte _MaxByteLength = 8;
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static KernelIdentifier Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -218,11 +212,9 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
         Check.Primitive.ForMinimumLength(value, _MaxByteLength, Tag);
 
         ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
-         
 
         return new KernelIdentifier(result);
     }
-     
 
     #endregion
 

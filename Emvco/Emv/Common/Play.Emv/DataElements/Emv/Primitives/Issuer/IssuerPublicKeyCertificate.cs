@@ -43,6 +43,7 @@ public record IssuerPublicKeyCertificate : DataElement<BigInteger>, IEqualityCom
     #endregion
 
     #region Serialization
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerPublicKeyCertificate Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
@@ -52,6 +53,7 @@ public record IssuerPublicKeyCertificate : DataElement<BigInteger>, IEqualityCom
     public static IssuerPublicKeyCertificate Decode(ReadOnlySpan<byte> value)
     {
         BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
+
         return new IssuerPublicKeyCertificate(result);
     }
 

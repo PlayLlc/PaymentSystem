@@ -50,7 +50,7 @@ public record DataStorageDataObjectList : DataObjectList
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static DataStorageDataObjectList Decode(ReadOnlySpan<byte> value) => new DataStorageDataObjectList(value.ToArray());
+    public static DataStorageDataObjectList Decode(ReadOnlySpan<byte> value) => new(value.ToArray());
 
     #endregion
 

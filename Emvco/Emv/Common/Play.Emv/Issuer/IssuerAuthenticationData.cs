@@ -23,9 +23,10 @@ public record IssuerAuthenticationData : DataElement<BigInteger>, IEqualityCompa
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x91;
+    private const byte _MinByteLength = 8;
+    private const byte _MaxByteLength = 16;
 
     #endregion
-     
 
     #region Constructor
 
@@ -68,18 +69,9 @@ public record IssuerAuthenticationData : DataElement<BigInteger>, IEqualityCompa
         return new IssuerAuthenticationData(result.Value);
     }
 
-
-
-
-
-
-    private const byte _MinByteLength = 8;
-    private const byte _MaxByteLength = 16;
-
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerAuthenticationData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -88,11 +80,11 @@ public record IssuerAuthenticationData : DataElement<BigInteger>, IEqualityCompa
         Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value); 
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
         return new IssuerAuthenticationData(result);
     }
-     
+
     #endregion
 
     #region Equality

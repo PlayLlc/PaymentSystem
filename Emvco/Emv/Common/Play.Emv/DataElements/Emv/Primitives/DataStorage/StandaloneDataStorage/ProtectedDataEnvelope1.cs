@@ -23,6 +23,7 @@ public record ProtectedDataEnvelope1 : DataElement<BigInteger>, IEqualityCompare
     public static readonly Tag Tag = 0x9F70;
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     private const byte _MaxByteLength = 192;
+
     #endregion
 
     #region Constructor
@@ -42,12 +43,9 @@ public record ProtectedDataEnvelope1 : DataElement<BigInteger>, IEqualityCompare
 
     #region Serialization
 
-
-
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ProtectedDataEnvelope1 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -56,7 +54,6 @@ public record ProtectedDataEnvelope1 : DataElement<BigInteger>, IEqualityCompare
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
         BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
-
 
         return new ProtectedDataEnvelope1(result);
     }

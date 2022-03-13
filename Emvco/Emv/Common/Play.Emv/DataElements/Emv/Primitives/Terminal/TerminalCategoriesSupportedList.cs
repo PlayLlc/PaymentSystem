@@ -62,15 +62,17 @@ public record TerminalCategoriesSupportedList : DataElement<BigInteger>, IEquali
     #endregion
 
     #region Serialization
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalCategoriesSupportedList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalCategoriesSupportedList Decode(ReadOnlySpan<byte> value)
     {
-
         BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
+
         return new TerminalCategoriesSupportedList(result);
     }
 

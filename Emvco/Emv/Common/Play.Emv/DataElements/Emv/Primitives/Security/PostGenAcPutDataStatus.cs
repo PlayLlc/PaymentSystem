@@ -40,6 +40,7 @@ public record PostGenAcPutDataStatus : DataElement<byte>, IEqualityComparer<Post
     #endregion
 
     #region Serialization
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static PostGenAcPutDataStatus Decode(ReadOnlyMemory<byte> value)

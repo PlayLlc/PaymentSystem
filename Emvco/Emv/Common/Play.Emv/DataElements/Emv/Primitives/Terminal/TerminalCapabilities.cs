@@ -62,25 +62,19 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalCapabilities Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalCapabilities Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-
         uint result = PlayCodec.BinaryCodec.DecodeToUInt32(value);
+
         return new TerminalCapabilities(result);
     }
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-
     public new byte[] EncodeValue(int length) => EncodeValue();
-
-
-
-
 
     #endregion
 

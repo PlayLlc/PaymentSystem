@@ -65,7 +65,6 @@ public record DataStorageOperatorDataSetInfoForReader : DataElement<byte>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DataStorageOperatorDataSetCard Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DataStorageOperatorDataSetCard Decode(ReadOnlySpan<byte> value)
@@ -73,7 +72,6 @@ public record DataStorageOperatorDataSetInfoForReader : DataElement<byte>
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
-
 
         return new DataStorageOperatorDataSetCard(result);
     }

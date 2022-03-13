@@ -40,12 +40,10 @@ public record ApplicationCryptogram : DataElement<ulong>, IEqualityComparer<Appl
     #endregion
 
     #region Serialization
-     
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ApplicationCryptogram Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -54,7 +52,6 @@ public record ApplicationCryptogram : DataElement<ulong>, IEqualityComparer<Appl
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
-         
 
         return new ApplicationCryptogram(result);
     }
@@ -83,7 +80,7 @@ public record ApplicationCryptogram : DataElement<ulong>, IEqualityComparer<Appl
 
     #region Operator Overrides
 
-    public static explicit operator ApplicationCryptogram(byte value) => new ApplicationCryptogram(value);
+    public static explicit operator ApplicationCryptogram(byte value) => new(value);
 
     #endregion
 }

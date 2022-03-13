@@ -42,27 +42,19 @@ public record IssuerScriptTemplate1 : DataElement<BigInteger>, IEqualityComparer
     #endregion
 
     #region Serialization
-     
-
-
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerScriptTemplate1 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerScriptTemplate1 Decode(ReadOnlySpan<byte> value)
-    { 
-
+    {
         BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
-       
         return new IssuerScriptTemplate1(result);
     }
-     
 
     #endregion
 

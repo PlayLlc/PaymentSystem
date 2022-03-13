@@ -48,7 +48,7 @@ public readonly struct KernelSessionId
     private static ulong GetUniqueTicks()
     {
         const ulong bitMaskValue = 0xFF00000000000000;
-        SessionId sessionId = new SessionId(DateTime.UtcNow);
+        SessionId sessionId = new(DateTime.UtcNow);
 
         return ((ulong) sessionId).GetMaskedValue(bitMaskValue);
     }

@@ -37,6 +37,7 @@ public record PunatcTrack1 : DataElement<ulong>
     #endregion
 
     #region Serialization
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static PunatcTrack1 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);

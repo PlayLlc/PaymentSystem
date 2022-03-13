@@ -105,7 +105,7 @@ public class Outcome
 
     public TagLengthValue[] AsTagLengthValueArray()
     {
-        List<TagLengthValue> buffer = new List<TagLengthValue>
+        List<TagLengthValue> buffer = new()
         {
             _ErrorIndication!.AsTagLengthValue(),
             _OutcomeParameterSet!.AsTagLengthValue(),

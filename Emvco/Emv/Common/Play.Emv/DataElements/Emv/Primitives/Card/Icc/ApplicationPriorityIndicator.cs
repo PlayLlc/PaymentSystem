@@ -20,6 +20,7 @@ public record ApplicationPriorityIndicator : DataElement<byte>, IEqualityCompare
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x87;
+    private const byte _ByteLength = 1;
 
     #endregion
 
@@ -53,19 +54,9 @@ public record ApplicationPriorityIndicator : DataElement<byte>, IEqualityCompare
 
     #region Serialization
 
-    private const byte _ByteLength = 1;
-
-     
-     
-
-
-
-
-
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ApplicationPriorityIndicator Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -74,7 +65,6 @@ public record ApplicationPriorityIndicator : DataElement<byte>, IEqualityCompare
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
-         
 
         return new ApplicationPriorityIndicator(result);
     }

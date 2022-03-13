@@ -40,11 +40,11 @@ public record TagsToWriteAfterGenAc : DataExchangeResponse, IEqualityComparer<Ta
 
     #region Serialization
 
-    public static TagsToWriteAfterGenAc Decode(ReadOnlyMemory<byte> value) => new TagsToWriteAfterGenAc(_Codec.DecodeTagLengthValues(value));
+    public static TagsToWriteAfterGenAc Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodeTagLengthValues(value));
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static TagsToWriteAfterGenAc Decode(ReadOnlySpan<byte> value) => new TagsToWriteAfterGenAc(_Codec.DecodeTagLengthValues(value));
+    public static TagsToWriteAfterGenAc Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodeTagLengthValues(value));
 
     #endregion
 

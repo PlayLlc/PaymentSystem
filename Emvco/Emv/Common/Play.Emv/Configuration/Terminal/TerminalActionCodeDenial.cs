@@ -22,7 +22,7 @@ public record TerminalActionCodeDenial : DataElement<ulong>, IEqualityComparer<T
     #region Static Metadata
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
-    public static readonly TerminalActionCodeDenial Default = new TerminalActionCodeDenial(0x840000000C);
+    public static readonly TerminalActionCodeDenial Default = new(0x840000000C);
     public static readonly Tag Tag = 0xDF8121;
     private const byte _ByteLength = 5;
 
@@ -37,7 +37,7 @@ public record TerminalActionCodeDenial : DataElement<ulong>, IEqualityComparer<T
 
     #region Instance Members
 
-    public ActionCodes AsActionCodes() => new ActionCodes(_Value);
+    public ActionCodes AsActionCodes() => new(_Value);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);

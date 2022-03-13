@@ -57,12 +57,6 @@ public record PreGenAcPutDataStatus : DataElement<byte>, IEqualityComparer<PreGe
         return new PreGenAcPutDataStatus(value[0]);
     }
 
-
-
-
-
-
-
     #endregion
 
     #region Equality

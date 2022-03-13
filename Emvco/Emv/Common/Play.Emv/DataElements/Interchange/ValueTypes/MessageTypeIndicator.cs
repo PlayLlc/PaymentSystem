@@ -43,7 +43,7 @@ public readonly struct MessageTypeIndicator
     #region Operator Overrides
 
     public static implicit operator ushort(MessageTypeIndicator value) => value._Value;
-    public static implicit operator MessageTypeIndicator(ushort value) => new MessageTypeIndicator(value);
+    public static implicit operator MessageTypeIndicator(ushort value) => new(value);
 
     #endregion
 }

@@ -19,8 +19,9 @@ public record KernelConfiguration : DataElement<byte>, IEqualityComparer<KernelC
     #region Static Metadata
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
-    public static readonly KernelConfiguration Default = new KernelConfiguration(0);
+    public static readonly KernelConfiguration Default = new(0);
     public static readonly Tag Tag = 0xDF811B;
+    private const byte _ByteLength = 1;
 
     #endregion
 
@@ -54,18 +55,9 @@ public record KernelConfiguration : DataElement<byte>, IEqualityComparer<KernelC
 
     #region Serialization
 
-     
-
-
-
-
-
-    private const byte _ByteLength = 1;
-
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static KernelConfiguration Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -73,7 +65,7 @@ public record KernelConfiguration : DataElement<byte>, IEqualityComparer<KernelC
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        byte result = PlayCodec.BinaryCodec.DecodeToByte(value); 
+        byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
 
         return new KernelConfiguration(result);
     }

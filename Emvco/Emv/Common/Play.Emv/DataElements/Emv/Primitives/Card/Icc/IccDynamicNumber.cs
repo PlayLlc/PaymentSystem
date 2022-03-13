@@ -19,6 +19,8 @@ public record IccDynamicNumber : DataElement<ulong>, IEqualityComparer<IccDynami
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F4C;
+    private const byte _MinByteLength = 2;
+    private const byte _MaxByteLength = 8;
 
     #endregion
 
@@ -38,17 +40,9 @@ public record IccDynamicNumber : DataElement<ulong>, IEqualityComparer<IccDynami
 
     #region Serialization
 
-    private const byte _MinByteLength = 2;
-    private const byte _MaxByteLength = 8;
-
-     
-
-
-
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IccDynamicNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -58,11 +52,10 @@ public record IccDynamicNumber : DataElement<ulong>, IEqualityComparer<IccDynami
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
         ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
-         
 
         return new IccDynamicNumber(result);
     }
-     
+
     #endregion
 
     #region Equality

@@ -31,7 +31,7 @@ public record ApplicationLabel : DataElement<char[]>, IEqualityComparer<Applicat
 
     #region Instance Members
 
-    public override string ToString() => new string(_Value);
+    public override string ToString() => new(_Value);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);

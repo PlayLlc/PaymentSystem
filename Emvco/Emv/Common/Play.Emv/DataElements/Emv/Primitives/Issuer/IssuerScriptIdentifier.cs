@@ -22,6 +22,7 @@ public record IssuerScriptIdentifier : DataElement<uint>, IEqualityComparer<Issu
 
     public static readonly Tag Tag = 0x9F18;
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
+    private const byte _ByteLength = 4;
 
     #endregion
 
@@ -41,16 +42,10 @@ public record IssuerScriptIdentifier : DataElement<uint>, IEqualityComparer<Issu
     #endregion
 
     #region Serialization
-     
-
-    private const byte _ByteLength = 4;
-
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerScriptIdentifier Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -60,7 +55,6 @@ public record IssuerScriptIdentifier : DataElement<uint>, IEqualityComparer<Issu
 
         uint result = PlayCodec.BinaryCodec.DecodeToUInt32(value);
 
-      
         return new IssuerScriptIdentifier(result);
     }
 

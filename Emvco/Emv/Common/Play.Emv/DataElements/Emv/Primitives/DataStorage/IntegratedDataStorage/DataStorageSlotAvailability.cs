@@ -50,6 +50,7 @@ public record DataStorageSlotAvailability : DataElement<byte>
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
+
         return new DataStorageSlotAvailability(result);
     }
 

@@ -42,24 +42,19 @@ public record DataStorageVersionNumberTerminal : DataElement<BigInteger>
     #endregion
 
     #region Serialization
-     
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DataStorageVersionNumberTerminal Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DataStorageVersionNumberTerminal Decode(ReadOnlySpan<byte> value)
-    { 
-
-        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value); 
+    {
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
         return new DataStorageVersionNumberTerminal(result);
     }
-     
 
     #endregion
 }

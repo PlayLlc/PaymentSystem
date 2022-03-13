@@ -43,12 +43,10 @@ public record TimeoutValue : DataElement<ushort>, IEqualityComparer<TimeoutValue
     #endregion
 
     #region Serialization
-     
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TimeoutValue Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -58,7 +56,6 @@ public record TimeoutValue : DataElement<ushort>, IEqualityComparer<TimeoutValue
 
         ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
 
-    
         return new TimeoutValue(result);
     }
 
@@ -86,7 +83,7 @@ public record TimeoutValue : DataElement<ushort>, IEqualityComparer<TimeoutValue
 
     #region Operator Overrides
 
-    public static explicit operator Milliseconds(TimeoutValue value) => new Milliseconds(value._Value);
+    public static explicit operator Milliseconds(TimeoutValue value) => new(value._Value);
 
     #endregion
 }

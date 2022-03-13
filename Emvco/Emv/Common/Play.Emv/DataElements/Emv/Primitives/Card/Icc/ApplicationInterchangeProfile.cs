@@ -19,6 +19,7 @@ public record ApplicationInterchangeProfile : DataElement<ushort>, IEqualityComp
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x82;
+    private const byte _ByteLength = 2;
 
     #endregion
 
@@ -50,17 +51,10 @@ public record ApplicationInterchangeProfile : DataElement<ushort>, IEqualityComp
     #endregion
 
     #region Serialization
-      
-
-    private const byte _ByteLength = 2;
-
-
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ApplicationInterchangeProfile Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -69,7 +63,6 @@ public record ApplicationInterchangeProfile : DataElement<ushort>, IEqualityComp
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
-         
 
         return new ApplicationInterchangeProfile(result);
     }

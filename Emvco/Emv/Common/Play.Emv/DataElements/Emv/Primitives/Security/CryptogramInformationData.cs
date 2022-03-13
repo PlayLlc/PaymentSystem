@@ -21,6 +21,7 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F27;
+    private const byte _ByteLength = 1;
 
     #endregion
 
@@ -75,15 +76,10 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
     #endregion
 
     #region Serialization
-     
-
-
-    private const byte _ByteLength = 1;
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static CryptogramInformationData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -92,16 +88,12 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
-         
 
         return new CryptogramInformationData(result);
     }
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
     public new byte[] EncodeValue(int length) => EncodeValue();
-
-
-
 
     #endregion
 

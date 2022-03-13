@@ -46,10 +46,6 @@ public record ApplicationVersionNumberTerminal : DataElement<ushort>, IEqualityC
     #endregion
 
     #region Serialization
-     
-
-
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -61,13 +57,14 @@ public record ApplicationVersionNumberTerminal : DataElement<ushort>, IEqualityC
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-
         ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
+
         return new ApplicationVersionNumberTerminal(result);
     }
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
     public new byte[] EncodeValue(int length) => EncodeValue();
+
     #endregion
 
     #region Equality

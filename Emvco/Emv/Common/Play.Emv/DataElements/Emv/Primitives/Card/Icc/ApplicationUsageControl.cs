@@ -37,16 +37,10 @@ public record ApplicationUsageControl : DataElement<ushort>
     #endregion
 
     #region Serialization
-     
-     
-
-
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ApplicationUsageControl Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -55,7 +49,6 @@ public record ApplicationUsageControl : DataElement<ushort>
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
-         
 
         return new ApplicationUsageControl(result);
     }

@@ -17,6 +17,7 @@ public record MaxNumberOfTornTransactionLogRecords : DataElement<byte>
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF811D;
+    private const byte _ByteLength = 1;
 
     #endregion
 
@@ -35,14 +36,10 @@ public record MaxNumberOfTornTransactionLogRecords : DataElement<byte>
     #endregion
 
     #region Serialization
-     
-
-    private const byte _ByteLength = 1;
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static MaxNumberOfTornTransactionLogRecords Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>

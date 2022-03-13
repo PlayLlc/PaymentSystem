@@ -19,10 +19,11 @@ public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldT
 {
     #region Static Metadata
 
-    private static readonly Milliseconds _MinimumValue = new Milliseconds(100);
+    private static readonly Milliseconds _MinimumValue = new(100);
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF8130;
     private const byte _ByteLength = 3;
+    private const byte _CharLength = 6;
 
     #endregion
 
@@ -57,16 +58,10 @@ public record HoldTimeValue : DataElement<Milliseconds>, IEqualityComparer<HoldT
     #endregion
 
     #region Serialization
-     
-
-
-
-    private const byte _CharLength = 6;
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static HoldTimeValue Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>

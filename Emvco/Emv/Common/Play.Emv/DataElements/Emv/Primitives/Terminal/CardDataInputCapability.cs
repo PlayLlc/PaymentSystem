@@ -19,6 +19,7 @@ public record CardDataInputCapability : DataElement<byte>, IEqualityComparer<Car
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF8117;
+    private const byte _ByteLength = 1;
 
     #endregion
 
@@ -38,14 +39,10 @@ public record CardDataInputCapability : DataElement<byte>, IEqualityComparer<Car
     #endregion
 
     #region Serialization
-     
-
-    private const byte _ByteLength = 1;
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static CardDataInputCapability Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -55,7 +52,6 @@ public record CardDataInputCapability : DataElement<byte>, IEqualityComparer<Car
 
         byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
 
-       
         return new CardDataInputCapability(result);
     }
 

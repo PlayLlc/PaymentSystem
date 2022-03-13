@@ -20,6 +20,7 @@ public record IccPublicKeyCertificate : DataElement<BigInteger>, IEqualityCompar
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F46;
+    private const byte _MaxByteLength = 248;
 
     #endregion
 
@@ -38,16 +39,10 @@ public record IccPublicKeyCertificate : DataElement<BigInteger>, IEqualityCompar
     #endregion
 
     #region Serialization
-     
-
-
-
-    private const byte _MaxByteLength = 248;
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IccPublicKeyCertificate Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -56,13 +51,13 @@ public record IccPublicKeyCertificate : DataElement<BigInteger>, IEqualityCompar
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
         ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
-         
 
         return new IccPublicKeyCertificate(result);
     }
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
     public new byte[] EncodeValue(int length) => EncodeValue();
+
     #endregion
 
     #region Equality

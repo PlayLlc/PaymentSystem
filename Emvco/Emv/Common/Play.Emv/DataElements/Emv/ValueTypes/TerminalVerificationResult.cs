@@ -24,7 +24,7 @@ public struct TerminalVerificationResult
 
     #region Instance Members
 
-    public static TerminalVerificationResult Create() => new TerminalVerificationResult(0);
+    public static TerminalVerificationResult Create() => new(0);
     public void SetApplicationNotYetEffective() => _Value.SetBit(30);
     public void SetCardAppearsOnTerminalExceptionFile() => _Value.SetBit(37);
     public void SetCardholderVerificationWasNotSuccessful() => _Value.SetBit(24);

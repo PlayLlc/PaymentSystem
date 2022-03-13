@@ -31,8 +31,7 @@ public record Track2DiscretionaryData : DataElement<BigInteger>
     /// <exception cref="DataElementParsingException"></exception>
     public Track2DiscretionaryData(BigInteger value) : base(value)
     {
-
-        Check.Primitive.ForMaximumLength((byte)value.GetByteCount(), _MaxByteLength, Tag);
+        Check.Primitive.ForMaximumLength((byte) value.GetByteCount(), _MaxByteLength, Tag);
     }
 
     #endregion

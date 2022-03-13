@@ -24,6 +24,7 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
     private const byte _MinValue = 1;
     private const byte _MaxValue = 30;
     private const byte _ByteLength = 1;
+
     #endregion
 
     #region Constructor
@@ -62,7 +63,7 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
     #endregion
 
     #region Serialization
-     
+
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public static ShortFileIdentifier Decode(ReadOnlySpan<byte> value, BerCodec codec)
@@ -82,13 +83,9 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
         return new ShortFileIdentifier(result.Value);
     }
 
-
-
-
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static AuthorizationResponseCode Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -96,12 +93,10 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-
         ushort result = PlayCodec.BinaryCodec.DecodeToByte(value);
 
         Check.Primitive.ForMinimumValue(result, _MinValue, Tag);
         Check.Primitive.ForMaximumValue(result, _MaxValue, Tag);
-
 
         return new AuthorizationResponseCode(result);
     }
@@ -133,8 +128,8 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
     public static bool operator ==(ShortFileIdentifier left, Tag right) => left.Equals(right);
     public static bool operator ==(Tag left, ShortFileIdentifier right) => right.Equals(left);
     public static explicit operator byte(ShortFileIdentifier value) => value._Value;
-    public static explicit operator ShortFileIdentifier(byte value) => new ShortFileIdentifier(value);
-    public static implicit operator ShortFileId(ShortFileIdentifier value) => new ShortFileId(value._Value);
+    public static explicit operator ShortFileIdentifier(byte value) => new(value);
+    public static implicit operator ShortFileId(ShortFileIdentifier value) => new(value._Value);
     public static bool operator !=(ShortFileIdentifier left, Tag right) => !left.Equals(right);
     public static bool operator !=(Tag left, ShortFileIdentifier right) => !right.Equals(left);
 

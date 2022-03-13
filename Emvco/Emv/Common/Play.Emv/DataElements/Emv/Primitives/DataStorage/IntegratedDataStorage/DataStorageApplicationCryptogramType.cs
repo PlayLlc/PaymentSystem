@@ -20,6 +20,7 @@ public record DataStorageApplicationCryptogramType : DataElement<byte>, IEqualit
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF8108;
+    private const byte _ByteLength = 1;
 
     #endregion
 
@@ -41,19 +42,10 @@ public record DataStorageApplicationCryptogramType : DataElement<byte>, IEqualit
     #endregion
 
     #region Serialization
-     
-   
-
-    private const byte _ByteLength = 1;
-
-
-
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DataStorageApplicationCryptogramType Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -62,7 +54,6 @@ public record DataStorageApplicationCryptogramType : DataElement<byte>, IEqualit
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
-         
 
         return new DataStorageApplicationCryptogramType(result);
     }

@@ -42,7 +42,7 @@ public abstract record TerminalConfiguration
     /// </summary>
     private readonly ulong _ThresholdValueForBiasedRandomSelection;
 
-    private readonly List<TagLengthValue> _TagLengthValues = new List<TagLengthValue>();
+    private readonly List<TagLengthValue> _TagLengthValues = new();
 
     #endregion
 
@@ -129,7 +129,7 @@ public abstract record TerminalConfiguration
 
     // HACK: This is not implemented. Find how we're supposed to store the random and biased percentages and biased threshold value
     public TerminalRiskConfiguration GetTerminalRiskConfiguration(CultureProfile culture) =>
-        new TerminalRiskConfiguration(culture, _TerminalRiskManagementData, _BiasedRandomSelectionPercentage,
+        new(culture, _TerminalRiskManagementData, _BiasedRandomSelectionPercentage,
             new Money(_ThresholdValueForBiasedRandomSelection, culture), _RandomSelectionTargetPercentage, _TerminalFloorLimit);
 
     public MerchantNameAndLocation GetMerchantNameAndLocation() => _MerchantNameAndLocation;

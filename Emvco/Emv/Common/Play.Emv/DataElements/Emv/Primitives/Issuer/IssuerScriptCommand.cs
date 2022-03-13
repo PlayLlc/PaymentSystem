@@ -23,6 +23,7 @@ public record IssuerScriptCommand : DataElement<BigInteger>, IEqualityComparer<I
 
     public static readonly Tag Tag = 0x86;
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
+    private const ushort _MaxByteLength = 261;
 
     #endregion
 
@@ -43,14 +44,9 @@ public record IssuerScriptCommand : DataElement<BigInteger>, IEqualityComparer<I
 
     #region Serialization
 
-
-
-    private const ushort _MaxByteLength = 261;
-
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerScriptCommand Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -60,8 +56,8 @@ public record IssuerScriptCommand : DataElement<BigInteger>, IEqualityComparer<I
 
         BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
-       return new IssuerScriptCommand(result);
-    } 
+        return new IssuerScriptCommand(result);
+    }
 
     #endregion
 

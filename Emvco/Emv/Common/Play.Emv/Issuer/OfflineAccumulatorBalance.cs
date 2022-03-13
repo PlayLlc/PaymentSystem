@@ -22,15 +22,15 @@ public record OfflineAccumulatorBalance : DataElement<ulong>, IEqualityComparer<
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F50;
+    private const byte _ByteLength = 6;
+    private const byte _CharLength = 12;
 
     #endregion
-     
 
     #region Constructor
 
     public OfflineAccumulatorBalance(ulong value) : base(value)
-    { 
-    }
+    { }
 
     #endregion
 
@@ -43,17 +43,10 @@ public record OfflineAccumulatorBalance : DataElement<ulong>, IEqualityComparer<
     #endregion
 
     #region Serialization
-     
-
-
-
-    private const byte _ByteLength = 6;
-    private const byte _CharLength = 12;
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static OfflineAccumulatorBalance Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>

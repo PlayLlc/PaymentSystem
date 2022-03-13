@@ -20,6 +20,8 @@ public record IccPublicKeyExponent : DataElement<uint>
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F47;
+    private const byte _MinByteLength = 1;
+    private const byte _MaxByteLength = 3;
 
     #endregion
 
@@ -45,15 +47,10 @@ public record IccPublicKeyExponent : DataElement<uint>
     #endregion
 
     #region Serialization
-     
-
-    private const byte _MinByteLength = 1;
-    private const byte _MaxByteLength = 3;
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IccPublicKeyExponent Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -63,11 +60,10 @@ public record IccPublicKeyExponent : DataElement<uint>
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
         ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
-         
 
         return new IccPublicKeyExponent(result);
     }
-     
+
     public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion

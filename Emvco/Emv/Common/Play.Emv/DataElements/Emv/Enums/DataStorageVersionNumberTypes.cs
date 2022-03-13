@@ -11,11 +11,11 @@ public sealed record DataStorageVersionNumberTypes : EnumObject<byte>
 {
     #region Static Metadata
 
-    public static readonly DataStorageVersionNumberTypes NotSupported = new DataStorageVersionNumberTypes(0);
-    public static readonly DataStorageVersionNumberTypes Version1 = new DataStorageVersionNumberTypes(0b1);
-    public static readonly DataStorageVersionNumberTypes Version2 = new DataStorageVersionNumberTypes(0b10);
+    public static readonly DataStorageVersionNumberTypes NotSupported = new(0);
+    public static readonly DataStorageVersionNumberTypes Version1 = new(0b1);
+    public static readonly DataStorageVersionNumberTypes Version2 = new(0b10);
 
-    private static readonly Dictionary<byte, DataStorageVersionNumberTypes> _ValueMap = new Dictionary<byte, DataStorageVersionNumberTypes>
+    private static readonly Dictionary<byte, DataStorageVersionNumberTypes> _ValueMap = new()
     {
         {NotSupported, NotSupported}, {Version1, Version1}, {Version2, Version2}
     };

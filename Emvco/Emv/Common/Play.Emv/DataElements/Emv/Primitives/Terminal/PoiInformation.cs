@@ -22,6 +22,7 @@ public record PoiInformation : DataElement<BigInteger>, IEqualityComparer<PoiInf
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x8B;
+    private const byte _MaxByteLength = 64;
 
     #endregion
 
@@ -42,7 +43,7 @@ public record PoiInformation : DataElement<BigInteger>, IEqualityComparer<PoiInf
 
     public TerminalCategoryCode[] GetTerminalCategoryCodes()
     {
-        HashSet<TerminalCategoryCode> buffer = new HashSet<TerminalCategoryCode>();
+        HashSet<TerminalCategoryCode> buffer = new();
         ReadOnlySpan<byte> temp = _Value;
 
         while (true)
@@ -60,14 +61,10 @@ public record PoiInformation : DataElement<BigInteger>, IEqualityComparer<PoiInf
     #endregion
 
     #region Serialization
-     
-
-    private const byte _MaxByteLength = 64;
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static PoiInformation Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -76,14 +73,9 @@ public record PoiInformation : DataElement<BigInteger>, IEqualityComparer<PoiInf
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
         BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
-         
 
         return new PoiInformation(result);
     }
-     
-
-
-
 
     #endregion
 

@@ -32,6 +32,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
     private const byte _ValueQualifierOffset = 56;
     private const byte _MoneyOffset = 8;
     private const byte _CurrencyCodeOffset = 0;
+    private const byte _ByteLength = 22;
 
     #endregion
 
@@ -48,13 +49,13 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
         GetValueQualifier() == ValueQualifier.None ? null : ((ulong) (_Value >> _MoneyOffset)).GetMaskedValue(0xFFFF000000000000);
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
-    public static Builder GetBuilder() => new Builder();
-    public NumericCurrencyCode GetCurrencyCode() => new NumericCurrencyCode((ushort) (_Value >> _CurrencyCodeOffset));
+    public static Builder GetBuilder() => new();
+    public NumericCurrencyCode GetCurrencyCode() => new((ushort) (_Value >> _CurrencyCodeOffset));
 
     public MessageHoldTime GetHoldTimeValue() =>
-        new MessageHoldTime(new Milliseconds(((ulong) (_Value >> _HoldTimeOffset)).GetMaskedValue(0xFFFF000000000000) * 100));
+        new(new Milliseconds(((ulong) (_Value >> _HoldTimeOffset)).GetMaskedValue(0xFFFF000000000000) * 100));
 
-    public LanguagePreference GetLanguagePreference() => new LanguagePreference((ulong) (_Value >> _LanguagePreferenceOffset));
+    public LanguagePreference GetLanguagePreference() => new((ulong) (_Value >> _LanguagePreferenceOffset));
     public MessageIdentifier GetMessageIdentifier() => MessageIdentifier.Get((byte) (_Value >> _MessageIdentifierOffset));
     public Status GetStatus() => Status.Get((byte) (_Value >> _StatusOffset));
     public override Tag GetTag() => Tag;
@@ -64,18 +65,10 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
     #endregion
 
     #region Serialization
-     
-
-
-
-
-
-    private const byte _ByteLength = 22;
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static UserInterfaceRequestData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -85,13 +78,11 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
 
         BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
-
         return new UserInterfaceRequestData(result);
     }
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
     public new byte[] EncodeValue(int length) => EncodeValue();
-
 
     #endregion
 
@@ -115,7 +106,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
     #region Operator Overrides
 
     public static UserInterfaceRequestData operator |(UserInterfaceRequestData left, UserInterfaceRequestData right) =>
-        new UserInterfaceRequestData(left._Value | right._Value);
+        new(left._Value | right._Value);
 
     #endregion
 
@@ -189,7 +180,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
             _Value |= (BigInteger) (ushort) bitsToSet << _CurrencyCodeOffset;
         }
 
-        public override UserInterfaceRequestData Complete() => new UserInterfaceRequestData(_Value);
+        public override UserInterfaceRequestData Complete() => new(_Value);
 
         protected override void Set(BigInteger bitsToSet)
         {

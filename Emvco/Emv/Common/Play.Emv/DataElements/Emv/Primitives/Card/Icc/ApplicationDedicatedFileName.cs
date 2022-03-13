@@ -34,6 +34,9 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
     /// <remarks>DecimalValue: 79; HexValue: 0x4F</remarks>
     public static readonly Tag Tag = 0x4F;
 
+    private const byte _MinByteLength = 5;
+    private const byte _MaxByteLength = 16;
+
     #endregion
 
     #region Constructor
@@ -59,7 +62,7 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
     public int GetByteCount() => _Value.Length;
 
     public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
-        new RegisteredApplicationProviderIndicator(PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(_Value[..5]));
+        new(PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(_Value[..5]));
 
     public override Tag GetTag() => Tag;
     public bool IsFullMatch(ApplicationDedicatedFileName other) => Equals(other);
@@ -125,13 +128,9 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
 
     #region Serialization
 
-    private const byte _MinByteLength = 5;
-    private const byte _MaxByteLength = 16; 
-
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ApplicationDedicatedFileName Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -141,7 +140,7 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
         Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
         Check.Primitive.ForMinimumLength(value, _MaxByteLength, Tag);
 
-        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value); 
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
         return new ApplicationDedicatedFileName(result);
     }
