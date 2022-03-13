@@ -15,6 +15,8 @@ using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Exceptions;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
+using Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup.State4;
+using Play.Emv.Kernel2.StateMachine._Temp_LogicalGroup.State5;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts;
@@ -40,6 +42,8 @@ public class S3R1
     #region Instance Members
 
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public KernelState Process(Kernel2Session session)
     {
         if (!TrySendingNextCommand(session))
@@ -58,16 +62,44 @@ public class S3R1
 
         if (DoesTheCardAndTerminalSupportCombinedDataAuth(session))
             SetCombinedDataAuthFlag(session);
-        else if (_KernelDatabase.IsTornTransactionRecoverySupported())
+        else
+            HandleIdsFlags(session);
 
-            throw new NotImplementedException();
+        if (!session.IsActiveTagEmpty())
+            return _KernelStateResolver.GetKernelState(WaitingForGetDataResponse.StateId);
+
+        return _KernelStateResolver.GetKernelState(WaitingForEmvReadRecordResponse.StateId);
     }
 
-    #region S3R1.18
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    private void HandleIdsFlags(Kernel2Session session)
+    {
+        if (!_KernelDatabase.IsIdsAndTtrSupported())
+        {
+            SetOfflineAuthNotPerformed();
 
-    public void ing
+            return;
+        }
 
-    #endregion
+        if (!_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out TagLengthValue? idsStatus))
+        {
+            SetOfflineAuthNotPerformed();
+
+            return;
+        }
+
+        if (!IntegratedDataStorageStatus.Decode(idsStatus!.EncodeValue().AsSpan()).IsReadSet())
+        {
+            SetOfflineAuthNotPerformed();
+
+            return;
+        }
+
+        // BUG: This looks to be a discrepancy in the EMV Specification. Check out the Jira story 'S3R1 CDA & IDS Read Set'
+        SetCombinedDataAuthFlag(session);
+    }
 
     #region S3R1.1 - S3R1.4
 
@@ -85,6 +117,9 @@ public class S3R1
     #endregion
 
     // HACK: This should live in State 3 Section C
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private bool HandleCardDataError(KernelSession session)
     {
         _KernelDatabase.Update(Level2Error.CardDataError);
@@ -99,6 +134,10 @@ public class S3R1
 
         return true;
     }
+
+    #endregion
+
+    #region S3R1.18
 
     #endregion
 
@@ -134,6 +173,9 @@ public class S3R1
     #region S3R1.10 - S3R1.11
 
     /// <remarks> EMV Book C-2 Section S3R1.10 - S3R1.11 </remarks>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public void AttemptToHandleIntegratedDataStorage(Kernel2Session session)
     {
         if (!_KernelDatabase.IsIntegratedDataStorageSupported())
@@ -164,6 +206,7 @@ public class S3R1
     #region S3R1.12
 
     /// <remarks> EMV Book C-2 Section S3R1.12 </remarks>
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsIntegratedStorageReadingStillRequired()
     {
         if (_KernelDatabase.IsPresentAndNotEmpty(DataStorageSummary1.Tag)
@@ -184,6 +227,9 @@ public class S3R1
     #region S3R1.13
 
     /// <remarks> EMV Book C-2 Section S3R1.13 </remarks>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public void StopReadingIntegratedStorage(Kernel2Session session)
     {
         IntegratedDataStorageStatus idsStatus =
@@ -209,10 +255,6 @@ public class S3R1
     /// <remarks> EMV Book C-2 Section S3R1.15 </remarks>
     public bool IsDataExchangeNeeded()
     {
-        /*
-         * [IsNotEmptyList(Data Needed) OR
-(IsNotEmptyList(Data To Send) AND IsEmptyList(Tags To Read Yet))] 
-         */
         if (_DataExchangeKernelService.IsEmpty(DekRequestType.DataNeeded))
             return true;
 
@@ -241,6 +283,8 @@ public class S3R1
 
     /// <remarks> EMV Book C-2 Section S3R1.17 </remarks>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public bool DoesTheCardAndTerminalSupportCombinedDataAuth(Kernel2Session session)
     {
         ApplicationInterchangeProfile applicationInterchangeProfile =
@@ -270,13 +314,15 @@ public class S3R1
 
     #region S3R1.20
 
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public void SetOfflineAuthNotPerformed()
     {
-        _KernelDatabase.Get
+        _KernelDatabase.Set(TerminalVerificationResultCodes.OfflineDataAuthenticationWasNotPerformed);
     }
 
     #endregion
 
     #endregion
-
 }

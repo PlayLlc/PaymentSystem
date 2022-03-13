@@ -57,6 +57,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// <param name="transaction"></param>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public virtual void Activate(KernelSessionId kernelSessionId, Transaction transaction)
     {
         if (IsActive())
@@ -296,6 +297,13 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     public bool IsTornTransactionRecoverySupported() =>
         IsPresentAndNotEmpty(MaxNumberOfTornTransactionLogRecords.Tag)
         && (Get(MaxNumberOfTornTransactionLogRecords.Tag).GetValueByteCount() > 0);
+
+    /// <summary>
+    ///     Indicates if this payment system supports Integrated Data Storage and Torn Transaction Recovery
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="TerminalDataException"></exception>
+    public bool IsIdsAndTtrSupported() => IsIntegratedDataStorageSupported() && IsTornTransactionRecoverySupported();
 
     public bool IsEmvModeSupported() => GetKernelConfiguration().IsEmvModeSupported();
     public bool IsMagstripeModeSupported() => GetKernelConfiguration().IsMagstripeModeSupported();

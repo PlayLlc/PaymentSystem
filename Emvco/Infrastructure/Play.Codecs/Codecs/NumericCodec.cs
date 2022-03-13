@@ -13,54 +13,50 @@ namespace Play.Codecs;
 
 public class NumericCodec : PlayCodec
 {
-    #region Serialization
-
     #region Decode To DecodedMetadata
 
-    /// <summary>
-    ///     Decode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
-    {
-        ReadOnlySpan<byte> trimmedValue = value.TrimStart((byte) 0);
+    ///// <summary>
+    /////     Decode
+    ///// </summary>
+    ///// <param name="value"></param>
+    ///// <returns></returns>
+    ///// <exception cref="Exceptions.CodecParsingException"></exception>
+    //public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    //{
+    //    ReadOnlySpan<byte> trimmedValue = value.TrimStart((byte) 0);
 
-        if (value.Length == Specs.Integer.UInt8.ByteCount)
-        {
-            byte byteResult = DecodeToByte(trimmedValue[0]);
+    //    if (value.Length == Specs.Integer.UInt8.ByteCount)
+    //    {
+    //        byte byteResult = DecodeToByte(trimmedValue[0]);
 
-            return new DecodedResult<byte>(byteResult, value.Length * 2);
-        }
+    //        return new DecodedResult<byte>(byteResult, value.Length * 2);
+    //    }
 
-        if (value.Length <= Specs.Integer.UInt16.ByteCount)
-        {
-            ushort shortResult = DecodeToUInt16(trimmedValue);
+    //    if (value.Length <= Specs.Integer.UInt16.ByteCount)
+    //    {
+    //        ushort shortResult = DecodeToUInt16(trimmedValue);
 
-            return new DecodedResult<ushort>(shortResult, value.Length * 2);
-        }
+    //        return new DecodedResult<ushort>(shortResult, value.Length * 2);
+    //    }
 
-        if (value.Length <= Specs.Integer.UInt32.ByteCount)
-        {
-            uint intResult = DecodeToUInt32(trimmedValue);
+    //    if (value.Length <= Specs.Integer.UInt32.ByteCount)
+    //    {
+    //        uint intResult = DecodeToUInt32(trimmedValue);
 
-            return new DecodedResult<uint>(intResult, value.Length * 2);
-        }
+    //        return new DecodedResult<uint>(intResult, value.Length * 2);
+    //    }
 
-        if (value.Length <= Specs.Integer.UInt64.ByteCount)
-        {
-            ulong longResult = DecodeToUInt64(trimmedValue);
+    //    if (value.Length <= Specs.Integer.UInt64.ByteCount)
+    //    {
+    //        ulong longResult = DecodeToUInt64(trimmedValue);
 
-            return new DecodedResult<ulong>(longResult, value.Length * 2);
-        }
+    //        return new DecodedResult<ulong>(longResult, value.Length * 2);
+    //    }
 
-        BigInteger bigIntegerResult = DecodeToBigInteger(trimmedValue);
+    //    BigInteger bigIntegerResult = DecodeToBigInteger(trimmedValue);
 
-        return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
-    }
-
-    #endregion
+    //    return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
+    //}
 
     #endregion
 

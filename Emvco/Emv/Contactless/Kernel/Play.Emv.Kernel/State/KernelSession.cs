@@ -70,6 +70,7 @@ public class KernelSession
 
     public void EnqueueActiveTag(RecordRange[] values) => _ActiveApplicationFileLocator.Enqueue(values);
     public bool TryPeekActiveTag(out RecordRange result) => _ActiveApplicationFileLocator.TryPeek(out result);
+    public bool IsActiveTagEmpty() => _ActiveApplicationFileLocator.IsEmpty();
 
     public TagLengthValue[] ResolveActiveTag(ReadRecordResponse rapdu)
     {
