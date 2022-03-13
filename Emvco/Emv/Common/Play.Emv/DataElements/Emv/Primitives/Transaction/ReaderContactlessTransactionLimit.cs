@@ -40,6 +40,7 @@ public abstract record ReaderContactlessTransactionLimit : DataElement<ulong>
     #region Serialization
 
     public new byte[] EncodeValue() => EncodeValue(_ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

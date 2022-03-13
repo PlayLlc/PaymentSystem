@@ -24,7 +24,7 @@ internal class Check
         /// <param name="value"></param>
         /// <param name="length"></param>
         /// <param name="name"></param>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="DataElementParsingException"></exception>
         public static void ForExactLength<T>(T[] value, int length, Tag tag) where T : struct
         {
             if (value.Length != length)
@@ -34,6 +34,7 @@ internal class Check
             }
         }
 
+        /// <exception cref="DataElementParsingException"></exception>
         public static void ForMinCharLength(nint value, int minLength, Tag tag)
         {
             if (value < minLength)
@@ -43,6 +44,7 @@ internal class Check
             }
         }
 
+        /// <exception cref="DataElementParsingException"></exception>
         public static void ForMaxCharLength(nint value, int maxLength, Tag tag)
         {
             if (value > maxLength)
@@ -52,6 +54,7 @@ internal class Check
             }
         }
 
+        /// <exception cref="DataElementParsingException"></exception>
         public static void ForCharLength(nint value, int length, Tag tag)
         {
             if (value != length)
@@ -61,6 +64,7 @@ internal class Check
             }
         }
 
+        /// <exception cref="DataElementParsingException"></exception>
         public static void ForMinimumLength(byte value, int minLength, Tag tag)
         {
             if (value < minLength)
@@ -70,6 +74,7 @@ internal class Check
             }
         }
 
+        /// <exception cref="DataElementParsingException"></exception>
         public static void ForMinimumLength(ushort value, int minLength, Tag tag)
         {
             if (value < minLength)
@@ -79,6 +84,7 @@ internal class Check
             }
         }
 
+        /// <exception cref="DataElementParsingException"></exception>
         public static void ForMinimumLength(uint value, int minLength, Tag tag)
         {
             if (value < minLength)
@@ -88,6 +94,7 @@ internal class Check
             }
         }
 
+        /// <exception cref="DataElementParsingException"></exception>
         public static void ForMaximumLength(byte value, nint maxLength, Tag tag)
         {
             if (value > maxLength)
@@ -97,6 +104,7 @@ internal class Check
             }
         }
 
+        /// <exception cref="DataElementParsingException"></exception>
         public static void ForMaximumLength(ushort value, nint maxLength, Tag tag)
         {
             if (value > maxLength)
@@ -106,6 +114,7 @@ internal class Check
             }
         }
 
+        /// <exception cref="DataElementParsingException"></exception>
         public static void ForMaximumLength(uint value, nint maxLength, Tag tag)
         {
             if (value > maxLength)
@@ -121,7 +130,7 @@ internal class Check
         /// <param name="value"></param>
         /// <param name="length"></param>
         /// <param name="name"></param>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="DataElementParsingException"></exception>
         public static void ForExactLength<T>(ReadOnlySpan<T> value, int length, Tag tag) where T : struct
         {
             if (value.Length != length)
@@ -137,7 +146,7 @@ internal class Check
         /// <param name="value"></param>
         /// <param name="length"></param>
         /// <param name="name"></param>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="DataElementParsingException"></exception>
         public static void ForExactLength<T>(ReadOnlyMemory<T> value, int length, Tag tag) where T : struct
         {
             if (value.Length != length)
@@ -153,7 +162,7 @@ internal class Check
         /// <param name="value"></param>
         /// <param name="length"></param>
         /// <param name="name"></param>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="DataElementParsingException"></exception>
         public static void ForExactLength<T>(ICollection<T> value, int length, Tag tag) where T : struct
         {
             if (value.Count != length)
@@ -170,6 +179,7 @@ internal class Check
         /// <param name="value"></param>
         /// <param name="maxLength"></param>
         /// <param name="tag"></param>
+        /// <exception cref="DataElementParsingException"></exception>
         public static void ForMaximumLength<T>(ICollection<T> value, int maxLength, Tag tag) where T : struct
         {
             if (value.Count > maxLength)
@@ -186,6 +196,7 @@ internal class Check
         /// <param name="value"></param>
         /// <param name="maxLength"></param>
         /// <param name="tag"></param>
+        /// <exception cref="DataElementParsingException"></exception>
         public static void ForMaximumLength<T>(ReadOnlySpan<T> value, int maxLength, Tag tag) where T : struct
         {
             if (value.Length > maxLength)
@@ -195,6 +206,7 @@ internal class Check
             }
         }
 
+        /// <exception cref="DataElementParsingException"></exception>
         public static void ForMinimumLength<T>(ReadOnlySpan<T> value, int minLength, Tag tag) where T : struct
         {
             if (value.Length < minLength)

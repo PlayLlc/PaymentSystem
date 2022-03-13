@@ -5,6 +5,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 using Play.Globalization;
@@ -23,6 +24,7 @@ public record TerminalCountryCode : DataElement<NumericCountryCode>, IEqualityCo
     public static readonly TerminalCountryCode Default = new(new NumericCountryCode(0));
     public static readonly Tag Tag = 0x9F1A;
     private const byte _ByteLength = 2;
+    private const byte _CharLength = 3;
 
     #endregion
 
@@ -47,34 +49,25 @@ public record TerminalCountryCode : DataElement<NumericCountryCode>, IEqualityCo
 
     #region Serialization
 
-    public static TerminalCountryCode Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static TerminalCountryCode Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static TerminalCountryCode Decode(ReadOnlySpan<byte> value, BerCodec codec)
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    public static TerminalCountryCode Decode(ReadOnlySpan<byte> value)
     {
-        const ushort charLength = 3;
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        if (value.Length != _ByteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(TerminalCountryCode)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
-        }
+        ushort result = PlayCodec.NumericCodec.DecodeToUInt16(value);
 
-        DecodedResult<ushort> result = codec.Decode(EncodingId, value) as DecodedResult<ushort>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(TerminalCountryCode)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+        Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
 
-        if (result.CharCount != charLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(TerminalCountryCode)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
-        }
-
-        return new TerminalCountryCode(new NumericCountryCode(result.Value));
+        return new TerminalCountryCode(new NumericCountryCode(result));
     }
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

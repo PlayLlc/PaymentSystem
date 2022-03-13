@@ -60,26 +60,21 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
 
     #region Serialization
 
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ApplicationCapabilitiesInformation Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ApplicationCapabilitiesInformation Decode(ReadOnlySpan<byte> value)
     {
-        if (value.Length != _ByteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(ApplicationCapabilitiesInformation)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
-        }
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<uint> result = _Codec.Decode(EncodingId, value) as DecodedResult<uint>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(ApplicationCapabilitiesInformation)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<uint>)}");
+        ushort result = PlayCodec.NumericCodec.DecodeToUInt16(value);
 
-        return new ApplicationCapabilitiesInformation(result.Value);
+        return new ApplicationCapabilitiesInformation(result);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => Encode();
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

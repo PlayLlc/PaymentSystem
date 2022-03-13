@@ -5,6 +5,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
@@ -42,14 +43,12 @@ public record DataStorageId : DataElement<BigInteger>
 
     #region Serialization
 
-    /// <summary>
-    ///     Decode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="System.InvalidOperationException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static DataStorageId Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static DataStorageId Decode(ReadOnlySpan<byte> value)
     {
         const byte minCharLength = 16;
@@ -57,18 +56,13 @@ public record DataStorageId : DataElement<BigInteger>
         Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        DecodedResult<BigInteger> result = _Codec.Decode(EncodingId, value).ToBigInteger()
-            ?? throw new DataElementParsingException(EncodingId);
+        BigInteger result = PlayCodec.NumericCodec.DecodeToBigInteger(value);
 
-        Check.Primitive.ForMinCharLength(result.CharCount, minCharLength, Tag);
-        Check.Primitive.ForMaxCharLength(result.CharCount, maxCharLength, Tag);
+        Check.Primitive.ForMinCharLength(result.GetNumberOfDigits(), minCharLength, Tag);
+        Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), maxCharLength, Tag);
 
-        return new DataStorageId(result.Value);
+        return new DataStorageId(result);
     }
-
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static DataStorageId Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     #endregion
 }

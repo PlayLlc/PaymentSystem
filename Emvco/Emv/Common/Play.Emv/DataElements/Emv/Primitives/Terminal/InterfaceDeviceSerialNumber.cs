@@ -14,18 +14,19 @@ namespace Play.Emv.DataElements;
 ///     Unique and permanent serial number assigned to the Interface Device by the manufacturer. In other words it's the
 ///     serial number of the reader device
 /// </summary>
-public record InterfaceDeviceSerialNumber : DataElement<ulong>, IEqualityComparer<InterfaceDeviceSerialNumber>
+public record InterfaceDeviceSerialNumber : DataElement<char[]>, IEqualityComparer<InterfaceDeviceSerialNumber>
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F1E;
+    private const byte _ByteLength = 8;
 
     #endregion
 
     #region Constructor
 
-    public InterfaceDeviceSerialNumber(ulong value) : base(value)
+    public InterfaceDeviceSerialNumber(char[] value) : base(value)
     { }
 
     #endregion
@@ -46,26 +47,11 @@ public record InterfaceDeviceSerialNumber : DataElement<ulong>, IEqualityCompare
     /// <exception cref="BerParsingException"></exception>
     public static InterfaceDeviceSerialNumber Decode(ReadOnlySpan<byte> value)
     {
-        const ushort byteLength = 8;
-        const ushort charLength = 8;
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        if (value.Length != byteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(InterfaceDeviceSerialNumber)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
-        }
+        char[] result = PlayCodec.AlphaNumericCodec.DecodeToChars(value);
 
-        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value) as DecodedResult<ulong>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(InterfaceDeviceSerialNumber)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
-
-        if (result.CharCount != charLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(InterfaceDeviceSerialNumber)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
-        }
-
-        return new InterfaceDeviceSerialNumber(result.Value);
+        return new InterfaceDeviceSerialNumber(result);
     }
 
     public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);

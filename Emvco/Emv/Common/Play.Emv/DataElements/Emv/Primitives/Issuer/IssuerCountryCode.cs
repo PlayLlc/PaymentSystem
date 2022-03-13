@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
@@ -16,7 +17,7 @@ public record IssuerCountryCode : DataElement<ushort>, IEqualityComparer<IssuerC
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x5F28;
     private const byte _ByteLength = 2;
-    private const byte _CharacterLength = 3;
+    private const byte _CharLength = 3;
 
     #endregion
 
@@ -47,22 +48,23 @@ public record IssuerCountryCode : DataElement<ushort>, IEqualityComparer<IssuerC
 
     #region Serialization
 
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerCountryCode Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerCountryCode Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ushort> result = _Codec.Decode(EncodingId, value) as DecodedResult<ushort>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(IssuerCountryCode)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+        ushort result = PlayCodec.NumericCodec.DecodeToUInt16(value);
 
-        Check.Primitive.ForCharLength(result.CharCount, _CharacterLength, Tag);
+        Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
 
-        return new IssuerCountryCode(result.Value);
+        return new IssuerCountryCode(result);
     }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

@@ -21,7 +21,7 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
 
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F35;
-    private const byte _ByteLength = 2;
+    private const byte _ByteLength = 1;
 
     #endregion
 
@@ -90,38 +90,23 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
 
     #region Serialization
 
-    /// <summary>
-    ///     Decode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="System.InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
-    public static TerminalType Decode(ReadOnlyMemory<byte> value)
-    {
-        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
-
-        DecodedResult<byte> result = _Codec.Decode(EncodingId, value.Span) as DecodedResult<byte>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(TerminalType)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
-
-        return new TerminalType(result.Value);
-    }
-
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static TerminalType Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalType Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<byte> result = _Codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataElementParsingException(EncodingId);
+        byte result = PlayCodec.NumericCodec.DecodeToByte(value);
 
-        return new TerminalType(result.Value);
+        return new TerminalType(result);
     }
 
-    public new byte[] EncodeValue() => EncodeValue(_ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

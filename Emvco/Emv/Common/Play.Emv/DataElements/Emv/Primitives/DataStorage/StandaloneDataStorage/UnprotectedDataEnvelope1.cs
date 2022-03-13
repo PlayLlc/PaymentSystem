@@ -23,6 +23,7 @@ public record UnprotectedDataEnvelope1 : DataElement<BigInteger>, IEqualityCompa
 
     public static readonly Tag Tag = 0x9F75;
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
+    private const byte _MaxByteLength = 192;
 
     #endregion
 
@@ -43,8 +44,6 @@ public record UnprotectedDataEnvelope1 : DataElement<BigInteger>, IEqualityCompa
 
     #region Serialization
 
-    public static UnprotectedDataEnvelope1 Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
-
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public static UnprotectedDataEnvelope1 Decode(ReadOnlySpan<byte> value, BerCodec codec)
@@ -62,6 +61,19 @@ public record UnprotectedDataEnvelope1 : DataElement<BigInteger>, IEqualityCompa
                 $"The {nameof(UnprotectedDataEnvelope1)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new UnprotectedDataEnvelope1(result.Value);
+    }
+
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static UnprotectedDataEnvelope1 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static UnprotectedDataEnvelope1 Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
+
+        BigInteger result = PlayCodec.NumericCodec.DecodeToBigInteger(value);
+
+        return new UnprotectedDataEnvelope1(result);
     }
 
     #endregion

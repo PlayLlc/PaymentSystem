@@ -56,6 +56,8 @@ public record AccountType : DataElement<byte>, IEqualityComparer<AccountType>
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
+        PlayCodec.NumericCodec.DecodeToByte(value);
+
         DecodedResult<byte> result = _Codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataElementParsingException(EncodingId);
 
         return new AccountType(result.Value);

@@ -5,6 +5,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 using Play.Globalization;
@@ -21,6 +22,8 @@ public record AmountOtherNumeric : DataElement<ulong>, IEqualityComparer<AmountO
 
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F03;
+    private const byte _ByteLength = 6;
+    private const byte _CharLength = 12;
 
     #endregion
 
@@ -42,29 +45,25 @@ public record AmountOtherNumeric : DataElement<ulong>, IEqualityComparer<AmountO
 
     #region Serialization
 
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static AmountOtherNumeric Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static AmountOtherNumeric Decode(ReadOnlySpan<byte> value)
     {
-        const ushort byteLength = 6;
-        const ushort charLength = 12;
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        Check.Primitive.ForExactLength(value, byteLength, Tag);
+        ushort result = PlayCodec.NumericCodec.DecodeToUInt16(value);
 
-        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value) as DecodedResult<ulong>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(AmountOtherNumeric)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+        Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
 
-        if (result.CharCount != charLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(AmountOtherNumeric)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
-        }
-
-        return new AmountOtherNumeric(result.Value);
+        return new AmountOtherNumeric(result);
     }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

@@ -5,6 +5,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
@@ -36,27 +37,21 @@ public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<Ap
 
     #region Serialization
 
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ApplicationEffectiveDate Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ApplicationEffectiveDate Decode(ReadOnlySpan<byte> value)
     {
-        if (value.Length != _ByteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(ApplicationEffectiveDate)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
-        }
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<uint> result = _Codec.Decode(EncodingId, value) as DecodedResult<uint>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(ApplicationEffectiveDate)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<uint>)}");
+        uint result = PlayCodec.NumericCodec.DecodeToUInt32(value);
 
-        return new ApplicationEffectiveDate(result.Value);
+        return new ApplicationEffectiveDate(result);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(GetEncodingId(), _Value, _ByteLength);
-    public override byte[] EncodeValue(BerCodec berCodec) => EncodeValue();
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

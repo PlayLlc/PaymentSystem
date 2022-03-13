@@ -15,22 +15,23 @@ namespace Play.Emv.DataElements;
 /// <summary>
 ///     Designates the unique location of a terminal at a merchant
 /// </summary>
-public record TerminalIdentification : DataElement<ulong>, IEqualityComparer<TerminalIdentification>
+public record TerminalIdentification : DataElement<char[]>, IEqualityComparer<TerminalIdentification>
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = AlphaNumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F1C;
-    private const byte _CharLength = 8;
+    private const byte _ByteLength = 8;
 
     #endregion
 
     #region Constructor
 
-    public TerminalIdentification(ulong value) : base(value)
+    /// <exception cref="DataElementParsingException"></exception>
+    public TerminalIdentification(ReadOnlySpan<char> value) : base(value.ToArray())
     {
-        if (value.GetNumberOfDigits() > 8)
-            throw new DataElementParsingException(nameof(value), $"The argument {nameof(value)} must have 8 digits or less");
+        if (value.Length > 8)
+            throw new DataElementParsingException($"The argument {nameof(value)} must have 8 digits or less");
     }
 
     #endregion
@@ -49,35 +50,23 @@ public record TerminalIdentification : DataElement<ulong>, IEqualityComparer<Ter
 
     #region Serialization
 
-    public static TerminalIdentification Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static TerminalIdentification Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static TerminalIdentification Decode(ReadOnlySpan<byte> value, BerCodec codec)
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static TerminalIdentification Decode(ReadOnlySpan<byte> value)
     {
-        const byte byteLength = 8;
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        if (value.Length != byteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(TerminalIdentification)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
-        }
+        ReadOnlySpan<char> result = PlayCodec.AlphaNumericCodec.DecodeToChars(value);
 
-        DecodedResult<ulong> result = codec.Decode(EncodingId, value) as DecodedResult<ulong>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(TerminalIdentification)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
-
-        if (result.CharCount != _CharLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(TerminalIdentification)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {_CharLength} bytes in length");
-        }
-
-        return new TerminalIdentification(result.Value);
+        return new TerminalIdentification(result);
     }
 
-    public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

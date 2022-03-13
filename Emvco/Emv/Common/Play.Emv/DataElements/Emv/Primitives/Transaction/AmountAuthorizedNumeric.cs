@@ -43,23 +43,23 @@ public record AmountAuthorizedNumeric : DataElement<ulong>, IEqualityComparer<Am
 
     #region Serialization
 
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static AmountAuthorizedNumeric Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static AmountAuthorizedNumeric Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value) as DecodedResult<ulong>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(AmountAuthorizedNumeric)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+        ushort result = PlayCodec.NumericCodec.DecodeToUInt16(value);
 
-        return new AmountAuthorizedNumeric(result.Value);
+        return new AmountAuthorizedNumeric(result);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(GetEncodingId(), _Value, _ByteLength);
-    public override byte[] EncodeValue(BerCodec berCodec) => EncodeValue();
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

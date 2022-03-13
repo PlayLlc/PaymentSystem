@@ -23,7 +23,6 @@ public abstract class PlayCodec : IGetPlayCodecMetadata, IEncodeStructs, IEncode
     public static AlphaNumericSpecialCodec AlphaNumericSpecialCodec => new();
     public static CompressedNumericCodec CompressedNumericCodec => new();
     public static NumericCodec NumericCodec => new();
-    public static UnsignedIntegerCodec UnsignedBinaryCodec => new();
     public static UnsignedIntegerCodec UnsignedIntegerCodec => new();
     public static SignedIntegerCodec SignedIntegerCodec => new();
     public static AlphaSpecialCodec AlphaSpecialCodec => new();

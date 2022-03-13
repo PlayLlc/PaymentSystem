@@ -37,6 +37,8 @@ public record ApplicationDedicatedFileName : DataElement<byte[]>, IEqualityCompa
 
     #region Constructor
 
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
     public ApplicationDedicatedFileName(ReadOnlySpan<byte> value) : base(value.ToArray())
     {
         if (_Value.Length < RegisteredApplicationProviderIndicator.ByteCount)
@@ -126,10 +128,14 @@ public record ApplicationDedicatedFileName : DataElement<byte[]>, IEqualityCompa
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
     public static ApplicationDedicatedFileName Decode(ReadOnlySpan<byte> value)
     {
         const ushort minByteLength = 5;
         const ushort maxByteLength = 16;
+
+        Check.Primitive.ForMinimumLength(value, minByteLength, Tag);
+        Check.Primitive.ForMaximumLength(value, maxByteLength, Tag);
 
         if (value.Length is < minByteLength and <= maxByteLength)
         {

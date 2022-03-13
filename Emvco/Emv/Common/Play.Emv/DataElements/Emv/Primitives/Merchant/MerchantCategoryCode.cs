@@ -44,38 +44,21 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
 
     #region Serialization
 
-    /// <summary>
-    ///     Decode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="System.InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
-    /// <exception cref="EmvEncodingException"></exception>
-    public static MerchantCategoryCode Decode(ReadOnlyMemory<byte> value)
-    {
-        Check.Primitive.ForExactLength(value, 4, Tag);
-        DecodedResult<ushort> result = _Codec.Decode(EncodingId, value.Span) as DecodedResult<ushort>
-            ?? throw new EmvParsingException(
-                $"The {nameof(MerchantCategoryCode)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static MerchantCategoryCode Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-        return new MerchantCategoryCode(result.Value);
-    }
-
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static MerchantCategoryCode Decode(ReadOnlySpan<byte> value)
     {
-        Check.Primitive.ForExactLength(value, 4, Tag);
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ushort> result = _Codec.Decode(EncodingId, value) as DecodedResult<ushort>
-            ?? throw new EmvParsingException(
-                $"The {nameof(MerchantCategoryCode)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+        ushort result = PlayCodec.NumericCodec.DecodeToUInt16(value);
 
-        return new MerchantCategoryCode(result.Value);
+        return new MerchantCategoryCode(result);
     }
 
-    public new byte[] EncodeValue() => EncodeValue(_ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

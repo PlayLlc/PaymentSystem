@@ -20,9 +20,9 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
+    public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x95;
-    private const byte _ByteLength = 0x05;
+    private const byte _ByteLength = 5;
 
     #endregion
 
@@ -80,26 +80,23 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
 
     #region Serialization
 
-    public static TerminalVerificationResults Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static TerminalVerificationResults Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static TerminalVerificationResults Decode(ReadOnlySpan<byte> value, BerCodec codec)
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static TerminalVerificationResults Decode(ReadOnlySpan<byte> value)
     {
-        if (value.Length != _ByteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(TerminalVerificationResults)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {_ByteLength} bytes in length");
-        }
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = codec.Decode(EncodingId, value) as DecodedResult<ulong>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(TerminalVerificationResults)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
+        ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
 
-        return new TerminalVerificationResults(result.Value);
+        return new TerminalVerificationResults(result);
     }
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

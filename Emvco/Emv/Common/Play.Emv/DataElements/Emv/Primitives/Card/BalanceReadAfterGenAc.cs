@@ -4,6 +4,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
@@ -14,19 +15,20 @@ namespace Play.Emv.DataElements;
 ///     balance from the Card after the GENERATE AC command. The Kernel stores the offline balance read from the Card in
 ///     Balance Read After Gen AC.
 /// </summary>
-public record BalanceReadAfterGenAc : DataElement<ushort>
+public record BalanceReadAfterGenAc : DataElement<ulong>
 {
     #region Static Metadata
 
     public static readonly Tag Tag = 0xDF8105;
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     private const byte _ByteLength = 6;
+    private const byte _CharLength = 12;
 
     #endregion
 
     #region Constructor
 
-    public BalanceReadAfterGenAc(ushort value) : base(value)
+    public BalanceReadAfterGenAc(ulong value) : base(value)
     { }
 
     #endregion
@@ -40,25 +42,23 @@ public record BalanceReadAfterGenAc : DataElement<ushort>
 
     #region Serialization
 
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static BalanceReadAfterGenAc Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static BalanceReadAfterGenAc Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ushort> result = _Codec.Decode(EncodingId, value) as DecodedResult<ushort>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(BalanceReadAfterGenAc)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+        ulong result = PlayCodec.NumericCodec.DecodeToUInt64(value);
 
-        Check.Primitive.ForMaxCharLength(result.CharCount, 12, Tag);
+        Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
 
-        return new BalanceReadAfterGenAc(result.Value);
+        return new BalanceReadAfterGenAc(result);
     }
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public override byte[] EncodeValue(BerCodec codec) => EncodeValue();
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 }

@@ -29,6 +29,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
     private const byte _CvmOutcomeOffset = 32;
     private const byte _AlternateInterfaceOutcomeOffset = 16;
     private const byte _FieldOffRequestOutcomeOffset = 8;
+    private const byte _ByteLength = 8;
 
     #endregion
 
@@ -81,26 +82,21 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
 
     #region Serialization
 
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static OutcomeParameterSet Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static OutcomeParameterSet Decode(ReadOnlySpan<byte> value)
     {
-        const ushort byteLength = 8;
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        if (value.Length != byteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(OutcomeParameterSet)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
-        }
+        ulong result = PlayCodec.NumericCodec.DecodeToUInt64(value);
 
-        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value) as DecodedResult<ulong>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(OutcomeParameterSet)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<ulong>)}");
-
-        return new OutcomeParameterSet(result.Value);
+        return new OutcomeParameterSet(result);
     }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

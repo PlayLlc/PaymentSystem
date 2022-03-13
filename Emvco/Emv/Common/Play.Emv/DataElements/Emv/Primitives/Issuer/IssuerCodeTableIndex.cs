@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
@@ -18,6 +19,8 @@ public record IssuerCodeTableIndex : DataElement<byte>, IEqualityComparer<Issuer
 
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x9F11;
+    private const byte _ByteLength = 1;
+    private const byte _CharLength = 2;
 
     #endregion
 
@@ -48,33 +51,23 @@ public record IssuerCodeTableIndex : DataElement<byte>, IEqualityComparer<Issuer
 
     #region Serialization
 
-    public static IssuerCodeTableIndex Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static AuthorizationResponseCode Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static IssuerCodeTableIndex Decode(ReadOnlySpan<byte> value)
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static AuthorizationResponseCode Decode(ReadOnlySpan<byte> value)
     {
-        const ushort byteLength = 1;
-        const ushort charLength = 2;
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        if (value.Length != byteLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(IssuerCodeTableIndex)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
-        }
+        byte result = PlayCodec.NumericCodec.DecodeToByte(value);
 
-        DecodedResult<byte> result = _Codec.Decode(EncodingId, value) as DecodedResult<byte>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(IssuerCodeTableIndex)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<byte>)}");
+        Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
 
-        if (result.CharCount != charLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(IssuerCodeTableIndex)} could not be initialized because the decoded character length was out of range. The decoded character length was {result.CharCount} but must be {charLength} bytes in length");
-        }
-
-        return new IssuerCodeTableIndex(result.Value);
+        return new AuthorizationResponseCode(result);
     }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

@@ -43,24 +43,21 @@ public record ReaderCvmRequiredLimit : DataElement<ulong>, IEqualityComparer<Rea
 
     #region Serialization
 
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ReaderCvmRequiredLimit Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="System.Exception"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ReaderCvmRequiredLimit Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result()
-            ?? throw new DataElementParsingException(EncodingId);
+        ushort result = PlayCodec.NumericCodec.DecodeToUInt16(value);
 
-        Check.Primitive.ForCharLength(result.CharCount, _CharLength, Tag);
-
-        return new ReaderCvmRequiredLimit(result.Value);
+        return new ReaderCvmRequiredLimit(result);
     }
 
-    public new byte[] EncodeValue() => EncodeValue(_ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

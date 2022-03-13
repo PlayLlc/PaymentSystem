@@ -29,10 +29,7 @@ internal class IccDynamicData
         ApplicationCryptogram.Decode(_Value[(GetIccDynamicNumberLength() + 2)..(GetIccDynamicNumberLength() + 10)].AsSpan());
 
     public CryptogramInformationData GetCryptogramInformationData() => new(_Value[GetIccDynamicNumberLength() + 1]);
-
-    public IccDynamicNumber GetIccDynamicNumber() =>
-        new(PlayCodec.UnsignedBinaryCodec.DecodeToUInt64(_Value[1..GetIccDynamicNumberLength()]));
-
+    public IccDynamicNumber GetIccDynamicNumber() => new(PlayCodec.BinaryCodec.DecodeToUInt64(_Value[1..GetIccDynamicNumberLength()]));
     public byte GetIccDynamicNumberLength() => _Value[0];
     public Hash GetTransactionDataHashCode() => new(_Value[(GetIccDynamicNumberLength() + 10)..Hash.Length]);
 

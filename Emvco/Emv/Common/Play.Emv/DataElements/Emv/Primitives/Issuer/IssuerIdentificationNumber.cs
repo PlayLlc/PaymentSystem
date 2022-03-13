@@ -5,6 +5,7 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
@@ -20,6 +21,8 @@ public record IssuerIdentificationNumber : DataElement<uint>, IEqualityComparer<
 
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x42;
+    private const byte _ByteLength = 3;
+    private const byte _CharLength = 6;
 
     #endregion
 
@@ -40,24 +43,23 @@ public record IssuerIdentificationNumber : DataElement<uint>, IEqualityComparer<
 
     #region Serialization
 
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerIdentificationNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="System.Exception"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerIdentificationNumber Decode(ReadOnlySpan<byte> value)
     {
-        const ushort byteLength = 3;
-        const ushort charLength = 6;
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        Check.Primitive.ForExactLength(value, byteLength, Tag);
+        uint result = PlayCodec.NumericCodec.DecodeToUInt32(value);
 
-        DecodedResult<uint> result = _Codec.Decode(EncodingId, value).ToUInt32Result() ?? throw new DataElementParsingException(EncodingId);
+        Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
 
-        Check.Primitive.ForCharLength(result.CharCount, charLength, Tag);
-
-        return new IssuerIdentificationNumber(result.Value);
+        return new IssuerIdentificationNumber(result);
     }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 

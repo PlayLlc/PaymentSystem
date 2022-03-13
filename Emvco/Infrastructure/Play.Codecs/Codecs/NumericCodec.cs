@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs.Exceptions;
+using Play.Core.Exceptions;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
 
@@ -694,6 +695,13 @@ public class NumericCodec : PlayCodec
         BigInteger result = 0;
 
         return BuildInteger(result, value);
+    }
+
+    public byte DecodeToByte(ReadOnlySpan<byte> value)
+    {
+        CheckCore.ForExactLength(value, 1, nameof(value));
+
+        return DecodeToByte(value);
     }
 
     /// <summary>

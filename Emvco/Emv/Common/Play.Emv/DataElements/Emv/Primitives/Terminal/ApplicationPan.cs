@@ -4,6 +4,7 @@ using System.Numerics;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
@@ -19,6 +20,7 @@ public record ApplicationPan : DataElement<BigInteger>
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
     public static readonly Tag Tag = 0x5A;
     private const byte _MaxByteLength = 10;
+    private const byte _MaxCharLength = 19;
 
     #endregion
 
@@ -38,25 +40,19 @@ public record ApplicationPan : DataElement<BigInteger>
 
     #region Serialization
 
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ApplicationPan Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <summary>
-    ///     Decode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="System.InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ApplicationPan Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        DecodedResult<BigInteger> result = _Codec.Decode(EncodingId, value).ToBigInteger()
-            ?? throw new DataElementParsingException(EncodingId);
+        BigInteger result = PlayCodec.NumericCodec.DecodeToBigInteger(value);
 
-        return new ApplicationPan(result.Value);
+        Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _MaxCharLength, Tag);
+
+        return new ApplicationPan(result);
     }
 
     #endregion
