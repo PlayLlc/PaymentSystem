@@ -51,7 +51,7 @@ public class ApplicationCryptogramGenerator : IGenerateApplicationCryptogram
             // TODO: Logging
             return new GenerateApplicationCryptogramResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
                                                              new GenerateApplicationCryptogramRApduSignal(Array.Empty<byte>(),
-                                                              Level1Error.ProtocolError));
+                                                              Level1Error.TimeOutError));
         }
     }
 

@@ -49,7 +49,7 @@ public class ApplicationDefinitionFileInfoSelector : ISelectApplicationDefinitio
             // TODO: Logging
             return new SelectApplicationDefinitionFileInfoResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
                                                                    new GetFileControlInformationRApduSignal(Array.Empty<byte>(),
-                                                                    Level1Error.ProtocolError));
+                                                                    Level1Error.TimeOutError));
         }
     }
 

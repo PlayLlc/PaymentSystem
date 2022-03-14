@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
+using Play.Emv.Icc;
 using Play.Emv.Icc.FileControlInformation;
 using Play.Emv.Pcd.Contracts;
 
@@ -24,11 +26,33 @@ public class ProximityPaymentSystemEnvironmentInfoSelector : ISelectProximityPay
 
     #region Instance Members
 
-    public async Task<SelectProximityPaymentSystemEnvironmentResponse> Transceive(SelectProximityPaymentSystemEnvironmentRequest cApdu)
+    public async Task<SelectProximityPaymentSystemEnvironmentResponse> Transceive(SelectProximityPaymentSystemEnvironmentRequest command)
     {
-        GetFileControlInformationRApduSignal? rApduSignal = new(await _PcdTransceiver.Transceive(cApdu.Serialize()).ConfigureAwait(false));
+        try
+        {
+            GetFileControlInformationRApduSignal? rApduSignal =
+                new(await _PcdTransceiver.Transceive(command.Serialize()).ConfigureAwait(false));
 
-        return new SelectProximityPaymentSystemEnvironmentResponse(cApdu.GetCorrelationId(), cApdu.GetTransactionSessionId(), rApduSignal);
+            return new SelectProximityPaymentSystemEnvironmentResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
+                                                                       rApduSignal);
+        }
+
+        catch (PcdProtocolException)
+        {
+            // TODO: Logging
+
+            return new SelectProximityPaymentSystemEnvironmentResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
+                                                                       new GetFileControlInformationRApduSignal(Array.Empty<byte>(),
+                                                                        Level1Error.ProtocolError));
+        }
+        catch (PcdTimeoutException)
+        {
+            // TODO: Logging
+
+            return new SelectProximityPaymentSystemEnvironmentResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
+                                                                       new GetFileControlInformationRApduSignal(Array.Empty<byte>(),
+                                                                        Level1Error.ProtocolError));
+        }
     }
 
     #endregion

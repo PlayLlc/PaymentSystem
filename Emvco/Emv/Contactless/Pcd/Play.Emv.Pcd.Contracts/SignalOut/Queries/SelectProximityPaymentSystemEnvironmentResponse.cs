@@ -19,7 +19,7 @@ public record SelectProximityPaymentSystemEnvironmentResponse : QueryPcdResponse
         CorrelationId correlationId,
         TransactionSessionId transactionSessionId,
         GetFileControlInformationRApduSignal responseApduSignal) : base(correlationId, MessageTypeId, transactionSessionId,
-        responseApduSignal)
+                                                                        responseApduSignal)
     { }
 
     #endregion

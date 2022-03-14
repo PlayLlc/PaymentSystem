@@ -1,4 +1,5 @@
 ﻿using Play.Ber.DataObjects;
+using Play.Emv.Icc;
 using Play.Emv.Icc.ReadRecord;
 using Play.Emv.Sessions;
 using Play.Emv.Templates;
@@ -23,14 +24,9 @@ public record ReadRecordResponse : QueryPcdResponse
 
     #region Constructor
 
-    public ReadRecordResponse(
-        CorrelationId correlationId,
-        TransactionSessionId transactionSessionId,
-        ReadRecordRApduSignal rApdu,
-        ShortFileId shortFileId) : base(correlationId, MessageTypeId, transactionSessionId, rApdu)
-    {
-        _ShortFileId = shortFileId;
-    }
+    public ReadRecordResponse(CorrelationId correlationId, TransactionSessionId transactionSessionId, ReadRecordRApduSignal rApdu) :
+        base(correlationId, MessageTypeId, transactionSessionId, rApdu)
+    { }
 
     #endregion
 

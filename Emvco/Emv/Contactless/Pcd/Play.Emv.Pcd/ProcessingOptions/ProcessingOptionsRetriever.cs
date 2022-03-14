@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
+using Play.Emv.Icc;
 using Play.Emv.Icc.GetProcessingOptions;
 using Play.Emv.Pcd.Contracts;
 
@@ -26,9 +28,27 @@ public class ProcessingOptionsRetriever : IGetProcessingOptions
 
     public async Task<GetProcessingOptionsResponse> Transceive(GetProcessingOptionsRequest command)
     {
-        GetProcessingOptionsRApduSignal response = new(await _ChipReader.Transceive(command.Serialize()).ConfigureAwait(false));
+        try
+        {
+            GetProcessingOptionsRApduSignal response = new(await _ChipReader.Transceive(command.Serialize()).ConfigureAwait(false));
 
-        return new GetProcessingOptionsResponse(command.GetCorrelationId(), command.GetTransactionSessionId(), response);
+            return new GetProcessingOptionsResponse(command.GetCorrelationId(), command.GetTransactionSessionId(), response);
+        }
+
+        catch (PcdProtocolException)
+        {
+            // TODO: Logging
+
+            return new GetProcessingOptionsResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
+                                                    new GetProcessingOptionsRApduSignal(Array.Empty<byte>(), Level1Error.ProtocolError));
+        }
+        catch (PcdTimeoutException)
+        {
+            // TODO: Logging
+
+            return new GetProcessingOptionsResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
+                                                    new GetProcessingOptionsRApduSignal(Array.Empty<byte>(), Level1Error.ProtocolError));
+        }
     }
 
     #endregion

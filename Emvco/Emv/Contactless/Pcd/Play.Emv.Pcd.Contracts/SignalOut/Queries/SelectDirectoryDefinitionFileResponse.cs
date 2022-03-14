@@ -1,4 +1,5 @@
 ﻿using Play.Emv.Icc;
+using Play.Emv.Icc.FileControlInformation;
 using Play.Emv.Sessions;
 using Play.Emv.Templates;
 using Play.Messaging;
@@ -25,7 +26,8 @@ public record SelectDirectoryDefinitionFileResponse : QueryPcdResponse
         CorrelationId correlation,
         TransactionSessionId transactionSessionId,
         FileControlInformationDdf fileControlInformation,
-        RApduSignal responseApduSignal) : base(correlation, MessageTypeId, transactionSessionId, responseApduSignal)
+        GetFileControlInformationRApduSignal responseApduSignal) : base(correlation, MessageTypeId, transactionSessionId,
+                                                                        responseApduSignal)
     {
         _FileControlInformation = fileControlInformation;
     }
@@ -33,7 +35,8 @@ public record SelectDirectoryDefinitionFileResponse : QueryPcdResponse
     public SelectDirectoryDefinitionFileResponse(
         CorrelationId correlation,
         TransactionSessionId transactionSessionId,
-        RApduSignal responseApduSignal) : base(correlation, MessageTypeId, transactionSessionId, responseApduSignal)
+        GetFileControlInformationRApduSignal responseApduSignal) : base(correlation, MessageTypeId, transactionSessionId,
+                                                                        responseApduSignal)
     { }
 
     #endregion
