@@ -65,8 +65,34 @@ public record ApplicationFileLocator : DataElement<byte[]>, IEqualityComparer<Ap
         return result;
     }
 
+    public bool IsOptimizedForEmv(KernelConfiguration kernelConfiguration)
+    {
+        if (!kernelConfiguration.IsMagstripeModeSupported())
+            return false;
+
+        if (_Value.AsSpan().Length < 4)
+            return false;
+
+        if (PlayCodec.BinaryCodec.DecodeToUInt32(_Value[..4]) != 0x08010100)
+            return false;
+
+        return true;
+    }
+
+    public bool IsOptimizedForMagstripe()
+    {
+        if (_Value.AsSpan().Length < 4)
+            return false;
+
+        if (PlayCodec.BinaryCodec.DecodeToUInt32(_Value[..4]) != 0x08010100)
+            return false;
+
+        return true;
+    }
+
     public override Tag GetTag() => Tag;
 
+    /// <exception cref="DataElementParsingException"></exception>
     private static void Validate(ReadOnlySpan<byte> value)
     {
         // TODO: These are mandatory in the ICC

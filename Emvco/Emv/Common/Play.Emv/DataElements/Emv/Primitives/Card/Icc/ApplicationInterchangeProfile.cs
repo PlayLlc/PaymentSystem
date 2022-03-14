@@ -35,17 +35,19 @@ public record ApplicationInterchangeProfile : DataElement<ushort>, IEqualityComp
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public bool IsStaticDataAuthenticationSupported() => _Value.IsBitSet(15);
+    public bool IsDynamicDataAuthenticationSupported() => _Value.IsBitSet(14);
     public bool IsCardholderVerificationSupported() => _Value.IsBitSet(13);
+    public bool IsTerminalRiskManagementRequired() => _Value.IsBitSet(12);
+    public bool IsIssuerAuthenticationSupported() => _Value.IsBitSet(11);
+    public bool IsOnDeviceCardholderVerificationSupported() => _Value.IsBitSet(10);
+    public bool IsCombinedDataAuthenticationSupported() => _Value.IsBitSet(9);
+    public bool IsEmvModeSupported() => _Value.IsBitSet(8);
+    public bool IsRelayResistanceProtocolSupported() => _Value.IsBitSet(1);
 
     /// <summary>
     ///     Combined Dynamic Data Authentication and Application Cryptogram Generation
     /// </summary>
-    public bool IsCombinedDataAuthenticationSupported() => _Value.IsBitSet(9);
-
-    public bool IsDynamicDataAuthenticationSupported() => _Value.IsBitSet(14);
-    public bool IsIssuerAuthenticationSupported() => _Value.IsBitSet(11);
-    public bool IsStaticDataAuthenticationSupported() => _Value.IsBitSet(15);
-    public bool IsTerminalRiskManagementRequired() => _Value.IsBitSet(12);
     public byte[] Encode() => new[] {(byte) (_Value >> 8), (byte) _Value};
 
     #endregion

@@ -24,6 +24,8 @@ public partial class WaitingForGpoResponse : KernelState
 
     #region Instance Values
 
+    private readonly CommonProcessingS3R1 _S3R1;
+    private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
     private readonly IHandleTerminalRequests _TerminalEndpoint;
     private readonly IHandlePcdRequests _PcdEndpoint;
     private readonly IGetKernelState _KernelStateResolver;
@@ -40,12 +42,16 @@ public partial class WaitingForGpoResponse : KernelState
         IGetKernelState kernelStateResolver,
         ICleanTornTransactions kernelCleaner,
         KernelDatabase kernelDatabase,
-        DataExchangeKernelService dataExchangeKernelService) : base(kernelDatabase, dataExchangeKernelService, kernelEndpoint)
+        DataExchangeKernelService dataExchangeKernelService,
+        CommonProcessingS3R1 s3R1,
+        IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(kernelDatabase, dataExchangeKernelService, kernelEndpoint)
     {
         _TerminalEndpoint = terminalEndpoint;
         _PcdEndpoint = pcdEndpoint;
         _KernelStateResolver = kernelStateResolver;
         _KernelCleaner = kernelCleaner;
+        _S3R1 = s3R1;
+        _UnpredictableNumberGenerator = unpredictableNumberGenerator;
     }
 
     #endregion
