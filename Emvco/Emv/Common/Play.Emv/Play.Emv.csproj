@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Play.Emv.Icc\Play.Emv.Icc.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Database\" />
+  </ItemGroup>
+
 </Project>

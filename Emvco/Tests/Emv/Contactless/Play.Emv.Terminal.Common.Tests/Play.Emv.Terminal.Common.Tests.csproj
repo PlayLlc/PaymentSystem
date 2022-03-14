@@ -22,8 +22,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Emv\Contactless\Terminal\Play.Emv.Terminal.Common.Services\Play.Emv.Terminal.Common.Services.csproj" />
-  </ItemGroup>
-
 </Project>

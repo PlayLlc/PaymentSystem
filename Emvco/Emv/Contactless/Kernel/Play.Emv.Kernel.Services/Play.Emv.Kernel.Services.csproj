@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Terminal\Play.Emv.Terminal.Common.Services\Play.Emv.Terminal.Common.Services.csproj" />
     <ProjectReference Include="..\Play.Emv.Kernel\Play.Emv.Kernel.csproj" />
   </ItemGroup>
 

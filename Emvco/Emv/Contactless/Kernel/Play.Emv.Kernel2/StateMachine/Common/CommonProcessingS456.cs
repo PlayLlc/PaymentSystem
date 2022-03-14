@@ -23,15 +23,32 @@ public class CommonProcessingS456 : CommonProcessing
     private readonly ICleanTornTransactions _KernelCleaner;
     private readonly IHandlePcdRequests _PcdEndpoint;
 
-    public CommonProcessingS456(KernelDatabase kernelDatabase)
-    {
-        _KernelDatabase = kernelDatabase;
-    }
-
     protected override StateId[] _ValidStateIds { get; } = new StateId[]
     {
         WaitingForEmvReadRecordResponse.StateId, WaitingForGetDataResponse.StateId, WaitingForEmvModeFirstWriteFlag.StateId
     };
+
+    #endregion
+
+    #region Constructor
+
+    public CommonProcessingS456(
+        KernelDatabase kernelDatabase,
+        DataExchangeKernelService dataExchangeKernelService,
+        IKernelEndpoint kernelEndpoint,
+        IHandleTerminalRequests terminalEndpoint,
+        IGetKernelState kernelStateResolver,
+        ICleanTornTransactions kernelCleaner,
+        IHandlePcdRequests pcdEndpoint)
+    {
+        _KernelDatabase = kernelDatabase;
+        _DataExchangeKernelService = dataExchangeKernelService;
+        _KernelEndpoint = kernelEndpoint;
+        _TerminalEndpoint = terminalEndpoint;
+        _KernelStateResolver = kernelStateResolver;
+        _KernelCleaner = kernelCleaner;
+        _PcdEndpoint = pcdEndpoint;
+    }
 
     #endregion
 

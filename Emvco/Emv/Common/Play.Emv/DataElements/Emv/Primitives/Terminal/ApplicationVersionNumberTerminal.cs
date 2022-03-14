@@ -83,4 +83,10 @@ public record ApplicationVersionNumberTerminal : DataElement<ushort>, IEqualityC
     public int GetHashCode(ApplicationVersionNumberTerminal obj) => obj.GetHashCode();
 
     #endregion
+
+    #region Operator Overrides
+
+    public static explicit operator ushort(ApplicationVersionNumberTerminal value) => value._Value;
+
+    #endregion
 }
