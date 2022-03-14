@@ -110,6 +110,7 @@ internal class SelectionStateMachine
     /// </summary>
     /// <param name="response"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public void Handle(SelectProximityPaymentSystemEnvironmentResponse response)
     {
         lock (_Lock)
@@ -136,6 +137,7 @@ internal class SelectionStateMachine
     /// </summary>
     /// <param name="response"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public void Handle(SendPoiInformationResponse response)
     {
         lock (_Lock)
