@@ -24,7 +24,7 @@ public abstract class ResponseMessageTemplate : Template
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public static TagLengthValue[] DecodeData(ApduResponse value)
     {

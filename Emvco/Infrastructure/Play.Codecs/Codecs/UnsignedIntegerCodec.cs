@@ -299,7 +299,7 @@ public class UnsignedIntegerCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -331,7 +331,7 @@ public class UnsignedIntegerCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T value, int length)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -364,7 +364,7 @@ public class UnsignedIntegerCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T[] value)
     {
@@ -386,7 +386,7 @@ public class UnsignedIntegerCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T[] value, int length)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -447,7 +447,7 @@ public class UnsignedIntegerCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -484,7 +484,7 @@ public class UnsignedIntegerCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -520,7 +520,7 @@ public class UnsignedIntegerCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
     {
@@ -537,7 +537,7 @@ public class UnsignedIntegerCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
     {
         if (typeof(_T) == typeof(char))

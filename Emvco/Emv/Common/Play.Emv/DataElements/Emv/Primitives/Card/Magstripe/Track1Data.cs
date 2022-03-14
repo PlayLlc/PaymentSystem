@@ -74,7 +74,7 @@ public record Track1Data : DataElement<byte[]>
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="System.Exception"></exception>
+    /// <exception cref="Exception"></exception>
     public static Track1Data Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);

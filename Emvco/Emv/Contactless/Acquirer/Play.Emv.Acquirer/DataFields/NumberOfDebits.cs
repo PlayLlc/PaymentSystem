@@ -38,8 +38,8 @@ public record NumberOfDebits : FixedDataField<ulong>
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="System.InvalidOperationException"></exception>
-    /// <exception cref="System.Exception"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Exception"></exception>
     public override NumberOfDebits Decode(ReadOnlyMemory<byte> value)
     {
         Check.DataField.ForExactLength(value, _ByteCount, DataFieldId);

@@ -20,7 +20,7 @@ public class AlphabeticCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public byte DecodeToByte(char value)
     {
         Validate(value); //
@@ -35,8 +35,7 @@ public class AlphabeticCodec : PlayCodec
     #region Serialization
 
     #region Decode To DecodedMetadata
-
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+     
     public override DecodedMetadata Decode(ReadOnlySpan<byte> value) =>
         new DecodedResult<char[]>(AlphabeticCodec.DecodeToChars(value), value.Length);
 
@@ -127,21 +126,21 @@ public class AlphabeticCodec : PlayCodec
         return value is >= bigA and <= bigZ || value is >= littleA and <= littleZ;
     }
 
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private void Validate(byte value)
     {
         if (!IsValid(value))
             throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
     }
 
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private void Validate(char value)
     {
         if (!IsValid(value))
             throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
     }
 
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     protected void Validate(ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -153,7 +152,7 @@ public class AlphabeticCodec : PlayCodec
         }
     }
 
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private void Validate(ReadOnlySpan<char> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -169,7 +168,7 @@ public class AlphabeticCodec : PlayCodec
 
     #region Encode
 
-    /// <exception cref="Exceptions.CodecParsingException">Ignore.</exception>
+    /// <exception cref="CodecParsingException">Ignore.</exception>
     public bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
     {
         if (IsValid(value))
@@ -184,12 +183,12 @@ public class AlphabeticCodec : PlayCodec
         return false;
     }
 
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T value) where T : struct => throw new NotImplementedException();
 
     public override byte[] Encode<T>(T value, int length) where T : struct => throw new NotImplementedException();
 
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T[] value) where T : struct
     {
         if (typeof(T) == typeof(char))
@@ -198,8 +197,8 @@ public class AlphabeticCodec : PlayCodec
         throw new NotImplementedException();
     }
 
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public override byte[] Encode<T>(T[] value, int length) where T : struct
     {
         if (typeof(T) == typeof(char))
@@ -215,7 +214,7 @@ public class AlphabeticCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value)
     {
         Validate(value);
@@ -239,8 +238,8 @@ public class AlphabeticCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value, int length)
     {
         Validate(value);
@@ -303,7 +302,7 @@ public class AlphabeticCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) == typeof(char))
@@ -319,8 +318,8 @@ public class AlphabeticCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) == typeof(char))
@@ -334,8 +333,8 @@ public class AlphabeticCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Encode(ReadOnlySpan<char> value, int length, Span<byte> buffer, ref int offset)
     {
         Validate(value);
@@ -358,7 +357,7 @@ public class AlphabeticCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public void Encode(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
     {
         Validate(value);
@@ -417,7 +416,7 @@ public class AlphabeticCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public char DecodeToChar(byte value)
     {
         Validate(value);
@@ -429,7 +428,7 @@ public class AlphabeticCodec : PlayCodec
 
     #region Decode To String
 
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public string DecodeToString(ReadOnlySpan<byte> value)
     {
         Validate(value);
@@ -454,7 +453,7 @@ public class AlphabeticCodec : PlayCodec
         }
     }
 
-    /// <exception cref="Exceptions.CodecParsingException">Ignore.</exception>
+    /// <exception cref="CodecParsingException">Ignore.</exception>
     public bool TryDecodingToString(ReadOnlySpan<byte> value, out string result)
     {
         result = string.Empty;

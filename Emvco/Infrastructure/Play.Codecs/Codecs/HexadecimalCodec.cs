@@ -192,8 +192,8 @@ public class HexadecimalCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// < returns></returns>
-    /// < exception cref="Exceptions.CodecParsingException"></exception>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// < exception cref="CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value)
     {
@@ -225,7 +225,7 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T value)
     {
         Type type = typeof(_T);
@@ -257,7 +257,7 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="length"></param>
     /// <returns></returns>
     /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T value, int length)
     {
         Type type = typeof(_T);
@@ -291,7 +291,7 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
     /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
@@ -327,7 +327,7 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset)
     {
         // HACK: Figure out how to implement this with the length argument
@@ -403,7 +403,7 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
     /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
@@ -424,7 +424,7 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
     /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
@@ -437,7 +437,7 @@ public class HexadecimalCodec : PlayCodec
             throw new CodecParsingException(this, type);
     }
 
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
     {
         CheckCore.ForEmptySequence(chars, nameof(chars));
@@ -490,7 +490,7 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public void Encode(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -513,7 +513,7 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public void Encode(ReadOnlySpan<char> value, int length, Span<byte> buffer, ref int offset)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -608,7 +608,7 @@ public class HexadecimalCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public string DecodeToString(ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -684,7 +684,7 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="EncodingException"></exception>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private static byte DecodeToByte(char value)
     {
         if ((value > 0xFF) || (value < 0))

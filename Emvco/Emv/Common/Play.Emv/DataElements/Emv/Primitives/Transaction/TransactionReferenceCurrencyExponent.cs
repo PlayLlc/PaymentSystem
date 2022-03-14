@@ -45,11 +45,11 @@ public record TransactionReferenceCurrencyExponent : DataElement<byte>, IEqualit
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static TransactionReferenceCurrencyExponent Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static TransactionReferenceCurrencyExponent Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

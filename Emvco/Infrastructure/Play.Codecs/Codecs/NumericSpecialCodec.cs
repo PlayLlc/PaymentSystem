@@ -150,7 +150,7 @@ public class NumericSpecialCodec : PlayCodec
     public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct
     {
         if (typeof(T) == typeof(char))
-            Encode<char>(Unsafe.As<T[], char[]>(ref value), buffer, ref offset);
+            Encode(Unsafe.As<T[], char[]>(ref value), buffer, ref offset);
         else
         {
             throw new

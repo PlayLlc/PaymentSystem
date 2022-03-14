@@ -22,7 +22,7 @@ internal readonly ref struct DataFieldSpan
     /// </summary>
     /// <param name="dataField"></param>
     /// <param name="value"></param>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public DataFieldSpan(DataFieldId dataField, ReadOnlySpan<byte> value)
     {
         const ushort absoluteMaximumByteCount = 999;

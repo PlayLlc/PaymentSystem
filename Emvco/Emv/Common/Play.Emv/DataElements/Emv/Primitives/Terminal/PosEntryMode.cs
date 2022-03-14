@@ -42,10 +42,10 @@ public record PosEntryMode : DataElement<byte>, IEqualityComparer<PosEntryMode>
 
     #region Serialization
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static PosEntryMode Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static PosEntryMode Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

@@ -95,7 +95,7 @@ public class NumericCodec : PlayCodec
     ///     Validate
     /// </summary>
     /// <param name="value"></param>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private void Validate(byte value)
     {
         if (!IsValid(value))
@@ -106,7 +106,7 @@ public class NumericCodec : PlayCodec
     ///     Validate
     /// </summary>
     /// <param name="value"></param>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public void Validate(ReadOnlySpan<byte> value)
     {
         if (!IsValid(value))
@@ -588,7 +588,7 @@ public class NumericCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public void Encode(ReadOnlySpan<char> value, int length, Span<byte> buffer, ref int offset)
     {
         int byteSize = (value.Length / 2) + (value.Length % 2);
@@ -680,7 +680,7 @@ public class NumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public BigInteger DecodeToBigInteger(ReadOnlySpan<byte> value)
     {
         for (byte i = 0; i < value.Length; i++)
@@ -706,7 +706,7 @@ public class NumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public byte DecodeToByte(byte value)
     {
         Validate(value);
@@ -722,7 +722,7 @@ public class NumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public uint DecodeToUInt32(ReadOnlySpan<byte> value)
     {
         uint result = 0;
@@ -735,7 +735,7 @@ public class NumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public ulong DecodeToUInt64(ReadOnlySpan<byte> value)
     {
         ulong result = 0;
@@ -748,7 +748,7 @@ public class NumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public ushort DecodeToUInt16(ReadOnlySpan<byte> value)
     {
         ushort result = 0;
@@ -771,7 +771,7 @@ public class NumericCodec : PlayCodec
     /// <param name="resultBuffer"></param>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private dynamic BuildInteger(dynamic resultBuffer, ReadOnlySpan<byte> value)
     {
         if (resultBuffer != byte.MinValue)

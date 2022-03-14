@@ -41,7 +41,7 @@ public record Track2EquivalentData : DataElement<BigInteger>
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="System.Exception"></exception>
+    /// <exception cref="Exception"></exception>
     public static Track2EquivalentData Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);

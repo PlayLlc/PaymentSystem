@@ -36,7 +36,7 @@ public record BitMap
     ///     GetDataFieldIds
     /// </summary>
     /// <param name="buffer"></param>
-    /// <exception cref="System.IndexOutOfRangeException"></exception>
+    /// <exception cref="IndexOutOfRangeException"></exception>
     public void GetDataFieldIds(Span<ulong> buffer)
     {
         if (buffer.Length != GetDataFieldCount())
@@ -67,7 +67,7 @@ public record BitMap
     /// </summary>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="Play.Codecs.Exceptions._Temp.CodecParsingException"></exception>
+    /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
     /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     public void CopyTo(Span<byte> buffer, ref int offset)
     {

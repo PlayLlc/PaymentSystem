@@ -21,7 +21,7 @@ public class SpecialCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public byte DecodeToByte(char value)
     {
         Validate(value);
@@ -115,21 +115,21 @@ public class SpecialCodec : PlayCodec
     public bool IsValid(byte value) => _CharMapper.ContainsKey(value);
     public bool IsValid(char value) => _ByteMapper.ContainsKey(value);
 
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private void Validate(byte value)
     {
         if (!IsValid(value))
             throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
     }
 
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private void Validate(char value)
     {
         if (!IsValid(value))
             throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
     }
 
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     protected void Validate(ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -141,8 +141,8 @@ public class SpecialCodec : PlayCodec
         }
     }
 
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private void Validate(ReadOnlySpan<char> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -158,7 +158,7 @@ public class SpecialCodec : PlayCodec
 
     #region Encode
 
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
     {
         if (IsValid(value))
@@ -178,8 +178,8 @@ public class SpecialCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -197,8 +197,8 @@ public class SpecialCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T value, int length)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -215,8 +215,8 @@ public class SpecialCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T[] value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -234,8 +234,8 @@ public class SpecialCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T[] value, int length)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -247,7 +247,7 @@ public class SpecialCodec : PlayCodec
         return Encode(Unsafe.As<_T[], char[]>(ref value), length);
     }
 
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value)
     {
         byte[] byteArray = new byte[value.Length];
@@ -261,7 +261,7 @@ public class SpecialCodec : PlayCodec
         return byteArray;
     }
 
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value, int length)
     {
         byte[] byteArray = new byte[length];
@@ -285,7 +285,7 @@ public class SpecialCodec : PlayCodec
     /// <param name="byteIndex"></param>
     /// <returns></returns>
     /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
     {
         if (charIndex > chars.Length)
@@ -321,7 +321,7 @@ public class SpecialCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public void Encode(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
     {
         for (int j = 0; j < value.Length; offset++)
@@ -339,7 +339,7 @@ public class SpecialCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public void Encode(ReadOnlySpan<char> value, int length, Span<byte> buffer, ref int offset)
     {
         for (int j = 0; j < value.Length; offset++)
@@ -356,7 +356,7 @@ public class SpecialCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
@@ -374,7 +374,7 @@ public class SpecialCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
@@ -391,8 +391,8 @@ public class SpecialCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
     {
         Type type = typeof(_T);
@@ -410,8 +410,8 @@ public class SpecialCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -477,7 +477,7 @@ public class SpecialCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public char DecodeToChar(byte value)
     {
         Validate(value);
@@ -489,7 +489,7 @@ public class SpecialCodec : PlayCodec
 
     #region Decode To String
 
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public string DecodeToString(ReadOnlySpan<byte> value)
     {
         Validate(value);
@@ -514,7 +514,7 @@ public class SpecialCodec : PlayCodec
         }
     }
 
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public bool TryDecodingToString(ReadOnlySpan<byte> value, out string result)
     {
         result = string.Empty;

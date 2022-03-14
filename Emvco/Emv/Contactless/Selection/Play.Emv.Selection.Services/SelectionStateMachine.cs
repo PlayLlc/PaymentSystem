@@ -82,7 +82,7 @@ internal class SelectionStateMachine
     /// </summary>
     /// <param name="request"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Handle(ActivatePcdResponse request)
     {
         lock (_Lock)

@@ -41,7 +41,7 @@ public record Reserved56 : VariableDataField<char[]>
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
     /// <exception cref="InterchangeException"></exception>
     /// <exception cref="InterchangeDataFieldNullException"></exception>

@@ -59,7 +59,7 @@ public class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
     /// <returns></returns>
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
     /// <remarks>EMV Book 2 Section 6.4</remarks>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public static DecodedIccPublicKeyCertificate Create(
         DecodedIssuerPublicKeyCertificate issuerCertificate,

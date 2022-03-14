@@ -43,8 +43,8 @@ public record DataStorageDigestHash : DataElement<ulong>
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="System.InvalidOperationException"></exception>
-    /// <exception cref="System.Exception"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Exception"></exception>
     public static DataStorageDigestHash Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

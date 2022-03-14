@@ -338,25 +338,25 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
         KernelOutcome.CreateMagstripeDiscretionaryData(this, dataExchanger);
     }
 
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     public ErrorIndication GetErrorIndication() => ErrorIndication.Decode(Get(ErrorIndication.Tag).EncodeValue().AsSpan());
 
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     private OutcomeParameterSet GetOutcomeParameterSet() => OutcomeParameterSet.Decode(Get(OutcomeParameterSet.Tag).EncodeValue().AsSpan());
 
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     private TerminalVerificationResults GetTerminalVerificationResults() =>
         TerminalVerificationResults.Decode(Get(TerminalVerificationResults.Tag).EncodeValue().AsSpan());
 
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private UserInterfaceRequestData GetUserInterfaceRequestData()
     {

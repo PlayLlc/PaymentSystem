@@ -50,7 +50,7 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<TagsToRead>
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     public int Resolve(TagLengthValue[] value)
     {
@@ -107,7 +107,7 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<TagsToRead>
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public static TagsToRead Decode(ReadOnlyMemory<byte> value)
     {
         if (value.IsEmpty)

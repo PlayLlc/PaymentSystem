@@ -146,7 +146,7 @@ public class CombinationSelector
     /// <param name="outcome"></param>
     /// <param name="transactionType"></param>
     /// <param name="sendPoiInformationResponse"></param>
-    /// <exception cref="Play.Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     public void ProcessPointOfInteractionResponse(
         TransactionSessionId transactionSessionId,
         CandidateList candidateList,
@@ -173,7 +173,7 @@ public class CombinationSelector
     /// <param name="preProcessingIndicators"></param>
     /// <param name="kernelIdentifier"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     private bool IsMatchingDomesticKernelIdentifier(PreProcessingIndicators preProcessingIndicators, KernelIdentifier kernelIdentifier)
     {
         // Book B Section 3.3.2.5 Section C:
@@ -198,7 +198,7 @@ public class CombinationSelector
     /// <param name="preProcessingIndicators"></param>
     /// <param name="directoryEntry"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     private bool IsMatchingKernelIdentifier(PreProcessingIndicators preProcessingIndicators, DirectoryEntry directoryEntry)
     {
         if (!directoryEntry.TryGetKernelIdentifier(out KernelIdentifier? result))
@@ -216,7 +216,7 @@ public class CombinationSelector
     /// <param name="preProcessingIndicators"></param>
     /// <param name="transactionType"></param>
     /// <param name="fileControlInformationTemplatePpse"></param>
-    /// <exception cref="Play.Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     private void PopulateCandidateList(
         PreProcessingIndicators preProcessingIndicators,
         TransactionType transactionType,
@@ -283,7 +283,7 @@ public class CombinationSelector
     /// <param name="outcome"></param>
     /// <param name="transactionType"></param>
     /// <param name="response"></param>
-    /// <exception cref="Play.Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     public void ProcessPpseResponse(
         TransactionSessionId transactionSessionId,
         CandidateList candidateList,
@@ -325,7 +325,7 @@ public class CombinationSelector
     /// <param name="outcome"></param>
     /// <param name="transactionType"></param>
     /// <param name="fileControlInformationPpse"></param>
-    /// <exception cref="Play.Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     private void ProcessStep2(
         TransactionSessionId transactionSessionId,
         CandidateList candidateList,

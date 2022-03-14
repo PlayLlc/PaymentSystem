@@ -47,8 +47,8 @@ public partial class WaitingForGetDataResponse : KernelState
     #region S5.5 - S5.6
 
     /// <remarks>Book C-2 Section S5.5 - S5.6</remarks>
-    /// <exception cref="Exceptions.TerminalDataException"></exception>
-    /// <exception cref="Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandleL1Error(KernelSession session, QueryPcdResponse signal)
     {

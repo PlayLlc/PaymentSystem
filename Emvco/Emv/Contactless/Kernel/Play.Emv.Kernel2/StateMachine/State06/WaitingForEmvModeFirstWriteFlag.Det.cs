@@ -16,7 +16,7 @@ namespace Play.Emv.Kernel2.StateMachine
     {
         #region DET
 
-        /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
+        /// <exception cref="RequestOutOfSyncException"></exception>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="System.InvalidOperationException"></exception>
         public override KernelState Handle(KernelSession session, QueryTerminalResponse signal)

@@ -211,7 +211,7 @@ public class CompressedNumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="result"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
     {
         if (!IsValid(value))
@@ -288,7 +288,7 @@ public class CompressedNumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="System.Exception"></exception>
+    /// <exception cref="Exception"></exception>
     public override byte[] Encode<T>(T value, int length)
     {
         if (length == Specs.Integer.UInt8.ByteCount)
@@ -321,7 +321,7 @@ public class CompressedNumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T[] value, int length)
     {
         if (typeof(T) == typeof(char))
@@ -338,7 +338,7 @@ public class CompressedNumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value, int length)
     {
         int byteSize = (value.Length / 2) + (value.Length % 2);
@@ -445,7 +445,7 @@ public class CompressedNumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="System.Exception"></exception>
+    /// <exception cref="Exception"></exception>
     public byte[] Encode(uint value, int length)
     {
         const byte byteSize = Specs.Integer.UInt32.ByteCount;
@@ -494,7 +494,7 @@ public class CompressedNumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="System.Exception"></exception>
+    /// <exception cref="Exception"></exception>
     public byte[] Encode(ulong value, int length)
     {
         const byte byteSize = Specs.Integer.UInt64.ByteCount;
@@ -585,7 +585,7 @@ public class CompressedNumericCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset)
     {
         if (typeof(T) == typeof(char))
@@ -637,7 +637,7 @@ public class CompressedNumericCodec : PlayCodec
     /// <param name="length"></param>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public void Encode(ReadOnlySpan<char> value, int length, Span<byte> buffer, ref int offset)
     {
         int byteSize = (length / 2) + (length % 2);

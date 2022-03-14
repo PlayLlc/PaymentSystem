@@ -37,8 +37,8 @@ internal class ProximityCouplingDeviceProcess : CommandProcessingQueue
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
-    /// <exception cref="Play.Emv.Pcd.Exceptions.CardReadException"></exception>
+    /// <exception cref="Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="Exceptions.CardReadException"></exception>
     public async Task Handle(ActivatePcdRequest request)
     {
         await Task.Run(() => { _PcdStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
@@ -49,9 +49,9 @@ internal class ProximityCouplingDeviceProcess : CommandProcessingQueue
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="Emv.Exceptions.RequestOutOfSyncException"></exception>
     /// <exception cref="Play.Messaging.Exceptions.InvalidMessageRoutingException"></exception>
-    /// <exception cref="Play.Emv.Pcd.Exceptions.CardReadException"></exception>
+    /// <exception cref="Exceptions.CardReadException"></exception>
     public async Task Handle(QueryPcdRequest request)
     {
         await Task.Run(() => { _PcdStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
@@ -64,9 +64,9 @@ internal class ProximityCouplingDeviceProcess : CommandProcessingQueue
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
-    /// <exception cref="Play.Emv.Exceptions.InvalidSignalRequest"></exception>
-    /// <exception cref="Play.Emv.Pcd.Exceptions.CardReadException"></exception>
+    /// <exception cref="Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="Emv.Exceptions.InvalidSignalRequest"></exception>
+    /// <exception cref="Exceptions.CardReadException"></exception>
     public async Task Handle(StopPcdRequest request)
     {
         await Task.Run(() =>

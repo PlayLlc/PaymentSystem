@@ -38,7 +38,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    /// <exception cref="Play.Emv.Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
+    /// <exception cref="Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
@@ -227,7 +227,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Emv.Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
+    /// <exception cref="Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public void UpdateDataNeeded(Kernel2Session session, ReadRecordResponse rapdu, Tag[] resolvedRecords, bool isRecordSigned)
     {
@@ -267,7 +267,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Emv.Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
+    /// <exception cref="Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public void UpdateDataNeededWhenIdsIsSupported(
         Kernel2Session session,
@@ -318,7 +318,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Play.Emv.Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
+    /// <exception cref="Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public void HandleDsdol(Kernel2Session session, ReadRecordResponse rapdu, bool isRecordSigned, DataStorageDataObjectList dsdol)
@@ -343,7 +343,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     #region S4.34 - S4.35
 
     /// <remarks>Book C-2 Section S4.34 - S4.35</remarks>
-    /// <exception cref="Play.Emv.Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
+    /// <exception cref="Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
     private void AttemptToUpdateStaticDataToBeAuthenticated(Kernel2Session session, ReadRecordResponse rapdu, bool isRecordSigned)
     {
         if (!isRecordSigned)

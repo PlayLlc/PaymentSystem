@@ -50,7 +50,7 @@ internal class Check
         /// <param name="value"></param>
         /// <param name="maxLength"></param>
         /// <param name="dataFieldId"></param>
-        /// <exception cref="Play.Interchange.Exceptions.InterchangeDataFieldOutOfRangeException"></exception>
+        /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
         public static void ForMaximumLength<T>(ICollection<T> value, int maxLength, DataFieldId dataFieldId) where T : struct
         {
             if (value.Count > maxLength)
@@ -66,7 +66,7 @@ internal class Check
         /// <param name="value"></param>
         /// <param name="maxLength"></param>
         /// <param name="dataFieldId"></param>
-        /// <exception cref="Play.Interchange.Exceptions.InterchangeDataFieldOutOfRangeException"></exception>
+        /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
         public static void ForMaximumLength<T>(ReadOnlyMemory<T> value, int maxLength, DataFieldId dataFieldId) where T : struct
         {
             if (value.Length > maxLength)
@@ -83,7 +83,7 @@ internal class Check
         /// <param name="value"></param>
         /// <param name="maxLength"></param>
         /// <param name="dataFieldId"></param>
-        /// <exception cref="Play.Interchange.Exceptions.InterchangeDataFieldOutOfRangeException"></exception>
+        /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
         public static void ForMaximumLength<T>(ReadOnlySpan<T> value, int maxLength, DataFieldId dataFieldId) where T : struct
         {
             if (value.Length > maxLength)

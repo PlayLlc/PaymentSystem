@@ -68,7 +68,7 @@ public class FileControlInformationIssuerDiscretionaryDataDdf : FileControlInfor
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
+    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     public static FileControlInformationIssuerDiscretionaryDataDdf Decode(EncodedTlvSiblings encodedChildren) =>
         new(_Codec.AsPrimitive(ApplicationCapabilitiesInformation.Decode, ApplicationCapabilitiesInformation.Tag, encodedChildren));
 

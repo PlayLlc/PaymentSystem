@@ -31,7 +31,7 @@ public class CardCollisionHandler
     /// </summary>
     /// <param name="request"></param>
     /// <param name="outcome"></param>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public void HandleCardCollisions(ActivatePcdResponse request, Outcome outcome)
     {
         if (!outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData))

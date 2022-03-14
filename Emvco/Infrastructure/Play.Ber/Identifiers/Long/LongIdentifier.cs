@@ -138,7 +138,7 @@ internal static partial class LongIdentifier
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
     public static void Validate(ReadOnlySpan<byte> value)
     {
         LeadingOctet.Validate(value[0]);

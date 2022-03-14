@@ -18,7 +18,7 @@ namespace Play.Emv.Kernel2.StateMachine;
 public partial class WaitingForGpoResponse : KernelState
 {
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
@@ -168,7 +168,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     private bool TryHandleMissingCardData(KernelSession session)
     {
         if (!_KernelDatabase.IsPresentAndNotEmpty(ApplicationFileLocator.Tag))
@@ -212,7 +212,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public bool TryHandlingMagstripeNotSupported(Kernel2Session session)
     {
         if (_KernelDatabase.IsMagstripeModeSupported())
@@ -500,7 +500,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     private void HandleInvalidResponse(KernelSession session, Level2Error level2Error)
     {
         _KernelDatabase.Update(level2Error);

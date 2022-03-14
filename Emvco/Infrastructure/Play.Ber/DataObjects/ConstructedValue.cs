@@ -21,7 +21,7 @@ public abstract class ConstructedValue : IEncodeBerDataObjects, IRetrieveConstru
     /// </summary>
     /// <param name="codec"></param>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public uint GetTagLengthValueByteCount(BerCodec codec)
     {
         ushort valueOctetCount = GetValueByteCount(codec);

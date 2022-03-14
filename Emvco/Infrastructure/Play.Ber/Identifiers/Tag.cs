@@ -20,7 +20,7 @@ public readonly record struct Tag
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
     public Tag(ReadOnlySpan<byte> value)
     {
         if (ShortIdentifier.IsValid(value[0]))

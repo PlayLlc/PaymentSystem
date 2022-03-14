@@ -49,7 +49,7 @@ public record AccountType : DataElement<byte>, IEqualityComparer<AccountType>
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     public static AccountType Decode(ReadOnlySpan<byte> value)

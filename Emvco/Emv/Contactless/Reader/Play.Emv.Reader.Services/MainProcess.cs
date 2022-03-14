@@ -51,7 +51,7 @@ internal class MainProcess : CommandProcessingQueue
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
     private async Task Handle(ActivateReaderRequest request)
     {
         await Task.Run(() => { _MainStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
@@ -62,7 +62,7 @@ internal class MainProcess : CommandProcessingQueue
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
     private async Task Handle(OutSelectionResponse request)
     {
         await Task.Run(() => { _MainStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
@@ -73,7 +73,7 @@ internal class MainProcess : CommandProcessingQueue
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
     private async Task Handle(OutKernelResponse request)
     {
         await Task.Run(() => { _MainStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
@@ -84,7 +84,7 @@ internal class MainProcess : CommandProcessingQueue
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
     private async Task Handle(StopReaderRequest request)
     {
         await Task.Run(() => { _MainStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);

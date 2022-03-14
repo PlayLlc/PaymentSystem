@@ -35,7 +35,7 @@ public class TerminalActionAnalysisServiceFactory
     {
         Mock<IResolveAuthenticationType>? authenticationTypeResolver = new();
         authenticationTypeResolver
-            .Setup<AuthenticationTypes>(a => a.GetAuthenticationMethod(It.IsAny<TerminalCapabilities>(),
+            .Setup(a => a.GetAuthenticationMethod(It.IsAny<TerminalCapabilities>(),
                                                                        It.IsAny<ApplicationInterchangeProfile>()))
             .Returns(AuthenticationTypes.CombinedDataAuthentication);
 

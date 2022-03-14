@@ -47,7 +47,7 @@ public record Track2DiscretionaryData : DataElement<BigInteger>
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="System.Exception"></exception>
+    /// <exception cref="Exception"></exception>
     public static Track2DiscretionaryData Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);

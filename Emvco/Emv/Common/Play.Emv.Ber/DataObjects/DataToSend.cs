@@ -49,7 +49,7 @@ public sealed record DataToSend : DataExchangeResponse, IEqualityComparer<DataTo
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public static DataToSend Decode(ReadOnlyMemory<byte> value)
     {
         if (value.IsEmpty)

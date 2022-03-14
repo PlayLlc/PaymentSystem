@@ -43,8 +43,8 @@ internal class SelectionProcess : CommandProcessingQueue
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
-    /// <exception cref="Play.Emv.Exceptions.InvalidSignalRequest"></exception>
+    /// <exception cref="Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="Emv.Exceptions.InvalidSignalRequest"></exception>
     public async Task Handle(ActivateSelectionRequest request)
     {
         await Task.Run(() => { _SelectionStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
@@ -55,7 +55,7 @@ internal class SelectionProcess : CommandProcessingQueue
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="Emv.Exceptions.RequestOutOfSyncException"></exception>
     public async Task Handle(StopSelectionRequest request)
     {
         await Task.Run(() => { _SelectionStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
@@ -66,8 +66,8 @@ internal class SelectionProcess : CommandProcessingQueue
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public async Task Handle(ActivatePcdResponse request)
     {
         await Task.Run(() => { _SelectionStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
@@ -78,7 +78,7 @@ internal class SelectionProcess : CommandProcessingQueue
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="Emv.Exceptions.RequestOutOfSyncException"></exception>
     public async Task Handle(SelectApplicationDefinitionFileInfoResponse request)
     {
         await Task.Run(() => { _SelectionStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
@@ -89,7 +89,8 @@ internal class SelectionProcess : CommandProcessingQueue
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="Play.Emv.Exceptions.DataElementParsingException"></exception>
     public async Task Handle(SelectProximityPaymentSystemEnvironmentResponse request)
     {
         await Task.Run(() => { _SelectionStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
@@ -100,7 +101,8 @@ internal class SelectionProcess : CommandProcessingQueue
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="Play.Emv.Exceptions.DataElementParsingException"></exception>
     public async Task Handle(SendPoiInformationResponse request)
     {
         await Task.Run(() => { _SelectionStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);

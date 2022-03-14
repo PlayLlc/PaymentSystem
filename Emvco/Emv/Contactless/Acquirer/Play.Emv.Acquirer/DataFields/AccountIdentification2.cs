@@ -42,7 +42,7 @@ public record AccountIdentification2 : VariableDataField<char[]>
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="InterchangeException"></exception>
     /// <exception cref="InterchangeDataFieldNullException"></exception>
     public override AccountIdentification2 Decode(ReadOnlyMemory<byte> value)
