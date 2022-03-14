@@ -73,7 +73,6 @@ public partial class Idle : KernelState
     }
 
     /// <remarks>Book C-2 Section 6.3.3 - S1.7</remarks>
-    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
@@ -141,8 +140,7 @@ public partial class Idle : KernelState
         return false;
     }
 
-    /// <remarks>Book C-2 Section 6.2.3; Book C-2 Section 6.3.3 - S1.7 & S1.8</remarks>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <remarks>Book C-2 Section 6.2.3; Book C-2 Section 6.3.3 - S1.7 & S1.8</remarks> 
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>

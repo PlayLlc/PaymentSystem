@@ -18,6 +18,8 @@ public partial class WaitingForGetDataResponse : KernelState
     /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
     /// <exception cref="Play.Emv.Exceptions.TerminalDataException"></exception>
     /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="Play.Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
         HandleRequestOutOfSync(session, signal);

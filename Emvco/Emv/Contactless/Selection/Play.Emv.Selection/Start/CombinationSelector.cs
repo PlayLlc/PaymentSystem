@@ -137,6 +137,16 @@ public class CombinationSelector
         ProcessStep3(transactionSessionId, candidateList, outcome);
     }
 
+    /// <summary>
+    /// ProcessPointOfInteractionResponse
+    /// </summary>
+    /// <param name="transactionSessionId"></param>
+    /// <param name="candidateList"></param>
+    /// <param name="preProcessingIndicators"></param>
+    /// <param name="outcome"></param>
+    /// <param name="transactionType"></param>
+    /// <param name="sendPoiInformationResponse"></param>
+    /// <exception cref="Play.Emv.Exceptions.DataElementParsingException"></exception>
     public void ProcessPointOfInteractionResponse(
         TransactionSessionId transactionSessionId,
         CandidateList candidateList,
@@ -182,6 +192,13 @@ public class CombinationSelector
         return preProcessingIndicators.IsMatchingKernel(kernelIdentifier);
     }
 
+    /// <summary>
+    /// IsMatchingKernelIdentifier
+    /// </summary>
+    /// <param name="preProcessingIndicators"></param>
+    /// <param name="directoryEntry"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Exceptions.DataElementParsingException"></exception>
     private bool IsMatchingKernelIdentifier(PreProcessingIndicators preProcessingIndicators, DirectoryEntry directoryEntry)
     {
         if (!directoryEntry.TryGetKernelIdentifier(out KernelIdentifier? result))
@@ -193,6 +210,13 @@ public class CombinationSelector
         return IsMatchingInternationalKernelIdentifier(preProcessingIndicators, result);
     }
 
+    /// <summary>
+    /// PopulateCandidateList
+    /// </summary>
+    /// <param name="preProcessingIndicators"></param>
+    /// <param name="transactionType"></param>
+    /// <param name="fileControlInformationTemplatePpse"></param>
+    /// <exception cref="Play.Emv.Exceptions.DataElementParsingException"></exception>
     private void PopulateCandidateList(
         PreProcessingIndicators preProcessingIndicators,
         TransactionType transactionType,
@@ -250,6 +274,16 @@ public class CombinationSelector
         ProcessStep3(transactionSessionId, candidateList, outcome);
     }
 
+    /// <summary>
+    /// ProcessPpseResponse
+    /// </summary>
+    /// <param name="transactionSessionId"></param>
+    /// <param name="candidateList"></param>
+    /// <param name="preProcessingIndicators"></param>
+    /// <param name="outcome"></param>
+    /// <param name="transactionType"></param>
+    /// <param name="response"></param>
+    /// <exception cref="Play.Emv.Exceptions.DataElementParsingException"></exception>
     public void ProcessPpseResponse(
         TransactionSessionId transactionSessionId,
         CandidateList candidateList,
@@ -282,6 +316,16 @@ public class CombinationSelector
         SendPointOfInteractionApduCommand(transactionSessionId, fileControlInformationTemplatePpse);
     }
 
+    /// <summary>
+    /// ProcessStep2
+    /// </summary>
+    /// <param name="transactionSessionId"></param>
+    /// <param name="candidateList"></param>
+    /// <param name="preProcessingIndicators"></param>
+    /// <param name="outcome"></param>
+    /// <param name="transactionType"></param>
+    /// <param name="fileControlInformationPpse"></param>
+    /// <exception cref="Play.Emv.Exceptions.DataElementParsingException"></exception>
     private void ProcessStep2(
         TransactionSessionId transactionSessionId,
         CandidateList candidateList,

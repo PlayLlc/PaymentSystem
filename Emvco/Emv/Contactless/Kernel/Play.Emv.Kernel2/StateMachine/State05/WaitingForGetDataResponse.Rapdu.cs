@@ -28,6 +28,7 @@ public partial class WaitingForGetDataResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
@@ -120,6 +121,7 @@ public partial class WaitingForGetDataResponse : KernelState
     /// <remarks>Book C-2 Section S5.19 - S5.24</remarks>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void PersistGetDataResponse(QueryPcdResponse signal)
     {
         try

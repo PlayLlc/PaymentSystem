@@ -40,6 +40,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="Play.Emv.Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
@@ -146,6 +147,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     /// <remarks>Book C-2 Section S4.14, S4.24 - S4.25, S5.27.1 - S5.27.2</remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public bool TryResolveActiveRecords(KernelSession session, ReadRecordResponse rapdu, out Tag[] resolvedRecords)
     {
         try
@@ -225,6 +227,8 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Emv.Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public void UpdateDataNeeded(Kernel2Session session, ReadRecordResponse rapdu, Tag[] resolvedRecords, bool isRecordSigned)
     {
         if (_KernelDatabase.IsIntegratedDataStorageSupported())
@@ -264,6 +268,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Emv.Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public void UpdateDataNeededWhenIdsIsSupported(
         Kernel2Session session,
         ReadRecordResponse rapdu,
@@ -315,6 +320,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Play.Emv.Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
     /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public void HandleDsdol(Kernel2Session session, ReadRecordResponse rapdu, bool isRecordSigned, DataStorageDataObjectList dsdol)
     {
         if (!_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out TagLengthValue? idsStatus))

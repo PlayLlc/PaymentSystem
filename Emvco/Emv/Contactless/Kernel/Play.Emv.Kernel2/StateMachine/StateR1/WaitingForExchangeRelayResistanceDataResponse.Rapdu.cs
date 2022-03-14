@@ -124,6 +124,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 
     /// <remarks>Book C-2 Section SR1.14 - SR1.17 </remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool TryPersistingRapdu(KernelSession session, QueryPcdResponse signal)
     {
         if (signal.GetStatusWords() == StatusWords._9000)

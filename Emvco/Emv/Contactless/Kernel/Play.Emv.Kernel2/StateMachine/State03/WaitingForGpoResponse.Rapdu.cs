@@ -114,6 +114,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     /// <remarks>Book C-2 SectionS3.10 - S3.12</remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool TryPersistingRapdu(KernelSession session, QueryPcdResponse signal)
     {
         if (signal.GetStatusWords() == StatusWords._9000)
