@@ -39,13 +39,13 @@ public record CryptographicChecksum : PrimitiveValue, IEqualityComparer<Cryptogr
         if (value.Length < _MinByteCount)
         {
             throw new IccProtocolException(new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} must be between {_MinByteCount} and {_MaxByteCount}"));
+                                                                           $"The argument {nameof(value)} must be between {_MinByteCount} and {_MaxByteCount}"));
         }
 
         if (value.Length < _MaxByteCount)
         {
             throw new IccProtocolException(new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} must be between {_MinByteCount} and {_MaxByteCount}"));
+                                                                           $"The argument {nameof(value)} must be between {_MinByteCount} and {_MaxByteCount}"));
         }
 
         _Value = value.ToArray();
@@ -81,8 +81,8 @@ public record CryptographicChecksum : PrimitiveValue, IEqualityComparer<Cryptogr
     {
         if (length > _Value.Length)
         {
-            throw new IccProtocolException(
-                new InvalidOperationException($"The argument {nameof(length)} is larger than the underlying value"));
+            throw new
+                IccProtocolException(new InvalidOperationException($"The argument {nameof(length)} is larger than the underlying value"));
         }
 
         return _Value[..length];

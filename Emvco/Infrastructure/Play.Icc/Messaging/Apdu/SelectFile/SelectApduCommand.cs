@@ -10,12 +10,12 @@ public class SelectApduCommand : ApduCommand
 {
     #region Constructor
 
-    private SelectApduCommand(Class @class, Instruction instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) : base(
-        @class, instruction, parameter1, parameter2, data)
+    private SelectApduCommand(Class @class, Instruction instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) :
+        base(@class, instruction, parameter1, parameter2, data)
     { }
 
     private SelectApduCommand(Class @class, Instruction instruction, byte parameter1, byte parameter2) : base(@class, instruction,
-        parameter1, parameter2)
+     parameter1, parameter2)
     { }
 
     #endregion
@@ -39,11 +39,11 @@ public class SelectApduCommand : ApduCommand
         if (filePath.DoesPathStartFromRootDirectory())
         {
             return new SelectApduCommand(new Class(SecureMessaging.NotAuthenticated, LogicalChannel.BasicChannel), Instruction.SelectFile,
-                SelectionMode.ElementaryFileChild, FilePosition.FirstOrOnly, ((ReadOnlySpan<byte>) filePath)[2..]);
+                                         SelectionMode.ElementaryFileChild, FilePosition.FirstOrOnly, ((ReadOnlySpan<byte>) filePath)[2..]);
         }
 
         return new SelectApduCommand(new Class(SecureMessaging.NotAuthenticated, LogicalChannel.BasicChannel), Instruction.SelectFile,
-            SelectionMode.ElementaryFileChild, FilePosition.FirstOrOnly, ((ReadOnlySpan<byte>) filePath)[2..]);
+                                     SelectionMode.ElementaryFileChild, FilePosition.FirstOrOnly, ((ReadOnlySpan<byte>) filePath)[2..]);
     }
 
     public static SelectApduCommand MasterFile() =>
@@ -91,7 +91,7 @@ public class SelectApduCommand : ApduCommand
     public static SelectApduCommand NextFile()
     {
         return new SelectApduCommand(new Class(SecureMessaging.NotAuthenticated, LogicalChannel.BasicChannel), Instruction.SelectFile,
-            SelectionMode.File, FilePosition.FirstOrOnly, new ReadOnlySpan<byte>(new byte[] {0x02}));
+                                     SelectionMode.File, FilePosition.FirstOrOnly, new ReadOnlySpan<byte>(new byte[] {0x02}));
     }
 
     /// <summary>

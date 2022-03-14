@@ -175,8 +175,9 @@ public abstract record DataObjectList : DataElement<byte[]>
         {
             if (DataObjects.All(a => a.GetTag() != value[i].GetTag()))
             {
-                throw new EmvParsingException(new ArgumentOutOfRangeException(
-                    $"The argument {nameof(value)} did not contain a value for the requested object with the tag: {DataObjects[i].GetTag()}"));
+                throw new
+                    EmvParsingException(new
+                                            ArgumentOutOfRangeException($"The argument {nameof(value)} did not contain a value for the requested object with the tag: {DataObjects[i].GetTag()}"));
             }
         }
     }

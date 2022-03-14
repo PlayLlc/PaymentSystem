@@ -15,19 +15,19 @@ public class GetDataApduCommand : ApduCommand
     #region Constructor
 
     protected GetDataApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class, instruction, parameter1,
-        parameter2)
+     parameter2)
     { }
 
     protected GetDataApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2, uint le) : base(@class, instruction,
-        parameter1, parameter2, le)
+     parameter1, parameter2, le)
     { }
 
-    protected GetDataApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) : base(@class,
-        instruction, parameter1, parameter2, data)
+    protected GetDataApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) :
+        base(@class, instruction, parameter1, parameter2, data)
     { }
 
-    protected GetDataApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint le) : base(
-        @class, instruction, parameter1, parameter2, data, le)
+    protected GetDataApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint le) :
+        base(@class, instruction, parameter1, parameter2, data, le)
     { }
 
     #endregion
@@ -46,16 +46,16 @@ public class GetDataApduCommand : ApduCommand
     {
         if (tag.GetByteCount() > 2)
         {
-            throw new IccProtocolException(
-                $"The {nameof(ApduCommand)} could not be generated because the argument {nameof(Tag)} exceeded the maximum byte count of 2");
+            throw new
+                IccProtocolException($"The {nameof(ApduCommand)} could not be generated because the argument {nameof(Tag)} exceeded the maximum byte count of 2");
         }
 
         if (tag.GetByteCount() == 2)
         {
             if (!tag.IsPrimitive())
             {
-                throw new IccProtocolException(
-                    $"The {nameof(ApduCommand)} could not be generated because the argument {nameof(Tag)} had a length of 2 bytes but did not have a {nameof(DataObjectType)} of {nameof(DataObjectType.Primitive)}");
+                throw new
+                    IccProtocolException($"The {nameof(ApduCommand)} could not be generated because the argument {nameof(Tag)} had a length of 2 bytes but did not have a {nameof(DataObjectType)} of {nameof(DataObjectType.Primitive)}");
             }
 
             Span<byte> buffer = stackalloc byte[2];
@@ -73,8 +73,8 @@ public class GetDataApduCommand : ApduCommand
         if (tag.IsConstructed())
             return new GetDataApduCommand(new Class(proprietaryMessageIdentifier), Instruction.GetData, 2, tag.Serialize()[0]);
 
-        throw new StatusBytesException(
-            $"The {nameof(ApduCommand)} could not be generated because the argument {nameof(Tag)} format wasn't recognized for a {nameof(GetDataApduCommand)}");
+        throw new
+            StatusBytesException($"The {nameof(ApduCommand)} could not be generated because the argument {nameof(Tag)} format wasn't recognized for a {nameof(GetDataApduCommand)}");
     }
 
     #endregion

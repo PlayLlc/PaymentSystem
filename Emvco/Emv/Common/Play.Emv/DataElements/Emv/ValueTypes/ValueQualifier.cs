@@ -62,7 +62,7 @@ public readonly struct ValueQualifier
         if (!_ValueObjectMap.ContainsKey(value.GetMaskedValue(bitMask)))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                $"No {nameof(ValueQualifier)} could be retrieved because the argument provided does not match a definition value");
+                                                  $"No {nameof(ValueQualifier)} could be retrieved because the argument provided does not match a definition value");
         }
 
         return _ValueObjectMap[value.GetMaskedValue(bitMask)];

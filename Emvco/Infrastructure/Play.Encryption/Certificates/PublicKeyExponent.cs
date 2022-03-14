@@ -62,8 +62,8 @@ public readonly record struct PublicKeyExponent
     {
         if (!_ValueObjectMap.TryGetValue(value, out PublicKeyExponent result))
         {
-            throw new InvalidOperationException(
-                $"The argument {nameof(value)} is invalid. Valid values for this object are: {string.Join(',', _ValueObjectMap.Keys.Select(a => $" {a}"))}");
+            throw new
+                InvalidOperationException($"The argument {nameof(value)} is invalid. Valid values for this object are: {string.Join(',', _ValueObjectMap.Keys.Select(a => $" {a}"))}");
         }
 
         return result;

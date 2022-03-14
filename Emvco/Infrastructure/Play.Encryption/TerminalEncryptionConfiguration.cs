@@ -37,13 +37,13 @@ public class TerminalEncryptionConfiguration
         if (configuration.GetKeySize().GetBitSize() == KeySize._64)
         {
             throw new ArgumentOutOfRangeException(nameof(configuration),
-                $"Valid {nameof(KeySize)} values for {nameof(AesCodec)} are {KeySize._128}, {KeySize._192}, and {KeySize._256}");
+                                                  $"Valid {nameof(KeySize)} values for {nameof(AesCodec)} are {KeySize._128}, {KeySize._192}, and {KeySize._256}");
         }
 
         if (configuration.GetBlockSize() != BlockSize._16)
         {
             throw new ArgumentOutOfRangeException(nameof(configuration),
-                $"Valid {nameof(BlockSize)} values for {nameof(TripleDesCodec)} are {BlockSize._8}");
+                                                  $"Valid {nameof(BlockSize)} values for {nameof(TripleDesCodec)} are {BlockSize._8}");
         }
     }
 
@@ -52,13 +52,13 @@ public class TerminalEncryptionConfiguration
         if (configuration.GetKeySize() != KeySize._128)
         {
             throw new ArgumentOutOfRangeException(nameof(configuration),
-                $"Valid {nameof(KeySize)} values for {nameof(TripleDesCodec)} are {KeySize._128}");
+                                                  $"Valid {nameof(KeySize)} values for {nameof(TripleDesCodec)} are {KeySize._128}");
         }
 
         if (configuration.GetBlockSize() != BlockSize._8)
         {
             throw new ArgumentOutOfRangeException(nameof(configuration),
-                $"Valid {nameof(BlockSize)} values for {nameof(TripleDesCodec)} are {BlockSize._8}");
+                                                  $"Valid {nameof(BlockSize)} values for {nameof(TripleDesCodec)} are {BlockSize._8}");
         }
     }
 

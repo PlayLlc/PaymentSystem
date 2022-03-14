@@ -27,13 +27,13 @@ internal class AesCodec : IBlockCipher
         if (configuration.GetKeySize().GetBitSize() == KeySize._64)
         {
             throw new ArgumentOutOfRangeException(nameof(configuration),
-                $"Valid {nameof(KeySize)} values for {nameof(AesCodec)} are {KeySize._128}, {KeySize._192}, and {KeySize._256}");
+                                                  $"Valid {nameof(KeySize)} values for {nameof(AesCodec)} are {KeySize._128}, {KeySize._192}, and {KeySize._256}");
         }
 
         if (configuration.GetBlockSize() != BlockSize._16)
         {
             throw new ArgumentOutOfRangeException(nameof(configuration),
-                $"Valid {nameof(BlockSize)} values for {nameof(TripleDesCodec)} are {BlockSize._8}");
+                                                  $"Valid {nameof(BlockSize)} values for {nameof(TripleDesCodec)} are {BlockSize._8}");
         }
 
         _PlainTextPreprocessor = configuration.GetPreprocessor();

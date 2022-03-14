@@ -70,12 +70,12 @@ internal class StaticDataAuthenticator
             return HandleStaticDataAuthenticationFailedResponse();
 
         if (!_CertificateFactory.TryCreate(command.GetCaPublicKeyCertificate(), command.GetIssuerPublicKeyCertificate(),
-            command.GetIssuerPublicKeyExponent(), command.GetIssuerPublicKeyRemainder(),
-            out DecodedIssuerPublicKeyCertificate? decodedIssuerCertificate))
+                                           command.GetIssuerPublicKeyExponent(), command.GetIssuerPublicKeyRemainder(),
+                                           out DecodedIssuerPublicKeyCertificate? decodedIssuerCertificate))
             return HandleStaticDataAuthenticationFailedResponse();
 
         if (!IsStaticDataToBeAuthenticatedValid(decodedIssuerCertificate!, command.GetSignedStaticApplicationData(),
-            command.GetStaticDataToBeAuthenticated().Encode()))
+                                                command.GetStaticDataToBeAuthenticated().Encode()))
             return HandleStaticDataAuthenticationFailedResponse();
 
         return new AuthenticateStaticDataResponse(TerminalVerificationResult.Create(), ErrorIndication.Default);
@@ -104,7 +104,7 @@ internal class StaticDataAuthenticator
         SignedStaticApplicationData signedStaticApplicationData,
         ReadOnlySpan<byte> staticDataToBeAuthenticated) =>
         _SignedStaticApplicationDataDecoder.IsValid(decodedCertificateResult!, signedStaticApplicationData,
-            staticDataToBeAuthenticated.ToArray());
+                                                    staticDataToBeAuthenticated.ToArray());
 
     #endregion
 }

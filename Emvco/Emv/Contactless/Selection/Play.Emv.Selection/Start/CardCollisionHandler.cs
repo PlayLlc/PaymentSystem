@@ -36,8 +36,8 @@ public class CardCollisionHandler
     {
         if (!outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData))
         {
-            throw new InvalidOperationException(
-                $"There is supposed to be a {nameof(UserInterfaceRequestData)} at this stage of the transaction but none could be found");
+            throw new
+                InvalidOperationException($"There is supposed to be a {nameof(UserInterfaceRequestData)} at this stage of the transaction but none could be found");
         }
 
         if (userInterfaceRequestData!.GetMessageIdentifier() != MessageIdentifier.PleasePresentOneCardOnly)

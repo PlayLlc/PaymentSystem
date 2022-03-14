@@ -80,14 +80,14 @@ public record ApplicationFileLocator : DataElement<byte[]>, IEqualityComparer<Ap
 
         if (value.Length > _MaxByteLength)
         {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(ApplicationFileLocator)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be less than {_MaxByteLength} bytes in length");
+            throw new
+                DataElementParsingException($"The Primitive Value {nameof(ApplicationFileLocator)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be less than {_MaxByteLength} bytes in length");
         }
 
         if ((value.Length % _ByteLengthMultiple) != 0)
         {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(ApplicationFileLocator)} must be a multiple of {_ByteLengthMultiple} to be correctly decoded");
+            throw new
+                DataElementParsingException($"The Primitive Value {nameof(ApplicationFileLocator)} must be a multiple of {_ByteLengthMultiple} to be correctly decoded");
         }
     }
 
@@ -104,8 +104,8 @@ public record ApplicationFileLocator : DataElement<byte[]>, IEqualityComparer<Ap
         Validate(value);
 
         DecodedResult<byte[]> result = _Codec.Decode(EncodingId, value) as DecodedResult<byte[]>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(ApplicationFileLocator)} could not be initialized because the {nameof(BerEncodingIdType.VariableCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
+            ?? throw new
+                DataElementParsingException($"The {nameof(ApplicationFileLocator)} could not be initialized because the {nameof(BerEncodingIdType.VariableCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
 
         return new ApplicationFileLocator(result.Value);
     }

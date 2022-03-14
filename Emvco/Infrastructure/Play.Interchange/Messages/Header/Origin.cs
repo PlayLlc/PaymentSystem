@@ -76,7 +76,7 @@ public sealed record Origin : EnumObject<byte>
         if (!_ValueMap.ContainsKey(value.GetMaskedValue(bitMask)))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                $"No {nameof(Origin)} could be retrieved because the argument provided does not match a definition value");
+                                                  $"No {nameof(Origin)} could be retrieved because the argument provided does not match a definition value");
         }
 
         return _ValueMap[value.GetMaskedValue(bitMask)];

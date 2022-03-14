@@ -360,9 +360,9 @@ public class CompressedNumericCodec : PlayCodec
                 }
                 catch (IndexOutOfRangeException exception)
                 {
-                    throw new CodecParsingException(
-                        $"The value could not be encoded by {nameof(CompressedNumericCodec)} because there was an invalid character",
-                        exception);
+                    throw new
+                        CodecParsingException($"The value could not be encoded by {nameof(CompressedNumericCodec)} because there was an invalid character",
+                                              exception);
                 }
             }
 
@@ -385,9 +385,9 @@ public class CompressedNumericCodec : PlayCodec
                 }
                 catch (IndexOutOfRangeException exception)
                 {
-                    throw new CodecParsingException(
-                        $"The value could not be encoded by {nameof(CompressedNumericCodec)} because there was an invalid character",
-                        exception);
+                    throw new
+                        CodecParsingException($"The value could not be encoded by {nameof(CompressedNumericCodec)} because there was an invalid character",
+                                              exception);
                 }
             }
 
@@ -654,9 +654,9 @@ public class CompressedNumericCodec : PlayCodec
             }
             catch (IndexOutOfRangeException exception)
             {
-                throw new CodecParsingException(
-                    $"The value could not be encoded by {nameof(CompressedNumericCodec)} because there was an invalid character",
-                    exception);
+                throw new
+                    CodecParsingException($"The value could not be encoded by {nameof(CompressedNumericCodec)} because there was an invalid character",
+                                          exception);
             }
         }
 

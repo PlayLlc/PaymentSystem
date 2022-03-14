@@ -48,7 +48,7 @@ public class GetFileControlInformationCApduSignalTests
     {
         GetFileControlInformationCApduSignal sut =
             GetFileControlInformationCApduSignal.Get(DedicatedFileName.Decode(ApduTestData.CApdu.Select.Applet1.DedicatedFileName.AsSpan(),
-                _Codec));
+                                                                              _Codec));
 
         byte[] expectedResult = ApduTestData.CApdu.Select.Applet1.CApdu;
         byte[] testValue = sut.Serialize();

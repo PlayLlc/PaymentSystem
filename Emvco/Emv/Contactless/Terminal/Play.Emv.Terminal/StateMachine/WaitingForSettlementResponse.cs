@@ -101,8 +101,8 @@ public class WaitingForSettlementResponse : TerminalState
     {
         if (session != null)
         {
-            throw new RequestOutOfSyncException(
-                $"The {nameof(ActivateTerminalRequest)} can't be processed because the {nameof(ChannelType.Terminal)} already has an active session in progress");
+            throw new
+                RequestOutOfSyncException($"The {nameof(ActivateTerminalRequest)} can't be processed because the {nameof(ChannelType.Terminal)} already has an active session in progress");
         }
 
         _SequenceGenerator.Reset(signal);

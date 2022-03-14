@@ -17,24 +17,24 @@ public class IccProtocolException : PlayException
         string message,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(IccProtocolException), fileName, memberName, lineNumber)}. Parameter {parameterName} experienced an issue. {message}")
+        [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(IccProtocolException), fileName, memberName, lineNumber)}. Parameter {parameterName} experienced an issue. {message}")
     { }
 
     public IccProtocolException(
         string message,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(IccProtocolException), fileName, memberName, lineNumber)} {message}")
+        [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(IccProtocolException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public IccProtocolException(
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(IccProtocolException), fileName, memberName, lineNumber)}", innerException)
+        [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(IccProtocolException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public IccProtocolException(
@@ -42,8 +42,8 @@ public class IccProtocolException : PlayException
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(IccProtocolException), fileName, memberName, lineNumber)} {message}", innerException)
+        [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(IccProtocolException), fileName, memberName, lineNumber)} {message}", innerException)
     { }
 
     #endregion

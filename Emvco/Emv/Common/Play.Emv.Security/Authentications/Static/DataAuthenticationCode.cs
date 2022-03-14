@@ -62,13 +62,13 @@ public record DataAuthenticationCode : PrimitiveValue, IEqualityComparer<DataAut
 
         if (value.Length != byteLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(DataAuthenticationCode)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(DataAuthenticationCode)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<ushort> result = codec.Decode(EncodingId, value) as DecodedResult<ushort>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(DataAuthenticationCode)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(DataAuthenticationCode)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
 
         return new DataAuthenticationCode(result.Value);
     }

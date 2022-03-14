@@ -42,8 +42,8 @@ public class Kernel2StateMachine : KernelStateMachine
         {
             if (_Lock.Session != null)
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(ActivateKernelRequest)} can't be processed because the {nameof(Kernel2StateMachine)} already has an active session");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(ActivateKernelRequest)} can't be processed because the {nameof(Kernel2StateMachine)} already has an active session");
             }
 
             _Lock.Session = new Kernel2Session(signal.GetCorrelationId(), signal.GetKernelSessionId());
@@ -62,8 +62,8 @@ public class Kernel2StateMachine : KernelStateMachine
         {
             if (_Lock.Session != null)
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(CleanKernelRequest)} can't be processed because the {nameof(Kernel2StateMachine)} has an active session");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(CleanKernelRequest)} can't be processed because the {nameof(Kernel2StateMachine)} has an active session");
             }
 
             _Lock.KernelState = _Lock.KernelState.Handle(signal);
@@ -81,14 +81,14 @@ public class Kernel2StateMachine : KernelStateMachine
         {
             if (_Lock.Session == null)
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(StopKernelRequest)} can't be processed because the {nameof(Kernel2StateMachine)} already has an active session");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(StopKernelRequest)} can't be processed because the {nameof(Kernel2StateMachine)} already has an active session");
             }
 
             if (_Lock.Session.GetTransactionSessionId() != signal.GetTransactionSessionId())
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(StopKernelRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(ChannelType.Kernel)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(StopKernelRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(ChannelType.Kernel)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
             }
 
             _Lock.KernelState = _Lock.KernelState.Handle(_Lock.Session, signal);
@@ -107,14 +107,14 @@ public class Kernel2StateMachine : KernelStateMachine
         {
             if (_Lock.Session == null)
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(QueryPcdResponse)} can't be processed because the {nameof(Kernel2StateMachine)} already has an active session");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(QueryPcdResponse)} can't be processed because the {nameof(Kernel2StateMachine)} already has an active session");
             }
 
             if (_Lock.Session.GetTransactionSessionId() != signal.GetTransactionSessionId())
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(QueryPcdResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(ChannelType.Kernel)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(QueryPcdResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(ChannelType.Kernel)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
             }
 
             _Lock.KernelState = _Lock.KernelState.Handle(_Lock.Session, signal);
@@ -132,14 +132,14 @@ public class Kernel2StateMachine : KernelStateMachine
         {
             if (_Lock.Session == null)
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(QueryTerminalResponse)} can't be processed because the {nameof(Kernel2StateMachine)} already has an active session");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(QueryTerminalResponse)} can't be processed because the {nameof(Kernel2StateMachine)} already has an active session");
             }
 
             if (_Lock.Session.GetTransactionSessionId() != signal.GetTransactionSessionId())
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(QueryTerminalResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(ChannelType.Kernel)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(QueryTerminalResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(ChannelType.Kernel)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
             }
 
             _Lock.KernelState = _Lock.KernelState.Handle(_Lock.Session, signal);
@@ -157,14 +157,14 @@ public class Kernel2StateMachine : KernelStateMachine
         {
             if (_Lock.Session == null)
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(UpdateKernelRequest)} can't be processed because the {nameof(Kernel2StateMachine)} already has an active session");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(UpdateKernelRequest)} can't be processed because the {nameof(Kernel2StateMachine)} already has an active session");
             }
 
             if (_Lock.Session.GetTransactionSessionId() != signal.GetTransactionSessionId())
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(UpdateKernelRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(ChannelType.Kernel)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(UpdateKernelRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(ChannelType.Kernel)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
             }
 
             // BUG: Pass this to the DEK Manager
@@ -183,14 +183,14 @@ public class Kernel2StateMachine : KernelStateMachine
         {
             if (_Lock.Session == null)
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(QueryKernelRequest)} can't be processed because the {nameof(Kernel2StateMachine)} already has an active session");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(QueryKernelRequest)} can't be processed because the {nameof(Kernel2StateMachine)} already has an active session");
             }
 
             if (_Lock.Session.GetTransactionSessionId() != signal.GetTransactionSessionId())
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(QueryKernelRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(ChannelType.Kernel)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
+                throw new
+                    RequestOutOfSyncException($"The {nameof(QueryKernelRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(ChannelType.Kernel)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
             }
 
             // BUG: Pass this to the DEK Manager

@@ -19,8 +19,8 @@ public abstract class KernelProcess : CommandProcessingQueue
 
     #region Constructor
 
-    protected KernelProcess(KernelStateMachine kernelStateMachine, CancellationTokenSource cancellationTokenSource) : base(
-        cancellationTokenSource)
+    protected KernelProcess(KernelStateMachine kernelStateMachine, CancellationTokenSource cancellationTokenSource) :
+        base(cancellationTokenSource)
     {
         _KernelStateMachine = kernelStateMachine;
     }

@@ -51,13 +51,13 @@ public record ApplicationLabel : DataElement<char[]>, IEqualityComparer<Applicat
 
         if (value.Length is < minByteLength and <= maxByteLength)
         {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(ApplicationLabel)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
+            throw new
+                DataElementParsingException($"The Primitive Value {nameof(ApplicationLabel)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
         }
 
         DecodedResult<char[]> result = _Codec.Decode(EncodingId, value) as DecodedResult<char[]>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(ApplicationLabel)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
+            ?? throw new
+                DataElementParsingException($"The {nameof(ApplicationLabel)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
 
         return new ApplicationLabel(result.Value);
     }

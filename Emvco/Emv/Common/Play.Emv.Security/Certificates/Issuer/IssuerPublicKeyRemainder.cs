@@ -58,8 +58,8 @@ public record IssuerPublicKeyRemainder : PrimitiveValue, IEqualityComparer<Issue
     public static IssuerPublicKeyRemainder Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         DecodedResult<byte[]> result = codec.Decode(EncodingId, value) as DecodedResult<byte[]>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(IssuerPublicKeyRemainder)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(IssuerPublicKeyRemainder)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
 
         return new IssuerPublicKeyRemainder(result.Value);
     }

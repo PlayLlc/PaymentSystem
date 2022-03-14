@@ -39,8 +39,8 @@ public class AuthenticateCombinedDataResponse
     {
         if (!terminalVerificationResult.CombinationDataAuthenticationFailed())
         {
-            throw new InvalidOperationException(
-                $"The object {nameof(AuthenticateCombinedData1Command)} could not be initialized. The {nameof(TerminalVerificationResult)} was expected to indicate the authentication failed but did not. If the authentication passed then please use the other constructor");
+            throw new
+                InvalidOperationException($"The object {nameof(AuthenticateCombinedData1Command)} could not be initialized. The {nameof(TerminalVerificationResult)} was expected to indicate the authentication failed but did not. If the authentication passed then please use the other constructor");
         }
 
         _TerminalVerificationResult = terminalVerificationResult;

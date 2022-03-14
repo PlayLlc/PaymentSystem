@@ -10,9 +10,13 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public abstract class CommonProcessing
 {
-    #region Instance Members
+    #region Instance Values
 
     protected abstract StateId[] _ValidStateIds { get; }
+
+    #endregion
+
+    #region Instance Members
 
     /// <exception cref="RequestOutOfSyncException"></exception>
     protected void HandleRequestOutOfSync(StateId stateId)

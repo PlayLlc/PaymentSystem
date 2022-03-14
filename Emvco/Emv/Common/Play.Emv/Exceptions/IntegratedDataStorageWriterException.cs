@@ -13,16 +13,16 @@ public class IntegratedDataStorageWriterException : CodecParsingException
         string message,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(IntegratedDataStorageWriterException), fileName, memberName, lineNumber)} {message}")
+        [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(IntegratedDataStorageWriterException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public IntegratedDataStorageWriterException(
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(IntegratedDataStorageWriterException), fileName, memberName, lineNumber)}", innerException)
+        [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(IntegratedDataStorageWriterException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public IntegratedDataStorageWriterException(
@@ -30,9 +30,9 @@ public class IntegratedDataStorageWriterException : CodecParsingException
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(IntegratedDataStorageWriterException), fileName, memberName, lineNumber)} {message}",
-        innerException)
+        [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(IntegratedDataStorageWriterException), fileName, memberName, lineNumber)} {message}",
+             innerException)
     { }
 
     #endregion

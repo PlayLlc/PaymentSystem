@@ -10,16 +10,16 @@ public class UnhandledRequestException : MessagingException
         RequestMessage requestMessage,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(MessagingException), fileName, memberName, lineNumber)} \n\rThe request type {requestMessage.GetType().FullName} could not be processed because a handler hasn't been implemented yet.")
+        [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(MessagingException), fileName, memberName, lineNumber)} \n\rThe request type {requestMessage.GetType().FullName} could not be processed because a handler hasn't been implemented yet.")
     { }
 
     public UnhandledRequestException(
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(MessagingException), fileName, memberName, lineNumber)}", innerException)
+        [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(MessagingException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public UnhandledRequestException(
@@ -27,8 +27,8 @@ public class UnhandledRequestException : MessagingException
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(MessagingException), fileName, memberName, lineNumber)} {message}", innerException)
+        [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(MessagingException), fileName, memberName, lineNumber)} {message}", innerException)
     { }
 
     #endregion

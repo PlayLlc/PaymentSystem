@@ -76,13 +76,14 @@ public class GenerateApplicationCryptogramCommandTestSpy
         Mock<GenerateApplicationCryptogramRequest> mock = new();
 
         mock.Setup(a => GenerateApplicationCryptogramRequest.Create(It.IsAny<TransactionSessionId>(), It.IsAny<CryptogramInformationData>(),
-            It.IsAny<DataObjectListResult>(), It.IsAny<DataObjectListResult?>())).Callback(
-            (
-                TransactionSessionId transactionSessionId,
-                CryptogramInformationData cryptogramInformationData,
-                DataObjectListResult cardRiskDol,
-                DataObjectListResult? dataStorageDol) => result.UpdateMessageSent(transactionSessionId,
-                cryptogramInformationData, cardRiskDol, dataStorageDol));
+                                                                    It.IsAny<DataObjectListResult>(), It.IsAny<DataObjectListResult?>()))
+            .Callback((
+                          TransactionSessionId transactionSessionId,
+                          CryptogramInformationData cryptogramInformationData,
+                          DataObjectListResult cardRiskDol,
+                          DataObjectListResult? dataStorageDol) => result.UpdateMessageSent(transactionSessionId,
+                                                                                            cryptogramInformationData, cardRiskDol,
+                                                                                            dataStorageDol));
 
         fixture.Register(() => mock.Object);
         fixture.Freeze<GenerateApplicationCryptogramRequest>();

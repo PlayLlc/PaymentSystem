@@ -94,7 +94,7 @@ public class DataExchangeKernelService
                 return;
 
             QueryTerminalRequest queryKernelResponse = new(new DataExchangeKernelId(sessionId.GetKernelId(), sessionId),
-                (DataNeeded) _Lock.Requests[DekRequestType.DataNeeded]);
+                                                           (DataNeeded) _Lock.Requests[DekRequestType.DataNeeded]);
 
             _TerminalEndpoint.Request(queryKernelResponse);
             _Lock.Responses[DekRequestType.DataNeeded].Clear();
@@ -108,8 +108,8 @@ public class DataExchangeKernelService
         {
             if (!_Lock.Requests.ContainsKey(type))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
             }
 
             if (!_Lock.Requests.ContainsKey(type))
@@ -129,8 +129,8 @@ public class DataExchangeKernelService
         {
             if (!_Lock.Requests.ContainsKey(type))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
             }
 
             return _Lock.Requests[type].TryPeek(out result);
@@ -144,8 +144,8 @@ public class DataExchangeKernelService
         {
             if (!_Lock.Requests.ContainsKey(DekRequestType.TagsToRead))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
             }
 
             ((TagsToRead) _Lock.Requests[DekRequestType.TagsToRead]).Resolve(dataResponse.GetTagLengthValueResult());
@@ -167,8 +167,8 @@ public class DataExchangeKernelService
         {
             if (!_Lock.Requests.ContainsKey(DekRequestType.TagsToRead))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
             }
 
             TagsToRead tagsToRead = (TagsToRead) _Lock.Requests[DekRequestType.TagsToRead];
@@ -221,8 +221,8 @@ public class DataExchangeKernelService
         {
             if (!_Lock.Requests.ContainsKey(type))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
             }
 
             _Lock.Requests[type].Enqueue(listItem);
@@ -241,8 +241,8 @@ public class DataExchangeKernelService
         {
             if (!_Lock.Requests.ContainsKey(type))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
             }
 
             _Lock.Requests[type].Enqueue(listItems);
@@ -260,8 +260,8 @@ public class DataExchangeKernelService
         {
             if (!_Lock.Responses.ContainsKey(type))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
             }
 
             if (!_Lock.Responses.ContainsKey(type))
@@ -285,14 +285,15 @@ public class DataExchangeKernelService
         {
             if (!_Lock.Requests.ContainsKey(DekResponseType.DataToSend))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeKernelService)} could not {nameof(SendResponse)} the List Item to the Terminal because the List does not exist");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not {nameof(SendResponse)} the List Item to the Terminal because the List does not exist");
             }
 
             // BUG: We're going to need to send the DataToSend to the Terminal without a CorrelationId sometimes
 
             QueryKernelResponse queryKernelResponse = new(null, (DataToSend) _Lock.Responses[DekResponseType.DataToSend],
-                new DataExchangeTerminalId(kernelSessionId.GetKernelId(), kernelSessionId.GetTransactionSessionId()));
+                                                          new DataExchangeTerminalId(kernelSessionId.GetKernelId(),
+                                                                                     kernelSessionId.GetTransactionSessionId()));
 
             _KernelEndpoint.Send(queryKernelResponse);
             _Lock.Responses[DekResponseType.DataToSend].Clear();
@@ -311,12 +312,13 @@ public class DataExchangeKernelService
         {
             if (!_Lock.Requests.ContainsKey(DekResponseType.DataToSend))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeKernelService)} could not {nameof(SendResponse)} the List Item to the Terminal because the List does not exist");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not {nameof(SendResponse)} the List Item to the Terminal because the List does not exist");
             }
 
             QueryKernelResponse queryKernelResponse = new(correlationId, (DataToSend) _Lock.Responses[DekResponseType.DataToSend],
-                new DataExchangeTerminalId(sessionId.GetKernelId(), sessionId.GetTransactionSessionId()));
+                                                          new DataExchangeTerminalId(sessionId.GetKernelId(),
+                                                                                     sessionId.GetTransactionSessionId()));
 
             _KernelEndpoint.Send(queryKernelResponse);
             _Lock.Responses[DekResponseType.DataToSend].Clear();
@@ -357,8 +359,8 @@ public class DataExchangeKernelService
         {
             if (!_Lock.Responses.ContainsKey(type))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
             }
 
             _Lock.Responses[type].Enqueue(listItem);
@@ -377,8 +379,8 @@ public class DataExchangeKernelService
         {
             if (!_Lock.Responses.ContainsKey(type))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
             }
 
             _Lock.Responses[type].Enqueue(listItems);
@@ -397,8 +399,8 @@ public class DataExchangeKernelService
         {
             if (!_Lock.Responses.ContainsKey(type))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
             }
 
             _Lock.Responses[type].Enqueue(listItems);
@@ -417,8 +419,8 @@ public class DataExchangeKernelService
         {
             if (!_Lock.Requests.ContainsKey(type))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
             }
 
             _Lock.Requests[type].Enqueue(listItems);

@@ -77,13 +77,13 @@ public record PosCardholderInteractionInformation : PrimitiveValue, IEqualityCom
 
         if (value.Length != byteLength)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The Primitive Value {nameof(PosCardholderInteractionInformation)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
+            throw new
+                ArgumentOutOfRangeException($"The Primitive Value {nameof(PosCardholderInteractionInformation)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
         }
 
         DecodedResult<uint> result = codec.Decode(EncodingId, value) as DecodedResult<uint>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(PosCardholderInteractionInformation)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(PosCardholderInteractionInformation)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<uint>)}");
 
         return new PosCardholderInteractionInformation(result.Value);
     }

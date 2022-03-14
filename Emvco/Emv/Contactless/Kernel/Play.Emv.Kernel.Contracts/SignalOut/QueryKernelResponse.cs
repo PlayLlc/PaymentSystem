@@ -24,8 +24,8 @@ public record QueryKernelResponse : ResponseSignal, IExchangeDataWithTheTerminal
 
     #region Constructor
 
-    public QueryKernelResponse(CorrelationId correlationId, DataToSend dataToSend, DataExchangeTerminalId dataExchangeTerminalId) : base(
-        correlationId, MessageTypeId, ChannelTypeId)
+    public QueryKernelResponse(CorrelationId correlationId, DataToSend dataToSend, DataExchangeTerminalId dataExchangeTerminalId) :
+        base(correlationId, MessageTypeId, ChannelTypeId)
     {
         _DataToSend = dataToSend;
         _DataExchangeTerminalId = dataExchangeTerminalId;

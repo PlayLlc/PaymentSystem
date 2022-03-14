@@ -30,7 +30,7 @@ public class DecodedIccPublicKeyCertificate : PublicKeyCertificate
         HashAlgorithmIndicator hashAlgorithmIndicator,
         PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator,
         PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber, hashAlgorithmIndicator, publicKeyAlgorithmIndicator, validityPeriod,
-        publicKeyInfo)
+                                            publicKeyInfo)
     { }
 
     #endregion
@@ -53,10 +53,10 @@ public class DecodedIccPublicKeyCertificate : PublicKeyCertificate
     {
         int leftMostDataElementDigitsByteCount = issuerCertificate.GetMessage1().GetByteCount() - 2;
         using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate((leftMostDataElementDigitsByteCount
-                + publicKeyExponent.GetValueByteCount()
-                + staticDataToBeAuthenticated.GetByteCount()
-                + publicKeyRemainder?.GetByteCount())
-            ?? 0);
+                                                                       + publicKeyExponent.GetValueByteCount()
+                                                                       + staticDataToBeAuthenticated.GetByteCount()
+                                                                       + publicKeyRemainder?.GetByteCount())
+                                                                   ?? 0);
 
         Span<byte> buffer = spanOwner.Span;
         int offset = 0;

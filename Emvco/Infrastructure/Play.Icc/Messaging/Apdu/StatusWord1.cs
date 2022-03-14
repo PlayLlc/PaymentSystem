@@ -112,13 +112,13 @@ public sealed record StatusWord1 : EnumObject<StatusWord>, IEqualityComparer<Sta
 
         Unknown = new StatusWord1(unknown, StatusWordInfo.Info, $"The {nameof(StatusWord1)} was not recognized in this code base");
         _61 = new StatusWord1(responseBytesStillAvailable, StatusWordInfo.Info,
-            "Normal response indicating that response bytes are still available");
+                              "Normal response indicating that response bytes are still available");
         _62 = new StatusWord1(nonVolatileMemoryUnchanged, StatusWordInfo.Warning, "The non-volatile state of the ICC remains unchanged");
         _63 = new StatusWord1(nonVolatileMemoryChanged, StatusWordInfo.Warning, "The non-volatile state of the ICC has changed");
         _64 = new StatusWord1(nonVolatileMemoryUnchangedError, StatusWordInfo.Error,
-            "The non-volatile state of the ICC remains unchanged, resulting in an error condition");
+                              "The non-volatile state of the ICC remains unchanged, resulting in an error condition");
         _65 = new StatusWord1(nonVolatileMemoryChangedError, StatusWordInfo.Error,
-            "The non-volatile state of the ICC has changed, resulting in an error condition");
+                              "The non-volatile state of the ICC has changed, resulting in an error condition");
         _67 = new StatusWord1(wrongCommandLength, StatusWordInfo.Error, "The command length, Lc, was incorrect in the Command APDU");
         _68 = new StatusWord1(notSupported, StatusWordInfo.Warning, "Functions in the Command APDU Class are not supported");
         _69 = new StatusWord1(commandNotAllowed, StatusWordInfo.Error, "The Command APDU is not allowed");

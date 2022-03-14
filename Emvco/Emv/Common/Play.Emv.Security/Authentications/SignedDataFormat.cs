@@ -39,8 +39,8 @@ public sealed record SignedDataFormat : EnumObject<byte>, IEqualityComparer<Sign
         _5 = new SignedDataFormat(__5);
 
         _ValueObjectMap =
-            new Dictionary<byte, SignedDataFormat> {{notAvailable, NotAvailable}, {__3, _3}, {__5, _5}}.ToImmutableSortedDictionary(
-                a => a.Key, b => b.Value);
+            new Dictionary<byte, SignedDataFormat> {{notAvailable, NotAvailable}, {__3, _3}, {__5, _5}}
+                .ToImmutableSortedDictionary(a => a.Key, b => b.Value);
     }
 
     private SignedDataFormat(byte value) : base(value)

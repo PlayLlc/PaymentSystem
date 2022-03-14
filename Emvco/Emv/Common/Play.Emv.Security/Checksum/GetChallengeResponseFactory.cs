@@ -43,11 +43,11 @@ public class GetChallengeResponseFactory : TemplateFactory<GetChallengeResponseM
 
         ApplicationTransactionCounter applicationTransactionCounter =
             _Codec.AsPrimitive(ApplicationTransactionCounter.Decode, ApplicationTransactionCounter.Tag, encodedTlvSiblings)
-            ?? throw new InvalidOperationException(
-                $"A problem occurred while decoding {nameof(GetChallengeResponseMessage)}. A {nameof(ApplicationTransactionCounter)} was expected but could not be found");
+            ?? throw new
+                InvalidOperationException($"A problem occurred while decoding {nameof(GetChallengeResponseMessage)}. A {nameof(ApplicationTransactionCounter)} was expected but could not be found");
 
         if (!encodedTlvSiblings.TryGetValueOctetsOfChild(CardholderVerificationCode3Track1.Tag,
-            out ReadOnlyMemory<byte> rawCardholderVerificationCode3Track1))
+                                                         out ReadOnlyMemory<byte> rawCardholderVerificationCode3Track1))
         {
             cardholderVerificationCode3Track1 =
                 (_Codec.Decode(CardholderVerificationCode3Track1.EncodingId, rawCardholderVerificationCode3Track1.Span) as
@@ -55,7 +55,7 @@ public class GetChallengeResponseFactory : TemplateFactory<GetChallengeResponseM
         }
 
         if (!encodedTlvSiblings.TryGetValueOctetsOfChild(CardholderVerificationCode3Track2.Tag,
-            out ReadOnlyMemory<byte> rawCardholderVerificationCode3Track2))
+                                                         out ReadOnlyMemory<byte> rawCardholderVerificationCode3Track2))
         {
             cardholderVerificationCode3Track2 =
                 (_Codec.Decode(CardholderVerificationCode3Track2.EncodingId, rawCardholderVerificationCode3Track2.Span) as
@@ -63,7 +63,7 @@ public class GetChallengeResponseFactory : TemplateFactory<GetChallengeResponseM
         }
 
         if (!encodedTlvSiblings.TryGetValueOctetsOfChild(PosCardholderInteractionInformation.Tag,
-            out ReadOnlyMemory<byte> rawPosCardholderInteractionInformation))
+                                                         out ReadOnlyMemory<byte> rawPosCardholderInteractionInformation))
         {
             posCardholderInteractionInformation =
                 (_Codec.Decode(PosCardholderInteractionInformation.EncodingId, rawPosCardholderInteractionInformation.Span) as
@@ -71,7 +71,7 @@ public class GetChallengeResponseFactory : TemplateFactory<GetChallengeResponseM
         }
 
         return new GetChallengeResponseMessage(applicationTransactionCounter, cardholderVerificationCode3Track1,
-            cardholderVerificationCode3Track2, posCardholderInteractionInformation);
+                                               cardholderVerificationCode3Track2, posCardholderInteractionInformation);
     }
 
     #endregion

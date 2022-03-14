@@ -48,7 +48,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalActionCodeOnline), 10,
-        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OnlineAndOfflineCapableTerminal_WithTerminalActionCodeOnline_GeneratesAuthorizationRequestCryptogram(ActionCodes actionCode)
     {
         TerminalActionAnalysisService sut = GetOnlineAndOfflineCapableTerminalActionAnalysisService();
@@ -68,7 +68,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomIssuerActionCodeOnline), 10,
-        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OnlineAndOfflineCapableTerminal_WithIssuerActionCodeOnline_GeneratesAuthorizationRequestCryptogram(ActionCodes actionCode)
     {
         TerminalActionAnalysisService sut = GetOnlineAndOfflineCapableTerminalActionAnalysisService();
@@ -89,7 +89,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalAndIssuerActionCodeOnline), 10,
-        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OnlineAndOfflineCapableTerminal_WithTerminalAndIssuerActionCodeOnline_GeneratesAuthorizationRequestCryptogram(
         ActionCodes terminalActionCode,
         ActionCodes issuerActionCodes)
@@ -112,7 +112,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomIssuerActionCodeDefault), 10,
-        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OnlineAndOfflineCapableTerminal_WithoutTimeoutAndIssuerActionCodeDefault_GeneratesAuthenticationRequestCryptogram(
         ActionCodes actionCode)
     {
@@ -134,7 +134,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalAndIssuerActionCodeDefault), 10,
-        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void
         OnlineAndOfflineCapableTerminal_WithoutTimeoutTerminalAndIssuerActionCodeDefault_GeneratesApplicationAuthenticationCryptogram(
             ActionCodes terminalActionCode,
@@ -162,13 +162,13 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalActionCodeDefault), 10,
-        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OnlineAndOfflineCapableTerminal_WithTimeoutAndTerminalActionCodeDefault_GeneratesAuthenticationRequestCryptogram(
         ActionCodes actionCode)
     {
         TerminalActionAnalysisService sut = GetOnlineAndOfflineCapableTerminalActionAnalysisService();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode),
-            OnlineResponseOutcome.NotAvailable);
+                                                                                 OnlineResponseOutcome.NotAvailable);
 
         sut.Process(command);
 
@@ -184,13 +184,13 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomIssuerActionCodeDefault), 10,
-        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OnlineAndOfflineCapableTerminal_WithTimeoutAndIssuerActionCodeDefault_GeneratesAuthenticationRequestCryptogram(
         ActionCodes actionCode)
     {
         TerminalActionAnalysisService sut = GetOnlineAndOfflineCapableTerminalActionAnalysisService();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode),
-            OnlineResponseOutcome.NotAvailable);
+                                                                                 OnlineResponseOutcome.NotAvailable);
 
         sut.Process(command);
 
@@ -207,15 +207,16 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalAndIssuerActionCodeDefault), 10,
-        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void
         OnlineAndOfflineCapableTerminal_WithTimeoutAndTerminalAndIssuerActionCodeDefault_GeneratesApplicationAuthenticationCryptogram(
             ActionCodes terminalActionCode,
             ActionCodes issuerActionCodes)
     {
         TerminalActionAnalysisService sut = GetOnlineAndOfflineCapableTerminalActionAnalysisService();
-        TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(
-            new TerminalVerificationResults((ulong) terminalActionCode | (ulong) issuerActionCodes), OnlineResponseOutcome.NotAvailable);
+        TerminalActionAnalysisCommand command =
+            GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) terminalActionCode | (ulong) issuerActionCodes),
+                                             OnlineResponseOutcome.NotAvailable);
 
         sut.Process(command);
 
@@ -231,7 +232,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalActionCodeDenial), 10,
-        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OnlineAndOfflineCapableTerminal_WithTerminalActionCodeDenial_GeneratesApplicationAuthenticationCryptogram(
         ActionCodes actionCode)
     {
@@ -252,7 +253,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomIssuerActionCodeDenial), 10,
-        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OnlineAndOfflineCapableTerminal_WithIssuerActionCodeDenial_GeneratesApplicationAuthenticationCryptogram(
         ActionCodes actionCode)
     {
@@ -274,7 +275,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalAndIssuerActionCodeDenial), 10,
-        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OnlineAndOfflineCapableTerminal_WithTerminalAndIssuerActionCodeDenial_GeneratesApplicationAuthenticationCryptogram(
         ActionCodes terminalActionCode,
         ActionCodes issuerActionCodes)

@@ -40,7 +40,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalActionCodeOnline), 10,
-        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OfflineOnlyTerminal_WithTerminalActionCodeOnline_GeneratesTransactionCryptogram(ActionCodes actionCode)
     {
         TerminalActionAnalysisService sut = GetOfflineOnlyTerminalActionAnalysisService();
@@ -60,7 +60,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomIssuerActionCodeOnline), 10,
-        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OfflineOnlyTerminal_WithIssuerActionCodeOnline_GeneratesTransactionCryptogram(ActionCodes actionCode)
     {
         TerminalActionAnalysisService sut = GetOfflineOnlyTerminalActionAnalysisService();
@@ -81,7 +81,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalAndIssuerActionCodeOnline), 10,
-        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OfflineOnlyTerminal_WithTerminalAndIssuerActionCodeOnline_GeneratesTransactionCryptogram(
         ActionCodes terminalActionCode,
         ActionCodes issuerActionCodes)
@@ -108,7 +108,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalActionCodeDefault), 10,
-        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OfflineOnlyTerminal_WithTerminalActionCodeDefault_GeneratesAuthenticationRequestCryptogram(ActionCodes actionCode)
     {
         TerminalActionAnalysisService sut = GetOfflineOnlyTerminalActionAnalysisService();
@@ -128,7 +128,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomIssuerActionCodeDefault), 10,
-        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OfflineOnlyTerminal_WithIssuerActionCodeDefault_GeneratesAuthenticationRequestCryptogram(ActionCodes actionCode)
     {
         TerminalActionAnalysisService sut = GetOfflineOnlyTerminalActionAnalysisService();
@@ -148,7 +148,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalActionCodeDenial), 10,
-        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OfflineOnlyTerminal_WithTerminalActionCodeDenial_GeneratesApplicationAuthenticationCryptogram(ActionCodes actionCode)
     {
         TerminalActionAnalysisService sut = GetOfflineOnlyTerminalActionAnalysisService();
@@ -168,7 +168,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomIssuerActionCodeDenial), 10,
-        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OfflineOnlyTerminal_WithIssuerActionCodeDenial_GeneratesApplicationAuthenticationCryptogram(ActionCodes actionCode)
     {
         TerminalActionAnalysisService sut = GetOfflineOnlyTerminalActionAnalysisService();
@@ -189,7 +189,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalAndIssuerActionCodeDefault), 10,
-        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OfflineOnlyTerminal_WithTerminalAndIssuerActionCodeDefault_GeneratesApplicationAuthenticationCryptogram(
         ActionCodes terminalActionCode,
         ActionCodes issuerActionCodes)
@@ -213,7 +213,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalAndIssuerActionCodeDenial), 10,
-        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OfflineOnlyTerminal_WithTerminalAndIssuerActionCodeDenial_GeneratesApplicationAuthenticationCryptogram(
         ActionCodes terminalActionCode,
         ActionCodes issuerActionCodes)

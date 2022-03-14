@@ -75,9 +75,9 @@ public class FileControlInformationProprietaryPpse : FileControlInformationPropr
     {
         FileControlInformationIssuerDiscretionaryDataPpse fciProprietary =
             _Codec.AsConstructed(FileControlInformationIssuerDiscretionaryDataPpse.Decode,
-                FileControlInformationIssuerDiscretionaryDataTemplate.Tag, encodedTlvSiblings)
-            ?? throw new CardDataMissingException(
-                $"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataPpse)}. A {nameof(FileControlInformationIssuerDiscretionaryDataPpse)} was expected but could not be found");
+                                 FileControlInformationIssuerDiscretionaryDataTemplate.Tag, encodedTlvSiblings)
+            ?? throw new
+                CardDataMissingException($"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataPpse)}. A {nameof(FileControlInformationIssuerDiscretionaryDataPpse)} was expected but could not be found");
 
         return new FileControlInformationProprietaryPpse(fciProprietary);
     }

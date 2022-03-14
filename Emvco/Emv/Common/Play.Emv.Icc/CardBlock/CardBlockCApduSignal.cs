@@ -8,19 +8,19 @@ public class CardBlockCApduSignal : CApduSignal
     #region Constructor
 
     public CardBlockCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class, instruction, parameter1,
-        parameter2)
+     parameter2)
     { }
 
     public CardBlockCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint le) : base(@class, instruction,
-        parameter1, parameter2, le)
+     parameter1, parameter2, le)
     { }
 
-    public CardBlockCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) : base(@class,
-        instruction, parameter1, parameter2, data)
+    public CardBlockCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) :
+        base(@class, instruction, parameter1, parameter2, data)
     { }
 
-    public CardBlockCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint le) : base(
-        @class, instruction, parameter1, parameter2, data, le)
+    public CardBlockCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint le) :
+        base(@class, instruction, parameter1, parameter2, data, le)
     { }
 
     #endregion
@@ -42,7 +42,7 @@ public class CardBlockCApduSignal : CApduSignal
         if ((secureMessaging != SecureMessaging.Authenticated) && (secureMessaging != SecureMessaging.Proprietary))
         {
             throw new ArgumentOutOfRangeException(nameof(secureMessaging),
-                $"The argument {nameof(secureMessaging)} was an unexpected value. The valid values are {nameof(SecureMessaging.Authenticated)} and {nameof(SecureMessaging.Proprietary)}");
+                                                  $"The argument {nameof(secureMessaging)} was an unexpected value. The valid values are {nameof(SecureMessaging.Authenticated)} and {nameof(SecureMessaging.Proprietary)}");
         }
 
         return new CardBlockCApduSignal(new Class(secureMessaging), Instruction.CardBlock, 0, 0, messageAuthenticationCode.EncodeValue());

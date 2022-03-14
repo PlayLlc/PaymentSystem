@@ -54,8 +54,8 @@ public record IccPinEnciphermentPublicKeyRemainder : PrimitiveValue, IEqualityCo
     public static IccPinEnciphermentPublicKeyRemainder Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         DecodedResult<BigInteger> result = codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(IccPinEnciphermentPublicKeyRemainder)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(IccPinEnciphermentPublicKeyRemainder)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new IccPinEnciphermentPublicKeyRemainder(result.Value);
     }

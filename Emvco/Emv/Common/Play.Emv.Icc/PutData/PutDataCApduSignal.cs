@@ -13,19 +13,19 @@ public class PutDataCApduSignal : CApduSignal
     #region Constructor
 
     private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class, instruction, parameter1,
-        parameter2)
+     parameter2)
     { }
 
     private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint? le) : base(@class, instruction,
-        parameter1, parameter2, le)
+     parameter1, parameter2, le)
     { }
 
-    private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) : base(@class,
-        instruction, parameter1, parameter2, data)
+    private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) :
+        base(@class, instruction, parameter1, parameter2, data)
     { }
 
-    private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint? le) : base(
-        @class, instruction, parameter1, parameter2, data, le)
+    private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint? le) :
+        base(@class, instruction, parameter1, parameter2, data, le)
     { }
 
     #endregion
@@ -41,7 +41,7 @@ public class PutDataCApduSignal : CApduSignal
         PutDataApduCommand? command = PutDataApduCommand.Create(ProprietaryMessageIdentifier._8x, (ushort) dataObject.GetTag());
 
         return new PutDataCApduSignal(command.GetClass(), command.GetInstruction(), command.GetParameter1(), command.GetParameter2(),
-            command.GetData());
+                                      command.GetData());
     }
 
     #endregion

@@ -12,7 +12,11 @@ namespace Play.Emv.Terminal.Common.Services.UnpredictableNumbers
 {
     internal class UnpredictableNumberGenerator : IGenerateUnpredictableNumber
     {
+        #region Instance Members
+
         // WARNING: This should be generated using a device that can ensure total uniqueness, like a DUKPT compliant machine
         public UnpredictableNumber GenerateUnpredictableNumber() => new(Randomize.Numeric.UInt());
+
+        #endregion
     }
 }

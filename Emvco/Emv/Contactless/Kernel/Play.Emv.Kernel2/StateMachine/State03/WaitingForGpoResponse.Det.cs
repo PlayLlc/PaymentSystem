@@ -10,6 +10,8 @@ public partial class WaitingForGpoResponse : KernelState
 {
     #region DET
 
+
+#region Query Terminal Response
     /// <summary>
     ///     Handle
     /// </summary>
@@ -17,27 +19,24 @@ public partial class WaitingForGpoResponse : KernelState
     /// <param name="signal"></param>
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) 
+    {
+        HandleRequestOutOfSync(session, signal);
 
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+        UpdateDatabase(signal);
 
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+        return _KernelStateResolver.GetKernelState(StateId);
+    }
 
-#endregion}
+
+  private void UpdateDatabase(QueryTerminalResponse signal)
+    {
+        _KernelDatabase.Update(signal.GetDataToSend().AsTagLengthValueArray());
+    }
+
+#endregion
+
+    
+
+#endregion
+}

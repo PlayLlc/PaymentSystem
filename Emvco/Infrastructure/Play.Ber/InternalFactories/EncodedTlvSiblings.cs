@@ -91,8 +91,8 @@ public readonly struct EncodedTlvSiblings
         }
 
         throw new BerParsingException($"The Tag provided with a value of {value:X} could not be found"
-            + $"from the {nameof(BerConfiguration)} mappings provided. Please make sure your {nameof(PrimitiveValue)} and {nameof(ConstructedValue)} objects have the correct "
-            + "tags and try again");
+                                      + $"from the {nameof(BerConfiguration)} mappings provided. Please make sure your {nameof(PrimitiveValue)} and {nameof(ConstructedValue)} objects have the correct "
+                                      + "tags and try again");
     }
 
     public uint[] GetTags()

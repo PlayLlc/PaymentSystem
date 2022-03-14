@@ -33,8 +33,8 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
     private TerminalType(byte value) : base(value)
     { }
 
-    public TerminalType(Environment environment, CommunicationType communicationType, TerminalOperatorType terminalOperatorType) : base(
-        (byte) (environment + communicationType + terminalOperatorType))
+    public TerminalType(Environment environment, CommunicationType communicationType, TerminalOperatorType terminalOperatorType) :
+        base((byte) (environment + communicationType + terminalOperatorType))
     { }
 
     #endregion

@@ -40,7 +40,7 @@ public sealed record DataStorageVersionNumberTypes : EnumObject<byte>
         if (!_ValueMap.ContainsKey(value.GetMaskedValue(bitMask)))
         {
             throw new DataElementParsingException(new ArgumentOutOfRangeException(nameof(value),
-                $"No {nameof(DataStorageVersionNumberTypes)} could be retrieved because the argument provided does not match a definition value"));
+                                                                                  $"No {nameof(DataStorageVersionNumberTypes)} could be retrieved because the argument provided does not match a definition value"));
         }
 
         return _ValueMap[value.GetMaskedValue(bitMask)];

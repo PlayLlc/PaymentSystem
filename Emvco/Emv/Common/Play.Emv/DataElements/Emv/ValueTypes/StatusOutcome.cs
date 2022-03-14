@@ -155,8 +155,8 @@ public readonly struct StatusOutcome
     {
         if (!_ValueObjectMap.TryGetValue(value, out StatusOutcome result))
         {
-            throw new ArgumentOutOfRangeException(
-                $"The argument {nameof(value)} with a value of {value} is not a valid value for {nameof(StatusOutcome)}");
+            throw new
+                ArgumentOutOfRangeException($"The argument {nameof(value)} with a value of {value} is not a valid value for {nameof(StatusOutcome)}");
         }
 
         return result;

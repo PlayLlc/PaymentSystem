@@ -77,8 +77,8 @@ public class NumericSpecialCodec : PlayCodec
         if (typeof(T) == typeof(char))
             return Encode<char>(Unsafe.As<T[], char[]>(ref value));
 
-        throw new CodecParsingException(
-            $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+        throw new
+            CodecParsingException($"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }
 
     /// <exception cref="CodecParsingException"></exception>
@@ -87,8 +87,8 @@ public class NumericSpecialCodec : PlayCodec
         if (typeof(T) == typeof(char))
             return Encode(Unsafe.As<T[], char[]>(ref value), length);
 
-        throw new CodecParsingException(
-            $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+        throw new
+            CodecParsingException($"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }
 
     /// <summary>
@@ -98,8 +98,8 @@ public class NumericSpecialCodec : PlayCodec
     /// <returns></returns>
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T value) where T : struct =>
-        throw new CodecParsingException(
-            $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+        throw new
+            CodecParsingException($"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
 
     /// <summary>
     ///     Encode
@@ -109,8 +109,8 @@ public class NumericSpecialCodec : PlayCodec
     /// <returns></returns>
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T value, int length) where T : struct =>
-        throw new CodecParsingException(
-            $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+        throw new
+            CodecParsingException($"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
 
     /// <summary>
     ///     Encode
@@ -121,8 +121,8 @@ public class NumericSpecialCodec : PlayCodec
     /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
     {
-        throw new CodecParsingException(
-            $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+        throw new
+            CodecParsingException($"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }
 
     /// <summary>
@@ -135,8 +135,8 @@ public class NumericSpecialCodec : PlayCodec
     /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
-        throw new CodecParsingException(
-            $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+        throw new
+            CodecParsingException($"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }
 
     /// <summary>
@@ -152,8 +152,8 @@ public class NumericSpecialCodec : PlayCodec
             Encode<char>(Unsafe.As<T[], char[]>(ref value), buffer, ref offset);
         else
         {
-            throw new CodecParsingException(
-                $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+            throw new
+                CodecParsingException($"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
         }
     }
 
@@ -171,8 +171,8 @@ public class NumericSpecialCodec : PlayCodec
             Encode(Unsafe.As<T[], char[]>(ref value), length, buffer, ref offset);
         else
         {
-            throw new CodecParsingException(
-                $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+            throw new
+                CodecParsingException($"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
         }
     }
 

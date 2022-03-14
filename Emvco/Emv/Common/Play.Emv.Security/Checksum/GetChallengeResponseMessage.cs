@@ -79,7 +79,7 @@ public class GetChallengeResponseMessage : ResponseMessageTemplate
 
     public override byte[] EncodeValue(BerCodec codec) =>
         codec.EncodeTagLengthValue(this, _ApplicationTransactionCounter, _CardholderVerificationCode3Track1,
-            _CardholderVerificationCode3Track2, _PosCardholderInteractionInformation);
+                                   _CardholderVerificationCode3Track2, _PosCardholderInteractionInformation);
 
     #endregion
 
@@ -118,7 +118,7 @@ public class GetChallengeResponseMessage : ResponseMessageTemplate
             return false;
 
         if (!PosCardholderInteractionInformation.EqualsStatic(_PosCardholderInteractionInformation,
-            other._PosCardholderInteractionInformation))
+                                                              other._PosCardholderInteractionInformation))
             return false;
 
         return true;

@@ -25,12 +25,12 @@ public record GetDataRequest : QueryPcdRequest
 
     #region Constructor
 
-    private GetDataRequest(CApduSignal cApduSignal, MessageTypeId messageTypeId, TransactionSessionId transactionSessionId) : base(
-        cApduSignal, messageTypeId, transactionSessionId)
+    private GetDataRequest(CApduSignal cApduSignal, MessageTypeId messageTypeId, TransactionSessionId transactionSessionId) :
+        base(cApduSignal, messageTypeId, transactionSessionId)
     { }
 
     private GetDataRequest(TransactionSessionId transactionSessionId, CApduSignal cApduSignal) : base(cApduSignal, MessageTypeId,
-        transactionSessionId)
+     transactionSessionId)
     { }
 
     #endregion

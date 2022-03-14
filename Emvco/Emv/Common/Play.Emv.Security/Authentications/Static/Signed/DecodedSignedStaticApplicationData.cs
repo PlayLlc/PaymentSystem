@@ -21,11 +21,13 @@ internal class DecodedSignedStaticApplicationData : DecodedSignature
     #region Constructor
 
     public DecodedSignedStaticApplicationData(DecodedSignature decodedSignature) : base(decodedSignature.GetLeadingByte(),
-        decodedSignature.GetMessage1(), decodedSignature.GetHash(), decodedSignature.GetTrailingByte())
+                                                                                        decodedSignature.GetMessage1(),
+                                                                                        decodedSignature.GetHash(),
+                                                                                        decodedSignature.GetTrailingByte())
     { }
 
     private DecodedSignedStaticApplicationData(byte leadingByte, Message1 message1, Hash hash, byte trailingByte) : base(leadingByte,
-        message1, hash, trailingByte)
+     message1, hash, trailingByte)
     { }
 
     #endregion

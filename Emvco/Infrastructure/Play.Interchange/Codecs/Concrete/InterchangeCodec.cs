@@ -87,8 +87,8 @@ public class InterchangeCodec
 
         if (!_DataFieldCodecMap.TryGetValue(codecIdentifier, out PlayCodec? codec))
         {
-            throw new InterchangeException(
-                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the Fully Qualified Name: {codecIdentifier}");
+            throw new
+                InterchangeException($"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the Fully Qualified Name: {codecIdentifier}");
         }
 
         return codec!.Decode(value);

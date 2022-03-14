@@ -34,14 +34,18 @@ public class TerminalActionAnalysisServiceFactory
     public static TerminalActionAnalysisService Create(TerminalType.CommunicationType terminalType, IFixture fixture)
     {
         Mock<IResolveAuthenticationType>? authenticationTypeResolver = new();
-        authenticationTypeResolver.Setup<AuthenticationTypes>(a =>
-                a.GetAuthenticationMethod(It.IsAny<TerminalCapabilities>(), It.IsAny<ApplicationInterchangeProfile>()))
+        authenticationTypeResolver
+            .Setup<AuthenticationTypes>(a => a.GetAuthenticationMethod(It.IsAny<TerminalCapabilities>(),
+                                                                       It.IsAny<ApplicationInterchangeProfile>()))
             .Returns(AuthenticationTypes.CombinedDataAuthentication);
 
         fixture.Register(() => new TerminalActionAnalysisService(fixture.Create<IHandlePcdRequests>(), authenticationTypeResolver.Object,
-            new TerminalType(TerminalType.Environment.Attended, terminalType, TerminalType.TerminalOperatorType.Merchant),
-            fixture.Create<TerminalCapabilities>(), GetTerminalActionCodeDefault(), GetTerminalActionCodeDenial(),
-            GetTerminalActionCodeOnline(), GetIssuerActionCodeDefault(), GetIssuerActionCodeDenial(), GetIssuerActionCodeOnline()));
+                                                                 new TerminalType(TerminalType.Environment.Attended, terminalType,
+                                                                                  TerminalType.TerminalOperatorType.Merchant),
+                                                                 fixture.Create<TerminalCapabilities>(), GetTerminalActionCodeDefault(),
+                                                                 GetTerminalActionCodeDenial(), GetTerminalActionCodeOnline(),
+                                                                 GetIssuerActionCodeDefault(), GetIssuerActionCodeDenial(),
+                                                                 GetIssuerActionCodeOnline()));
 
         return fixture.Create<TerminalActionAnalysisService>();
     }
@@ -53,9 +57,12 @@ public class TerminalActionAnalysisServiceFactory
         IFixture fixture)
     {
         fixture.Register(() => new TerminalActionAnalysisService(fixture.Create<IHandlePcdRequests>(), authenticationResolver,
-            new TerminalType(TerminalType.Environment.Attended, terminalType, TerminalType.TerminalOperatorType.Merchant),
-            terminalCapabilities, GetTerminalActionCodeDefault(), GetTerminalActionCodeDenial(), GetTerminalActionCodeOnline(),
-            GetIssuerActionCodeDefault(), GetIssuerActionCodeDenial(), GetIssuerActionCodeOnline()));
+                                                                 new TerminalType(TerminalType.Environment.Attended, terminalType,
+                                                                                  TerminalType.TerminalOperatorType.Merchant),
+                                                                 terminalCapabilities, GetTerminalActionCodeDefault(),
+                                                                 GetTerminalActionCodeDenial(), GetTerminalActionCodeOnline(),
+                                                                 GetIssuerActionCodeDefault(), GetIssuerActionCodeDenial(),
+                                                                 GetIssuerActionCodeOnline()));
 
         return fixture.Create<TerminalActionAnalysisService>();
     }
@@ -90,8 +97,8 @@ public class TerminalActionAnalysisServiceFactory
 
     public static List<ActionCodes> IssuerActionCodesOnline = new()
     {
-        new ActionCodes(
-            (ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.PinEntryRequiredPinPadPresentButPinWasNotEntered),
+        new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes
+                            .PinEntryRequiredPinPadPresentButPinWasNotEntered),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.CardholderVerificationWasNotSuccessful),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.CombinationDataAuthenticationFailed),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.DynamicDataAuthenticationFailed),
@@ -101,12 +108,12 @@ public class TerminalActionAnalysisServiceFactory
     public static List<ActionCodes> IssuerActionCodesDefault = new()
     {
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.IssuerAuthenticationFailed),
-        new ActionCodes(
-            (ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.PinEntryRequiredAndPinPadNotPresentOrNotWorking),
-        new ActionCodes(
-            (ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.ScriptProcessingFailedAfterFinalGenerateAc),
-        new ActionCodes(
-            (ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.ScriptProcessingFailedBeforeFinalGenerateAc),
+        new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes
+                            .PinEntryRequiredAndPinPadNotPresentOrNotWorking),
+        new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes
+                            .ScriptProcessingFailedAfterFinalGenerateAc),
+        new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes
+                            .ScriptProcessingFailedBeforeFinalGenerateAc),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.CombinationDataAuthenticationFailed),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.DynamicDataAuthenticationFailed),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.StaticDataAuthenticationFailed)
@@ -126,8 +133,8 @@ public class TerminalActionAnalysisServiceFactory
     public static List<ActionCodes> TerminalActionCodesOnline = new()
     {
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.MerchantForcedTransactionOnline),
-        new ActionCodes(
-            (ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.TransactionSelectedRandomlyForOnlineProcessing),
+        new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes
+                            .TransactionSelectedRandomlyForOnlineProcessing),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.TransactionExceedsFloorLimit),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.UpperConsecutiveOfflineLimitExceeded),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.UnrecognizedCvm),
@@ -139,8 +146,8 @@ public class TerminalActionAnalysisServiceFactory
 
     public static List<ActionCodes> TerminalActionCodesDefault = new()
     {
-        new ActionCodes(
-            (ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.PinEntryRequiredAndPinPadNotPresentOrNotWorking),
+        new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes
+                            .PinEntryRequiredAndPinPadNotPresentOrNotWorking),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.OfflineDataAuthenticationWasNotPerformed),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.CombinationDataAuthenticationFailed),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.DynamicDataAuthenticationFailed),

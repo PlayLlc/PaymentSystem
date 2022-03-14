@@ -56,8 +56,8 @@ public record IccPinEnciphermentPublicKeyCertificate : PrimitiveValue, IEquality
     public static IccPinEnciphermentPublicKeyCertificate Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         DecodedResult<BigInteger> result = codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(IccPinEnciphermentPublicKeyCertificate)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(IccPinEnciphermentPublicKeyCertificate)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new IccPinEnciphermentPublicKeyCertificate(result.Value);
     }

@@ -30,7 +30,7 @@ public class HashAlgorithmProvider
         if (!_HashAlgorithmMap.TryGetValue(hashAlgorithmIndicator, out IHashGenerator? hashGenerator))
         {
             throw new ArgumentOutOfRangeException(nameof(hashAlgorithmIndicator),
-                $"There was no {nameof(IHashGenerator)} available for the argument {nameof(hashAlgorithmIndicator)} with value {hashAlgorithmIndicator}");
+                                                  $"There was no {nameof(IHashGenerator)} available for the argument {nameof(hashAlgorithmIndicator)} with value {hashAlgorithmIndicator}");
         }
 
         return hashGenerator.Generate(clearText);

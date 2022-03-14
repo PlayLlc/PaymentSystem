@@ -82,14 +82,14 @@ public class FileControlInformationAdf : FileControlInformationTemplate
     private static FileControlInformationAdf Decode(EncodedTlvSiblings encodedSiblings)
     {
         DedicatedFileName dedicatedFileName = _Codec.AsPrimitive(DedicatedFileName.Decode, DedicatedFileName.Tag, encodedSiblings)
-            ?? throw new CardDataMissingException(
-                $"A problem occurred while decoding {nameof(FileControlInformationAdf)}. A {nameof(DedicatedFileName)} was expected but could not be found");
+            ?? throw new
+                CardDataMissingException($"A problem occurred while decoding {nameof(FileControlInformationAdf)}. A {nameof(DedicatedFileName)} was expected but could not be found");
 
         FileControlInformationProprietaryAdf fciProprietary =
             _Codec.AsConstructed(FileControlInformationProprietaryAdf.Decode, FileControlInformationProprietaryTemplate.Tag,
-                encodedSiblings)
-            ?? throw new CardDataMissingException(
-                $"A problem occurred while decoding {nameof(FileControlInformationAdf)}. A {nameof(FileControlInformationProprietaryAdf)} was expected but could not be found");
+                                 encodedSiblings)
+            ?? throw new
+                CardDataMissingException($"A problem occurred while decoding {nameof(FileControlInformationAdf)}. A {nameof(FileControlInformationProprietaryAdf)} was expected but could not be found");
 
         return new FileControlInformationAdf(dedicatedFileName, fciProprietary);
     }

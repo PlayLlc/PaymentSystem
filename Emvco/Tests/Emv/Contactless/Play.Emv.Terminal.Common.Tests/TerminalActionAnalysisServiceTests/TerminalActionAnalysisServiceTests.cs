@@ -62,8 +62,8 @@ public partial class TerminalActionAnalysisServiceTests
         outcomeBuilder.Set(onlineResponseOutcome);
 
         return new TerminalActionAnalysisCommand(_Fixture.Freeze<TransactionSessionId>(), outcomeBuilder.Complete(),
-            terminalVerificationResults, _Fixture.Create<ApplicationInterchangeProfile>(), _Fixture.Create<DataObjectListResult>(),
-            _Fixture.Create<DataObjectListResult>());
+                                                 terminalVerificationResults, _Fixture.Create<ApplicationInterchangeProfile>(),
+                                                 _Fixture.Create<DataObjectListResult>(), _Fixture.Create<DataObjectListResult>());
     }
 
     #endregion

@@ -50,8 +50,8 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>, IEqualityC
 
         if ((value.Length % 2) != 0)
         {
-            throw new ArgumentOutOfRangeException(
-                $"The argument {nameof(value)} provided was out of range. {nameof(Alpha2LanguageCode)} values are comprised of two characters");
+            throw new
+                ArgumentOutOfRangeException($"The argument {nameof(value)} provided was out of range. {nameof(Alpha2LanguageCode)} values are comprised of two characters");
         }
 
         Span<Alpha2LanguageCode> buffer = stackalloc Alpha2LanguageCode[value.Length / 2];
@@ -109,8 +109,8 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>, IEqualityC
 
         if (value.Length is < minByteLength and <= maxByteLength)
         {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(LanguagePreference)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
+            throw new
+                DataElementParsingException($"The Primitive Value {nameof(LanguagePreference)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
         }
 
         return new LanguagePreference(value);

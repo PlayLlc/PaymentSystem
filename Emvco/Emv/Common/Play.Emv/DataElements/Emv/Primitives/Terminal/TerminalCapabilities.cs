@@ -30,8 +30,8 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
     public TerminalCapabilities(uint value) : base(value)
     { }
 
-    public TerminalCapabilities(CardDataInputCapability cardDataInputCapability, SecurityCapability securityCapability) : base(
-        (uint) (securityCapability << 16) | cardDataInputCapability)
+    public TerminalCapabilities(CardDataInputCapability cardDataInputCapability, SecurityCapability securityCapability) :
+        base((uint) (securityCapability << 16) | cardDataInputCapability)
     { }
 
     #endregion

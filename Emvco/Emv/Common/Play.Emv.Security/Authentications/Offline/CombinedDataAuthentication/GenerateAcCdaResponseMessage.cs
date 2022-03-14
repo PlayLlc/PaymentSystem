@@ -72,10 +72,10 @@ public class GenerateAcCdaResponseMessage : ResponseMessageTemplate
     public byte[] GetTransactionDataHashData(BerCodec codec)
     {
         using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate((_CryptogramInformationData.GetValueByteCount(codec)
-                + _ApplicationTransactionCounter.GetValueByteCount(codec)
-                + _SignedDynamicApplicationData.GetValueByteCount(codec)
-                + _IssuerApplicationData?.GetValueByteCount(codec))
-            ?? 0);
+                                                                       + _ApplicationTransactionCounter.GetValueByteCount(codec)
+                                                                       + _SignedDynamicApplicationData.GetValueByteCount(codec)
+                                                                       + _IssuerApplicationData?.GetValueByteCount(codec))
+                                                                   ?? 0);
         Span<byte> buffer = spanOwner.Span;
 
         int offset = 0;
@@ -117,7 +117,7 @@ public class GenerateAcCdaResponseMessage : ResponseMessageTemplate
         _IssuerApplicationData == null
             ? codec.EncodeTagLengthValue(this, _CryptogramInformationData, _ApplicationTransactionCounter, _SignedDynamicApplicationData)
             : codec.EncodeTagLengthValue(this, _CryptogramInformationData, _ApplicationTransactionCounter, _SignedDynamicApplicationData,
-                _IssuerApplicationData);
+                                         _IssuerApplicationData);
 
     #endregion
 
@@ -133,7 +133,7 @@ public class GenerateAcCdaResponseMessage : ResponseMessageTemplate
         && _SignedDynamicApplicationData.Equals(other._SignedDynamicApplicationData)
         && _IssuerApplicationData!.Equals(other._IssuerApplicationData)
         && PosCardholderInteractionInformation.EqualsStatic(_PosCardholderInteractionInformation,
-            other._PosCardholderInteractionInformation)
+                                                            other._PosCardholderInteractionInformation)
         && IssuerApplicationData.EqualsStatic(_IssuerApplicationData, other._IssuerApplicationData);
 
     public override bool Equals(ConstructedValue? x, ConstructedValue? y)

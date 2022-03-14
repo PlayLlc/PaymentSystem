@@ -55,6 +55,8 @@ public class CommonProcessingS3R1 : CommonProcessing
 
     #endregion
 
+    #region Instance Members
+
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
@@ -148,6 +150,8 @@ public class CommonProcessingS3R1 : CommonProcessing
 
         return true;
     }
+
+    #endregion
 
     #endregion
 

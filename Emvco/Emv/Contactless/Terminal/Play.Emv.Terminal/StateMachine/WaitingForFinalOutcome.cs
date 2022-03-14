@@ -73,8 +73,8 @@ internal class WaitingForFinalOutcome : TerminalState
     {
         if (session.GetTransactionSessionId() != signal.GetTransactionSessionId())
         {
-            throw new RequestOutOfSyncException(
-                $"The {nameof(QueryTerminalRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(ChannelType.Terminal)} session has a {nameof(TransactionSessionId)} of: [{session.GetTransactionSessionId()}]");
+            throw new
+                RequestOutOfSyncException($"The {nameof(QueryTerminalRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(ChannelType.Terminal)} session has a {nameof(TransactionSessionId)} of: [{session.GetTransactionSessionId()}]");
         }
 
         if (!signal.TryGetKernelSessionId(out KernelSessionId? kernelSessionId))

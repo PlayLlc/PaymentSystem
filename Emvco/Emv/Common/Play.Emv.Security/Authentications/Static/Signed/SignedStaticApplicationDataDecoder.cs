@@ -61,7 +61,7 @@ internal class SignedStaticApplicationDataDecoder
             new(_SignatureService.Decrypt(signedStaticApplicationData.AsByteArray(), issuerPublicKeyCertificate));
 
         if (!_SignatureService.IsSignatureValid(decodedSignature.GetHashAlgorithmIndicator(), staticDataToBeAuthenticated,
-            decodedSignature))
+                                                decodedSignature))
             return false;
 
         return true;

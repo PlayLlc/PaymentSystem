@@ -77,7 +77,7 @@ public class DataExchangeTerminalService
                 return;
 
             QueryTerminalResponse queryKernelResponse = new(correlationId, new DataToSend(_Lock.Responses[type].AsArray()),
-                dataExchangeKernelId);
+                                                            dataExchangeKernelId);
 
             _TerminalEndpoint.Send(queryKernelResponse);
             _Lock.Responses[type].Clear();
@@ -98,8 +98,8 @@ public class DataExchangeTerminalService
 
             if (!_Lock.Responses.TryAdd(listType, DetResponseType.GetDefault(listType)))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeTerminalService)} could not initialize the {DetResponseType.GetName(listType)} because it was already initialized");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeTerminalService)} could not initialize the {DetResponseType.GetName(listType)} because it was already initialized");
             }
         }
     }
@@ -118,8 +118,8 @@ public class DataExchangeTerminalService
 
             if (!_Lock.Responses.TryAdd(list.GetTag(), list))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeTerminalService)} could not initialize the {list.GetType().FullName} because it has already been initialized");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeTerminalService)} could not initialize the {list.GetType().FullName} because it has already been initialized");
             }
         }
     }
@@ -136,8 +136,8 @@ public class DataExchangeTerminalService
         {
             if (!_Lock.Responses.ContainsKey(type))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeTerminalService)} could not Enqueue the List Item because the List does not exist");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeTerminalService)} could not Enqueue the List Item because the List does not exist");
             }
 
             _Lock.Responses[type].Enqueue(listItem);
@@ -156,8 +156,8 @@ public class DataExchangeTerminalService
         {
             if (!_Lock.Responses.ContainsKey(type))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeTerminalService)} could not Enqueue the List Item because the List does not exist");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeTerminalService)} could not Enqueue the List Item because the List does not exist");
             }
 
             _Lock.Responses[type].Enqueue(listItems);
@@ -176,8 +176,8 @@ public class DataExchangeTerminalService
         {
             if (!_Lock.Responses.ContainsKey(type))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeTerminalService)} could not Enqueue the List Item because the List does not exist");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeTerminalService)} could not Enqueue the List Item because the List does not exist");
             }
 
             _Lock.Responses[type].Enqueue(listItems);
@@ -196,7 +196,7 @@ public class DataExchangeTerminalService
                 return;
 
             QueryKernelRequest queryKernelRequest = new(new DataExchangeTerminalId(kernelId, transactionSessionId),
-                (TagsToRead) _Lock.Requests[DetRequestType.TagsToRead]);
+                                                        (TagsToRead) _Lock.Requests[DetRequestType.TagsToRead]);
 
             _KernelEndpoint.Request(queryKernelRequest);
             _Lock.Responses[DetRequestType.TagsToRead].Clear();
@@ -215,8 +215,8 @@ public class DataExchangeTerminalService
         {
             if (!_Lock.Requests.ContainsKey(DetRequestType.DataNeeded))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeTerminalService)} could not{nameof(Resolve)} the requested items because the List does not exist");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeTerminalService)} could not{nameof(Resolve)} the requested items because the List does not exist");
             }
 
             DataExchangeRequest dataNeeded = _Lock.Requests[DetRequestType.DataNeeded];
@@ -253,8 +253,8 @@ public class DataExchangeTerminalService
         {
             if (!_Lock.Requests.ContainsKey(DetRequestType.DataNeeded))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeTerminalService)} could not Dequeue the {nameof(DataNeeded)} List Item because it has not been initialized");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeTerminalService)} could not Dequeue the {nameof(DataNeeded)} List Item because it has not been initialized");
             }
 
             return _Lock.Requests[DetRequestType.DataNeeded].TryDequeue(out result);
@@ -275,8 +275,8 @@ public class DataExchangeTerminalService
 
             if (!_Lock.Requests.TryAdd(list.GetTag(), list))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeTerminalService)} could not initialize the {list.GetType().FullName} because it has already been initialized");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeTerminalService)} could not initialize the {list.GetType().FullName} because it has already been initialized");
             }
         }
     }
@@ -292,8 +292,8 @@ public class DataExchangeTerminalService
         {
             if (!_Lock.Requests.ContainsKey(DetRequestType.TagsToRead))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeTerminalService)} could not Enqueue the {nameof(TagsToRead)} List Item because the List does not exist");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeTerminalService)} could not Enqueue the {nameof(TagsToRead)} List Item because the List does not exist");
             }
 
             _Lock.Requests[DetRequestType.TagsToRead].Enqueue(listItem);
@@ -312,8 +312,8 @@ public class DataExchangeTerminalService
         {
             if (!_Lock.Requests.ContainsKey(type))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeTerminalService)} could not Enqueue the List Item with the {nameof(Tag)}: [{(Tag) type}] because the List does not exist");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeTerminalService)} could not Enqueue the List Item with the {nameof(Tag)}: [{(Tag) type}] because the List does not exist");
             }
 
             _Lock.Requests[type].Enqueue(listItems);
@@ -331,8 +331,8 @@ public class DataExchangeTerminalService
         {
             if (!_Lock.Requests.ContainsKey(listItems.GetTag()))
             {
-                throw new InvalidOperationException(
-                    $"The {nameof(DataExchangeTerminalService)} could not Enqueue the List Item {listItems.GetType().Name} could not enqueue because the List does not exist");
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeTerminalService)} could not Enqueue the List Item {listItems.GetType().Name} could not enqueue because the List does not exist");
             }
 
             _Lock.Requests[listItems.GetTag()].Enqueue(listItems);

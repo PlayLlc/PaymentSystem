@@ -109,7 +109,7 @@ public sealed record RegisteredApplicationProviderIndicators : EnumObject<Regist
         if (!TryGet(registeredApplicationProviderIndicator, out RegisteredApplicationProviderIndicators result))
         {
             throw new IccProtocolException(new ArgumentOutOfRangeException(nameof(registeredApplicationProviderIndicator),
-                $"The {nameof(RegisteredApplicationProviderIndicators)} could not be found from the number supplied to the argument: {registeredApplicationProviderIndicator}"));
+                                                                           $"The {nameof(RegisteredApplicationProviderIndicators)} could not be found from the number supplied to the argument: {registeredApplicationProviderIndicator}"));
         }
 
         return result;

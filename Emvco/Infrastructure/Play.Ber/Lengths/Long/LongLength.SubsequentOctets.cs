@@ -53,8 +53,8 @@ internal static partial class LongLength
         {
             if (!IsLengthSupportedInThisCodeBase(value))
             {
-                throw new BerParsingException(
-                    "This is embarrassing. The length of the TLV content is outside of what is currently supported in this code base");
+                throw new
+                    BerParsingException("This is embarrassing. The length of the TLV content is outside of what is currently supported in this code base");
             }
         }
 
@@ -66,8 +66,8 @@ internal static partial class LongLength
         {
             if (!IsLengthSupportedInThisCodeBase(value))
             {
-                throw new BerParsingException(
-                    $"This code base currently only supports a long Length with Subsequent Octets of {MaxByteCount} bytes or less");
+                throw new
+                    BerParsingException($"This code base currently only supports a long Length with Subsequent Octets of {MaxByteCount} bytes or less");
             }
         }
 

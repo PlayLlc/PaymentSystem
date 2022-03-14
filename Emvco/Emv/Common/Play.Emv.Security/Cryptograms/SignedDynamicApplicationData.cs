@@ -56,8 +56,8 @@ public record SignedDynamicApplicationData : PrimitiveValue, IEqualityComparer<S
     public static SignedDynamicApplicationData Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         DecodedResult<BigInteger> result = codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new InvalidOperationException(
-                $"The {nameof(SignedDynamicApplicationData)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+            ?? throw new
+                InvalidOperationException($"The {nameof(SignedDynamicApplicationData)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
 
         return new SignedDynamicApplicationData(result.Value);
     }
