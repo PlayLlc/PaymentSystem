@@ -29,6 +29,11 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
 
     #region Constructor
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="DataElementParsingException"></exception>
     public ShortFileIdentifier(byte value) : base(value)
     {
         if (value > _MaxValue)

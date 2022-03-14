@@ -71,6 +71,7 @@ public class FileControlInformationProprietaryPpse : FileControlInformationPropr
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Play.Ber.Exceptions._Temp.BerFormatException"></exception>
+    /// <exception cref="CardDataMissingException"></exception>
     public static FileControlInformationProprietaryPpse Decode(EncodedTlvSiblings encodedTlvSiblings)
     {
         FileControlInformationIssuerDiscretionaryDataPpse fciProprietary =

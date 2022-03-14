@@ -38,6 +38,7 @@ namespace Play.Emv.Pcd.Contracts
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="IccProtocolException"></exception>
         /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
         public ExchangeRelayResistanceDataResponse(
             CorrelationId correlation,
             TransactionSessionId transactionSessionId,
@@ -68,6 +69,7 @@ namespace Play.Emv.Pcd.Contracts
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="IccProtocolException"></exception>
         /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
         private static PrimitiveValue[] DecodeData(ExchangeRelayResistanceDataRApduSignal rapdu)
         {
             if (rapdu.GetStatusWords() != StatusWords._9000)

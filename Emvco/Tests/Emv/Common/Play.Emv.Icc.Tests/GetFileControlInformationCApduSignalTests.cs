@@ -42,6 +42,7 @@ public class GetFileControlInformationCApduSignalTests
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
     [Fact]
     public void CApduSignal_InitializingWithDedicatedFileName_CreatesExpectedResult()
     {

@@ -32,6 +32,12 @@ internal class KernelOutcome
 
     #region Instance Members
 
+    /// <summary>
+    /// CreateEmvDiscretionaryData
+    /// </summary>
+    /// <param name="database"></param>
+    /// <param name="dataExchanger"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public static void CreateEmvDiscretionaryData(IQueryTlvDatabase database, DataExchangeKernelService dataExchanger)
     {
         dataExchanger.Initialize(DekResponseType.DiscretionaryData);
@@ -43,6 +49,12 @@ internal class KernelOutcome
         }
     }
 
+    /// <summary>
+    /// CreateMagstripeDiscretionaryData
+    /// </summary>
+    /// <param name="database"></param>
+    /// <param name="dataExchanger"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public static void CreateMagstripeDiscretionaryData(IQueryTlvDatabase database, DataExchangeKernelService dataExchanger)
     {
         dataExchanger.Initialize(DekResponseType.DiscretionaryData);

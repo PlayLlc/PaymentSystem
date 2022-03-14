@@ -50,6 +50,7 @@ public record StaticDataAuthenticationTagList : DataElement<Tag[]>, IEqualityCom
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public static StaticDataAuthenticationTagList Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);

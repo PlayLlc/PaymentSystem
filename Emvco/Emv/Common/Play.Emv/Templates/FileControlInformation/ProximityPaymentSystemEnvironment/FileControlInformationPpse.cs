@@ -92,6 +92,7 @@ public class FileControlInformationPpse : FileControlInformationTemplate
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CardDataMissingException"></exception>
     private static FileControlInformationPpse Decode(EncodedTlvSiblings encodedTlvSiblings)
     {
         DedicatedFileName? dedicatedFileName = _Codec.AsPrimitive(DedicatedFileName.Decode, DedicatedFileName.Tag, encodedTlvSiblings);

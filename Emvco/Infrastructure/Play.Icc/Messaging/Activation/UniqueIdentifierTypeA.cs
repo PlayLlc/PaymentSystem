@@ -8,6 +8,11 @@ public class UniqueIdentifierTypeA
 {
     #region Constructor
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="IccProtocolException"></exception>
     public UniqueIdentifierTypeA(ReadOnlySpan<byte> value)
     {
         const byte validLength4 = 4;

@@ -49,6 +49,7 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
     /// </summary>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public CommunicationType GetCommunicationType()
     {
         byte communicationTypeValue = (byte) ((_Value % 10) <= 3 ? _Value % 10 : (_Value % 10) - 3);
@@ -74,6 +75,7 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
     /// </summary>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public TerminalOperatorType GetTerminalOperatorType()
     {
         byte terminalOperatorTypeValue = (byte) ((_Value / 10) * 10);

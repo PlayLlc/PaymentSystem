@@ -28,6 +28,11 @@ public record AcquirerIdentifier : DataElement<ulong>, IEqualityComparer<Acquire
 
     #region Constructor
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="DataElementParsingException"></exception>
     public AcquirerIdentifier(ulong value) : base(value)
     {
         Validate(value);
@@ -41,6 +46,11 @@ public record AcquirerIdentifier : DataElement<ulong>, IEqualityComparer<Acquire
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
+    /// <summary>
+    /// Validate
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="DataElementParsingException"></exception>
     public void Validate(ulong value)
     {
         if (value.GetMostSignificantByte() > _ByteLength)

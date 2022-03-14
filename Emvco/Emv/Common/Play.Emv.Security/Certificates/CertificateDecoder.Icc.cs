@@ -39,6 +39,7 @@ internal partial class CertificateFactory
         /// <returns></returns>
         /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
         /// <remarks>EMV Book 2 Section 6.4</remarks>
+        /// <exception cref="InvalidOperationException"></exception>
         public static DecodedIccPublicKeyCertificate TryCreate(
             DecodedIssuerPublicKeyCertificate issuerCertificate,
             StaticDataToBeAuthenticated staticDataToBeAuthenticated,

@@ -194,6 +194,7 @@ public class HexadecimalCodec : PlayCodec
     /// < returns></returns>
     /// < exception cref="Exceptions.CodecParsingException"></exception>
     /// <exception cref="Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));

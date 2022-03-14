@@ -157,6 +157,13 @@ public class CombinationSelector
     private bool IsMatchingAid(DedicatedFileName applicationDedicatedFileName, PreProcessingIndicators preProcessingIndicators) =>
         preProcessingIndicators.IsMatchingAid(applicationDedicatedFileName);
 
+    /// <summary>
+    /// IsMatchingDomesticKernelIdentifier
+    /// </summary>
+    /// <param name="preProcessingIndicators"></param>
+    /// <param name="kernelIdentifier"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Exceptions.DataElementParsingException"></exception>
     private bool IsMatchingDomesticKernelIdentifier(PreProcessingIndicators preProcessingIndicators, KernelIdentifier kernelIdentifier)
     {
         // Book B Section 3.3.2.5 Section C:

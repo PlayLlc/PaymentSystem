@@ -62,6 +62,11 @@ public readonly struct LogicalChannel
         }.ToImmutableSortedDictionary();
     }
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="IccProtocolException"></exception>
     private LogicalChannel(byte value)
     {
         if (value > 3)

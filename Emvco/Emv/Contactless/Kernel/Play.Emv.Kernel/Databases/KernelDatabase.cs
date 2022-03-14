@@ -87,6 +87,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// </summary>
     /// <param name="tag"></param>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public virtual TagLengthValue Get(Tag tag)
     {
         if (!IsActive())
@@ -317,11 +318,21 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
 
     #region Outcome
 
+    /// <summary>
+    /// CreateEmvDiscretionaryData
+    /// </summary>
+    /// <param name="dataExchanger"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void CreateEmvDiscretionaryData(DataExchangeKernelService dataExchanger)
     {
         KernelOutcome.CreateEmvDiscretionaryData(this, dataExchanger);
     }
 
+    /// <summary>
+    /// CreateMagstripeDiscretionaryData
+    /// </summary>
+    /// <param name="dataExchanger"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     public void CreateMagstripeDiscretionaryData(DataExchangeKernelService dataExchanger)
     {
         KernelOutcome.CreateMagstripeDiscretionaryData(this, dataExchanger);
@@ -346,6 +357,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private UserInterfaceRequestData GetUserInterfaceRequestData()
     {
         if (IsPresentAndNotEmpty(UserInterfaceRequestData.Tag))
@@ -363,6 +375,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// </summary>
     /// <returns></returns>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private DataRecord? GetDataRecord()
     {
         if (IsPresentAndNotEmpty(DataRecord.Tag))
@@ -377,6 +390,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private DiscretionaryData? GetDiscretionaryData()
     {
         if (IsPresentAndNotEmpty(DiscretionaryData.Tag))

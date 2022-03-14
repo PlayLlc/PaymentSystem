@@ -29,6 +29,13 @@ public class DataReader : IGetData
 
     #region Instance Members
 
+    /// <summary>
+    /// Transceive
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    /// <exception cref="PcdProtocolException"></exception>
+    /// <exception cref="PcdTimeoutException"></exception>
     public async Task<GetDataResponse> Transceive(GetDataRequest command)
     {
         byte[] rapdu = await _PcdTransceiver.Transceive(command.Serialize()).ConfigureAwait(false);

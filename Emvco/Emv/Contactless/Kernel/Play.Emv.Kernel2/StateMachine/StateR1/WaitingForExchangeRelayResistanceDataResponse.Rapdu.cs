@@ -30,6 +30,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
@@ -68,6 +69,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <remarks>Book C-2 Section SR1.3 - SR1.4, SR1.5.1 - SR1.5.2</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandleL1Error(KernelSession session, QueryPcdResponse signal)
     {
         if (!signal.IsSuccessful())
@@ -96,6 +98,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 
     /// <remarks>Book C-2 Section SR1.11 - SR1.13 </remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandleInvalidResultCode(KernelSession session, QueryPcdResponse signal)
     {
         if (signal.GetStatusWords() == StatusWords._9000)
@@ -152,6 +155,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     }
 
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private void HandleBerParsingException(KernelSession session, QueryPcdResponse signal)
     {
         _KernelDatabase.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
@@ -174,6 +178,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <remarks>Book C-2 Section SR1.18 </remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     private MeasuredRelayResistanceProcessingTime CalculateMeasuredRrpTime(Microseconds timeElapsed)
     {
         TerminalExpectedTransmissionTimeForRelayResistanceCapdu terminalExpectedCapduTransmissionTime =
@@ -206,6 +211,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <remarks>Book C-2 Section SR1.19 </remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool IsRelayOutOfLowerBounds(MeasuredRelayResistanceProcessingTime processingTime)
     {
         MinTimeForProcessingRelayResistanceApdu minTimeForProcessingRelayResistanceApdu =
@@ -228,6 +234,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 
     /// <exception cref="TerminalDataException"></exception>
     /// <remarks>Book C-2 Section SR1.20 - SR1.21 </remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     private void HandleRelayResistanceProtocolFailed(KernelSession session, QueryPcdResponse signal)
     {
         _KernelDatabase.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
@@ -249,6 +256,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <remarks>Book C-2 Section SR1.22 </remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool IsRelayRetryNeeded(Kernel2Session session, MeasuredRelayResistanceProcessingTime relayTime)
     {
         if (session.GetRelayResistanceProtocolCount() > 2)
@@ -263,6 +271,9 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 
     /// <exception cref="TerminalDataException"></exception>
     /// <remarks>Book C-2 Section SR1.23 - SR1.27 </remarks>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private KernelState RetryRelayResistanceProtocol(Kernel2Session session)
     {
         // SR1.23
@@ -298,6 +309,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <remarks>Book C-2 Section SR1.28 - SR1.32 </remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     private KernelState CompleteRelayResistance(Kernel2Session session, MeasuredRelayResistanceProcessingTime relayTime)
     {
         if (IsRelayOutOfUpperBounds(relayTime))
@@ -328,6 +340,8 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <remarks>Book C-2 Section SR1.30 </remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool IsAccuracyThresholdExceeded(MeasuredRelayResistanceProcessingTime processingTime)
     {
         if (!_KernelDatabase.IsPresentAndNotEmpty(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag))
@@ -375,6 +389,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     #region SR1.31
 
     /// <remarks>Book C-2 Section SR1.31 </remarks>
+    /// <exception cref="TerminalDataException"></exception>
     private void SetRelayResistanceThresholdExceeded()
     {
         _KernelDatabase.Set(TerminalVerificationResultCodes.RelayResistanceThresholdExceeded);
@@ -385,6 +400,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     #region SR1.32
 
     /// <remarks>Book C-2 Section SR1.32 </remarks>
+    /// <exception cref="TerminalDataException"></exception>
     private void SetRelayResistancePerformed()
     {
         _KernelDatabase.Set(TerminalVerificationResultCodes.RelayResistancePerformed);
@@ -394,6 +410,15 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 
     #region Shared
 
+    /// <summary>
+    /// IsRelayOutOfUpperBounds
+    /// </summary>
+    /// <param name="relayTime"></param>
+    /// <returns></returns>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool IsRelayOutOfUpperBounds(MeasuredRelayResistanceProcessingTime relayTime)
     {
         MaxTimeForProcessingRelayResistanceApdu maxProcessingTime =

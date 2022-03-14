@@ -29,6 +29,11 @@ public record DataStorageDataObjectList : DataObjectList
 
     #region Constructor
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="DataElementParsingException"></exception>
     public DataStorageDataObjectList(byte[] value) : base(value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);

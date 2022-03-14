@@ -33,6 +33,12 @@ public class ProcessingOptions : ResponseMessageTemplate
         _ApplicationInterchangeProfile = applicationInterchangeProfile;
     }
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="values"></param>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     public ProcessingOptions(TagLengthValue[] values)
     {
         _ApplicationFileLocator =
@@ -62,6 +68,8 @@ public class ProcessingOptions : ResponseMessageTemplate
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CardDataMissingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     private static ProcessingOptions Decode(EncodedTlvSiblings encodedTlvSiblings)
     {
         ApplicationFileLocator applicationFileLocator =

@@ -26,6 +26,11 @@ public record DynamicDataAuthenticationDataObjectList : DataObjectList, IEqualit
 
     #region Constructor
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="CardDataMissingException"></exception>
     public DynamicDataAuthenticationDataObjectList(ReadOnlySpan<byte> value) : base(value.ToArray())
     {
         if (!_Codec.IsTagPresent(UnpredictableNumber.Tag, value))

@@ -49,6 +49,7 @@ internal static partial class LongLength
         /// </summary>
         /// <param name="value"></param>
         /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
+        /// <exception cref="BerParsingException"></exception>
         public static void Validate(ReadOnlySpan<byte> value)
         {
             if (!IsLengthSupportedInThisCodeBase(value))
@@ -62,6 +63,7 @@ internal static partial class LongLength
         ///     Validate
         /// </summary>
         /// <param name="value"></param>
+        /// <exception cref="BerParsingException"></exception>
         public static void Validate(in uint value)
         {
             if (!IsLengthSupportedInThisCodeBase(value))

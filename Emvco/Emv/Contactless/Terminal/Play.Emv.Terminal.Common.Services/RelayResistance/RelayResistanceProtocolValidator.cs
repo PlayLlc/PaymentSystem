@@ -38,6 +38,17 @@ namespace Play.Emv.Terminal.Common.Services.RelayResistance
 
         public bool IsRetryThresholdHit() => ++_RetryCount > _MaximumRetryCount;
 
+        /// <summary>
+        /// IsInRange
+        /// </summary>
+        /// <param name="transactionSessionId"></param>
+        /// <param name="timeElapsed"></param>
+        /// <param name="tlvDatabase"></param>
+        /// <returns></returns>
+        /// <exception cref="TerminalDataException"></exception>
+        /// <exception cref="DataElementParsingException"></exception>
+        /// <exception cref="CodecParsingException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
         private bool IsInRange(TransactionSessionId transactionSessionId, Milliseconds timeElapsed, IQueryTlvDatabase tlvDatabase)
         {
             if (transactionSessionId != _SessionId)
@@ -57,6 +68,15 @@ namespace Play.Emv.Terminal.Common.Services.RelayResistance
             return true;
         }
 
+        /// <summary>
+        /// CalculateMeasuredRrpTime
+        /// </summary>
+        /// <param name="timeElapsed"></param>
+        /// <param name="tlvDatabase"></param>
+        /// <returns></returns>
+        /// <exception cref="DataElementParsingException"></exception>
+        /// <exception cref="CodecParsingException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
         private MeasuredRelayResistanceProcessingTime CalculateMeasuredRrpTime(Seconds timeElapsed, IQueryTlvDatabase tlvDatabase)
         {
             TerminalExpectedTransmissionTimeForRelayResistanceCapdu terminalExpectedCapduTransmissionTime =
@@ -82,6 +102,7 @@ namespace Play.Emv.Terminal.Common.Services.RelayResistance
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="CodecParsingException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
         public bool IsRelayResistanceWithinMinimumRange(MeasuredRelayResistanceProcessingTime processingTime, IQueryTlvDatabase tlvDatabase)
         {
             MinTimeForProcessingRelayResistanceApdu minTimeForProcessingRelayResistanceApdu =

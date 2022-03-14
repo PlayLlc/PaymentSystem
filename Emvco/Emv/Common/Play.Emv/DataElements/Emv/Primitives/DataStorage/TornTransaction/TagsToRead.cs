@@ -51,6 +51,7 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<TagsToRead>
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public int Resolve(TagLengthValue[] value)
     {
         for (nint i = 0; i < _Value.Count; i++)
@@ -65,6 +66,11 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<TagsToRead>
         return _Value.Count;
     }
 
+    /// <summary>
+    /// Resolve
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="DataElementParsingException"></exception>
     public void Resolve(TagLengthValue value)
     {
         if (!TryPeek(out Tag firstTag))

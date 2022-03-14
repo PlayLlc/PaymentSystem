@@ -63,6 +63,7 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
     public override PlayEncodingId GetEncodingId() => EncodingId;
 
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public KernelType GetKernelType()
     {
         const byte bitOffset = 7;
@@ -73,6 +74,11 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
         return result;
     }
 
+    /// <summary>
+    /// GetShortKernelId
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="DataElementParsingException"></exception>
     public ShortKernelIdTypes GetShortKernelId()
     {
         const byte bitOffset = 56;
@@ -100,6 +106,7 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
     /// <param name="other"></param>
     /// <returns></returns>
     /// <remarks>Book B Section 3.3.2.5 C</remarks>
+    /// <exception cref="DataElementParsingException"></exception>
     public bool IsKernelMatch(ShortKernelIdTypes other)
     {
         if (IsShortKernelIdFlagSet())

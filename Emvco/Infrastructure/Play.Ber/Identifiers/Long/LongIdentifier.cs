@@ -88,6 +88,7 @@ internal static partial class LongIdentifier
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private static ushort GetSubsequentOctets(uint value)
     {
         ushort subsequentOctets = (ushort) value.GetMaskedValue(GetSubsequentOctetMask(GetByteCount(value)));

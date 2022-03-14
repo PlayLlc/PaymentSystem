@@ -24,6 +24,11 @@ public record SystemTraceAuditNumber : InterchangeDataElement<uint>
 
     #region Constructor
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="DataElementParsingException"></exception>
     public SystemTraceAuditNumber(uint value) : base(value)
     {
         Check.Primitive.ForMinimumLength(value, _MinValue, Tag);

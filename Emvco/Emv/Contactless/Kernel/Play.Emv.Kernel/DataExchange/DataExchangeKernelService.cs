@@ -138,6 +138,7 @@ public class DataExchangeKernelService
     }
 
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Emv.Exceptions.DataElementParsingException"></exception>
     public void Resolve(GetDataResponse dataResponse)
     {
         lock (_Lock.Requests)

@@ -37,6 +37,11 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
 
     #region Constructor
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="DataElementParsingException"></exception>
     public TransactionType(byte value) : base(value)
     {
         Validate(value);
@@ -50,6 +55,11 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
+    /// <summary>
+    /// Validate
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="DataElementParsingException"></exception>
     private void Validate(byte value)
     {
         if (value.GetNumberOfDigits() != _CharLength)

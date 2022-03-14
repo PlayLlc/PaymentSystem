@@ -33,6 +33,12 @@ public sealed record DataStorageVersionNumberTypes : EnumObject<byte>
 
     public static bool IsValid(byte value) => _ValueMap.ContainsKey(value);
 
+    /// <summary>
+    /// Get
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="DataElementParsingException"></exception>
     public static DataStorageVersionNumberTypes Get(byte value)
     {
         const byte bitMask = 0b00111111;

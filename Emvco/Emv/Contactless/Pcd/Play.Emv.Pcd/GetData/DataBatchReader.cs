@@ -28,6 +28,13 @@ public class DataBatchReader : IGetData
 
     #region Instance Members
 
+    /// <summary>
+    /// Transceive
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    /// <exception cref="PcdProtocolException"></exception>
+    /// <exception cref="PcdTimeoutException"></exception>
     public async Task<GetDataResponse> Transceive(GetDataRequest command)
     {
         GetDataRApduSignal response = new(await _Client.Transceive(command.Serialize()).ConfigureAwait(false));

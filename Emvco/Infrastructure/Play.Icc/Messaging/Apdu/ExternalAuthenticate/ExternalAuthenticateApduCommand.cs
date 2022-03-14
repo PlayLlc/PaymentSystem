@@ -41,6 +41,7 @@ public class ExternalAuthenticateApduCommand : ApduCommand
     ///     • optional additional 1-8 bytes are proprietary
     /// </param>
     /// <returns></returns>
+    /// <exception cref="IccProtocolException"></exception>
     public static ExternalAuthenticateApduCommand Create(ReadOnlySpan<byte> issuerAuthenticationData)
     {
         if ((issuerAuthenticationData.Length < 8) || (issuerAuthenticationData.Length > 16))

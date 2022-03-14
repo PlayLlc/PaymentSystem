@@ -27,6 +27,9 @@ public partial class Idle : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     public override KernelState Handle(KernelSession session, ActivateKernelRequest signal)
     {
         HandleRequestOutOfSync(session, signal);
@@ -62,6 +65,7 @@ public partial class Idle : KernelState
     /// <remarks>Book C-2 Section 6.3.3 S1.7</remarks>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private void UpdateLanguagePreferences(Kernel2Session session, FileControlInformationAdf fci)
     {
         if (fci.TryGetLanguagePreference(out LanguagePreference? languagePreference))
@@ -70,6 +74,9 @@ public partial class Idle : KernelState
 
     /// <remarks>Book C-2 Section 6.3.3 - S1.7</remarks>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     private void HandleBerEncodingException(CorrelationId correlationId, KernelSessionId kernelSessionId)
     {
         _KernelDatabase.Update(StatusOutcome.SelectNext);
@@ -84,6 +91,7 @@ public partial class Idle : KernelState
     /// <param name="session"></param>
     /// <param name="fci"></param>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private void HandleSupportForFieldOffDetection(Kernel2Session session, FileControlInformationAdf fci)
     {
         if (fci!.TryGetApplicationCapabilitiesInformation(out ApplicationCapabilitiesInformation? result))
@@ -102,6 +110,9 @@ public partial class Idle : KernelState
 
     /// <remarks>Book C-2 Section 6.3.3 - S1.7 & S1.8</remarks>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     private bool TryParseTemplateAndAddTransactionDataToDatabase(ActivateKernelRequest signal, out FileControlInformationAdf? result)
     {
         try
@@ -132,6 +143,9 @@ public partial class Idle : KernelState
 
     /// <remarks>Book C-2 Section 6.2.3; Book C-2 Section 6.3.3 - S1.7 & S1.8</remarks>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     private bool TryInitialize(CorrelationId correlationId, KernelSessionId kernelSessionId, Transaction transaction)
     {
         try
@@ -177,6 +191,7 @@ public partial class Idle : KernelState
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private void InitializeEmvDataObjects()
     {
         CardDataInputCapability cardDataInputCapability =
@@ -288,6 +303,7 @@ public partial class Idle : KernelState
 
     /// <remarks>Book C-2 Section 6.3.3  S1.16</remarks>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private void InitializeAcPutData()
     {
         _KernelDatabase.Update(new PostGenAcPutDataStatus(0));
@@ -314,6 +330,7 @@ public partial class Idle : KernelState
 
     /// <remarks>Book C-2 Section 6.3.3  S1.16.1</remarks>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private void UpdateIntegratedDataStorage()
     {
         _KernelDatabase.Update(new IntegratedDataStorageStatus(0));
@@ -329,6 +346,8 @@ public partial class Idle : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     public void HandleDataStorageVersionNumberTerm(Kernel2Session session)
     {
         if (!_KernelDatabase.IsPresentAndNotEmpty(DataStorageVersionNumberTerminal.Tag))
@@ -359,6 +378,7 @@ public partial class Idle : KernelState
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <remarks> EMV Book C-2 Section S1.18 </remarks>
+    /// <exception cref="TerminalDataException"></exception>
     private void EnqueueDataStorageId()
     {
         if (_KernelDatabase.TryGet(DataStorageId.Tag, out TagLengthValue? dataStorageId))
@@ -371,6 +391,7 @@ public partial class Idle : KernelState
     ///     EnqueueApplicationCapabilitiesInformation
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private void EnqueueApplicationCapabilitiesInformation()
     {
         if (_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out TagLengthValue? applicationCapabilitiesInformation))
@@ -392,6 +413,8 @@ public partial class Idle : KernelState
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <remarks> EMV Book C-2 Section S1.19 </remarks>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     public KernelState RouteStateTransition(Kernel2Session session)
     {
         if (!_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out TagLengthValue? applicationCapabilitiesInformationTlv))
@@ -421,6 +444,9 @@ public partial class Idle : KernelState
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <remarks> EMV Book C-2 Section S1.20 </remarks>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     private void SetIntegratedDataStorageReadStatus()
     {
         if (_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out TagLengthValue? integratedDataStorageStatusTlv))
@@ -445,6 +471,8 @@ public partial class Idle : KernelState
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <remarks> EMV Book C-2 Section S1.21 </remarks>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private KernelState HandlePdolData(Kernel2Session session)
     {
         if (session.IsPdolDataMissing())
@@ -488,6 +516,8 @@ public partial class Idle : KernelState
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <remarks> EMV Book C-2 Section S1.23 </remarks>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void SetTimeout(Kernel2Session session)
     {
         TimeoutValue timeout = TimeoutValue.Decode(_KernelDatabase.Get(TimeoutValue.Tag).GetValue().AsSpan());

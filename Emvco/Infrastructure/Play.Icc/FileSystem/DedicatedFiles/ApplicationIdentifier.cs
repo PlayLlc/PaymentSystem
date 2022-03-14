@@ -27,6 +27,11 @@ internal readonly struct ApplicationIdentifier
 
     #region Constructor
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="IccProtocolException"></exception>
     public ApplicationIdentifier(ReadOnlySpan<byte> value)
     {
         Validate(value);
@@ -53,6 +58,11 @@ internal readonly struct ApplicationIdentifier
         return false;
     }
 
+    /// <summary>
+    /// Validate
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="IccProtocolException"></exception>
     private static void Validate(ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));

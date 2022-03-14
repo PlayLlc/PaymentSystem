@@ -28,6 +28,12 @@ public sealed record OdaStatusTypes : EnumObject<byte>
 
     public static bool IsValid(byte value) => _ValueMap.ContainsKey(value);
 
+    /// <summary>
+    /// Get
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="DataElementParsingException"></exception>
     public static OdaStatusTypes Get(byte value)
     {
         const byte bitMask = 0b00111111;

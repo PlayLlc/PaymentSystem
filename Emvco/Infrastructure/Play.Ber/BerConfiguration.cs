@@ -134,6 +134,7 @@ public class BerConfiguration
     ///     ValidatePlayCodecIdentifiersAreUnique
     /// </summary>
     /// <param name="playCodecs"></param>
+    /// <exception cref="BerParsingException"></exception>
     private static void ValidatePlayCodecIdentifiersAreUnique(IList<PlayCodec> playCodecs)
     {
         List<PlayEncodingId> allTags = playCodecs.Select(a => a.GetEncodingId()).ToList();
@@ -173,6 +174,7 @@ public class BerConfiguration
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private static void ValidatePrimitiveValuesAreAllMappedToAPlayCodec(HashSet<PlayCodec> codecs, HashSet<PrimitiveValue> primitiveValues)
     {
         HashSet<PlayEncodingId> encodingIds = new(codecs.Select(a => a.GetEncodingId()));

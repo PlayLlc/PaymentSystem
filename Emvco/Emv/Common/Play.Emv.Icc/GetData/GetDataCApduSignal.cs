@@ -40,6 +40,7 @@ public class GetDataCApduSignal : CApduSignal
     /// <returns></returns>
     /// <exception cref="StatusBytesException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
     public static GetDataCApduSignal Create(Tag tag)
     {
         GetDataApduCommand cApdu = GetDataApduCommand.Create(ProprietaryMessageIdentifier._8x, tag);

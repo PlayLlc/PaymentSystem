@@ -18,6 +18,7 @@ namespace Play.Emv.Kernel2.StateMachine
 
         /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
         /// <exception cref="TerminalDataException"></exception>
+        /// <exception cref="System.InvalidOperationException"></exception>
         public override KernelState Handle(KernelSession session, QueryTerminalResponse signal)
         {
             HandleRequestOutOfSync(session, signal);
@@ -38,6 +39,8 @@ namespace Play.Emv.Kernel2.StateMachine
         #region S6.1, S6.3
 
         /// <exception cref="TerminalDataException"></exception>
+        /// <remarks>Book C-2 Section S6.1, S6.3</remarks>
+        /// <exception cref="System.InvalidOperationException"></exception>
         public bool TryHandleTimeout(KernelSession session)
         {
             if (!session.Timer.IsTimedOut())
@@ -56,6 +59,7 @@ namespace Play.Emv.Kernel2.StateMachine
 
         #region S6.6
 
+        /// <remarks>Book C-2 Section S6.6</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private void UpdateDatabase(QueryTerminalResponse signal)
         {
@@ -72,6 +76,8 @@ namespace Play.Emv.Kernel2.StateMachine
 
         #region S6.8 - S6.12
 
+        /// <remarks>Book C-2 Section S6.8 - S6.12</remarks>
+        /// <exception cref="System.InvalidOperationException"></exception>
         public bool AttemptToHandleGetDataToBeDone(TransactionSessionId sessionId)
         {
             if (!_DataExchangeKernelService.TryPeek(DekRequestType.TagsToRead, out Tag tagToRead))

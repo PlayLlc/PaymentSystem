@@ -68,6 +68,12 @@ public sealed record ShortKernelIdTypes : EnumObject<byte>, IEqualityComparer<Sh
 
     #region Instance Members
 
+    /// <summary>
+    /// Get
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="DataElementParsingException"></exception>
     public static ShortKernelIdTypes Get(byte value)
     {
         const byte bitMask = 0b11000000;

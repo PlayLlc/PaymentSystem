@@ -37,6 +37,7 @@ internal static partial class LongIdentifier
         /// </remarks>
         /// <param name="value"></param>
         /// <returns></returns>
+        /// <exception cref="BerParsingException"></exception>
         private static bool BitsAreSetCorrectly(ReadOnlySpan<byte> value)
         {
             const Bits bitEight = Bits.Eight;
@@ -191,6 +192,7 @@ internal static partial class LongIdentifier
         /// </summary>
         /// <param name="value"></param>
         /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
+        /// <exception cref="BerParsingException"></exception>
         public static void Validate(ReadOnlySpan<byte> value)
         {
             CheckCore.ForEmptySequence(value, nameof(value));
@@ -218,6 +220,7 @@ internal static partial class LongIdentifier
 
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="PlayInternalException">Ignore.</exception>
+        /// <exception cref="BerParsingException"></exception>
         public static void Validate(ushort value)
         {
             if (!TagByteCountIsInSupportedRange(value))

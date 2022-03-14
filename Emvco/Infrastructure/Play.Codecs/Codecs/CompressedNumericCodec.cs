@@ -261,6 +261,7 @@ public class CompressedNumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow

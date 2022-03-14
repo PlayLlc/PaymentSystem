@@ -26,6 +26,7 @@ public class UnsignedIntegerTests
     /// </summary>
     /// <param name="testValue"></param>
     /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     [Theory]
     [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(UnsignedIntegerFixture))]
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)

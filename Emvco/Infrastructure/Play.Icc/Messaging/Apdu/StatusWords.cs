@@ -61,6 +61,11 @@ public class StatusWords : IEquatable<StatusWords>, IEqualityComparer<StatusWord
         _StatusWord2 = statusWord2;
     }
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="IccProtocolException"></exception>
     public StatusWords(ReadOnlySpan<byte> value)
     {
         if (value.Length < 2)

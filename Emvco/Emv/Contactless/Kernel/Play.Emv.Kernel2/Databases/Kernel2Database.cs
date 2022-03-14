@@ -40,6 +40,7 @@ public class Kernel2Database : KernelDatabase
     /// <param name="transaction"></param>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Emv.Exceptions.TerminalDataException"></exception>
     public override void Activate(KernelSessionId kernelSessionId, Transaction transaction)
     {
         if (IsActive())

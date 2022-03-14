@@ -32,6 +32,7 @@ internal class BitMapBuilder
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
     /// <exception cref="Play.Codecs.Exceptions._Temp.CodecParsingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     public void CopyTo(Span<byte> buffer, ref int offset)
     {
         PlayCodec.NumericCodec.Encode(_Value, buffer, ref offset);

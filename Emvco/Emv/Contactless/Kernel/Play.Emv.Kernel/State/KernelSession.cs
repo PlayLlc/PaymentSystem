@@ -56,6 +56,8 @@ public class KernelSession
     /// <param name="tagList"></param>
     /// <param name="database"></param>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="Play.Emv.Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public void EnqueueStaticDataToBeAuthenticated(StaticDataAuthenticationTagList tagList, IQueryTlvDatabase database)
     {
         if (!_ActiveApplicationFileLocator.IsEmpty())

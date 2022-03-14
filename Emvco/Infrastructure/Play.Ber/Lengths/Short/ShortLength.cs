@@ -68,6 +68,7 @@ internal static class ShortLength
     /// </summary>
     /// <param name="contentOctets"></param>
     /// <returns></returns>
+    /// <exception cref="BerParsingException"></exception>
     public static byte Serialize(ReadOnlySpan<byte> contentOctets)
     {
         if (contentOctets.Length > sbyte.MaxValue)
@@ -81,6 +82,7 @@ internal static class ShortLength
     /// </summary>
     /// <param name="contentOctetLength"></param>
     /// <returns></returns>
+    /// <exception cref="BerParsingException"></exception>
     public static byte Serialize(byte contentOctetLength)
     {
         if (contentOctetLength > sbyte.MaxValue)

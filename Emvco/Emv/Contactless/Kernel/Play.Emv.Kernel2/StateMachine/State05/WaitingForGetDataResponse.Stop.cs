@@ -9,6 +9,15 @@ public partial class WaitingForGetDataResponse : KernelState
 {
     #region STOP
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="Play.Emv.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
         HandleRequestOutOfSync(session, signal);

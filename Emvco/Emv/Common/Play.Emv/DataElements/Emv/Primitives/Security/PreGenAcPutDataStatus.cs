@@ -41,6 +41,12 @@ public record PreGenAcPutDataStatus : DataElement<byte>, IEqualityComparer<PreGe
 
     #region Serialization
 
+    /// <summary>
+    /// Decode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="DataElementParsingException"></exception>
     public static PreGenAcPutDataStatus Decode(ReadOnlyMemory<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

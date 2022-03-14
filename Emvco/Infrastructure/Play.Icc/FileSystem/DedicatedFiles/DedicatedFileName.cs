@@ -110,6 +110,7 @@ public record DedicatedFileName : PrimitiveValue, IEqualityComparer<DedicatedFil
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
     public static DedicatedFileName Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
         const ushort minByteLength = 5;

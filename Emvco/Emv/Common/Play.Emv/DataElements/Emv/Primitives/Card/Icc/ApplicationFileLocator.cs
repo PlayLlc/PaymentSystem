@@ -35,6 +35,11 @@ public record ApplicationFileLocator : DataElement<byte[]>, IEqualityComparer<Ap
 
     #region Constructor
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="DataElementParsingException"></exception>
     public ApplicationFileLocator(byte[] value) : base(value)
     {
         Validate(value);

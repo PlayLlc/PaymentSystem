@@ -102,6 +102,7 @@ public class DirectoryEntry : Template
     /// <param name="kernelType"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public bool TryGetKernelIdentifierType(out KernelType kernelType)
     {
         if (_KernelIdentifier == null)
@@ -116,6 +117,12 @@ public class DirectoryEntry : Template
         return true;
     }
 
+    /// <summary>
+    /// TrGetShortKernelIdentifier
+    /// </summary>
+    /// <param name="shortKernelIdTypes"></param>
+    /// <returns></returns>
+    /// <exception cref="DataElementParsingException"></exception>
     public bool TrGetShortKernelIdentifier(out ShortKernelIdTypes shortKernelIdTypes)
     {
         if (_KernelIdentifier == null)
@@ -180,6 +187,8 @@ public class DirectoryEntry : Template
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CardDataMissingException"></exception>
     public static DirectoryEntry Decode(EncodedTlvSiblings encodedTlvSiblings)
     {
         ApplicationLabel? applicationLabel = null;

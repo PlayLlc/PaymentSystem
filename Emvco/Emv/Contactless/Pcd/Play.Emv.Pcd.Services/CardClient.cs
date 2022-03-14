@@ -255,6 +255,12 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
         }
     }
 
+    /// <summary>
+    /// Transceive
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    /// <exception cref="CardReadException"></exception>
     public Task<ReadRecordResponse> Transceive(ReadRecordRequest command)
     {
         // TODO: catch more specific exceptions
@@ -270,6 +276,12 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
         }
     }
 
+    /// <summary>
+    /// Transceive
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    /// <exception cref="CardReadException"></exception>
     public Task<ExchangeRelayResistanceDataResponse> Transceive(ExchangeRelayResistanceDataRequest command)
     {
         // TODO: catch more specific exceptions

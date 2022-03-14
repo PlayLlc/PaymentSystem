@@ -60,6 +60,7 @@ public class CommonProcessingS3R1 : CommonProcessing
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public override KernelState Process(IGetKernelStateId kernelStateId, Kernel2Session session)
     {
         HandleRequestOutOfSync(kernelStateId.GetStateId());
@@ -123,6 +124,7 @@ public class CommonProcessingS3R1 : CommonProcessing
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool HandleCardDataError(KernelSession session)
     {
         _KernelDatabase.Update(Level2Error.CardDataError);
@@ -141,6 +143,7 @@ public class CommonProcessingS3R1 : CommonProcessing
     #region S3R1.1 - S3R1.4
 
     /// <remarks> EMV Book C-2 Section S3R1.1 - S3R1.4 </remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     public bool TryHandleGetDataToBeDone(TransactionSessionId sessionId)
     {
         if (!_DataExchangeKernelService.TryPeek(DekRequestType.TagsToRead, out Tag tagToRead))
@@ -162,6 +165,7 @@ public class CommonProcessingS3R1 : CommonProcessing
     #region S3R1.1 - S3R1.9
 
     /// <remarks> EMV Book C-2 Section S3R1.1 - S3R1.9 </remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     public bool TrySendingNextCommand(KernelSession session)
     {
         if (TryHandleGetDataToBeDone(session.GetTransactionSessionId()))
@@ -194,6 +198,7 @@ public class CommonProcessingS3R1 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public void AttemptToHandleIntegratedDataStorage(Kernel2Session session)
     {
         if (!_KernelDatabase.IsIntegratedDataStorageSupported())
@@ -248,6 +253,7 @@ public class CommonProcessingS3R1 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public void StopReadingIntegratedStorage(Kernel2Session session)
     {
         IntegratedDataStorageStatus idsStatus =
@@ -261,6 +267,7 @@ public class CommonProcessingS3R1 : CommonProcessing
     #region S3R1.14
 
     /// <remarks> EMV Book C-2 Section S3R1.14 </remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     public void ResolveKnownTagsToRead()
     {
         _DataExchangeKernelService.Resolve(_KernelDatabase);
@@ -271,6 +278,7 @@ public class CommonProcessingS3R1 : CommonProcessing
     #region S3R1.15
 
     /// <remarks> EMV Book C-2 Section S3R1.15 </remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     public bool IsDataExchangeNeeded()
     {
         if (_DataExchangeKernelService.IsEmpty(DekRequestType.DataNeeded))
@@ -287,6 +295,7 @@ public class CommonProcessingS3R1 : CommonProcessing
     #region S3R1.16
 
     /// <remarks> EMV Book C-2 Section S3R1.16 </remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     public void ExchangeData(KernelSessionId sessionId)
     {
         _DataExchangeKernelService.SendRequest(sessionId);
@@ -303,6 +312,7 @@ public class CommonProcessingS3R1 : CommonProcessing
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public bool DoesTheCardAndTerminalSupportCombinedDataAuth(Kernel2Session session)
     {
         ApplicationInterchangeProfile applicationInterchangeProfile =

@@ -28,6 +28,11 @@ internal class FilePath
         _Value = result.ToArray();
     }
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="IccProtocolException"></exception>
     public FilePath(ReadOnlySpan<byte> value)
     {
         if ((value.Length % 2) != 0)

@@ -103,6 +103,7 @@ public class BinaryCodec : PlayCodec
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override ushort GetByteCount<T>(T value) where T : struct
     {
         nint byteSize = Unsafe.SizeOf<T>();
@@ -308,6 +309,12 @@ public class BinaryCodec : PlayCodec
             : UnsignedIntegerCodec.Encode(value)[((length - value.GetMostSignificantBit()) + 1)..];
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="CodecParsingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value)
     {
         Validate(value);
@@ -472,6 +479,13 @@ public class BinaryCodec : PlayCodec
         }
     }
 
+    /// <summary>
+    /// Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="CodecParsingException"></exception>
     public void Encode(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
     {
         Validate(value);

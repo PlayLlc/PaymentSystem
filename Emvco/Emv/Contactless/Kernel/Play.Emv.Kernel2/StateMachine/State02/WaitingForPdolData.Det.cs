@@ -61,6 +61,7 @@ public partial class WaitingForPdolData : KernelState
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public bool TryHandleTimeout(KernelSession session)
     {
         if (!session.Timer.IsTimedOut())
@@ -79,12 +80,12 @@ public partial class WaitingForPdolData : KernelState
 
     #region S2.6
 
+    /// <remarks>Book C-2 Section S2.6</remarks>
     /// <summary>
     ///     UpdateDataExchangeSignal
     /// </summary>
     /// <param name="signal"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <remarks>Book C-2 Section S2.6</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void UpdateDataExchangeSignal(QueryTerminalResponse signal)
     {
@@ -95,6 +96,7 @@ public partial class WaitingForPdolData : KernelState
 
     #region S2.7
 
+    /// <remarks>Book C-2 Section S2.7</remarks>
     /// <summary>
     ///     IsPdolDataMissing
     /// </summary>
@@ -103,7 +105,6 @@ public partial class WaitingForPdolData : KernelState
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <remarks>Book C-2 Section S2.7</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool IsPdolDataMissing(Kernel2Session session, out ProcessingOptionsDataObjectList pdol)
     {
@@ -134,6 +135,7 @@ public partial class WaitingForPdolData : KernelState
     #region S2.9
 
     /// <remarks>Book C-2 Section S2.9</remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     public void StopTimer(Kernel2Session session)
     {
         session.Timer.Stop();

@@ -69,6 +69,7 @@ public class AlphaNumericCodec : PlayCodec
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override ushort GetByteCount<T>(T[] value) where T : struct
     {
         if (typeof(T) == typeof(char))

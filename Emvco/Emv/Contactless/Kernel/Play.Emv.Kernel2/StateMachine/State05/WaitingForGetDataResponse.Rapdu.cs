@@ -6,6 +6,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.DataElements;
+using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
@@ -23,6 +24,10 @@ public partial class WaitingForGetDataResponse : KernelState
 {
     #region RAPDU
 
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
@@ -41,6 +46,9 @@ public partial class WaitingForGetDataResponse : KernelState
     #region S5.5 - S5.6
 
     /// <remarks>Book C-2 Section S5.5 - S5.6</remarks>
+    /// <exception cref="Exceptions.TerminalDataException"></exception>
+    /// <exception cref="Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandleL1Error(KernelSession session, QueryPcdResponse signal)
     {
         if (!signal.IsSuccessful())
@@ -73,6 +81,8 @@ public partial class WaitingForGetDataResponse : KernelState
 
     #region S5.10 - S5.13
 
+    /// <remarks>Book C-2 Section S5.10 - S5.13</remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     public bool TryHandleGetDataToBeDone(TransactionSessionId sessionId)
     {
         if (!_DataExchangeKernelService.TryPeek(DekRequestType.TagsToRead, out Tag tagToRead))
@@ -87,6 +97,7 @@ public partial class WaitingForGetDataResponse : KernelState
 
     #region S5.14 - S5.18
 
+    /// <remarks>Book C-2 Section S5.14 - S5.18</remarks>
     public void HandleRemainingApplicationFilesToRead(KernelSession session)
     {
         if (!session.TryPeekActiveTag(out RecordRange recordRange))
@@ -106,6 +117,9 @@ public partial class WaitingForGetDataResponse : KernelState
 
     #region S5.19 - S5.24
 
+    /// <remarks>Book C-2 Section S5.19 - S5.24</remarks>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public void PersistGetDataResponse(QueryPcdResponse signal)
     {
         try
@@ -135,6 +149,15 @@ public partial class WaitingForGetDataResponse : KernelState
         }
     }
 
+    /// <summary>
+    /// HandleBerParsingException
+    /// </summary>
+    /// <param name="signal"></param>
+    /// <param name="dataExchanger"></param>
+    /// <param name="database"></param>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private static void HandleBerParsingException(QueryPcdResponse signal, DataExchangeKernelService dataExchanger, KernelDatabase database)
     {
         dataExchanger.TryPeek(DekRequestType.TagsToRead, out Tag result);

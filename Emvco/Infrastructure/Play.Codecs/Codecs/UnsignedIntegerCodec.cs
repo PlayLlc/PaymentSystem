@@ -128,6 +128,7 @@ public class UnsignedIntegerCodec : PlayCodec
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override ushort GetByteCount<_T>(_T[] value)
     {
         if (!typeof(_T).IsUnsignedInteger())
@@ -241,6 +242,7 @@ public class UnsignedIntegerCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     protected void Validate(ReadOnlySpan<char> value)
     {
         foreach (char character in value)

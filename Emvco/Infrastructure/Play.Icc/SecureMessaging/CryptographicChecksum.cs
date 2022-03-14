@@ -34,6 +34,11 @@ public record CryptographicChecksum : PrimitiveValue, IEqualityComparer<Cryptogr
 
     #region Constructor
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="IccProtocolException"></exception>
     public CryptographicChecksum(ReadOnlySpan<byte> value)
     {
         if (value.Length < _MinByteCount)
@@ -77,6 +82,7 @@ public record CryptographicChecksum : PrimitiveValue, IEqualityComparer<Cryptogr
     /// <param name="length"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
     public override byte[] EncodeValue(BerCodec codec, int length)
     {
         if (length > _Value.Length)

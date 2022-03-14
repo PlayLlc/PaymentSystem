@@ -126,6 +126,7 @@ public class AlphaNumericSpecialCodec : PlayCodec
     }
 
     /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T[] value) where T : struct
     {
         if (typeof(T) == typeof(char))

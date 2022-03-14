@@ -20,6 +20,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
@@ -58,6 +59,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <remarks>Book C-2 Section S3.4 - S3.5 </remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandleL1Error(KernelSession session, QueryPcdResponse signal)
     {
         if (!signal.IsSuccessful())
@@ -86,6 +88,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     /// <remarks>Book C-2 Section S3.8 - S3.9.2 </remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandleInvalidResultCode(KernelSession session, QueryPcdResponse signal)
     {
         if (signal.GetStatusWords() == StatusWords._9000)
@@ -142,6 +145,7 @@ public partial class WaitingForGpoResponse : KernelState
     }
 
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private void HandleBerParsingException(KernelSession session, QueryPcdResponse signal)
     {
         _KernelDatabase.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
@@ -161,6 +165,9 @@ public partial class WaitingForGpoResponse : KernelState
 
     /// <remarks>Emv Book C-2 Section  S3.13 - S3.14 </remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     private bool TryHandleMissingCardData(KernelSession session)
     {
         if (!_KernelDatabase.IsPresentAndNotEmpty(ApplicationFileLocator.Tag))
@@ -202,6 +209,9 @@ public partial class WaitingForGpoResponse : KernelState
 
     /// <remarks>EMV Book C-2 Section S3.17 - S3.18</remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     public bool TryHandlingMagstripeNotSupported(Kernel2Session session)
     {
         if (_KernelDatabase.IsMagstripeModeSupported())
@@ -219,6 +229,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public KernelState HandleEmvMode(
         Kernel2Session session,
         ApplicationFileLocator applicationFileLocator,
@@ -257,6 +268,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public void SetContactlessTransactionLimitForEmvMode(
         Kernel2Session session,
         ApplicationInterchangeProfile applicationInterchangeProfile)
@@ -314,6 +326,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public KernelState HandleRelayResistanceProtocolNotSupported(Kernel2Session session)
     {
         _KernelDatabase.Set(TerminalVerificationResultCodes.RelayResistanceNotPerformed);
@@ -327,6 +340,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     /// <remarks>EMV Book C-2 Section S3.60 - S3.64</remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public KernelState InitializeRelayResistanceProtocol(Kernel2Session session)
     {
         TerminalRelayResistanceEntropy terminalEntropy = CreateTerminalEntropy();
@@ -371,6 +385,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public KernelState HandleMagstripeMode(
         Kernel2Session session,
         ApplicationFileLocator applicationFileLocator,
@@ -406,6 +421,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public void SetContactlessTransactionLimitForMagstripeMode(
         Kernel2Session session,
         ApplicationInterchangeProfile applicationInterchangeProfile)
@@ -433,6 +449,7 @@ public partial class WaitingForGpoResponse : KernelState
     #region S3.76
 
     /// <remarks>Emv Book C-2 Section S3.76 </remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     public void UpdateDataToSend()
     {
         _DataExchangeKernelService.Resolve(_KernelDatabase);
@@ -443,6 +460,7 @@ public partial class WaitingForGpoResponse : KernelState
     #region S3.77 - S3.78
 
     /// <remarks>Emv Book C-2 Section S3.77 - S3.78 </remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     public void HandleDekRequest(Kernel2Session session)
     {
         if (_DataExchangeKernelService.IsEmpty(DekRequestType.DataNeeded))
@@ -479,6 +497,9 @@ public partial class WaitingForGpoResponse : KernelState
 
     /// <remarks>Emv Book C-2 Section S3.90.1 - S3.90.2 </remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     private void HandleInvalidResponse(KernelSession session, Level2Error level2Error)
     {
         _KernelDatabase.Update(level2Error);

@@ -53,6 +53,7 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
     /// </summary>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public CryptogramTypes GetCryptogramType()
     {
         if (!CryptogramTypes.TryGet(_Value, out CryptogramTypes? result))

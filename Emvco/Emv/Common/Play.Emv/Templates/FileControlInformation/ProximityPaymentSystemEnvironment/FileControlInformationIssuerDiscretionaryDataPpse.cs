@@ -152,6 +152,7 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="CardDataMissingException"></exception>
     public static FileControlInformationIssuerDiscretionaryDataPpse Decode(EncodedTlvSiblings encodedTlvSiblings)
     {
         TerminalCategoriesSupportedList? terminalCategoriesSupportedList = default;

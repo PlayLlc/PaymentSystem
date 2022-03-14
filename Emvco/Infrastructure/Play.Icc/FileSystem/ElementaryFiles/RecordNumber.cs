@@ -21,6 +21,11 @@ public readonly struct RecordNumber
 
     #region Constructor
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="IccProtocolException"></exception>
     public RecordNumber(byte value)
     {
         if ((value < _MinValue) || (value > _MaxValue))

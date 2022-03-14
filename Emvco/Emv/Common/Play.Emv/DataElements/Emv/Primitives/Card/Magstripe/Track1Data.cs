@@ -38,6 +38,7 @@ public record Track1Data : DataElement<byte[]>
 
     /// <exception cref="CardDataException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public PrimaryAccountNumber GetPrimaryAccountNumber(PunatcTrack1 value)
     {
         const byte startSentinel = (byte) '%';

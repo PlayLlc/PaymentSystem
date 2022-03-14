@@ -22,6 +22,11 @@ public readonly struct RegisteredApplicationProviderIndicator
 
     #region Constructor
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="IccProtocolException"></exception>
     public RegisteredApplicationProviderIndicator(ulong value)
     {
         if (value.GetMostSignificantByte() != ByteCount)

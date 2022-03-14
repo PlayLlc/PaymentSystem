@@ -42,6 +42,7 @@ public class GetDataApduCommand : ApduCommand
     /// <returns></returns>
     /// <exception cref="StatusBytesException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
     public static GetDataApduCommand Create(ProprietaryMessageIdentifier proprietaryMessageIdentifier, Tag tag)
     {
         if (tag.GetByteCount() > 2)

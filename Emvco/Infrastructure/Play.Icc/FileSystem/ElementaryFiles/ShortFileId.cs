@@ -23,6 +23,11 @@ public readonly struct ShortFileId
 
     #region Constructor
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="IccProtocolException"></exception>
     public ShortFileId(byte value)
     {
         if (value > _MaxValue)

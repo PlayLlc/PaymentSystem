@@ -26,6 +26,11 @@ public record Track2Data : DataElement<BigInteger>
 
     #region Constructor
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="DataElementParsingException"></exception>
     public Track2Data(BigInteger value) : base(value)
     {
         Check.Primitive.ForMaximumValue((byte) value.GetByteCount(), _MaxByteLength, Tag);

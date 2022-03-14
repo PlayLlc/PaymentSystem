@@ -52,6 +52,7 @@ public readonly struct EncodedTlvSiblings
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public TagLengthValue[] AsTagLengthValues()
     {
         TagLengthValue[]? result = new TagLengthValue[_ChildMetadata.Length];
@@ -112,6 +113,7 @@ public readonly struct EncodedTlvSiblings
     /// <param name="sequenceNumber"></param>
     /// <returns></returns>
     /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private ReadOnlyMemory<byte> GetRawTlvForNextInstanceInSetOf(uint tag, int sequenceNumber)
     {
         int offset = 0;
@@ -132,6 +134,7 @@ public readonly struct EncodedTlvSiblings
     }
 
     /// <exception cref="BerFormatException">Ignore.</exception>
+    /// <exception cref="BerParsingException"></exception>
     private ReadOnlyMemory<byte> GetValueOctetsForNextInstanceInSetOf(uint tag, int sequenceNumber)
     {
         int offset = 0;
@@ -161,6 +164,7 @@ public readonly struct EncodedTlvSiblings
     ///     Searches for all children with the tag provided and returns the raw encoded value content
     /// </summary>
     /// ///
+    /// <exception cref="BerParsingException"></exception>
     public bool TryGetRawSetOf(uint tag, out Span<ReadOnlyMemory<byte>> sequenceOfResult)
     {
         int setOfCount = GetSequenceOfCount(tag);
@@ -187,6 +191,7 @@ public readonly struct EncodedTlvSiblings
     /// <param name="tag"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private ReadOnlyMemory<byte> GetValueOctetsOfChild(Tag tag)
     {
         if (!TryGetValueOctetsOfChild(tag, out ReadOnlyMemory<byte> encodedChild))
