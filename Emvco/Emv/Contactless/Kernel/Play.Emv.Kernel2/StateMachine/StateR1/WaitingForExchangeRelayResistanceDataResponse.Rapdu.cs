@@ -18,8 +18,6 @@ using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Pcd.Contracts.SignalIn.Quereies;
-using Play.Emv.Pcd.Contracts.SignalOut.Queddries;
 using Play.Globalization.Time;
 using Play.Globalization.Time.Seconds;
 using Play.Icc.Messaging.Apdu;

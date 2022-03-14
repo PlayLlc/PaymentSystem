@@ -45,6 +45,7 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
         TransactionSessionId transactionSessionId,
         GenerateApplicationCryptogramRApduSignal response) : base(correlation, MessageTypeId, transactionSessionId, response)
     {
+        //HACK: We should be parsing this on demand rather than immediately after we transceive
         GenerateApplicationCryptogramResponseMetadata a = DecodeData(response);
         _CryptogramInformationData = a.CryptogramInformationData;
         _ApplicationTransactionCounter = a.ApplicationTransactionCounter;

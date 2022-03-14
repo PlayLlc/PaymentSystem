@@ -6,7 +6,7 @@ namespace Play.Randoms;
 
 public partial class Randomize
 {
-    public class Array
+    public class Arrays
     {
         #region Instance Members
 

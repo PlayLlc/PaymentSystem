@@ -2,8 +2,6 @@
 using System.Threading.Tasks;
 
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Pcd.Contracts.SignalIn.Quereies;
-using Play.Emv.Pcd.Contracts.SignalOut.Queddries;
 using Play.Emv.Pcd.Exceptions;
 using Play.Emv.Pcd.GetData;
 
@@ -65,6 +63,7 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
         {
             return await _GpoClient.Transceive(command).ConfigureAwait(false);
         }
+
         catch (Exception exception)
         {
             // TODO: log and shit

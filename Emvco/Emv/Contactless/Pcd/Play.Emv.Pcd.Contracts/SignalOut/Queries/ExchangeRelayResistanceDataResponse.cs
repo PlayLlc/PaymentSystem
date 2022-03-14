@@ -1,22 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Exceptions;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc.ComputeCryptographicChddecksum;
-using Play.Emv.Icc.GenerateApplicationCryptogram;
 using Play.Emv.Sessions;
 using Play.Emv.Templates;
 using Play.Icc.Exceptions;
 using Play.Icc.Messaging.Apdu;
 using Play.Messaging;
 
-namespace Play.Emv.Pcd.Contracts.SignalOut.Queddries
+namespace Play.Emv.Pcd.Contracts
 {
     public record ExchangeRelayResistanceDataResponse : QueryPcdResponse
     {

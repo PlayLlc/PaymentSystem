@@ -1,6 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
+using Play.Emv.Icc;
 using Play.Emv.Icc.FileControlInformation;
+using Play.Emv.Icc.GenerateApplicationCryptogram;
 using Play.Emv.Pcd.Contracts;
 
 namespace Play.Emv.Pcd;
@@ -24,12 +27,30 @@ public class ApplicationDefinitionFileInfoSelector : ISelectApplicationDefinitio
 
     #region Instance Members
 
-    public async Task<SelectApplicationDefinitionFileInfoResponse> Transceive(SelectApplicationDefinitionFileInfoRequest infoCommand)
+    public async Task<SelectApplicationDefinitionFileInfoResponse> Transceive(SelectApplicationDefinitionFileInfoRequest command)
     {
-        GetFileControlInformationRApduSignal response = new(await _PcdTransceiver.Transceive(infoCommand.Serialize()));
+        try
+        {
+            GetFileControlInformationRApduSignal
+                response = new(await _PcdTransceiver.Transceive(command.Serialize()).ConfigureAwait(false));
 
-        return new SelectApplicationDefinitionFileInfoResponse(infoCommand.GetCorrelationId(), infoCommand.GetTransactionSessionId(),
-            response);
+            return new SelectApplicationDefinitionFileInfoResponse(command.GetCorrelationId(), command.GetTransactionSessionId(), response);
+        }
+        catch (PcdProtocolException)
+        {
+            // TODO: Logging
+
+            return new SelectApplicationDefinitionFileInfoResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
+                                                                   new GetFileControlInformationRApduSignal(Array.Empty<byte>(),
+                                                                    Level1Error.ProtocolError));
+        }
+        catch (PcdTimeoutException)
+        {
+            // TODO: Logging
+            return new SelectApplicationDefinitionFileInfoResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
+                                                                   new GetFileControlInformationRApduSignal(Array.Empty<byte>(),
+                                                                    Level1Error.ProtocolError));
+        }
     }
 
     #endregion

@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 
+using Play.Emv.Pcd.Contracts;
+
 namespace Play.Emv.Pcd;
 
 public interface IPcdTransceiver
@@ -11,6 +13,8 @@ public interface IPcdTransceiver
     ///     parameter to the DataExchangeSignal
     ///     is the command to be sent to the Card
     /// </summary>
+    /// <exception cref="PcdProtocolException"></exception>
+    /// <exception cref="PcdTimeoutException"></exception>
     public Task<byte[]> Transceive(byte[] command);
 
     #endregion

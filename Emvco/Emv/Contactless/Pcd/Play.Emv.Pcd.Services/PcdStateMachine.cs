@@ -5,7 +5,6 @@ using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Pcd.Contracts.SignalIn.Quereies;
 using Play.Emv.Sessions;
 using Play.Messaging;
 using Play.Messaging.Exceptions;

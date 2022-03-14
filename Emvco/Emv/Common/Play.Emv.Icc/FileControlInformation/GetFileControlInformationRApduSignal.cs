@@ -7,6 +7,9 @@ public class GetFileControlInformationRApduSignal : RApduSignal
     public GetFileControlInformationRApduSignal(byte[] response) : base(response)
     { }
 
+    public GetFileControlInformationRApduSignal(byte[] response, Level1Error level1Error) : base(response, level1Error)
+    { }
+
     #endregion
 
     #region Instance Members

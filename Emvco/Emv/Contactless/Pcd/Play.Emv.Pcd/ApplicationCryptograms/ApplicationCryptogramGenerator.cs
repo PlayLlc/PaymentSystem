@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
+using Play.Emv.Icc;
 using Play.Emv.Icc.GenerateApplicationCryptogram;
 using Play.Emv.Pcd.Contracts;
 
@@ -25,12 +27,32 @@ public class ApplicationCryptogramGenerator : IGenerateApplicationCryptogram
     #region Instance Members
 
     // HACK: We need to wrap the contents of this method in a try catch and capture any Level1Errors that occur while transceiving. This is where we need to be cognizant of timeouts happening
-    public async Task<GenerateApplicationCryptogramResponse> Transceive(GenerateApplicationCryptogramRequest request)
+    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    public async Task<GenerateApplicationCryptogramResponse> Transceive(GenerateApplicationCryptogramRequest command)
     {
-        GenerateApplicationCryptogramRApduSignal response = new(await _PcdTransceiver
-            .Transceive(request.Serialize()).ConfigureAwait(false));
+        try
+        {
+            GenerateApplicationCryptogramRApduSignal response = new(await _PcdTransceiver
+                                                                        .Transceive(command.Serialize()).ConfigureAwait(false));
 
-        return new GenerateApplicationCryptogramResponse(request.GetCorrelationId(), request.GetTransactionSessionId(), response);
+            return new GenerateApplicationCryptogramResponse(command.GetCorrelationId(), command.GetTransactionSessionId(), response);
+        }
+
+        catch (PcdProtocolException)
+        {
+            // TODO: Logging
+
+            return new GenerateApplicationCryptogramResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
+                                                             new GenerateApplicationCryptogramRApduSignal(Array.Empty<byte>(),
+                                                              Level1Error.ProtocolError));
+        }
+        catch (PcdTimeoutException)
+        {
+            // TODO: Logging
+            return new GenerateApplicationCryptogramResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
+                                                             new GenerateApplicationCryptogramRApduSignal(Array.Empty<byte>(),
+                                                              Level1Error.ProtocolError));
+        }
     }
 
     #endregion

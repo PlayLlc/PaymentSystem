@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
+using Play.Emv.Icc;
 using Play.Emv.Icc.ComputeCryptographicChddecksum;
-using Play.Emv.Pcd.Contracts.SignalIn.Quereies;
-using Play.Emv.Pcd.Contracts.SignalOut.Queddries;
+using Play.Emv.Pcd.Contracts;
+using Play.Randoms;
 
 namespace Play.Emv.Pcd;
 
@@ -30,11 +32,29 @@ public class RelayResistanceDataExchanger : IExchangeRelayResistanceData
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public async Task<ExchangeRelayResistanceDataResponse> Transceive(ExchangeRelayResistanceDataRequest command)
     {
-        ExchangeRelayResistanceDataRApduSignal response = new(await _PcdTransceiver.Transceive(command.Serialize()).ConfigureAwait(false));
+        try
+        {
+            ExchangeRelayResistanceDataRApduSignal response =
+                new(await _PcdTransceiver.Transceive(command.Serialize()).ConfigureAwait(false));
 
-        // TODO Handle for Status  Words
+            // TODO Handle for Status  Words
 
-        return new ExchangeRelayResistanceDataResponse(command.GetCorrelationId(), command.GetTransactionSessionId(), response);
+            return new ExchangeRelayResistanceDataResponse(command.GetCorrelationId(), command.GetTransactionSessionId(), response);
+        }
+        catch (PcdProtocolException)
+        {
+            // TODO: Logging
+            return new ExchangeRelayResistanceDataResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
+                                                           new ExchangeRelayResistanceDataRApduSignal(Array.Empty<byte>(),
+                                                            Level1Error.ProtocolError));
+        }
+        catch (PcdTimeoutException)
+        {
+            // TODO: Logging
+            return new ExchangeRelayResistanceDataResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
+                                                           new ExchangeRelayResistanceDataRApduSignal(Array.Empty<byte>(),
+                                                            Level1Error.TimeOutError));
+        }
     }
 
     #endregion

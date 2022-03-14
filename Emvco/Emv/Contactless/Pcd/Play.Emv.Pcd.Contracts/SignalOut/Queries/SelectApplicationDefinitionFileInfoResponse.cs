@@ -1,4 +1,5 @@
 ﻿using Play.Emv.Icc;
+using Play.Emv.Icc.FileControlInformation;
 using Play.Emv.Sessions;
 using Play.Emv.Templates;
 using Play.Messaging;
@@ -18,7 +19,8 @@ public record SelectApplicationDefinitionFileInfoResponse : QueryPcdResponse
     public SelectApplicationDefinitionFileInfoResponse(
         CorrelationId correlation,
         TransactionSessionId transactionSessionId,
-        RApduSignal responseApduSignal) : base(correlation, MessageTypeId, transactionSessionId, responseApduSignal)
+        GetFileControlInformationRApduSignal responseApduSignal) : base(correlation, MessageTypeId, transactionSessionId,
+                                                                        responseApduSignal)
     { }
 
     #endregion

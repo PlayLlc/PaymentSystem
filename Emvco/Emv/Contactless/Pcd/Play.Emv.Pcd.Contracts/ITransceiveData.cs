@@ -16,6 +16,8 @@ public interface ITransceiveData<in T, TK> where TK : QueryPcdResponse where T :
     ///     parameter to the DataExchangeSignal
     ///     is the command to be sent to the Card
     /// </summary>
+    /// <exception cref="PcdProtocolException" />
+    /// <exception cref="PcdTimeoutException" />
     public Task<TK> Transceive(T command);
 
     #endregion

@@ -7,6 +7,9 @@ public class GenerateApplicationCryptogramRApduSignal : RApduSignal
     public GenerateApplicationCryptogramRApduSignal(byte[] value) : base(value)
     { }
 
+    public GenerateApplicationCryptogramRApduSignal(byte[] value, Level1Error level1Error) : base(value, level1Error)
+    { }
+
     #endregion
 
     #region Instance Members
