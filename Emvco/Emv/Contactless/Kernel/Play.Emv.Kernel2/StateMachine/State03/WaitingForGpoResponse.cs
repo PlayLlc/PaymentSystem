@@ -52,7 +52,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     public override StateId GetStateId() => StateId;
 
-    #region DET
+    #region ACT
 
     /// <summary>
     ///     Handle
@@ -61,44 +61,14 @@ public partial class WaitingForGpoResponse : KernelState
     /// <param name="signal"></param>
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) =>
+    public override KernelState Handle(KernelSession session, ActivateKernelRequest signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    #endregion
-
-    #region RAPDU
-
-    #endregion
-
-    #region STOP
 
     #endregion
 
     #region CLEAN
 
-    #endregion
+    public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
-    public override KernelState Handle(CleanKernelRequest signal) => throw new NotImplementedException();
-    public override KernelState Handle(KernelSession session, StopKernelRequest signal) => throw new NotImplementedException();
-    public override KernelState Handle(KernelSession session, QueryPcdResponse signal) => throw new NotImplementedException();
+    #endregion
 }

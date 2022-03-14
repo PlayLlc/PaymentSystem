@@ -1,6 +1,43 @@
-﻿using Play.Emv.Kernel.State;
+﻿using Play.Emv.Exceptions;
+using Play.Emv.Kernel.Contracts;
+using Play.Emv.Kernel.State;
+using Play.Emv.Messaging;
+using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForGpoResponse : KernelState
-{ }
+{
+    #region DET
+
+    /// <summary>
+    ///     Handle
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <returns></returns>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    /// <summary>
+    ///     Handle
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <returns></returns>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    /// <summary>
+    ///     Handle
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <returns></returns>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+#endregion}

@@ -9,6 +9,8 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 {
     #region STOP
 
+    /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
         HandleRequestOutOfSync(session, signal);
