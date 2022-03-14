@@ -1,7 +1,7 @@
 ﻿using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Icc.Messaging.Apdu.ReadRecord;
 
-namespace Play.Emv.Icc.ReadRecord;
+namespace Play.Emv.Icc;
 
 public class ReadRecordCApduSignal : CApduSignal
 {

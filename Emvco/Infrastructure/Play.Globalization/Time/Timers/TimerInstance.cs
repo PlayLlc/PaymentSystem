@@ -8,7 +8,7 @@ namespace Play.Globalization.Time;
 /// <summary>
 ///     A transient object used to determine if a timeout has occurred
 /// </summary>
-internal class StopWatchInstance
+internal class TimerInstance
 {
     #region Instance Values
 
@@ -19,7 +19,7 @@ internal class StopWatchInstance
 
     #region Constructor
 
-    public StopWatchInstance(Milliseconds timeout)
+    public TimerInstance(Milliseconds timeout)
     {
         _Stopwatch = new Stopwatch();
         _Timeout = timeout;

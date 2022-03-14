@@ -1,4 +1,5 @@
 ﻿using Play.Emv.DataElements;
+using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.State;
@@ -10,7 +11,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     #region STOP
 
     /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
-    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
         HandleRequestOutOfSync(session, signal);

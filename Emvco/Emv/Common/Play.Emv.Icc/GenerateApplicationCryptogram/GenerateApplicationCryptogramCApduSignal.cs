@@ -3,7 +3,7 @@ using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Icc.Messaging.Apdu;
 
-namespace Play.Emv.Icc.GenerateApplicationCryptogram;
+namespace Play.Emv.Icc;
 
 public class GenerateApplicationCryptogramCApduSignal : CApduSignal
 {

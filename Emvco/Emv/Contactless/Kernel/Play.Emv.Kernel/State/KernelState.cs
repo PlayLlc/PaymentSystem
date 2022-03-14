@@ -62,37 +62,13 @@ public abstract class KernelState : IGetKernelStateId
     /// <param name="kernelSessionId"></param>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    /// <exception cref="Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private void HandleBerEncodingException(CorrelationId correlationId, KernelSessionId kernelSessionId)
     {
         _KernelDatabase.Update(StatusOutcome.SelectNext);
         _KernelDatabase.Update(StartOutcome.C);
 
         _KernelEndpoint.Send(new OutKernelResponse(correlationId, kernelSessionId, _KernelDatabase.GetOutcome()));
-    }
-
-    /// <summary>
-    ///     TryHandleTimeout
-    /// </summary>
-    /// <param name="session"></param>
-    /// <returns></returns>
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    /// <exception cref="Exceptions.TerminalDataException"></exception>
-    public bool TryHandleTimeout(KernelSession session)
-    {
-        if (!session.IsTimedOut())
-            return false;
-
-        _KernelDatabase.Update(StatusOutcome.EndApplication);
-        _KernelDatabase.Update(Level3Error.TimeOut);
-        _KernelDatabase.Initialize(DiscretionaryData.Tag);
-        _DataExchangeKernelService.Initialize(DekResponseType.DiscretionaryData);
-        _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _KernelDatabase.GetErrorIndication());
-
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
-
-        return true;
     }
 
     /// <param name="session"></param>

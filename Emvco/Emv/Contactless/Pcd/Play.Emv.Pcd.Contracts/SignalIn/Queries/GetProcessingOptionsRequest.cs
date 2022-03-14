@@ -1,7 +1,6 @@
 ﻿using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Icc;
-using Play.Emv.Icc.GetProcessingOptions;
 using Play.Emv.Sessions;
 using Play.Messaging;
 

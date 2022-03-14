@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 
 using Play.Emv.Icc;
-using Play.Emv.Icc.ReadRecord;
 using Play.Emv.Pcd.Contracts;
 
 namespace Play.Emv.Pcd;

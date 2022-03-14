@@ -3,6 +3,9 @@
 using Play.Ber.Exceptions;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
+using Play.Emv.Icc;
+using Play.Emv.Kernel.Contracts;
+using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
@@ -25,7 +28,8 @@ public partial class WaitingForPdolData : KernelState
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public override KernelState Handle(KernelSession session, QueryTerminalResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
@@ -49,6 +53,30 @@ public partial class WaitingForPdolData : KernelState
         return _KernelStateResolver.GetKernelState(StateId);
     }
 
+    /// <summary>
+    ///     TryHandleTimeout
+    /// </summary>
+    /// <param name="session"></param>
+    /// <returns></returns>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    public bool TryHandleTimeout(KernelSession session)
+    {
+        if (!session.Timer.IsTimedOut())
+            return false;
+
+        _KernelDatabase.Update(StatusOutcome.EndApplication);
+        _KernelDatabase.Update(Level3Error.TimeOut);
+        _KernelDatabase.Initialize(DiscretionaryData.Tag);
+        _DataExchangeKernelService.Initialize(DekResponseType.DiscretionaryData);
+        _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _KernelDatabase.GetErrorIndication());
+
+        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+
+        return true;
+    }
+
     #region S2.6
 
     /// <summary>
@@ -57,7 +85,7 @@ public partial class WaitingForPdolData : KernelState
     /// <param name="signal"></param>
     /// <exception cref="InvalidOperationException"></exception>
     /// <remarks>Book C-2 Section S2.6</remarks>
-    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private void UpdateDataExchangeSignal(QueryTerminalResponse signal)
     {
         _KernelDatabase.Update(signal.GetDataToSend().AsTagLengthValueArray());
@@ -76,7 +104,7 @@ public partial class WaitingForPdolData : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <remarks>Book C-2 Section S2.7</remarks>
-    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private bool IsPdolDataMissing(Kernel2Session session, out ProcessingOptionsDataObjectList pdol)
     {
         pdol = ProcessingOptionsDataObjectList.Decode(_KernelDatabase.Get(ProcessingOptionsDataObjectList.Tag).EncodeValue().AsSpan());
@@ -95,7 +123,7 @@ public partial class WaitingForPdolData : KernelState
 
     /// <remarks>Book C-2 Section S2.8.1 - S2.8.6</remarks>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public GetProcessingOptionsRequest CreateGetProcessingOptionsCapdu(KernelSession session, ProcessingOptionsDataObjectList pdol) =>
         !_KernelDatabase.IsPresentAndNotEmpty(ProcessingOptionsDataObjectList.Tag)
             ? GetProcessingOptionsRequest.Create(session.GetTransactionSessionId())
@@ -108,7 +136,7 @@ public partial class WaitingForPdolData : KernelState
     /// <remarks>Book C-2 Section S2.9</remarks>
     public void StopTimer(Kernel2Session session)
     {
-        session.StopTimeout();
+        session.Timer.Stop();
     }
 
     #endregion

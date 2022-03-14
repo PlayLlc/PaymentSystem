@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.Icc.GetChallenge;
+﻿namespace Play.Emv.Icc;
 
 public class GetChallengeRApduSignal : RApduSignal
 {

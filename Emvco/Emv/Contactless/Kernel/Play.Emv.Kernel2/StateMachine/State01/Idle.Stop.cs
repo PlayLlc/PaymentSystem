@@ -1,4 +1,5 @@
 ﻿using Play.Emv.DataElements;
+using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.State;
@@ -16,7 +17,7 @@ public partial class Idle : KernelState
     /// <param name="signal"></param>
     /// <returns></returns>
     /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
-    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
         HandleRequestOutOfSync(session, signal);
@@ -27,6 +28,7 @@ public partial class Idle : KernelState
 
         _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), signal.GetKernelSessionId(), _KernelDatabase.GetOutcome()));
 
+        // BUG: I think the book says to clear the database and session on stop but i think our implementation might still use DEK to grab the required data before sending it to the acquirer. Check the pattern in the book and your implementation
         Clear();
 
         return _KernelStateResolver.GetKernelState(StateId);

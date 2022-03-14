@@ -10,8 +10,8 @@ public partial class WaitingForGpoResponse : KernelState
 {
     #region DET
 
+    #region Query Terminal Response
 
-#region Query Terminal Response
     /// <summary>
     ///     Handle
     /// </summary>
@@ -19,7 +19,8 @@ public partial class WaitingForGpoResponse : KernelState
     /// <param name="signal"></param>
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) 
+    /// <exception cref="TerminalDataException"></exception>
+    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
 
@@ -28,15 +29,13 @@ public partial class WaitingForGpoResponse : KernelState
         return _KernelStateResolver.GetKernelState(StateId);
     }
 
-
-  private void UpdateDatabase(QueryTerminalResponse signal)
+    /// <exception cref="TerminalDataException"></exception>
+    private void UpdateDatabase(QueryTerminalResponse signal)
     {
         _KernelDatabase.Update(signal.GetDataToSend().AsTagLengthValueArray());
     }
 
-#endregion
+    #endregion
 
-    
-
-#endregion
+    #endregion
 }

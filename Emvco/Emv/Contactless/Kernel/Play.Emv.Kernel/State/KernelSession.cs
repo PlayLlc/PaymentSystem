@@ -4,6 +4,7 @@ using Play.Ber.DataObjects;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
+using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Exceptions;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security.Authentications.Static;
@@ -19,8 +20,9 @@ public class KernelSession
 {
     #region Instance Values
 
+    public readonly StopwatchManager Stopwatch = new();
+    public readonly TimeoutManager Timer = new();
     private readonly KernelSessionId _KernelSessionId;
-    private readonly TimeoutManager _TimeoutManager;
     private readonly CorrelationId _CorrelationId;
     private readonly ActiveApplicationFileLocator _ActiveApplicationFileLocator = new();
     private readonly StaticDataToBeAuthenticated _StaticDataToBeAuthenticated = new();
@@ -29,11 +31,10 @@ public class KernelSession
 
     #region Constructor
 
-    public KernelSession(CorrelationId correlationId, KernelSessionId kernelSessionId)
+    public KernelSession(CorrelationId correlationId, KernelSessionId kernelSessionId, StopwatchManager stopwatchManager)
     {
         _CorrelationId = correlationId;
         _KernelSessionId = kernelSessionId;
-        _TimeoutManager = new TimeoutManager();
     }
 
     #endregion
@@ -48,6 +49,7 @@ public class KernelSession
 
     #region Static Data To Be Authenticated
 
+    /// <exception cref="Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
     public void EnqueueStaticDataToBeAuthenticated(EmvCodec codec, ReadRecordResponse rapdu) =>
         _StaticDataToBeAuthenticated.Enqueue(codec, rapdu);
 
@@ -81,15 +83,6 @@ public class KernelSession
     }
 
     public void ClearActiveTags() => _ActiveApplicationFileLocator.Clear();
-
-    #endregion
-
-    #region Timeout Management
-
-    public void StartTimeout(Milliseconds timeout, Action timeoutHandler) => _TimeoutManager.Start(timeout, timeoutHandler);
-    public void StartTimeout(Milliseconds timeout) => _TimeoutManager.Start(timeout);
-    public Microseconds StopTimeout() => _TimeoutManager.Stop();
-    public bool IsTimedOut() => _TimeoutManager.TimedOut();
 
     #endregion
 }

@@ -1,7 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Emv.Ber;
 
-namespace Play.Emv.Icc.GetData;
+namespace Play.Emv.Icc;
 
 public class GetDataRApduSignal : RApduSignal
 {

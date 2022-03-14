@@ -22,6 +22,7 @@ public partial class WaitingForGetDataResponse : KernelState
 
         _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _KernelDatabase.GetOutcome()));
 
+        // BUG: I think the book says to clear the database and session on stop but i think our implementation might still use DEK to grab the required data before sending it to the acquirer. Check the pattern in the book and your implementation
         Clear();
 
         return _KernelStateResolver.GetKernelState(Idle.StateId);

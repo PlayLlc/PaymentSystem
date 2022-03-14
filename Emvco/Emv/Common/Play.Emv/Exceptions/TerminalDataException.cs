@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 using Play.Core.Exceptions;
 
-namespace Play.Emv.Kernel.Exceptions;
+namespace Play.Emv.Exceptions;
 
 /// <summary>
 ///     When data from the terminal is an incorrect value or different than expected

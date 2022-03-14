@@ -17,7 +17,7 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForGpoResponse : KernelState
 {
-    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
@@ -56,7 +56,7 @@ public partial class WaitingForGpoResponse : KernelState
     #region S3.4 - S3.5
 
     /// <remarks>Book C-2 Section S3.4 - S3.5 </remarks>
-    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     private bool TryHandleL1Error(KernelSession session, QueryPcdResponse signal)
     {
@@ -85,7 +85,7 @@ public partial class WaitingForGpoResponse : KernelState
     #region S3.8 - S3.9.2
 
     /// <remarks>Book C-2 Section S3.8 - S3.9.2 </remarks>
-    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private bool TryHandleInvalidResultCode(KernelSession session, QueryPcdResponse signal)
     {
         if (signal.GetStatusWords() == StatusWords._9000)
@@ -109,6 +109,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     #region S3.10 - S3.12
 
+    /// <remarks>Book C-2 SectionS3.10 - S3.12</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool TryPersistingRapdu(KernelSession session, QueryPcdResponse signal)
     {
@@ -159,7 +160,7 @@ public partial class WaitingForGpoResponse : KernelState
     #region S3.13 - S3.14
 
     /// <remarks>Emv Book C-2 Section  S3.13 - S3.14 </remarks>
-    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private bool TryHandleMissingCardData(KernelSession session)
     {
         if (!_KernelDatabase.IsPresentAndNotEmpty(ApplicationFileLocator.Tag))
@@ -199,8 +200,8 @@ public partial class WaitingForGpoResponse : KernelState
 
     #region S3.17 - S3.18
 
-    /// <exception cref="TerminalDataException"></exception>
     /// <remarks>EMV Book C-2 Section S3.17 - S3.18</remarks>
+    /// <exception cref="TerminalDataException"></exception>
     public bool TryHandlingMagstripeNotSupported(Kernel2Session session)
     {
         if (_KernelDatabase.IsMagstripeModeSupported())
@@ -235,6 +236,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     #region S3.30 - S3.32
 
+    /// <remarks>EMV Book C-2 Section S3.30 - S3.32</remarks>
     public void SetActiveAflForEmvMode(
         Kernel2Session session,
         ApplicationFileLocator applicationFileLocator,
@@ -251,6 +253,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     #region S3.33 - S3.35
 
+    /// <remarks>EMV Book C-2 Section S3.33 - S3.35</remarks>
     /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -291,6 +294,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     #region S3.60
 
+    /// <remarks>EMV Book C-2 Section S3.60</remarks>
     public bool IsRelayResistanceProtocolSupported(ApplicationInterchangeProfile applicationInterchangeProfile)
     {
         if (!applicationInterchangeProfile.IsRelayResistanceProtocolSupported())
@@ -306,6 +310,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     #region S3.65
 
+    /// <remarks>EMV Book C-2 Section S3.65</remarks>
     /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
@@ -320,6 +325,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     #region S3.60 - S3.64
 
+    /// <remarks>EMV Book C-2 Section S3.60 - S3.64</remarks>
     /// <exception cref="TerminalDataException"></exception>
     public KernelState InitializeRelayResistanceProtocol(Kernel2Session session)
     {
@@ -331,7 +337,7 @@ public partial class WaitingForGpoResponse : KernelState
 
         // HACK: We need to create another object that is just a stopwatch and not a timeout manager
         // S3.63
-        session.StartTimeout(new Milliseconds(long.MaxValue));
+        session.Stopwatch.Start();
 
         // S3.64
         _PcdEndpoint.Request(capdu);
@@ -343,6 +349,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     #region S3.61
 
+    /// <remarks>Book C-2 Section S3.61</remarks>
     /// <exception cref="TerminalDataException"></exception>
     public TerminalRelayResistanceEntropy CreateTerminalEntropy()
     {
@@ -381,6 +388,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     #region S3.70 - S3.72
 
+    /// <remarks>Emv Book C-2 Section S3.70 - S3.72 </remarks>
     public void SetActiveAflForMagstripeMode(Kernel2Session session, ApplicationFileLocator applicationFileLocator)
     {
         // S3.30
@@ -394,6 +402,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     #region S3.73 - S3.75
 
+    /// <remarks>Emv Book C-2 Section S3.73 - S3.75 </remarks>
     /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -423,6 +432,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     #region S3.76
 
+    /// <remarks>Emv Book C-2 Section S3.76 </remarks>
     public void UpdateDataToSend()
     {
         _DataExchangeKernelService.Resolve(_KernelDatabase);
@@ -432,6 +442,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     #region S3.77 - S3.78
 
+    /// <remarks>Emv Book C-2 Section S3.77 - S3.78 </remarks>
     public void HandleDekRequest(Kernel2Session session)
     {
         if (_DataExchangeKernelService.IsEmpty(DekRequestType.DataNeeded))
@@ -450,6 +461,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     #region S3.80 - S3.81
 
+    /// <remarks>Emv Book C-2 Section S3.80 - S3.81 </remarks>
     /// <exception cref="TerminalDataException"></exception>
     public void SendReadRecordCommand(Kernel2Session session)
     {
@@ -465,8 +477,8 @@ public partial class WaitingForGpoResponse : KernelState
 
     #region S3.90.1 - S3.90.2
 
-    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
     /// <remarks>Emv Book C-2 Section S3.90.1 - S3.90.2 </remarks>
+    /// <exception cref="TerminalDataException"></exception>
     private void HandleInvalidResponse(KernelSession session, Level2Error level2Error)
     {
         _KernelDatabase.Update(level2Error);

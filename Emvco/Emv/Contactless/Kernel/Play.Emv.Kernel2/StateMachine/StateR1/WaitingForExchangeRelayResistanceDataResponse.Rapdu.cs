@@ -6,10 +6,8 @@ using Play.Ber.Identifiers;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.DataElements;
-using Play.Emv.DataElements.Emv.ValueTypes;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
-using Play.Emv.Icc.GetData;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
@@ -29,7 +27,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     #region RAPDU
 
     /// <exception cref="RequestOutOfSyncException"></exception>
-    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
@@ -68,7 +66,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     #region SR1.3 - SR1.4, SR1.5.1 - SR1.5.2
 
     /// <remarks>Book C-2 Section SR1.3 - SR1.4, SR1.5.1 - SR1.5.2</remarks>
-    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     private bool TryHandleL1Error(KernelSession session, QueryPcdResponse signal)
     {
@@ -97,7 +95,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     #region SR1.11 - SR1.13
 
     /// <remarks>Book C-2 Section SR1.11 - SR1.13 </remarks>
-    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private bool TryHandleInvalidResultCode(KernelSession session, QueryPcdResponse signal)
     {
         if (signal.GetStatusWords() == StatusWords._9000)
@@ -208,7 +206,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <remarks>Book C-2 Section SR1.19 </remarks>
-    public bool IsRelayOutOfLowerBounds(MeasuredRelayResistanceProcessingTime processingTime)
+    private bool IsRelayOutOfLowerBounds(MeasuredRelayResistanceProcessingTime processingTime)
     {
         MinTimeForProcessingRelayResistanceApdu minTimeForProcessingRelayResistanceApdu =
             MinTimeForProcessingRelayResistanceApdu.Decode(_KernelDatabase.Get(MinTimeForProcessingRelayResistanceApdu.Tag).EncodeValue()
@@ -285,7 +283,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 
         // SR1.26
         // BUG: We need to create a Timer in addition to the TimeoutManager we have
-        session.StartTimeout(new Milliseconds(long.MaxValue));
+        session.Stopwatch.Start();
 
         _PcdEndpoint.Request(capdu);
 
@@ -318,7 +316,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     #region SR1.29
 
     /// <exception cref="TerminalDataException"></exception>
-    public void SetRelayTimeLimitExceeded()
+    private void SetRelayTimeLimitExceeded()
     {
         _KernelDatabase.Set(TerminalVerificationResultCodes.RelayResistanceTimeLimitsExceeded);
     }
@@ -330,7 +328,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <remarks>Book C-2 Section SR1.30 </remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    public bool IsAccuracyThresholdExceeded(MeasuredRelayResistanceProcessingTime processingTime)
+    private bool IsAccuracyThresholdExceeded(MeasuredRelayResistanceProcessingTime processingTime)
     {
         if (!_KernelDatabase.IsPresentAndNotEmpty(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag))
             return false;
@@ -377,7 +375,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     #region SR1.31
 
     /// <remarks>Book C-2 Section SR1.31 </remarks>
-    public void SetRelayResistanceThresholdExceeded()
+    private void SetRelayResistanceThresholdExceeded()
     {
         _KernelDatabase.Set(TerminalVerificationResultCodes.RelayResistanceThresholdExceeded);
     }
@@ -387,7 +385,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     #region SR1.32
 
     /// <remarks>Book C-2 Section SR1.32 </remarks>
-    public void SetRelayResistancePerformed()
+    private void SetRelayResistancePerformed()
     {
         _KernelDatabase.Set(TerminalVerificationResultCodes.RelayResistancePerformed);
     }

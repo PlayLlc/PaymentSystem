@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.Icc.CardBlock;
+﻿namespace Play.Emv.Icc;
 
 public class CardBlockRApduSignal : RApduSignal
 {

@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.Icc.Checksum;
+﻿namespace Play.Emv.Icc;
 
 public class ComputeCryptographicChecksumRApduSignal : RApduSignal
 {

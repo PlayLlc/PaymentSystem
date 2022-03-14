@@ -4,7 +4,7 @@ using System.Linq;
 using Play.Ber.DataObjects;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
-using Play.Emv.Icc.ComputeCryptographicChddecksum;
+using Play.Emv.Icc;
 using Play.Emv.Sessions;
 using Play.Emv.Templates;
 using Play.Icc.Exceptions;

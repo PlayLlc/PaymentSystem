@@ -9,15 +9,27 @@ using Play.Emv.Kernel.State;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
+using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
-public class WaitingForEmvModeFirstWriteFlag : KernelState
+public partial class WaitingForEmvModeFirstWriteFlag : KernelState
 {
     #region Static Metadata
 
     public static readonly StateId StateId = new(nameof(WaitingForEmvModeFirstWriteFlag));
+
+    #endregion
+
+    #region Instance Values
+
+    private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
+    private readonly IHandleTerminalRequests _TerminalEndpoint;
+    private readonly IHandlePcdRequests _PcdEndpoint;
+    private readonly IGetKernelState _KernelStateResolver;
+    private readonly ICleanTornTransactions _KernelCleaner;
+    private readonly CommonProcessingS456 _S456;
 
     #endregion
 
@@ -26,8 +38,21 @@ public class WaitingForEmvModeFirstWriteFlag : KernelState
     public WaitingForEmvModeFirstWriteFlag(
         KernelDatabase kernelDatabase,
         DataExchangeKernelService dataExchange,
-        IKernelEndpoint kernelEndpoint) : base(kernelDatabase, dataExchange, kernelEndpoint)
-    { }
+        IKernelEndpoint kernelEndpoint,
+        IGenerateUnpredictableNumber unpredictableNumberGenerator,
+        IHandleTerminalRequests terminalEndpoint,
+        IHandlePcdRequests pcdEndpoint,
+        IGetKernelState kernelStateResolver,
+        ICleanTornTransactions kernelCleaner,
+        CommonProcessingS456 s456) : base(kernelDatabase, dataExchange, kernelEndpoint)
+    {
+        _UnpredictableNumberGenerator = unpredictableNumberGenerator;
+        _TerminalEndpoint = terminalEndpoint;
+        _PcdEndpoint = pcdEndpoint;
+        _KernelStateResolver = kernelStateResolver;
+        _KernelCleaner = kernelCleaner;
+        _S456 = s456;
+    }
 
     #endregion
 
@@ -41,35 +66,28 @@ public class WaitingForEmvModeFirstWriteFlag : KernelState
 
     #endregion
 
-    #region STOP
-
-    public override KernelState Handle(KernelSession session, StopKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    #endregion
-
     #region CLEAN
 
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    #endregion
-
-    #region DET
-
-    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
 
     #region RAPDU
 
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    #endregion
+
+    #region DET
+
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion

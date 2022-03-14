@@ -4,7 +4,7 @@ using Play.Globalization.Time.Seconds;
 
 namespace Play.Globalization.Time;
 
-public class TimeoutManager : IDisposable
+public class TimeoutManager
 {
     #region Instance Values
 
@@ -23,17 +23,12 @@ public class TimeoutManager : IDisposable
 
     #region Instance Members
 
-    public bool TimedOut()
+    public bool IsTimedOut()
     {
         lock (_TimeoutSession)
         {
             return !_TimeoutSession.IsRunning();
         }
-    }
-
-    public void Dispose()
-    {
-        _TimeoutSession.Stop();
     }
 
     #region Stop

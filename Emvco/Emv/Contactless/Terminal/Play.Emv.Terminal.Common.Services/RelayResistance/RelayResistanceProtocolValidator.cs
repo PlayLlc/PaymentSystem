@@ -8,19 +8,12 @@ using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
-using Play.Emv.Kernel.Exceptions;
 using Play.Emv.Sessions;
 using Play.Globalization.Time;
 using Play.Globalization.Time.Seconds;
 
 namespace Play.Emv.Terminal.Common.Services.RelayResistance
 {
-    public interface IValidateRelayResistanceProtocol
-    {
-        public bool IsInRange();
-        public bool IsRetryThresholdHit();
-    }
-
     internal class RelayResistanceProtocolValidator
     {
         #region Instance Values

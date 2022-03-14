@@ -1,6 +1,5 @@
 ﻿using Play.Emv.DataElements;
 using Play.Emv.Icc;
-using Play.Emv.Icc.ComputeCryptographicChecksddum;
 using Play.Emv.Sessions;
 using Play.Messaging;
 

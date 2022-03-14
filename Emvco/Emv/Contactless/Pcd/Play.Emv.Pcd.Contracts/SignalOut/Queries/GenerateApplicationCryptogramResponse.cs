@@ -5,7 +5,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
-using Play.Emv.Icc.GenerateApplicationCryptogram;
+using Play.Emv.Icc;
 using Play.Emv.Sessions;
 using Play.Emv.Templates;
 using Play.Messaging;

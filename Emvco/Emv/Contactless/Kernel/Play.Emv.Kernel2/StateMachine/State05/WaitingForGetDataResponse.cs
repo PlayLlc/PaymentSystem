@@ -23,6 +23,7 @@ public partial class WaitingForGetDataResponse : KernelState
     private readonly IKernelEndpoint _KernelEndpoint;
     private readonly IHandlePcdRequests _PcdEndpoint;
     private readonly IGetKernelState _KernelStateResolver;
+    private readonly CommonProcessingS456 _S456;
 
     #endregion
 

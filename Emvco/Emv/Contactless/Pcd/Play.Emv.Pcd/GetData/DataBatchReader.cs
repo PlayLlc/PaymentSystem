@@ -4,8 +4,7 @@ using System.Threading.Tasks;
 
 using Play.Ber.Identifiers;
 using Play.Emv.DataElements;
-using Play.Emv.Icc.GetData;
-using Play.Emv.Icc.ReadRecord;
+using Play.Emv.Icc;
 using Play.Emv.Pcd.Contracts;
 
 namespace Play.Emv.Pcd.GetData;

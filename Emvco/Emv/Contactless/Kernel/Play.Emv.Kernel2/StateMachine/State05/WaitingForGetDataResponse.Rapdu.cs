@@ -6,11 +6,12 @@ using Play.Ber.Identifiers;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.DataElements;
-using Play.Emv.Icc.GetData;
+using Play.Emv.Icc;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
+using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
 using Play.Icc.FileSystem.ElementaryFiles;
@@ -34,11 +35,12 @@ public partial class WaitingForGetDataResponse : KernelState
         if (!TryHandleGetDataToBeDone(session.GetTransactionSessionId()))
             HandleRemainingApplicationFilesToRead(session);
 
-        return CommonProcessingS456.Process();
+        return _S456.Process(this, (Kernel2Session) session);
     }
 
     #region S5.5 - S5.6
 
+    /// <remarks>Book C-2 Section S5.5 - S5.6</remarks>
     private bool TryHandleL1Error(KernelSession session, QueryPcdResponse signal)
     {
         if (!signal.IsSuccessful())

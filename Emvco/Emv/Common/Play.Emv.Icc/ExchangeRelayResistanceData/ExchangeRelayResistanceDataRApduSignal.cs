@@ -1,6 +1,6 @@
 ﻿using Play.Icc.Messaging.Apdu;
 
-namespace Play.Emv.Icc.ComputeCryptographicChddecksum;
+namespace Play.Emv.Icc;
 
 public class ExchangeRelayResistanceDataRApduSignal : RApduSignal
 {

@@ -127,7 +127,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         if (!session.TryPeekActiveTag(out RecordRange result))
         {
             throw new
-                TerminalDataException($"The state {nameof(WaitingForEmvReadRecordResponse)} expected the {nameof(KernelSession)} to return a {nameof(RecordRange)} because the {nameof(ApplicationFileLocator)} indicated more files need to be read");
+                TerminalDataException($"The state {nameof(WaitingForEmvModeFirstWriteFlag)} expected the {nameof(KernelSession)} to return a {nameof(RecordRange)} because the {nameof(ApplicationFileLocator)} indicated more files need to be read");
         }
 
         return result.GetOfflineDataAuthenticationLength() > 0;

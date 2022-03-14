@@ -1,7 +1,7 @@
 ﻿using Play.Emv.Ber.DataObjects;
 using Play.Icc.Messaging.Apdu;
 
-namespace Play.Emv.Icc.GetProcessingOptions;
+namespace Play.Emv.Icc;
 
 public class GetProcessingOptionsCApduSignal : CApduSignal
 {

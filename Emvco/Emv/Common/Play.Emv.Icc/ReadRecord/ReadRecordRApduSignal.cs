@@ -1,6 +1,6 @@
 ﻿using Play.Icc.FileSystem.ElementaryFiles;
 
-namespace Play.Emv.Icc.ReadRecord;
+namespace Play.Emv.Icc;
 
 public class ReadRecordRApduSignal : RApduSignal
 {

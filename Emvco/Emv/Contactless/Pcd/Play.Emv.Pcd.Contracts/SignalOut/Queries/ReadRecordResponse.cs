@@ -1,6 +1,5 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Emv.Icc;
-using Play.Emv.Icc.ReadRecord;
 using Play.Emv.Sessions;
 using Play.Emv.Templates;
 using Play.Icc.FileSystem.ElementaryFiles;

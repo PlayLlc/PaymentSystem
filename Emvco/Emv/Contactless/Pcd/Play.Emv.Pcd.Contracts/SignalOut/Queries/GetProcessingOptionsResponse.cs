@@ -1,4 +1,4 @@
-﻿using Play.Emv.Icc.GetProcessingOptions;
+﻿using Play.Emv.Icc;
 using Play.Emv.Sessions;
 using Play.Emv.Templates;
 using Play.Messaging;

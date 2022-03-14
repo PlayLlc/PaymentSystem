@@ -8,6 +8,7 @@ using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts;
+using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
@@ -60,6 +61,22 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     #region CLEAN
 
     public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    #endregion
+
+    #region DET
+
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
 

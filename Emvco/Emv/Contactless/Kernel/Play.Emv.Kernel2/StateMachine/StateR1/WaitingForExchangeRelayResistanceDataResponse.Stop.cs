@@ -12,7 +12,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     #region STOP
 
     /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
-    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
         HandleRequestOutOfSync(session, signal);

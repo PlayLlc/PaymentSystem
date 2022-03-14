@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Play.Globalization.Time.Seconds;
 
-namespace Play.Emv.DataElements.Emv.ValueTypes
+namespace Play.Emv.DataElements
 {
     /// <summary>
     ///     A <see cref="RelaySecond" /> is a unit of time equal to 100 microseconds. It's used along with the Relay Resistance

@@ -4,7 +4,7 @@ using Play.Icc.Exceptions;
 using Play.Icc.Messaging.Apdu;
 using Play.Icc.Messaging.Apdu.GetData;
 
-namespace Play.Emv.Icc.GetData;
+namespace Play.Emv.Icc;
 
 /// <summary>
 ///     Gets a TLV encoded object that is not encapsulated as an Elementary File Record

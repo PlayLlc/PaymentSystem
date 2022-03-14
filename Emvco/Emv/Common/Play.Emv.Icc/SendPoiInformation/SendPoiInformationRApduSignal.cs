@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.Icc.SendPoiInformation;
+﻿namespace Play.Emv.Icc;
 
 public class SendPoiInformationRApduSignal : RApduSignal
 {

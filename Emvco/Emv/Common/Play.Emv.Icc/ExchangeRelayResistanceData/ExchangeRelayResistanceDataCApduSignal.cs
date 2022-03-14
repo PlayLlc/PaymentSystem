@@ -1,7 +1,6 @@
-﻿using Play.Emv.Ber.DataObjects;
-using Play.Icc.Messaging.Apdu;
+﻿using Play.Icc.Messaging.Apdu;
 
-namespace Play.Emv.Icc.ComputeCryptographicChecksddum;
+namespace Play.Emv.Icc;
 
 public class ExchangeRelayResistanceDataCApduSignal : CApduSignal
 {

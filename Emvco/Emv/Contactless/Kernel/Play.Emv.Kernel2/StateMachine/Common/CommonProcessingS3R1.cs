@@ -86,7 +86,7 @@ public class CommonProcessingS3R1 : CommonProcessing
         if (!session.IsActiveTagEmpty())
             return _KernelStateResolver.GetKernelState(WaitingForGetDataResponse.StateId);
 
-        return _KernelStateResolver.GetKernelState(WaitingForEmvReadRecordResponse.StateId);
+        return _KernelStateResolver.GetKernelState(WaitingForEmvModeFirstWriteFlag.StateId);
     }
 
     /// <exception cref="TerminalDataException"></exception>

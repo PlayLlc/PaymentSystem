@@ -1,7 +1,7 @@
 ﻿using Play.Emv.Ber.DataObjects;
 using Play.Icc.Messaging.Apdu;
 
-namespace Play.Emv.Icc.ComputeCryptographicChecksum;
+namespace Play.Emv.Icc;
 
 public class ComputeCryptographicChecksumCApduSignal : CApduSignal
 {

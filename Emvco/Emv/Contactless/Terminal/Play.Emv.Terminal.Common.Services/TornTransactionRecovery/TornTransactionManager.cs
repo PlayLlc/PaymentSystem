@@ -13,7 +13,8 @@ namespace Play.Emv.Terminal.Common.Services.TornTransactionRecovery;
 ///     used for this is “tearing”, resulting in a “torn transaction”. This objects helps manage those torn transactions in
 ///     the event that the cardholder needs to present their card again
 /// </summary>
-internal class TornTransactionManager : ICleanTornTransactions
+/// <remarks>EMVco Book C-2 Section 3.8.3</remarks>
+internal class TornTransactionManager : ICleanTornTransactions, IWriteTornTransactions, IReadTornTransactions
 {
     #region Instance Values
 

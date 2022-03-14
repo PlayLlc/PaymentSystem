@@ -175,7 +175,7 @@ public partial class Idle : KernelState
 
     /// <remarks>Book C-2 Section 6.3.3 - S1.9</remarks>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Kernel.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     private void InitializeEmvDataObjects()
     {
@@ -492,7 +492,7 @@ public partial class Idle : KernelState
     {
         TimeoutValue timeout = TimeoutValue.Decode(_KernelDatabase.Get(TimeoutValue.Tag).GetValue().AsSpan());
 
-        session.StartTimeout((Milliseconds) timeout, () => _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId())));
+        session.Timer.Start((Milliseconds) timeout, () => _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId())));
     }
 
     #endregion

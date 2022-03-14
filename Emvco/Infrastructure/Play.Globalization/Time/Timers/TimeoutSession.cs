@@ -14,7 +14,7 @@ internal class TimeoutSession
 {
     #region Instance Values
 
-    private StopWatchInstance? _TimeoutBuddy;
+    private TimerInstance? _TimeoutBuddy;
 
     #endregion
 
@@ -38,7 +38,7 @@ internal class TimeoutSession
                 InvalidOperationException($"The {nameof(TimeoutSession)} could not be started because there is already a session running");
         }
 
-        _TimeoutBuddy = new StopWatchInstance(timeout);
+        _TimeoutBuddy = new TimerInstance(timeout);
     }
 
     /// <exception cref="InvalidOperationException"></exception>
@@ -50,7 +50,7 @@ internal class TimeoutSession
                 InvalidOperationException($"The {nameof(TimeoutSession)} could not be started because there is already a session running");
         }
 
-        Task.Run(() => { _TimeoutBuddy = new StopWatchInstance(timeout); }).WithTimeout(timeout, () =>
+        Task.Run(() => { _TimeoutBuddy = new TimerInstance(timeout); }).WithTimeout(timeout, () =>
         {
             _TimeoutBuddy = null;
             timeoutHandler.Invoke();

@@ -2,7 +2,7 @@
 using Play.Emv.Ber.DataObjects;
 using Play.Icc.Messaging.Apdu.InternalAuthenticate;
 
-namespace Play.Emv.Icc.InternalAuthenticate;
+namespace Play.Emv.Icc;
 
 public class InternalAuthenticateCApduSignal : CApduSignal
 {
