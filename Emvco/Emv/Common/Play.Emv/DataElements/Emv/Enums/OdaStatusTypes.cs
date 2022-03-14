@@ -29,7 +29,7 @@ public sealed record OdaStatusTypes : EnumObject<byte>
     public static bool IsValid(byte value) => _ValueMap.ContainsKey(value);
 
     /// <summary>
-    /// Get
+    ///     Get
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

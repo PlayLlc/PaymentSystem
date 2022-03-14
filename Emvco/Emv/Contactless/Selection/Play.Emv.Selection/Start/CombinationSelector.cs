@@ -138,7 +138,7 @@ public class CombinationSelector
     }
 
     /// <summary>
-    /// ProcessPointOfInteractionResponse
+    ///     ProcessPointOfInteractionResponse
     /// </summary>
     /// <param name="transactionSessionId"></param>
     /// <param name="candidateList"></param>
@@ -168,7 +168,7 @@ public class CombinationSelector
         preProcessingIndicators.IsMatchingAid(applicationDedicatedFileName);
 
     /// <summary>
-    /// IsMatchingDomesticKernelIdentifier
+    ///     IsMatchingDomesticKernelIdentifier
     /// </summary>
     /// <param name="preProcessingIndicators"></param>
     /// <param name="kernelIdentifier"></param>
@@ -193,7 +193,7 @@ public class CombinationSelector
     }
 
     /// <summary>
-    /// IsMatchingKernelIdentifier
+    ///     IsMatchingKernelIdentifier
     /// </summary>
     /// <param name="preProcessingIndicators"></param>
     /// <param name="directoryEntry"></param>
@@ -211,7 +211,7 @@ public class CombinationSelector
     }
 
     /// <summary>
-    /// PopulateCandidateList
+    ///     PopulateCandidateList
     /// </summary>
     /// <param name="preProcessingIndicators"></param>
     /// <param name="transactionType"></param>
@@ -275,7 +275,7 @@ public class CombinationSelector
     }
 
     /// <summary>
-    /// ProcessPpseResponse
+    ///     ProcessPpseResponse
     /// </summary>
     /// <param name="transactionSessionId"></param>
     /// <param name="candidateList"></param>
@@ -317,7 +317,7 @@ public class CombinationSelector
     }
 
     /// <summary>
-    /// ProcessStep2
+    ///     ProcessStep2
     /// </summary>
     /// <param name="transactionSessionId"></param>
     /// <param name="candidateList"></param>

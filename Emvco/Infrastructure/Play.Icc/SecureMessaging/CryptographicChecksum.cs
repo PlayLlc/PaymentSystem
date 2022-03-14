@@ -35,7 +35,7 @@ public record CryptographicChecksum : PrimitiveValue, IEqualityComparer<Cryptogr
     #region Constructor
 
     /// <summary>
-    /// ctor
+    ///     ctor
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="IccProtocolException"></exception>

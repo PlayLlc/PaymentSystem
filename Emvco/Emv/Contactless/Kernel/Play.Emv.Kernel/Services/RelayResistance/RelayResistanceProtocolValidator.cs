@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 using Play.Emv.Sessions;
-using Play.Globalization.Time;
 using Play.Globalization.Time.Seconds;
 
-namespace Play.Emv.Terminal.Common.Services.RelayResistance
+namespace Play.Emv.Kernel.Services
 {
     internal class RelayResistanceProtocolValidator
     {
@@ -39,7 +34,7 @@ namespace Play.Emv.Terminal.Common.Services.RelayResistance
         public bool IsRetryThresholdHit() => ++_RetryCount > _MaximumRetryCount;
 
         /// <summary>
-        /// IsInRange
+        ///     IsInRange
         /// </summary>
         /// <param name="transactionSessionId"></param>
         /// <param name="timeElapsed"></param>
@@ -69,7 +64,7 @@ namespace Play.Emv.Terminal.Common.Services.RelayResistance
         }
 
         /// <summary>
-        /// CalculateMeasuredRrpTime
+        ///     CalculateMeasuredRrpTime
         /// </summary>
         /// <param name="timeElapsed"></param>
         /// <param name="tlvDatabase"></param>

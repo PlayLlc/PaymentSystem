@@ -42,7 +42,7 @@ public class WaitingForPreGenAcBalanace : KernelState
     #region STOP
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -56,7 +56,7 @@ public class WaitingForPreGenAcBalanace : KernelState
     #region CLEAN
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="signal"></param>
     /// <returns></returns>
@@ -68,7 +68,7 @@ public class WaitingForPreGenAcBalanace : KernelState
     #region DET
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -78,7 +78,7 @@ public class WaitingForPreGenAcBalanace : KernelState
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -88,7 +88,7 @@ public class WaitingForPreGenAcBalanace : KernelState
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -102,7 +102,7 @@ public class WaitingForPreGenAcBalanace : KernelState
     #region RAPDU
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>

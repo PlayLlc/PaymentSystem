@@ -33,7 +33,7 @@ internal class KernelOutcome
     #region Instance Members
 
     /// <summary>
-    /// CreateEmvDiscretionaryData
+    ///     CreateEmvDiscretionaryData
     /// </summary>
     /// <param name="database"></param>
     /// <param name="dataExchanger"></param>
@@ -50,7 +50,7 @@ internal class KernelOutcome
     }
 
     /// <summary>
-    /// CreateMagstripeDiscretionaryData
+    ///     CreateMagstripeDiscretionaryData
     /// </summary>
     /// <param name="database"></param>
     /// <param name="dataExchanger"></param>

@@ -1,6 +1,6 @@
 ﻿using Play.Emv.Terminal.Contracts.Messages.Commands;
 
-namespace Play.Emv.Terminal.Contracts;
+namespace Play.Emv.Kernel.Services;
 
 public interface IPerformTerminalActionAnalysis
 {

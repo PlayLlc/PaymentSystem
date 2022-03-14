@@ -28,7 +28,7 @@ internal readonly struct ApplicationIdentifier
     #region Constructor
 
     /// <summary>
-    /// ctor
+    ///     ctor
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="IccProtocolException"></exception>
@@ -59,7 +59,7 @@ internal readonly struct ApplicationIdentifier
     }
 
     /// <summary>
-    /// Validate
+    ///     Validate
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="IccProtocolException"></exception>

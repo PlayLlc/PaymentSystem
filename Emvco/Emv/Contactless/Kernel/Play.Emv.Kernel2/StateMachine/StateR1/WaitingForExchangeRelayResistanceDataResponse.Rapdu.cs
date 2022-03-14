@@ -412,7 +412,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     #region Shared
 
     /// <summary>
-    /// IsRelayOutOfUpperBounds
+    ///     IsRelayOutOfUpperBounds
     /// </summary>
     /// <param name="relayTime"></param>
     /// <returns></returns>

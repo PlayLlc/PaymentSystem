@@ -19,7 +19,7 @@ public abstract record DataObjectList : DataElement<byte[]>
     private TagLength[]? _DataObjects;
 
     /// <summary>
-    /// DataObjects
+    ///     DataObjects
     /// </summary>
     /// <exception cref="BerParsingException">Get.</exception>
     /// <exception cref="System.InvalidOperationException">Get.</exception>

@@ -35,7 +35,7 @@ public class AlphabeticCodec : PlayCodec
     #region Serialization
 
     #region Decode To DecodedMetadata
-     
+
     public override DecodedMetadata Decode(ReadOnlySpan<byte> value) =>
         new DecodedResult<char[]>(AlphabeticCodec.DecodeToChars(value), value.Length);
 

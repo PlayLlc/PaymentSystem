@@ -22,7 +22,7 @@ public readonly struct RecordNumber
     #region Constructor
 
     /// <summary>
-    /// ctor
+    ///     ctor
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="IccProtocolException"></exception>

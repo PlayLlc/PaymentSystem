@@ -118,7 +118,7 @@ public class DirectoryEntry : Template
     }
 
     /// <summary>
-    /// TrGetShortKernelIdentifier
+    ///     TrGetShortKernelIdentifier
     /// </summary>
     /// <param name="shortKernelIdTypes"></param>
     /// <returns></returns>

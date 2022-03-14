@@ -35,8 +35,7 @@ public class TerminalActionAnalysisServiceFactory
     {
         Mock<IResolveAuthenticationType>? authenticationTypeResolver = new();
         authenticationTypeResolver
-            .Setup(a => a.GetAuthenticationMethod(It.IsAny<TerminalCapabilities>(),
-                                                                       It.IsAny<ApplicationInterchangeProfile>()))
+            .Setup(a => a.GetAuthenticationMethod(It.IsAny<TerminalCapabilities>(), It.IsAny<ApplicationInterchangeProfile>()))
             .Returns(AuthenticationTypes.CombinedDataAuthentication);
 
         fixture.Register(() => new TerminalActionAnalysisService(fixture.Create<IHandlePcdRequests>(), authenticationTypeResolver.Object,

@@ -256,7 +256,7 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
     }
 
     /// <summary>
-    /// Transceive
+    ///     Transceive
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
@@ -277,7 +277,7 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
     }
 
     /// <summary>
-    /// Transceive
+    ///     Transceive
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>

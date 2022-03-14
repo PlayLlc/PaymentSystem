@@ -9,7 +9,7 @@ public class UniqueIdentifierTypeA
     #region Constructor
 
     /// <summary>
-    /// ctor
+    ///     ctor
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="IccProtocolException"></exception>

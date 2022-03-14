@@ -67,7 +67,7 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<TagsToRead>
     }
 
     /// <summary>
-    /// Resolve
+    ///     Resolve
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="DataElementParsingException"></exception>

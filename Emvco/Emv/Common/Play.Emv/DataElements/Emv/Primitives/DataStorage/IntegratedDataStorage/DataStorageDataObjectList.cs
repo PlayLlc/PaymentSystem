@@ -30,7 +30,7 @@ public record DataStorageDataObjectList : DataObjectList
     #region Constructor
 
     /// <summary>
-    /// ctor
+    ///     ctor
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="DataElementParsingException"></exception>

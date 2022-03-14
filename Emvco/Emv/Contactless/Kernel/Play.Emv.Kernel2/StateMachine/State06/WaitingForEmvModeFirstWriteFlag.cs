@@ -5,6 +5,7 @@ using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
+using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
@@ -76,7 +77,7 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
     #region RAPDU
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>

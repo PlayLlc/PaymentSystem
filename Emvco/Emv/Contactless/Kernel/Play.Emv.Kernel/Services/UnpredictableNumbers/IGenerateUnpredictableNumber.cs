@@ -1,6 +1,6 @@
 ﻿using Play.Emv.DataElements;
 
-namespace Play.Emv.Terminal.Contracts;
+namespace Play.Emv.Kernel.Services;
 
 public interface IGenerateUnpredictableNumber
 {

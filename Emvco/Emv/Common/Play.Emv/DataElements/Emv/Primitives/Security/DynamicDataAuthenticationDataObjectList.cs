@@ -27,7 +27,7 @@ public record DynamicDataAuthenticationDataObjectList : DataObjectList, IEqualit
     #region Constructor
 
     /// <summary>
-    /// ctor
+    ///     ctor
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="CardDataMissingException"></exception>

@@ -1,6 +1,6 @@
 ﻿using Play.Emv.DataElements;
 
-namespace Play.Emv.Terminal.Common.Services.CardholderVerificationMethods.Pin;
+namespace Play.Emv.Kernel.Services;
 
 // TODO: Book 3 Section 10.5.1 Offline PIN Processing
 internal class OfflinePinProcessor

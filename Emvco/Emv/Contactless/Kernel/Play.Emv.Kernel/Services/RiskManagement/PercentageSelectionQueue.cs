@@ -3,9 +3,8 @@ using System.Collections.Concurrent;
 using System.Threading.Tasks;
 
 using Play.Core.Math;
-using Play.Emv.Terminal.Contracts;
 
-namespace Play.Emv.Terminal.Common.Services.RiskManagement.Terminal;
+namespace Play.Emv.Kernel.Services;
 
 internal class PercentageSelectionQueue : IPercentageSelectionQueue
 {

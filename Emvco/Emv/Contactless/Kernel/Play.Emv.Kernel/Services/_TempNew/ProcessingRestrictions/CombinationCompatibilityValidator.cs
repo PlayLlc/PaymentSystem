@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Play.Emv.DataElements;
 
-using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements;
-using Play.Emv.DataElements.Emv.Primitives.Card.Icccc;
-
-namespace Play.Emv.Terminal.Common.Services._TempNew.ProcessingRestrictions
+namespace Play.Emv.Kernel.Services._TempNew
 {
     public class CombinationCompatibilityValidator
     {
@@ -25,8 +17,7 @@ namespace Play.Emv.Terminal.Common.Services._TempNew.ProcessingRestrictions
             ApplicationVersionNumberTerminal versionNumberTerminal =
                 ApplicationVersionNumberTerminal.Decode(database.Get(ApplicationVersionNumberTerminal.Tag).EncodeValue().AsSpan());
 
-            if((ushort)versionNumberCard != (ushort)versionNumberTerminal)
-
+            if ((ushort) versionNumberCard != (ushort) versionNumberTerminal)
         }
 
         public void ApplicationVersionCheck()

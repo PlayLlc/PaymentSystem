@@ -195,7 +195,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     }
 
     /// <summary>
-    /// HandleBerParsingException
+    ///     HandleBerParsingException
     /// </summary>
     /// <param name="session"></param>
     /// <param name="dataExchanger"></param>

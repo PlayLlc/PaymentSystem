@@ -4,13 +4,13 @@ using Play.Ber.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Configuration;
 using Play.Emv.DataElements;
+using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
-using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
 
-namespace Play.Emv.Terminal.Common.Services.TerminalActionAnalysis.Terminal;
+namespace Play.Emv.Kernel.Services;
 
 /// <remarks>
 ///     Book 3 Section 10.7
@@ -123,7 +123,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <param name="terminalVerificationResult"></param>
     /// <param name="flag"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     private void ProcessOnlineActionCodes(TerminalVerificationResults terminalVerificationResult, ref ActionFlag flag)
     {
         if (_TerminalType.GetCommunicationType() == TerminalType.CommunicationType.OfflineOnly)
@@ -159,7 +159,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     ///     terminal is for any reason unable to process the transaction online
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     private void ProcessDefaultActionCodes(
         TerminalVerificationResults terminalVerificationResult,
         OutcomeParameterSet outcomeParameterSet,

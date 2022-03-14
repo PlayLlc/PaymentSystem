@@ -29,7 +29,7 @@ public class DataBatchReader : IGetData
     #region Instance Members
 
     /// <summary>
-    /// Transceive
+    ///     Transceive
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>

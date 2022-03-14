@@ -34,7 +34,7 @@ public class ProcessingOptions : ResponseMessageTemplate
     }
 
     /// <summary>
-    /// ctor
+    ///     ctor
     /// </summary>
     /// <param name="values"></param>
     /// <exception cref="DataElementParsingException"></exception>

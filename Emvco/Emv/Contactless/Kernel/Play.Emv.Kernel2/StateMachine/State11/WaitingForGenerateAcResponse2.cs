@@ -44,7 +44,7 @@ public class WaitingForGenerateAcResponse2 : KernelState
     #region STOP
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -58,7 +58,7 @@ public class WaitingForGenerateAcResponse2 : KernelState
     #region CLEAN
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="signal"></param>
     /// <returns></returns>
@@ -70,7 +70,7 @@ public class WaitingForGenerateAcResponse2 : KernelState
     #region DET
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -80,7 +80,7 @@ public class WaitingForGenerateAcResponse2 : KernelState
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -90,7 +90,7 @@ public class WaitingForGenerateAcResponse2 : KernelState
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -104,7 +104,7 @@ public class WaitingForGenerateAcResponse2 : KernelState
     #region RAPDU
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>

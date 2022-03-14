@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.Terminal.Common.Services.RelayResistance;
+﻿namespace Play.Emv.Kernel.Services;
 
 public interface IValidateRelayResistanceProtocol
 {

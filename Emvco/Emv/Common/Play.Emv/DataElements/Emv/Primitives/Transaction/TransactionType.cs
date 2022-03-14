@@ -38,7 +38,7 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
     #region Constructor
 
     /// <summary>
-    /// ctor
+    ///     ctor
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="DataElementParsingException"></exception>
@@ -56,7 +56,7 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     /// <summary>
-    /// Validate
+    ///     Validate
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="DataElementParsingException"></exception>

@@ -10,7 +10,7 @@ public partial class WaitingForGetDataResponse : KernelState
     #region STOP
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>

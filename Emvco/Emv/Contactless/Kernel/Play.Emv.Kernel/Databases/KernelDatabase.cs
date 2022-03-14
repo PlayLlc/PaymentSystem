@@ -319,7 +319,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     #region Outcome
 
     /// <summary>
-    /// CreateEmvDiscretionaryData
+    ///     CreateEmvDiscretionaryData
     /// </summary>
     /// <param name="dataExchanger"></param>
     /// <exception cref="InvalidOperationException"></exception>
@@ -329,7 +329,7 @@ public abstract class KernelDatabase : IActivateKernelDatabase, IDeactivateKerne
     }
 
     /// <summary>
-    /// CreateMagstripeDiscretionaryData
+    ///     CreateMagstripeDiscretionaryData
     /// </summary>
     /// <param name="dataExchanger"></param>
     /// <exception cref="InvalidOperationException"></exception>

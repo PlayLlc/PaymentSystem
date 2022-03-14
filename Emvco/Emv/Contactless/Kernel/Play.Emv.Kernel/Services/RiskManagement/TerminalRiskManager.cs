@@ -4,12 +4,11 @@ using Play.Core.Math;
 using Play.Emv.DataElements;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
-using Play.Emv.Terminal.SplitPayment;
 using Play.Globalization.Currency;
 
 using PrimaryAccountNumber = Play.Emv.DataElements.TrackData.PrimaryAccountNumber;
 
-namespace Play.Emv.Terminal.Common.Services.RiskManagement.Terminal;
+namespace Play.Emv.Kernel.Services;
 
 // TODO: Not sure if we're supposed to cross reference the sequence number and only check that, or if we're supposed to be stopping some kind of rapid attack. Both would make sense separately but checking sequence wouldn't make sense for risk
 /// <summary>

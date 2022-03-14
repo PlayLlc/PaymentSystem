@@ -58,7 +58,7 @@ public partial class WaitingForGetDataResponse : KernelState
     #region CLEAN
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="signal"></param>
     /// <returns></returns>

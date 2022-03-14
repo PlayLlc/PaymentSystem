@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.Terminal.Contracts;
+﻿namespace Play.Emv.Kernel.Services;
 
 public interface ICleanTornTransactions
 {

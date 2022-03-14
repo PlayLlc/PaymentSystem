@@ -69,7 +69,7 @@ public sealed record ShortKernelIdTypes : EnumObject<byte>, IEqualityComparer<Sh
     #region Instance Members
 
     /// <summary>
-    /// Get
+    ///     Get
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

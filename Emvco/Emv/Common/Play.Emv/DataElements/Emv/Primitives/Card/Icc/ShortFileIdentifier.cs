@@ -30,7 +30,7 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
     #region Constructor
 
     /// <summary>
-    /// ctor
+    ///     ctor
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="DataElementParsingException"></exception>

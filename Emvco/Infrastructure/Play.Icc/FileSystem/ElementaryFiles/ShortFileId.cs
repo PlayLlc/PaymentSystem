@@ -24,7 +24,7 @@ public readonly struct ShortFileId
     #region Constructor
 
     /// <summary>
-    /// ctor
+    ///     ctor
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="IccProtocolException"></exception>

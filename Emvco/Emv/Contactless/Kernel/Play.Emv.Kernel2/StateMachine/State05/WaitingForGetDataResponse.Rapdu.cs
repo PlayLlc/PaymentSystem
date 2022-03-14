@@ -152,7 +152,7 @@ public partial class WaitingForGetDataResponse : KernelState
     }
 
     /// <summary>
-    /// HandleBerParsingException
+    ///     HandleBerParsingException
     /// </summary>
     /// <param name="signal"></param>
     /// <param name="dataExchanger"></param>

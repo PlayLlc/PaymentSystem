@@ -27,7 +27,7 @@ public record Track2Data : DataElement<BigInteger>
     #region Constructor
 
     /// <summary>
-    /// ctor
+    ///     ctor
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="DataElementParsingException"></exception>

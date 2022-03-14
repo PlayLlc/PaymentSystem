@@ -5,6 +5,7 @@ using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
+using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
@@ -63,7 +64,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     #region CLEAN
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="signal"></param>
     /// <returns></returns>
@@ -75,7 +76,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     #region DET
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -85,7 +86,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -95,7 +96,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>

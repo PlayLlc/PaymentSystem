@@ -29,7 +29,7 @@ public record AcquirerIdentifier : DataElement<ulong>, IEqualityComparer<Acquire
     #region Constructor
 
     /// <summary>
-    /// ctor
+    ///     ctor
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="DataElementParsingException"></exception>
@@ -47,7 +47,7 @@ public record AcquirerIdentifier : DataElement<ulong>, IEqualityComparer<Acquire
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     /// <summary>
-    /// Validate
+    ///     Validate
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="DataElementParsingException"></exception>

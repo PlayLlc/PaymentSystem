@@ -75,7 +75,7 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
     }
 
     /// <summary>
-    /// GetShortKernelId
+    ///     GetShortKernelId
     /// </summary>
     /// <returns></returns>
     /// <exception cref="DataElementParsingException"></exception>

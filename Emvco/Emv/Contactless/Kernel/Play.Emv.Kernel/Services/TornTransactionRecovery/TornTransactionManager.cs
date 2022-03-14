@@ -2,11 +2,9 @@
 using System.Linq;
 
 using Play.Emv.DataElements;
-using Play.Emv.Terminal.Contracts;
-using Play.Globalization.Time;
 using Play.Globalization.Time.Seconds;
 
-namespace Play.Emv.Terminal.Common.Services.TornTransactionRecovery;
+namespace Play.Emv.Kernel.Services;
 
 /// <summary>
 ///     The customer may remove the Card from the field of a Reader before the transaction has completed. The generic term

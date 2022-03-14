@@ -62,7 +62,7 @@ public class StatusWords : IEquatable<StatusWords>, IEqualityComparer<StatusWord
     }
 
     /// <summary>
-    /// ctor
+    ///     ctor
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="IccProtocolException"></exception>
