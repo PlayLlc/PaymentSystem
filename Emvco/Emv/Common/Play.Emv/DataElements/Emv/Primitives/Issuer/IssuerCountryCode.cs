@@ -7,10 +7,11 @@ using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
+using Play.Globalization.Country;
 
 namespace Play.Emv.DataElements;
 
-public record IssuerCountryCode : DataElement<ushort>, IEqualityComparer<IssuerCountryCode>
+public record IssuerCountryCode : DataElement<NumericCountryCode>, IEqualityComparer<IssuerCountryCode>
 {
     #region Static Metadata
 
@@ -23,7 +24,7 @@ public record IssuerCountryCode : DataElement<ushort>, IEqualityComparer<IssuerC
 
     #region Constructor
 
-    public IssuerCountryCode(ushort value) : base(value)
+    public IssuerCountryCode(NumericCountryCode value) : base(value)
     { }
 
     #endregion
@@ -60,10 +61,10 @@ public record IssuerCountryCode : DataElement<ushort>, IEqualityComparer<IssuerC
 
         Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
 
-        return new IssuerCountryCode(result);
+        return new IssuerCountryCode(new NumericCountryCode(result));
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, (ushort) _Value, _ByteLength);
     public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
@@ -82,6 +83,12 @@ public record IssuerCountryCode : DataElement<ushort>, IEqualityComparer<IssuerC
     }
 
     public int GetHashCode(IssuerCountryCode obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator NumericCountryCode(IssuerCountryCode value) => value._Value;
 
     #endregion
 }

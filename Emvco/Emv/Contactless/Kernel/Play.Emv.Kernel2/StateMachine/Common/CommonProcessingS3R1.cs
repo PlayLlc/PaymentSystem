@@ -156,12 +156,6 @@ public class CommonProcessingS3R1 : CommonProcessing
 
     #endregion
 
-    #endregion
-
-    #region S3R1.18
-
-    #endregion
-
     #region S3R1.1 - S3R1.9
 
     /// <remarks> EMV Book C-2 Section S3R1.1 - S3R1.9 </remarks>
@@ -176,6 +170,8 @@ public class CommonProcessingS3R1 : CommonProcessing
 
         return true;
     }
+
+    #endregion
 
     #region S3R1.5 - S3R1.9
 
@@ -353,6 +349,10 @@ public class CommonProcessingS3R1 : CommonProcessing
     }
 
     #endregion
+
+    #endregion
+
+    #region S3R1.18
 
     #endregion
 }

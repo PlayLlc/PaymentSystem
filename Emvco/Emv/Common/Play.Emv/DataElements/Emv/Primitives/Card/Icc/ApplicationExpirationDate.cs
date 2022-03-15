@@ -85,4 +85,10 @@ public record ApplicationExpirationDate : DataElement<uint>, IEqualityComparer<A
     public int GetHashCode(ApplicationExpirationDate obj) => obj.GetHashCode();
 
     #endregion
+
+    #region Operator Overrides
+
+    public static explicit operator uint(ApplicationExpirationDate value) => value._Value;
+
+    #endregion
 }

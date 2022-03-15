@@ -94,4 +94,10 @@ public record TransactionDate : DataElement<uint>, IEqualityComparer<Transaction
     public int GetHashCode(TransactionDate obj) => obj.GetHashCode();
 
     #endregion
+
+    #region Operator Overrides
+
+    public static explicit operator uint(TransactionDate value) => value._Value;
+
+    #endregion
 }

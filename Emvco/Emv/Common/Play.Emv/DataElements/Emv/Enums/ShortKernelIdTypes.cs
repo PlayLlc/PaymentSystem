@@ -102,15 +102,7 @@ public sealed record ShortKernelIdTypes : EnumObject<byte>, IEqualityComparer<Sh
         return x.Equals(y);
     }
 
-    public bool Equals(byte other) => _Value == other;
     public int GetHashCode(ShortKernelIdTypes obj) => obj.GetHashCode();
-
-    public override int GetHashCode()
-    {
-        const int hash = 543287;
-
-        return hash + _Value.GetHashCode();
-    }
 
     #endregion
 

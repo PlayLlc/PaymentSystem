@@ -5,38 +5,6 @@ using Play.Core;
 
 namespace Play.Emv.DataElements;
 
-/*
- permutations:
-
-    Single Message Network
-    {
-        Online
-        {
-            Sale - 1200
-        }
-
-        Offline
-        {
-            Completion - 1220
-        }
-    }
-
-    Dual Message Network
-    {
-        Online
-        {
-            Authorization - 1100
-            Completion 1200
-        }
-
-        Offline
-        {
-            Authorization - 1100
-            OfflineCompletion - 1240
-        } 
-    }
-
- */
 public sealed record MessageTypeIndicatorTypes : EnumObject<ushort>
 {
     #region Static Metadata

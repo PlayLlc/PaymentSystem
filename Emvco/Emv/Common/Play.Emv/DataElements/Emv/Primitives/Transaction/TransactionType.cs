@@ -7,6 +7,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements.Emv.Enums;
 using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
@@ -21,15 +22,9 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
 
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
 
-    /// <summary>
-    ///     Also known as 'Cash Withdrawal'
-    /// </summary>
-    public static readonly TransactionType CashAdvance = new(0x01);
-
-    public static readonly TransactionType Purchase = new(0x00);
-    public static readonly TransactionType PurchaseWithCashback = new(0x09);
-    public static readonly TransactionType Refund = new(0x20);
+    /// <remarks>Hex: 0x9C</remarks>
     public static readonly Tag Tag = 0x9C;
+
     private const byte _ByteLength = 1;
     private const byte _CharLength = 2;
 
@@ -97,6 +92,10 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
 
     #region Equality
 
+    public bool Equals(TransactionTypes value) => value == _Value;
+    public bool Equals(TransactionType x, TransactionTypes y) => (byte) y == x._Value;
+    public bool Equals(TransactionTypes x, TransactionType y) => (byte) x == y._Value;
+
     public bool Equals(TransactionType? x, TransactionType? y)
     {
         if (x is null)
@@ -115,6 +114,10 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
     #region Operator Overrides
 
     public static explicit operator byte(TransactionType value) => value._Value;
+    public static bool operator ==(TransactionType left, TransactionTypes right) => left._Value == (byte) right;
+    public static bool operator !=(TransactionType left, TransactionTypes right) => left._Value != (byte) right;
+    public static bool operator ==(TransactionTypes left, TransactionType right) => right._Value == (byte) left;
+    public static bool operator !=(TransactionTypes left, TransactionType right) => right._Value != (byte) left;
 
     #endregion
 }

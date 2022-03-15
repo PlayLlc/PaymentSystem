@@ -71,4 +71,10 @@ public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<Ap
     public int GetHashCode(ApplicationEffectiveDate obj) => obj.GetHashCode();
 
     #endregion
+
+    #region Operator Overrides
+
+    public static explicit operator uint(ApplicationEffectiveDate value) => value._Value;
+
+    #endregion
 }

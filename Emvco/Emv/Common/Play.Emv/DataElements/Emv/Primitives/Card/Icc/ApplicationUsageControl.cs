@@ -73,6 +73,9 @@ public record ApplicationUsageControl : DataElement<ushort>
     public bool IsValidForInternationalGoods() => ((byte) (_Value >> 8)).IsBitSet(Bits.Five);
 
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    public bool IsValidForDomesticServices() => ((byte) (_Value >> 8)).IsBitSet(Bits.Four);
+
+    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
     public bool IsValidForInternationalServices() => ((byte) (_Value >> 8)).IsBitSet(Bits.Three);
 
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>

@@ -90,6 +90,7 @@ public record TerminalCountryCode : DataElement<NumericCountryCode>, IEqualityCo
 
     #region Operator Overrides
 
+    public static implicit operator NumericCountryCode(TerminalCountryCode value) => value._Value;
     public static bool operator ==(TerminalCountryCode left, NumericCountryCode right) => left._Value.Equals(right);
     public static bool operator ==(NumericCountryCode left, TerminalCountryCode right) => right._Value.Equals(left);
     public static bool operator !=(TerminalCountryCode left, NumericCountryCode right) => !left._Value.Equals(right);
