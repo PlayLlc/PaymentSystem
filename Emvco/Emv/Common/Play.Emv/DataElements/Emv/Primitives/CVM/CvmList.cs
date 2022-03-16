@@ -7,6 +7,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
+using Play.Emv.Kernel.Services.Conditions;
 using Play.Globalization.Currency;
 
 namespace Play.Emv.DataElements;
@@ -37,15 +38,6 @@ public record CvmList : DataElement<BigInteger>
 
     #region Instance Members
 
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    public Money GetXAmount(ApplicationCurrencyCode currencyCode) =>
-        new Money(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray().AsSpan()[..4]), (NumericCurrencyCode) currencyCode);
-
-    public Money GetYAmount(ApplicationCurrencyCode currencyCode) =>
-        new Money(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray().AsSpan()[4..8]), (NumericCurrencyCode) currencyCode);
-
     /// <exception cref="DataElementParsingException"></exception>
     public CardholderVerificationRule[] GetCardholderVerificationRules()
     {
@@ -58,6 +50,15 @@ public record CvmList : DataElement<BigInteger>
 
         return result;
     }
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+
+    public Money GetXAmount(ApplicationCurrencyCode currencyCode) =>
+        new(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray().AsSpan()[..4]), (NumericCurrencyCode) currencyCode);
+
+    public Money GetYAmount(ApplicationCurrencyCode currencyCode) =>
+        new(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray().AsSpan()[4..8]), (NumericCurrencyCode) currencyCode);
 
     #endregion
 

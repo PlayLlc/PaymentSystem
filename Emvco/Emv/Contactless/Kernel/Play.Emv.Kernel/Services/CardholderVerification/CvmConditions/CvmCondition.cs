@@ -5,6 +5,7 @@ using System.Linq;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
+using Play.Emv.Kernel.Services.Conditions;
 
 namespace Play.Emv.DataElements.CvmConditions;
 

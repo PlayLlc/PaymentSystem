@@ -2,6 +2,7 @@
 
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Kernel.Services.Conditions;
 
 namespace Play.Emv.DataElements.CvmConditions
 {
