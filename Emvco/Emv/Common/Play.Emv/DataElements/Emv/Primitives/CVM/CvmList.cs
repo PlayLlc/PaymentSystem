@@ -40,16 +40,21 @@ public record CvmList : DataElement<BigInteger>
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
-    public Money GetXAmount()
+    public Money GetXAmount(ApplicationCurrencyCode currencyCode) =>
+        new Money(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray().AsSpan()[..4]), (NumericCurrencyCode) currencyCode);
 
+    public Money GetYAmount(ApplicationCurrencyCode currencyCode) =>
+        new Money(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray().AsSpan()[4..8]), (NumericCurrencyCode) currencyCode);
+
+    /// <exception cref="DataElementParsingException"></exception>
     public CardholderVerificationRule[] GetCardholderVerificationRules()
     {
         const int offset = 8;
-        CardholderVerificationRule[] result = new CardholderVerificationRule[(_Value.GetByteCount() - 2) - offset / 2];
-        Span<byte> valueBuffer = _Value.ToByteArray().AsSpan();
+        CardholderVerificationRule[] result = new CardholderVerificationRule[((_Value.GetByteCount() - offset) / 2) - 1];
+        Span<byte> valueBuffer = _Value.ToByteArray().AsSpan()[offset..];
 
-        for (int i = 2, j = 0; i < result.Length; i += 2, j++)
-            result[j] = new CardholderVerificationRule(valueBuffer[i..(i + 2)]);
+        for (int i = 2, j = 0; i < result.Length; j++)
+            result[j] = new CardholderVerificationRule(valueBuffer[i++..i++]);
 
         return result;
     }

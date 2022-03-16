@@ -116,7 +116,6 @@ public static class ByteExtensions
     /// <param name="value"></param>
     /// <param name="bit"></param>
     /// <returns></returns>
-    /// <exception cref="PlayInternalException">Ignore.</exception>
     public static bool IsBitSet(this byte value, Bits bit) => (value & BitLookup.GetBit(bit)) != 0;
 
     public static bool IsBitSet(this byte value, byte bit) => (value & bit) != 0;

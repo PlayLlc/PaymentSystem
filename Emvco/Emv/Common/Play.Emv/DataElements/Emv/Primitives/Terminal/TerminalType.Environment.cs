@@ -7,42 +7,45 @@ namespace Play.Emv.DataElements;
 
 public partial record TerminalType
 {
-    public record Environment : EnumObject<byte>
+    public record EnvironmentType : EnumObject<byte>
     {
         #region Static Metadata
 
-        private static readonly ImmutableSortedDictionary<byte, Environment> _ValueObjectMap;
+        private static readonly ImmutableSortedDictionary<byte, EnvironmentType> _ValueObjectMap;
 
         /// <remarks>DecimalValue: 0; HexValue: 0x00</remarks>
-        public static readonly Environment Attended;
+        public static readonly EnvironmentType Attended;
 
         /// <remarks>DecimalValue: 3; HexValue: 0x03</remarks>
-        public static readonly Environment Unattended;
+        public static readonly EnvironmentType Unattended;
 
         #endregion
 
         #region Constructor
 
-        static Environment()
+        static EnvironmentType()
         {
             const byte attended = 0;
             const byte unattended = 3;
 
-            Attended = new Environment(attended);
-            Unattended = new Environment(unattended);
+            Attended = new EnvironmentType(attended);
+            Unattended = new EnvironmentType(unattended);
 
-            _ValueObjectMap = new Dictionary<byte, Environment> {{attended, Attended}, {unattended, Unattended}}
+            _ValueObjectMap = new Dictionary<byte, EnvironmentType> {{attended, Attended}, {unattended, Unattended}}
                 .ToImmutableSortedDictionary(a => a.Key, b => b.Value).ToImmutableSortedDictionary();
         }
 
-        private Environment(byte value) : base(value)
+        private EnvironmentType(byte value) : base(value)
         { }
 
         #endregion
 
         #region Instance Members
 
-        public int CompareTo(Environment? other)
+        public static bool IsEnvironmentType(byte value, EnvironmentType environmentType) =>
+            environmentType == Attended ? value < 4 : value > 3;
+
+        public static int CompareTo(EnvironmentType? other)
         {
             if (other is null)
                 return 1;
@@ -50,13 +53,13 @@ public partial record TerminalType
             return _Value.CompareTo(other._Value);
         }
 
-        public static bool TryGet(byte value, out Environment result) => _ValueObjectMap.TryGetValue(value, out result);
+        public static bool TryGet(byte value, out EnvironmentType result) => _ValueObjectMap.TryGetValue(value, out result);
 
         #endregion
 
         #region Equality
 
-        public bool Equals(Environment? x, Environment? y)
+        public bool Equals(EnvironmentType? x, EnvironmentType? y)
         {
             if (x is null)
                 return y is null;
@@ -68,13 +71,13 @@ public partial record TerminalType
         }
 
         public override int GetHashCode() => 4679537 * _Value.GetHashCode();
-        public int GetHashCode(Environment obj) => obj.GetHashCode();
+        public int GetHashCode(EnvironmentType obj) => obj.GetHashCode();
 
         #endregion
 
         #region Operator Overrides
 
-        public static explicit operator byte(Environment environment) => environment._Value;
+        public static explicit operator byte(EnvironmentType environmentType) => environmentType._Value;
 
         #endregion
     }

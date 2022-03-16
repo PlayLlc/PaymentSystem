@@ -19,7 +19,6 @@ public static class BitLookup
 
     #region Instance Members
 
-    /// <exception cref="PlayInternalException">Ignore.</exception>
     public static byte GetBit(Bits bit)
     {
         return bit switch
@@ -31,8 +30,7 @@ public static class BitLookup
             Bits.Four => _Four,
             Bits.Three => _Three,
             Bits.Two => _Two,
-            Bits.One => _One,
-            _ => throw new PlayInternalException(nameof(bit), message: PlayInternalException.MissingAnExpectedValue)
+            Bits.One => _One
         };
     }
 

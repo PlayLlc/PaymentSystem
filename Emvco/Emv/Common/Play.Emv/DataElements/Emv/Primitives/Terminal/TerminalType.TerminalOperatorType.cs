@@ -2,6 +2,7 @@
 using System.Collections.Immutable;
 
 using Play.Core;
+using Play.Core.Extensions;
 using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
@@ -20,8 +21,12 @@ public partial record TerminalType
         /// <remarks>DecimalValue: 20; HexValue: 0x14</remarks>
         public static readonly TerminalOperatorType Merchant;
 
+        /// <remarks>DecimalValue: 30; HexValue: 0x1E</remarks>
+        public static readonly TerminalOperatorType Cardholder;
+
         private const byte _FinancialInstitution = 10;
         private const byte _Merchant = 20;
+        private const byte _Cardholder = 30;
 
         #endregion
 
@@ -32,6 +37,7 @@ public partial record TerminalType
         {
             FinancialInstitution = new TerminalOperatorType(_FinancialInstitution);
             Merchant = new TerminalOperatorType(_Merchant);
+            Cardholder = new TerminalOperatorType(_Merchant);
 
             _ValueObjectMap = GetValues(typeof(TerminalOperatorType))
                 .ToImmutableSortedDictionary(a => a.Key, b => (TerminalOperatorType) b.Value);
@@ -43,6 +49,9 @@ public partial record TerminalType
         #endregion
 
         #region Instance Members
+
+        private static byte ClearUnrelatedDigit(byte value) => (byte) ((byte) (value / 10) * 10);
+        public static bool IsOperatorType(byte value, TerminalOperatorType operatorType) => ClearUnrelatedDigit(value) == operatorType;
 
         public int CompareTo(TerminalOperatorType? other)
         {

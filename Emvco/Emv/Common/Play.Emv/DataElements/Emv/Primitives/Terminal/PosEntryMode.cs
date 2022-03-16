@@ -27,7 +27,7 @@ public record PosEntryMode : DataElement<byte>, IEqualityComparer<PosEntryMode>
     public PosEntryMode(byte value) : base(value)
     { }
 
-    public PosEntryMode(PosEntryModeTypes value) : base(value)
+    public PosEntryMode(PosEntryModes value) : base(value)
     { }
 
     #endregion

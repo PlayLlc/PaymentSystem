@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Play.Core;
 
-using Play.Core;
-
-namespace Play.Emv.DataElements.Emv.Enums
+namespace Play.Emv.DataElements
 {
     public record TransactionTypes : EnumObject<byte>
     {
@@ -16,8 +9,11 @@ namespace Play.Emv.DataElements.Emv.Enums
         /// <remarks>Hex: 0: Decimal: 0</remarks>
         public static readonly TransactionTypes GoodsAndServicesDebit;
 
+        /// <summary>
+        ///     A Cash Advance allows a cardholder to withdrawal cash from a credit card
+        /// </summary>
         /// <remarks>Hex: 1: Decimal: 1</remarks>
-        public static readonly TransactionTypes CashWithdrawal;
+        public static readonly TransactionTypes CashAdvance;
 
         /// <remarks>Hex: 2: Decimal: 2</remarks>
         public static readonly TransactionTypes AdjustmentDebit;
@@ -185,7 +181,7 @@ namespace Play.Emv.DataElements.Emv.Enums
         static TransactionTypes()
         {
             GoodsAndServicesDebit = new TransactionTypes(0x0);
-            CashWithdrawal = new TransactionTypes(0x1);
+            CashAdvance = new TransactionTypes(0x1);
             AdjustmentDebit = new TransactionTypes(0x2);
             CheckGuaranteeDebit = new TransactionTypes(0x3);
             CheckVerificationDebit = new TransactionTypes(0x4);

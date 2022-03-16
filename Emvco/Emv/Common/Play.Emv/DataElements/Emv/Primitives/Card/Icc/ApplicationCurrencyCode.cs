@@ -7,13 +7,14 @@ using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
+using Play.Globalization.Currency;
 
 namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Indicates the currency in which the account is managed in accordance with [ISO 4217].
 /// </summary>
-public record ApplicationCurrencyCode : DataElement<ushort>
+public record ApplicationCurrencyCode : DataElement<NumericCurrencyCode>
 {
     #region Static Metadata
 
@@ -25,7 +26,7 @@ public record ApplicationCurrencyCode : DataElement<ushort>
 
     #region Constructor
 
-    public ApplicationCurrencyCode(ushort value) : base(value)
+    public ApplicationCurrencyCode(NumericCurrencyCode value) : base(value)
     { }
 
     #endregion
@@ -49,11 +50,17 @@ public record ApplicationCurrencyCode : DataElement<ushort>
 
         ushort result = PlayCodec.NumericCodec.DecodeToUInt16(value);
 
-        return new ApplicationCurrencyCode(result);
+        return new ApplicationCurrencyCode(new NumericCurrencyCode(result));
     }
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
     public new byte[] EncodeValue(int length) => EncodeValue();
+
+    #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator NumericCurrencyCode(ApplicationCurrencyCode value) => value._Value;
 
     #endregion
 }

@@ -50,6 +50,19 @@ public partial record TerminalType
 
         #region Instance Members
 
+        public static bool IsCommunicationType(byte value, CommunicationType communicationType) =>
+            ClearUnusedDigits(value) == communicationType;
+
+        public static byte ClearUnusedDigits(byte value)
+        {
+            byte result = (byte) (value % 10);
+
+            if (result > 3)
+                return (byte) (result - 3);
+
+            return result;
+        }
+
         public int CompareTo(CommunicationType? other)
         {
             if (other is null)

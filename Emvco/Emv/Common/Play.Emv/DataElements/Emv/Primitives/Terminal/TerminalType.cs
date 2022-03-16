@@ -33,8 +33,8 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
     private TerminalType(byte value) : base(value)
     { }
 
-    public TerminalType(Environment environment, CommunicationType communicationType, TerminalOperatorType terminalOperatorType) :
-        base((byte) (environment + communicationType + terminalOperatorType))
+    public TerminalType(EnvironmentType environmentType, CommunicationType communicationType, TerminalOperatorType terminalOperatorType) :
+        base((byte) (environmentType + communicationType + terminalOperatorType))
     { }
 
     #endregion
@@ -60,12 +60,12 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
         return result;
     }
 
-    public Environment GetEnvironment()
+    public EnvironmentType GetEnvironment()
     {
         if ((_Value % 10) > 3)
-            return Environment.Unattended;
+            return EnvironmentType.Unattended;
 
-        return Environment.Attended;
+        return EnvironmentType.Attended;
     }
 
     public override Tag GetTag() => Tag;
@@ -86,6 +86,12 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
         return result;
     }
 
+    public bool IsOperatorType(TerminalOperatorType operatorType) => TerminalOperatorType.IsOperatorType(_Value, operatorType);
+
+    public bool IsCommunicationType(CommunicationType communicationType) =>
+        CommunicationType.IsCommunicationType(_Value, communicationType);
+
+    public bool IsEnvironmentType(EnvironmentType operatorType) => EnvironmentType.IsEnvironmentType(_Value, operatorType);
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion

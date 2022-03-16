@@ -1,10 +1,9 @@
 ﻿using System;
 
 using Play.Emv.DataElements;
-using Play.Emv.DataElements.Emv.Enums;
 using Play.Emv.Kernel.Databases;
 
-namespace Play.Emv.Kernel.Services._TempNew
+namespace Play.Emv.Kernel.Services.ProcessingRestrictions
 {
     public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     {
@@ -65,11 +64,11 @@ namespace Play.Emv.Kernel.Services._TempNew
 
             TerminalType terminalType = TerminalType.Decode(database.Get(TerminalType.Tag).EncodeValue().AsSpan());
 
-            TerminalType onlineAtm = new(TerminalType.Environment.Unattended, TerminalType.CommunicationType.OnlineOnly,
+            TerminalType onlineAtm = new(TerminalType.EnvironmentType.Unattended, TerminalType.CommunicationType.OnlineOnly,
                                          TerminalType.TerminalOperatorType.FinancialInstitution);
-            TerminalType offlineAtm = new(TerminalType.Environment.Unattended, TerminalType.CommunicationType.OfflineOnly,
+            TerminalType offlineAtm = new(TerminalType.EnvironmentType.Unattended, TerminalType.CommunicationType.OfflineOnly,
                                           TerminalType.TerminalOperatorType.FinancialInstitution);
-            TerminalType onlineAndOfflineAtm = new(TerminalType.Environment.Unattended,
+            TerminalType onlineAndOfflineAtm = new(TerminalType.EnvironmentType.Unattended,
                                                    TerminalType.CommunicationType.OnlineAndOfflineCapable,
                                                    TerminalType.TerminalOperatorType.FinancialInstitution);
 
@@ -189,7 +188,7 @@ namespace Play.Emv.Kernel.Services._TempNew
         {
             TransactionType transactionType = TransactionType.Decode(database.Get(TransactionType.Tag).EncodeValue().AsSpan());
 
-            if (transactionType == TransactionTypes.CashWithdrawal)
+            if (transactionType == TransactionTypes.CashAdvance)
                 return true;
 
             if (transactionType == TransactionTypes.FastCashDebit)
@@ -341,12 +340,7 @@ namespace Play.Emv.Kernel.Services._TempNew
         /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
         public bool IsCashbackRequested(KernelDatabase database)
         {
-            TransactionType transactionType = TransactionType.Decode(database.Get(TransactionType.Tag).EncodeValue().AsSpan());
-
-            if (transactionType == TransactionTypes.GoodsAndServicesDebit)
-                return true;
-
-            if (transactionType == TransactionTypes.GoodsAndServicesWithCashDisbursementDebit)
+            if (database.IsPresentAndNotEmpty(AmountOtherNumeric.Tag))
                 return true;
 
             return false;
