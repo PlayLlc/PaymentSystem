@@ -4,13 +4,7 @@ namespace Play.Emv.Kernel.Services.CvmCodes;
 
 internal class _CvmCode
 {
-
-
-         
-        
-
-
-
+    #region Instance Members
 
     /*
         • For EMV-defined CVM codes, support is indicated in Terminal Capabilities.  
@@ -102,9 +96,7 @@ is considered successful, and cardholder verification is complete.
          */
     }
 
-    
-
- 
+    #endregion
 }
 
 }

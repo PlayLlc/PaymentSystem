@@ -51,9 +51,6 @@ public class CultureProfile : IEquatable<CultureProfile>, IEqualityComparer<Cult
     public Alpha2LanguageCode GetAlpha2LanguageCode() => _Alpha2LanguageCode;
     public Alpha3CurrencyCode GetAlpha3CurrencyCode() => new(_RegionInfo.ISOCurrencySymbol);
 
-
-
-
     internal string GetFiatFormat(Money amount)
     {
         int minorUnitLength = GetMinorUnitLength();
@@ -63,13 +60,11 @@ public class CultureProfile : IEquatable<CultureProfile>, IEqualityComparer<Cult
 
         RegionInfo.CurrentRegion.ISOCurrencySymbol
 
-        CultureInfo.GetCultures().Where(a => a .LCID..NumberFormat.)
+        CultureInfo.GetCultures().Where(a => a.LCID..NumberFormat.)
     }
 
-   
-
     internal static string GetMicrosoftCultureCode(Alpha2LanguageCode languageCode, Alpha2CountryCode countryCode) =>
-        $"{languageCode}-{countryCode}"; 
+        $"{languageCode}-{countryCode}";
 
     public int GetMinorUnitLength() => _CultureInfo.NumberFormat.CurrencyDecimalDigits;
     public NumericCountryCode GetNumericCountryCode() => CountryCodeRepository.Get(_Alpha2CountryCode).GetNumericCode();
