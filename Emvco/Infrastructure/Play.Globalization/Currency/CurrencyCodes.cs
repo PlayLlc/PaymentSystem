@@ -6,21 +6,25 @@ namespace Play.Globalization.Currency;
 /// <summary>
 ///     Identifies a currency according to ISO 4217
 /// </summary>
-public class CurrencyCodes : IEqualityComparer<CurrencyCodes>, IEquatable<CurrencyCodes>
+public record Currency
 {
     #region Instance Values
 
     private readonly Alpha3CurrencyCode _Alpha3;
     private readonly NumericCurrencyCode _Numeric;
+    private readonly string _CurrencySymbol;
+    private readonly int _Precision;
 
     #endregion
 
     #region Constructor
 
-    internal CurrencyCodes(NumericCurrencyCode numericCode, Alpha3CurrencyCode alpha3Code)
+    internal Currency(NumericCurrencyCode numericCode, Alpha3CurrencyCode alpha3Code, string currencySymbol, int precision)
     {
         _Numeric = numericCode;
         _Alpha3 = alpha3Code;
+        _CurrencySymbol = currencySymbol;
+        _Precision = precision;
     }
 
     #endregion
@@ -29,12 +33,14 @@ public class CurrencyCodes : IEqualityComparer<CurrencyCodes>, IEquatable<Curren
 
     public Alpha3CurrencyCode GetAlpha3Code() => _Alpha3;
     public NumericCurrencyCode GetNumericCode() => _Numeric;
+    public int GetMinorUnitLength() => _Precision;
+    public string GetCurrencySymbol() => _CurrencySymbol;
 
     #endregion
 
     #region Equality
 
-    public bool Equals(CurrencyCodes? x, CurrencyCodes? y)
+    public bool Equals(Currency? x, Currency? y)
     {
         if (x == null)
             return y == null;
@@ -44,18 +50,6 @@ public class CurrencyCodes : IEqualityComparer<CurrencyCodes>, IEquatable<Curren
 
         return x.Equals(y);
     }
-
-    public bool Equals(CurrencyCodes? other)
-    {
-        if (other == null)
-            return false;
-
-        return (_Alpha3 == other._Alpha3) && (_Numeric == other._Numeric);
-    }
-
-    public override bool Equals(object? other) => other is CurrencyCodes currencyCodes && Equals(currencyCodes);
-    public int GetHashCode(CurrencyCodes obj) => obj.GetHashCode();
-    public override int GetHashCode() => _Alpha3.GetHashCode() + _Numeric.GetHashCode();
 
     #endregion
 }

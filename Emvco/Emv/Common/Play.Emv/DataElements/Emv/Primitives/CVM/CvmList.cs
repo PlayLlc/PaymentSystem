@@ -7,6 +7,7 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
+using Play.Globalization.Currency;
 
 namespace Play.Emv.DataElements;
 
@@ -39,11 +40,16 @@ public record CvmList : DataElement<BigInteger>
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
-    public CardholderVerificationRules[] GetCardholderVerificationRules()
+    public Money GetXAmount()
+
+    public CardholderVerificationRule[] GetCardholderVerificationRules()
     {
-        CardholderVerificationRules[] result = new CardholderVerificationRules[(_Value.Length - 2) / 2];
+        const int offset = 8;
+        CardholderVerificationRule[] result = new CardholderVerificationRule[(_Value.GetByteCount() - 2) - offset / 2];
+        Span<byte> valueBuffer = _Value.ToByteArray().AsSpan();
+
         for (int i = 2, j = 0; i < result.Length; i += 2, j++)
-            result[j] = new CardholderVerificationRules(_Value[i..(i + 2)]);
+            result[j] = new CardholderVerificationRule(valueBuffer[i..(i + 2)]);
 
         return result;
     }

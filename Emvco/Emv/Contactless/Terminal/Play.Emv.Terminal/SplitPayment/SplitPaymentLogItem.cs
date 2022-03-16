@@ -55,7 +55,7 @@ public class SplitPaymentLogItem : PaymentLogItem
         uint sequenceNumber,
         ShortDateValue transactionDate)
     {
-        if (!_Subtotal.IsCurrencyEqual(amountAuthorizedNumeric))
+        if (!_Subtotal.IsCommonCurrency(amountAuthorizedNumeric))
         {
             throw new ArgumentOutOfRangeException(nameof(amountAuthorizedNumeric),
                                                   $"The argument {nameof(amountAuthorizedNumeric)} is not in the same currency");

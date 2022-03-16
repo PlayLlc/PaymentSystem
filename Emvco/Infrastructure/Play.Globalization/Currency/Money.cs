@@ -2,27 +2,41 @@
 using System.Collections.Generic;
 
 using Play.Core.Extensions;
+using Play.Globalization.Country;
+using Play.Globalization.Language;
 
 namespace Play.Globalization.Currency;
 
 /// <summary>
 ///     Agnostic fiat value of the currency type specified in the <see cref="CultureProfile" />
 /// </summary>
-public class Money : IEqualityComparer<Money>, IEquatable<Money>
+public record Money : IEqualityComparer<Money>
 {
     #region Instance Values
 
     private readonly ulong _Amount;
-    private readonly CultureProfile _CultureProfile;
+    private readonly Currency _Currency;
 
     #endregion
 
     #region Constructor
 
-    public Money(ulong amount, CultureProfile cultureProfile)
+    public Money(ulong amount, Alpha3CurrencyCode currencyCode)
     {
         _Amount = amount;
-        _CultureProfile = cultureProfile;
+        _Currency = CurrencyCodeRepository.Get(currencyCode);
+    }
+
+    public Money(ulong amount, NumericCurrencyCode currencyCode)
+    {
+        _Amount = amount;
+        _Currency = CurrencyCodeRepository.Get(currencyCode);
+    }
+
+    private Money(ulong amount, Currency currency)
+    {
+        _Amount = amount;
+        _Currency = currency;
     }
 
     #endregion
@@ -37,36 +51,40 @@ public class Money : IEqualityComparer<Money>, IEquatable<Money>
     /// <exception cref="InvalidOperationException"></exception>
     public Money Add(Money value)
     {
-        if (_CultureProfile != value._CultureProfile)
+        if (_Currency != value._Currency)
         {
             throw new
-                InvalidOperationException($"The money could not be altered because the argument {nameof(value)} is of currency {value._CultureProfile} which is different than {_CultureProfile}");
+                InvalidOperationException($"The money could not be altered because the argument {nameof(value)} has a numeric currency code of: [{value._Currency}] which is different than: [{_Currency}]");
         }
 
-        return new Money(_Amount + value._Amount, _CultureProfile);
+        return new Money(_Amount + value._Amount, _Currency);
     }
 
     /// <summary>
     ///     Formats the money value to string according to the local culture of this type
     /// </summary>
-    public string AsLocalFormat() => _CultureProfile.GetFiatFormat(this);
+    public string AsLocalFormat(CultureProfile cultureProfile) => cultureProfile.GetFiatFormat(this);
 
-    public NumericCurrencyCode GetCurrencyCode() => _CultureProfile.GetNumericCurrencyCode();
+    public NumericCurrencyCode GetCurrencyCode(CultureProfile cultureProfile) => cultureProfile.GetNumericCurrencyCode();
 
     public bool IsBaseAmount()
     {
-        if ((byte) _CultureProfile.GetMinorUnitLength() != _Amount.GetNumberOfDigits())
+        if ((byte) _Currency.GetMinorUnitLength() != _Amount.GetNumberOfDigits())
             return false;
 
-        if ((_Amount / (byte) _CultureProfile.GetMinorUnitLength()) == 1)
+        if ((_Amount / (byte) _Currency.GetMinorUnitLength()) == 1)
             return true;
 
         return false;
     }
 
-    public bool IsCurrencyEqual(Money other) => _CultureProfile.GetNumericCurrencyCode() == other._CultureProfile.GetNumericCurrencyCode();
-    public bool IsCurrencyEqual(Alpha3CurrencyCode code) => _CultureProfile.GetAlpha3CurrencyCode() == code;
-    public bool IsCurrencyEqual(NumericCurrencyCode code) => _CultureProfile.GetNumericCurrencyCode() == code;
+    /// <summary>
+    ///     Returns true if the <see cref="Money" /> objects share a common currency between one another
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    public bool IsCommonCurrency(Money other) => _Currency == other._Currency;
+
     public bool IsZeroAmount() => _Amount == 0;
 
     /// <summary>
@@ -77,31 +95,31 @@ public class Money : IEqualityComparer<Money>, IEquatable<Money>
     /// <exception cref="InvalidOperationException"></exception>
     public Money Subtract(Money value)
     {
-        if (_CultureProfile != value._CultureProfile)
+        if (!IsCommonCurrency(value))
         {
             throw new
-                InvalidOperationException($"The money could not be altered because the argument {nameof(value)} is of currency {value._CultureProfile} which is different than {_CultureProfile}");
+                InvalidOperationException($"The money could not be altered because the argument {nameof(value)} is of currency {value._Currency.GetNumericCode()} which is different than {_Currency.GetNumericCode()}");
         }
 
-        return new Money(_Amount - value._Amount, _CultureProfile);
+        return new Money(_Amount - value._Amount, _Currency);
     }
 
     /// <summary>
     ///     Formats the money value to string according to the local culture of this type
     /// </summary>
-    public override string ToString() => AsLocalFormat();
+    public override string ToString()
+    {
+        int precision = _Currency.GetMinorUnitLength();
+        string yourValue = $"{_Currency.GetCurrencySymbol()}{_Amount / Math.Pow(10, precision)}";
+
+        return yourValue;
+    }
+
+    public string ToString(CultureProfile profile) => profile.GetFiatFormat(this);
 
     #endregion
 
     #region Equality
-
-    public bool Equals(Money? other)
-    {
-        if (other is null)
-            return false;
-
-        return (_Amount == other._Amount) && (GetCurrencyCode() == other.GetCurrencyCode());
-    }
 
     public bool Equals(Money? x, Money? y)
     {
@@ -114,114 +132,111 @@ public class Money : IEqualityComparer<Money>, IEquatable<Money>
         return x.Equals(y);
     }
 
-    public override bool Equals(object? obj) => obj is Money money && Equals(money);
     public int GetHashCode(Money obj) => obj.GetHashCode();
-
-    public override int GetHashCode()
-    {
-        const int hash = 832399;
-
-        return unchecked((hash * _Amount.GetHashCode()) + _CultureProfile.GetHashCode());
-    }
 
     #endregion
 
     #region Operator Overrides
 
+    /// <exception cref="InvalidOperationException"></exception>
     public static Money operator +(Money left, Money right)
     {
-        if (!left.IsCurrencyEqual(right))
+        if (!left.IsCommonCurrency(right))
         {
             throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
+                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
         }
 
-        return new Money(left._Amount + right._Amount, left._CultureProfile);
+        return new Money(left._Amount + right._Amount, left._Currency);
     }
 
+    /// <exception cref="DivideByZeroException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public static Money operator /(Money left, Money right)
     {
         if (right._Amount == 0)
-            throw new ArgumentOutOfRangeException(nameof(right), $"The argument {nameof(right)} is invalid because it is equal to zero");
+            throw new DivideByZeroException($"The argument {nameof(right)} is invalid because it is equal to zero");
 
-        if (!left.IsCurrencyEqual(right))
+        if (!left.IsCommonCurrency(right))
         {
             throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
+                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
         }
 
-        return new Money(left._Amount / right._Amount, left._CultureProfile);
+        return new Money(left._Amount / right._Amount, left._Currency);
     }
 
-    public static bool operator ==(Money left, Money right) => left.Equals(right);
     public static explicit operator ulong(Money value) => value._Amount;
 
+    /// <exception cref="InvalidOperationException"></exception>
     public static bool operator >(Money left, Money right)
     {
-        if (!left.IsCurrencyEqual(right))
+        if (!left.IsCommonCurrency(right))
         {
             throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
+                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
         }
 
         return left._Amount > right._Amount;
     }
 
+    /// <exception cref="InvalidOperationException"></exception>
     public static bool operator >=(Money left, Money right)
     {
-        if (!left.IsCurrencyEqual(right))
+        if (!left.IsCommonCurrency(right))
         {
             throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
+                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
         }
 
         return left._Amount >= right._Amount;
     }
 
-    public static bool operator !=(Money left, Money right) => !left.Equals(right);
-
+    /// <exception cref="InvalidOperationException"></exception>
     public static bool operator <(Money left, Money right)
     {
-        if (!left.IsCurrencyEqual(right))
+        if (!left.IsCommonCurrency(right))
         {
             throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
+                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
         }
 
         return left._Amount < right._Amount;
     }
 
+    /// <exception cref="InvalidOperationException"></exception>
     public static bool operator <=(Money left, Money right)
     {
-        if (!left.IsCurrencyEqual(right))
+        if (!left.IsCommonCurrency(right))
         {
             throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
+                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
         }
 
         return left._Amount >= right._Amount;
     }
 
+    /// <exception cref="InvalidOperationException"></exception>
     public static Money operator *(Money left, Money right)
     {
-        if (!left.IsCurrencyEqual(right))
+        if (!left.IsCommonCurrency(right))
         {
             throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
+                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
         }
 
-        return new Money(left._Amount * right._Amount, left._CultureProfile);
+        return new Money(left._Amount * right._Amount, left._Currency);
     }
 
     public static Money operator -(Money left, Money right)
     {
-        if (!left.IsCurrencyEqual(right))
+        if (!left.IsCommonCurrency(right))
         {
             throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left.GetCurrencyCode()} and the argument {nameof(right)} is {right.GetCurrencyCode()}");
+                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
         }
 
-        return new Money(left._Amount - right._Amount, left._CultureProfile);
+        return new Money(left._Amount - right._Amount, left._Currency);
     }
 
     #endregion

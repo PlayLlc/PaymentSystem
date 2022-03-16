@@ -2,7 +2,7 @@
 
 namespace Play.Emv.Kernel.Services;
 
-public interface ICardholderVerification
+public interface IVerifyCardholder
 {
     public CvmResults Process();
 }

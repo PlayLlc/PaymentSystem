@@ -2,7 +2,7 @@
 
 namespace Play.Emv.DataElements;
 
-public readonly struct CardholderVerificationRuleFormat
+public readonly struct CvmConditionCode
 {
     #region Instance Values
 
@@ -12,7 +12,7 @@ public readonly struct CardholderVerificationRuleFormat
 
     #region Constructor
 
-    public CardholderVerificationRuleFormat(byte value)
+    public CvmConditionCode(byte value)
     {
         _Value = value;
     }
@@ -36,7 +36,7 @@ public readonly struct CardholderVerificationRuleFormat
 
     #region Operator Overrides
 
-    public static explicit operator byte(CardholderVerificationRuleFormat value) => value._Value;
+    public static explicit operator byte(CvmConditionCode value) => value._Value;
 
     #endregion
 }

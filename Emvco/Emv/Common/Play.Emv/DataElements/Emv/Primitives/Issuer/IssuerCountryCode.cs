@@ -11,6 +11,9 @@ using Play.Globalization.Country;
 
 namespace Play.Emv.DataElements;
 
+/// <summary>
+///     Indicates the country of the issuer, in accordance with [ISO 3166-1].
+/// </summary>
 public record IssuerCountryCode : DataElement<NumericCountryCode>, IEqualityComparer<IssuerCountryCode>
 {
     #region Static Metadata

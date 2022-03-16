@@ -6,7 +6,7 @@ using Play.Emv.Kernel.Databases;
 
 namespace Play.Emv.Kernel.Services._TempNew
 {
-    public class CombinationCapabilityValidator
+    public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     {
         #region Instance Members
 
