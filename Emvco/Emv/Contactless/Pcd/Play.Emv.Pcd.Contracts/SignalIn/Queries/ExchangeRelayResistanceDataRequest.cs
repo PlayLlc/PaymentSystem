@@ -3,31 +3,30 @@ using Play.Emv.Icc;
 using Play.Emv.Sessions;
 using Play.Messaging;
 
-namespace Play.Emv.Pcd.Contracts
+namespace Play.Emv.Pcd.Contracts;
+
+public record ExchangeRelayResistanceDataRequest : QueryPcdRequest
 {
-    public record ExchangeRelayResistanceDataRequest : QueryPcdRequest
-    {
-        #region Static Metadata
+    #region Static Metadata
 
-        public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(ExchangeRelayResistanceDataRequest));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(ExchangeRelayResistanceDataRequest));
 
-        #endregion
+    #endregion
 
-        #region Constructor
+    #region Constructor
 
-        private ExchangeRelayResistanceDataRequest(TransactionSessionId transactionSessionId, CApduSignal cApduSignal) :
-            base(cApduSignal, MessageTypeId, transactionSessionId)
-        { }
+    private ExchangeRelayResistanceDataRequest(TransactionSessionId transactionSessionId, CApduSignal cApduSignal) :
+        base(cApduSignal, MessageTypeId, transactionSessionId)
+    { }
 
-        #endregion
+    #endregion
 
-        #region Instance Members
+    #region Instance Members
 
-        public static ExchangeRelayResistanceDataRequest Create(
-            TransactionSessionId sessionId,
-            TerminalRelayResistanceEntropy terminalRelayResistanceEntropy) =>
-            new(sessionId, ExchangeRelayResistanceDataCApduSignal.Create(terminalRelayResistanceEntropy.EncodeValue()));
+    public static ExchangeRelayResistanceDataRequest Create(
+        TransactionSessionId sessionId,
+        TerminalRelayResistanceEntropy terminalRelayResistanceEntropy) =>
+        new(sessionId, ExchangeRelayResistanceDataCApduSignal.Create(terminalRelayResistanceEntropy.EncodeValue()));
 
-        #endregion
-    }
+    #endregion
 }

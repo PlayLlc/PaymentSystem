@@ -4,27 +4,26 @@ using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Kernel.Services.Conditions;
 
-namespace Play.Emv.Kernel.Services
+namespace Play.Emv.Kernel.Services;
+
+internal record AlwaysCondition : CvmCondition
 {
-    internal record AlwaysCondition : CvmCondition
-    {
-        #region Static Metadata
+    #region Static Metadata
 
-        public static readonly CvmConditionCode Code = new(0);
+    public static readonly CvmConditionCode Code = new(0);
 
-        #endregion
+    #endregion
 
-        #region Instance Values
+    #region Instance Values
 
-        protected override Tag[] _RequiredData => throw new NotImplementedException();
+    protected override Tag[] _RequiredData => throw new NotImplementedException();
 
-        #endregion
+    #endregion
 
-        #region Instance Members
+    #region Instance Members
 
-        public override CvmConditionCode GetConditionCode() => Code;
-        protected override bool IsConditionSatisfied(IQueryTlvDatabase database) => throw new NotImplementedException();
+    public override CvmConditionCode GetConditionCode() => Code;
+    protected override bool IsConditionSatisfied(IQueryTlvDatabase database) => throw new NotImplementedException();
 
-        #endregion
-    }
+    #endregion
 }

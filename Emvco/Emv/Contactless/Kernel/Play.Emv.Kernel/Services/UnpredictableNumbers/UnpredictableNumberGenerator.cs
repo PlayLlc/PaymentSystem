@@ -1,15 +1,14 @@
 ﻿using Play.Emv.DataElements;
 using Play.Randoms;
 
-namespace Play.Emv.Kernel.Services
+namespace Play.Emv.Kernel.Services;
+
+internal class UnpredictableNumberGenerator : IGenerateUnpredictableNumber
 {
-    internal class UnpredictableNumberGenerator : IGenerateUnpredictableNumber
-    {
-        #region Instance Members
+    #region Instance Members
 
-        // WARNING: This should be generated using a device that can ensure total uniqueness, like a DUKPT compliant machine
-        public UnpredictableNumber GenerateUnpredictableNumber() => new(Randomize.Numeric.UInt());
+    // WARNING: This should be generated using a device that can ensure total uniqueness, like a DUKPT compliant machine
+    public UnpredictableNumber GenerateUnpredictableNumber() => new(Randomize.Numeric.UInt());
 
-        #endregion
-    }
+    #endregion
 }
