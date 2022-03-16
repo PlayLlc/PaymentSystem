@@ -2,10 +2,11 @@
 
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.Kernel.Services.Conditions;
 
-namespace Play.Emv.Kernel.Services.Conditions.CvmConditions;
+namespace Play.Emv.Kernel.Services;
 
-internal record SupportsCvmConditions : CvmConditions
+internal record SupportsCvmCondition : CvmCondition
 {
     #region Static Metadata
 
@@ -15,7 +16,7 @@ internal record SupportsCvmConditions : CvmConditions
 
     #region Instance Values
 
-    protected override Tag[] RequiredData => throw new NotImplementedException();
+    protected override Tag[] _RequiredData => throw new NotImplementedException();
 
     #endregion
 

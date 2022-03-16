@@ -1,7 +1,6 @@
-﻿using Play.Core.Exceptions;
-using Play.Emv.Ber.DataObjects;
+﻿using Play.Emv.Ber.DataObjects;
 
-namespace Play.Emv.DataElements
+namespace Play.Emv.Kernel.Services.CvmCodes
 {
     internal class _CvmCode
     {

@@ -23,32 +23,32 @@ public readonly struct CvmCode
 
     #region Instance Members
 
-    public static bool IsRecognized(CvmCode cvmCode, TerminalCapabilities terminalCapabilities)
+    public bool IsRecognized(TerminalCapabilities terminalCapabilities)
     {
-        if (!CvmCodes.Exists(cvmCode))
+        if (!CvmCodes.Exists(_Value))
             return false;
 
-        if (cvmCode == CvmCodes.Fail)
+        if (_Value == CvmCodes.Fail)
             return true;
 
-        if (cvmCode == CvmCodes.NoCvmRequired)
+        if (_Value == CvmCodes.NoCvmRequired)
             return terminalCapabilities.IsNoCardVerificationMethodRequiredSupported();
-        if (cvmCode == CvmCodes.OfflineEncipheredPin)
+        if (_Value == CvmCodes.OfflineEncipheredPin)
             return terminalCapabilities.IsEncipheredPinForOfflineVerificationSupported();
 
-        if (cvmCode == CvmCodes.OfflineEncipheredPinAndSignature)
+        if (_Value == CvmCodes.OfflineEncipheredPinAndSignature)
         {
             return terminalCapabilities.IsEncipheredPinForOfflineVerificationSupported()
                 && terminalCapabilities.IsSignaturePaperSupported();
         }
 
-        if (cvmCode == CvmCodes.OfflinePlaintextPin)
+        if (_Value == CvmCodes.OfflinePlaintextPin)
             return terminalCapabilities.IsPlaintextPinForIccVerificationSupported();
-        if (cvmCode == CvmCodes.OfflinePlaintextPinAndSignature)
+        if (_Value == CvmCodes.OfflinePlaintextPinAndSignature)
             return terminalCapabilities.IsPlaintextPinForIccVerificationSupported() && terminalCapabilities.IsSignaturePaperSupported();
-        if (cvmCode == CvmCodes.OnlineEncipheredPin)
+        if (_Value == CvmCodes.OnlineEncipheredPin)
             return terminalCapabilities.IsEncipheredPinForOnlineVerificationSupported();
-        if (cvmCode == CvmCodes.SignaturePaper)
+        if (_Value == CvmCodes.SignaturePaper)
             return terminalCapabilities.IsSignaturePaperSupported();
 
         throw new PlayInternalException("We should never reach this point");

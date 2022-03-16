@@ -3,10 +3,11 @@
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
+using Play.Emv.Kernel.Services.Conditions;
 
-namespace Play.Emv.Kernel.Services.Conditions.CvmConditions;
+namespace Play.Emv.Kernel.Services;
 
-internal record ManualCashConditions : CvmConditions
+internal record ManualCashCondition : CvmCondition
 {
     #region Static Metadata
 
@@ -16,7 +17,7 @@ internal record ManualCashConditions : CvmConditions
 
     #region Instance Values
 
-    protected override Tag[] RequiredData => new Tag[] {PosEntryMode.Tag, TransactionType.Tag};
+    protected override Tag[] _RequiredData => new Tag[] {PosEntryMode.Tag, TransactionType.Tag};
 
     #endregion
 

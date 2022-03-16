@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Services.Conditions;
 
-namespace Play.Emv.DataElements.CvmConditions;
+namespace Play.Emv.Kernel.Services;
 
+// HACK: We need to change this pattern to allow us to use dependency injection to allow adding proprietary CvmConditions from the Acquiring banks or Card Networks
 internal abstract record CvmCondition
 {
     #region Static Metadata
@@ -19,7 +22,7 @@ internal abstract record CvmCondition
 
     #region Instance Values
 
-    protected abstract Tag[] RequiredData { get; }
+    protected abstract Tag[] _RequiredData { get; }
 
     #endregion
 
@@ -27,15 +30,15 @@ internal abstract record CvmCondition
 
     static CvmCondition()
     {
-        var alwaysCondition = new AlwaysCondition();
-        var amountInApplicationCurrencyAndOverXValueCondition = new AmountInApplicationCurrencyAndOverXValueCondition();
-        var amountInApplicationCurrencyAndOverYValueCondition = new AmountInApplicationCurrencyAndOverYValueCondition();
-        var amountInApplicationCurrencyAndUnderXValueCondition = new AmountInApplicationCurrencyAndUnderXValueCondition();
-        var amountInApplicationCurrencyAndUnderYValueCondition = new AmountInApplicationCurrencyAndUnderXValueCondition();
-        var manualCashCondition = new ManualCashCondition();
-        var notUnattendedCashOrManualCashOrPurchaseWithCashback = new NotUnattendedCashOrManualCashOrPurchaseWithCashback();
-        var purchaseWithCashbackCondition = new PurchaseWithCashbackCondition();
-        var supportsCvmCondition = new SupportsCvmCondition();
+        AlwaysCondition alwaysCondition = new();
+        AmountInApplicationCurrencyAndOverXValueCondition amountInApplicationCurrencyAndOverXValueCondition = new();
+        AmountInApplicationCurrencyAndOverYValueCondition amountInApplicationCurrencyAndOverYValueCondition = new();
+        AmountInApplicationCurrencyAndUnderXValueCondition amountInApplicationCurrencyAndUnderXValueCondition = new();
+        AmountInApplicationCurrencyAndUnderXValueCondition amountInApplicationCurrencyAndUnderYValueCondition = new();
+        ManualCashCondition manualCashCondition = new();
+        NotUnattendedCashOrManualCashOrPurchaseWithCashback notUnattendedCashOrManualCashOrPurchaseWithCashback = new();
+        PurchaseWithCashbackCondition purchaseWithCashbackCondition = new();
+        SupportsCvmCondition supportsCvmCondition = new();
 
         _Conditions = new Dictionary<CvmConditionCode, CvmCondition>
         {
@@ -57,6 +60,22 @@ internal abstract record CvmCondition
     #endregion
 
     #region Instance Members
+
+    public static bool TryGet(CvmConditionCode code, out CvmCondition? result)
+    {
+        if (!Exists(code))
+        {
+            result = null;
+
+            return false;
+        }
+
+        result = _Conditions[code];
+
+        return true;
+    }
+
+    public static bool Exists(CvmConditionCode code) => _Conditions.ContainsKey(code);
 
     public bool IsConditionSatisfied(CvmConditionCode code, IQueryTlvDatabase database)
     {
@@ -87,12 +106,12 @@ internal abstract record CvmCondition
 
     private bool IsRequiredDataPresent(IQueryTlvDatabase database)
     {
-        if (RequiredData.Length == 0)
+        if (_RequiredData.Length == 0)
             return true;
 
-        for (int i = 0; i < RequiredData.Length; i++)
+        for (int i = 0; i < _RequiredData.Length; i++)
         {
-            if (!database.IsPresent(RequiredData[i]))
+            if (!database.IsPresent(_RequiredData[i]))
                 return false;
         }
 
@@ -139,7 +158,7 @@ internal abstract record CvmCondition
         return false;
     }
 
-    /// <exception cref="Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     protected static bool IsCashTransaction(IQueryTlvDatabase database)
     {
