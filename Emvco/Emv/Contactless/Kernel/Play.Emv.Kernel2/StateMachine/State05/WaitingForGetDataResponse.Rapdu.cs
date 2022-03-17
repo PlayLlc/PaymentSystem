@@ -129,11 +129,6 @@ public partial class WaitingForGetDataResponse : KernelState
             _KernelDatabase.Update(((GetDataResponse) signal).GetTagLengthValueResult());
             _DataExchangeKernelService.Resolve((GetDataResponse) signal);
         }
-        catch (EmvParsingException)
-        {
-            // TODO: Logging
-            HandleBerParsingException(signal, _DataExchangeKernelService, _KernelDatabase);
-        }
         catch (BerParsingException)
         {
             // TODO: Logging

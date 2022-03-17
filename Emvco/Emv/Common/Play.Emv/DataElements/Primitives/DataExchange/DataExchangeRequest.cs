@@ -1,4 +1,6 @@
-﻿using Play.Ber.Exceptions;
+﻿using System.Linq;
+
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 
 namespace Play.Emv.Ber.DataObjects;

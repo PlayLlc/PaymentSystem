@@ -160,14 +160,6 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
             return true;
         }
-        catch (EmvParsingException)
-        {
-            // TODO: Logging
-            HandleBerParsingException(session, _DataExchangeKernelService, _KernelDatabase, _KernelEndpoint);
-            resolvedRecords = Array.Empty<Tag>();
-
-            return false;
-        }
         catch (BerParsingException)
         {
             // TODO: Logging

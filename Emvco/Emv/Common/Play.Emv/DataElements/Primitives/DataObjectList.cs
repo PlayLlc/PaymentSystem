@@ -1,10 +1,13 @@
-﻿using Microsoft.Toolkit.HighPerformance.Buffers;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataObjects;
 
@@ -173,7 +176,7 @@ public abstract record DataObjectList : DataElement<byte[]>
     ///     ValidateCommandTemplate
     /// </summary>
     /// <param name="value"></param>
-    /// <exception cref="EmvParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private void ValidateCommandTemplate(TagLengthValue[] value)
     {
         for (int i = 0; i < value.Length; i++)
@@ -181,7 +184,7 @@ public abstract record DataObjectList : DataElement<byte[]>
             if (DataObjects.All(a => a.GetTag() != value[i].GetTag()))
             {
                 throw new
-                    EmvParsingException(new
+                    BerParsingException(new
                                             ArgumentOutOfRangeException($"The argument {nameof(value)} did not contain a value for the requested object with the tag: {DataObjects[i].GetTag()}"));
             }
         }

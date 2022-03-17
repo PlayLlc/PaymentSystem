@@ -1,4 +1,7 @@
-﻿using Play.Ber.DataObjects;
+﻿using System;
+
+using Play.Ber.DataObjects;
+using Play.Emv.Ber;
 using Play.Emv.Icc;
 using Play.Emv.Sessions;
 using Play.Messaging;
@@ -23,7 +26,7 @@ public record GetDataResponse : QueryPcdResponse
 
     #region Instance Members
 
-    public TagLengthValue GetTagLengthValueResult() => ((GetDataRApduSignal) GetRApduSignal()).GetTagLengthValuesResult();
+    public TagLengthValue GetTagLengthValueResult() => EmvCodec.GetBerCodec().DecodeTagLengthValue(GetRApduSignal().GetData().AsSpan());
 
     #endregion
 }

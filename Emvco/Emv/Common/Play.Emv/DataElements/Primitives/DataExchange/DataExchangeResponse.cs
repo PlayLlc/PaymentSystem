@@ -1,4 +1,6 @@
-﻿using Play.Ber.DataObjects;
+﻿using System.Linq;
+
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 

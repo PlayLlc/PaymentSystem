@@ -1,16 +1,10 @@
-﻿using Play.Ber.DataObjects;
-using Play.Emv.Ber;
+﻿using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
 
 namespace Play.Emv.Icc;
 
 public class GetDataRApduSignal : RApduSignal
 {
-    #region Static Metadata
-
-    private static readonly EmvCodec _Codec = EmvCodec.GetBerCodec();
-
-    #endregion
-
     #region Constructor
 
     public GetDataRApduSignal(byte[] value) : base(value)
@@ -21,9 +15,8 @@ public class GetDataRApduSignal : RApduSignal
     #region Instance Members
 
     public override bool IsSuccessful() => throw new NotImplementedException();
-    public TagLengthValue GetTagLengthValuesResult() => _Codec.DecodeTagLengthValue(_Data);
 
-    public override Level1Error GetLevel1Error() =>
+    public Level1Error GetLevel1Error() =>
         throw
 
             // Check out Status Words
