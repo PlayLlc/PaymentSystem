@@ -1,12 +1,8 @@
 ﻿using System;
 
-using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements;
-using Play.Emv.DataElements.CvmConditions;
 using Play.Emv.Exceptions;
-using Play.Emv.Kernel.Services.Conditions.CvmConditions;
 
-namespace Play.Emv.Kernel.Services.Conditions;
+namespace Play.Emv.DataElements;
 
 public record CardholderVerificationRule
 {

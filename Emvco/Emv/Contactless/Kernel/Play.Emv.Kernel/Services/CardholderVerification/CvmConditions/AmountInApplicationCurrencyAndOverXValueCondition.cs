@@ -2,7 +2,7 @@
 
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.Kernel.Services.Conditions;
+using Play.Emv.DataElements;
 
 namespace Play.Emv.Kernel.Services;
 
@@ -24,6 +24,9 @@ internal record AmountInApplicationCurrencyAndOverXValueCondition : CvmCondition
 
     public override CvmConditionCode GetConditionCode() => Code;
     protected override bool IsConditionSatisfied(IQueryTlvDatabase database) => throw new NotImplementedException();
+
+    public void Hello(AmountAuthorizedNumeric amountAuthorizedNumeric, ApplicationCurrencyCode applicationCurrencyCode)
+    { }
 
     #endregion
 }

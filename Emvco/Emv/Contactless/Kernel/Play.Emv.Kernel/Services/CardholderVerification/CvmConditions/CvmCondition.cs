@@ -7,7 +7,6 @@ using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
-using Play.Emv.Kernel.Services.Conditions;
 
 namespace Play.Emv.Kernel.Services;
 

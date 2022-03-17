@@ -7,12 +7,17 @@ using Play.Codecs;
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
-using Play.Emv.Kernel.Services.Conditions;
 using Play.Globalization.Currency;
 
 namespace Play.Emv.DataElements;
 
-public record CvmList : DataElement<BigInteger>
+public interface IResolveXAndYAmountForCvmSelection
+{
+    public Money GetXAmount(ApplicationCurrencyCode currencyCode);
+    public Money GetYAmount(ApplicationCurrencyCode currencyCode);
+}
+
+public record CvmList : DataElement<BigInteger>, IResolveXAndYAmountForCvmSelection
 {
     #region Static Metadata
 

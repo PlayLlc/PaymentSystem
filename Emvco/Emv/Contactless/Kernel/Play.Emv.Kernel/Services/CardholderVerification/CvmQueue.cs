@@ -4,16 +4,17 @@ using System.Linq;
 
 using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
-using Play.Emv.Kernel.Services.Conditions;
 using Play.Globalization.Currency;
 
 namespace Play.Emv.Kernel.Services;
 
-internal class CvmSelector
+internal class CvmQueue
 {
     #region Instance Values
 
     private readonly List<CardholderVerificationRule> _Rules;
+    private readonly Money _XAmount;
+    private readonly Money _YAmount;
     private byte _Offset = 0;
 
     #endregion
@@ -21,8 +22,14 @@ internal class CvmSelector
     #region Constructor
 
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    public CvmSelector(CvmList cvmList)
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public CvmQueue(IQueryTlvDatabase database)
     {
+        CvmList cvmList = CvmList.Decode(database.Get(CvmList.Tag).EncodeValue().AsSpan());
+        ApplicationCurrencyCode applicationCurrencyCode =
+            ApplicationCurrencyCode.Decode(database.Get(ApplicationCurrencyCode.Tag).EncodeValue().AsSpan());
+        _XAmount = cvmList.GetXAmount(applicationCurrencyCode);
+        _YAmount = cvmList.GetYAmount(applicationCurrencyCode);
         _Rules = cvmList.GetCardholderVerificationRules().Where(a => CvmCondition.Exists(a.GetCvmConditionCode())).ToList();
     }
 

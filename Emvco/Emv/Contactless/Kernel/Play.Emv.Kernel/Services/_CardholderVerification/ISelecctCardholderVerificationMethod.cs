@@ -1,8 +1,9 @@
-﻿using Play.Emv.Kernel.Databases;
+﻿using Play.Emv.DataElements;
+using Play.Emv.Kernel.Databases;
 
-namespace Play.Emv.Kernel.Services._TempNew;
+namespace Play.Emv.Kernel.Services._CardholderVerification;
 
-public interface ISelecctCardholderVerificationMethod
+public interface ISelectCardholderVerificationMethod
 {
-    public void Process(KernelDatabase database);
+    public CvmResults Process(KernelDatabase database);
 }

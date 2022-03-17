@@ -21,10 +21,18 @@ public record CvmCodes : EnumObject<byte>
     public static readonly CvmCodes OfflinePlaintextPin;
 
     public static readonly CvmCodes OnlineEncipheredPin;
+
+    /// <summary>
+    ///     If supported, Personal Identification Number (PIN) plaintext for offline PIN verification is performed by the
+    ///     terminal and delivered to the ICC without the additional encryption and tamper proof requirements of the Offline
+    ///     Encrypted Pin CVM
+    /// </summary>
     public static readonly CvmCodes OfflinePlaintextPinAndSignature;
 
     /// <summary>
-    ///     The PIN is entered on a tamper proof secure device and handled by the ICC for verification
+    ///     If supported, Personal Identification Number (PIN) encipherment for offline PIN verification is performed by the
+    ///     terminal using an asymmetric based encipherment mechanism in order to ensure the secure transfer of a PIN from a
+    ///     secure tamper-evident PIN pad to the ICC wrapped in RSA encryption.
     /// </summary>
     public static readonly CvmCodes OfflineEncipheredPin;
 

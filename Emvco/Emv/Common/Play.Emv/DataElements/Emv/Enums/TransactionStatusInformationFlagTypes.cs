@@ -3,7 +3,7 @@ using System.Collections.Immutable;
 
 using Play.Core;
 
-namespace Play.Emv.Terminal.Contracts;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     An enumeration of status values that can be set for <see cref="TransactionStatusInformation" />

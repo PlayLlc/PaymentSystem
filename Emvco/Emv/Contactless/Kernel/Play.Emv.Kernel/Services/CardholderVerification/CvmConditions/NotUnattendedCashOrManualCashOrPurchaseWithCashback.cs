@@ -2,7 +2,7 @@
 
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataObjects;
-using Play.Emv.Kernel.Services.Conditions;
+using Play.Emv.DataElements;
 
 namespace Play.Emv.Kernel.Services;
 

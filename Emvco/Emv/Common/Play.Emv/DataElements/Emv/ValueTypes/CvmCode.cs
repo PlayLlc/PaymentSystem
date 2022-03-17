@@ -1,8 +1,7 @@
 ﻿using Play.Core.Exceptions;
 using Play.Core.Extensions;
-using Play.Emv.DataElements;
 
-namespace Play.Emv.Kernel.Services.Conditions;
+namespace Play.Emv.DataElements;
 
 public readonly struct CvmCode
 {

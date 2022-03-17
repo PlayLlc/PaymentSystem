@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.Kernel.Services.Conditions;
+﻿namespace Play.Emv.DataElements;
 
 public readonly struct CvmConditionCode
 {

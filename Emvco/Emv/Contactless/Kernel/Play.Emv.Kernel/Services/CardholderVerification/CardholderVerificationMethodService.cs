@@ -23,4 +23,6 @@ public class CardholderVerificationMethodService
     }
 
     #endregion
+
+    // TODO:  set the ‘Cardholder verification was performed’ bit in the TSI to 1.
 }

@@ -7,3 +7,5 @@ CVM logic is in Play.Emv.Security
 Slowly phase out the .Decode() that returns DecodedMetadata from the Play.Codec module. This
 function can cause runtime errors that we can't catch at compile time, and it's less efficient
 as there is reflection that is done every time
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
