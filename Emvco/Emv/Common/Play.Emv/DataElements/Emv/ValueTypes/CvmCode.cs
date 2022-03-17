@@ -1,5 +1,6 @@
 ﻿using Play.Core.Exceptions;
 using Play.Core.Extensions;
+using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
 
@@ -22,38 +23,52 @@ public readonly struct CvmCode
 
     #region Instance Members
 
-    public bool IsRecognized(TerminalCapabilities terminalCapabilities)
+    public bool IsRecognized() => CardholderVerificationMethodCodes.Exists(_Value);
+
+    /// <remarks>EMV Book C-2 Section CVM.17</remarks>
+    public bool IsFailureControlSupported() => _Value.GetMaskedValue(0b00111111) != 0;
+
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
+    /// <remarks>EMV Book C-2 Section CVM.17</remarks>
+    public bool IsSupported(TerminalCapabilities terminalCapabilities)
     {
-        if (!CardholderVerificationMethods.Exists(_Value))
+        if (IsFailureControlSupported())
             return false;
 
-        if (_Value == CardholderVerificationMethods.Fail)
-            return true;
+        if (!CardholderVerificationMethodCodes.Exists(_Value))
+        {
+            throw new
+                PlayInternalException($"An unrecognized {nameof(CvmCode)} cannot be processed by the terminal. Please check if the {nameof(CvmCode)} is recognized by the terminal before verifying support");
+        }
 
-        if (_Value == CardholderVerificationMethods.NoCvmRequired)
+        if (_Value == CardholderVerificationMethodCodes.Fail)
+            return false;
+
+        if (_Value == CardholderVerificationMethodCodes.None)
             return terminalCapabilities.IsNoCardVerificationMethodRequiredSupported();
-        if (_Value == CardholderVerificationMethods.OfflineEncipheredPin)
+        if (_Value == CardholderVerificationMethodCodes.OfflineEncipheredPin)
             return terminalCapabilities.IsEncipheredPinForOfflineVerificationSupported();
 
-        if (_Value == CardholderVerificationMethods.OfflineEncipheredPinAndSignature)
+        if (_Value == CardholderVerificationMethodCodes.OfflineEncipheredPinAndSignature)
         {
             return terminalCapabilities.IsEncipheredPinForOfflineVerificationSupported()
                 && terminalCapabilities.IsSignaturePaperSupported();
         }
 
-        if (_Value == CardholderVerificationMethods.OfflinePlaintextPin)
+        if (_Value == CardholderVerificationMethodCodes.OfflinePlaintextPin)
             return terminalCapabilities.IsPlaintextPinForIccVerificationSupported();
-        if (_Value == CardholderVerificationMethods.OfflinePlaintextPinAndSignature)
+        if (_Value == CardholderVerificationMethodCodes.OfflinePlaintextPinAndSignature)
             return terminalCapabilities.IsPlaintextPinForIccVerificationSupported() && terminalCapabilities.IsSignaturePaperSupported();
-        if (_Value == CardholderVerificationMethods.OnlineEncipheredPin)
+        if (_Value == CardholderVerificationMethodCodes.OnlineEncipheredPin)
             return terminalCapabilities.IsEncipheredPinForOnlineVerificationSupported();
-        if (_Value == CardholderVerificationMethods.SignaturePaper)
+        if (_Value == CardholderVerificationMethodCodes.SignaturePaper)
             return terminalCapabilities.IsSignaturePaperSupported();
 
         throw new PlayInternalException("We should never reach this point");
     }
 
-    public bool IsFailIfUnsuccessfulSet() => !_Value.IsBitSet(Bits.Seven);
+    public bool IsFailIfUnsuccessfulSet() => !_Value.IsBitSet(Bits.Eight);
     public bool IsTryNextIfUnsuccessfulSet() => _Value.IsBitSet(Bits.Seven);
 
     #endregion

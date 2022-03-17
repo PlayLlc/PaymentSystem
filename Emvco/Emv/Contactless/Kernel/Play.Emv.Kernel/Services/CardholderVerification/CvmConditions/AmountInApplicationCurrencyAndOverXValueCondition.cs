@@ -25,8 +25,9 @@ internal record AmountInApplicationCurrencyAndOverXValueCondition : CvmCondition
     public override CvmConditionCode GetConditionCode() => Code;
     protected override bool IsConditionSatisfied(IQueryTlvDatabase database) => throw new NotImplementedException();
 
-    public void Hello(AmountAuthorizedNumeric amountAuthorizedNumeric, ApplicationCurrencyCode applicationCurrencyCode)
-    { }
+    public static void Hello(AmountAuthorizedNumeric amountAuthorizedNumeric, ApplicationCurrencyCode applicationCurrencyCode)
+
 
     #endregion
+egion
 }

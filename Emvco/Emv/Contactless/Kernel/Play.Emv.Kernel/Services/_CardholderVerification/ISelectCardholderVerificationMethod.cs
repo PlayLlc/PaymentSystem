@@ -5,5 +5,5 @@ namespace Play.Emv.Kernel.Services._CardholderVerification;
 
 public interface ISelectCardholderVerificationMethod
 {
-    public CvmResults Process(KernelDatabase database);
+    public void Process(KernelDatabase database);
 }

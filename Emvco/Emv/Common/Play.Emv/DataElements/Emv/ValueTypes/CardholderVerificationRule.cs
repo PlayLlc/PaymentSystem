@@ -4,7 +4,7 @@ using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
 
-public record CardholderVerificationRule
+public record CvmRule
 {
     #region Instance Values
 
@@ -16,7 +16,7 @@ public record CardholderVerificationRule
     #region Constructor
 
     /// <exception cref="DataElementParsingException"></exception>
-    public CardholderVerificationRule(ReadOnlySpan<byte> value)
+    public CvmRule(ReadOnlySpan<byte> value)
     {
         if (value.Length != 2)
             throw new DataElementParsingException(nameof(value));
@@ -25,7 +25,7 @@ public record CardholderVerificationRule
         _CvmConditionCode = new CvmConditionCode(value[1]);
     }
 
-    private CardholderVerificationRule(CvmCode cvmCode, CvmConditionCode cvmConditionCode)
+    private CvmRule(CvmCode cvmCode, CvmConditionCode cvmConditionCode)
     {
         _CvmCode = cvmCode;
         _CvmConditionCode = cvmConditionCode;

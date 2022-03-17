@@ -21,7 +21,7 @@ public class TerminalRiskManagementResponse
     /// <remarks>
     ///     Book 3 Section 10.6
     /// </remarks>
-    private readonly TransactionStatusInformationFlagTypes _TransactionStatus;
+    private readonly TransactionStatusInformationFlags _TransactionStatus;
 
     #endregion
 
@@ -29,7 +29,7 @@ public class TerminalRiskManagementResponse
 
     public TerminalRiskManagementResponse(
         TerminalVerificationResult terminalVerificationResult,
-        TransactionStatusInformationFlagTypes transactionStatus)
+        TransactionStatusInformationFlags transactionStatus)
     {
         _TerminalVerificationResult = terminalVerificationResult;
         _TransactionStatus = transactionStatus;

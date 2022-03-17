@@ -37,17 +37,31 @@ public record CvmList : DataElement<BigInteger>, IResolveXAndYAmountForCvmSelect
 
     #region Instance Members
 
+    /// <summary>
+    ///     Checks if there are any CVM Rules present. In addition, <see cref="CvmList" /> with invalid encoding, such as an
+    ///     odd number of bytes, is treated as if it is empty
+    /// </summary>
+    /// <remarks>EMV Book 3 Section 10.5</remarks>
+    public bool AreCardholderVerificationRulesPresent() => (_Value.GetByteCount() > 8) && ((_Value.GetByteCount() % 2) != 0);
+
     /// <exception cref="DataElementParsingException"></exception>
-    public CardholderVerificationRule[] GetCardholderVerificationRules()
+    public bool TryGetCardholderVerificationRules(out CvmRule[]? result)
     {
+        if ((_Value.GetByteCount() % 2) != 0)
+        {
+            result = Array.Empty<CvmRule>();
+
+            return false;
+        }
+
         const int offset = 8;
-        CardholderVerificationRule[] result = new CardholderVerificationRule[((_Value.GetByteCount() - offset) / 2) - 1];
+        result = new CvmRule[((_Value.GetByteCount() - offset) / 2) - 1];
         Span<byte> valueBuffer = _Value.ToByteArray().AsSpan()[offset..];
 
         for (int i = 2, j = 0; i < result.Length; j++)
-            result[j] = new CardholderVerificationRule(valueBuffer[i++..i++]);
+            result[j] = new CvmRule(valueBuffer[i++..i++]);
 
-        return result;
+        return true;
     }
 
     public override PlayEncodingId GetEncodingId() => EncodingId;

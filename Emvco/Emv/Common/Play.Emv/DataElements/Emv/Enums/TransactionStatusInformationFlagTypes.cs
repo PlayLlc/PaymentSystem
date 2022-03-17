@@ -8,24 +8,24 @@ namespace Play.Emv.DataElements;
 /// <summary>
 ///     An enumeration of status values that can be set for <see cref="TransactionStatusInformation" />
 /// </summary>
-public sealed record TransactionStatusInformationFlagTypes : EnumObject<ushort>
+public sealed record TransactionStatusInformationFlags : EnumObject<ushort>
 {
     #region Static Metadata
 
-    private static readonly ImmutableSortedDictionary<ushort, TransactionStatusInformationFlagTypes> _ValueObjectMap;
-    public static readonly TransactionStatusInformationFlagTypes CardholderVerificationPerformed;
-    public static readonly TransactionStatusInformationFlagTypes CardRiskManagementPerformed;
-    public static readonly TransactionStatusInformationFlagTypes IssuerAuthenticationPerformed;
-    public static readonly TransactionStatusInformationFlagTypes NotAvailable;
-    public static readonly TransactionStatusInformationFlagTypes OfflineDataAuthenticationPerformed;
-    public static readonly TransactionStatusInformationFlagTypes ScriptProcessingPerformed;
-    public static readonly TransactionStatusInformationFlagTypes TerminalRiskManagementPerformed;
+    private static readonly ImmutableSortedDictionary<ushort, TransactionStatusInformationFlags> _ValueObjectMap;
+    public static readonly TransactionStatusInformationFlags CardholderVerificationPerformed;
+    public static readonly TransactionStatusInformationFlags CardRiskManagementPerformed;
+    public static readonly TransactionStatusInformationFlags IssuerAuthenticationPerformed;
+    public static readonly TransactionStatusInformationFlags NotAvailable;
+    public static readonly TransactionStatusInformationFlags OfflineDataAuthenticationPerformed;
+    public static readonly TransactionStatusInformationFlags ScriptProcessingPerformed;
+    public static readonly TransactionStatusInformationFlags TerminalRiskManagementPerformed;
 
     #endregion
 
     #region Constructor
 
-    static TransactionStatusInformationFlagTypes()
+    static TransactionStatusInformationFlags()
     {
         const ushort notAvailable = 0;
         const ushort offlineDataAuthenticationPerformed = 0x0800;
@@ -35,14 +35,14 @@ public sealed record TransactionStatusInformationFlagTypes : EnumObject<ushort>
         const ushort terminalRiskManagementPerformed = 0x0400;
         const ushort scriptProcessingPerformed = 0x0300;
 
-        NotAvailable = new TransactionStatusInformationFlagTypes(notAvailable);
-        OfflineDataAuthenticationPerformed = new TransactionStatusInformationFlagTypes(offlineDataAuthenticationPerformed);
-        CardholderVerificationPerformed = new TransactionStatusInformationFlagTypes(cardholderVerificationPerformed);
-        CardRiskManagementPerformed = new TransactionStatusInformationFlagTypes(cardRiskManagementPerformed);
-        IssuerAuthenticationPerformed = new TransactionStatusInformationFlagTypes(issuerAuthenticationPerformed);
-        TerminalRiskManagementPerformed = new TransactionStatusInformationFlagTypes(terminalRiskManagementPerformed);
-        ScriptProcessingPerformed = new TransactionStatusInformationFlagTypes(scriptProcessingPerformed);
-        _ValueObjectMap = new Dictionary<ushort, TransactionStatusInformationFlagTypes>
+        NotAvailable = new TransactionStatusInformationFlags(notAvailable);
+        OfflineDataAuthenticationPerformed = new TransactionStatusInformationFlags(offlineDataAuthenticationPerformed);
+        CardholderVerificationPerformed = new TransactionStatusInformationFlags(cardholderVerificationPerformed);
+        CardRiskManagementPerformed = new TransactionStatusInformationFlags(cardRiskManagementPerformed);
+        IssuerAuthenticationPerformed = new TransactionStatusInformationFlags(issuerAuthenticationPerformed);
+        TerminalRiskManagementPerformed = new TransactionStatusInformationFlags(terminalRiskManagementPerformed);
+        ScriptProcessingPerformed = new TransactionStatusInformationFlags(scriptProcessingPerformed);
+        _ValueObjectMap = new Dictionary<ushort, TransactionStatusInformationFlags>
         {
             {notAvailable, NotAvailable},
             {offlineDataAuthenticationPerformed, OfflineDataAuthenticationPerformed},
@@ -54,25 +54,25 @@ public sealed record TransactionStatusInformationFlagTypes : EnumObject<ushort>
         }.ToImmutableSortedDictionary();
     }
 
-    private TransactionStatusInformationFlagTypes(ushort value) : base(value)
+    private TransactionStatusInformationFlags(ushort value) : base(value)
     { }
 
     #endregion
 
     #region Instance Members
 
-    public int CompareTo(TransactionStatusInformationFlagTypes other) => _Value.CompareTo(other._Value);
+    public int CompareTo(TransactionStatusInformationFlags other) => _Value.CompareTo(other._Value);
 
-    public static bool TryGet(ushort value, out TransactionStatusInformationFlagTypes? result) =>
+    public static bool TryGet(ushort value, out TransactionStatusInformationFlags? result) =>
         _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion
 
     #region Equality
 
-    public bool Equals(TransactionStatusInformationFlagTypes? other) => !(other is null) && (_Value == other._Value);
+    public bool Equals(TransactionStatusInformationFlags? other) => !(other is null) && (_Value == other._Value);
 
-    public bool Equals(TransactionStatusInformationFlagTypes x, TransactionStatusInformationFlagTypes y)
+    public bool Equals(TransactionStatusInformationFlags x, TransactionStatusInformationFlags y)
     {
         if (x is null)
             return y is null;
@@ -84,13 +84,13 @@ public sealed record TransactionStatusInformationFlagTypes : EnumObject<ushort>
     }
 
     public override int GetHashCode() => 470621 * _Value.GetHashCode();
-    public int GetHashCode(TransactionStatusInformationFlagTypes obj) => obj.GetHashCode();
+    public int GetHashCode(TransactionStatusInformationFlags obj) => obj.GetHashCode();
 
     #endregion
 
     #region Operator Overrides
 
-    public static explicit operator ushort(TransactionStatusInformationFlagTypes registeredApplicationProviderIndicators) =>
+    public static explicit operator ushort(TransactionStatusInformationFlags registeredApplicationProviderIndicators) =>
         registeredApplicationProviderIndicators._Value;
 
     #endregion

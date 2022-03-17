@@ -41,9 +41,9 @@ public record TransactionStatusInformation : DataElement<ushort>
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
-    public TransactionStatusInformation Set(TransactionStatusInformationFlagTypes transactionStatus)
+    public TransactionStatusInformation Set(TransactionStatusInformationFlags transactionStatus)
     {
-        if (transactionStatus == TransactionStatusInformationFlagTypes.NotAvailable)
+        if (transactionStatus == TransactionStatusInformationFlags.NotAvailable)
             return this;
 
         return new TransactionStatusInformation((ushort) (_Value | transactionStatus));

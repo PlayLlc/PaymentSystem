@@ -29,11 +29,11 @@ internal class _CvmCode
         NoCvmRequired() => !_Value.AreBitsSet(0b00011111);
      */
 
-    private bool IsCvmSupported(IQueryTlvDatabase database)
+    private static bool IsCvmSupported(IQueryTlvDatabase database)
     { }
 
     /// <remarks>EMV Book 3 Section 10.5.2</remarks>
-    public void IsOnlinePinSupported()
+    public static void IsOnlinePinSupported()
     {
         /*
          * If online PIN processing is a required CVM as determined by the above process, 
@@ -55,7 +55,7 @@ successful and complete.
     }
 
     /// <remarks>EMV Book 3 Section 10.5.1</remarks>
-    public void IsOfflinePinSupported()
+    public static void IsOfflinePinSupported()
     {
         /*
          * This section applies to the verification by the ICC of a plaintext or enciphered 
@@ -85,7 +85,7 @@ the terminal shall set the ‘PIN Try Limit exceeded’ bit in the TVR to 1.
     }
 
     /// <remarks>EMV Book 3 Section 10.5.1</remarks>
-    public bool IsSignatureSupported()
+    public static bool IsSignatureSupported()
     {
         /*
          * If a (paper) signature is a required CVM as determined by the above process, the 

@@ -76,12 +76,12 @@ internal abstract record CvmCondition
 
     public static bool Exists(CvmConditionCode code) => _Conditions.ContainsKey(code);
 
-    public bool IsConditionSatisfied(CvmConditionCode code, IQueryTlvDatabase database)
+    public static bool IsConditionSatisfied(CvmConditionCode code, IQueryTlvDatabase database)
     {
         if (!_Conditions.ContainsKey(code))
             return false;
 
-        if (!_Conditions[code].IsRequiredDataPresent(database))
+        if (!_Conditions[code].IsCvmSupported(database))
             return false;
 
         if (!_Conditions[code].IsRequiredDataPresent(database))
@@ -92,7 +92,7 @@ internal abstract record CvmCondition
 
     public abstract CvmConditionCode GetConditionCode();
 
-    protected bool IsCvmSupported(IQueryTlvDatabase database)
+    private bool IsCvmSupported(IQueryTlvDatabase database)
     {
         if (!IsRequiredDataPresent(database))
             return false;
@@ -134,17 +134,17 @@ internal abstract record CvmCondition
     //        ApplicationCurrencyCode.Decode(database.Get(ApplicationCurrencyCode.Tag).EncodeValue().AsSpan());
     //}
 
-    protected static bool IsUnattended(TerminalType terminalType) =>
-        terminalType.IsEnvironmentType(TerminalType.EnvironmentType.Unattended);
+    protected static bool IsUnattended(TerminalType terminalT
+               terminalType.IsEnvironmeTerminalType.EnvironmentTypeentType.Unattended);
 
-    protected static bool IsCashback(TransactionType transactionType) =>
-        (transactionType == TransactionTypes.CashAdvance) || (transactionType == TransactionTypes.FastCashDebit);
+    protected static bool IsCashback(TransactionType transactionT
+               (transactionType == TransactionTypes.CashAdvance) || (transactionType == TransactionTypes.FastCashDebit);
 
-    protected static bool IsManual(PosEntryMode value) =>
-        (value == PosEntryModes.ManualEntry) || (value == PosEntryModes.ManualEntryFallback);
+    protected static bool IsManual(PosEntryMode va
+               (value == PosEntryModes.ManualEntry) || (value == PosEntryModes.ManualEntryFallback);
 
-    protected static bool IsManualCash(PosEntryMode posEntryMode, TransactionType transactionType) =>
-        IsCashback(transactionType) && IsManual(posEntryMode);
+    protected static bool IsManualCash(PosEntryMode posEntryMode, TransactionType transactionT
+               IsCashback(transactionType) && IsManual(posEntryMode);
 
     protected static bool IsPurchase(TransactionType transactionType)
     {
@@ -170,14 +170,14 @@ internal abstract record CvmCondition
             return true;
 
         return false;
-    }
 
     #endregion
 
-    #region Operator Overrides
+    #region Operator Overrideserrides
 
     public static implicit operator byte(CvmCondition value) => (byte) value.GetConditionCode();
-    public static implicit operator CvmConditionCode(CvmCondition value) => value.GetConditionCode();
+    public static implicit operator CvmConditionCode(CvmCondition value) => value.GetCondition
 
     #endregion
+egion
 }

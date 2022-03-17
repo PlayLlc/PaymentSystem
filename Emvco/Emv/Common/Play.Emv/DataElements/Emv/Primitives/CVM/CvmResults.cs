@@ -29,9 +29,22 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
     public CvmResults(uint value) : base(value)
     { }
 
+    public CvmResults(CvmCode cvmPerformed, CvmConditionCode cvmConditionCode, CardholderVerificationMethodResultCodes cvmResultCode) :
+        base(Create(cvmPerformed, cvmConditionCode, cvmResultCode))
+    { }
+
     #endregion
 
     #region Instance Members
+
+    private static uint Create(CvmCode cvmCode, CvmConditionCode cvmConditionCode, CardholderVerificationMethodResultCodes cvmResultCode)
+    {
+        uint result = (uint) cvmCode << 16;
+        result |= (uint) cvmConditionCode << 8;
+        result |= (uint) cvmResultCode;
+
+        return result;
+    }
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;

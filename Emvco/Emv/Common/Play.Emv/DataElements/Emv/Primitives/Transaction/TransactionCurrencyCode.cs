@@ -84,4 +84,10 @@ public record TransactionCurrencyCode : DataElement<NumericCurrencyCode>, IEqual
     public int GetHashCode(TransactionCurrencyCode obj) => obj.GetHashCode();
 
     #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator NumericCurrencyCode(TransactionCurrencyCode value) => value._Value;
+
+    #endregion
 }

@@ -31,14 +31,27 @@ public class CardholderVerificationMethodService
 
     #region Instance Members
 
-    public void Process(CardholderVerificationMethods cardholderVerificationMethods, IQueryTlvDatabase database)
+    public CvmCode Process(IQueryTlvDatabase database, params CardholderVerificationMethods[] cardholderVerificationMethods)
     {
-        if (cardholderVerificationMethods == CardholderVerificationMethods.Fail)
+        CvmCode result = new(0);
 
-            throw new NotImplementedException();
+        for (int i = 0; i < cardholderVerificationMethods.Length; i++)
+        {
+            if (result == CardholderVerificationMethodCodes.Fail)
+                return result;
+
+            if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OfflinePlaintextPin)
+                _OfflinePinAuthentication.Process();
+            if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OfflineEncipheredPin)
+                _OfflinePinAuthentication.Process();
+            if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OnlineEncipheredPin)
+                _OnlinePinAuthentication.Process();
+            if (cardholderVerificationMethods[i] == CardholderVerificationMethods.SignaturePaper)
+                _CardholderSignatureVerification.Process();
+        }
+
+        return result;
     }
 
     #endregion
-
-    // TODO:  set the ‘Cardholder verification was performed’ bit in the TSI to 1.
 }

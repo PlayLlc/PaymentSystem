@@ -35,7 +35,7 @@ public record ReaderCvmRequiredLimit : DataElement<ulong>, IEqualityComparer<Rea
 
     #region Instance Members
 
-    public Money AsMoney(CultureProfile cultureProfile) => new(_Value, cultureProfile);
+    public Money AsMoney(NumericCurrencyCode currencyCode) => new(_Value, currencyCode);
     public override Tag GetTag() => Tag;
     public override PlayEncodingId GetEncodingId() => EncodingId;
 

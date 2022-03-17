@@ -56,7 +56,7 @@ internal class PercentageSelectionQueue : IPercentageSelectionQueue
         _RandomNumberQueue.Enqueue(GetRandomPercentage());
     }
 
-    private Percentage GetRandomPercentage() => new((byte) _Random.Next(0, 99));
+    private static Percentage GetRandomPercentage() => new((byte) _Random.Next(0, 99));
 
     public async Task<bool> IsRandomSelection(Percentage threshold)
     {
@@ -83,7 +83,7 @@ internal class PercentageSelectionQueue : IPercentageSelectionQueue
             for (; _RandomNumberQueue.Count < _EnqueueCeiling;)
                 EnqueueRandomPercentage();
         }).ConfigureAwait(false);
-    }
 
     #endregion
+egion
 }
