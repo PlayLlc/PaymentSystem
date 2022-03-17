@@ -24,30 +24,30 @@ public readonly struct CvmCode
 
     public bool IsRecognized(TerminalCapabilities terminalCapabilities)
     {
-        if (!CvmCodes.Exists(_Value))
+        if (!CardholderVerificationMethod.Exists(_Value))
             return false;
 
-        if (_Value == CvmCodes.Fail)
+        if (_Value == CardholderVerificationMethod.Fail)
             return true;
 
-        if (_Value == CvmCodes.NoCvmRequired)
+        if (_Value == CardholderVerificationMethod.NoCvmRequired)
             return terminalCapabilities.IsNoCardVerificationMethodRequiredSupported();
-        if (_Value == CvmCodes.OfflineEncipheredPin)
+        if (_Value == CardholderVerificationMethod.OfflineEncipheredPin)
             return terminalCapabilities.IsEncipheredPinForOfflineVerificationSupported();
 
-        if (_Value == CvmCodes.OfflineEncipheredPinAndSignature)
+        if (_Value == CardholderVerificationMethod.OfflineEncipheredPinAndSignature)
         {
             return terminalCapabilities.IsEncipheredPinForOfflineVerificationSupported()
                 && terminalCapabilities.IsSignaturePaperSupported();
         }
 
-        if (_Value == CvmCodes.OfflinePlaintextPin)
+        if (_Value == CardholderVerificationMethod.OfflinePlaintextPin)
             return terminalCapabilities.IsPlaintextPinForIccVerificationSupported();
-        if (_Value == CvmCodes.OfflinePlaintextPinAndSignature)
+        if (_Value == CardholderVerificationMethod.OfflinePlaintextPinAndSignature)
             return terminalCapabilities.IsPlaintextPinForIccVerificationSupported() && terminalCapabilities.IsSignaturePaperSupported();
-        if (_Value == CvmCodes.OnlineEncipheredPin)
+        if (_Value == CardholderVerificationMethod.OnlineEncipheredPin)
             return terminalCapabilities.IsEncipheredPinForOnlineVerificationSupported();
-        if (_Value == CvmCodes.SignaturePaper)
+        if (_Value == CardholderVerificationMethod.SignaturePaper)
             return terminalCapabilities.IsSignaturePaperSupported();
 
         throw new PlayInternalException("We should never reach this point");

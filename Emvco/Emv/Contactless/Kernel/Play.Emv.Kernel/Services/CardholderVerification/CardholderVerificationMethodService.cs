@@ -1,4 +1,9 @@
-﻿namespace Play.Emv.Kernel.Services;
+﻿using System;
+
+using Play.Emv.Ber.DataObjects;
+using Play.Emv.DataElements;
+
+namespace Play.Emv.Kernel.Services;
 
 public class CardholderVerificationMethodService
 {
@@ -20,6 +25,17 @@ public class CardholderVerificationMethodService
         _OfflinePinAuthentication = offlinePinAuthentication;
         _OnlinePinAuthentication = onlinePinAuthentication;
         _CardholderSignatureVerification = cardholderSignatureVerification;
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    public void Process(CardholderVerificationMethod cardholderVerificationMethod, IQueryTlvDatabase database)
+    {
+        if (cardholderVerificationMethod == CardholderVerificationMethod.Fail)
+
+            throw new NotImplementedException();
     }
 
     #endregion
