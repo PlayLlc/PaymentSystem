@@ -17,17 +17,15 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     {
         ApplicationInterchangeProfile applicationInterchangeProfile =
             ApplicationInterchangeProfile.Decode(database.Get(ApplicationInterchangeProfile.Tag).EncodeValue().AsSpan());
-        TransactionCurrencyCode transactionCurrencyCode =
-            TransactionCurrencyCode.Decode(database.Get(TransactionCurrencyCode.Tag).EncodeValue().AsSpan());
         AmountAuthorizedNumeric amountAuthorizedNumeric =
             AmountAuthorizedNumeric.Decode(database.Get(AmountAuthorizedNumeric.Tag).EncodeValue().AsSpan());
         ReaderCvmRequiredLimit readerCvmRequiredLimit =
             ReaderCvmRequiredLimit.Decode(database.Get(ReaderCvmRequiredLimit.Tag).EncodeValue().AsSpan());
-       
+        NumericCurrencyCode currencyCode = GetCurrencyCode(database);
 
         if (IsOfflineVerificationSupported(applicationInterchangeProfile, database))
         {
-            CreateResultForOfflineVerification(database, transactionCurrencyCode, amountAuthorizedNumeric, readerCvmRequiredLimit);
+            CreateResultForOfflineVerification(database, currencyCode, amountAuthorizedNumeric, readerCvmRequiredLimit);
 
             return;
         }
@@ -42,7 +40,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
         if (IsCvmListEmpty(database, out CvmList? cvmList))
             CreateIccDataMissingCvmResult(database);
 
-        Select(database, cvmList);
+        Select(database, cvmList!, currencyCode);
     }
 
     // HACK: I'm not sure if this is correct. We're attempting to ensure we're using the same base currency when we add, subtract, and compare money values. If the application currency and transaction currency are different then we're using the reference currency. Check to see what the actual logic should be
@@ -83,7 +81,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
     public void CreateResultForOfflineVerification(
         KernelDatabase database,
-        TransactionCurrencyCode currencyCode,
+        NumericCurrencyCode currencyCode,
         AmountAuthorizedNumeric transactionAmount,
         ReaderCvmRequiredLimit readerCvmThreshold)
     {
@@ -186,7 +184,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
-    public static void Select(KernelDatabase database, CvmList cvmList, ApplicationCurrencyCode currencyCode)
+    public static void Select(KernelDatabase database, CvmList cvmList, NumericCurrencyCode currencyCode)
     {
         CvmQueue cvmQueue = new(database, cvmList, currencyCode);
 

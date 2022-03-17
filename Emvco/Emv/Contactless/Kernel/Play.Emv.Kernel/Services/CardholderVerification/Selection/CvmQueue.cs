@@ -32,7 +32,7 @@ internal class CvmQueue
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    public CvmQueue(IQueryTlvDatabase database, CvmList cvmList, ApplicationCurrencyCode currencyCode)
+    public CvmQueue(IQueryTlvDatabase database, CvmList cvmList, NumericCurrencyCode currencyCode)
     {
         if (!cvmList.TryGetCardholderVerificationRules(out CvmRule[]? cvmRules))
             throw new TerminalDataException($"An attempt was made to initialize the {nameof(CvmQueue)} with an empty {nameof(CvmList)}");
