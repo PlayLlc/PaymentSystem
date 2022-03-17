@@ -1,7 +1,7 @@
 ﻿using Play.Emv.DataElements;
 using Play.Randoms;
 
-namespace Play.Emv.Sessions;
+namespace Play.Emv.Identifiers;
 
 /// <summary>
 ///     A value that can be used to correlate an Application Session passed between physical or logical boundaries

@@ -6,6 +6,7 @@ using Play.Ber.Identifiers;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
+using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
@@ -14,7 +15,6 @@ using Play.Emv.Kernel.Exceptions;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Sessions;
 using Play.Icc.FileSystem.ElementaryFiles;
 
 namespace Play.Emv.Kernel2.StateMachine;

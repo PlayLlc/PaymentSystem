@@ -1,5 +1,5 @@
 ﻿using Play.Emv.Icc;
-using Play.Emv.Sessions;
+using Play.Emv.Identifiers;
 using Play.Emv.Templates;
 using Play.Messaging;
 

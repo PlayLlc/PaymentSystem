@@ -2,15 +2,12 @@ using System;
 using System.Collections.Generic;
 
 using Play.Ber.Codecs;
-using Play.Ber.DataObjects;
-using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
-using Play.Emv.Ber.DataObjects;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.Issuer;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Description: Represents the amount of offline spending available in the Card. The OfflineOnly Accumulator Balance

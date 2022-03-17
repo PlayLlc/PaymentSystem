@@ -2,12 +2,12 @@
 using Play.Emv.DataExchange;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
+using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts.SignalOut;
 using Play.Messaging;
 

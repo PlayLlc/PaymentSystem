@@ -3,7 +3,6 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
 using Play.Icc.Messaging.Apdu;
 

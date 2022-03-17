@@ -1,8 +1,7 @@
 ﻿using Play.Ber.Exceptions;
-using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
 using Play.Emv.Icc;
-using Play.Emv.Sessions;
+using Play.Emv.Identifiers;
 using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;

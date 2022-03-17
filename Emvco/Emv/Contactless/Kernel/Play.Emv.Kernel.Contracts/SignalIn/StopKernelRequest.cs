@@ -1,5 +1,5 @@
-﻿using Play.Emv.Messaging;
-using Play.Emv.Sessions;
+﻿using Play.Emv.Identifiers;
+using Play.Emv.Messaging;
 using Play.Messaging;
 
 namespace Play.Emv.Kernel.Contracts;

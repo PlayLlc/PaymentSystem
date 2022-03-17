@@ -3,7 +3,7 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 
-namespace Play.Emv.Ber.DataObjects;
+namespace Play.Emv.Database;
 
 public interface IQueryTlvDatabase
 {

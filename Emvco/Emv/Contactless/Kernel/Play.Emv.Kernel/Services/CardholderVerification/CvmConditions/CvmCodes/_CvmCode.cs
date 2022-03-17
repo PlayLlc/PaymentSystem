@@ -1,4 +1,4 @@
-﻿using Play.Emv.Ber.DataObjects;
+﻿using Play.Emv.Database;
 
 namespace Play.Emv.Kernel.Services.CvmCodes;
 

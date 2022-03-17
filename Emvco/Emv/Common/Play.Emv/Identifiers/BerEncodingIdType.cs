@@ -1,7 +1,7 @@
 ﻿using Play.Codecs;
 using Play.Core;
 
-namespace Play.Emv.Ber.Codecs;
+namespace Play.Emv.Identifiers;
 
 public record BerEncodingIdType : EnumObject<PlayEncodingId>
 {

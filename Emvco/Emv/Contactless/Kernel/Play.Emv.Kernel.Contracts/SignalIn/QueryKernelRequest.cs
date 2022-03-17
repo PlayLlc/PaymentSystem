@@ -1,7 +1,7 @@
 ﻿using Play.Emv.DataElements;
 using Play.Emv.DataExchange;
+using Play.Emv.Identifiers;
 using Play.Emv.Messaging;
-using Play.Emv.Sessions;
 using Play.Messaging;
 
 namespace Play.Emv.Kernel.Contracts;

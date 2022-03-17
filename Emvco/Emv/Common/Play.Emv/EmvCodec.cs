@@ -1,19 +1,13 @@
 ﻿using System.Collections.Generic;
 
-using Microsoft.Toolkit.HighPerformance.Buffers;
-
 using Play.Ber;
 using Play.Ber.Codecs;
-using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
-using Play.Ber.InternalFactories;
 using Play.Codecs;
-using Play.Core.Specifications;
-using Play.Emv.Ber.Codecs;
+using Play.Emv.Identifiers;
 
 using PlayCodec = Play.Codecs.PlayCodec;
 
-namespace Play.Emv.Ber;
+namespace Play.Emv;
 
 public class EmvCodec : BerCodec
 {

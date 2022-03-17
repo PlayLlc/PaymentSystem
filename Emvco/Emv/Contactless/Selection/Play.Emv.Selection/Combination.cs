@@ -1,5 +1,6 @@
 ﻿using Play.Core.Extensions;
 using Play.Emv.DataElements;
+using Play.Emv.Identifiers;
 using Play.Emv.Templates;
 using Play.Icc.FileSystem.DedicatedFiles;
 

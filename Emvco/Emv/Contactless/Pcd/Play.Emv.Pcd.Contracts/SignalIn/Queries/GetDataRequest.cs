@@ -1,6 +1,6 @@
 ﻿using Play.Ber.Identifiers;
 using Play.Emv.Icc;
-using Play.Emv.Sessions;
+using Play.Emv.Identifiers;
 using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;

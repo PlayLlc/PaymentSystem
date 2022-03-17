@@ -4,7 +4,7 @@ using Play.Core;
 using Play.Core.Extensions;
 using Play.Emv.DataElements;
 
-namespace Play.Emv.Sessions;
+namespace Play.Emv.Identifiers;
 
 /// <summary>
 ///     A value that can be used to correlate an Application Session for Data Exchange Kernel messages

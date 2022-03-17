@@ -1,5 +1,5 @@
-﻿using Play.Emv.Kernel.State;
-using Play.Emv.Sessions;
+﻿using Play.Emv.Identifiers;
+using Play.Emv.Kernel.State;
 
 namespace Play.Emv.Kernel2.StateMachine;
 

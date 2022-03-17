@@ -3,7 +3,7 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 
-namespace Play.Emv.Ber.DataObjects;
+namespace Play.Emv.DataElements;
 
 public abstract record DataExchangeRequest : DataExchangeList<Tag>
 {

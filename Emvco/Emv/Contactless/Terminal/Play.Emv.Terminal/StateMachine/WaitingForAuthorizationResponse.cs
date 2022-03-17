@@ -1,9 +1,9 @@
 ﻿using System;
 
 using Play.Emv.Acquirer.Contracts.SignalOut;
+using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Reader.Contracts.SignalOut;
-using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Emv.Terminal.DataExchange;
 using Play.Emv.Terminal.Session;

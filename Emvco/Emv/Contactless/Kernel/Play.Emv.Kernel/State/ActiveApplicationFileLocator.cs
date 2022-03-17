@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Play.Ber.Identifiers;
-using Play.Emv.Ber.DataObjects;
 using Play.Icc.FileSystem.ElementaryFiles;
 
 namespace Play.Emv.Kernel.State;

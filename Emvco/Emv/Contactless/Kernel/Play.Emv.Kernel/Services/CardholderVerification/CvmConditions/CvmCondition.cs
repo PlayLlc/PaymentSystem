@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 
 using Play.Ber.Identifiers;
-using Play.Emv.Ber.DataObjects;
+using Play.Emv.Database;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 

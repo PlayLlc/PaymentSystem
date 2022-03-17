@@ -4,7 +4,6 @@ using System.Linq;
 
 using Play.Ber.Identifiers;
 using Play.Core;
-using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
 
 namespace Play.Emv.Kernel.DataExchange;
@@ -14,7 +13,7 @@ public record DekRequestType : EnumObject<Tag>
     #region Static Metadata
 
     // away from card (Enqueued) and sent
-    public static readonly DekRequestType DataNeeded = new(Ber.DataObjects.DataNeeded.Tag);
+    public static readonly DekRequestType DataNeeded = new(DataElements.DataNeeded.Tag);
 
     // to card (Dequeued)   
     public static readonly DekRequestType TagsToRead = new(DataElements.TagsToRead.Tag);

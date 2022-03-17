@@ -6,7 +6,7 @@ using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
 using Play.Globalization.Currency;
 
-using PrimaryAccountNumber = Play.Emv.DataElements.TrackData.PrimaryAccountNumber;
+using PrimaryAccountNumber = Play.Emv.DataElements.PrimaryAccountNumber;
 
 namespace Play.Emv.Kernel.Services;
 

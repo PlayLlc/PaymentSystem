@@ -2,11 +2,11 @@
 using Play.Emv.Configuration;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
+using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel2.StateMachine;
 using Play.Emv.Messaging;
 using Play.Emv.Reader.Contracts.SignalOut;
-using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Emv.Terminal.Session;
 using Play.Emv.Terminal.StateMachine;

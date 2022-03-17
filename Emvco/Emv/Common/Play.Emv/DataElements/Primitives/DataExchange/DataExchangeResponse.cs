@@ -4,7 +4,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 
-namespace Play.Emv.Ber.DataObjects;
+namespace Play.Emv.DataElements;
 
 public abstract record DataExchangeResponse : DataExchangeList<TagLengthValue>
 {

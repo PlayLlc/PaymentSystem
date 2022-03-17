@@ -5,7 +5,7 @@ using Play.Emv.Security.Certificates.Issuer;
 using Play.Emv.Security.Exceptions;
 using Play.Encryption.Signing;
 
-using PrimaryAccountNumber = Play.Emv.DataElements.TrackData.PrimaryAccountNumber;
+using PrimaryAccountNumber = Play.Emv.DataElements.PrimaryAccountNumber;
 
 namespace Play.Emv.Security.Certificates;
 

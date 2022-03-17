@@ -2,7 +2,7 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 
-namespace Play.Emv.Ber.DataObjects;
+namespace Play.Emv.Templates;
 
 public abstract class Template : ConstructedValue
 {

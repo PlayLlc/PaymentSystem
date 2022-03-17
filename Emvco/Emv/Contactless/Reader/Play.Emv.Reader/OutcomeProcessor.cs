@@ -2,10 +2,10 @@
 
 using Play.Emv.DataElements;
 using Play.Emv.Display.Contracts;
+using Play.Emv.Identifiers;
 using Play.Emv.Outcomes;
 using Play.Emv.Reader.Contracts.SignalOut;
 using Play.Emv.Selection.Contracts;
-using Play.Emv.Sessions;
 using Play.Messaging;
 
 namespace Play.Emv.Reader;

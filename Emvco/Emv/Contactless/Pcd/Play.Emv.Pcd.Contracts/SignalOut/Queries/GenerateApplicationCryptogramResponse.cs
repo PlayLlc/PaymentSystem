@@ -6,7 +6,7 @@ using Play.Ber.Exceptions;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
-using Play.Emv.Sessions;
+using Play.Emv.Identifiers;
 using Play.Emv.Templates;
 using Play.Messaging;
 

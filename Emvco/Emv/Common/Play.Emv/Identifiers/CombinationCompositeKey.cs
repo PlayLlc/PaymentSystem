@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Play.Emv.DataElements;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace Play.Emv;
+namespace Play.Emv.Identifiers;
 
 public class CombinationCompositeKey : IEquatable<CombinationCompositeKey>, IEqualityComparer<CombinationCompositeKey>
 {

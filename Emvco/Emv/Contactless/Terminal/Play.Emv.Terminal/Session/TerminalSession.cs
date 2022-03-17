@@ -1,6 +1,6 @@
 ﻿using Play.Emv.DataElements;
+using Play.Emv.Identifiers;
 using Play.Emv.Outcomes;
-using Play.Emv.Sessions;
 
 namespace Play.Emv.Terminal.Session;
 

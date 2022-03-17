@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Play.Ber.Identifiers;
-using Play.Emv.Ber.DataObjects;
+using Play.Emv.Database;
 using Play.Emv.DataElements;
 using Play.Emv.Kernel.DataExchange;
 

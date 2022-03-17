@@ -6,9 +6,9 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Ber.Lengths;
-using Play.Emv.Ber.DataObjects;
 using Play.Emv.Ber.Tests.TestDoubles;
 using Play.Emv.DataElements;
+using Play.Emv.Templates.Requests;
 using Play.Emv.TestData.Ber.Primitive;
 
 using Xunit;

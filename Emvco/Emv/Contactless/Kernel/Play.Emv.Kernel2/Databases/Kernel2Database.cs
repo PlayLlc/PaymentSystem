@@ -3,9 +3,9 @@ using System.Linq;
 
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel2.Configuration;
-using Play.Emv.Sessions;
 using Play.Emv.Terminal.Contracts;
 
 namespace Play.Emv.Kernel2.Databases;

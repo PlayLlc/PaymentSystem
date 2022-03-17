@@ -1,6 +1,5 @@
-﻿using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements;
-using Play.Emv.Sessions;
+﻿using Play.Emv.DataElements;
+using Play.Emv.Identifiers;
 
 namespace Play.Emv.Terminal.Contracts.Messages.Commands;
 

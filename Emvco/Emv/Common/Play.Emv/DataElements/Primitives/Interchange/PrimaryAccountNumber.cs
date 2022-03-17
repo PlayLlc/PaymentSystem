@@ -6,7 +6,7 @@ using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements.TrackData;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     The Account Number associated to Issuer Card

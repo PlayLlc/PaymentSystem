@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
-using Play.Emv.Ber.DataObjects;
 using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Icc.Messaging.Apdu.ReadRecord;
 

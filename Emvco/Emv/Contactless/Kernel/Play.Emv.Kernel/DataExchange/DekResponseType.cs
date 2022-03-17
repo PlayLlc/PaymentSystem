@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using Play.Ber.Identifiers;
 using Play.Core;
-using Play.Emv.Ber.DataObjects;
 using Play.Emv.DataElements;
 
 namespace Play.Emv.Kernel.DataExchange;
@@ -14,7 +13,7 @@ public record DekResponseType : EnumObject<Tag>
 
     public static readonly DekResponseType TagsToWriteBeforeGenAc = new(DataElements.TagsToWriteBeforeGenAc.Tag);
     public static readonly DekResponseType TagsToWriteAfterGenAc = new(DataElements.TagsToWriteAfterGenAc.Tag);
-    public static readonly DekResponseType DataToSend = new(Ber.DataObjects.DataToSend.Tag);
+    public static readonly DekResponseType DataToSend = new(DataElements.DataToSend.Tag);
     public static readonly DekResponseType DataRecord = new(DataElements.DataRecord.Tag);
     public static readonly DekResponseType DiscretionaryData = new(DataElements.DiscretionaryData.Tag);
     public static readonly DekResponseType TornRecord = new(DataElements.TornRecord.Tag);

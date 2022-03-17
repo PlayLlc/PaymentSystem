@@ -5,8 +5,9 @@ using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Emv.DataElements;
 
-namespace Play.Emv.Ber.DataObjects;
+namespace Play.Emv.Templates.Requests;
 
 /// <summary>
 ///     Identifies the data field of a command message

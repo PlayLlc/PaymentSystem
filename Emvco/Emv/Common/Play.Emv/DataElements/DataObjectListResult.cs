@@ -4,8 +4,9 @@ using System.Linq;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
+using Play.Emv.Templates.Requests;
 
-namespace Play.Emv.Ber.DataObjects;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     The result from a <see cref="DataObjectList" /> requested by the ICC. The object contains a concatenated

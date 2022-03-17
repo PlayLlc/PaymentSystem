@@ -3,16 +3,12 @@ using System.Collections.Generic;
 using System.Numerics;
 
 using Play.Ber.Codecs;
-using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Core.Extensions;
-using Play.Emv.Ber.DataObjects;
-using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.Issuer;
+namespace Play.Emv.DataElements;
 
 /// <summary>
 ///     Data sent to the ICC for online issuer authentication

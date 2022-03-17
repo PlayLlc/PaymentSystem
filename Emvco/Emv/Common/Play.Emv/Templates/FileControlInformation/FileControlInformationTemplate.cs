@@ -1,5 +1,4 @@
 ﻿using Play.Ber.Identifiers;
-using Play.Emv.Ber.DataObjects;
 
 namespace Play.Emv.Templates;
 
