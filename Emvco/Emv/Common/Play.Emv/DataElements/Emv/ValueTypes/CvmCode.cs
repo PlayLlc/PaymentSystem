@@ -24,30 +24,30 @@ public readonly struct CvmCode
 
     public bool IsRecognized(TerminalCapabilities terminalCapabilities)
     {
-        if (!CardholderVerificationMethod.Exists(_Value))
+        if (!CardholderVerificationMethods.Exists(_Value))
             return false;
 
-        if (_Value == CardholderVerificationMethod.Fail)
+        if (_Value == CardholderVerificationMethods.Fail)
             return true;
 
-        if (_Value == CardholderVerificationMethod.NoCvmRequired)
+        if (_Value == CardholderVerificationMethods.NoCvmRequired)
             return terminalCapabilities.IsNoCardVerificationMethodRequiredSupported();
-        if (_Value == CardholderVerificationMethod.OfflineEncipheredPin)
+        if (_Value == CardholderVerificationMethods.OfflineEncipheredPin)
             return terminalCapabilities.IsEncipheredPinForOfflineVerificationSupported();
 
-        if (_Value == CardholderVerificationMethod.OfflineEncipheredPinAndSignature)
+        if (_Value == CardholderVerificationMethods.OfflineEncipheredPinAndSignature)
         {
             return terminalCapabilities.IsEncipheredPinForOfflineVerificationSupported()
                 && terminalCapabilities.IsSignaturePaperSupported();
         }
 
-        if (_Value == CardholderVerificationMethod.OfflinePlaintextPin)
+        if (_Value == CardholderVerificationMethods.OfflinePlaintextPin)
             return terminalCapabilities.IsPlaintextPinForIccVerificationSupported();
-        if (_Value == CardholderVerificationMethod.OfflinePlaintextPinAndSignature)
+        if (_Value == CardholderVerificationMethods.OfflinePlaintextPinAndSignature)
             return terminalCapabilities.IsPlaintextPinForIccVerificationSupported() && terminalCapabilities.IsSignaturePaperSupported();
-        if (_Value == CardholderVerificationMethod.OnlineEncipheredPin)
+        if (_Value == CardholderVerificationMethods.OnlineEncipheredPin)
             return terminalCapabilities.IsEncipheredPinForOnlineVerificationSupported();
-        if (_Value == CardholderVerificationMethod.SignaturePaper)
+        if (_Value == CardholderVerificationMethods.SignaturePaper)
             return terminalCapabilities.IsSignaturePaperSupported();
 
         throw new PlayInternalException("We should never reach this point");

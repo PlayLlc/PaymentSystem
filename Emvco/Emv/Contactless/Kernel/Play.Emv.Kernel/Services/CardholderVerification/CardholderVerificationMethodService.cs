@@ -31,9 +31,9 @@ public class CardholderVerificationMethodService
 
     #region Instance Members
 
-    public void Process(CardholderVerificationMethod cardholderVerificationMethod, IQueryTlvDatabase database)
+    public void Process(CardholderVerificationMethods cardholderVerificationMethods, IQueryTlvDatabase database)
     {
-        if (cardholderVerificationMethod == CardholderVerificationMethod.Fail)
+        if (cardholderVerificationMethods == CardholderVerificationMethods.Fail)
 
             throw new NotImplementedException();
     }
