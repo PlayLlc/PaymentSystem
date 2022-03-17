@@ -2,13 +2,14 @@
 using System.Runtime.CompilerServices;
 
 using Play.Codecs.Exceptions;
+using Play.Emv.Icc;
 
 namespace Play.Emv.Security.Exceptions;
 
 /// <summary>
-///     When a form of authentication fails, such as Combined Data Authentication, Dynamic Data Authentication, or Static
-///     Data Authentication
+///     When a form of authentication fails, such as Combined Data Authentication, Dynamic Data Authentication, or Static Data Authentication
 /// </summary>
+/// <remarks>This error is logically similar to a <see cref="Level2Error.TerminalDataError" /> /></remarks>
 public class CryptographicAuthenticationMethodFailedException : CodecParsingException
 {
     #region Constructor

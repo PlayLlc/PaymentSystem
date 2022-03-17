@@ -7,6 +7,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Exceptions;
+using Play.Globalization.Currency;
 
 namespace Play.Emv.DataElements;
 
@@ -14,7 +15,7 @@ namespace Play.Emv.DataElements;
 ///     Code defining the common currency used by the terminal in case the Transaction Currency Code is different from the
 ///     Application Currency Code
 /// </summary>
-public record TransactionReferenceCurrencyCode : DataElement<ushort>, IEqualityComparer<TransactionReferenceCurrencyCode>
+public record TransactionReferenceCurrencyCode : DataElement<NumericCurrencyCode>, IEqualityComparer<TransactionReferenceCurrencyCode>
 {
     #region Static Metadata
 
@@ -27,7 +28,7 @@ public record TransactionReferenceCurrencyCode : DataElement<ushort>, IEqualityC
 
     #region Constructor
 
-    public TransactionReferenceCurrencyCode(ushort value) : base(value)
+    public TransactionReferenceCurrencyCode(NumericCurrencyCode value) : base(value)
     { }
 
     #endregion
@@ -56,7 +57,7 @@ public record TransactionReferenceCurrencyCode : DataElement<ushort>, IEqualityC
 
         Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
 
-        return new TransactionReferenceCurrencyCode(result);
+        return new TransactionReferenceCurrencyCode(new NumericCurrencyCode(result));
     }
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
@@ -80,4 +81,7 @@ public record TransactionReferenceCurrencyCode : DataElement<ushort>, IEqualityC
     public int GetHashCode(TransactionReferenceCurrencyCode obj) => obj.GetHashCode();
 
     #endregion
+
+    public static implicit operator NumericCurrencyCode(TransactionReferenceCurrencyCode value) => value._Value;
+
 }

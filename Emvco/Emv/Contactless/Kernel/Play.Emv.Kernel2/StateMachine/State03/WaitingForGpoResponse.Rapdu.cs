@@ -218,7 +218,7 @@ public partial class WaitingForGpoResponse : KernelState
         if (_KernelDatabase.IsMagstripeModeSupported())
             return false;
 
-        HandleInvalidResponse(session, Level2Error.MagStripeNotSupported);
+        HandleInvalidResponse(session, Level2Error.MagstripeNotSupported);
 
         return true;
     }

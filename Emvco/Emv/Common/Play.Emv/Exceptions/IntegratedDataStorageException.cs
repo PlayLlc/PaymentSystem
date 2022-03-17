@@ -2,36 +2,41 @@
 using System.Runtime.CompilerServices;
 
 using Play.Codecs.Exceptions;
+using Play.Emv.Icc;
 
 namespace Play.Emv.Exceptions;
 
-public class IntegratedDataStorageException : CodecParsingException
+/// <summary>
+///     When an error occurs because of data from received from Integrated Data Storage
+/// </summary>
+/// <remarks>This error is logically similar to a <see cref="Level2Error.IdsDataError" /> /></remarks>
+public class IntegratedDataStorageDataException : CodecParsingException
 {
     #region Constructor
 
-    public IntegratedDataStorageException(
+    public IntegratedDataStorageDataException(
         string message,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(IntegratedDataStorageException), fileName, memberName, lineNumber)} {message}")
+        base($"{TraceExceptionMessage(typeof(IntegratedDataStorageDataException), fileName, memberName, lineNumber)} {message}")
     { }
 
-    public IntegratedDataStorageException(
+    public IntegratedDataStorageDataException(
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(IntegratedDataStorageException), fileName, memberName, lineNumber)}", innerException)
+        base($"{TraceExceptionMessage(typeof(IntegratedDataStorageDataException), fileName, memberName, lineNumber)}", innerException)
     { }
 
-    public IntegratedDataStorageException(
+    public IntegratedDataStorageDataException(
         string message,
         Exception innerException,
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(IntegratedDataStorageException), fileName, memberName, lineNumber)} {message}", innerException)
+        base($"{TraceExceptionMessage(typeof(IntegratedDataStorageDataException), fileName, memberName, lineNumber)} {message}", innerException)
     { }
 
     #endregion

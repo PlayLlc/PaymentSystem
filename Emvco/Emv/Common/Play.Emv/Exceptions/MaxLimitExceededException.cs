@@ -2,12 +2,14 @@
 using System.Runtime.CompilerServices;
 
 using Play.Codecs.Exceptions;
+using Play.Emv.Icc;
 
 namespace Play.Emv.Exceptions;
-
+ 
 /// <summary>
-///     Amount, Authorized (Numeric) > Reader Contactless Transaction Limit
+///     When the  Amount, Authorized (Numeric) > Reader Contactless Transaction Limit
 /// </summary>
+/// <remarks>This error is logically similar to a <see cref="Level2Error.MaxLimitExceeded" /> /></remarks>
 public class MaxLimitExceededException : CodecParsingException
 {
     #region Constructor

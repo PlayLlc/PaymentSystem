@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
+using Play.Emv.Icc;
 using Play.Emv.Messaging;
 using Play.Messaging;
 
 namespace Play.Emv.Exceptions;
 
+/// <summary>
+///     When a channel receives a message but is in an invalid state and cannot process the request
+/// </summary>
+/// <remarks>This error is logically similar to a <see cref="Level2Error.TerminalDataError" /> /></remarks>
 public class RequestOutOfSyncException : InvalidSignalRequest
 {
     #region Constructor

@@ -2,9 +2,13 @@
 using System.Runtime.CompilerServices;
 
 using Play.Codecs.Exceptions;
+using Play.Emv.Icc;
 
 namespace Play.Emv.Exceptions;
-
+/// <summary>
+///     When an error occurs during a write involving Integrated Data Storage
+/// </summary>
+/// <remarks>This error is logically similar to a <see cref="Level2Error.IdsWriterError" /> /></remarks>
 public class IntegratedDataStorageWriterException : CodecParsingException
 {
     #region Constructor

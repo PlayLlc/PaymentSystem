@@ -17,7 +17,7 @@ public record Level2Error : EnumObject<byte>
     public static readonly Level2Error IdsNoMatchingAc;
     public static readonly Level2Error IdsReaderError;
     public static readonly Level2Error IdsWriterError;
-    public static readonly Level2Error MagStripeNotSupported;
+    public static readonly Level2Error MagstripeNotSupported;
     public static readonly Level2Error MaxLimitExceeded;
     public static readonly Level2Error NoPpse;
     public static readonly Level2Error Ok;
@@ -57,7 +57,7 @@ public record Level2Error : EnumObject<byte>
         IdsNoMatchingAc = new Level2Error(idsNoMatchingAc);
         IdsReaderError = new Level2Error(idsReaderError);
         IdsWriterError = new Level2Error(idsWriterError);
-        MagStripeNotSupported = new Level2Error(magStripeNotSupported);
+        MagstripeNotSupported = new Level2Error(magStripeNotSupported);
         MaxLimitExceeded = new Level2Error(maxLimitExceeded);
         NoPpse = new Level2Error(noPpse);
         Ok = new Level2Error(ok);
@@ -75,7 +75,7 @@ public record Level2Error : EnumObject<byte>
             {idsNoMatchingAc, IdsNoMatchingAc},
             {idsReaderError, IdsReaderError},
             {idsWriterError, IdsWriterError},
-            {magStripeNotSupported, MagStripeNotSupported},
+            {magStripeNotSupported, MagstripeNotSupported},
             {maxLimitExceeded, MaxLimitExceeded},
             {noPpse, NoPpse},
             {ok, Ok},

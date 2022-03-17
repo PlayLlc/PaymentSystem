@@ -97,6 +97,5 @@ is considered successful, and cardholder verification is complete.
     }
 
     #endregion
-}
 
 }

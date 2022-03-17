@@ -9,7 +9,7 @@ namespace Play.Emv.Kernel.Exceptions;
 /// <summary>
 ///     When the kernel and the card do not have a matching operating mode
 /// </summary>
-/// <remarks>This error is logically similar to a <see cref="Level2Error.MagStripeNotSupported" /></remarks>
+/// <remarks>This error is logically similar to a <see cref="Level2Error.MagstripeNotSupported" /></remarks>
 public class MagstripeNotSupportedException : PlayException
 {
     #region Constructor

@@ -21,11 +21,11 @@ public record BerEncodingIdType : EnumObject<PlayEncodingId>
 
     static BerEncodingIdType()
     {
-        AlphabeticCodec = new BerEncodingIdType(Play.Codecs.AlphabeticCodec.EncodingId);
-        AlphaNumericCodec = new BerEncodingIdType(Play.Codecs.AlphaNumericCodec.EncodingId);
-        AlphaNumericSpecialCodec = new BerEncodingIdType(Play.Codecs.AlphaNumericSpecialCodec.EncodingId);
-        CompressedNumericCodec = new BerEncodingIdType(Play.Codecs.CompressedNumericCodec.EncodingId);
-        NumericCodec = new BerEncodingIdType(Play.Codecs.NumericCodec.EncodingId);
+        AlphabeticCodec = new BerEncodingIdType(Codecs.AlphabeticCodec.EncodingId);
+        AlphaNumericCodec = new BerEncodingIdType(Codecs.AlphaNumericCodec.EncodingId);
+        AlphaNumericSpecialCodec = new BerEncodingIdType(Codecs.AlphaNumericSpecialCodec.EncodingId);
+        CompressedNumericCodec = new BerEncodingIdType(Codecs.CompressedNumericCodec.EncodingId);
+        NumericCodec = new BerEncodingIdType(Codecs.NumericCodec.EncodingId);
         UnsignedBinaryCodec = new BerEncodingIdType(UnsignedIntegerCodec.EncodingId);
         VariableCodec = new BerEncodingIdType(HexadecimalCodec.EncodingId);
     }

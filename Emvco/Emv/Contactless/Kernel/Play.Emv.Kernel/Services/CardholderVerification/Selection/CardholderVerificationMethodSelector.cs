@@ -23,6 +23,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
             AmountAuthorizedNumeric.Decode(database.Get(AmountAuthorizedNumeric.Tag).EncodeValue().AsSpan());
         ReaderCvmRequiredLimit readerCvmRequiredLimit =
             ReaderCvmRequiredLimit.Decode(database.Get(ReaderCvmRequiredLimit.Tag).EncodeValue().AsSpan());
+       
 
         if (IsOfflineVerificationSupported(applicationInterchangeProfile, database))
         {
@@ -41,7 +42,27 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
         if (IsCvmListEmpty(database, out CvmList? cvmList))
             CreateIccDataMissingCvmResult(database);
 
-        throw new NotImplementedException();
+        Select(database, cvmList);
+    }
+
+    // HACK: I'm not sure if this is correct. We're attempting to ensure we're using the same base currency when we add, subtract, and compare money values. If the application currency and transaction currency are different then we're using the reference currency. Check to see what the actual logic should be
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
+    private NumericCurrencyCode GetCurrencyCode(KernelDatabase database)
+    {
+        TransactionCurrencyCode transactionCurrencyCode =
+            TransactionCurrencyCode.Decode(database.Get(TransactionCurrencyCode.Tag).EncodeValue().AsSpan());
+        ApplicationCurrencyCode applicationCurrencyCode =
+            ApplicationCurrencyCode.Decode(database.Get(ApplicationCurrencyCode.Tag).EncodeValue().AsSpan());
+
+        if ((NumericCurrencyCode) transactionCurrencyCode == (NumericCurrencyCode) applicationCurrencyCode)
+            return (NumericCurrencyCode) transactionCurrencyCode;
+
+        TransactionReferenceCurrencyCode transactionReferenceCurrencyCode =
+            TransactionReferenceCurrencyCode.Decode(database.Get(TransactionReferenceCurrencyCode.Tag).EncodeValue().AsSpan());
+
+        return (NumericCurrencyCode) transactionReferenceCurrencyCode;
     }
 
     #region CVM.1
@@ -162,25 +183,22 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 
     #region CVM.9 - Selection Loop
 
+    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
     public static void Select(KernelDatabase database, CvmList cvmList, ApplicationCurrencyCode currencyCode)
     {
         CvmQueue cvmQueue = new(database, cvmList, currencyCode);
 
         for (int i = 0; i < cvmQueue.Count; i++)
         {
-            if (!cvmQueue.TrySelect(database, out CvmRule? rule))
-            {
-                CVM22();
-
-                return;
-            }
+            if (cvmQueue.TrySelect(database)) 
+                return; 
         }
     }
 
     #endregion
-
-    private static void CVM22()
-    { }
+     
 
     #endregion
 }
