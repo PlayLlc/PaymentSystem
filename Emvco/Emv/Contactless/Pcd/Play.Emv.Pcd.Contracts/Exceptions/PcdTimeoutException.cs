@@ -5,6 +5,10 @@ using Play.Core.Exceptions;
 
 namespace Play.Emv.Pcd.Contracts;
 
+/// <summary>
+///     When an error occurs in the hardware layer of the Reader's Proximity Coupling Device due to a timeout
+/// </summary>
+/// <remarks>This exception is logically similar to the Level 1 'Timeout Error''</remarks>
 public class PcdTimeoutException : PlayException
 {
     #region Constructor

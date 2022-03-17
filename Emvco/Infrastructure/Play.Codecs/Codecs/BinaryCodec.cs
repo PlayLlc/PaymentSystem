@@ -102,7 +102,7 @@ public class BinaryCodec : PlayCodec
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public override ushort GetByteCount<T>(T value) where T : struct
     {

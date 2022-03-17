@@ -3,6 +3,10 @@ using System.Runtime.CompilerServices;
 
 namespace Play.Core.Exceptions;
 
+/// <summary>
+///     When an internal error occurs anywhere in the codebase that is caused by something incorrectly configured or coded
+/// </summary>
+/// <remarks>This exception is logically similar to the Level 2 'Terminal Data Error'</remarks>
 public class PlayInternalException : PlayException
 {
     #region Static Metadata

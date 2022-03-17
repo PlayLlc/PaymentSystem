@@ -2,6 +2,9 @@
 
 namespace Play.Core.Exceptions;
 
+/// <summary>
+///     This is the base exception for all custom exception thrown in our codebase
+/// </summary>
 public abstract class PlayException : Exception
 {
     #region Constructor

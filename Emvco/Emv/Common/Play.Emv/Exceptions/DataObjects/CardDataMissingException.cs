@@ -2,12 +2,17 @@
 using System.Runtime.CompilerServices;
 
 using Play.Core.Exceptions;
+using Play.Emv.Icc;
 
 namespace Play.Emv.Exceptions;
 
 /// <summary>
 ///     When a Template or Data Object List is missing a required Data Element
 /// </summary>
+/// <remarks>
+///     This error is logically similar to a <see cref="Level2Error.CardDataMissingError" /> Level 2 Error 'Card Data
+///     Error" />
+/// </remarks>
 public class CardDataMissingException : PlayException
 {
     #region Constructor

@@ -8,6 +8,7 @@ namespace Play.Ber.Exceptions;
 /// <summary>
 ///     When there's a problem encoding or decoding a primitive or constructed TLV object due to a format error
 /// </summary>
+/// <remarks>This exception is logically similar to the Level 2 'Card Parsing error''</remarks>
 public class BerParsingException : CodecParsingException
 {
     #region Static Metadata

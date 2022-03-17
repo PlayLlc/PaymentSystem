@@ -5,6 +5,9 @@ using Play.Emv.Pcd.Contracts;
 using Play.Emv.Selection.Contracts;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
+using Play.Messaging.Exceptions.Moto;
+
+using InvalidMessageRoutingException = Play.Messaging.Exceptions.Moto.InvalidMessageRoutingException;
 
 namespace Play.Emv.Selection.Services;
 
@@ -52,7 +55,7 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
     ///     Request
     /// </summary>
     /// <param name="message"></param>
-    /// <exception cref="UnhandledRequestException"></exception>
+    /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Request(RequestMessage message)
     {
         if (message is ActivatePcdRequest activatePcdRequest)
@@ -62,7 +65,7 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
         else if (message is StopPcdRequest stopPcdRequest)
             Request(stopPcdRequest);
         else
-            throw new UnhandledRequestException(message);
+            throw new InvalidMessageRoutingException(message);
     }
 
     public void Request(ActivateSelectionRequest message)
@@ -92,13 +95,13 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
     ///     Handle
     /// </summary>
     /// <param name="message"></param>
-    /// <exception cref="InvalidMessageRoutingException"></exception>
+    /// <exception cref="Play.Messaging.Exceptions.InvalidMessageRoutingException"></exception>
     public void Handle(ResponseMessage message)
     {
         if (message is SelectApplicationDefinitionFileInfoResponse appletFci)
             Handle(appletFci);
         else
-            throw new InvalidMessageRoutingException(message, this);
+            throw new Play.Messaging.Exceptions.InvalidMessageRoutingException(message, this);
     }
 
     public void Handle(SelectApplicationDefinitionFileInfoResponse response)

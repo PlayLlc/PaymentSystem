@@ -4,6 +4,10 @@ using Play.Core.Exceptions;
 
 namespace Play.Messaging.Exceptions;
 
+/// <summary>
+///     This is the base exception for all in-memory messaging exceptions
+/// </summary>
+/// <remarks>This exception is logically similar to the Level 2 'Terminal Data Error''</remarks>
 public class MessagingException : PlayException
 {
     #region Constructor

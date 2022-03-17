@@ -127,7 +127,7 @@ public class UnsignedIntegerCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public override ushort GetByteCount<_T>(_T[] value)
     {
@@ -241,7 +241,7 @@ public class UnsignedIntegerCodec : PlayCodec
     ///     Validate
     /// </summary>
     /// <param name="value"></param>
-    /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     protected void Validate(ReadOnlySpan<char> value)
     {

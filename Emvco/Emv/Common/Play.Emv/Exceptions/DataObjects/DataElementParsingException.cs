@@ -4,12 +4,16 @@ using System.Runtime.CompilerServices;
 using Play.Ber.Exceptions;
 using Play.Codecs;
 using Play.Emv.Ber;
+using Play.Emv.Icc;
 
 namespace Play.Emv.Exceptions;
 
 /// <summary>
-///     When there's a problem encoding or decoding a Data Element due to a format error
+///     When a Template or Data Object List is missing a required Data Element
 /// </summary>
+/// <remarks>
+///     This error is logically similar to a <see cref="Level2Error.ParsingError" />
+/// </remarks>
 public class DataElementParsingException : BerParsingException
 {
     #region Constructor

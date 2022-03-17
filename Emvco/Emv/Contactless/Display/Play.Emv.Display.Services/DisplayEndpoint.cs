@@ -4,6 +4,9 @@ using Play.Emv.Display.Contracts;
 using Play.Emv.Messaging;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
+using Play.Messaging.Exceptions.Moto;
+
+using InvalidMessageRoutingException = Play.Messaging.Exceptions.Moto.InvalidMessageRoutingException;
 
 namespace Play.Emv.Display.Services;
 
@@ -49,7 +52,7 @@ public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposa
     ///     Request
     /// </summary>
     /// <param name="message"></param>
-    /// <exception cref="UnhandledRequestException"></exception>
+    /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Request(RequestMessage message)
     {
         if (message is DisplayMessageRequest activatePcdRequest)
@@ -57,7 +60,7 @@ public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposa
         else if (message is StopDisplayRequest queryPcdRequest)
             Request(queryPcdRequest);
         else
-            throw new UnhandledRequestException(message);
+            throw new InvalidMessageRoutingException(message);
     }
 
     public void Request(DisplayMessageRequest message)
@@ -78,10 +81,10 @@ public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposa
     ///     Handle
     /// </summary>
     /// <param name="message"></param>
-    /// <exception cref="InvalidMessageRoutingException"></exception>
+    /// <exception cref="Play.Messaging.Exceptions.InvalidMessageRoutingException"></exception>
     public void Handle(ResponseMessage message)
     {
-        throw new InvalidMessageRoutingException(message, this);
+        throw new Play.Messaging.Exceptions.InvalidMessageRoutingException(message, this);
     }
 
     #endregion

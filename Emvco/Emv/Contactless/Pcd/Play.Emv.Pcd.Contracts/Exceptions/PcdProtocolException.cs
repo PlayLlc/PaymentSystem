@@ -5,6 +5,10 @@ using Play.Core.Exceptions;
 
 namespace Play.Emv.Pcd.Contracts;
 
+/// <summary>
+///     When an error occurs in the hardware layer of the Reader's Proximity Coupling Device due to a protocol error
+/// </summary>
+/// <remarks>This exception is logically similar to the Level 1 'Protocol Error''</remarks>
 public class PcdProtocolException : PlayException
 {
     #region Constructor

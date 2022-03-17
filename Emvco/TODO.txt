@@ -8,4 +8,5 @@ Slowly phase out the .Decode() that returns DecodedMetadata from the Play.Codec 
 function can cause runtime errors that we can't catch at compile time, and it's less efficient
 as there is reflection that is done every time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+You don't need the Play.Ber.Emv layer. You consolidated the Play.Codec layer and created the 
+Play.Ber layer. You can use that throughout the system

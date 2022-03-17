@@ -2,12 +2,14 @@
 using System.Runtime.CompilerServices;
 
 using Play.Core.Exceptions;
+using Play.Emv.Icc;
 
 namespace Play.Emv.Exceptions;
 
 /// <summary>
 ///     When data from the card is an incorrect value or different than expected
 /// </summary>
+/// <remarks>This error is logically similar to a <see cref="Level2Error.CardDataError" /> /></remarks>
 public class CardDataException : PlayException
 {
     #region Constructor

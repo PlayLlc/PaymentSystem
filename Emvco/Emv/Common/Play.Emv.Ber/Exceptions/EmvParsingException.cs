@@ -4,6 +4,12 @@ using Play.Ber.Exceptions;
 
 namespace Play.Emv.Ber.Exceptions;
 
+/// <summary>
+///     When a Template or Data Object List is missing a required Data Element
+/// </summary>
+/// <remarks>
+///     This error is logically similar to a <see cref="Level2Error.ParsingError" />
+/// </remarks>
 public class EmvParsingException : BerParsingException
 {
     #region Constructor

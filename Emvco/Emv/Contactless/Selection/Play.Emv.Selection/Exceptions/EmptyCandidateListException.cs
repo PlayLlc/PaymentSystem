@@ -4,6 +4,10 @@ using Play.Codecs.Exceptions;
 
 namespace Play.Emv.Selection.Exceptions;
 
+/// <summary>
+///     When Entry Point processing encounters an empty candidate list
+/// </summary>
+/// <remarks>This error is logically similar to a Level 2 Error 'Magstripe Not Supported" /></remarks>
 public class EmptyCandidateListException : CodecParsingException
 {
     #region Constructor

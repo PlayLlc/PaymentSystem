@@ -1,4 +1,5 @@
 ﻿using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Interchange.DataFields;
 
@@ -31,7 +32,7 @@ internal class BitMapBuilder
     /// </summary>
     /// <param name="buffer"></param>
     /// <param name="offset"></param>
-    /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     public void CopyTo(Span<byte> buffer, ref int offset)
     {

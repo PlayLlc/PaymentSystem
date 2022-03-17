@@ -58,7 +58,7 @@ public class NumericSpecialCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public override ushort GetByteCount<_T>(_T[] value)
     {

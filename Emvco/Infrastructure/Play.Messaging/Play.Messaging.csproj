@@ -11,4 +11,8 @@
     <ProjectReference Include="..\Play.Randoms\Play.Randoms.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Exceptions\Moto\" />
+  </ItemGroup>
+
 </Project>

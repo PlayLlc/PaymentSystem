@@ -10,6 +10,11 @@ using Play.Globalization.Currency;
 
 namespace Play.Emv.Kernel.Services;
 
+/// <summary>
+///     This object acts as a store for the list of <see cref="CvmRule" /> objects derived from the <see cref="CvmList" />.
+///     It iterates through each rule until it finds one that is compatible with the terminal
+/// </summary>
+/// <remarks>EMV Book C-2 Section CVM.9 - CVM.25</remarks>
 internal class CvmQueue
 {
     #region Instance Values
@@ -44,6 +49,7 @@ internal class CvmQueue
 
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public bool TrySelect(KernelDatabase database)
     {
         if (_Rules.Count < (_Offset - 1))
@@ -62,6 +68,7 @@ internal class CvmQueue
 
             if (!_Rules[_Offset].GetCvmCode().IsRecognized())
             {
+                // CVM.16
                 HandleUnrecognizedRule(database);
 
                 if (IsContinueOnFailureAllowed(_Rules[_Offset].GetCvmCode()))

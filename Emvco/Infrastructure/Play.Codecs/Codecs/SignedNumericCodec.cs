@@ -192,7 +192,7 @@ public class SignedNumericCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T value)
     {

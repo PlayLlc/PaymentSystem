@@ -10,4 +10,8 @@
     <ProjectReference Include="..\..\..\Infrastructure\Play.Ber\Play.Ber.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DataObjects\" />
+  </ItemGroup>
+
 </Project>

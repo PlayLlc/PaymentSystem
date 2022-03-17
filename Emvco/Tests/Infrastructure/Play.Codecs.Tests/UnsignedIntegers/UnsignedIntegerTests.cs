@@ -1,4 +1,6 @@
-﻿using Xunit;
+﻿using Play.Codecs.Exceptions;
+
+using Xunit;
 
 namespace Play.Codecs.Tests.UnsignedIntegers;
 
@@ -25,7 +27,7 @@ public class UnsignedIntegerTests
     ///     RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult
     /// </summary>
     /// <param name="testValue"></param>
-    /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="Exceptions.CodecParsingException"></exception>
     [Theory]
     [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(UnsignedIntegerFixture))]

@@ -52,7 +52,7 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
     ///     Request
     /// </summary>
     /// <param name="message"></param>
-    /// <exception cref="UnhandledRequestException"></exception>
+    /// <exception cref="InvalidMessageRoutingException"></exception>
     public void Request(RequestMessage message)
     {
         if (message is ActivateTerminalRequest activatePcdRequest)
@@ -60,7 +60,7 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
         else if (message is QueryTerminalRequest queryPcdRequest)
             Request(queryPcdRequest);
         else
-            throw new UnhandledRequestException(message);
+            throw new InvalidMessageRoutingException(message);
     }
 
     public void Request(ActivateTerminalRequest message)
@@ -95,7 +95,7 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
     ///     Handle
     /// </summary>
     /// <param name="message"></param>
-    /// <exception cref="InvalidMessageRoutingException"></exception>
+    /// <exception cref="Play.Messaging.Exceptions.InvalidMessageRoutingException"></exception>
     public void Handle(ResponseMessage message)
     {
         if (message is OutReaderResponse outReaderResponse)

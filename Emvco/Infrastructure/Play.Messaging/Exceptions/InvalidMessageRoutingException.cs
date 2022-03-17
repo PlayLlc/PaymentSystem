@@ -2,6 +2,10 @@
 
 namespace Play.Messaging.Exceptions;
 
+/// <summary>
+///     When there's a message request or callback to a channel that has been incorrectly configured
+/// </summary>
+/// <remarks>This exception is logically similar to the Level 2 'Terminal Data Error''</remarks>
 public class InvalidMessageRoutingException : MessagingException
 {
     #region Constructor

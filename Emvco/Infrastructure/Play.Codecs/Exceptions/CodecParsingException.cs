@@ -7,6 +7,7 @@ namespace Play.Codecs.Exceptions;
 /// <summary>
 ///     When there's a problem encoding or decoding due to a format error
 /// </summary>
+/// <remarks>This exception is logically similar to the Level 2 'Card Parsing error''</remarks>
 public class CodecParsingException : PlayException
 {
     #region Static Metadata

@@ -55,7 +55,7 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    /// <exception cref="CardReadException"></exception>
+    /// <exception cref="TransmissionError"></exception>
     public async Task<GetProcessingOptionsResponse> Transceive(GetProcessingOptionsRequest command)
     {
         // TODO: catch more specific exceptions
@@ -68,7 +68,7 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
         {
             // TODO: log and shit
 
-            throw new CardReadException(exception);
+            throw new TransmissionError(exception);
         }
     }
 
@@ -77,7 +77,7 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    /// <exception cref="CardReadException"></exception>
+    /// <exception cref="TransmissionError"></exception>
     public async Task<SelectProximityPaymentSystemEnvironmentResponse> Transceive(SelectProximityPaymentSystemEnvironmentRequest command)
     {
         // TODO: catch more specific exceptions
@@ -89,14 +89,14 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
         {
             // TODO: log and shit
 
-            throw new CardReadException(exception);
+            throw new TransmissionError(exception);
         }
     }
 
     /// <summary>
     ///     Abort
     /// </summary>
-    /// <exception cref="CardReadException"></exception>
+    /// <exception cref="TransmissionError"></exception>
     public void Abort()
     {
         // TODO: catch more specific exceptions
@@ -108,14 +108,14 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
         {
             // TODO: log and shit
 
-            throw new CardReadException(exception);
+            throw new TransmissionError(exception);
         }
     }
 
     /// <summary>
     ///     Activate
     /// </summary>
-    /// <exception cref="CardReadException"></exception>
+    /// <exception cref="TransmissionError"></exception>
     public void Activate()
     {
         // TODO: catch more specific exceptions
@@ -127,14 +127,14 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
         {
             // TODO: log and shit
 
-            throw new CardReadException(exception);
+            throw new TransmissionError(exception);
         }
     }
 
     /// <summary>
     ///     CloseSession
     /// </summary>
-    /// <exception cref="CardReadException"></exception>
+    /// <exception cref="TransmissionError"></exception>
     public void CloseSession()
     {
         // TODO: catch more specific exceptions
@@ -146,14 +146,14 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
         {
             // TODO: log and shit
 
-            throw new CardReadException(exception);
+            throw new TransmissionError(exception);
         }
     }
 
     /// <summary>
     ///     CloseSessionCardCheck
     /// </summary>
-    /// <exception cref="CardReadException"></exception>
+    /// <exception cref="TransmissionError"></exception>
     public void CloseSessionCardCheck()
     {
         _PcdClient.CloseSessionCardCheck();
@@ -167,7 +167,7 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
         {
             // TODO: log and shit
 
-            throw new CardReadException(exception);
+            throw new TransmissionError(exception);
         }
     }
 
@@ -176,7 +176,7 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    /// <exception cref="CardReadException"></exception>
+    /// <exception cref="TransmissionError"></exception>
     public async Task<SelectApplicationDefinitionFileInfoResponse> Transceive(SelectApplicationDefinitionFileInfoRequest command)
     {
         // TODO: catch more specific exceptions
@@ -188,7 +188,7 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
         {
             // TODO: log and shit
 
-            throw new CardReadException(exception);
+            throw new TransmissionError(exception);
         }
     }
 
@@ -197,7 +197,7 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    /// <exception cref="CardReadException"></exception>
+    /// <exception cref="TransmissionError"></exception>
     public async Task<SelectDirectoryDefinitionFileResponse> Transceive(SelectDirectoryDefinitionFileRequest command)
     {
         // TODO: catch more specific exceptions
@@ -209,7 +209,7 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
         {
             // TODO: log and shit
 
-            throw new CardReadException(exception);
+            throw new TransmissionError(exception);
         }
     }
 
@@ -218,7 +218,7 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    /// <exception cref="CardReadException"></exception>
+    /// <exception cref="TransmissionError"></exception>
     public async Task<SendPoiInformationResponse> Transceive(SendPoiInformationRequest command)
     {
         // TODO: catch more specific exceptions
@@ -230,7 +230,7 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
         {
             // TODO: log and shit
 
-            throw new CardReadException(exception);
+            throw new TransmissionError(exception);
         }
     }
 
@@ -239,7 +239,7 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    /// <exception cref="CardReadException"></exception>
+    /// <exception cref="TransmissionError"></exception>
     public Task<GetDataResponse> Transceive(GetDataRequest command)
     {
         // TODO: catch more specific exceptions
@@ -251,7 +251,7 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
         {
             // TODO: log and shit
 
-            throw new CardReadException(exception);
+            throw new TransmissionError(exception);
         }
     }
 
@@ -260,7 +260,7 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    /// <exception cref="CardReadException"></exception>
+    /// <exception cref="TransmissionError"></exception>
     public Task<ReadRecordResponse> Transceive(ReadRecordRequest command)
     {
         // TODO: catch more specific exceptions
@@ -272,7 +272,7 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
         {
             // TODO: log and shit
 
-            throw new CardReadException(exception);
+            throw new TransmissionError(exception);
         }
     }
 
@@ -281,7 +281,7 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    /// <exception cref="CardReadException"></exception>
+    /// <exception cref="TransmissionError"></exception>
     public Task<ExchangeRelayResistanceDataResponse> Transceive(ExchangeRelayResistanceDataRequest command)
     {
         // TODO: catch more specific exceptions
@@ -293,7 +293,7 @@ public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformat
         {
             // TODO: log and shit
 
-            throw new CardReadException(exception);
+            throw new TransmissionError(exception);
         }
     }
 

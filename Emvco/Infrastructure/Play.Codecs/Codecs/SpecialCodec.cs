@@ -70,7 +70,7 @@ public class SpecialCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public override ushort GetByteCount<_T>(_T[] value)
     {
@@ -284,7 +284,7 @@ public class SpecialCodec : PlayCodec
     /// <param name="bytes"></param>
     /// <param name="byteIndex"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions._Temp.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
     {
