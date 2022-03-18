@@ -36,9 +36,9 @@ public record TerminalIdentification : DataElement<char[]>, IEqualityComparer<Te
     #region Instance Members
 
     public override string ToString() => AsToken();
-    public Span<char> AsSpan() => _Value.AsSpanFromRight(_CharLength);
+    public Span<char> AsSpan() => _Value.AsSpan()[^_ByteLength..]; 
     public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
-    public string AsToken() => _Value.AsStringFromRight(_CharLength);
+    public string AsToken() => new string(_Value.AsSpan()[^_ByteLength..]);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
@@ -91,8 +91,7 @@ public record TerminalIdentification : DataElement<char[]>, IEqualityComparer<Te
     public static bool operator !=(InterfaceDeviceSerialNumber left, TerminalIdentification right) => !left.Equals(right);
     public static bool operator ==(TerminalIdentification left, InterfaceDeviceSerialNumber right) => right.Equals(left);
     public static bool operator !=(TerminalIdentification left, InterfaceDeviceSerialNumber right) => !right.Equals(left);
-    public static explicit operator Span<char>(TerminalIdentification value) => value.AsSpan();
-    public static explicit operator ulong(TerminalIdentification value) => value._Value;
+    public static explicit operator Span<char>(TerminalIdentification value) => value.AsSpan(); 
     public static explicit operator ReadOnlySpan<char>(TerminalIdentification value) => value.AsSpan();
     public static explicit operator string(TerminalIdentification value) => value.AsToken();
 

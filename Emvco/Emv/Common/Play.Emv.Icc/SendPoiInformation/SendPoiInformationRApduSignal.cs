@@ -13,10 +13,8 @@ public class SendPoiInformationRApduSignal : RApduSignal
 
     public override bool IsSuccessful() => throw new NotImplementedException();
 
-    public override Level1Error GetLevel1Error() =>
-        throw
-
-            // Check out Status Words
+    public Level1Error GetLevel1Error() =>
+        throw 
             new NotImplementedException();
 
     #endregion

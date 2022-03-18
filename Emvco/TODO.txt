@@ -10,3 +10,8 @@ as there is reflection that is done every time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You don't need the Play.Ber.Emv layer. You consolidated the Play.Codec layer and created the 
 Play.Ber layer. You can use that throughout the system
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Now that you're using mostly BigIntegers when deserializing for large binary var - you're creating
+a lot of heap allocations with byte arrays. You're going to want to use a pool or create a custom
+that passes by reference 

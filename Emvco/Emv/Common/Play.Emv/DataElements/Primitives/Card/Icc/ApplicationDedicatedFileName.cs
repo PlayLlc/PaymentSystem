@@ -4,6 +4,7 @@ using System.Numerics;
 
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Extensions;
 using Play.Emv.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
 
@@ -53,13 +54,13 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
 
     #region Instance Members
 
-    public byte[] AsByteArray() => _Value.CopyValue();
-    public DedicatedFileName AsDedicatedFileName() => new DedicatedFileName(_Value);
+    public byte[] AsByteArray() => _Value.ToByteArray();
+    public DedicatedFileName AsDedicatedFileName() => new DedicatedFileName(_Value.ToByteArray().AsSpan());
     public override PlayEncodingId GetEncodingId() => EncodingId;
-    public int GetByteCount() => _Value.Length;
+    public int GetByteCount() => _Value.GetByteCount();
 
     public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
-        new(PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(_Value[..5]));
+        new(PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(_Value.ToByteArray()[..5]));
 
     public override Tag GetTag() => Tag;
     public bool IsFullMatch(ApplicationDedicatedFileName other) => Equals(other);
@@ -93,7 +94,8 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
     {
         int comparisonLength = GetByteCount() < other.GetByteCount() ? GetByteCount() : other.GetByteCount();
 
-        Span<byte> thisBuffer = _Value;
+        Span<byte> thisBuffer = stackalloc byte[_Value.GetByteCount()]; 
+        _Value.AsSpan(thisBuffer); 
         Span<byte> otherBuffer = other.AsByteArray();
 
         for (int i = 0; i < comparisonLength; i++)
@@ -109,7 +111,10 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
     {
         int comparisonLength = GetByteCount() < other.GetByteCount() ? GetByteCount() : other.GetByteCount();
 
-        Span<byte> thisBuffer = _Value;
+
+
+
+        Span<byte> thisBuffer = _Value.ToByteArray();
         Span<byte> otherBuffer = other.AsByteArray();
 
         for (int i = 0; i < comparisonLength; i++)
@@ -166,7 +171,7 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
 
     #region Operator Overrides
 
-    public static implicit operator DedicatedFileName(ApplicationDedicatedFileName value) => new DedicatedFileName(value._Value);
+    public static implicit operator DedicatedFileName(ApplicationDedicatedFileName value) => new DedicatedFileName(value._Value.ToByteArray());
 
     #endregion
 }

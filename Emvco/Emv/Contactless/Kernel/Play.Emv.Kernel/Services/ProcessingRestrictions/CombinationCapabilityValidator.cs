@@ -38,7 +38,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     #region PRE.9
 
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
-    public static bool IsApplicationCapabilityCheckPossible(KernelDatabase database)
+    public bool IsApplicationCapabilityCheckPossible(KernelDatabase database)
     {
         if (database.IsPresentAndNotEmpty(ApplicationUsageControl.Tag))
             return true;
@@ -53,24 +53,23 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static bool IsTerminalAnAtm(KernelDatabase database)
+    public bool IsTerminalAnAtm(KernelDatabase database)
     {
-        AdditionalTerminalCapabilities additionalTerminal
-
-        AdditionalTerminalCapabilities.Decode(database.Get(AdditionalTerminalCapabilities.Tag).EncodeValue().AsSpan());
+        AdditionalTerminalCapabilities additionalTerminalCapabilities =
+            AdditionalTerminalCapabilities.Decode(database.Get(AdditionalTerminalCapabilities.Tag).EncodeValue().AsSpan());
 
         if (!additionalTerminalCapabilities.Cash())
             return false;
 
         TerminalType terminalType = TerminalType.Decode(database.Get(TerminalType.Tag).EncodeValue().AsSpan());
 
-        TerminalType onTerminalType.EnvironmentTypenvironmentTypTerminalType.CommunicationTypemunicationTy
-        TerminalType.TerminalOperatorTypealOperatorType.FinancialInstitution);
-        TerminalType offTerminalType.EnvironmentTypenvironmentTypTerminalType.CommunicationTypemunicationTyp
-        TerminalType.TerminalOperatorTypealOperatorType.FinancialInstitution);
-        TerminalType onlineAndOffTerminalType.EnvironmentTypenvironmentTy
-        TerminalType.CommunicationTypemunicationType.OnlineAndO
-        TerminalType.TerminalOperatorTypealOperatorType.FinancialInstitution);
+        TerminalType onlineAtm = new(TerminalType.EnvironmentType.Unattended, TerminalType.CommunicationType.OnlineOnly,
+                                     TerminalType.TerminalOperatorType.FinancialInstitution);
+        TerminalType offlineAtm = new(TerminalType.EnvironmentType.Unattended, TerminalType.CommunicationType.OfflineOnly,
+                                      TerminalType.TerminalOperatorType.FinancialInstitution);
+        TerminalType onlineAndOfflineAtm = new(TerminalType.EnvironmentType.Unattended,
+                                               TerminalType.CommunicationType.OnlineAndOfflineCapable,
+                                               TerminalType.TerminalOperatorType.FinancialInstitution);
 
         if (terminalType == onlineAtm)
             return true;
@@ -82,7 +81,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
         return false;
     }
 
-    #endregion #endregion
+    #endregion
 
     #endregion
 
@@ -94,9 +93,8 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
     public bool IsApplicationCompatibleWithTerminalType(KernelDatabase database)
     {
-        ApplicationUsageControl application
-
-        ApplicationUsageControl.Decode(database.Get(ApplicationUsageControl.Tag).EncodeValue().AsSpan());
+        ApplicationUsageControl applicationUsageControl =
+            ApplicationUsageControl.Decode(database.Get(ApplicationUsageControl.Tag).EncodeValue().AsSpan());
 
         if (IsTerminalAnAtm(database))
             return IsCompatibleWithAtmTerminals(database, applicationUsageControl);
@@ -108,7 +106,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
 
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
-    public static bool IsCompatibleWithNonAtmTerminals(KernelDatabase database, ApplicationUsageControl applicationUsageControl)
+    public bool IsCompatibleWithNonAtmTerminals(KernelDatabase database, ApplicationUsageControl applicationUsageControl)
     {
         if (!applicationUsageControl.IsValidAtTerminalsOtherThanAtms())
         {
@@ -127,7 +125,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
 
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
-    public static bool IsCompatibleWithAtmTerminals(KernelDatabase database, ApplicationUsageControl applicationUsageControl)
+    public bool IsCompatibleWithAtmTerminals(KernelDatabase database, ApplicationUsageControl applicationUsageControl)
     {
         if (!applicationUsageControl.IsValidAtAtms())
         {
@@ -151,7 +149,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     #region PRE.14
 
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
-    public static bool IsAdditionalCompatibilityCheckingPossible(KernelDatabase database)
+    public bool IsAdditionalCompatibilityCheckingPossible(KernelDatabase database)
     {
         if (!database.IsPresentAndNotEmpty(IssuerCountryCode.Tag))
             return false;
@@ -167,11 +165,11 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
 
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
-    public void Initializ
-
-    private actionCompatibilityFlags(ApplicationUs applicationUsageControl, Termi Code terminalCountryCode,
-    private I ryCode issuerCountryCode,
-    private KernelDatabase database)
+    public void InitializeCashTransactionCompatibilityFlags(
+        ApplicationUsageControl applicationUsageControl,
+        TerminalCountryCode terminalCountryCode,
+        IssuerCountryCode issuerCountryCode,
+        KernelDatabase database)
     {
         if (!IsCashTransaction(database))
             return;
@@ -185,7 +183,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
 
     #region PRE.15
 
-    public static bool IsCashTransaction(KernelDatabase database)
+    public bool IsCashTransaction(KernelDatabase database)
     {
         TransactionType transactionType = TransactionType.Decode(database.Get(TransactionType.Tag).EncodeValue().AsSpan());
 
@@ -210,7 +208,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
 
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
-    private static void CheckIfDomesticCashTransactionIsAllowed(ApplicationUsageControl applicationUsageControl, KernelDatabase database)
+    private void CheckIfDomesticCashTransactionIsAllowed(ApplicationUsageControl applicationUsageControl, KernelDatabase database)
     {
         if (!applicationUsageControl.IsValidForDomesticCashTransactions())
             database.Set(TerminalVerificationResultCodes.RequestedServiceNotAllowedForCardProduct);
@@ -222,9 +220,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
 
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
-    private static void CheckIfInternationalCashTransactionIsAllowed(
-        ApplicationUsageControl applicationUsageControl,
-        KernelDatabase database)
+    private void CheckIfInternationalCashTransactionIsAllowed(ApplicationUsageControl applicationUsageControl, KernelDatabase database)
     {
         if (!applicationUsageControl.IsValidForInternationalCashTransactions())
             database.Set(TerminalVerificationResultCodes.RequestedServiceNotAllowedForCardProduct);
@@ -239,12 +235,12 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exceptio
-    blic
-
-    private void InitializeCountryCompatibilityFlags(plicationUsageControl applicationUsageCo
-    private TerminalCountryCode terminalCo
-    private IssuerCountryCode issuerCountryCode, KernelDatabase database)
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public void InitializeCountryCompatibilityFlags(
+        ApplicationUsageControl applicationUsageControl,
+        TerminalCountryCode terminalCountryCode,
+        IssuerCountryCode issuerCountryCode,
+        KernelDatabase database)
     {
         if (!IsPurchaseTransaction(database))
             return;
@@ -261,7 +257,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static bool IsPurchaseTransaction(KernelDatabase database)
+    public bool IsPurchaseTransaction(KernelDatabase database)
     {
         TransactionType transactionType = TransactionType.Decode(database.Get(TransactionType.Tag).EncodeValue().AsSpan());
 
@@ -280,7 +276,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
 
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
-    private static void CheckIfDomesticGoodsAndServicesAreAllowed(ApplicationUsageControl applicationUsageControl, KernelDatabase database)
+    private void CheckIfDomesticGoodsAndServicesAreAllowed(ApplicationUsageControl applicationUsageControl, KernelDatabase database)
     {
         if (applicationUsageControl.IsValidForDomesticGoods())
             return;
@@ -297,9 +293,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
 
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
-    private static void CheckIfInternationalGoodsAndServicesAreAllowed(
-        ApplicationUsageControl applicationUsageControl,
-        KernelDatabase database)
+    private void CheckIfInternationalGoodsAndServicesAreAllowed(ApplicationUsageControl applicationUsageControl, KernelDatabase database)
     {
         if (applicationUsageControl.IsValidForInternationalGoods())
             return;
@@ -319,13 +313,10 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingE
-    </exception>
-    public void InitializeCashback
-
-    private ityFlags(
-        ApplicationUsageContr tionUsageControl,
-        TerminalC terminalCountryCode,
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public void InitializeCashbackCompatibilityFlags(
+        ApplicationUsageControl applicationUsageControl,
+        TerminalCountryCode terminalCountryCode,
         IssuerCountryCode issuerCountryCode,
         KernelDatabase database)
     {
@@ -344,7 +335,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static bool IsCashbackRequested(KernelDatabase database)
+    public bool IsCashbackRequested(KernelDatabase database)
     {
         if (database.IsPresentAndNotEmpty(AmountOtherNumeric.Tag))
             return true;
@@ -358,7 +349,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
 
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
-    private static void CheckIfDomesticCashbackIsAllowed(ApplicationUsageControl applicationUsageControl, KernelDatabase database)
+    private void CheckIfDomesticCashbackIsAllowed(ApplicationUsageControl applicationUsageControl, KernelDatabase database)
     {
         if (applicationUsageControl.IsDomesticCashbackAllowed())
             return;
@@ -372,13 +363,12 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
 
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
-    private static void CheckIfInternationalCashbackIsAllowed(ApplicationUsageControl applicationUsageControl, KernelDatabase database)
+    private void CheckIfInternationalCashbackIsAllowed(ApplicationUsageControl applicationUsageControl, KernelDatabase database)
     {
         if (applicationUsageControl.IsInternationalCashbackAllowed())
             return;
 
-        database.Set(TerminalVerificatio
-        esultCodes.RequestedServiceNotAllowedForCardProduct);
+        database.Set(TerminalVerificationResultCodes.RequestedServiceNotAllowedForCardProduct);
     }
 
     #endregion

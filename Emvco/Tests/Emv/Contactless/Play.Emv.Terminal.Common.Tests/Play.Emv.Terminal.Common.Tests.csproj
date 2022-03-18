@@ -22,4 +22,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Emv\Contactless\Kernel\Play.Emv.Kernel\Play.Emv.Kernel.csproj" />
+  </ItemGroup>
+
 </Project>

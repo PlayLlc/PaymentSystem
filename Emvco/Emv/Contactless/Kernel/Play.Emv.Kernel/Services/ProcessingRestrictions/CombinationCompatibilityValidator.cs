@@ -30,18 +30,17 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
         if (!database.IsPresentAndNotEmpty(ApplicationVersionNumberCard.Tag))
             return;
 
-        ApplicationVersionNumberCard versionNumbe
+        ApplicationVersionNumberCard versionNumberCard=
         ApplicationVersionNumberCard.Decode(database.Get(ApplicationVersionNumberCard.Tag).EncodeValue().AsSpan());
 
-        ApplicationVersionNumberTerminal versionNumberTer
+        ApplicationVersionNumberTerminal versionNumberTerminal=
         ApplicationVersionNumberTerminal.Decode(database.Get(ApplicationVersionNumberTerminal.Tag).EncodeValue().AsSpan());
 
         if ((ushort) versionNumberCard != (ushort) versionNumberTerminal)
             database.Set(TerminalVerificationResultCodes.IccAndTerminalHaveDifferentApplicationVersions);
     }
-
-#en
-#endregiondregion
+     
+#endregion 
 
     #region PRE.4 - PRE.8
 
@@ -60,9 +59,7 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
     public static void HandleApplicationNotYetActive(KernelDatabase database, TransactionDate transactionDate)
     {
-        ApplicationEffectiveDate applicationE
-
-        ApplicationEffectiveDate.Decode(database.Get(ApplicationEffectiveDate.Tag).EncodeValue().AsSpan());
+        ApplicationEffectiveDate applicationEffectiveDate = ApplicationEffectiveDate.Decode(database.Get(ApplicationEffectiveDate.Tag).EncodeValue().AsSpan());
 
         if ((uint) transactionDate < (uint) applicationEffectiveDate)
             database.Set(TerminalVerificationResultCodes.ExpiredApplication);
@@ -72,7 +69,7 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
     public static void HandleExpiredApplication(KernelDatabase database, TransactionDate transactionDate)
     {
-        ApplicationExpirationDate applic nDate =
+        ApplicationExpirationDate applicationExpirationDate =
             ApplicationExpirationDate.Decode(database.Get(ApplicationExpirationDate.Tag).EncodeValue().AsSpan());
 
         if ((uint) transactionDate > (uint) applicationExpirationDate)

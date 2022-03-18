@@ -2,6 +2,11 @@
 
 using Moq;
 
+using Play.Ber.Exceptions;
+using Play.Emv.DataElements;
+using Play.Emv.Identifiers;
+using Play.Emv.Pcd.Contracts;
+
 namespace Play.Emv.Terminal.Common.Tests.TerminalActionAnalysisServiceTests;
 
 public class GenerateApplicationCryptogramCommandTestSpy

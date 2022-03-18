@@ -3,6 +3,7 @@
 using Play.Ber.Identifiers;
 using Play.Emv.Database;
 using Play.Emv.DataElements;
+using Play.Emv.Kernel.Databases;
 using Play.Globalization.Currency;
 
 namespace Play.Emv.Kernel.Services.Selection.CvmConditions;
@@ -24,7 +25,7 @@ internal record AlwaysCondition : CvmCondition
     #region Instance Members
 
     public override CvmConditionCode GetConditionCode() => Code;
-    protected override bool IsConditionSatisfied(IQueryTlvDatabase database, Money xAmount, Money yAmount) => true;
+    protected override bool IsConditionSatisfied(KernelDatabase database, Money xAmount, Money yAmount) => true;
 
     #endregion
 }

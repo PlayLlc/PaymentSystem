@@ -1,6 +1,12 @@
 ﻿using AutoFixture;
 using AutoFixture.AutoMoq;
 
+using Play.Ber.Exceptions;
+using Play.Emv.DataElements;
+using Play.Emv.Identifiers;
+using Play.Emv.Kernel.Services;
+using Play.Emv.Terminal.Contracts.Messages.Commands;
+
 using Xunit;
 
 namespace Play.Emv.Terminal.Common.Tests.TerminalActionAnalysisServiceTests;

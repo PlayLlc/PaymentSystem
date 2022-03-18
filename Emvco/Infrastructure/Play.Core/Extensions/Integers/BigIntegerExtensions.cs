@@ -1,10 +1,25 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 
 namespace Play.Core.Extensions;
 
 public static class BigIntegerExtensions
 {
     #region Instance Members
+     
+    /// <param name="buffer"></param>
+    /// <returns>The amount of bytes written to the buffer</returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    public static int AsSpan(this BigInteger value, Span<byte> buffer)
+    {
+        if (value.GetByteCount() < buffer.Length)
+            throw new ArgumentOutOfRangeException(nameof(buffer));
+
+        value.TryWriteBytes(buffer, out int bytesWritten);
+
+        return bytesWritten;
+    }
 
     public static bool AreBitsSet(this BigInteger value, BigInteger valueToCheck) => (value & valueToCheck) != 0;
     public static BigInteger ClearBits(this in BigInteger input, BigInteger bitsToClear) => input & ~bitsToClear;

@@ -6,6 +6,12 @@ using AutoFixture;
 
 using Moq;
 
+using Play.Emv.Configuration;
+using Play.Emv.DataElements;
+using Play.Emv.Kernel.Services;
+using Play.Emv.Pcd.Contracts;
+using Play.Emv.Security;
+
 namespace Play.Emv.Terminal.Common.Tests.TerminalActionAnalysisServiceTests;
 
 public class TerminalActionAnalysisServiceFactory
