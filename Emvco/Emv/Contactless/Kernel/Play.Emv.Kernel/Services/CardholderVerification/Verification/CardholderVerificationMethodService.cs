@@ -1,5 +1,6 @@
 ﻿using Play.Emv.Database;
 using Play.Emv.DataElements;
+using Play.Emv.Kernel.Databases;
 
 namespace Play.Emv.Kernel.Services.Verification;
 
@@ -29,7 +30,7 @@ public class CardholderVerificationMethodService
 
     #region Instance Members
 
-    public CvmCode Process(IQueryTlvDatabase database, params CardholderVerificationMethods[] cardholderVerificationMethods)
+    public CvmCode Process(KernelDatabase database, params CardholderVerificationMethods[] cardholderVerificationMethods)
     {
         CvmCode result = new(0);
 
