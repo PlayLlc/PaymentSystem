@@ -2,6 +2,7 @@
 
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Emv.Ber;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.Databases.Certificates;

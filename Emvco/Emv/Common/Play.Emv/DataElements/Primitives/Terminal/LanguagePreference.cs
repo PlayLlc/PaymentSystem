@@ -8,6 +8,7 @@ using Play.Codecs;
 using Play.Core.Exceptions;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
+using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 using Play.Globalization.Language;
 

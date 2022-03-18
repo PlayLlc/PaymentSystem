@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;

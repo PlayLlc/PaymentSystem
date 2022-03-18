@@ -5,6 +5,7 @@ using System.Numerics;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
+using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
 

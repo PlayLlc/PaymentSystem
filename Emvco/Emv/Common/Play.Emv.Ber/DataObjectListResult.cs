@@ -1,9 +1,7 @@
-﻿
-using Play.Ber.DataObjects;
+﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Emv.Templates.Requests;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber;
 
 /// <summary>
 ///     The result from a <see cref="DataObjectList" /> requested by the ICC. The object contains a concatenated

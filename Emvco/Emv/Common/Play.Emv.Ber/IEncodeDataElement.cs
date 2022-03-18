@@ -1,6 +1,6 @@
 ﻿using Play.Ber.DataObjects;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber;
 
 public interface IEncodeDataElement : IEncodeBerDataObjects
 {

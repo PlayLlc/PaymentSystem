@@ -3,6 +3,7 @@
 using Moq;
 
 using Play.Ber.Exceptions;
+using Play.Emv.Ber;
 using Play.Emv.DataElements;
 using Play.Emv.Identifiers;
 using Play.Emv.Pcd.Contracts;

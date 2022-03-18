@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 
+using Play.Emv.Ber;
 using Play.Emv.DataElements;
 using Play.Emv.Icc;
 

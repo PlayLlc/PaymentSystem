@@ -5,6 +5,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 using Play.Globalization;
 using Play.Globalization.Currency;

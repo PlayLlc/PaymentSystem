@@ -6,10 +6,9 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Emv.Database;
+using Play.Emv.Ber;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
-using Play.Emv.Templates.Requests;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Templates;

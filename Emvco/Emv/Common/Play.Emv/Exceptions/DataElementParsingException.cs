@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 
 using Play.Ber.Exceptions;
 using Play.Codecs;
+using Play.Emv.Ber;
 using Play.Emv.Icc;
 
 namespace Play.Emv.Exceptions;

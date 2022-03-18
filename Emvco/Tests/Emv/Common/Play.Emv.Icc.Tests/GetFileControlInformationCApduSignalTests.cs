@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.Exceptions;
+using Play.Emv.Ber;
 using Play.Emv.TestData.Icc.Apdu;
 using Play.Icc.FileSystem.DedicatedFiles;
 

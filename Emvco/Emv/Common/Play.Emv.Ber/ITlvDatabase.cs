@@ -1,6 +1,4 @@
-﻿using Play.Emv.Database;
-
-namespace Play.Emv.Kernel.Databases.Tlv;
+﻿namespace Play.Emv.Ber;
 
 public interface ITlvDatabase : IQueryTlvDatabase, IWriteTlvDatabase
 {

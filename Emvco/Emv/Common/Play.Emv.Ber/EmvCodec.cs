@@ -1,12 +1,10 @@
-﻿
-using Play.Ber;
+﻿using Play.Ber;
 using Play.Ber.Codecs;
 using Play.Codecs;
-using Play.Emv.Identifiers;
 
 using PlayCodec = Play.Codecs.PlayCodec;
 
-namespace Play.Emv;
+namespace Play.Emv.Ber;
 
 public class EmvCodec : BerCodec
 {

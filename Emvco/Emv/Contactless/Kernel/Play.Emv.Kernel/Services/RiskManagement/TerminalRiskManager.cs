@@ -2,8 +2,9 @@
 
 using Play.Core.Math;
 using Play.Emv.DataElements;
+using Play.Emv.Kernel.Services.SplitPayment;
+using Play.Emv.Logs;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
-using Play.Emv.Terminal.SplitPayment;
 using Play.Globalization.Currency;
 
 using PrimaryAccountNumber = Play.Emv.DataElements.PrimaryAccountNumber;

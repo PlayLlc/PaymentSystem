@@ -1,6 +1,7 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Emv.Ber;
 using Play.Globalization.Currency;
 
 namespace Play.Emv.DataElements;

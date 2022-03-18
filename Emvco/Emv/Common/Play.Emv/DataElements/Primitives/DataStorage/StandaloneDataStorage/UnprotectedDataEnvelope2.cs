@@ -5,6 +5,7 @@ using System.Numerics;
 using Play.Ber.Codecs;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
