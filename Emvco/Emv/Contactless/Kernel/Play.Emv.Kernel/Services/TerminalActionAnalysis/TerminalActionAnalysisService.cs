@@ -4,13 +4,12 @@ using Play.Ber.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Configuration;
 using Play.Emv.DataElements;
-using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
 
-namespace Play.Emv.Kernel.Services;
+namespace Play.Emv.Terminal.Common.Services.TerminalActionAnalysis.Terminal;
 
 /// <remarks>
 ///     Book 3 Section 10.7
@@ -49,11 +48,11 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         _TerminalType = terminalType;
 
         _DefaultActionCodes =
-            new ActionCodes((ulong) terminalActionCodeDefault.AsActionCodes() | (ulong) issuerActionCodeDefault.AsActionCodes());
+            new ActionCodes((ulong)terminalActionCodeDefault.AsActionCodes() | (ulong)issuerActionCodeDefault.AsActionCodes());
         _OnlineActionCodes =
-            new ActionCodes((ulong) terminalActionCodeOnline.AsActionCodes() | (ulong) issuerActionCodeOnline.AsActionCodes());
+            new ActionCodes((ulong)terminalActionCodeOnline.AsActionCodes() | (ulong)issuerActionCodeOnline.AsActionCodes());
         _DenialActionCodes =
-            new ActionCodes((ulong) terminalActionCodeDenial.AsActionCodes() | (ulong) issuerActionCodeDenial.AsActionCodes());
+            new ActionCodes((ulong)terminalActionCodeDenial.AsActionCodes() | (ulong)issuerActionCodeDenial.AsActionCodes());
     }
 
     #endregion
@@ -108,7 +107,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <param name="flag"></param>
     private void ProcessDenialActionCodes(TerminalVerificationResults terminalVerificationResult, ref ActionFlag flag)
     {
-        if (!((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) _DenialActionCodes))
+        if (!((ulong)terminalVerificationResult).AreAnyBitsSet((ulong)_DenialActionCodes))
             return;
 
         flag |= ActionFlag.Denial;
@@ -123,7 +122,6 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <param name="terminalVerificationResult"></param>
     /// <param name="flag"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="DataElementParsingException"></exception>
     private void ProcessOnlineActionCodes(TerminalVerificationResults terminalVerificationResult, ref ActionFlag flag)
     {
         if (_TerminalType.GetCommunicationType() == TerminalType.CommunicationType.OfflineOnly)
@@ -138,13 +136,13 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         TerminalVerificationResults terminalVerificationResult,
         ref ActionFlag flag)
     {
-        if (((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) _OnlineActionCodes))
+        if (((ulong)terminalVerificationResult).AreAnyBitsSet((ulong)_OnlineActionCodes))
             flag |= ActionFlag.Online;
         else
             flag |= ActionFlag.Offline;
     }
 
-    private static void ProcessOnlineActionCodesForOfflineOnlyTerminals(ref ActionFlag flag)
+    private void ProcessOnlineActionCodesForOfflineOnlyTerminals(ref ActionFlag flag)
     {
         // Offline Only Terminals do not check the Online Action Codes. They will never go online
         flag |= ActionFlag.Offline;
@@ -159,35 +157,34 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     ///     terminal is for any reason unable to process the transaction online
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="DataElementParsingException"></exception>
-    private void ProcessDefaultActio
-               TerminalVerificationResults terminalVerification
-               OutcomeParameterSet outcomeParame
-               ref ActionFlag flag)
+    private void ProcessDefaultActionCodes(
+        TerminalVerificationResults terminalVerificationResult,
+        OutcomeParameterSet outcomeParameterSet,
+        ref ActionFlag flag)
     {
-        if (_TerminalType.GetCommunicationTypTerminalType.CommunicationTypeionType.OfflineOnly)
+        if (_TerminalType.GetCommunicationType() != TerminalType.CommunicationType.OfflineOnly)
             ProcessDefaultActionCodesForOfflineOnlyTerminals(terminalVerificationResult, ref flag);
         else
             ProcessDefaultActionCodesForOnlineCapableTerminals(terminalVerificationResult, outcomeParameterSet, ref flag);
     }
 
-    private void ProcessDefaultActionCodesForOfflineOnlyTer
-               TerminalVerificationResults terminalVerification
-               ref ActionFlag flag)
+    private void ProcessDefaultActionCodesForOfflineOnlyTerminals(
+        TerminalVerificationResults terminalVerificationResult,
+        ref ActionFlag flag)
     {
-        if (((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) _DefaultActionCodes))
+        if (((ulong)terminalVerificationResult).AreAnyBitsSet((ulong)_DefaultActionCodes))
             flag |= ActionFlag.Denial;
     }
 
-    private void ProcessDefaultActionCodesForOnlineCapableTer
-               TerminalVerificationResults terminalVerification
-               OutcomeParameterSet outcomeParame
-               ref ActionFlag flag)
+    private void ProcessDefaultActionCodesForOnlineCapableTerminals(
+        TerminalVerificationResults terminalVerificationResult,
+        OutcomeParameterSet outcomeParameterSet,
+        ref ActionFlag flag)
     {
         if (!outcomeParameterSet.IsTimeout())
             return;
 
-        if (((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) _DefaultActionCodes))
+        if (((ulong)terminalVerificationResult).AreAnyBitsSet((ulong)_DefaultActionCodes))
             flag |= ActionFlag.Denial;
     }
 
@@ -203,11 +200,9 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <exception cref="BerParsingException"></exception>
     private void CreateDenyTransactionResponse(TerminalActionAnalysisCommand command)
     {
-        _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessi
-                                                                                new CryptogramInformationData(Cryptogr
-                                                                                    .ApplicationAuthenticationCrypt
-                                                                                command.GetCardRiskManagementDolRe
-                                                                                command.GetDataStorageDolResult()));
+        _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessionId(),
+            new CryptogramInformationData(CryptogramTypes.ApplicationAuthenticationCryptogram), command.GetCardRiskManagementDolResult(),
+            command.GetDataStorageDolResult()));
     }
 
     /// <summary>
@@ -218,15 +213,13 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <exception cref="BerParsingException"></exception>
     private void CreateProceedOfflineResponse(TerminalActionAnalysisCommand command)
     {
-        bool isCdaRequ
-                   _AuthenticationTypeResolver.GetAuthenticationMethod(_TerminalCapabilities, command.GetApplicationInterchangePro
-                   == AuthenticationTypes.CombinedDataAuthentication;
+        bool isCdaRequested =
+            _AuthenticationTypeResolver.GetAuthenticationMethod(_TerminalCapabilities, command.GetApplicationInterchangeProfile())
+            == AuthenticationTypes.CombinedDataAuthentication;
 
-        _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessi
-                                                                            
-                                                                                    CryptogramInformationData(CryptogramTypes.TransactionCryp
-                                                                                     isCdaRequested), command.GetCardRiskManagementDolRe
-                                                                                command.GetDataStorageDolResult()));
+        _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessionId(),
+            new CryptogramInformationData(CryptogramTypes.TransactionCryptogram, isCdaRequested), command.GetCardRiskManagementDolResult(),
+            command.GetDataStorageDolResult()));
     }
 
     /// <summary>
@@ -237,11 +230,9 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <exception cref="BerParsingException"></exception>
     private void CreateProceedOnlineResponse(TerminalActionAnalysisCommand command)
     {
-        _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessi
-                                                                                new CryptogramInformationData(Cryptogr
-                                                                                    .AuthorizationRequestCrypt
-                                                                                command.GetCardRiskManagementDolRe
-                                                                                command.GetDataStorageDolResult()));
+        _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessionId(),
+            new CryptogramInformationData(CryptogramTypes.AuthorizationRequestCryptogram), command.GetCardRiskManagementDolResult(),
+            command.GetDataStorageDolResult()));
     }
 
     #endregion
