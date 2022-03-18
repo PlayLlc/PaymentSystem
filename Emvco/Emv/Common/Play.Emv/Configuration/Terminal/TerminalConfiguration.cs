@@ -130,7 +130,7 @@ public abstract record TerminalConfiguration
     // HACK: This is not implemented. Find how we're supposed to store the random and biased percentages and biased threshold value
     public TerminalRiskConfiguration GetTerminalRiskConfiguration(CultureProfile culture) =>
         new(culture, _TerminalRiskManagementData, _BiasedRandomSelectionPercentage,
-            new Money(_ThresholdValueForBiasedRandomSelection, culture), _RandomSelectionTargetPercentage, _TerminalFloorLimit);
+            new Money(_ThresholdValueForBiasedRandomSelection, culture.GetNumericCurrencyCode()), _RandomSelectionTargetPercentage, _TerminalFloorLimit);
 
     public MerchantNameAndLocation GetMerchantNameAndLocation() => _MerchantNameAndLocation;
     public ApplicationVersionNumberTerminal AsApplicationVersionNumberTerminal() => _ApplicationVersionNumberTerminal;

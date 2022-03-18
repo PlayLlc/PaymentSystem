@@ -39,11 +39,11 @@ public class CardholderVerificationMethodService
                 return result;
 
             if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OfflinePlaintextPin)
-                _OfflinePinAuthentication.Process();
+                _OfflinePinAuthentication.Process(database);
             if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OfflineEncipheredPin)
-                _OfflinePinAuthentication.Process();
+                _OfflinePinAuthentication.Process(database);
             if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OnlineEncipheredPin)
-                _OnlinePinAuthentication.Process();
+                _OnlinePinAuthentication.Process(database);
             if (cardholderVerificationMethods[i] == CardholderVerificationMethods.SignaturePaper)
                 _CardholderSignatureVerification.Process();
         }

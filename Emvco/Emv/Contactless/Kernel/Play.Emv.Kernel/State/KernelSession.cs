@@ -28,7 +28,7 @@ public class KernelSession
 
     #region Constructor
 
-    public KernelSession(CorrelationId correlationId, KernelSessionId kernelSessionId, StopwatchManager stopwatchManager)
+    public KernelSession(CorrelationId correlationId, KernelSessionId kernelSessionId)
     {
         _CorrelationId = correlationId;
         _KernelSessionId = kernelSessionId;

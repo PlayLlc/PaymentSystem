@@ -23,6 +23,7 @@ public record InterfaceDeviceSerialNumber : DataElement<char[]>, IEqualityCompar
 
     #endregion
 
+    public static explicit operator ReadOnlySpan<char>(InterfaceDeviceSerialNumber value) => value._Value.AsSpan();
     #region Constructor
 
     public InterfaceDeviceSerialNumber(char[] value) : base(value)
@@ -76,8 +77,7 @@ public record InterfaceDeviceSerialNumber : DataElement<char[]>, IEqualityCompar
     #endregion
 
     #region Operator Overrides
-
-    public static explicit operator ulong(InterfaceDeviceSerialNumber value) => value._Value;
+     
 
     #endregion
 }

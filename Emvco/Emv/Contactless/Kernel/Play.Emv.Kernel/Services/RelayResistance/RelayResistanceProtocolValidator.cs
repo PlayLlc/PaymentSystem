@@ -72,21 +72,24 @@ internal class RelayResistanceProtocolValidator
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    private static MeasuredRelayResistanceProcessingTime CalculateMeasuredRrpTime(Seconds timeElapsed, IQueryTlvDatabase tlvDatabase)
+      private MeasuredRelayResistanceProcessingTime CalculateMeasuredRrpTime(Seconds timeElapsed, IQueryTlvDatabase tlvDatabase)
     {
-        TerminalExpectedTransmissionTimeForRelayResistanceCapdu terminalExpectedCapduTransmissio
-        TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Decode(tlvD.Get(TerminalExpectedTransmissionTimeForRelayResistan.Tag)
-                                                                           .EncodeValue().AsSpan());
-        TerminalExpectedTransmissionTimeForRelayResistanceRapdu terminalExpectedRapduTransmissio
-        TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Decode(tlvD.Get(TerminalExpectedTransmissionTimeForRelayResistan.Tag)
-                                                                           .EncodeValue().AsSpan());
-        DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceExpectedRapduTransmissio
-        DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Decode(tlvD.Get(DeviceEstimatedTransmissionTimeForRelayResistan.Tag)
-                                                                          .EncodeValue().AsSpan());
+        TerminalExpectedTransmissionTimeForRelayResistanceCapdu terminalExpectedCapduTransmissionTime =
+            TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Decode(tlvDatabase
+                                                                               .Get(TerminalExpectedTransmissionTimeForRelayResistanceCapdu
+                                                                                        .Tag).EncodeValue().AsSpan());
+        TerminalExpectedTransmissionTimeForRelayResistanceRapdu terminalExpectedRapduTransmissionTime =
+            TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Decode(tlvDatabase
+                                                                               .Get(TerminalExpectedTransmissionTimeForRelayResistanceRapdu
+                                                                                        .Tag).EncodeValue().AsSpan());
+        DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceExpectedRapduTransmissionTime =
+            DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Decode(tlvDatabase
+                                                                              .Get(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu
+                                                                                       .Tag).EncodeValue().AsSpan());
 
-        MeasuredRelayResistanceProcessingTime processin
-        MeasuredRelayResistanceProcessingTime.Create(timeElapsed, terminalExpectedCapduTransmissi
-        terminalExpectedRapduTransmissionTime, deviceExpectedRapduTransmissionTime);
+        MeasuredRelayResistanceProcessingTime processingTime =
+            MeasuredRelayResistanceProcessingTime.Create(timeElapsed, terminalExpectedCapduTransmissionTime,
+                                                         terminalExpectedRapduTransmissionTime, deviceExpectedRapduTransmissionTime);
 
         return processingTime;
     }
@@ -95,28 +98,24 @@ internal class RelayResistanceProtocolValidator
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public static bool IsRelayResistanceWithinMinimumRange(
-        MeasuredRelayResistanceProcessingTime processingTime,
-        IQueryTlvDatabase tlvDatabase)
+    public bool IsRelayResistanceWithinMinimumRange(MeasuredRelayResistanceProcessingTime processingTime, IQueryTlvDatabase tlvDatabase)
     {
-        MinTimeForProcessingRelayResistanceApdu minTimeForProcessingRelayRe
+        MinTimeForProcessingRelayResistanceApdu minTimeForProcessingRelayResistanceApdu =
+            MinTimeForProcessingRelayResistanceApdu.Decode(tlvDatabase.Get(MinTimeForProcessingRelayResistanceApdu.Tag).EncodeValue()
+                                                               .AsSpan());
+        MinimumRelayResistanceGracePeriod minGracePeriod =
+            MinimumRelayResistanceGracePeriod.Decode(tlvDatabase.Get(MinimumRelayResistanceGracePeriod.Tag).EncodeValue().AsSpan());
 
-        MinTimeForProcessingRelayResistanceApdu.Decode(tlvDatabase.Get(MinTimeForProcessingRelayResistanceApdu.Tag).AsSpan());
-        MinimumRelayResistanceGracePeriod mi
+        RelaySeconds expectedProcessingTime = (RelaySeconds)minTimeForProcessingRelayResistanceApdu - (RelaySeconds)minGracePeriod;
 
-        MinimumRelayResistanceGracePeriod.Decode(tlvDatabase.Get(MinimumRelayResistanceGracePeriod.Tag).EncodeValue().AsSpan());
-
-        int expectedProcessingTime = (ushort) minTimeForProcessingRelayResistanceApdu - (ushort) minGracePeriod;
-
-        if ((ushort) processingTime < (expectedProcessingTime < 0 ? 0 : expectedProcessingTime))
+        if ((RelaySeconds)processingTime < (expectedProcessingTime < RelaySeconds.Zero ? 0 : expectedProcessingTime))
             return false;
 
         return true;
     }
 
-    public bool IsRelayResistanceWithinMaximumRange() => throw new NotImplement
+    public bool IsRelayResistanceWithinMaximumRange() => throw new NotImplementedException();
 
     #endregion
 
-    #endregion
 }

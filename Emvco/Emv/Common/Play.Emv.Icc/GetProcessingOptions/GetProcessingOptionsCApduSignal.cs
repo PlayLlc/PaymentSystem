@@ -1,4 +1,6 @@
-﻿using Play.Icc.Messaging.Apdu;
+﻿using Play.Emv.DataElements;
+using Play.Emv.Templates.Requests;
+using Play.Icc.Messaging.Apdu;
 
 namespace Play.Emv.Icc;
 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Linq;
 
 using Play.Globalization.Country;
 using Play.Globalization.Currency;
@@ -51,16 +50,12 @@ public class CultureProfile : IEquatable<CultureProfile>, IEqualityComparer<Cult
     public Alpha2LanguageCode GetAlpha2LanguageCode() => _Alpha2LanguageCode;
     public Alpha3CurrencyCode GetAlpha3CurrencyCode() => new(_RegionInfo.ISOCurrencySymbol);
 
-    internal string GetFiatFormat(Money amount)
+    public string GetFiatFormat(Money amount)
     {
         int minorUnitLength = GetMinorUnitLength();
-        decimal toBase = ToBaseFiat((ulong) amount, minorUnitLength);
+        decimal toBase = ToBaseFiat((ulong)amount, minorUnitLength);
 
         return toBase.ToString($"C{minorUnitLength}", _CultureInfo);
-
-        RegionInfo.CurrentRegion.ISOCurrencySymbol
-
-        CultureInfo.GetCultures().Where(a => a.LCID..NumberFormat.)
     }
 
     internal static string GetMicrosoftCultureCode(Alpha2LanguageCode languageCode, Alpha2CountryCode countryCode) =>

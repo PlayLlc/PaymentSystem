@@ -42,7 +42,7 @@ public record PoiInformation : DataElement<BigInteger>, IEqualityComparer<PoiInf
     public TerminalCategoryCode[] GetTerminalCategoryCodes()
     {
         HashSet<TerminalCategoryCode> buffer = new();
-        ReadOnlySpan<byte> temp = _Value;
+        ReadOnlySpan<byte> temp = _Value.ToByteArray();
 
         while (true)
         {

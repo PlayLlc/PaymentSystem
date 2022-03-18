@@ -31,7 +31,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
             return _KernelStateResolver.GetKernelState(StateId);
 
         // SR1.10
-        Microseconds timeElapsed = session.StopTimeout();
+        Microseconds timeElapsed = session.Stopwatch.Stop();
 
         if (TryHandleInvalidResultCode(session, signal))
             return _KernelStateResolver.GetKernelState(StateId);
@@ -67,7 +67,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         if (!signal.IsSuccessful())
             return false;
 
-        session.StopTimeout();
+        session.Stopwatch.Stop();
 
         _KernelDatabase.Update(MessageIdentifier.TryAgain);
         _KernelDatabase.Update(Status.ReadyToRead);

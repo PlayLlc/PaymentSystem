@@ -191,7 +191,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
     public static void Select(KernelDatabase database, CvmList cvmList, NumericCurrencyCode currencyCode)
     {
-        CvmQueue cvmQueue = new(database, cvmList, currencyCode);
+        CvmQueue cvmQueue = new(cvmList, currencyCode);
 
         for (int i = 0; i < cvmQueue.Count; i++)
         {

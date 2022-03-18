@@ -22,6 +22,7 @@ public class Kernel2ProcessFactory
         IHandleTerminalRequests terminalEndpoint,
         IKernelEndpoint kernelEndpoint,
         IHandlePcdRequests pcdEndpoint,
+        IGenerateUnpredictableNumber unpredictableNumberGenerator,
         CertificateAuthorityDataset[] certificates)
     {
         Kernel2Database kernel2Database = new(kernel2Configuration, terminalEndpoint, new Kernel2TlvDatabase(kernel2PersistentValues),
@@ -30,7 +31,7 @@ public class Kernel2ProcessFactory
         Kernel2StateResolver kernel2StateResolver = Kernel2StateResolver.Create(tornTransactionCleaner, kernel2Database,
                                                                                 new DataExchangeKernelService(terminalEndpoint,
                                                                                  kernel2Database, kernelEndpoint), terminalEndpoint,
-                                                                                kernelEndpoint, pcdEndpoint);
+                                                                                kernelEndpoint, pcdEndpoint, unpredictableNumberGenerator);
         Kernel2StateMachine stateMachine = new(kernel2StateResolver.GetKernelState(Idle.StateId));
 
         return new Kernel2Process(stateMachine);

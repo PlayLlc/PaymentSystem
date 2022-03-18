@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
@@ -43,7 +42,7 @@ public class Kernel2Database : KernelDatabase
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Exceptions.TerminalDataException"></exception>
-    public override void Activate(KernelSessionId kernelSessionId, Transaction transaction)
+    public override void Activate(KernelSessionId kernelSessionId)
     {
         if (IsActive())
         {
@@ -51,8 +50,7 @@ public class Kernel2Database : KernelDatabase
                 InvalidOperationException($"A command to initialize the Kernel Database was invoked but the {nameof(KernelDatabase)} is already active");
         }
 
-        _KernelSessionId = kernelSessionId;
-        Update(transaction.AsTagLengthValueArray().Select(a => new DatabaseValue(a)).ToArray());
+        _KernelSessionId = kernelSessionId; 
     }
 
     public override Kernel2Configuration GetKernelConfiguration() => _Kernel2Configuration;

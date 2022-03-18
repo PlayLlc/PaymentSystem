@@ -122,21 +122,21 @@ public class PreProcessingIndicator
     // i think this is process A, anyone want to help me out here? i accept wage free indentured servs! 
     private void SetMutableFields(AmountAuthorizedNumeric amountAuthorizedNumeric, CultureProfile cultureProfile)
     {
-        Money amountAuthorizedMoney = amountAuthorizedNumeric.AsMoney(cultureProfile);
+        Money amountAuthorizedMoney = amountAuthorizedNumeric.AsMoney(cultureProfile.GetNumericCurrencyCode());
 
         StatusCheckRequestedHasBeenSetEvent? statusCheckRequestedHasBeenSet =
             SetStatusCheckRequested(_TransactionProfile.IsStatusCheckSupported(), amountAuthorizedMoney);
         ZeroAmountHasBeenSetEvent? zeroAmountHasBeenSet =
             SetZeroAmount(amountAuthorizedMoney, _TransactionProfile.IsZeroAmountAllowedForOffline());
         SetContactlessApplicationNotAllowed(amountAuthorizedMoney,
-                                            _TransactionProfile.GetReaderContactlessTransactionLimit().AsMoney(cultureProfile),
+                                            _TransactionProfile.GetReaderContactlessTransactionLimit().AsMoney(cultureProfile.GetNumericCurrencyCode()),
                                             _TransactionProfile.IsZeroAmountAllowedForOffline());
         ReaderContactlessFloorLimitExceededHasBeenSetEvent? readerContactlessFloorLimitExceededHasBeenSet =
             SetReaderContactlessFloorLimitExceeded(amountAuthorizedMoney,
-                                                   _TransactionProfile.GetReaderContactlessTransactionLimit().AsMoney(cultureProfile));
+                                                   _TransactionProfile.GetReaderContactlessTransactionLimit().AsMoney(cultureProfile.GetNumericCurrencyCode()));
         ReaderCvmRequiredLimitExceededHasBeenSetEvent? readerCvmRequiredLimitExceeded =
             SetReaderCvmRequiredLimitExceeded(amountAuthorizedMoney,
-                                              _TransactionProfile.GetReaderCvmRequiredLimit().AsMoney(cultureProfile));
+                                              _TransactionProfile.GetReaderCvmRequiredLimit().AsMoney(cultureProfile.GetNumericCurrencyCode()));
         SetOnlineCryptogramRequired(readerContactlessFloorLimitExceededHasBeenSet);
         SetOnlineCryptogramRequired(statusCheckRequestedHasBeenSet);
         SetOnlineCryptogramRequired(zeroAmountHasBeenSet);

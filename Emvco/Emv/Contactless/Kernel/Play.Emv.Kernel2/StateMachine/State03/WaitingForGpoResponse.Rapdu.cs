@@ -62,8 +62,7 @@ public partial class WaitingForGpoResponse : KernelState
     {
         if (!signal.IsSuccessful())
             return false;
-
-        session.StopTimeout();
+         
 
         _KernelDatabase.Update(MessageIdentifier.TryAgain);
         _KernelDatabase.Update(Status.ReadyToRead);

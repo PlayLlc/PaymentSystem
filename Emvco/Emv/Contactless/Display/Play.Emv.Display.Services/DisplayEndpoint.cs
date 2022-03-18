@@ -4,9 +4,7 @@ using Play.Emv.Display.Contracts;
 using Play.Emv.Messaging;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
-
-using InvalidMessageRoutingException = Play.Messaging.Exceptions.Moto.InvalidMessageRoutingException;
-
+ 
 namespace Play.Emv.Display.Services;
 
 public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposable
@@ -59,7 +57,7 @@ public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposa
         else if (message is StopDisplayRequest queryPcdRequest)
             Request(queryPcdRequest);
         else
-            throw new InvalidMessageRoutingException(message);
+            throw new InvalidMessageRoutingException(message, this);
     }
 
     public void Request(DisplayMessageRequest message)

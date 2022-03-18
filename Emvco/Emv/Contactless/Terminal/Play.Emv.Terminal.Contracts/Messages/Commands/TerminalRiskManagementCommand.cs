@@ -61,7 +61,7 @@ public class TerminalRiskManagementCommand
 
     #region Instance Members
 
-    public Money GetAmountAuthorizedNumeric() => _AmountAmountAuthorizedNumeric.AsMoney(_CultureProfile);
+    public Money GetAmountAuthorizedNumeric() => _AmountAmountAuthorizedNumeric.AsMoney(_CultureProfile.GetNumericCurrencyCode());
     public ushort? GetApplicationTransactionCount() => _ApplicationTransactionCount;
     public Percentage GetBiasedRandomSelectionMaximumPercentage() => _TerminalRiskConfiguration.GetBiasedRandomSelectionMaximumPercentage();
     public Money GetBiasedRandomSelectionThreshold() => _TerminalRiskConfiguration.GetBiasedRandomSelectionThreshold();

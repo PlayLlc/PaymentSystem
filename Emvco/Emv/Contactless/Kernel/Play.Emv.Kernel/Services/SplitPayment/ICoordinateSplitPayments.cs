@@ -1,4 +1,5 @@
-﻿using PrimaryAccountNumber = Play.Emv.DataElements.PrimaryAccountNumber;
+﻿ 
+using Play.Emv.DataElements;
 
 namespace Play.Emv.Terminal.SplitPayment;
 

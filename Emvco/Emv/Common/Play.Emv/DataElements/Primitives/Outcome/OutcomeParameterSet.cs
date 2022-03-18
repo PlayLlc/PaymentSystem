@@ -65,7 +65,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
     {
         const byte bitOffset = (8 - 1) * 8;
 
-        return new Milliseconds(_Value >> bitOffset);
+        return new Milliseconds((byte)(_Value >> bitOffset));
     }
 
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
@@ -190,7 +190,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
         {
             const byte bitOffset = (8 - 1) * 8;
             _Value.ClearBits((ulong) byte.MaxValue << bitOffset);
-            _Value |= (ulong) bitsToSet << bitOffset;
+            _Value |= (ulong) ((long)bitsToSet << bitOffset);
         }
 
         // TODO: Rename this to Complete, this is confusing

@@ -7,5 +7,5 @@ public interface IWriteTornTransactions
 {
     public TornRecord? AddAndDisplace(TornRecord value);
     public bool TryDequeue(out TornRecord? result);
-    public TornRecord[]? Truncate(KernelDatabase database)
+    public TornRecord[]? Truncate(KernelDatabase database);
 }

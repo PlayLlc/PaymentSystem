@@ -32,11 +32,11 @@ public record ActivateTerminalRequest : RequestSignal
     public ActivateTerminalRequest(
         MessageTypeIndicator messageTypeIndicator,
         PosEntryMode posEntryMode,
+        string terminalIdentification,
         byte accountType,
         ulong amountAuthorized,
         ulong otherAmount,
         byte transactionType,
-        ulong terminalIdentification,
         ulong acquirerIdentifier,
         string merchantIdentifier) : base(MessageTypeId, ChannelTypeId)
     {

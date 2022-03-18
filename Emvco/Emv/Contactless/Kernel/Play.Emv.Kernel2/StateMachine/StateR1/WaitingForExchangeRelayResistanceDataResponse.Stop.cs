@@ -18,7 +18,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
         HandleRequestOutOfSync(session, signal);
-        session.StopTimeout();
+        session.Stopwatch.Stop();
 
         _KernelDatabase.Update(Level3Error.Stop);
 

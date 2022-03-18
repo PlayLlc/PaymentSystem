@@ -50,10 +50,10 @@ public record IssuerCodeTableIndex : DataElement<byte>, IEqualityComparer<Issuer
     #region Serialization
 
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static AuthorizationResponseCode Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public static IssuerCodeTableIndex Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static AuthorizationResponseCode Decode(ReadOnlySpan<byte> value)
+    public static IssuerCodeTableIndex Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
@@ -61,7 +61,7 @@ public record IssuerCodeTableIndex : DataElement<byte>, IEqualityComparer<Issuer
 
         Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _CharLength, Tag);
 
-        return new AuthorizationResponseCode(result);
+        return new IssuerCodeTableIndex(result);
     }
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);

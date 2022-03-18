@@ -5,6 +5,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Extensions;
 using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;
@@ -36,7 +37,7 @@ public record TerminalIdentification : DataElement<char[]>, IEqualityComparer<Te
     #region Instance Members
 
     public override string ToString() => AsToken();
-    public Span<char> AsSpan() => _Value.AsSpan()[^_ByteLength..]; 
+    public Span<char> AsSpan() => _Value.AsSpan()[^_ByteLength..];
     public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
     public string AsToken() => new string(_Value.AsSpan()[^_ByteLength..]);
     public override PlayEncodingId GetEncodingId() => EncodingId;
@@ -80,18 +81,17 @@ public record TerminalIdentification : DataElement<char[]>, IEqualityComparer<Te
         return x.Equals(y);
     }
 
-    public bool Equals(InterfaceDeviceSerialNumber interfaceDeviceSerialNumber) => (ulong) interfaceDeviceSerialNumber == _Value;
+    public bool Equals(InterfaceDeviceSerialNumber interfaceDeviceSerialNumber) => ((ReadOnlySpan<char>)interfaceDeviceSerialNumber).IsValueEqual((ReadOnlySpan<char>)_Value);
     public int GetHashCode(TerminalIdentification obj) => obj.GetHashCode();
 
     #endregion
-
     #region Operator Overrides
 
     public static bool operator ==(InterfaceDeviceSerialNumber left, TerminalIdentification right) => left.Equals(right);
     public static bool operator !=(InterfaceDeviceSerialNumber left, TerminalIdentification right) => !left.Equals(right);
     public static bool operator ==(TerminalIdentification left, InterfaceDeviceSerialNumber right) => right.Equals(left);
     public static bool operator !=(TerminalIdentification left, InterfaceDeviceSerialNumber right) => !right.Equals(left);
-    public static explicit operator Span<char>(TerminalIdentification value) => value.AsSpan(); 
+    public static explicit operator Span<char>(TerminalIdentification value) => value.AsSpan();
     public static explicit operator ReadOnlySpan<char>(TerminalIdentification value) => value.AsSpan();
     public static explicit operator string(TerminalIdentification value) => value.AsToken();
 

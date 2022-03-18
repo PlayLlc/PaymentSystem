@@ -36,7 +36,7 @@ public class ProcessingOptionsDataObjectListTestTlv : TestTlv
         {TerminalVerificationResults.Tag, new TerminalVerificationResults(new TerminalVerificationResult()).AsTagLengthValue()},
         {TransactionCurrencyCode.Tag, new TransactionCurrencyCode(new NumericCurrencyCode(840)).AsTagLengthValue()},
         {TransactionDate.Tag, TransactionDate.Decode(new byte[] {0x15, 0x06, 0x17}.AsMemory()).AsTagLengthValue()},
-        {TransactionType.Tag, TransactionType.Purchase.AsTagLengthValue()},
+        {TransactionType.Tag, new TransactionType(TransactionTypes.GoodsAndServicesDebit).AsTagLengthValue()},
         {UnpredictableNumber.Tag, new UnpredictableNumber(3321).AsTagLengthValue()},
         {MerchantNameAndLocation.Tag, new MerchantNameAndLocation("Sam Smith, Texas").AsTagLengthValue()}
     };

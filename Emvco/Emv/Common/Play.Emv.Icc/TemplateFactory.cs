@@ -1,4 +1,6 @@
-﻿namespace Play.Emv.Icc;
+﻿using Play.Emv.Templates;
+
+namespace Play.Emv.Icc;
 
 public abstract class TemplateFactory<T> where T : Template
 {

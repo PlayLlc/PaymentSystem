@@ -33,7 +33,7 @@ public record TerminalFloorLimit : DataElement<uint>, IEqualityComparer<Terminal
 
     #region Instance Members
 
-    public Money AsMoney(CultureProfile cultureProfile) => new(_Value, cultureProfile);
+    public Money AsMoney(CultureProfile cultureProfile) => new(_Value, cultureProfile.GetNumericCurrencyCode());
     public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
+﻿
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Emv.Templates.Requests;

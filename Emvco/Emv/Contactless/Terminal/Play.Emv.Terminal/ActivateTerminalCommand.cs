@@ -18,10 +18,10 @@ public class ActivateTerminalCommand
     #region Constructor
 
     public ActivateTerminalCommand(
+        string terminalIdentification,
         ulong amountAuthorized,
         ulong otherAmount,
         byte transactionType,
-        ulong terminalIdentification,
         ulong acquirerIdentifier,
         string merchantIdentifier)
     {

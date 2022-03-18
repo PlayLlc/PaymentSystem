@@ -1,4 +1,7 @@
-﻿namespace Play.Emv.Icc;
+﻿using Play.Emv.DataElements;
+using Play.Emv.Templates.Requests;
+
+namespace Play.Emv.Icc;
 
 public class SendPoiInformationCApduSignal : CApduSignal
 {

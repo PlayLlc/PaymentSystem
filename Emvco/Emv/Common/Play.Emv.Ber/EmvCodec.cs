@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-
+﻿
 using Play.Ber;
 using Play.Ber.Codecs;
 using Play.Codecs;

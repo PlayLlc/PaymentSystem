@@ -6,8 +6,6 @@ using Play.Emv.Selection.Contracts;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
 
-using InvalidMessageRoutingException = Play.Messaging.Exceptions.Moto.InvalidMessageRoutingException;
-
 namespace Play.Emv.Selection.Services;
 
 public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISendSelectionResponses, IDisposable
@@ -64,7 +62,7 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
         else if (message is StopPcdRequest stopPcdRequest)
             Request(stopPcdRequest);
         else
-            throw new InvalidMessageRoutingException(message);
+            throw new InvalidMessageRoutingException(message, this);
     }
 
     public void Request(ActivateSelectionRequest message)

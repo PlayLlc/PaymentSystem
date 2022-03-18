@@ -1,4 +1,5 @@
 ﻿using Play.Ber.Exceptions;
+using Play.Emv.DataElements;
 using Play.Icc.Messaging.Apdu.InternalAuthenticate;
 
 namespace Play.Emv.Icc;

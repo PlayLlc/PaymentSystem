@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-using Play.Ber.Codecs;
-using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Exceptions;
@@ -68,41 +66,24 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
 
     #region Serialization
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static ShortFileIdentifier Decode(ReadOnlySpan<byte> value, BerCodec codec)
-    {
-        const ushort byteLength = 1;
-
-        if (value.Length != byteLength)
-        {
-            throw new
-                DataElementParsingException($"The Primitive Value {nameof(ShortFileIdentifier)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
-        }
-
-        DecodedResult<byte> result = codec.Decode(EncodingId, value) as DecodedResult<byte>
-            ?? throw new
-                DataElementParsingException($"The {nameof(ShortFileIdentifier)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<byte>)}");
-
-        return new ShortFileIdentifier(result.Value);
-    }
+  
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static AuthorizationResponseCode Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public static ShortFileIdentifier Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static AuthorizationResponseCode Decode(ReadOnlySpan<byte> value)
+    public static ShortFileIdentifier Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        ushort result = PlayCodec.BinaryCodec.DecodeToByte(value);
+        byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
 
         Check.Primitive.ForMinimumValue(result, _MinValue, Tag);
         Check.Primitive.ForMaximumValue(result, _MaxValue, Tag);
 
-        return new AuthorizationResponseCode(result);
+        return new ShortFileIdentifier(result);
     }
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);

@@ -45,7 +45,7 @@ public partial record TerminalType
         public static bool IsEnvironmentType(byte value, EnvironmentType environmentType) =>
             environmentType == Attended ? value < 4 : value > 3;
 
-        public static int CompareTo(EnvironmentType? other)
+        public int CompareTo(EnvironmentType? other)
         {
             if (other is null)
                 return 1;

@@ -36,14 +36,16 @@ public class Kernel2StateResolver : IGetKernelState
         DataExchangeKernelService dataExchangeKernelService,
         IHandleTerminalRequests terminalEndpoint,
         IKernelEndpoint kernelEndpoint,
-        IHandlePcdRequests pcdEndpoint)
+        IHandlePcdRequests pcdEndpoint,
+        IGenerateUnpredictableNumber unpredictableNumberGenerator)
     {
         Kernel2StateResolver kernelStateResolver = new();
 
         KernelState[] kernelStates =
         {
-            new Idle(tornTransactionCleaner, kernelDatabase, dataExchangeKernelService, kernelStateResolver, kernelEndpoint,
-                     terminalEndpoint, pcdEndpoint)
+            new Idle(tornTransactionCleaner, kernelDatabase, dataExchangeKernelService, kernelStateResolver,
+                     kernelEndpoint,terminalEndpoint,
+                     pcdEndpoint, unpredictableNumberGenerator)
         };
 
         foreach (KernelState state in kernelStates)

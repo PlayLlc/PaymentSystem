@@ -60,7 +60,7 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
         else if (message is QueryTerminalRequest queryPcdRequest)
             Request(queryPcdRequest);
         else
-            throw new InvalidMessageRoutingException(message);
+            throw new InvalidMessageRoutingException(message, this);
     }
 
     public void Request(ActivateTerminalRequest message)

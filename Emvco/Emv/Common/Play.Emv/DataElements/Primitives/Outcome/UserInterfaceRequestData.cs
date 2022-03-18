@@ -50,8 +50,11 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
     public static Builder GetBuilder() => new();
     public NumericCurrencyCode GetCurrencyCode() => new((ushort) (_Value >> _CurrencyCodeOffset));
 
-    public MessageHoldTime GetHoldTimeValue() =>
-        new(new Milliseconds(((ulong) (_Value >> _HoldTimeOffset)).GetMaskedValue(0xFFFF000000000000) * 100));
+    public MessageHoldTime GetHoldTimeValue()
+    { 
+         
+        return new MessageHoldTime(new Milliseconds((long)((ulong)(_Value >> _HoldTimeOffset)).GetMaskedValue(0xFFFF000000000000)));
+    }
 
     public LanguagePreference GetLanguagePreference() => new((ulong) (_Value >> _LanguagePreferenceOffset));
     public MessageIdentifier GetMessageIdentifier() => MessageIdentifier.Get((byte) (_Value >> _MessageIdentifierOffset));
@@ -151,7 +154,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
         public void Set(MessageHoldTime bitsToSet)
         {
             _Value.ClearBits(0xFFFFFF << _HoldTimeOffset);
-            _Value |= (BigInteger) bitsToSet.GetHoldTime().GetMaskedValue(0xFF000000) << _HoldTimeOffset;
+            _Value |= (BigInteger) ((long)bitsToSet.GetHoldTime()).GetMaskedValue(0xFF000000) << _HoldTimeOffset;
         }
 
         public void Set(LanguagePreference bitsToSet)

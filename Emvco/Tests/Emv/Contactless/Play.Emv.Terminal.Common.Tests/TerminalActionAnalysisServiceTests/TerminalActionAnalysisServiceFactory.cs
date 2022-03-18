@@ -39,7 +39,7 @@ public class TerminalActionAnalysisServiceFactory
             .Returns(AuthenticationTypes.CombinedDataAuthentication);
 
         fixture.Register(() => new TerminalActionAnalysisService(fixture.Create<IHandlePcdRequests>(), authenticationTypeResolver.Object,
-                                                                 new TerminalType(TerminalType.Environment.Attended, terminalType,
+                                                                 new TerminalType(TerminalType.EnvironmentType.Attended, terminalType,
                                                                                   TerminalType.TerminalOperatorType.Merchant),
                                                                  fixture.Create<TerminalCapabilities>(), GetTerminalActionCodeDefault(),
                                                                  GetTerminalActionCodeDenial(), GetTerminalActionCodeOnline(),
@@ -56,7 +56,7 @@ public class TerminalActionAnalysisServiceFactory
         IFixture fixture)
     {
         fixture.Register(() => new TerminalActionAnalysisService(fixture.Create<IHandlePcdRequests>(), authenticationResolver,
-                                                                 new TerminalType(TerminalType.Environment.Attended, terminalType,
+                                                                 new TerminalType(TerminalType.EnvironmentType.Attended, terminalType,
                                                                                   TerminalType.TerminalOperatorType.Merchant),
                                                                  terminalCapabilities, GetTerminalActionCodeDefault(),
                                                                  GetTerminalActionCodeDenial(), GetTerminalActionCodeOnline(),

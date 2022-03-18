@@ -7,8 +7,6 @@ using Play.Emv.Terminal.Contracts.SignalOut;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
 
-using InvalidMessageRoutingException = Play.Messaging.Exceptions.Moto.InvalidMessageRoutingException;
-
 namespace Play.Emv.Kernel.Services;
 
 public class KernelEndpoint : IMessageChannel, IHandleKernelRequests, ISendKernelResponses, IHandleResponsesToKernel, IDisposable
@@ -58,7 +56,7 @@ public class KernelEndpoint : IMessageChannel, IHandleKernelRequests, ISendKerne
         else if (message is QueryPcdRequest queryPcdRequest)
             Request(queryPcdRequest);
         else
-            throw new InvalidMessageRoutingException(message);
+            throw new InvalidMessageRoutingException(message, this);
     }
 
     public void Request(ActivateKernelRequest message) => _KernelRetriever.Enqueue(message);
