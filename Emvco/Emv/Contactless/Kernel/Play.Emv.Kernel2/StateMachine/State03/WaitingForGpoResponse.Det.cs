@@ -1,7 +1,5 @@
 ﻿using Play.Emv.Exceptions;
-using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.State;
-using Play.Emv.Messaging;
 using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel2.StateMachine;

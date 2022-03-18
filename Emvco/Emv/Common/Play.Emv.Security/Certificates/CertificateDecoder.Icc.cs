@@ -1,14 +1,11 @@
 ﻿using System;
 
-using Microsoft.Toolkit.HighPerformance.Buffers;
-
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.DataElements;
 using Play.Emv.Security.Authentications.Static;
 using Play.Emv.Security.Certificates.Icc;
 using Play.Emv.Security.Certificates.Issuer;
-using Play.Emv.Security.Certificates.Pin;
 using Play.Emv.Security.Exceptions;
 using Play.Encryption.Certificates;
 using Play.Encryption.Hashing;

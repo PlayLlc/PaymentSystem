@@ -36,7 +36,8 @@ public class IntegratedDataStorageDataException : CodecParsingException
         [CallerFilePath] string fileName = "",
         [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(IntegratedDataStorageDataException), fileName, memberName, lineNumber)} {message}", innerException)
+        base($"{TraceExceptionMessage(typeof(IntegratedDataStorageDataException), fileName, memberName, lineNumber)} {message}",
+             innerException)
     { }
 
     #endregion

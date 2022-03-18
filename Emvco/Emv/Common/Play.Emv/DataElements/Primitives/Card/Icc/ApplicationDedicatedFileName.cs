@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 
-using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Core.Extensions;
 using Play.Emv.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
 

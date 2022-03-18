@@ -6,7 +6,6 @@ using Play.Emv.Icc;
 using Play.Emv.Identifiers;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Pcd.Exceptions;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
 

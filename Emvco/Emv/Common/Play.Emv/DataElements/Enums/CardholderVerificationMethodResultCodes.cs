@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
-
-using Play.Core;
+﻿using Play.Core;
 
 namespace Play.Emv.DataElements
 {

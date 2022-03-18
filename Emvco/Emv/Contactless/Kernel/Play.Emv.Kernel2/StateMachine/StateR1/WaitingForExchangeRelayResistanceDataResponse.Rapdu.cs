@@ -1,22 +1,14 @@
 ﻿using System;
 
-using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
 using Play.Codecs.Exceptions;
-using Play.Emv.Ber.Exceptions;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Kernel.Databases;
-using Play.Emv.Kernel.DataExchange;
-using Play.Emv.Kernel.Exceptions;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
-using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
-using Play.Globalization.Time;
 using Play.Globalization.Time.Seconds;
 using Play.Icc.Messaging.Apdu;
 

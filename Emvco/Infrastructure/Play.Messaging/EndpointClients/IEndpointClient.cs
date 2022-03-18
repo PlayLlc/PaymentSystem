@@ -1,5 +1,4 @@
-﻿using Play.Globalization.Time;
-using Play.Globalization.Time.Seconds;
+﻿using Play.Globalization.Time.Seconds;
 
 namespace Play.Messaging;
 

@@ -1,7 +1,4 @@
-﻿using Play.Emv.Ber;
-using Play.Emv.Ber.DataObjects;
-
-namespace Play.Emv.Icc;
+﻿namespace Play.Emv.Icc;
 
 public abstract class TemplateFactory<T> where T : Template
 {

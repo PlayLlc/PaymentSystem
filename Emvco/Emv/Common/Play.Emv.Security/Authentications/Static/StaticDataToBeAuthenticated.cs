@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-
-using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Emv.Database;
 using Play.Emv.DataElements;
-using Play.Emv.Pcd;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security.Exceptions;
 using Play.Emv.Templates;

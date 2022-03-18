@@ -7,7 +7,7 @@ using Play.Emv.Kernel.Contracts;
 using Play.Emv.Security.Certificates;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace Play.Emv.Kernel.Databases;
+namespace Play.Emv.Kernel.Databases.Certificates;
 
 public class CertificateDatabase : ICertificateDatabase
 {

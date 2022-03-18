@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Play.Ber.Exceptions;
 using Play.Codecs.Exceptions;
-using Play.Emv.Database;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
@@ -16,7 +11,7 @@ using Play.Icc.Messaging.Apdu;
 
 namespace Play.Emv.Kernel.Databases
 {
-    public abstract partial class KernelDatabase  
+    public abstract partial class KernelDatabase
     {
         #region Outcome
 
@@ -48,7 +43,8 @@ namespace Play.Emv.Kernel.Databases
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="CodecParsingException"></exception>
         /// <exception cref="TerminalDataException"></exception>
-        private OutcomeParameterSet GetOutcomeParameterSet() => OutcomeParameterSet.Decode(Get(OutcomeParameterSet.Tag).EncodeValue().AsSpan());
+        private OutcomeParameterSet GetOutcomeParameterSet() =>
+            OutcomeParameterSet.Decode(Get(OutcomeParameterSet.Tag).EncodeValue().AsSpan());
 
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="CodecParsingException"></exception>

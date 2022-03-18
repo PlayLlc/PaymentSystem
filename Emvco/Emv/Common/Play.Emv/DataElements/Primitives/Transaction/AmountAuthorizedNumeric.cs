@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Numerics;
 
-using Play.Ber.Codecs;
-using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Exceptions;
-using Play.Globalization;
 using Play.Globalization.Currency;
 
 namespace Play.Emv.DataElements;

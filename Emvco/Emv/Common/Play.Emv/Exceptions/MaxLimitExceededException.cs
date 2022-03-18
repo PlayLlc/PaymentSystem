@@ -5,7 +5,7 @@ using Play.Codecs.Exceptions;
 using Play.Emv.Icc;
 
 namespace Play.Emv.Exceptions;
- 
+
 /// <summary>
 ///     When the  Amount, Authorized (Numeric) > Reader Contactless Transaction Limit
 /// </summary>

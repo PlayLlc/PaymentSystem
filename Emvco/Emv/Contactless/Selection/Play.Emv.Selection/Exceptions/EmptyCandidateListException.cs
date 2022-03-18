@@ -8,7 +8,7 @@ namespace Play.Emv.Selection.Exceptions;
 /// <summary>
 ///     When Entry Point processing encounters an empty candidate list
 /// </summary>
-/// <remarks>This error is logically similar to a <see cref="Level2Error.MagstripeNotSupported"/>  </remarks>
+/// <remarks>This error is logically similar to a <see cref="Level2Error.MagstripeNotSupported" />  </remarks>
 public class EmptyCandidateListException : CodecParsingException
 {
     #region Constructor

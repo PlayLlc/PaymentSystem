@@ -24,6 +24,7 @@ internal class OfflinePinProcessor : IVerifyCardholderPinOffline
 
     #endregion
 
+    #region Instance Members
 
     /*  TODO: The following was specified in EMV Book 3 Section 10.5.1, but I read online this is contact specific
      *  The terminal bypassed PIN entry at the direction of either the merchant or 
@@ -32,14 +33,12 @@ internal class OfflinePinProcessor : IVerifyCardholderPinOffline
         shall consider this CVM unsuccessful and shall continue cardholder 
         verification processing in accordance with the card’s CVM List.
      */
-
     /*  TODO:The following was specified in EMV Book 3 Section 10.5.1
      *  The PIN is blocked upon initial use of the VERIFY command or if recovery of 
         the enciphered PIN Block has failed (the ICC returns SW1 SW2 = '6983' or 
         '6984' in response to the VERIFY command). In this case, the terminal shall 
         set the ‘PIN Try Limit exceeded’ bit in the TVR to 1.
      */
-
     /*  TODO:The following was specified in EMV Book 3 Section 10.5.1
      *  The number of remaining PIN tries is reduced to zero (indicated by an 
         SW1 SW2 of '63C0' in the response to the VERIFY command). In this case, 
@@ -48,16 +47,16 @@ internal class OfflinePinProcessor : IVerifyCardholderPinOffline
 
     public CvmCode Process(KernelDatabase database)
     {
- 
         try
-        { 
-        }
+        { }
         catch (Exception exception)
         {
             // EMV Book 3 Section 10.5.1
             database.Set(TerminalVerificationResultCodes.PinEntryRequiredAndPinPadNotPresentOrNotWorking);
         }
 
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
+
+    #endregion
 }

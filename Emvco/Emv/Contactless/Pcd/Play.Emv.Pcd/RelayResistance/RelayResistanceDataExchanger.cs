@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 using Play.Emv.Icc;
 using Play.Emv.Pcd.Contracts;
-using Play.Randoms;
 
 namespace Play.Emv.Pcd;
 

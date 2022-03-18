@@ -5,11 +5,9 @@ using Play.Emv.Database;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
-using Play.Emv.Kernel.Exceptions;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security.Authentications.Static;
 using Play.Globalization.Time;
-using Play.Globalization.Time.Seconds;
 using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Messaging;
 

@@ -9,7 +9,7 @@ using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
 
-namespace Play.Emv.Terminal.Common.Services.TerminalActionAnalysis.Terminal;
+namespace Play.Emv.Kernel.Services;
 
 /// <remarks>
 ///     Book 3 Section 10.7
@@ -48,11 +48,11 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         _TerminalType = terminalType;
 
         _DefaultActionCodes =
-            new ActionCodes((ulong)terminalActionCodeDefault.AsActionCodes() | (ulong)issuerActionCodeDefault.AsActionCodes());
+            new ActionCodes((ulong) terminalActionCodeDefault.AsActionCodes() | (ulong) issuerActionCodeDefault.AsActionCodes());
         _OnlineActionCodes =
-            new ActionCodes((ulong)terminalActionCodeOnline.AsActionCodes() | (ulong)issuerActionCodeOnline.AsActionCodes());
+            new ActionCodes((ulong) terminalActionCodeOnline.AsActionCodes() | (ulong) issuerActionCodeOnline.AsActionCodes());
         _DenialActionCodes =
-            new ActionCodes((ulong)terminalActionCodeDenial.AsActionCodes() | (ulong)issuerActionCodeDenial.AsActionCodes());
+            new ActionCodes((ulong) terminalActionCodeDenial.AsActionCodes() | (ulong) issuerActionCodeDenial.AsActionCodes());
     }
 
     #endregion
@@ -107,7 +107,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <param name="flag"></param>
     private void ProcessDenialActionCodes(TerminalVerificationResults terminalVerificationResult, ref ActionFlag flag)
     {
-        if (!((ulong)terminalVerificationResult).AreAnyBitsSet((ulong)_DenialActionCodes))
+        if (!((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) _DenialActionCodes))
             return;
 
         flag |= ActionFlag.Denial;
@@ -136,7 +136,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         TerminalVerificationResults terminalVerificationResult,
         ref ActionFlag flag)
     {
-        if (((ulong)terminalVerificationResult).AreAnyBitsSet((ulong)_OnlineActionCodes))
+        if (((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) _OnlineActionCodes))
             flag |= ActionFlag.Online;
         else
             flag |= ActionFlag.Offline;
@@ -172,7 +172,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         TerminalVerificationResults terminalVerificationResult,
         ref ActionFlag flag)
     {
-        if (((ulong)terminalVerificationResult).AreAnyBitsSet((ulong)_DefaultActionCodes))
+        if (((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) _DefaultActionCodes))
             flag |= ActionFlag.Denial;
     }
 
@@ -184,7 +184,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         if (!outcomeParameterSet.IsTimeout())
             return;
 
-        if (((ulong)terminalVerificationResult).AreAnyBitsSet((ulong)_DefaultActionCodes))
+        if (((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) _DefaultActionCodes))
             flag |= ActionFlag.Denial;
     }
 
@@ -201,8 +201,10 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     private void CreateDenyTransactionResponse(TerminalActionAnalysisCommand command)
     {
         _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessionId(),
-            new CryptogramInformationData(CryptogramTypes.ApplicationAuthenticationCryptogram), command.GetCardRiskManagementDolResult(),
-            command.GetDataStorageDolResult()));
+                                                                         new CryptogramInformationData(CryptogramTypes
+                                                                             .ApplicationAuthenticationCryptogram),
+                                                                         command.GetCardRiskManagementDolResult(),
+                                                                         command.GetDataStorageDolResult()));
     }
 
     /// <summary>
@@ -218,8 +220,10 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
             == AuthenticationTypes.CombinedDataAuthentication;
 
         _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessionId(),
-            new CryptogramInformationData(CryptogramTypes.TransactionCryptogram, isCdaRequested), command.GetCardRiskManagementDolResult(),
-            command.GetDataStorageDolResult()));
+                                                                         new
+                                                                             CryptogramInformationData(CryptogramTypes.TransactionCryptogram,
+                                                                              isCdaRequested), command.GetCardRiskManagementDolResult(),
+                                                                         command.GetDataStorageDolResult()));
     }
 
     /// <summary>
@@ -231,8 +235,10 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     private void CreateProceedOnlineResponse(TerminalActionAnalysisCommand command)
     {
         _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessionId(),
-            new CryptogramInformationData(CryptogramTypes.AuthorizationRequestCryptogram), command.GetCardRiskManagementDolResult(),
-            command.GetDataStorageDolResult()));
+                                                                         new CryptogramInformationData(CryptogramTypes
+                                                                             .AuthorizationRequestCryptogram),
+                                                                         command.GetCardRiskManagementDolResult(),
+                                                                         command.GetDataStorageDolResult()));
     }
 
     #endregion

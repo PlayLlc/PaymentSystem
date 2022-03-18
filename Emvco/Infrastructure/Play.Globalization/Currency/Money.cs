@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 
 using Play.Core.Extensions;
-using Play.Globalization.Country;
-using Play.Globalization.Language;
 
 namespace Play.Globalization.Currency;
 

@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Threading.Tasks;
 
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
-using Play.Messaging.Exceptions.Moto;
 
 using InvalidMessageRoutingException = Play.Messaging.Exceptions.Moto.InvalidMessageRoutingException;
 

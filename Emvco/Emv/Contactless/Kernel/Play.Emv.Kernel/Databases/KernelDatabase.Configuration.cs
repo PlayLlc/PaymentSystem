@@ -1,39 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Play.Codecs.Exceptions;
-using Play.Emv.Database;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 
 namespace Play.Emv.Kernel.Databases
 {
-    public  abstract partial class KernelDatabase  
+    public abstract partial class KernelDatabase
     {
-
         #region Configuration
+
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="CodecParsingException"></exception>
-        private TerminalCapabilities GetTerminalCapabilities() => TerminalCapabilities.Decode(Get(TerminalCapabilities.Tag).EncodeValue().AsSpan());
+        private TerminalCapabilities GetTerminalCapabilities() =>
+            TerminalCapabilities.Decode(Get(TerminalCapabilities.Tag).EncodeValue().AsSpan());
+
         private TransactionType GetTransactionType() => TransactionType.Decode(Get(TransactionType.Tag).EncodeValue().AsSpan());
         private TerminalType GetTerminalType() => TerminalType.Decode(Get(TerminalType.Tag).EncodeValue().AsSpan());
         private PosEntryMode GetPosEntryMode() => PosEntryMode.Decode(Get(PosEntryMode.Tag).EncodeValue().AsSpan());
         public bool IsCardCaptureSupported() => GetTerminalCapabilities().IsCardCaptureSupported();
         public bool IsCombinedDataAuthenticationSupported() => GetTerminalCapabilities().IsCombinedDataAuthenticationSupported();
         public bool IsDynamicDataAuthenticationSupported() => GetTerminalCapabilities().IsDynamicDataAuthenticationSupported();
-        public bool IsEncipheredPinForOfflineVerificationSupported() => GetTerminalCapabilities().IsEncipheredPinForOfflineVerificationSupported();
-        public bool IsEncipheredPinForOnlineVerificationSupported() => GetTerminalCapabilities().IsEncipheredPinForOnlineVerificationSupported();
+
+        public bool IsEncipheredPinForOfflineVerificationSupported() =>
+            GetTerminalCapabilities().IsEncipheredPinForOfflineVerificationSupported();
+
+        public bool IsEncipheredPinForOnlineVerificationSupported() =>
+            GetTerminalCapabilities().IsEncipheredPinForOnlineVerificationSupported();
+
         public bool IsIcWithContactsSupported() => GetTerminalCapabilities().IsIcWithContactsSupported();
         public bool IsMagneticStripeSupported() => GetTerminalCapabilities().IsMagneticStripeSupported();
         public bool IsManualKeyEntrySupported() => GetTerminalCapabilities().IsManualKeyEntrySupported();
-        public bool IsNoCardVerificationMethodRequiredSupported() => GetTerminalCapabilities().IsNoCardVerificationMethodRequiredSupported();
+
+        public bool IsNoCardVerificationMethodRequiredSupported() =>
+            GetTerminalCapabilities().IsNoCardVerificationMethodRequiredSupported();
+
         public bool IsPlaintextPinForIccVerificationSupported() => GetTerminalCapabilities().IsCardCaptureSupported();
         public bool IsSignaturePaperSupported() => GetTerminalCapabilities().IsSignaturePaperSupported();
         public bool IsStaticDataAuthenticationSupported() => GetTerminalCapabilities().IsStaticDataAuthenticationSupported();
+
         /// <summary>
         ///     IDS builds the reading and writing functions into existing payment commands (GET PROCESSING OPTIONS and GENERATE
         ///     AC). The command-response sequence exchanged between the Card and Kernel is therefore unchanged from a normal

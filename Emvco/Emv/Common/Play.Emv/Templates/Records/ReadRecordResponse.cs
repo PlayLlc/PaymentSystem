@@ -1,11 +1,4 @@
-﻿using System;
-using System.Linq;
-
-using Play.Ber.Codecs;
-using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
-
-namespace Play.Emv.Templates;
+﻿namespace Play.Emv.Templates;
 
 //public class ReadRecordResponse : ReadRecordResponseTemplate
 //{

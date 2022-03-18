@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Play.Emv.DataElements;
+using Play.Emv.Kernel.Databases;
 using Play.Globalization.Time.Seconds;
 
 namespace Play.Emv.Kernel.Services;
@@ -68,7 +69,7 @@ internal class TornTransactionManager : ICleanTornTransactions, IWriteTornTransa
 
     public void Clean() => _TornRecords.Clear();
 
-    public TornRecord[]? Truncate()
+    public TornRecord[]? Truncate(KernelDatabase database)
     {
         if (_TornRecords.Count <= _MaxNumberOfLogs)
             return null;

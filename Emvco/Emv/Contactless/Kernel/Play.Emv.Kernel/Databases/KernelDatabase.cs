@@ -1,21 +1,13 @@
 ﻿using System;
 
-using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
-using Play.Codecs.Exceptions;
 using Play.Emv.Database;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
-using Play.Emv.Icc;
 using Play.Emv.Identifiers;
-using Play.Emv.Kernel.DataExchange;
-using Play.Emv.Kernel.Exceptions;
-using Play.Emv.Outcomes;
-using Play.Emv.Security.Certificates;
+using Play.Emv.Kernel.Databases.Certificates;
+using Play.Emv.Kernel.Databases.Tlv;
 using Play.Emv.Terminal.Contracts;
-using Play.Icc.FileSystem.DedicatedFiles;
-using Play.Icc.Messaging.Apdu;
 
 namespace Play.Emv.Kernel.Databases;
 
@@ -36,10 +28,7 @@ public abstract partial class KernelDatabase : IManageKernelDatabaseLifetime, IQ
 
     #region Constructor
 
-    protected KernelDatabase(
-        IHandleTerminalRequests terminalEndpoint,
-        ITlvDatabase tlvDatabase,
-        ICertificateDatabase certificateDatabase)
+    protected KernelDatabase(IHandleTerminalRequests terminalEndpoint, ITlvDatabase tlvDatabase, ICertificateDatabase certificateDatabase)
     {
         _TerminalEndpoint = terminalEndpoint;
         _TlvDatabase = tlvDatabase;
@@ -50,7 +39,7 @@ public abstract partial class KernelDatabase : IManageKernelDatabaseLifetime, IQ
 
     #region Instance Members
 
-    public abstract KernelConfiguration GetKernelConfiguration(); 
+    public abstract KernelConfiguration GetKernelConfiguration();
 
     /// <summary>
     ///     Activate
@@ -78,7 +67,7 @@ public abstract partial class KernelDatabase : IManageKernelDatabaseLifetime, IQ
     {
         _TlvDatabase.Clear();
         _CertificateDatabase.PurgeRevokedCertificates();
-    }  
+    }
 
     public bool TryGetKernelSessionId(out KernelSessionId? result)
     {
@@ -92,15 +81,9 @@ public abstract partial class KernelDatabase : IManageKernelDatabaseLifetime, IQ
         result = _KernelSessionId;
 
         return true;
-    } 
+    }
 
     protected bool IsActive() => _KernelSessionId != null;
 
     #endregion
-
-
-    
-
-   
-
 }

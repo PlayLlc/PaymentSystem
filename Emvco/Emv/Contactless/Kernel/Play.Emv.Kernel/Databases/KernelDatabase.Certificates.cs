@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Emv.DataElements;
+﻿using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
+using Play.Emv.Kernel.Databases.Certificates;
 using Play.Emv.Security.Certificates;
 using Play.Icc.FileSystem.DedicatedFiles;
 
@@ -13,7 +8,7 @@ namespace Play.Emv.Kernel.Databases
 {
     public abstract partial class KernelDatabase
     {
-
+        #region Instance Members
 
         /// <summary>
         ///     Indicates if the <see cref="CaPublicKeyCertificate" /> is currently valid. If the current date and time
@@ -64,6 +59,6 @@ namespace Play.Emv.Kernel.Databases
             return _CertificateDatabase.TryGet(rid, index, out result);
         }
 
-
+        #endregion
     }
 }

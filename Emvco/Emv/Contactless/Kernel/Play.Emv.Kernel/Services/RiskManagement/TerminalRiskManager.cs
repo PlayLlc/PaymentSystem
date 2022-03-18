@@ -2,7 +2,6 @@
 
 using Play.Core.Math;
 using Play.Emv.DataElements;
-using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
 using Play.Globalization.Currency;
 

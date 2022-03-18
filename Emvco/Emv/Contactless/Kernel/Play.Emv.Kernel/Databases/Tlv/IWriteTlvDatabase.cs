@@ -1,7 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 
-namespace Play.Emv.Kernel.Databases;
+namespace Play.Emv.Kernel.Databases.Tlv;
 
 public interface IWriteTlvDatabase
 {

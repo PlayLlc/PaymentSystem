@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Pcd.Exceptions;
 using Play.Emv.Pcd.GetData;
 
 namespace Play.Emv.Pcd.Services;

@@ -1,15 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Numerics;
 
 using Play.Ber.Codecs;
-using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
-using Play.Globalization.Currency;
 using Play.Icc.Messaging.Apdu;
 
 namespace Play.Emv.DataElements;

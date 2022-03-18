@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 using Play.Core.Threads;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Pcd.Exceptions;
 
 namespace Play.Emv.Pcd.Services;
 

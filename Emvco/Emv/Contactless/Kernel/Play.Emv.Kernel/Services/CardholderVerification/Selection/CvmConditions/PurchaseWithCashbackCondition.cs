@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Play.Ber.Identifiers;
-using Play.Emv.Database;
 using Play.Emv.DataElements;
 using Play.Emv.Kernel.Databases;
 using Play.Globalization.Currency;
@@ -25,10 +24,9 @@ internal record PurchaseWithCashbackCondition : CvmCondition
     #region Instance Members
 
     public override CvmConditionCode GetConditionCode() => Code;
-    protected override bool IsConditionSatisfied(KernelDatabase database, Money xAmount, Money yAmount)
-    {
-        return database.IsPurchaseTransactionWithCashback(); 
-    }
+
+    protected override bool IsConditionSatisfied(KernelDatabase database, Money xAmount, Money yAmount) =>
+        database.IsPurchaseTransactionWithCashback();
 
     #endregion
 }

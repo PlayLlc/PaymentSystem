@@ -84,6 +84,7 @@ internal class PercentageSelectionQueue : IPercentageSelectionQueue
                 EnqueueRandomPercentage();
         }).ConfigureAwait(false);
 
-    #endregion
-egion
-}
+        #endregion
+
+        egion
+    }

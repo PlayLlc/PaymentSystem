@@ -1,10 +1,5 @@
-﻿using System;
-
-using Play.Core.Exceptions;
-using Play.Core.Extensions;
+﻿using Play.Core.Extensions;
 using Play.Emv.Exceptions;
-using Play.Emv.Kernel.Databases;
-using Play.Globalization.Currency;
 
 namespace Play.Emv.DataElements;
 
@@ -32,9 +27,9 @@ public readonly struct CvmCode
     /// <remarks>EMV Book C-2 Section CVM.17</remarks>
     public bool IsFailureControlSupported() => _Value.GetMaskedValue(0b00111111) != 0;
 
-    /// <exception cref="TerminalDataException"></exception> 
+    /// <exception cref="TerminalDataException"></exception>
     /// <remarks>EMV Book C-2 Section CVM.17</remarks>
-    public bool IsSupported( TerminalCapabilities terminalCapabilities)
+    public bool IsSupported(TerminalCapabilities terminalCapabilities)
     {
         if (IsFailureControlSupported())
             return false;
@@ -46,7 +41,7 @@ public readonly struct CvmCode
         }
 
         if (_Value == CvmCodes.Fail)
-            return false;  
+            return false;
 
         if (_Value == CvmCodes.None)
             return terminalCapabilities.IsNoCardVerificationMethodRequiredSupported();
@@ -70,8 +65,6 @@ public readonly struct CvmCode
 
         return false;
     }
-
- 
 
     public bool IsFailIfUnsuccessfulSet() => !_Value.IsBitSet(Bits.Eight);
     public bool IsTryNextIfUnsuccessfulSet() => _Value.IsBitSet(Bits.Seven);

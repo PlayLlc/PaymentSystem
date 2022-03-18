@@ -5,7 +5,7 @@ using Play.Codecs.Exceptions;
 using Play.Emv.Icc;
 
 namespace Play.Emv.Exceptions;
- 
+
 /// <remarks>This error is logically similar to a <see cref="Level2Error.IdsNoMatchingAc" /> /></remarks>
 public class NoMatchingApplicationCryptogramForIntegratedStorageException : CodecParsingException
 {

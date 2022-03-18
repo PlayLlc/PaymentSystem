@@ -5,6 +5,7 @@ using Play.Codecs.Exceptions;
 using Play.Emv.Icc;
 
 namespace Play.Emv.Exceptions;
+
 /// <summary>
 ///     When an error occurs during a write involving Integrated Data Storage
 /// </summary>

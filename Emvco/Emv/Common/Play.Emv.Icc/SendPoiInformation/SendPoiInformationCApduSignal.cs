@@ -1,6 +1,4 @@
-﻿using Play.Emv.Ber.DataObjects;
-
-namespace Play.Emv.Icc;
+﻿namespace Play.Emv.Icc;
 
 public class SendPoiInformationCApduSignal : CApduSignal
 {

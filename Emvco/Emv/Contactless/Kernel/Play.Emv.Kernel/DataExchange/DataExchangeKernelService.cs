@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
-using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Emv.Database;
 using Play.Emv.DataElements;
@@ -11,6 +9,7 @@ using Play.Emv.DataExchange;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
+using Play.Emv.Kernel.Databases.Tlv;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalIn;

@@ -1,7 +1,4 @@
-﻿using Play.Ber.Codecs;
-using Play.Ber.DataObjects;
-
-namespace Play.Emv.Icc;
+﻿namespace Play.Emv.Icc;
 
 public class GetDataRApduSignal : RApduSignal
 {

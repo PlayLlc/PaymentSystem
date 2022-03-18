@@ -1,6 +1,4 @@
-﻿using Play.Core.Exceptions;
-
-namespace Play.Core.Extensions;
+﻿namespace Play.Core.Extensions;
 
 public static class BitLookup
 {

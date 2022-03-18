@@ -5,6 +5,8 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
+using Play.Emv.Kernel.Databases.Certificates;
+using Play.Emv.Kernel.Databases.Tlv;
 using Play.Emv.Kernel2.Configuration;
 using Play.Emv.Terminal.Contracts;
 

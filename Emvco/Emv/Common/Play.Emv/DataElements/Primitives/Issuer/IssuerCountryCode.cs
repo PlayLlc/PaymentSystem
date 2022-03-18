@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;

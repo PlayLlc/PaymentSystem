@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Numerics;
 
-using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;

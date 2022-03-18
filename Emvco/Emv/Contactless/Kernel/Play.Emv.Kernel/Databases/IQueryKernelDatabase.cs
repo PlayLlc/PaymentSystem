@@ -4,6 +4,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Emv.DataElements;
 using Play.Emv.Identifiers;
+using Play.Emv.Kernel.Databases.Tlv;
 using Play.Emv.Security.Certificates;
 using Play.Icc.FileSystem.DedicatedFiles;
 

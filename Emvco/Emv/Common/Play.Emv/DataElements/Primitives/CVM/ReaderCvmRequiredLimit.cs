@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Exceptions;
-using Play.Globalization;
 using Play.Globalization.Currency;
 
 namespace Play.Emv.DataElements;

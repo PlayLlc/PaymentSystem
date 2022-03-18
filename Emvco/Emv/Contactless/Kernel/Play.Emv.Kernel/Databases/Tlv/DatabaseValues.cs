@@ -5,7 +5,7 @@ using System.Linq;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 
-namespace Play.Emv.Kernel.Databases;
+namespace Play.Emv.Kernel.Databases.Tlv;
 
 public class DatabaseValues : IReadOnlyCollection<DatabaseValue> // IEnumerable<DatabaseValue>
 {

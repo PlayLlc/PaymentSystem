@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
-using Play.Emv.Database;
 using Play.Emv.Exceptions;
+using Play.Emv.Kernel.Databases.Tlv;
 
 namespace Play.Emv.Kernel.Databases
 {
     public abstract partial class KernelDatabase
     {
+        #region Instance Members
+
         /// <summary>
         ///     Returns true if a TLV object with the provided <see cref="Tag" /> exists in the database and the corresponding
         ///     <see cref="DatabaseValue" /> in an out parameter
@@ -36,11 +34,11 @@ namespace Play.Emv.Kernel.Databases
         /// <param name="tag"></param>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
-
         public virtual TagLengthValue Get(Tag tag)
         {
             if (!IsActive())
-                throw new TerminalDataException($"The method {nameof(Get)} cannot be accessed because {nameof(KernelDatabase)} is not active");
+                throw new
+                    TerminalDataException($"The method {nameof(Get)} cannot be accessed because {nameof(KernelDatabase)} is not active");
 
             return _TlvDatabase.Get(tag);
         }
@@ -87,6 +85,7 @@ namespace Play.Emv.Kernel.Databases
 
             return _TlvDatabase.IsPresentAndNotEmpty(tag);
         }
+
         /// <summary>
         ///     Updates the database with the
         ///     <param name="value"></param>
@@ -139,5 +138,7 @@ namespace Play.Emv.Kernel.Databases
 
             _TlvDatabase.Update(new DatabaseValue(tag));
         }
+
+        #endregion
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Play.Emv.Pcd.Contracts;
+﻿namespace Play.Emv.Pcd.Contracts;
 
 public interface IHandlePcdRequests
 {

@@ -1,7 +1,4 @@
-﻿using System;
-
-using Play.Ber.Identifiers;
-using Play.Emv.Database;
+﻿using Play.Ber.Identifiers;
 using Play.Emv.DataElements;
 using Play.Emv.Kernel.Databases;
 using Play.Globalization.Currency;
@@ -27,10 +24,8 @@ internal record ManualCashCondition : CvmCondition
     public override CvmConditionCode GetConditionCode() => Code;
 
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    protected override bool IsConditionSatisfied(KernelDatabase database, Money xAmount, Money yAmount)
-    { 
-        return database.IsManualCashTransaction();
-    }
+    protected override bool IsConditionSatisfied(KernelDatabase database, Money xAmount, Money yAmount) =>
+        database.IsManualCashTransaction();
 
     #endregion
 }

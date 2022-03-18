@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using Play.Ber.Identifiers;
 using Play.Emv.Database;
 using Play.Emv.DataElements;
-using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Databases;
 using Play.Globalization.Currency;
 
@@ -19,10 +17,6 @@ internal abstract record CvmCondition
 
     #endregion
 
-    protected CvmCondition()
-    {
-
-    }
     #region Instance Values
 
     protected abstract Tag[] _RequiredData { get; }
@@ -60,6 +54,9 @@ internal abstract record CvmCondition
         };
     }
 
+    protected CvmCondition()
+    { }
+
     #endregion
 
     #region Instance Members
@@ -91,14 +88,10 @@ internal abstract record CvmCondition
         if (!_Conditions[code].IsConditionSatisfied(database, xAmount, yAmount))
             return false;
 
- 
-
         return true;
     }
 
     public abstract CvmConditionCode GetConditionCode();
-
-  
 
     private bool IsRequiredDataPresent(IQueryTlvDatabase database)
     {
@@ -115,15 +108,13 @@ internal abstract record CvmCondition
     }
 
     protected abstract bool IsConditionSatisfied(KernelDatabase database, Money xAmount, Money yAmount);
-     
-     
 
     #endregion
 
-    #region Operator Overrideserrides
+    #region Operator Overrides
 
     public static implicit operator byte(CvmCondition value) => (byte) value.GetConditionCode();
     public static implicit operator CvmConditionCode(CvmCondition value) => value.GetConditionCode();
 
-    #endregion 
+    #endregion
 }

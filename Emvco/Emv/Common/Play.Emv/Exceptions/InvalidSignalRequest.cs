@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-using Play.Codecs.Exceptions;
 using Play.Core.Exceptions;
 using Play.Emv.Icc;
 
 namespace Play.Emv.Exceptions;
 
 /// <summary>
-///     When an internal error occurs when sending a signal to a terminal or reader process. These error occur because something is incorrectly configured or coded in our code base 
+///     When an internal error occurs when sending a signal to a terminal or reader process. These error occur because
+///     something is incorrectly configured or coded in our code base
 /// </summary>
 /// <remarks>This error is logically similar to a <see cref="Level2Error.TerminalDataError" /> /></remarks>
 public class InvalidSignalRequest : PlayInternalException

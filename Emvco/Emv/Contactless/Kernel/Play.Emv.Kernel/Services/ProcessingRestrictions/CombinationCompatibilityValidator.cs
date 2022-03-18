@@ -17,6 +17,8 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
         HandleApplicationActivationStatus(database);
     }
 
+    #endregion
+
     #region PRE.1 - PRE.3
 
     /// <remarks>EMV Book C-2 Section PRE.1 - PRE.3 </remarks>
@@ -29,18 +31,17 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
             return;
 
         ApplicationVersionNumberCard versionNumbe
-                   ApplicationVersionNumberCard.Decode(database.Get(ApplicationVersionNumberCard.Tag).EncodeValue().AsSpan());
+        ApplicationVersionNumberCard.Decode(database.Get(ApplicationVersionNumberCard.Tag).EncodeValue().AsSpan());
 
         ApplicationVersionNumberTerminal versionNumberTer
-                   ApplicationVersionNumberTerminal.Decode(database.Get(ApplicationVersionNumberTerminal.Tag).EncodeValue().AsSpan());
+        ApplicationVersionNumberTerminal.Decode(database.Get(ApplicationVersionNumberTerminal.Tag).EncodeValue().AsSpan());
 
         if ((ushort) versionNumberCard != (ushort) versionNumberTerminal)
             database.Set(TerminalVerificationResultCodes.IccAndTerminalHaveDifferentApplicationVersions);
     }
 
-    #en
-
-    #endregiondregion
+#en
+#endregiondregion
 
     #region PRE.4 - PRE.8
 
@@ -60,8 +61,8 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
     public static void HandleApplicationNotYetActive(KernelDatabase database, TransactionDate transactionDate)
     {
         ApplicationEffectiveDate applicationE
-            
-            ApplicationEffectiveDate.Decode(database.Get(ApplicationEffectiveDate.Tag).EncodeValue().AsSpan());
+
+        ApplicationEffectiveDate.Decode(database.Get(ApplicationEffectiveDate.Tag).EncodeValue().AsSpan());
 
         if ((uint) transactionDate < (uint) applicationEffectiveDate)
             database.Set(TerminalVerificationResultCodes.ExpiredApplication);
@@ -71,14 +72,12 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
     public static void HandleExpiredApplication(KernelDatabase database, TransactionDate transactionDate)
     {
-        ApplicationExpirationDate applic
-            nDate =
+        ApplicationExpirationDate applic nDate =
             ApplicationExpirationDate.Decode(database.Get(ApplicationExpirationDate.Tag).EncodeValue().AsSpan());
 
         if ((uint) transactionDate > (uint) applicationExpirationDate)
             database.Set(TerminalVerificationResultCodes.ExpiredApplication);
-  
-}
+    }
 
     #endregion
 }

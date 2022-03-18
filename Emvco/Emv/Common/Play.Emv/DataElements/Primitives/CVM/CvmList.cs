@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Numerics;
 
-using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Codecs; 
+using Play.Codecs;
 using Play.Emv.Exceptions;
 using Play.Globalization.Currency;
 
@@ -69,7 +68,7 @@ public record CvmList : DataElement<BigInteger>, IResolveXAndYAmountForCvmSelect
         new(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray().AsSpan()[..4]), currencyCode);
 
     public Money GetYAmount(NumericCurrencyCode currencyCode) =>
-        new(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray().AsSpan()[4..8]),  currencyCode);
+        new(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray().AsSpan()[4..8]), currencyCode);
 
     #endregion
 

@@ -78,7 +78,8 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     #region CVM.2 - CVM.4
 
     /// <notes>
-    /// Notes: In addition, the terminal shall set the ‘PIN entry required and PIN pad not present or not working’ bit(b5 of byte 3) of the TVR to 1 for the following cases:
+    ///     Notes: In addition, the terminal shall set the ‘PIN entry required and PIN pad not present or not working’ bit(b5
+    ///     of byte 3) of the TVR to 1 for the following cases:
     ///     o The CVM was online PIN and online PIN was not supported
     ///     o The CVM included any form of offline PIN, and neither form of offline PIN was supported
     /// </notes>
@@ -89,8 +90,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
         NumericCurrencyCode currencyCode,
         AmountAuthorizedNumeric transactionAmount,
         ReaderCvmRequiredLimit readerCvmThreshold)
-    { 
-
+    {
         if (!database!.IsPlaintextPinForIccVerificationSupported())
             database.Set(TerminalVerificationResultCodes.PinEntryRequiredAndPinPadNotPresentOrNotWorking);
 
@@ -112,8 +112,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     public static void SetNoCvmResults(KernelDatabase database)
     {
         database.Update(CvmPerformedOutcome.NoCvm);
-        CvmResults results = new(CvmCodes.None, new CvmConditionCode(0),
-                                 CvmResultCodes.Successful);
+        CvmResults results = new(CvmCodes.None, new CvmConditionCode(0), CvmResultCodes.Successful);
         database.Update(results);
     }
 
@@ -125,8 +124,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     public static void SetOfflinePlaintextPinCvmResults(KernelDatabase database)
     {
         database.Update(CvmPerformedOutcome.ConfirmationCodeVerified);
-        CvmResults results = new(CvmCodes.OfflinePlaintextPin, new CvmConditionCode(0),
-                                 CvmResultCodes.Successful);
+        CvmResults results = new(CvmCodes.OfflinePlaintextPin, new CvmConditionCode(0), CvmResultCodes.Successful);
         database.Update(results);
     }
 
@@ -144,8 +142,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     public static void CreateResultForCardholderVerificationNotSupported(KernelDatabase database)
     {
         database.Update(CvmPerformedOutcome.NoCvm);
-        CvmResults results = new(CvmCodes.None, new CvmConditionCode(0),
-                                 CvmResultCodes.Unknown);
+        CvmResults results = new(CvmCodes.None, new CvmConditionCode(0), CvmResultCodes.Unknown);
         database.Update(results);
     }
 
@@ -180,8 +177,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     public static void CreateIccDataMissingCvmResult(KernelDatabase database)
     {
         database.Update(CvmPerformedOutcome.NoCvm);
-        CvmResults results = new(CvmCodes.None, new CvmConditionCode(0),
-                                 CvmResultCodes.Unknown);
+        CvmResults results = new(CvmCodes.None, new CvmConditionCode(0), CvmResultCodes.Unknown);
         database.Update(results);
         database.Set(TerminalVerificationResultCodes.IccDataMissing);
     }
@@ -199,13 +195,12 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 
         for (int i = 0; i < cvmQueue.Count; i++)
         {
-            if (cvmQueue.TrySelect(database)) 
-                return; 
+            if (cvmQueue.TrySelect(database))
+                return;
         }
     }
 
     #endregion
-     
 
     #endregion
 }

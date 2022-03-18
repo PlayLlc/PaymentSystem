@@ -5,11 +5,9 @@ using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.DataExchange;
-using Play.Emv.Kernel.Exceptions;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
-using Play.Globalization.Time.Seconds;
 using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Icc.Messaging.Apdu;
 

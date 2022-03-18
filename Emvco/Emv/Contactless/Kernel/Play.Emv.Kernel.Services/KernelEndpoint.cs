@@ -6,7 +6,6 @@ using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
-using Play.Messaging.Exceptions.Moto;
 
 using InvalidMessageRoutingException = Play.Messaging.Exceptions.Moto.InvalidMessageRoutingException;
 

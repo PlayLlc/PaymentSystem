@@ -1,6 +1,4 @@
-﻿using System;
-
-using Play.Emv.Exceptions;
+﻿using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;

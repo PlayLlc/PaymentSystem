@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 
-namespace Play.Emv.Kernel.Databases;
+namespace Play.Emv.Kernel.Databases.Tlv;
 
 public class DatabaseValue : TagLengthValue, IEquatable<DatabaseValue>, IEqualityComparer<DatabaseValue>
 {

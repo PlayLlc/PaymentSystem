@@ -12,7 +12,6 @@ using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Templates;
-using Play.Globalization.Time;
 using Play.Globalization.Time.Seconds;
 using Play.Messaging;
 
@@ -151,7 +150,6 @@ public partial class Idle : KernelState
         {
             _KernelDatabase.Activate(kernelSessionId);
             _KernelDatabase.Update(transaction.AsTagLengthValueArray());
-
 
             OutcomeParameterSet.Builder outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
             UserInterfaceRequestData.Builder userInterfaceBuilder = UserInterfaceRequestData.GetBuilder();

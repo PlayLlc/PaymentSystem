@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Play.Globalization.Currency;
+﻿namespace Play.Globalization.Currency;
 
 /// <summary>
 ///     Identifies a currency according to ISO 4217
