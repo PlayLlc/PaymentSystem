@@ -1,9 +1,7 @@
-﻿using System;
-
-using Play.Emv.Database;
+﻿using Play.Emv.Database;
 using Play.Emv.DataElements;
 
-namespace Play.Emv.Kernel.Services;
+namespace Play.Emv.Kernel.Services.Verification;
 
 public class CardholderVerificationMethodService
 {
@@ -37,7 +35,7 @@ public class CardholderVerificationMethodService
 
         for (int i = 0; i < cardholderVerificationMethods.Length; i++)
         {
-            if (result == CardholderVerificationMethodCodes.Fail)
+            if (result == CvmCodes.Fail)
                 return result;
 
             if (cardholderVerificationMethods[i] == CardholderVerificationMethods.OfflinePlaintextPin)

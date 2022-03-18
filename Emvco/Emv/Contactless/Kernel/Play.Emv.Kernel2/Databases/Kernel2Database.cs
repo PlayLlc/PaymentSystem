@@ -24,7 +24,7 @@ public class Kernel2Database : KernelDatabase
         Kernel2Configuration kernel2Configuration,
         IHandleTerminalRequests terminalEndpoint,
         ITlvDatabase tlvDatabase,
-        IKernelCertificateDatabase kernelCertificateDatabase) : base(terminalEndpoint, tlvDatabase, kernelCertificateDatabase)
+        ICertificateDatabase certificateDatabase) : base(terminalEndpoint, tlvDatabase, certificateDatabase)
     {
         _Kernel2Configuration = kernel2Configuration;
     }

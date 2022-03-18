@@ -9,7 +9,7 @@ using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Kernel.Databases;
 
-public class KernelCertificateDatabase : IKernelCertificateDatabase
+public class CertificateDatabase : ICertificateDatabase
 {
     #region Instance Values
 
@@ -19,7 +19,7 @@ public class KernelCertificateDatabase : IKernelCertificateDatabase
 
     #region Constructor
 
-    public KernelCertificateDatabase(CertificateAuthorityDataset[] certificateAuthorityDataset)
+    public CertificateDatabase(CertificateAuthorityDataset[] certificateAuthorityDataset)
     {
         _Certificates = certificateAuthorityDataset.ToImmutableSortedDictionary(a => a.GetRid(), b => b);
     }
@@ -62,7 +62,7 @@ public class KernelCertificateDatabase : IKernelCertificateDatabase
         if (!_Certificates.TryGetValue(rid, out CertificateAuthorityDataset? dataset))
         {
             throw new
-                InvalidOperationException($"The {nameof(KernelCertificateDatabase)} does not have a {nameof(CertificateAuthorityDataset)} for the {nameof(RegisteredApplicationProviderIndicator)} value: [{rid}]");
+                InvalidOperationException($"The {nameof(CertificateDatabase)} does not have a {nameof(CertificateAuthorityDataset)} for the {nameof(RegisteredApplicationProviderIndicator)} value: [{rid}]");
         }
 
         return dataset.TryGet(index, out result);

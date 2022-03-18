@@ -1,6 +1,6 @@
 ﻿using Play.Emv.DataElements;
 
-namespace Play.Emv.Kernel.Services;
+namespace Play.Emv.Kernel.Services.Verification;
 
 public interface IVerifyCardholderSignature
 {

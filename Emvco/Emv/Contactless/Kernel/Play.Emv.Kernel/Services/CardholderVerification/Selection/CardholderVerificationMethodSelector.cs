@@ -4,7 +4,7 @@ using Play.Emv.DataElements;
 using Play.Emv.Kernel.Databases;
 using Play.Globalization.Currency;
 
-namespace Play.Emv.Kernel.Services._CardholderVerification;
+namespace Play.Emv.Kernel.Services.Selection;
 
 public class CardholderVerificationMethodSelector : ISelectCardholderVerificationMethod
 {
@@ -77,14 +77,23 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 
     #region CVM.2 - CVM.4
 
-    // BUG: What if the transaction's currency is different than the base currency of the application? We need to make sure we're using TransactionReferenceCurrencyCode if needed. Go back and check the logic to implement that for terminals that support more than one currency
+    /// <notes>
+    /// Notes: In addition, the terminal shall set the ‘PIN entry required and PIN pad not present or not working’ bit(b5 of byte 3) of the TVR to 1 for the following cases:
+    ///     o The CVM was online PIN and online PIN was not supported
+    ///     o The CVM included any form of offline PIN, and neither form of offline PIN was supported
+    /// </notes>
+    /// <remarks>EMV Book C-2 Section CVM.2 - CVM.4 & EMV Book 3 Section 10.5</remarks>
     /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
     public void CreateResultForOfflineVerification(
         KernelDatabase database,
         NumericCurrencyCode currencyCode,
         AmountAuthorizedNumeric transactionAmount,
         ReaderCvmRequiredLimit readerCvmThreshold)
-    {
+    { 
+
+        if (!database!.IsPlaintextPinForIccVerificationSupported())
+            database.Set(TerminalVerificationResultCodes.PinEntryRequiredAndPinPadNotPresentOrNotWorking);
+
         if (transactionAmount.AsMoney(currencyCode) > readerCvmThreshold.AsMoney(currencyCode))
         {
             SetOfflinePlaintextPinCvmResults(database);
@@ -103,8 +112,8 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     public static void SetNoCvmResults(KernelDatabase database)
     {
         database.Update(CvmPerformedOutcome.NoCvm);
-        CvmResults results = new(CardholderVerificationMethodCodes.None, new CvmConditionCode(0),
-                                 CardholderVerificationMethodResultCodes.Successful);
+        CvmResults results = new(CvmCodes.None, new CvmConditionCode(0),
+                                 CvmResultCodes.Successful);
         database.Update(results);
     }
 
@@ -116,8 +125,8 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     public static void SetOfflinePlaintextPinCvmResults(KernelDatabase database)
     {
         database.Update(CvmPerformedOutcome.ConfirmationCodeVerified);
-        CvmResults results = new(CardholderVerificationMethodCodes.OfflinePlaintextPin, new CvmConditionCode(0),
-                                 CardholderVerificationMethodResultCodes.Successful);
+        CvmResults results = new(CvmCodes.OfflinePlaintextPin, new CvmConditionCode(0),
+                                 CvmResultCodes.Successful);
         database.Update(results);
     }
 
@@ -135,8 +144,8 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     public static void CreateResultForCardholderVerificationNotSupported(KernelDatabase database)
     {
         database.Update(CvmPerformedOutcome.NoCvm);
-        CvmResults results = new(CardholderVerificationMethodCodes.None, new CvmConditionCode(0),
-                                 CardholderVerificationMethodResultCodes.Unknown);
+        CvmResults results = new(CvmCodes.None, new CvmConditionCode(0),
+                                 CvmResultCodes.Unknown);
         database.Update(results);
     }
 
@@ -171,15 +180,15 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     public static void CreateIccDataMissingCvmResult(KernelDatabase database)
     {
         database.Update(CvmPerformedOutcome.NoCvm);
-        CvmResults results = new(CardholderVerificationMethodCodes.None, new CvmConditionCode(0),
-                                 CardholderVerificationMethodResultCodes.Unknown);
+        CvmResults results = new(CvmCodes.None, new CvmConditionCode(0),
+                                 CvmResultCodes.Unknown);
         database.Update(results);
         database.Set(TerminalVerificationResultCodes.IccDataMissing);
     }
 
     #endregion
 
-    #region CVM.9 - Selection Loop
+    #region CVM.9 - CVM.25 - Selection Loop
 
     /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>

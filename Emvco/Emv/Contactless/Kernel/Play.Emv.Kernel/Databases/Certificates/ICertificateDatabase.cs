@@ -4,7 +4,7 @@ using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Kernel.Databases;
 
-public interface IKernelCertificateDatabase
+public interface ICertificateDatabase
 {
     #region Instance Members
 
@@ -16,7 +16,7 @@ public interface IKernelCertificateDatabase
     public bool IsRevoked(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex caPublicKeyIndex);
 
     /// <summary>
-    ///     Updates the <see cref="IKernelCertificateDatabase" /> by removing any <see cref="CaPublicKeyCertificate" />
+    ///     Updates the <see cref="ICertificateDatabase" /> by removing any <see cref="CaPublicKeyCertificate" />
     ///     that has expired since the last time they were checked
     /// </summary>
     public void PurgeRevokedCertificates();

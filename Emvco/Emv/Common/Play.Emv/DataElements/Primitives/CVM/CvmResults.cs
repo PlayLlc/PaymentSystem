@@ -28,7 +28,7 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
     public CvmResults(uint value) : base(value)
     { }
 
-    public CvmResults(CvmCode cvmPerformed, CvmConditionCode cvmConditionCode, CardholderVerificationMethodResultCodes cvmResultCode) :
+    public CvmResults(CvmCode cvmPerformed, CvmConditionCode cvmConditionCode, CvmResultCodes cvmResultCode) :
         base(Create(cvmPerformed, cvmConditionCode, cvmResultCode))
     { }
 
@@ -36,7 +36,7 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
 
     #region Instance Members
 
-    private static uint Create(CvmCode cvmCode, CvmConditionCode cvmConditionCode, CardholderVerificationMethodResultCodes cvmResultCode)
+    private static uint Create(CvmCode cvmCode, CvmConditionCode cvmConditionCode, CvmResultCodes cvmResultCode)
     {
         uint result = (uint) cvmCode << 16;
         result |= (uint) cvmConditionCode << 8;

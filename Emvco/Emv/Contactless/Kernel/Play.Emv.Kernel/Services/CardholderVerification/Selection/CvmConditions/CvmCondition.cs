@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 
 using Play.Ber.Identifiers;
 using Play.Emv.Database;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
+using Play.Emv.Kernel.Databases;
+using Play.Globalization.Currency;
 
-namespace Play.Emv.Kernel.Services;
+namespace Play.Emv.Kernel.Services.Selection.CvmConditions;
 
 // HACK: We need to change this pattern to allow us to use dependency injection to allow adding proprietary CvmConditions from the Acquiring banks or Card Networks
 internal abstract record CvmCondition
@@ -19,6 +19,10 @@ internal abstract record CvmCondition
 
     #endregion
 
+    protected CvmCondition()
+    {
+
+    }
     #region Instance Values
 
     protected abstract Tag[] _RequiredData { get; }
@@ -76,32 +80,25 @@ internal abstract record CvmCondition
 
     public static bool Exists(CvmConditionCode code) => _Conditions.ContainsKey(code);
 
-    public static bool IsConditionSatisfied(CvmConditionCode code, IQueryTlvDatabase database)
+    public static bool IsCvmSupported(KernelDatabase database, CvmConditionCode code, Money xAmount, Money yAmount)
     {
         if (!_Conditions.ContainsKey(code))
             return false;
 
-        if (!_Conditions[code].IsCvmSupported(database))
-            return false;
-
         if (!_Conditions[code].IsRequiredDataPresent(database))
             return false;
+
+        if (!_Conditions[code].IsConditionSatisfied(database, xAmount, yAmount))
+            return false;
+
+ 
 
         return true;
     }
 
     public abstract CvmConditionCode GetConditionCode();
 
-    private bool IsCvmSupported(IQueryTlvDatabase database)
-    {
-        if (!IsRequiredDataPresent(database))
-            return false;
-
-        if (!IsConditionSatisfied(database))
-            return false;
-
-        return true;
-    }
+  
 
     private bool IsRequiredDataPresent(IQueryTlvDatabase database)
     {
@@ -117,67 +114,16 @@ internal abstract record CvmCondition
         return true;
     }
 
-    protected abstract bool IsConditionSatisfied(IQueryTlvDatabase database);
-
-    //{
-    //    TerminalCapabilities terminalCapabilities =
-    //        TerminalCapabilities.Decode(database.Get(TerminalCapabilities.Tag).EncodeValue().AsSpan());
-
-    //    TransactionType transactionType = TransactionType.Decode(database.Get(TransactionType.Tag).EncodeValue().AsSpan());
-    //    TerminalType terminalType = TerminalType.Decode(database.Get(TerminalType.Tag).EncodeValue().AsSpan());
-    //    PosEntryMode posEntryMode = PosEntryMode.Decode(database.Get(PosEntryMode.Tag).EncodeValue().AsSpan());
-    //    AmountAuthorizedNumeric amountAuthorized =
-    //        AmountAuthorizedNumeric.Decode(database.Get(AmountAuthorizedNumeric.Tag).EncodeValue().AsSpan());
-    //    TransactionCurrencyCode transactionCurrencyCode =
-    //        TransactionCurrencyCode.Decode(database.Get(TransactionCurrencyCode.Tag).EncodeValue().AsSpan());
-    //    ApplicationCurrencyCode applicationCurrencyCode =
-    //        ApplicationCurrencyCode.Decode(database.Get(ApplicationCurrencyCode.Tag).EncodeValue().AsSpan());
-    //}
-
-    protected static bool IsUnattended(TerminalType terminalT
-               terminalType.IsEnvironmeTerminalType.EnvironmentTypeentType.Unattended);
-
-    protected static bool IsCashback(TransactionType transactionT
-               (transactionType == TransactionTypes.CashAdvance) || (transactionType == TransactionTypes.FastCashDebit);
-
-    protected static bool IsManual(PosEntryMode va
-               (value == PosEntryModes.ManualEntry) || (value == PosEntryModes.ManualEntryFallback);
-
-    protected static bool IsManualCash(PosEntryMode posEntryMode, TransactionType transactionT
-               IsCashback(transactionType) && IsManual(posEntryMode);
-
-    protected static bool IsPurchase(TransactionType transactionType)
-    {
-        if (transactionType == TransactionTypes.GoodsAndServicesDebit)
-            return true;
-
-        if (transactionType == TransactionTypes.GoodsAndServicesWithCashDisbursementDebit)
-            return true;
-
-        return false;
-    }
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    protected static bool IsCashTransaction(IQueryTlvDatabase database)
-    {
-        TransactionType transactionType = TransactionType.Decode(database.Get(TransactionType.Tag).EncodeValue().AsSpan());
-
-        if (transactionType == TransactionTypes.CashAdvance)
-            return true;
-
-        if (transactionType == TransactionTypes.FastCashDebit)
-            return true;
-
-        return false;
+    protected abstract bool IsConditionSatisfied(KernelDatabase database, Money xAmount, Money yAmount);
+     
+     
 
     #endregion
 
     #region Operator Overrideserrides
 
     public static implicit operator byte(CvmCondition value) => (byte) value.GetConditionCode();
-    public static implicit operator CvmConditionCode(CvmCondition value) => value.GetCondition
+    public static implicit operator CvmConditionCode(CvmCondition value) => value.GetConditionCode();
 
-    #endregion
-egion
+    #endregion 
 }

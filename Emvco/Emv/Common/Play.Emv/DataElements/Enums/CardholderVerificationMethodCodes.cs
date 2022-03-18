@@ -7,63 +7,63 @@ using Play.Core.Extensions;
 
 namespace Play.Emv.DataElements;
 
-public record CardholderVerificationMethodCodes : EnumObject<byte>
+public record CvmCodes : EnumObject<byte>
 {
     #region Static Metadata
 
-    private static readonly ImmutableSortedDictionary<byte, CardholderVerificationMethodCodes> _ValueObjectMap;
+    private static readonly ImmutableSortedDictionary<byte, CvmCodes> _ValueObjectMap;
 
-    /// <remarks>HEx: 0x00; Decimal: 0</remarks>
-    public static readonly CardholderVerificationMethodCodes Fail;
+    /// <remarks>Hex: 0x00; Decimal: 0; Binary: 0b00000000 </remarks>
+    public static readonly CvmCodes Fail;
 
     /// <summary>
     ///     If supported, Personal Identification Number (PIN) plaintext for offline PIN verification is performed by the
     ///     terminal and delivered to the ICC without the additional encryption and tamper proof requirements of the Offline
     ///     Encrypted Pin CVM
     /// </summary>
-    /// <remarks>HEx: 0x01; Decimal: 1</remarks>
-    public static readonly CardholderVerificationMethodCodes OfflinePlaintextPin;
+    /// <remarks>Hex: 0x01; Decimal: 1; Binary: 0b00000001</remarks>
+    public static readonly CvmCodes OfflinePlaintextPin;
 
     /// <summary>
     ///     If supported, Personal Identification Number (PIN) encipherment is performed by the terminal using an asymmetric
     ///     based encipherment mechanism in order to ensure the secure transfer of a PIN from a secure tamper-evident PIN pad
     ///     and sent to the Acquirer for validation
     /// </summary>
-    /// <remarks>HEx: 0x02; Decimal: 2</remarks>
-    public static readonly CardholderVerificationMethodCodes OnlineEncipheredPin;
+    /// <remarks>Hex: 0x02; Decimal: 2; Binary: 0b00000010</remarks>
+    public static readonly CvmCodes OnlineEncipheredPin;
 
     /// <summary>
     ///     Both Offline Plaintext Pin and Signature verification are performed
     /// </summary>
-    /// <remarks>Hex: 0x03; Decimal: 3</remarks>
-    public static readonly CardholderVerificationMethodCodes OfflinePlaintextPinAndSignature;
+    /// <remarks>Hex: 0x03; Decimal: 3; Binary: 0b00000011</remarks>
+    public static readonly CvmCodes OfflinePlaintextPinAndSignature;
 
     /// <summary>
     ///     If supported, Personal Identification Number (PIN) encipherment for offline PIN verification is performed by the
     ///     terminal using an asymmetric based encipherment mechanism in order to ensure the secure transfer of a PIN from a
     ///     secure tamper-evident PIN pad to the ICC wrapped in RSA encryption.
     /// </summary>
-    /// <remarks>HEx: 0x04; Decimal: 4</remarks>
-    public static readonly CardholderVerificationMethodCodes OfflineEncipheredPin;
+    /// <remarks>Hex: 0x04; Decimal: 4; Binary: 0b00000100</remarks>
+    public static readonly CvmCodes OfflineEncipheredPin;
 
     /// <summary>
     ///     Both Offline Enciphered Pin and Signature verification are performed
     /// </summary>
-    /// <remarks>HEx: 05; Decimal: 5</remarks>
-    public static readonly CardholderVerificationMethodCodes OfflineEncipheredPinAndSignature;
+    /// <remarks>Hex: 05; Decimal: 5; Binary: 0b00000101</remarks>
+    public static readonly CvmCodes OfflineEncipheredPinAndSignature;
 
     /// <summary>
     ///     Someone makes a half-assed attempt to sign their name on a terminal screen that results in a digital signature that
     ///     is unrecognizable from their actual signature. Cough* Cough*, signature validation is a pseudo science
     /// </summary>
-    /// <remarks>HEx: 0x1E; Decimal: 30</remarks>
-    public static readonly CardholderVerificationMethodCodes SignaturePaper;
+    /// <remarks>Hex: 0x1E; Decimal: 30; Binary: 0b00011110</remarks>
+    public static readonly CvmCodes SignaturePaper;
 
     /// <summary>
     ///     No CVM is required for this transaction
     /// </summary>
-    /// <remarks>HEx: 0x3F; Decimal: 63</remarks>
-    public static readonly CardholderVerificationMethodCodes None;
+    /// <remarks>Hex: 0x1F; Decimal: 63; Binary: 0b00011111</remarks>
+    public static readonly CvmCodes None;
 
     private const byte _UnrelatedBits = 0b11000000;
 
@@ -71,18 +71,18 @@ public record CardholderVerificationMethodCodes : EnumObject<byte>
 
     #region Constructor
 
-    static CardholderVerificationMethodCodes()
+    static CvmCodes()
     {
-        Fail = new CardholderVerificationMethodCodes(0b00000000);
-        OfflinePlaintextPin = new CardholderVerificationMethodCodes(0b00000001);
-        OnlineEncipheredPin = new CardholderVerificationMethodCodes(0b00000010);
-        OfflinePlaintextPinAndSignature = new CardholderVerificationMethodCodes(0b00000011);
-        OfflineEncipheredPin = new CardholderVerificationMethodCodes(0b00000100);
-        OfflineEncipheredPinAndSignature = new CardholderVerificationMethodCodes(0b00000101);
-        SignaturePaper = new CardholderVerificationMethodCodes(0b00011110);
-        None = new CardholderVerificationMethodCodes(0b00011111);
+        Fail = new CvmCodes(0b00000000);
+        OfflinePlaintextPin = new CvmCodes(0b00000001);
+        OnlineEncipheredPin = new CvmCodes(0b00000010);
+        OfflinePlaintextPinAndSignature = new CvmCodes(0b00000011);
+        OfflineEncipheredPin = new CvmCodes(0b00000100);
+        OfflineEncipheredPinAndSignature = new CvmCodes(0b00000101);
+        SignaturePaper = new CvmCodes(0b00011110);
+        None = new CvmCodes(0b00011111);
 
-        _ValueObjectMap = new Dictionary<byte, CardholderVerificationMethodCodes>
+        _ValueObjectMap = new Dictionary<byte, CvmCodes>
         {
             {Fail, Fail},
             {OfflinePlaintextPin, OfflinePlaintextPin},
@@ -95,7 +95,7 @@ public record CardholderVerificationMethodCodes : EnumObject<byte>
         }.ToImmutableSortedDictionary();
     }
 
-    private CardholderVerificationMethodCodes(byte value) : base(value)
+    private CvmCodes(byte value) : base(value)
     { }
 
     #endregion
@@ -103,9 +103,9 @@ public record CardholderVerificationMethodCodes : EnumObject<byte>
     #region Instance Members
 
     /// <exception cref="InvalidOperationException"></exception>
-    public static CardholderVerificationMethodCodes Get(CvmCode cvmCode)
+    public static CvmCodes Get(CvmCode cvmCode)
     {
-        if (_ValueObjectMap.TryGetValue(((byte) cvmCode).GetMaskedValue(_UnrelatedBits), out CardholderVerificationMethodCodes? result))
+        if (_ValueObjectMap.TryGetValue(((byte) cvmCode).GetMaskedValue(_UnrelatedBits), out CvmCodes? result))
             throw new InvalidOperationException($"The {nameof(cvmCode)} with the value: [{cvmCode}] could not be recognized");
 
         return result!;
@@ -124,11 +124,11 @@ public record CardholderVerificationMethodCodes : EnumObject<byte>
 
     #region Operator Overrides
 
-    public static implicit operator CvmCode(CardholderVerificationMethodCodes value) => new(value._Value);
-    public static bool operator ==(CardholderVerificationMethodCodes left, CvmCode right) => left.Equals(right);
-    public static bool operator !=(CardholderVerificationMethodCodes left, CvmCode right) => !left.Equals(right);
-    public static bool operator ==(CvmCode left, CardholderVerificationMethodCodes right) => right.Equals(left);
-    public static bool operator !=(CvmCode left, CardholderVerificationMethodCodes right) => !right.Equals(left);
+    public static implicit operator CvmCode(CvmCodes value) => new(value._Value);
+    public static bool operator ==(CvmCodes left, CvmCode right) => left.Equals(right);
+    public static bool operator !=(CvmCodes left, CvmCode right) => !left.Equals(right);
+    public static bool operator ==(CvmCode left, CvmCodes right) => right.Equals(left);
+    public static bool operator !=(CvmCode left, CvmCodes right) => !right.Equals(left);
 
     #endregion
 }

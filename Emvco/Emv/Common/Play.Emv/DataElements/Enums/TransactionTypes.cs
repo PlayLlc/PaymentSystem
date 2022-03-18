@@ -6,6 +6,9 @@ public record TransactionTypes : EnumObject<byte>
 {
     #region Static Metadata
 
+    /// <summary>
+    /// A purchase of goods and services that are debited from the cardholders account
+    /// </summary>
     /// <remarks>Hex: 0: Decimal: 0</remarks>
     public static readonly TransactionTypes GoodsAndServicesDebit;
 
@@ -36,6 +39,9 @@ public record TransactionTypes : EnumObject<byte>
     /// <remarks>Hex: 8: Decimal: 8</remarks>
     public static readonly TransactionTypes GiroPostalBankingDebit;
 
+    /// <summary>
+    /// A transaction in which the cardholder receives a cash disbursement, such as a credit or loan that is disbursed and debited to their account
+    /// </summary>
     /// <remarks>Hex: 9: Decimal: 9</remarks>
     public static readonly TransactionTypes GoodsAndServicesWithCashDisbursementDebit;
 
@@ -50,8 +56,11 @@ public record TransactionTypes : EnumObject<byte>
 
     /// <remarks>Hex: 11: Decimal: 17</remarks>
     public static readonly TransactionTypes QuasiCashAndScripDebit;
-
+    /// <summary>
+    /// A transaction in which the cardholder receives cash from the teller, such as a quick loan, ATM withdrawal using a credit card, and so on
+    /// </summary> 
     /// <remarks>Hex: 17: Decimal: 23</remarks>
+
     public static readonly TransactionTypes FastCashDebit;
 
     /// <remarks>Hex: 18: Decimal: 24</remarks>

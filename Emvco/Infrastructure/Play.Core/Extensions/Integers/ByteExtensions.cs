@@ -12,6 +12,8 @@ public static class ByteExtensions
     public static bool AreBitsSet(this byte value, byte bitsToCompare) => (value & bitsToCompare) == bitsToCompare;
     public static bool AreAnyBitsSet(this byte value, byte bitsToCompare) => (value & bitsToCompare) != 0;
 
+    public static byte GetBitIntersection(this byte value, byte bitsToCompare) => (byte) (value & bitsToCompare);
+
     public static bool AreBitsSet(this byte value, params Bits[] bitsToCompare)
     {
         for (int index = 0; index < bitsToCompare.Length; index++)

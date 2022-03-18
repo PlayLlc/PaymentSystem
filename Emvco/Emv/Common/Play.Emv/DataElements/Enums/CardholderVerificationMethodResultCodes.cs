@@ -5,31 +5,31 @@ using Play.Core;
 
 namespace Play.Emv.DataElements
 {
-    public record CardholderVerificationMethodResultCodes : EnumObject<byte>
+    public record CvmResultCodes : EnumObject<byte>
     {
         #region Static Metadata
 
         /// <remarks>Hex: 0x00; Decimal: 0</remarks>
-        public static readonly CardholderVerificationMethodResultCodes Unknown;
+        public static readonly CvmResultCodes Unknown;
 
         /// <remarks>Hex: 0x01; Decimal: 1</remarks>
-        public static readonly CardholderVerificationMethodResultCodes Failed;
+        public static readonly CvmResultCodes Failed;
 
         /// <remarks>Hex: 0x02; Decimal: 2</remarks>
-        public static readonly CardholderVerificationMethodResultCodes Successful;
+        public static readonly CvmResultCodes Successful;
 
         #endregion
 
         #region Constructor
 
-        static CardholderVerificationMethodResultCodes()
+        static CvmResultCodes()
         {
-            Unknown = new CardholderVerificationMethodResultCodes(0);
-            Failed = new CardholderVerificationMethodResultCodes(1);
-            Successful = new CardholderVerificationMethodResultCodes(2);
+            Unknown = new CvmResultCodes(0);
+            Failed = new CvmResultCodes(1);
+            Successful = new CvmResultCodes(2);
         }
 
-        private CardholderVerificationMethodResultCodes(byte value) : base(value)
+        private CvmResultCodes(byte value) : base(value)
         { }
 
         #endregion

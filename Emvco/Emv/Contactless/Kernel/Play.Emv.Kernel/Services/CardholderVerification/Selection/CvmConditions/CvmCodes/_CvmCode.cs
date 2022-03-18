@@ -1,47 +1,28 @@
 ﻿using Play.Emv.Database;
 
-namespace Play.Emv.Kernel.Services.CvmCodes;
+namespace Play.Emv.Kernel.Services.Selection.CvmConditions.CvmCodes;
 
 internal class _CvmCode
 {
     #region Instance Members
 
-    /*
-        • For EMV-defined CVM codes, support is indicated in Terminal Capabilities.  
-        • For Combination CVMs, both CVM codes must be supported.
-        • Fail CVM shall always be considered supported.
-        A CVM can be performed only if it is both recognised and supported.
 
-        YES
-        FailCardholderVerificationIfThisCvmIsUnsuccessful() => !_Value.IsBitSet(Bits.Seven);
-
-        YES
-        ApplySucceedingCvRuleIfThisCvmIsUnsuccessful() => _Value.IsBitSet(Bits.Seven);
-
-        
-        FailCvmProcessing() => _Value.GetMaskedValue(0b11000000) == 0;
-        PlaintextPinVerificationPerformedByIcc() => !_Value.IsBitSet(Bits.One);
-        EncipheredPinVerifiedOnline() => !_Value.IsBitSet(Bits.Two);
-        PlaintextPinVerificationPerformedByIccAndSignaturePaper() => !_Value.AreBitsSet(Bits.One, Bits.Two);
-        EncipheredPinVerificationPerformedByIcc() => !_Value.IsBitSet(Bits.Three);
-        EncipheredPinVerificationPerformedByIccAndSignaturePaper() => !_Value.AreBitsSet(Bits.One, Bits.Three);
-        SignaturePaper() => !_Value.AreBitsSet(0b00011110);
-        NoCvmRequired() => !_Value.AreBitsSet(0b00011111);
-     */
-
-    private static bool IsCvmSupported(IQueryTlvDatabase database)
-    { }
+  
 
     /// <remarks>EMV Book 3 Section 10.5.2</remarks>
     public static void IsOnlinePinSupported()
     {
+ 
+
+
+
+
         /*
          * If online PIN processing is a required CVM as determined by the above process, 
 the processing may not be successfully performed for any one of the following 
-reasons:
-• The terminal does not support online PIN. In this case, the terminal shall set 
-the ‘PIN entry required and PIN pad not present or not working’ bit in the 
-TVR to 1.
+reasons: 
+
+
 • The terminal supports online PIN, but the PIN pad is malfunctioning. In this 
 case, the terminal shall set the ‘PIN entry required and PIN pad not present 
 or not working’ bit in the TVR to 1.

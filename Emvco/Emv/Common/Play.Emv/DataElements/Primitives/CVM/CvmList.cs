@@ -65,11 +65,11 @@ public record CvmList : DataElement<BigInteger>, IResolveXAndYAmountForCvmSelect
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
-    public Money GetXAmount(ApplicationCurrencyCode currencyCode) =>
-        new(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray().AsSpan()[..4]), (NumericCurrencyCode) currencyCode);
+    public Money GetXAmount(NumericCurrencyCode currencyCode) =>
+        new(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray().AsSpan()[..4]), currencyCode);
 
-    public Money GetYAmount(ApplicationCurrencyCode currencyCode) =>
-        new(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray().AsSpan()[4..8]), (NumericCurrencyCode) currencyCode);
+    public Money GetYAmount(NumericCurrencyCode currencyCode) =>
+        new(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray().AsSpan()[4..8]),  currencyCode);
 
     #endregion
 

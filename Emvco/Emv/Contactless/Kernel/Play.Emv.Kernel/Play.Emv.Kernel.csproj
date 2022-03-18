@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <Folder Include="Services\SequenceNumberManagement\" />
-    <Folder Include="Services\_CardholderVerification\" />
   </ItemGroup>
 
 </Project>

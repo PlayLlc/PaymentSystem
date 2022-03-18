@@ -4,6 +4,6 @@ namespace Play.Emv.DataElements;
 
 public interface IResolveXAndYAmountForCvmSelection
 {
-    public Money GetXAmount(ApplicationCurrencyCode currencyCode);
-    public Money GetYAmount(ApplicationCurrencyCode currencyCode);
+    public Money GetXAmount(NumericCurrencyCode currencyCode);
+    public Money GetYAmount(NumericCurrencyCode currencyCode);
 }

@@ -6,7 +6,7 @@ using Play.Emv.Security.Certificates;
 
 namespace Play.Emv.Kernel.Databases;
 
-public class SecurityConfiguration
+public class CertificateDatabaseConfiguration
 {
     #region Instance Values
 
@@ -16,7 +16,7 @@ public class SecurityConfiguration
 
     #region Constructor
 
-    public SecurityConfiguration(CaPublicKeyCertificate[] certificateAuthorityPublicKeyCertificates)
+    public CertificateDatabaseConfiguration(CaPublicKeyCertificate[] certificateAuthorityPublicKeyCertificates)
     {
         CheckCore.ForNullOrEmptySequence(certificateAuthorityPublicKeyCertificates, nameof(certificateAuthorityPublicKeyCertificates));
         _CertificateMap = certificateAuthorityPublicKeyCertificates.ToImmutableSortedDictionary(a => a.GetId(), b => b);
