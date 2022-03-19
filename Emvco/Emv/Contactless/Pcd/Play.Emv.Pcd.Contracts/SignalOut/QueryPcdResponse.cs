@@ -48,8 +48,6 @@ public record QueryPcdResponse : ResponseSignal
     public bool IsSuccessful() => _RApduSignal.IsSuccessful();
     public TransactionSessionId GetTransactionSessionId() => _TransactionSessionId;
     public TagLengthValue[] AsTagLengthValues() => _Codec.DecodeTagLengthValues(GetData().AsSpan());
-
-
     public RApduSignal GetRApduSignal() => _RApduSignal;
 
     public ErrorIndication GetErrorIndication()

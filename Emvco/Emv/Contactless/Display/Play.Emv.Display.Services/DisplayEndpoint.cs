@@ -4,7 +4,7 @@ using Play.Emv.Display.Contracts;
 using Play.Emv.Messaging;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
- 
+
 namespace Play.Emv.Display.Services;
 
 public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposable
@@ -81,7 +81,7 @@ public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposa
     /// <exception cref="Play.Messaging.Exceptions.InvalidMessageRoutingException"></exception>
     public void Handle(ResponseMessage message)
     {
-        throw new Play.Messaging.Exceptions.InvalidMessageRoutingException(message, this);
+        throw new InvalidMessageRoutingException(message, this);
     }
 
     #endregion

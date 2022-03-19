@@ -44,9 +44,6 @@ public static class UIntExtension
 
     public static bool HasValue(this uint value, uint valueToCheck) => (value & valueToCheck) != 0;
     public static bool IsBitSet(this uint value, byte bitPosition) => (value & ((uint) 1 << bitPosition)) != 0;
-
-    
-
     public static bool IsEven(this uint value) => (value % 2) == 0;
 
     /// <summary>

@@ -9,7 +9,7 @@ using Play.Emv.Ber.Exceptions;
 using Play.Emv.DataExchange;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Kernel.Databases; 
+using Play.Emv.Kernel.Databases;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalIn;

@@ -8,10 +8,11 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 
-namespace Play.Emv.Ber.DataElements 
+namespace Play.Emv.Ber.DataElements
 {
     /// <summary>
-    /// Indicates the CVM capability of the Terminal and Reader when the transaction amount is greater than the Reader CVM Required Limit. 
+    ///     Indicates the CVM capability of the Terminal and Reader when the transaction amount is greater than the Reader CVM
+    ///     Required Limit.
     /// </summary>
     public record CvmCapabilityCvmRequired : DataElement<byte>
     {
@@ -58,6 +59,5 @@ namespace Play.Emv.Ber.DataElements
         public new byte[] EncodeValue(int length) => EncodeValue();
 
         #endregion
-         
     }
 }

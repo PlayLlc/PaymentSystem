@@ -5,7 +5,8 @@ using Play.Emv.Ber.Exceptions;
 namespace Play.Emv.Ber.DataElements
 {
     /// <summary>
-    /// PCVC3(Track1) indicates to the Kernel the positions in the discretionary data field of the Track 1 Data where the CVC3 (Track1) digits must be copied.
+    ///     PCVC3(Track1) indicates to the Kernel the positions in the discretionary data field of the Track 1 Data where the
+    ///     CVC3 (Track1) digits must be copied.
     /// </summary>
     public record PositionOfCardVerificationCode3Track1 : DataElement<ulong>
     {

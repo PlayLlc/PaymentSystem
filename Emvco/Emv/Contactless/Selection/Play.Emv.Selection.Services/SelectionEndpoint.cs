@@ -98,7 +98,7 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
         if (message is SelectApplicationDefinitionFileInfoResponse appletFci)
             Handle(appletFci);
         else
-            throw new Play.Messaging.Exceptions.InvalidMessageRoutingException(message, this);
+            throw new InvalidMessageRoutingException(message, this);
     }
 
     public void Handle(SelectApplicationDefinitionFileInfoResponse response)

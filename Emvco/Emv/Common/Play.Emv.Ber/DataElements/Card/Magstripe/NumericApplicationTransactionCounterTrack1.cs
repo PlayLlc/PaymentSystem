@@ -5,7 +5,8 @@ using Play.Emv.Ber.Exceptions;
 namespace Play.Emv.Ber.DataElements
 {
     /// <summary>
-    /// The value of NATC(Track1) represents the number of digits of the Application Transaction Counter to be included in the discretionary data field of Track 1 Data. 
+    ///     The value of NATC(Track1) represents the number of digits of the Application Transaction Counter to be included in
+    ///     the discretionary data field of Track 1 Data.
     /// </summary>
     public record NumericApplicationTransactionCounterTrack1 : DataElement<ulong>
     {

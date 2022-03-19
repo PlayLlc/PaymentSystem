@@ -129,14 +129,17 @@ public class PreProcessingIndicator
         ZeroAmountHasBeenSetEvent? zeroAmountHasBeenSet =
             SetZeroAmount(amountAuthorizedMoney, _TransactionProfile.IsZeroAmountAllowedForOffline());
         SetContactlessApplicationNotAllowed(amountAuthorizedMoney,
-                                            _TransactionProfile.GetReaderContactlessTransactionLimit().AsMoney(cultureProfile.GetNumericCurrencyCode()),
+                                            _TransactionProfile.GetReaderContactlessTransactionLimit()
+                                                .AsMoney(cultureProfile.GetNumericCurrencyCode()),
                                             _TransactionProfile.IsZeroAmountAllowedForOffline());
         ReaderContactlessFloorLimitExceededHasBeenSetEvent? readerContactlessFloorLimitExceededHasBeenSet =
             SetReaderContactlessFloorLimitExceeded(amountAuthorizedMoney,
-                                                   _TransactionProfile.GetReaderContactlessTransactionLimit().AsMoney(cultureProfile.GetNumericCurrencyCode()));
+                                                   _TransactionProfile.GetReaderContactlessTransactionLimit()
+                                                       .AsMoney(cultureProfile.GetNumericCurrencyCode()));
         ReaderCvmRequiredLimitExceededHasBeenSetEvent? readerCvmRequiredLimitExceeded =
             SetReaderCvmRequiredLimitExceeded(amountAuthorizedMoney,
-                                              _TransactionProfile.GetReaderCvmRequiredLimit().AsMoney(cultureProfile.GetNumericCurrencyCode()));
+                                              _TransactionProfile.GetReaderCvmRequiredLimit()
+                                                  .AsMoney(cultureProfile.GetNumericCurrencyCode()));
         SetOnlineCryptogramRequired(readerContactlessFloorLimitExceededHasBeenSet);
         SetOnlineCryptogramRequired(statusCheckRequestedHasBeenSet);
         SetOnlineCryptogramRequired(zeroAmountHasBeenSet);

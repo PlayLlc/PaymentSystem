@@ -19,18 +19,16 @@ public abstract class Template : ConstructedValue
     {
         IEncodeBerDataObjects?[] children = GetChildren();
 
-        List<PrimitiveValue> primitiveDescendents = GetChildren()
-            .OfType<PrimitiveValue>().ToList();
+        List<PrimitiveValue> primitiveDescendents = GetChildren().OfType<PrimitiveValue>().ToList();
 
-        primitiveDescendents.AddRange(children
-                                          .OfType<Template>()
-                                          .SelectMany(b => b.GetPrimitiveDescendants()));
+        primitiveDescendents.AddRange(children.OfType<Template>().SelectMany(b => b.GetPrimitiveDescendants()));
 
         return primitiveDescendents.ToArray();
     }
 
     /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
     public uint GetTagLengthValueByteCount() => GetTagLengthValueByteCount(_Codec);
+
     public TagLengthValue AsTagLengthValue() => AsTagLengthValue(_Codec);
     public ushort GetValueByteCount() => _Codec.GetValueByteCount(GetChildren());
     public override ushort GetValueByteCount(BerCodec codec) => GetValueByteCount();

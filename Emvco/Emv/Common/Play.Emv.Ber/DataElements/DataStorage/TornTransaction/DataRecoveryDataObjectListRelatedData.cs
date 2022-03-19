@@ -4,9 +4,8 @@ using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements
 {
-
     /// <summary>
-    /// Command data field of the RECOVER AC command, coded according to DRDOL.
+    ///     Command data field of the RECOVER AC command, coded according to DRDOL.
     /// </summary>
     public record DataRecoveryDataObjectListRelatedData : DataElement<ushort>
     {

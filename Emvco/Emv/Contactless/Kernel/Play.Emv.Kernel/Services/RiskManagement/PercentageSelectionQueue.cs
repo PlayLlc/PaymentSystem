@@ -83,8 +83,6 @@ internal class PercentageSelectionQueue : IPercentageSelectionQueue
             for (; _RandomNumberQueue.Count < _EnqueueCeiling;)
                 EnqueueRandomPercentage();
         }).ConfigureAwait(false);
-
-
     }
 
     #endregion

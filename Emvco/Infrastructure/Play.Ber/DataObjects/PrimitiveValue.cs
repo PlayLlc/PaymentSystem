@@ -10,7 +10,7 @@ namespace Play.Ber.DataObjects;
 
 public abstract record PrimitiveValue : IEqualityComparer<PrimitiveValue>, IEncodeBerDataObjects, IRetrievePrimitiveValueMetadata
 {
-    #region Instance Members 
+    #region Instance Members
 
     public TagLengthValue AsTagLengthValue(BerCodec codec)
     {

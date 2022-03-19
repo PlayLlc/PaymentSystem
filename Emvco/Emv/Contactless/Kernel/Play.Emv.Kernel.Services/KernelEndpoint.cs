@@ -95,7 +95,7 @@ public class KernelEndpoint : IMessageChannel, IHandleKernelRequests, ISendKerne
         else if (message is QueryTerminalResponse outKernelResponse)
             Handle(outKernelResponse);
         else
-            throw new Play.Messaging.Exceptions.InvalidMessageRoutingException(message, this);
+            throw new InvalidMessageRoutingException(message, this);
     }
 
     public void Handle(QueryPcdResponse message) => _KernelRetriever.Enqueue(message);

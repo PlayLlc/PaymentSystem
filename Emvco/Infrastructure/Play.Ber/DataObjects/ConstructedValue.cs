@@ -14,11 +14,7 @@ namespace Play.Ber.DataObjects;
 public abstract class ConstructedValue : IEncodeBerDataObjects, IRetrieveConstructedValueMetadata, IEqualityComparer<ConstructedValue>,
     IEquatable<ConstructedValue>
 {
-
     #region Instance Members
-
-
-
 
     public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
     public abstract Tag GetTag();

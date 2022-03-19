@@ -7,6 +7,7 @@ namespace Play.Core.Extensions;
 public static partial class ReadOnlySpanExtensions
 {
     #region Instance Members
+
     public static bool IsValueEqual(this ReadOnlySpan<byte> value, ReadOnlySpan<byte> other)
     {
         if (value.Length != other.Length)
@@ -20,6 +21,7 @@ public static partial class ReadOnlySpanExtensions
 
         return true;
     }
+
     public static byte[] ConcatArrays(this ReadOnlySpan<byte> value, ReadOnlySpan<byte> other)
     {
         using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(value.Length + other.Length);

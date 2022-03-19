@@ -6,7 +6,6 @@ using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements
 {
-
     public record PosCardholderInteractionInformation : DataElement<uint>, IEqualityComparer<PosCardholderInteractionInformation>
     {
         #region Static Metadata
@@ -17,14 +16,6 @@ namespace Play.Emv.Ber.DataElements
 
         #endregion
 
-
-        public bool IsSecondTapRequiredForWallet() => _Value.IsBitSet(1);
-        public bool IsOnDeviceCvmRequired() => _Value.IsBitSet(9);
-        public bool IsAcknowledgementRequired() => _Value.IsBitSet(10);
-        public bool IsOfflinePinChangeRequired() => _Value.IsBitSet(11);
-        public bool IsContextConflicting() => _Value.IsBitSet(12);
-        public bool IsOnDeviceCvmVerificationSuccessful() => _Value.IsBitSet(9);
-
         #region Constructor
 
         public PosCardholderInteractionInformation(uint value) : base(value)
@@ -34,11 +25,15 @@ namespace Play.Emv.Ber.DataElements
 
         #region Instance Members
 
+        public bool IsSecondTapRequiredForWallet() => _Value.IsBitSet(1);
+        public bool IsOnDeviceCvmRequired() => _Value.IsBitSet(9);
+        public bool IsAcknowledgementRequired() => _Value.IsBitSet(10);
+        public bool IsOfflinePinChangeRequired() => _Value.IsBitSet(11);
+        public bool IsContextConflicting() => _Value.IsBitSet(12);
+        public bool IsOnDeviceCvmVerificationSuccessful() => _Value.IsBitSet(9);
         public override PlayEncodingId GetEncodingId() => EncodingId;
         public override Tag GetTag() => Tag;
         public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-
 
         #endregion
 
@@ -52,14 +47,12 @@ namespace Play.Emv.Ber.DataElements
         /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
         public static PosCardholderInteractionInformation Decode(ReadOnlySpan<byte> value)
         {
-
             Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
             uint result = PlayCodec.BinaryCodec.DecodeToUInt32(value);
 
             return new PosCardholderInteractionInformation(result);
         }
-
 
         #endregion
 

@@ -5,9 +5,9 @@ using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements
 {
-
     /// <summary>
-    /// The Mobile Support Indicator informs the Card that the Kernel supports extensions for mobile and requires on device cardholder verification.
+    ///     The Mobile Support Indicator informs the Card that the Kernel supports extensions for mobile and requires on device
+    ///     cardholder verification.
     /// </summary>
     public record MobileSupportIndicator : DataElement<byte>, IEqualityComparer<MobileSupportIndicator>
     {
@@ -17,6 +17,7 @@ namespace Play.Emv.Ber.DataElements
         public static readonly MobileSupportIndicator Default = new(0);
         public static readonly Tag Tag = 0x9F7E;
         private const byte _ByteLength = 1;
+
         #endregion
 
         #region Constructor
@@ -27,11 +28,10 @@ namespace Play.Emv.Ber.DataElements
         #endregion
 
         #region Instance Members
-         
+
         public override PlayEncodingId GetEncodingId() => EncodingId;
         public override Tag GetTag() => Tag;
         public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
- 
 
         #endregion
 

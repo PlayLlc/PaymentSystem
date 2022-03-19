@@ -73,7 +73,7 @@ internal class RelayResistanceProtocolValidator
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-      private MeasuredRelayResistanceProcessingTime CalculateMeasuredRrpTime(Seconds timeElapsed, IQueryTlvDatabase tlvDatabase)
+    private MeasuredRelayResistanceProcessingTime CalculateMeasuredRrpTime(Seconds timeElapsed, IQueryTlvDatabase tlvDatabase)
     {
         TerminalExpectedTransmissionTimeForRelayResistanceCapdu terminalExpectedCapduTransmissionTime =
             TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Decode(tlvDatabase
@@ -107,9 +107,9 @@ internal class RelayResistanceProtocolValidator
         MinimumRelayResistanceGracePeriod minGracePeriod =
             MinimumRelayResistanceGracePeriod.Decode(tlvDatabase.Get(MinimumRelayResistanceGracePeriod.Tag).EncodeValue().AsSpan());
 
-        RelaySeconds expectedProcessingTime = (RelaySeconds)minTimeForProcessingRelayResistanceApdu - (RelaySeconds)minGracePeriod;
+        RelaySeconds expectedProcessingTime = (RelaySeconds) minTimeForProcessingRelayResistanceApdu - (RelaySeconds) minGracePeriod;
 
-        if ((RelaySeconds)processingTime < (expectedProcessingTime < RelaySeconds.Zero ? 0 : expectedProcessingTime))
+        if ((RelaySeconds) processingTime < (expectedProcessingTime < RelaySeconds.Zero ? 0 : expectedProcessingTime))
             return false;
 
         return true;
@@ -118,5 +118,4 @@ internal class RelayResistanceProtocolValidator
     public bool IsRelayResistanceWithinMaximumRange() => throw new NotImplementedException();
 
     #endregion
-
 }

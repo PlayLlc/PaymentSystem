@@ -12,7 +12,7 @@ public static class ByteSpec
     public const byte Six = 1 << 5;
     public const byte Seven = 1 << 6;
     public const byte Eight = 1 << 7;
-    public const byte MostSignificantBit = Eight; 
+    public const byte MostSignificantBit = Eight;
 
     #endregion
 }

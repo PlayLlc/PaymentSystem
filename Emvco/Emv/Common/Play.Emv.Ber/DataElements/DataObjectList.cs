@@ -146,7 +146,8 @@ public abstract record DataObjectList : DataElement<byte[]>
         }
 
         return new DataObjectListResult(result.ToArray());
-    } 
+    }
+
     public virtual CommandTemplate AsCommandTemplate(IQueryTlvDatabase database) => AsDataObjectListResult(database).AsCommandTemplate();
     public virtual CommandTemplate AsCommandTemplate(TagLengthValue[] values) => AsDataObjectListResult(values).AsCommandTemplate();
 

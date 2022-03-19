@@ -16,15 +16,14 @@ public record CardholderVerificationCode3Track2 : DataElement<ushort>, IEquality
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F61;
+    private const byte _ByteLength = 2;
 
     #endregion
-     
 
     #region Constructor
 
     public CardholderVerificationCode3Track2(ushort value) : base(value)
-    { 
-    }
+    { }
 
     #endregion
 
@@ -55,16 +54,15 @@ public record CardholderVerificationCode3Track2 : DataElement<ushort>, IEquality
     /// <exception cref="BerParsingException"></exception>
     public static CardholderVerificationCode3Track2 Decode(ReadOnlySpan<byte> value)
     {
-
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
         ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
+
         return new CardholderVerificationCode3Track2(result);
     }
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
     public new byte[] EncodeValue(int length) => EncodeValue();
 
-    private const byte _ByteLength = 2;
     #endregion
 
     #region Equality

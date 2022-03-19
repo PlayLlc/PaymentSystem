@@ -4,6 +4,7 @@ namespace Play.Core.Extensions;
 
 public static partial class ReadOnlySpanExtensions
 {
+    #region Instance Members
 
     public static bool IsValueEqual(this ReadOnlySpan<char> value, ReadOnlySpan<char> other)
     {
@@ -18,4 +19,6 @@ public static partial class ReadOnlySpanExtensions
 
         return true;
     }
+
+    #endregion
 }

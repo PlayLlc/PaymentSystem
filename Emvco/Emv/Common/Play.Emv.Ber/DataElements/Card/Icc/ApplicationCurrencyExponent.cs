@@ -8,7 +8,8 @@ using Play.Emv.Ber.Exceptions;
 namespace Play.Emv.Ber.DataElements
 {
     /// <summary>
-    /// Indicates the implied position of the decimal point from the right of the amount represented in accordance with[ISO 4217]
+    ///     Indicates the implied position of the decimal point from the right of the amount represented in accordance with[ISO
+    ///     4217]
     /// </summary>
     public record ApplicationCurrencyExponent : DataElement<byte>, IEqualityComparer<ApplicationCurrencyExponent>
     {

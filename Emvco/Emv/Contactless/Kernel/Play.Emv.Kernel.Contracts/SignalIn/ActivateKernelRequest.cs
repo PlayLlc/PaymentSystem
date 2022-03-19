@@ -70,7 +70,8 @@ public record ActivateKernelRequest : RequestSignal
 
         // TODO: Do we need to flatten the primitive values returned from the ICC when
         // TODO: inserting into the DB?
-        buffer.AddRange(((SelectApplicationDefinitionFileInfoResponse)_FileControlInformation).GetFileControlInformation().GetPrimitiveDescendants());
+        buffer.AddRange(((SelectApplicationDefinitionFileInfoResponse) _FileControlInformation).GetFileControlInformation()
+                        .GetPrimitiveDescendants());
 
         if (_TagsToRead != null)
             buffer.Add(_TagsToRead);

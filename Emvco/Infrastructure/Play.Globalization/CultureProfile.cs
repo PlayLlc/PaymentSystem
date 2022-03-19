@@ -53,7 +53,7 @@ public class CultureProfile : IEquatable<CultureProfile>, IEqualityComparer<Cult
     public string GetFiatFormat(Money amount)
     {
         int minorUnitLength = GetMinorUnitLength();
-        decimal toBase = ToBaseFiat((ulong)amount, minorUnitLength);
+        decimal toBase = ToBaseFiat((ulong) amount, minorUnitLength);
 
         return toBase.ToString($"C{minorUnitLength}", _CultureInfo);
     }

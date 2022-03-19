@@ -7,9 +7,6 @@ namespace Play.Emv.Ber.Enums;
 
 public sealed record CryptogramTypes : EnumObject<byte>
 {
-     
-     private const byte _UnrelatedBits = 0b00111111;
-
     #region Static Metadata
 
     private static readonly ImmutableSortedDictionary<byte, CryptogramTypes> _ValueObjectMap;
@@ -22,6 +19,8 @@ public sealed record CryptogramTypes : EnumObject<byte>
 
     /// <value>Decimal: 64; Hexadecimal: 0x40</value>
     public static readonly CryptogramTypes TransactionCryptogram;
+
+    private const byte _UnrelatedBits = 0b00111111;
 
     #endregion
 
@@ -54,11 +53,8 @@ public sealed record CryptogramTypes : EnumObject<byte>
     public static bool IsValid(byte value) => _ValueObjectMap.ContainsKey(value.GetMaskedValue(_UnrelatedBits));
     public int CompareTo(CryptogramTypes other) => _Value.CompareTo(other._Value);
 
-    public static bool TryGet(byte value, out CryptogramTypes? result)
-    { 
-
-        return _ValueObjectMap.TryGetValue(value.GetMaskedValue(_UnrelatedBits), out result);
-    }
+    public static bool TryGet(byte value, out CryptogramTypes? result) =>
+        _ValueObjectMap.TryGetValue(value.GetMaskedValue(_UnrelatedBits), out result);
 
     #endregion
 

@@ -36,7 +36,7 @@ public record TerminalIdentification : DataElement<char[]>, IEqualityComparer<Te
     public override string ToString() => AsToken();
     public Span<char> AsSpan() => _Value.AsSpan()[^_ByteLength..];
     public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
-    public string AsToken() => new string(_Value.AsSpan()[^_ByteLength..]);
+    public string AsToken() => new(_Value.AsSpan()[^_ByteLength..]);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
@@ -78,10 +78,13 @@ public record TerminalIdentification : DataElement<char[]>, IEqualityComparer<Te
         return x.Equals(y);
     }
 
-    public bool Equals(InterfaceDeviceSerialNumber interfaceDeviceSerialNumber) => ((ReadOnlySpan<char>)interfaceDeviceSerialNumber).IsValueEqual((ReadOnlySpan<char>)_Value);
+    public bool Equals(InterfaceDeviceSerialNumber interfaceDeviceSerialNumber) =>
+        ((ReadOnlySpan<char>) interfaceDeviceSerialNumber).IsValueEqual((ReadOnlySpan<char>) _Value);
+
     public int GetHashCode(TerminalIdentification obj) => obj.GetHashCode();
 
     #endregion
+
     #region Operator Overrides
 
     public static bool operator ==(InterfaceDeviceSerialNumber left, TerminalIdentification right) => left.Equals(right);

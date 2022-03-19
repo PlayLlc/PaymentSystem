@@ -5,7 +5,7 @@ using Play.Emv.Ber.Exceptions;
 namespace Play.Emv.Ber.DataElements
 {
     /// <summary>
-    /// Proprietary merchant data that may be requested by the Card.
+    ///     Proprietary merchant data that may be requested by the Card.
     /// </summary>
     public record MerchantCustomData : DataElement<byte>
     {
@@ -52,6 +52,5 @@ namespace Play.Emv.Ber.DataElements
         public new byte[] EncodeValue(int length) => EncodeValue();
 
         #endregion
-
     }
 }

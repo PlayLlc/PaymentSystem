@@ -2,10 +2,16 @@
 
 public abstract record DataExchangeList<_T> : DataElement<_T[]>
 {
+    #region Static Metadata
+
+    protected static readonly EmvCodec _Codec = EmvCodec.GetBerCodec();
+
+    #endregion
+
     #region Instance Values
 
     protected new readonly Queue<_T> _Value;
-    protected static readonly EmvCodec _Codec = EmvCodec.GetBerCodec();
+
     #endregion
 
     #region Constructor

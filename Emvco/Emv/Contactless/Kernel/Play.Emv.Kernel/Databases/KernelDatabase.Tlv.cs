@@ -38,8 +38,10 @@ namespace Play.Emv.Kernel.Databases
         public virtual PrimitiveValue Get(Tag tag)
         {
             if (!IsActive())
+            {
                 throw new
                     TerminalDataException($"The method {nameof(Get)} cannot be accessed because {nameof(KernelDatabase)} is not active");
+            }
 
             return _TlvDatabase.Get(tag);
         }

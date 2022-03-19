@@ -8,7 +8,7 @@ using Play.Emv.Ber.Exceptions;
 namespace Play.Emv.Ber.DataElements
 {
     /// <summary>
-    /// Working variable to store the reference control parameter of the GENERATE AC command.
+    ///     Working variable to store the reference control parameter of the GENERATE AC command.
     /// </summary>
     public record ReferenceControlParameter : DataElement<byte>, IEqualityComparer<ReferenceControlParameter>
     {

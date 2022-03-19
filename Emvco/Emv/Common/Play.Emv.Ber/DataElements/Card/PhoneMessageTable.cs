@@ -6,14 +6,16 @@ using Play.Emv.Ber.Exceptions;
 namespace Play.Emv.Ber.DataElements
 {
     /// <summary>
-    /// The Phone Message Table is a variable length list of entries of eight bytes each, and defines for the selected AID the message and status identifiers as a function of the POS Cardholder Interaction Information. Each entry in the Phone Message Table contains the fields shown in the table below.
+    ///     The Phone Message Table is a variable length list of entries of eight bytes each, and defines for the selected AID
+    ///     the message and status identifiers as a function of the POS Cardholder Interaction Information. Each entry in the
+    ///     Phone Message Table contains the fields shown in the table below.
     /// </summary>
     public record PhoneMessageTable : DataElement<byte>, IEqualityComparer<PhoneMessageTable>
     {
         #region Static Metadata
 
         public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
-        public static readonly Tag Tag = 0xDF8131; 
+        public static readonly Tag Tag = 0xDF8131;
 
         #endregion
 
@@ -30,8 +32,6 @@ namespace Play.Emv.Ber.DataElements
         public override Tag GetTag() => Tag;
         public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
-     
-
         #endregion
 
         #region Serialization
@@ -43,13 +43,11 @@ namespace Play.Emv.Ber.DataElements
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
         public static PhoneMessageTable Decode(ReadOnlySpan<byte> value)
-        { 
-
+        {
             byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
 
             return new PhoneMessageTable(result);
         }
-         
 
         #endregion
 

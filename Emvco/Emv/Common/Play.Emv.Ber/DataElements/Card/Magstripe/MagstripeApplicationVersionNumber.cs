@@ -5,7 +5,7 @@ using Play.Emv.Ber.Exceptions;
 namespace Play.Emv.Ber.DataElements
 {
     /// <summary>
-    /// Version number assigned by the payment system for the specific mag-stripe mode functionality of the Kernel.
+    ///     Version number assigned by the payment system for the specific mag-stripe mode functionality of the Kernel.
     /// </summary>
     public record MagstripeApplicationVersionNumberReader : DataElement<RelaySeconds>
     {

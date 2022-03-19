@@ -6,9 +6,11 @@ using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements
 {
-
     /// <summary>
-    /// The Payment Account Reference is a data object associated with an Application PAN. It allows acquirers and merchants to link transactions, whether tokenised or not, that are associated to the same underlying Application PAN. Lower case alphabetic characters are not permitted for the Payment Account Reference, however the Kernel is not expected to check this. 
+    ///     The Payment Account Reference is a data object associated with an Application PAN. It allows acquirers and
+    ///     merchants to link transactions, whether tokenised or not, that are associated to the same underlying Application
+    ///     PAN. Lower case alphabetic characters are not permitted for the Payment Account Reference, however the Kernel is
+    ///     not expected to check this.
     /// </summary>
     public record PaymentAccountReference : DataElement<char[]>, IEqualityComparer<PaymentAccountReference>
     {
@@ -20,7 +22,6 @@ namespace Play.Emv.Ber.DataElements
 
         #endregion
 
-        public static explicit operator ReadOnlySpan<char>(PaymentAccountReference value) => value._Value.AsSpan();
         #region Constructor
 
         public PaymentAccountReference(char[] value) : base(value)
@@ -76,6 +77,7 @@ namespace Play.Emv.Ber.DataElements
 
         #region Operator Overrides
 
+        public static explicit operator ReadOnlySpan<char>(PaymentAccountReference value) => value._Value.AsSpan();
 
         #endregion
     }

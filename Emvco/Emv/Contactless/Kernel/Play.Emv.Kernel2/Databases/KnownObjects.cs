@@ -393,6 +393,31 @@ public sealed class KnownObjects : IEquatable<KnownObjects>, IEqualityComparer<K
 
     public static bool TryGet(Tag value, out KnownObjects result) => _ValueObjectMap.TryGetValue(value, out result);
 
+    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    public static PrimitiveValue DecodeFirstPrimitiveAtRuntime(ReadOnlyMemory<byte> value)
+    {
+        TagLength tagLength = _Codec.DecodeTagLength(value.Span);
+
+        return _ValueObjectMap[tagLength.GetTag()]._Decoder(value[tagLength.GetValueOffset()..]);
+    }
+
+    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    public static IEnumerable<PrimitiveValue> DecodePrimitiveSiblingsAtRuntime(ReadOnlyMemory<byte> value)
+    {
+        EncodedTlvSiblings siblings = _Codec.DecodeChildren(value);
+        uint[] tags = siblings.GetTags();
+
+        for (int i = 0; i < siblings.SiblingCount(); i++)
+        {
+            if (!_ValueObjectMap.ContainsKey(tags[i]))
+                continue;
+
+            siblings.TryGetValueOctetsOfChild(tags[i], out ReadOnlyMemory<byte> childContentOctets);
+
+            yield return _ValueObjectMap[tags[i]]._Decoder(childContentOctets);
+        }
+    }
+
     #endregion
 
     #region Equality
@@ -416,31 +441,6 @@ public sealed class KnownObjects : IEquatable<KnownObjects>, IEqualityComparer<K
     #endregion
 
     #region Operator Overrides
-    
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
-    public static PrimitiveValue DecodeFirstPrimitiveAtRuntime(ReadOnlyMemory<byte> value)
-    {
-        TagLength tagLength = _Codec.DecodeTagLength(value.Span); 
-        return _ValueObjectMap[tagLength.GetTag()]._Decoder(value[tagLength.GetValueOffset()..]);
-    }
-
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
-    public static IEnumerable<PrimitiveValue> DecodePrimitiveSiblingsAtRuntime(ReadOnlyMemory<byte> value)
-    {
-        EncodedTlvSiblings siblings = _Codec.DecodeChildren(value);
-        uint[] tags = siblings.GetTags();
-
-        for (int i = 0; i < siblings.SiblingCount(); i++)
-        {
-            if (!_ValueObjectMap.ContainsKey(tags[i]))
-                continue;
-
-            siblings.TryGetValueOctetsOfChild(tags[i], out ReadOnlyMemory<byte> childContentOctets);
-
-            yield return _ValueObjectMap[tags[i]]._Decoder(childContentOctets); 
-        } 
-    }
-
 
     public static implicit operator Tag(KnownObjects value) => value._Tag;
 

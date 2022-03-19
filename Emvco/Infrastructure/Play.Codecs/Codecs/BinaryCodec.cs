@@ -73,6 +73,8 @@ public class BinaryCodec : PlayCodec
 
     #endregion
 
+    #region Serialization
+
     #region Decode To DecodedMetadata
 
     public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
@@ -88,6 +90,8 @@ public class BinaryCodec : PlayCodec
 
         return new DecodedResult<BigInteger>(UnsignedIntegerCodec.DecodeToBigInteger(value), value[0].GetNumberOfDigits());
     }
+
+    #endregion
 
     #endregion
 

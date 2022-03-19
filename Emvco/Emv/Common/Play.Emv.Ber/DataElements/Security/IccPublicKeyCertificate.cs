@@ -49,7 +49,6 @@ public record IccPublicKeyCertificate : DataElement<BigInteger>, IEqualityCompar
 
         return new IccPublicKeyCertificate(result);
     }
-     
 
     #endregion
 

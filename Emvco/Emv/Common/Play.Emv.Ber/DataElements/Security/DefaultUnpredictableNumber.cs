@@ -5,7 +5,9 @@ using Play.Emv.Ber.Exceptions;
 namespace Play.Emv.Ber.DataElements
 {
     /// <summary>
-    /// The <see cref="DefaultUnpredictableNumberDataObjectList"/> is the UDOL to be used for constructing the value field of the COMPUTE CRYPTOGRAPHIC CHECKSUM command if the UDOL in the Card is not present. The Default UDOL must contain as its only entry the tag and length of the Unpredictable Number (Numeric) and has the value: '9F6A04'.
+    ///     The <see cref="DefaultUnpredictableNumberDataObjectList" /> is the UDOL to be used for constructing the value field
+    ///     of the COMPUTE CRYPTOGRAPHIC CHECKSUM command if the UDOL in the Card is not present. The Default UDOL must contain
+    ///     as its only entry the tag and length of the Unpredictable Number (Numeric) and has the value: '9F6A04'.
     /// </summary>
     public record DefaultUnpredictableNumberDataObjectList : DataObjectList, IEqualityComparer<DefaultUnpredictableNumberDataObjectList>
     {
@@ -39,7 +41,7 @@ namespace Play.Emv.Ber.DataElements
 
         public override PlayEncodingId GetEncodingId() => EncodingId;
         public override Tag GetTag() => Tag;
-   
+
         #endregion
 
         #region Serialization

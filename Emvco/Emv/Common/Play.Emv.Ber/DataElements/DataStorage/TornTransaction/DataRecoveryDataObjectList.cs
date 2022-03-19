@@ -6,9 +6,9 @@ using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements
 {
-
     /// <summary>
-    /// A data object in the Card that provides the Kernel with a list of data objects that must be passed to the Card in the data field of the RECOVER AC command.
+    ///     A data object in the Card that provides the Kernel with a list of data objects that must be passed to the Card in
+    ///     the data field of the RECOVER AC command.
     /// </summary>
     public record DataRecoveryDataObjectList : DataObjectList
     {

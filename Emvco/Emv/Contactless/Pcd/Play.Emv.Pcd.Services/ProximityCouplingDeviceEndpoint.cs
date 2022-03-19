@@ -4,7 +4,6 @@ using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
- 
 
 namespace Play.Emv.Pcd.Services;
 
@@ -26,7 +25,7 @@ public class ProximityCouplingDeviceEndpoint : IMessageChannel, IHandlePcdReques
 
     #region Constructor
 
-    private ProximityCouplingDeviceEndpoint( 
+    private ProximityCouplingDeviceEndpoint(
         ICreateEndpointClient messageRouter,
         PcdProtocolConfiguration configuration,
         IProximityCouplingDeviceClient pcdClient)
@@ -109,7 +108,7 @@ public class ProximityCouplingDeviceEndpoint : IMessageChannel, IHandlePcdReques
     /// <exception cref="Play.Messaging.Exceptions.InvalidMessageRoutingException"></exception>
     public void Handle(ResponseMessage message)
     {
-        throw new Play.Messaging.Exceptions.InvalidMessageRoutingException(message, this);
+        throw new InvalidMessageRoutingException(message, this);
     }
 
     #endregion

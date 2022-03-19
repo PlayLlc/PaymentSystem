@@ -21,7 +21,6 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
     private readonly IssuerCodeTableIndex? _IssuerCodeTableIndex;
     private readonly LanguagePreference? _LanguagePreference;
     private readonly ProcessingOptionsDataObjectList? _ProcessingOptionsDataObjectList;
-  
 
     #endregion
 
@@ -127,8 +126,6 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
             _ProcessingOptionsDataObjectList
         };
     }
-
- 
 
     #endregion
 

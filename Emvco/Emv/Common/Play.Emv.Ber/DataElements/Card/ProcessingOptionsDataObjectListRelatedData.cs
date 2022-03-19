@@ -8,14 +8,15 @@ using Play.Emv.Ber.Exceptions;
 namespace Play.Emv.Ber.DataElements
 {
     /// <summary>
-    /// Command data field of the GET PROCESSING OPTIONS command, coded according to PDOL. 
+    ///     Command data field of the GET PROCESSING OPTIONS command, coded according to PDOL.
     /// </summary>
-    public record ProcessingOptionsDataObjectListRelatedData : DataElement<BigInteger>, IEqualityComparer<ProcessingOptionsDataObjectListRelatedData>
+    public record ProcessingOptionsDataObjectListRelatedData : DataElement<BigInteger>,
+        IEqualityComparer<ProcessingOptionsDataObjectListRelatedData>
     {
         #region Static Metadata
 
         public static readonly Tag Tag = 0xDF8111;
-        public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId; 
+        public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
 
         #endregion
 
@@ -43,13 +44,11 @@ namespace Play.Emv.Ber.DataElements
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
         public static ProcessingOptionsDataObjectListRelatedData Decode(ReadOnlySpan<byte> value)
-        { 
-
+        {
             BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
             return new ProcessingOptionsDataObjectListRelatedData(result);
         }
-         
 
         #endregion
 

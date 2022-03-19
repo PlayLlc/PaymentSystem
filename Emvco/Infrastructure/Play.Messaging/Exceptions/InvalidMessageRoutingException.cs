@@ -9,7 +9,7 @@ namespace Play.Messaging.Exceptions;
 public class InvalidMessageRoutingException : MessagingException
 {
     #region Constructor
-  
+
     public InvalidMessageRoutingException(
         string message,
         [CallerFilePath] string fileName = "",

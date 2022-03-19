@@ -16,7 +16,7 @@ public record SignedDynamicApplicationData : DataElement<BigInteger>, IEqualityC
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F4B;
 
-    #endregion 
+    #endregion
 
     #region Constructor
 
@@ -39,14 +39,12 @@ public record SignedDynamicApplicationData : DataElement<BigInteger>, IEqualityC
 
     #region Serialization
 
-     
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static SignedDynamicApplicationData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-     
+
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static SignedDynamicApplicationData Decode(ReadOnlySpan<byte> value)
-    { 
-
+    {
         BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
         return new SignedDynamicApplicationData(result);

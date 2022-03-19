@@ -37,11 +37,7 @@ public class FileControlInformationIssuerDiscretionaryDataAdf : FileControlInfor
 
     #region Instance Members
 
-
-
     public override Tag GetTag() => Tag;
-
-
 
     public override Tag[] GetChildTags()
     {

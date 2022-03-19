@@ -19,8 +19,6 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
         HandleApplicationActivationStatus(database);
     }
 
-    #endregion
-
     #region PRE.1 - PRE.3
 
     /// <remarks>EMV Book C-2 Section PRE.1 - PRE.3 </remarks>
@@ -32,17 +30,19 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
         if (!database.IsPresentAndNotEmpty(ApplicationVersionNumberCard.Tag))
             return;
 
-        ApplicationVersionNumberCard versionNumberCard=
-        ApplicationVersionNumberCard.Decode(database.Get(ApplicationVersionNumberCard.Tag).EncodeValue().AsSpan());
+        ApplicationVersionNumberCard versionNumberCard =
+            ApplicationVersionNumberCard.Decode(database.Get(ApplicationVersionNumberCard.Tag).EncodeValue().AsSpan());
 
-        ApplicationVersionNumberReader versionNumberReader=
-        ApplicationVersionNumberReader.Decode(database.Get(ApplicationVersionNumberReader.Tag).EncodeValue().AsSpan());
+        ApplicationVersionNumberReader versionNumberReader =
+            ApplicationVersionNumberReader.Decode(database.Get(ApplicationVersionNumberReader.Tag).EncodeValue().AsSpan());
 
         if ((ushort) versionNumberCard != (ushort) versionNumberReader)
             database.Set(TerminalVerificationResultCodes.IccAndTerminalHaveDifferentApplicationVersions);
     }
-     
-#endregion 
+
+    #endregion
+
+    #endregion
 
     #region PRE.4 - PRE.8
 
@@ -61,7 +61,8 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
     /// <exception cref="TerminalDataException"></exception>
     public static void HandleApplicationNotYetActive(KernelDatabase database, TransactionDate transactionDate)
     {
-        ApplicationEffectiveDate applicationEffectiveDate = ApplicationEffectiveDate.Decode(database.Get(ApplicationEffectiveDate.Tag).EncodeValue().AsSpan());
+        ApplicationEffectiveDate applicationEffectiveDate =
+            ApplicationEffectiveDate.Decode(database.Get(ApplicationEffectiveDate.Tag).EncodeValue().AsSpan());
 
         if ((uint) transactionDate < (uint) applicationEffectiveDate)
             database.Set(TerminalVerificationResultCodes.ExpiredApplication);

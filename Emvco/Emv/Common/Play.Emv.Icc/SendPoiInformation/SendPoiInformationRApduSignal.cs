@@ -14,10 +14,7 @@ public class SendPoiInformationRApduSignal : RApduSignal
     #region Instance Members
 
     public override bool IsSuccessful() => throw new NotImplementedException();
-
-    public Level1Error GetLevel1Error() =>
-        throw 
-            new NotImplementedException();
+    public Level1Error GetLevel1Error() => throw new NotImplementedException();
 
     #endregion
 }

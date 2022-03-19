@@ -6,7 +6,7 @@ namespace Play.Core.Extensions;
 public static class BigIntegerExtensions
 {
     #region Instance Members
-     
+
     /// <param name="buffer"></param>
     /// <returns>The amount of bytes written to the buffer</returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>

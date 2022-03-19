@@ -19,23 +19,20 @@ public record IssuerPublicKeyRemainder : DataElement<BigInteger>, IEqualityCompa
     public static readonly Tag Tag = 0x92;
 
     #endregion
-     
 
     #region Constructor
 
     public IssuerPublicKeyRemainder(BigInteger value) : base(value)
-    { 
-    }
+    { }
 
     #endregion
 
     #region Instance Members
-     
+
     public PublicKeyRemainder AsPublicKeyRemainder() => new(_Value);
-    public override PlayEncodingId GetEncodingId() => EncodingId; 
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
- 
 
     #endregion
 
@@ -47,12 +44,11 @@ public record IssuerPublicKeyRemainder : DataElement<BigInteger>, IEqualityCompa
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public static IssuerPublicKeyRemainder Decode(ReadOnlySpan<byte> value)
-    { 
+    {
         BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
         return new IssuerPublicKeyRemainder(result);
     }
-     
 
     #endregion
 
