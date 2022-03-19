@@ -156,7 +156,7 @@ public partial class Idle : KernelState
             OutcomeParameterSet.Builder outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
             UserInterfaceRequestData.Builder userInterfaceBuilder = UserInterfaceRequestData.GetBuilder();
 
-            userInterfaceBuilder.Set((MessageHoldTime)_KernelDatabase.Get(MessageHoldTime.Tag));
+            userInterfaceBuilder.Set((MessageHoldTime) _KernelDatabase.Get(MessageHoldTime.Tag));
             _KernelDatabase.Reset(outcomeParameterSetBuilder.Complete());
             _KernelDatabase.Reset(userInterfaceBuilder.Complete());
             _KernelDatabase.Reset(new ErrorIndication());
@@ -196,10 +196,8 @@ public partial class Idle : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     private void InitializeEmvDataObjects()
     {
-        CardDataInputCapability cardDataInputCapability =
-            (CardDataInputCapability)_KernelDatabase.Get(CardDataInputCapability.Tag); 
-        SecurityCapability securityCapability =
-            (SecurityCapability)_KernelDatabase.Get(SecurityCapability.Tag); 
+        CardDataInputCapability cardDataInputCapability = (CardDataInputCapability) _KernelDatabase.Get(CardDataInputCapability.Tag);
+        SecurityCapability securityCapability = (SecurityCapability) _KernelDatabase.Get(SecurityCapability.Tag);
 
         _KernelDatabase.Initialize(StaticDataAuthenticationTagList.Tag);
         _KernelDatabase.Update(new TerminalCapabilities(cardDataInputCapability, securityCapability));
@@ -383,9 +381,6 @@ public partial class Idle : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void EnqueueDataStorageId()
     {
-
-
-
         if (_KernelDatabase.TryGet(DataStorageId.Tag, out PrimitiveValue? dataStorageId))
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, dataStorageId!);
         else
@@ -525,8 +520,6 @@ public partial class Idle : KernelState
     /// <exception cref="TerminalDataException"></exception>
     public void SetTimeout(Kernel2Session session)
     {
-
-
         TimeoutValue timeout = (TimeoutValue) _KernelDatabase.Get(TimeoutValue.Tag);
 
         session.Timer.Start((Milliseconds) timeout, () => _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId())));

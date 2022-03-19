@@ -63,7 +63,6 @@ public partial class WaitingForGpoResponse : KernelState
     {
         if (!signal.IsSuccessful())
             return false;
-         
 
         _KernelDatabase.Update(MessageIdentifier.TryAgain);
         _KernelDatabase.Update(Status.ReadyToRead);
@@ -277,14 +276,15 @@ public partial class WaitingForGpoResponse : KernelState
             ReaderContactlessTransactionLimitWhenCvmIsOnDevice onDevice =
                 (ReaderContactlessTransactionLimitWhenCvmIsOnDevice) _KernelDatabase.Get(ReaderContactlessTransactionLimitWhenCvmIsOnDevice
                                                                                              .Tag);
-             
+
             session.Update(onDevice);
         }
         else
         {
             ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice onDevice =
-                (ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice)_KernelDatabase.Get(ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Tag);
-             
+                (ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice)
+                _KernelDatabase.Get(ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Tag);
+
             session.Update(onDevice);
         }
     }
@@ -427,16 +427,16 @@ public partial class WaitingForGpoResponse : KernelState
         if (IsOnDeviceCardholderVerificationSupported(applicationInterchangeProfile))
         {
             ReaderContactlessTransactionLimitWhenCvmIsOnDevice onDevice =
-                (ReaderContactlessTransactionLimitWhenCvmIsOnDevice)_KernelDatabase.Get(ReaderContactlessTransactionLimitWhenCvmIsOnDevice.Tag);
-             
+                (ReaderContactlessTransactionLimitWhenCvmIsOnDevice) _KernelDatabase.Get(ReaderContactlessTransactionLimitWhenCvmIsOnDevice
+                                                                                             .Tag);
+
             session.Update(onDevice);
         }
         else
         {
             ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice onDevice =
-                (ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice)_KernelDatabase
-                                                                                 .Get(ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice
-                                                                                          .Tag); 
+                (ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice)
+                _KernelDatabase.Get(ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Tag);
             session.Update(onDevice);
         }
     }

@@ -6,10 +6,9 @@ using Play.Emv.Ber;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
-using Play.Emv.Kernel.Databases.Certificates; 
+using Play.Emv.Kernel.Databases.Certificates;
 using Play.Emv.Kernel2.Configuration;
 using Play.Emv.Terminal.Contracts;
-
 
 namespace Play.Emv.Kernel2.Databases;
 
@@ -52,7 +51,7 @@ public class Kernel2Database : KernelDatabase
                 InvalidOperationException($"A command to initialize the Kernel Database was invoked but the {nameof(KernelDatabase)} is already active");
         }
 
-        _KernelSessionId = kernelSessionId; 
+        _KernelSessionId = kernelSessionId;
     }
 
     public override Kernel2Configuration GetKernelConfiguration() => _Kernel2Configuration;

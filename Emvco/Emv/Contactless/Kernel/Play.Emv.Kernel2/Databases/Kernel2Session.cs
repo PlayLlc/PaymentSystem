@@ -11,7 +11,7 @@ public class Kernel2Session : KernelSession
     #region Instance Values
 
     private CryptogramTypes _ApplicationCryptogramTypes = CryptogramTypes.ApplicationAuthenticationCryptogram;
-    private OdaStatusTypes _OdaStatusTypes = OdaStatusTypes.NotAvailable; 
+    private OdaStatusTypes _OdaStatusTypes = OdaStatusTypes.NotAvailable;
     private ReaderContactlessTransactionLimit? _TransactionLimit;
     private bool _IsPdolDataMissing = true;
     private byte _RelayResistanceProtocolCount = 0;
@@ -29,7 +29,7 @@ public class Kernel2Session : KernelSession
 
     public byte GetRelayResistanceProtocolCount() => _RelayResistanceProtocolCount;
     public CryptogramTypes GetAcType() => _ApplicationCryptogramTypes;
-    public OdaStatusTypes GetOdaStatus() => _OdaStatusTypes; 
+    public OdaStatusTypes GetOdaStatus() => _OdaStatusTypes;
     public bool IsPdolDataMissing() => _IsPdolDataMissing;
 
     public bool TryGetReaderContactlessTransactionLimit(out ReaderContactlessTransactionLimit? result)
@@ -54,7 +54,7 @@ public class Kernel2Session : KernelSession
     public void IncrementRelayResistanceProtocolCount() => _RelayResistanceProtocolCount++;
     public void SetIsPdolDataMissing(bool value) => _IsPdolDataMissing = value;
     public void Update(CryptogramTypes value) => _ApplicationCryptogramTypes = value;
-    public void Update(OdaStatusTypes value) => _OdaStatusTypes = value; 
+    public void Update(OdaStatusTypes value) => _OdaStatusTypes = value;
 
     #endregion
 }

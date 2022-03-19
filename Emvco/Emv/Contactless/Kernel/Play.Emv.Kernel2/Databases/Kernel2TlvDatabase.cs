@@ -9,7 +9,8 @@ namespace Play.Emv.Kernel2.Databases;
 
 public class Kernel2TlvDatabase : ITlvDatabase
 {
-    #region Instance Values 
+    #region Instance Values
+
     private readonly SortedDictionary<Tag, PrimitiveValue?> _Database;
     private readonly Kernel2PersistentValues _PersistentValues;
 
@@ -20,7 +21,7 @@ public class Kernel2TlvDatabase : ITlvDatabase
     /// <param name="persistentValues">
     ///     persistent values are configuration values that will continue to exist from transaction
     ///     to transaction. These values will not change
-    /// </param> 
+    /// </param>
     public Kernel2TlvDatabase(Kernel2PersistentValues persistentValues)
     {
         _Database = new SortedDictionary<Tag, PrimitiveValue?>();
@@ -28,16 +29,16 @@ public class Kernel2TlvDatabase : ITlvDatabase
 
         SeedDatabase();
     }
-    private void SeedDatabase()
-    {
-        foreach (PrimitiveValue persistentValue in _PersistentValues.GetPersistentValues())
-        {
-            _Database.Add(persistentValue.GetTag(), persistentValue);
-        }
-    }
+
     #endregion
 
     #region Instance Members
+
+    private void SeedDatabase()
+    {
+        foreach (PrimitiveValue persistentValue in _PersistentValues.GetPersistentValues())
+            _Database.Add(persistentValue.GetTag(), persistentValue);
+    }
 
     /// <summary>
     ///     Clears the database of transient values and restores the persistent and default values of the database
@@ -54,7 +55,8 @@ public class Kernel2TlvDatabase : ITlvDatabase
     /// </summary>
     /// <param name="tag"></param>
     /// <exception cref="TerminalDataException">
-    /// This exception gets thrown internally because something was coded or incorrectly configured in our code base. An assumption was made that the database value was present when it was not.
+    ///     This exception gets thrown internally because something was coded or incorrectly configured in our code base. An
+    ///     assumption was made that the database value was present when it was not.
     /// </exception>
     public PrimitiveValue Get(Tag tag)
     {
@@ -85,9 +87,7 @@ public class Kernel2TlvDatabase : ITlvDatabase
     /// </summary>
     /// <param name="tag"></param>
     /// <returns></returns>
-    public bool IsPresentAndNotEmpty(Tag tag) => IsPresent(tag) && _Database[tag] != null;
-
-
+    public bool IsPresentAndNotEmpty(Tag tag) => IsPresent(tag) && (_Database[tag] != null);
 
     /// <summary>
     ///     Returns true if a TLV object with the provided <see cref="Tag" /> exists in the database and the corresponding
@@ -137,7 +137,8 @@ public class Kernel2TlvDatabase : ITlvDatabase
     }
 
     /// <summary>
-    ///     Initializes the data object specified with a zero length. After initialization the data object is present in the TLV Database.
+    ///     Initializes the data object specified with a zero length. After initialization the data object is present in the
+    ///     TLV Database.
     /// </summary>
     /// <param name="tag"></param>
     public void Initialize(Tag tag)
