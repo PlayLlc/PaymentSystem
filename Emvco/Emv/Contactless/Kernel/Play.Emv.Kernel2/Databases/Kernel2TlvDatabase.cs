@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
-using Play.Core.Extensions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.Exceptions;
-using Play.Emv.Exceptions; 
- 
 
 namespace Play.Emv.Kernel2.Databases;
 

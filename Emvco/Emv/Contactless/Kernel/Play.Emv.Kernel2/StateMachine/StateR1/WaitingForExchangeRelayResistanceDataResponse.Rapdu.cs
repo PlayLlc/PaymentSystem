@@ -7,7 +7,6 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
-using Play.Emv.Icc;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;

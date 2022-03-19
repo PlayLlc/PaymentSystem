@@ -105,12 +105,7 @@ public class Outcome
 
     public PrimitiveValue[] AsPrimitiveValueArray()
     {
-        List<PrimitiveValue> buffer = new()
-        {
-            _ErrorIndication,
-            _OutcomeParameterSet,
-            _TerminalVerificationResults
-        };
+        List<PrimitiveValue> buffer = new() {_ErrorIndication, _OutcomeParameterSet, _TerminalVerificationResults};
 
         if (_DataRecord != null)
             buffer.Add(_DataRecord!);

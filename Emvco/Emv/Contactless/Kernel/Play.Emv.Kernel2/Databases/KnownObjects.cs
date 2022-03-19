@@ -5,7 +5,6 @@ using System.Linq;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
-using Play.Core;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Icc.FileSystem.DedicatedFiles;

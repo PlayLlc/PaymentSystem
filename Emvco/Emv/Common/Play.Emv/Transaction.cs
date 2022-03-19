@@ -64,7 +64,6 @@ public class Transaction
     {
         List<PrimitiveValue> buffer = new()
         {
-             
             _AccountType,
             _AmountAuthorizedNumeric,
             _AmountOtherNumeric,
@@ -72,15 +71,11 @@ public class Transaction
             _TerminalCountryCode,
             _TransactionDate,
             _TransactionTime,
-            _TransactionType, 
+            _TransactionType,
             _AmountAuthorizedNumeric,
             _AmountOtherNumeric,
             _TransactionType,
-            _TransactionDate,
-
-
-
-
+            _TransactionDate
         };
 
         buffer.AddRange(_Outcome.AsPrimitiveValueArray());
