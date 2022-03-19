@@ -1,4 +1,5 @@
 using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
@@ -51,7 +52,7 @@ public record CardholderVerificationCode3Track1 : DataElement<ushort>, IEquality
     #region Serialization
 
     public static CardholderVerificationCode3Track1 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override CardholderVerificationCode3Track1 Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>

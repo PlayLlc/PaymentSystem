@@ -1,4 +1,5 @@
 using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
@@ -41,7 +42,7 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static MerchantCategoryCode Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override MerchantCategoryCode Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static MerchantCategoryCode Decode(ReadOnlySpan<byte> value)

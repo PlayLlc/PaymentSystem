@@ -1,4 +1,5 @@
-﻿using Play.Ber.Identifiers;
+﻿using Play.Ber.DataObjects;
+using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Currency;
@@ -40,7 +41,7 @@ public record ReaderCvmRequiredLimit : DataElement<ulong>, IEqualityComparer<Rea
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ReaderCvmRequiredLimit Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override ReaderCvmRequiredLimit Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ReaderCvmRequiredLimit Decode(ReadOnlySpan<byte> value)

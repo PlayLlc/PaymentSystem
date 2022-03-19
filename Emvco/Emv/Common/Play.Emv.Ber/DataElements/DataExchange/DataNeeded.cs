@@ -1,3 +1,4 @@
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
@@ -62,7 +63,7 @@ public record DataNeeded : DataExchangeRequest
 
     public static DataNeeded Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override DataNeeded Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>

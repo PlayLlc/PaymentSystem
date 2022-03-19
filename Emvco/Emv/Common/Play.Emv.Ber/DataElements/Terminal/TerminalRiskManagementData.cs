@@ -1,4 +1,5 @@
 using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
@@ -40,7 +41,7 @@ public record TerminalRiskManagementData : DataElement<ulong>, IEqualityComparer
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalRiskManagementData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override TerminalRiskManagementData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>

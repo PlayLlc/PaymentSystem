@@ -1,4 +1,5 @@
-﻿using Play.Ber.Exceptions;
+﻿using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
@@ -59,7 +60,7 @@ public record PrimaryAccountNumber : PlayProprietaryDataElement<char[]>
     /// <exception cref="CodecParsingException"></exception>
     public static PrimaryAccountNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override PrimaryAccountNumber Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>

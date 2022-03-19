@@ -1,4 +1,5 @@
-﻿using Play.Ber.Exceptions;
+﻿using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
@@ -36,7 +37,7 @@ internal record RetrievalReferenceNumber : PlayProprietaryDataElement<char[]>
     #region Serialization
 
     public static RetrievalReferenceNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override RetrievalReferenceNumber Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>

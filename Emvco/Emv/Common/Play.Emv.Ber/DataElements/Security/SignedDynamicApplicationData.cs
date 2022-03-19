@@ -1,6 +1,7 @@
 using System.Numerics;
 
 using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 
@@ -42,7 +43,7 @@ public record SignedDynamicApplicationData : DataElement<BigInteger>, IEqualityC
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static SignedDynamicApplicationData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override SignedDynamicApplicationData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static SignedDynamicApplicationData Decode(ReadOnlySpan<byte> value)

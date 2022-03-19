@@ -1,4 +1,5 @@
 ﻿using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
@@ -48,7 +49,7 @@ public record TerminalCountryCode : DataElement<NumericCountryCode>, IEqualityCo
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalCountryCode Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override TerminalCountryCode Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>

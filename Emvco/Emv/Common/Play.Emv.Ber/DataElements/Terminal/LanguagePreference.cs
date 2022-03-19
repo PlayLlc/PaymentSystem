@@ -1,4 +1,5 @@
 using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
@@ -95,7 +96,7 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>, IEqualityC
     #region Serialization
 
     public static LanguagePreference Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override LanguagePreference Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>

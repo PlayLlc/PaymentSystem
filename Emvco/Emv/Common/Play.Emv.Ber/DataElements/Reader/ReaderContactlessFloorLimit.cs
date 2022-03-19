@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
@@ -39,7 +40,7 @@ public record ReaderContactlessFloorLimit : DataElement<ulong>, IEqualityCompare
     #region Serialization
 
     public static ReaderContactlessFloorLimit Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override ReaderContactlessFloorLimit Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <summary>
     ///     Decode

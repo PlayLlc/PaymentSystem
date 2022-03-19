@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
@@ -41,7 +42,7 @@ public record ApplicationPan : DataElement<BigInteger>
     /// <exception cref="CodecParsingException"></exception>
     public static ApplicationPan Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override ApplicationPan Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="CodecParsingException"></exception>
     public static ApplicationPan Decode(ReadOnlySpan<byte> value)

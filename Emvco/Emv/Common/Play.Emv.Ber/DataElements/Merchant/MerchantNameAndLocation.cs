@@ -1,4 +1,5 @@
-﻿using Play.Ber.Exceptions;
+﻿using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
@@ -34,7 +35,7 @@ public record MerchantNameAndLocation : DataElement<char[]>, IEqualityComparer<M
     #region Serialization
 
     public static MerchantNameAndLocation Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override MerchantNameAndLocation Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>

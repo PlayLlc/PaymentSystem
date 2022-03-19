@@ -1,4 +1,5 @@
-﻿using Play.Ber.Identifiers;
+﻿using Play.Ber.DataObjects;
+using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 
@@ -49,7 +50,7 @@ public record DataStorageRequestedOperatorId : DataElement<ulong>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DataStorageRequestedOperatorId Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override DataStorageRequestedOperatorId Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     #endregion
 }

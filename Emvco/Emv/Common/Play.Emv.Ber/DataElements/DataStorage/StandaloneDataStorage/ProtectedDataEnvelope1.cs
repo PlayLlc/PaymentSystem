@@ -1,6 +1,7 @@
 using System.Numerics;
 
 using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
@@ -43,7 +44,7 @@ public record ProtectedDataEnvelope1 : DataElement<BigInteger>, IEqualityCompare
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ProtectedDataEnvelope1 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override ProtectedDataEnvelope1 Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>

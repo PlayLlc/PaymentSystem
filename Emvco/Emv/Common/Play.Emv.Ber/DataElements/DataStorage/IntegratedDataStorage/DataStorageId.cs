@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
@@ -44,7 +45,7 @@ public record DataStorageId : DataElement<BigInteger>
     /// <exception cref="CodecParsingException"></exception>
     public static DataStorageId Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override DataStorageId Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>

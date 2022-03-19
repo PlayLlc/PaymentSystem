@@ -1,6 +1,7 @@
 using System.Numerics;
 
 using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Encryption.Certificates;
@@ -39,7 +40,7 @@ public record IccPublicKeyRemainder : DataElement<BigInteger>, IEqualityComparer
     #region Serialization
 
     public static IccPublicKeyRemainder Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override IccPublicKeyRemainder Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     public static IccPublicKeyRemainder Decode(ReadOnlySpan<byte> value)
     {

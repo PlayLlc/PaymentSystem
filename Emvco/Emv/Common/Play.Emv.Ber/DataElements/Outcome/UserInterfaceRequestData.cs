@@ -66,7 +66,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static UserInterfaceRequestData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override UserInterfaceRequestData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>

@@ -1,4 +1,5 @@
 using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
@@ -57,7 +58,7 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalCapabilities Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override TerminalCapabilities Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>

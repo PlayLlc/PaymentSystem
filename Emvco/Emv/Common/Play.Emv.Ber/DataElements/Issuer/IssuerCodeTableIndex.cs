@@ -1,3 +1,4 @@
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
@@ -49,7 +50,7 @@ public record IssuerCodeTableIndex : DataElement<byte>, IEqualityComparer<Issuer
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerCodeTableIndex Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override IssuerCodeTableIndex Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerCodeTableIndex Decode(ReadOnlySpan<byte> value)

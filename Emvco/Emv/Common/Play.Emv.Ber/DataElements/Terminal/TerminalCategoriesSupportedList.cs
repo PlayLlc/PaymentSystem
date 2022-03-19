@@ -1,6 +1,7 @@
 using System.Numerics;
 
 using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Specifications;
@@ -62,7 +63,7 @@ public record TerminalCategoriesSupportedList : DataElement<BigInteger>, IEquali
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalCategoriesSupportedList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override TerminalCategoriesSupportedList Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>

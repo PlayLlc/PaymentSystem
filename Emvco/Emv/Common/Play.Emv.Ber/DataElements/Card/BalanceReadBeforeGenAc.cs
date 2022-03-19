@@ -1,4 +1,5 @@
-﻿using Play.Ber.Identifiers;
+﻿using Play.Ber.DataObjects;
+using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
@@ -40,7 +41,7 @@ public record BalanceReadBeforeGenAc : DataElement<ulong>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static BalanceReadBeforeGenAc Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override BalanceReadBeforeGenAc Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static BalanceReadBeforeGenAc Decode(ReadOnlySpan<byte> value)

@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
@@ -76,7 +77,7 @@ public record CvmList : DataElement<BigInteger>, IResolveXAndYAmountForCvmSelect
     /// <exception cref="DataElementParsingException"></exception>
     public static CvmList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override CvmList Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
     public static CvmList Decode(ReadOnlySpan<byte> value)

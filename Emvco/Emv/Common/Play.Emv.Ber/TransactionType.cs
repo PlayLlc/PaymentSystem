@@ -1,4 +1,5 @@
 ﻿using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
@@ -67,7 +68,7 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TransactionType Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override TransactionType Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>

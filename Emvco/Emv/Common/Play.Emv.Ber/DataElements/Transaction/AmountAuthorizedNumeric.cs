@@ -42,7 +42,7 @@ public record AmountAuthorizedNumeric : DataElement<ulong>, IEqualityComparer<Am
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static AmountAuthorizedNumeric Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override AmountAuthorizedNumeric Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
     public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
     public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
