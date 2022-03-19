@@ -59,18 +59,18 @@ public class AuthenticateCombinedData2Command
     {
         List<byte> buffer = new();
 
-        TagLengthValue[]? pdolResult = _ProcessingOptionsDataObjectListResult.AsTagLengthValueArray();
-        TagLengthValue[]? cdolResult = _CardRiskManagementDataObjectList1Result.AsTagLengthValueArray();
-        TagLengthValue[]? cdo2Result = _CardRiskManagementDataObjectList2Result.AsTagLengthValueArray();
+        PrimitiveValue[]? pdolResult = _ProcessingOptionsDataObjectListResult.AsPrimitiveValues();
+        PrimitiveValue[]? cdolResult = _CardRiskManagementDataObjectList1Result.AsPrimitiveValues();
+        PrimitiveValue[]? cdo2Result = _CardRiskManagementDataObjectList2Result.AsPrimitiveValues();
 
         for (int i = 0; i < pdolResult.Length; i++)
-            buffer.AddRange(pdolResult[i].GetValue());
+            buffer.AddRange(pdolResult[i].EncodeValue(EmvCodec.GetBerCodec()));
 
         for (int i = 0; i < cdolResult.Length; i++)
-            buffer.AddRange(cdolResult[i].GetValue());
+            buffer.AddRange(cdolResult[i].EncodeValue(EmvCodec.GetBerCodec()));
 
         for (int i = 0; i < cdolResult.Length; i++)
-            buffer.AddRange(cdo2Result[i].GetValue());
+            buffer.AddRange(cdo2Result[i].EncodeValue(EmvCodec.GetBerCodec()));
 
         buffer.AddRange(_GenerateAcCdaResponseMessage.GetTransactionDataHashData(codec));
 

@@ -58,7 +58,7 @@ public class DataObjectListResult : IEqualityComparer<DataObjectListResult>, IEq
         return new CommandTemplate(buffer.ToArray());
     }
 
-    public PrimitiveValue[] AsTagLengthValueArray() => _Value;
+    public PrimitiveValue[] AsPrimitiveValues() => _Value;
     public int ByteCount() => _Value.Length;
 
     #endregion

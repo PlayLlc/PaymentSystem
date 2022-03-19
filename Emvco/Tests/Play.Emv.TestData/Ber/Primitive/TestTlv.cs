@@ -2,6 +2,7 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Emv.Ber;
 
 namespace Play.Emv.TestData.Ber.Primitive;
 
@@ -44,7 +45,9 @@ public abstract class TestTlv
     protected TagLength GetTagLength() => new(GetTag(), EncodeValue());
     public int GetTagLengthValueByteCount() => new TagLength(GetTag(), EncodeValue()).GetTagLengthValueByteCount();
     public int GetValueByteCount() => _ContentOctets.Length;
-    public TagLengthValue AsTagLengthValue() => new(GetTag(), EncodeValue());
+
+    /// <exception cref="BerParsingException"></exception>
+    public PrimitiveValue AsPrimitiveValue() => EmvCodec.GetBerCodec().DecodePrimitiveValueAtRuntime(EncodeTagLengthValue().AsSpan());
 
     /// <summary>
     ///     ParseChildren

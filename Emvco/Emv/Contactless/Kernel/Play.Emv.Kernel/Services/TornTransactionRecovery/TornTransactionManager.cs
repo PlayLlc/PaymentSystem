@@ -27,7 +27,7 @@ internal class TornTransactionManager : ICleanTornTransactions, IWriteTornTransa
 
     public TornTransactionManager(MaxNumberOfTornTransactionLogRecords maxRecords, MaxLifetimeOfTornTransactionLogRecords maxLifetime)
     {
-        _MaxLogLifetime = new Seconds((byte) maxLifetime);
+        _MaxLogLifetime = maxLifetime;
         _MaxNumberOfLogs = (byte) maxRecords;
         _TornRecords = new Queue<TornRecord>();
     }

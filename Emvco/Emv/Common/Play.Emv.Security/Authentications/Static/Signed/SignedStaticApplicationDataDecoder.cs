@@ -54,11 +54,11 @@ internal class SignedStaticApplicationDataDecoder
         SignedStaticApplicationData signedStaticApplicationData,
         ReadOnlySpan<byte> staticDataToBeAuthenticated)
     {
-        if (signedStaticApplicationData.GetByteCount() != issuerPublicKeyCertificate.GetPublicKeyModulus().GetByteCount())
+        if (signedStaticApplicationData.GetValueByteCount() != issuerPublicKeyCertificate.GetPublicKeyModulus().GetByteCount())
             return false;
 
         DecodedSignedStaticApplicationData decodedSignature =
-            new(_SignatureService.Decrypt(signedStaticApplicationData.AsByteArray(), issuerPublicKeyCertificate));
+            new(_SignatureService.Decrypt(signedStaticApplicationData.EncodeValue(), issuerPublicKeyCertificate));
 
         if (!_SignatureService.IsSignatureValid(decodedSignature.GetHashAlgorithmIndicator(), staticDataToBeAuthenticated,
                                                 decodedSignature))

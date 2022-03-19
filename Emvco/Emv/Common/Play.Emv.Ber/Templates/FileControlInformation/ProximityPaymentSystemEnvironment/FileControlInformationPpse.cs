@@ -41,7 +41,7 @@ public class FileControlInformationPpse : FileControlInformationTemplate
     public override Tag[] GetChildTags() => ChildTags;
 
     public CommandTemplate
-        AsCommandTemplate(BerCodec codec, PoiInformation poiInformation, TagLengthValue[] selectionDataObjectListValues) =>
+        AsCommandTemplate(BerCodec codec, PoiInformation poiInformation, PrimitiveValue[] selectionDataObjectListValues) =>
         _FileControlInformationProprietaryPpse.AsCommandTemplate(poiInformation, selectionDataObjectListValues);
 
     public CommandTemplate AsCommandTemplate(IQueryTlvDatabase database) =>

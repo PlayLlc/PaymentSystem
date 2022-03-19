@@ -64,9 +64,10 @@ public class DataObjectListTests
     {
         TagLength[] expectedResult =
         {
-            new(ApplicationExpirationDate.Tag, new ApplicationExpirationDateTestTlv().AsTagLengthValue().GetLength()),
-            new(KernelIdentifier.Tag, new KernelIdentifierTestTlv().AsTagLengthValue().GetLength()),
-            new(CardholderName.Tag, new CardholderNameTestTlv().AsTagLengthValue().GetLength())
+            new(ApplicationExpirationDate.Tag,
+                new ApplicationExpirationDateTestTlv().AsPrimitiveValue().EncodeValue(EmvCodec.GetBerCodec())),
+            new(KernelIdentifier.Tag, new KernelIdentifierTestTlv().AsPrimitiveValue().EncodeValue(EmvCodec.GetBerCodec())),
+            new(CardholderName.Tag, new CardholderNameTestTlv().AsPrimitiveValue().EncodeValue(EmvCodec.GetBerCodec()))
 
             //new(CardholderName.Tag, new CardholderNameTestTlv().AsTagLengthValue().GetLength()),
             //new(KernelIdentifier.Tag, new KernelIdentifierTestTlv().AsTagLengthValue().GetLength())
@@ -113,10 +114,11 @@ public class DataObjectListTests
     [Fact]
     public void BerEncodingTagLengths_InvokingAsCommandTemplate_ReturnsCommandTemplate()
     {
-        TagLengthValue[] testData = {new ApplicationExpirationDateTestTlv().AsTagLengthValue()};
+        PrimitiveValue[] testData = {new ApplicationExpirationDateTestTlv().AsPrimitiveValue()};
 
         MockDataObjectList sut =
-            MockDataObjectListTestFactory.Create(testData.Select(a => new TagLength(a.GetTag(), a.EncodeValue())).ToArray());
+            MockDataObjectListTestFactory.Create(testData.Select(a => new TagLength(a.GetTag(), a.EncodeValue(EmvCodec.GetBerCodec())))
+                                                     .ToArray());
         CommandTemplate commandTemplate = sut.AsCommandTemplate(testData);
         Assert.NotNull(commandTemplate);
     }
@@ -129,12 +131,13 @@ public class DataObjectListTests
     [Fact]
     public void BerEncodingTagLengths_InvokingAsCommandTemplate_ReturnsExpectedCommandTemplate()
     {
-        TagLengthValue[] testData = {new ApplicationExpirationDateTestTlv().AsTagLengthValue()};
+        PrimitiveValue[] testData = {new ApplicationExpirationDateTestTlv().AsPrimitiveValue()};
 
         MockDataObjectList sut =
-            MockDataObjectListTestFactory.Create(testData.Select(a => new TagLength(a.GetTag(), a.EncodeValue())).ToArray());
+            MockDataObjectListTestFactory.Create(testData.Select(a => new TagLength(a.GetTag(), a.EncodeValue(EmvCodec.GetBerCodec())))
+                                                     .ToArray());
         CommandTemplate commandTemplate = sut.AsCommandTemplate(testData);
-        byte[] expectedResult = testData.SelectMany(a => a.EncodeTagLengthValue()).ToArray();
+        byte[] expectedResult = testData.SelectMany(a => a.EncodeTagLengthValue(EmvCodec.GetBerCodec())).ToArray();
         byte[] testValue = commandTemplate.EncodeValue();
 
         Assert.Equal(expectedResult, testValue);

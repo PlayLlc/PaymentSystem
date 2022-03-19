@@ -6,6 +6,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Exceptions;
 using Play.Core.Extensions;
 using Play.Icc.Exceptions;
 
@@ -41,6 +42,9 @@ public record DedicatedFileName : PrimitiveValue, IEqualityComparer<DedicatedFil
 
     /// <remarks>DecimalValue: 132; HexValue: 0x84</remarks>
     public static readonly Tag Tag = 0x84;
+
+    private const byte _MinByteLength = 5;
+    private const byte _MaxByteLength = 16;
 
     #endregion
 
@@ -113,17 +117,19 @@ public record DedicatedFileName : PrimitiveValue, IEqualityComparer<DedicatedFil
     /// <exception cref="IccProtocolException"></exception>
     public static DedicatedFileName Decode(ReadOnlySpan<byte> value, BerCodec codec)
     {
-        const ushort minByteLength = 5;
-        const ushort maxByteLength = 16;
-
-        if (value.Length is < minByteLength and <= maxByteLength)
-        {
-            throw new
-                IccProtocolException(new
-                                         ArgumentOutOfRangeException($"The Primitive Value {nameof(DedicatedFileName)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}"));
-        }
+        CheckCore.ForMaximumLength(value, _MaxByteLength, nameof(DedicatedFileName));
+        CheckCore.ForMinimumLength(value, _MinByteLength, nameof(DedicatedFileName));
 
         return new DedicatedFileName(value);
+    }
+
+    public override DedicatedFileName Decode(TagLengthValue value)
+    {
+        Span<byte> buffer = value.EncodeValue();
+        CheckCore.ForMaximumLength(buffer, _MaxByteLength, nameof(DedicatedFileName));
+        CheckCore.ForMinimumLength(buffer, _MinByteLength, nameof(DedicatedFileName));
+
+        return new DedicatedFileName(buffer);
     }
 
     public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);

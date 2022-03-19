@@ -53,8 +53,8 @@ public class AuthenticateCombinedData1Command
     {
         List<byte> buffer = new();
 
-        TagLengthValue[]? pdolResult = _ProcessingOptionsDataObjectListResult.AsTagLengthValueArray();
-        TagLengthValue[]? cdolResult = _CardRiskManagementDataObjectList1Result.AsTagLengthValueArray();
+        TagLengthValue[]? pdolResult = _ProcessingOptionsDataObjectListResult.AsPrimitiveValues();
+        TagLengthValue[]? cdolResult = _CardRiskManagementDataObjectList1Result.AsPrimitiveValues();
 
         for (int i = 0; i < pdolResult.Length; i++)
             buffer.AddRange(pdolResult[i].GetValue());

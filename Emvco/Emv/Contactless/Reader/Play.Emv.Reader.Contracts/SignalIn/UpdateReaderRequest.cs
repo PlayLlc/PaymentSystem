@@ -39,7 +39,7 @@ public record UpdateReaderRequest : RequestSignal, IExchangeDataWithTheTerminal
 
     #region Instance Members
 
-    public TagLengthValue[] GeTagLengthValueArray() => _DataToSend.AsPrimitiveValues();
+    public PrimitiveValue[] GeTagLengthValueArray() => _DataToSend.AsPrimitiveValues();
     public DataToSend GetDataToSend() => _DataToSend;
     public DataExchangeTerminalId GetDataExchangeTerminalId() => _DataExchangeTerminalId;
     public TransactionSessionId GetTransactionSessionId() => _DataExchangeTerminalId.GetTransactionSessionId();

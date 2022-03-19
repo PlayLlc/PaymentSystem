@@ -102,14 +102,14 @@ public class CommonProcessingS3R1 : CommonProcessing
             return;
         }
 
-        if (!_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out TagLengthValue? idsStatus))
+        if (!_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out PrimitiveValue? idsStatus))
         {
             SetOfflineAuthNotPerformed();
 
             return;
         }
 
-        if (!IntegratedDataStorageStatus.Decode(idsStatus!.EncodeValue().AsSpan()).IsReadSet())
+        if (!IntegratedDataStorageStatus.Decode(((IntegratedDataStorageStatus) idsStatus!).EncodeValue().AsSpan()).IsReadSet())
         {
             SetOfflineAuthNotPerformed();
 
@@ -200,23 +200,24 @@ public class CommonProcessingS3R1 : CommonProcessing
         if (!_KernelDatabase.IsIntegratedDataStorageSupported())
             return;
 
-        if (!_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out TagLengthValue? idsStatus))
+        if (!_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out PrimitiveValue? idsStatus))
             return;
 
-        if (!IntegratedDataStorageStatus.Decode(idsStatus!.EncodeValue().AsSpan()).IsReadSet())
+        if (!IntegratedDataStorageStatus.Decode(((IntegratedDataStorageStatus) idsStatus!).EncodeValue().AsSpan()).IsReadSet())
             return;
 
-        if (_KernelDatabase.TryGet(DataStorageSlotAvailability.Tag, out TagLengthValue? dataStorageSlotAvailability))
+        if (_KernelDatabase.TryGet(DataStorageSlotAvailability.Tag, out PrimitiveValue? dataStorageSlotAvailability))
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, dataStorageSlotAvailability!);
-        if (_KernelDatabase.TryGet(DataStorageSummary1.Tag, out TagLengthValue? dataStorageSummary1))
+
+        if (_KernelDatabase.TryGet(DataStorageSummary1.Tag, out PrimitiveValue? dataStorageSummary1))
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, dataStorageSummary1!);
-        if (_KernelDatabase.TryGet(DataStorageUnpredictableNumber.Tag, out TagLengthValue? dataStorageUnpredictableNumber))
+        if (_KernelDatabase.TryGet(DataStorageUnpredictableNumber.Tag, out PrimitiveValue? dataStorageUnpredictableNumber))
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, dataStorageUnpredictableNumber!);
-        if (_KernelDatabase.TryGet(DataStorageSlotManagementControl.Tag, out TagLengthValue? dataStorageSlotManagementControl))
+        if (_KernelDatabase.TryGet(DataStorageSlotManagementControl.Tag, out PrimitiveValue? dataStorageSlotManagementControl))
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, dataStorageSlotManagementControl!);
-        if (_KernelDatabase.TryGet(DataStorageOperatorDataSetCard.Tag, out TagLengthValue? dataStorageOperatorDataSetCard))
+        if (_KernelDatabase.TryGet(DataStorageOperatorDataSetCard.Tag, out PrimitiveValue? dataStorageOperatorDataSetCard))
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, dataStorageOperatorDataSetCard!);
-        if (_KernelDatabase.TryGet(UnpredictableNumber.Tag, out TagLengthValue? unpredictableNumber))
+        if (_KernelDatabase.TryGet(UnpredictableNumber.Tag, out PrimitiveValue? unpredictableNumber))
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, unpredictableNumber!);
     }
 
@@ -253,7 +254,8 @@ public class CommonProcessingS3R1 : CommonProcessing
     public void StopReadingIntegratedStorage(Kernel2Session session)
     {
         IntegratedDataStorageStatus idsStatus =
-            IntegratedDataStorageStatus.Decode(_KernelDatabase.Get(IntegratedDataStorageStatus.Tag).EncodeValue().AsSpan());
+            IntegratedDataStorageStatus.Decode(((IntegratedDataStorageStatus) _KernelDatabase.Get(IntegratedDataStorageStatus.Tag))
+                                               .EncodeValue().AsSpan());
 
         _KernelDatabase.Update(idsStatus.SetRead(false));
     }
@@ -312,9 +314,10 @@ public class CommonProcessingS3R1 : CommonProcessing
     public bool DoesTheCardAndTerminalSupportCombinedDataAuth(Kernel2Session session)
     {
         ApplicationInterchangeProfile applicationInterchangeProfile =
-            ApplicationInterchangeProfile.Decode(_KernelDatabase.Get(ApplicationInterchangeProfile.Tag).EncodeValue().AsSpan());
+            ApplicationInterchangeProfile.Decode(((ApplicationInterchangeProfile) _KernelDatabase.Get(ApplicationInterchangeProfile.Tag))
+                                                 .EncodeValue().AsSpan());
         TerminalCapabilities terminalCapabilities =
-            TerminalCapabilities.Decode(_KernelDatabase.Get(TerminalCapabilities.Tag).EncodeValue().AsSpan());
+            TerminalCapabilities.Decode(((TerminalCapabilities) _KernelDatabase.Get(TerminalCapabilities.Tag)).EncodeValue().AsSpan());
 
         if (!applicationInterchangeProfile.IsCombinedDataAuthenticationSupported())
             return false;

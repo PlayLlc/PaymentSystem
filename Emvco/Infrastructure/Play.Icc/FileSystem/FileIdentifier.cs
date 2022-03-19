@@ -6,11 +6,9 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Exceptions;
 using Play.Core.Specifications;
 using Play.Icc.Exceptions;
-
-using PlayCodec = Play.Codecs.PlayCodec;
-using PlayEncodingId = Play.Codecs.PlayEncodingId;
 
 namespace Play.Icc.FileSystem;
 
@@ -22,6 +20,7 @@ public record FileIdentifier : PrimitiveValue
     public static readonly FileIdentifier CurrentDedicatedFile = new(new byte[] {0x3F, 0xFF});
     public static readonly FileIdentifier MasterFile = new(new byte[] {0x3F, 0x00});
     public static readonly uint Tag = 0x81;
+    private const byte _ByteLength = 2;
 
     #endregion
 
@@ -87,6 +86,16 @@ public record FileIdentifier : PrimitiveValue
                                          InvalidOperationException($"The {nameof(FileIdentifier)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}"));
 
         return new FileIdentifier(result.Value);
+    }
+
+    public override PrimitiveValue Decode(TagLengthValue value)
+    {
+        Span<byte> buffer = value.EncodeValue();
+
+        CheckCore.ForExactLength(buffer, _ByteLength, nameof(FileIdentifier));
+        ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(buffer);
+
+        return new FileIdentifier(result);
     }
 
     public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);

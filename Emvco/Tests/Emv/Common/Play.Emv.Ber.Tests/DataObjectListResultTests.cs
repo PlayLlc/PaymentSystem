@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Play.Ber.DataObjects;
@@ -18,7 +19,7 @@ public class DataObjectListResultTests
     [Fact]
     public void BerEncodingTagLengths_Deserializing_CreatesDataObjectList()
     {
-        TagLengthValue testData = new ApplicationExpirationDateTestTlv().AsTagLengthValue();
+        PrimitiveValue testData = new ApplicationExpirationDateTestTlv().AsPrimitiveValue();
         DataObjectListResult testValue = new(testData);
         Assert.NotNull(testValue);
     }
@@ -32,7 +33,7 @@ public class DataObjectListResultTests
     {
         ApplicationExpirationDateTestTlv testData = new();
         byte[] expectedResult = testData.EncodeTagLengthValue();
-        DataObjectListResult sut = new(testData.AsTagLengthValue());
+        DataObjectListResult sut = new(testData.AsPrimitiveValue());
         byte[] testValue = sut.AsByteArray();
         Assert.Equal(expectedResult, testValue);
     }
@@ -52,7 +53,7 @@ public class DataObjectListResultTests
 
         IEnumerable<byte> expectedResult = buffer.SelectMany(a => a.EncodeTagLengthValue());
 
-        DataObjectListResult sut = new(buffer.Select(a => a.AsTagLengthValue()).ToArray());
+        DataObjectListResult sut = new(buffer.Select(a => a.AsPrimitiveValue()).ToArray());
         byte[] testValue = sut.AsByteArray();
         Assert.Equal(expectedResult, testValue);
     }
@@ -64,7 +65,7 @@ public class DataObjectListResultTests
     [Fact]
     public void BerEncodingTagLengths_InvokingAsCommandTemplate_CreatesCommandTemplate()
     {
-        TagLengthValue testData = new ApplicationExpirationDateTestTlv().AsTagLengthValue();
+        PrimitiveValue testData = new ApplicationExpirationDateTestTlv().AsPrimitiveValue();
         CommandTemplate testValue = new DataObjectListResult(testData).AsCommandTemplate();
         Assert.NotNull(testValue);
     }
@@ -76,8 +77,8 @@ public class DataObjectListResultTests
     [Fact]
     public void BerEncodingTagLengths_InvokingAsCommandTemplate_CreatesExpectedCommandTemplate()
     {
-        TagLengthValue testData = new ApplicationExpirationDateTestTlv().AsTagLengthValue();
-        CommandTemplate expectedValue = new(testData.EncodeTagLengthValue());
+        PrimitiveValue testData = new ApplicationExpirationDateTestTlv().AsPrimitiveValue();
+        CommandTemplate expectedValue = new(testData.EncodeTagLengthValue(EmvCodec.GetBerCodec()).AsSpan());
         CommandTemplate testValue = new DataObjectListResult(testData).AsCommandTemplate();
 
         Assert.Equal(expectedValue, testValue);

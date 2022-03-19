@@ -71,7 +71,7 @@ public class ProcessingOptionsTests
         ProcessingOptionsTestTlv testData = new();
         ProcessingOptions sut = ProcessingOptions.Decode(testData.EncodeTagLengthValue());
         TagLengthValue testValue = sut.AsTagLengthValue();
-        TagLengthValue expectedResult = testData.AsTagLengthValue();
+        TagLengthValue expectedResult = testData.AsPrimitiveValue();
         Assert.Equal(expectedResult, testValue);
     }
 
