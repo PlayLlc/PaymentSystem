@@ -12,7 +12,7 @@ public interface IWriteTlvDatabase
     ///     if it is not recognized
     /// </summary>
     /// <param name="value"></param>
-    public void Update(TagLengthValue value);
+    public void Update(PrimitiveValue value);
 
     /// <summary>
     ///     Updates the the database with all recognized
@@ -20,7 +20,7 @@ public interface IWriteTlvDatabase
     ///     provided it is not recognized
     /// </summary>
     /// <param name="values"></param>
-    public void UpdateRange(TagLengthValue[] values);
+    public void UpdateRange(PrimitiveValue[] values);
 
     /// <summary>
     ///     Initializes the data object specified by <see cref="tag" /> with a zero length. After initialization the data

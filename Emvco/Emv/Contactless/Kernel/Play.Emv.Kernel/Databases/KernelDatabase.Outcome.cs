@@ -39,19 +39,18 @@ namespace Play.Emv.Kernel.Databases
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="CodecParsingException"></exception>
         /// <exception cref="TerminalDataException"></exception>
-        public ErrorIndication GetErrorIndication() => ErrorIndication.Decode(Get(ErrorIndication.Tag).EncodeValue().AsSpan());
+        public ErrorIndication GetErrorIndication() => (ErrorIndication)Get(ErrorIndication.Tag);  
 
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="CodecParsingException"></exception>
         /// <exception cref="TerminalDataException"></exception>
-        private OutcomeParameterSet GetOutcomeParameterSet() =>
-            OutcomeParameterSet.Decode(Get(OutcomeParameterSet.Tag).EncodeValue().AsSpan());
+        private OutcomeParameterSet GetOutcomeParameterSet() => (OutcomeParameterSet) Get(OutcomeParameterSet.Tag); 
 
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="CodecParsingException"></exception>
         /// <exception cref="TerminalDataException"></exception>
         private TerminalVerificationResults GetTerminalVerificationResults() =>
-            TerminalVerificationResults.Decode(Get(TerminalVerificationResults.Tag).EncodeValue().AsSpan());
+            (TerminalVerificationResults)Get(TerminalVerificationResults.Tag); 
 
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="DataElementParsingException"></exception>
@@ -65,8 +64,7 @@ namespace Play.Emv.Kernel.Databases
 
                 return builder.Complete();
             }
-
-            return UserInterfaceRequestData.Decode(Get(UserInterfaceRequestData.Tag).EncodeValue().AsSpan());
+            return (UserInterfaceRequestData)Get(UserInterfaceRequestData.Tag); 
         }
 
         /// <summary>
@@ -80,7 +78,8 @@ namespace Play.Emv.Kernel.Databases
             if (IsPresentAndNotEmpty(DataRecord.Tag))
                 return null;
 
-            return DataRecord.Decode(Get(DataRecord.Tag).EncodeValue().AsSpan());
+
+            return (DataRecord)Get(DataRecord.Tag); 
         }
 
         /// <summary>
@@ -95,7 +94,7 @@ namespace Play.Emv.Kernel.Databases
             if (IsPresentAndNotEmpty(DiscretionaryData.Tag))
                 return null;
 
-            return DiscretionaryData.Decode(Get(DiscretionaryData.Tag).EncodeValue().AsSpan());
+            return (DiscretionaryData)Get(DiscretionaryData.Tag); 
         }
 
         #region Write Outcome

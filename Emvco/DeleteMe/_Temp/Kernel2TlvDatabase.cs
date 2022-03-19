@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Play.Ber.DataObjects;
+﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
-using Play.Core.Extensions;
 using Play.Emv.Ber;
 using Play.Emv.Exceptions;
-using Play.Emv.Kernel.Databases.Tlv;
 
-namespace Play.Emv.Kernel2.Databases._Temp;
+namespace DeleteMe._Temp;
 
 public class Kernel2TlvDatabase : ITlvDatabase
 {

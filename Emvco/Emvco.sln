@@ -201,7 +201,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Acquirer.Elavon", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Codecs", "Infrastructure\Play.Codecs\Play.Codecs.csproj", "{120416FF-9470-40DA-93D3-B9D02EA66DC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Emv.Ber", "Emv\Common\Play.Emv.Ber\Play.Emv.Ber.csproj", "{A5FBB91D-38CE-41EC-875A-1CFCE00B2821}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Ber", "Emv\Common\Play.Emv.Ber\Play.Emv.Ber.csproj", "{A5FBB91D-38CE-41EC-875A-1CFCE00B2821}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeleteMe", "DeleteMe\DeleteMe.csproj", "{6B7AC398-3B6D-452F-AAE8-D5F0632C7DB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -485,6 +487,10 @@ Global
 		{A5FBB91D-38CE-41EC-875A-1CFCE00B2821}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5FBB91D-38CE-41EC-875A-1CFCE00B2821}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5FBB91D-38CE-41EC-875A-1CFCE00B2821}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B7AC398-3B6D-452F-AAE8-D5F0632C7DB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B7AC398-3B6D-452F-AAE8-D5F0632C7DB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B7AC398-3B6D-452F-AAE8-D5F0632C7DB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B7AC398-3B6D-452F-AAE8-D5F0632C7DB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -579,6 +585,7 @@ Global
 		{1906CC97-0838-4E4B-9834-A179A6DA28ED} = {F155B2F7-57A1-4081-B111-32439AF01F40}
 		{120416FF-9470-40DA-93D3-B9D02EA66DC6} = {D7CA87CA-8340-4E2C-A2ED-5CE46EEC455B}
 		{A5FBB91D-38CE-41EC-875A-1CFCE00B2821} = {A90155A8-5E10-46E1-88E1-B1BAF91B7438}
+		{6B7AC398-3B6D-452F-AAE8-D5F0632C7DB9} = {6F689E91-579B-4497-B8F2-7D91E4339EE6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E9927CF8-C10C-47E1-87FD-7ACEEBCD340D}

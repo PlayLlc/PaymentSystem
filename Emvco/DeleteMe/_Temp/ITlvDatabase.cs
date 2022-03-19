@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.Kernel2.Databases._Temp;
+﻿namespace DeleteMe._Temp;
 
 public interface ITlvDatabase : IQueryTlvDatabase, IWriteTlvDatabase
 {

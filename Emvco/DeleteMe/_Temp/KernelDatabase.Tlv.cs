@@ -1,11 +1,8 @@
-﻿using System;
-
-using Play.Ber.DataObjects;
+﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
-using Play.Emv.Exceptions;
-using Play.Emv.Kernel.Databases.Tlv;
+using Play.Emv.Exceptions; 
 
-namespace Play.Emv.Kernel.Databases
+namespace DeleteMe._Temp
 {
     public abstract partial class KernelDatabase
     {
@@ -13,7 +10,7 @@ namespace Play.Emv.Kernel.Databases
 
         /// <summary>
         ///     Returns true if a TLV object with the provided <see cref="Tag" /> exists in the database and the corresponding
-        ///     <see cref="DatabaseValue" /> in an out parameter
+        ///     <see cref="PrimitiveValue" /> in an out parameter
         /// </summary>
         /// <param name="tag"></param>
         /// <param name="result"></param>

@@ -1,14 +1,9 @@
-﻿using System;
-
-using Play.Ber.Exceptions;
+﻿using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Emv.Identifiers;
-using Play.Emv.Kernel.Databases;
-using Play.Emv.Kernel.Databases.Certificates;
-using Play.Emv.Kernel2.Configuration;
 using Play.Emv.Terminal.Contracts;
 
-namespace Play.Emv.Kernel2.Databases._Temp;
+namespace DeleteMe._Temp;
 
 public class Kernel2Database : KernelDatabase
 {

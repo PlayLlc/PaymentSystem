@@ -1,10 +1,7 @@
-﻿using System;
-
-using Play.Ber.DataObjects;
+﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
-using Play.Emv.Kernel.Databases.Tlv;
 
-namespace Play.Emv.Kernel2.Databases._Temp;
+namespace DeleteMe._Temp;
 
 public interface IQueryTlvDatabase
 {

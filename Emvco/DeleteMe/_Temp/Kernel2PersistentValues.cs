@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Play.Ber.DataObjects;
+﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.DataElements;
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Kernel.Databases.Tlv;
 using Play.Globalization.Country;
 using Play.Globalization.Time.Seconds;
 
-namespace Play.Emv.Kernel2.Databases._Temp;
+namespace DeleteMe._Temp;
 
 public class Kernel2PersistentValues : PersistentValues
 {

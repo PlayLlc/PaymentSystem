@@ -1,23 +1,19 @@
-﻿using System;
+﻿ 
 
 using Play.Ber.Exceptions;
-using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
-using Play.Emv.Kernel.Databases.Certificates;
-using Play.Emv.Kernel.Databases.Tlv;
 using Play.Emv.Terminal.Contracts;
 
-namespace Play.Emv.Kernel.Databases;
+namespace DeleteMe._Temp;
 
-public abstract partial class KernelDatabase : IManageKernelDatabaseLifetime, ICertificateDatabase, IQueryTlvDatabase
+public abstract partial class KernelDatabase : DeleteMe._Temp.IManageKernelDatabaseLifetime, DeleteMe._Temp.ICertificateDatabase, DeleteMe._Temp.IQueryTlvDatabase
 {
     #region Instance Values
 
     protected readonly ICertificateDatabase _CertificateDatabase;
-    protected readonly ITlvDatabase _TlvDatabase;
+    protected readonly DeleteMe._Temp.ITlvDatabase _TlvDatabase;
     protected KernelSessionId? _KernelSessionId;
     protected IHandleTerminalRequests _TerminalEndpoint;
     protected OutcomeParameterSet.Builder _OutcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
@@ -29,7 +25,7 @@ public abstract partial class KernelDatabase : IManageKernelDatabaseLifetime, IC
 
     #region Constructor
 
-    protected KernelDatabase(IHandleTerminalRequests terminalEndpoint, ITlvDatabase tlvDatabase, ICertificateDatabase certificateDatabase)
+    protected KernelDatabase(IHandleTerminalRequests terminalEndpoint, DeleteMe._Temp.ITlvDatabase tlvDatabase, ICertificateDatabase certificateDatabase)
     {
         _TerminalEndpoint = terminalEndpoint;
         _TlvDatabase = tlvDatabase;
