@@ -1,7 +1,11 @@
-﻿using Play.Ber.DataObjects;
+﻿using System;
+using System.Linq;
+
+using Play.Ber.DataObjects;
 using Play.Emv.Ber.Templates;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;
+using Play.Emv.Kernel2.Databases;
 using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Messaging;
 
@@ -30,6 +34,9 @@ public record ReadRecordResponse : QueryPcdResponse
     #endregion
 
     #region Instance Members
+
+    public PrimitiveValue[] GetPrimitiveValues(IResolveKnownObjectsAtRuntime runtimeCodec) =>
+        runtimeCodec.DecodePrimitiveSiblingsAtRuntime(GetData().AsMemory()).ToArray();
 
     public ShortFileId GetShortFileId() => _ShortFileId;
     public TagLengthValue[] GetRecords() => ReadRecordResponseTemplate.GetRecords(GetData());

@@ -153,7 +153,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         {
             TagLengthValue[] records = session.ResolveActiveTag(rapdu);
 
-            _KernelDatabase.Update(records);
+            _KernelDatabase.Update(rapdu.GetPrimitiveValues(_RuntimeCodec));
 
             resolvedRecords = records.Select(a => a.GetTag()).ToArray();
 
@@ -242,16 +242,13 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         for (int i = 0; i < resolvedRecords.Length; i++)
         {
             if (resolvedRecords[i] == CardRiskManagementDataObjectList1.Tag)
-            {
-                HandleCdol1(CardRiskManagementDataObjectList1.Decode(_KernelDatabase.Get(CardRiskManagementDataObjectList1.Tag)
-                                                                         .EncodeTagLengthValue().AsSpan()));
-            }
+                HandleCdol1((CardRiskManagementDataObjectList1) _KernelDatabase.Get(CardRiskManagementDataObjectList1.Tag));
         }
     }
 
     #endregion
 
-    #region S4.28, S4.29, S4.33
+    #region S4.28 - S4.30, S4.33
 
     /// <remarks>Book C-2 Section S4.28, S4.29, S4.33</remarks>
     /// <exception cref="OverflowException"></exception>
@@ -276,17 +273,10 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         for (int i = 0; i < resolvedRecords.Length; i++)
         {
             if (resolvedRecords[i] == CardRiskManagementDataObjectList1.Tag)
-            {
-                HandleCdol1(CardRiskManagementDataObjectList1.Decode(_KernelDatabase.Get(CardRiskManagementDataObjectList1.Tag)
-                                                                         .EncodeTagLengthValue().AsSpan()));
-            }
+                HandleCdol1((CardRiskManagementDataObjectList1) _KernelDatabase.Get(CardRiskManagementDataObjectList1.Tag));
 
             if (resolvedRecords[i] == DataStorageDataObjectList.Tag)
-            {
-                HandleDsdol(session, rapdu, isRecordSigned,
-                            DataStorageDataObjectList.Decode(_KernelDatabase.Get(DataStorageDataObjectList.Tag).EncodeTagLengthValue()
-                                                                 .AsSpan()));
-            }
+                HandleDsdol(session, rapdu, isRecordSigned, (DataStorageDataObjectList) _KernelDatabase.Get(DataStorageDataObjectList.Tag));
         }
     }
 
@@ -303,7 +293,30 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     #endregion
 
-    #region S4.32 - S4.33
+    #region S4.31
+
+    public void HandleDataStorageRead(
+        Kernel2Session session,
+        ReadRecordResponse rapdu,
+        bool isRecordSigned,
+        DataStorageDataObjectList dsdol)
+    {
+        if (!_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out PrimitiveValue? idsStatus))
+        {
+            AttemptToUpdateStaticDataToBeAuthenticated(session, rapdu, isRecordSigned);
+
+            return;
+        }
+
+        if (!((IntegratedDataStorageStatus) idsStatus!).IsReadSet())
+        {
+            AttemptToUpdateStaticDataToBeAuthenticated(session, rapdu, isRecordSigned);
+
+            return;
+        }
+
+        HandleDsdol(session, rapdu, isRecordSigned, dsdol);
+    }
 
     /// <remarks>Book C-2 Section S4.32 - S4.33</remarks>
     /// <exception cref="DataElementParsingException"></exception>
@@ -314,18 +327,44 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     public void HandleDsdol(Kernel2Session session, ReadRecordResponse rapdu, bool isRecordSigned, DataStorageDataObjectList dsdol)
     {
-        if (!_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out TagLengthValue? idsStatus))
+        // BUG: I think this section is wrong
+        if (!_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out PrimitiveValue? idsStatus))
+        {
             AttemptToUpdateStaticDataToBeAuthenticated(session, rapdu, isRecordSigned);
 
-        if (!IntegratedDataStorageStatus.Decode(idsStatus!.EncodeValue().AsSpan()).IsReadSet())
+            return;
+        }
+
+        if (!((IntegratedDataStorageStatus) idsStatus!).IsReadSet())
+        {
             AttemptToUpdateStaticDataToBeAuthenticated(session, rapdu, isRecordSigned);
 
-        if (!_KernelDatabase.TryGet(DataStorageSlotManagementControl.Tag, out TagLengthValue? dsSlotControl))
+            return;
+        }
+
+        if (_KernelDatabase.TryGet(DataStorageSlotManagementControl.Tag, out PrimitiveValue? dsSlotControl))
+        {
             AttemptToUpdateStaticDataToBeAuthenticated(session, rapdu, isRecordSigned);
 
-        if (!DataStorageSlotManagementControl.Decode(dsSlotControl!.EncodeTagLengthValue().AsSpan()).IsLocked())
+            return;
+        }
+
+        if (((DataStorageSlotManagementControl) dsSlotControl!).IsLocked())
+        {
             AttemptToUpdateStaticDataToBeAuthenticated(session, rapdu, isRecordSigned);
 
+            return;
+        }
+
+        EnqueueDsdolToDataNeeded(dsdol);
+    }
+
+    #endregion
+
+    #region S4.33
+
+    private void EnqueueDsdolToDataNeeded(DataStorageDataObjectList dsdol)
+    {
         _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, dsdol.GetNeededData(_KernelDatabase));
     }
 

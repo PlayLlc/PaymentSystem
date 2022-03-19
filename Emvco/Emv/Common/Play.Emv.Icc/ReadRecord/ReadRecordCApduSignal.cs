@@ -38,8 +38,7 @@ public class ReadRecordCApduSignal : CApduSignal
     /// <summary>
     ///     Selects an Elementary File matching the
     ///     <param name="shortFileIdentifier" />
-    ///     and reads the record in the
-    ///     ordinal position specified by
+    ///     and reads the record in the ordinal position specified by
     ///     <param name="recordNumber" />
     /// </summary>
     public static ReadRecordCApduSignal ReadRecord(byte shortFileIdentifier, byte recordNumber)

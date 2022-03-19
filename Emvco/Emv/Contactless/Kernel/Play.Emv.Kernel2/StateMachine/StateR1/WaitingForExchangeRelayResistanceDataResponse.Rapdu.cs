@@ -1,6 +1,8 @@
 ﻿using System;
 
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
+using Play.Ber.Identifiers;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
@@ -8,6 +10,7 @@ using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
+using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
@@ -38,7 +41,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         if (TryHandleInvalidResultCode(session, signal))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        if (TryPersistingRapdu(session, signal))
+        if (TryPersistingRapdu(session, (GetDataResponse) signal))
             return _KernelStateResolver.GetKernelState(StateId);
 
         MeasuredRelayResistanceProcessingTime processingTime = CalculateMeasuredRrpTime(timeElapsed);
@@ -119,15 +122,19 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <remarks>Book C-2 Section SR1.14 - SR1.17 </remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    private bool TryPersistingRapdu(KernelSession session, QueryPcdResponse signal)
+    private bool TryPersistingRapdu(KernelSession session, GetDataResponse signal)
     {
         if (signal.GetStatusWords() == StatusWords._9000)
             return false;
 
         try
         {
-            _KernelDatabase.Update(((GetDataResponse) signal).GetTagLengthValueResult());
-            _DataExchangeKernelService.Resolve((GetDataResponse) signal);
+            // BUG: I'm pretty sure we're supposed to discard any values that the card doesn't have. Look at the logic and fix this
+            if (!signal.TryGetPrimitiveValue(out PrimitiveValue? getDataElement))
+                throw new NotImplementedException();
+
+            _KernelDatabase.Update(getDataElement!);
+            _DataExchangeKernelService.ResolveTagsToReadYet(getDataElement!);
 
             return true;
         }

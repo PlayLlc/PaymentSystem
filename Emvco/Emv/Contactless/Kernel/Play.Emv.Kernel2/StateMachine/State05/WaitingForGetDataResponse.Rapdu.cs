@@ -128,8 +128,8 @@ public partial class WaitingForGetDataResponse : KernelState
     public void PersistGetDataResponse(GetDataResponse signal)
     {
         try
-        { 
-             PrimitiveValue[] getData = _PrimitiveRuntimeCodec.DecodePrimitiveSiblingsAtRuntime(signal.GetData()).ToArray();
+        {
+            PrimitiveValue[] getData = _RuntimeCodec.DecodePrimitiveSiblingsAtRuntime(signal.GetData()).ToArray();
 
             _KernelDatabase.Update(getData);
             _DataExchangeKernelService.ResolveTagsToReadYet(getData);
@@ -165,7 +165,7 @@ public partial class WaitingForGetDataResponse : KernelState
         dataExchanger.TryPeek(DekRequestType.TagsToRead, out Tag result);
         PrimitiveValue emptyResult = new Empty(result);
         database.Update(emptyResult);
-        dataExchanger.ResolveTagsToReadYet(emptyResult); 
+        dataExchanger.ResolveTagsToReadYet(emptyResult);
     }
 
     #endregion

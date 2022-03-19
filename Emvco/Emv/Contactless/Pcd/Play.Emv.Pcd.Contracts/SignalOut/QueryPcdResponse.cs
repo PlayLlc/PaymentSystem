@@ -15,9 +15,9 @@ namespace Play.Emv.Pcd.Contracts;
 public record QueryPcdResponse : ResponseSignal
 {
     #region Static Metadata
-
+    
     public static readonly ChannelTypeId ChannelTypeId = ChannelType.ProximityCouplingDevice;
-    private static readonly EmvCodec _Codec = EmvCodec.GetBerCodec();
+    protected static readonly EmvCodec _Codec = EmvCodec.GetBerCodec();
 
     #endregion
 
