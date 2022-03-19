@@ -57,7 +57,16 @@ public record PosCardholderInteractionInformation : DataElement<uint>, IEquality
     #endregion
 
     #region Equality
+    public static  bool EqualsStatic(PosCardholderInteractionInformation? x, PosCardholderInteractionInformation? y)
+    {
+        if (x is null)
+            return y is null;
 
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
     public bool Equals(PosCardholderInteractionInformation? x, PosCardholderInteractionInformation? y)
     {
         if (x is null)

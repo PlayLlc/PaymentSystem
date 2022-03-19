@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
@@ -123,12 +125,14 @@ public partial class WaitingForGetDataResponse : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    public void PersistGetDataResponse(QueryPcdResponse signal)
+    public void PersistGetDataResponse(GetDataResponse signal)
     {
         try
-        {
-            _KernelDatabase.Update(((GetDataResponse) signal).GetTagLengthValueResult());
-            _DataExchangeKernelService.Resolve((GetDataResponse) signal);
+        { 
+             PrimitiveValue[] getData = _PrimitiveRuntimeCodec.DecodePrimitiveSiblingsAtRuntime(signal.GetData()).ToArray();
+
+            _KernelDatabase.Update(getData);
+            _DataExchangeKernelService.ResolveTagsToReadYet(getData);
         }
         catch (BerParsingException)
         {
@@ -156,19 +160,12 @@ public partial class WaitingForGetDataResponse : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    private static void HandleBerParsingException(QueryPcdResponse signal, DataExchangeKernelService dataExchanger, KernelDatabase database)
+    private static void HandleBerParsingException(DataExchangeKernelService dataExchanger, KernelDatabase database)
     {
         dataExchanger.TryPeek(DekRequestType.TagsToRead, out Tag result);
-        TagLengthValue nullResult = new(result, Array.Empty<byte>());
-
-        byte[] emptyRapduBytes = new byte[nullResult.GetTagLengthValueByteCount() + 2];
-        emptyRapduBytes[0] = StatusWords._9000.GetStatusWord1();
-        emptyRapduBytes[1] = StatusWords._9000.GetStatusWord2();
-        nullResult.EncodeTagLengthValue().AsSpan().CopyTo(emptyRapduBytes[2..]);
-
-        database.Update(nullResult);
-        dataExchanger.Resolve(new GetDataResponse(signal.GetCorrelationId(), signal.GetTransactionSessionId(),
-                                                  new GetDataRApduSignal(emptyRapduBytes)));
+        PrimitiveValue emptyResult = new Empty(result);
+        database.Update(emptyResult);
+        dataExchanger.ResolveTagsToReadYet(emptyResult); 
     }
 
     #endregion

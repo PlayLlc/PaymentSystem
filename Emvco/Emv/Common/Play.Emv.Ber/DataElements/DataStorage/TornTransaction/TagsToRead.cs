@@ -46,7 +46,7 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<PrimitiveValue
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    public int Resolve(TagLengthValue[] value)
+    public int Resolve(PrimitiveValue[] value)
     {
         for (nint i = 0; i < _Value.Count; i++)
         {

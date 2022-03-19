@@ -6,6 +6,7 @@ using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
+using Play.Emv.Kernel2.Databases;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
@@ -17,6 +18,7 @@ public abstract class KernelState : IGetKernelStateId
 {
     #region Instance Values
 
+    protected readonly IResolveKnownObjectsAtRuntime _PrimitiveRuntimeCodec;
     protected readonly KernelDatabase _KernelDatabase;
     protected readonly DataExchangeKernelService _DataExchangeKernelService;
     protected readonly IKernelEndpoint _KernelEndpoint;
@@ -112,6 +114,8 @@ public abstract class KernelState : IGetKernelStateId
                 RequestOutOfSyncException($"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
         }
     }
+
+
 
     /// <summary>
     ///     HandleRequestOutOfSync

@@ -1,13 +1,17 @@
 ﻿using System;
 
+using Play.Ber.DataObjects;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Ber.Templates;
+using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
+using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Icc.Messaging.Apdu;
@@ -20,17 +24,21 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
 
-        if (TryHandleL1Error(session, signal))
+        if(signal is not GetProcessingOptionsResponse rapdu)
+            throw new RequestOutOfSyncException($"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
+
+        if (TryHandleL1Error(session, rapdu))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        if (TryHandleInvalidResultCode(session, signal))
+        if (TryHandleInvalidResultCode(session, rapdu))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        if (TryPersistingRapdu(session, signal))
+        if (TryPersistingRapdu(session, rapdu))
             return _KernelStateResolver.GetKernelState(StateId);
 
         if (TryHandleMissingCardData(session))
@@ -38,11 +46,11 @@ public partial class WaitingForGpoResponse : KernelState
 
         Kernel2Session kernel2Session = (Kernel2Session) session;
         ApplicationInterchangeProfile applicationInterchangeProfile =
-            ApplicationInterchangeProfile.Decode(_KernelDatabase.Get(ApplicationInterchangeProfile.Tag).EncodeValue().AsSpan());
+            (ApplicationInterchangeProfile) _KernelDatabase.Get(ApplicationInterchangeProfile.Tag); 
         ApplicationFileLocator applicationFileLocator =
-            ApplicationFileLocator.Decode(_KernelDatabase.Get(ApplicationFileLocator.Tag).EncodeValue().AsSpan());
+            (ApplicationFileLocator) _KernelDatabase.Get(ApplicationFileLocator.Tag); 
         KernelConfiguration kernelConfiguration =
-            KernelConfiguration.Decode(_KernelDatabase.Get(KernelConfiguration.Tag).EncodeValue().AsSpan());
+            (KernelConfiguration) _KernelDatabase.Get(KernelConfiguration.Tag); 
 
         if (IsEmvModeSupported(applicationInterchangeProfile))
             return HandleEmvMode(kernel2Session, applicationFileLocator, applicationInterchangeProfile, kernelConfiguration);
@@ -112,15 +120,18 @@ public partial class WaitingForGpoResponse : KernelState
     /// <remarks>Book C-2 SectionS3.10 - S3.12</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    private bool TryPersistingRapdu(KernelSession session, QueryPcdResponse signal)
+    private bool TryPersistingRapdu(KernelSession session, GetProcessingOptionsResponse signal)
     {
         if (signal.GetStatusWords() == StatusWords._9000)
             return false;
 
         try
         {
-            _KernelDatabase.Update(((GetDataResponse) signal).GetTagLengthValueResult());
-            _DataExchangeKernelService.Resolve((GetDataResponse) signal);
+            ProcessingOptions processingOptions = signal.AsProcessingOptions();
+            PrimitiveValue[] dataToGet = signal.AsProcessingOptions().GetPrimitiveDescendants();
+            
+            _KernelDatabase.Update(dataToGet);
+            _DataExchangeKernelService.ResolveTagsToReadYet(dataToGet);
 
             return true;
         }

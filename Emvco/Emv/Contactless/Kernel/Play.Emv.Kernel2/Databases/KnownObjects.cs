@@ -388,8 +388,8 @@ public sealed class KnownObjects : IEquatable<KnownObjects>, IEqualityComparer<K
      
 
     public static bool TryGet(Tag value, out KnownObjects result) => _ValueObjectMap.TryGetValue(value, out result);
-
-    public static bool TryDecodingPrimitiveValueAtRuntime(ReadOnlyMemory<byte> value, out PrimitiveValue? result)
+ 
+    public bool TryDecodingPrimitiveValueAtRuntime(ReadOnlyMemory<byte> value, out PrimitiveValue? result)
     {
         try
         {
@@ -418,7 +418,7 @@ public sealed class KnownObjects : IEquatable<KnownObjects>, IEqualityComparer<K
      
 
     /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
-    public static IEnumerable<PrimitiveValue> DecodePrimitiveSiblingsAtRuntime(ReadOnlyMemory<byte> value)
+    public IEnumerable<PrimitiveValue> DecodePrimitiveSiblingsAtRuntime(ReadOnlyMemory<byte> value)
     {
         EncodedTlvSiblings siblings = _Codec.DecodeChildren(value);
         uint[] tags = siblings.GetTags();

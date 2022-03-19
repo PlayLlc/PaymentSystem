@@ -10,6 +10,7 @@ using Play.Emv.DataExchange;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
+using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalIn;
@@ -26,6 +27,7 @@ public class DataExchangeKernelService
     protected readonly IQueryTlvDatabase _TlvDatabase;
     private readonly ISendTerminalQueryResponse _KernelEndpoint;
     private readonly IHandleTerminalRequests _TerminalEndpoint;
+    private readonly IResolveKnownObjectsAtRuntime _RuntimePrimitiveCodec;
     private readonly DataExchangeKernelLock _Lock = new();
 
     #endregion
@@ -35,10 +37,12 @@ public class DataExchangeKernelService
     public DataExchangeKernelService(
         IHandleTerminalRequests terminalEndpoint,
         KernelDatabase kernelDatabase,
-        ISendTerminalQueryResponse kernelEndpoint)
+        ISendTerminalQueryResponse kernelEndpoint,
+        IResolveKnownObjectsAtRuntime runtimePrimitiveCodec)
     {
         _TerminalEndpoint = terminalEndpoint;
         _KernelEndpoint = kernelEndpoint;
+        _RuntimePrimitiveCodec = runtimePrimitiveCodec;
         _TlvDatabase = kernelDatabase;
     }
 
@@ -85,6 +89,7 @@ public class DataExchangeKernelService
 
     #region Requests
 
+    #region Query Terminal
     public void SendRequest(KernelSessionId sessionId)
     {
         lock (_Lock)
@@ -100,6 +105,11 @@ public class DataExchangeKernelService
         }
     }
 
+
+    #endregion
+
+    #region Read
+    
     /// <exception cref="InvalidOperationException"></exception>
     public bool IsEmpty(DekRequestType type)
     {
@@ -135,6 +145,59 @@ public class DataExchangeKernelService
             return _Lock.Requests[type].TryPeek(out result);
         }
     }
+    #endregion
+
+
+    #region Resolve
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    public void ResolveTagsToReadYet(params PrimitiveValue[] valuesToResolve)
+    {
+        lock (_Lock.Requests)
+        {
+            if (!_Lock.Requests.ContainsKey(DekRequestType.TagsToRead))
+            {
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
+            }
+             
+            ((TagsToRead) _Lock.Requests[DekRequestType.TagsToRead]).Resolve(valuesToResolve); 
+             
+           
+        }
+    }
+
+    /// <summary>
+    /// Resolves known objects in Data Needed Yet from the TLV Database
+    /// </summary>
+    /// <param name="valuesToResolve"></param>
+    /// <exception cref="InvalidOperationException"></exception>
+    public void ResolveDataNeededYet(params PrimitiveValue[] valuesToResolve)
+    {
+        lock (_Lock.Requests)
+        {
+            if (!_Lock.Requests.ContainsKey(DekRequestType.DataNeeded))
+            {
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
+            }
+
+            DataNeeded dataNeeded = (DataNeeded) _Lock.Requests[DekRequestType.DataNeeded];
+
+            for (int i = 0; i < dataNeeded.Count(); i++)
+            {
+                if (!dataNeeded.TryDequeue(out Tag tagToRead))
+                    throw new InvalidOperationException();
+
+                if (_TlvDatabase.IsPresentAndNotEmpty(tagToRead))
+                    continue;
+
+                dataNeeded.Enqueue(tagToRead);
+            }
+        }
+    }
+     
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
@@ -147,8 +210,9 @@ public class DataExchangeKernelService
                 throw new
                     InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
             }
+             
 
-            ((TagsToRead) _Lock.Requests[DekRequestType.TagsToRead]).Resolve(dataResponse.GetTagLengthValueResult());
+            ((TagsToRead) _Lock.Requests[DekRequestType.TagsToRead]).Resolve(dataResponse());
         }
     }
 
@@ -186,6 +250,13 @@ public class DataExchangeKernelService
         }
     }
 
+    #endregion
+
+  
+
+    #region Initialize
+    
+
     // TODO: We might only be initializing DataNeeded here
     public void Initialize(DataExchangeRequest list)
     {
@@ -208,6 +279,9 @@ public class DataExchangeKernelService
             _ = _Lock.Requests.TryAdd(listType, DekRequestType.GetDefault(listType));
         }
     }
+    #endregion
+
+    #region Enqueue
 
     /// <summary>
     ///     Enqueue
@@ -248,6 +322,10 @@ public class DataExchangeKernelService
             _Lock.Requests[type].Enqueue(listItems);
         }
     }
+
+    #endregion
+
+   
 
     #endregion
 

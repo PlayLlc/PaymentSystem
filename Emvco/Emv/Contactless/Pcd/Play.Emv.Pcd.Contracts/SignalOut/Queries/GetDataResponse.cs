@@ -27,6 +27,7 @@ public record GetDataResponse : QueryPcdResponse
     #region Instance Members
 
     public TagLengthValue GetTagLengthValueResult() => EmvCodec.GetBerCodec().DecodeTagLengthValue(GetRApduSignal().GetData().AsSpan());
+     
 
     #endregion
 }
