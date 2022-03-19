@@ -3,32 +3,25 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
-using Microsoft.Toolkit.HighPerformance;
-
-using Play.Ber.DataObjects;
-using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Ber.InternalFactories;
-using Play.Emv.Ber;
+using Play.Core;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Templates;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Kernel2.Databases;
 
-public sealed class KnownObjects : IResolveKnownObjectsAtRuntime, IEquatable<KnownObjects>, IEqualityComparer<KnownObjects>,
-    IComparable<KnownObjects>
+public sealed record KnownObjects : EnumObject<Tag>
 {
     #region Static Metadata
 
     private static readonly ImmutableSortedDictionary<Tag, KnownObjects> _ValueObjectMap;
-    private static readonly EmvCodec _Codec = EmvCodec.GetBerCodec();
 
     #endregion
 
     #region Instance Values
 
-    private readonly Tag _Tag;
-    private readonly Func<ReadOnlyMemory<byte>, PrimitiveValue> _Decoder;
+    public int Count => _ValueObjectMap.Count;
 
     #endregion
 
@@ -39,415 +32,217 @@ public sealed class KnownObjects : IResolveKnownObjectsAtRuntime, IEquatable<Kno
     {
         _ValueObjectMap = new Dictionary<Tag, KnownObjects>
         {
-            {AccountType.Tag, new KnownObjects(AccountType.Tag, AccountType.StaticDecode)},
-            {AcquirerIdentifier.Tag, new KnownObjects(AcquirerIdentifier.Tag, AcquirerIdentifier.Decode)},
-            {
-                AdditionalTerminalCapabilities.Tag,
-                new KnownObjects(AdditionalTerminalCapabilities.Tag, AdditionalTerminalCapabilities.Decode)
-            },
-            {AmountAuthorizedNumeric.Tag, new KnownObjects(AmountAuthorizedNumeric.Tag, AmountAuthorizedNumeric.Decode)},
-            {AmountOtherNumeric.Tag, new KnownObjects(AmountOtherNumeric.Tag, AmountOtherNumeric.Decode)},
-            {
-                ApplicationCapabilitiesInformation.Tag,
-                new KnownObjects(ApplicationCapabilitiesInformation.Tag, ApplicationCapabilitiesInformation.Decode)
-            },
-            {ApplicationCryptogram.Tag, new KnownObjects(ApplicationCryptogram.Tag, ApplicationCryptogram.Decode)},
-            {ApplicationCurrencyCode.Tag, new KnownObjects(ApplicationCurrencyCode.Tag, ApplicationCurrencyCode.Decode)},
-            {ApplicationCurrencyExponent.Tag, new KnownObjects(ApplicationCurrencyExponent.Tag, ApplicationCurrencyExponent.Decode)},
-            {ApplicationEffectiveDate.Tag, new KnownObjects(ApplicationEffectiveDate.Tag, ApplicationEffectiveDate.Decode)},
-            {ApplicationExpirationDate.Tag, new KnownObjects(ApplicationExpirationDate.Tag, ApplicationExpirationDate.Decode)},
-            {ApplicationFileLocator.Tag, new KnownObjects(ApplicationFileLocator.Tag, ApplicationFileLocator.Decode)},
-            {
-                ApplicationInterchangeProfile.Tag,
-                new KnownObjects(ApplicationInterchangeProfile.Tag, ApplicationInterchangeProfile.Decode)
-            },
-            {ApplicationLabel.Tag, new KnownObjects(ApplicationLabel.Tag, ApplicationLabel.Decode)},
-            {ApplicationPan.Tag, new KnownObjects(ApplicationPan.Tag, ApplicationPan.Decode)},
-            {ApplicationPanSequenceNumber.Tag, new KnownObjects(ApplicationPanSequenceNumber.Tag, ApplicationPanSequenceNumber.Decode)},
-            {ApplicationPreferredName.Tag, new KnownObjects(ApplicationPreferredName.Tag, ApplicationPreferredName.Decode)},
-            {ApplicationPriorityIndicator.Tag, new KnownObjects(ApplicationPriorityIndicator.Tag, ApplicationPriorityIndicator.Decode)},
-            {
-                ApplicationTransactionCounter.Tag,
-                new KnownObjects(ApplicationTransactionCounter.Tag, ApplicationTransactionCounter.Decode)
-            },
-            {ApplicationUsageControl.Tag, new KnownObjects(ApplicationUsageControl.Tag, ApplicationUsageControl.Decode)},
-            {ApplicationVersionNumberCard.Tag, new KnownObjects(ApplicationVersionNumberCard.Tag, ApplicationVersionNumberCard.Decode)},
-            {
-                ApplicationVersionNumberReader.Tag,
-                new KnownObjects(ApplicationVersionNumberReader.Tag, ApplicationVersionNumberReader.Decode)
-            },
-            {BalanceReadAfterGenAc.Tag, new KnownObjects(BalanceReadAfterGenAc.Tag, BalanceReadAfterGenAc.Decode)},
-            {CardDataInputCapability.Tag, new KnownObjects(CardDataInputCapability.Tag, CardDataInputCapability.Decode)},
-            {
-                CardRiskManagementDataObjectList1.Tag,
-                new KnownObjects(CardRiskManagementDataObjectList1.Tag, CardRiskManagementDataObjectList1.Decode)
-            },
-            {
-                CardRiskManagementDataObjectList1RelatedData.Tag,
-                new KnownObjects(CardRiskManagementDataObjectList1RelatedData.Tag, CardRiskManagementDataObjectList1RelatedData.Decode)
-            },
-            {CryptogramInformationData.Tag, new KnownObjects(CryptogramInformationData.Tag, CryptogramInformationData.Decode)},
-            {
-                CardholderVerificationCode3Track1.Tag,
-                new KnownObjects(CardholderVerificationCode3Track1.Tag, CardholderVerificationCode3Track1.Decode)
-            },
-            {
-                CardholderVerificationCode3Track2.Tag,
-                new KnownObjects(CardholderVerificationCode3Track2.Tag, CardholderVerificationCode3Track2.Decode)
-            },
-            {CvmCapabilityCvmRequired.Tag, new KnownObjects(CvmCapabilityCvmRequired.Tag, CvmCapabilityCvmRequired.Decode)},
-            {CvmCapabilityNoCvmRequired.Tag, new KnownObjects(CvmCapabilityNoCvmRequired.Tag, CvmCapabilityNoCvmRequired.Decode)},
-            {CvmList.Tag, new KnownObjects(CvmList.Tag, CvmList.Decode)},
-            {CvmResults.Tag, new KnownObjects(CvmResults.Tag, CvmResults.Decode)},
-            {DataNeeded.Tag, new KnownObjects(DataNeeded.Tag, DataNeeded.Decode)},
-            {DataRecord.Tag, new KnownObjects(DataRecord.Tag, DataRecord.Decode)},
-            {DataRecoveryDataObjectList.Tag, new KnownObjects(DataRecoveryDataObjectList.Tag, DataRecoveryDataObjectList.Decode)},
-            {
-                DataRecoveryDataObjectListRelatedData.Tag,
-                new KnownObjects(DataRecoveryDataObjectListRelatedData.Tag, DataRecoveryDataObjectListRelatedData.Decode)
-            },
-            {
-                DataStorageApplicationCryptogramType.Tag,
-                new KnownObjects(DataStorageApplicationCryptogramType.Tag, DataStorageApplicationCryptogramType.Decode)
-            },
-            {DataStorageSlotAvailability.Tag, new KnownObjects(DataStorageSlotAvailability.Tag, DataStorageSlotAvailability.Decode)},
-            {DataStorageDataObjectList.Tag, new KnownObjects(DataStorageDataObjectList.Tag, DataStorageDataObjectList.Decode)},
-            {DataStorageDigestHash.Tag, new KnownObjects(DataStorageDigestHash.Tag, DataStorageDigestHash.Decode)},
-            {DataStorageId.Tag, new KnownObjects(DataStorageId.Tag, DataStorageId.Decode)},
-            {DataStorageInputCard.Tag, new KnownObjects(DataStorageInputCard.Tag, DataStorageInputCard.Decode)},
-            {DataStorageInputTerminal.Tag, new KnownObjects(DataStorageInputTerminal.Tag, DataStorageInputTerminal.Decode)},
-            {
-                DataStorageOperatorDataSetCard.Tag,
-                new KnownObjects(DataStorageOperatorDataSetCard.Tag, DataStorageOperatorDataSetCard.Decode)
-            },
-            {
-                DataStorageOperatorDataSetInfo.Tag,
-                new KnownObjects(DataStorageOperatorDataSetInfo.Tag, DataStorageOperatorDataSetInfo.Decode)
-            },
-            {
-                DataStorageOperatorDataSetInfoForReader.Tag,
-                new KnownObjects(DataStorageOperatorDataSetInfoForReader.Tag, DataStorageOperatorDataSetInfoForReader.Decode)
-            },
-            {
-                DataStorageOperatorDataSetTerminal.Tag,
-                new KnownObjects(DataStorageOperatorDataSetTerminal.Tag, DataStorageOperatorDataSetTerminal.Decode)
-            },
-            {
-                DataStorageRequestedOperatorId.Tag,
-                new KnownObjects(DataStorageRequestedOperatorId.Tag, DataStorageRequestedOperatorId.Decode)
-            },
-            {
-                DataStorageSlotManagementControl.Tag,
-                new KnownObjects(DataStorageSlotManagementControl.Tag, DataStorageSlotManagementControl.Decode)
-            },
-            {DataStorageSummary1.Tag, new KnownObjects(DataStorageSummary1.Tag, DataStorageSummary1.Decode)},
-            {DataStorageSummary2.Tag, new KnownObjects(DataStorageSummary2.Tag, DataStorageSummary2.Decode)},
-            {DataStorageSummary3.Tag, new KnownObjects(DataStorageSummary3.Tag, DataStorageSummary3.Decode)},
-            {DataStorageSummaryStatus.Tag, new KnownObjects(DataStorageSummaryStatus.Tag, DataStorageSummaryStatus.Decode)},
-            {
-                DataStorageUnpredictableNumber.Tag,
-                new KnownObjects(DataStorageUnpredictableNumber.Tag, DataStorageUnpredictableNumber.Decode)
-            },
-            {
-                DataStorageVersionNumberTerminal.Tag,
-                new KnownObjects(DataStorageVersionNumberTerminal.Tag, DataStorageVersionNumberTerminal.Decode)
-            },
-            {DataToSend.Tag, new KnownObjects(DataToSend.Tag, DataToSend.Decode)},
-            {DiscretionaryDataCardTrack1.Tag, new KnownObjects(DiscretionaryDataCardTrack1.Tag, DiscretionaryDataCardTrack1.Decode)},
-            {DiscretionaryDataCardTrack2.Tag, new KnownObjects(DiscretionaryDataCardTrack2.Tag, DiscretionaryDataCardTrack2.Decode)},
-            {DedicatedFileName.Tag, new KnownObjects(DedicatedFileName.Tag, DecodeDedicatedFileName)},
-            {
-                DefaultUnpredictableNumberDataObjectList.Tag,
-                new KnownObjects(DefaultUnpredictableNumberDataObjectList.Tag, DefaultUnpredictableNumberDataObjectList.Decode)
-            },
+            {AccountType.Tag, new(AccountType.Tag)},
+            {AcquirerIdentifier.Tag, new(AcquirerIdentifier.Tag)},
+            {AdditionalTerminalCapabilities.Tag, new(AdditionalTerminalCapabilities.Tag)},
+            {AmountAuthorizedNumeric.Tag, new(AmountAuthorizedNumeric.Tag)},
+            {AmountOtherNumeric.Tag, new(AmountOtherNumeric.Tag)},
+            {ApplicationCapabilitiesInformation.Tag, new(ApplicationCapabilitiesInformation.Tag)},
+            {ApplicationCryptogram.Tag, new(ApplicationCryptogram.Tag)},
+            {ApplicationCurrencyCode.Tag, new(ApplicationCurrencyCode.Tag)},
+            {ApplicationCurrencyExponent.Tag, new(ApplicationCurrencyExponent.Tag)},
+            {ApplicationEffectiveDate.Tag, new(ApplicationEffectiveDate.Tag)},
+            {ApplicationExpirationDate.Tag, new(ApplicationExpirationDate.Tag)},
+            {ApplicationFileLocator.Tag, new(ApplicationFileLocator.Tag)},
+            {ApplicationInterchangeProfile.Tag, new(ApplicationInterchangeProfile.Tag)},
+            {ApplicationLabel.Tag, new(ApplicationLabel.Tag)},
+            {ApplicationPan.Tag, new(ApplicationPan.Tag)},
+            {ApplicationPanSequenceNumber.Tag, new(ApplicationPanSequenceNumber.Tag)},
+            {ApplicationPreferredName.Tag, new(ApplicationPreferredName.Tag)},
+            {ApplicationPriorityIndicator.Tag, new(ApplicationPriorityIndicator.Tag)},
+            {ApplicationTransactionCounter.Tag, new(ApplicationTransactionCounter.Tag)},
+            {ApplicationUsageControl.Tag, new(ApplicationUsageControl.Tag)},
+            {ApplicationVersionNumberCard.Tag, new(ApplicationVersionNumberCard.Tag)},
+            {ApplicationVersionNumberReader.Tag, new(ApplicationVersionNumberReader.Tag)},
+            {BalanceReadAfterGenAc.Tag, new(BalanceReadAfterGenAc.Tag)},
+            {CardDataInputCapability.Tag, new(CardDataInputCapability.Tag)},
+            {CardRiskManagementDataObjectList1.Tag, new(CardRiskManagementDataObjectList1.Tag)},
+            {CardRiskManagementDataObjectList1RelatedData.Tag, new(CardRiskManagementDataObjectList1RelatedData.Tag)},
+            {CryptogramInformationData.Tag, new(CryptogramInformationData.Tag)},
+            {CardholderVerificationCode3Track1.Tag, new(CardholderVerificationCode3Track1.Tag)},
+            {CardholderVerificationCode3Track2.Tag, new(CardholderVerificationCode3Track2.Tag)},
+            {CvmCapabilityCvmRequired.Tag, new(CvmCapabilityCvmRequired.Tag)},
+            {CvmCapabilityNoCvmRequired.Tag, new(CvmCapabilityNoCvmRequired.Tag)},
+            {CvmList.Tag, new(CvmList.Tag)},
+            {CvmResults.Tag, new(CvmResults.Tag)},
+            {DataNeeded.Tag, new(DataNeeded.Tag)},
+            {DataRecord.Tag, new(DataRecord.Tag)},
+            {DataRecoveryDataObjectList.Tag, new(DataRecoveryDataObjectList.Tag)},
+            {DataRecoveryDataObjectListRelatedData.Tag, new(DataRecoveryDataObjectListRelatedData.Tag)},
+            {DataStorageApplicationCryptogramType.Tag, new(DataStorageApplicationCryptogramType.Tag)},
+            {DataStorageSlotAvailability.Tag, new(DataStorageSlotAvailability.Tag)},
+            {DataStorageDataObjectList.Tag, new(DataStorageDataObjectList.Tag)},
+            {DataStorageDigestHash.Tag, new(DataStorageDigestHash.Tag)},
+            {DataStorageId.Tag, new(DataStorageId.Tag)},
+            {DataStorageInputCard.Tag, new(DataStorageInputCard.Tag)},
+            {DataStorageInputTerminal.Tag, new(DataStorageInputTerminal.Tag)},
+            {DataStorageOperatorDataSetCard.Tag, new(DataStorageOperatorDataSetCard.Tag)},
+            {DataStorageOperatorDataSetInfo.Tag, new(DataStorageOperatorDataSetInfo.Tag)},
+            {DataStorageOperatorDataSetInfoForReader.Tag, new(DataStorageOperatorDataSetInfoForReader.Tag)},
+            {DataStorageOperatorDataSetTerminal.Tag, new(DataStorageOperatorDataSetTerminal.Tag)},
+            {DataStorageRequestedOperatorId.Tag, new(DataStorageRequestedOperatorId.Tag)},
+            {DataStorageSlotManagementControl.Tag, new(DataStorageSlotManagementControl.Tag)},
+            {DataStorageSummary1.Tag, new(DataStorageSummary1.Tag)},
+            {DataStorageSummary2.Tag, new(DataStorageSummary2.Tag)},
+            {DataStorageSummary3.Tag, new(DataStorageSummary3.Tag)},
+            {DataStorageSummaryStatus.Tag, new(DataStorageSummaryStatus.Tag)},
+            {DataStorageUnpredictableNumber.Tag, new(DataStorageUnpredictableNumber.Tag)},
+            {DataStorageVersionNumberTerminal.Tag, new(DataStorageVersionNumberTerminal.Tag)},
+            {DataToSend.Tag, new(DataToSend.Tag)},
+            {DiscretionaryDataCardTrack1.Tag, new(DiscretionaryDataCardTrack1.Tag)},
+            {DiscretionaryDataCardTrack2.Tag, new(DiscretionaryDataCardTrack2.Tag)},
+            {DedicatedFileName.Tag, new(DedicatedFileName.Tag)},
+            {DefaultUnpredictableNumberDataObjectList.Tag, new(DefaultUnpredictableNumberDataObjectList.Tag)},
             {
                 DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag,
-                new KnownObjects(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag,
-                                 DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Decode)
+                new(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag)
             },
-            {DeviceRelayResistanceEntropy.Tag, new KnownObjects(DeviceRelayResistanceEntropy.Tag, DeviceRelayResistanceEntropy.Decode)},
-            {DiscretionaryData.Tag, new KnownObjects(DiscretionaryData.Tag, DiscretionaryData.StaticDecode)},
-            {ErrorIndication.Tag, new KnownObjects(ErrorIndication.Tag, ErrorIndication.Decode)},
-            {HoldTimeValue.Tag, new KnownObjects(HoldTimeValue.Tag, HoldTimeValue.Decode)},
-            {IccDynamicNumber.Tag, new KnownObjects(IccDynamicNumber.Tag, IccDynamicNumber.Decode)},
-            {IccPublicKeyCertificate.Tag, new KnownObjects(IccPublicKeyCertificate.Tag, IccPublicKeyCertificate.Decode)},
-            {IccPublicKeyExponent.Tag, new KnownObjects(IccPublicKeyExponent.Tag, IccPublicKeyExponent.Decode)},
-            {IccPublicKeyRemainder.Tag, new KnownObjects(IccPublicKeyRemainder.Tag, IccPublicKeyRemainder.Decode)},
-            {IntegratedDataStorageStatus.Tag, new KnownObjects(IntegratedDataStorageStatus.Tag, IntegratedDataStorageStatus.Decode)},
-            {InterfaceDeviceSerialNumber.Tag, new KnownObjects(InterfaceDeviceSerialNumber.Tag, InterfaceDeviceSerialNumber.Decode)},
-            {IssuerActionCodeDefault.Tag, new KnownObjects(IssuerActionCodeDefault.Tag, IssuerActionCodeDefault.Decode)},
-            {IssuerActionCodeDenial.Tag, new KnownObjects(IssuerActionCodeDenial.Tag, IssuerActionCodeDenial.Decode)},
-            {IssuerActionCodeOnline.Tag, new KnownObjects(IssuerActionCodeOnline.Tag, IssuerActionCodeOnline.Decode)},
-            {IssuerApplicationData.Tag, new KnownObjects(IssuerApplicationData.Tag, IssuerApplicationData.Decode)},
-            {IssuerCodeTableIndex.Tag, new KnownObjects(IssuerCodeTableIndex.Tag, IssuerCodeTableIndex.Decode)},
-            {IssuerCountryCode.Tag, new KnownObjects(IssuerCountryCode.Tag, IssuerCountryCode.Decode)},
-            {IssuerPublicKeyCertificate.Tag, new KnownObjects(IssuerPublicKeyCertificate.Tag, IssuerPublicKeyCertificate.Decode)},
-            {IssuerPublicKeyExponent.Tag, new KnownObjects(IssuerPublicKeyExponent.Tag, IssuerPublicKeyExponent.Decode)},
-            {IssuerPublicKeyRemainder.Tag, new KnownObjects(IssuerPublicKeyRemainder.Tag, IssuerPublicKeyRemainder.Decode)},
-            {KernelConfiguration.Tag, new KnownObjects(KernelConfiguration.Tag, KernelConfiguration.Decode)},
-            {KernelId.Tag, new KnownObjects(KernelId.Tag, KernelId.Decode)},
-            {LanguagePreference.Tag, new KnownObjects(LanguagePreference.Tag, LanguagePreference.Decode)},
-            {LogEntry.Tag, new KnownObjects(LogEntry.Tag, LogEntry.Decode)},
-            {
-                MagstripeApplicationVersionNumberReader.Tag,
-                new KnownObjects(MagstripeApplicationVersionNumberReader.Tag, MagstripeApplicationVersionNumberReader.Decode)
-            },
-            {
-                MagstripeCvmCapabilityCvmRequired.Tag,
-                new KnownObjects(MagstripeCvmCapabilityCvmRequired.Tag, MagstripeCvmCapabilityCvmRequired.Decode)
-            },
-            {
-                MagstripeCvmCapabilityNoCvmRequired.Tag,
-                new KnownObjects(MagstripeCvmCapabilityNoCvmRequired.Tag, MagstripeCvmCapabilityNoCvmRequired.Decode)
-            },
-            {
-                MaximumRelayResistanceGracePeriod.Tag,
-                new KnownObjects(MaximumRelayResistanceGracePeriod.Tag, MaximumRelayResistanceGracePeriod.Decode)
-            },
-            {
-                MaxLifetimeOfTornTransactionLogRecords.Tag,
-                new KnownObjects(MaxLifetimeOfTornTransactionLogRecords.Tag, MaxLifetimeOfTornTransactionLogRecords.Decode)
-            },
-            {
-                MaxNumberOfTornTransactionLogRecords.Tag,
-                new KnownObjects(MaxNumberOfTornTransactionLogRecords.Tag, MaxNumberOfTornTransactionLogRecords.Decode)
-            },
-            {
-                MaxTimeForProcessingRelayResistanceApdu.Tag,
-                new KnownObjects(MaxTimeForProcessingRelayResistanceApdu.Tag, MaxTimeForProcessingRelayResistanceApdu.Decode)
-            },
-            {
-                MeasuredRelayResistanceProcessingTime.Tag,
-                new KnownObjects(MeasuredRelayResistanceProcessingTime.Tag, MeasuredRelayResistanceProcessingTime.Decode)
-            },
-            {MerchantCategoryCode.Tag, new KnownObjects(MerchantCategoryCode.Tag, MerchantCategoryCode.Decode)},
-            {MerchantCustomData.Tag, new KnownObjects(MerchantCustomData.Tag, MerchantCustomData.Decode)},
-            {MerchantIdentifier.Tag, new KnownObjects(MerchantIdentifier.Tag, MerchantIdentifier.Decode)},
-            {MerchantNameAndLocation.Tag, new KnownObjects(MerchantNameAndLocation.Tag, MerchantNameAndLocation.Decode)},
-            {MessageHoldTime.Tag, new KnownObjects(MessageHoldTime.Tag, MessageHoldTime.Decode)},
-            {
-                MinimumRelayResistanceGracePeriod.Tag,
-                new KnownObjects(MinimumRelayResistanceGracePeriod.Tag, MinimumRelayResistanceGracePeriod.Decode)
-            },
-            {
-                MinTimeForProcessingRelayResistanceApdu.Tag,
-                new KnownObjects(MinTimeForProcessingRelayResistanceApdu.Tag, MinTimeForProcessingRelayResistanceApdu.Decode)
-            },
-            {MobileSupportIndicator.Tag, new KnownObjects(MobileSupportIndicator.Tag, MobileSupportIndicator.Decode)},
-            {
-                NumericApplicationTransactionCounterTrack1.Tag,
-                new KnownObjects(NumericApplicationTransactionCounterTrack1.Tag, NumericApplicationTransactionCounterTrack1.Decode)
-            },
-            {
-                NumericApplicationTransactionCounterTrack2.Tag,
-                new KnownObjects(NumericApplicationTransactionCounterTrack2.Tag, NumericApplicationTransactionCounterTrack2.Decode)
-            },
-            {OfflineAccumulatorBalance.Tag, new KnownObjects(OfflineAccumulatorBalance.Tag, OfflineAccumulatorBalance.Decode)},
-            {OutcomeParameterSet.Tag, new KnownObjects(OutcomeParameterSet.Tag, OutcomeParameterSet.Decode)},
-            {PaymentAccountReference.Tag, new KnownObjects(PaymentAccountReference.Tag, PaymentAccountReference.Decode)},
-            {PhoneMessageTable.Tag, new KnownObjects(PhoneMessageTable.Tag, PhoneMessageTable.Decode)},
-            {
-                PosCardholderInteractionInformation.Tag,
-                new KnownObjects(PosCardholderInteractionInformation.Tag, PosCardholderInteractionInformation.Decode)
-            },
-            {
-                PositionOfCardVerificationCode3Track1.Tag,
-                new KnownObjects(PositionOfCardVerificationCode3Track1.Tag, PositionOfCardVerificationCode3Track1.Decode)
-            },
-            {
-                PositionOfCardVerificationCode3Track2.Tag,
-                new KnownObjects(PositionOfCardVerificationCode3Track2.Tag, PositionOfCardVerificationCode3Track2.Decode)
-            },
-            {PunatcTrack1.Tag, new KnownObjects(PunatcTrack1.Tag, PunatcTrack1.Decode)},
-            {PunatcTrack2.Tag, new KnownObjects(PunatcTrack2.Tag, PunatcTrack2.Decode)},
-            {PreGenAcPutDataStatus.Tag, new KnownObjects(PreGenAcPutDataStatus.Tag, PreGenAcPutDataStatus.Decode)},
-            {PostGenAcPutDataStatus.Tag, new KnownObjects(PostGenAcPutDataStatus.Tag, PostGenAcPutDataStatus.Decode)},
-            {ProceedToFirstWriteFlag.Tag, new KnownObjects(ProceedToFirstWriteFlag.Tag, ProceedToFirstWriteFlag.Decode)},
-            {
-                ProcessingOptionsDataObjectList.Tag,
-                new KnownObjects(ProcessingOptionsDataObjectList.Tag, ProcessingOptionsDataObjectList.Decode)
-            },
-            {
-                ProcessingOptionsDataObjectListRelatedData.Tag,
-                new KnownObjects(ProcessingOptionsDataObjectListRelatedData.Tag, ProcessingOptionsDataObjectListRelatedData.Decode)
-            },
-            {ProtectedDataEnvelope1.Tag, new KnownObjects(ProtectedDataEnvelope1.Tag, ProtectedDataEnvelope1.Decode)},
-            {ProtectedDataEnvelope2.Tag, new KnownObjects(ProtectedDataEnvelope2.Tag, ProtectedDataEnvelope2.Decode)},
-            {ProtectedDataEnvelope3.Tag, new KnownObjects(ProtectedDataEnvelope3.Tag, ProtectedDataEnvelope3.Decode)},
-            {ProtectedDataEnvelope4.Tag, new KnownObjects(ProtectedDataEnvelope4.Tag, ProtectedDataEnvelope4.Decode)},
-            {ProtectedDataEnvelope5.Tag, new KnownObjects(ProtectedDataEnvelope5.Tag, ProtectedDataEnvelope5.Decode)},
-            {ReaderContactlessFloorLimit.Tag, new KnownObjects(ReaderContactlessFloorLimit.Tag, ReaderContactlessFloorLimit.Decode)},
-            {
-                ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Tag,
-                new KnownObjects(ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Tag,
-                                 ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Decode)
-            },
-            {
-                ReaderContactlessTransactionLimitWhenCvmIsOnDevice.Tag,
-                new KnownObjects(ReaderContactlessTransactionLimitWhenCvmIsOnDevice.Tag,
-                                 ReaderContactlessTransactionLimitWhenCvmIsOnDevice.Decode)
-            },
-            {ReaderCvmRequiredLimit.Tag, new KnownObjects(ReaderCvmRequiredLimit.Tag, ReaderCvmRequiredLimit.Decode)},
-            {ReferenceControlParameter.Tag, new KnownObjects(ReferenceControlParameter.Tag, ReferenceControlParameter.Decode)},
-            {
-                RelayResistanceAccuracyThreshold.Tag,
-                new KnownObjects(RelayResistanceAccuracyThreshold.Tag, RelayResistanceAccuracyThreshold.Decode)
-            },
-            {
-                RelayResistanceProtocolCounter.Tag,
-                new KnownObjects(RelayResistanceProtocolCounter.Tag, RelayResistanceProtocolCounter.Decode)
-            },
-            {
-                RelayResistanceTransmissionTimeMismatchThreshold.Tag,
-                new KnownObjects(RelayResistanceTransmissionTimeMismatchThreshold.Tag,
-                                 RelayResistanceTransmissionTimeMismatchThreshold.Decode)
-            },
-            {
-                ResponseMessageTemplateFormat1.Tag,
-                new KnownObjects(ResponseMessageTemplateFormat1.Tag, ResponseMessageTemplateFormat1.Decode)
-            },
-            {SecurityCapability.Tag, new KnownObjects(SecurityCapability.Tag, SecurityCapability.Decode)},
-            {ServiceCode.Tag, new KnownObjects(ServiceCode.Tag, ServiceCode.Decode)},
-            {SignedDynamicApplicationData.Tag, new KnownObjects(SignedDynamicApplicationData.Tag, SignedDynamicApplicationData.Decode)},
-            {
-                StaticDataAuthenticationTagList.Tag,
-                new KnownObjects(StaticDataAuthenticationTagList.Tag, StaticDataAuthenticationTagList.Decode)
-            },
-            {TagsToRead.Tag, new KnownObjects(TagsToRead.Tag, TagsToRead.Decode)},
-            {TagsToWriteAfterGenAc.Tag, new KnownObjects(TagsToWriteAfterGenAc.Tag, TagsToWriteAfterGenAc.Decode())},
-            {TagsToWriteBeforeGenAc.Tag, new KnownObjects(TagsToWriteBeforeGenAc.Tag, TagsToWriteBeforeGenAc.Decode)},
-            {TerminalActionCodeDefault.Tag, new KnownObjects(TerminalActionCodeDefault.Tag, TerminalActionCodeDefault.Decode)},
-            {TerminalActionCodeDenial.Tag, new KnownObjects(TerminalActionCodeDenial.Tag, TerminalActionCodeDenial.Decode)},
-            {TerminalActionCodeOnline.Tag, new KnownObjects(TerminalActionCodeOnline.Tag, TerminalActionCodeOnline.Decode)},
-            {TerminalCapabilities.Tag, new KnownObjects(TerminalCapabilities.Tag, TerminalCapabilities.Decode)},
-            {TerminalCountryCode.Tag, new KnownObjects(TerminalCountryCode.Tag, TerminalCountryCode.Decode)},
+            {DeviceRelayResistanceEntropy.Tag, new(DeviceRelayResistanceEntropy.Tag)},
+            {DiscretionaryData.Tag, new(DiscretionaryData.Tag)},
+            {ErrorIndication.Tag, new(ErrorIndication.Tag)},
+            {FileControlInformationProprietaryTemplate.Tag, new(FileControlInformationProprietaryTemplate.Tag)},
+            {FileControlInformationTemplate.Tag, new(FileControlInformationTemplate.Tag)},
+            {HoldTimeValue.Tag, new(HoldTimeValue.Tag)},
+            {IccDynamicNumber.Tag, new(IccDynamicNumber.Tag)},
+            {IccPublicKeyCertificate.Tag, new(IccPublicKeyCertificate.Tag)},
+            {IccPublicKeyExponent.Tag, new(IccPublicKeyExponent.Tag)},
+            {IccPublicKeyRemainder.Tag, new(IccPublicKeyRemainder.Tag)},
+            {IntegratedDataStorageStatus.Tag, new(IntegratedDataStorageStatus.Tag)},
+            {InterfaceDeviceSerialNumber.Tag, new(InterfaceDeviceSerialNumber.Tag)},
+            {IssuerActionCodeDefault.Tag, new(IssuerActionCodeDefault.Tag)},
+            {IssuerActionCodeDenial.Tag, new(IssuerActionCodeDenial.Tag)},
+            {IssuerActionCodeOnline.Tag, new(IssuerActionCodeOnline.Tag)},
+            {IssuerApplicationData.Tag, new(IssuerApplicationData.Tag)},
+            {IssuerCodeTableIndex.Tag, new(IssuerCodeTableIndex.Tag)},
+            {IssuerCountryCode.Tag, new(IssuerCountryCode.Tag)},
+            {IssuerPublicKeyCertificate.Tag, new(IssuerPublicKeyCertificate.Tag)},
+            {IssuerPublicKeyExponent.Tag, new(IssuerPublicKeyExponent.Tag)},
+            {IssuerPublicKeyRemainder.Tag, new(IssuerPublicKeyRemainder.Tag)},
+            {KernelConfiguration.Tag, new(KernelConfiguration.Tag)},
+            {KernelId.Tag, new(KernelId.Tag)},
+            {LanguagePreference.Tag, new(LanguagePreference.Tag)},
+            {LogEntry.Tag, new(LogEntry.Tag)},
+            {MagstripeApplicationVersionNumberReader.Tag, new(MagstripeApplicationVersionNumberReader.Tag)},
+            {MagstripeCvmCapabilityCvmRequired.Tag, new(MagstripeCvmCapabilityCvmRequired.Tag)},
+            {MagstripeCvmCapabilityNoCvmRequired.Tag, new(MagstripeCvmCapabilityNoCvmRequired.Tag)},
+            {MaximumRelayResistanceGracePeriod.Tag, new(MaximumRelayResistanceGracePeriod.Tag)},
+            {MaxLifetimeOfTornTransactionLogRecords.Tag, new(MaxLifetimeOfTornTransactionLogRecords.Tag)},
+            {MaxNumberOfTornTransactionLogRecords.Tag, new(MaxNumberOfTornTransactionLogRecords.Tag)},
+            {MaxTimeForProcessingRelayResistanceApdu.Tag, new(MaxTimeForProcessingRelayResistanceApdu.Tag)},
+            {MeasuredRelayResistanceProcessingTime.Tag, new(MeasuredRelayResistanceProcessingTime.Tag)},
+            {MerchantCategoryCode.Tag, new(MerchantCategoryCode.Tag)},
+            {MerchantCustomData.Tag, new(MerchantCustomData.Tag)},
+            {MerchantIdentifier.Tag, new(MerchantIdentifier.Tag)},
+            {MerchantNameAndLocation.Tag, new(MerchantNameAndLocation.Tag)},
+            {MessageHoldTime.Tag, new(MessageHoldTime.Tag)},
+            {MinimumRelayResistanceGracePeriod.Tag, new(MinimumRelayResistanceGracePeriod.Tag)},
+            {MinTimeForProcessingRelayResistanceApdu.Tag, new(MinTimeForProcessingRelayResistanceApdu.Tag)},
+            {MobileSupportIndicator.Tag, new(MobileSupportIndicator.Tag)},
+            {NumericApplicationTransactionCounterTrack1.Tag, new(NumericApplicationTransactionCounterTrack1.Tag)},
+            {NumericApplicationTransactionCounterTrack2.Tag, new(NumericApplicationTransactionCounterTrack2.Tag)},
+            {OfflineAccumulatorBalance.Tag, new(OfflineAccumulatorBalance.Tag)},
+            {OutcomeParameterSet.Tag, new(OutcomeParameterSet.Tag)},
+            {PaymentAccountReference.Tag, new(PaymentAccountReference.Tag)},
+            {PhoneMessageTable.Tag, new(PhoneMessageTable.Tag)},
+            {PosCardholderInteractionInformation.Tag, new(PosCardholderInteractionInformation.Tag)},
+            {PositionOfCardVerificationCode3Track1.Tag, new(PositionOfCardVerificationCode3Track1.Tag)},
+            {PositionOfCardVerificationCode3Track2.Tag, new(PositionOfCardVerificationCode3Track2.Tag)},
+            {PunatcTrack1.Tag, new(PunatcTrack1.Tag)},
+            {PunatcTrack2.Tag, new(PunatcTrack2.Tag)},
+            {PreGenAcPutDataStatus.Tag, new(PreGenAcPutDataStatus.Tag)},
+            {PostGenAcPutDataStatus.Tag, new(PostGenAcPutDataStatus.Tag)},
+            {ProceedToFirstWriteFlag.Tag, new(ProceedToFirstWriteFlag.Tag)},
+            {ProcessingOptionsDataObjectList.Tag, new(ProcessingOptionsDataObjectList.Tag)},
+            {ProcessingOptionsDataObjectListRelatedData.Tag, new(ProcessingOptionsDataObjectListRelatedData.Tag)},
+            {ProtectedDataEnvelope1.Tag, new(ProtectedDataEnvelope1.Tag)},
+            {ProtectedDataEnvelope2.Tag, new(ProtectedDataEnvelope2.Tag)},
+            {ProtectedDataEnvelope3.Tag, new(ProtectedDataEnvelope3.Tag)},
+            {ProtectedDataEnvelope4.Tag, new(ProtectedDataEnvelope4.Tag)},
+            {ProtectedDataEnvelope5.Tag, new(ProtectedDataEnvelope5.Tag)},
+            {ReaderContactlessFloorLimit.Tag, new(ReaderContactlessFloorLimit.Tag)},
+            {ReaderContactlessTransactionLimitWhenCvmIsOnDevice.Tag, new(ReaderContactlessTransactionLimitWhenCvmIsOnDevice.Tag)},
+            {ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Tag, new(ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Tag)},
+            {ReaderCvmRequiredLimit.Tag, new(ReaderCvmRequiredLimit.Tag)},
+            {ReferenceControlParameter.Tag, new(ReferenceControlParameter.Tag)},
+            {RelayResistanceAccuracyThreshold.Tag, new(RelayResistanceAccuracyThreshold.Tag)},
+            {RelayResistanceProtocolCounter.Tag, new(RelayResistanceProtocolCounter.Tag)},
+            {RelayResistanceTransmissionTimeMismatchThreshold.Tag, new(RelayResistanceTransmissionTimeMismatchThreshold.Tag)},
+            {ResponseMessageTemplateFormat1.Tag, new(ResponseMessageTemplateFormat1.Tag)},
+            {ResponseMessageTemplateFormat2.Tag, new(ResponseMessageTemplateFormat2.Tag)},
+            {SecurityCapability.Tag, new(SecurityCapability.Tag)},
+            {ServiceCode.Tag, new(ServiceCode.Tag)},
+            {SignedDynamicApplicationData.Tag, new(SignedDynamicApplicationData.Tag)},
+            {StaticDataAuthenticationTagList.Tag, new(StaticDataAuthenticationTagList.Tag)},
+            {TagsToRead.Tag, new(TagsToRead.Tag)},
+            {TagsToWriteAfterGenAc.Tag, new(TagsToWriteAfterGenAc.Tag)},
+            {TagsToWriteBeforeGenAc.Tag, new(TagsToWriteBeforeGenAc.Tag)},
+            {TerminalActionCodeDefault.Tag, new(TerminalActionCodeDefault.Tag)},
+            {TerminalActionCodeDenial.Tag, new(TerminalActionCodeDenial.Tag)},
+            {TerminalActionCodeOnline.Tag, new(TerminalActionCodeOnline.Tag)},
+            {TerminalCapabilities.Tag, new(TerminalCapabilities.Tag)},
+            {TerminalCountryCode.Tag, new(TerminalCountryCode.Tag)},
             {
                 TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Tag,
-                new KnownObjects(TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Tag,
-                                 TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Decode)
+                new(TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Tag)
             },
             {
                 TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Tag,
-                new KnownObjects(TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Tag,
-                                 TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Decode)
+                new(TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Tag)
             },
-            {TerminalIdentification.Tag, new KnownObjects(TerminalIdentification.Tag, TerminalIdentification.Decode)},
-            {
-                TerminalRelayResistanceEntropy.Tag,
-                new KnownObjects(TerminalRelayResistanceEntropy.Tag, TerminalRelayResistanceEntropy.Decode)
-            },
-            {TerminalRiskManagementData.Tag, new KnownObjects(TerminalRiskManagementData.Tag, TerminalRiskManagementData.Decode)},
-            {TerminalType.Tag, new KnownObjects(TerminalType.Tag, TerminalType.Decode)},
-            {TerminalVerificationResults.Tag, new KnownObjects(TerminalVerificationResults.Tag, TerminalVerificationResults.Decode)},
-            {ThirdPartyData.Tag, new KnownObjects(ThirdPartyData.Tag, ThirdPartyData.Decode)},
-            {TimeoutValue.Tag, new KnownObjects(TimeoutValue.Tag, TimeoutValue.Decode)},
-            {TornRecord.Tag, new KnownObjects(TornRecord.Tag, TornRecord.Decode)},
-            {Track1Data.Tag, new KnownObjects(Track1Data.Tag, Track1Data.Decode)},
-            {Track1DiscretionaryData.Tag, new KnownObjects(Track1DiscretionaryData.Tag, Track1DiscretionaryData.Decode)},
-            {Track2Data.Tag, new KnownObjects(Track2Data.Tag, Track2Data.Decode)},
-            {Track2DiscretionaryData.Tag, new KnownObjects(Track2DiscretionaryData.Tag, Track2DiscretionaryData.Decode)},
-            {Track2EquivalentData.Tag, new KnownObjects(Track2EquivalentData.Tag, Track2EquivalentData.Decode)},
-            {TransactionCategoryCode.Tag, new KnownObjects(TransactionCategoryCode.Tag, TransactionCategoryCode.Decode)},
-            {TransactionCurrencyCode.Tag, new KnownObjects(TransactionCurrencyCode.Tag, TransactionCurrencyCode.Decode)},
-            {TransactionCurrencyExponent.Tag, new KnownObjects(TransactionCurrencyExponent.Tag, TransactionCurrencyExponent.Decode)},
-            {TransactionDate.Tag, new KnownObjects(TransactionDate.Tag, TransactionDate.Decode)},
-            {TransactionTime.Tag, new KnownObjects(TransactionTime.Tag, TransactionTime.Decode)},
-            {TransactionType.Tag, new KnownObjects(TransactionType.Tag, TransactionType.Decode)},
-            {UnpredictableNumber.Tag, new KnownObjects(UnpredictableNumber.Tag, UnpredictableNumber.Decode)},
-            {
-                UnpredictableNumberDataObjectList.Tag,
-                new KnownObjects(UnpredictableNumberDataObjectList.Tag, UnpredictableNumberDataObjectList.Decode)
-            },
-            {UnprotectedDataEnvelope1.Tag, new KnownObjects(UnprotectedDataEnvelope1.Tag, UnprotectedDataEnvelope1.Decode)},
-            {UnprotectedDataEnvelope2.Tag, new KnownObjects(UnprotectedDataEnvelope2.Tag, UnprotectedDataEnvelope2.Decode)},
-            {UnprotectedDataEnvelope3.Tag, new KnownObjects(UnprotectedDataEnvelope3.Tag, UnprotectedDataEnvelope3.Decode)},
-            {UnprotectedDataEnvelope4.Tag, new KnownObjects(UnprotectedDataEnvelope4.Tag, UnprotectedDataEnvelope4.Decode)},
-            {UnprotectedDataEnvelope5.Tag, new KnownObjects(UnprotectedDataEnvelope5.Tag, UnprotectedDataEnvelope5.Decode)},
-            {UserInterfaceRequestData.Tag, new KnownObjects(UserInterfaceRequestData.Tag, UserInterfaceRequestData.Decode)}
+            {TerminalIdentification.Tag, new(TerminalIdentification.Tag)},
+            {TerminalRelayResistanceEntropy.Tag, new(TerminalRelayResistanceEntropy.Tag)},
+            {TerminalRiskManagementData.Tag, new(TerminalRiskManagementData.Tag)},
+            {TerminalType.Tag, new(TerminalType.Tag)},
+            {TerminalVerificationResults.Tag, new(TerminalVerificationResults.Tag)},
+            {ThirdPartyData.Tag, new(ThirdPartyData.Tag)},
+            {TimeoutValue.Tag, new(TimeoutValue.Tag)},
+            {TornRecord.Tag, new(TornRecord.Tag)},
+            {Track1Data.Tag, new(Track1Data.Tag)},
+            {Track1DiscretionaryData.Tag, new(Track1DiscretionaryData.Tag)},
+            {Track2Data.Tag, new(Track2Data.Tag)},
+            {Track2DiscretionaryData.Tag, new(Track2DiscretionaryData.Tag)},
+            {Track2EquivalentData.Tag, new(Track2EquivalentData.Tag)},
+            {TransactionCategoryCode.Tag, new(TransactionCategoryCode.Tag)},
+            {TransactionCurrencyCode.Tag, new(TransactionCurrencyCode.Tag)},
+            {TransactionCurrencyExponent.Tag, new(TransactionCurrencyExponent.Tag)},
+            {TransactionDate.Tag, new(TransactionDate.Tag)},
+            {TransactionTime.Tag, new(TransactionTime.Tag)},
+            {TransactionType.Tag, new(TransactionType.Tag)},
+            {UnpredictableNumber.Tag, new(UnpredictableNumber.Tag)},
+            {UnpredictableNumberDataObjectList.Tag, new(UnpredictableNumberDataObjectList.Tag)},
+            {UnprotectedDataEnvelope1.Tag, new(UnprotectedDataEnvelope1.Tag)},
+            {UnprotectedDataEnvelope2.Tag, new(UnprotectedDataEnvelope2.Tag)},
+            {UnprotectedDataEnvelope3.Tag, new(UnprotectedDataEnvelope3.Tag)},
+            {UnprotectedDataEnvelope4.Tag, new(UnprotectedDataEnvelope4.Tag)},
+            {UnprotectedDataEnvelope5.Tag, new(UnprotectedDataEnvelope5.Tag)},
+            {UserInterfaceRequestData.Tag, new(UserInterfaceRequestData.Tag)}
         }.ToImmutableSortedDictionary();
     }
 
-    public KnownObjects()
+    private KnownObjects(Tag value) : base(value)
     { }
-
-    private KnownObjects(Tag tag, Func<ReadOnlyMemory<byte>, PrimitiveValue> decoder)
-    {
-        _Tag = tag;
-        _Decoder = decoder;
-    }
 
     #endregion
 
     #region Instance Members
 
-    private static KnownObjects GetKnownObjects() => new();
-    private static DedicatedFileName DecodeDedicatedFileName(ReadOnlyMemory<byte> value) => DedicatedFileName.Decode(value, _Codec);
-
-    private static TagsToWriteAfterGenAc DecodeTagsToWriteAfterGenAc(ReadOnlyMemory<byte> value) =>
-        TagsToWriteAfterGenAc.Decode(GetKnownObjects(), value);
-
-    public int CompareTo(KnownObjects? other)
-    {
-        if (other is null)
-            return 1;
-
-        return other._Tag.CompareTo(other._Tag);
-    }
-
+    public int CompareTo(KnownObjects other) => _Value._Value.CompareTo(other._Value);
     public static bool Exists(Tag value) => _ValueObjectMap.ContainsKey(value);
+
+    public static IEnumerator<Tag> GetEnumerator()
+    {
+        return _ValueObjectMap.Values.Select(a => (Tag) a).GetEnumerator();
+    }
+
     public static bool TryGet(Tag value, out KnownObjects result) => _ValueObjectMap.TryGetValue(value, out result);
-
-    public bool TryDecodingPrimitiveValueAtRuntime(ReadOnlyMemory<byte> value, out PrimitiveValue? result)
-    {
-        try
-        {
-            TagLength tagLength = _Codec.DecodeTagLength(value.Span);
-
-            result = _ValueObjectMap[tagLength.GetTag()]._Decoder(value[tagLength.GetValueOffset()..]);
-
-            return true;
-        }
-        catch (BerParsingException)
-        {
-            // logging
-            result = null;
-
-            return false;
-        }
-        catch (Exception)
-        {
-            // logging
-            result = null;
-
-            return false;
-        }
-    }
-
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
-    public IEnumerable<PrimitiveValue> DecodePrimitiveSiblingsAtRuntime(ReadOnlyMemory<byte> value)
-    {
-        EncodedTlvSiblings siblings = _Codec.DecodeChildren(value);
-        uint[] tags = siblings.GetTags();
-
-        for (int i = 0; i < siblings.SiblingCount(); i++)
-        {
-            if (!_ValueObjectMap.ContainsKey(tags[i]))
-                continue;
-
-            if (!siblings.TryGetValueOctetsOfChild(tags[i], out ReadOnlyMemory<byte> childContentOctets))
-                continue;
-
-            yield return _ValueObjectMap[tags[i]]._Decoder(childContentOctets);
-        }
-    }
 
     #endregion
 
     #region Equality
 
-    public bool Equals(KnownObjects? other) => (other != null) && (_Tag == other._Tag);
+    public bool Equals(KnownObjects? other) => !(other is null) && (_Value == other._Value);
 
-    public bool Equals(KnownObjects? x, KnownObjects? y)
+    public bool Equals(KnownObjects x, KnownObjects y)
     {
         if (x is null)
             return y is null;
@@ -458,14 +253,32 @@ public sealed class KnownObjects : IResolveKnownObjectsAtRuntime, IEquatable<Kno
         return x.Equals(y);
     }
 
-    public override int GetHashCode() => _Tag.GetHashCode();
+    public override int GetHashCode()
+    {
+        const int hash = 7354873;
+
+        return hash + (_Value.GetHashCode() * 3);
+    }
+
     public int GetHashCode(KnownObjects obj) => obj.GetHashCode();
 
     #endregion
 
     #region Operator Overrides
 
-    public static implicit operator Tag(KnownObjects value) => value._Tag;
+    public static explicit operator Tag(KnownObjects registeredApplicationProviderIndicators) =>
+        registeredApplicationProviderIndicators._Value;
+
+    public static explicit operator KnownObjects(Tag registeredApplicationProviderIndicator)
+    {
+        if (!TryGet(registeredApplicationProviderIndicator, out KnownObjects result))
+        {
+            throw new ArgumentOutOfRangeException(nameof(registeredApplicationProviderIndicator),
+                                                  $"The {nameof(KnownObjects)} could not be found from the number supplied to the argument: {registeredApplicationProviderIndicator}");
+        }
+
+        return result;
+    }
 
     #endregion
 }
