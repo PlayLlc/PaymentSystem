@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.Ber;
@@ -24,8 +25,7 @@ public sealed class KnownObjects : IEquatable<KnownObjects>, IEqualityComparer<K
     #region Instance Values
 
     private readonly Tag _Tag;
-    private readonly Func<ReadOnlyMemory<byte>, PrimitiveValue> _Decoder;
-    public int Count => _ValueObjectMap.Count;
+    private readonly Func<ReadOnlyMemory<byte>, PrimitiveValue> _Decoder; 
 
     #endregion
 
@@ -385,21 +385,37 @@ public sealed class KnownObjects : IEquatable<KnownObjects>, IEqualityComparer<K
     }
 
     public static bool Exists(Tag value) => _ValueObjectMap.ContainsKey(value);
-
-    public static IEnumerator<Tag> GetEnumerator()
-    {
-        return _ValueObjectMap.Values.Select(a => (Tag) a).GetEnumerator();
-    }
+     
 
     public static bool TryGet(Tag value, out KnownObjects result) => _ValueObjectMap.TryGetValue(value, out result);
 
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
-    public static PrimitiveValue DecodeFirstPrimitiveAtRuntime(ReadOnlyMemory<byte> value)
+    public static bool TryDecodingPrimitiveValueAtRuntime(ReadOnlyMemory<byte> value, out PrimitiveValue? result)
     {
-        TagLength tagLength = _Codec.DecodeTagLength(value.Span);
+        try
+        {
+            TagLength tagLength = _Codec.DecodeTagLength(value.Span);
 
-        return _ValueObjectMap[tagLength.GetTag()]._Decoder(value[tagLength.GetValueOffset()..]);
+            result = _ValueObjectMap[tagLength.GetTag()]._Decoder(value[tagLength.GetValueOffset()..]);
+
+            return true;
+        }
+        catch (BerParsingException)
+        {
+            // logging
+            result = null;
+
+            return false;
+        }
+        catch (Exception)
+        {
+            // logging
+            result = null;
+
+            return false;
+        }
+     
     }
+     
 
     /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
     public static IEnumerable<PrimitiveValue> DecodePrimitiveSiblingsAtRuntime(ReadOnlyMemory<byte> value)
@@ -412,7 +428,8 @@ public sealed class KnownObjects : IEquatable<KnownObjects>, IEqualityComparer<K
             if (!_ValueObjectMap.ContainsKey(tags[i]))
                 continue;
 
-            siblings.TryGetValueOctetsOfChild(tags[i], out ReadOnlyMemory<byte> childContentOctets);
+            if (!siblings.TryGetValueOctetsOfChild(tags[i], out ReadOnlyMemory<byte> childContentOctets))
+                continue;
 
             yield return _ValueObjectMap[tags[i]]._Decoder(childContentOctets);
         }
@@ -443,17 +460,7 @@ public sealed class KnownObjects : IEquatable<KnownObjects>, IEqualityComparer<K
     #region Operator Overrides
 
     public static implicit operator Tag(KnownObjects value) => value._Tag;
-
-    public static explicit operator KnownObjects(Tag value)
-    {
-        if (!TryGet(value, out KnownObjects result))
-        {
-            throw new ArgumentOutOfRangeException(nameof(value),
-                                                  $"The {nameof(KnownObjects)} could not be found from the number supplied to the argument: {value}");
-        }
-
-        return result;
-    }
+ 
 
     #endregion
 }
