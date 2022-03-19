@@ -34,6 +34,7 @@ public record MerchantNameAndLocation : DataElement<char[]>, IEqualityComparer<M
     #region Serialization
 
     public static MerchantNameAndLocation Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>

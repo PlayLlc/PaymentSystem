@@ -56,5 +56,7 @@ public record DataStorageDigestHash : DataElement<ulong>
     /// <exception cref="BerParsingException"></exception>
     public static DataStorageDigestHash Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     #endregion
 }

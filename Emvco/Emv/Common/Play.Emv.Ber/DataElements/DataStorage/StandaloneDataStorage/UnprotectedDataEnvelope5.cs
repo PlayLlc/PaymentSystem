@@ -61,6 +61,8 @@ public record UnprotectedDataEnvelope5 : DataElement<BigInteger>, IEqualityCompa
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static UnprotectedDataEnvelope5 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static UnprotectedDataEnvelope5 Decode(ReadOnlySpan<byte> value)

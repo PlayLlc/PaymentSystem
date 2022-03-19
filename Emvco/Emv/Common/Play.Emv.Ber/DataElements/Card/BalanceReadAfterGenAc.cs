@@ -40,6 +40,8 @@ public record BalanceReadAfterGenAc : DataElement<ulong>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static BalanceReadAfterGenAc Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static BalanceReadAfterGenAc Decode(ReadOnlySpan<byte> value)
     {

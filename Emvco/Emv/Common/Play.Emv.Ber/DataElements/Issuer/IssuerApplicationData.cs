@@ -56,6 +56,8 @@ public record IssuerApplicationData : DataElement<BigInteger>, IEqualityComparer
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerApplicationData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerApplicationData Decode(ReadOnlySpan<byte> value)

@@ -59,6 +59,8 @@ public record PrimaryAccountNumber : PlayProprietaryDataElement<char[]>
     /// <exception cref="CodecParsingException"></exception>
     public static PrimaryAccountNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public static PrimaryAccountNumber Decode(ReadOnlySpan<byte> value)

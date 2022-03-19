@@ -39,6 +39,7 @@ public record IccPublicKeyRemainder : DataElement<BigInteger>, IEqualityComparer
     #region Serialization
 
     public static IccPublicKeyRemainder Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     public static IccPublicKeyRemainder Decode(ReadOnlySpan<byte> value)
     {

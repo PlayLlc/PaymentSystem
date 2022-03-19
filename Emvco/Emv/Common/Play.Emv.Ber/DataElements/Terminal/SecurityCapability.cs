@@ -37,6 +37,7 @@ public record SecurityCapability : DataElement<byte>, IEqualityComparer<Security
     #region Serialization
 
     public static SecurityCapability Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>

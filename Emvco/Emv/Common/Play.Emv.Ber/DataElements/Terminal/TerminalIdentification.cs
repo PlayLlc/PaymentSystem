@@ -49,6 +49,8 @@ public record TerminalIdentification : DataElement<char[]>, IEqualityComparer<Te
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalIdentification Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalIdentification Decode(ReadOnlySpan<byte> value)

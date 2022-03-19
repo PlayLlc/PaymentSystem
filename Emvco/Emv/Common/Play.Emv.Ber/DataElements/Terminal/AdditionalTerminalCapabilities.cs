@@ -68,6 +68,8 @@ public record AdditionalTerminalCapabilities : DataElement<ulong>, IEqualityComp
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static AdditionalTerminalCapabilities Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static AdditionalTerminalCapabilities Decode(ReadOnlySpan<byte> value)

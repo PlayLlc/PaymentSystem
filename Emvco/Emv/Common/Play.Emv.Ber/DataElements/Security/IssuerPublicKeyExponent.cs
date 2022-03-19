@@ -48,6 +48,8 @@ public record IssuerPublicKeyExponent : DataElement<uint>, IEqualityComparer<Iss
     /// <exception cref="BerParsingException"></exception>
     public static IssuerPublicKeyExponent Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public static IssuerPublicKeyExponent Decode(ReadOnlySpan<byte> value)

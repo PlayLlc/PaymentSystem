@@ -80,6 +80,8 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalVerificationResults Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalVerificationResults Decode(ReadOnlySpan<byte> value)

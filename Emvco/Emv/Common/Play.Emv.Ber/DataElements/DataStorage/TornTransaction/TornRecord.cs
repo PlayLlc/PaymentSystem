@@ -40,6 +40,8 @@ public record TornRecord : DataElement<BigInteger>, IEqualityComparer<TornRecord
     /// <exception cref="BerParsingException"></exception>
     public static TornRecord Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public static TornRecord Decode(ReadOnlySpan<byte> value) => new(PlayCodec.BinaryCodec.DecodeToBigInteger(value));

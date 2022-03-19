@@ -35,6 +35,17 @@ public record PosCardholderInteractionInformation : DataElement<uint>, IEquality
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
+    public static bool EqualsStatic(PosCardholderInteractionInformation? x, PosCardholderInteractionInformation? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
     #endregion
 
     #region Serialization
@@ -42,6 +53,8 @@ public record PosCardholderInteractionInformation : DataElement<uint>, IEquality
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static PosCardholderInteractionInformation Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
@@ -57,16 +70,7 @@ public record PosCardholderInteractionInformation : DataElement<uint>, IEquality
     #endregion
 
     #region Equality
-    public static  bool EqualsStatic(PosCardholderInteractionInformation? x, PosCardholderInteractionInformation? y)
-    {
-        if (x is null)
-            return y is null;
 
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
     public bool Equals(PosCardholderInteractionInformation? x, PosCardholderInteractionInformation? y)
     {
         if (x is null)

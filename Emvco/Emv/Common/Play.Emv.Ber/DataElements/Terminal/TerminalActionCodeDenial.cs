@@ -42,6 +42,8 @@ public record TerminalActionCodeDenial : DataElement<ulong>, IEqualityComparer<T
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalActionCodeDenial Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalActionCodeDenial Decode(ReadOnlySpan<byte> value)

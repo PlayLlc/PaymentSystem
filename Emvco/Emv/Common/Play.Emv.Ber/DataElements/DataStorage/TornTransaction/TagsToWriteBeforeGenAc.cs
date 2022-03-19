@@ -61,6 +61,8 @@ public record TagsToWriteBeforeGenAc : DataExchangeResponse, IEqualityComparer<T
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TagsToWriteBeforeGenAc Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TagsToWriteBeforeGenAc Decode(ReadOnlySpan<byte> value) => new(ResolveTagsToWrite(value).ToArray());

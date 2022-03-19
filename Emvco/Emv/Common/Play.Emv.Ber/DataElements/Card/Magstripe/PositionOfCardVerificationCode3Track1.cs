@@ -38,6 +38,8 @@ public record PositionOfCardVerificationCode3Track1 : DataElement<ulong>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static PositionOfCardVerificationCode3Track1 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static PositionOfCardVerificationCode3Track1 Decode(ReadOnlySpan<byte> value)

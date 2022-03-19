@@ -39,6 +39,8 @@ public record LogEntry : DataElement<ushort>, IEqualityComparer<LogEntry>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static LogEntry Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static LogEntry Decode(ReadOnlySpan<byte> value)

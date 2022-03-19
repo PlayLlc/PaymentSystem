@@ -54,6 +54,8 @@ public record TransactionDate : DataElement<uint>, IEqualityComparer<Transaction
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TransactionDate Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TransactionDate Decode(ReadOnlySpan<byte> value)

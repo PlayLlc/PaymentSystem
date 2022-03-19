@@ -44,6 +44,8 @@ public record IssuerScriptCommand : DataElement<BigInteger>, IEqualityComparer<I
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerScriptCommand Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerScriptCommand Decode(ReadOnlySpan<byte> value)

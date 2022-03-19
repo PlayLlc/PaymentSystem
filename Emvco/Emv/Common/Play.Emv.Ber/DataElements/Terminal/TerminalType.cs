@@ -97,6 +97,8 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
     /// <exception cref="CodecParsingException"></exception>
     public static TerminalType Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public static TerminalType Decode(ReadOnlySpan<byte> value)

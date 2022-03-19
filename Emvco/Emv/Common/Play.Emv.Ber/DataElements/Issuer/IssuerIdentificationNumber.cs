@@ -41,6 +41,8 @@ public record IssuerIdentificationNumber : DataElement<uint>, IEqualityComparer<
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerIdentificationNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerIdentificationNumber Decode(ReadOnlySpan<byte> value)
     {

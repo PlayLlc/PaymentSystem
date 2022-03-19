@@ -41,6 +41,8 @@ public record ApplicationPan : DataElement<BigInteger>
     /// <exception cref="CodecParsingException"></exception>
     public static ApplicationPan Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="CodecParsingException"></exception>
     public static ApplicationPan Decode(ReadOnlySpan<byte> value)
     {

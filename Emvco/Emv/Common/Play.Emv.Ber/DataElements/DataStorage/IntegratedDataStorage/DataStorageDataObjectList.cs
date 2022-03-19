@@ -49,6 +49,7 @@ public record DataStorageDataObjectList : DataObjectList
     #region Serialization
 
     public static DataStorageDataObjectList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>

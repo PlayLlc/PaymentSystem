@@ -33,6 +33,7 @@ public record ReaderContactlessTransactionLimitWhenCvmIsOnDevice : ReaderContact
     #region Serialization
 
     public static ReaderContactlessTransactionLimitWhenCvmIsOnDevice Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>

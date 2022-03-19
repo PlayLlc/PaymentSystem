@@ -39,6 +39,8 @@ public record RelayResistanceTransmissionTimeMismatchThreshold : DataElement<Rel
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static RelayResistanceTransmissionTimeMismatchThreshold Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static RelayResistanceTransmissionTimeMismatchThreshold Decode(ReadOnlySpan<byte> value)

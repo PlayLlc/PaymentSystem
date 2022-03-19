@@ -61,6 +61,8 @@ public record PoiInformation : DataElement<BigInteger>, IEqualityComparer<PoiInf
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static PoiInformation Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static PoiInformation Decode(ReadOnlySpan<byte> value)

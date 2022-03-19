@@ -42,6 +42,8 @@ public record PaymentAccountReference : DataElement<char[]>, IEqualityComparer<P
     /// <exception cref="BerParsingException"></exception>
     public static PaymentAccountReference Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public static PaymentAccountReference Decode(ReadOnlySpan<byte> value)

@@ -40,6 +40,8 @@ public record PosEntryMode : DataElement<byte>, IEqualityComparer<PosEntryMode>
     /// <exception cref="CodecParsingException"></exception>
     public static PosEntryMode Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="CodecParsingException"></exception>
     public static PosEntryMode Decode(ReadOnlySpan<byte> value)
     {

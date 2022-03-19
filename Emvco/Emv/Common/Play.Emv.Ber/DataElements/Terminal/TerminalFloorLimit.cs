@@ -44,6 +44,8 @@ public record TerminalFloorLimit : DataElement<uint>, IEqualityComparer<Terminal
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalFloorLimit Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static TerminalFloorLimit Decode(ReadOnlySpan<byte> value)

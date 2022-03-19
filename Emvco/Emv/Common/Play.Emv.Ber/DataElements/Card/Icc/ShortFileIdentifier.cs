@@ -67,6 +67,8 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ShortFileIdentifier Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ShortFileIdentifier Decode(ReadOnlySpan<byte> value)

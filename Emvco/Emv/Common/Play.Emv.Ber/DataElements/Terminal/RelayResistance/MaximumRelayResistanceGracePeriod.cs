@@ -39,6 +39,8 @@ public record MaximumRelayResistanceGracePeriod : DataElement<RelaySeconds>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static MaximumRelayResistanceGracePeriod Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static MaximumRelayResistanceGracePeriod Decode(ReadOnlySpan<byte> value)

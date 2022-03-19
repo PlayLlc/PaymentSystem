@@ -68,6 +68,8 @@ public record Track1Data : DataElement<byte[]>
     /// <exception cref="Exception"></exception>
     public static Track1Data Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Exception"></exception>

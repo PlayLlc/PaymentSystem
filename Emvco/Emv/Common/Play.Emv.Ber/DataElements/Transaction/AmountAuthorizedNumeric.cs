@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
@@ -40,6 +41,10 @@ public record AmountAuthorizedNumeric : DataElement<ulong>, IEqualityComparer<Am
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static AmountAuthorizedNumeric Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>

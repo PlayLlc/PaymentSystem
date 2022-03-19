@@ -5,10 +5,10 @@ namespace Play.Emv.Ber.DataElements;
 
 public interface IDecodeDataElement
 {
-    public PrimitiveValue Decode(ReadOnlySpan<byte> value);
+    public PrimitiveValue Decode(TagLengthValue value);
 }
 
-public abstract record DataElement<T>(T _Value) : PrimitiveValue, IEncodeDataElement
+public abstract record DataElement<T>(T _Value) : PrimitiveValue, IEncodeDataElement, IDecodeDataElement
 {
     #region Static Metadata
 
@@ -36,9 +36,7 @@ public abstract record DataElement<T>(T _Value) : PrimitiveValue, IEncodeDataEle
 
     #region Serialization
 
-    public static DataElement<T> Decode(ReadOnlySpan<byte> value) => throw new Exception();
-
-    //public abstract PrimitiveValue Decode(in ReadOnlySpan<byte> value);
+    public abstract PrimitiveValue Decode(TagLengthValue value);
 
     /// <summary>
     ///     Encodes this objects content as the Value field of a Tag-Length-Value encoding

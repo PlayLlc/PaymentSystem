@@ -62,6 +62,8 @@ public record DataNeeded : DataExchangeRequest
 
     public static DataNeeded Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public static DataNeeded Decode(ReadOnlySpan<byte> value)

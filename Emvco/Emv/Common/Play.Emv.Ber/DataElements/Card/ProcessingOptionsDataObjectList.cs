@@ -53,6 +53,8 @@ public record ProcessingOptionsDataObjectList : DataObjectList
     /// <exception cref="BerParsingException"></exception>
     public static ProcessingOptionsDataObjectList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public static ProcessingOptionsDataObjectList Decode(ReadOnlySpan<byte> value) => new(value.ToArray());

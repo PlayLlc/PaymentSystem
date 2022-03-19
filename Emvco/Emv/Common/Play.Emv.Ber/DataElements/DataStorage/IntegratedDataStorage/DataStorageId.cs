@@ -44,6 +44,8 @@ public record DataStorageId : DataElement<BigInteger>
     /// <exception cref="CodecParsingException"></exception>
     public static DataStorageId Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public static DataStorageId Decode(ReadOnlySpan<byte> value)

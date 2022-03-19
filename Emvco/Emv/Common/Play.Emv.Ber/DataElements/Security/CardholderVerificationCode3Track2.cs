@@ -49,6 +49,7 @@ public record CardholderVerificationCode3Track2 : DataElement<ushort>, IEquality
     #region Serialization
 
     public static CardholderVerificationCode3Track2 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>

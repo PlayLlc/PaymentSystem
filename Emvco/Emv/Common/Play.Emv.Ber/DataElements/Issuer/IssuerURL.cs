@@ -36,6 +36,7 @@ public record IssuerUrl : DataElement<char[]>, IEqualityComparer<IssuerUrl>
     #region Serialization
 
     public static IssuerUrl Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>

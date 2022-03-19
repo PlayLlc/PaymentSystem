@@ -57,6 +57,8 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ApplicationCapabilitiesInformation Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static ApplicationCapabilitiesInformation Decode(ReadOnlySpan<byte> value)
     {

@@ -47,6 +47,8 @@ public record SystemTraceAuditNumber : PlayProprietaryDataElement<uint>
     /// <exception cref="CodecParsingException"></exception>
     public static SystemTraceAuditNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public static SystemTraceAuditNumber Decode(ReadOnlySpan<byte> value)

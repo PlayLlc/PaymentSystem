@@ -50,6 +50,8 @@ public record DataStorageOperatorDataSetInfo : DataElement<byte>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DataStorageOperatorDataSetInfo Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DataStorageOperatorDataSetInfo Decode(ReadOnlySpan<byte> value)

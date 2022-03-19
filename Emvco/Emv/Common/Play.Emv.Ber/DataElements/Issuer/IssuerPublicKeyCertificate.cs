@@ -44,6 +44,8 @@ public record IssuerPublicKeyCertificate : DataElement<BigInteger>, IEqualityCom
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerPublicKeyCertificate Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerPublicKeyCertificate Decode(ReadOnlySpan<byte> value)

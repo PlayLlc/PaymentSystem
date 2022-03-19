@@ -46,6 +46,7 @@ public record ApplicationPreferredName : DataElement<char[]>, IEqualityComparer<
     #region Serialization
 
     public static ApplicationPreferredName Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>

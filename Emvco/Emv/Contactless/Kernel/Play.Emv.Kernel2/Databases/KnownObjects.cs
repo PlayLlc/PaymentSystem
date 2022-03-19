@@ -166,7 +166,7 @@ public sealed class KnownObjects : IResolveKnownObjectsAtRuntime, IEquatable<Kno
                                  DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Decode)
             },
             {DeviceRelayResistanceEntropy.Tag, new KnownObjects(DeviceRelayResistanceEntropy.Tag, DeviceRelayResistanceEntropy.Decode)},
-            {DiscretionaryData.Tag, new KnownObjects(DiscretionaryData.Tag, DiscretionaryData.Decode)},
+            {DiscretionaryData.Tag, new KnownObjects(DiscretionaryData.Tag, DiscretionaryData.StaticDecode)},
             {ErrorIndication.Tag, new KnownObjects(ErrorIndication.Tag, ErrorIndication.Decode)},
             {HoldTimeValue.Tag, new KnownObjects(HoldTimeValue.Tag, HoldTimeValue.Decode)},
             {IccDynamicNumber.Tag, new KnownObjects(IccDynamicNumber.Tag, IccDynamicNumber.Decode)},

@@ -43,6 +43,8 @@ public record Track2DiscretionaryData : DataElement<BigInteger>
     /// <exception cref="Exception"></exception>
     public static Track2DiscretionaryData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Exception"></exception>

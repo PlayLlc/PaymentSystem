@@ -42,6 +42,8 @@ public record IssuerScriptIdentifier : DataElement<uint>, IEqualityComparer<Issu
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerScriptIdentifier Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static IssuerScriptIdentifier Decode(ReadOnlySpan<byte> value)

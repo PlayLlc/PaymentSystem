@@ -76,6 +76,8 @@ public record CvmList : DataElement<BigInteger>, IResolveXAndYAmountForCvmSelect
     /// <exception cref="DataElementParsingException"></exception>
     public static CvmList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     public static CvmList Decode(ReadOnlySpan<byte> value)
     {

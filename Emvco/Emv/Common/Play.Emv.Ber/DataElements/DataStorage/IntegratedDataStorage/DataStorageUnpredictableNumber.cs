@@ -38,6 +38,8 @@ public record DataStorageUnpredictableNumber : DataElement<uint>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DataStorageUnpredictableNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static DataStorageUnpredictableNumber Decode(ReadOnlySpan<byte> value)
