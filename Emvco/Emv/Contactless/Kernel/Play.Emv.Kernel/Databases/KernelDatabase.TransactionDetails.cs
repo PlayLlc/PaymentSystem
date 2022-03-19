@@ -24,7 +24,7 @@ namespace Play.Emv.Kernel.Databases
         /// <returns></returns>
         public bool IsManualTransaction()
         {
-            var posEntryMode = GetPosEntryMode();
+            PosEntryMode? posEntryMode = GetPosEntryMode();
 
             return (posEntryMode == PosEntryModes.ManualEntry) || (posEntryMode == PosEntryModes.ManualEntryFallback);
         }

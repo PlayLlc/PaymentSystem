@@ -110,7 +110,7 @@ public readonly record struct TagLength
     ///     of the Value content in a sequence of bytes
     /// </summary>
     /// <returns></returns>
-    internal byte GetValueOffset() => (byte) (_Tag.GetByteCount() + _Length.GetByteCount());
+    public byte GetValueOffset() => (byte) (_Tag.GetByteCount() + _Length.GetByteCount());
 
     /// <summary>
     ///     The zero based range for the Value field. The offset is defaulted at zero
