@@ -34,7 +34,6 @@ public sealed record DataToSend : DataExchangeResponse, IEqualityComparer<DataTo
 
     #region Instance Members
 
-    public PrimitiveValue[] AsPrimitiveValues() => _Value.ToArray();
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
@@ -43,7 +42,16 @@ public sealed record DataToSend : DataExchangeResponse, IEqualityComparer<DataTo
     #region Serialization
 
     /// <exception cref="NotImplementedException"></exception>
-    public static DataToSend Decode(ReadOnlyMemory<byte> value) => throw new NotImplementedException();
+    /// <exception cref="BerParsingException"></exception>
+    public static DataToSend Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodePrimitiveValuesAtRuntime(value).ToArray());
+
+    /// <exception cref="BerParsingException"></exception>
+    public static DataToSend Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodePrimitiveValuesAtRuntime(value.ToArray()).ToArray());
+
+    /// <exception cref="NotImplementedException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public override DataToSend Decode(TagLengthValue value) => Decode(value.EncodeTagLengthValue().AsSpan());
 
     #endregion
 

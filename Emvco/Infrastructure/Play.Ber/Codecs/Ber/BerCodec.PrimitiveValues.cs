@@ -4,7 +4,9 @@ using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
+using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Ber.Lengths;
 using Play.Codecs;
 using Play.Core.Exceptions;
 using Play.Core.Specifications;
@@ -96,6 +98,19 @@ public partial class BerCodec
         ReadOnlySpan<byte> contentOctets = value.EncodeValue(this, length);
 
         return EncodeTagLengthValue(value, contentOctets);
+    }
+
+    /// <exception cref="BerParsingException"></exception>
+    public byte[] EncodeTagLengthValue(Tag tag, ReadOnlySpan<byte> contentOctets)
+    {
+        Length length = new((ushort) contentOctets.Length);
+        Span<byte> buffer = stackalloc byte[tag.GetByteCount() + length.GetByteCount() + contentOctets.Length];
+
+        tag.Serialize().CopyTo(buffer);
+        length.Serialize().CopyTo(buffer[tag.GetByteCount()..]);
+        contentOctets.CopyTo(buffer[^contentOctets.Length..]);
+
+        return buffer.ToArray();
     }
 
     /// <summary>

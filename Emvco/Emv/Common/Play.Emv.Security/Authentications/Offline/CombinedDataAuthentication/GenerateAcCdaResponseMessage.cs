@@ -111,8 +111,10 @@ public class GenerateAcCdaResponseMessage : ResponseMessageTemplate
 
     #region Serialization
 
-    public override byte[] EncodeTagLengthValue(BerCodec codec) => throw new NotImplementedException();
+    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    public override byte[] EncodeTagLengthValue(BerCodec codec) => new TagLengthValue(Tag, EncodeValue(codec)).EncodeTagLengthValue();
 
+    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
     public override byte[] EncodeValue(BerCodec codec) =>
         _IssuerApplicationData == null
             ? codec.EncodeTagLengthValue(this, _CryptogramInformationData, _ApplicationTransactionCounter, _SignedDynamicApplicationData)

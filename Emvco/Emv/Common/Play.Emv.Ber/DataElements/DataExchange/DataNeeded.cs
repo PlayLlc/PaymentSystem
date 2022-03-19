@@ -25,9 +25,6 @@ public record DataNeeded : DataExchangeRequest
     public DataNeeded(params Tag[] tags) : base(tags)
     { }
 
-    public DataNeeded(byte[] value) : base(_Codec.DecodeTagSequence(value))
-    { }
-
     #endregion
 
     #region Equality
@@ -70,10 +67,10 @@ public record DataNeeded : DataExchangeRequest
     public static DataNeeded Decode(ReadOnlySpan<byte> value)
     {
         if (value.IsEmpty)
-            return new DataNeeded(Array.Empty<byte>());
+            return new DataNeeded(Array.Empty<Tag>());
 
         // This Value field is already BER encoded, which is what this object's _Value field requires
-        return new DataNeeded(value.ToArray());
+        return new DataNeeded(_Codec.DecodeTagSequence(value.ToArray()));
     }
 
     #endregion

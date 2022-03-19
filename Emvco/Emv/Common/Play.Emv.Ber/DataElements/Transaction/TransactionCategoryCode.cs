@@ -39,7 +39,6 @@ public record TransactionCategoryCode : PlayProprietaryDataElement<char[]>
 
     public static TransactionCategoryCode Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
     public override TransactionCategoryCode Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
     public static TransactionCategoryCode Decode(ReadOnlySpan<byte> value)

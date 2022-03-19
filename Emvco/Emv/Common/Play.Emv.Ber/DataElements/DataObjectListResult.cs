@@ -11,15 +11,21 @@ namespace Play.Emv.Ber.DataElements;
 /// <remarks>Book 3 Section 5.4</remarks>
 public class DataObjectListResult : IEqualityComparer<DataObjectListResult>, IEquatable<DataObjectListResult>
 {
+    #region Static Metadata
+
+    private static readonly EmvCodec _Codec = EmvCodec.GetBerCodec();
+
+    #endregion
+
     #region Instance Values
 
-    private readonly TagLengthValue[] _Value;
+    private readonly PrimitiveValue[] _Value;
 
     #endregion
 
     #region Constructor
 
-    public DataObjectListResult(params TagLengthValue[] value)
+    public DataObjectListResult(params PrimitiveValue[] value)
     {
         _Value = value;
     }
@@ -35,7 +41,7 @@ public class DataObjectListResult : IEqualityComparer<DataObjectListResult>, IEq
     /// <exception cref="BerParsingException"></exception>
     public byte[] AsByteArray()
     {
-        return _Value.SelectMany(a => a.EncodeTagLengthValue()).ToArray();
+        return _Value.SelectMany(a => a.EncodeTagLengthValue(_Codec)).ToArray();
     }
 
     /// <summary>
@@ -47,12 +53,12 @@ public class DataObjectListResult : IEqualityComparer<DataObjectListResult>, IEq
     {
         List<byte> buffer = new();
         for (int i = 0; i < _Value.Length; i++)
-            buffer.AddRange(_Value[i].EncodeValue());
+            buffer.AddRange(_Value[i].EncodeValue(_Codec));
 
         return new CommandTemplate(buffer.ToArray());
     }
 
-    public TagLengthValue[] AsTagLengthValueArray() => _Value;
+    public PrimitiveValue[] AsTagLengthValueArray() => _Value;
     public int ByteCount() => _Value.Length;
 
     #endregion

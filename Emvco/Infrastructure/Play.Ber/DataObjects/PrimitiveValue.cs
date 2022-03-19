@@ -5,10 +5,12 @@ using Play.Ber.Codecs;
 using Play.Ber.Identifiers;
 using Play.Ber.Lengths;
 using Play.Codecs;
+using Play.Emv.Ber.DataElements;
 
 namespace Play.Ber.DataObjects;
 
-public abstract record PrimitiveValue : IEqualityComparer<PrimitiveValue>, IEncodeBerDataObjects, IRetrievePrimitiveValueMetadata
+public abstract record PrimitiveValue : IEqualityComparer<PrimitiveValue>, IEncodeBerDataObjects, IRetrievePrimitiveValueMetadata,
+    IDecodeDataElement
 {
     #region Instance Members
 
@@ -40,6 +42,8 @@ public abstract record PrimitiveValue : IEqualityComparer<PrimitiveValue>, IEnco
     #endregion
 
     #region Serialization
+
+    public abstract PrimitiveValue Decode(TagLengthValue value);
 
     /// <summary>
     ///     Encodes this object as a Tag-Length-Value

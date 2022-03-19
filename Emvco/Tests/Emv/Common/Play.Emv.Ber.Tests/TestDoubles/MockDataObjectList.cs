@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
@@ -39,6 +40,8 @@ public record MockDataObjectList : DataObjectList
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public static MockDataObjectList Decode(ReadOnlySpan<byte> value) => new(value.ToArray());
+
+    public override MockDataObjectList Decode(TagLengthValue value) => new(Decode(value.EncodeValue().AsSpan()));
 
     #endregion
 

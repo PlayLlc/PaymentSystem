@@ -679,10 +679,6 @@ public class CompressedNumericCodec : PlayCodec
             for (int i = 0, j = 0; i < value.Length; i++, j += 2)
                 DecodeToChars(value[i], buffer, j);
 
-            string? a = buffer.ToArray().ToString();
-            string? b = new(buffer);
-            string? c = new(buffer.ToArray());
-
             return buffer.ToArray();
         }
         else

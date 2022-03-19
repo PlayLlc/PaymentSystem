@@ -6,22 +6,31 @@ using Play.Codecs;
 
 namespace Play.Ber.DataObjects;
 
-public record Empty : PrimitiveValue 
+public record Empty : PrimitiveValue
 {
     #region Static Metadata
 
     public static readonly PlayEncodingId EncodingId = HexadecimalCodec.EncodingId;
+
+    #endregion
+
+    #region Instance Values
+
     private readonly Tag _Tag;
+
+    #endregion
+
+    #region Constructor
+
+    public Empty(Tag tag)
+    {
+        _Tag = tag;
+    }
 
     #endregion
 
     #region Instance Members
 
-    public Empty(Tag tag)
-    {
-        _Tag = tag;
-
-    } 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => _Tag;
     public override ushort GetValueByteCount(BerCodec codec) => 0;
@@ -30,13 +39,12 @@ public record Empty : PrimitiveValue
 
     #region Serialization
 
+    public override Empty Decode(TagLengthValue value) => new(value.GetTag());
     public override byte[] EncodeValue(BerCodec codec) => Array.Empty<byte>();
     public override byte[] EncodeValue(BerCodec codec, int length) => Array.Empty<byte>();
-    public new byte[] EncodeTagLengthValue(BerCodec codec, int length)
-    {
-        return EncodeTagLengthValue();
-    }
+    public new byte[] EncodeTagLengthValue(BerCodec codec, int length) => EncodeTagLengthValue();
 
+    /// <exception cref="Exceptions.BerParsingException"></exception>
     private byte[] EncodeTagLengthValue()
     {
         byte[] result = new byte[2 + _Tag.GetByteCount()];
@@ -48,10 +56,8 @@ public record Empty : PrimitiveValue
 
         return result;
     }
-    public new byte[] EncodeTagLengthValue(BerCodec codec)
-    {
-        return EncodeTagLengthValue();
-    }
+
+    public new byte[] EncodeTagLengthValue(BerCodec codec) => EncodeTagLengthValue();
 
     #endregion
 

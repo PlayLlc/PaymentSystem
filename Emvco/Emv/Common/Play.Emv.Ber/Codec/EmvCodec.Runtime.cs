@@ -18,9 +18,6 @@ using Play.Emv.Ber.DataElements;
 
 namespace Play.Emv.Ber
 {
-    public readonly ref struct Test
-    { }
-
     public partial class EmvCodec : BerCodec
     {
         #region Static Metadata
@@ -63,24 +60,21 @@ namespace Play.Emv.Ber
             return codecs;
         }
 
-        private PrimitiveValue DecodePrimitiveValueAtRuntime(TagLengthValue value)
+        /// <exception cref="BerParsingException"></exception>
+        public PrimitiveValue DecodePrimitiveValueAtRuntime(ReadOnlySpan<byte> value)
         {
-            if (!_DefaultPrimitiveMap.ContainsKey(value.GetTag()))
-            {
-                throw new
-                    PlayInternalException($"A {nameof(EmvCodec)} configuration error has occurred. An attempt to parse a {nameof(PrimitiveValue)} was made but there are no decoding configurations for that object");
-            }
+            TagLengthValue tagLengthValue = _Codec.DecodeTagLengthValue(value);
 
-            return _DefaultPrimitiveMap[value.GetTag()]._Decoder(value[tagLength.GetValueOffset()..]);
+            return _DefaultPrimitiveMap[tagLengthValue.GetTag()].Decode(tagLengthValue);
         }
 
         public bool TryDecodingPrimitiveValueAtRuntime(ReadOnlySpan<byte> value, out PrimitiveValue? result)
         {
             try
             {
-                TagLength tagLength = _Codec.DecodeTagLength(value.Span);
+                TagLengthValue tagLengthValue = _Codec.DecodeTagLengthValue(value);
 
-                result = _DefaultPrimitiveMap[tagLength.GetTag()]._Decoder(value[tagLength.GetValueOffset()..]);
+                result = _DefaultPrimitiveMap[tagLengthValue.GetTag()].Decode(tagLengthValue);
 
                 return true;
             }
@@ -101,20 +95,16 @@ namespace Play.Emv.Ber
         }
 
         /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
-        public IEnumerable<PrimitiveValue> DecodeSiblingsAtRuntime(ReadOnlyMemory<byte> value)
+        public IEnumerable<PrimitiveValue> DecodePrimitiveValuesAtRuntime(ReadOnlyMemory<byte> value)
         {
-            EncodedTlvSiblings siblings = _Codec.DecodeChildren(value);
-            uint[] tags = siblings.GetTags();
+            TagLengthValue[] siblings = _Codec.DecodeTagLengthValues(value);
 
-            for (int i = 0; i < siblings.SiblingCount(); i++)
+            for (int i = 0; i < siblings.Length; i++)
             {
-                if (!_DefaultPrimitiveMap.ContainsKey(tags[i]))
+                if (!_DefaultPrimitiveMap.ContainsKey(siblings[i].GetTag()))
                     continue;
 
-                if (!siblings.TryGetValueOctetsOfChild(tags[i], out ReadOnlyMemory<byte> childContentOctets))
-                    continue;
-
-                yield return _DefaultPrimitiveMap[tags[i]]._Decoder(childContentOctets);
+                yield return _DefaultPrimitiveMap[siblings[i].GetTag()].Decode(siblings[i]);
             }
         }
 

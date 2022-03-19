@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Numerics;
 
 using Play.Ber.Codecs;
@@ -8,12 +6,12 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 
-namespace Play.Emv.Security.Certificates.Pin;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Remaining digits of the ICC PIN Encipherment Public Key Modulus
 /// </summary>
-public record IccPinEnciphermentPublicKeyRemainder : PrimitiveValue, IEqualityComparer<IccPinEnciphermentPublicKeyRemainder>
+public record IccPinEnciphermentPublicKeyRemainder : DataElement<BigInteger>, IEqualityComparer<IccPinEnciphermentPublicKeyRemainder>
 {
     #region Static Metadata
 
@@ -22,15 +20,9 @@ public record IccPinEnciphermentPublicKeyRemainder : PrimitiveValue, IEqualityCo
 
     #endregion
 
-    #region Instance Values
-
-    private readonly BigInteger _Value;
-
-    #endregion
-
     #region Constructor
 
-    public IccPinEnciphermentPublicKeyRemainder(BigInteger value)
+    public IccPinEnciphermentPublicKeyRemainder(BigInteger value) : base(value)
     {
         _Value = value;
     }
@@ -47,17 +39,19 @@ public record IccPinEnciphermentPublicKeyRemainder : PrimitiveValue, IEqualityCo
 
     #region Serialization
 
-    public static IccPinEnciphermentPublicKeyRemainder Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    /// <exception cref="BerParsingException"></exception>
+    public override IccPinEnciphermentPublicKeyRemainder Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="BerParsingException"></exception>
+    public static IccPinEnciphermentPublicKeyRemainder Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static IccPinEnciphermentPublicKeyRemainder Decode(ReadOnlySpan<byte> value, BerCodec codec)
+    public static IccPinEnciphermentPublicKeyRemainder Decode(ReadOnlySpan<byte> value)
     {
-        DecodedResult<BigInteger> result = codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new
-                InvalidOperationException($"The {nameof(IccPinEnciphermentPublicKeyRemainder)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
-        return new IccPinEnciphermentPublicKeyRemainder(result.Value);
+        return new IccPinEnciphermentPublicKeyRemainder(result);
     }
 
     public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);

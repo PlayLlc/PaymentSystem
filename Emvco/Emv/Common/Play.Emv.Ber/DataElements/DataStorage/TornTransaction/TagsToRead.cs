@@ -95,6 +95,8 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<PrimitiveValue
 
     #region Serialization
 
+    public override TagsToRead Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <summary>
     ///     Decode
     /// </summary>

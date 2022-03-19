@@ -1,5 +1,4 @@
-﻿using Play.Emv.Acquirer.Contracts.SignalOut;
-using Play.Emv.Ber.DataElements;
+﻿using Play.Emv.Ber.DataElements;
 using Play.Emv.Configuration;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;

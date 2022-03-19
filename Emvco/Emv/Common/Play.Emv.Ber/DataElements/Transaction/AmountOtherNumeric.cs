@@ -45,7 +45,6 @@ public record AmountOtherNumeric : DataElement<ulong>, IEqualityComparer<AmountO
     public static AmountOtherNumeric Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override AmountOtherNumeric Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>

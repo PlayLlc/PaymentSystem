@@ -50,17 +50,19 @@ public abstract record DataObjectList : DataElement<byte[]>
 
     public bool IsRequestedDataAvailable(IQueryTlvDatabase database)
     {
-        TagLength[] requestedItems = DataObjects;
-
         foreach (TagLength item in DataObjects)
         {
-            if (database.IsKnown(item.GetTag()) && !database.IsPresent(item.GetTag()))
+            if (!database.IsKnown(item.GetTag()))
+                return false;
+
+            if (database.IsPresent(item.GetTag()))
                 return false;
         }
 
         return true;
     }
 
+    /// <exception cref="BerParsingException"></exception>
     public Tag[] GetNeededData(IQueryTlvDatabase database)
     {
         List<Tag> result = new();
@@ -74,27 +76,29 @@ public abstract record DataObjectList : DataElement<byte[]>
         return result.ToArray();
     }
 
-    public bool TryGetRequestedDataItems(IQueryTlvDatabase database, out TagLengthValue[] result)
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public bool TryGetRequestedDataItems(IQueryTlvDatabase database, out PrimitiveValue[] result)
     {
         if (!IsRequestedDataAvailable(database))
         {
-            result = Array.Empty<TagLengthValue>();
+            result = Array.Empty<PrimitiveValue>();
 
             return false;
         }
 
-        result = new TagLengthValue[DataObjects.Length];
+        result = new PrimitiveValue[DataObjects.Length];
 
         for (int i = 0; i < DataObjects.Length; i++)
         {
-            if (!database.TryGet(DataObjects[i].GetTag(), out TagLengthValue? tagLengthValue))
+            if (!database.TryGet(DataObjects[i].GetTag(), out PrimitiveValue? primitiveValue))
             {
-                result[i] = new UnknownPrimitiveValue(DataObjects[i]).AsTagLengthValue();
+                result[i] = new UnknownPrimitiveValue(DataObjects[i]);
 
                 continue;
             }
 
-            result[i] = tagLengthValue;
+            result[i] = primitiveValue!;
         }
 
         return true;
@@ -103,15 +107,15 @@ public abstract record DataObjectList : DataElement<byte[]>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <remarks>Book 3 Section 5.4</remarks>
-    public virtual DataObjectListResult AsDataObjectListResult(TagLengthValue[] dataObjects)
+    public virtual DataObjectListResult AsDataObjectListResult(PrimitiveValue[] dataObjects)
     {
         ValidateCommandTemplate(dataObjects);
-        TagLengthValue[] result = new TagLengthValue[DataObjects.Length];
+        PrimitiveValue[] result = new PrimitiveValue[DataObjects.Length];
 
         for (int i = 0; i < DataObjects.Length; i++)
         {
             if (dataObjects.All(a => a.GetTag() != DataObjects[i].GetTag()))
-                result[i] = new UnknownPrimitiveValue(DataObjects[i].GetTag(), DataObjects[i].GetLength()).AsTagLengthValue();
+                result[i] = new UnknownPrimitiveValue(DataObjects[i].GetTag(), DataObjects[i].GetLength());
 
             result[i] = dataObjects.First(a => a.GetTag() == DataObjects[i].GetTag());
         }
@@ -122,34 +126,30 @@ public abstract record DataObjectList : DataElement<byte[]>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <remarks>Book 3 Section 5.4</remarks>
+    /// <exception cref="OverflowException"></exception>
     public virtual DataObjectListResult AsDataObjectListResult(IQueryTlvDatabase database)
     {
-        if (!TryGetRequestedDataItems(database, out TagLengthValue[] result))
+        if (!TryGetRequestedDataItems(database, out PrimitiveValue[] result))
             throw new InvalidOperationException();
 
-        TagLengthValue[] buffer = new TagLengthValue[DataObjects.Length];
+        PrimitiveValue[] buffer = new PrimitiveValue[DataObjects.Length];
 
         for (int i = 0; i < DataObjects.Length; i++)
         {
-            if (result[i].GetValueByteCount() == DataObjects[i].GetValueByteCount())
+            if (result[i].GetValueByteCount(_Codec) == DataObjects[i].GetValueByteCount())
                 continue;
 
-            if (result[i].GetValueByteCount() > DataObjects[i].GetValueByteCount())
-                buffer[i] = new TagLengthValue(result[i].GetTag(), result[i].EncodeValue()[..DataObjects[i].GetValueByteCount()]);
+            if (result[i].GetValueByteCount(_Codec) > DataObjects[i].GetValueByteCount())
+                buffer[i] = _Codec.DecodePrimitiveValueAtRuntime(result[i].EncodeValue(_Codec)[..DataObjects[i].GetValueByteCount()]);
             else
-            {
-                SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(DataObjects[i].GetValueByteCount());
-                Span<byte> contentBuffer = spanOwner.Span;
-                result[i].EncodeValue().CopyTo(contentBuffer);
-                buffer[i] = new TagLengthValue(DataObjects[i].GetTag(), contentBuffer);
-            }
+                buffer[i] = result[i];
         }
 
-        return new DataObjectListResult(result.ToArray());
+        return new DataObjectListResult(buffer);
     }
 
     public virtual CommandTemplate AsCommandTemplate(IQueryTlvDatabase database) => AsDataObjectListResult(database).AsCommandTemplate();
-    public virtual CommandTemplate AsCommandTemplate(TagLengthValue[] values) => AsDataObjectListResult(values).AsCommandTemplate();
+    public virtual CommandTemplate AsCommandTemplate(PrimitiveValue[] values) => AsDataObjectListResult(values).AsCommandTemplate();
 
     public bool Contains(Tag tag)
     {
@@ -173,7 +173,7 @@ public abstract record DataObjectList : DataElement<byte[]>
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="BerParsingException"></exception>
-    private void ValidateCommandTemplate(TagLengthValue[] value)
+    private void ValidateCommandTemplate(PrimitiveValue[] value)
     {
         for (int i = 0; i < value.Length; i++)
         {

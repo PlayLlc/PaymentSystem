@@ -1,4 +1,5 @@
-﻿using Play.Ber.Exceptions;
+﻿using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
@@ -36,6 +37,8 @@ public record PreGenAcPutDataStatus : DataElement<byte>, IEqualityComparer<PreGe
     #endregion
 
     #region Serialization
+
+    public override PreGenAcPutDataStatus Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <summary>
     ///     Decode

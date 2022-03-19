@@ -72,6 +72,7 @@ public record CryptographicChecksum : PrimitiveValue, IEqualityComparer<Cryptogr
 
     #region Serialization
 
+    public override PrimitiveValue Decode(TagLengthValue value) => throw new NotImplementedException();
     public static CryptographicChecksum Decode(ReadOnlySpan<byte> value) => new(value);
     public override byte[] EncodeValue(BerCodec codec) => _Value;
 

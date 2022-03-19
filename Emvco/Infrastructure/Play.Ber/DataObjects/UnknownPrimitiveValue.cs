@@ -98,6 +98,8 @@ public record UnknownPrimitiveValue : PrimitiveValue
         return new UnknownPrimitiveValue(tag, length);
     }
 
+    public override UnknownPrimitiveValue Decode(TagLengthValue value) => new(value.GetTag(), value.GetLength());
+
     /// <exception cref="BerParsingException"></exception>
     public override byte[] EncodeValue(BerCodec codec) => Encode();
 

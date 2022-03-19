@@ -65,7 +65,7 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
 
     public override Tag[] GetChildTags() => ChildTags;
 
-    public CommandTemplate AsCommandTemplate(BerCodec codec, PoiInformation poiInformation, TagLengthValue[] selectionDataObjectListValues)
+    public CommandTemplate AsCommandTemplate(BerCodec codec, PoiInformation poiInformation, PrimitiveValue[] selectionDataObjectListValues)
     {
         if ((_SelectionDataObjectList != null) && (!_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))
             return _SelectionDataObjectList.AsCommandTemplate(selectionDataObjectListValues);
@@ -97,14 +97,14 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
 
         if (database.IsPresentAndNotEmpty(PoiInformation.Tag)
             && (_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))
-            return new CommandTemplate(database.Get(PoiInformation.Tag).EncodeValue());
+            return new CommandTemplate(database.Get(PoiInformation.Tag).EncodeValue(_Codec));
 
         if ((_SelectionDataObjectList != null)
             && database.IsPresentAndNotEmpty(PoiInformation.Tag)
             && (_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))
         {
             Span<byte> dolEncoding = _SelectionDataObjectList.AsCommandTemplate(database).GetValueAsByteArray();
-            Span<byte> terminalCategoryEncoding = database.Get(PoiInformation.Tag).EncodeValue();
+            Span<byte> terminalCategoryEncoding = database.Get(PoiInformation.Tag).EncodeValue(_Codec);
 
             return new CommandTemplate(dolEncoding.ConcatArrays(terminalCategoryEncoding));
         }

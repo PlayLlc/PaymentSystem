@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Numerics;
 
 using Play.Ber.Codecs;
@@ -8,12 +6,12 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 
-namespace Play.Emv.Security.Certificates.Pin;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     ICC PIN Encipherment Public Key certified by the issuer
 /// </summary>
-public record IccPinEnciphermentPublicKeyCertificate : PrimitiveValue, IEqualityComparer<IccPinEnciphermentPublicKeyCertificate>
+public record IccPinEnciphermentPublicKeyCertificate : DataElement<BigInteger>, IEqualityComparer<IccPinEnciphermentPublicKeyCertificate>
 {
     #region Static Metadata
 
@@ -22,15 +20,9 @@ public record IccPinEnciphermentPublicKeyCertificate : PrimitiveValue, IEquality
 
     #endregion
 
-    #region Instance Values
-
-    private readonly BigInteger _Value;
-
-    #endregion
-
     #region Constructor
 
-    public IccPinEnciphermentPublicKeyCertificate(BigInteger value)
+    public IccPinEnciphermentPublicKeyCertificate(BigInteger value) : base(value)
     {
         _Value = value;
     }
@@ -49,18 +41,16 @@ public record IccPinEnciphermentPublicKeyCertificate : PrimitiveValue, IEquality
 
     #region Serialization
 
-    public static IccPinEnciphermentPublicKeyCertificate Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    /// <exception cref="BerParsingException"></exception>
+    public override IccPinEnciphermentPublicKeyCertificate Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="BerParsingException"></exception>
+    public static IccPinEnciphermentPublicKeyCertificate Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static IccPinEnciphermentPublicKeyCertificate Decode(ReadOnlySpan<byte> value, BerCodec codec)
-    {
-        DecodedResult<BigInteger> result = codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new
-                InvalidOperationException($"The {nameof(IccPinEnciphermentPublicKeyCertificate)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
-
-        return new IccPinEnciphermentPublicKeyCertificate(result.Value);
-    }
+    public static IccPinEnciphermentPublicKeyCertificate Decode(ReadOnlySpan<byte> value) =>
+        new(PlayCodec.BinaryCodec.DecodeToBigInteger(value));
 
     public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
     public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);

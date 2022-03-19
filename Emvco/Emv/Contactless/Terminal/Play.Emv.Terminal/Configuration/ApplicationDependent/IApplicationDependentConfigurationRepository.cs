@@ -1,4 +1,6 @@
-﻿namespace Play.Emv.Terminal.Configuration.ApplicationDependent;
+﻿using Play.Emv.Ber.DataElements;
+
+namespace Play.Emv.Terminal.Configuration.ApplicationDependent;
 
 public interface IApplicationDependentConfigurationRepository
 {

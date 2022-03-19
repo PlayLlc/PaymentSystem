@@ -35,7 +35,7 @@ public class FileControlInformationProprietaryPpse : FileControlInformationPropr
 
     public override Tag[] GetChildTags() => ChildTags;
 
-    public CommandTemplate AsCommandTemplate(PoiInformation poiInformation, TagLengthValue[] selectionDataObjectListValues) =>
+    public CommandTemplate AsCommandTemplate(PoiInformation poiInformation, PrimitiveValue[] selectionDataObjectListValues) =>
         _FileControlInformationIssuerDiscretionaryDataPpse.AsCommandTemplate(_Codec, poiInformation, selectionDataObjectListValues);
 
     public CommandTemplate AsCommandTemplate(IQueryTlvDatabase database) =>

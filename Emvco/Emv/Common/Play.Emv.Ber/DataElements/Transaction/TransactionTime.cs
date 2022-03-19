@@ -56,7 +56,6 @@ public record TransactionTime : DataElement<uint>, IEqualityComparer<Transaction
     public static TransactionTime Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override TransactionTime Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>

@@ -27,6 +27,7 @@ public record Null : PrimitiveValue, IEqualityComparer<Null>
 
     #region Serialization
 
+    public override Null Decode(TagLengthValue value) => new();
     public override byte[] EncodeValue(BerCodec codec) => Array.Empty<byte>();
     public override byte[] EncodeValue(BerCodec codec, int length) => Array.Empty<byte>();
     public new byte[] EncodeTagLengthValue(BerCodec codec, int length) => Array.Empty<byte>();

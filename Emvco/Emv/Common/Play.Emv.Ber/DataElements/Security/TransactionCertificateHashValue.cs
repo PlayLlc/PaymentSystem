@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Numerics;
 
 using Play.Ber.Codecs;
@@ -7,18 +5,20 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Emv.Ber.Exceptions;
 
-namespace Play.Emv.Security.Cryptograms;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Result of a hash function specified in Book 2, Annex B3.1
 /// </summary>
-public record TransactionCertificateHashValue : PrimitiveValue, IEqualityComparer<TransactionCertificateHashValue>
+public record TransactionCertificateHashValue : DataElement<BigInteger>, IEqualityComparer<TransactionCertificateHashValue>
 {
     #region Static Metadata
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x98;
+    private const byte _ByteLength = 20;
 
     #endregion
 
@@ -30,10 +30,8 @@ public record TransactionCertificateHashValue : PrimitiveValue, IEqualityCompare
 
     #region Constructor
 
-    public TransactionCertificateHashValue(BigInteger value)
-    {
-        _Value = value;
-    }
+    public TransactionCertificateHashValue(BigInteger value) : base(value)
+    { }
 
     #endregion
 
@@ -47,25 +45,18 @@ public record TransactionCertificateHashValue : PrimitiveValue, IEqualityCompare
 
     #region Serialization
 
-    public static TransactionCertificateHashValue Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    public override TransactionCertificateHashValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public static TransactionCertificateHashValue Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static TransactionCertificateHashValue Decode(ReadOnlySpan<byte> value, BerCodec codec)
+    public static TransactionCertificateHashValue Decode(ReadOnlySpan<byte> value)
     {
-        const ushort byteLength = 20;
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        if (value.Length != byteLength)
-        {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(TransactionCertificateHashValue)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
-        }
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
-        DecodedResult<BigInteger> result = codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new
-                InvalidOperationException($"The {nameof(TransactionCertificateHashValue)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
-
-        return new TransactionCertificateHashValue(result.Value);
+        return new TransactionCertificateHashValue(result);
     }
 
     public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);

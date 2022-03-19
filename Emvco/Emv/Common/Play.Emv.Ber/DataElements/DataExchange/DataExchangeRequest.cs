@@ -1,4 +1,6 @@
-﻿using Play.Ber.Exceptions;
+﻿using Microsoft.Toolkit.HighPerformance;
+
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 
 namespace Play.Emv.Ber.DataElements;
@@ -21,18 +23,32 @@ public abstract record DataExchangeRequest : DataExchangeList<Tag>
         Enqueue(item._Value.ToArray());
     }
 
+    /// <exception cref="OverflowException"></exception>
+    public new int GetValueByteCount()
+    {
+        return _Value.Sum(a => a.GetByteCount());
+    }
+
     #endregion
 
     #region Serialization
 
-    /// <summary>
-    ///     EncodeValue
-    /// </summary>
-    /// <returns></returns>
-    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
     public new byte[] EncodeValue()
     {
-        return _Value.ToArray().SelectMany(a => a.Serialize()).ToArray();
+        Span<byte> buffer = stackalloc byte[_Value.Sum(a => a.GetByteCount())];
+        int offset = 0;
+
+        for (int i = 0; i < _Value.Count; i++)
+            _Value.ElementAt(i).Serialize(buffer, ref offset);
+
+        return buffer.ToArray();
+    }
+
+    /// <exception cref="BerParsingException"></exception>
+    public new byte[] EncodeTagLengthValue()
+    {
+        return _Codec.EncodeTagLengthValue(GetTag(), _Value.SelectMany(a => a.Serialize()).ToList().AsSpan());
     }
 
     #endregion

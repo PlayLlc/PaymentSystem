@@ -45,7 +45,6 @@ public record TransactionReferenceCurrencyExponent : DataElement<byte>, IEqualit
     public static TransactionReferenceCurrencyExponent Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override TransactionReferenceCurrencyExponent Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>

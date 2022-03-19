@@ -37,12 +37,14 @@ public record DiscretionaryData : DataExchangeResponse, IEqualityComparer<Discre
 
     #region Serialization
 
-    /// <exception cref="BerParsingException"></exception>
-    public static DiscretionaryData Decode(IResolveKnownObjectsAtRuntime runtimeCodec, ReadOnlyMemory<byte> value) =>
-        new(runtimeCodec.DecodePrimitiveSiblingsAtRuntime(value).ToArray());
+    public override DiscretionaryData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
-    public static DiscretionaryData Decode(IResolveKnownObjectsAtRuntime runtimeCodec, ReadOnlySpan<byte> value) =>
-        Decode(runtimeCodec, value.ToArray().AsMemory());
+    /// <exception cref="BerParsingException"></exception>
+    public static DiscretionaryData Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodePrimitiveValuesAtRuntime(value).ToArray());
+
+    /// <exception cref="BerParsingException"></exception>
+    public static DiscretionaryData Decode(ReadOnlySpan<byte> value) =>
+        new DiscretionaryData(_Codec.DecodePrimitiveValuesAtRuntime(value.ToArray().AsMemory()).ToArray());
 
     #endregion
 

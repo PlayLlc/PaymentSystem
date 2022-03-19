@@ -6,7 +6,7 @@ using Play.Globalization.Time.Seconds;
 
 namespace Play.Emv.Ber.DataElements;
 
-public record MaxLifetimeOfTornTransactionLogRecords : DataElement<ushort>
+public record MaxLifetimeOfTornTransactionLogRecords : DataElement<Seconds>
 {
     #region Static Metadata
 
@@ -18,7 +18,7 @@ public record MaxLifetimeOfTornTransactionLogRecords : DataElement<ushort>
 
     #region Constructor
 
-    public MaxLifetimeOfTornTransactionLogRecords(ushort value) : base(value)
+    public MaxLifetimeOfTornTransactionLogRecords(Seconds value) : base(value)
     { }
 
     #endregion
@@ -46,7 +46,7 @@ public record MaxLifetimeOfTornTransactionLogRecords : DataElement<ushort>
 
         ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
 
-        return new MaxLifetimeOfTornTransactionLogRecords(result);
+        return new MaxLifetimeOfTornTransactionLogRecords(new Seconds(result));
     }
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
@@ -73,7 +73,6 @@ public record MaxLifetimeOfTornTransactionLogRecords : DataElement<ushort>
 
     #region Operator Overrides
 
-    public static explicit operator byte(MaxLifetimeOfTornTransactionLogRecords value) => value._Value;
     public static implicit operator Seconds(MaxLifetimeOfTornTransactionLogRecords value) => new(value._Value);
 
     #endregion

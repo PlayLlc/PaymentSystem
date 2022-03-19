@@ -35,8 +35,14 @@ public record AccountType : DataElement<byte>, IEqualityComparer<AccountType>
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
-    //public override PrimitiveValue Decode(in ReadOnlySpan<byte> value) => Decode(value);
-    public static AccountType StaticDecode(ReadOnlyMemory<byte> value) => StaticDecode(value.Span);
+    #endregion
+
+    #region Serialization
+
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="CodecParsingException"></exception>
+    public static AccountType Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <summary>
     ///     Decode
@@ -46,7 +52,7 @@ public record AccountType : DataElement<byte>, IEqualityComparer<AccountType>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    public static AccountType StaticDecode(ReadOnlySpan<byte> value)
+    public static AccountType Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
@@ -56,10 +62,6 @@ public record AccountType : DataElement<byte>, IEqualityComparer<AccountType>
 
         return new AccountType(result.Value);
     }
-
-    #endregion
-
-    #region Serialization
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 

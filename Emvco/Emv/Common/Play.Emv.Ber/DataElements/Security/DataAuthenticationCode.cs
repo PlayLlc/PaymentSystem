@@ -1,36 +1,29 @@
-using System;
-using System.Collections.Generic;
-
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Emv.Ber.Exceptions;
 
-namespace Play.Emv.Security.Authentications.Static;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     An issuer assigned value that is retained by the terminal during the verification process of the Signed Static
 ///     Application Data
 /// </summary>
-public record DataAuthenticationCode : PrimitiveValue, IEqualityComparer<DataAuthenticationCode>
+public record DataAuthenticationCode : DataElement<ushort>, IEqualityComparer<DataAuthenticationCode>
 {
     #region Static Metadata
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F45;
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly ushort _Value;
+    private const byte _ByteLength = 2;
 
     #endregion
 
     #region Constructor
 
-    public DataAuthenticationCode(ushort value)
+    public DataAuthenticationCode(ushort value) : base(value)
     {
         _Value = value;
     }
@@ -52,25 +45,20 @@ public record DataAuthenticationCode : PrimitiveValue, IEqualityComparer<DataAut
 
     #region Serialization
 
-    public static DataAuthenticationCode Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    public override DataAuthenticationCode Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="BerParsingException"></exception>
+    public static DataAuthenticationCode Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static DataAuthenticationCode Decode(ReadOnlySpan<byte> value, BerCodec codec)
+    public static DataAuthenticationCode Decode(ReadOnlySpan<byte> value)
     {
-        const ushort byteLength = 2;
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        if (value.Length != byteLength)
-        {
-            throw new
-                ArgumentOutOfRangeException($"The Primitive Value {nameof(DataAuthenticationCode)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {byteLength} bytes in length");
-        }
+        ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
 
-        DecodedResult<ushort> result = codec.Decode(EncodingId, value) as DecodedResult<ushort>
-            ?? throw new
-                InvalidOperationException($"The {nameof(DataAuthenticationCode)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}");
-
-        return new DataAuthenticationCode(result.Value);
+        return new DataAuthenticationCode(result);
     }
 
     public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);

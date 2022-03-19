@@ -56,12 +56,14 @@ public record SelectionDataObjectList : DataObjectList, IEqualityComparer<Select
 
     #region Serialization
 
+    public override SelectionDataObjectList Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
     /// <exception cref="BerParsingException"></exception>
-    public static SelectionDataObjectList Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    public static SelectionDataObjectList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static SelectionDataObjectList Decode(ReadOnlySpan<byte> value, BerCodec codec) => new(value.ToArray());
+    public static SelectionDataObjectList Decode(ReadOnlySpan<byte> value) => new(value.ToArray());
 
     #endregion
 
