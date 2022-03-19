@@ -1,14 +1,10 @@
-﻿using System;
-
-using Play.Ber.DataObjects;
+﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
 using Play.Icc.Messaging.Apdu;
 
-namespace Play.Emv.Templates;
+namespace Play.Emv.Ber.Templates;
 
 public abstract class ResponseMessageTemplate : Template
 {

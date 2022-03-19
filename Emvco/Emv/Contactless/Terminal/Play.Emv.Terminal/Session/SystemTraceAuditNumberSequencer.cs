@@ -1,8 +1,9 @@
 ﻿using System;
 
 using Play.Emv.Acquirer.Contracts.SignalOut;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
+using Play.Emv.Ber.Enums.Interchange;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Globalization.Time;

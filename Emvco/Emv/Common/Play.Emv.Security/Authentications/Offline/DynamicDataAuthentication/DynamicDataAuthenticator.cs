@@ -1,7 +1,6 @@
 ﻿using Play.Core.Extensions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
 using Play.Emv.Security.Cryptograms;
 using Play.Emv.Security.Messages.DDA;
 using Play.Encryption.Certificates;

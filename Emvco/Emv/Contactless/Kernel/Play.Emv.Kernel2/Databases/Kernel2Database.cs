@@ -3,6 +3,7 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.Databases.Certificates; 
@@ -42,7 +43,7 @@ public class Kernel2Database : KernelDatabase
     /// <param name="transaction"></param>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public override void Activate(KernelSessionId kernelSessionId)
     {
         if (IsActive())

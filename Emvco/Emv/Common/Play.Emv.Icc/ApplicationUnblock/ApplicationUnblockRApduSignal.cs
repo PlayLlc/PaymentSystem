@@ -1,4 +1,6 @@
-﻿namespace Play.Emv.Icc;
+﻿using Play.Emv.Ber.Enums;
+
+namespace Play.Emv.Icc;
 
 public class ApplicationUnblockRApduSignal : RApduSignal
 {

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.Numerics;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber;
 
 /// <summary>
 ///     Identifies the status of the transaction (for example when the card can be removed) to be indicated through the

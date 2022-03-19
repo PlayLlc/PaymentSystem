@@ -24,17 +24,17 @@ public sealed record DataToSend : DataExchangeResponse, IEqualityComparer<DataTo
 
     #region Constructor
 
-    public DataToSend() : base(Array.Empty<TagLengthValue>())
+    public DataToSend() : base(Array.Empty<PrimitiveValue>())
     { }
 
-    public DataToSend(params TagLengthValue[] value) : base(value)
+    public DataToSend(params PrimitiveValue[] value) : base(value)
     { }
 
     #endregion
 
     #region Instance Members
 
-    public TagLengthValue[] AsTagLengthValueArray() => _Value.ToArray();
+    public PrimitiveValue[] AsPrimitiveValues() => _Value.ToArray();
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
@@ -42,20 +42,8 @@ public sealed record DataToSend : DataExchangeResponse, IEqualityComparer<DataTo
 
     #region Serialization
 
-    /// <summary>
-    ///     Decode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    public static DataToSend Decode(ReadOnlyMemory<byte> value)
-    {
-        if (value.IsEmpty)
-            return new DataToSend();
-
-        return new DataToSend(_Codec.DecodeTagLengthValues(value));
-    }
+    /// <exception cref="NotImplementedException"></exception>
+    public static DataToSend Decode(ReadOnlyMemory<byte> value) => throw new NotImplementedException();
 
     #endregion
 

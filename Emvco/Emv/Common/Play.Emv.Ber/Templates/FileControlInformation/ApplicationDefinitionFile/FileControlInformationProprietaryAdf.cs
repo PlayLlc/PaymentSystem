@@ -1,29 +1,27 @@
-﻿using System;
-using System.Linq;
+﻿using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Codecs.Exceptions;
-using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
-using Play.Emv.Exceptions;
+using Play.Emv.Ber.Exceptions;
 
-namespace Play.Emv.Templates;
+namespace Play.Emv.Ber.Templates;
 
 public class FileControlInformationProprietaryAdf : FileControlInformationProprietaryTemplate
 {
     #region Instance Values
 
+    private readonly FileControlInformationIssuerDiscretionaryDataAdf _FileControlInformationIssuerDiscretionaryDataAdf;
     private readonly ApplicationLabel? _ApplicationLabel;
     private readonly ApplicationPreferredName? _ApplicationPreferredName;
     private readonly ApplicationPriorityIndicator? _ApplicationPriorityIndicator;
-    private readonly FileControlInformationIssuerDiscretionaryDataAdf _FileControlInformationIssuerDiscretionaryDataAdf;
     private readonly IssuerCodeTableIndex? _IssuerCodeTableIndex;
     private readonly LanguagePreference? _LanguagePreference;
     private readonly ProcessingOptionsDataObjectList? _ProcessingOptionsDataObjectList;
+  
 
     #endregion
 
@@ -90,6 +88,7 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
         return true;
     }
 
+    // BUG: I'm pretty sure this needs to be wrapped in a PDOL Related Data object
     public CommandTemplate GetProcessingOptionsRelatedData(IQueryTlvDatabase database) =>
         _ProcessingOptionsDataObjectList!.AsCommandTemplate(database);
 
@@ -128,6 +127,8 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
             _ProcessingOptionsDataObjectList
         };
     }
+
+ 
 
     #endregion
 

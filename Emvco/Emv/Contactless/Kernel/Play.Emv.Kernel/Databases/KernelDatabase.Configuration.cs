@@ -2,7 +2,7 @@
 
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 
 namespace Play.Emv.Kernel.Databases

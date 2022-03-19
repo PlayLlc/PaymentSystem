@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
+
+using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
@@ -11,7 +14,11 @@ namespace Play.Ber.DataObjects;
 public abstract class ConstructedValue : IEncodeBerDataObjects, IRetrieveConstructedValueMetadata, IEqualityComparer<ConstructedValue>,
     IEquatable<ConstructedValue>
 {
+
     #region Instance Members
+
+
+
 
     public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
     public abstract Tag GetTag();

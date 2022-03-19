@@ -2,8 +2,10 @@
 
 using Play.Ber.Exceptions;
 using Play.Codecs.Exceptions;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
+using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Kernel.Contracts;
@@ -176,17 +178,18 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     private MeasuredRelayResistanceProcessingTime CalculateMeasuredRrpTime(Microseconds timeElapsed)
     {
         TerminalExpectedTransmissionTimeForRelayResistanceCapdu terminalExpectedCapduTransmissionTime =
-            TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Decode(_KernelDatabase
-                                                                               .Get(TerminalExpectedTransmissionTimeForRelayResistanceCapdu
-                                                                                        .Tag).EncodeValue().AsSpan());
+            (TerminalExpectedTransmissionTimeForRelayResistanceCapdu)
+            _KernelDatabase.Get(TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Tag);
+
+
         TerminalExpectedTransmissionTimeForRelayResistanceRapdu terminalExpectedRapduTransmissionTime =
-            TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Decode(_KernelDatabase
-                                                                               .Get(TerminalExpectedTransmissionTimeForRelayResistanceRapdu
-                                                                                        .Tag).EncodeValue().AsSpan());
+            (TerminalExpectedTransmissionTimeForRelayResistanceRapdu)
+            _KernelDatabase.Get(TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Tag);
+
         DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceExpectedRapduTransmissionTime =
-            DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Decode(_KernelDatabase
-                                                                              .Get(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu
-                                                                                       .Tag).EncodeValue().AsSpan());
+            (DeviceEstimatedTransmissionTimeForRelayResistanceRapdu)
+            _KernelDatabase.Get(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag);
+         
 
         MeasuredRelayResistanceProcessingTime processingTime =
             MeasuredRelayResistanceProcessingTime.Create(timeElapsed, terminalExpectedCapduTransmissionTime,
@@ -209,10 +212,9 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     private bool IsRelayOutOfLowerBounds(MeasuredRelayResistanceProcessingTime processingTime)
     {
         MinTimeForProcessingRelayResistanceApdu minTimeForProcessingRelayResistanceApdu =
-            MinTimeForProcessingRelayResistanceApdu.Decode(_KernelDatabase.Get(MinTimeForProcessingRelayResistanceApdu.Tag).EncodeValue()
-                                                               .AsSpan());
+            (MinTimeForProcessingRelayResistanceApdu) _KernelDatabase.Get(MinTimeForProcessingRelayResistanceApdu.Tag);
         MinimumRelayResistanceGracePeriod minGracePeriod =
-            MinimumRelayResistanceGracePeriod.Decode(_KernelDatabase.Get(MinimumRelayResistanceGracePeriod.Tag).EncodeValue().AsSpan());
+            (MinimumRelayResistanceGracePeriod) _KernelDatabase.Get(MinimumRelayResistanceGracePeriod.Tag);
 
         RelaySeconds minRelayTime = (RelaySeconds) minTimeForProcessingRelayResistanceApdu - minGracePeriod;
 
@@ -284,7 +286,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         ExchangeRelayResistanceDataRequest capdu = ExchangeRelayResistanceDataRequest.Create(session.GetTransactionSessionId(), entropy);
 
         // HACK: I  don't think we're supposed to set a timeout value for this. We're only viewing the time it takes. Which, I guess we can set the max expected time, but I don't think TimeoutValue is correct here
-        TimeoutValue timeout = TimeoutValue.Decode(_KernelDatabase.Get(TimeoutValue.Tag).GetValue().AsSpan());
+        TimeoutValue timeout = (TimeoutValue) _KernelDatabase.Get(TimeoutValue.Tag); 
 
         // SR1.26
         // BUG: We need to create a Timer in addition to the TimeoutManager we have
@@ -344,22 +346,43 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
             return false;
 
         DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceEstimate =
-            DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Decode(_KernelDatabase
-                                                                              .Get(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu
-                                                                                       .Tag).EncodeValue().AsSpan());
+            (DeviceEstimatedTransmissionTimeForRelayResistanceRapdu)
+            _KernelDatabase.Get(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag);
+
+
+
         TerminalExpectedTransmissionTimeForRelayResistanceRapdu terminalEstimate =
-            TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Decode(_KernelDatabase
-                                                                               .Get(TerminalExpectedTransmissionTimeForRelayResistanceRapdu
-                                                                                        .Tag).EncodeValue().AsSpan());
+            (TerminalExpectedTransmissionTimeForRelayResistanceRapdu)_KernelDatabase.Get(TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Tag);
+
+
+
+
+
+
+
+
+
         RelayResistanceTransmissionTimeMismatchThreshold mismatchThreshold =
-            RelayResistanceTransmissionTimeMismatchThreshold.Decode(_KernelDatabase
-                                                                        .Get(RelayResistanceTransmissionTimeMismatchThreshold.Tag)
-                                                                        .EncodeValue().AsSpan());
-        MinTimeForProcessingRelayResistanceApdu minThreshold =
-            MinTimeForProcessingRelayResistanceApdu.Decode(_KernelDatabase.Get(MinTimeForProcessingRelayResistanceApdu.Tag).EncodeValue()
-                                                               .AsSpan());
-        RelayResistanceAccuracyThreshold accuracyThreshold =
-            RelayResistanceAccuracyThreshold.Decode(_KernelDatabase.Get(RelayResistanceAccuracyThreshold.Tag).EncodeValue().AsSpan());
+          (RelayResistanceTransmissionTimeMismatchThreshold)  _KernelDatabase.Get(RelayResistanceTransmissionTimeMismatchThreshold.Tag);
+
+
+
+        MinTimeForProcessingRelayResistanceApdu minThreshold = (MinTimeForProcessingRelayResistanceApdu)_KernelDatabase.Get(MinTimeForProcessingRelayResistanceApdu.Tag);
+
+
+
+
+
+
+
+
+
+
+        RelayResistanceAccuracyThreshold accuracyThreshold = (RelayResistanceAccuracyThreshold)_KernelDatabase.Get(RelayResistanceAccuracyThreshold.Tag);
+         
+
+
+
         RelaySeconds minThresholdCheck = ((RelaySeconds) processingTime - minThreshold) < RelaySeconds.Zero
             ? RelaySeconds.Zero
             : (RelaySeconds) processingTime - minThreshold;
@@ -415,12 +438,15 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     private bool IsRelayOutOfUpperBounds(MeasuredRelayResistanceProcessingTime relayTime)
     {
-        MaxTimeForProcessingRelayResistanceApdu maxProcessingTime =
-            MaxTimeForProcessingRelayResistanceApdu.Decode(_KernelDatabase.Get(MaxTimeForProcessingRelayResistanceApdu.Tag).EncodeValue()
-                                                               .AsSpan());
-        MaximumRelayResistanceGracePeriod maxGraceTime =
-            MaximumRelayResistanceGracePeriod.Decode(_KernelDatabase.Get(MaximumRelayResistanceGracePeriod.Tag).EncodeValue().AsSpan());
+        MaxTimeForProcessingRelayResistanceApdu maxProcessingTime = (MaxTimeForProcessingRelayResistanceApdu)_KernelDatabase.Get(MaxTimeForProcessingRelayResistanceApdu.Tag);
 
+
+
+
+
+
+        MaximumRelayResistanceGracePeriod maxGraceTime = (MaximumRelayResistanceGracePeriod) _KernelDatabase.Get(MaximumRelayResistanceGracePeriod.Tag);
+         
         RelaySeconds maxRelayTime = (RelaySeconds) maxProcessingTime + maxGraceTime;
 
         if (relayTime > maxRelayTime)

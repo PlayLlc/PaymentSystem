@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 
 using Play.Core;
 
-namespace Play.Emv.Icc;
+namespace Play.Emv.Ber.Enums;
 
 public record Level1Error : EnumObject<byte>
 {

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Play.Ber.Identifiers;
+﻿using Play.Ber.Identifiers;
 using Play.Core.Exceptions;
 
-namespace Play.Emv.Exceptions;
+namespace Play.Emv.Ber.Exceptions;
 
 internal class Check
 {
@@ -56,6 +53,16 @@ internal class Check
 
         /// <exception cref="DataElementParsingException"></exception>
         public static void ForMaxCharLength(ulong value, byte maxLength, Tag tag)
+        {
+            if (value > maxLength)
+            {
+                throw new
+                    DataElementParsingException($"The Primitive Value with the Tag {tag} could not be initialized because the char length provided was out of range. The char length was {value} but must be less than {maxLength} bytes in length");
+            }
+        }
+
+        /// <exception cref="DataElementParsingException"></exception>
+        public static void ForMaxCharLength(ushort value, byte maxLength, Tag tag)
         {
             if (value > maxLength)
             {

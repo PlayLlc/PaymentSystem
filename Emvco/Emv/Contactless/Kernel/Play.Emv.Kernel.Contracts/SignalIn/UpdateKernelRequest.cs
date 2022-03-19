@@ -1,6 +1,5 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
 using Play.Emv.DataExchange;
 using Play.Emv.Identifiers;
 using Play.Emv.Messaging;
@@ -40,7 +39,7 @@ public record UpdateKernelRequest : RequestSignal, IExchangeDataWithTheTerminal
 
     #region Instance Members
 
-    public TagLengthValue[] GeTagLengthValueArray() => _DataToSend.AsTagLengthValueArray();
+    public TagLengthValue[] GeTagLengthValueArray() => _DataToSend.AsPrimitiveValues();
     public DataToSend GetDataToSend() => _DataToSend;
     public DataExchangeTerminalId GetDataExchangeTerminalId() => _DataExchangeTerminalId;
     public TransactionSessionId GetTransactionSessionId() => _DataExchangeTerminalId.GetTransactionSessionId();

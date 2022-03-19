@@ -1,17 +1,13 @@
-﻿using System;
-
-using Play.Ber.Codecs;
+﻿using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
-using Play.Emv.Exceptions;
+using Play.Emv.Ber.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace Play.Emv.Templates;
+namespace Play.Emv.Ber.Templates;
 
 public class FileControlInformationAdf : FileControlInformationTemplate
 {

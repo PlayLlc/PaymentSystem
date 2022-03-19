@@ -1,6 +1,8 @@
 ﻿using System;
 
-using Play.Emv.DataElements;
+using Play.Emv.Ber;
+using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.State;
@@ -19,8 +21,8 @@ public partial class WaitingForPdolData : KernelState
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
-    /// <exception cref="Exceptions.TerminalDataException"></exception>
-    /// <exception cref="Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {

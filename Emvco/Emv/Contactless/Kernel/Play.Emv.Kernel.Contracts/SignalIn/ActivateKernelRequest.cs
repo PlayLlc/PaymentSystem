@@ -2,7 +2,6 @@
 
 using Play.Ber.DataObjects;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
 using Play.Emv.Identifiers;
 using Play.Emv.Messaging;
 using Play.Emv.Outcomes;
@@ -65,17 +64,17 @@ public record ActivateKernelRequest : RequestSignal
 
     #region Instance Members
 
-    public TagLengthValue[] AsTagLengthValueArray()
+    public PrimitiveValue[] AsPrimitiveValues()
     {
-        List<TagLengthValue> buffer = new();
+        List<PrimitiveValue> buffer = new();
 
         // TODO: Do we need to flatten the primitive values returned from the ICC when
         // TODO: inserting into the DB?
-        buffer.AddRange(_FileControlInformation.AsTagLengthValues());
+        buffer.AddRange(((SelectApplicationDefinitionFileInfoResponse)_FileControlInformation).GetFileControlInformation().GetPrimitiveDescendants());
 
         if (_TagsToRead != null)
-            buffer.Add(_TagsToRead.AsTagLengthValue());
-        buffer.AddRange(_Transaction.AsTagLengthValueArray());
+            buffer.Add(_TagsToRead);
+        buffer.AddRange(_Transaction.AsPrimitiveValueArray());
 
         return buffer.ToArray();
     }

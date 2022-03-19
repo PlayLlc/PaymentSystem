@@ -2,8 +2,7 @@ using System.Numerics;
 
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.DataElements;
-using Play.Emv.Exceptions;
+using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
 

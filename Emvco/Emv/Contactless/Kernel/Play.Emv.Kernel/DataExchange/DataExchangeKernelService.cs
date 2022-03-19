@@ -5,12 +5,11 @@ using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.DataExchange;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Kernel.Databases;
-using Play.Emv.Kernel.Databases.Tlv;
+using Play.Emv.Kernel.Databases; 
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalIn;
@@ -138,7 +137,7 @@ public class DataExchangeKernelService
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public void Resolve(GetDataResponse dataResponse)
     {
         lock (_Lock.Requests)
@@ -354,7 +353,7 @@ public class DataExchangeKernelService
     /// <param name="type"></param>
     /// <param name="listItem"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    public void Enqueue(DekResponseType type, TagLengthValue listItem)
+    public void Enqueue(DekResponseType type, PrimitiveValue listItem)
     {
         lock (_Lock)
         {
@@ -374,7 +373,7 @@ public class DataExchangeKernelService
     /// <param name="type"></param>
     /// <param name="listItems"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    public void Enqueue(DekResponseType type, TagLengthValue[] listItems)
+    public void Enqueue(DekResponseType type, PrimitiveValue[] listItems)
     {
         lock (_Lock)
         {

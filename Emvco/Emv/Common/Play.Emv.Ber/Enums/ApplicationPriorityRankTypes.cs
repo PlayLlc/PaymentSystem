@@ -1,10 +1,9 @@
-using System.Collections.Generic;
 using System.Collections.Immutable;
 
 using Play.Core;
 using Play.Core.Extensions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.Enums;
 
 public sealed record ApplicationPriorityRankTypes : EnumObject<ApplicationPriorityRank>
 {

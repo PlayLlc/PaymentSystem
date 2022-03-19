@@ -1,5 +1,6 @@
-﻿using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
+﻿using Play.Emv.Ber;
+using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Identifiers;
 using Play.Icc.FileSystem.DedicatedFiles;
 

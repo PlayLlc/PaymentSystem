@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 
 using Play.Core;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.Enums;
 
 public sealed record AuthenticationTypes : EnumObject<byte>
 {

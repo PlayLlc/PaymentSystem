@@ -1,7 +1,6 @@
 ﻿using Play.Ber.Identifiers;
-using Play.Emv.Ber;
 
-namespace Play.Emv.Templates;
+namespace Play.Emv.Ber.Templates;
 
 public abstract class FileControlInformationProprietaryTemplate : Template
 {

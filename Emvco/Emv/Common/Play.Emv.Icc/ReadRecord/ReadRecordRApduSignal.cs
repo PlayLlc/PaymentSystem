@@ -1,4 +1,5 @@
-﻿using Play.Icc.FileSystem.ElementaryFiles;
+﻿using Play.Emv.Ber.Enums;
+using Play.Icc.FileSystem.ElementaryFiles;
 
 namespace Play.Emv.Icc;
 

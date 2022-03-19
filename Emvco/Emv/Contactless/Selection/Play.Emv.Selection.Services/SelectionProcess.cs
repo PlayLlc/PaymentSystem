@@ -1,6 +1,6 @@
 ﻿using Play.Core.Threads;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Selection.Contracts;
@@ -91,7 +91,7 @@ internal class SelectionProcess : CommandProcessingQueue
     /// <param name="request"></param>
     /// <returns></returns>
     /// <exception cref="Emv.Exceptions.RequestOutOfSyncException"></exception>
-    /// <exception cref="Play.Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public async Task Handle(SelectProximityPaymentSystemEnvironmentResponse request)
     {
         await Task.Run(() => { _SelectionStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
@@ -103,7 +103,7 @@ internal class SelectionProcess : CommandProcessingQueue
     /// <param name="request"></param>
     /// <returns></returns>
     /// <exception cref="Emv.Exceptions.RequestOutOfSyncException"></exception>
-    /// <exception cref="Play.Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public async Task Handle(SendPoiInformationResponse request)
     {
         await Task.Run(() => { _SelectionStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);

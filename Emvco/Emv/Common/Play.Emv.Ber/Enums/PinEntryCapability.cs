@@ -1,7 +1,7 @@
 ﻿using Play.Core;
 using Play.Emv.Ber.DataElements;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.Enums;
 
 public record PinEntryCapability : EnumObject<byte>
 {

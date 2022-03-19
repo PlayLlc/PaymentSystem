@@ -1,10 +1,9 @@
-using System.Collections.Generic;
 using System.Collections.Immutable;
 
 using Play.Core;
 using Play.Emv.Ber.DataElements;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.Enums;
 
 /// <summary>
 ///     An enumeration of status values that can be set for <see cref="TransactionStatusInformation" />

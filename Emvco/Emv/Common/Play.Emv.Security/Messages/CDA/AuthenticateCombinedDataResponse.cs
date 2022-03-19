@@ -1,7 +1,7 @@
 ﻿using System;
 
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
 
 namespace Play.Emv.Security.Messages.CDA;
 

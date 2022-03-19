@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 
 using Play.Core.Exceptions;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
 using Play.Globalization;
 
 namespace Play.Emv.Display.Contracts;

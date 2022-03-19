@@ -3,11 +3,11 @@ using System.Linq;
 
 using Play.Ber.DataObjects;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
+using Play.Emv.Ber.Exceptions;
+using Play.Emv.Ber.Templates;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;
-using Play.Emv.Templates;
 using Play.Icc.Exceptions;
 using Play.Icc.Messaging.Apdu;
 using Play.Messaging;

@@ -4,7 +4,6 @@ using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
 using Play.Emv.Security.Certificates.Issuer;
 using Play.Encryption.Certificates;
 using Play.Encryption.Hashing;

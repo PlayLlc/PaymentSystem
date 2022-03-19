@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Play.Core.Extensions;
 
-using Play.Core.Extensions;
-
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber;
 
 public readonly record struct DataStorageVersionNumber
 {

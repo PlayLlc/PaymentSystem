@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.State;
@@ -38,7 +39,7 @@ public partial class WaitingForGetDataResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void UpdateDataExchangeSignal(QueryTerminalResponse signal)
     {
-        _KernelDatabase.Update(signal.GetDataToSend().AsTagLengthValueArray());
+        _KernelDatabase.Update(signal.GetDataToSend().AsPrimitiveValues());
     }
 
     #endregion

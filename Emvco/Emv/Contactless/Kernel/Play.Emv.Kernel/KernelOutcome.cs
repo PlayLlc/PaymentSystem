@@ -3,7 +3,6 @@
 using Play.Ber.Identifiers;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
 using Play.Emv.Kernel.DataExchange;
 
 namespace Play.Emv.Kernel;

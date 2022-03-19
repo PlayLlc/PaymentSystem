@@ -1,4 +1,5 @@
-﻿using Play.Emv.Icc;
+﻿using Play.Emv.Ber.Enums;
+using Play.Emv.Icc;
 using Play.Emv.Identifiers;
 using Play.Emv.Messaging;
 using Play.Messaging;

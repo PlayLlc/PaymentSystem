@@ -5,6 +5,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Core.Extensions;
 using Play.Emv.Ber;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions; 
  
 

@@ -1,5 +1,6 @@
 ﻿using Play.Ber.DataObjects;
-using Play.Emv.DataElements;
+using Play.Emv.Ber;
+using Play.Emv.Ber.Enums.Interchange;
 using Play.Messaging;
 
 namespace Play.Emv.Acquirer.Contracts.SignalIn;

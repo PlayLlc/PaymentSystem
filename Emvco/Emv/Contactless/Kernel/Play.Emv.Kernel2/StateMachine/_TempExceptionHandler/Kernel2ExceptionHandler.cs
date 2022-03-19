@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Play.Emv.Ber.Enums;
 using Play.Emv.Icc;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel2.Databases;

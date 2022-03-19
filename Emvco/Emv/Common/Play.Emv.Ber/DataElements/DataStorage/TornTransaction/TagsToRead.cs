@@ -2,7 +2,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Exceptions;
+using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
 
@@ -13,7 +13,7 @@ namespace Play.Emv.Ber.DataElements;
 ///     may be provided several times by the Terminal. Therefore, the values of each of these tags must be accumulated in
 ///     the Tags To Read Yet buffer. A.1.154 Tags To Read Yet
 /// </summary>
-public record TagsToRead : DataExchangeRequest, IEqualityComparer<TagsToRead>
+public record TagsToRead : DataExchangeRequest, IEqualityComparer<PrimitiveValue>
 {
     #region Static Metadata
 

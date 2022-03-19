@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
 using Play.Emv.Identifiers;
 using Play.Emv.Outcomes;
 using Play.Globalization;
@@ -61,17 +60,30 @@ public class Transaction
     public TransactionTime GetTransactionTime() => _TransactionTime;
     public OutcomeParameterSet GetOutcomeParameterSet() => _Outcome.GetOutcomeParameterSet();
 
-    public TagLengthValue[] AsTagLengthValueArray()
+    public PrimitiveValue[] AsPrimitiveValueArray()
     {
-        List<TagLengthValue> buffer = new()
+        List<PrimitiveValue> buffer = new()
         {
-            _AmountAuthorizedNumeric.AsTagLengthValue(),
-            _AmountOtherNumeric.AsTagLengthValue(),
-            _TransactionType.AsTagLengthValue(),
-            _TransactionDate.AsTagLengthValue()
+             
+            _AccountType,
+            _AmountAuthorizedNumeric,
+            _AmountOtherNumeric,
+            _LanguagePreference,
+            _TerminalCountryCode,
+            _TransactionDate,
+            _TransactionTime,
+            _TransactionType, 
+            _AmountAuthorizedNumeric,
+            _AmountOtherNumeric,
+            _TransactionType,
+            _TransactionDate,
+
+
+
+
         };
 
-        buffer.AddRange(_Outcome.AsTagLengthValueArray());
+        buffer.AddRange(_Outcome.AsPrimitiveValueArray());
 
         return buffer.ToArray();
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Play.Ber.Codecs;
 using Play.Ber.Identifiers;
@@ -9,7 +10,7 @@ namespace Play.Ber.DataObjects;
 
 public abstract record PrimitiveValue : IEqualityComparer<PrimitiveValue>, IEncodeBerDataObjects, IRetrievePrimitiveValueMetadata
 {
-    #region Instance Members
+    #region Instance Members 
 
     public TagLengthValue AsTagLengthValue(BerCodec codec)
     {

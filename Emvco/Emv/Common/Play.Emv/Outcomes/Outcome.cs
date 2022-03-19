@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
 using Play.Globalization.Time.Seconds;
 
 namespace Play.Emv.Outcomes;
@@ -103,21 +103,21 @@ public class Outcome
 
     #region Instance Members
 
-    public TagLengthValue[] AsTagLengthValueArray()
+    public PrimitiveValue[] AsPrimitiveValueArray()
     {
-        List<TagLengthValue> buffer = new()
+        List<PrimitiveValue> buffer = new()
         {
-            _ErrorIndication!.AsTagLengthValue(),
-            _OutcomeParameterSet!.AsTagLengthValue(),
-            _TerminalVerificationResults.AsTagLengthValue()
+            _ErrorIndication,
+            _OutcomeParameterSet,
+            _TerminalVerificationResults
         };
 
         if (_DataRecord != null)
-            buffer.Add(_DataRecord!.AsTagLengthValue());
+            buffer.Add(_DataRecord!);
         if (_DiscretionaryData != null)
-            buffer.Add(_DiscretionaryData!.AsTagLengthValue());
+            buffer.Add(_DiscretionaryData!);
         if (_UserInterfaceRequestData != null)
-            buffer.Add(_UserInterfaceRequestData!.AsTagLengthValue());
+            buffer.Add(_UserInterfaceRequestData!);
 
         return buffer.ToArray();
     }

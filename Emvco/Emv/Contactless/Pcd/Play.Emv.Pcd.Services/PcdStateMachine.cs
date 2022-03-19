@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using Play.Emv.Ber.Enums;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;

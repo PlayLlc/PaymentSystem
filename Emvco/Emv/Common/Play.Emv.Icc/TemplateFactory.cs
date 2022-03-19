@@ -1,4 +1,5 @@
 ﻿using Play.Emv.Ber;
+using Play.Emv.Ber.Templates;
 
 namespace Play.Emv.Icc;
 

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 
 using Play.Core;
 using Play.Core.Extensions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.Enums;
 
 public record CardholderVerificationMethods : EnumObject<byte>
 {

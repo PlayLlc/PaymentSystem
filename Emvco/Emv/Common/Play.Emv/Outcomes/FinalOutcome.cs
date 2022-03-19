@@ -1,5 +1,4 @@
 ﻿using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
 using Play.Emv.Identifiers;
 
 namespace Play.Emv.Outcomes;

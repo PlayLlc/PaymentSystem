@@ -1,4 +1,5 @@
-﻿using Play.Icc.Messaging.Apdu;
+﻿using Play.Emv.Ber.Enums;
+using Play.Icc.Messaging.Apdu;
 
 namespace Play.Emv.Icc;
 

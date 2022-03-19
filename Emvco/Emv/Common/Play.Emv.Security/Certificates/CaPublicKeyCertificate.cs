@@ -5,7 +5,6 @@ using System.Security.Cryptography;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
 using Play.Encryption.Certificates;
 using Play.Encryption.Hashing;
 using Play.Globalization.Time;

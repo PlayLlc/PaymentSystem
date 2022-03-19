@@ -1,6 +1,6 @@
 ﻿using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Exceptions;
+using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Time.Seconds;
 
 namespace Play.Emv.Ber.DataElements;

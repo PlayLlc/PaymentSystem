@@ -1,7 +1,7 @@
 ﻿using Play.Ber.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
+using Play.Emv.Ber.Templates;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;
 using Play.Messaging;

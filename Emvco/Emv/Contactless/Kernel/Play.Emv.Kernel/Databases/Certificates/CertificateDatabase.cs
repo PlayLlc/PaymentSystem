@@ -3,7 +3,6 @@ using System.Collections.Immutable;
 using System.Linq;
 
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Security.Certificates;
 using Play.Icc.FileSystem.DedicatedFiles;

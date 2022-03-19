@@ -1,7 +1,7 @@
 ﻿using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Exceptions;
-using Play.Emv.Icc;
+using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
 
@@ -20,10 +20,11 @@ public record DataStorageApplicationCryptogramType : DataElement<byte>, IEqualit
 
     #region Constructor
 
+    /// <exception cref="CardDataException"></exception>
     public DataStorageApplicationCryptogramType(byte value) : base(value)
     {
         if (!CryptogramTypes.IsValid(value))
-            throw new ArgumentException($"The argument {nameof(value)} was not recognized as a valid {nameof(CryptogramTypes)}");
+            throw new CardDataException($"The argument {nameof(value)} was not recognized as a valid {nameof(CryptogramTypes)}");
     }
 
     #endregion

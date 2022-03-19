@@ -1,6 +1,6 @@
-﻿using Play.Emv.Icc;
+﻿using Play.Emv.Ber.Templates;
+using Play.Emv.Icc;
 using Play.Emv.Identifiers;
-using Play.Emv.Templates;
 using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;

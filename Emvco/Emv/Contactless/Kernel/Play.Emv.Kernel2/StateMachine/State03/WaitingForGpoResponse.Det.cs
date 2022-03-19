@@ -1,4 +1,5 @@
-﻿using Play.Emv.Exceptions;
+﻿using Play.Emv.Ber.Exceptions;
+using Play.Emv.Exceptions;
 using Play.Emv.Kernel.State;
 using Play.Emv.Terminal.Contracts.SignalOut;
 
@@ -30,7 +31,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void UpdateDatabase(QueryTerminalResponse signal)
     {
-        _KernelDatabase.Update(signal.GetDataToSend().AsTagLengthValueArray());
+        _KernelDatabase.Update(signal.GetDataToSend().AsPrimitiveValues());
     }
 
     #endregion

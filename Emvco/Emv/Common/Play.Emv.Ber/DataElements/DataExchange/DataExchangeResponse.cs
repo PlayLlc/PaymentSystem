@@ -4,11 +4,11 @@ using Play.Ber.Identifiers;
 
 namespace Play.Emv.Ber.DataElements;
 
-public abstract record DataExchangeResponse : DataExchangeList<TagLengthValue>
+public abstract record DataExchangeResponse : DataExchangeList<PrimitiveValue>
 {
     #region Constructor
 
-    protected DataExchangeResponse(TagLengthValue[] value) : base(value)
+    protected DataExchangeResponse(PrimitiveValue[] value) : base(value)
     { }
 
     #endregion
@@ -20,9 +20,9 @@ public abstract record DataExchangeResponse : DataExchangeList<TagLengthValue>
         Enqueue(item._Value.ToArray());
     }
 
-    public TagLengthValue[] AsTagLengthValues() => _Value.ToArray();
+    public PrimitiveValue[] AsPrimitiveValues() => _Value.ToArray();
 
-    public bool TryGet(Tag tag, out TagLengthValue? result)
+    public bool TryGet(Tag tag, out PrimitiveValue? result)
     {
         result = _Value.FirstOrDefault(a => a.GetTag() == tag);
 
@@ -40,7 +40,7 @@ public abstract record DataExchangeResponse : DataExchangeList<TagLengthValue>
     /// <exception cref="BerParsingException"></exception>
     public new byte[] EncodeValue()
     {
-        return _Value.ToArray().SelectMany(a => a.EncodeTagLengthValue()).ToArray();
+        return _Value.ToArray().SelectMany(a => a.EncodeTagLengthValue(_Codec)).ToArray();
     }
 
     #endregion

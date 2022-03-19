@@ -2,8 +2,11 @@
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
+using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Exceptions;
+using Play.Emv.Ber.Templates;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;
@@ -12,7 +15,6 @@ using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Templates;
 using Play.Globalization.Time.Seconds;
 using Play.Messaging;
 
@@ -116,7 +118,7 @@ public partial class Idle : KernelState
     {
         try
         {
-            _KernelDatabase.Update(signal.AsTagLengthValueArray());
+            _KernelDatabase.Update(signal.AsPrimitiveValues());
             result = signal.GetFileControlInformationCardResponse().GetFileControlInformation();
 
             return true;
@@ -150,12 +152,12 @@ public partial class Idle : KernelState
         try
         {
             _KernelDatabase.Activate(kernelSessionId);
-            _KernelDatabase.Update(transaction.AsTagLengthValueArray());
+            _KernelDatabase.Update(transaction.AsPrimitiveValueArray());
 
             OutcomeParameterSet.Builder outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
             UserInterfaceRequestData.Builder userInterfaceBuilder = UserInterfaceRequestData.GetBuilder();
 
-            userInterfaceBuilder.Set(MessageHoldTime.Decode(_KernelDatabase.Get(KnownObjects.MessageHoldTime).EncodeValue().AsSpan()));
+            userInterfaceBuilder.Set((MessageHoldTime)_KernelDatabase.Get(MessageHoldTime.Tag));
             _KernelDatabase.Reset(outcomeParameterSetBuilder.Complete());
             _KernelDatabase.Reset(userInterfaceBuilder.Complete());
             _KernelDatabase.Reset(new ErrorIndication());
@@ -196,9 +198,9 @@ public partial class Idle : KernelState
     private void InitializeEmvDataObjects()
     {
         CardDataInputCapability cardDataInputCapability =
-            CardDataInputCapability.Decode(_KernelDatabase.Get(CardDataInputCapability.Tag).EncodeValue().AsSpan());
+            (CardDataInputCapability)_KernelDatabase.Get(CardDataInputCapability.Tag); 
         SecurityCapability securityCapability =
-            SecurityCapability.Decode(_KernelDatabase.Get(SecurityCapability.Tag).EncodeValue().AsSpan());
+            (SecurityCapability)_KernelDatabase.Get(SecurityCapability.Tag); 
 
         _KernelDatabase.Initialize(StaticDataAuthenticationTagList.Tag);
         _KernelDatabase.Update(new TerminalCapabilities(cardDataInputCapability, securityCapability));
@@ -312,12 +314,12 @@ public partial class Idle : KernelState
         _KernelDatabase.Initialize(DekResponseType.TagsToWriteBeforeGenAc);
         _KernelDatabase.Initialize(DekResponseType.TagsToWriteAfterGenAc);
 
-        if (_KernelDatabase.TryGet(TagsToWriteBeforeGenAc.Tag, out TagLengthValue? tagsToWriteBeforeGenAc))
+        if (_KernelDatabase.TryGet(TagsToWriteBeforeGenAc.Tag, out PrimitiveValue? tagsToWriteBeforeGenAc))
             _DataExchangeKernelService.Enqueue(DekResponseType.TagsToWriteBeforeGenAc, tagsToWriteBeforeGenAc!);
         else
             _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, TagsToWriteBeforeGenAc.Tag);
 
-        if (!_KernelDatabase.TryGet(TagsToWriteAfterGenAc.Tag, out TagLengthValue? tagsToWriteAfterGenAc))
+        if (!_KernelDatabase.TryGet(TagsToWriteAfterGenAc.Tag, out PrimitiveValue? tagsToWriteAfterGenAc))
             _DataExchangeKernelService.Enqueue(DekResponseType.TagsToWriteAfterGenAc, tagsToWriteAfterGenAc!);
         else
             _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, TagsToWriteAfterGenAc.Tag);
@@ -382,7 +384,10 @@ public partial class Idle : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void EnqueueDataStorageId()
     {
-        if (_KernelDatabase.TryGet(DataStorageId.Tag, out TagLengthValue? dataStorageId))
+
+
+
+        if (_KernelDatabase.TryGet(DataStorageId.Tag, out PrimitiveValue? dataStorageId))
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, dataStorageId!);
         else
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, new DataStorageId(0));
@@ -395,7 +400,7 @@ public partial class Idle : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void EnqueueApplicationCapabilitiesInformation()
     {
-        if (_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out TagLengthValue? applicationCapabilitiesInformation))
+        if (_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out PrimitiveValue? applicationCapabilitiesInformation))
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, applicationCapabilitiesInformation!);
         else
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, new ApplicationCapabilitiesInformation(0));
@@ -418,14 +423,14 @@ public partial class Idle : KernelState
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public KernelState RouteStateTransition(Kernel2Session session)
     {
-        if (!_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out TagLengthValue? applicationCapabilitiesInformationTlv))
+        if (!_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out PrimitiveValue? applicationCapabilitiesInformationTlv))
             return HandlePdolData(session);
 
         if (!_KernelDatabase.IsPresentAndNotEmpty(DataStorageId.Tag))
             return HandlePdolData(session);
 
         ApplicationCapabilitiesInformation applicationCapabilitiesInformation =
-            ApplicationCapabilitiesInformation.Decode(applicationCapabilitiesInformationTlv!.GetValue().AsSpan());
+            (ApplicationCapabilitiesInformation) applicationCapabilitiesInformationTlv!;
 
         if ((byte) applicationCapabilitiesInformation.GetDataStorageVersionNumber() == DataStorageVersionNumberTypes.Version1)
             SetIntegratedDataStorageReadStatus();
@@ -521,7 +526,9 @@ public partial class Idle : KernelState
     /// <exception cref="TerminalDataException"></exception>
     public void SetTimeout(Kernel2Session session)
     {
-        TimeoutValue timeout = TimeoutValue.Decode(_KernelDatabase.Get(TimeoutValue.Tag).GetValue().AsSpan());
+
+
+        TimeoutValue timeout = (TimeoutValue) _KernelDatabase.Get(TimeoutValue.Tag);
 
         session.Timer.Start((Milliseconds) timeout, () => _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId())));
     }

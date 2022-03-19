@@ -1,5 +1,5 @@
 ﻿using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
+using Play.Emv.Ber.Enums;
 
 namespace Play.Emv.Security;
 

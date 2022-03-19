@@ -1,10 +1,9 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 using Play.Core.Exceptions;
-using Play.Emv.Icc;
+using Play.Emv.Ber.Enums;
 
-namespace Play.Emv.Exceptions;
+namespace Play.Emv.Ber.Exceptions;
 
 /// <summary>
 ///     When data from the card is an incorrect value or different than expected

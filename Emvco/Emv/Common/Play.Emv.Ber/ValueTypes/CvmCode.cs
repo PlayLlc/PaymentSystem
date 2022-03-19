@@ -1,8 +1,9 @@
 ﻿using Play.Core.Extensions;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Exceptions;
+using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber;
 
 public readonly struct CvmCode
 {

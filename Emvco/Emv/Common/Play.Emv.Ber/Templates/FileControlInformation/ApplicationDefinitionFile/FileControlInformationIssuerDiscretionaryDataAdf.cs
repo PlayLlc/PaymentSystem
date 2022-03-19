@@ -1,13 +1,14 @@
-﻿using System;
+﻿using System.Buffers;
+
+using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
 
-namespace Play.Emv.Templates;
+namespace Play.Emv.Ber.Templates;
 
 public class FileControlInformationIssuerDiscretionaryDataAdf : FileControlInformationIssuerDiscretionaryDataTemplate
 {
@@ -36,7 +37,11 @@ public class FileControlInformationIssuerDiscretionaryDataAdf : FileControlInfor
 
     #region Instance Members
 
+
+
     public override Tag GetTag() => Tag;
+
+
 
     public override Tag[] GetChildTags()
     {

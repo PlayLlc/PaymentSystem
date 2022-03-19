@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.Numerics;
 
 using Play.Core;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber;
 
 /// <summary>
 ///     Indicates the text string to be displayed, with the different standard messages defined in  Book A section 9.4. If

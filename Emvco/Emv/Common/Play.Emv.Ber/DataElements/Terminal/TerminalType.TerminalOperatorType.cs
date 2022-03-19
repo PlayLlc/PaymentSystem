@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 
 using Play.Core;
-using Play.Emv.Exceptions;
+using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
 

@@ -3,10 +3,13 @@
 using Play.Core;
 using Play.Core.Extensions;
 
-namespace Play.Emv.Icc;
+namespace Play.Emv.Ber.Enums;
 
 public sealed record CryptogramTypes : EnumObject<byte>
 {
+     
+     private const byte _UnrelatedBits = 0b00111111;
+
     #region Static Metadata
 
     private static readonly ImmutableSortedDictionary<byte, CryptogramTypes> _ValueObjectMap;
@@ -48,14 +51,13 @@ public sealed record CryptogramTypes : EnumObject<byte>
 
     #region Instance Members
 
-    public static bool IsValid(byte value) => _ValueObjectMap.ContainsKey(value);
+    public static bool IsValid(byte value) => _ValueObjectMap.ContainsKey(value.GetMaskedValue(_UnrelatedBits));
     public int CompareTo(CryptogramTypes other) => _Value.CompareTo(other._Value);
 
     public static bool TryGet(byte value, out CryptogramTypes? result)
-    {
-        const byte bitMask = 0b00111111;
+    { 
 
-        return _ValueObjectMap.TryGetValue(value.GetMaskedValue(bitMask), out result);
+        return _ValueObjectMap.TryGetValue(value.GetMaskedValue(_UnrelatedBits), out result);
     }
 
     #endregion

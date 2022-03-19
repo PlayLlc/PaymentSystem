@@ -5,7 +5,6 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
 
 namespace Play.Emv.Ber.Tests.TestDoubles;
 

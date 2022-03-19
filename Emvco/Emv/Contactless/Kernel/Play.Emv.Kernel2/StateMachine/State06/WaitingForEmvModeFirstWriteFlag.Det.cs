@@ -1,5 +1,7 @@
 ﻿using Play.Ber.Identifiers;
-using Play.Emv.DataElements;
+using Play.Emv.Ber;
+using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;
@@ -63,7 +65,7 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void UpdateDatabase(QueryTerminalResponse signal)
     {
-        _KernelDatabase.Update(signal.GetDataToSend().AsTagLengthValueArray());
+        _KernelDatabase.Update(signal.GetDataToSend().AsPrimitiveValues());
     }
 
     #endregion

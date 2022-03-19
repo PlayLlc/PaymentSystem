@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.Exceptions;
+using Play.Emv.Ber.Templates;
 using Play.Emv.TestData.Ber.Constructed;
 using Play.Emv.TestData.Ber.Primitive;
 

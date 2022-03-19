@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
+using Play.Emv.Ber.Enums;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Identifiers;

@@ -3,7 +3,7 @@
 using Play.Ber.DataObjects;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;
 using Play.Emv.Messaging;
@@ -48,6 +48,8 @@ public record QueryPcdResponse : ResponseSignal
     public bool IsSuccessful() => _RApduSignal.IsSuccessful();
     public TransactionSessionId GetTransactionSessionId() => _TransactionSessionId;
     public TagLengthValue[] AsTagLengthValues() => _Codec.DecodeTagLengthValues(GetData().AsSpan());
+
+
     public RApduSignal GetRApduSignal() => _RApduSignal;
 
     public ErrorIndication GetErrorIndication()

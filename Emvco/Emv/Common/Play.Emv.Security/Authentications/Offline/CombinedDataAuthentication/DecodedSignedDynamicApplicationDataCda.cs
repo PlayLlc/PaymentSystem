@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
 using Play.Encryption.Hashing;
 using Play.Encryption.Signing;
 

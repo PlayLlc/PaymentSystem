@@ -1,8 +1,8 @@
 using Play.Ber.Codecs;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.DataElements;
-using Play.Emv.Exceptions;
+using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Currency;
 using Play.Icc.FileSystem.DedicatedFiles;
 

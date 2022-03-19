@@ -1,8 +1,4 @@
 ﻿#nullable enable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
@@ -10,12 +6,10 @@ using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Core.Extensions;
-using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
-using Play.Emv.Exceptions;
+using Play.Emv.Ber.Exceptions;
 
-namespace Play.Emv.Templates;
+namespace Play.Emv.Ber.Templates;
 
 public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInformationIssuerDiscretionaryDataTemplate
 {

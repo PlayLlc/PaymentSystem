@@ -5,7 +5,7 @@ using Play.Codecs;
 using Play.Core.Exceptions;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
-using Play.Emv.Exceptions;
+using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Language;
 
 namespace Play.Emv.Ber.DataElements;
@@ -94,11 +94,11 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>, IEqualityC
 
     #region Serialization
 
-    public static LanguagePreference Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
+    public static LanguagePreference Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static LanguagePreference Decode(ReadOnlySpan<byte> value, BerCodec codec)
+    public static LanguagePreference Decode(ReadOnlySpan<byte> value)
     {
         const ushort minByteLength = 2;
         const ushort maxByteLength = 8;

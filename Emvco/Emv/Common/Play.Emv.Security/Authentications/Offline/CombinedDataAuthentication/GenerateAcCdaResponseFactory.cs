@@ -4,7 +4,7 @@ using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Security.Checksum;
 using Play.Emv.Security.Cryptograms;
@@ -36,7 +36,7 @@ public class GenerateAcCdaResponseFactory : TemplateFactory<GenerateAcCdaRespons
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public override GenerateAcCdaResponseMessage Create(RApduSignal value)
     {

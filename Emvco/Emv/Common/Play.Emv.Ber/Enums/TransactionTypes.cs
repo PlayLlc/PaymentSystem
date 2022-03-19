@@ -1,6 +1,6 @@
 ﻿using Play.Core;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.Enums;
 
 public record TransactionTypes : EnumObject<byte>
 {

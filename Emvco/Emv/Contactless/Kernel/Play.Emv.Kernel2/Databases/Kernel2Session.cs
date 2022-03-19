@@ -1,5 +1,6 @@
-﻿using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
+﻿using Play.Emv.Ber;
+using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.State;
@@ -12,8 +13,7 @@ public class Kernel2Session : KernelSession
     #region Instance Values
 
     private CryptogramTypes _ApplicationCryptogramTypes = CryptogramTypes.ApplicationAuthenticationCryptogram;
-    private OdaStatusTypes _OdaStatusTypes = OdaStatusTypes.NotAvailable;
-    private RrpCounter _RrpCounter = new(0);
+    private OdaStatusTypes _OdaStatusTypes = OdaStatusTypes.NotAvailable; 
     private ReaderContactlessTransactionLimit? _TransactionLimit;
     private bool _IsPdolDataMissing = true;
     private byte _RelayResistanceProtocolCount = 0;
@@ -31,8 +31,7 @@ public class Kernel2Session : KernelSession
 
     public byte GetRelayResistanceProtocolCount() => _RelayResistanceProtocolCount;
     public CryptogramTypes GetAcType() => _ApplicationCryptogramTypes;
-    public OdaStatusTypes GetOdaStatus() => _OdaStatusTypes;
-    public RrpCounter GetRrpCounter() => _RrpCounter;
+    public OdaStatusTypes GetOdaStatus() => _OdaStatusTypes; 
     public bool IsPdolDataMissing() => _IsPdolDataMissing;
 
     public bool TryGetReaderContactlessTransactionLimit(out ReaderContactlessTransactionLimit? result)
@@ -57,8 +56,7 @@ public class Kernel2Session : KernelSession
     public void IncrementRelayResistanceProtocolCount() => _RelayResistanceProtocolCount++;
     public void SetIsPdolDataMissing(bool value) => _IsPdolDataMissing = value;
     public void Update(CryptogramTypes value) => _ApplicationCryptogramTypes = value;
-    public void Update(OdaStatusTypes value) => _OdaStatusTypes = value;
-    public void Update(RrpCounter value) => _RrpCounter = value;
+    public void Update(OdaStatusTypes value) => _OdaStatusTypes = value; 
 
     #endregion
 }

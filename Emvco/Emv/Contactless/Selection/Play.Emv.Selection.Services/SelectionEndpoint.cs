@@ -1,5 +1,4 @@
 ﻿using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;

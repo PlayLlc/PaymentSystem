@@ -1,5 +1,5 @@
 ﻿using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Databases.Certificates;
 using Play.Emv.Security.Certificates;

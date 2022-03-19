@@ -1,5 +1,6 @@
 ﻿using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
+using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Enums.Interchange;
 
 namespace Play.Emv.Kernel.Databases
 {

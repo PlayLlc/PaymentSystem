@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Play.Emv.Ber.Exceptions;
 
-using Play.Emv.Exceptions;
-
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber;
 
 public record CvmRule
 {

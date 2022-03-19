@@ -1,7 +1,7 @@
 ﻿using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Exceptions;
+using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
 
@@ -35,17 +35,17 @@ internal record RetrievalReferenceNumber : PlayProprietaryDataElement<char[]>
 
     #region Serialization
 
-    public static PrimaryAccountNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public static RetrievalReferenceNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static PrimaryAccountNumber Decode(ReadOnlySpan<byte> value)
+    public static RetrievalReferenceNumber Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         char[] result = PlayCodec.AlphaNumericCodec.DecodeToChars(value);
 
-        return new PrimaryAccountNumber(result);
+        return new RetrievalReferenceNumber(result);
     }
 
     #endregion

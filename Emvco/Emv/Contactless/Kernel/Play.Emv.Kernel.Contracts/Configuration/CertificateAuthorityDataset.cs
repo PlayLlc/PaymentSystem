@@ -4,7 +4,6 @@ using System.Linq;
 
 using Play.Core.Exceptions;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
 using Play.Emv.Security.Certificates;
 using Play.Icc.FileSystem.DedicatedFiles;
 

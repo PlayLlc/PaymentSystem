@@ -4,7 +4,6 @@ using System.Collections.Concurrent;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
 using Play.Emv.DataExchange;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
@@ -130,7 +129,7 @@ public class DataExchangeTerminalService
     /// <param name="type"></param>
     /// <param name="listItem"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    public void Enqueue(DetResponseType type, TagLengthValue listItem)
+    public void Enqueue(DetResponseType type, PrimitiveValue listItem)
     {
         lock (_Lock)
         {
@@ -150,7 +149,7 @@ public class DataExchangeTerminalService
     /// <param name="type"></param>
     /// <param name="listItems"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    public void Enqueue(DetResponseType type, TagLengthValue[] listItems)
+    public void Enqueue(DetResponseType type, PrimitiveValue[] listItems)
     {
         lock (_Lock)
         {

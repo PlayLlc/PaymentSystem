@@ -1,7 +1,9 @@
 ﻿using System;
 
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
+using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Kernel.Databases;
 using Play.Globalization.Currency;
 
@@ -11,8 +13,8 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 {
     #region Instance Members
 
-    /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public void Process(KernelDatabase database)
     {
@@ -45,9 +47,9 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     }
 
     // HACK: I'm not sure if this is correct. We're attempting to ensure we're using the same base currency when we add, subtract, and compare money values. If the application currency and transaction currency are different then we're using the reference currency. Check to see what the actual logic should be
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private NumericCurrencyCode GetCurrencyCode(KernelDatabase database)
     {
         TransactionCurrencyCode transactionCurrencyCode =
@@ -85,7 +87,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     ///     o The CVM included any form of offline PIN, and neither form of offline PIN was supported
     /// </notes>
     /// <remarks>EMV Book C-2 Section CVM.2 - CVM.4 & EMV Book 3 Section 10.5</remarks>
-    /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void CreateResultForOfflineVerification(
         KernelDatabase database,
         NumericCurrencyCode currencyCode,
@@ -109,7 +111,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 
     #region CVM.3
 
-    /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public static void SetNoCvmResults(KernelDatabase database)
     {
         database.Update(CvmPerformedOutcome.NoCvm);
@@ -121,7 +123,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 
     #region CVM.4
 
-    /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public static void SetOfflinePlaintextPinCvmResults(KernelDatabase database)
     {
         database.Update(CvmPerformedOutcome.ConfirmationCodeVerified);
@@ -139,7 +141,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 
     #region CVM.6
 
-    /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public static void CreateResultForCardholderVerificationNotSupported(KernelDatabase database)
     {
         database.Update(CvmPerformedOutcome.NoCvm);
@@ -151,8 +153,8 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 
     #region CVM.7
 
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public static bool IsCvmListEmpty(KernelDatabase database, out CvmList? cvmList)
     {
         if (!database.IsPresentAndNotEmpty(CvmList.Tag))
@@ -174,7 +176,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 
     #region CVM.8
 
-    /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public static void CreateIccDataMissingCvmResult(KernelDatabase database)
     {
         database.Update(CvmPerformedOutcome.NoCvm);
@@ -187,9 +189,9 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 
     #region CVM.9 - CVM.25 - Selection Loop
 
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    /// <exception cref="Emv.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public static void Select(KernelDatabase database, CvmList cvmList, NumericCurrencyCode currencyCode)
     {
         CvmQueue cvmQueue = new(cvmList, currencyCode);

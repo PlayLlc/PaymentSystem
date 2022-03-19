@@ -3,7 +3,6 @@
 using Play.Emv.Acquirer.Contracts;
 using Play.Emv.Acquirer.Contracts.SignalOut;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;

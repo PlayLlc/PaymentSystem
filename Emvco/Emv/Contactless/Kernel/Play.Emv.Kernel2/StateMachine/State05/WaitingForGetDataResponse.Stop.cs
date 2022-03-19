@@ -1,4 +1,6 @@
-﻿using Play.Emv.DataElements;
+﻿using Play.Emv.Ber;
+using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.State;
@@ -16,9 +18,9 @@ public partial class WaitingForGetDataResponse : KernelState
     /// <param name="signal"></param>
     /// <returns></returns>
     /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
-    /// <exception cref="Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="System.InvalidOperationException"></exception>
-    /// <exception cref="Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {

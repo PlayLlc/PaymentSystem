@@ -1,6 +1,6 @@
 ﻿using Play.Core.Extensions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber;
 
 /// <summary>
 ///     An intermediate value returned from a section of processing

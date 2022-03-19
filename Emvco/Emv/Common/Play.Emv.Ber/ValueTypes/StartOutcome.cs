@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber;
 
 public readonly struct StartOutcome
 {

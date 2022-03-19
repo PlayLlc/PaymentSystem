@@ -1,7 +1,7 @@
 using Play.Ber.Codecs;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Exceptions;
+using Play.Emv.Ber.Exceptions;
 using Play.Encryption.Certificates;
 
 namespace Play.Emv.Ber.DataElements;

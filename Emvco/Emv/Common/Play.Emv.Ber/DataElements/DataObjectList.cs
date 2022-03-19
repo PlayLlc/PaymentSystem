@@ -4,6 +4,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Emv.Ber.Templates;
 
 namespace Play.Emv.Ber.DataElements;
 
@@ -145,8 +146,7 @@ public abstract record DataObjectList : DataElement<byte[]>
         }
 
         return new DataObjectListResult(result.ToArray());
-    }
-
+    } 
     public virtual CommandTemplate AsCommandTemplate(IQueryTlvDatabase database) => AsDataObjectListResult(database).AsCommandTemplate();
     public virtual CommandTemplate AsCommandTemplate(TagLengthValue[] values) => AsDataObjectListResult(values).AsCommandTemplate();
 

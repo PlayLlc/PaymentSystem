@@ -3,7 +3,7 @@
 using Play.Core;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
+using Play.Emv.Ber.Enums;
 
 namespace Play.Emv.Identifiers;
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Security.Certificates;

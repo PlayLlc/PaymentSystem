@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
+using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.Services.Selection.CvmConditions;
@@ -30,7 +32,7 @@ internal class CvmQueue
 
     #region Constructor
 
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     public CvmQueue(CvmList cvmList, NumericCurrencyCode currencyCode)
@@ -48,7 +50,7 @@ internal class CvmQueue
 
     #region Instance Members
 
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     public bool TrySelect(KernelDatabase database)

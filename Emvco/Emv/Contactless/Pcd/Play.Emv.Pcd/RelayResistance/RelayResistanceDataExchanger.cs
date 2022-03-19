@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Pcd.Contracts;
 
@@ -25,7 +27,7 @@ public class RelayResistanceDataExchanger : IExchangeRelayResistanceData
 
     #region Instance Members
 
-    /// <exception cref="Emv.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public async Task<ExchangeRelayResistanceDataResponse> Transceive(ExchangeRelayResistanceDataRequest command)

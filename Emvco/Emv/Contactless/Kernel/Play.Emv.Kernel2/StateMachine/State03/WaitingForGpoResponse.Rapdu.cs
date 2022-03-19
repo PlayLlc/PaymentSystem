@@ -1,7 +1,9 @@
 ﻿using System;
 
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.DataElements;
+using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Kernel.Contracts;
@@ -275,17 +277,16 @@ public partial class WaitingForGpoResponse : KernelState
         if (IsOnDeviceCardholderVerificationSupported(applicationInterchangeProfile))
         {
             ReaderContactlessTransactionLimitWhenCvmIsOnDevice onDevice =
-                ReaderContactlessTransactionLimitWhenCvmIsOnDevice.Decode(_KernelDatabase
-                                                                              .Get(ReaderContactlessTransactionLimitWhenCvmIsOnDevice.Tag)
-                                                                              .EncodeValue().AsSpan());
+                (ReaderContactlessTransactionLimitWhenCvmIsOnDevice) _KernelDatabase.Get(ReaderContactlessTransactionLimitWhenCvmIsOnDevice
+                                                                                             .Tag);
+             
             session.Update(onDevice);
         }
         else
         {
             ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice onDevice =
-                ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Decode(_KernelDatabase
-                                                                                 .Get(ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice
-                                                                                          .Tag).EncodeValue().AsSpan());
+                (ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice)_KernelDatabase.Get(ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Tag);
+             
             session.Update(onDevice);
         }
     }
@@ -428,17 +429,16 @@ public partial class WaitingForGpoResponse : KernelState
         if (IsOnDeviceCardholderVerificationSupported(applicationInterchangeProfile))
         {
             ReaderContactlessTransactionLimitWhenCvmIsOnDevice onDevice =
-                ReaderContactlessTransactionLimitWhenCvmIsOnDevice.Decode(_KernelDatabase
-                                                                              .Get(ReaderContactlessTransactionLimitWhenCvmIsOnDevice.Tag)
-                                                                              .EncodeValue().AsSpan());
+                (ReaderContactlessTransactionLimitWhenCvmIsOnDevice)_KernelDatabase.Get(ReaderContactlessTransactionLimitWhenCvmIsOnDevice.Tag);
+             
             session.Update(onDevice);
         }
         else
         {
             ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice onDevice =
-                ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Decode(_KernelDatabase
+                (ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice)_KernelDatabase
                                                                                  .Get(ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice
-                                                                                          .Tag).EncodeValue().AsSpan());
+                                                                                          .Tag); 
             session.Update(onDevice);
         }
     }

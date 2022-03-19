@@ -1,10 +1,8 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 using Play.Core.Exceptions;
-using Play.Emv.Icc;
 
-namespace Play.Emv.Exceptions;
+namespace Play.Emv.Ber.Exceptions;
 
 /// <summary>
 ///     When a Template or Data Object List is missing a required Data Element
