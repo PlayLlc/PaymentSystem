@@ -8,12 +8,14 @@ using Play.Ber.Identifiers;
 using Play.Core;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Icc.FileSystem.DedicatedFiles;
+
 namespace Play.Emv.Kernel2.Databases;
 
 public sealed class KnownObjects : IEquatable<KnownObjects>, IEqualityComparer<KnownObjects>, IComparable<KnownObjects>
 {
     private readonly Tag _Tag;
-    private readonly Func<PrimitiveValue, ReadOnlyMemory<byte>> _Decoder;
+    private readonly Func<ReadOnlyMemory<byte>, PrimitiveValue> _Decoder;
     
 
 
@@ -277,7 +279,7 @@ public sealed class KnownObjects : IEquatable<KnownObjects>, IEqualityComparer<K
         _DataToSend = new KnownObjects(DataToSend.Tag, DataToSend.Decode);
         _DdCardTrack1 = new KnownObjects(Ber.DataElements.DiscretionaryDataCardTrack1.Tag, Ber.DataElements.DiscretionaryDataCardTrack1.Decode);
         _DdCardTrack2 = new KnownObjects(Ber.DataElements.DiscretionaryDataCardTrack2.Tag, Ber.DataElements.DiscretionaryDataCardTrack2.Decode);
-        _DedicatedFileName = new KnownObjects(Play.Icc.FileSystem.DedicatedFiles.DedicatedFileName.Tag, Play.Icc.FileSystem.DedicatedFiles.DedicatedFileName.Decode(EmvCodec.GetBerCodec()));
+        _DedicatedFileName = new KnownObjects(Play.Icc.FileSystem.DedicatedFiles.DedicatedFileName.Tag, DecodeDedicatedFileName);
         _DefaultUdol = new KnownObjects(Ber.DataElements.DefaultUnpredictableNumberDataObjectList.Tag, Ber.DataElements.DefaultUnpredictableNumberDataObjectList.Decode);
         _DeviceEstimatedTransmissionTimeForRelayResistanceRAPDU = new KnownObjects(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag, DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Decode);
         _DeviceRelayResistanceEntropy = new KnownObjects(DeviceRelayResistanceEntropy.Tag, DeviceRelayResistanceEntropy.Decode);
@@ -583,7 +585,12 @@ public sealed class KnownObjects : IEquatable<KnownObjects>, IEqualityComparer<K
 
     #region Instance Members
 
-    public int CompareTo(KnownObjects other) => _Value._Value.CompareTo(other._Value);
+    private static DedicatedFileName DecodeDedicatedFileName(ReadOnlyMemory<byte> value)
+    {
+        return DedicatedFileName.Decode(value, _Codec);
+    }
+    private static readonly EmvCodec _Codec = EmvCodec.GetBerCodec();
+    public int CompareTo(KnownObjects other) => other._Tag.CompareTo(other._Tag);
     public static bool Exists(Tag value) => _ValueObjectMap.ContainsKey(value);
 
     public static IEnumerator<Tag> GetEnumerator()
