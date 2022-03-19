@@ -1,6 +1,7 @@
 ﻿using Play.Ber.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber;
+using Play.Emv.Ber.DataElements;
 using Play.Icc.Messaging.Apdu;
 
 namespace Play.Emv.Icc;

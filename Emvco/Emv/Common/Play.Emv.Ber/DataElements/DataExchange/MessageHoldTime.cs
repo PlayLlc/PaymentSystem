@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Play.Ber.Identifiers;
+﻿using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 using Play.Globalization.Time.Seconds;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Description: Indicates the default delay for the processing of the next MSG DataExchangeSignal. The Message Hold
@@ -41,7 +37,7 @@ public record MessageHoldTime : DataElement<Deciseconds>, IEqualityComparer<Mess
     }
 
     public MessageHoldTime(Milliseconds value) : base(new Deciseconds(value))
-    { 
+    {
         if (_Value < _MinimumValue)
         {
             throw new

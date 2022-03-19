@@ -1,12 +1,10 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Contains the Card indication, obtained in the response to the GET PROCESSING OPTIONS command, about either the

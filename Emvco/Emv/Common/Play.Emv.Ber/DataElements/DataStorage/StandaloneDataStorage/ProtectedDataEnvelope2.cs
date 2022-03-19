@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
 using System.Numerics;
 
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Description: The Protected Data Envelopes contain proprietary information from the issuer, payment system or third

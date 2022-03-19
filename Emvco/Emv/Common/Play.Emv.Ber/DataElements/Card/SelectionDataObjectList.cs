@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
-
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Codecs;
-using Play.Emv.Ber;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Contains a list of terminal resident data objects (tags and lengths) needed by the card in processing the SEND POI

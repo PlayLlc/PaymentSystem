@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Play.Ber.Identifiers;
 using Play.Core;
+using Play.Emv.Ber.DataElements;
 using Play.Emv.DataElements;
 
 namespace Play.Emv.Terminal.DataExchange;
@@ -11,7 +12,7 @@ public record DetResponseType : EnumObject<Tag>
 {
     #region Static Metadata
 
-    public static readonly DetResponseType DataToSend = new(DataElements.DataToSend.Tag);
+    public static readonly DetResponseType DataToSend = new(Ber.DataElements.DataToSend.Tag);
 
     //public static readonly DetResponseType TornRecord = new(DataElements.TornRecord.Tag);
 

@@ -1,11 +1,8 @@
-﻿using System;
-
-using Play.Ber.Identifiers;
+﻿using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     PUNATC(Track1) indicates to the Kernel the positions in the discretionary data field of Track 1 Data where the

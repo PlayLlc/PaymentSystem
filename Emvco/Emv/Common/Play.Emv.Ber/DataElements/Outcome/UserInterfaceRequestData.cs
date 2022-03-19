@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Numerics;
 
 using Play.Ber.Codecs;
@@ -7,12 +5,12 @@ using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
-using Play.Emv.Ber;
+using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 using Play.Globalization.Currency;
 using Play.Globalization.Time.Seconds;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Description: Combines all parameters to be sent with the OUT DataExchangeSignal or MSG DataExchangeSignal.
@@ -51,11 +49,8 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
     public static Builder GetBuilder() => new();
     public NumericCurrencyCode GetCurrencyCode() => new((ushort) (_Value >> _CurrencyCodeOffset));
 
-    public MessageHoldTime GetHoldTimeValue()
-    { 
-         
-        return new MessageHoldTime(new Milliseconds((long)((ulong)(_Value >> _HoldTimeOffset)).GetMaskedValue(0xFFFF000000000000)));
-    }
+    public MessageHoldTime GetHoldTimeValue() =>
+        new MessageHoldTime(new Milliseconds((long) ((ulong) (_Value >> _HoldTimeOffset)).GetMaskedValue(0xFFFF000000000000)));
 
     public LanguagePreference GetLanguagePreference() => new((ulong) (_Value >> _LanguagePreferenceOffset));
     public MessageIdentifier GetMessageIdentifier() => MessageIdentifier.Get((byte) (_Value >> _MessageIdentifierOffset));
@@ -155,7 +150,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
         public void Set(MessageHoldTime bitsToSet)
         {
             _Value.ClearBits(0xFFFFFF << _HoldTimeOffset);
-            _Value |= (BigInteger) ((long)bitsToSet.GetHoldTime()).GetMaskedValue(0xFF000000) << _HoldTimeOffset;
+            _Value |= (BigInteger) ((long) bitsToSet.GetHoldTime()).GetMaskedValue(0xFF000000) << _HoldTimeOffset;
         }
 
         public void Set(LanguagePreference bitsToSet)

@@ -1,12 +1,9 @@
-﻿using System;
-
-using Play.Ber.Identifiers;
+﻿using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
-using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     The presence of Balance Read Before Gen AC in the TLV Database is an indication to the Kernel to read the offline

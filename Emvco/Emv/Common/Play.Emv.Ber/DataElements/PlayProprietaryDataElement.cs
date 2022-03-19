@@ -1,8 +1,7 @@
 ﻿using Play.Ber.Identifiers;
 using Play.Core.Extensions;
-using Play.Emv.Ber;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 public abstract record PlayProprietaryDataElement<T> : DataElement<T>
 {

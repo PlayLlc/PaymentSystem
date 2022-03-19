@@ -1,16 +1,13 @@
-using System;
-using System.Collections.Generic;
-
 using Play.Ber.Codecs;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
-using Play.Emv.Ber;
+using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Icc.Messaging.Apdu;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Description: Contains information regarding the nature of the error that has been encountered during the

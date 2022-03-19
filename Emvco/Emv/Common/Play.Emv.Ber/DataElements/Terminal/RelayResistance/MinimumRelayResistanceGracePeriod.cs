@@ -1,11 +1,9 @@
-﻿using System;
-
-using Play.Ber.Identifiers;
+﻿using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber;
+using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     The Minimum Relay Resistance Grace Period and Maximum Relay Resistance Grace Period represent how far outside the

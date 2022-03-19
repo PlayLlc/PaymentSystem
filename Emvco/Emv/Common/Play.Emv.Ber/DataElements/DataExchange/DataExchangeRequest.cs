@@ -1,9 +1,7 @@
-﻿using System.Linq;
-
-using Play.Ber.Exceptions;
+﻿using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 public abstract record DataExchangeRequest : DataExchangeList<Tag>
 {

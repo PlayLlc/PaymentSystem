@@ -1,16 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 
 using Play.Ber.Codecs;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Specifications;
-using Play.Emv.Ber;
+using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Contains a list of one or more <see cref="TerminalCategoryCode" /> supported by the terminal

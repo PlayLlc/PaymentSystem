@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-
 using Play.Ber.Codecs;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.Configuration;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Description: Specifies the acquirer's conditions that cause a transaction to be rejected on an offline only

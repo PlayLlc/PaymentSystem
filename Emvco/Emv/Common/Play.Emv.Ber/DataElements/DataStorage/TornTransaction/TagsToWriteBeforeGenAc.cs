@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Play.Ber.DataObjects;
+﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     List of data objects indicating the Terminal data writing  requests to be sent to the Card before processing the

@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 
 using Play.Core;
 using Play.Core.Extensions;
+using Play.Emv.Ber.DataElements;
 using Play.Emv.Exceptions;
 
 namespace Play.Emv.DataElements;

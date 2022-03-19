@@ -1,12 +1,9 @@
-﻿using System;
-
-using Play.Ber.Identifiers;
+﻿using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
-using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Indicates the issuer's specified restrictions on the geographic use and services allowed for the application.

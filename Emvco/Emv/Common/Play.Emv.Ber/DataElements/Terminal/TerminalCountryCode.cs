@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Play.Ber.Codecs;
+﻿using Play.Ber.Codecs;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
-using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 using Play.Globalization;
 using Play.Globalization.Country;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Indicates the country of the terminal, represented according to ISO 3166

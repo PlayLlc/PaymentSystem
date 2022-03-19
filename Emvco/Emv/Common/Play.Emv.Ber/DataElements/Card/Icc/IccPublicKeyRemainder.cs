@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
 using System.Numerics;
 
 using Play.Ber.Codecs;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber;
 using Play.Encryption.Certificates;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Remaining digits of the ICC Public Key Modulus

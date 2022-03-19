@@ -1,13 +1,10 @@
-﻿using System;
-
-using Play.Ber.Codecs;
+﻿using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     A data object in the Card that provides the Kernel with a list of data objects that must be passed to the Card in

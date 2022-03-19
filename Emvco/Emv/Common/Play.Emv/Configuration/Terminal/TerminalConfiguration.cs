@@ -2,6 +2,7 @@
 
 using Play.Ber.DataObjects;
 using Play.Core.Math;
+using Play.Emv.Ber.DataElements;
 using Play.Emv.DataElements;
 using Play.Globalization;
 using Play.Globalization.Currency;
@@ -24,7 +25,7 @@ public abstract record TerminalConfiguration
     private readonly TerminalFloorLimit _TerminalFloorLimit;
     private readonly TerminalType _TerminalType;
     private readonly TransactionCurrencyCode _TransactionCurrencyCode;
-    private readonly ApplicationVersionNumberTerminal _ApplicationVersionNumberTerminal;
+    private readonly ApplicationVersionNumberReader _ApplicationVersionNumberReader;
     private readonly DataStorageRequestedOperatorId _DataStorageRequestedOperatorId;
 
     // BUG: TerminalRiskManagementData is transient per transaction. This should live with the transaction session, not the terminal configuration
@@ -59,7 +60,7 @@ public abstract record TerminalConfiguration
         TerminalCountryCode terminalCountryCode,
         MerchantCategoryCode merchantCategoryCode,
         LanguagePreference languagePreference,
-        ApplicationVersionNumberTerminal applicationVersionNumberTerminal,
+        ApplicationVersionNumberReader applicationVersionNumberReader,
         MerchantNameAndLocation merchantNameAndLocation,
         TerminalRiskManagementData terminalRiskManagementData,
         Percentage biasedRandomSelectionPercentage,
@@ -82,7 +83,7 @@ public abstract record TerminalConfiguration
         _LanguagePreference = languagePreference;
         _MerchantIdentifier = merchantIdentifier;
         _InterfaceDeviceSerialNumber = interfaceDeviceSerialNumber;
-        _ApplicationVersionNumberTerminal = applicationVersionNumberTerminal;
+        _ApplicationVersionNumberReader = applicationVersionNumberReader;
         _MerchantNameAndLocation = merchantNameAndLocation;
         _TerminalRiskManagementData = terminalRiskManagementData;
         _BiasedRandomSelectionPercentage = biasedRandomSelectionPercentage;
@@ -105,7 +106,7 @@ public abstract record TerminalConfiguration
         _TagLengthValues.Add(_LanguagePreference);
         _TagLengthValues.Add(_MerchantIdentifier);
         _TagLengthValues.Add(_InterfaceDeviceSerialNumber);
-        _TagLengthValues.Add(_ApplicationVersionNumberTerminal);
+        _TagLengthValues.Add(_ApplicationVersionNumberReader);
         _TagLengthValues.Add(_MerchantNameAndLocation);
         _TagLengthValues.Add(_TerminalRiskManagementData);
         _TagLengthValues.Add(_PoiInformation);
@@ -133,7 +134,7 @@ public abstract record TerminalConfiguration
             new Money(_ThresholdValueForBiasedRandomSelection, culture.GetNumericCurrencyCode()), _RandomSelectionTargetPercentage, _TerminalFloorLimit);
 
     public MerchantNameAndLocation GetMerchantNameAndLocation() => _MerchantNameAndLocation;
-    public ApplicationVersionNumberTerminal AsApplicationVersionNumberTerminal() => _ApplicationVersionNumberTerminal;
+    public ApplicationVersionNumberReader AsApplicationVersionNumberTerminal() => _ApplicationVersionNumberReader;
     public TagLengthValue[] AsTagLengthValues() => _TagLengthValues.ToArray();
     public MerchantCategoryCode GetMerchantCategoryCode() => _MerchantCategoryCode;
     public TransactionCurrencyCode GetTransactionCurrencyCode() => _TransactionCurrencyCode;

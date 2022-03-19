@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Description: The Data Record is a list of TLV encoded data objects returned with the Outcome Parameter Set on the

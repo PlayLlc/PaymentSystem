@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-
 using Play.Ber.Codecs;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
-using Play.Emv.Ber;
-using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.Configuration;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Description: Application-specific value used by card for risk management purposes.

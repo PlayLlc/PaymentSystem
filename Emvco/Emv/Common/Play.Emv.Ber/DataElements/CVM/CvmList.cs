@@ -1,13 +1,12 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber;
+using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 using Play.Globalization.Currency;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 public record CvmList : DataElement<BigInteger>, IResolveXAndYAmountForCvmSelection
 {

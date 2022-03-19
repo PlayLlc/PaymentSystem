@@ -7,8 +7,8 @@ public record DetRequestType : EnumObject<Tag>
 {
     #region Static Metadata
 
-    public static readonly DetRequestType DataNeeded = new(DataElements.DataNeeded.Tag);
-    public static readonly DetRequestType TagsToRead = new(DataElements.TagsToRead.Tag);
+    public static readonly DetRequestType DataNeeded = new(Ber.DataElements.DataNeeded.Tag);
+    public static readonly DetRequestType TagsToRead = new(Ber.DataElements.TagsToRead.Tag);
 
     #endregion
 

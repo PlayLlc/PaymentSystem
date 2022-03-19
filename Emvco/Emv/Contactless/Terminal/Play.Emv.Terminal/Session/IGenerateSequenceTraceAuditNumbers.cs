@@ -1,4 +1,5 @@
 ﻿using Play.Emv.Acquirer.Contracts.SignalOut;
+using Play.Emv.Ber.DataElements;
 using Play.Emv.DataElements;
 
 namespace Play.Emv.Terminal.Session;

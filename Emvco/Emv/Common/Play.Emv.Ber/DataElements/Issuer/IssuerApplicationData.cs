@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
 using System.Numerics;
 
 using Play.Ber.Codecs;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Contains proprietary application data for transmission to the issuer in an online transaction. Note: For

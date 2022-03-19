@@ -2,6 +2,7 @@
 
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Emv.Ber.DataElements;
 using Play.Emv.DataElements;
 using Play.Emv.Security.Authentications.Static;
 using Play.Emv.Security.Certificates.Icc;

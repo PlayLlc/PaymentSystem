@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
@@ -8,11 +5,10 @@ using Play.Codecs;
 using Play.Core.Exceptions;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
-using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 using Play.Globalization.Language;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     1-4 languages stored in order of preference, each represented by 2 alphabetical characters according to ISO 639

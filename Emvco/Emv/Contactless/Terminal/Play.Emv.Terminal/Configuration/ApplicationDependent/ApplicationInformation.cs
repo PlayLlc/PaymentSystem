@@ -1,4 +1,5 @@
-﻿using Play.Emv.DataElements;
+﻿using Play.Emv.Ber.DataElements;
+using Play.Emv.DataElements;
 
 namespace Play.Emv.Terminal.Configuration.ApplicationDependent;
 
@@ -8,7 +9,7 @@ public class ApplicationInformation
 
     private readonly AcquirerIdentifier _AcquirerIdentifier;
     private readonly ApplicationIdentifier _ApplicationIdentifier;
-    private readonly ApplicationVersionNumberTerminal _ApplicationVersionNumber;
+    private readonly ApplicationVersionNumberReader _ApplicationVersionNumber;
 
     #endregion
 
@@ -17,7 +18,7 @@ public class ApplicationInformation
     public ApplicationInformation(
         AcquirerIdentifier acquirerIdentifier,
         ApplicationIdentifier applicationIdentifier,
-        ApplicationVersionNumberTerminal applicationVersionNumber)
+        ApplicationVersionNumberReader applicationVersionNumber)
     {
         _AcquirerIdentifier = acquirerIdentifier;
         _ApplicationIdentifier = applicationIdentifier;

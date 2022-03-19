@@ -1,15 +1,12 @@
-using System;
-using System.Collections.Generic;
-
 using Play.Ber.Codecs;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
-using Play.Emv.Ber;
+using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 using Play.Globalization.Time.Seconds;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Description: This data object is used to indicate to the Terminal the outcome of the transaction processing by the
@@ -66,7 +63,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
     {
         const byte bitOffset = (8 - 1) * 8;
 
-        return new Milliseconds((byte)(_Value >> bitOffset));
+        return new Milliseconds((byte) (_Value >> bitOffset));
     }
 
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
@@ -191,7 +188,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
         {
             const byte bitOffset = (8 - 1) * 8;
             _Value.ClearBits((ulong) byte.MaxValue << bitOffset);
-            _Value |= (ulong) ((long)bitsToSet << bitOffset);
+            _Value |= (ulong) ((long) bitsToSet << bitOffset);
         }
 
         // TODO: Rename this to Complete, this is confusing

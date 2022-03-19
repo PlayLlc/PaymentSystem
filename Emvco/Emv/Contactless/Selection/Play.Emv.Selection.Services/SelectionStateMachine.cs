@@ -1,4 +1,5 @@
-﻿using Play.Emv.DataElements;
+﻿using Play.Emv.Ber.DataElements;
+using Play.Emv.DataElements;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
 using Play.Emv.Icc;

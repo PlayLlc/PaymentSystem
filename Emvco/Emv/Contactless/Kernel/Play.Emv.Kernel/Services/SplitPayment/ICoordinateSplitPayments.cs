@@ -1,4 +1,4 @@
-﻿ 
+﻿using Play.Emv.Ber.DataElements;
 using Play.Emv.DataElements;
 using Play.Emv.Logs;
 

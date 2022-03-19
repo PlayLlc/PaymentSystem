@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Play.Ber.Identifiers;
 using Play.Core;
+using Play.Emv.Ber.DataElements;
 using Play.Emv.DataElements;
 
 namespace Play.Emv.Kernel.DataExchange;
@@ -11,12 +12,12 @@ public record DekResponseType : EnumObject<Tag>
 {
     #region Static Metadata
 
-    public static readonly DekResponseType TagsToWriteBeforeGenAc = new(DataElements.TagsToWriteBeforeGenAc.Tag);
-    public static readonly DekResponseType TagsToWriteAfterGenAc = new(DataElements.TagsToWriteAfterGenAc.Tag);
-    public static readonly DekResponseType DataToSend = new(DataElements.DataToSend.Tag);
-    public static readonly DekResponseType DataRecord = new(DataElements.DataRecord.Tag);
-    public static readonly DekResponseType DiscretionaryData = new(DataElements.DiscretionaryData.Tag);
-    public static readonly DekResponseType TornRecord = new(DataElements.TornRecord.Tag);
+    public static readonly DekResponseType TagsToWriteBeforeGenAc = new(Ber.DataElements.TagsToWriteBeforeGenAc.Tag);
+    public static readonly DekResponseType TagsToWriteAfterGenAc = new(Ber.DataElements.TagsToWriteAfterGenAc.Tag);
+    public static readonly DekResponseType DataToSend = new(Ber.DataElements.DataToSend.Tag);
+    public static readonly DekResponseType DataRecord = new(Ber.DataElements.DataRecord.Tag);
+    public static readonly DekResponseType DiscretionaryData = new(Ber.DataElements.DiscretionaryData.Tag);
+    public static readonly DekResponseType TornRecord = new(Ber.DataElements.TornRecord.Tag);
 
     private static readonly Dictionary<DekResponseType, Func<DataExchangeResponse>> _Defaults = new()
     {

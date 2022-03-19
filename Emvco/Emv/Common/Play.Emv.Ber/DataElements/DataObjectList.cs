@@ -5,7 +5,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 
-namespace Play.Emv.Ber;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     This object encapsulates Primitive <see cref="TagLength" /> Values requested by the ICC. These are ordered by the
@@ -21,7 +21,6 @@ public abstract record DataObjectList : DataElement<byte[]>
     ///     DataObjects
     /// </summary>
     /// <exception cref="BerParsingException">Get.</exception>
-    /// <exception cref="System.InvalidOperationException">Get.</exception>
     private TagLength[] DataObjects
     {
         get

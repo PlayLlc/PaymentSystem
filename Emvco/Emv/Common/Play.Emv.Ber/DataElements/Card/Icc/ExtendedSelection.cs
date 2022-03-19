@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
 using System.Numerics;
 
 using Play.Ber.Codecs;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     The value to be appended to the ADF Name in the data field of the SELECT command, if the Extended Selection Support
@@ -35,11 +32,7 @@ public record ExtendedSelection : DataElement<BigInteger>, IEqualityComparer<Ext
 
     #region Instance Members
 
-    public byte[] AsByteArray()
-    {
-        return _Value.ToByteArray();
-    }
-
+    public byte[] AsByteArray() => _Value.ToByteArray();
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);

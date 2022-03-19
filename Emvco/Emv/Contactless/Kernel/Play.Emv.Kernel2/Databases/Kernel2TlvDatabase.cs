@@ -5,7 +5,9 @@ using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Core.Extensions;
 using Play.Emv.Ber;
+using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Databases.Tlv;
+ 
 
 namespace Play.Emv.Kernel2.Databases;
 
@@ -57,11 +59,13 @@ public class Kernel2TlvDatabase : ITlvDatabase
     /// <summary>
     /// </summary>
     /// <param name="tag"></param>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException">
+    /// This exception gets thrown internally because something was coded or incorrectly configured in our code base. An assumption was made that the database value was present when it was not.
+    /// </exception>
     public TagLengthValue Get(Tag tag)
     {
         if (!_Database.TryGetValue(tag, out DatabaseValue? result))
-            throw new InvalidOperationException($"The argument {nameof(tag)} provided does not exist in {nameof(Kernel2Database)}");
+            throw new TerminalDataException($"The argument {nameof(tag)} provided does not exist in {nameof(Kernel2Database)}");
 
         return result!;
     }

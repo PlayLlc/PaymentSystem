@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber; 
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Description: List of data objects that contains the accumulated data sent by the Kernel to the Terminal or visa

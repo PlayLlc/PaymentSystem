@@ -1,12 +1,9 @@
-﻿using System;
-
-using Play.Ber.Codecs;
+﻿using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Command data field of the GENERATE AC command, coded according to CDOL1.

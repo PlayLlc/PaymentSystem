@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Play.Ber.Identifiers;
+﻿using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
-using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 using Play.Globalization.Country;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Indicates the country of the issuer, in accordance with [ISO 3166-1].

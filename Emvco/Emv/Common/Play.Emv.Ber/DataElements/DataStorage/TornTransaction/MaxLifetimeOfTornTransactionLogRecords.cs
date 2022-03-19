@@ -1,26 +1,23 @@
-﻿using System;
-
-using Play.Ber.Identifiers;
+﻿using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 using Play.Globalization.Time.Seconds;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
-public record MaxLifetimeOfTornTransactionLogRecords : DataElement<byte>
+public record MaxLifetimeOfTornTransactionLogRecords : DataElement<ushort>
 {
     #region Static Metadata
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF811C;
-    private const byte _ByteLength = 1;
+    private const byte _ByteLength = 2;
 
     #endregion
 
     #region Constructor
 
-    public MaxLifetimeOfTornTransactionLogRecords(byte value) : base(value)
+    public MaxLifetimeOfTornTransactionLogRecords(ushort value) : base(value)
     { }
 
     #endregion
@@ -44,7 +41,7 @@ public record MaxLifetimeOfTornTransactionLogRecords : DataElement<byte>
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
+        ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
 
         return new MaxLifetimeOfTornTransactionLogRecords(result);
     }

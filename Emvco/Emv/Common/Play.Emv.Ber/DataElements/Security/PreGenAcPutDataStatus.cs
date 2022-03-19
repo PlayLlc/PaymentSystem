@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Play.Ber.Exceptions;
+﻿using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Information reported by the Kernel to the Terminal, about the  processing of PUT DATA commands before sending the

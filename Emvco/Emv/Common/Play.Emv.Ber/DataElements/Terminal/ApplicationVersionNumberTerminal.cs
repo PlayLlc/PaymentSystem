@@ -1,19 +1,15 @@
-using System;
-using System.Collections.Generic;
-
 using Play.Ber.Codecs;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
-using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Version number assigned by the payment system for the application
 /// </summary>
-public record ApplicationVersionNumberTerminal : DataElement<ushort>, IEqualityComparer<ApplicationVersionNumberTerminal>
+public record ApplicationVersionNumberReader : DataElement<ushort>, IEqualityComparer<ApplicationVersionNumberReader>
 {
     #region Static Metadata
 
@@ -25,7 +21,7 @@ public record ApplicationVersionNumberTerminal : DataElement<ushort>, IEqualityC
 
     #region Constructor
 
-    public ApplicationVersionNumberTerminal(ushort value) : base(value)
+    public ApplicationVersionNumberReader(ushort value) : base(value)
     { }
 
     #endregion
@@ -48,17 +44,17 @@ public record ApplicationVersionNumberTerminal : DataElement<ushort>, IEqualityC
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static ApplicationVersionNumberTerminal Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public static ApplicationVersionNumberReader Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static ApplicationVersionNumberTerminal Decode(ReadOnlySpan<byte> value)
+    public static ApplicationVersionNumberReader Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
         ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
 
-        return new ApplicationVersionNumberTerminal(result);
+        return new ApplicationVersionNumberReader(result);
     }
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
@@ -68,7 +64,7 @@ public record ApplicationVersionNumberTerminal : DataElement<ushort>, IEqualityC
 
     #region Equality
 
-    public bool Equals(ApplicationVersionNumberTerminal? x, ApplicationVersionNumberTerminal? y)
+    public bool Equals(ApplicationVersionNumberReader? x, ApplicationVersionNumberReader? y)
     {
         if (x is null)
             return y is null;
@@ -79,13 +75,13 @@ public record ApplicationVersionNumberTerminal : DataElement<ushort>, IEqualityC
         return x.Equals(y);
     }
 
-    public int GetHashCode(ApplicationVersionNumberTerminal obj) => obj.GetHashCode();
+    public int GetHashCode(ApplicationVersionNumberReader obj) => obj.GetHashCode();
 
     #endregion
 
     #region Operator Overrides
 
-    public static explicit operator ushort(ApplicationVersionNumberTerminal value) => value._Value;
+    public static explicit operator ushort(ApplicationVersionNumberReader value) => value._Value;
 
     #endregion
 }

@@ -2,6 +2,7 @@
 
 using Play.Ber.Exceptions;
 using Play.Core.Extensions;
+using Play.Emv.Ber.DataElements;
 using Play.Emv.Configuration;
 using Play.Emv.DataElements;
 using Play.Emv.Icc;

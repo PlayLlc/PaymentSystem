@@ -1,6 +1,6 @@
 ﻿using Play.Globalization.Currency;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 public interface IResolveXAndYAmountForCvmSelection
 {

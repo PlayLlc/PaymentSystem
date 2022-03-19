@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
-
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
-using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Indicates the environment of the terminal, its communications capability, and its operational control
@@ -29,7 +25,7 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
     /// <remarks>
     ///     This is purely to initialize a default instance according to Book C-2 Table 4.4
     /// </remarks>
-    private TerminalType(byte value) : base(value)
+    public TerminalType(byte value) : base(value)
     { }
 
     public TerminalType(EnvironmentType environmentType, CommunicationType communicationType, TerminalOperatorType terminalOperatorType) :

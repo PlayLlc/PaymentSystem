@@ -1,12 +1,10 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Integrated data storage support by the Kernel depends on the  presence of this data object. If it is absent, or is

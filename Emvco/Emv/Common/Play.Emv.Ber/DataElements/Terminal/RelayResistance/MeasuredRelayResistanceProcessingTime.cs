@@ -1,12 +1,10 @@
-﻿using System;
-
-using Play.Ber.Identifiers;
+﻿using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber;
+using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 using Play.Globalization.Time.Seconds;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Contains the time measured by the Kernel for processing the EXCHANGE RELAY RESISTANCE DATA command. The Measured

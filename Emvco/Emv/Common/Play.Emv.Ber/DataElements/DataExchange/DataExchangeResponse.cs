@@ -1,10 +1,8 @@
-﻿using System.Linq;
-
-using Play.Ber.DataObjects;
+﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 public abstract record DataExchangeResponse : DataExchangeList<TagLengthValue>
 {

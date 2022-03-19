@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber;
-using Play.Emv.Exceptions; 
+using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Contains the data objects (without tags and lengths) returned by the ICC in response to a command

@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Play.Emv.Ber.DataElements;
 using Play.Emv.DataElements;
 using Play.Emv.Kernel.Databases;
 
@@ -33,10 +34,10 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
         ApplicationVersionNumberCard versionNumberCard=
         ApplicationVersionNumberCard.Decode(database.Get(ApplicationVersionNumberCard.Tag).EncodeValue().AsSpan());
 
-        ApplicationVersionNumberTerminal versionNumberTerminal=
-        ApplicationVersionNumberTerminal.Decode(database.Get(ApplicationVersionNumberTerminal.Tag).EncodeValue().AsSpan());
+        ApplicationVersionNumberReader versionNumberReader=
+        ApplicationVersionNumberReader.Decode(database.Get(ApplicationVersionNumberReader.Tag).EncodeValue().AsSpan());
 
-        if ((ushort) versionNumberCard != (ushort) versionNumberTerminal)
+        if ((ushort) versionNumberCard != (ushort) versionNumberReader)
             database.Set(TerminalVerificationResultCodes.IccAndTerminalHaveDifferentApplicationVersions);
     }
      

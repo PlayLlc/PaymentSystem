@@ -165,7 +165,7 @@ public class Kernel2PersistentValues : PersistentValues
             {KnownObjects.TransactionType, new DatabaseValue(new TagLengthValue(KnownObjects.TransactionType, new byte[] {0x00}))}
         };
 
-    public override DatabaseValues GetPersistentValues() => _PersistentValues;
+    public override IReadOnlyCollection<PrimitiveValue> GetPersistentValues() => _PersistentValues;
 
     #endregion
 }

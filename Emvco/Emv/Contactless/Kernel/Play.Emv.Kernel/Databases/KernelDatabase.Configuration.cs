@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Codecs.Exceptions;
+using Play.Emv.Ber.DataElements;
 using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 

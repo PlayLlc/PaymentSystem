@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Play.Emv.Ber.DataElements;
 using Play.Emv.DataElements;
 using Play.Icc.FileSystem.DedicatedFiles;
 

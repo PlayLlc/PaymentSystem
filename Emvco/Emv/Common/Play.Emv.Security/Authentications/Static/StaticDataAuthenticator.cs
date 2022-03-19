@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.Exceptions;
+using Play.Emv.Ber.DataElements;
 using Play.Emv.DataElements;
 using Play.Emv.Icc;
 using Play.Emv.Security.Authentications.Static.Signed;

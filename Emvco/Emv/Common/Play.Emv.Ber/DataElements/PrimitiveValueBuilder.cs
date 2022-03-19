@@ -1,6 +1,6 @@
 using Play.Ber.DataObjects;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Provides mutable objects with an intermediate builder object to construct the final value of that object

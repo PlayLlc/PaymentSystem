@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 
 using Play.Core;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 public partial record TerminalType
 {

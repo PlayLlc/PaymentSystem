@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Play.Ber.DataObjects;
+﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     A copy of a record from the Torn Transaction Log that is expired.Torn Record is sent to the

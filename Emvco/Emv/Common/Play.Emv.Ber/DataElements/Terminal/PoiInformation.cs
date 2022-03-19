@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber;
+using Play.Emv.DataElements;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Specifies Terminal Category Codes for the PICC that are specific to <see cref="TerminalCategoryCode.TransitGate" />

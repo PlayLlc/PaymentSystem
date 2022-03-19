@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Play.Ber.Identifiers;
+﻿using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 using Play.Globalization.Currency;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Indicates the transaction amount above which the Kernel instantiates the CVM capabilities field in Terminal

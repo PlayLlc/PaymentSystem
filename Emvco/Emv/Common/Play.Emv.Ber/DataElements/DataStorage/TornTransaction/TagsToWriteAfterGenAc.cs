@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Play.Ber.DataObjects;
+﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Contains the Terminal data writing requests to be sent to the Card after processing the GENERATE AC command or th

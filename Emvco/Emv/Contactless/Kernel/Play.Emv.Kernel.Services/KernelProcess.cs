@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using Play.Core.Threads;
+using Play.Emv.Ber.DataElements;
 using Play.Emv.DataElements;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Pcd.Contracts;

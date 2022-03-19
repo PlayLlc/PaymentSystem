@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 
+using Play.Emv.Ber.DataElements;
 using Play.Emv.DataElements;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
@@ -23,7 +24,7 @@ internal class KernelEndpointRetrieverFactory
         IHandleTerminalRequests terminalEndpoint,
         IKernelEndpoint kernelEndpoint,
         IHandlePcdRequests pcdEndpoint,
-       IGenerateUnpredictableNumber unpredictableNumberGenerator)
+        IGenerateUnpredictableNumber unpredictableNumberGenerator)
     {
         KernelProcess[] kernels =
         {
@@ -34,9 +35,7 @@ internal class KernelEndpointRetrieverFactory
                                          new Kernel2PersistentValues(new DatabaseValues(readerDatabase
                                                                                             .GetPersistentKernelValues(ShortKernelIdTypes
                                                                                                 .Kernel2))), terminalEndpoint,
-                                         kernelEndpoint, pcdEndpoint,unpredictableNumberGenerator,
-
-
+                                         kernelEndpoint, pcdEndpoint, unpredictableNumberGenerator,
                                          readerDatabase.GetCertificateAuthorityDatasets(new KernelId(ShortKernelIdTypes.Kernel2)))
         };
 

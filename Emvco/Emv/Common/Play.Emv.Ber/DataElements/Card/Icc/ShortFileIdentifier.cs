@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 using Play.Icc.FileSystem.ElementaryFiles;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Identifies the AEF referenced in commands related to a given ADF or DDF. It is a binary data object having a value
@@ -66,8 +62,6 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
     #endregion
 
     #region Serialization
-
-  
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>

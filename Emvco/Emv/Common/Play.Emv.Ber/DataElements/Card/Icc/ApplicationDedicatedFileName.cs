@@ -1,15 +1,12 @@
-using System;
-using System.Collections.Generic;
 using System.Numerics;
 
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
-using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Identifies the Dedicated File that represents an Application in a chip
@@ -56,7 +53,7 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
     #region Instance Members
 
     public byte[] AsByteArray() => _Value.ToByteArray();
-    public DedicatedFileName AsDedicatedFileName() => new DedicatedFileName(_Value.ToByteArray().AsSpan());
+    public DedicatedFileName AsDedicatedFileName() => new(_Value.ToByteArray().AsSpan());
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public int GetByteCount() => _Value.GetByteCount();
 
@@ -95,8 +92,8 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
     {
         int comparisonLength = GetByteCount() < other.GetByteCount() ? GetByteCount() : other.GetByteCount();
 
-        Span<byte> thisBuffer = stackalloc byte[_Value.GetByteCount()]; 
-        _Value.AsSpan(thisBuffer); 
+        Span<byte> thisBuffer = stackalloc byte[_Value.GetByteCount()];
+        _Value.AsSpan(thisBuffer);
         Span<byte> otherBuffer = other.AsByteArray();
 
         for (int i = 0; i < comparisonLength; i++)
@@ -111,9 +108,6 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
     public bool IsPartialMatch(DedicatedFileName other)
     {
         int comparisonLength = GetByteCount() < other.GetByteCount() ? GetByteCount() : other.GetByteCount();
-
-
-
 
         Span<byte> thisBuffer = _Value.ToByteArray();
         Span<byte> otherBuffer = other.AsByteArray();
@@ -172,7 +166,7 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
 
     #region Operator Overrides
 
-    public static implicit operator DedicatedFileName(ApplicationDedicatedFileName value) => new DedicatedFileName(value._Value.ToByteArray());
+    public static implicit operator DedicatedFileName(ApplicationDedicatedFileName value) => new(value._Value.ToByteArray());
 
     #endregion
 }

@@ -1,12 +1,9 @@
-using System;
-
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Contains a list of terminal resident data objects (tags and lengths) needed by the ICC in processing the GET

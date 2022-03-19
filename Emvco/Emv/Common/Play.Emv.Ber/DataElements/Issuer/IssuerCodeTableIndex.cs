@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Core.Extensions;
-using Play.Emv.Ber;
 using Play.Emv.Exceptions;
 
-namespace Play.Emv.DataElements;
+namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Indicates the code table according to ISO/IEC 8859 for displaying the Application Preferred Name

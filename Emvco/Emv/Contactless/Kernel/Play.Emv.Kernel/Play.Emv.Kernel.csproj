@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Databases\Tlv\_Temp\" />
     <Folder Include="Services\SequenceNumberManagement\" />
   </ItemGroup>
 

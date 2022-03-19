@@ -10,6 +10,8 @@ using Play.Emv.Kernel.Databases.Tlv;
 using Play.Emv.Kernel2.Configuration;
 using Play.Emv.Terminal.Contracts;
 
+using ITlvDatabase = Play.Emv.Kernel2.Databases._Temp.ITlvDatabase;
+
 namespace Play.Emv.Kernel2.Databases;
 
 public class Kernel2Database : KernelDatabase

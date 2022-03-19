@@ -1,4 +1,5 @@
 ﻿using Play.Emv.Ber;
+using Play.Emv.Ber.DataElements;
 using Play.Emv.DataElements;
 using Play.Emv.Security.Certificates.Icc;
 using Play.Emv.Security.Cryptograms;

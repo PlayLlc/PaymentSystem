@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Play.Emv.Ber;
-
-namespace Play.Emv.DataElements;
+﻿namespace Play.Emv.Ber.DataElements;
 
 public abstract record DataExchangeList<_T> : DataElement<_T[]>
 {

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 
 using Play.Core;
+using Play.Emv.Ber.DataElements;
 
 namespace Play.Emv.DataElements;
 

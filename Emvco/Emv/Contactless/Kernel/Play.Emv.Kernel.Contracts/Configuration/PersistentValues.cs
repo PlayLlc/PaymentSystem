@@ -8,7 +8,7 @@ public abstract class PersistentValues
 {
     #region Instance Members
 
-    public abstract IReadOnlyCollection<TagLengthValue> GetPersistentValues();
+    public abstract IReadOnlyCollection<PrimitiveValue> GetPersistentValues();
 
     #endregion
 }
