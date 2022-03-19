@@ -1,8 +1,10 @@
 using System.Numerics;
 
 using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -36,12 +38,29 @@ public record UnprotectedDataEnvelope3 : DataElement<BigInteger>, IEqualityCompa
     public override Tag GetTag() => Tag;
     public override PlayEncodingId GetEncodingId() => EncodingId;
 
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static bool TryDecoding(TagLengthValue value, out UnprotectedDataEnvelope3? result)
+    {
+        if (value.GetTag() != Tag)
+        {
+            result = null;
+
+            return false;
+        }
+
+        result = Decode(value.EncodeValue().AsSpan());
+
+        return true;
+    }
+
     #endregion
 
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref=" CodecParsingException"></exception>
     public static UnprotectedDataEnvelope3 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="DataElementParsingException"></exception>

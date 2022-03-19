@@ -1,4 +1,6 @@
-﻿using Play.Ber.DataObjects;
+﻿using System.Numerics;
+
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
@@ -9,7 +11,7 @@ namespace Play.Emv.Ber.DataElements;
 ///     A copy of a record from the Torn Transaction Log that is expired.Torn Record is sent to the
 ///     Terminal as part of the Discretionary Data.
 /// </summary>
-public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
+public record TornRecord : DataElement<BigInteger>, IEqualityComparer<TornRecord>
 {
     #region Static Metadata
 
@@ -20,7 +22,7 @@ public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
 
     #region Constructor
 
-    public TornRecord(params TagLengthValue[] value) : base(value)
+    public TornRecord(BigInteger value) : base(value)
     { }
 
     #endregion
@@ -29,27 +31,18 @@ public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-
-    public bool IsMatch(ApplicationPan pan, ApplicationPanSequenceNumber sequenceNumber)
-    {
-        if (!TryGet(pan.GetTag(), out TagLengthValue? result1))
-            return false;
-
-        if (!TryGet(pan.GetTag(), out TagLengthValue? result2))
-            return false;
-
-        return true;
-    }
+    public bool IsMatch(ApplicationPan pan, ApplicationPanSequenceNumber sequenceNumber) => throw new NotImplementedException();
 
     #endregion
 
     #region Serialization
 
-    public static TornRecord Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodeTagLengthValues(value));
+    /// <exception cref="BerParsingException"></exception>
+    public static TornRecord Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static TornRecord Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodeTagLengthValues(value));
+    public static TornRecord Decode(ReadOnlySpan<byte> value) => new(PlayCodec.BinaryCodec.DecodeToBigInteger(value));
 
     #endregion
 
@@ -69,4 +62,10 @@ public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
     public int GetHashCode(TornRecord obj) => obj.GetHashCode();
 
     #endregion
+
+    //if (!TryGet(pan.GetTag(), out TagLengthValue? result1))
+    //    return false;
+    //if (!TryGet(pan.GetTag(), out TagLengthValue? result2))
+    //    return false;
+    //return true;
 }

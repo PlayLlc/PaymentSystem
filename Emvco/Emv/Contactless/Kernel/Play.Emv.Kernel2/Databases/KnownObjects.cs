@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
+using Microsoft.Toolkit.HighPerformance;
+
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
@@ -13,7 +15,8 @@ using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Kernel2.Databases;
 
-public sealed class KnownObjects : IEquatable<KnownObjects>, IEqualityComparer<KnownObjects>, IComparable<KnownObjects>
+public sealed class KnownObjects : IResolveKnownObjectsAtRuntime, IEquatable<KnownObjects>, IEqualityComparer<KnownObjects>,
+    IComparable<KnownObjects>
 {
     #region Static Metadata
 
@@ -25,7 +28,7 @@ public sealed class KnownObjects : IEquatable<KnownObjects>, IEqualityComparer<K
     #region Instance Values
 
     private readonly Tag _Tag;
-    private readonly Func<ReadOnlyMemory<byte>, PrimitiveValue> _Decoder; 
+    private readonly Func<ReadOnlyMemory<byte>, PrimitiveValue> _Decoder;
 
     #endregion
 
@@ -36,7 +39,7 @@ public sealed class KnownObjects : IEquatable<KnownObjects>, IEqualityComparer<K
     {
         _ValueObjectMap = new Dictionary<Tag, KnownObjects>
         {
-            {AccountType.Tag, new KnownObjects(AccountType.Tag, AccountType.Decode)},
+            {AccountType.Tag, new KnownObjects(AccountType.Tag, AccountType.StaticDecode)},
             {AcquirerIdentifier.Tag, new KnownObjects(AcquirerIdentifier.Tag, AcquirerIdentifier.Decode)},
             {
                 AdditionalTerminalCapabilities.Tag,
@@ -311,7 +314,7 @@ public sealed class KnownObjects : IEquatable<KnownObjects>, IEqualityComparer<K
                 new KnownObjects(StaticDataAuthenticationTagList.Tag, StaticDataAuthenticationTagList.Decode)
             },
             {TagsToRead.Tag, new KnownObjects(TagsToRead.Tag, TagsToRead.Decode)},
-            {TagsToWriteAfterGenAc.Tag, new KnownObjects(TagsToWriteAfterGenAc.Tag, TagsToWriteAfterGenAc.Decode)},
+            {TagsToWriteAfterGenAc.Tag, new KnownObjects(TagsToWriteAfterGenAc.Tag, TagsToWriteAfterGenAc.Decode())},
             {TagsToWriteBeforeGenAc.Tag, new KnownObjects(TagsToWriteBeforeGenAc.Tag, TagsToWriteBeforeGenAc.Decode)},
             {TerminalActionCodeDefault.Tag, new KnownObjects(TerminalActionCodeDefault.Tag, TerminalActionCodeDefault.Decode)},
             {TerminalActionCodeDenial.Tag, new KnownObjects(TerminalActionCodeDenial.Tag, TerminalActionCodeDenial.Decode)},
@@ -364,6 +367,9 @@ public sealed class KnownObjects : IEquatable<KnownObjects>, IEqualityComparer<K
         }.ToImmutableSortedDictionary();
     }
 
+    public KnownObjects()
+    { }
+
     private KnownObjects(Tag tag, Func<ReadOnlyMemory<byte>, PrimitiveValue> decoder)
     {
         _Tag = tag;
@@ -374,7 +380,11 @@ public sealed class KnownObjects : IEquatable<KnownObjects>, IEqualityComparer<K
 
     #region Instance Members
 
+    private static KnownObjects GetKnownObjects() => new();
     private static DedicatedFileName DecodeDedicatedFileName(ReadOnlyMemory<byte> value) => DedicatedFileName.Decode(value, _Codec);
+
+    private static TagsToWriteAfterGenAc DecodeTagsToWriteAfterGenAc(ReadOnlyMemory<byte> value) =>
+        TagsToWriteAfterGenAc.Decode(GetKnownObjects(), value);
 
     public int CompareTo(KnownObjects? other)
     {
@@ -385,10 +395,8 @@ public sealed class KnownObjects : IEquatable<KnownObjects>, IEqualityComparer<K
     }
 
     public static bool Exists(Tag value) => _ValueObjectMap.ContainsKey(value);
-     
-
     public static bool TryGet(Tag value, out KnownObjects result) => _ValueObjectMap.TryGetValue(value, out result);
- 
+
     public bool TryDecodingPrimitiveValueAtRuntime(ReadOnlyMemory<byte> value, out PrimitiveValue? result)
     {
         try
@@ -413,9 +421,7 @@ public sealed class KnownObjects : IEquatable<KnownObjects>, IEqualityComparer<K
 
             return false;
         }
-     
     }
-     
 
     /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
     public IEnumerable<PrimitiveValue> DecodePrimitiveSiblingsAtRuntime(ReadOnlyMemory<byte> value)
@@ -460,7 +466,6 @@ public sealed class KnownObjects : IEquatable<KnownObjects>, IEqualityComparer<K
     #region Operator Overrides
 
     public static implicit operator Tag(KnownObjects value) => value._Tag;
- 
 
     #endregion
 }

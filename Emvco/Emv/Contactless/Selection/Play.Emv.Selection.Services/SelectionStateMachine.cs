@@ -309,7 +309,14 @@ internal class SelectionStateMachine
 
         #region Instance Members
 
-        public bool IsActive() => Session != null;
+        public bool IsActive()
+        {
+            Type d1 = typeof(DataElement<>);
+
+            var a = Activator.CreateInstance(typeof(AmountAuthorizedNumeric).AssemblyQualifiedName, nameof(AmountAuthorizedNumeric));
+
+            return Session != null;
+        }
 
         #endregion
     }

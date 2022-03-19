@@ -3,6 +3,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Emv.Kernel2.Databases;
 
 namespace Play.Emv.Ber.DataElements;
 
@@ -21,7 +22,7 @@ public record DiscretionaryData : DataExchangeResponse, IEqualityComparer<Discre
 
     #region Constructor
 
-    public DiscretionaryData(params TagLengthValue[] value) : base(value)
+    public DiscretionaryData(params PrimitiveValue[] value) : base(value)
     { }
 
     #endregion
@@ -36,10 +37,12 @@ public record DiscretionaryData : DataExchangeResponse, IEqualityComparer<Discre
 
     #region Serialization
 
-    public static DiscretionaryData Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodeTagLengthValues(value));
-
     /// <exception cref="BerParsingException"></exception>
-    public static DiscretionaryData Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodeTagLengthValues(value));
+    public static DiscretionaryData Decode(IResolveKnownObjectsAtRuntime runtimeCodec, ReadOnlyMemory<byte> value) =>
+        new(runtimeCodec.DecodePrimitiveSiblingsAtRuntime(value).ToArray());
+
+    public static DiscretionaryData Decode(IResolveKnownObjectsAtRuntime runtimeCodec, ReadOnlySpan<byte> value) =>
+        Decode(runtimeCodec, value.ToArray().AsMemory());
 
     #endregion
 

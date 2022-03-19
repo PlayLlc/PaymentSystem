@@ -6,7 +6,7 @@ using PlayCodec = Play.Codecs.PlayCodec;
 
 namespace Play.Emv.Ber;
 
-public class EmvCodec : BerCodec
+public partial class EmvCodec : BerCodec
 {
     #region Static Metadata
 

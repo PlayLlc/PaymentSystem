@@ -1,6 +1,7 @@
 using System.Numerics;
 
 using Play.Ber.Codecs;
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
@@ -36,6 +37,23 @@ public record UnprotectedDataEnvelope1 : DataElement<BigInteger>, IEqualityCompa
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public override Tag GetTag() => Tag;
     public override PlayEncodingId GetEncodingId() => EncodingId;
+
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public static bool TryDecoding(TagLengthValue value, out UnprotectedDataEnvelope1? result)
+    {
+        if (value.GetTag() != Tag)
+        {
+            result = null;
+
+            return false;
+        }
+
+        result = Decode(value.EncodeValue().AsSpan());
+
+        return true;
+    }
 
     #endregion
 

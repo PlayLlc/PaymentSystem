@@ -3,6 +3,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
 
@@ -21,7 +22,7 @@ public record DataRecord : DataExchangeResponse, IEqualityComparer<DataRecord>
 
     #region Constructor
 
-    public DataRecord(params TagLengthValue[] value) : base(value)
+    public DataRecord(params PrimitiveValue[] value) : base(value)
     { }
 
     #endregion
@@ -36,7 +37,7 @@ public record DataRecord : DataExchangeResponse, IEqualityComparer<DataRecord>
 
     #region Serialization
 
-    public static DataRecord Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodeTagLengthValues(value));
+    public static DataRecord Decode(ReadOnlySpan<byte> value) => new(_Codec.Decode);
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>

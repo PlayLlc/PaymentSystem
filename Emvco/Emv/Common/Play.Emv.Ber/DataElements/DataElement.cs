@@ -3,6 +3,11 @@ using Play.Ber.DataObjects;
 
 namespace Play.Emv.Ber.DataElements;
 
+public interface IDecodeDataElement
+{
+    public PrimitiveValue Decode(ReadOnlySpan<byte> value);
+}
+
 public abstract record DataElement<T>(T _Value) : PrimitiveValue, IEncodeDataElement
 {
     #region Static Metadata
@@ -30,6 +35,10 @@ public abstract record DataElement<T>(T _Value) : PrimitiveValue, IEncodeDataEle
     #endregion
 
     #region Serialization
+
+    public static DataElement<T> Decode(ReadOnlySpan<byte> value) => throw new Exception();
+
+    //public abstract PrimitiveValue Decode(in ReadOnlySpan<byte> value);
 
     /// <summary>
     ///     Encodes this objects content as the Value field of a Tag-Length-Value encoding
