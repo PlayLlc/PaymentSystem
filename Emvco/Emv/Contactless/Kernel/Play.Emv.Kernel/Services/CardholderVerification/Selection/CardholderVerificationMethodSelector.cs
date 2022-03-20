@@ -195,6 +195,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public static void Select(KernelDatabase database, CvmList cvmList, NumericCurrencyCode currencyCode)
     {
         CvmQueue cvmQueue = new(cvmList, currencyCode);

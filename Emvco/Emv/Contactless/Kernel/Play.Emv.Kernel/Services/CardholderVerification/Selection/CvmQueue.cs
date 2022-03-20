@@ -118,6 +118,13 @@ internal class CvmQueue
 
     #region CVM.22 - CVM.25
 
+    /// <summary>
+    /// HandleInvalidRule
+    /// </summary>
+    /// <param name="database"></param>
+    /// <param name="cvmCode"></param>
+    /// <param name="cvmConditionCode"></param>
+    /// <exception cref="TerminalDataException"></exception>
     public void HandleInvalidRule(KernelDatabase database, CvmCode cvmCode, CvmConditionCode cvmConditionCode)
     {
         SetCardholderVerificationWasNotSuccessful(database);

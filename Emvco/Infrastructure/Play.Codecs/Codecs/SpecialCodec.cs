@@ -178,8 +178,7 @@ public class SpecialCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception> 
     public override byte[] Encode<_T>(_T value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -197,8 +196,7 @@ public class SpecialCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception> 
     public override byte[] Encode<_T>(_T value, int length)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -215,8 +213,7 @@ public class SpecialCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception> 
     public override byte[] Encode<_T>(_T[] value)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
@@ -234,8 +231,7 @@ public class SpecialCodec : PlayCodec
     /// <param name="value"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception> 
     public override byte[] Encode<_T>(_T[] value, int length)
     {
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow

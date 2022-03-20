@@ -304,6 +304,11 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <param name="isRecordSigned"></param>
     /// <param name="dsdol"></param>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="Play.Emv.Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public void HandleDataStorageRead(
         Kernel2Session session,
         ReadRecordResponse rapdu,

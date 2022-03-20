@@ -66,6 +66,7 @@ internal class PcdStateMachine
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TransmissionError"></exception>
     /// <exception cref="InvalidSignalRequest"></exception>
+    /// <exception cref="PcdTransmissionException"></exception>
     public void Handle(StopPcdRequest request, Action abortHandler)
     {
         lock (_PcdSessionLock)
@@ -155,6 +156,7 @@ internal class PcdStateMachine
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="InvalidMessageRoutingException"></exception>
     /// <exception cref="TransmissionError"></exception>
+    /// <exception cref="PcdTransmissionException"></exception>
     public void Handle(QueryPcdRequest request)
     {
         lock (_PcdSessionLock)

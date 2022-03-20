@@ -39,6 +39,7 @@ internal class ProximityCouplingDeviceProcess : CommandProcessingQueue
     /// <returns></returns>
     /// <exception cref="Emv.Exceptions.RequestOutOfSyncException"></exception>
     /// <exception cref="TransmissionError"></exception>
+    /// <exception cref="PcdTransmissionException"></exception>
     public async Task Handle(ActivatePcdRequest request)
     {
         await Task.Run(() => { _PcdStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
@@ -52,6 +53,7 @@ internal class ProximityCouplingDeviceProcess : CommandProcessingQueue
     /// <exception cref="Emv.Exceptions.RequestOutOfSyncException"></exception>
     /// <exception cref="Play.Messaging.Exceptions.InvalidMessageRoutingException"></exception>
     /// <exception cref="TransmissionError"></exception>
+    /// <exception cref="PcdTransmissionException"></exception>
     public async Task Handle(QueryPcdRequest request)
     {
         await Task.Run(() => { _PcdStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
@@ -67,6 +69,7 @@ internal class ProximityCouplingDeviceProcess : CommandProcessingQueue
     /// <exception cref="Emv.Exceptions.RequestOutOfSyncException"></exception>
     /// <exception cref="Emv.Exceptions.InvalidSignalRequest"></exception>
     /// <exception cref="TransmissionError"></exception>
+    /// <exception cref="PcdTransmissionException"></exception>
     public async Task Handle(StopPcdRequest request)
     {
         await Task.Run(() =>

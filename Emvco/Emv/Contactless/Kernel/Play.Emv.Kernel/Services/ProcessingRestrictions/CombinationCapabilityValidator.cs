@@ -169,6 +169,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
 
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private void InitializeCashTransactionCompatibilityFlags(
         ApplicationUsageControl applicationUsageControl,
         TerminalCountryCode terminalCountryCode,
@@ -247,6 +248,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private void InitializeCountryCompatibilityFlags(
         ApplicationUsageControl applicationUsageControl,
         TerminalCountryCode terminalCountryCode,

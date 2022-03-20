@@ -239,6 +239,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public KernelState HandleEmvMode(
         Kernel2Session session,
         ApplicationFileLocator applicationFileLocator,
@@ -336,6 +337,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public KernelState HandleRelayResistanceProtocolNotSupported(Kernel2Session session)
     {
         _KernelDatabase.Set(TerminalVerificationResultCodes.RelayResistanceNotPerformed);

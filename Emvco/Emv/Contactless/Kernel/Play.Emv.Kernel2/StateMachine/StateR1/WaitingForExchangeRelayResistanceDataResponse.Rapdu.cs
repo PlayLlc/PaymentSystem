@@ -308,6 +308,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <remarks>Book C-2 Section SR1.28 - SR1.32 </remarks>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     private KernelState CompleteRelayResistance(Kernel2Session session, MeasuredRelayResistanceProcessingTime relayTime)
     {
         if (IsRelayOutOfUpperBounds(relayTime))

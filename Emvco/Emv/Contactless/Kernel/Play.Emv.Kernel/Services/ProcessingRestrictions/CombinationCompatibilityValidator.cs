@@ -13,6 +13,7 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
 
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Process(KernelDatabase database)
     {
         CheckVersionNumber(database);

@@ -638,6 +638,7 @@ public class HexadecimalCodec : PlayCodec
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="EncodingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public bool TryDecodingToString(ReadOnlySpan<byte> value, out string? result)
     {
         try
