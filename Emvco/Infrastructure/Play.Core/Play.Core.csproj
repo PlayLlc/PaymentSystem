@@ -12,13 +12,13 @@
 	  <None Remove="Customs\Sessions\**" />
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.Toolkit.HighPerformance" Version="7.1.1" />
-	</ItemGroup>
-	<ItemGroup>
 	  <ProjectReference Include="..\Play.Unmanaged\Play.Unmanaged.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Customs\Identifiers\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.Toolkit.HighPerformance" Version="7.1.2" />
 	</ItemGroup>
 
 </Project>

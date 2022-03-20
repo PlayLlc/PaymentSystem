@@ -32,25 +32,30 @@ public record TagsToWriteBeforeGenAc : DataExchangeResponse, IEqualityComparer<T
     public override Tag GetTag() => Tag;
 
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     private static IEnumerable<PrimitiveValue> ResolveTagsToWrite(ReadOnlySpan<byte> value)
     {
-        for (int i = 0; i < value.Length;)
-        {
-            TagLengthValue currentTagLengthValue = _Codec.DecodeTagLengthValue(value[..i]);
-            i += checked((int) currentTagLengthValue.GetTagLengthValueByteCount());
+        TagLengthValue[] tlv = _Codec.DecodeTagLengthValues(value).Where(a => _KnownPutDataTags.Any(b => b == a.GetTag())).ToArray();
+        PrimitiveValue[] result = new PrimitiveValue[tlv.Length];
 
-            if (UnprotectedDataEnvelope1.TryDecoding(currentTagLengthValue, out UnprotectedDataEnvelope1? unprotectedDataEnvelope1))
-                yield return unprotectedDataEnvelope1!;
-            if (UnprotectedDataEnvelope2.TryDecoding(currentTagLengthValue, out UnprotectedDataEnvelope2? unprotectedDataEnvelope2))
-                yield return unprotectedDataEnvelope2!;
-            if (UnprotectedDataEnvelope3.TryDecoding(currentTagLengthValue, out UnprotectedDataEnvelope3? unprotectedDataEnvelope3))
-                yield return unprotectedDataEnvelope3!;
-            if (UnprotectedDataEnvelope4.TryDecoding(currentTagLengthValue, out UnprotectedDataEnvelope4? unprotectedDataEnvelope4))
-                yield return unprotectedDataEnvelope4!;
-            if (UnprotectedDataEnvelope5.TryDecoding(currentTagLengthValue, out UnprotectedDataEnvelope5? unprotectedDataEnvelope5))
-                yield return unprotectedDataEnvelope5!;
+        for (int i = 0; i < tlv.Length; i++)
+        {
+            if (tlv[i].GetTag() == UnprotectedDataEnvelope1.Tag)
+                result[i] = UnprotectedDataEnvelope1.Decode(tlv[i].EncodeValue(_Codec).AsSpan());
+
+            if (tlv[i].GetTag() == UnprotectedDataEnvelope2.Tag)
+                result[i] = UnprotectedDataEnvelope2.Decode(tlv[i].EncodeValue(_Codec).AsSpan());
+
+            if (tlv[i].GetTag() == UnprotectedDataEnvelope3.Tag)
+                result[i] = UnprotectedDataEnvelope3.Decode(tlv[i].EncodeValue(_Codec).AsSpan());
+
+            if (tlv[i].GetTag() == UnprotectedDataEnvelope4.Tag)
+                result[i] = UnprotectedDataEnvelope4.Decode(tlv[i].EncodeValue(_Codec).AsSpan());
+
+            if (tlv[i].GetTag() == UnprotectedDataEnvelope5.Tag)
+                result[i] = UnprotectedDataEnvelope5.Decode(tlv[i].EncodeValue(_Codec).AsSpan());
         }
+
+        return result;
     }
 
     #endregion
@@ -59,13 +64,13 @@ public record TagsToWriteBeforeGenAc : DataExchangeResponse, IEqualityComparer<T
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static TagsToWriteBeforeGenAc Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public static TagsToWriteAfterGenAc Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override TagsToWriteBeforeGenAc Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override TagsToWriteAfterGenAc Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static TagsToWriteBeforeGenAc Decode(ReadOnlySpan<byte> value) => new(ResolveTagsToWrite(value).ToArray());
+    public static TagsToWriteAfterGenAc Decode(ReadOnlySpan<byte> value) => new(ResolveTagsToWrite(value).ToArray());
 
     #endregion
 

@@ -7,10 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Toolkit.HighPerformance" Version="7.1.2" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\..\Infrastructure\Play.Ber\Play.Ber.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\Play.Encryption\Play.Encryption.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\Play.Globalization\Play.Globalization.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\Play.Icc\Play.Icc.csproj" />

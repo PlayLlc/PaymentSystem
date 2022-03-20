@@ -20,12 +20,6 @@ public record TagsToWriteAfterGenAc : DataExchangeResponse, IEqualityComparer<Ta
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xFF8103;
 
-    private static readonly Tag[] _KnownTags = new Tag[]
-    {
-        UnprotectedDataEnvelope1.Tag, UnprotectedDataEnvelope2.Tag, UnprotectedDataEnvelope3.Tag, UnprotectedDataEnvelope4.Tag,
-        UnprotectedDataEnvelope5.Tag
-    };
-
     #endregion
 
     #region Constructor
@@ -44,22 +38,28 @@ public record TagsToWriteAfterGenAc : DataExchangeResponse, IEqualityComparer<Ta
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     private static IEnumerable<PrimitiveValue> ResolveTagsToWrite(ReadOnlySpan<byte> value)
     {
-        for (int i = 0; i < value.Length;)
-        {
-            TagLengthValue currentTagLengthValue = _Codec.DecodeTagLengthValue(value[..i]);
-            i += checked((int) currentTagLengthValue.GetTagLengthValueByteCount());
+        TagLengthValue[] tlv = _Codec.DecodeTagLengthValues(value).Where(a => _KnownPutDataTags.Any(b => b == a.GetTag())).ToArray();
+        PrimitiveValue[] result = new PrimitiveValue[tlv.Length];
 
-            if (UnprotectedDataEnvelope1.TryDecoding(currentTagLengthValue, out UnprotectedDataEnvelope1? unprotectedDataEnvelope1))
-                yield return unprotectedDataEnvelope1!;
-            if (UnprotectedDataEnvelope2.TryDecoding(currentTagLengthValue, out UnprotectedDataEnvelope2? unprotectedDataEnvelope2))
-                yield return unprotectedDataEnvelope2!;
-            if (UnprotectedDataEnvelope3.TryDecoding(currentTagLengthValue, out UnprotectedDataEnvelope3? unprotectedDataEnvelope3))
-                yield return unprotectedDataEnvelope3!;
-            if (UnprotectedDataEnvelope4.TryDecoding(currentTagLengthValue, out UnprotectedDataEnvelope4? unprotectedDataEnvelope4))
-                yield return unprotectedDataEnvelope4!;
-            if (UnprotectedDataEnvelope5.TryDecoding(currentTagLengthValue, out UnprotectedDataEnvelope5? unprotectedDataEnvelope5))
-                yield return unprotectedDataEnvelope5!;
+        for (int i = 0; i < tlv.Length; i++)
+        {
+            if (tlv[i].GetTag() == UnprotectedDataEnvelope1.Tag)
+                result[i] = UnprotectedDataEnvelope1.Decode(tlv[i].EncodeValue(_Codec).AsSpan());
+
+            if (tlv[i].GetTag() == UnprotectedDataEnvelope2.Tag)
+                result[i] = UnprotectedDataEnvelope2.Decode(tlv[i].EncodeValue(_Codec).AsSpan());
+
+            if (tlv[i].GetTag() == UnprotectedDataEnvelope3.Tag)
+                result[i] = UnprotectedDataEnvelope3.Decode(tlv[i].EncodeValue(_Codec).AsSpan());
+
+            if (tlv[i].GetTag() == UnprotectedDataEnvelope4.Tag)
+                result[i] = UnprotectedDataEnvelope4.Decode(tlv[i].EncodeValue(_Codec).AsSpan());
+
+            if (tlv[i].GetTag() == UnprotectedDataEnvelope5.Tag)
+                result[i] = UnprotectedDataEnvelope5.Decode(tlv[i].EncodeValue(_Codec).AsSpan());
         }
+
+        return result;
     }
 
     #endregion

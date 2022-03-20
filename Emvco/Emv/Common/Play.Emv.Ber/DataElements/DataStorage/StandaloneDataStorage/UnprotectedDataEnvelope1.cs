@@ -59,25 +59,6 @@ public record UnprotectedDataEnvelope1 : DataElement<BigInteger>, IEqualityCompa
 
     #region Serialization
 
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static UnprotectedDataEnvelope1 Decode(ReadOnlySpan<byte> value, BerCodec codec)
-    {
-        const ushort maxByteLength = 192;
-
-        if (value.Length > maxByteLength)
-        {
-            throw new
-                DataElementParsingException($"The Primitive Value {nameof(UnprotectedDataEnvelope1)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be less than {maxByteLength} bytes in length");
-        }
-
-        DecodedResult<BigInteger> result = codec.Decode(EncodingId, value) as DecodedResult<BigInteger>
-            ?? throw new
-                DataElementParsingException($"The {nameof(UnprotectedDataEnvelope1)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<BigInteger>)}");
-
-        return new UnprotectedDataEnvelope1(result.Value);
-    }
-
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public static UnprotectedDataEnvelope1 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
