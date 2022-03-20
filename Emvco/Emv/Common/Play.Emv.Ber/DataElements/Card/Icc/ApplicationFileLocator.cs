@@ -127,6 +127,7 @@ public record ApplicationFileLocator : DataElement<byte[]>, IEqualityComparer<Ap
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public static ApplicationFileLocator Decode(ReadOnlySpan<byte> value)
     {
         Validate(value);

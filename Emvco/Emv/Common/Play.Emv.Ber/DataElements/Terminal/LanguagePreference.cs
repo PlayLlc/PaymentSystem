@@ -100,6 +100,7 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>, IEqualityC
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public static LanguagePreference Decode(ReadOnlySpan<byte> value)
     {
         const ushort minByteLength = 2;

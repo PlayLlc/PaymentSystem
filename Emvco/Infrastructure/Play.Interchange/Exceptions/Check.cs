@@ -20,6 +20,7 @@ internal class Check
         /// <param name="length"></param>
         /// <param name="dataFieldId"></param>
         /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
+        /// <exception cref="Play.Interchange.Exceptions.InterchangeDataFieldOutOfRangeException"></exception>
         public static void ForExactLength<T>(T[] value, int length, DataFieldId dataFieldId) where T : struct
         {
             if (value.Length != length)
@@ -34,6 +35,7 @@ internal class Check
         /// <param name="length"></param>
         /// <param name="dataFieldId"></param>
         /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
+        /// <exception cref="Play.Interchange.Exceptions.InterchangeDataFieldOutOfRangeException"></exception>
         public static void ForExactLength<T>(ReadOnlySpan<T> value, int length, DataFieldId dataFieldId) where T : struct
         {
             if (value.Length != length)
@@ -51,6 +53,7 @@ internal class Check
         /// <param name="maxLength"></param>
         /// <param name="dataFieldId"></param>
         /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
+        /// <exception cref="Play.Interchange.Exceptions.InterchangeDataFieldOutOfRangeException"></exception>
         public static void ForMaximumLength<T>(ICollection<T> value, int maxLength, DataFieldId dataFieldId) where T : struct
         {
             if (value.Count > maxLength)
@@ -67,6 +70,7 @@ internal class Check
         /// <param name="maxLength"></param>
         /// <param name="dataFieldId"></param>
         /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
+        /// <exception cref="Play.Interchange.Exceptions.InterchangeDataFieldOutOfRangeException"></exception>
         public static void ForMaximumLength<T>(ReadOnlyMemory<T> value, int maxLength, DataFieldId dataFieldId) where T : struct
         {
             if (value.Length > maxLength)
@@ -84,6 +88,7 @@ internal class Check
         /// <param name="maxLength"></param>
         /// <param name="dataFieldId"></param>
         /// <exception cref="InterchangeDataFieldOutOfRangeException"></exception>
+        /// <exception cref="Play.Interchange.Exceptions.InterchangeDataFieldOutOfRangeException"></exception>
         public static void ForMaximumLength<T>(ReadOnlySpan<T> value, int maxLength, DataFieldId dataFieldId) where T : struct
         {
             if (value.Length > maxLength)

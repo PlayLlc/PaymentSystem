@@ -39,6 +39,7 @@ public record MerchantIdentifier : DataElement<char[]>, IEqualityComparer<Mercha
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public static MerchantIdentifier Decode(ReadOnlySpan<byte> value)
     {
         const ushort byteLength = 15;

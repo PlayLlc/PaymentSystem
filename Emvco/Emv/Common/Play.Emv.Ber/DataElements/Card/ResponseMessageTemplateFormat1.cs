@@ -45,6 +45,7 @@ public record ResponseMessageTemplateFormat1 : DataElement<byte[]>, IEqualityCom
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public static ResponseMessageTemplateFormat1 Decode(ReadOnlySpan<byte> value)
     {
         DecodedResult<byte[]> result = _Codec.Decode(EncodingId, value) as DecodedResult<byte[]>

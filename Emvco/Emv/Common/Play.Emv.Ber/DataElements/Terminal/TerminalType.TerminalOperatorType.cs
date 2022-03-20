@@ -100,7 +100,8 @@ public partial record TerminalType
         }
 
         public static explicit operator byte(TerminalOperatorType terminalOperatorType) => terminalOperatorType._Value;
-
+        
+    /// <exception cref="DataElementParsingException"></exception>
         public static explicit operator TerminalOperatorType(byte terminalOperatorType)
         {
             if (!TryGet(terminalOperatorType, out TerminalOperatorType result))

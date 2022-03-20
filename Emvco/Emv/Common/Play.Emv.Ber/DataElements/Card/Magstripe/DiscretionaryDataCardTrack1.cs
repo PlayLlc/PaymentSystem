@@ -42,6 +42,7 @@ public record DiscretionaryDataCardTrack1 : DataElement<char[]>
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public static DiscretionaryDataCardTrack1 Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);

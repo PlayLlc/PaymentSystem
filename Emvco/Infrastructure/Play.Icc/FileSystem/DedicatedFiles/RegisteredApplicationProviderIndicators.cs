@@ -103,6 +103,7 @@ public sealed record RegisteredApplicationProviderIndicators : EnumObject<Regist
         RegisteredApplicationProviderIndicators registeredApplicationProviderIndicators) =>
         registeredApplicationProviderIndicators._Value;
 
+    /// <exception cref="IccProtocolException" />
     public static explicit operator RegisteredApplicationProviderIndicators(
         RegisteredApplicationProviderIndicator registeredApplicationProviderIndicator)
     {

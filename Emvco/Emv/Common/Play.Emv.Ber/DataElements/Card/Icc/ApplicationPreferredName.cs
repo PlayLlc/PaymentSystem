@@ -51,6 +51,7 @@ public record ApplicationPreferredName : DataElement<char[]>, IEqualityComparer<
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public static ApplicationPreferredName Decode(ReadOnlySpan<byte> value)
     {
         const ushort minByteLength = 1;

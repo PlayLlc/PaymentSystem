@@ -58,6 +58,7 @@ public class Kernel2TlvDatabase : ITlvDatabase
     ///     This exception gets thrown internally because something was coded or incorrectly configured in our code base. An
     ///     assumption was made that the database value was present when it was not.
     /// </exception>
+    /// <exception cref="TerminalDataException"></exception>
     public PrimitiveValue Get(Tag tag)
     {
         if (!_Database.TryGetValue(tag, out PrimitiveValue? result))
