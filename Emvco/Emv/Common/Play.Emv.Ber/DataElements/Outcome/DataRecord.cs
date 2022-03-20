@@ -3,7 +3,6 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
 
