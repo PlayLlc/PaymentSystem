@@ -52,6 +52,7 @@ internal class CvmQueue
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public bool TrySelect(KernelDatabase database)
     {
         if (_Rules.Count < (_Offset - 1))
@@ -132,6 +133,11 @@ internal class CvmQueue
 
     #region CVM.22
 
+    /// <summary>
+    /// SetCardholderVerificationWasNotSuccessful
+    /// </summary>
+    /// <param name="database"></param>
+    /// <exception cref="TerminalDataException"></exception>
     public void SetCardholderVerificationWasNotSuccessful(KernelDatabase database)
     {
         database.Set(TerminalVerificationResultCodes.CardholderVerificationWasNotSuccessful);
@@ -141,6 +147,13 @@ internal class CvmQueue
 
     #region CVM.24
 
+    /// <summary>
+    /// SetCvmProcessedToFailedCvm
+    /// </summary>
+    /// <param name="database"></param>
+    /// <param name="cvmCode"></param>
+    /// <param name="cvmConditionCode"></param>
+    /// <exception cref="TerminalDataException"></exception>
     public void SetCvmProcessedToFailedCvm(KernelDatabase database, CvmCode cvmCode, CvmConditionCode cvmConditionCode)
     {
         CvmResults cvmResults = new(cvmCode, cvmConditionCode, CvmResultCodes.Failed);
@@ -151,6 +164,11 @@ internal class CvmQueue
 
     #region CVM.25
 
+    /// <summary>
+    /// SetCvmProcessedToNone
+    /// </summary>
+    /// <param name="database"></param>
+    /// <exception cref="TerminalDataException"></exception>
     public void SetCvmProcessedToNone(KernelDatabase database)
     {
         CvmResults cvmResults = new(CvmCodes.None, new CvmConditionCode(0), CvmResultCodes.Failed);
@@ -197,6 +215,7 @@ internal class CvmQueue
     ///     o The CVM included any form of offline PIN, and neither form of offline PIN was supported
     /// </summary>
     /// <remarks>EMV Book 3 Section 10.5</remarks>
+    /// <exception cref="TerminalDataException"></exception>
     private void SetPinRequiredButNotSupported(KernelDatabase database)
     {
         database.Set(TerminalVerificationResultCodes.PinEntryRequiredAndPinPadNotPresentOrNotWorking);
@@ -206,6 +225,13 @@ internal class CvmQueue
 
     #region CVM.18
 
+    /// <summary>
+    /// HandleSuccessfulSelect
+    /// </summary>
+    /// <param name="database"></param>
+    /// <param name="cvmCode"></param>
+    /// <param name="cvmConditionCode"></param>
+    /// <exception cref="TerminalDataException"></exception>
     public void HandleSuccessfulSelect(KernelDatabase database, CvmCode cvmCode, CvmConditionCode cvmConditionCode)
     {
         database.Update(new CvmResults(_Rules[_Offset].GetCvmCode(), _Rules[_Offset].GetCvmConditionCode(), CvmResultCodes.Unknown));
@@ -234,6 +260,12 @@ internal class CvmQueue
         HandleSuccessfulProprietarySelect(database, cvmCode, cvmConditionCode);
     }
 
+    /// <summary>
+    /// HandleSuccessfulOnlineEncipheredPinSelection
+    /// </summary>
+    /// <param name="database"></param>
+    /// <param name="cvmCode"></param>
+    /// <exception cref="TerminalDataException"></exception>
     private void HandleSuccessfulOnlineEncipheredPinSelection(KernelDatabase database, CvmCode cvmCode)
     {
         CvmResults results = new(cvmCode, new CvmConditionCode(0), CvmResultCodes.Unknown);
@@ -242,6 +274,13 @@ internal class CvmQueue
         database.Update(CvmPerformedOutcome.OnlinePin);
     }
 
+    /// <summary>
+    /// HandleSuccessfulSignatureSelection
+    /// </summary>
+    /// <param name="database"></param>
+    /// <param name="cvmCode"></param>
+    /// <param name="cvmConditionCode"></param>
+    /// <exception cref="TerminalDataException"></exception>
     private void HandleSuccessfulSignatureSelection(KernelDatabase database, CvmCode cvmCode, CvmConditionCode cvmConditionCode)
     {
         CvmResults results = new(cvmCode, cvmConditionCode, CvmResultCodes.Unknown);
@@ -250,6 +289,13 @@ internal class CvmQueue
         database.Update(results);
     }
 
+    /// <summary>
+    /// HandleSuccessfulNoneSelection
+    /// </summary>
+    /// <param name="database"></param>
+    /// <param name="cvmCode"></param>
+    /// <param name="cvmConditionCode"></param>
+    /// <exception cref="TerminalDataException"></exception>
     private void HandleSuccessfulNoneSelection(KernelDatabase database, CvmCode cvmCode, CvmConditionCode cvmConditionCode)
     {
         CvmResults results = new(cvmCode, cvmConditionCode, CvmResultCodes.Successful);
@@ -257,6 +303,13 @@ internal class CvmQueue
         database.Update(results);
     }
 
+    /// <summary>
+    /// HandleSuccessfulProprietarySelect
+    /// </summary>
+    /// <param name="database"></param>
+    /// <param name="cvmCode"></param>
+    /// <param name="cvmConditionCode"></param>
+    /// <exception cref="TerminalDataException"></exception>
     private void HandleSuccessfulProprietarySelect(KernelDatabase database, CvmCode cvmCode, CvmConditionCode cvmConditionCode)
     {
         CvmResults results = new(cvmCode, cvmConditionCode, CvmResultCodes.Unknown);

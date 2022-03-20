@@ -286,6 +286,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     /// <remarks>Book C-2 Section S4.29</remarks>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public void HandleCdol1(CardRiskManagementDataObjectList1 cdol)
     {
         _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, cdol.GetNeededData(_KernelDatabase));
@@ -295,6 +296,14 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     #region S4.31
 
+    /// <summary>
+    /// HandleDataStorageRead
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="rapdu"></param>
+    /// <param name="isRecordSigned"></param>
+    /// <param name="dsdol"></param>
+    /// <exception cref="TerminalDataException"></exception>
     public void HandleDataStorageRead(
         Kernel2Session session,
         ReadRecordResponse rapdu,
@@ -363,6 +372,12 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     #region S4.33
 
+    /// <summary>
+    /// EnqueueDsdolToDataNeeded
+    /// </summary>
+    /// <param name="dsdol"></param>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private void EnqueueDsdolToDataNeeded(DataStorageDataObjectList dsdol)
     {
         _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, dsdol.GetNeededData(_KernelDatabase));

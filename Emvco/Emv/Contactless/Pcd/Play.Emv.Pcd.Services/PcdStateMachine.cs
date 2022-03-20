@@ -42,6 +42,7 @@ internal class PcdStateMachine
     /// </summary>
     /// <param name="request"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="PcdTransmissionException"></exception>
     internal void Handle(ActivatePcdRequest request)
     {
         lock (_PcdSessionLock)
@@ -94,6 +95,7 @@ internal class PcdStateMachine
     /// <param name="correlationId"></param>
     /// <param name="transactionSessionId"></param>
     /// <exception cref="TransmissionError"></exception>
+    /// <exception cref="PcdTransmissionException"></exception>
     private void CloseSessionCardCheck(CorrelationId correlationId, TransactionSessionId transactionSessionId)
     {
         _CardClient.CloseSessionCardCheck();
@@ -106,6 +108,7 @@ internal class PcdStateMachine
     /// <param name="correlationId"></param>
     /// <param name="transactionSessionId"></param>
     /// <exception cref="TransmissionError"></exception>
+    /// <exception cref="PcdTransmissionException"></exception>
     private void CloseSession(CorrelationId correlationId, TransactionSessionId transactionSessionId)
     {
         _CardClient.CloseSession();
@@ -119,6 +122,7 @@ internal class PcdStateMachine
     /// <param name="transactionSessionId"></param>
     /// <param name="abortHandler"></param>
     /// <exception cref="TransmissionError"></exception>
+    /// <exception cref="PcdTransmissionException"></exception>
     private void Abort(CorrelationId correlationId, TransactionSessionId transactionSessionId, Action abortHandler)
     {
         abortHandler.Invoke();
@@ -136,6 +140,7 @@ internal class PcdStateMachine
     /// <param name="cardClient"></param>
     /// <param name="request"></param>
     /// <exception cref="TransmissionError"></exception>
+    /// <exception cref="PcdTransmissionException"></exception>
     public void Handle(CardClient cardClient, dynamic request)
     {
         Task<dynamic> response = cardClient.Transceive(request);

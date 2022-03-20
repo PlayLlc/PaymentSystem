@@ -196,6 +196,7 @@ public class DataExchangeKernelService
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     public void Resolve(GetDataResponse dataResponse)
     {
         lock (_Lock.Requests)

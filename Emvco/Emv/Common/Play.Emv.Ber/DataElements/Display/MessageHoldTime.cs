@@ -37,6 +37,11 @@ public record MessageHoldTime : DataElement<Deciseconds>, IEqualityComparer<Mess
         }
     }
 
+    /// <summary>
+    /// ctor
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="DataElementParsingException"></exception>
     public MessageHoldTime(Milliseconds value) : base(new Deciseconds(value))
     {
         if (_Value < _MinimumValue)

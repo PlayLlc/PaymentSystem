@@ -15,6 +15,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Process(KernelDatabase database)
     {
         if (!IsApplicationCapabilityCheckPossible(database))
@@ -55,6 +56,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool IsTerminalAnAtm(KernelDatabase database)
     {
         AdditionalTerminalCapabilities additionalTerminalCapabilities =
@@ -93,6 +95,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool IsApplicationCompatibleWithTerminalType(KernelDatabase database)
     {
         ApplicationUsageControl applicationUsageControl = (ApplicationUsageControl) database.Get(ApplicationUsageControl.Tag);
@@ -184,6 +187,13 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
 
     #region PRE.15
 
+    /// <summary>
+    /// IsCashTransaction
+    /// </summary>
+    /// <param name="database"></param>
+    /// <returns></returns>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool IsCashTransaction(KernelDatabase database)
     {
         TransactionType transactionType = (TransactionType) database.Get(TransactionType.Tag);
@@ -258,6 +268,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool IsPurchaseTransaction(KernelDatabase database)
     {
         TransactionType transactionType = (TransactionType) database.Get(TransactionType.Tag);

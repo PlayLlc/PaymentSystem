@@ -61,6 +61,7 @@ public class CommonProcessingS3R1 : CommonProcessing
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
     public override KernelState Process(IGetKernelStateId kernelStateId, Kernel2Session session)
     {
         HandleRequestOutOfSync(kernelStateId.GetStateId());

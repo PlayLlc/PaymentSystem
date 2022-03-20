@@ -149,16 +149,32 @@ public abstract record DataObjectList : DataElement<byte[]>
     public virtual CommandTemplate AsCommandTemplate(IQueryTlvDatabase database) => AsDataObjectListResult(database).AsCommandTemplate();
     public virtual CommandTemplate AsCommandTemplate(PrimitiveValue[] values) => AsDataObjectListResult(values).AsCommandTemplate();
 
+    /// <summary>
+    /// Contains
+    /// </summary>
+    /// <param name="tag"></param>
+    /// <returns></returns>
+    /// <exception cref="BerParsingException"></exception>
     public bool Contains(Tag tag)
     {
         return DataObjects.Any(a => a.GetTag() == tag);
     }
 
+    /// <summary>
+    /// GetByteCount
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="BerParsingException"></exception>
     public int GetByteCount()
     {
         return DataObjects.Sum(a => a.GetTagLengthByteCount());
     }
 
+    /// <summary>
+    /// GetCommandTemplateByteCount
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="BerParsingException"></exception>
     public int GetCommandTemplateByteCount()
     {
         return DataObjects.Sum(a => a.GetLengthByteCount());

@@ -34,6 +34,7 @@ public record TagsToWriteAfterGenAc : DataExchangeResponse, IEqualityComparer<Ta
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     private static IEnumerable<PrimitiveValue> ResolveTagsToWrite(ReadOnlySpan<byte> value)
     {
         TagLengthValue[] tlv = _Codec.DecodeTagLengthValues(value).Where(a => _KnownPutDataTags.Any(b => b == a.GetTag())).ToArray();

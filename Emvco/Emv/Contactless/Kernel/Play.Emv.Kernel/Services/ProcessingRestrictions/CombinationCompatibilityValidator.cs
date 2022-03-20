@@ -25,6 +25,7 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public static void CheckVersionNumber(KernelDatabase database)
     {
         if (!database.IsPresentAndNotEmpty(ApplicationVersionNumberCard.Tag))
@@ -48,6 +49,7 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
     /// <remarks>EMV Book C-2 Section PRE.4 - PRE.8 </remarks>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public void HandleApplicationActivationStatus(KernelDatabase database)
     {
         TransactionDate transactionDate = (TransactionDate) database.Get(TransactionDate.Tag);
@@ -58,6 +60,7 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
 
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public static void HandleApplicationNotYetActive(KernelDatabase database, TransactionDate transactionDate)
     {
         ApplicationEffectiveDate applicationEffectiveDate = (ApplicationEffectiveDate) database.Get(ApplicationEffectiveDate.Tag);
@@ -68,6 +71,7 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
 
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public static void HandleExpiredApplication(KernelDatabase database, TransactionDate transactionDate)
     {
         ApplicationExpirationDate applicationExpirationDate = (ApplicationExpirationDate) database.Get(ApplicationExpirationDate.Tag);

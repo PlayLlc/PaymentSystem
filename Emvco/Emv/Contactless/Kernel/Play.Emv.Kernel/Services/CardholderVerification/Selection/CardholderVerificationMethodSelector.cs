@@ -16,6 +16,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public void Process(KernelDatabase database)
     {
         ApplicationInterchangeProfile applicationInterchangeProfile =
@@ -51,6 +52,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private NumericCurrencyCode GetCurrencyCode(KernelDatabase database)
     {
         TransactionCurrencyCode transactionCurrencyCode = (TransactionCurrencyCode) database.Get(TransactionCurrencyCode.Tag);
@@ -155,6 +157,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public static bool IsCvmListEmpty(KernelDatabase database, out CvmList? cvmList)
     {
         if (!database.IsPresentAndNotEmpty(CvmList.Tag))

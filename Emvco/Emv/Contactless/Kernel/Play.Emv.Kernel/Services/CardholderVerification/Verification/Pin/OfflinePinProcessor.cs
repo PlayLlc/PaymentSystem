@@ -46,6 +46,12 @@ internal class OfflinePinProcessor : IVerifyCardholderPinOffline
         the terminal shall set the ‘PIN Try Limit exceeded’ bit in the TVR to 1.
      */
 
+    /// <summary>
+    /// Process
+    /// </summary>
+    /// <param name="database"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     public CvmCode Process(KernelDatabase database)
     {
         try

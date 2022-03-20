@@ -122,6 +122,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <param name="terminalVerificationResult"></param>
     /// <param name="flag"></param>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Emv.Ber.Exceptions.DataElementParsingException"></exception>
     private void ProcessOnlineActionCodes(TerminalVerificationResults terminalVerificationResult, ref ActionFlag flag)
     {
         if (_TerminalType.GetCommunicationType() == TerminalType.CommunicationType.OfflineOnly)
@@ -157,6 +158,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     ///     terminal is for any reason unable to process the transaction online
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Emv.Ber.Exceptions.DataElementParsingException"></exception>
     private void ProcessDefaultActionCodes(
         TerminalVerificationResults terminalVerificationResult,
         OutcomeParameterSet outcomeParameterSet,

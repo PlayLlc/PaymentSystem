@@ -16,6 +16,10 @@ public class DataObjectListResultTests
 {
     #region Instance Members
 
+    /// <summary>
+    /// BerEncodingTagLengths_Deserializing_CreatesDataObjectList
+    /// </summary>
+    /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void BerEncodingTagLengths_Deserializing_CreatesDataObjectList()
     {

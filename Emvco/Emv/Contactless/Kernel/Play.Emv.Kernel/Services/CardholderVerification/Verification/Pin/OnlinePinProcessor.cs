@@ -17,6 +17,12 @@ internal class OnlinePinProcessor : IVerifyCardholderPinOnline
        shall consider this CVM unsuccessful and shall continue cardholder 
        verification processing in accordance with the card’s CVM List.
     */
+    /// <summary>
+    /// Process
+    /// </summary>
+    /// <param name="database"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     public CvmCode Process(KernelDatabase database)
     {
         try
