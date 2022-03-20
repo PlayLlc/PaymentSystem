@@ -1,6 +1,4 @@
-﻿using Play.Ber.DataObjects;
-using Play.Ber.Identifiers;
-using Play.Emv.Ber;
+﻿using Play.Emv.Ber;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.DataExchange;
 using Play.Emv.Exceptions;

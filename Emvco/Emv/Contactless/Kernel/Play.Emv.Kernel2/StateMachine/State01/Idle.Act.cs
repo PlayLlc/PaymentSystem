@@ -97,7 +97,7 @@ public partial class Idle : KernelState
         {
             if (result!.IsSupportForFieldOffDetectionSet())
             {
-                byte holdTime = _KernelDatabase.Get(MessageHoldTime.Tag).EncodeValue()[0];
+                byte holdTime = ((MessageHoldTime) _KernelDatabase.Get(MessageHoldTime.Tag)).EncodeValue()[0];
                 _KernelDatabase.Update(new FieldOffRequestOutcome(holdTime));
             }
         }
@@ -449,10 +449,9 @@ public partial class Idle : KernelState
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     private void SetIntegratedDataStorageReadStatus()
     {
-        if (_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out TagLengthValue? integratedDataStorageStatusTlv))
+        if (_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out PrimitiveValue? integratedDataStorageStatusTlv))
         {
-            IntegratedDataStorageStatus integratedDataStorageStatus =
-                IntegratedDataStorageStatus.Decode(integratedDataStorageStatusTlv!.GetValue().AsSpan());
+            IntegratedDataStorageStatus integratedDataStorageStatus = (IntegratedDataStorageStatus) integratedDataStorageStatusTlv!;
             _KernelDatabase.Update(integratedDataStorageStatus.SetRead(true));
         }
     }

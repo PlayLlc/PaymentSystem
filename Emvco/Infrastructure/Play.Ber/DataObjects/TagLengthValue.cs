@@ -39,7 +39,6 @@ public class TagLengthValue : IEncodeBerDataObjects, IEquatable<TagLengthValue>,
     public ushort GetValueByteCount() => checked((ushort) _ContentOctets.Length);
     public Length GetLength() => new((ushort) _ContentOctets.Length);
     public Tag GetTag() => _Tag;
-    public byte[] GetValue() => _ContentOctets.ToArray();
     public uint GetTagLengthValueByteCount(BerCodec codec) => GetTagLengthValueByteCount();
     public ushort GetValueByteCount(BerCodec codec) => GetValueByteCount();
     public TagLengthValue AsTagLengthValue(BerCodec codec) => this;

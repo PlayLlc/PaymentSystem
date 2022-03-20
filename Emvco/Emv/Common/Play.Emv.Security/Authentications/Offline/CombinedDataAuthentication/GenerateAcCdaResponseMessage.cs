@@ -7,8 +7,6 @@ using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
-using Play.Emv.Security.Checksum;
-using Play.Emv.Security.Cryptograms;
 
 namespace Play.Emv.Security.Authentications.Offline.CombinedDataAuthentication;
 

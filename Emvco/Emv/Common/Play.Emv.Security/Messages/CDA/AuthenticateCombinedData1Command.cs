@@ -6,7 +6,6 @@ using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Security.Authentications.Offline.CombinedDataAuthentication;
 using Play.Emv.Security.Certificates.Icc;
-using Play.Emv.Security.Cryptograms;
 
 namespace Play.Emv.Security.Messages.CDA;
 
@@ -53,14 +52,14 @@ public class AuthenticateCombinedData1Command
     {
         List<byte> buffer = new();
 
-        TagLengthValue[]? pdolResult = _ProcessingOptionsDataObjectListResult.AsPrimitiveValues();
-        TagLengthValue[]? cdolResult = _CardRiskManagementDataObjectList1Result.AsPrimitiveValues();
+        PrimitiveValue[]? pdolResult = _ProcessingOptionsDataObjectListResult.AsPrimitiveValues();
+        PrimitiveValue[]? cdolResult = _CardRiskManagementDataObjectList1Result.AsPrimitiveValues();
 
         for (int i = 0; i < pdolResult.Length; i++)
-            buffer.AddRange(pdolResult[i].GetValue());
+            buffer.AddRange(pdolResult[i].EncodeValue(EmvCodec.GetBerCodec()));
 
         for (int i = 0; i < cdolResult.Length; i++)
-            buffer.AddRange(cdolResult[i].GetValue());
+            buffer.AddRange(cdolResult[i].EncodeValue(EmvCodec.GetBerCodec()));
 
         buffer.AddRange(_GenerateAcCdaResponseMessage.GetTransactionDataHashData(codec));
 

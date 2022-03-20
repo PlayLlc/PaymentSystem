@@ -110,7 +110,7 @@ public partial class WaitingForPdolData : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private bool IsPdolDataMissing(Kernel2Session session, out ProcessingOptionsDataObjectList pdol)
     {
-        pdol = ProcessingOptionsDataObjectList.Decode(_KernelDatabase.Get(ProcessingOptionsDataObjectList.Tag).EncodeValue().AsSpan());
+        pdol = (ProcessingOptionsDataObjectList) _KernelDatabase.Get(ProcessingOptionsDataObjectList.Tag);
 
         if (!pdol!.IsRequestedDataAvailable(_KernelDatabase))
             return false;

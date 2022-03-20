@@ -6,8 +6,6 @@ using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Icc;
-using Play.Emv.Security.Checksum;
-using Play.Emv.Security.Cryptograms;
 
 namespace Play.Emv.Security.Authentications.Offline.CombinedDataAuthentication;
 

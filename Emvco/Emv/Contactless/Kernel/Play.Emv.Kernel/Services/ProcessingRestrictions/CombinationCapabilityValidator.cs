@@ -26,10 +26,9 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
         if (!IsAdditionalCompatibilityCheckingPossible(database))
             return;
 
-        ApplicationUsageControl applicationUsageControl =
-            ApplicationUsageControl.Decode(database.Get(ApplicationUsageControl.Tag).EncodeValue().AsSpan());
-        TerminalCountryCode terminalCountryCode = TerminalCountryCode.Decode(database.Get(TerminalCountryCode.Tag).EncodeValue().AsSpan());
-        IssuerCountryCode issuerCountryCode = IssuerCountryCode.Decode(database.Get(IssuerCountryCode.Tag).EncodeValue().AsSpan());
+        ApplicationUsageControl applicationUsageControl = (ApplicationUsageControl) database.Get(ApplicationUsageControl.Tag);
+        TerminalCountryCode terminalCountryCode = (TerminalCountryCode) database.Get(TerminalCountryCode.Tag);
+        IssuerCountryCode issuerCountryCode = (IssuerCountryCode) database.Get(IssuerCountryCode.Tag);
 
         InitializeCashTransactionCompatibilityFlags(applicationUsageControl, terminalCountryCode, issuerCountryCode, database);
 
@@ -59,12 +58,12 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     private bool IsTerminalAnAtm(KernelDatabase database)
     {
         AdditionalTerminalCapabilities additionalTerminalCapabilities =
-            AdditionalTerminalCapabilities.Decode(database.Get(AdditionalTerminalCapabilities.Tag).EncodeValue().AsSpan());
+            (AdditionalTerminalCapabilities) database.Get(AdditionalTerminalCapabilities.Tag);
 
         if (!additionalTerminalCapabilities.Cash())
             return false;
 
-        TerminalType terminalType = TerminalType.Decode(database.Get(TerminalType.Tag).EncodeValue().AsSpan());
+        TerminalType terminalType = (TerminalType) database.Get(TerminalType.Tag);
 
         TerminalType onlineAtm = new(TerminalType.EnvironmentType.Unattended, TerminalType.CommunicationType.OnlineOnly,
                                      TerminalType.TerminalOperatorType.FinancialInstitution);
@@ -96,8 +95,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
     private bool IsApplicationCompatibleWithTerminalType(KernelDatabase database)
     {
-        ApplicationUsageControl applicationUsageControl =
-            ApplicationUsageControl.Decode(database.Get(ApplicationUsageControl.Tag).EncodeValue().AsSpan());
+        ApplicationUsageControl applicationUsageControl = (ApplicationUsageControl) database.Get(ApplicationUsageControl.Tag);
 
         if (IsTerminalAnAtm(database))
             return IsCompatibleWithAtmTerminals(database, applicationUsageControl);
@@ -188,7 +186,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
 
     private bool IsCashTransaction(KernelDatabase database)
     {
-        TransactionType transactionType = TransactionType.Decode(database.Get(TransactionType.Tag).EncodeValue().AsSpan());
+        TransactionType transactionType = (TransactionType) database.Get(TransactionType.Tag);
 
         if (transactionType == TransactionTypes.CashAdvance)
             return true;

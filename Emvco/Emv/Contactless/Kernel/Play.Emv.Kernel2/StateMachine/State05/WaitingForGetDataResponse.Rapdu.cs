@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 using Play.Ber.DataObjects;
@@ -10,7 +9,6 @@ using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
-using Play.Emv.Icc;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
@@ -19,7 +17,6 @@ using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
 using Play.Icc.FileSystem.ElementaryFiles;
-using Play.Icc.Messaging.Apdu;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
@@ -39,7 +36,7 @@ public partial class WaitingForGetDataResponse : KernelState
         if (TryHandleL1Error(session, signal))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        PersistGetDataResponse(signal);
+        PersistGetDataResponse((GetDataResponse) signal);
 
         if (!TryHandleGetDataToBeDone(session.GetTransactionSessionId()))
             HandleRemainingApplicationFilesToRead(session);
@@ -137,17 +134,17 @@ public partial class WaitingForGetDataResponse : KernelState
         catch (BerParsingException)
         {
             // TODO: Logging
-            HandleBerParsingException(signal, _DataExchangeKernelService, _KernelDatabase);
+            HandleBerParsingException(_DataExchangeKernelService, _KernelDatabase);
         }
         catch (CodecParsingException)
         {
             // TODO: Logging
-            HandleBerParsingException(signal, _DataExchangeKernelService, _KernelDatabase);
+            HandleBerParsingException(_DataExchangeKernelService, _KernelDatabase);
         }
         catch (Exception)
         {
             // TODO: Logging
-            HandleBerParsingException(signal, _DataExchangeKernelService, _KernelDatabase);
+            HandleBerParsingException(_DataExchangeKernelService, _KernelDatabase);
         }
     }
 

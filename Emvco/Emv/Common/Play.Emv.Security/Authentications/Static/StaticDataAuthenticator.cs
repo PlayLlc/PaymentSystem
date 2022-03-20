@@ -4,7 +4,6 @@ using Play.Ber.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
-using Play.Emv.Icc;
 using Play.Emv.Security.Authentications.Static.Signed;
 using Play.Emv.Security.Certificates;
 using Play.Emv.Security.Certificates.Issuer;

@@ -6,7 +6,6 @@ using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.Templates;
-using Play.Emv.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;
 using Play.Messaging;
@@ -91,11 +90,11 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
         TagLengthValue[] a = ResponseMessageTemplate.DecodeData(rapdu);
 
         CryptogramInformationData cryptogramInformationData =
-            CryptogramInformationData.Decode(a.First(a => a.GetTag() == CryptogramInformationData.Tag).GetValue().AsSpan());
+            CryptogramInformationData.Decode(a.First(a => a.GetTag() == CryptogramInformationData.Tag).EncodeValue().AsSpan());
         ApplicationTransactionCounter applicationTransactionCounter =
-            ApplicationTransactionCounter.Decode(a.First(a => a.GetTag() == ApplicationTransactionCounter.Tag).GetValue().AsSpan());
+            ApplicationTransactionCounter.Decode(a.First(a => a.GetTag() == ApplicationTransactionCounter.Tag).EncodeValue().AsSpan());
         ApplicationCryptogram applicationCryptogram =
-            ApplicationCryptogram.Decode(a.First(a => a.GetTag() == ApplicationCryptogram.Tag).GetValue().AsSpan());
+            ApplicationCryptogram.Decode(a.First(a => a.GetTag() == ApplicationCryptogram.Tag).EncodeValue().AsSpan());
 
         if (!a.Any(a => a.GetTag() == IssuerApplicationData.Tag))
         {
@@ -104,7 +103,7 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
         }
 
         IssuerApplicationData issuerApplicationData =
-            IssuerApplicationData.Decode(a.First(a => a.GetTag() == IssuerApplicationData.Tag).GetValue().AsSpan());
+            IssuerApplicationData.Decode(a.First(a => a.GetTag() == IssuerApplicationData.Tag).EncodeValue().AsSpan());
 
         return new GenerateApplicationCryptogramResponseMetadata(cryptogramInformationData, applicationTransactionCounter,
                                                                  applicationCryptogram, issuerApplicationData);

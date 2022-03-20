@@ -1,7 +1,5 @@
-﻿using Play.Emv.Ber;
-using Play.Emv.Ber.DataElements;
+﻿using Play.Emv.Ber.DataElements;
 using Play.Emv.Security.Certificates.Icc;
-using Play.Emv.Security.Cryptograms;
 using Play.Encryption.Certificates;
 
 namespace Play.Emv.Security.Messages.DDA;

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Buffers;
 using System.Collections.Generic;
-
-using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Ber.Codecs;
 using Play.Ber.Exceptions;

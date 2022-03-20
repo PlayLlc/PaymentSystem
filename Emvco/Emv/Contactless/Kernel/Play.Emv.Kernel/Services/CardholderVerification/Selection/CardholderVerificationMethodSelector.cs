@@ -19,11 +19,12 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     public void Process(KernelDatabase database)
     {
         ApplicationInterchangeProfile applicationInterchangeProfile =
-            ApplicationInterchangeProfile.Decode(database.Get(ApplicationInterchangeProfile.Tag).EncodeValue().AsSpan());
-        AmountAuthorizedNumeric amountAuthorizedNumeric =
-            AmountAuthorizedNumeric.Decode(database.Get(AmountAuthorizedNumeric.Tag).EncodeValue().AsSpan());
-        ReaderCvmRequiredLimit readerCvmRequiredLimit =
-            ReaderCvmRequiredLimit.Decode(database.Get(ReaderCvmRequiredLimit.Tag).EncodeValue().AsSpan());
+            (ApplicationInterchangeProfile) database.Get(ApplicationInterchangeProfile.Tag);
+
+        AmountAuthorizedNumeric amountAuthorizedNumeric = (AmountAuthorizedNumeric) database.Get(AmountAuthorizedNumeric.Tag);
+
+        ReaderCvmRequiredLimit readerCvmRequiredLimit = (ReaderCvmRequiredLimit) database.Get(ReaderCvmRequiredLimit.Tag);
+
         NumericCurrencyCode currencyCode = GetCurrencyCode(database);
 
         if (IsOfflineVerificationSupported(applicationInterchangeProfile, database))
@@ -52,16 +53,15 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     /// <exception cref="TerminalDataException"></exception>
     private NumericCurrencyCode GetCurrencyCode(KernelDatabase database)
     {
-        TransactionCurrencyCode transactionCurrencyCode =
-            TransactionCurrencyCode.Decode(database.Get(TransactionCurrencyCode.Tag).EncodeValue().AsSpan());
-        ApplicationCurrencyCode applicationCurrencyCode =
-            ApplicationCurrencyCode.Decode(database.Get(ApplicationCurrencyCode.Tag).EncodeValue().AsSpan());
+        TransactionCurrencyCode transactionCurrencyCode = (TransactionCurrencyCode) database.Get(TransactionCurrencyCode.Tag);
+
+        ApplicationCurrencyCode applicationCurrencyCode = (ApplicationCurrencyCode) database.Get(ApplicationCurrencyCode.Tag);
 
         if ((NumericCurrencyCode) transactionCurrencyCode == (NumericCurrencyCode) applicationCurrencyCode)
             return (NumericCurrencyCode) transactionCurrencyCode;
 
         TransactionReferenceCurrencyCode transactionReferenceCurrencyCode =
-            TransactionReferenceCurrencyCode.Decode(database.Get(TransactionReferenceCurrencyCode.Tag).EncodeValue().AsSpan());
+            (TransactionReferenceCurrencyCode) database.Get(TransactionReferenceCurrencyCode.Tag);
 
         return (NumericCurrencyCode) transactionReferenceCurrencyCode;
     }
@@ -164,7 +164,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
             return true;
         }
 
-        cvmList = CvmList.Decode(database.Get(CvmList.Tag).EncodeValue().AsSpan());
+        cvmList = (CvmList) database.Get(CvmList.Tag);
 
         if (!cvmList.AreCardholderVerificationRulesPresent())
             return true;

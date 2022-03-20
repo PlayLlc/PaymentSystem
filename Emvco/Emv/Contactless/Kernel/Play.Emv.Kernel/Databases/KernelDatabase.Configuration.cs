@@ -3,7 +3,6 @@
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
-using Play.Emv.Exceptions;
 
 namespace Play.Emv.Kernel.Databases;
 
@@ -14,12 +13,11 @@ public abstract partial class KernelDatabase
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    private TerminalCapabilities GetTerminalCapabilities() =>
-        TerminalCapabilities.Decode(Get(TerminalCapabilities.Tag).EncodeValue().AsSpan());
+    private TerminalCapabilities GetTerminalCapabilities() => (TerminalCapabilities) Get(TerminalCapabilities.Tag);
 
-    private TransactionType GetTransactionType() => TransactionType.Decode(Get(TransactionType.Tag).EncodeValue().AsSpan());
-    private TerminalType GetTerminalType() => TerminalType.Decode(Get(TerminalType.Tag).EncodeValue().AsSpan());
-    private PosEntryMode GetPosEntryMode() => PosEntryMode.Decode(Get(PosEntryMode.Tag).EncodeValue().AsSpan());
+    private TransactionType GetTransactionType() => (TransactionType) Get(TransactionType.Tag);
+    private TerminalType GetTerminalType() => (TerminalType) Get(TerminalType.Tag);
+    private PosEntryMode GetPosEntryMode() => (PosEntryMode) Get(PosEntryMode.Tag);
     public bool IsCardCaptureSupported() => GetTerminalCapabilities().IsCardCaptureSupported();
     public bool IsCombinedDataAuthenticationSupported() => GetTerminalCapabilities().IsCombinedDataAuthenticationSupported();
     public bool IsDynamicDataAuthenticationSupported() => GetTerminalCapabilities().IsDynamicDataAuthenticationSupported();
@@ -33,10 +31,7 @@ public abstract partial class KernelDatabase
     public bool IsIcWithContactsSupported() => GetTerminalCapabilities().IsIcWithContactsSupported();
     public bool IsMagneticStripeSupported() => GetTerminalCapabilities().IsMagneticStripeSupported();
     public bool IsManualKeyEntrySupported() => GetTerminalCapabilities().IsManualKeyEntrySupported();
-
-    public bool IsNoCardVerificationMethodRequiredSupported() =>
-        GetTerminalCapabilities().IsNoCardVerificationMethodRequiredSupported();
-
+    public bool IsNoCardVerificationMethodRequiredSupported() => GetTerminalCapabilities().IsNoCardVerificationMethodRequiredSupported();
     public bool IsPlaintextPinForIccVerificationSupported() => GetTerminalCapabilities().IsCardCaptureSupported();
     public bool IsSignaturePaperSupported() => GetTerminalCapabilities().IsSignaturePaperSupported();
     public bool IsStaticDataAuthenticationSupported() => GetTerminalCapabilities().IsStaticDataAuthenticationSupported();
@@ -61,7 +56,7 @@ public abstract partial class KernelDatabase
     /// <exception cref="TerminalDataException"></exception>
     public bool IsTornTransactionRecoverySupported() =>
         IsPresentAndNotEmpty(MaxNumberOfTornTransactionLogRecords.Tag)
-        && (Get(MaxNumberOfTornTransactionLogRecords.Tag).GetValueByteCount() > 0);
+        && (((MaxNumberOfTornTransactionLogRecords) Get(MaxNumberOfTornTransactionLogRecords.Tag)).GetValueByteCount() > 0);
 
     /// <summary>
     ///     Indicates if this payment system supports Integrated Data Storage and Torn Transaction Recovery

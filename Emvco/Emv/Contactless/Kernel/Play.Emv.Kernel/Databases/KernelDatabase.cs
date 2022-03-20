@@ -4,10 +4,8 @@ using Play.Ber.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
-using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases.Certificates;
-using Play.Emv.Kernel.Databases.Tlv;
 using Play.Emv.Terminal.Contracts;
 
 namespace Play.Emv.Kernel.Databases;

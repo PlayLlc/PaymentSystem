@@ -393,7 +393,7 @@ public class CombinationSelector
         FileControlInformationPpse fileControlInformationTemplatePpse)
     {
         CommandTemplate? commandTemplate =
-            fileControlInformationTemplatePpse.AsCommandTemplate(_Codec, _PoiInformation, Array.Empty<TagLengthValue>());
+            fileControlInformationTemplatePpse.AsCommandTemplate(_Codec, _PoiInformation, Array.Empty<PrimitiveValue>());
 
         _PcdEndpoint.Request(SendPoiInformationRequest.Create(transactionSessionId, commandTemplate));
     }

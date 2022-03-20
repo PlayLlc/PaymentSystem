@@ -11,7 +11,7 @@ namespace Play.Emv.Ber.DataElements;
 ///     A copy of a record from the Torn Transaction Log that is expired.Torn Record is sent to the
 ///     Terminal as part of the Discretionary Data.
 /// </summary>
-public record TornRecord : DataElement<BigInteger>, IEqualityComparer<TornRecord>
+public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
 {
     #region Static Metadata
 
@@ -22,7 +22,7 @@ public record TornRecord : DataElement<BigInteger>, IEqualityComparer<TornRecord
 
     #region Constructor
 
-    public TornRecord(BigInteger value) : base(value)
+    public TornRecord(params PrimitiveValue[] value) : base(value)
     { }
 
     #endregion
@@ -37,14 +37,14 @@ public record TornRecord : DataElement<BigInteger>, IEqualityComparer<TornRecord
 
     #region Serialization
 
-    /// <exception cref="BerParsingException"></exception>
-    public static TornRecord Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public override DiscretionaryData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
-    public override TornRecord Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static TornRecord Decode(ReadOnlySpan<byte> value) => new(PlayCodec.BinaryCodec.DecodeToBigInteger(value));
+    public static DiscretionaryData Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodePrimitiveValuesAtRuntime(value).ToArray());
+
+    /// <exception cref="BerParsingException"></exception>
+    public static DiscretionaryData Decode(ReadOnlySpan<byte> value) =>
+        new(_Codec.DecodePrimitiveValuesAtRuntime(value.ToArray().AsMemory()).ToArray());
 
     #endregion
 

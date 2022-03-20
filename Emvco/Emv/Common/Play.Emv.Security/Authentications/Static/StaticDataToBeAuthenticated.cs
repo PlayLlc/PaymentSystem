@@ -13,6 +13,12 @@ namespace Play.Emv.Security.Authentications.Static;
 
 public class StaticDataToBeAuthenticated
 {
+    #region Static Metadata
+
+    private static readonly EmvCodec _Codec = EmvCodec.GetBerCodec();
+
+    #endregion
+
     #region Instance Values
 
     private readonly List<byte> _Value = new();
@@ -91,9 +97,9 @@ public class StaticDataToBeAuthenticated
                 CryptographicAuthenticationMethodFailedException($"Static Data Authentication has failed because {nameof(StaticDataAuthenticationTagList)} contained an unexpected {nameof(Tag)}. Only {ApplicationInterchangeProfile.Tag} should be provided but the {nameof(Tag)} value: [{requiredTags[0]}] was present");
         }
 
-        TagLengthValue aip = database.Get(ApplicationInterchangeProfile.Tag);
+        PrimitiveValue aip = database.Get(ApplicationInterchangeProfile.Tag);
 
-        _Value.AddRange(aip.EncodeValue());
+        _Value.AddRange(aip.EncodeValue(_Codec));
     }
 
     public byte[] Encode() => _Value.ToArray();

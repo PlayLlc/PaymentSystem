@@ -37,12 +37,10 @@ public class DataExchangeKernelService
     public DataExchangeKernelService(
         IHandleTerminalRequests terminalEndpoint,
         KernelDatabase kernelDatabase,
-        ISendTerminalQueryResponse kernelEndpoint,
-        IResolveKnownObjectsAtRuntime runtimePrimitiveCodec)
+        ISendTerminalQueryResponse kernelEndpoint)
     {
         _TerminalEndpoint = terminalEndpoint;
         _KernelEndpoint = kernelEndpoint;
-        _RuntimePrimitiveCodec = runtimePrimitiveCodec;
         _TlvDatabase = kernelDatabase;
     }
 
@@ -90,6 +88,7 @@ public class DataExchangeKernelService
     #region Requests
 
     #region Query Terminal
+
     public void SendRequest(KernelSessionId sessionId)
     {
         lock (_Lock)
@@ -105,11 +104,10 @@ public class DataExchangeKernelService
         }
     }
 
-
     #endregion
 
     #region Read
-    
+
     /// <exception cref="InvalidOperationException"></exception>
     public bool IsEmpty(DekRequestType type)
     {
@@ -145,8 +143,8 @@ public class DataExchangeKernelService
             return _Lock.Requests[type].TryPeek(out result);
         }
     }
-    #endregion
 
+    #endregion
 
     #region Resolve
 
@@ -161,15 +159,13 @@ public class DataExchangeKernelService
                 throw new
                     InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
             }
-             
-            ((TagsToRead) _Lock.Requests[DekRequestType.TagsToRead]).Resolve(valuesToResolve); 
-             
-           
+
+            ((TagsToRead) _Lock.Requests[DekRequestType.TagsToRead]).Resolve(valuesToResolve);
         }
     }
 
     /// <summary>
-    /// Resolves known objects in Data Needed Yet from the TLV Database
+    ///     Resolves known objects in Data Needed Yet from the TLV Database
     /// </summary>
     /// <param name="valuesToResolve"></param>
     /// <exception cref="InvalidOperationException"></exception>
@@ -197,7 +193,6 @@ public class DataExchangeKernelService
             }
         }
     }
-     
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
@@ -210,9 +205,9 @@ public class DataExchangeKernelService
                 throw new
                     InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
             }
-             
 
-            ((TagsToRead) _Lock.Requests[DekRequestType.TagsToRead]).Resolve(dataResponse());
+            if (dataResponse.TryGetPrimitiveValue(out PrimitiveValue? result))
+                ((TagsToRead) _Lock.Requests[DekRequestType.TagsToRead]).Resolve(result!);
         }
     }
 
@@ -252,10 +247,7 @@ public class DataExchangeKernelService
 
     #endregion
 
-  
-
     #region Initialize
-    
 
     // TODO: We might only be initializing DataNeeded here
     public void Initialize(DataExchangeRequest list)
@@ -279,6 +271,7 @@ public class DataExchangeKernelService
             _ = _Lock.Requests.TryAdd(listType, DekRequestType.GetDefault(listType));
         }
     }
+
     #endregion
 
     #region Enqueue
@@ -324,8 +317,6 @@ public class DataExchangeKernelService
     }
 
     #endregion
-
-   
 
     #endregion
 

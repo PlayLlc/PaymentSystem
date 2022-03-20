@@ -2,7 +2,6 @@
 using Play.Emv.Security.Authentications.Static;
 using Play.Emv.Security.Authentications.Static.Signed;
 using Play.Emv.Security.Certificates;
-using Play.Emv.Security.Certificates.Issuer;
 
 namespace Play.Emv.Security.Messages.Static;
 

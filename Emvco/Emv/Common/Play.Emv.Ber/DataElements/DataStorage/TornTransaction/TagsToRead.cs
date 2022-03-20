@@ -65,7 +65,7 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<PrimitiveValue
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="DataElementParsingException"></exception>
-    public void Resolve(TagLengthValue value)
+    public void Resolve(PrimitiveValue value)
     {
         if (!TryPeek(out Tag firstTag))
             throw new DataElementParsingException($"The {nameof(TagsToRead)} could not dequeue a value from memory");

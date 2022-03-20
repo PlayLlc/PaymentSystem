@@ -28,16 +28,14 @@ internal record AmountInApplicationCurrencyAndUnderXValueCondition : CvmConditio
 
     protected override bool IsConditionSatisfied(KernelDatabase database, Money xAmount, Money yAmount)
     {
-        ApplicationCurrencyCode applicationCurrencyCode =
-            ApplicationCurrencyCode.Decode(database.Get(ApplicationCurrencyCode.Tag).EncodeValue().AsSpan());
-        TransactionCurrencyCode transactionCurrencyCode =
-            TransactionCurrencyCode.Decode(database.Get(TransactionCurrencyCode.Tag).EncodeValue().AsSpan());
+        ApplicationCurrencyCode applicationCurrencyCode = (ApplicationCurrencyCode) database.Get(ApplicationCurrencyCode.Tag);
+
+        TransactionCurrencyCode transactionCurrencyCode = (TransactionCurrencyCode) database.Get(TransactionCurrencyCode.Tag);
 
         if ((NumericCurrencyCode) applicationCurrencyCode != (NumericCurrencyCode) transactionCurrencyCode)
             return false;
 
-        AmountAuthorizedNumeric transactionAmount =
-            AmountAuthorizedNumeric.Decode(database.Get(AmountAuthorizedNumeric.Tag).EncodeValue().AsSpan());
+        AmountAuthorizedNumeric transactionAmount = (AmountAuthorizedNumeric) database.Get(AmountAuthorizedNumeric.Tag);
 
         return transactionAmount.AsMoney((NumericCurrencyCode) applicationCurrencyCode) < xAmount;
     }

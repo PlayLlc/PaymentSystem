@@ -6,7 +6,6 @@ using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
-using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.Services.Selection.CvmConditions;
 using Play.Globalization.Currency;
@@ -58,8 +57,7 @@ internal class CvmQueue
         if (_Rules.Count < (_Offset - 1))
             return false;
 
-        TerminalCapabilities terminalCapabilities =
-            TerminalCapabilities.Decode(database.Get(TerminalCapabilities.Tag).EncodeValue().AsSpan());
+        TerminalCapabilities terminalCapabilities = (TerminalCapabilities) database.Get(TerminalCapabilities.Tag);
 
         for (; _Offset < _Rules.Count; _Offset++)
         {

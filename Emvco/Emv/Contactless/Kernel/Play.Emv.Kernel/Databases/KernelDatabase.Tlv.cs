@@ -3,8 +3,6 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.Exceptions;
-using Play.Emv.Exceptions;
-using Play.Emv.Kernel.Databases.Tlv;
 
 namespace Play.Emv.Kernel.Databases;
 
@@ -39,8 +37,7 @@ public abstract partial class KernelDatabase
     {
         if (!IsActive())
         {
-            throw new
-                TerminalDataException($"The method {nameof(Get)} cannot be accessed because {nameof(KernelDatabase)} is not active");
+            throw new TerminalDataException($"The method {nameof(Get)} cannot be accessed because {nameof(KernelDatabase)} is not active");
         }
 
         return _TlvDatabase.Get(tag);

@@ -4,7 +4,6 @@ using Play.Ber.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
-using Play.Emv.Icc;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
