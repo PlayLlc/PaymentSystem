@@ -29,18 +29,18 @@ public class ProcessingOptionsDataObjectListTestTlv : TestTlv
         0x9F, 0x4E, 0x14 // Merchant Name and Location
     };
 
-    private static readonly Dictionary<Tag, TagLengthValue> _TerminalValues = new()
+    private static readonly Dictionary<Tag, PrimitiveValue> _TerminalValues = new()
     {
-        {0x9F66, new UnknownPrimitiveValue(new TagLength(0x9F66, 0x04)).AsTagLengthValue()},
-        {AmountAuthorizedNumeric.Tag, new AmountAuthorizedNumeric(222).AsTagLengthValue()},
-        {AmountOtherNumeric.Tag, new AmountOtherNumeric(222).AsTagLengthValue()},
-        {TerminalCountryCode.Tag, new TerminalCountryCode(new NumericCountryCode(840)).AsTagLengthValue()},
-        {TerminalVerificationResults.Tag, new TerminalVerificationResults(new TerminalVerificationResult()).AsTagLengthValue()},
-        {TransactionCurrencyCode.Tag, new TransactionCurrencyCode(new NumericCurrencyCode(840)).AsTagLengthValue()},
-        {TransactionDate.Tag, TransactionDate.Decode(new byte[] {0x15, 0x06, 0x17}.AsMemory()).AsTagLengthValue()},
-        {TransactionType.Tag, new TransactionType(TransactionTypes.GoodsAndServicesDebit).AsTagLengthValue()},
-        {UnpredictableNumber.Tag, new UnpredictableNumber(3321).AsTagLengthValue()},
-        {MerchantNameAndLocation.Tag, new MerchantNameAndLocation("Sam Smith, Texas").AsTagLengthValue()}
+        {0x9F66, new UnknownPrimitiveValue(new TagLength(0x9F66, 0x04))},
+        {AmountAuthorizedNumeric.Tag, new AmountAuthorizedNumeric(222)},
+        {AmountOtherNumeric.Tag, new AmountOtherNumeric(222)},
+        {TerminalCountryCode.Tag, new TerminalCountryCode(new NumericCountryCode(840))},
+        {TerminalVerificationResults.Tag, new TerminalVerificationResults(new TerminalVerificationResult())},
+        {TransactionCurrencyCode.Tag, new TransactionCurrencyCode(new NumericCurrencyCode(840))},
+        {TransactionDate.Tag, TransactionDate.Decode(new byte[] {0x15, 0x06, 0x17}.AsMemory())},
+        {TransactionType.Tag, new TransactionType(TransactionTypes.GoodsAndServicesDebit)},
+        {UnpredictableNumber.Tag, new UnpredictableNumber(3321)},
+        {MerchantNameAndLocation.Tag, new MerchantNameAndLocation("Sam Smith, Texas")}
     };
 
     #endregion
@@ -58,7 +58,7 @@ public class ProcessingOptionsDataObjectListTestTlv : TestTlv
     #region Instance Members
 
     public override Tag GetTag() => ProcessingOptionsDataObjectList.Tag;
-    public TagLengthValue[] GetTerminalValues() => _TerminalValues.Values.ToArray();
+    public PrimitiveValue[] GetTerminalValues() => _TerminalValues.Values.ToArray();
 
     public TagLength[] GetRequestedItems()
     {

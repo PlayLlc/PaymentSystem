@@ -89,7 +89,6 @@ public class MerchantNameAndLocationTests
         byte[]? tlvRaw = tlv.EncodeTagLengthValue();
         byte[] testValue = sut.AsTagLengthValue().EncodeTagLengthValue();
         byte[] expectedResult = testData.EncodeTagLengthValue();
-        TagLengthValue? expectedResultTlv = new(testData.GetTag(), testData.EncodeValue());
 
         Assert.Equal(testValue, expectedResult);
     }

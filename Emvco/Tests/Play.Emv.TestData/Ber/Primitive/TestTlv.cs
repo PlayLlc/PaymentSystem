@@ -1,12 +1,16 @@
-﻿using Play.Ber.DataObjects;
+﻿using System.Reflection;
+using System.Runtime.Serialization;
+
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.Ber;
+using Play.Emv.Ber.DataElements;
 
 namespace Play.Emv.TestData.Ber.Primitive;
 
-public abstract class TestTlv
+public abstract class TestTlv : IDecodeDataElement
 {
     #region Instance Values
 
@@ -40,6 +44,9 @@ public abstract class TestTlv
     #endregion
 
     #region Instance Members
+
+    protected static PrimitiveValue GetDefaultPrimitiveValue(Type primitiveValue) =>
+        (PrimitiveValue) FormatterServices.GetUninitializedObject(primitiveValue);
 
     public abstract Tag GetTag();
     protected TagLength GetTagLength() => new(GetTag(), EncodeValue());
@@ -84,6 +91,8 @@ public abstract class TestTlv
     #endregion
 
     #region Serialization
+
+    public PrimitiveValue Decode(TagLengthValue value) => GetDefaultPrimitiveValue(GetType()).Decode(value);
 
     /// <summary>
     ///     EncodeTagLengthValue
