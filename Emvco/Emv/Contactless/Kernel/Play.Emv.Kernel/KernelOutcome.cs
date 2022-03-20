@@ -11,14 +11,14 @@ internal class KernelOutcome
 {
     #region Static Metadata
 
-    private static readonly Tag[] _EmvDiscretionaryData = new Tag[]
+    private static readonly Tag[] _EmvDiscretionaryData =
     {
         ApplicationCapabilitiesInformation.Tag, ApplicationCurrencyCode.Tag, BalanceReadBeforeGenAc.Tag, BalanceReadAfterGenAc.Tag,
         DataStorageSummary3.Tag, DataStorageSummaryStatus.Tag, ErrorIndication.Tag, PostGenAcPutDataStatus.Tag,
         PreGenAcPutDataStatus.Tag, ThirdPartyData.Tag, TornRecord.Tag
     };
 
-    private static readonly Tag[] _MagstripeDiscretionaryData = new Tag[]
+    private static readonly Tag[] _MagstripeDiscretionaryData =
     {
         ApplicationCapabilitiesInformation.Tag, DiscretionaryDataCardTrack1.Tag, DiscretionaryDataCardTrack2.Tag, ErrorIndication.Tag,
         ThirdPartyData.Tag

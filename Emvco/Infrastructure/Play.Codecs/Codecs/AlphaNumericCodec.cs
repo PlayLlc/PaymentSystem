@@ -197,7 +197,7 @@ public class AlphaNumericCodec : PlayCodec
     public override byte[] Encode<T>(T value) where T : struct
     {
         if (typeof(T) == typeof(char))
-            return new byte[] {DecodeToByte(Unsafe.As<T, char>(ref value))};
+            return new[] {DecodeToByte(Unsafe.As<T, char>(ref value))};
 
         throw new CodecParsingException("The code should not reach this point");
     }

@@ -4,8 +4,6 @@ using Play.Emv.Configuration;
 using Play.Globalization;
 using Play.Globalization.Currency;
 
-using PrimaryAccountNumber = Play.Emv.Ber.DataElements.PrimaryAccountNumber;
-
 namespace Play.Emv.Terminal.Contracts.Messages.Commands;
 
 public class TerminalRiskManagementCommand

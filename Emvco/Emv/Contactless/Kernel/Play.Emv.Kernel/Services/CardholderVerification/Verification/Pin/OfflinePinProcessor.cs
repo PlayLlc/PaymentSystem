@@ -47,7 +47,7 @@ internal class OfflinePinProcessor : IVerifyCardholderPinOffline
      */
 
     /// <summary>
-    /// Process
+    ///     Process
     /// </summary>
     /// <param name="database"></param>
     /// <returns></returns>

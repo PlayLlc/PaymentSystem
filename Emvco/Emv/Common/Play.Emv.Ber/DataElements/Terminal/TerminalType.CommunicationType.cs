@@ -95,8 +95,8 @@ public partial record TerminalType
         #region Operator Overrides
 
         public static explicit operator byte(CommunicationType communicationType) => communicationType._Value;
-        
-    /// <exception cref="DataElementParsingException"></exception>
+
+        /// <exception cref="DataElementParsingException"></exception>
         public static explicit operator CommunicationType(byte communicationType)
         {
             if (!TryGet(communicationType, out CommunicationType result))

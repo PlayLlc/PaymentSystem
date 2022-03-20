@@ -27,7 +27,7 @@ internal record AmountInApplicationCurrencyAndUnderYValueCondition : CvmConditio
     public override CvmConditionCode GetConditionCode() => Code;
 
     /// <summary>
-    /// IsConditionSatisfied
+    ///     IsConditionSatisfied
     /// </summary>
     /// <param name="database"></param>
     /// <param name="xAmount"></param>

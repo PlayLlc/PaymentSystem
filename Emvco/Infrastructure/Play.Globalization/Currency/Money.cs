@@ -225,7 +225,7 @@ public record Money : IEqualityComparer<Money>
 
         return new Money(left._Amount * right._Amount, left._Currency);
     }
-    
+
     /// <exception cref="InvalidOperationException" />
     public static Money operator -(Money left, Money right)
     {

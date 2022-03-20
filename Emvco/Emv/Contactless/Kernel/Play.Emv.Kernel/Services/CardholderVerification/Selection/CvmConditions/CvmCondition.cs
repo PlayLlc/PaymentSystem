@@ -53,9 +53,6 @@ internal abstract record CvmCondition
         };
     }
 
-    protected CvmCondition()
-    { }
-
     #endregion
 
     #region Instance Members

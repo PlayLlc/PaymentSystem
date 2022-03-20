@@ -25,7 +25,7 @@ internal class CvmQueue
     private readonly List<CvmRule> _Rules;
     private readonly Money _XAmount;
     private readonly Money _YAmount;
-    private int _Offset = 0;
+    private int _Offset;
 
     #endregion
 
@@ -119,7 +119,7 @@ internal class CvmQueue
     #region CVM.22 - CVM.25
 
     /// <summary>
-    /// HandleInvalidRule
+    ///     HandleInvalidRule
     /// </summary>
     /// <param name="database"></param>
     /// <param name="cvmCode"></param>
@@ -141,7 +141,7 @@ internal class CvmQueue
     #region CVM.22
 
     /// <summary>
-    /// SetCardholderVerificationWasNotSuccessful
+    ///     SetCardholderVerificationWasNotSuccessful
     /// </summary>
     /// <param name="database"></param>
     /// <exception cref="TerminalDataException"></exception>
@@ -155,7 +155,7 @@ internal class CvmQueue
     #region CVM.24
 
     /// <summary>
-    /// SetCvmProcessedToFailedCvm
+    ///     SetCvmProcessedToFailedCvm
     /// </summary>
     /// <param name="database"></param>
     /// <param name="cvmCode"></param>
@@ -172,7 +172,7 @@ internal class CvmQueue
     #region CVM.25
 
     /// <summary>
-    /// SetCvmProcessedToNone
+    ///     SetCvmProcessedToNone
     /// </summary>
     /// <param name="database"></param>
     /// <exception cref="TerminalDataException"></exception>
@@ -233,7 +233,7 @@ internal class CvmQueue
     #region CVM.18
 
     /// <summary>
-    /// HandleSuccessfulSelect
+    ///     HandleSuccessfulSelect
     /// </summary>
     /// <param name="database"></param>
     /// <param name="cvmCode"></param>
@@ -268,7 +268,7 @@ internal class CvmQueue
     }
 
     /// <summary>
-    /// HandleSuccessfulOnlineEncipheredPinSelection
+    ///     HandleSuccessfulOnlineEncipheredPinSelection
     /// </summary>
     /// <param name="database"></param>
     /// <param name="cvmCode"></param>
@@ -282,7 +282,7 @@ internal class CvmQueue
     }
 
     /// <summary>
-    /// HandleSuccessfulSignatureSelection
+    ///     HandleSuccessfulSignatureSelection
     /// </summary>
     /// <param name="database"></param>
     /// <param name="cvmCode"></param>
@@ -297,7 +297,7 @@ internal class CvmQueue
     }
 
     /// <summary>
-    /// HandleSuccessfulNoneSelection
+    ///     HandleSuccessfulNoneSelection
     /// </summary>
     /// <param name="database"></param>
     /// <param name="cvmCode"></param>
@@ -311,7 +311,7 @@ internal class CvmQueue
     }
 
     /// <summary>
-    /// HandleSuccessfulProprietarySelect
+    ///     HandleSuccessfulProprietarySelect
     /// </summary>
     /// <param name="database"></param>
     /// <param name="cvmCode"></param>

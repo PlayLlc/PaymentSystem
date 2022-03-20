@@ -29,8 +29,9 @@ public partial class WaitingForGpoResponse : KernelState
     {
         HandleRequestOutOfSync(session, signal);
 
-        if(signal is not GetProcessingOptionsResponse rapdu)
-            throw new RequestOutOfSyncException($"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
+        if (signal is not GetProcessingOptionsResponse rapdu)
+            throw new
+                RequestOutOfSyncException($"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
 
         if (TryHandleL1Error(session, rapdu))
             return _KernelStateResolver.GetKernelState(StateId);
@@ -46,11 +47,9 @@ public partial class WaitingForGpoResponse : KernelState
 
         Kernel2Session kernel2Session = (Kernel2Session) session;
         ApplicationInterchangeProfile applicationInterchangeProfile =
-            (ApplicationInterchangeProfile) _KernelDatabase.Get(ApplicationInterchangeProfile.Tag); 
-        ApplicationFileLocator applicationFileLocator =
-            (ApplicationFileLocator) _KernelDatabase.Get(ApplicationFileLocator.Tag); 
-        KernelConfiguration kernelConfiguration =
-            (KernelConfiguration) _KernelDatabase.Get(KernelConfiguration.Tag); 
+            (ApplicationInterchangeProfile) _KernelDatabase.Get(ApplicationInterchangeProfile.Tag);
+        ApplicationFileLocator applicationFileLocator = (ApplicationFileLocator) _KernelDatabase.Get(ApplicationFileLocator.Tag);
+        KernelConfiguration kernelConfiguration = (KernelConfiguration) _KernelDatabase.Get(KernelConfiguration.Tag);
 
         if (IsEmvModeSupported(applicationInterchangeProfile))
             return HandleEmvMode(kernel2Session, applicationFileLocator, applicationInterchangeProfile, kernelConfiguration);
@@ -129,7 +128,7 @@ public partial class WaitingForGpoResponse : KernelState
         {
             ProcessingOptions processingOptions = signal.AsProcessingOptions();
             PrimitiveValue[] dataToGet = signal.AsProcessingOptions().GetPrimitiveDescendants();
-            
+
             _KernelDatabase.Update(dataToGet);
             _DataExchangeKernelService.ResolveTagsToReadYet(dataToGet);
 

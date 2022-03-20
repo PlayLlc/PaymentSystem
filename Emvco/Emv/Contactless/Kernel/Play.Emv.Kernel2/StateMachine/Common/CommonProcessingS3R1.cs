@@ -30,7 +30,7 @@ public class CommonProcessingS3R1 : CommonProcessing
     private readonly IGetKernelState _KernelStateResolver;
     private readonly IHandlePcdRequests _PcdEndpoint;
 
-    protected override StateId[] _ValidStateIds { get; } = new StateId[]
+    protected override StateId[] _ValidStateIds { get; } =
     {
         WaitingForGpoResponse.StateId, WaitingForExchangeRelayResistanceDataResponse.StateId
     };

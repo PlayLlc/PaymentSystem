@@ -2,8 +2,6 @@
 using Play.Ber.Codecs;
 using Play.Codecs;
 
-using PlayCodec = Play.Codecs.PlayCodec;
-
 namespace Play.Emv.Ber;
 
 public partial class EmvCodec : BerCodec

@@ -36,9 +36,9 @@ public record BalanceReadAfterGenAc : DataElement<ulong>
 
     #endregion
 
-    #region Serialization 
-    public static BalanceReadAfterGenAc Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    #region Serialization
 
+    public static BalanceReadAfterGenAc Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
     public override BalanceReadAfterGenAc Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>

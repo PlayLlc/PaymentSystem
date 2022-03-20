@@ -2,13 +2,12 @@
 
 using Play.Core.Math;
 using Play.Emv.Ber;
+using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Kernel.Services.SplitPayment;
 using Play.Emv.Logs;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
 using Play.Globalization.Currency;
-
-using PrimaryAccountNumber = Play.Emv.Ber.DataElements.PrimaryAccountNumber;
 
 namespace Play.Emv.Kernel.Services;
 

@@ -48,8 +48,6 @@ public class CardCollisionHandler
             HandleCardCollision(outcome);
         else
             HandleCollisionHasBeenResolved(outcome);
-
-        return;
     }
 
     #endregion

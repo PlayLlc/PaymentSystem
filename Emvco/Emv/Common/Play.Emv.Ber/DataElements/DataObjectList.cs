@@ -150,7 +150,7 @@ public abstract record DataObjectList : DataElement<byte[]>
     public virtual CommandTemplate AsCommandTemplate(PrimitiveValue[] values) => AsDataObjectListResult(values).AsCommandTemplate();
 
     /// <summary>
-    /// Contains
+    ///     Contains
     /// </summary>
     /// <param name="tag"></param>
     /// <returns></returns>
@@ -161,7 +161,7 @@ public abstract record DataObjectList : DataElement<byte[]>
     }
 
     /// <summary>
-    /// GetByteCount
+    ///     GetByteCount
     /// </summary>
     /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
@@ -171,7 +171,7 @@ public abstract record DataObjectList : DataElement<byte[]>
     }
 
     /// <summary>
-    /// GetCommandTemplateByteCount
+    ///     GetCommandTemplateByteCount
     /// </summary>
     /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>

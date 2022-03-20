@@ -14,7 +14,7 @@ public class Kernel2Session : KernelSession
     private OdaStatusTypes _OdaStatusTypes = OdaStatusTypes.NotAvailable;
     private ReaderContactlessTransactionLimit? _TransactionLimit;
     private bool _IsPdolDataMissing = true;
-    private byte _RelayResistanceProtocolCount = 0;
+    private byte _RelayResistanceProtocolCount;
 
     #endregion
 

@@ -16,7 +16,7 @@ internal record ManualCashCondition : CvmCondition
 
     #region Instance Values
 
-    protected override Tag[] _RequiredData => new Tag[] {PosEntryMode.Tag, TransactionType.Tag};
+    protected override Tag[] _RequiredData => new[] {PosEntryMode.Tag, TransactionType.Tag};
 
     #endregion
 

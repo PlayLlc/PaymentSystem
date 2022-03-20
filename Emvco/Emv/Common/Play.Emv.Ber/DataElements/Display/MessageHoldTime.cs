@@ -38,7 +38,7 @@ public record MessageHoldTime : DataElement<Deciseconds>, IEqualityComparer<Mess
     }
 
     /// <summary>
-    /// ctor
+    ///     ctor
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="DataElementParsingException"></exception>

@@ -187,7 +187,7 @@ public class SpecialCodec : PlayCodec
         if (!type.IsChar())
             throw new CodecParsingException(this, type);
 
-        return new byte[] {DecodeToByte(Unsafe.As<_T, char>(ref value))};
+        return new[] {DecodeToByte(Unsafe.As<_T, char>(ref value))};
     }
 
     /// <summary>
@@ -205,7 +205,7 @@ public class SpecialCodec : PlayCodec
         if (!type.IsChar())
             throw new CodecParsingException(this, type);
 
-        return new byte[] {DecodeToByte(Unsafe.As<_T, char>(ref value))};
+        return new[] {DecodeToByte(Unsafe.As<_T, char>(ref value))};
     }
 
     /// <summary>

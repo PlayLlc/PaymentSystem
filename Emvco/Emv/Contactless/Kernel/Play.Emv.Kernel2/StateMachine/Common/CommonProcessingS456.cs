@@ -24,7 +24,7 @@ public class CommonProcessingS456 : CommonProcessing
     private readonly ICleanTornTransactions _KernelCleaner;
     private readonly IHandlePcdRequests _PcdEndpoint;
 
-    protected override StateId[] _ValidStateIds { get; } = new StateId[]
+    protected override StateId[] _ValidStateIds { get; } =
     {
         WaitingForEmvReadRecordResponse.StateId, WaitingForGetDataResponse.StateId, WaitingForEmvModeFirstWriteFlag.StateId
     };

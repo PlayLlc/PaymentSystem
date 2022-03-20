@@ -9,14 +9,7 @@ internal class BitMapBuilder
 {
     #region Instance Values
 
-    private ulong _Value = 0;
-
-    #endregion
-
-    #region Constructor
-
-    public BitMapBuilder()
-    { }
+    private ulong _Value;
 
     #endregion
 

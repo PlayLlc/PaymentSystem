@@ -24,22 +24,22 @@ public readonly record struct Seconds
 
     public Seconds(Deciseconds value)
     {
-        _Value = checked((long) value / (Deciseconds.Precision / Precision));
+        _Value = (long) value / (Deciseconds.Precision / Precision);
     }
 
     public Seconds(Milliseconds value)
     {
-        _Value = checked((long) value / (Milliseconds.Precision / Precision));
+        _Value = (long) value / (Milliseconds.Precision / Precision);
     }
 
     public Seconds(Microseconds value)
     {
-        _Value = checked((long) value / (Microseconds.Precision / Precision));
+        _Value = (long) value / (Microseconds.Precision / Precision);
     }
 
     public Seconds(Ticks value)
     {
-        _Value = checked((long) value / (Ticks.Precision / Precision));
+        _Value = (long) value / (Ticks.Precision / Precision);
     }
 
     public Seconds(byte value)

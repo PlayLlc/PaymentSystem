@@ -231,7 +231,7 @@ public class HexadecimalCodec : PlayCodec
         Type type = typeof(_T);
 
         if (type.IsChar())
-            return new byte[] {DecodeToByte(Unsafe.As<_T, char>(ref value))};
+            return new[] {DecodeToByte(Unsafe.As<_T, char>(ref value))};
 
         if (!type.IsUnsignedInteger())
             throw new CodecParsingException(this, type);
@@ -263,7 +263,7 @@ public class HexadecimalCodec : PlayCodec
         Type type = typeof(_T);
 
         if (type.IsChar())
-            return new byte[] {DecodeToByte(Unsafe.As<_T, char>(ref value))};
+            return new[] {DecodeToByte(Unsafe.As<_T, char>(ref value))};
 
         if (!type.IsUnsignedInteger())
             throw new CodecParsingException(this, type);

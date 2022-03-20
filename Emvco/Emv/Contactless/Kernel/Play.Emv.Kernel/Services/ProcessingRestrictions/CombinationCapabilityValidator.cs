@@ -189,7 +189,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     #region PRE.15
 
     /// <summary>
-    /// IsCashTransaction
+    ///     IsCashTransaction
     /// </summary>
     /// <param name="database"></param>
     /// <returns></returns>

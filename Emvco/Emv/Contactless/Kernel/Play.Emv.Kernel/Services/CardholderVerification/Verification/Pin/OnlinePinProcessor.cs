@@ -18,7 +18,7 @@ internal class OnlinePinProcessor : IVerifyCardholderPinOnline
        verification processing in accordance with the card’s CVM List.
     */
     /// <summary>
-    /// Process
+    ///     Process
     /// </summary>
     /// <param name="database"></param>
     /// <returns></returns>

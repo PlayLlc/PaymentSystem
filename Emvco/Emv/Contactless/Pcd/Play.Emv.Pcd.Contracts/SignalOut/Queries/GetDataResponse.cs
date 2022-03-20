@@ -16,7 +16,7 @@ public record GetDataResponse : QueryPcdResponse
 
     public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(GetDataResponse));
 
-    private static readonly Tag[] _KnownTags = new Tag[]
+    private static readonly Tag[] _KnownTags =
     {
         OfflineAccumulatorBalance.Tag, ProtectedDataEnvelope1.Tag, ProtectedDataEnvelope2.Tag, ProtectedDataEnvelope3.Tag,
         ProtectedDataEnvelope4.Tag, ProtectedDataEnvelope5.Tag, UnprotectedDataEnvelope1.Tag, UnprotectedDataEnvelope2.Tag,

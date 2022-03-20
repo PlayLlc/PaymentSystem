@@ -53,7 +53,7 @@ public partial class BerCodec
     /// <returns>
     ///     <see cref="TagLength" />
     /// </returns>
-    /// <exception cref="BerParsingException"></exception> 
+    /// <exception cref="BerParsingException"></exception>
     public TagLength DecodeTagLength(ReadOnlySpan<byte> value)
     {
         Tag tag = new(value);
@@ -68,7 +68,6 @@ public partial class BerCodec
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
-    
     public TagLengthValue DecodeTagLengthValue(ReadOnlySpan<byte> value)
     {
         Tag tag = new(value);
@@ -86,7 +85,6 @@ public partial class BerCodec
     /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    
     public TagLengthValue[] DecodeTagLengthValues(ReadOnlyMemory<byte> value) => DecodeTagLengthValues(value.Span);
 
     /// <summary>
@@ -96,7 +94,6 @@ public partial class BerCodec
     /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    
     public TagLengthValue[] DecodeTagLengthValues(ReadOnlySpan<byte> value)
     {
         TagLength[]? tagLengthArray = _TagLengthFactory.GetTagLengthArray(value);

@@ -8,7 +8,7 @@ public abstract record DataExchangeResponse : DataExchangeList<PrimitiveValue>
 {
     #region Static Metadata
 
-    protected static readonly Tag[] _KnownPutDataTags = new Tag[]
+    protected static readonly Tag[] _KnownPutDataTags =
     {
         UnprotectedDataEnvelope1.Tag, UnprotectedDataEnvelope2.Tag, UnprotectedDataEnvelope3.Tag, UnprotectedDataEnvelope4.Tag,
         UnprotectedDataEnvelope5.Tag

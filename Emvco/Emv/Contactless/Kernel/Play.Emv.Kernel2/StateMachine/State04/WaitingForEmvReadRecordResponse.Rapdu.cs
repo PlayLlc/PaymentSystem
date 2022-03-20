@@ -297,7 +297,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     #region S4.31
 
     /// <summary>
-    /// HandleDataStorageRead
+    ///     HandleDataStorageRead
     /// </summary>
     /// <param name="session"></param>
     /// <param name="rapdu"></param>
@@ -378,7 +378,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     #region S4.33
 
     /// <summary>
-    /// EnqueueDsdolToDataNeeded
+    ///     EnqueueDsdolToDataNeeded
     /// </summary>
     /// <param name="dsdol"></param>
     /// <exception cref="InvalidOperationException"></exception>

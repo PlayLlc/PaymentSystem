@@ -85,8 +85,6 @@ public static class TaskExtensions
         timeoutCancellationTokenSource.Cancel();
 
         await task;
-
-        return;
     }
 
     #endregion
