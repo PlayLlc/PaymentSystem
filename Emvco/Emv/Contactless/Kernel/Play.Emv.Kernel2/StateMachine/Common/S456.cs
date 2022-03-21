@@ -22,7 +22,7 @@ namespace Play.Emv.Kernel2.StateMachine;
 /// <summary>
 ///     This object includes logic that is common to states 4, 5, and 6
 /// </summary>
-internal class S456 : CommonProcessing
+public class S456 : CommonProcessing
 {
     #region Instance Values
 

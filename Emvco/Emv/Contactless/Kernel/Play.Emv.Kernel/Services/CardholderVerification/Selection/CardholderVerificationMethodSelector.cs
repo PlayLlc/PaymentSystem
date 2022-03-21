@@ -20,11 +20,11 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     public void Process(KernelDatabase database)
     {
         ApplicationInterchangeProfile applicationInterchangeProfile =
-            (ApplicationInterchangeProfile) database.Get(ApplicationInterchangeProfile.Tag);
+            database.Get<ApplicationInterchangeProfile>(ApplicationInterchangeProfile.Tag);
 
-        AmountAuthorizedNumeric amountAuthorizedNumeric = (AmountAuthorizedNumeric) database.Get(AmountAuthorizedNumeric.Tag);
+        AmountAuthorizedNumeric amountAuthorizedNumeric = database.Get<AmountAuthorizedNumeric>(AmountAuthorizedNumeric.Tag);
 
-        ReaderCvmRequiredLimit readerCvmRequiredLimit = (ReaderCvmRequiredLimit) database.Get(ReaderCvmRequiredLimit.Tag);
+        ReaderCvmRequiredLimit readerCvmRequiredLimit = database.Get<ReaderCvmRequiredLimit>(ReaderCvmRequiredLimit.Tag);
 
         NumericCurrencyCode currencyCode = GetCurrencyCode(database);
 
@@ -55,15 +55,15 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     /// <exception cref="InvalidOperationException"></exception>
     private NumericCurrencyCode GetCurrencyCode(KernelDatabase database)
     {
-        TransactionCurrencyCode transactionCurrencyCode = (TransactionCurrencyCode) database.Get(TransactionCurrencyCode.Tag);
+        TransactionCurrencyCode transactionCurrencyCode = database.Get<TransactionCurrencyCode>(TransactionCurrencyCode.Tag);
 
-        ApplicationCurrencyCode applicationCurrencyCode = (ApplicationCurrencyCode) database.Get(ApplicationCurrencyCode.Tag);
+        ApplicationCurrencyCode applicationCurrencyCode = database.Get<ApplicationCurrencyCode>(ApplicationCurrencyCode.Tag);
 
         if ((NumericCurrencyCode) transactionCurrencyCode == (NumericCurrencyCode) applicationCurrencyCode)
             return (NumericCurrencyCode) transactionCurrencyCode;
 
         TransactionReferenceCurrencyCode transactionReferenceCurrencyCode =
-            (TransactionReferenceCurrencyCode) database.Get(TransactionReferenceCurrencyCode.Tag);
+            database.Get<TransactionReferenceCurrencyCode>(TransactionReferenceCurrencyCode.Tag);
 
         return (NumericCurrencyCode) transactionReferenceCurrencyCode;
     }
@@ -167,7 +167,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
             return true;
         }
 
-        cvmList = (CvmList) database.Get(CvmList.Tag);
+        cvmList = database.Get<CvmList>(CvmList.Tag);
 
         if (!cvmList.AreCardholderVerificationRulesPresent())
             return true;

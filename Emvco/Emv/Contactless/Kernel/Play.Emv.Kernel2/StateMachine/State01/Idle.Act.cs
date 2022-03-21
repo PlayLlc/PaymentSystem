@@ -196,8 +196,8 @@ public partial class Idle : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     private void InitializeEmvDataObjects()
     {
-        CardDataInputCapability cardDataInputCapability = (CardDataInputCapability) _KernelDatabase.Get(CardDataInputCapability.Tag);
-        SecurityCapability securityCapability = (SecurityCapability) _KernelDatabase.Get(SecurityCapability.Tag);
+        CardDataInputCapability cardDataInputCapability = _KernelDatabase.Get<CardDataInputCapability>(CardDataInputCapability.Tag);
+        SecurityCapability securityCapability = _KernelDatabase.Get<SecurityCapability>(SecurityCapability.Tag);
 
         _KernelDatabase.Initialize(StaticDataAuthenticationTagList.Tag);
         _KernelDatabase.Update(new TerminalCapabilities(cardDataInputCapability, securityCapability));
@@ -519,7 +519,7 @@ public partial class Idle : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void SetTimeout(Kernel2Session session)
     {
-        TimeoutValue timeout = (TimeoutValue) _KernelDatabase.Get(TimeoutValue.Tag);
+        TimeoutValue timeout = _KernelDatabase.Get<TimeoutValue>(TimeoutValue.Tag);
 
         session.Timer.Start((Milliseconds) timeout, () => _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId())));
     }

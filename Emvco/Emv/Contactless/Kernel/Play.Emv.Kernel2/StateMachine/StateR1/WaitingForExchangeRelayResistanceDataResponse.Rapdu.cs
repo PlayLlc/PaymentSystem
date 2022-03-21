@@ -214,9 +214,9 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     private bool IsRelayOutOfLowerBounds(MeasuredRelayResistanceProcessingTime processingTime)
     {
         MinTimeForProcessingRelayResistanceApdu minTimeForProcessingRelayResistanceApdu =
-            (MinTimeForProcessingRelayResistanceApdu) _KernelDatabase.Get(MinTimeForProcessingRelayResistanceApdu.Tag);
+            _KernelDatabase.Get<MinTimeForProcessingRelayResistanceApdu>(MinTimeForProcessingRelayResistanceApdu.Tag);
         MinimumRelayResistanceGracePeriod minGracePeriod =
-            (MinimumRelayResistanceGracePeriod) _KernelDatabase.Get(MinimumRelayResistanceGracePeriod.Tag);
+            _KernelDatabase.Get<MinimumRelayResistanceGracePeriod>(MinimumRelayResistanceGracePeriod.Tag);
 
         RelaySeconds minRelayTime = (RelaySeconds) minTimeForProcessingRelayResistanceApdu - minGracePeriod;
 
@@ -288,7 +288,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         ExchangeRelayResistanceDataRequest capdu = ExchangeRelayResistanceDataRequest.Create(session.GetTransactionSessionId(), entropy);
 
         // HACK: I  don't think we're supposed to set a timeout value for this. We're only viewing the time it takes. Which, I guess we can set the max expected time, but I don't think TimeoutValue is correct here
-        TimeoutValue timeout = (TimeoutValue) _KernelDatabase.Get(TimeoutValue.Tag);
+        TimeoutValue timeout = _KernelDatabase.Get<TimeoutValue>(TimeoutValue.Tag);
 
         // SR1.26
         // BUG: We need to create a Timer in addition to the TimeoutManager we have
@@ -419,10 +419,10 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     private bool IsRelayOutOfUpperBounds(MeasuredRelayResistanceProcessingTime relayTime)
     {
         MaxTimeForProcessingRelayResistanceApdu maxProcessingTime =
-            (MaxTimeForProcessingRelayResistanceApdu) _KernelDatabase.Get(MaxTimeForProcessingRelayResistanceApdu.Tag);
+            _KernelDatabase.Get<MaxTimeForProcessingRelayResistanceApdu>(MaxTimeForProcessingRelayResistanceApdu.Tag);
 
         MaximumRelayResistanceGracePeriod maxGraceTime =
-            (MaximumRelayResistanceGracePeriod) _KernelDatabase.Get(MaximumRelayResistanceGracePeriod.Tag);
+            _KernelDatabase.Get<MaximumRelayResistanceGracePeriod>(MaximumRelayResistanceGracePeriod.Tag);
 
         RelaySeconds maxRelayTime = (RelaySeconds) maxProcessingTime + maxGraceTime;
 

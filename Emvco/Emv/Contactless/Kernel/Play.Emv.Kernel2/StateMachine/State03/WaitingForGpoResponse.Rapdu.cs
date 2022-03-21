@@ -47,9 +47,9 @@ public partial class WaitingForGpoResponse : KernelState
 
         Kernel2Session kernel2Session = (Kernel2Session) session;
         ApplicationInterchangeProfile applicationInterchangeProfile =
-            (ApplicationInterchangeProfile) _KernelDatabase.Get(ApplicationInterchangeProfile.Tag);
-        ApplicationFileLocator applicationFileLocator = (ApplicationFileLocator) _KernelDatabase.Get(ApplicationFileLocator.Tag);
-        KernelConfiguration kernelConfiguration = (KernelConfiguration) _KernelDatabase.Get(KernelConfiguration.Tag);
+            _KernelDatabase.Get<ApplicationInterchangeProfile>(ApplicationInterchangeProfile.Tag);
+        ApplicationFileLocator applicationFileLocator = _KernelDatabase.Get<ApplicationFileLocator>(ApplicationFileLocator.Tag);
+        KernelConfiguration kernelConfiguration = _KernelDatabase.Get<KernelConfiguration>(KernelConfiguration.Tag);
 
         if (IsEmvModeSupported(applicationInterchangeProfile))
             return HandleEmvMode(kernel2Session, applicationFileLocator, applicationInterchangeProfile, kernelConfiguration);

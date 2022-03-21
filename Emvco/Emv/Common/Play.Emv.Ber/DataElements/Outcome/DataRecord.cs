@@ -41,11 +41,11 @@ public record DataRecord : DataExchangeResponse, IEqualityComparer<DataRecord>
 
     /// <exception cref="BerParsingException"></exception>
     public static DataRecord Decode(ReadOnlySpan<byte> value) =>
-        new(_Codec.DecodePrimitiveValuesAtRuntime(value.ToArray().AsMemory()).ToArray());
+        new(_Codec.DecodePrimitiveValuesAtRuntime(value).ToArray());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static DataRecord Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodePrimitiveValuesAtRuntime(value).ToArray());
+    public static DataRecord Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodePrimitiveValuesAtRuntime(value.Span).ToArray());
 
     #endregion
 

@@ -32,10 +32,10 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
         if (!database.IsPresentAndNotEmpty(ApplicationVersionNumberCard.Tag))
             return;
 
-        ApplicationVersionNumberCard versionNumberCard = (ApplicationVersionNumberCard) database.Get(ApplicationVersionNumberCard.Tag);
+        ApplicationVersionNumberCard versionNumberCard = database.Get<ApplicationVersionNumberCard>(ApplicationVersionNumberCard.Tag);
 
         ApplicationVersionNumberReader versionNumberReader =
-            (ApplicationVersionNumberReader) database.Get(ApplicationVersionNumberReader.Tag);
+            database.Get<ApplicationVersionNumberReader>(ApplicationVersionNumberReader.Tag);
 
         if ((ushort) versionNumberCard != (ushort) versionNumberReader)
             database.Set(TerminalVerificationResultCodes.IccAndTerminalHaveDifferentApplicationVersions);
@@ -53,7 +53,7 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
     /// <exception cref="InvalidOperationException"></exception>
     public void HandleApplicationActivationStatus(KernelDatabase database)
     {
-        TransactionDate transactionDate = (TransactionDate) database.Get(TransactionDate.Tag);
+        TransactionDate transactionDate = database.Get<TransactionDate>(TransactionDate.Tag);
 
         HandleApplicationNotYetActive(database, transactionDate);
         HandleExpiredApplication(database, transactionDate);
@@ -64,7 +64,7 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
     /// <exception cref="InvalidOperationException"></exception>
     public static void HandleApplicationNotYetActive(KernelDatabase database, TransactionDate transactionDate)
     {
-        ApplicationEffectiveDate applicationEffectiveDate = (ApplicationEffectiveDate) database.Get(ApplicationEffectiveDate.Tag);
+        ApplicationEffectiveDate applicationEffectiveDate = database.Get<ApplicationEffectiveDate>(ApplicationEffectiveDate.Tag);
 
         if ((uint) transactionDate < (uint) applicationEffectiveDate)
             database.Set(TerminalVerificationResultCodes.ExpiredApplication);
@@ -75,7 +75,7 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
     /// <exception cref="InvalidOperationException"></exception>
     public static void HandleExpiredApplication(KernelDatabase database, TransactionDate transactionDate)
     {
-        ApplicationExpirationDate applicationExpirationDate = (ApplicationExpirationDate) database.Get(ApplicationExpirationDate.Tag);
+        ApplicationExpirationDate applicationExpirationDate = database.Get<ApplicationExpirationDate>(ApplicationExpirationDate.Tag);
 
         if ((uint) transactionDate > (uint) applicationExpirationDate)
             database.Set(TerminalVerificationResultCodes.ExpiredApplication);

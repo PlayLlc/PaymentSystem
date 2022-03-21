@@ -24,7 +24,7 @@ namespace Play.Emv.Kernel2.StateMachine;
 ///     This object includes logic that is common to states 3: (<see cref="WaitingForGpoResponse" />) and State R: (
 ///     <see cref="WaitingForExchangeRelayResistanceDataResponse" />)
 /// </summary>
-internal class S3R1 : CommonProcessing
+public class S3R1 : CommonProcessing
 {
     #region Instance Values
 

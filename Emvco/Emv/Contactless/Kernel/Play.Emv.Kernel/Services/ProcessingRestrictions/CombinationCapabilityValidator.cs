@@ -27,9 +27,9 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
         if (!IsAdditionalCompatibilityCheckingPossible(database))
             return;
 
-        ApplicationUsageControl applicationUsageControl = (ApplicationUsageControl) database.Get(ApplicationUsageControl.Tag);
-        TerminalCountryCode terminalCountryCode = (TerminalCountryCode) database.Get(TerminalCountryCode.Tag);
-        IssuerCountryCode issuerCountryCode = (IssuerCountryCode) database.Get(IssuerCountryCode.Tag);
+        ApplicationUsageControl applicationUsageControl = database.Get<ApplicationUsageControl>(ApplicationUsageControl.Tag);
+        TerminalCountryCode terminalCountryCode = database.Get<TerminalCountryCode>(TerminalCountryCode.Tag);
+        IssuerCountryCode issuerCountryCode = database.Get<IssuerCountryCode>(IssuerCountryCode.Tag);
 
         InitializeCashTransactionCompatibilityFlags(applicationUsageControl, terminalCountryCode, issuerCountryCode, database);
 
@@ -60,12 +60,12 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     private bool IsTerminalAnAtm(KernelDatabase database)
     {
         AdditionalTerminalCapabilities additionalTerminalCapabilities =
-            (AdditionalTerminalCapabilities) database.Get(AdditionalTerminalCapabilities.Tag);
+            database.Get<AdditionalTerminalCapabilities>(AdditionalTerminalCapabilities.Tag);
 
         if (!additionalTerminalCapabilities.Cash())
             return false;
 
-        TerminalType terminalType = (TerminalType) database.Get(TerminalType.Tag);
+        TerminalType terminalType = database.Get<TerminalType>(TerminalType.Tag);
 
         TerminalType onlineAtm = new(TerminalType.EnvironmentType.Unattended, TerminalType.CommunicationType.OnlineOnly,
                                      TerminalType.TerminalOperatorType.FinancialInstitution);
@@ -98,7 +98,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="InvalidOperationException"></exception>
     private bool IsApplicationCompatibleWithTerminalType(KernelDatabase database)
     {
-        ApplicationUsageControl applicationUsageControl = (ApplicationUsageControl) database.Get(ApplicationUsageControl.Tag);
+        ApplicationUsageControl applicationUsageControl = database.Get<ApplicationUsageControl>(ApplicationUsageControl.Tag);
 
         if (IsTerminalAnAtm(database))
             return IsCompatibleWithAtmTerminals(database, applicationUsageControl);
@@ -197,7 +197,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="InvalidOperationException"></exception>
     private bool IsCashTransaction(KernelDatabase database)
     {
-        TransactionType transactionType = (TransactionType) database.Get(TransactionType.Tag);
+        TransactionType transactionType = database.Get<TransactionType>(TransactionType.Tag);
 
         if (transactionType == TransactionTypes.CashAdvance)
             return true;
@@ -273,7 +273,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="InvalidOperationException"></exception>
     private bool IsPurchaseTransaction(KernelDatabase database)
     {
-        TransactionType transactionType = (TransactionType) database.Get(TransactionType.Tag);
+        TransactionType transactionType = database.Get<TransactionType>(TransactionType.Tag);
 
         if (transactionType == TransactionTypes.GoodsAndServicesDebit)
             return true;

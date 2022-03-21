@@ -88,17 +88,21 @@ namespace Play.Emv.Ber
 
         /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
         /// <exception cref="System.InvalidOperationException"></exception>
-        public IEnumerable<PrimitiveValue> DecodePrimitiveValuesAtRuntime(ReadOnlySpan<byte> value)
+        public PrimitiveValue[] DecodePrimitiveValuesAtRuntime(ReadOnlySpan<byte> value)
         {
             TagLengthValue[] siblings = _Codec.DecodeTagLengthValues(value);
+            PrimitiveValue[] result = new PrimitiveValue[siblings.Count(a => _DefaultPrimitiveMap.ContainsKey(a.GetTag()))]; 
 
-            for (int i = 0; i < siblings.Length; i++)
+            for (int i = 0, j = 0; i < siblings.Length; i++)
             {
                 if (!_DefaultPrimitiveMap.ContainsKey(siblings[i].GetTag()))
                     continue;
 
-                yield return _DefaultPrimitiveMap[siblings[i].GetTag()].Decode(siblings[i]);
+                result[j] = _DefaultPrimitiveMap[siblings[i].GetTag()].Decode(siblings[i]);
+                j++;
             }
+
+            return result;
         }
 
         #endregion

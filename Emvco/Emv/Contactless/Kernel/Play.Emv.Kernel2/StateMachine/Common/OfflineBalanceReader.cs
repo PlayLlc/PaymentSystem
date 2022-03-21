@@ -20,7 +20,7 @@ namespace Play.Emv.Kernel2.StateMachine
     ///     indicate it in the Application Capabilities Information.
     /// </summary>
     /// <remarks>Emv Book C-2 Section 3.10</remarks>
-    internal partial class OfflineBalanceReader : CommonProcessing
+    public partial class OfflineBalanceReader : CommonProcessing
     {
         #region Instance Values
 

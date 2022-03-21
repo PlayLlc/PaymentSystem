@@ -12,7 +12,7 @@ using Play.Emv.Pcd.Contracts;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
-internal abstract class CommonProcessing
+public abstract class CommonProcessing
 {
     #region Instance Values
 

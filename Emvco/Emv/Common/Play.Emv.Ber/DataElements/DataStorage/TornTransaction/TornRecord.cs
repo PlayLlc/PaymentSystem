@@ -38,11 +38,11 @@ public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
     public override DiscretionaryData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="BerParsingException"></exception>
-    public static DiscretionaryData Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodePrimitiveValuesAtRuntime(value).ToArray());
+    public static DiscretionaryData Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodePrimitiveValuesAtRuntime(value.Span).ToArray());
 
     /// <exception cref="BerParsingException"></exception>
     public static DiscretionaryData Decode(ReadOnlySpan<byte> value) =>
-        new(_Codec.DecodePrimitiveValuesAtRuntime(value.ToArray().AsMemory()).ToArray());
+        new(_Codec.DecodePrimitiveValuesAtRuntime(value).ToArray());
 
     #endregion
 

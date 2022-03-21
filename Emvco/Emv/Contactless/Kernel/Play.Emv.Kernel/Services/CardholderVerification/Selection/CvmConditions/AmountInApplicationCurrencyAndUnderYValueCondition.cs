@@ -37,13 +37,13 @@ internal record AmountInApplicationCurrencyAndUnderYValueCondition : CvmConditio
     /// <exception cref="InvalidOperationException"></exception>
     protected override bool IsConditionSatisfied(KernelDatabase database, Money xAmount, Money yAmount)
     {
-        ApplicationCurrencyCode applicationCurrencyCode = (ApplicationCurrencyCode) database.Get(ApplicationCurrencyCode.Tag);
-        TransactionCurrencyCode transactionCurrencyCode = (TransactionCurrencyCode) database.Get(TransactionCurrencyCode.Tag);
+        ApplicationCurrencyCode applicationCurrencyCode = database.Get<ApplicationCurrencyCode>(ApplicationCurrencyCode.Tag);
+        TransactionCurrencyCode transactionCurrencyCode = database.Get<TransactionCurrencyCode>(TransactionCurrencyCode.Tag);
 
         if ((NumericCurrencyCode) applicationCurrencyCode != (NumericCurrencyCode) transactionCurrencyCode)
             return false;
 
-        AmountAuthorizedNumeric transactionAmount = (AmountAuthorizedNumeric) database.Get(AmountAuthorizedNumeric.Tag);
+        AmountAuthorizedNumeric transactionAmount = database.Get<AmountAuthorizedNumeric>(AmountAuthorizedNumeric.Tag);
 
         return transactionAmount.AsMoney((NumericCurrencyCode) applicationCurrencyCode) < yAmount;
     }

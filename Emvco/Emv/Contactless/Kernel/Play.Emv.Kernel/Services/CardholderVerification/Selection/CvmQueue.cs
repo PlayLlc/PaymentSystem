@@ -58,7 +58,7 @@ internal class CvmQueue
         if (_Rules.Count < (_Offset - 1))
             return false;
 
-        TerminalCapabilities terminalCapabilities = (TerminalCapabilities) database.Get(TerminalCapabilities.Tag);
+        TerminalCapabilities terminalCapabilities = database.Get<TerminalCapabilities>(TerminalCapabilities.Tag);
 
         for (; _Offset < _Rules.Count; _Offset++)
         {
