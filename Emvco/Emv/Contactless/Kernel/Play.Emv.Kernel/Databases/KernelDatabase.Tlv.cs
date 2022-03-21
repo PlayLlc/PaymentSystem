@@ -1,23 +1,47 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
+using Play.Emv.Ber;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Kernel.Contracts;
 
 namespace Play.Emv.Kernel.Databases;
 
-public abstract partial class KernelDatabase
+public partial class KernelDatabase : ITlvReaderAndWriter
 {
-    #region Instance Members
+    private readonly SortedDictionary<Tag, PrimitiveValue?> _Database;
+    private readonly PersistentValues _PersistentValues;
+    private readonly KnownObjects _KnownObjects;
 
-    /// <summary>
+    #region Lifetime Management
+
+    public void Clear()
+    {
+        foreach (KeyValuePair<Tag, PrimitiveValue?> a in _Database)
+            _Database[a.Key] = null;
+
+        SeedDatabase();
+    }
+
+    private void SeedDatabase()
+    {
+        foreach (PrimitiveValue persistentValue in _PersistentValues.GetPersistentValues())
+            _Database.Add(persistentValue.GetTag(), persistentValue);
+    }
+
+    #endregion
+
+    #region Read
+     /// <summary>
     ///     Returns true if a TLV object with the provided <see cref="Tag" /> exists in the database and the corresponding
-    ///     <see cref="DatabaseValue" /> in an out parameter
+    ///     <see cref="PrimitiveValue" /> in an out parameter
     /// </summary>
     /// <param name="tag"></param>
     /// <param name="result"></param>
     /// <exception cref="TerminalDataException"></exception>
-    public virtual bool TryGet(Tag tag, out PrimitiveValue? result)
+    public bool TryGet(Tag tag, out PrimitiveValue? result)
     {
         if (!IsActive())
         {
@@ -25,45 +49,60 @@ public abstract partial class KernelDatabase
                 TerminalDataException($"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
-        return _TlvDatabase.TryGet(tag, out result);
-    }
-
-    /// <summary>
-    /// </summary>
-    /// <param name="tag"></param>
-    /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    public virtual PrimitiveValue Get(Tag tag)
-    {
-        if (!IsActive())
-            throw new TerminalDataException($"The method {nameof(Get)} cannot be accessed because {nameof(KernelDatabase)} is not active");
-
-        return _TlvDatabase.Get(tag);
-    }
-
-    /// <summary>
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="tag"></param>
-    /// <param name="result"></param>
-    /// <returns></returns>
-    /// <exception cref="TerminalDataException"></exception>
-    public virtual bool TryGet<T>(Tag tag, out T? result) where T : PrimitiveValue
-    {
-        if (!IsActive())
-        {
-            throw new
-                TerminalDataException($"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
-        }
-
-        if (!_TlvDatabase.TryGet(tag, out PrimitiveValue? primitiveValue))
+        if (!_Database.TryGetValue(tag, out PrimitiveValue? databaseValue))
         {
             result = null;
 
             return false;
         }
 
-        result = (T) primitiveValue!;
+        result = databaseValue;
+
+        return true;
+    }
+    /// <summary>
+    ///     Gets the <see cref="PrimitiveValue" /> associated with the <see cref="Tag" /> in the arg
+    /// </summary>
+    /// <param name="tag"></param>
+    /// <exception cref="TerminalDataException">
+    ///     This exception gets thrown internally because something was coded or incorrectly configured in our code base. An
+    ///     assumption was made that the database value was present when it was not.
+    /// </exception>
+    /// <exception cref="TerminalDataException"></exception>
+    public PrimitiveValue Get(Tag tag)
+    {
+        if (!IsActive())
+            throw new TerminalDataException($"The method {nameof(Get)} cannot be accessed because {nameof(KernelDatabase)} is not active");
+
+        if (!_Database.TryGetValue(tag, out PrimitiveValue? result))
+            throw new TerminalDataException($"The argument {nameof(tag)} provided does not exist in {nameof(KernelDatabase)}");
+
+        return result!;
+    }
+
+    /// <summary>
+    ///     Returns true if a TLV object with the provided <see cref="Tag" /> exists in the database and the corresponding
+    ///     <see cref="PrimitiveValue" /> in an out parameter
+    /// </summary>
+    /// <param name="tag"></param>
+    /// <param name="result"></param>
+    /// <exception cref="TerminalDataException"></exception>
+    public bool TryGet<T>(Tag tag, out T? result) where T : PrimitiveValue
+    {
+        if (!IsActive())
+        {
+            throw new
+                TerminalDataException($"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+        }
+
+        if (!_Database.TryGetValue(tag, out PrimitiveValue? databaseValue))
+        {
+            result = null;
+
+            return false;
+        }
+
+        result = (T)databaseValue!;
 
         return true;
     }
@@ -75,19 +114,22 @@ public abstract partial class KernelDatabase
     /// <param name="tag"></param>
     /// <returns></returns>
     /// <exception cref="TerminalDataException"></exception>
-    public virtual T Get<T>(Tag tag) where T : PrimitiveValue
+    public T Get<T>(Tag tag) where T : PrimitiveValue
     {
         if (!IsActive())
             throw new TerminalDataException($"The method {nameof(Get)} cannot be accessed because {nameof(KernelDatabase)} is not active");
 
-        return (T) _TlvDatabase.Get(tag);
+        if (!_Database.TryGetValue(tag, out PrimitiveValue? result))
+            throw new TerminalDataException($"The argument {nameof(tag)} provided does not exist in {nameof(KernelDatabase)}");
+
+        return (T)result!;
     }
 
     /// <summary>
     ///     Returns TRUE if tag T is defined in the data dictionary of the Kernel applicable for the Implementation Option
     /// </summary>
     /// <param name="tag"></param>
-    public abstract bool IsKnown(Tag tag);
+    public bool IsKnown(Tag tag) => _KnownObjects.Exists(tag);
 
     /// <summary>
     ///     Returns TRUE if the TLV Database includes a data object with tag T. Note that the length of the data object may be
@@ -96,7 +138,7 @@ public abstract partial class KernelDatabase
     /// <param name="tag"></param>
     /// <returns></returns>
     /// <exception cref="TerminalDataException"></exception>
-    public virtual bool IsPresent(Tag tag)
+    public bool IsPresent(Tag tag)
     {
         if (!IsActive())
         {
@@ -104,7 +146,7 @@ public abstract partial class KernelDatabase
                 TerminalDataException($"The method {nameof(IsPresent)} cannot be accessed because {nameof(KernelDatabase)} is not active");
         }
 
-        return _TlvDatabase.IsPresent(tag);
+        return _Database.ContainsKey(tag);
     }
 
     /// <summary>
@@ -115,7 +157,7 @@ public abstract partial class KernelDatabase
     /// <param name="tag"></param>
     /// <returns></returns>
     /// <exception cref="TerminalDataException"></exception>
-    public virtual bool IsPresentAndNotEmpty(Tag tag)
+    public bool IsPresentAndNotEmpty(Tag tag)
     {
         if (!IsActive())
         {
@@ -123,18 +165,18 @@ public abstract partial class KernelDatabase
                 TerminalDataException($"The method {nameof(IsPresentAndNotEmpty)} cannot be accessed because {nameof(KernelDatabase)} is not active");
         }
 
-        return _TlvDatabase.IsPresentAndNotEmpty(tag);
+        return  IsPresent(tag) && (_Database[tag] != null);
     }
+    #endregion
 
+    #region Write
+    
     /// <summary>
-    ///     Updates the database with the
-    ///     <param name="value"></param>
-    ///     if it is a recognized object and discards the value if
-    ///     it is not recognized
+    ///     Updates the database with the <param name="value"></param> if it is a recognized object and discards the value if it is not recognized
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="TerminalDataException"></exception>
-    public virtual void Update(PrimitiveValue value)
+    public void Update(PrimitiveValue value)
     {
         if (!IsActive())
         {
@@ -142,17 +184,21 @@ public abstract partial class KernelDatabase
                 TerminalDataException($"The method {nameof(Update)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
-        _TlvDatabase.Update(value);
+        if (!IsKnown(value.GetTag()))
+            return;
+
+        if (_Database.ContainsKey(value.GetTag()))
+            _Database[value.GetTag()] = value;
+        else
+            _Database.Add(value.GetTag(), value);
     }
 
     /// <summary>
-    ///     Updates the the database with all recognized
-    ///     <param name="values" />
-    ///     provided it is not recognized
+    ///     Updates the the database with all recognized <param name="values" /> provided it is not recognized
     /// </summary>
     /// <param name="values"></param>
     /// <exception cref="TerminalDataException"></exception>
-    public virtual void Update(PrimitiveValue[] values)
+    public void Update(PrimitiveValue[] values)
     {
         if (!IsActive())
         {
@@ -160,7 +206,8 @@ public abstract partial class KernelDatabase
                 TerminalDataException($"The method {nameof(Update)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
-        _TlvDatabase.UpdateRange(values);
+        for (int i = 0; i < values.Length; i++)
+            Update(values[i]);
     }
 
     /// <summary>
@@ -168,7 +215,7 @@ public abstract partial class KernelDatabase
     /// </summary>
     /// <param name="tag"></param>
     /// <exception cref="TerminalDataException"></exception>
-    public virtual void Initialize(Tag tag)
+    public void Initialize(Tag tag)
     {
         if (!IsActive())
         {
@@ -176,8 +223,30 @@ public abstract partial class KernelDatabase
                 TerminalDataException($"The method {nameof(Initialize)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
-        _TlvDatabase.Initialize(tag);
+        if (!IsKnown(tag))
+            return;
+
+        _Database.Add(tag, null);
     }
 
+    /// <summary>
+    ///     Initialize
+    /// </summary>
+    /// <param name="tag"></param>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    public void Initialize(params Tag[] tag)
+    {
+        for (int i = 0; i < tag.Length; i++)
+        {
+            if (!IsKnown(tag[i]))
+                continue;
+
+            Initialize(tag[i]);
+        }
+    }
     #endregion
+
+
+    
 }

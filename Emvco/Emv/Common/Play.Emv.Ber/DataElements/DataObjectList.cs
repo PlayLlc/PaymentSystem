@@ -46,7 +46,7 @@ public abstract record DataObjectList : DataElement<byte[]>
 
     #region Instance Members
 
-    public bool IsRequestedDataAvailable(IQueryTlvDatabase database)
+    public bool IsRequestedDataAvailable(IReadTlvDatabase database)
     {
         foreach (TagLength item in DataObjects)
         {
@@ -61,7 +61,7 @@ public abstract record DataObjectList : DataElement<byte[]>
     }
 
     /// <exception cref="BerParsingException"></exception>
-    public Tag[] GetNeededData(IQueryTlvDatabase database)
+    public Tag[] GetNeededData(IReadTlvDatabase database)
     {
         List<Tag> result = new();
 
@@ -76,7 +76,7 @@ public abstract record DataObjectList : DataElement<byte[]>
 
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public bool TryGetRequestedDataItems(IQueryTlvDatabase database, out PrimitiveValue[] result)
+    public bool TryGetRequestedDataItems(IReadTlvDatabase database, out PrimitiveValue[] result)
     {
         if (!IsRequestedDataAvailable(database))
         {
@@ -125,7 +125,7 @@ public abstract record DataObjectList : DataElement<byte[]>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="OverflowException"></exception>
     /// <remarks>Book 3 Section 5.4</remarks> 
-    public virtual DataObjectListResult AsDataObjectListResult(IQueryTlvDatabase database)
+    public virtual DataObjectListResult AsDataObjectListResult(IReadTlvDatabase database)
     {
         if (!TryGetRequestedDataItems(database, out PrimitiveValue[] result))
             throw new InvalidOperationException();
@@ -146,7 +146,7 @@ public abstract record DataObjectList : DataElement<byte[]>
         return new DataObjectListResult(buffer);
     }
 
-    public virtual CommandTemplate AsCommandTemplate(IQueryTlvDatabase database) => AsDataObjectListResult(database).AsCommandTemplate();
+    public virtual CommandTemplate AsCommandTemplate(IReadTlvDatabase database) => AsDataObjectListResult(database).AsCommandTemplate();
     public virtual CommandTemplate AsCommandTemplate(PrimitiveValue[] values) => AsDataObjectListResult(values).AsCommandTemplate();
 
     /// <summary>

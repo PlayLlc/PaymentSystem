@@ -10,6 +10,8 @@ using Play.Emv.Kernel2.Databases;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 
+using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
+
 namespace Play.Emv.Kernel2.StateMachine;
 
 public abstract class CommonProcessing

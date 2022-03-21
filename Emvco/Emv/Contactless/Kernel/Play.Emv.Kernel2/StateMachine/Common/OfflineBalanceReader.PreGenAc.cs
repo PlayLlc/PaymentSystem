@@ -9,6 +9,8 @@ using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
 
+using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
+
 namespace Play.Emv.Kernel2.StateMachine
 {
     public partial class OfflineBalanceReader : CommonProcessing

@@ -158,7 +158,7 @@ internal class Kernel2ExceptionHandler
     {
         #region Instance Values
 
-        private readonly Kernel2Database _KernelDatabase;
+        private readonly KernelDatabase _KernelDatabase;
         private readonly IKernelEndpoint _KernelEndpoint;
         private readonly List<Level1Error> _Level1Errors = new();
         private readonly List<Level2Error> _Level2Errors = new();
@@ -168,7 +168,7 @@ internal class Kernel2ExceptionHandler
 
         #region Constructor
 
-        public Builder(Kernel2Database kernelDatabase, IKernelEndpoint kernelEndpoint)
+        public Builder(KernelDatabase kernelDatabase, IKernelEndpoint kernelEndpoint)
         {
             _KernelDatabase = kernelDatabase;
             _KernelEndpoint = kernelEndpoint;

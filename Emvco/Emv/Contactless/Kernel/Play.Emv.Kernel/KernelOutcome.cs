@@ -34,7 +34,7 @@ internal class KernelOutcome
     /// <param name="database"></param>
     /// <param name="dataExchanger"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    public static void CreateEmvDiscretionaryData(IQueryTlvDatabase database, DataExchangeKernelService dataExchanger)
+    public static void CreateEmvDiscretionaryData(IReadTlvDatabase database, DataExchangeKernelService dataExchanger)
     {
         dataExchanger.Initialize(DekResponseType.DiscretionaryData);
 
@@ -51,7 +51,7 @@ internal class KernelOutcome
     /// <param name="database"></param>
     /// <param name="dataExchanger"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    public static void CreateMagstripeDiscretionaryData(IQueryTlvDatabase database, DataExchangeKernelService dataExchanger)
+    public static void CreateMagstripeDiscretionaryData(IReadTlvDatabase database, DataExchangeKernelService dataExchanger)
     {
         dataExchanger.Initialize(DekResponseType.DiscretionaryData);
 

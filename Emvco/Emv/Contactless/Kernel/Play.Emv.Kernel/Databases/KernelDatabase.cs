@@ -1,23 +1,22 @@
 ﻿using System;
+using System.Collections.Immutable;
 
 using Play.Ber.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
+using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases.Certificates;
 using Play.Emv.Terminal.Contracts;
 
 namespace Play.Emv.Kernel.Databases;
 
-public abstract partial class KernelDatabase : IManageKernelDatabaseLifetime, ICertificateDatabase, IQueryTlvDatabase
+public partial class KernelDatabase : IManageKernelDatabaseLifetime
 {
     #region Instance Values
-
-    protected readonly ICertificateDatabase _CertificateDatabase;
-    protected readonly ITlvDatabase _TlvDatabase;
-    protected KernelSessionId? _KernelSessionId;
-    protected IHandleTerminalRequests _TerminalEndpoint;
+     
+    protected KernelSessionId? _KernelSessionId; 
     protected OutcomeParameterSet.Builder _OutcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
     protected UserInterfaceRequestData.Builder _UserInterfaceRequestDataBuilder = UserInterfaceRequestData.GetBuilder();
     protected ErrorIndication.Builder _ErrorIndicationBuilder = ErrorIndication.GetBuilder();
@@ -26,12 +25,14 @@ public abstract partial class KernelDatabase : IManageKernelDatabaseLifetime, IC
     #endregion
 
     #region Constructor
-
-    protected KernelDatabase(IHandleTerminalRequests terminalEndpoint, ITlvDatabase tlvDatabase, ICertificateDatabase certificateDatabase)
+    
+    protected KernelDatabase(CertificateAuthorityDataset[] certificateAuthorityDataset, PersistentValues persistentValues, KnownObjects knownObjects)
     {
-        _TerminalEndpoint = terminalEndpoint;
-        _TlvDatabase = tlvDatabase;
-        _CertificateDatabase = certificateDatabase;
+        _Certificates = certificateAuthorityDataset.ToImmutableSortedDictionary(a => a.GetRid(), b => b);
+        _PersistentValues = persistentValues;
+        _KnownObjects = knownObjects;
+        _Database = new();  
+        SeedDatabase();
     }
 
     #endregion
@@ -64,8 +65,8 @@ public abstract partial class KernelDatabase : IManageKernelDatabaseLifetime, IC
     /// </summary>
     public virtual void Deactivate()
     {
-        _TlvDatabase.Clear();
-        _CertificateDatabase.PurgeRevokedCertificates();
+        Clear();
+        PurgeRevokedCertificates();
     }
 
     protected bool IsActive() => _KernelSessionId != null;

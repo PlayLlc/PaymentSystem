@@ -39,7 +39,7 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<PrimitiveValue
     public Tag[] AsTags() => _Value.ToArray();
 
     /// <exception cref="DataElementParsingException"></exception>
-    public IEnumerable<PrimitiveValue> Resolve(IQueryTlvDatabase database)
+    public IEnumerable<PrimitiveValue> Resolve(IReadTlvDatabase database)
     {
         for (nint i = 0; i < _Value.Count; i++)
         {

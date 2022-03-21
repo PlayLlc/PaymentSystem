@@ -89,7 +89,7 @@ internal abstract record CvmCondition
 
     public abstract CvmConditionCode GetConditionCode();
 
-    private bool IsRequiredDataPresent(IQueryTlvDatabase database)
+    private bool IsRequiredDataPresent(IReadTlvDatabase database)
     {
         if (_RequiredData.Length == 0)
             return true;

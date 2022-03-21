@@ -1,13 +1,23 @@
-﻿using Play.Emv.Ber.DataElements;
+﻿using System;
+using System.Collections.Immutable;
+using System.Linq;
+
+using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases.Certificates;
 using Play.Emv.Security.Certificates;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Kernel.Databases;
 
-public abstract partial class KernelDatabase
+public partial class KernelDatabase : ICertificateDatabase
 {
+    #region Instance Values
+
+    private readonly ImmutableSortedDictionary<RegisteredApplicationProviderIndicator, CertificateAuthorityDataset> _Certificates;
+
+    #endregion
     #region Instance Members
 
     /// <summary>
@@ -16,39 +26,36 @@ public abstract partial class KernelDatabase
     ///     revoked. Certificates can also be revoked by the issuer
     /// </summary>
     /// <exception cref="TerminalDataException"></exception>
-    public virtual bool IsRevoked(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex caPublicKeyIndex)
+    public bool IsRevoked(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex caPublicKeyIndex)
     {
         if (!IsActive())
         {
             throw new
                 TerminalDataException($"The method {nameof(IsRevoked)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
+        if (!TryGet(rid, caPublicKeyIndex, out CaPublicKeyCertificate? result))
+            return true;
 
-        return _CertificateDatabase!.IsRevoked(rid, caPublicKeyIndex);
+        return result!.IsRevoked();
     }
 
     /// <summary>
     ///     Updates the <see cref="ICertificateDatabase" /> by removing any <see cref="CaPublicKeyCertificate" />
     ///     that has expired since the last time they were checked
     /// </summary>
-    public virtual void PurgeRevokedCertificates()
+    public void PurgeRevokedCertificates()
     {
         if (!IsActive())
             return;
-
-        _CertificateDatabase.PurgeRevokedCertificates();
+        for (int i = 0; i < _Certificates.Count; i++)
+            _Certificates.ElementAt(i).Value.PurgeRevokedCertificates();
     }
 
     /// <summary>
-    ///     Attempts to get the <see cref="CaPublicKeyCertificate" /> associated with the
-    ///     <param name="rid" />
-    ///     and
-    ///     <param name="index"></param>
-    ///     provided. If the <see cref="CaPublicKeyCertificate" /> is revoked or none
-    ///     can be found then the return value will be false
+    ///     Attempts to get the <see cref="CaPublicKeyCertificate" /> associated with the <param name="rid" /> and  <param name="index"></param> provided. If the <see cref="CaPublicKeyCertificate" /> is revoked or none can be found then the return value will be false
     /// </summary>
     /// <exception cref="TerminalDataException"></exception>
-    public virtual bool TryGet(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex index, out CaPublicKeyCertificate? result)
+    public bool TryGet(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex index, out CaPublicKeyCertificate? result)
     {
         if (!IsActive())
         {
@@ -56,7 +63,13 @@ public abstract partial class KernelDatabase
                 TerminalDataException($"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
-        return _CertificateDatabase.TryGet(rid, index, out result);
+        if (!_Certificates.TryGetValue(rid, out CertificateAuthorityDataset? dataset))
+        {
+            throw new
+                TerminalDataException($"The {nameof(CertificateDatabase)} does not have a {nameof(CertificateAuthorityDataset)} for the {nameof(RegisteredApplicationProviderIndicator)} value: [{rid}]");
+        }
+
+        return dataset.TryGet(index, out result);
     }
 
     #endregion

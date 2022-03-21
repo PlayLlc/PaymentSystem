@@ -4,18 +4,18 @@ using System.Collections.Immutable;
 using System.Linq;
 
 using Play.Ber.Identifiers;
-using Play.Core;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
+using Play.Emv.Kernel.Databases;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Kernel2.Databases;
 
-public sealed record KnownObjects : EnumObject<Tag>
+public sealed record Kernel2KnownObjects : KnownObjects
 {
     #region Static Metadata
 
-    private static readonly ImmutableSortedDictionary<Tag, KnownObjects> _ValueObjectMap;
+    private static readonly ImmutableSortedDictionary<Tag, Kernel2KnownObjects> _ValueObjectMap;
 
     #endregion
 
@@ -28,9 +28,9 @@ public sealed record KnownObjects : EnumObject<Tag>
     #region Constructor
 
     /// <exception cref="TypeInitializationException"></exception>
-    static KnownObjects()
+    static Kernel2KnownObjects()
     {
-        _ValueObjectMap = new Dictionary<Tag, KnownObjects>
+        _ValueObjectMap = new Dictionary<Tag, Kernel2KnownObjects>
         {
             {AccountType.Tag, new(AccountType.Tag)},
             {AcquirerIdentifier.Tag, new(AcquirerIdentifier.Tag)},
@@ -219,30 +219,30 @@ public sealed record KnownObjects : EnumObject<Tag>
         }.ToImmutableSortedDictionary();
     }
 
-    private KnownObjects(Tag value) : base(value)
+    private Kernel2KnownObjects(Tag value) : base(value)
     { }
 
     #endregion
 
     #region Instance Members
 
-    public int CompareTo(KnownObjects other) => _Value._Value.CompareTo(other._Value);
-    public static bool Exists(Tag value) => _ValueObjectMap.ContainsKey(value);
+    public int CompareTo(Kernel2KnownObjects other) => _Value._Value.CompareTo(other._Value);
+    public override bool Exists(Tag value) => _ValueObjectMap.ContainsKey(value);
 
     public static IEnumerator<Tag> GetEnumerator()
     {
         return _ValueObjectMap.Values.Select(a => (Tag) a).GetEnumerator();
     }
 
-    public static bool TryGet(Tag value, out KnownObjects result) => _ValueObjectMap.TryGetValue(value, out result);
+    public static bool TryGet(Tag value, out Kernel2KnownObjects result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion
 
     #region Equality
 
-    public bool Equals(KnownObjects? other) => !(other is null) && (_Value == other._Value);
+    public bool Equals(Kernel2KnownObjects? other) => !(other is null) && (_Value == other._Value);
 
-    public static bool Equals(KnownObjects x, KnownObjects y)
+    public static bool Equals(Kernel2KnownObjects x, Kernel2KnownObjects y)
     {
         if (x is null)
             return y is null;
@@ -260,21 +260,21 @@ public sealed record KnownObjects : EnumObject<Tag>
         return hash + (_Value.GetHashCode() * 3);
     }
 
-    public static int GetHashCode(KnownObjects obj) => obj.GetHashCode();
+    public static int GetHashCode(Kernel2KnownObjects obj) => obj.GetHashCode();
 
     #endregion
 
     #region Operator Overrides
 
-    public static explicit operator Tag(KnownObjects registeredApplicationProviderIndicators) =>
+    public static explicit operator Tag(Kernel2KnownObjects registeredApplicationProviderIndicators) =>
         registeredApplicationProviderIndicators._Value;
 
-    public static explicit operator KnownObjects(Tag registeredApplicationProviderIndicator)
+    public static explicit operator Kernel2KnownObjects(Tag registeredApplicationProviderIndicator)
     {
-        if (!TryGet(registeredApplicationProviderIndicator, out KnownObjects result))
+        if (!TryGet(registeredApplicationProviderIndicator, out Kernel2KnownObjects result))
         {
             throw new ArgumentOutOfRangeException(nameof(registeredApplicationProviderIndicator),
-                                                  $"The {nameof(KnownObjects)} could not be found from the number supplied to the argument: {registeredApplicationProviderIndicator}");
+                                                  $"The {nameof(Kernel2KnownObjects)} could not be found from the number supplied to the argument: {registeredApplicationProviderIndicator}");
         }
 
         return result;

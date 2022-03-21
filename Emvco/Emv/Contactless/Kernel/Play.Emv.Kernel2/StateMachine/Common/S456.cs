@@ -17,6 +17,8 @@ using Play.Emv.Terminal.Contracts;
 using Play.Globalization.Time.Seconds;
 using Play.Messaging;
 
+using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
+
 namespace Play.Emv.Kernel2.StateMachine;
 
 /// <summary>

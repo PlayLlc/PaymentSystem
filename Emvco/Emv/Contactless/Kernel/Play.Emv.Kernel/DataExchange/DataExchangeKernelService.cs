@@ -26,7 +26,7 @@ public class DataExchangeKernelService
 {
     #region Instance Values
 
-    protected readonly IQueryTlvDatabase _TlvDatabase;
+    protected readonly IReadTlvDatabase _TlvDatabase;
     private readonly ISendTerminalQueryResponse _KernelEndpoint;
     private readonly IHandleTerminalRequests _TerminalEndpoint;
     private readonly IResolveKnownObjectsAtRuntime _RuntimePrimitiveCodec;
@@ -174,7 +174,7 @@ public class DataExchangeKernelService
         }
     }
 
-    public void ResolveTagsToReadYet(IQueryTlvDatabase database)
+    public void ResolveTagsToReadYet(IReadTlvDatabase database)
     {
         lock (_Lock.Requests)
         {
@@ -245,7 +245,7 @@ public class DataExchangeKernelService
     /// <param name="listType"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public void Resolve(IQueryTlvDatabase listType)
+    public void Resolve(IReadTlvDatabase listType)
     {
         lock (_Lock.Requests)
         {

@@ -4,7 +4,7 @@ using Play.Emv.Ber.Enums.Interchange;
 
 namespace Play.Emv.Kernel.Databases;
 
-public abstract partial class KernelDatabase
+public partial class KernelDatabase
 {
     #region Transaction Details
 

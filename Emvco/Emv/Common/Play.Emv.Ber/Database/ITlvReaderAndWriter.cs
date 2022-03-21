@@ -1,6 +1,6 @@
 ﻿namespace Play.Emv.Ber;
 
-public interface ITlvDatabase : IQueryTlvDatabase, IWriteTlvDatabase
+public interface ITlvReaderAndWriter : IReadTlvDatabase, IWriteTlvDatabase
 {
     #region Instance Members
 

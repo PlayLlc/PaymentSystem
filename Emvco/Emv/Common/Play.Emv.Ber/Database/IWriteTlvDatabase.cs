@@ -1,31 +1,37 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
+using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber;
 
 public interface IWriteTlvDatabase
 {
     /// <summary>
-    ///     Updates the database with the
-    ///     <param name="value"></param>
-    ///     if it is a recognized object and discards the value
-    ///     if it is not recognized
+    ///     Updates the database with the <param name="value"></param> if it is a recognized object and discards the value if it is not recognized
     /// </summary>
     /// <param name="value"></param>
+    /// <exception cref="TerminalDataException"></exception>
     public void Update(PrimitiveValue value);
 
     /// <summary>
-    ///     Updates the the database with all recognized
-    ///     <param name="values" />
-    ///     provided it is not recognized
+    ///     Updates the the database with all recognized <param name="values" /> provided it is not recognized
     /// </summary>
     /// <param name="values"></param>
-    public void UpdateRange(PrimitiveValue[] values);
+    /// <exception cref="TerminalDataException"></exception>
+    public void Update(PrimitiveValue[] values);
 
     /// <summary>
-    ///     Initializes the data object specified by <see cref="tag" /> with a zero length. After initialization the data
-    ///     object is present in the TLV Database.
+    ///     Initializes the data object specified by <see cref="tag" /> with a zero length. After initialization the data object is present in the TLV Database.
+    /// </summary>
+    /// <param name="tag"></param> 
+    /// <exception cref="TerminalDataException"></exception>
+    public void Initialize(Tag tag);
+
+    /// <summary>
+    ///     Initialize
     /// </summary>
     /// <param name="tag"></param>
-    public void Initialize(Tag tag);
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    public void Initialize(params Tag[] tag);
 }

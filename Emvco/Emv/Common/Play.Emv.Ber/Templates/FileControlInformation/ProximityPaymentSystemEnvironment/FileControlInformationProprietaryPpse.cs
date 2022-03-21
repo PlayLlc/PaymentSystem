@@ -38,7 +38,7 @@ public class FileControlInformationProprietaryPpse : FileControlInformationPropr
     public CommandTemplate AsCommandTemplate(PoiInformation poiInformation, PrimitiveValue[] selectionDataObjectListValues) =>
         _FileControlInformationIssuerDiscretionaryDataPpse.AsCommandTemplate(_Codec, poiInformation, selectionDataObjectListValues);
 
-    public CommandTemplate AsCommandTemplate(IQueryTlvDatabase database) =>
+    public CommandTemplate AsCommandTemplate(IReadTlvDatabase database) =>
         _FileControlInformationIssuerDiscretionaryDataPpse.AsCommandTemplate(database);
 
     public ApplicationDedicatedFileName[] GetApplicationDedicatedFileNames() =>

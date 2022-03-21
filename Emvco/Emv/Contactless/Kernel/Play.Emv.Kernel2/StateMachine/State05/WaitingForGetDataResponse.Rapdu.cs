@@ -18,6 +18,8 @@ using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
 using Play.Icc.FileSystem.ElementaryFiles;
 
+using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
+
 namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForGetDataResponse : KernelState

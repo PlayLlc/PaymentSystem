@@ -55,7 +55,7 @@ public class KernelSession
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public void EnqueueStaticDataToBeAuthenticated(StaticDataAuthenticationTagList tagList, IQueryTlvDatabase database)
+    public void EnqueueStaticDataToBeAuthenticated(StaticDataAuthenticationTagList tagList, IReadTlvDatabase database)
     {
         if (!_ActiveApplicationFileLocator.IsEmpty())
         {

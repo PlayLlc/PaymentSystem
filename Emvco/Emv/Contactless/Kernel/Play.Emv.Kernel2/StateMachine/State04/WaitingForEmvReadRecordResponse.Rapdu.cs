@@ -22,6 +22,7 @@ using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Icc.Messaging.Apdu;
 
 using IHandleKernelStopRequests = Play.Emv.Kernel.IHandleKernelStopRequests;
+using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
 
 namespace Play.Emv.Kernel2.StateMachine;
 

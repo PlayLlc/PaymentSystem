@@ -90,7 +90,7 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
     /// <param name="database"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public CommandTemplate AsCommandTemplate(IQueryTlvDatabase database)
+    public CommandTemplate AsCommandTemplate(IReadTlvDatabase database)
     {
         if ((_SelectionDataObjectList != null) && (!_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))
             return _SelectionDataObjectList.AsCommandTemplate(database);

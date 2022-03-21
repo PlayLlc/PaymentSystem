@@ -32,7 +32,7 @@ public class Kernel2StateResolver : IGetKernelState
 
     public static Kernel2StateResolver Create(
         ICleanTornTransactions tornTransactionCleaner,
-        Kernel2Database kernelDatabase,
+        KernelDatabase kernelDatabase,
         DataExchangeKernelService dataExchangeKernelService,
         IHandleTerminalRequests terminalEndpoint,
         IKernelEndpoint kernelEndpoint,

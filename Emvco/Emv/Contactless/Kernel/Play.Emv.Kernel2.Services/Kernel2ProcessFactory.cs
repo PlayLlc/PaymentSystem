@@ -1,5 +1,6 @@
 ﻿using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
+using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.Databases.Certificates;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
@@ -25,12 +26,12 @@ public class Kernel2ProcessFactory
         IGenerateUnpredictableNumber unpredictableNumberGenerator,
         CertificateAuthorityDataset[] certificates)
     {
-        Kernel2Database kernel2Database = new(kernel2Configuration, terminalEndpoint, new Kernel2TlvDatabase(kernel2PersistentValues),
+        KernelDatabase kernelDatabase = new(kernel2Configuration, terminalEndpoint, new Kernel2TlvReaderAndWriter(kernel2PersistentValues),
                                               new CertificateDatabase(certificates));
 
-        Kernel2StateResolver kernel2StateResolver = Kernel2StateResolver.Create(tornTransactionCleaner, kernel2Database,
+        Kernel2StateResolver kernel2StateResolver = Kernel2StateResolver.Create(tornTransactionCleaner, kernelDatabase,
                                                                                 new DataExchangeKernelService(terminalEndpoint,
-                                                                                 kernel2Database, kernelEndpoint), terminalEndpoint,
+                                                                                 kernelDatabase, kernelEndpoint), terminalEndpoint,
                                                                                 kernelEndpoint, pcdEndpoint, unpredictableNumberGenerator);
         Kernel2StateMachine stateMachine = new(kernel2StateResolver.GetKernelState(Idle.StateId));
 

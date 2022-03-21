@@ -71,7 +71,7 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
         return true;
     }
 
-    public bool TryGetProcessingOptionsRelatedData(IQueryTlvDatabase database, out CommandTemplate? result)
+    public bool TryGetProcessingOptionsRelatedData(IReadTlvDatabase database, out CommandTemplate? result)
     {
         if (_ProcessingOptionsDataObjectList is null)
         {
@@ -86,7 +86,7 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
     }
 
     // BUG: I'm pretty sure this needs to be wrapped in a PDOL Related Data object
-    public CommandTemplate GetProcessingOptionsRelatedData(IQueryTlvDatabase database) =>
+    public CommandTemplate GetProcessingOptionsRelatedData(IReadTlvDatabase database) =>
         _ProcessingOptionsDataObjectList!.AsCommandTemplate(database);
 
     public bool TryGetLanguagePreference(out LanguagePreference? result)

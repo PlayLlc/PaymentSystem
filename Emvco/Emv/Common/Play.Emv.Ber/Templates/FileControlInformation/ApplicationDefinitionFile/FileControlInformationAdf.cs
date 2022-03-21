@@ -40,7 +40,7 @@ public class FileControlInformationAdf : FileControlInformationTemplate
     public bool TryGetProcessingOptionsDataObjectList(out ProcessingOptionsDataObjectList? result) =>
         _FileControlInformationProprietary.TryGetProcessingOptionsDataObjectList(out result);
 
-    public bool GetProcessingOptionsDataObjectListResult(IQueryTlvDatabase database, out CommandTemplate? result) =>
+    public bool GetProcessingOptionsDataObjectListResult(IReadTlvDatabase database, out CommandTemplate? result) =>
         _FileControlInformationProprietary.TryGetProcessingOptionsRelatedData(database, out result);
 
     public DedicatedFileName GetDedicatedFileName() => _DedicatedFileName;
