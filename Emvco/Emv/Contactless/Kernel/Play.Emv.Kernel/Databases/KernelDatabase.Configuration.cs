@@ -8,6 +8,14 @@ public abstract partial class KernelDatabase
 {
     #region Configuration
 
+    public ReaderContactlessTransactionLimit GetReaderContactlessTransactionLimit()
+    {
+        if (IsOnDeviceCardholderVerificationSupported())
+            return (ReaderContactlessTransactionLimitWhenCvmIsOnDevice) Get(ReaderContactlessTransactionLimitWhenCvmIsOnDevice.Tag);
+
+        return (ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice) Get(ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Tag);
+    }
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="CodecParsingException"></exception>

@@ -39,7 +39,10 @@ public record ReadRecordResponse : QueryPcdResponse
         runtimeCodec.DecodePrimitiveSiblingsAtRuntime(GetData().AsMemory()).ToArray();
 
     public ShortFileId GetShortFileId() => _ShortFileId;
-    public TagLengthValue[] GetRecords() => ReadRecordResponseTemplate.GetRecords(GetData());
+
+    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    public PrimitiveValue[] GetRecords() => ReadRecordResponseTemplate.GetRecords(GetData());
+
     public int GetValueByteCount() => GetData().Length;
 
     #endregion

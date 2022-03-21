@@ -40,7 +40,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         IHandlePcdRequests pcdEndpoint,
         IGetKernelState kernelStateResolver,
         ICleanTornTransactions kernelCleaner,
-        CommonProcessingS456 s456) : base(kernelDatabase, dataExchange, kernelEndpoint)
+        S456 s456) : base(kernelDatabase, dataExchange, kernelEndpoint)
     {
         _TerminalEndpoint = terminalEndpoint;
         _PcdEndpoint = pcdEndpoint;

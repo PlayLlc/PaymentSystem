@@ -1,4 +1,6 @@
-﻿using Play.Emv.Ber;
+﻿using System.Runtime.Remoting;
+
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
@@ -312,7 +314,8 @@ internal class SelectionStateMachine
         {
             Type d1 = typeof(DataElement<>);
 
-            var a = Activator.CreateInstance(typeof(AmountAuthorizedNumeric).AssemblyQualifiedName, nameof(AmountAuthorizedNumeric));
+            ObjectHandle? a =
+                Activator.CreateInstance(typeof(AmountAuthorizedNumeric).AssemblyQualifiedName, nameof(AmountAuthorizedNumeric));
 
             return Session != null;
         }

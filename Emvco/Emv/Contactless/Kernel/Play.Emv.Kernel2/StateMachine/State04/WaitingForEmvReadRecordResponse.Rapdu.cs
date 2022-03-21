@@ -27,7 +27,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 {
     #region Instance Values
 
-    private readonly CommonProcessingS456 _S456;
+    private readonly S456 _S456;
 
     #endregion
 

@@ -38,6 +38,23 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<PrimitiveValue
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public Tag[] AsTags() => _Value.ToArray();
 
+    /// <exception cref="DataElementParsingException"></exception>
+    public IEnumerable<PrimitiveValue> Resolve(IQueryTlvDatabase database)
+    {
+        for (nint i = 0; i < _Value.Count; i++)
+        {
+            if (!TryDequeue(out Tag tag))
+                throw new DataElementParsingException($"The {nameof(TagsToRead)} could not dequeue a value from memory");
+
+            if (!database.TryGet(tag, out PrimitiveValue? primitiveValue))
+                continue;
+
+            yield return primitiveValue!;
+
+            Enqueue(tag);
+        }
+    }
+
     /// <summary>
     ///     Checks the Tags of the <see cref="TagLengthValue" /> array provided in the argument and removes any matching tags
     ///     from this queue
@@ -46,18 +63,22 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<PrimitiveValue
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    public int Resolve(PrimitiveValue[] value)
+    public IEnumerable<PrimitiveValue> Resolve(PrimitiveValue[] value)
     {
         for (nint i = 0; i < _Value.Count; i++)
         {
             if (!TryDequeue(out Tag result))
                 throw new DataElementParsingException($"The {nameof(TagsToRead)} could not dequeue a value from memory");
 
-            if (value.All(a => a.GetTag() != result))
-                Enqueue(result);
-        }
+            if (value.All(a => a.GetTag() == result))
+            {
+                yield return value[i];
 
-        return _Value.Count;
+                continue;
+            }
+
+            Enqueue(result);
+        }
     }
 
     /// <summary>

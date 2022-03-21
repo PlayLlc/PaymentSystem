@@ -27,7 +27,7 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
     private readonly IHandlePcdRequests _PcdEndpoint;
     private readonly IGetKernelState _KernelStateResolver;
     private readonly ICleanTornTransactions _KernelCleaner;
-    private readonly CommonProcessingS456 _S456;
+    private readonly S456 _S456;
 
     #endregion
 
@@ -42,7 +42,7 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
         IHandlePcdRequests pcdEndpoint,
         IGetKernelState kernelStateResolver,
         ICleanTornTransactions kernelCleaner,
-        CommonProcessingS456 s456) : base(kernelDatabase, dataExchange, kernelEndpoint)
+        S456 s456) : base(kernelDatabase, dataExchange, kernelEndpoint)
     {
         _UnpredictableNumberGenerator = unpredictableNumberGenerator;
         _TerminalEndpoint = terminalEndpoint;

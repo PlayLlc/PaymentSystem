@@ -88,7 +88,7 @@ namespace Play.Emv.Ber
 
         /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
         /// <exception cref="System.InvalidOperationException"></exception>
-        public IEnumerable<PrimitiveValue> DecodePrimitiveValuesAtRuntime(ReadOnlyMemory<byte> value)
+        public IEnumerable<PrimitiveValue> DecodePrimitiveValuesAtRuntime(ReadOnlySpan<byte> value)
         {
             TagLengthValue[] siblings = _Codec.DecodeTagLengthValues(value);
 

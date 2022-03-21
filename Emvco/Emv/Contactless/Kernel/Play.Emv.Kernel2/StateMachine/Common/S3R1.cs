@@ -18,17 +18,15 @@ using Play.Emv.Pcd.Contracts;
 using Play.Icc.FileSystem.ElementaryFiles;
 
 namespace Play.Emv.Kernel2.StateMachine;
-// TODO: Note that symbols S3R1.10, S3R1.11, S3R1.12, S3R1.13 and S3R1.18 are only implemented for the IDS/TORN Implementation Option.
 
-public class CommonProcessingS3R1 : CommonProcessing
+// TODO: Note that symbols S3R1.10, S3R1.11, S3R1.12, S3R1.13 and S3R1.18 are only implemented for the IDS/TORN Implementation Option.
+/// <summary>
+///     This object includes logic that is common to states 3: (<see cref="WaitingForGpoResponse" />) and State R: (
+///     <see cref="WaitingForExchangeRelayResistanceDataResponse" />)
+/// </summary>
+internal class S3R1 : CommonProcessing
 {
     #region Instance Values
-
-    protected readonly KernelDatabase _KernelDatabase;
-    protected readonly DataExchangeKernelService _DataExchangeKernelService;
-    private readonly IKernelEndpoint _KernelEndpoint;
-    private readonly IGetKernelState _KernelStateResolver;
-    private readonly IHandlePcdRequests _PcdEndpoint;
 
     protected override StateId[] _ValidStateIds { get; } =
     {
@@ -39,19 +37,13 @@ public class CommonProcessingS3R1 : CommonProcessing
 
     #region Constructor
 
-    public CommonProcessingS3R1(
+    public S3R1(
         KernelDatabase kernelDatabase,
         DataExchangeKernelService dataExchangeKernelService,
-        IKernelEndpoint kernelEndpoint,
         IGetKernelState kernelStateResolver,
-        IHandlePcdRequests pcdEndpoint)
-    {
-        _KernelDatabase = kernelDatabase;
-        _DataExchangeKernelService = dataExchangeKernelService;
-        _KernelEndpoint = kernelEndpoint;
-        _KernelStateResolver = kernelStateResolver;
-        _PcdEndpoint = pcdEndpoint;
-    }
+        IHandlePcdRequests pcdEndpoint,
+        IKernelEndpoint kernelEndpoint) : base(kernelDatabase, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
+    { }
 
     #endregion
 
@@ -136,7 +128,6 @@ public class CommonProcessingS3R1 : CommonProcessing
         _KernelDatabase.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _KernelDatabase.GetErrorIndication());
         _KernelDatabase.SetUiRequestOnRestartPresent(true);
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
 
         return true;
     }
@@ -357,6 +348,8 @@ public class CommonProcessingS3R1 : CommonProcessing
     #endregion
 
     #region S3R1.18
+
+    // HELLO!
 
     #endregion
 }

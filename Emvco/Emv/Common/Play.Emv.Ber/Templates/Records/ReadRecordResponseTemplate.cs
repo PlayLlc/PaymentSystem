@@ -34,7 +34,9 @@ public abstract class ReadRecordResponseTemplate : Template
     #region Instance Members
 
     public byte[] AsByteArray() => _Values;
-    public static TagLengthValue[] GetRecords(ReadOnlySpan<byte> value) => _Codec.DecodeTagLengthValues(value);
+
+    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    public static PrimitiveValue[] GetRecords(ReadOnlySpan<byte> value) => _Codec.DecodePrimitiveValuesAtRuntime(value).ToArray();
 
     #endregion
 }

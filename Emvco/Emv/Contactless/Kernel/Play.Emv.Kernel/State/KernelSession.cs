@@ -74,7 +74,8 @@ public class KernelSession
     public bool TryPeekActiveTag(out RecordRange result) => _ActiveApplicationFileLocator.TryPeek(out result);
     public bool IsActiveTagEmpty() => _ActiveApplicationFileLocator.IsEmpty();
 
-    public TagLengthValue[] ResolveActiveTag(ReadRecordResponse rapdu)
+    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    public PrimitiveValue[] ResolveActiveTag(ReadRecordResponse rapdu)
     {
         _ = _ActiveApplicationFileLocator.TryDequeue(out RecordRange? result);
 

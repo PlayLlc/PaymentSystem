@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
@@ -160,7 +162,29 @@ public class DataExchangeKernelService
                     InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
             }
 
-            ((TagsToRead) _Lock.Requests[DekRequestType.TagsToRead]).Resolve(valuesToResolve);
+            if (!_Lock.Requests.ContainsKey(DekResponseType.DataToSend))
+            {
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
+            }
+
+            IEnumerable<PrimitiveValue> resolvedItems = ((TagsToRead) _Lock.Requests[DekRequestType.TagsToRead]).Resolve(valuesToResolve);
+
+            _Lock.Responses[DekResponseType.DataToSend].Enqueue(resolvedItems.ToArray());
+        }
+    }
+
+    public void ResolveTagsToReadYet(IQueryTlvDatabase database)
+    {
+        lock (_Lock.Requests)
+        {
+            if (!_Lock.Requests.ContainsKey(DekRequestType.TagsToRead))
+            {
+                throw new
+                    InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
+            }
+
+            ((TagsToRead) _Lock.Requests[DekRequestType.TagsToRead]).Resolve(database);
         }
     }
 
