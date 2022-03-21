@@ -77,6 +77,7 @@ public class BinaryCodec : PlayCodec
 
     #region Decode To DecodedMetadata
 
+    // HACK: We're removing the dynamic decoding capability and using explicit decoding calls
     public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
     {
         if (value.Length <= Specs.Integer.UInt8.ByteCount)
@@ -110,6 +111,8 @@ public class BinaryCodec : PlayCodec
     /// <exception cref="CodecParsingException"></exception>
     public override ushort GetByteCount<T>(T value) where T : struct
     {
+        
+        // HACK: We're removing the dynamic decoding capability and using explicit decoding calls
         nint byteSize = Unsafe.SizeOf<T>();
 
         if (byteSize <= Specs.Integer.UInt8.ByteCount)
@@ -194,6 +197,8 @@ public class BinaryCodec : PlayCodec
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T value) where T : struct
     {
+        
+        // HACK: We're removing the dynamic decoding capability and using explicit decoding calls
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
         Type type = typeof(T);
 
@@ -226,6 +231,7 @@ public class BinaryCodec : PlayCodec
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T value, int length) where T : struct
     {
+        // HACK: We're removing the dynamic decoding capability and using explicit decoding calls
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
         Type type = typeof(T);
 
@@ -370,6 +376,7 @@ public class BinaryCodec : PlayCodec
     /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
     {
+        // HACK: We're removing the dynamic decoding capability and using explicit decoding calls
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
         Type type = typeof(T);
 
@@ -407,6 +414,7 @@ public class BinaryCodec : PlayCodec
     /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
+        // HACK: We're removing the dynamic decoding capability and using explicit decoding calls
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
         Type type = typeof(T);
 

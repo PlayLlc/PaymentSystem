@@ -5,6 +5,7 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
+using Play.Emv.Kernel;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
@@ -24,7 +25,7 @@ namespace Play.Emv.Kernel2.StateMachine
         #region Instance Values
 
         private readonly PreGenAcBalanceReader _PreGenAcBalanceReader;
-        private readonly PreGenAcBalanceReader _PostGenAcBalanceReader;
+        private readonly PostGenAcBalanceReader _PostGenAcBalanceReader;
 
         protected override StateId[] _ValidStateIds { get; } =
         {
@@ -41,11 +42,16 @@ namespace Play.Emv.Kernel2.StateMachine
             KernelDatabase kernelDatabase,
             DataExchangeKernelService dataExchangeKernelService,
             IGetKernelState kernelStateResolver,
-            IHandlePcdRequests pcdEndpoint) : base(kernelDatabase, dataExchangeKernelService, kernelStateResolver, pcdEndpoint)
+            IHandlePcdRequests pcdEndpoint,
+            IKernelEndpoint kernelEndpoint) : base(kernelDatabase, dataExchangeKernelService, kernelStateResolver, pcdEndpoint,kernelEndpoint)
         {
-            _PreGenAcBalanceReader = new PreGenAcBalanceReader(kernelDatabase, dataExchangeKernelService, kernelStateResolver, pcdEndpoint);
+            _PreGenAcBalanceReader = new PreGenAcBalanceReader(kernelDatabase, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint);
             _PostGenAcBalanceReader =
-                new PreGenAcBalanceReader(kernelDatabase, dataExchangeKernelService, kernelStateResolver, pcdEndpoint);
+                new PostGenAcBalanceReader(kernelDatabase,
+                                           dataExchangeKernelService,
+                                           kernelStateResolver,
+                                           pcdEndpoint,
+                                           kernelEndpoint);
         }
 
         #endregion

@@ -21,7 +21,7 @@ public sealed record KnownObjects : EnumObject<Tag>
 
     #region Instance Values
 
-    public int Count => _ValueObjectMap.Count;
+    public static int Count => _ValueObjectMap.Count;
 
     #endregion
 
@@ -242,7 +242,7 @@ public sealed record KnownObjects : EnumObject<Tag>
 
     public bool Equals(KnownObjects? other) => !(other is null) && (_Value == other._Value);
 
-    public bool Equals(KnownObjects x, KnownObjects y)
+    public static bool Equals(KnownObjects x, KnownObjects y)
     {
         if (x is null)
             return y is null;
@@ -260,7 +260,7 @@ public sealed record KnownObjects : EnumObject<Tag>
         return hash + (_Value.GetHashCode() * 3);
     }
 
-    public int GetHashCode(KnownObjects obj) => obj.GetHashCode();
+    public static int GetHashCode(KnownObjects obj) => obj.GetHashCode();
 
     #endregion
 

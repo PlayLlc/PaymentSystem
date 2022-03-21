@@ -200,7 +200,7 @@ public partial class WaitingForGpoResponse : KernelState
     #region S3.15 - S3.16
 
     /// <remarks>EMV Book C-2 Section S3.15 - S3.16</remarks>
-    public bool IsEmvModeSupported(ApplicationInterchangeProfile applicationInterchangeProfile)
+    private bool IsEmvModeSupported(ApplicationInterchangeProfile applicationInterchangeProfile)
     {
         if (!applicationInterchangeProfile.IsEmvModeSupported())
             return false;
@@ -220,7 +220,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public bool TryHandlingMagstripeNotSupported(Kernel2Session session)
+    private bool TryHandlingMagstripeNotSupported(Kernel2Session session)
     {
         if (_KernelDatabase.IsMagstripeModeSupported())
             return false;
@@ -239,7 +239,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public KernelState HandleEmvMode(
+    private KernelState HandleEmvMode(
         Kernel2Session session,
         ApplicationFileLocator applicationFileLocator,
         ApplicationInterchangeProfile applicationInterchangeProfile,
@@ -257,7 +257,7 @@ public partial class WaitingForGpoResponse : KernelState
     #region S3.30 - S3.32
 
     /// <remarks>EMV Book C-2 Section S3.30 - S3.32</remarks>
-    public void SetActiveAflForEmvMode(
+    private static void SetActiveAflForEmvMode(
         Kernel2Session session,
         ApplicationFileLocator applicationFileLocator,
         KernelConfiguration kernelConfiguration)
@@ -278,7 +278,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public void SetContactlessTransactionLimitForEmvMode(
+    private void SetContactlessTransactionLimitForEmvMode(
         Kernel2Session session,
         ApplicationInterchangeProfile applicationInterchangeProfile)
     {
@@ -300,7 +300,7 @@ public partial class WaitingForGpoResponse : KernelState
         }
     }
 
-    public bool IsOnDeviceCardholderVerificationSupported(ApplicationInterchangeProfile applicationInterchangeProfile)
+    private bool IsOnDeviceCardholderVerificationSupported(ApplicationInterchangeProfile applicationInterchangeProfile)
     {
         if (!applicationInterchangeProfile.IsOnDeviceCardholderVerificationSupported())
             return false;
@@ -316,7 +316,7 @@ public partial class WaitingForGpoResponse : KernelState
     #region S3.60
 
     /// <remarks>EMV Book C-2 Section S3.60</remarks>
-    public bool IsRelayResistanceProtocolSupported(ApplicationInterchangeProfile applicationInterchangeProfile)
+    private bool IsRelayResistanceProtocolSupported(ApplicationInterchangeProfile applicationInterchangeProfile)
     {
         if (!applicationInterchangeProfile.IsRelayResistanceProtocolSupported())
             return false;
@@ -337,7 +337,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public KernelState HandleRelayResistanceProtocolNotSupported(Kernel2Session session)
+    private KernelState HandleRelayResistanceProtocolNotSupported(Kernel2Session session)
     {
         _KernelDatabase.Set(TerminalVerificationResultCodes.RelayResistanceNotPerformed);
 
@@ -351,7 +351,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <remarks>EMV Book C-2 Section S3.60 - S3.64</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public KernelState InitializeRelayResistanceProtocol(Kernel2Session session)
+    private KernelState InitializeRelayResistanceProtocol(Kernel2Session session)
     {
         TerminalRelayResistanceEntropy terminalEntropy = CreateTerminalEntropy();
 
@@ -375,7 +375,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     /// <remarks>Book C-2 Section S3.61</remarks>
     /// <exception cref="TerminalDataException"></exception>
-    public TerminalRelayResistanceEntropy CreateTerminalEntropy()
+    private TerminalRelayResistanceEntropy CreateTerminalEntropy()
     {
         UnpredictableNumber unpredictableNumber = _UnpredictableNumberGenerator.GenerateUnpredictableNumber();
         _KernelDatabase.Update(unpredictableNumber);
@@ -396,7 +396,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public KernelState HandleMagstripeMode(
+    private KernelState HandleMagstripeMode(
         Kernel2Session session,
         ApplicationFileLocator applicationFileLocator,
         ApplicationInterchangeProfile applicationInterchangeProfile,
@@ -414,7 +414,7 @@ public partial class WaitingForGpoResponse : KernelState
     #region S3.70 - S3.72
 
     /// <remarks>Emv Book C-2 Section S3.70 - S3.72 </remarks>
-    public void SetActiveAflForMagstripeMode(Kernel2Session session, ApplicationFileLocator applicationFileLocator)
+    private static void SetActiveAflForMagstripeMode(Kernel2Session session, ApplicationFileLocator applicationFileLocator)
     {
         // S3.30
         if (applicationFileLocator.IsOptimizedForMagstripe())
@@ -432,7 +432,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public void SetContactlessTransactionLimitForMagstripeMode(
+    private void SetContactlessTransactionLimitForMagstripeMode(
         Kernel2Session session,
         ApplicationInterchangeProfile applicationInterchangeProfile)
     {
@@ -459,7 +459,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     /// <remarks>Emv Book C-2 Section S3.76 </remarks>
     /// <exception cref="InvalidOperationException"></exception>
-    public void UpdateDataToSend()
+    private void UpdateDataToSend()
     {
         _DataExchangeKernelService.Resolve(_KernelDatabase);
     }
@@ -470,7 +470,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     /// <remarks>Emv Book C-2 Section S3.77 - S3.78 </remarks>
     /// <exception cref="InvalidOperationException"></exception>
-    public void HandleDekRequest(Kernel2Session session)
+    private void HandleDekRequest(Kernel2Session session)
     {
         if (_DataExchangeKernelService.IsEmpty(DekRequestType.DataNeeded))
             _DataExchangeKernelService.SendRequest(session.GetKernelSessionId());
@@ -490,7 +490,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     /// <remarks>Emv Book C-2 Section S3.80 - S3.81 </remarks>
     /// <exception cref="TerminalDataException"></exception>
-    public void SendReadRecordCommand(Kernel2Session session)
+    private void SendReadRecordCommand(Kernel2Session session)
     {
         if (!session.TryPeekActiveTag(out RecordRange recordRange))
             throw new TerminalDataException($"The {nameof(ApplicationFileLocator)} was correctly parsed but was unable to be retrieved");

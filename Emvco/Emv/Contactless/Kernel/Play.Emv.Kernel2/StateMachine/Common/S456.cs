@@ -98,7 +98,7 @@ internal class S456 : CommonProcessing
 
     #region S456.5
 
-    public bool IsProceedToFirstWriteFlagEmpty() => !_KernelDatabase.IsPresentAndNotEmpty(ProceedToFirstWriteFlag.Tag);
+    private bool IsProceedToFirstWriteFlagEmpty() => !_KernelDatabase.IsPresentAndNotEmpty(ProceedToFirstWriteFlag.Tag);
 
     #endregion
 
@@ -153,7 +153,7 @@ internal class S456 : CommonProcessing
     #region S456.11
 
     /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
-    public bool IsProceedToFirstWriteFlagNonZero()
+    private bool IsProceedToFirstWriteFlagNonZero()
     {
         if (_KernelDatabase.TryGet(ProceedToFirstWriteFlag.Tag, out PrimitiveValue? result))
             return false;
@@ -166,7 +166,7 @@ internal class S456 : CommonProcessing
     #region S456.12
 
     /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
-    public bool IsAmountAuthorizedEmpty() => !_KernelDatabase.IsPresentAndNotEmpty(AmountAuthorizedNumeric.Tag);
+    private bool IsAmountAuthorizedEmpty() => !_KernelDatabase.IsPresentAndNotEmpty(AmountAuthorizedNumeric.Tag);
 
     #endregion
 
@@ -186,7 +186,7 @@ internal class S456 : CommonProcessing
 
     #region S456.14 - S456.15
 
-    public bool TryHandlingMaxTransactionAmountExceeded(KernelSessionId sessionId)
+    private bool TryHandlingMaxTransactionAmountExceeded(KernelSessionId sessionId)
     {
         if (!IsMaxTransactionAmountExceeded())
             return false;
@@ -200,14 +200,15 @@ internal class S456 : CommonProcessing
 
     #region S456.14
 
+    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
     private bool IsMaxTransactionAmountExceeded()
     {
-        AmountAuthorizedNumeric authorizedAmount = (AmountAuthorizedNumeric) _KernelDatabase.Get(AmountAuthorizedNumeric.Tag);
+        AmountAuthorizedNumeric authorizedAmount = _KernelDatabase.Get<AmountAuthorizedNumeric>(AmountAuthorizedNumeric.Tag);
 
         ReaderContactlessTransactionLimit transactionLimit = _KernelDatabase.GetReaderContactlessTransactionLimit();
 
         // BUG: We need to make sure that the application currency and transaction currency are the same. Need to resolve the Terminal Reference Currency if they are different
-        TransactionCurrencyCode currency = (TransactionCurrencyCode) _KernelDatabase.Get(TransactionCurrencyCode.Tag);
+        TransactionCurrencyCode currency = _KernelDatabase.Get<TransactionCurrencyCode>(TransactionCurrencyCode.Tag);
 
         return authorizedAmount.AsMoney(currency) > transactionLimit.AsMoney(currency);
     }
@@ -216,6 +217,7 @@ internal class S456 : CommonProcessing
 
     #region S456.15
 
+    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
     private void HandleMaxTransactionAmountExceeded(KernelSessionId sessionId)
     {
         _KernelDatabase.Update(FieldOffRequestOutcome.NotAvailable);

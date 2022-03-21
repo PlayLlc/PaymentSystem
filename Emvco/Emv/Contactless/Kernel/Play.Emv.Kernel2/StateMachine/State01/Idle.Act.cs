@@ -241,7 +241,7 @@ public partial class Idle : KernelState
 
     /// <remarks>Book C-2 Section 6.3.3 - S1.12</remarks>
     /// <exception cref="InvalidOperationException"></exception>
-    public void HandleProcessingOptionsDataObjectList(Kernel2Session session, FileControlInformationAdf fci)
+    private void HandleProcessingOptionsDataObjectList(Kernel2Session session, FileControlInformationAdf fci)
     {
         if (fci.TryGetProcessingOptionsDataObjectList(out ProcessingOptionsDataObjectList? pdol))
             AddKnownObjectsToDataToSend();
@@ -281,7 +281,7 @@ public partial class Idle : KernelState
     #region S1.14
 
     /// <remarks>Book C-2 Section 6.3.3 S1.14</remarks>
-    public void SendGetProcessingOptions(GetProcessingOptionsRequest command)
+    private void SendGetProcessingOptions(GetProcessingOptionsRequest command)
     {
         _PcdEndpoint.Request(command);
     }
@@ -348,7 +348,7 @@ public partial class Idle : KernelState
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public void HandleDataStorageVersionNumberTerm(Kernel2Session session)
+    private void HandleDataStorageVersionNumberTerm(Kernel2Session session)
     {
         if (!_KernelDatabase.IsPresentAndNotEmpty(DataStorageVersionNumberTerminal.Tag))
         {
@@ -415,7 +415,7 @@ public partial class Idle : KernelState
     /// <remarks> EMV Book C-2 Section S1.19 </remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public KernelState RouteStateTransition(Kernel2Session session)
+    private KernelState RouteStateTransition(Kernel2Session session)
     {
         if (!_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out PrimitiveValue? applicationCapabilitiesInformationTlv))
             return HandlePdolData(session);
@@ -495,7 +495,7 @@ public partial class Idle : KernelState
     /// <param name="kernelSessionId"></param>
     /// <exception cref="InvalidOperationException"></exception>
     /// <remarks> EMV Book C-2 Section S1.22 </remarks>
-    public void DispatchDataExchangeMessages(KernelSessionId kernelSessionId)
+    private void DispatchDataExchangeMessages(KernelSessionId kernelSessionId)
     {
         _DataExchangeKernelService.SendResponse(kernelSessionId);
         _DataExchangeKernelService.SendRequest(kernelSessionId);
@@ -517,7 +517,7 @@ public partial class Idle : KernelState
     /// <remarks> EMV Book C-2 Section S1.23 </remarks>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    public void SetTimeout(Kernel2Session session)
+    private void SetTimeout(Kernel2Session session)
     {
         TimeoutValue timeout = (TimeoutValue) _KernelDatabase.Get(TimeoutValue.Tag);
 

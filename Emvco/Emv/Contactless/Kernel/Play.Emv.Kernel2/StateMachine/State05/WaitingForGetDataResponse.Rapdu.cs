@@ -84,7 +84,7 @@ public partial class WaitingForGetDataResponse : KernelState
 
     /// <remarks>Book C-2 Section S5.10 - S5.13</remarks>
     /// <exception cref="InvalidOperationException"></exception>
-    public bool TryHandleGetDataToBeDone(TransactionSessionId sessionId)
+    private bool TryHandleGetDataToBeDone(TransactionSessionId sessionId)
     {
         if (!_DataExchangeKernelService.TryPeek(DekRequestType.TagsToRead, out Tag tagToRead))
             return false;
@@ -99,7 +99,7 @@ public partial class WaitingForGetDataResponse : KernelState
     #region S5.14 - S5.18
 
     /// <remarks>Book C-2 Section S5.14 - S5.18</remarks>
-    public void HandleRemainingApplicationFilesToRead(KernelSession session)
+    private void HandleRemainingApplicationFilesToRead(KernelSession session)
     {
         if (!session.TryPeekActiveTag(out RecordRange recordRange))
             return;
@@ -122,7 +122,7 @@ public partial class WaitingForGetDataResponse : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    public void PersistGetDataResponse(GetDataResponse signal)
+    private void PersistGetDataResponse(GetDataResponse signal)
     {
         try
         {

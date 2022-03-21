@@ -349,21 +349,19 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
             return false;
 
         DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceEstimate =
-            (DeviceEstimatedTransmissionTimeForRelayResistanceRapdu)
-            _KernelDatabase.Get(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag);
-
+            _KernelDatabase
+                .Get<DeviceEstimatedTransmissionTimeForRelayResistanceRapdu>(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag);
         TerminalExpectedTransmissionTimeForRelayResistanceRapdu terminalEstimate =
-            (TerminalExpectedTransmissionTimeForRelayResistanceRapdu)
-            _KernelDatabase.Get(TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Tag);
-
+            _KernelDatabase
+                .Get<TerminalExpectedTransmissionTimeForRelayResistanceRapdu>(TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Tag);
         RelayResistanceTransmissionTimeMismatchThreshold mismatchThreshold =
-            (RelayResistanceTransmissionTimeMismatchThreshold) _KernelDatabase.Get(RelayResistanceTransmissionTimeMismatchThreshold.Tag);
-
+            _KernelDatabase.Get<RelayResistanceTransmissionTimeMismatchThreshold>(RelayResistanceTransmissionTimeMismatchThreshold.Tag);
         MinTimeForProcessingRelayResistanceApdu minThreshold =
-            (MinTimeForProcessingRelayResistanceApdu) _KernelDatabase.Get(MinTimeForProcessingRelayResistanceApdu.Tag);
-
+            _KernelDatabase.Get<MinTimeForProcessingRelayResistanceApdu>(MinTimeForProcessingRelayResistanceApdu.Tag);
         RelayResistanceAccuracyThreshold accuracyThreshold =
-            (RelayResistanceAccuracyThreshold) _KernelDatabase.Get(RelayResistanceAccuracyThreshold.Tag);
+            _KernelDatabase.Get<RelayResistanceAccuracyThreshold>(RelayResistanceAccuracyThreshold.Tag);
+
+        // TODO: You need to double check this logic - You created the 'RelaySeconds' half way in between so double check you're using the * 100 correctly
 
         RelaySeconds minThresholdCheck = ((RelaySeconds) processingTime - minThreshold) < RelaySeconds.Zero
             ? RelaySeconds.Zero

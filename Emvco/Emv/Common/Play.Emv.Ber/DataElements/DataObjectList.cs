@@ -123,8 +123,8 @@ public abstract record DataObjectList : DataElement<byte[]>
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <remarks>Book 3 Section 5.4</remarks>
     /// <exception cref="OverflowException"></exception>
+    /// <remarks>Book 3 Section 5.4</remarks> 
     public virtual DataObjectListResult AsDataObjectListResult(IQueryTlvDatabase database)
     {
         if (!TryGetRequestedDataItems(database, out PrimitiveValue[] result))

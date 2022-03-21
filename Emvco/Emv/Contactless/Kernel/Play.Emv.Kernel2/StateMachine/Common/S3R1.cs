@@ -65,7 +65,7 @@ internal class S3R1 : CommonProcessing
         ResolveKnownTagsToRead();
 
         if (!IsIntegratedStorageReadingStillRequired())
-            StopReadingIntegratedStorage(session);
+            StopReadingIntegratedStorage();
 
         ResolveKnownTagsToRead();
 
@@ -136,7 +136,7 @@ internal class S3R1 : CommonProcessing
 
     /// <remarks> EMV Book C-2 Section S3R1.1 - S3R1.4 </remarks>
     /// <exception cref="InvalidOperationException"></exception>
-    public bool TryHandleGetDataToBeDone(TransactionSessionId sessionId)
+    private bool TryHandleGetDataToBeDone(TransactionSessionId sessionId)
     {
         if (!_DataExchangeKernelService.TryPeek(DekRequestType.TagsToRead, out Tag tagToRead))
             return false;
@@ -152,7 +152,7 @@ internal class S3R1 : CommonProcessing
 
     /// <remarks> EMV Book C-2 Section S3R1.1 - S3R1.9 </remarks>
     /// <exception cref="InvalidOperationException"></exception>
-    public bool TrySendingNextCommand(KernelSession session)
+    private bool TrySendingNextCommand(KernelSession session)
     {
         if (TryHandleGetDataToBeDone(session.GetTransactionSessionId()))
             return false;
@@ -168,7 +168,7 @@ internal class S3R1 : CommonProcessing
     #region S3R1.5 - S3R1.9
 
     /// <remarks> EMV Book C-2 Section S3R1.5 - S3R1.9 </remarks>
-    public bool TryHandleRemainingApplicationFilesToRead(KernelSession session)
+    private bool TryHandleRemainingApplicationFilesToRead(KernelSession session)
     {
         if (!session.TryPeekActiveTag(out RecordRange recordRange))
             return false;
@@ -187,7 +187,7 @@ internal class S3R1 : CommonProcessing
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public void AttemptToHandleIntegratedDataStorage(Kernel2Session session)
+    private void AttemptToHandleIntegratedDataStorage(Kernel2Session session)
     {
         if (!_KernelDatabase.IsIntegratedDataStorageSupported())
             return;
@@ -199,8 +199,7 @@ internal class S3R1 : CommonProcessing
             return;
 
         if (_KernelDatabase.TryGet(DataStorageSlotAvailability.Tag, out PrimitiveValue? dataStorageSlotAvailability))
-            _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, dataStorageSlotAvailability!);
-
+            _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, dataStorageSlotAvailability!); 
         if (_KernelDatabase.TryGet(DataStorageSummary1.Tag, out PrimitiveValue? dataStorageSummary1))
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, dataStorageSummary1!);
         if (_KernelDatabase.TryGet(DataStorageUnpredictableNumber.Tag, out PrimitiveValue? dataStorageUnpredictableNumber))
@@ -219,7 +218,7 @@ internal class S3R1 : CommonProcessing
 
     /// <remarks> EMV Book C-2 Section S3R1.12 </remarks>
     /// <exception cref="TerminalDataException"></exception>
-    public bool IsIntegratedStorageReadingStillRequired()
+    private bool IsIntegratedStorageReadingStillRequired()
     {
         if (_KernelDatabase.IsPresentAndNotEmpty(DataStorageSummary1.Tag)
             && _KernelDatabase.IsPresentAndNotEmpty(DataStorageOperatorDataSetCard.Tag))
@@ -243,7 +242,7 @@ internal class S3R1 : CommonProcessing
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public void StopReadingIntegratedStorage(Kernel2Session session)
+    private void StopReadingIntegratedStorage()
     {
         IntegratedDataStorageStatus idsStatus =
             IntegratedDataStorageStatus.Decode(((IntegratedDataStorageStatus) _KernelDatabase.Get(IntegratedDataStorageStatus.Tag))
@@ -258,7 +257,7 @@ internal class S3R1 : CommonProcessing
 
     /// <remarks> EMV Book C-2 Section S3R1.14 </remarks>
     /// <exception cref="InvalidOperationException"></exception>
-    public void ResolveKnownTagsToRead()
+    private void ResolveKnownTagsToRead()
     {
         _DataExchangeKernelService.Resolve(_KernelDatabase);
     }
@@ -269,7 +268,7 @@ internal class S3R1 : CommonProcessing
 
     /// <remarks> EMV Book C-2 Section S3R1.15 </remarks>
     /// <exception cref="InvalidOperationException"></exception>
-    public bool IsDataExchangeNeeded()
+    private bool IsDataExchangeNeeded()
     {
         if (_DataExchangeKernelService.IsEmpty(DekRequestType.DataNeeded))
             return true;
@@ -286,7 +285,7 @@ internal class S3R1 : CommonProcessing
 
     /// <remarks> EMV Book C-2 Section S3R1.16 </remarks>
     /// <exception cref="InvalidOperationException"></exception>
-    public void ExchangeData(KernelSessionId sessionId)
+    private void ExchangeData(KernelSessionId sessionId)
     {
         _DataExchangeKernelService.SendRequest(sessionId);
         _DataExchangeKernelService.SendResponse(sessionId);
@@ -303,7 +302,7 @@ internal class S3R1 : CommonProcessing
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public bool DoesTheCardAndTerminalSupportCombinedDataAuth(Kernel2Session session)
+    private bool DoesTheCardAndTerminalSupportCombinedDataAuth(Kernel2Session session)
     {
         ApplicationInterchangeProfile applicationInterchangeProfile =
             ApplicationInterchangeProfile.Decode(((ApplicationInterchangeProfile) _KernelDatabase.Get(ApplicationInterchangeProfile.Tag))
@@ -325,7 +324,7 @@ internal class S3R1 : CommonProcessing
     #region S3R1.19
 
     /// <remarks> EMV Book C-2 Section S3R1.19 </remarks>
-    public void SetCombinedDataAuthFlag(Kernel2Session session)
+    private static void SetCombinedDataAuthFlag(Kernel2Session session)
     {
         session.Update(OdaStatusTypes.Cda);
     }
@@ -338,7 +337,7 @@ internal class S3R1 : CommonProcessing
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <remarks> EMV Book C-2 Section S3R1.20 </remarks>
-    public void SetOfflineAuthNotPerformed()
+    private void SetOfflineAuthNotPerformed()
     {
         _KernelDatabase.Set(TerminalVerificationResultCodes.OfflineDataAuthenticationWasNotPerformed);
     }

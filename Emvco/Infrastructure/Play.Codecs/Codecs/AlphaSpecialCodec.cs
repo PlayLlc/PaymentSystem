@@ -217,33 +217,7 @@ public class AlphaSpecialCodec : PlayCodec
     #endregion
 
     #region Decode To Chars
-
-    public int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
-    {
-        if (byteIndex > chars.Length)
-            throw new ArgumentNullException();
-
-        if (charIndex > chars.Length)
-            throw new ArgumentOutOfRangeException();
-
-        if ((charIndex + byteCount) > bytes.Length)
-            throw new ArgumentOutOfRangeException();
-
-        if (byteIndex > bytes.Length)
-            throw new ArgumentOutOfRangeException();
-
-        if ((charIndex + byteCount) > (chars.Length - charIndex))
-            throw new ArgumentOutOfRangeException();
-
-        if ((chars.Length - charIndex) < byteCount)
-            throw new ArgumentOutOfRangeException(nameof(bytes), "The byte array buffer provided was smaller than expected");
-
-        for (int i = byteIndex, j = charIndex; j < byteCount; i++, j++)
-            bytes[j] = _ByteMapper[chars[i]];
-
-        return byteCount;
-    }
-
+     
     public char[] DecodeToChars(ReadOnlySpan<byte> value)
     {
         char[] result = new char[value.Length];

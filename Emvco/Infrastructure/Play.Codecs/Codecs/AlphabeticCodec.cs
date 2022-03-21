@@ -259,32 +259,6 @@ public class AlphabeticCodec : PlayCodec
         return byteArray;
     }
 
-    public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
-    {
-        if (charIndex > chars.Length)
-            throw new ArgumentNullException();
-
-        if (byteIndex > bytes.Length)
-            throw new ArgumentOutOfRangeException();
-
-        if ((byteIndex + charCount) > bytes.Length)
-            throw new ArgumentOutOfRangeException();
-
-        if (charIndex > chars.Length)
-            throw new ArgumentOutOfRangeException();
-
-        if ((byteIndex + charCount) > (bytes.Length - byteIndex))
-            throw new ArgumentOutOfRangeException();
-
-        if ((bytes.Length - byteIndex) < charCount)
-            throw new ArgumentOutOfRangeException(nameof(bytes), "The byte array buffer provided was smaller than expected");
-
-        for (int i = charIndex, j = byteIndex; j < charCount; i++, j++)
-            bytes[j] = _ByteMapper[chars[i]];
-
-        return charCount;
-    }
-
     public override void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
     {
         throw new NotImplementedException();
@@ -374,31 +348,7 @@ public class AlphabeticCodec : PlayCodec
 
     #region Decode To Chars
 
-    public int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
-    {
-        if (byteIndex > chars.Length)
-            throw new ArgumentNullException();
-
-        if (charIndex > chars.Length)
-            throw new ArgumentOutOfRangeException();
-
-        if ((charIndex + byteCount) > bytes.Length)
-            throw new ArgumentOutOfRangeException();
-
-        if (byteIndex > bytes.Length)
-            throw new ArgumentOutOfRangeException();
-
-        if ((charIndex + byteCount) > (chars.Length - charIndex))
-            throw new ArgumentOutOfRangeException();
-
-        if ((chars.Length - charIndex) < byteCount)
-            throw new ArgumentOutOfRangeException(nameof(bytes), "The byte array buffer provided was smaller than expected");
-
-        for (int i = byteIndex, j = charIndex; j < byteCount; i++, j++)
-            bytes[j] = _ByteMapper[chars[i]];
-
-        return byteCount;
-    }
+    
 
     public char[] DecodeToChars(ReadOnlySpan<byte> value)
     {

@@ -2,6 +2,7 @@
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
+using Play.Emv.Kernel;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
@@ -23,6 +24,9 @@ namespace Play.Emv.Kernel2.StateMachine
         {
             #region Instance Values
 
+            public PreGenAcBalanceReader(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint) : base(kernelDatabase, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
+            { }
+
             protected override StateId[] _ValidStateIds { get; } =
             {
                 WaitingForEmvReadRecordResponse.StateId, WaitingForGetDataResponse.StateId, WaitingForEmvModeFirstWriteFlag.StateId
@@ -32,12 +36,7 @@ namespace Play.Emv.Kernel2.StateMachine
 
             #region Constructor
 
-            public PreGenAcBalanceReader(
-                KernelDatabase kernelDatabase,
-                DataExchangeKernelService dataExchangeKernelService,
-                IGetKernelState kernelStateResolver,
-                IHandlePcdRequests pcdEndpoint) : base(kernelDatabase, dataExchangeKernelService, kernelStateResolver, pcdEndpoint)
-            { }
+       
 
             #endregion
 

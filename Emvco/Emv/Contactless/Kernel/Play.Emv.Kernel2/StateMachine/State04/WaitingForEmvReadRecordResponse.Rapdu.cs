@@ -21,6 +21,8 @@ using Play.Emv.Pcd.Contracts;
 using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Icc.Messaging.Apdu;
 
+using IHandleKernelStopRequests = Play.Emv.Kernel.IHandleKernelStopRequests;
+
 namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForEmvReadRecordResponse : KernelState
@@ -147,11 +149,11 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <remarks>Book C-2 Section S4.14, S4.24 - S4.25, S5.27.1 - S5.27.2</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public bool TryResolveActiveRecords(KernelSession session, ReadRecordResponse rapdu, out Tag[] resolvedRecords)
+    private bool TryResolveActiveRecords(KernelSession session, ReadRecordResponse rapdu, out Tag[] resolvedRecords)
     {
         try
         {
-            TagLengthValue[] records = session.ResolveActiveTag(rapdu);
+            PrimitiveValue[] records = session.ResolveActiveTag(rapdu);
 
             _KernelDatabase.Update(rapdu.GetPrimitiveValues(_RuntimeCodec));
 
@@ -198,7 +200,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         KernelSession session,
         DataExchangeKernelService dataExchanger,
         KernelDatabase database,
-        IKernelEndpoint kernelEndpoint)
+        IHandleKernelStopRequests kernelEndpoint)
     {
         database.Update(StatusOutcome.EndApplication);
         database.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
@@ -220,7 +222,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    public void UpdateDataNeeded(Kernel2Session session, ReadRecordResponse rapdu, Tag[] resolvedRecords, bool isRecordSigned)
+    private void UpdateDataNeeded(Kernel2Session session, ReadRecordResponse rapdu, Tag[] resolvedRecords, bool isRecordSigned)
     {
         if (_KernelDatabase.IsIntegratedDataStorageSupported())
             UpdateDataNeededWhenIdsIsSupported(session, rapdu, resolvedRecords, isRecordSigned);
@@ -237,7 +239,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public void UpdateDataNeededWhenIdsIsNotSupported(Tag[] resolvedRecords)
+    private void UpdateDataNeededWhenIdsIsNotSupported(Tag[] resolvedRecords)
     {
         for (int i = 0; i < resolvedRecords.Length; i++)
         {
@@ -257,7 +259,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    public void UpdateDataNeededWhenIdsIsSupported(
+    private void UpdateDataNeededWhenIdsIsSupported(
         Kernel2Session session,
         ReadRecordResponse rapdu,
         Tag[] resolvedRecords,
@@ -287,50 +289,14 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <remarks>Book C-2 Section S4.29</remarks>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public void HandleCdol1(CardRiskManagementDataObjectList1 cdol)
+    private void HandleCdol1(CardRiskManagementDataObjectList1 cdol)
     {
         _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, cdol.GetNeededData(_KernelDatabase));
     }
 
     #endregion
 
-    #region S4.31
-
-    /// <summary>
-    ///     HandleDataStorageRead
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="rapdu"></param>
-    /// <param name="isRecordSigned"></param>
-    /// <param name="dsdol"></param>
-    /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Play.Emv.Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    public void HandleDataStorageRead(
-        Kernel2Session session,
-        ReadRecordResponse rapdu,
-        bool isRecordSigned,
-        DataStorageDataObjectList dsdol)
-    {
-        if (!_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out PrimitiveValue? idsStatus))
-        {
-            AttemptToUpdateStaticDataToBeAuthenticated(session, rapdu, isRecordSigned);
-
-            return;
-        }
-
-        if (!((IntegratedDataStorageStatus) idsStatus!).IsReadSet())
-        {
-            AttemptToUpdateStaticDataToBeAuthenticated(session, rapdu, isRecordSigned);
-
-            return;
-        }
-
-        HandleDsdol(session, rapdu, isRecordSigned, dsdol);
-    }
+    #region S4.31 
 
     /// <remarks>Book C-2 Section S4.32 - S4.33</remarks>
     /// <exception cref="DataElementParsingException"></exception>
@@ -339,7 +305,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public void HandleDsdol(Kernel2Session session, ReadRecordResponse rapdu, bool isRecordSigned, DataStorageDataObjectList dsdol)
+    private void HandleDsdol(Kernel2Session session, ReadRecordResponse rapdu, bool isRecordSigned, DataStorageDataObjectList dsdol)
     {
         // BUG: I think this section is wrong
         if (!_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out PrimitiveValue? idsStatus))
@@ -394,7 +360,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     /// <remarks>Book C-2 Section S4.34 - S4.35</remarks>
     /// <exception cref="Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
-    private void AttemptToUpdateStaticDataToBeAuthenticated(Kernel2Session session, ReadRecordResponse rapdu, bool isRecordSigned)
+    private static void AttemptToUpdateStaticDataToBeAuthenticated(Kernel2Session session, ReadRecordResponse rapdu, bool isRecordSigned)
     {
         if (!isRecordSigned)
             return;
@@ -468,7 +434,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     /// <remarks>Book C-2 Section S4.15 - S4.23</remarks>
     /// <exception cref="InvalidOperationException"></exception>
-    public void AttemptNextCommand(KernelSession session)
+    private void AttemptNextCommand(KernelSession session)
     {
         if (!TryHandleGetDataToBeDone(session.GetTransactionSessionId()))
             HandleRemainingApplicationFilesToRead(session);
@@ -480,7 +446,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     /// <remarks>Book C-2 Section S4.15 - S4.18</remarks>
     /// <exception cref="InvalidOperationException"></exception>
-    public bool TryHandleGetDataToBeDone(TransactionSessionId sessionId)
+    private bool TryHandleGetDataToBeDone(TransactionSessionId sessionId)
     {
         if (!_DataExchangeKernelService.TryPeek(DekRequestType.TagsToRead, out Tag tagToRead))
             return false;
@@ -495,7 +461,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     #region S4.19 - S4.23
 
     /// <remarks>Book C-2 Section S4.19 - S4.23</remarks>
-    public void HandleRemainingApplicationFilesToRead(KernelSession session)
+    private void HandleRemainingApplicationFilesToRead(KernelSession session)
     {
         if (!session.TryPeekActiveTag(out RecordRange recordRange))
             return;

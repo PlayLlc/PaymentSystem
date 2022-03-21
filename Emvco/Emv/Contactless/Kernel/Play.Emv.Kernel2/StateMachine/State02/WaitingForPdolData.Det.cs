@@ -64,7 +64,7 @@ public partial class WaitingForPdolData : KernelState
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public bool TryHandleTimeout(KernelSession session)
+    private bool TryHandleTimeout(KernelSession session)
     {
         if (!session.Timer.IsTimedOut())
             return false;
@@ -127,7 +127,8 @@ public partial class WaitingForPdolData : KernelState
     /// <remarks>Book C-2 Section S2.8.1 - S2.8.6</remarks>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    public GetProcessingOptionsRequest CreateGetProcessingOptionsCapdu(KernelSession session, ProcessingOptionsDataObjectList pdol) =>
+    /// <exception cref="OverflowException"></exception>
+    private GetProcessingOptionsRequest CreateGetProcessingOptionsCapdu(KernelSession session, ProcessingOptionsDataObjectList pdol) =>
         !_KernelDatabase.IsPresentAndNotEmpty(ProcessingOptionsDataObjectList.Tag)
             ? GetProcessingOptionsRequest.Create(session.GetTransactionSessionId())
             : GetProcessingOptionsRequest.Create(pdol.AsDataObjectListResult(_KernelDatabase), session.GetTransactionSessionId());
@@ -138,7 +139,7 @@ public partial class WaitingForPdolData : KernelState
 
     /// <remarks>Book C-2 Section S2.9</remarks>
     /// <exception cref="InvalidOperationException"></exception>
-    public void StopTimer(Kernel2Session session)
+    private static void StopTimer(Kernel2Session session)
     {
         session.Timer.Stop();
     }

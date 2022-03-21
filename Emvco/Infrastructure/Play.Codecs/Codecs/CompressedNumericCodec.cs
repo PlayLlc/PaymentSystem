@@ -65,6 +65,7 @@ public class CompressedNumericCodec : PlayCodec
 
     public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
     {
+        // HACK: We're removing the dynamic decoding capability and using explicit decoding calls
         BigInteger maximumIntegerResult = (BigInteger) Math.Pow(2, value.Length * 8);
 
         if (maximumIntegerResult <= byte.MaxValue)
@@ -125,11 +126,13 @@ public class CompressedNumericCodec : PlayCodec
     #endregion
 
     #region Count
-
+    
+    // HACK: We're removing the dynamic decoding capability and using explicit decoding calls
     public override ushort GetByteCount<T>(T value) where T : struct => checked((ushort) Unsafe.SizeOf<T>());
 
     public override ushort GetByteCount<T>(T[] value) where T : struct
     {
+        // HACK: We're removing the dynamic decoding capability and using explicit decoding calls
         if (typeof(T) == typeof(byte))
             return (ushort) ((ushort) value.Length * 2);
 

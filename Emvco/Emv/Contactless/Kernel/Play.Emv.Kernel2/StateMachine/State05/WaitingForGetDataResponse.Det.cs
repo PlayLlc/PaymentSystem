@@ -11,15 +11,9 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForGetDataResponse : KernelState
 {
-    #region DET
+    #region DET - QueryTerminalResponse
 
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+   
 
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
