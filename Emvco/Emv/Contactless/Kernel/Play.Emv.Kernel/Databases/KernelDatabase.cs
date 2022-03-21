@@ -26,11 +26,11 @@ public partial class KernelDatabase : IManageKernelDatabaseLifetime
 
     #region Constructor
     
-    public KernelDatabase(CertificateAuthorityDataset[] certificateAuthorityDataset, PersistentValues persistentValues, KnownObjectResolver knownObjectResolver)
+    public KernelDatabase(CertificateAuthorityDataset[] certificateAuthorityDataset, PersistentValues persistentValues, KnownObjects knownObjects)
     {
         _Certificates = certificateAuthorityDataset.ToImmutableSortedDictionary(a => a.GetRid(), b => b);
         _PersistentValues = persistentValues;
-        _KnownObjectResolver = knownObjectResolver;
+        _KnownObjects = knownObjects;
         _Database = new();  
         SeedDatabase();
     }

@@ -12,6 +12,7 @@ namespace Play.Emv.Kernel.Databases;
 public abstract record KnownObjects : EnumObject<Tag>
 {
     public abstract bool Exists(Tag value);
+    protected KnownObjects(){}
     protected KnownObjects(Tag value) : base(value)
     { }
 }

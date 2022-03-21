@@ -22,7 +22,8 @@ public abstract record EnumObject<T> : IEquatable<T>, IEqualityComparer<T>, ICom
     #endregion
 
     #region Constructor
-     
+
+    protected EnumObject() {}
 
     protected EnumObject(T value)
     {
