@@ -42,6 +42,48 @@ public abstract partial class KernelDatabase
     }
 
     /// <summary>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="tag"></param>
+    /// <param name="result"></param>
+    /// <returns></returns>
+    /// <exception cref="TerminalDataException"></exception>
+    public virtual bool TryGet<T>(Tag tag, out T? result) where T : PrimitiveValue
+    {
+        if (!IsActive())
+        {
+            throw new
+                TerminalDataException($"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+        }
+
+        if (!_TlvDatabase.TryGet(tag, out PrimitiveValue? primitiveValue))
+        {
+            result = null;
+
+            return false;
+        }
+
+        result = (T) primitiveValue!;
+
+        return true;
+    }
+
+    /// <summary>
+    ///     Gets the <see cref="PrimitiveValue" /> associated with the <see cref="Tag" /> in the arg
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="tag"></param>
+    /// <returns></returns>
+    /// <exception cref="TerminalDataException"></exception>
+    public virtual T Get<T>(Tag tag) where T : PrimitiveValue
+    {
+        if (!IsActive())
+            throw new TerminalDataException($"The method {nameof(Get)} cannot be accessed because {nameof(KernelDatabase)} is not active");
+
+        return (T) _TlvDatabase.Get(tag);
+    }
+
+    /// <summary>
     ///     Returns TRUE if tag T is defined in the data dictionary of the Kernel applicable for the Implementation Option
     /// </summary>
     /// <param name="tag"></param>

@@ -68,20 +68,6 @@ public abstract partial class KernelDatabase : IManageKernelDatabaseLifetime, IC
         _CertificateDatabase.PurgeRevokedCertificates();
     }
 
-    public bool TryGetKernelSessionId(out KernelSessionId? result)
-    {
-        if (_KernelSessionId == null)
-        {
-            result = null;
-
-            return false;
-        }
-
-        result = _KernelSessionId;
-
-        return true;
-    }
-
     protected bool IsActive() => _KernelSessionId != null;
 
     #endregion

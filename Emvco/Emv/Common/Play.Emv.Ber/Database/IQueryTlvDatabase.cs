@@ -12,6 +12,28 @@ public interface IQueryTlvDatabase
     public PrimitiveValue Get(Tag tag);
 
     /// <summary>
+    /// </summary>
+    /// <param name="tag"></param>
+    /// <exception cref="InvalidOperationException"></exception>
+    public T Get<T>(Tag tag) where T : PrimitiveValue;
+
+    /// <summary>
+    ///     Returns true if a TLV object with the provided <see cref="Tag" /> exists in the database and the corresponding
+    ///     <see cref="PrimitiveValue" /> in an out parameter
+    /// </summary>
+    /// <param name="tag"></param>
+    /// <param name="result"></param>
+    public bool TryGet(Tag tag, out PrimitiveValue? result);
+
+    /// <summary>
+    ///     Returns true if a TLV object with the provided <see cref="Tag" /> exists in the database and the corresponding
+    ///     <see cref="PrimitiveValue" /> in an out parameter
+    /// </summary>
+    /// <param name="tag"></param>
+    /// <param name="result"></param>
+    bool TryGet<T>(Tag tag, out T? result) where T : PrimitiveValue;
+
+    /// <summary>
     ///     Returns TRUE if tag T is defined in the data dictionary of the Kernel applicable for the Implementation Option
     /// </summary>
     /// <param name="tag"></param>
@@ -33,12 +55,4 @@ public interface IQueryTlvDatabase
     /// <param name="tag"></param>
     /// <returns></returns>
     public bool IsPresentAndNotEmpty(Tag tag);
-
-    /// <summary>
-    ///     Returns true if a TLV object with the provided <see cref="Tag" /> exists in the database and the corresponding
-    ///     <see cref="PrimitiveValue" /> in an out parameter
-    /// </summary>
-    /// <param name="tag"></param>
-    /// <param name="result"></param>
-    public bool TryGet(Tag tag, out PrimitiveValue? result);
 }
