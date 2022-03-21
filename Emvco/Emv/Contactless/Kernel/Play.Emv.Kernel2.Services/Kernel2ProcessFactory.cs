@@ -20,14 +20,14 @@ public class Kernel2ProcessFactory
         ICleanTornTransactions tornTransactionCleaner,
         Kernel2Configuration kernel2Configuration,
         Kernel2PersistentValues kernel2PersistentValues,
+        Kernel2KnownObjects knownObjects,
         IHandleTerminalRequests terminalEndpoint,
         IKernelEndpoint kernelEndpoint,
         IHandlePcdRequests pcdEndpoint,
         IGenerateUnpredictableNumber unpredictableNumberGenerator,
         CertificateAuthorityDataset[] certificates)
     {
-        KernelDatabase kernelDatabase = new(kernel2Configuration, terminalEndpoint, new Kernel2TlvReaderAndWriter(kernel2PersistentValues),
-                                              new CertificateDatabase(certificates));
+        KernelDatabase kernelDatabase = new KernelDatabase(certificates, kernel2PersistentValues, knownObjects);
 
         Kernel2StateResolver kernel2StateResolver = Kernel2StateResolver.Create(tornTransactionCleaner, kernelDatabase,
                                                                                 new DataExchangeKernelService(terminalEndpoint,

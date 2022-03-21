@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 
 using Play.Ber.Identifiers;
+using Play.Core;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
 using Play.Emv.Kernel.Databases;
@@ -11,11 +12,26 @@ using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Kernel2.Databases;
 
+public record Kernel2KknownObjectResolver : KnownObjectResolver
+{
+    public Kernel2KknownObjectResolver() 
+    {
+        public override bool Exists(Tag value) => Kernel2KnownObjects.Exists(value);
+        public override bool Equals(Tag other) => Kernel2KnownObjects.Equals(other); 
+        public override bool Equals(Tag x, Tag y) => Kernel2KnownObjects.Equals(x, y);  
+        public override int GetHashCode(Tag obj) => Kernel2KnownObjects.GetHashCode(obj); 
+        public override int CompareTo(Tag other) => Kernel2KnownObjects.CompareTo(other); 
+        public override bool Equals(Kernel2KnownObjects? x, Kernel2KnownObjects? y) => Kernel2KnownObjects.Equals(x, y); 
+        public override int GetHashCode(Kernel2KnownObjects obj) => Kernel2KnownObjects.GetHashCode(obj); 
+        public override int CompareTo(Kernel2KnownObjects? other) => Kernel2KnownObjects.CompareTo(other);
+}
+
 public sealed record Kernel2KnownObjects : KnownObjects
 {
     #region Static Metadata
 
     private static readonly ImmutableSortedDictionary<Tag, Kernel2KnownObjects> _ValueObjectMap;
+    private static readonly Kernel2KnownObjects GetKnownObjects() => new Kernel2KnownObjects();
 
     #endregion
 
@@ -25,7 +41,7 @@ public sealed record Kernel2KnownObjects : KnownObjects
 
     #endregion
 
-    #region Constructor
+    #region Constructor 
 
     /// <exception cref="TypeInitializationException"></exception>
     static Kernel2KnownObjects()

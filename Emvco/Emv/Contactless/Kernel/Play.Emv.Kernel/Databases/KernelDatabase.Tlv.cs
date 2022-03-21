@@ -13,7 +13,7 @@ public partial class KernelDatabase : ITlvReaderAndWriter
 {
     private readonly SortedDictionary<Tag, PrimitiveValue?> _Database;
     private readonly PersistentValues _PersistentValues;
-    private readonly KnownObjects _KnownObjects;
+    private readonly KnownObjectResolver _KnownObjectResolver;
 
     #region Lifetime Management
 
@@ -129,7 +129,7 @@ public partial class KernelDatabase : ITlvReaderAndWriter
     ///     Returns TRUE if tag T is defined in the data dictionary of the Kernel applicable for the Implementation Option
     /// </summary>
     /// <param name="tag"></param>
-    public bool IsKnown(Tag tag) => _KnownObjects.Exists(tag);
+    public bool IsKnown(Tag tag) => _KnownObjectResolver.Exists(tag);
 
     /// <summary>
     ///     Returns TRUE if the TLV Database includes a data object with tag T. Note that the length of the data object may be

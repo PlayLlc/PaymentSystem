@@ -31,6 +31,7 @@ internal class KernelEndpointRetrieverFactory
 
                                          // HACK - We shouldn't need to use a concrete type to pull these values from the reader database
                                          new Kernel2PersistentValues(readerDatabase.GetPersistentKernelValues(ShortKernelIdTypes.Kernel2)),
+                                         new Kernel2KnownObjects(),
                                          terminalEndpoint, kernelEndpoint, pcdEndpoint, unpredictableNumberGenerator,
                                          readerDatabase.GetCertificateAuthorityDatasets(new KernelId(ShortKernelIdTypes.Kernel2)))
         };

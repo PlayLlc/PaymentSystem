@@ -26,11 +26,11 @@ public partial class KernelDatabase : IManageKernelDatabaseLifetime
 
     #region Constructor
     
-    protected KernelDatabase(CertificateAuthorityDataset[] certificateAuthorityDataset, PersistentValues persistentValues, KnownObjects knownObjects)
+    public KernelDatabase(CertificateAuthorityDataset[] certificateAuthorityDataset, PersistentValues persistentValues, KnownObjectResolver knownObjectResolver)
     {
         _Certificates = certificateAuthorityDataset.ToImmutableSortedDictionary(a => a.GetRid(), b => b);
         _PersistentValues = persistentValues;
-        _KnownObjects = knownObjects;
+        _KnownObjectResolver = knownObjectResolver;
         _Database = new();  
         SeedDatabase();
     }
@@ -39,7 +39,8 @@ public partial class KernelDatabase : IManageKernelDatabaseLifetime
 
     #region Instance Members
 
-    public abstract KernelConfiguration GetKernelConfiguration();
+    /// <exception cref="TerminalDataException"></exception>
+    public KernelConfiguration GetKernelConfiguration() => Get<KernelConfiguration>(KernelConfiguration.Tag);
 
     /// <summary>
     ///     Activate
