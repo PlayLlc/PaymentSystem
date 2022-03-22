@@ -3,6 +3,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
+using Play.Globalization.Currency;
 
 namespace Play.Emv.Ber.DataElements;
 
@@ -28,6 +29,7 @@ public record ReaderContactlessFloorLimit : DataElement<ulong>, IEqualityCompare
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
+    public Money AsMoney(NumericCurrencyCode numericCurrencyCode) => new(_Value, numericCurrencyCode);
 
     #endregion
 

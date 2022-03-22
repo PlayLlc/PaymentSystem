@@ -8,7 +8,7 @@ public interface IPerformTerminalActionAnalysis
 {
     #region Instance Members
 
-    public void Process(TransactionSessionId sessionId, KernelDatabase database)
+    public void Process(TransactionSessionId sessionId, KernelDatabase database);
 
     #endregion
 }

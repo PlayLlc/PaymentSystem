@@ -5,11 +5,13 @@ using Play.Core.Extensions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
+using Play.Emv.Identifiers;
+using Play.Emv.Kernel.Databases;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
 
-namespace Play.Emv.Kernel.Services;
+namespace Play.Emv.Kernel.Services._TempRefactor;
 
 /// <remarks>
 ///     Book 3 Section 10.7
@@ -20,40 +22,6 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 
     private readonly IHandlePcdRequests _PcdEndpoint;
     private readonly IResolveAuthenticationType _AuthenticationTypeResolver;
-    private readonly TerminalCapabilities _TerminalCapabilities;
-    private readonly TerminalType _TerminalType;
-    private readonly ActionCodes _DefaultActionCodes;
-    private readonly ActionCodes _OnlineActionCodes;
-    private readonly ActionCodes _DenialActionCodes;
-
-    #endregion
-
-    #region Constructor
-
-    public TerminalActionAnalysisService(
-        IHandlePcdRequests pcdEndpoint,
-        IResolveAuthenticationType authenticationTypeResolver,
-        TerminalType terminalType,
-        TerminalCapabilities terminalCapabilities,
-        TerminalActionCodeDefault terminalActionCodeDefault,
-        TerminalActionCodeDenial terminalActionCodeDenial,
-        TerminalActionCodeOnline terminalActionCodeOnline,
-        IssuerActionCodeDefault issuerActionCodeDefault,
-        IssuerActionCodeDenial issuerActionCodeDenial,
-        IssuerActionCodeOnline issuerActionCodeOnline)
-    {
-        _AuthenticationTypeResolver = authenticationTypeResolver;
-        _TerminalCapabilities = terminalCapabilities;
-        _PcdEndpoint = pcdEndpoint;
-        _TerminalType = terminalType;
-
-        _DefaultActionCodes =
-            new ActionCodes((ulong) terminalActionCodeDefault.AsActionCodes() | (ulong) issuerActionCodeDefault.AsActionCodes());
-        _OnlineActionCodes =
-            new ActionCodes((ulong) terminalActionCodeOnline.AsActionCodes() | (ulong) issuerActionCodeOnline.AsActionCodes());
-        _DenialActionCodes =
-            new ActionCodes((ulong) terminalActionCodeDenial.AsActionCodes() | (ulong) issuerActionCodeDenial.AsActionCodes());
-    }
 
     #endregion
 
@@ -66,31 +34,33 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public void Process(TerminalActionAnalysisCommand command)
+    public void Process(TransactionSessionId sessionId, KernelDatabase database)
     {
         ActionFlag resultFlag = ActionFlag.None;
+        TerminalVerificationResults terminalVerificationResults =
+            database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
 
-        ProcessDenialActionCodes(command.GetTerminalVerificationResults(), ref resultFlag);
-        ProcessOnlineActionCodes(command.GetTerminalVerificationResults(), ref resultFlag);
-        ProcessDefaultActionCodes(command.GetTerminalVerificationResults(), command.GetOutcomeParameterSet(), ref resultFlag);
+        ProcessDenialActionCodes(database, terminalVerificationResults, ref resultFlag);
+        ProcessOnlineActionCodes(database, terminalVerificationResults, ref resultFlag);
+        ProcessDefaultActionCodes(database, terminalVerificationResults, ref resultFlag);
 
         if (resultFlag.HasFlag(ActionFlag.Denial))
         {
-            CreateDenyTransactionResponse(command);
+            CreateDenyTransactionResponse(sessionId, database);
 
             return;
         }
 
         if (resultFlag.HasFlag(ActionFlag.Online))
         {
-            CreateProceedOnlineResponse(command);
+            CreateProceedOnlineResponse(sessionId, database);
 
             return;
         }
 
         if (resultFlag.HasFlag(ActionFlag.Offline))
         {
-            CreateProceedOfflineResponse(command);
+            CreateProceedOfflineResponse(sessionId, database);
 
             return;
         }
@@ -98,16 +68,33 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         throw new InvalidOperationException("The Terminal Action Analysis result could not be determined");
     }
 
+    #endregion
+
     #region Denial
+
+    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    private static ActionCodes GetDenialActionCodes(KernelDatabase database)
+    {
+        TerminalActionCodeDenial terminalActionCodeDenial = database.Get<TerminalActionCodeDenial>(TerminalActionCodeDenial.Tag);
+        IssuerActionCodeDenial issuerActionCodeDefault = database.Get<IssuerActionCodeDenial>(IssuerActionCodeDenial.Tag);
+
+        ActionCodes denialActionCodes =
+            new((ulong) terminalActionCodeDenial.AsActionCodes() | (ulong) issuerActionCodeDefault.AsActionCodes());
+
+        return denialActionCodes;
+    }
 
     /// <summary>
     ///     Specifies the conditions that cause denial of a transaction without attempting to go online
     /// </summary>
-    /// <param name="terminalVerificationResult"></param>
+    /// <param name="database"></param>
+    /// <param name="terminalVerificationResults"></param>
     /// <param name="flag"></param>
-    private void ProcessDenialActionCodes(TerminalVerificationResults terminalVerificationResult, ref ActionFlag flag)
+    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    private static void ProcessDenialActionCodes(
+        KernelDatabase database, TerminalVerificationResults terminalVerificationResults, ref ActionFlag flag)
     {
-        if (!((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) _DenialActionCodes))
+        if (!((ulong) terminalVerificationResults).AreAnyBitsSet((ulong) GetDenialActionCodes(database)))
             return;
 
         flag |= ActionFlag.Denial;
@@ -115,29 +102,92 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 
     #endregion
 
+    #region Default
+
+    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    private static ActionCodes GetDefaultActionCodes(KernelDatabase database)
+    {
+        TerminalActionCodeDefault terminalActionCodeDenial = database.Get<TerminalActionCodeDefault>(TerminalActionCodeDefault.Tag);
+        IssuerActionCodeDefault issuerActionCodeDefault = database.Get<IssuerActionCodeDefault>(IssuerActionCodeDefault.Tag);
+
+        ActionCodes denialActionCodes =
+            new((ulong) terminalActionCodeDenial.AsActionCodes() | (ulong) issuerActionCodeDefault.AsActionCodes());
+
+        return denialActionCodes;
+    }
+
+    /// <summary>
+    ///     specify the conditions that cause the transaction to be rejected if it might have been approved online but the
+    ///     terminal is for any reason unable to process the transaction online
+    /// </summary>
+    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    private void ProcessDefaultActionCodes(
+        KernelDatabase database, TerminalVerificationResults terminalVerificationResult, ref ActionFlag flag)
+    {
+        ActionCodes defaultActionCodes = GetDefaultActionCodes(database);
+        OutcomeParameterSet outcomeParameterSet = database.GetOutcomeParameterSet();
+
+        if (database.IsTerminalType(TerminalType.CommunicationType.OfflineOnly))
+            ProcessDefaultActionCodesForOfflineOnlyTerminals(defaultActionCodes, terminalVerificationResult, ref flag);
+        else
+        {
+            ProcessDefaultActionCodesForOnlineCapableTerminals(outcomeParameterSet, defaultActionCodes, terminalVerificationResult,
+                                                               ref flag);
+        }
+    }
+
+    private void ProcessDefaultActionCodesForOfflineOnlyTerminals(
+        ActionCodes defaultActionCodes, TerminalVerificationResults terminalVerificationResult, ref ActionFlag flag)
+    {
+        if (((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) defaultActionCodes))
+            flag |= ActionFlag.Denial;
+    }
+
+    private void ProcessDefaultActionCodesForOnlineCapableTerminals(
+        OutcomeParameterSet outcomeParameterSet, ActionCodes defaultActionCodes, TerminalVerificationResults terminalVerificationResult,
+        ref ActionFlag flag)
+    {
+        if (!outcomeParameterSet.IsTimeout())
+            return;
+
+        if (((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) defaultActionCodes))
+            flag |= ActionFlag.Denial;
+    }
+
     #endregion
 
     #region Online
 
-    /// <param name="terminalVerificationResult"></param>
-    /// <param name="flag"></param>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Emv.Ber.Exceptions.DataElementParsingException"></exception>
-    private void ProcessOnlineActionCodes(TerminalVerificationResults terminalVerificationResult, ref ActionFlag flag)
+    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    private static ActionCodes GetOnlineActionCodes(KernelDatabase database)
     {
-        if (_TerminalType.GetCommunicationType() == TerminalType.CommunicationType.OfflineOnly)
+        TerminalActionCodeOnline terminalActionCodeOnline = database.Get<TerminalActionCodeOnline>(TerminalActionCodeOnline.Tag);
+        IssuerActionCodeOnline issuerActionCodeOnline = database.Get<IssuerActionCodeOnline>(IssuerActionCodeOnline.Tag);
+
+        ActionCodes denialActionCodes =
+            new((ulong) terminalActionCodeOnline.AsActionCodes() | (ulong) issuerActionCodeOnline.AsActionCodes());
+
+        return denialActionCodes;
+    }
+
+    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    private void ProcessOnlineActionCodes(
+        KernelDatabase database, TerminalVerificationResults terminalVerificationResult, ref ActionFlag flag)
+    {
+        ActionCodes actionCodes = GetOnlineActionCodes(database);
+
+        if (database.IsTerminalType(TerminalType.CommunicationType.OfflineOnly))
             ProcessOnlineActionCodesForOfflineOnlyTerminals(ref flag);
-        else if (_TerminalType.GetCommunicationType() == TerminalType.CommunicationType.OnlineAndOfflineCapable)
-            ProcessOnlineActionCodesForOnlineAndOfflineCapableTerminals(terminalVerificationResult, ref flag);
+        else if (database.IsTerminalType(TerminalType.CommunicationType.OnlineAndOfflineCapable))
+            ProcessOnlineActionCodesForOnlineAndOfflineCapableTerminals(actionCodes, terminalVerificationResult, ref flag);
         else
             flag |= ActionFlag.Online;
     }
 
     private void ProcessOnlineActionCodesForOnlineAndOfflineCapableTerminals(
-        TerminalVerificationResults terminalVerificationResult,
-        ref ActionFlag flag)
+        ActionCodes onlineActionCodes, TerminalVerificationResults terminalVerificationResult, ref ActionFlag flag)
     {
-        if (((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) _OnlineActionCodes))
+        if (((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) onlineActionCodes))
             flag |= ActionFlag.Online;
         else
             flag |= ActionFlag.Offline;
@@ -151,47 +201,6 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 
     #endregion
 
-    #region Default
-
-    /// <summary>
-    ///     specify the conditions that cause the transaction to be rejected if it might have been approved online but the
-    ///     terminal is for any reason unable to process the transaction online
-    /// </summary>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Emv.Ber.Exceptions.DataElementParsingException"></exception>
-    private void ProcessDefaultActionCodes(
-        TerminalVerificationResults terminalVerificationResult,
-        OutcomeParameterSet outcomeParameterSet,
-        ref ActionFlag flag)
-    {
-        if (_TerminalType.GetCommunicationType() != TerminalType.CommunicationType.OfflineOnly)
-            ProcessDefaultActionCodesForOfflineOnlyTerminals(terminalVerificationResult, ref flag);
-        else
-            ProcessDefaultActionCodesForOnlineCapableTerminals(terminalVerificationResult, outcomeParameterSet, ref flag);
-    }
-
-    private void ProcessDefaultActionCodesForOfflineOnlyTerminals(
-        TerminalVerificationResults terminalVerificationResult,
-        ref ActionFlag flag)
-    {
-        if (((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) _DefaultActionCodes))
-            flag |= ActionFlag.Denial;
-    }
-
-    private void ProcessDefaultActionCodesForOnlineCapableTerminals(
-        TerminalVerificationResults terminalVerificationResult,
-        OutcomeParameterSet outcomeParameterSet,
-        ref ActionFlag flag)
-    {
-        if (!outcomeParameterSet.IsTimeout())
-            return;
-
-        if (((ulong) terminalVerificationResult).AreAnyBitsSet((ulong) _DefaultActionCodes))
-            flag |= ActionFlag.Denial;
-    }
-
-    #endregion
-
     #region CAPDU Commands
 
     /// <summary>
@@ -200,13 +209,16 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <param name="command"></param>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    private void CreateDenyTransactionResponse(TerminalActionAnalysisCommand command)
+    private void CreateDenyTransactionResponse(TransactionSessionId sessionId, KernelDatabase database)
     {
-        _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessionId(),
+        CardRiskManagementDataObjectList1 cdol1 = database.Get<CardRiskManagementDataObjectList1>(CardRiskManagementDataObjectList1.Tag);
+        DataStorageDataObjectList ddol = database.Get<DataStorageDataObjectList>(DataStorageDataObjectList.Tag);
+
+        _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(sessionId,
                                                                          new CryptogramInformationData(CryptogramTypes
                                                                              .ApplicationAuthenticationCryptogram),
-                                                                         command.GetCardRiskManagementDolResult(),
-                                                                         command.GetDataStorageDolResult()));
+                                                                         cdol1.AsDataObjectListResult(database),
+                                                                         ddol.AsDataObjectListResult(database)));
     }
 
     /// <summary>
@@ -215,17 +227,22 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <param name="command"></param>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    private void CreateProceedOfflineResponse(TerminalActionAnalysisCommand command)
+    private void CreateProceedOfflineResponse(TransactionSessionId sessionId, KernelDatabase database)
     {
         bool isCdaRequested =
-            _AuthenticationTypeResolver.GetAuthenticationMethod(_TerminalCapabilities, command.GetApplicationInterchangeProfile())
+            _AuthenticationTypeResolver.GetAuthenticationMethod(database.Get<TerminalCapabilities>(TerminalCapabilities.Tag),
+                                                                database.Get<ApplicationInterchangeProfile>(ApplicationInterchangeProfile
+                                                                    .Tag))
             == AuthenticationTypes.CombinedDataAuthentication;
 
-        _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessionId(),
+        CardRiskManagementDataObjectList1 cdol1 = database.Get<CardRiskManagementDataObjectList1>(CardRiskManagementDataObjectList1.Tag);
+        DataStorageDataObjectList ddol = database.Get<DataStorageDataObjectList>(DataStorageDataObjectList.Tag);
+
+        _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(sessionId,
                                                                          new
                                                                              CryptogramInformationData(CryptogramTypes.TransactionCryptogram,
-                                                                              isCdaRequested), command.GetCardRiskManagementDolResult(),
-                                                                         command.GetDataStorageDolResult()));
+                                                                              isCdaRequested), cdol1.AsDataObjectListResult(database),
+                                                                         ddol.AsDataObjectListResult(database)));
     }
 
     /// <summary>
@@ -234,13 +251,16 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <param name="command"></param>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    private void CreateProceedOnlineResponse(TerminalActionAnalysisCommand command)
+    private void CreateProceedOnlineResponse(TransactionSessionId sessionId, KernelDatabase database)
     {
-        _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(command.GetTransactionSessionId(),
+        CardRiskManagementDataObjectList1 cdol1 = database.Get<CardRiskManagementDataObjectList1>(CardRiskManagementDataObjectList1.Tag);
+        DataStorageDataObjectList ddol = database.Get<DataStorageDataObjectList>(DataStorageDataObjectList.Tag);
+
+        _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(sessionId,
                                                                          new CryptogramInformationData(CryptogramTypes
                                                                              .AuthorizationRequestCryptogram),
-                                                                         command.GetCardRiskManagementDolResult(),
-                                                                         command.GetDataStorageDolResult()));
+                                                                         cdol1.AsDataObjectListResult(database),
+                                                                         ddol.AsDataObjectListResult(database)));
     }
 
     #endregion

@@ -124,6 +124,10 @@ public class S456 : CommonProcessing
         // S456.36
         SelectCardholderVerificationMethod();
 
+        AttemptToSetTransactionExceedsFloorLimitFlag(_KernelDatabase);
+
+        PerformTerminalActionAnalysis(session.GetTransactionSessionId(), _KernelDatabase);
+
         throw new NotImplementedException();
     }
 
@@ -635,6 +639,32 @@ public class S456 : CommonProcessing
     private void SelectCardholderVerificationMethod()
     {
         _CardholderVerificationMethodSelector.Process(_KernelDatabase);
+    }
+
+    #endregion
+
+    #region S456.37 - S456.38
+
+    private void AttemptToSetTransactionExceedsFloorLimitFlag(KernelDatabase database)
+    {
+        AmountAuthorizedNumeric authorizedAmount = _KernelDatabase.Get<AmountAuthorizedNumeric>(AmountAuthorizedNumeric.Tag);
+
+        ReaderContactlessFloorLimit transactionLimit = _KernelDatabase.Get<ReaderContactlessFloorLimit>(ReaderContactlessFloorLimit.Tag);
+
+        // BUG: We need to make sure that the application currency and transaction currency are the same. Need to resolve the Terminal Reference Currency if they are different
+        TransactionCurrencyCode currency = _KernelDatabase.Get<TransactionCurrencyCode>(TransactionCurrencyCode.Tag);
+
+        if (authorizedAmount.AsMoney(currency) > transactionLimit.AsMoney(currency))
+            database.Set(TerminalVerificationResultCodes.TransactionExceedsFloorLimit);
+    }
+
+    #endregion
+
+    #region S456.39
+
+    private void PerformTerminalActionAnalysis(TransactionSessionId sessionId, KernelDatabase database)
+    {
+        _TerminalActionAnalyzer.Process(sessionId, database);
     }
 
     #endregion
