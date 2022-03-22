@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-using Play.Core.Threads;
+using Play.Core;
 using Play.Emv.Display.Contracts;
 
 namespace Play.Emv.Display.Services;
@@ -29,9 +29,8 @@ public class DisplayProcess : CommandProcessingQueue
     #region Constructor
 
     public DisplayProcess(
-        IDisplayMessages messageDisplayService,
-        IDisplayLed ledDisplayService,
-        IDisplayMessageRepository displayMessageRepository) : base(new CancellationTokenSource())
+        IDisplayMessages messageDisplayService, IDisplayLed ledDisplayService, IDisplayMessageRepository displayMessageRepository) :
+        base(new CancellationTokenSource())
     {
         _MessageDisplayService = messageDisplayService;
         _LedDisplayService = ledDisplayService;

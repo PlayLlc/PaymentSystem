@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Play.Core.Threads;
+using Play.Core;
 
 namespace Play.Events;
 

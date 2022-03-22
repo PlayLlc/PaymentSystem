@@ -69,4 +69,10 @@ public record ApplicationPanSequenceNumber : DataElement<byte>
     public int GetHashCode(ApplicationPanSequenceNumber obj) => obj.GetHashCode();
 
     #endregion
+
+    #region Operator Overrides
+
+    public static explicit operator byte(ApplicationPanSequenceNumber value) => value._Value;
+
+    #endregion
 }

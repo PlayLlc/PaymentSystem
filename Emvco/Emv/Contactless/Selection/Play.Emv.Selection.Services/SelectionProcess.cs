@@ -1,4 +1,4 @@
-﻿using Play.Core.Threads;
+﻿using Play.Core;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Display.Contracts;
@@ -18,11 +18,8 @@ internal class SelectionProcess : CommandProcessingQueue
     #region Constructor
 
     public SelectionProcess(
-        IHandlePcdRequests pcdClient,
-        IHandleDisplayRequests displayClient,
-        TransactionProfile[] transactionProfiles,
-        PoiInformation poiInformation,
-        ISendSelectionResponses endpointClient) : base(new CancellationTokenSource())
+        IHandlePcdRequests pcdClient, IHandleDisplayRequests displayClient, TransactionProfile[] transactionProfiles,
+        PoiInformation poiInformation, ISendSelectionResponses endpointClient) : base(new CancellationTokenSource())
     {
         _SelectionStateMachine =
             new SelectionStateMachine(pcdClient, displayClient, transactionProfiles, poiInformation, this, endpointClient);

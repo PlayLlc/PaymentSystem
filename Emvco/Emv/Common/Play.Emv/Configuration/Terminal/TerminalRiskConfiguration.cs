@@ -1,4 +1,4 @@
-﻿using Play.Core.Math;
+﻿using Play.Core;
 using Play.Emv.Ber.DataElements;
 using Play.Globalization;
 using Play.Globalization.Currency;
@@ -27,11 +27,8 @@ public class TerminalRiskConfiguration
     #region Constructor
 
     public TerminalRiskConfiguration(
-        CultureProfile cultureProfile,
-        TerminalRiskManagementData terminalRiskManagementData,
-        Percentage biasedRandomSelectionMaximumPercentage,
-        Money biasedRandomSelectionThreshold,
-        Percentage randomSelectionTargetPercentage,
+        CultureProfile cultureProfile, TerminalRiskManagementData terminalRiskManagementData,
+        Percentage biasedRandomSelectionMaximumPercentage, Money biasedRandomSelectionThreshold, Percentage randomSelectionTargetPercentage,
         TerminalFloorLimit terminalFloorLimit)
     {
         _CultureProfile = cultureProfile;

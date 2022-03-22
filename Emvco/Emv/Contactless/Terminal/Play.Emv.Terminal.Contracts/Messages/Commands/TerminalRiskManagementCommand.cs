@@ -1,4 +1,4 @@
-﻿using Play.Core.Math;
+﻿using Play.Core;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Configuration;
 using Play.Globalization;
@@ -24,9 +24,7 @@ public class TerminalRiskManagementCommand
     #region Constructor
 
     public TerminalRiskManagementCommand(
-        PrimaryAccountNumber primaryAccountNumber,
-        CultureProfile cultureProfile,
-        AmountAuthorizedNumeric amountAmountAuthorizedNumeric,
+        PrimaryAccountNumber primaryAccountNumber, CultureProfile cultureProfile, AmountAuthorizedNumeric amountAmountAuthorizedNumeric,
         TerminalRiskConfiguration terminalRiskConfiguration)
     {
         _PrimaryAccountNumber = primaryAccountNumber;
@@ -36,14 +34,9 @@ public class TerminalRiskManagementCommand
     }
 
     public TerminalRiskManagementCommand(
-        PrimaryAccountNumber primaryAccountNumber,
-        CultureProfile cultureProfile,
-        AmountAuthorizedNumeric amountAmountAuthorizedNumeric,
-        TerminalRiskConfiguration terminalRiskConfiguration,
-        ushort applicationTransactionCount,
-        ushort lastOnlineApplicationTransactionCount,
-        byte lowerConsecutiveOfflineLimit,
-        byte upperConsecutiveOfflineLimit)
+        PrimaryAccountNumber primaryAccountNumber, CultureProfile cultureProfile, AmountAuthorizedNumeric amountAmountAuthorizedNumeric,
+        TerminalRiskConfiguration terminalRiskConfiguration, ushort applicationTransactionCount,
+        ushort lastOnlineApplicationTransactionCount, byte lowerConsecutiveOfflineLimit, byte upperConsecutiveOfflineLimit)
     {
         _PrimaryAccountNumber = primaryAccountNumber;
         _CultureProfile = cultureProfile;

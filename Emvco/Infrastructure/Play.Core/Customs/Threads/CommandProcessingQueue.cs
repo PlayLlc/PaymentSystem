@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Play.Core.Threads;
+namespace Play.Core;
 
 /// <summary>
 ///     This class takes commands as input and stores those commands in a queue. The commands are handled one by

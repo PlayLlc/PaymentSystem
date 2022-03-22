@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-using Play.Core.Threads;
+using Play.Core;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Services;
@@ -22,11 +22,8 @@ internal class MainProcess : CommandProcessingQueue
     #region Constructor
 
     public MainProcess(
-        ActivateReaderRequest activateReaderRequest,
-        IHandleSelectionRequests selectionEndpoint,
-        IHandleDisplayRequests displayEndpoint,
-        IReaderEndpoint readerEndpoint,
-        KernelRetriever kernelRetriever) : base(new CancellationTokenSource())
+        ActivateReaderRequest activateReaderRequest, IHandleSelectionRequests selectionEndpoint, IHandleDisplayRequests displayEndpoint,
+        IReaderEndpoint readerEndpoint, KernelRetriever kernelRetriever) : base(new CancellationTokenSource())
     {
         _MainStateMachine = new MainStateMachine(selectionEndpoint, kernelRetriever, displayEndpoint, readerEndpoint);
         Enqueue(activateReaderRequest);

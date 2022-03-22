@@ -235,6 +235,7 @@ public class S456 : CommonProcessing
 
     #region S456.14 - S456.15
 
+    /// <exception cref="TerminalDataException"></exception>
     private bool TryHandlingMaxTransactionAmountExceeded(KernelSessionId sessionId)
     {
         if (!IsMaxTransactionAmountExceeded())

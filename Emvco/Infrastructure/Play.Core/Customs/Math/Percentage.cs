@@ -1,4 +1,4 @@
-﻿namespace Play.Core.Math;
+﻿namespace Play.Core;
 
 public readonly struct Percentage
 {

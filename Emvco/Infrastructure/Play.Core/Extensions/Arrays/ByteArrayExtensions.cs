@@ -21,6 +21,49 @@ public static class ByteArrayExtensions
         return buffer.ToArray();
     }
 
+    /// <exception cref="OverflowException"></exception>
+    public static byte[] RemoveLeftPadding(this byte[] value, Nibble paddingValue)
+    {
+        int paddedNibbles = 0;
+        LeftNibble leftNibble = new(paddingValue);
+        RightNibble rightNibble = new(paddingValue);
+
+        for (int i = 0; i < value.Length; i++)
+        {
+            if (value[i] != leftNibble)
+                break;
+
+            paddedNibbles++;
+
+            if (value[i] != rightNibble)
+                break;
+
+            paddedNibbles++;
+        }
+
+        if (value.Length < Specs.ByteArray.StackAllocateCeiling)
+        {
+            Span<byte> result = stackalloc byte[value.Length - ((paddedNibbles / 2) + (paddedNibbles % 2))];
+            value[^result.Length..].CopyTo(result);
+
+            if ((paddedNibbles % 2) != 0)
+                result[0] = result[0].GetMaskedValue(LeftNibble.MaxValue);
+
+            return result.ToArray();
+        }
+        else
+        {
+            using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(value.Length - ((paddedNibbles / 2) + (paddedNibbles % 2)));
+            Span<byte> result = spanOwner.Span;
+            value[^result.Length..].CopyTo(result);
+
+            if ((paddedNibbles % 2) != 0)
+                result[0] = result[0].GetMaskedValue(LeftNibble.MaxValue);
+
+            return result.ToArray();
+        }
+    }
+
     public static byte[] ConcatArrays(this byte[] value, byte[] other)
     {
         using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(value.Length + other.Length);

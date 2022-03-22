@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-using Play.Core.Math;
+using Play.Core;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
@@ -93,8 +93,7 @@ internal class TerminalRiskManager : IManageTerminalRisk
     }
 
     private static bool DoesVelocityCheckHaveRequiredItems(
-        ushort? applicationTransactionCount,
-        ushort? lastOnlineApplicationTransactionCount)
+        ushort? applicationTransactionCount, ushort? lastOnlineApplicationTransactionCount)
     {
         if (applicationTransactionCount is null)
             return false;
@@ -105,11 +104,8 @@ internal class TerminalRiskManager : IManageTerminalRisk
     }
 
     private static Percentage GetTransactionTargetPercentage(
-        Money amountAuthorized,
-        Money terminalFloorLimit,
-        Money biasedRandomSelectionThreshold,
-        Percentage biasedRandomSelectionMaximumTargetPercentage,
-        Percentage randomSelectionTargetPercentage)
+        Money amountAuthorized, Money terminalFloorLimit, Money biasedRandomSelectionThreshold,
+        Percentage biasedRandomSelectionMaximumTargetPercentage, Percentage randomSelectionTargetPercentage)
     {
         ulong interpolationFactor = (ulong) ((amountAuthorized - biasedRandomSelectionThreshold)
             / (terminalFloorLimit - biasedRandomSelectionThreshold));
@@ -129,11 +125,8 @@ internal class TerminalRiskManager : IManageTerminalRisk
     ///     Book 3 Section 10.6.2
     /// </remarks>
     private async Task<bool> IsBiasedRandomSelection(
-        Money amountAuthorizedNumeric,
-        Money biasedRandomSelectionThreshold,
-        Money terminalFloorLimit,
-        Percentage biasedRandomSelectionMaximumTargetPercentage,
-        Percentage randomSelectionTargetPercentage)
+        Money amountAuthorizedNumeric, Money biasedRandomSelectionThreshold, Money terminalFloorLimit,
+        Percentage biasedRandomSelectionMaximumTargetPercentage, Percentage randomSelectionTargetPercentage)
     {
         if (amountAuthorizedNumeric < biasedRandomSelectionThreshold)
             return false;
@@ -158,8 +151,7 @@ internal class TerminalRiskManager : IManageTerminalRisk
     /// <exception cref="System.InvalidOperationException"></exception>
     private bool IsFloorLimitExceeded(
         PrimaryAccountNumber primaryAccountNumber, /*uint sequenceNumber,*/
-        Money amountAuthorizedNumeric,
-        Money terminalFloorLimit)
+        Money amountAuthorizedNumeric, Money terminalFloorLimit)
     {
         if (!_SplitPaymentCoordinator.TryGetSplitPaymentLogItem(primaryAccountNumber, out SplitPaymentLogItem result))
             return terminalFloorLimit > amountAuthorizedNumeric;
@@ -174,9 +166,7 @@ internal class TerminalRiskManager : IManageTerminalRisk
     ///     Book 3 Section 10.6.3
     /// </remarks>
     private static bool IsLowerVelocityThresholdExceeded(
-        byte lowerConsecutiveOfflineLimit,
-        ushort applicationTransactionCount,
-        ushort lastOnlineApplicationTransactionCount)
+        byte lowerConsecutiveOfflineLimit, ushort applicationTransactionCount, ushort lastOnlineApplicationTransactionCount)
     {
         if (applicationTransactionCount <= lastOnlineApplicationTransactionCount)
             return true;
@@ -194,9 +184,7 @@ internal class TerminalRiskManager : IManageTerminalRisk
     ///     Book 3 Section 10.6.2
     /// </remarks>
     private async Task<bool> IsRandomSelection(
-        Money amountAuthorizedNumeric,
-        Money biasedRandomSelectionThreshold,
-        Percentage randomSelectionTargetPercentage)
+        Money amountAuthorizedNumeric, Money biasedRandomSelectionThreshold, Percentage randomSelectionTargetPercentage)
     {
         if (amountAuthorizedNumeric < biasedRandomSelectionThreshold)
             return await _PercentageSelectionQueue.IsRandomSelection(randomSelectionTargetPercentage);
@@ -211,9 +199,7 @@ internal class TerminalRiskManager : IManageTerminalRisk
     ///     Book 3 Section 10.6.3
     /// </remarks>
     private static bool IsUpperVelocityThresholdExceeded(
-        byte upperConsecutiveOfflineLimit,
-        ushort applicationTransactionCount,
-        ushort lastOnlineApplicationTransactionCount)
+        byte upperConsecutiveOfflineLimit, ushort applicationTransactionCount, ushort lastOnlineApplicationTransactionCount)
     {
         if (applicationTransactionCount <= lastOnlineApplicationTransactionCount)
             return true;

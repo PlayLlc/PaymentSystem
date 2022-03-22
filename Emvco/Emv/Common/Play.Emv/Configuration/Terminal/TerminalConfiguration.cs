@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
-using Play.Core.Math;
+using Play.Core;
 using Play.Emv.Ber.DataElements;
 using Play.Globalization;
 using Play.Globalization.Currency;
