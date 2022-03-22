@@ -25,9 +25,6 @@ namespace Play.Emv.Kernel2.StateMachine
         {
             #region Instance Values
 
-            public PostGenAcBalanceReader(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint) : base(kernelDatabase, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
-            { }
-
             protected override StateId[] _ValidStateIds { get; } =
             {
                 WaitingForGenerateAcResponse1.StateId, WaitingForRecoverAcResponse.StateId, WaitingForGenerateAcResponse2.StateId,
@@ -37,7 +34,13 @@ namespace Play.Emv.Kernel2.StateMachine
             #endregion
 
             #region Constructor
-             
+
+            public PostGenAcBalanceReader(
+                KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
+                IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint) : base(kernelDatabase, dataExchangeKernelService,
+                                                                                       kernelStateResolver, pcdEndpoint, kernelEndpoint)
+            { }
+
             #endregion
 
             #region Instance Members
@@ -46,23 +49,23 @@ namespace Play.Emv.Kernel2.StateMachine
 
             /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
             /// <exception cref="TerminalDataException"></exception>
-            public override KernelState Process(IGetKernelStateId kernelStateId, Kernel2Session session)
+            public override StateId Process(IGetKernelStateId kernelStateId, Kernel2Session session)
             {
                 HandleRequestOutOfSync(kernelStateId.GetStateId());
 
                 if (!_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out PrimitiveValue? applicationCapabilitiesInformation))
-                    return _KernelStateResolver.GetKernelState(kernelStateId.GetStateId());
+                    return kernelStateId.GetStateId();
 
                 if (!((ApplicationCapabilitiesInformation) applicationCapabilitiesInformation!).SupportForBalanceReading())
-                    return _KernelStateResolver.GetKernelState(kernelStateId.GetStateId());
+                    return kernelStateId.GetStateId();
 
                 if (!_KernelDatabase.IsPresent(BalanceReadAfterGenAc.Tag))
-                    return _KernelStateResolver.GetKernelState(kernelStateId.GetStateId());
+                    return kernelStateId.GetStateId();
 
                 GetDataRequest capdu = GetDataRequest.Create(OfflineAccumulatorBalance.Tag, session.GetTransactionSessionId());
                 _PcdEndpoint.Request(capdu);
 
-                return _KernelStateResolver.GetKernelState(WaitingForPostGenAcBalance.StateId);
+                return WaitingForPostGenAcBalance.StateId;
             }
 
             #endregion

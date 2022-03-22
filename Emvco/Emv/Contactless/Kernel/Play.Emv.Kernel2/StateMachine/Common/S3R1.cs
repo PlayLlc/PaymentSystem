@@ -40,11 +40,9 @@ public class S3R1 : CommonProcessing
     #region Constructor
 
     public S3R1(
-        KernelDatabase kernelDatabase,
-        DataExchangeKernelService dataExchangeKernelService,
-        IGetKernelState kernelStateResolver,
-        IHandlePcdRequests pcdEndpoint,
-        IKernelEndpoint kernelEndpoint) : base(kernelDatabase, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
+        KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
+        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint) : base(kernelDatabase, dataExchangeKernelService,
+                                                                               kernelStateResolver, pcdEndpoint, kernelEndpoint)
     { }
 
     #endregion
@@ -56,7 +54,7 @@ public class S3R1 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
-    public override KernelState Process(IGetKernelStateId kernelStateId, Kernel2Session session)
+    public override StateId Process(IGetKernelStateId kernelStateId, Kernel2Session session)
     {
         HandleRequestOutOfSync(kernelStateId.GetStateId());
 
@@ -80,9 +78,9 @@ public class S3R1 : CommonProcessing
             HandleIdsFlags(session);
 
         if (!session.IsActiveTagEmpty())
-            return _KernelStateResolver.GetKernelState(WaitingForGetDataResponse.StateId);
+            return WaitingForGetDataResponse.StateId;
 
-        return _KernelStateResolver.GetKernelState(WaitingForEmvModeFirstWriteFlag.StateId);
+        return WaitingForEmvModeFirstWriteFlag.StateId;
     }
 
     /// <exception cref="TerminalDataException"></exception>
@@ -201,7 +199,7 @@ public class S3R1 : CommonProcessing
             return;
 
         if (_KernelDatabase.TryGet(DataStorageSlotAvailability.Tag, out PrimitiveValue? dataStorageSlotAvailability))
-            _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, dataStorageSlotAvailability!); 
+            _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, dataStorageSlotAvailability!);
         if (_KernelDatabase.TryGet(DataStorageSummary1.Tag, out PrimitiveValue? dataStorageSummary1))
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, dataStorageSummary1!);
         if (_KernelDatabase.TryGet(DataStorageUnpredictableNumber.Tag, out PrimitiveValue? dataStorageUnpredictableNumber))

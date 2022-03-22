@@ -49,27 +49,15 @@ public abstract record TerminalConfiguration
     #region Constructor
 
     protected TerminalConfiguration(
-        TerminalIdentification terminalIdentification,
-        MerchantIdentifier merchantIdentifier,
-        InterfaceDeviceSerialNumber interfaceDeviceSerialNumber,
-        TransactionCurrencyCode transactionCurrencyCode,
-        TerminalCapabilities terminalCapabilities,
-        TerminalFloorLimit terminalFloorLimit,
-        TerminalType terminalType,
-        TerminalCountryCode terminalCountryCode,
-        MerchantCategoryCode merchantCategoryCode,
-        LanguagePreference languagePreference,
-        ApplicationVersionNumberReader applicationVersionNumberReader,
-        MerchantNameAndLocation merchantNameAndLocation,
-        TerminalRiskManagementData terminalRiskManagementData,
-        Percentage biasedRandomSelectionPercentage,
-        Percentage randomSelectionTargetPercentage,
-        ulong thresholdValueForBiasedRandomSelection,
-        PoiInformation poiInformation,
-        AdditionalTerminalCapabilities additionalTerminalCapabilities,
-        TransactionReferenceCurrencyCode transactionReferenceCurrencyCode,
-        TransactionReferenceCurrencyExponent transactionReferenceCurrencyExponent,
-        AcquirerIdentifier acquirerIdentifier,
+        TerminalIdentification terminalIdentification, MerchantIdentifier merchantIdentifier,
+        InterfaceDeviceSerialNumber interfaceDeviceSerialNumber, TransactionCurrencyCode transactionCurrencyCode,
+        TerminalCapabilities terminalCapabilities, TerminalFloorLimit terminalFloorLimit, TerminalType terminalType,
+        TerminalCountryCode terminalCountryCode, MerchantCategoryCode merchantCategoryCode, LanguagePreference languagePreference,
+        ApplicationVersionNumberReader applicationVersionNumberReader, MerchantNameAndLocation merchantNameAndLocation,
+        TerminalRiskManagementData terminalRiskManagementData, Percentage biasedRandomSelectionPercentage,
+        Percentage randomSelectionTargetPercentage, ulong thresholdValueForBiasedRandomSelection, PoiInformation poiInformation,
+        AdditionalTerminalCapabilities additionalTerminalCapabilities, TransactionReferenceCurrencyCode transactionReferenceCurrencyCode,
+        TransactionReferenceCurrencyExponent transactionReferenceCurrencyExponent, AcquirerIdentifier acquirerIdentifier,
         DataStorageRequestedOperatorId dataStorageRequestedOperatorId)
     {
         _TerminalIdentification = terminalIdentification;
@@ -161,7 +149,7 @@ public abstract record TerminalConfiguration
     public bool IcWithContacts() => _TerminalCapabilities.IsIcWithContactsSupported();
     public bool MagneticStripe() => _TerminalCapabilities.IsMagneticStripeSupported();
     public bool ManualKeyEntry() => _TerminalCapabilities.IsManualKeyEntrySupported();
-    public bool NoCardVerificationMethodRequired() => _TerminalCapabilities.IsNoCardVerificationMethodRequiredSupported();
+    public bool NoCardVerificationMethodRequired() => _TerminalCapabilities.IsNoCardVerificationMethodRequiredSet();
     public bool PlaintextPinForIccVerification() => _TerminalCapabilities.IsPlaintextPinForIccVerificationSupported();
     public bool SignaturePaper() => _TerminalCapabilities.IsSignaturePaperSupported();
     public bool StaticDataAuthentication() => _TerminalCapabilities.IsStaticDataAuthenticationSupported();

@@ -30,6 +30,14 @@ public static class UIntExtension
         return bitLog + 1;
     }
 
+    public static uint ClearBit(this in uint input, Bits bitToClear, byte bytePosition)
+    {
+        if (bytePosition > Specs.Integer.UInt64.ByteCount)
+            throw new ArgumentOutOfRangeException(nameof(bytePosition));
+
+        return input & (~ (uint) bitToClear << ((bytePosition * 8) - 8));
+    }
+
     public static byte GetMostSignificantByte(this uint value) =>
         (byte) (value.GetMostSignificantBit().TryGetRemainder(8, out int resultWithoutRemainder) == 0
             ? resultWithoutRemainder

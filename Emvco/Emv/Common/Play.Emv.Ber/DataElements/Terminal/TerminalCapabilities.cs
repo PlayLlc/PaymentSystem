@@ -45,10 +45,11 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
     public bool IsIcWithContactsSupported() => _Value.IsBitSet(6);
     public bool IsMagneticStripeSupported() => _Value.IsBitSet(7);
     public bool IsManualKeyEntrySupported() => _Value.IsBitSet(8);
-    public bool IsNoCardVerificationMethodRequiredSupported() => _Value.IsBitSet(12);
+    public bool IsNoCardVerificationMethodRequiredSet() => _Value.IsBitSet(12);
     public bool IsPlaintextPinForIccVerificationSupported() => _Value.IsBitSet(16);
     public bool IsSignaturePaperSupported() => _Value.IsBitSet(14);
     public bool IsStaticDataAuthenticationSupported() => _Value.IsBitSet(24);
+    public static Builder GetBuilder() => new();
 
     #endregion
 
@@ -92,4 +93,43 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
     public int GetHashCode(TerminalCapabilities obj) => obj.GetHashCode();
 
     #endregion
+
+    public class Builder : PrimitiveValueBuilder<uint>
+    {
+        #region Constructor
+
+        internal Builder(TerminalCapabilities outcomeParameterSet)
+        {
+            _Value = outcomeParameterSet._Value;
+        }
+
+        internal Builder()
+        { }
+
+        #endregion
+
+        #region Instance Members
+
+        public void Reset(TerminalCapabilities value)
+        {
+            _Value = value._Value;
+        }
+
+        public override TerminalCapabilities Complete() => new(_Value);
+
+        public void SetCardVerificationMethodNotRequired(bool value)
+        {
+            if (value)
+                _Value.SetBit(Bits.Four, 2);
+
+            _Value.ClearBit(Bits.Four, 2);
+        }
+
+        protected override void Set(uint bitsToSet)
+        {
+            _Value |= bitsToSet;
+        }
+
+        #endregion
+    }
 }

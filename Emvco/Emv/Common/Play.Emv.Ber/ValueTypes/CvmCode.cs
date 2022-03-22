@@ -46,7 +46,7 @@ public readonly struct CvmCode
             return false;
 
         if (_Value == CvmCodes.None)
-            return terminalCapabilities.IsNoCardVerificationMethodRequiredSupported();
+            return terminalCapabilities.IsNoCardVerificationMethodRequiredSet();
         if (_Value == CvmCodes.OfflineEncipheredPin)
             return terminalCapabilities.IsEncipheredPinForOfflineVerificationSupported();
 

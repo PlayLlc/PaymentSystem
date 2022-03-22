@@ -30,11 +30,8 @@ public abstract class CommonProcessing
     #region Constructor
 
     protected CommonProcessing(
-        KernelDatabase kernelDatabase,
-        DataExchangeKernelService dataExchangeKernelService,
-        IGetKernelState kernelStateResolver,
-        IHandlePcdRequests pcdEndpoint,
-        IKernelEndpoint kernelEndpoint)
+        KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
+        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint)
     {
         _KernelDatabase = kernelDatabase;
         _DataExchangeKernelService = dataExchangeKernelService;
@@ -58,7 +55,7 @@ public abstract class CommonProcessing
         }
     }
 
-    public abstract KernelState Process(IGetKernelStateId kernelStateId, Kernel2Session session);
+    public abstract StateId Process(IGetKernelStateId kernelStateId, Kernel2Session session);
 
     #endregion
 }

@@ -1,4 +1,6 @@
-﻿using Play.Codecs.Exceptions;
+﻿using System;
+
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 
@@ -8,6 +10,7 @@ public partial class KernelDatabase
 {
     #region Configuration
 
+    /// <exception cref="TerminalDataException"></exception>
     public ReaderContactlessTransactionLimit GetReaderContactlessTransactionLimit()
     {
         if (IsOnDeviceCardholderVerificationSupported())
@@ -16,31 +19,110 @@ public partial class KernelDatabase
         return (ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice) Get(ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Tag);
     }
 
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    private TerminalCapabilities GetTerminalCapabilities() => (TerminalCapabilities) Get(TerminalCapabilities.Tag);
+    #region Get Configuration Objects
 
+    /// <exception cref="TerminalDataException"></exception>
+    private TerminalCapabilities GetTerminalCapabilities() => Get<TerminalCapabilities>(TerminalCapabilities.Tag);
+
+    /// <exception cref="TerminalDataException"></exception>
     private TransactionType GetTransactionType() => (TransactionType) Get(TransactionType.Tag);
-    private TerminalType GetTerminalType() => (TerminalType) Get(TerminalType.Tag);
-    private PosEntryMode GetPosEntryMode() => (PosEntryMode) Get(PosEntryMode.Tag);
+
+    /// <exception cref="TerminalDataException"></exception>
+    private IntegratedDataStorageStatus GetIntegratedDataStorageStatus() =>
+        Get<IntegratedDataStorageStatus>(IntegratedDataStorageStatus.Tag);
+
+    /// <exception cref="TerminalDataException"></exception>
+    private TerminalType GetTerminalType() => Get<TerminalType>(TerminalType.Tag);
+
+    /// <exception cref="TerminalDataException"></exception>
+    private PosEntryMode GetPosEntryMode() => Get<PosEntryMode>(PosEntryMode.Tag);
+
+    #endregion
+
+    #region Terminal Capabilities
+
+    #region Read
+
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsCardCaptureSupported() => GetTerminalCapabilities().IsCardCaptureSupported();
+
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsCombinedDataAuthenticationSupported() => GetTerminalCapabilities().IsCombinedDataAuthenticationSupported();
+
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsDynamicDataAuthenticationSupported() => GetTerminalCapabilities().IsDynamicDataAuthenticationSupported();
 
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsEncipheredPinForOfflineVerificationSupported() =>
         GetTerminalCapabilities().IsEncipheredPinForOfflineVerificationSupported();
 
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsEncipheredPinForOnlineVerificationSupported() =>
         GetTerminalCapabilities().IsEncipheredPinForOnlineVerificationSupported();
 
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsIcWithContactsSupported() => GetTerminalCapabilities().IsIcWithContactsSupported();
+
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsMagneticStripeSupported() => GetTerminalCapabilities().IsMagneticStripeSupported();
+
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsManualKeyEntrySupported() => GetTerminalCapabilities().IsManualKeyEntrySupported();
-    public bool IsNoCardVerificationMethodRequiredSupported() => GetTerminalCapabilities().IsNoCardVerificationMethodRequiredSupported();
+
+    /// <exception cref="TerminalDataException"></exception>
+    public bool IsNoCardVerificationMethodRequiredSupported() => GetTerminalCapabilities().IsNoCardVerificationMethodRequiredSet();
+
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsPlaintextPinForIccVerificationSupported() => GetTerminalCapabilities().IsCardCaptureSupported();
+
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsSignaturePaperSupported() => GetTerminalCapabilities().IsSignaturePaperSupported();
+
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsStaticDataAuthenticationSupported() => GetTerminalCapabilities().IsStaticDataAuthenticationSupported();
+
+    #endregion
+
+    #region Write
+
+    /// <exception cref="TerminalDataException"></exception>
+    public void SetCardVerificationMethodNotRequired(bool value)
+    {
+        try
+        {
+            _TerminalCapabilitiesBuilder.Reset(GetTerminalCapabilities());
+            _TerminalCapabilitiesBuilder.SetCardVerificationMethodNotRequired(value);
+            Update(_TerminalCapabilitiesBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+    }
+
+    #endregion
+
+    #endregion
+
+    #region Data Storage Flags
+
+    /// <exception cref="TerminalDataException"></exception>
+    public bool IsIntegratedDataStorageReadFlagSet() => GetIntegratedDataStorageStatus().IsReadSet();
+
+    /// <summary>
+    ///     Indicates if this payment system supports Integrated Data Storage and Torn Transaction Recovery
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="TerminalDataException"></exception>
+    public bool IsIdsAndTtrSupported() => IsIntegratedDataStorageSupported() && IsTornTransactionRecoverySupported();
 
     /// <summary>
     ///     IDS builds the reading and writing functions into existing payment commands (GET PROCESSING OPTIONS and GENERATE
@@ -64,18 +146,26 @@ public partial class KernelDatabase
         IsPresentAndNotEmpty(MaxNumberOfTornTransactionLogRecords.Tag)
         && (((MaxNumberOfTornTransactionLogRecords) Get(MaxNumberOfTornTransactionLogRecords.Tag)).GetValueByteCount() > 0);
 
-    /// <summary>
-    ///     Indicates if this payment system supports Integrated Data Storage and Torn Transaction Recovery
-    /// </summary>
-    /// <returns></returns>
-    /// <exception cref="TerminalDataException"></exception>
-    public bool IsIdsAndTtrSupported() => IsIntegratedDataStorageSupported() && IsTornTransactionRecoverySupported();
+    #endregion
 
+    #region Kernel Configuration
+
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsEmvModeSupported() => GetKernelConfiguration().IsEmvModeSupported();
+
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsMagstripeModeSupported() => GetKernelConfiguration().IsMagstripeModeSupported();
+
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsOnDeviceCardholderVerificationSupported() => GetKernelConfiguration().IsOnDeviceCardholderVerificationSupported();
+
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsRelayResistanceProtocolSupported() => GetKernelConfiguration().IsRelayResistanceProtocolSupported();
+
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsReadAllRecordsActivated() => GetKernelConfiguration().IsReadAllRecordsActivated();
+
+    #endregion
 
     #endregion
 }

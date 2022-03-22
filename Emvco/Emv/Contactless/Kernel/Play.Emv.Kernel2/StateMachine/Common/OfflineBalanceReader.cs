@@ -41,19 +41,14 @@ namespace Play.Emv.Kernel2.StateMachine
         #region Constructor
 
         public OfflineBalanceReader(
-            KernelDatabase kernelDatabase,
-            DataExchangeKernelService dataExchangeKernelService,
-            IGetKernelState kernelStateResolver,
-            IHandlePcdRequests pcdEndpoint,
-            IKernelEndpoint kernelEndpoint) : base(kernelDatabase, dataExchangeKernelService, kernelStateResolver, pcdEndpoint,kernelEndpoint)
+            KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
+            IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint) : base(kernelDatabase, dataExchangeKernelService,
+                                                                                   kernelStateResolver, pcdEndpoint, kernelEndpoint)
         {
-            _PreGenAcBalanceReader = new PreGenAcBalanceReader(kernelDatabase, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint);
+            _PreGenAcBalanceReader =
+                new PreGenAcBalanceReader(kernelDatabase, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint);
             _PostGenAcBalanceReader =
-                new PostGenAcBalanceReader(kernelDatabase,
-                                           dataExchangeKernelService,
-                                           kernelStateResolver,
-                                           pcdEndpoint,
-                                           kernelEndpoint);
+                new PostGenAcBalanceReader(kernelDatabase, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint);
         }
 
         #endregion
@@ -67,7 +62,7 @@ namespace Play.Emv.Kernel2.StateMachine
         /// <exception cref="RequestOutOfSyncException"></exception>
         /// <exception cref="TerminalDataException"></exception>
         /// >
-        public override KernelState Process(IGetKernelStateId kernelStateId, Kernel2Session session)
+        public override StateId Process(IGetKernelStateId kernelStateId, Kernel2Session session)
         {
             HandleRequestOutOfSync(kernelStateId.GetStateId());
 

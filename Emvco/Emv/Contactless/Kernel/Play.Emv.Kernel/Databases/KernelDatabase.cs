@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
+using Play.Ber.Identifiers;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
@@ -15,23 +18,25 @@ namespace Play.Emv.Kernel.Databases;
 public partial class KernelDatabase : IManageKernelDatabaseLifetime
 {
     #region Instance Values
-     
-    protected KernelSessionId? _KernelSessionId; 
+
+    protected KernelSessionId? _KernelSessionId;
     protected OutcomeParameterSet.Builder _OutcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
     protected UserInterfaceRequestData.Builder _UserInterfaceRequestDataBuilder = UserInterfaceRequestData.GetBuilder();
     protected ErrorIndication.Builder _ErrorIndicationBuilder = ErrorIndication.GetBuilder();
     protected TerminalVerificationResults.Builder _TerminalVerificationResultBuilder = TerminalVerificationResults.GetBuilder();
+    protected TerminalCapabilities.Builder _TerminalCapabilitiesBuilder = TerminalCapabilities.GetBuilder();
 
     #endregion
 
     #region Constructor
-    
-    public KernelDatabase(CertificateAuthorityDataset[] certificateAuthorityDataset, PersistentValues persistentValues, KnownObjects knownObjects)
+
+    public KernelDatabase(
+        CertificateAuthorityDataset[] certificateAuthorityDataset, PersistentValues persistentValues, KnownObjects knownObjects)
     {
         _Certificates = certificateAuthorityDataset.ToImmutableSortedDictionary(a => a.GetRid(), b => b);
         _PersistentValues = persistentValues;
         _KnownObjects = knownObjects;
-        _Database = new();  
+        _Database = new SortedDictionary<Tag, PrimitiveValue?>();
         SeedDatabase();
     }
 
