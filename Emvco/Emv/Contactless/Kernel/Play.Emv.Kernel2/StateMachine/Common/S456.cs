@@ -10,6 +10,7 @@ using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.DataExchange;
+using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.Services.ProcessingRestrictions;
 using Play.Emv.Kernel.Services.Selection;
 using Play.Emv.Kernel.State;
@@ -35,6 +36,7 @@ public class S456 : CommonProcessing
     private readonly IValidateCombinationCapability _CombinationCapabilityValidator;
     private readonly IValidateCombinationCompatibility _CombinationCompatibilityValidator;
     private readonly ISelectCardholderVerificationMethod _CardholderVerificationMethodSelector;
+    private readonly IPerformTerminalActionAnalysis _TerminalActionAnalyzer;
 
     protected override StateId[] _ValidStateIds { get; } =
     {
@@ -49,13 +51,14 @@ public class S456 : CommonProcessing
         KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
         IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint, OfflineBalanceReader offlineBalanceReader,
         IValidateCombinationCapability combinationCapabilityValidator, IValidateCombinationCompatibility combinationCompatibilityValidator,
-        ISelectCardholderVerificationMethod cardholderVerificationMethodSelector) : base(kernelDatabase, dataExchangeKernelService,
-                                                                                         kernelStateResolver, pcdEndpoint, kernelEndpoint)
+        ISelectCardholderVerificationMethod cardholderVerificationMethodSelector, IPerformTerminalActionAnalysis terminalActionAnalyzer) :
+        base(kernelDatabase, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
     {
         _OfflineBalanceReader = offlineBalanceReader;
         _CombinationCapabilityValidator = combinationCapabilityValidator;
         _CombinationCompatibilityValidator = combinationCompatibilityValidator;
         _CardholderVerificationMethodSelector = cardholderVerificationMethodSelector;
+        _TerminalActionAnalyzer = terminalActionAnalyzer;
     }
 
     #endregion
@@ -121,7 +124,7 @@ public class S456 : CommonProcessing
         // S456.36
         SelectCardholderVerificationMethod();
 
-        throw new NotImplementedException(); //
+        throw new NotImplementedException();
     }
 
     #region S456.1

@@ -39,6 +39,20 @@ public partial class KernelDatabase
 
     #endregion
 
+    #region Terminal Type
+
+    /// <exception cref="TerminalDataException"></exception>
+    public bool IsTerminalType(TerminalType.EnvironmentType environment) => GetTerminalType().IsEnvironmentType(environment);
+
+    /// <exception cref="TerminalDataException"></exception>
+    public bool IsTerminalType(TerminalType.CommunicationType communicationType) =>
+        GetTerminalType().IsCommunicationType(communicationType);
+
+    /// <exception cref="TerminalDataException"></exception>
+    public bool IsTerminalType(TerminalType.TerminalOperatorType operatorType) => GetTerminalType().IsOperatorType(operatorType);
+
+    #endregion
+
     #region Terminal Capabilities
 
     #region Read

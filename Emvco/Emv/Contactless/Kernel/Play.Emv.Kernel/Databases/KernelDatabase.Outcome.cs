@@ -36,26 +36,17 @@ public partial class KernelDatabase
         KernelOutcome.CreateMagstripeDiscretionaryData(this, dataExchanger);
     }
 
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     public ErrorIndication GetErrorIndication() => (ErrorIndication) Get(ErrorIndication.Tag);
 
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    private OutcomeParameterSet GetOutcomeParameterSet() => (OutcomeParameterSet) Get(OutcomeParameterSet.Tag);
+    public OutcomeParameterSet GetOutcomeParameterSet() => (OutcomeParameterSet) Get(OutcomeParameterSet.Tag);
 
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     private TerminalVerificationResults GetTerminalVerificationResults() =>
         (TerminalVerificationResults) Get(TerminalVerificationResults.Tag);
 
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
     private UserInterfaceRequestData GetUserInterfaceRequestData()
     {
         if (IsPresentAndNotEmpty(UserInterfaceRequestData.Tag))
@@ -86,9 +77,7 @@ public partial class KernelDatabase
     ///     GetDiscretionaryData
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
     private DiscretionaryData? GetDiscretionaryData()
     {
         if (IsPresentAndNotEmpty(DiscretionaryData.Tag))
