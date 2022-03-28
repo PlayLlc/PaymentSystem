@@ -4,6 +4,7 @@ using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
+using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
@@ -11,7 +12,7 @@ using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
-public class WaitingForMagStripeReadRecordResponse : KernelState
+public partial class WaitingForMagStripeReadRecordResponse : KernelState
 {
     #region Static Metadata
 
@@ -22,9 +23,9 @@ public class WaitingForMagStripeReadRecordResponse : KernelState
     #region Constructor
 
     public WaitingForMagStripeReadRecordResponse(
-        KernelDatabase kernelDatabase,
-        DataExchangeKernelService dataExchange,
-        IKernelEndpoint kernelEndpoint) : base(kernelDatabase, dataExchange, kernelEndpoint)
+        KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
+        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint) :
+        base(kernelDatabase, dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver, pcdEndpoint)
     { }
 
     #endregion
@@ -67,15 +68,7 @@ public class WaitingForMagStripeReadRecordResponse : KernelState
 
     #region DET
 
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+    // BUG: Need to make sure you're properly implementing each DEK handler for each state
 
     /// <summary>
     ///     Handle
@@ -94,7 +87,7 @@ public class WaitingForMagStripeReadRecordResponse : KernelState
     /// <param name="signal"></param>
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) =>
+    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion

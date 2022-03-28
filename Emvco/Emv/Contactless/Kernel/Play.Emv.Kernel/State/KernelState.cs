@@ -7,6 +7,7 @@ using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
+using Play.Emv.Kernel2.StateMachine;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
@@ -18,29 +19,28 @@ public abstract class KernelState : IGetKernelStateId
 {
     #region Instance Values
 
-    protected readonly IResolveKnownObjectsAtRuntime _RuntimeCodec;
     protected readonly KernelDatabase _KernelDatabase;
     protected readonly DataExchangeKernelService _DataExchangeKernelService;
     protected readonly IKernelEndpoint _KernelEndpoint;
     protected readonly IManageTornTransactions _TornTransactionManager;
-
-    #endregion
-
-    #region Constructor
-
-    protected KernelState(
-        KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionManager)
-    {
-        _KernelDatabase = kernelDatabase;
-        _DataExchangeKernelService = dataExchange;
-        _KernelEndpoint = kernelEndpoint;
-        _TornTransactionManager = tornTransactionManager;
-    }
+    protected readonly IGetKernelState _KernelStateResolver;
+    protected readonly IHandlePcdRequests _PcdEndpoint;
 
     #endregion
 
     #region Instance Members
+
+    protected KernelState(
+        KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
+        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint)
+    {
+        _KernelDatabase = kernelDatabase;
+        _DataExchangeKernelService = dataExchangeKernelService;
+        _KernelEndpoint = kernelEndpoint;
+        _TornTransactionManager = tornTransactionManager;
+        _KernelStateResolver = kernelStateResolver;
+        _PcdEndpoint = pcdEndpoint;
+    }
 
     public abstract StateId GetStateId();
     public abstract KernelState Handle(KernelSession session, ActivateKernelRequest signal);

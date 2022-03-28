@@ -9,6 +9,8 @@ public partial class WaitingForGpoResponse : KernelState
 {
     #region DET
 
+    // BUG: Need to make sure you're properly implementing each DEK handler for each state
+
     #region Query Terminal Response
 
     /// <summary>

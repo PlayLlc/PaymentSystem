@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Play.Emv.Ber.DataElements;
@@ -27,9 +28,44 @@ internal class TornTransactionManager : IManageTornTransactions
 
     public TornTransactionManager(MaxNumberOfTornTransactionLogRecords maxRecords, MaxLifetimeOfTornTransactionLogRecords maxLifetime)
     {
+        throw new NotImplementedException();
+
         _MaxLogLifetime = maxLifetime;
         _MaxNumberOfLogs = (byte) maxRecords;
         _TornRecords = new Queue<TornRecord>();
+
+        /* TODO: Need to make sure that each torn transaction log record is implemented according to EMV Book C-2 Table 4.2. The following objects should be included in this record if they're present:
+            Transaction Time
+            Transaction Type
+            Unpredictable Number
+            Terminal Relay Resistance Entropy
+            Device Relay Resistance Entropy
+            Min Time For Processing Relay Resistance APDU
+            Max Time For Processing Relay Resistance APDU
+            Device Estimated Transmission Time For Relay Resistance R-APDU
+            Measured Relay Resistance Processing Time
+            RRP Counter
+            Amount, Authorized (Numeric)
+            Amount, Other (Numeric)
+            Application PAN
+            Application PAN Sequence Number
+            Balance Read Before Gen AC
+            CDOL1 Related Data
+            CVM Results
+            DRDOL Related Data
+            DS Summary 1
+            IDS Status
+            Interface Device Serial Number
+            PDOL Related Data
+            Reference Control Parameter
+            Terminal Capabilities
+            Terminal Country Code
+            Terminal Type
+            Terminal Verification Results
+            Transaction Category Code
+            Transaction Currency Code
+            Transaction Date
+         */
     }
 
     #endregion

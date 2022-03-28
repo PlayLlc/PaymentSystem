@@ -25,7 +25,6 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
     private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
     private readonly IHandleTerminalRequests _TerminalEndpoint;
     private readonly IHandlePcdRequests _PcdEndpoint;
-    private readonly IGetKernelState _KernelStateResolver;
     private readonly ICleanTornTransactions _KernelCleaner;
     private readonly S456 _S456;
 
@@ -34,20 +33,15 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
     #region Constructor
 
     public WaitingForEmvModeFirstWriteFlag(
-        KernelDatabase kernelDatabase,
-        DataExchangeKernelService dataExchange,
-        IKernelEndpoint kernelEndpoint,
-        IGenerateUnpredictableNumber unpredictableNumberGenerator,
-        IHandleTerminalRequests terminalEndpoint,
-        IHandlePcdRequests pcdEndpoint,
-        IGetKernelState kernelStateResolver,
-        ICleanTornTransactions kernelCleaner,
-        S456 s456) : base(kernelDatabase, dataExchange, kernelEndpoint)
+        KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
+        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver,
+        IGenerateUnpredictableNumber unpredictableNumberGenerator, IHandleTerminalRequests terminalEndpoint, IHandlePcdRequests pcdEndpoint,
+        ICleanTornTransactions kernelCleaner, S456 s456) : base(kernelDatabase, dataExchangeKernelService, kernelEndpoint,
+                                                                tornTransactionManager, kernelStateResolver)
     {
         _UnpredictableNumberGenerator = unpredictableNumberGenerator;
         _TerminalEndpoint = terminalEndpoint;
         _PcdEndpoint = pcdEndpoint;
-        _KernelStateResolver = kernelStateResolver;
         _KernelCleaner = kernelCleaner;
         _S456 = s456;
     }

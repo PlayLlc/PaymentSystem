@@ -13,7 +13,7 @@ public partial class WaitingForGetDataResponse : KernelState
 {
     #region DET - QueryTerminalResponse
 
-   
+    // BUG: Need to make sure you're properly implementing each DEK handler for each state
 
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="InvalidOperationException"></exception>

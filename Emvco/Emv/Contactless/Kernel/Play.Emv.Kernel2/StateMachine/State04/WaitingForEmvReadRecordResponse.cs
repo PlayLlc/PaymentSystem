@@ -24,8 +24,6 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     #region Instance Values
 
     private readonly IHandleTerminalRequests _TerminalEndpoint;
-    private readonly IHandlePcdRequests _PcdEndpoint;
-    private readonly IGetKernelState _KernelStateResolver;
     private readonly ICleanTornTransactions _KernelCleaner;
 
     #endregion
@@ -33,18 +31,12 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     #region Instance Members
 
     public WaitingForEmvReadRecordResponse(
-        KernelDatabase kernelDatabase,
-        DataExchangeKernelService dataExchange,
-        IKernelEndpoint kernelEndpoint,
-        IHandleTerminalRequests terminalEndpoint,
-        IHandlePcdRequests pcdEndpoint,
-        IGetKernelState kernelStateResolver,
-        ICleanTornTransactions kernelCleaner,
-        S456 s456) : base(kernelDatabase, dataExchange, kernelEndpoint)
+        KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
+        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IHandleTerminalRequests terminalEndpoint, ICleanTornTransactions kernelCleaner, S456 s456) : base(kernelDatabase,
+     dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver, pcdEndpoint)
     {
         _TerminalEndpoint = terminalEndpoint;
-        _PcdEndpoint = pcdEndpoint;
-        _KernelStateResolver = kernelStateResolver;
         _KernelCleaner = kernelCleaner;
         _S456 = s456;
     }

@@ -25,24 +25,29 @@ public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public bool IsMatch(ApplicationPan pan, ApplicationPanSequenceNumber sequenceNumber) => throw new NotImplementedException();
-
-    #endregion
-
     #region Serialization
 
-    public override DiscretionaryData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override DiscretionaryData Decode(TagLengthValue value)
+    {
+        throw new NotImplementedException();
+
+        // TODO: Need to create this record as a list of Data Objects in EMV Book C-2 Table 4.2
+
+        return Decode(value.EncodeValue().AsSpan());
+    }
 
     /// <exception cref="BerParsingException"></exception>
-    public static DiscretionaryData Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodePrimitiveValuesAtRuntime(value.Span).ToArray());
+    public static DiscretionaryData Decode(ReadOnlyMemory<byte> value)
+    {
+        throw new NotImplementedException();
+
+        // TODO: Need to create this record as a list of Data Objects in EMV Book C-2 Table 4.2
+
+        return new DiscretionaryData(_Codec.DecodePrimitiveValuesAtRuntime(value.Span).ToArray());
+    }
 
     /// <exception cref="BerParsingException"></exception>
-    public static DiscretionaryData Decode(ReadOnlySpan<byte> value) =>
-        new(_Codec.DecodePrimitiveValuesAtRuntime(value).ToArray());
+    public static DiscretionaryData Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodePrimitiveValuesAtRuntime(value).ToArray());
 
     #endregion
 
@@ -63,9 +68,11 @@ public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
 
     #endregion
 
-    //if (!TryGet(pan.GetTag(), out TagLengthValue? result1))
-    //    return false;
-    //if (!TryGet(pan.GetTag(), out TagLengthValue? result2))
-    //    return false;
-    //return true;
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public bool IsMatch(ApplicationPan pan, ApplicationPanSequenceNumber sequenceNumber) => throw new NotImplementedException();
+
+    #endregion
 }

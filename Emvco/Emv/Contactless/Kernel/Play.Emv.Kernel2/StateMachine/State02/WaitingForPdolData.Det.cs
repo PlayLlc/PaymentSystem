@@ -19,6 +19,8 @@ public partial class WaitingForPdolData : KernelState
 {
     #region DET
 
+    // BUG: Need to make sure you're properly implementing each DEK handler for each state
+
     #region QueryTerminalResponse
 
     /// <summary>

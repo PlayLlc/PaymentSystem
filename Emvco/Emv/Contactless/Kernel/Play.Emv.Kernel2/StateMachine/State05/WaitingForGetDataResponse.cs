@@ -4,6 +4,7 @@ using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
+using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
@@ -20,30 +21,23 @@ public partial class WaitingForGetDataResponse : KernelState
 
     #region Instance Values
 
-    private readonly IKernelEndpoint _KernelEndpoint;
     private readonly IHandlePcdRequests _PcdEndpoint;
     private readonly IGetKernelState _KernelStateResolver;
     private readonly S456 _S456;
 
     #endregion
 
-    #region Constructor
+    #region Instance Members
 
     public WaitingForGetDataResponse(
-        KernelDatabase kernelDatabase,
-        DataExchangeKernelService dataExchange,
-        IKernelEndpoint kernelEndpoint,
-        IHandlePcdRequests pcdEndpoint,
-        IGetKernelState kernelStateResolver) : base(kernelDatabase, dataExchange, kernelEndpoint)
+        KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
+        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, S456 s456) :
+        base(kernelDatabase, dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver)
     {
-        _KernelEndpoint = kernelEndpoint;
         _PcdEndpoint = pcdEndpoint;
         _KernelStateResolver = kernelStateResolver;
+        _S456 = s456;
     }
-
-    #endregion
-
-    #region Instance Members
 
     public override StateId GetStateId() => StateId;
 

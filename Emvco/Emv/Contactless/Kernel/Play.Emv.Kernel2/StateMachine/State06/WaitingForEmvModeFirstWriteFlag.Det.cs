@@ -10,6 +10,7 @@ using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
+using Play.Icc.Exceptions;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
@@ -17,9 +18,11 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
 {
     #region DET
 
+    // BUG: Need to make sure you're properly implementing each DEK handler for each state
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
     public override KernelState Handle(KernelSession session, QueryTerminalResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
