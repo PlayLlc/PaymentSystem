@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Databases;
-using Play.Emv.Kernel2.Databases;
 
 namespace Play.Emv.Kernel2.StateMachine._TempExceptionHandler;
 

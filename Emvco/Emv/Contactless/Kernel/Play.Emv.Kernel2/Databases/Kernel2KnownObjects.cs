@@ -4,7 +4,6 @@ using System.Collections.Immutable;
 using System.Linq;
 
 using Play.Ber.Identifiers;
-using Play.Core;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
