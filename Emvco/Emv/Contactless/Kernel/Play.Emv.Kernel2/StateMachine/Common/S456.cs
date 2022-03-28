@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
@@ -134,24 +135,19 @@ public class S456 : CommonProcessing
         AttemptToSetTransactionExceedsFloorLimitFlag(_KernelDatabase);
 
         // S456.39
-        var generateApplicationCryptogramCapdu = PerformTerminalActionAnalysis(session.GetTransactionSessionId(), _KernelDatabase);
+        GenerateApplicationCryptogramRequest generateApplicationCryptogramCapdu =
+            PerformTerminalActionAnalysis(session.GetTransactionSessionId(), _KernelDatabase);
 
         // S456.42, S456.50 - S456.51
         if (TryToWriteDataBeforeGeneratingApplicationCryptogram(session.GetTransactionSessionId()))
             return WaitingForPutDataResponseBeforeGenerateAc.StateId;
 
-        if (TryRecoveringTornTransaction(out TornRecord? tornRecord))
+        if (TryRecoveringTornTransaction(session.GetTransactionSessionId()))
             return WaitingForRecoverAcResponse.StateId;
 
         SendGenerateAcCapdu(generateApplicationCryptogramCapdu);
 
         return WaitingForGenerateAcResponse1.StateId;
-
-        // S456.43 - S456.46
-        if (!TrySendingGenerateAcCapdu(generateApplicationCryptogramCapdu))
-            return WaitingForGenerateAcResponse1.StateId;
-
-        throw new NotImplementedException();
     }
 
     #region S456.1
@@ -720,7 +716,7 @@ public class S456 : CommonProcessing
     /// <exception cref="IccProtocolException"></exception>
     private void SendPutData(TransactionSessionId sessionId, PrimitiveValue tagToWrite)
     {
-        var capdu = PutDataRequest.Create(sessionId, tagToWrite);
+        PutDataRequest capdu = PutDataRequest.Create(sessionId, tagToWrite);
         _PcdEndpoint.Request(capdu);
     }
 
@@ -728,8 +724,15 @@ public class S456 : CommonProcessing
 
     #region S456.44, S456.47 - S456.49
 
-    private bool TryRecoveringTornTransaction()
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    private bool TryRecoveringTornTransaction(TransactionSessionId sessionId)
     {
+        if (!_KernelDatabase.IsIdsAndTtrImplemented())
+            return false;
+        if (!_KernelDatabase.IsTornTransactionRecoverySupported())
+            return false;
+
         if (_KernelDatabase.IsPresentAndNotEmpty(ApplicationPanSequenceNumber.Tag))
             return false;
 
@@ -737,6 +740,12 @@ public class S456 : CommonProcessing
                                             _KernelDatabase.Get<ApplicationPanSequenceNumber>(ApplicationPanSequenceNumber.Tag),
                                             out TornRecord? tornRecord))
             return false;
+
+        if (!_KernelDatabase.TryGet(DataRecoveryDataObjectListRelatedData.Tag, out DataRecoveryDataObjectListRelatedData? ddolRelatedData))
+            return false;
+
+        RecoverAcRequest capdu = RecoverAcRequest.Create(sessionId, ddolRelatedData!);
+        _PcdEndpoint.Request(capdu);
 
         return true;
     }
@@ -747,11 +756,6 @@ public class S456 : CommonProcessing
 
     private bool SendGenerateAcCapdu(GenerateApplicationCryptogramRequest capdu)
     {
-        if (!_KernelDatabase.IsIdsAndTtrImplemented())
-            return false;
-        if (!_KernelDatabase.IsTornTransactionRecoverySupported())
-            return false;
-
         _PcdEndpoint.Request(capdu);
 
         return true;

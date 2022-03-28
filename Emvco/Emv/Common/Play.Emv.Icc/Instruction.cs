@@ -29,6 +29,9 @@ internal record Instruction : EnumObject<byte>, IComparable<Instruction>
     /// <value>Hexadecimal: 0xEA</value>
     public static readonly Instruction ExchangeRelayResistanceData;
 
+    /// <value>Hexadecimal: 0xD0</value>
+    public static readonly Instruction RecoverApplicationCryptogram;
+
     #endregion
 
     #region Constructor
@@ -46,33 +49,22 @@ internal record Instruction : EnumObject<byte>, IComparable<Instruction>
         ApplicationUnblock = new Instruction(applicationUnblock);
         CardBlock = new Instruction(cardBlock);
         ComputeCryptographicChecksum = new Instruction(computeCryptographicChecksum);
-
+        ExchangeRelayResistanceData = new Instruction(0xEA);
+        RecoverApplicationCryptogram = new Instruction(0xD0);
         _ValueObjectMap = new Dictionary<byte, Instruction>
         {
             {getProcessingOptions, GetProcessingOptions},
             {applicationBlock, ApplicationBlock},
             {applicationUnblock, ApplicationUnblock},
             {cardBlock, CardBlock},
-            {computeCryptographicChecksum, ComputeCryptographicChecksum}
+            {computeCryptographicChecksum, ComputeCryptographicChecksum},
+            {ExchangeRelayResistanceData, ExchangeRelayResistanceData},
+            {RecoverApplicationCryptogram, RecoverApplicationCryptogram}
         }.ToImmutableSortedDictionary();
     }
 
     private Instruction(byte value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public int CompareTo([AllowNull] Instruction other)
-    {
-        if (other is null)
-            return 1;
-
-        return _Value.CompareTo(other);
-    }
-
-    public static Instruction Get(byte value) => _ValueObjectMap[value];
 
     #endregion
 
@@ -105,6 +97,20 @@ internal record Instruction : EnumObject<byte>, IComparable<Instruction>
     public static implicit operator byte(Instruction value) => value._Value;
     public static bool operator !=(Instruction left, byte right) => !(left == right);
     public static bool operator !=(byte left, Instruction right) => !(left == right);
+
+    #endregion
+
+    #region Instance Members
+
+    public int CompareTo([AllowNull] Instruction other)
+    {
+        if (other is null)
+            return 1;
+
+        return _Value.CompareTo(other);
+    }
+
+    public static Instruction Get(byte value) => _ValueObjectMap[value];
 
     #endregion
 }

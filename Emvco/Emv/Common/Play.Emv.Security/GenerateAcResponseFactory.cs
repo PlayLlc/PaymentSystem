@@ -58,8 +58,8 @@ internal class GenerateAcResponseFactory : TemplateFactory<GenerateAcResponseMes
             ?? throw new
                 InvalidOperationException($"A problem occurred while decoding {nameof(GenerateAcResponseMessage)}. A {nameof(ApplicationCryptogram)} was expected but could not be found");
 
-        if (!encodedTlvSiblings.TryGetValueOctetsOfChild(IssuerApplicationData.Tag,
-                                                         out ReadOnlyMemory<byte> rawCardholderVerificationCode3Track1))
+        if (!encodedTlvSiblings.TryGetValueOctetsOfSibling(IssuerApplicationData.Tag,
+                                                           out ReadOnlyMemory<byte> rawCardholderVerificationCode3Track1))
         {
             issuerApplicationData =
                 (_Codec.Decode(IssuerApplicationData.EncodingId, rawCardholderVerificationCode3Track1.Span) as

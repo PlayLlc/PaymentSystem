@@ -91,7 +91,7 @@ public partial class EmvCodec : BerCodec
     public PrimitiveValue[] DecodePrimitiveValuesAtRuntime(ReadOnlySpan<byte> value)
     {
         TagLengthValue[] siblings = _Codec.DecodeTagLengthValues(value);
-        PrimitiveValue[] result = new PrimitiveValue[siblings.Count(a => _DefaultPrimitiveMap.ContainsKey(a.GetTag()))]; 
+        PrimitiveValue[] result = new PrimitiveValue[siblings.Count(a => _DefaultPrimitiveMap.ContainsKey(a.GetTag()))];
 
         for (int i = 0, j = 0; i < siblings.Length; i++)
         {

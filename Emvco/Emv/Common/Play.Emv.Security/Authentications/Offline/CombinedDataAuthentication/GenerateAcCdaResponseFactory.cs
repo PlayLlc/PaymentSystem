@@ -58,16 +58,16 @@ public class GenerateAcCdaResponseFactory : TemplateFactory<GenerateAcCdaRespons
             ?? throw new
                 InvalidOperationException($"A problem occurred while decoding {nameof(GenerateAcCdaResponseMessage)}. A {nameof(SignedDynamicApplicationData)} was expected but could not be found");
 
-        if (!encodedTlvSiblings.TryGetValueOctetsOfChild(IssuerApplicationData.Tag,
-                                                         out ReadOnlyMemory<byte> rawCardholderVerificationCode3Track1))
+        if (!encodedTlvSiblings.TryGetValueOctetsOfSibling(IssuerApplicationData.Tag,
+                                                           out ReadOnlyMemory<byte> rawCardholderVerificationCode3Track1))
         {
             issuerApplicationData =
                 (_Codec.Decode(IssuerApplicationData.EncodingId, rawCardholderVerificationCode3Track1.Span) as
                     DecodedResult<IssuerApplicationData>)!.Value;
         }
 
-        if (!encodedTlvSiblings.TryGetValueOctetsOfChild(IssuerApplicationData.Tag,
-                                                         out ReadOnlyMemory<byte> rawPosCardholderInteractionInformation))
+        if (!encodedTlvSiblings.TryGetValueOctetsOfSibling(IssuerApplicationData.Tag,
+                                                           out ReadOnlyMemory<byte> rawPosCardholderInteractionInformation))
         {
             posCardholderInteractionInformation =
                 (_Codec.Decode(PosCardholderInteractionInformation.EncodingId, rawPosCardholderInteractionInformation.Span) as

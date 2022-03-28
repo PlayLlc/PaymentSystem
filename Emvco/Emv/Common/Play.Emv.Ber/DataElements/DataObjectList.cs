@@ -62,6 +62,7 @@ public abstract record DataObjectList : DataElement<byte[]>
     }
 
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public Tag[] GetNeededData(IReadTlvDatabase database)
     {
         List<Tag> result = new();

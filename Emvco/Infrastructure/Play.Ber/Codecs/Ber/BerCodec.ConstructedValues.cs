@@ -52,7 +52,7 @@ public partial class BerCodec
     public T? AsConstructed<T>(Func<EncodedTlvSiblings, T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings)
         where T : ConstructedValue
     {
-        if (!encodedTlvSiblings.TryGetValueOctetsOfChild(tag, out ReadOnlyMemory<byte> rawValueContent))
+        if (!encodedTlvSiblings.TryGetValueOctetsOfSibling(tag, out ReadOnlyMemory<byte> rawValueContent))
             return null;
 
         return decodeFunc.Invoke(new EncodedTlvSiblings(_TagLengthFactory.GetTagLengthArray(rawValueContent.Span), rawValueContent));
@@ -64,7 +64,7 @@ public partial class BerCodec
     public T? AsConstructed<T>(Func<BerCodec, EncodedTlvSiblings, T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings)
         where T : ConstructedValue
     {
-        if (!encodedTlvSiblings.TryGetValueOctetsOfChild(tag, out ReadOnlyMemory<byte> rawValueContent))
+        if (!encodedTlvSiblings.TryGetValueOctetsOfSibling(tag, out ReadOnlyMemory<byte> rawValueContent))
             return null;
 
         return decodeFunc.Invoke(this, new EncodedTlvSiblings(_TagLengthFactory.GetTagLengthArray(rawValueContent.Span), rawValueContent));

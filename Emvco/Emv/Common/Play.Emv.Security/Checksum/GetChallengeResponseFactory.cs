@@ -50,24 +50,24 @@ public class GetChallengeResponseFactory : TemplateFactory<GetChallengeResponseM
             ?? throw new
                 InvalidOperationException($"A problem occurred while decoding {nameof(GetChallengeResponseMessage)}. A {nameof(ApplicationTransactionCounter)} was expected but could not be found");
 
-        if (!encodedTlvSiblings.TryGetValueOctetsOfChild(CardholderVerificationCode3Track1.Tag,
-                                                         out ReadOnlyMemory<byte> rawCardholderVerificationCode3Track1))
+        if (!encodedTlvSiblings.TryGetValueOctetsOfSibling(CardholderVerificationCode3Track1.Tag,
+                                                           out ReadOnlyMemory<byte> rawCardholderVerificationCode3Track1))
         {
             cardholderVerificationCode3Track1 =
                 (_Codec.Decode(CardholderVerificationCode3Track1.EncodingId, rawCardholderVerificationCode3Track1.Span) as
                     DecodedResult<CardholderVerificationCode3Track1>)!.Value;
         }
 
-        if (!encodedTlvSiblings.TryGetValueOctetsOfChild(CardholderVerificationCode3Track2.Tag,
-                                                         out ReadOnlyMemory<byte> rawCardholderVerificationCode3Track2))
+        if (!encodedTlvSiblings.TryGetValueOctetsOfSibling(CardholderVerificationCode3Track2.Tag,
+                                                           out ReadOnlyMemory<byte> rawCardholderVerificationCode3Track2))
         {
             cardholderVerificationCode3Track2 =
                 (_Codec.Decode(CardholderVerificationCode3Track2.EncodingId, rawCardholderVerificationCode3Track2.Span) as
                     DecodedResult<CardholderVerificationCode3Track2>)!.Value;
         }
 
-        if (!encodedTlvSiblings.TryGetValueOctetsOfChild(PosCardholderInteractionInformation.Tag,
-                                                         out ReadOnlyMemory<byte> rawPosCardholderInteractionInformation))
+        if (!encodedTlvSiblings.TryGetValueOctetsOfSibling(PosCardholderInteractionInformation.Tag,
+                                                           out ReadOnlyMemory<byte> rawPosCardholderInteractionInformation))
         {
             posCardholderInteractionInformation =
                 (_Codec.Decode(PosCardholderInteractionInformation.EncodingId, rawPosCardholderInteractionInformation.Span) as

@@ -50,14 +50,105 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
 
     // SelectionDataObjectList 
     public FileControlInformationIssuerDiscretionaryDataPpse(
-        SetOf<DirectoryEntry> directoryEntries,
-        TerminalCategoriesSupportedList? terminalCategoriesSupportedList,
+        SetOf<DirectoryEntry> directoryEntries, TerminalCategoriesSupportedList? terminalCategoriesSupportedList,
         SelectionDataObjectList? selectionDataObjectList)
     {
         _DirectoryEntry = directoryEntries;
         _TerminalCategoriesSupportedList = terminalCategoriesSupportedList;
         _SelectionDataObjectList = selectionDataObjectList;
     }
+
+    #endregion
+
+    #region Serialization
+
+    public static FileControlInformationIssuerDiscretionaryDataPpse Decode(ReadOnlyMemory<byte> value) =>
+        Decode(_Codec.DecodeChildren(value));
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="CardDataMissingException"></exception>
+    public static FileControlInformationIssuerDiscretionaryDataPpse Decode(EncodedTlvSiblings encodedTlvSiblings)
+    {
+        TerminalCategoriesSupportedList? terminalCategoriesSupportedList = default;
+        SelectionDataObjectList? selectionDataObjectList = default;
+
+        if (!encodedTlvSiblings.TryGetRawSetOf(DirectoryEntry.Tag, out Span<ReadOnlyMemory<byte>> sequenceOfResult))
+        {
+            throw new
+                CardDataMissingException($"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataDdf)}. A Set of {nameof(DirectoryEntry)} objects were expected but could not be found");
+        }
+
+        SetOf<DirectoryEntry> directoryEntry = new(sequenceOfResult.ToArray().Select(DirectoryEntry.Decode).ToArray());
+
+        if (encodedTlvSiblings.TryGetValueOctetsOfSibling(TerminalCategoriesSupportedList.Tag,
+                                                          out ReadOnlyMemory<byte> rawTerminalCategoriesSupportedList))
+        {
+            terminalCategoriesSupportedList =
+                (_Codec.Decode(TerminalCategoriesSupportedList.EncodingId, rawTerminalCategoriesSupportedList.Span) as
+                    DecodedResult<TerminalCategoriesSupportedList>)!.Value;
+        }
+
+        if (encodedTlvSiblings.TryGetValueOctetsOfSibling(SelectionDataObjectList.Tag, out ReadOnlyMemory<byte> rawSelectionDataObjectList))
+        {
+            selectionDataObjectList =
+                ((DecodedResult<SelectionDataObjectList>) _Codec.Decode(SelectionDataObjectList.EncodingId,
+                                                                        rawSelectionDataObjectList.Span)).Value;
+        }
+
+        return new FileControlInformationIssuerDiscretionaryDataPpse(directoryEntry, terminalCategoriesSupportedList,
+                                                                     selectionDataObjectList);
+    }
+
+    #endregion
+
+    #region Equality
+
+    public override bool Equals(object? obj) => obj is FileControlInformationIssuerDiscretionaryDataPpse fci && Equals(fci);
+    public override bool Equals(ConstructedValue? other) => other is FileControlInformationIssuerDiscretionaryDataPpse ppse && Equals(ppse);
+
+    public bool Equals(FileControlInformationIssuerDiscretionaryDataPpse other)
+    {
+        if (_DirectoryEntry.Count != other._DirectoryEntry.Count)
+            return false;
+
+        if (!_TerminalCategoriesSupportedList?.Equals(other._TerminalCategoriesSupportedList)
+            ?? (other._TerminalCategoriesSupportedList == null))
+            return false;
+
+        return _DirectoryEntry.All(other._DirectoryEntry.Contains);
+    }
+
+    public override bool Equals(ConstructedValue? x, ConstructedValue? y) =>
+        Equals((FileControlInformationIssuerDiscretionaryDataPpse?) x, (FileControlInformationIssuerDiscretionaryDataPpse?) y);
+
+    public static bool Equals(FileControlInformationIssuerDiscretionaryDataPpse? x, FileControlInformationIssuerDiscretionaryDataPpse? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public override int GetHashCode()
+    {
+        const int hash = 738459837;
+
+        unchecked
+        {
+            int result = hash;
+            result += 13 * Tag.GetHashCode();
+            result += _TerminalCategoriesSupportedList?.GetHashCode() ?? 0;
+            result += _DirectoryEntry.Aggregate(0, (total, next) => next.GetHashCode() + total);
+
+            return result;
+        }
+    }
+
+    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
 
     #endregion
 
@@ -137,98 +228,6 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
     {
         return new IEncodeBerDataObjects?[] {_DirectoryEntry, _TerminalCategoriesSupportedList, _SelectionDataObjectList};
     }
-
-    #endregion
-
-    #region Serialization
-
-    public static FileControlInformationIssuerDiscretionaryDataPpse Decode(ReadOnlyMemory<byte> value) =>
-        Decode(_Codec.DecodeChildren(value));
-
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="CardDataMissingException"></exception>
-    public static FileControlInformationIssuerDiscretionaryDataPpse Decode(EncodedTlvSiblings encodedTlvSiblings)
-    {
-        TerminalCategoriesSupportedList? terminalCategoriesSupportedList = default;
-        SelectionDataObjectList? selectionDataObjectList = default;
-
-        if (!encodedTlvSiblings.TryGetRawSetOf(DirectoryEntry.Tag, out Span<ReadOnlyMemory<byte>> sequenceOfResult))
-        {
-            throw new
-                CardDataMissingException($"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataDdf)}. A Set of {nameof(DirectoryEntry)} objects were expected but could not be found");
-        }
-
-        SetOf<DirectoryEntry> directoryEntry = new(sequenceOfResult.ToArray().Select(DirectoryEntry.Decode).ToArray());
-
-        if (encodedTlvSiblings.TryGetValueOctetsOfChild(TerminalCategoriesSupportedList.Tag,
-                                                        out ReadOnlyMemory<byte> rawTerminalCategoriesSupportedList))
-        {
-            terminalCategoriesSupportedList =
-                (_Codec.Decode(TerminalCategoriesSupportedList.EncodingId, rawTerminalCategoriesSupportedList.Span) as
-                    DecodedResult<TerminalCategoriesSupportedList>)!.Value;
-        }
-
-        if (encodedTlvSiblings.TryGetValueOctetsOfChild(SelectionDataObjectList.Tag, out ReadOnlyMemory<byte> rawSelectionDataObjectList))
-        {
-            selectionDataObjectList =
-                ((DecodedResult<SelectionDataObjectList>) _Codec.Decode(SelectionDataObjectList.EncodingId,
-                                                                        rawSelectionDataObjectList.Span)).Value;
-        }
-
-        return new FileControlInformationIssuerDiscretionaryDataPpse(directoryEntry, terminalCategoriesSupportedList,
-                                                                     selectionDataObjectList);
-    }
-
-    #endregion
-
-    #region Equality
-
-    public override bool Equals(object? obj) => obj is FileControlInformationIssuerDiscretionaryDataPpse fci && Equals(fci);
-    public override bool Equals(ConstructedValue? other) => other is FileControlInformationIssuerDiscretionaryDataPpse ppse && Equals(ppse);
-
-    public bool Equals(FileControlInformationIssuerDiscretionaryDataPpse other)
-    {
-        if (_DirectoryEntry.Count != other._DirectoryEntry.Count)
-            return false;
-
-        if (!_TerminalCategoriesSupportedList?.Equals(other._TerminalCategoriesSupportedList)
-            ?? (other._TerminalCategoriesSupportedList == null))
-            return false;
-
-        return _DirectoryEntry.All(other._DirectoryEntry.Contains);
-    }
-
-    public override bool Equals(ConstructedValue? x, ConstructedValue? y) =>
-        Equals((FileControlInformationIssuerDiscretionaryDataPpse?) x, (FileControlInformationIssuerDiscretionaryDataPpse?) y);
-
-    public static bool Equals(FileControlInformationIssuerDiscretionaryDataPpse? x, FileControlInformationIssuerDiscretionaryDataPpse? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public override int GetHashCode()
-    {
-        const int hash = 738459837;
-
-        unchecked
-        {
-            int result = hash;
-            result += 13 * Tag.GetHashCode();
-            result += _TerminalCategoriesSupportedList?.GetHashCode() ?? 0;
-            result += _DirectoryEntry.Aggregate(0, (total, next) => next.GetHashCode() + total);
-
-            return result;
-        }
-    }
-
-    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
 
     #endregion
 }
