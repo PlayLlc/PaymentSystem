@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Play.Emv.Pcd.Contracts.SignalIn.Queries
+namespace Play.Emv.Pcd.Contracts.SignalIn.Queries;
+
+internal class RecoverAcRequest
 {
-    internal class RecoverAcRequest
-    {
-    }
 }

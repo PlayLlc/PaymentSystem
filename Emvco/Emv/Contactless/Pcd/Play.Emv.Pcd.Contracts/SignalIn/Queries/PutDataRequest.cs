@@ -5,35 +5,34 @@ using Play.Emv.Identifiers;
 using Play.Icc.Exceptions;
 using Play.Messaging;
 
-namespace Play.Emv.Pcd.Contracts
+namespace Play.Emv.Pcd.Contracts;
+
+public record PutDataRequest : QueryPcdRequest
 {
-    public record PutDataRequest : QueryPcdRequest
-    {
-        #region Static Metadata
+    #region Static Metadata
 
-        public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(PutDataRequest));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(PutDataRequest));
 
-        #endregion
+    #endregion
 
-        #region Constructor
+    #region Constructor
 
-        private PutDataRequest(TransactionSessionId transactionSessionId, PutDataCApduSignal cApduSignal) : base(cApduSignal, MessageTypeId,
-         transactionSessionId)
-        { }
+    private PutDataRequest(TransactionSessionId transactionSessionId, PutDataCApduSignal cApduSignal) : base(cApduSignal, MessageTypeId,
+     transactionSessionId)
+    { }
 
-        #endregion
+    #endregion
 
-        #region Instance Members
+    #region Instance Members
 
-        /// <summary>
-        ///     The only valid <see cref="Tag" /> values that are valid for this method are UnprotectedDataEnvelope1 -
-        ///     UnprotectedDataEnvelope5. In other words, Tags: 0x9F75, 0x9F76, 0x9F77, 0x9F78, 0x9F79
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="IccProtocolException"></exception>
-        public static PutDataRequest Create(TransactionSessionId sessionId, PrimitiveValue primitiveValue) =>
-            new(sessionId, PutDataCApduSignal.Create(primitiveValue));
+    /// <summary>
+    ///     The only valid <see cref="Tag" /> values that are valid for this method are UnprotectedDataEnvelope1 -
+    ///     UnprotectedDataEnvelope5. In other words, Tags: 0x9F75, 0x9F76, 0x9F77, 0x9F78, 0x9F79
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="IccProtocolException"></exception>
+    public static PutDataRequest Create(TransactionSessionId sessionId, PrimitiveValue primitiveValue) =>
+        new(sessionId, PutDataCApduSignal.Create(primitiveValue));
 
-        #endregion
-    }
+    #endregion
 }

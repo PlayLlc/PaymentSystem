@@ -11,64 +11,63 @@ using Play.Emv.Pcd.Contracts;
 
 using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
 
-namespace Play.Emv.Kernel2.StateMachine
+namespace Play.Emv.Kernel2.StateMachine;
+
+public partial class OfflineBalanceReader : CommonProcessing
 {
-    public partial class OfflineBalanceReader : CommonProcessing
+    /// <summary>
+    ///     A Card may have an offline balance, and some products require the balance to be read and made available to the
+    ///     customer, either on a receipt or on a display.<see cref="BalanceReadAfterGenAc" /> is often displayed to the user
+    ///     when the transaction was approved offline
+    /// </summary>
+    /// <remarks>Emv Book C-2 Section 3.10</remarks>
+    private class PostGenAcBalanceReader : CommonProcessing
     {
-        /// <summary>
-        ///     A Card may have an offline balance, and some products require the balance to be read and made available to the
-        ///     customer, either on a receipt or on a display.<see cref="BalanceReadAfterGenAc" /> is often displayed to the user
-        ///     when the transaction was approved offline
-        /// </summary>
-        /// <remarks>Emv Book C-2 Section 3.10</remarks>
-        private class PostGenAcBalanceReader : CommonProcessing
+        #region Instance Values
+
+        protected override StateId[] _ValidStateIds { get; } =
         {
-            #region Instance Values
+            WaitingForGenerateAcResponse1.StateId, WaitingForRecoverAcResponse.StateId, WaitingForGenerateAcResponse2.StateId,
+            WaitingForPutDataResponseAfterGenerateAc.StateId
+        };
 
-            protected override StateId[] _ValidStateIds { get; } =
-            {
-                WaitingForGenerateAcResponse1.StateId, WaitingForRecoverAcResponse.StateId, WaitingForGenerateAcResponse2.StateId,
-                WaitingForPutDataResponseAfterGenerateAc.StateId
-            };
+        #endregion
 
-            #endregion
+        #region Constructor
 
-            #region Constructor
+        public PostGenAcBalanceReader(
+            KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
+            IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint) : base(kernelDatabase, dataExchangeKernelService,
+                                                                                   kernelStateResolver, pcdEndpoint, kernelEndpoint)
+        { }
 
-            public PostGenAcBalanceReader(
-                KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
-                IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint) : base(kernelDatabase, dataExchangeKernelService,
-                                                                                       kernelStateResolver, pcdEndpoint, kernelEndpoint)
-            { }
+        #endregion
 
-            #endregion
+        #region Instance Members
 
-            #region Instance Members
+        public StateId[] GetValidStateIds() => _ValidStateIds;
 
-            public StateId[] GetValidStateIds() => _ValidStateIds;
+        /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
+        /// <exception cref="TerminalDataException"></exception>
+        public override StateId Process(IGetKernelStateId kernelStateId, Kernel2Session session)
+        {
+            HandleRequestOutOfSync(kernelStateId.GetStateId());
 
-            /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
-            /// <exception cref="TerminalDataException"></exception>
-            public override StateId Process(IGetKernelStateId kernelStateId, Kernel2Session session)
-            {
-                HandleRequestOutOfSync(kernelStateId.GetStateId());
+            if (!_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out PrimitiveValue? applicationCapabilitiesInformation))
+                return kernelStateId.GetStateId();
 
-                if (!_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out PrimitiveValue? applicationCapabilitiesInformation))
-                    return kernelStateId.GetStateId();
+            if (!((ApplicationCapabilitiesInformation) applicationCapabilitiesInformation!).SupportForBalanceReading())
+                return kernelStateId.GetStateId();
 
-                if (!((ApplicationCapabilitiesInformation) applicationCapabilitiesInformation!).SupportForBalanceReading())
-                    return kernelStateId.GetStateId();
+            if (!_KernelDatabase.IsPresent(BalanceReadAfterGenAc.Tag))
+                return kernelStateId.GetStateId();
 
-                if (!_KernelDatabase.IsPresent(BalanceReadAfterGenAc.Tag))
-                    return kernelStateId.GetStateId();
+            GetDataRequest capdu = GetDataRequest.Create(OfflineAccumulatorBalance.Tag, session.GetTransactionSessionId());
+            _PcdEndpoint.Request(capdu);
 
-                GetDataRequest capdu = GetDataRequest.Create(OfflineAccumulatorBalance.Tag, session.GetTransactionSessionId());
-                _PcdEndpoint.Request(capdu);
-
-                return WaitingForPostGenAcBalance.StateId;
-            }
-
-            #endregion
+            return WaitingForPostGenAcBalance.StateId;
         }
+
+        #endregion
     }
 }

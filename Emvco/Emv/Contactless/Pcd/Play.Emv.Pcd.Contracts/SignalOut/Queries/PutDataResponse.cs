@@ -2,22 +2,21 @@
 using Play.Emv.Identifiers;
 using Play.Messaging;
 
-namespace Play.Emv.Pcd.Contracts
+namespace Play.Emv.Pcd.Contracts;
+
+public record PutDataResponse : QueryPcdResponse
 {
-    public record PutDataResponse : QueryPcdResponse
-    {
-        #region Static Metadata
+    #region Static Metadata
 
-        public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(PutDataResponse));
+    public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(PutDataResponse));
 
-        #endregion
+    #endregion
 
-        #region Constructor
+    #region Constructor
 
-        public PutDataResponse(CorrelationId correlationId, TransactionSessionId transactionSessionId, PutDataRApduSignal rApdu) :
-            base(correlationId, MessageTypeId, transactionSessionId, rApdu)
-        { }
+    public PutDataResponse(CorrelationId correlationId, TransactionSessionId transactionSessionId, PutDataRApduSignal rApdu) :
+        base(correlationId, MessageTypeId, transactionSessionId, rApdu)
+    { }
 
-        #endregion
-    }
+    #endregion
 }
