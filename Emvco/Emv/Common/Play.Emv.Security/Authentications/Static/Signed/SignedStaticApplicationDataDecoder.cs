@@ -2,6 +2,7 @@
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
+using Play.Emv.Ber.DataElements;
 using Play.Encryption.Certificates;
 using Play.Encryption.Signing;
 
@@ -27,8 +28,7 @@ internal class SignedStaticApplicationDataDecoder
     #region Instance Members
 
     private byte[] GetConcatenatedInput(
-        DecodedSignedStaticApplicationData decodedSignedStaticApplicationData,
-        ReadOnlySpan<byte> staticDataToBeAuthenticated)
+        DecodedSignedStaticApplicationData decodedSignedStaticApplicationData, ReadOnlySpan<byte> staticDataToBeAuthenticated)
     {
         // TODO : static tag list -> AIP is contingent on it existing here for validation
         ReadOnlySpan<byte> inputList = decodedSignedStaticApplicationData.GetConcatenatedInputList();
@@ -50,8 +50,7 @@ internal class SignedStaticApplicationDataDecoder
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     public bool IsValid(
-        PublicKeyCertificate issuerPublicKeyCertificate,
-        SignedStaticApplicationData signedStaticApplicationData,
+        PublicKeyCertificate issuerPublicKeyCertificate, SignedStaticApplicationData signedStaticApplicationData,
         ReadOnlySpan<byte> staticDataToBeAuthenticated)
     {
         if (signedStaticApplicationData.GetValueByteCount() != issuerPublicKeyCertificate.GetPublicKeyModulus().GetByteCount())

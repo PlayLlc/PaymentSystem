@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Codecs.Exceptions;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 
@@ -136,7 +137,7 @@ public partial class KernelDatabase
     /// </summary>
     /// <returns></returns>
     /// <exception cref="TerminalDataException"></exception>
-    public bool IsIdsAndTtrSupported() => IsIntegratedDataStorageSupported() && IsTornTransactionRecoverySupported();
+    public bool IsIdsAndTtrImplemented() => IsIntegratedDataStorageSupported() && IsTornTransactionRecoverySupported();
 
     /// <summary>
     ///     IDS builds the reading and writing functions into existing payment commands (GET PROCESSING OPTIONS and GENERATE

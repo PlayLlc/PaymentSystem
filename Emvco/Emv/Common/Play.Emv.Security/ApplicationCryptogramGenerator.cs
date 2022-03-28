@@ -1,51 +1,62 @@
-﻿namespace Play.Emv.Security;
+﻿using System;
+using System.Threading.Tasks;
 
-// I'm doing this wrong. The DOL should be filled from the Kernel side via a DEK
-//public class ApplicationCryptogramGenerator : IGenerateApplicationCryptogramResponse
-//{
-//    #region Instance Values
+using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Enums;
+using Play.Emv.Icc;
+using Play.Emv.Security.Cryptograms;
+using Play.Icc.Messaging.Apdu;
 
-//    private readonly IPcdTransceiver _TransceiveData;
+namespace Play.Emv.Security;
 
-//    #endregion
+//I'm doing this wrong. The DOL should be filled from the Kernel side via a DEK
+public class ApplicationCryptogramGenerator : IGenerateApplicationCryptogramResponse
+{
+    #region Instance Values
 
-//    #region Constructor
+    private readonly IPcdTransceiver _TransceiveData;
 
-//    public ApplicationCryptogramGenerator(IPcdTransceiver transceiveData)
-//    {
-//        _TransceiveData = transceiveData;
-//    }
+    #endregion
 
-//    #endregion
+    #region Constructor
 
-//    #region Instance Members
+    public ApplicationCryptogramGenerator(IPcdTransceiver transceiveData)
+    {
+        _TransceiveData = transceiveData;
+    }
 
-//    //public async Task<GenerateAcResponseMessage> Generate(CryptogramType cryptogramType, bool isCdaRequested,
-//    //    DataObjectListResult cardRiskManagementDataObjectListResult)
-//    //{
-//    //    GenerateAcResponseMessage response = new(await _TransceiveData
-//    //        .Transceive(GenerateApplicationCryptogramCApduSignal.Create(cryptogramType, isCdaRequested,
-//    //            cardRiskManagementDataObjectListResult)).ConfigureAwait(false));
+    #endregion
 
-//    //    await _TransceiveData
-//    //        .Transceive(GenerateApplicationCryptogramCApduSignal.Create(cryptogramType, isCdaRequested,
-//    //            cardRiskManagementDataObjectListResult)).ConfigureAwait(false);
+    #region Instance Members
 
-//    //}
+    public async Task<GenerateAcResponseMessage> Generate(
+        CryptogramTypes cryptogramType, bool isCdaRequested, DataObjectListResult cardRiskManagementDataObjectListResult)
+    {
+        GenerateAcResponseMessage response = new(await _TransceiveData
+                                                     .Transceive(GenerateApplicationCryptogramCApduSignal.Create(cryptogramType,
+                                                                  isCdaRequested, cardRiskManagementDataObjectListResult))
+                                                     .ConfigureAwait(false));
 
-//    //public async Task<GenerateAcResponseMessage> Generate(CryptogramType cryptogramType, bool isCdaRequested,
-//    //    DataObjectListResult cardRiskManagementDataObjectListResult,
-//    //    DataObjectListResult dataStorageDataObjectListResult)
-//    //{
-//    //    RApduSignal rApdu = await _TransceiveData
-//    //        .Transceive(GenerateApplicationCryptogramCApduSignal.Create(cryptogramType, isCdaRequested,
-//    //            cardRiskManagementDataObjectListResult, dataStorageDataObjectListResult)).ConfigureAwait(false);
+        await _TransceiveData
+            .Transceive(GenerateApplicationCryptogramCApduSignal.Create(cryptogramType, isCdaRequested,
+                                                                        cardRiskManagementDataObjectListResult)).ConfigureAwait(false);
+    }
 
-//    //    if (rApdu.GetStatusWords() == StatusWords._6283) throw new Exception();
+    public async Task<GenerateAcResponseMessage> Generate(
+        CryptogramTypes cryptogramType, bool isCdaRequested, DataObjectListResult cardRiskManagementDataObjectListResult,
+        DataObjectListResult dataStorageDataObjectListResult)
+    {
+        RApduSignal rApdu = await _TransceiveData
+            .Transceive(GenerateApplicationCryptogramCApduSignal.Create(cryptogramType, isCdaRequested,
+                                                                        cardRiskManagementDataObjectListResult,
+                                                                        dataStorageDataObjectListResult)).ConfigureAwait(false);
 
-//    //    // publish a FatalTerminalEvent. throw an exception here so the calling thread will return control back to the Terminal?. 
-//    //    // but exceptions take a long time to process.
-//    //}
+        if (rApdu.GetStatusWords() == StatusWords._6283)
+            throw new Exception();
 
-//    #endregion
-//}
+        // publish a FatalTerminalEvent. throw an exception here so the calling thread will return control back to the Terminal?. 
+        // but exceptions take a long time to process.
+    }
+
+    #endregion
+}

@@ -1,6 +1,4 @@
-﻿using Play.Ber.DataObjects;
-
-namespace Play.Emv.Ber.DataElements;
+﻿namespace Play.Ber.DataObjects;
 
 public interface IDecodeDataElement
 {

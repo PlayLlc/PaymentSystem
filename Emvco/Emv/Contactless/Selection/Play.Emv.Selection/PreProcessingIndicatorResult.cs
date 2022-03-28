@@ -1,4 +1,5 @@
-﻿using Play.Emv.Ber.DataElements;
+﻿using Play.Emv.Ber;
+using Play.Emv.Ber.DataElements;
 using Play.Emv.Identifiers;
 using Play.Icc.FileSystem.DedicatedFiles;
 
@@ -20,8 +21,7 @@ public class PreProcessingIndicatorResult
     #region Constructor
 
     public PreProcessingIndicatorResult(
-        CombinationCompositeKey combinationCompositeKey,
-        TerminalTransactionQualifiers terminalTransactionQualifiers)
+        CombinationCompositeKey combinationCompositeKey, TerminalTransactionQualifiers terminalTransactionQualifiers)
     {
         _CombinationCompositeKey = combinationCompositeKey;
         _TerminalTransactionQualifiers = terminalTransactionQualifiers;

@@ -1,6 +1,6 @@
 ﻿using Play.Ber.DataObjects;
 
-namespace Play.Emv.Kernel2.Databases;
+namespace Play.Emv.Ber;
 
 public interface IResolveKnownObjectsAtRuntime
 {

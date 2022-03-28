@@ -1,4 +1,5 @@
-﻿using Play.Emv.Ber.DataElements;
+﻿using Play.Emv.Ber;
+using Play.Emv.Ber.DataElements;
 
 namespace Play.Emv.Terminal;
 
@@ -18,11 +19,7 @@ public class ActivateTerminalCommand
     #region Constructor
 
     public ActivateTerminalCommand(
-        string terminalIdentification,
-        ulong amountAuthorized,
-        ulong otherAmount,
-        byte transactionType,
-        ulong acquirerIdentifier,
+        string terminalIdentification, ulong amountAuthorized, ulong otherAmount, byte transactionType, ulong acquirerIdentifier,
         string merchantIdentifier)
     {
         _AmountAuthorizedNumeric = new AmountAuthorizedNumeric(amountAuthorized);

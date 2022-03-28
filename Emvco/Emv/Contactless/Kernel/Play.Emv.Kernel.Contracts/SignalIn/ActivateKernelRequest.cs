@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Identifiers;
 using Play.Emv.Messaging;
@@ -43,12 +44,8 @@ public record ActivateKernelRequest : RequestSignal
     #region Constructor
 
     public ActivateKernelRequest(
-        KernelSessionId kernelSessionId,
-        CombinationCompositeKey combinationCompositeKey,
-        Transaction transaction,
-        TagsToRead? tagsToRead,
-        TerminalTransactionQualifiers terminalTransactionQualifiers,
-        SelectApplicationDefinitionFileInfoResponse fileControlInformation,
+        KernelSessionId kernelSessionId, CombinationCompositeKey combinationCompositeKey, Transaction transaction, TagsToRead? tagsToRead,
+        TerminalTransactionQualifiers terminalTransactionQualifiers, SelectApplicationDefinitionFileInfoResponse fileControlInformation,
         StatusWords statusWordsForSelectAid) : base(MessageTypeId, ChannelTypeId)
     {
         _KernelSessionId = kernelSessionId;

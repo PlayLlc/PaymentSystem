@@ -6,6 +6,7 @@ using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Icc;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
@@ -19,6 +20,7 @@ using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security.Certificates;
 using Play.Emv.Security.Exceptions;
 using Play.Globalization.Time.Seconds;
+using Play.Icc.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
@@ -37,6 +39,7 @@ public class S456 : CommonProcessing
     private readonly IValidateCombinationCompatibility _CombinationCompatibilityValidator;
     private readonly ISelectCardholderVerificationMethod _CardholderVerificationMethodSelector;
     private readonly IPerformTerminalActionAnalysis _TerminalActionAnalyzer;
+    private readonly IManageTornTransactions _TornTransactionManager;
 
     protected override StateId[] _ValidStateIds { get; } =
     {
@@ -51,14 +54,16 @@ public class S456 : CommonProcessing
         KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
         IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint, OfflineBalanceReader offlineBalanceReader,
         IValidateCombinationCapability combinationCapabilityValidator, IValidateCombinationCompatibility combinationCompatibilityValidator,
-        ISelectCardholderVerificationMethod cardholderVerificationMethodSelector, IPerformTerminalActionAnalysis terminalActionAnalyzer) :
-        base(kernelDatabase, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
+        ISelectCardholderVerificationMethod cardholderVerificationMethodSelector, IPerformTerminalActionAnalysis terminalActionAnalyzer,
+        IManageTornTransactions tornTransactionManager) : base(kernelDatabase, dataExchangeKernelService, kernelStateResolver, pcdEndpoint,
+                                                               kernelEndpoint)
     {
         _OfflineBalanceReader = offlineBalanceReader;
         _CombinationCapabilityValidator = combinationCapabilityValidator;
         _CombinationCompatibilityValidator = combinationCompatibilityValidator;
         _CardholderVerificationMethodSelector = cardholderVerificationMethodSelector;
         _TerminalActionAnalyzer = terminalActionAnalyzer;
+        _TornTransactionManager = tornTransactionManager;
     }
 
     #endregion
@@ -67,6 +72,7 @@ public class S456 : CommonProcessing
 
     /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
     public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
     {
         HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());
@@ -128,11 +134,22 @@ public class S456 : CommonProcessing
         AttemptToSetTransactionExceedsFloorLimitFlag(_KernelDatabase);
 
         // S456.39
-        PerformTerminalActionAnalysis(session.GetTransactionSessionId(), _KernelDatabase);
+        var generateApplicationCryptogramCapdu = PerformTerminalActionAnalysis(session.GetTransactionSessionId(), _KernelDatabase);
 
         // S456.42, S456.50 - S456.51
-        if (TryToWriteDataBeforeGeneratingApplicationCryptogram())
+        if (TryToWriteDataBeforeGeneratingApplicationCryptogram(session.GetTransactionSessionId()))
             return WaitingForPutDataResponseBeforeGenerateAc.StateId;
+
+        if (TryRecoveringTornTransaction(out TornRecord? tornRecord))
+            return WaitingForRecoverAcResponse.StateId;
+
+        SendGenerateAcCapdu(generateApplicationCryptogramCapdu);
+
+        return WaitingForGenerateAcResponse1.StateId;
+
+        // S456.43 - S456.46
+        if (!TrySendingGenerateAcCapdu(generateApplicationCryptogramCapdu))
+            return WaitingForGenerateAcResponse1.StateId;
 
         throw new NotImplementedException();
     }
@@ -343,7 +360,7 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private bool TryHandleIntegratedDataStorageError(KernelSessionId sessionId)
     {
-        if (!_KernelDatabase.IsIdsAndTtrSupported())
+        if (!_KernelDatabase.IsIdsAndTtrImplemented())
             return false;
 
         if (!_KernelDatabase.IsIntegratedDataStorageReadFlagSet())
@@ -673,21 +690,24 @@ public class S456 : CommonProcessing
 
     #region S456.39
 
-    private void PerformTerminalActionAnalysis(TransactionSessionId sessionId, KernelDatabase database)
-    {
+    private GenerateApplicationCryptogramRequest PerformTerminalActionAnalysis(TransactionSessionId sessionId, KernelDatabase database) =>
         _TerminalActionAnalyzer.Process(sessionId, database);
-    }
 
     #endregion
 
     #region S456.42, S456.50 - S456.51
 
-    private bool TryToWriteDataBeforeGeneratingApplicationCryptogram()
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
+    private bool TryToWriteDataBeforeGeneratingApplicationCryptogram(TransactionSessionId sessionId)
     {
         if (!_KernelDatabase.IsPresentAndNotEmpty(TagsToWriteBeforeGenAc.Tag))
             return false;
 
-        SendPutData();
+        if (!_DataExchangeKernelService.TryPeek(DekResponseType.TagsToWriteBeforeGenAc, out PrimitiveValue? tagToWrite))
+            return false;
+
+        SendPutData(sessionId, tagToWrite!);
 
         return true;
     }
@@ -696,9 +716,45 @@ public class S456 : CommonProcessing
 
     #region S456.50 - S456.51
 
-    private void SendPutData()
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
+    private void SendPutData(TransactionSessionId sessionId, PrimitiveValue tagToWrite)
     {
-        _DataExchangeKernelService.Enqueue();
+        var capdu = PutDataRequest.Create(sessionId, tagToWrite);
+        _PcdEndpoint.Request(capdu);
+    }
+
+    #endregion
+
+    #region S456.44, S456.47 - S456.49
+
+    private bool TryRecoveringTornTransaction()
+    {
+        if (_KernelDatabase.IsPresentAndNotEmpty(ApplicationPanSequenceNumber.Tag))
+            return false;
+
+        if (!_TornTransactionManager.TryGet(_KernelDatabase.Get<ApplicationPan>(ApplicationPan.Tag),
+                                            _KernelDatabase.Get<ApplicationPanSequenceNumber>(ApplicationPanSequenceNumber.Tag),
+                                            out TornRecord? tornRecord))
+            return false;
+
+        return true;
+    }
+
+    #endregion
+
+    #region S456.43 - S456.46
+
+    private bool SendGenerateAcCapdu(GenerateApplicationCryptogramRequest capdu)
+    {
+        if (!_KernelDatabase.IsIdsAndTtrImplemented())
+            return false;
+        if (!_KernelDatabase.IsTornTransactionRecoverySupported())
+            return false;
+
+        _PcdEndpoint.Request(capdu);
+
+        return true;
     }
 
     #endregion

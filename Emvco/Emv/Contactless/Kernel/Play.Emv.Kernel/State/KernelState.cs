@@ -6,7 +6,7 @@ using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
-using Play.Emv.Kernel2.Databases;
+using Play.Emv.Kernel.Services;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
@@ -22,16 +22,20 @@ public abstract class KernelState : IGetKernelStateId
     protected readonly KernelDatabase _KernelDatabase;
     protected readonly DataExchangeKernelService _DataExchangeKernelService;
     protected readonly IKernelEndpoint _KernelEndpoint;
+    protected readonly IManageTornTransactions _TornTransactionManager;
 
     #endregion
 
     #region Constructor
 
-    protected KernelState(KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange, IKernelEndpoint kernelEndpoint)
+    protected KernelState(
+        KernelDatabase kernelDatabase, DataExchangeKernelService dataExchange, IKernelEndpoint kernelEndpoint,
+        IManageTornTransactions tornTransactionManager)
     {
         _KernelDatabase = kernelDatabase;
         _DataExchangeKernelService = dataExchange;
         _KernelEndpoint = kernelEndpoint;
+        _TornTransactionManager = tornTransactionManager;
     }
 
     #endregion

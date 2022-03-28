@@ -1,4 +1,5 @@
-﻿using Play.Ber.Identifiers;
+﻿using Play.Ber.DataObjects;
+using Play.Ber.Identifiers;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;
 using Play.Icc.Exceptions;
@@ -30,7 +31,8 @@ namespace Play.Emv.Pcd.Contracts
         /// </summary>
         /// <returns></returns>
         /// <exception cref="IccProtocolException"></exception>
-        public static PutDataRequest Create(TransactionSessionId sessionId, Tag tag) => new(sessionId, PutDataCApduSignal.Create(tag));
+        public static PutDataRequest Create(TransactionSessionId sessionId, PrimitiveValue primitiveValue) =>
+            new(sessionId, PutDataCApduSignal.Create(primitiveValue));
 
         #endregion
     }

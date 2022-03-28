@@ -26,11 +26,12 @@ public class PutDataApduCommand : ApduCommand
 
     #region Instance Members
 
-    public static PutDataApduCommand Create(ProprietaryMessageIdentifier proprietaryMessageIdentifier, byte tag) =>
-        new(new Class(proprietaryMessageIdentifier), Instruction.PutData, 0, tag);
+    public static PutDataApduCommand Create(ProprietaryMessageIdentifier proprietaryMessageIdentifier, byte tag, ReadOnlySpan<byte> data) =>
+        new(new Class(proprietaryMessageIdentifier), Instruction.PutData, 0, tag, data);
 
-    public static PutDataApduCommand Create(ProprietaryMessageIdentifier proprietaryMessageIdentifier, ushort tag) =>
-        new(new Class(proprietaryMessageIdentifier), Instruction.GetData, (byte) (tag >> 8), (byte) tag);
+    public static PutDataApduCommand
+        Create(ProprietaryMessageIdentifier proprietaryMessageIdentifier, ushort tag, ReadOnlySpan<byte> data) =>
+        new(new Class(proprietaryMessageIdentifier), Instruction.GetData, (byte) (tag >> 8), (byte) tag, data);
 
     #endregion
 }

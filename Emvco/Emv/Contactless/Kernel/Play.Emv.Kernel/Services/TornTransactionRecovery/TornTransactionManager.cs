@@ -13,7 +13,7 @@ namespace Play.Emv.Kernel.Services;
 ///     the event that the cardholder needs to present their card again
 /// </summary>
 /// <remarks>EMVco Book C-2 Section 3.8.3</remarks>
-internal class TornTransactionManager : ICleanTornTransactions, IWriteTornTransactions, IReadTornTransactions
+internal class TornTransactionManager : IManageTornTransactions
 {
     #region Instance Values
 

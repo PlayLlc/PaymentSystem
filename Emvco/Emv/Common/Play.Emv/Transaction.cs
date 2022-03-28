@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Identifiers;
 using Play.Emv.Outcomes;
@@ -29,15 +30,9 @@ public class Transaction
     #region Constructor
 
     public Transaction(
-        TransactionSessionId transactionSessionId,
-        AccountType accountType,
-        AmountAuthorizedNumeric amountAuthorizedNumeric,
-        AmountOtherNumeric amountOtherNumeric,
-        TransactionType transactionType,
-        LanguagePreference languagePreference,
-        TerminalCountryCode terminalCountryCode,
-        TransactionDate transactionDate,
-        TransactionTime transactionTime)
+        TransactionSessionId transactionSessionId, AccountType accountType, AmountAuthorizedNumeric amountAuthorizedNumeric,
+        AmountOtherNumeric amountOtherNumeric, TransactionType transactionType, LanguagePreference languagePreference,
+        TerminalCountryCode terminalCountryCode, TransactionDate transactionDate, TransactionTime transactionTime)
     {
         _AccountType = accountType;
         _TransactionSessionId = transactionSessionId;

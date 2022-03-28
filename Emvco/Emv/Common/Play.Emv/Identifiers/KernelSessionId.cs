@@ -2,6 +2,7 @@
 
 using Play.Core;
 using Play.Core.Extensions;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 
@@ -39,6 +40,22 @@ public readonly struct KernelSessionId
 
     #endregion
 
+    #region Equality
+
+    public override bool Equals(object? other) => other is KernelSessionId dekCorrelationId && Equals(dekCorrelationId);
+    public bool Equals(KernelSessionId other) => _Value == other._Value;
+    public override int GetHashCode() => unchecked(1861 * (int) _Value);
+
+    #endregion
+
+    #region Operator Overrides
+
+    public static bool operator ==(KernelSessionId left, KernelSessionId right) => left.Equals(right);
+    public static explicit operator ulong(KernelSessionId value) => value._Value;
+    public static bool operator !=(KernelSessionId left, KernelSessionId right) => !left.Equals(right);
+
+    #endregion
+
     #region Instance Members
 
     public ShortKernelIdTypes GetKernelId() => ShortKernelIdTypes.Get((byte) (_Value >> (7 * 8)));
@@ -53,22 +70,6 @@ public readonly struct KernelSessionId
 
         return ((ulong) sessionId).GetMaskedValue(bitMaskValue);
     }
-
-    #endregion
-
-    #region Equality
-
-    public override bool Equals(object? other) => other is KernelSessionId dekCorrelationId && Equals(dekCorrelationId);
-    public bool Equals(KernelSessionId other) => _Value == other._Value;
-    public override int GetHashCode() => unchecked(1861 * (int) _Value);
-
-    #endregion
-
-    #region Operator Overrides
-
-    public static bool operator ==(KernelSessionId left, KernelSessionId right) => left.Equals(right);
-    public static explicit operator ulong(KernelSessionId value) => value._Value;
-    public static bool operator !=(KernelSessionId left, KernelSessionId right) => !left.Equals(right);
 
     #endregion
 }

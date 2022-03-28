@@ -1,7 +1,9 @@
 ﻿using System.Collections.Immutable;
 
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Core;
+using Play.Emv.Ber;
 using Play.Icc.Exceptions;
 using Play.Icc.Messaging.Apdu;
 using Play.Icc.Messaging.Apdu.PutData;
@@ -35,18 +37,6 @@ public class PutDataCApduSignal : CApduSignal
 
     #region Instance Members
 
-    /// <param name="dataObject">
-    ///     The <see cref="Tag" /> must be less than or equal to a <see cref="ushort" /> value
-    /// </param>
-    /// <returns></returns>
-    public static PutDataCApduSignal Create(DataObject dataObject)
-    {
-        PutDataApduCommand? command = PutDataApduCommand.Create(ProprietaryMessageIdentifier._8x, (ushort) dataObject.GetTag());
-
-        return new PutDataCApduSignal(command.GetClass(), command.GetInstruction(), command.GetParameter1(), command.GetParameter2(),
-                                      command.GetData());
-    }
-
     /// <summary>
     ///     The only valid <see cref="Tag" /> values that are valid for this method are UnprotectedDataEnvelope1 -
     ///     UnprotectedDataEnvelope5. In other words, Tags: 0x9F75, 0x9F76, 0x9F77, 0x9F78, 0x9F79
@@ -54,15 +44,16 @@ public class PutDataCApduSignal : CApduSignal
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="IccProtocolException"></exception>
-    public static PutDataCApduSignal Create(Tag value)
+    public static PutDataCApduSignal Create(PrimitiveValue value)
     {
-        if (!DataObject.Exists(value))
+        if (!DataObject.Exists(value.GetTag()))
         {
             throw new
                 IccProtocolException($"The {nameof(PutDataApduCommand)} could not be initialized because the {nameof(Tag)} value in the argument: [{value}] could not be recognized");
         }
 
-        PutDataApduCommand? command = PutDataApduCommand.Create(ProprietaryMessageIdentifier._8x, (ushort) value);
+        PutDataApduCommand? command = PutDataApduCommand.Create(ProprietaryMessageIdentifier._8x, (ushort) value.GetTag(),
+                                                                value.EncodeValue(EmvCodec.GetBerCodec()).AsSpan());
 
         return new PutDataCApduSignal(command.GetClass(), command.GetInstruction(), command.GetParameter1(), command.GetParameter2(),
                                       command.GetData());

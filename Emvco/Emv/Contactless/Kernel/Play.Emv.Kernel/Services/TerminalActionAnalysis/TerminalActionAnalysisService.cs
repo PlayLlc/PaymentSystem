@@ -5,13 +5,13 @@ using Play.Core.Extensions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
-using Play.Emv.Terminal.Contracts.Messages.Commands;
 
-namespace Play.Emv.Kernel.Services._TempRefactor;
+namespace Play.Emv.Kernel.Services;
 
 /// <remarks>
 ///     Book 3 Section 10.7
@@ -20,16 +20,14 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 {
     #region Instance Values
 
-    private readonly IHandlePcdRequests _PcdEndpoint;
     private readonly IResolveAuthenticationType _AuthenticationTypeResolver;
 
     #endregion
 
     #region Instance Members
 
-    public TerminalActionAnalysisService(IHandlePcdRequests pcdEndpoint, IResolveAuthenticationType authenticationTypeResolver)
+    public TerminalActionAnalysisService(IResolveAuthenticationType authenticationTypeResolver)
     {
-        _PcdEndpoint = pcdEndpoint;
         _AuthenticationTypeResolver = authenticationTypeResolver;
     }
 
@@ -40,7 +38,9 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public void Process(TransactionSessionId sessionId, KernelDatabase database)
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    public GenerateApplicationCryptogramRequest Process(TransactionSessionId sessionId, KernelDatabase database)
     {
         ActionFlag resultFlag = ActionFlag.None;
         TerminalVerificationResults terminalVerificationResults =
@@ -51,25 +51,13 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         ProcessDefaultActionCodes(database, terminalVerificationResults, ref resultFlag);
 
         if (resultFlag.HasFlag(ActionFlag.Denial))
-        {
-            CreateDenyTransactionResponse(sessionId, database);
-
-            return;
-        }
+            return CreateDenyTransactionResponse(sessionId, database);
 
         if (resultFlag.HasFlag(ActionFlag.Online))
-        {
-            CreateProceedOnlineResponse(sessionId, database);
-
-            return;
-        }
+            return CreateProceedOnlineResponse(sessionId, database);
 
         if (resultFlag.HasFlag(ActionFlag.Offline))
-        {
-            CreateProceedOfflineResponse(sessionId, database);
-
-            return;
-        }
+            return CreateProceedOfflineResponse(sessionId, database);
 
         throw new InvalidOperationException("The Terminal Action Analysis result could not be determined");
     }
@@ -209,31 +197,26 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 
     #region CAPDU Commands
 
-    /// <summary>
-    ///     CreateDenyTransactionResponse
-    /// </summary>
-    /// <param name="command"></param>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <param name="sessionId"></param>
+    /// <param name="database"></param>
     /// <exception cref="BerParsingException"></exception>
-    private void CreateDenyTransactionResponse(TransactionSessionId sessionId, KernelDatabase database)
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    private GenerateApplicationCryptogramRequest CreateDenyTransactionResponse(TransactionSessionId sessionId, KernelDatabase database)
     {
         CardRiskManagementDataObjectList1 cdol1 = database.Get<CardRiskManagementDataObjectList1>(CardRiskManagementDataObjectList1.Tag);
         DataStorageDataObjectList ddol = database.Get<DataStorageDataObjectList>(DataStorageDataObjectList.Tag);
 
-        _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(sessionId,
-                                                                         new CryptogramInformationData(CryptogramTypes
-                                                                             .ApplicationAuthenticationCryptogram),
-                                                                         cdol1.AsDataObjectListResult(database),
-                                                                         ddol.AsDataObjectListResult(database)));
+        return GenerateApplicationCryptogramRequest.Create(sessionId,
+                                                           new CryptogramInformationData(CryptogramTypes
+                                                                                             .ApplicationAuthenticationCryptogram),
+                                                           cdol1.AsDataObjectListResult(database), ddol.AsDataObjectListResult(database));
     }
 
-    /// <summary>
-    ///     CreateProceedOfflineResponse
-    /// </summary>
-    /// <param name="command"></param>
-    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    private void CreateProceedOfflineResponse(TransactionSessionId sessionId, KernelDatabase database)
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    private GenerateApplicationCryptogramRequest CreateProceedOfflineResponse(TransactionSessionId sessionId, KernelDatabase database)
     {
         bool isCdaRequested =
             _AuthenticationTypeResolver.GetAuthenticationMethod(database.Get<TerminalCapabilities>(TerminalCapabilities.Tag),
@@ -244,29 +227,23 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         CardRiskManagementDataObjectList1 cdol1 = database.Get<CardRiskManagementDataObjectList1>(CardRiskManagementDataObjectList1.Tag);
         DataStorageDataObjectList ddol = database.Get<DataStorageDataObjectList>(DataStorageDataObjectList.Tag);
 
-        _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(sessionId,
-                                                                         new
-                                                                             CryptogramInformationData(CryptogramTypes.TransactionCryptogram,
-                                                                              isCdaRequested), cdol1.AsDataObjectListResult(database),
-                                                                         ddol.AsDataObjectListResult(database)));
+        return GenerateApplicationCryptogramRequest.Create(sessionId,
+                                                           new CryptogramInformationData(CryptogramTypes.TransactionCryptogram,
+                                                                                         isCdaRequested),
+                                                           cdol1.AsDataObjectListResult(database), ddol.AsDataObjectListResult(database));
     }
 
-    /// <summary>
-    ///     CreateProceedOnlineResponse
-    /// </summary>
-    /// <param name="command"></param>
-    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    private void CreateProceedOnlineResponse(TransactionSessionId sessionId, KernelDatabase database)
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    private GenerateApplicationCryptogramRequest CreateProceedOnlineResponse(TransactionSessionId sessionId, KernelDatabase database)
     {
         CardRiskManagementDataObjectList1 cdol1 = database.Get<CardRiskManagementDataObjectList1>(CardRiskManagementDataObjectList1.Tag);
         DataStorageDataObjectList ddol = database.Get<DataStorageDataObjectList>(DataStorageDataObjectList.Tag);
 
-        _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(sessionId,
-                                                                         new CryptogramInformationData(CryptogramTypes
-                                                                             .AuthorizationRequestCryptogram),
-                                                                         cdol1.AsDataObjectListResult(database),
-                                                                         ddol.AsDataObjectListResult(database)));
+        return GenerateApplicationCryptogramRequest.Create(sessionId,
+                                                           new CryptogramInformationData(CryptogramTypes.AuthorizationRequestCryptogram),
+                                                           cdol1.AsDataObjectListResult(database), ddol.AsDataObjectListResult(database));
     }
 
     #endregion

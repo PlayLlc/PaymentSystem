@@ -2,10 +2,10 @@
 using System.Linq;
 
 using Play.Ber.DataObjects;
+using Play.Emv.Ber;
 using Play.Emv.Ber.Templates;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;
-using Play.Emv.Kernel2.Databases;
 using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Messaging;
 

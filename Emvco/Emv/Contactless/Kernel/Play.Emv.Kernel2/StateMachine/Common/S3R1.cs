@@ -53,7 +53,7 @@ public class S3R1 : CommonProcessing
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
     public override StateId Process(IGetKernelStateId kernelStateId, Kernel2Session session)
     {
         HandleRequestOutOfSync(kernelStateId.GetStateId());
@@ -88,7 +88,7 @@ public class S3R1 : CommonProcessing
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     private void HandleIdsFlags(Kernel2Session session)
     {
-        if (!_KernelDatabase.IsIdsAndTtrSupported())
+        if (!_KernelDatabase.IsIdsAndTtrImplemented())
         {
             SetOfflineAuthNotPerformed();
 

@@ -5,19 +5,20 @@ using System.Linq;
 
 using Play.Ber.Identifiers;
 using Play.Core;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.DataElements.Display;
 using Play.Emv.Ber.Templates;
 using Play.Emv.Kernel.Databases;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Kernel2.Databases;
- 
 
 public sealed record Kernel2KnownObjects : KnownObjects
 {
     #region Static Metadata
 
-    private static readonly ImmutableSortedDictionary<Tag, Kernel2KnownObjects> _ValueObjectMap; 
+    private static readonly ImmutableSortedDictionary<Tag, Kernel2KnownObjects> _ValueObjectMap;
 
     #endregion
 
@@ -27,7 +28,7 @@ public sealed record Kernel2KnownObjects : KnownObjects
 
     #endregion
 
-    #region Constructor 
+    #region Constructor
 
     /// <exception cref="TypeInitializationException"></exception>
     static Kernel2KnownObjects()
@@ -221,23 +222,11 @@ public sealed record Kernel2KnownObjects : KnownObjects
         }.ToImmutableSortedDictionary();
     }
 
-    public Kernel2KnownObjects()  {}
-    private Kernel2KnownObjects(Tag value) : base(value)
+    public Kernel2KnownObjects()
     { }
 
-    #endregion
-
-    #region Instance Members
-
-    public int CompareTo(Kernel2KnownObjects other) => _Value._Value.CompareTo(other._Value);
-    public override bool Exists(Tag value) => _ValueObjectMap.ContainsKey(value);
-
-    public static IEnumerator<Tag> GetEnumerator()
-    {
-        return _ValueObjectMap.Values.Select(a => (Tag) a).GetEnumerator();
-    }
-
-    public static bool TryGet(Tag value, out Kernel2KnownObjects result) => _ValueObjectMap.TryGetValue(value, out result);
+    private Kernel2KnownObjects(Tag value) : base(value)
+    { }
 
     #endregion
 
@@ -282,6 +271,20 @@ public sealed record Kernel2KnownObjects : KnownObjects
 
         return result;
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public int CompareTo(Kernel2KnownObjects other) => _Value._Value.CompareTo(other._Value);
+    public override bool Exists(Tag value) => _ValueObjectMap.ContainsKey(value);
+
+    public static IEnumerator<Tag> GetEnumerator()
+    {
+        return _ValueObjectMap.Values.Select(a => (Tag) a).GetEnumerator();
+    }
+
+    public static bool TryGet(Tag value, out Kernel2KnownObjects result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion
 }

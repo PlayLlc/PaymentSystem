@@ -2,6 +2,7 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.Templates;
 
 namespace Play.Emv.Ber.DataElements;
@@ -19,7 +20,7 @@ public abstract record DataObjectList : DataElement<byte[]>
     /// <summary>
     ///     DataObjects
     /// </summary>
-    /// <exception cref="BerParsingException">Get.</exception>
+    /// <exception cref="BerParsingException" accessor="get"></exception>
     private TagLength[] DataObjects
     {
         get
@@ -103,7 +104,6 @@ public abstract record DataObjectList : DataElement<byte[]>
     }
 
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
     /// <remarks>Book 3 Section 5.4</remarks>
     public virtual DataObjectListResult AsDataObjectListResult(PrimitiveValue[] dataObjects)
     {
@@ -121,14 +121,17 @@ public abstract record DataObjectList : DataElement<byte[]>
         return new DataObjectListResult(result.ToArray());
     }
 
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <remarks>Book 3 Section 5.4</remarks>
+    /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
-    /// <remarks>Book 3 Section 5.4</remarks> 
+    /// <exception cref="BerParsingException"></exception>
     public virtual DataObjectListResult AsDataObjectListResult(IReadTlvDatabase database)
     {
         if (!TryGetRequestedDataItems(database, out PrimitiveValue[] result))
-            throw new InvalidOperationException();
+        {
+            throw new
+                TerminalDataException($"The method {nameof(AsDataObjectListResult)} could not be processed because a requested data item was not present in the database");
+        }
 
         PrimitiveValue[] buffer = new PrimitiveValue[DataObjects.Length];
 
@@ -146,7 +149,12 @@ public abstract record DataObjectList : DataElement<byte[]>
         return new DataObjectListResult(buffer);
     }
 
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public virtual CommandTemplate AsCommandTemplate(IReadTlvDatabase database) => AsDataObjectListResult(database).AsCommandTemplate();
+
+    /// <exception cref="BerParsingException"></exception>
     public virtual CommandTemplate AsCommandTemplate(PrimitiveValue[] values) => AsDataObjectListResult(values).AsCommandTemplate();
 
     /// <summary>
