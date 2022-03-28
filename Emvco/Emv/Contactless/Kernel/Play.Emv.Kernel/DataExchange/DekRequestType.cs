@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Play.Ber.Identifiers;
 using Play.Core;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Kernel.DataExchange;
 
@@ -17,10 +18,12 @@ public record DekRequestType : EnumObject<Tag>
     // to card (Dequeued)   
     public static readonly DekRequestType TagsToRead = new(Ber.DataElements.TagsToRead.Tag);
 
-    private static readonly Dictionary<DekRequestType, Func<DataExchangeRequest>> _Defaults = new()
+    private static readonly Dictionary<Tag, Func<DataExchangeRequest>> _ListMap = new()
     {
         {DataNeeded, () => new DataNeeded()}, {TagsToRead, () => new TagsToRead()}
     };
+
+    private static readonly Dictionary<Tag, DekRequestType> _TagMap = new() {{DataNeeded, DataNeeded}, {TagsToRead, TagsToRead}};
 
     #endregion
 
@@ -36,7 +39,19 @@ public record DekRequestType : EnumObject<Tag>
 
     #region Instance Members
 
-    public static DataExchangeRequest GetDefault(DekRequestType type) => _Defaults[type].Invoke();
+    public static DataExchangeRequest GetDefaultList(DekRequestType type) => _ListMap[type].Invoke();
+
+    /// <exception cref="TerminalDataException"></exception>
+    public static DekRequestType Get(Tag tag)
+    {
+        if (!_TagMap.ContainsKey(tag))
+        {
+            throw new
+                TerminalDataException($"The {nameof(Tag)} argument with the value {tag} could not be recognized for a {nameof(DekRequestType)}");
+        }
+
+        return _TagMap[tag];
+    }
 
     #endregion
 

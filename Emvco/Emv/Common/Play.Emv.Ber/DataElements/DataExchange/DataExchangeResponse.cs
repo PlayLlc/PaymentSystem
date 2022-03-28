@@ -31,6 +31,7 @@ public abstract record DataExchangeResponse : DataExchangeList<PrimitiveValue>
     }
 
     public PrimitiveValue[] AsPrimitiveValues() => _Value.ToArray();
+    public bool TryPeek(out PrimitiveValue? result) => _Value.TryPeek(out result);
 
     public bool TryGet(Tag tag, out PrimitiveValue? result)
     {

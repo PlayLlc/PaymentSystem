@@ -19,7 +19,7 @@ public abstract record DataExchangeList<_T> : DataElement<_T[]>
 
     #region Instance Members
 
-    public _T[] AsArray() => _Value.Count == 0 ? Array.Empty<_T>() : _Value.ToArray();
+    public _T[] GetDataObjects() => _Value.Count == 0 ? Array.Empty<_T>() : _Value.ToArray();
 
     public void Clear()
     {

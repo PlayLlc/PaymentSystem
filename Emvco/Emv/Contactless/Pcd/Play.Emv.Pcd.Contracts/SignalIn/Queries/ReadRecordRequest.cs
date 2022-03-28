@@ -21,7 +21,7 @@ public record ReadRecordRequest : QueryPcdRequest
 
     #region Constructor
 
-    private ReadRecordRequest(TransactionSessionId transactionSessionId, ShortFileId shortFileId, CApduSignal cApduSignal) :
+    private ReadRecordRequest(TransactionSessionId transactionSessionId, ShortFileId shortFileId, ReadRecordCApduSignal cApduSignal) :
         base(cApduSignal, MessageTypeId, transactionSessionId)
     {
         _ShortFileId = shortFileId;

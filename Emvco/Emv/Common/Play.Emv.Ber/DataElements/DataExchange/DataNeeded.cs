@@ -2,6 +2,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
 
@@ -27,6 +28,62 @@ public record DataNeeded : DataExchangeRequest
 
     #endregion
 
+    #region Instance Members
+
+    public Tag[] AsTagArray() => _Value.ToArray();
+    public override Tag GetTag() => Tag;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+
+    /// <summary>
+    ///     Searches the <see cref="IReadTlvDatabase" /> for any <see cref="Tag" /> values requested by this
+    ///     <see cref="DataNeeded" />. If any of the requested values are present in the <see cref="IReadTlvDatabase" />, those
+    ///     <see cref="Tag" /> values are removed from this list. The method returns number of <see cref="Tag" /> objects
+    ///     requested by this <see cref="DataNeeded" /> object that were unable to be resolved by the
+    ///     <see cref="IReadTlvDatabase" />
+    /// </summary>
+    /// <returns>
+    ///     The number of requested <see cref="Tag" /> objects that were unable to be resolved by the
+    ///     <see cref="IReadTlvDatabase" />
+    /// </returns>
+    /// <warning>
+    ///     This should be the only method available to resolve the requested tags. That way we're consistent in how we're
+    ///     handling data exchange
+    /// </warning>
+    /// <exception cref="TerminalDataException"></exception>
+    public int Resolve(IReadTlvDatabase database)
+    {
+        for (nint i = 0; i < _Value.Count; i++)
+        {
+            if (!TryDequeue(out Tag tag))
+                throw new TerminalDataException($"The {nameof(TagsToRead)} could not dequeue a value from memory");
+
+            if (!database.IsPresentAndNotEmpty(tag))
+                Enqueue(tag);
+        }
+
+        return _Value.Count;
+    }
+
+    #endregion
+
+    #region Serialization
+
+    public static DataNeeded Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+    public override DataNeeded Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public static DataNeeded Decode(ReadOnlySpan<byte> value)
+    {
+        if (value.IsEmpty)
+            return new DataNeeded(Array.Empty<Tag>());
+
+        // This Value field is already BER encoded, which is what this object's _Value field requires
+        return new DataNeeded(_Codec.DecodeTagSequence(value.ToArray()));
+    }
+
+    #endregion
+
     #region Equality
 
     public bool Equals(DataNeeded? x, DataNeeded? y)
@@ -41,37 +98,6 @@ public record DataNeeded : DataExchangeRequest
     }
 
     public int GetHashCode(DataNeeded obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public Tag[] AsTagArray() => _Value.ToArray();
-    public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-
-    /// TODO: What? Book C-2 section 3.6.2 says "The process continues until all records have been read" so unless there's some optimization reason that i find out about later there's not really a use for this
-
-    //public override Tag GetNextAvailableTagFromCard() => throw new NotImplementedException();
-
-    #endregion
-
-    #region Serialization
-
-    public static DataNeeded Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override DataNeeded Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static DataNeeded Decode(ReadOnlySpan<byte> value)
-    {
-        if (value.IsEmpty)
-            return new DataNeeded(Array.Empty<Tag>());
-
-        // This Value field is already BER encoded, which is what this object's _Value field requires
-        return new DataNeeded(_Codec.DecodeTagSequence(value.ToArray()));
-    }
 
     #endregion
 }

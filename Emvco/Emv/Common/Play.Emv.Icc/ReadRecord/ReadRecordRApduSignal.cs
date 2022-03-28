@@ -1,5 +1,6 @@
 ﻿using Play.Emv.Ber.Enums;
 using Play.Icc.FileSystem.ElementaryFiles;
+using Play.Icc.Messaging.Apdu;
 
 namespace Play.Emv.Icc;
 
@@ -28,7 +29,14 @@ public class ReadRecordRApduSignal : RApduSignal
     #region Instance Members
 
     public ShortFileId GetShortFileId() => _ShortFileId;
-    public override bool IsSuccessful() => throw new NotImplementedException();
+
+    public override bool IsSuccessful()
+    {
+        if (GetStatusWords() != StatusWords._9000)
+            return false;
+
+        return true;
+    }
 
     #endregion
 }

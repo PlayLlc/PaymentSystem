@@ -1,5 +1,8 @@
-﻿using Play.Ber.Identifiers;
+﻿using System.Collections.Immutable;
+
+using Play.Ber.Identifiers;
 using Play.Core;
+using Play.Icc.Exceptions;
 using Play.Icc.Messaging.Apdu;
 using Play.Icc.Messaging.Apdu.PutData;
 
@@ -44,6 +47,27 @@ public class PutDataCApduSignal : CApduSignal
                                       command.GetData());
     }
 
+    /// <summary>
+    ///     The only valid <see cref="Tag" /> values that are valid for this method are UnprotectedDataEnvelope1 -
+    ///     UnprotectedDataEnvelope5. In other words, Tags: 0x9F75, 0x9F76, 0x9F77, 0x9F78, 0x9F79
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="IccProtocolException"></exception>
+    public static PutDataCApduSignal Create(Tag value)
+    {
+        if (!DataObject.Exists(value))
+        {
+            throw new
+                IccProtocolException($"The {nameof(PutDataApduCommand)} could not be initialized because the {nameof(Tag)} value in the argument: [{value}] could not be recognized");
+        }
+
+        PutDataApduCommand? command = PutDataApduCommand.Create(ProprietaryMessageIdentifier._8x, (ushort) value);
+
+        return new PutDataCApduSignal(command.GetClass(), command.GetInstruction(), command.GetParameter1(), command.GetParameter2(),
+                                      command.GetData());
+    }
+
     #endregion
 
     /// <summary>
@@ -53,6 +77,7 @@ public class PutDataCApduSignal : CApduSignal
     {
         #region Static Metadata
 
+        private static readonly ImmutableSortedDictionary<Tag, DataObject> _Map;
         public static readonly DataObject UnprotectedDataEnvelope1 = new(0x9F75);
         public static readonly DataObject UnprotectedDataEnvelope2 = new(0x9F76);
         public static readonly DataObject UnprotectedDataEnvelope3 = new(0x9F77);
@@ -63,6 +88,18 @@ public class PutDataCApduSignal : CApduSignal
 
         #region Constructor
 
+        static DataObject()
+        {
+            _Map = new Dictionary<Tag, DataObject>()
+            {
+                {UnprotectedDataEnvelope1, UnprotectedDataEnvelope1},
+                {UnprotectedDataEnvelope2, UnprotectedDataEnvelope2},
+                {UnprotectedDataEnvelope3, UnprotectedDataEnvelope3},
+                {UnprotectedDataEnvelope4, UnprotectedDataEnvelope4},
+                {UnprotectedDataEnvelope5, UnprotectedDataEnvelope5}
+            }.ToImmutableSortedDictionary();
+        }
+
         private DataObject(Tag value) : base(value)
         { }
 
@@ -70,6 +107,7 @@ public class PutDataCApduSignal : CApduSignal
 
         #region Instance Members
 
+        public static bool Exists(Tag value) => _Map.ContainsKey(value);
         public Tag GetTag() => _Value;
 
         #endregion

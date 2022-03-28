@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Play.Ber.Identifiers;
 using Play.Core;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Kernel.DataExchange;
 
@@ -18,7 +20,7 @@ public record DekResponseType : EnumObject<Tag>
     public static readonly DekResponseType DiscretionaryData = new(Ber.DataElements.DiscretionaryData.Tag);
     public static readonly DekResponseType TornRecord = new(Ber.DataElements.TornRecord.Tag);
 
-    private static readonly Dictionary<DekResponseType, Func<DataExchangeResponse>> _Defaults = new()
+    private static readonly Dictionary<DekResponseType, Func<DataExchangeResponse>> _DefaultMap = new()
     {
         {TagsToWriteBeforeGenAc, () => new TagsToWriteBeforeGenAc()},
         {TagsToWriteAfterGenAc, () => new TagsToWriteAfterGenAc()},
@@ -26,6 +28,16 @@ public record DekResponseType : EnumObject<Tag>
         {DataRecord, () => new DataRecord()},
         {DiscretionaryData, () => new DiscretionaryData()},
         {TornRecord, () => new TornRecord()}
+    };
+
+    private static readonly Dictionary<Tag, DekResponseType> _TagMap = new()
+    {
+        {TagsToWriteBeforeGenAc, TagsToWriteBeforeGenAc},
+        {TagsToWriteAfterGenAc, TagsToWriteAfterGenAc},
+        {DataToSend, DataToSend},
+        {DataRecord, DataRecord},
+        {DiscretionaryData, DiscretionaryData},
+        {TornRecord, TornRecord}
     };
 
     #endregion
@@ -42,7 +54,19 @@ public record DekResponseType : EnumObject<Tag>
 
     #region Instance Members
 
-    public static DataExchangeResponse GetDefault(DekResponseType listType) => _Defaults[listType].Invoke();
+    /// <exception cref="TerminalDataException"></exception>
+    public static DekResponseType Get(Tag tag)
+    {
+        if (!_TagMap.ContainsKey(tag))
+        {
+            throw new
+                TerminalDataException($"The {nameof(Tag)} argument with the value {tag} could not be recognized for a {nameof(DekResponseType)}");
+        }
+
+        return _TagMap[tag];
+    }
+
+    public static DataExchangeResponse GetDefaultList(DekResponseType listType) => _DefaultMap[listType].Invoke();
 
     #endregion
 

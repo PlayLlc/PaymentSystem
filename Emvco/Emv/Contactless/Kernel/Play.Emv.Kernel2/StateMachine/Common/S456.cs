@@ -124,9 +124,15 @@ public class S456 : CommonProcessing
         // S456.36
         SelectCardholderVerificationMethod();
 
+        // S456.37 - S456.38
         AttemptToSetTransactionExceedsFloorLimitFlag(_KernelDatabase);
 
+        // S456.39
         PerformTerminalActionAnalysis(session.GetTransactionSessionId(), _KernelDatabase);
+
+        // S456.42, S456.50 - S456.51
+        if (TryToWriteDataBeforeGeneratingApplicationCryptogram())
+            return WaitingForPutDataResponseBeforeGenerateAc.StateId;
 
         throw new NotImplementedException();
     }
@@ -665,6 +671,29 @@ public class S456 : CommonProcessing
     private void PerformTerminalActionAnalysis(TransactionSessionId sessionId, KernelDatabase database)
     {
         _TerminalActionAnalyzer.Process(sessionId, database);
+    }
+
+    #endregion
+
+    #region S456.42, S456.50 - S456.51
+
+    private bool TryToWriteDataBeforeGeneratingApplicationCryptogram()
+    {
+        if (!_KernelDatabase.IsPresentAndNotEmpty(TagsToWriteBeforeGenAc.Tag))
+            return false;
+
+        SendPutData();
+
+        return true;
+    }
+
+    #endregion
+
+    #region S456.50 - S456.51
+
+    private void SendPutData()
+    {
+        _DataExchangeKernelService.Enqueue();
     }
 
     #endregion

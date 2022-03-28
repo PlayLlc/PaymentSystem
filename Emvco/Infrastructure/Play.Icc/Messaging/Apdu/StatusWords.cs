@@ -24,6 +24,9 @@ public class StatusWords : IEquatable<StatusWords>, IEqualityComparer<StatusWord
     /// <summary>File not found</summary>
     public static readonly StatusWords _6A82;
 
+    /// <summary>Referenced data (data object) not found</summary>
+    public static readonly StatusWords _6A88;
+
     /// <summary>Normal processing</summary>
     public static readonly StatusWords _6A86;
 
@@ -52,7 +55,8 @@ public class StatusWords : IEquatable<StatusWords>, IEqualityComparer<StatusWord
         _6A81 = new StatusWords(0x6A, 0x81);
         _6A82 = new StatusWords(0x6A, 0x82);
         _6A86 = new StatusWords(0x6A, 0x86);
-        _6985 = new StatusWords(0x6A, 0x86);
+        _6A88 = new StatusWords(0x6A, 0x88);
+        _6985 = new StatusWords(0x69, 0x85);
     }
 
     public StatusWords(StatusWord statusWord1, StatusWord statusWord2)

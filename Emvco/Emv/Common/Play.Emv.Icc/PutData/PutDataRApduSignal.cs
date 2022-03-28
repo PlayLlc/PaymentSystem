@@ -9,6 +9,9 @@ public class PutDataRApduSignal : RApduSignal
     public PutDataRApduSignal(byte[] value) : base(value)
     { }
 
+    public PutDataRApduSignal(byte[] response, Level1Error level1Error) : base(response, level1Error)
+    { }
+
     #endregion
 
     #region Instance Members
