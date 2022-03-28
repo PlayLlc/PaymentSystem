@@ -21,12 +21,8 @@ namespace Play.Emv.Kernel2.StateMachine
             // S7.1
             UpdateDatabase(signal);
 
-            return _
-
-
-            throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+            return _KernelStateResolver.GetKernelState(StateId);
         }
-
 
         #region S7.1
 
