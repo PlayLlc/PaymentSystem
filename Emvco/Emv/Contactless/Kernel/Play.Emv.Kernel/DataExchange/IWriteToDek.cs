@@ -9,7 +9,7 @@ public interface IWriteToDek
     public void Initialize(DataExchangeRequest list);
     public void Initialize(DekRequestType dekRequestType);
     public void Enqueue(DekRequestType type, params Tag[] listItems);
-    public int ResolveKnownObjects(DekRequestType requestType);
+    public int Resolve(DekRequestType requestType);
     public void Initialize(DataExchangeResponse list);
     public void Initialize(DekResponseType dekResponseType);
     public void Enqueue(DekResponseType type, params PrimitiveValue[] listItems);

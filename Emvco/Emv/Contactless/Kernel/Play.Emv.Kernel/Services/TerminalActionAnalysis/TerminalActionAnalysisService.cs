@@ -27,6 +27,12 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 
     #region Instance Members
 
+    public TerminalActionAnalysisService(IHandlePcdRequests pcdEndpoint, IResolveAuthenticationType authenticationTypeResolver)
+    {
+        _PcdEndpoint = pcdEndpoint;
+        _AuthenticationTypeResolver = authenticationTypeResolver;
+    }
+
     /// <summary>
     ///     Process
     /// </summary>

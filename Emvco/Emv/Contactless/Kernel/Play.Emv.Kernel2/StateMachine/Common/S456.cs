@@ -145,13 +145,16 @@ public class S456 : CommonProcessing
 
     #region S456.2 - S456.4
 
+    /// <exception cref="TerminalDataException"></exception>
     private bool TryToReadApplicationData(Kernel2Session session)
     {
         if (!session.IsActiveTagEmpty())
             return false;
 
-        _DataExchangeKernelService.ResolveTagsToReadYet(_KernelDatabase);
-        _DataExchangeKernelService.SendResponse(session.GetKernelSessionId());
+        _DataExchangeKernelService.Resolve(DekRequestType.TagsToRead);
+
+        // HACK: The correlationId cannot be null where. We need to revisit the pattern we're using the resolve requests and responses and implement that pattern here
+        _DataExchangeKernelService.SendResponse(session.GetKernelSessionId(), null);
 
         return true;
     }
@@ -177,7 +180,8 @@ public class S456 : CommonProcessing
         if (_DataExchangeKernelService.IsEmpty(DekResponseType.DataToSend))
             return;
 
-        _DataExchangeKernelService.SendResponse(sessionId);
+        // HACK: The correlationId cannot be null where. We need to revisit the pattern we're using the resolve requests and responses and implement that pattern here
+        _DataExchangeKernelService.SendResponse(sessionId, null);
     }
 
     #endregion
@@ -205,7 +209,7 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private void HandleWaitingForFirstWriteFlag(KernelSession session)
     {
-        _DataExchangeKernelService.Resolve(_KernelDatabase);
+        _DataExchangeKernelService.Resolve(DekRequestType.TagsToRead);
         AttemptToExchangeData(session.GetKernelSessionId());
         session.Timer.Start((Milliseconds) (TimeoutValue) _KernelDatabase.Get(TimeoutValue.Tag));
     }
@@ -389,7 +393,7 @@ public class S456 : CommonProcessing
 
     #region S456.21
 
-    private void EnqueueKnownTagsToRead() => _DataExchangeKernelService.Resolve(_KernelDatabase);
+    private void EnqueueKnownTagsToRead() => _DataExchangeKernelService.Resolve(DekRequestType.TagsToRead);
 
     #endregion
 
@@ -400,7 +404,8 @@ public class S456 : CommonProcessing
         if (_DataExchangeKernelService.IsEmpty(DekResponseType.DataToSend))
             return;
 
-        _DataExchangeKernelService.SendResponse(sessionId);
+        // HACK: The correlationId cannot be null where. We need to revisit the pattern we're using the resolve requests and responses and implement that pattern here
+        _DataExchangeKernelService.SendResponse(sessionId, null);
     }
 
     #endregion

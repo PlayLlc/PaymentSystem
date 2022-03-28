@@ -43,7 +43,7 @@ public partial class WaitingForGetDataResponse : KernelState
         if (!TryHandleGetDataToBeDone(session.GetTransactionSessionId()))
             HandleRemainingApplicationFilesToRead(session);
 
-        return _S456.Process(this, (Kernel2Session) session);
+        return _KernelStateResolver.GetKernelState(_S456.Process(this, (Kernel2Session) session));
     }
 
     #region S5.5 - S5.6
@@ -131,7 +131,7 @@ public partial class WaitingForGetDataResponse : KernelState
             PrimitiveValue[] getData = _RuntimeCodec.DecodePrimitiveSiblingsAtRuntime(signal.GetData()).ToArray();
 
             _KernelDatabase.Update(getData);
-            _DataExchangeKernelService.ResolveTagsToReadYet(getData);
+            _DataExchangeKernelService.Resolve(DekRequestType.TagsToRead);
         }
         catch (BerParsingException)
         {
@@ -164,7 +164,7 @@ public partial class WaitingForGetDataResponse : KernelState
         dataExchanger.TryPeek(DekRequestType.TagsToRead, out Tag result);
         PrimitiveValue emptyResult = new Empty(result);
         database.Update(emptyResult);
-        dataExchanger.ResolveTagsToReadYet(emptyResult);
+        dataExchanger.Resolve(DekRequestType.TagsToRead);
     }
 
     #endregion

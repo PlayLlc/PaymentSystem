@@ -9,6 +9,7 @@ using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
+using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
@@ -132,7 +133,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
                 throw new NotImplementedException();
 
             _KernelDatabase.Update(getDataElement!);
-            _DataExchangeKernelService.ResolveTagsToReadYet(getDataElement!);
+            _DataExchangeKernelService.Resolve(DekRequestType.TagsToRead);
 
             return true;
         }
@@ -319,7 +320,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 
         SetRelayResistancePerformed();
 
-        return _S3R1.Process(this, session);
+        return _KernelStateResolver.GetKernelState(_S3R1.Process(this, session));
     }
 
     #endregion

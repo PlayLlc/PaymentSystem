@@ -32,45 +32,6 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<PrimitiveValue
 
     #endregion
 
-    #region Instance Members
-
-    public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public Tag[] AsTags() => _Value.ToArray();
-
-    /// <summary>
-    ///     Searches the <see cref="IReadTlvDatabase" /> for any <see cref="Tag" /> values requested by this
-    ///     <see cref="TagsToRead" />. If any of the requested values are present in the <see cref="IReadTlvDatabase" />, those
-    ///     <see cref="Tag" /> values are removed from this list. The method returns the <see cref="PrimitiveValue" /> objects
-    ///     that were successfully resolved by the <see cref="IReadTlvDatabase" />
-    /// </summary>
-    /// <returns>
-    ///     A list of the <see cref="PrimitiveValue" /> objects that were successfully resolved by the
-    ///     <see cref="IReadTlvDatabase" />
-    /// </returns>
-    /// <warning>
-    ///     This should be the only method available to resolve the requested tags. That way we're consistent in how we're
-    ///     handling data exchange
-    /// </warning>
-    /// <exception cref="TerminalDataException"></exception>
-    public IEnumerable<PrimitiveValue> Resolve(IReadTlvDatabase database)
-    {
-        for (nint i = 0; i < _Value.Count; i++)
-        {
-            if (!TryDequeue(out Tag tag))
-                throw new TerminalDataException($"The {nameof(TagsToRead)} could not dequeue a value from memory");
-
-            if (!database.IsPresentAndNotEmpty(tag))
-                Enqueue(tag);
-
-            yield return database.Get(tag);
-        }
-    }
-
-    public Tag[] GetTagsToReadYet() => _Value.ToArray();
-
-    #endregion
-
     #region Serialization
 
     public override TagsToRead Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
@@ -117,6 +78,45 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<PrimitiveValue
     }
 
     public int GetHashCode(TagsToRead obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override Tag GetTag() => Tag;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public Tag[] AsTags() => _Value.ToArray();
+
+    /// <summary>
+    ///     Searches the <see cref="IReadTlvDatabase" /> for any <see cref="Tag" /> values requested by this
+    ///     <see cref="TagsToRead" />. If any of the requested values are present in the <see cref="IReadTlvDatabase" />, those
+    ///     <see cref="Tag" /> values are removed from this list. The method returns the <see cref="PrimitiveValue" /> objects
+    ///     that were successfully resolved by the <see cref="IReadTlvDatabase" />
+    /// </summary>
+    /// <returns>
+    ///     A list of the <see cref="PrimitiveValue" /> objects that were successfully resolved by the
+    ///     <see cref="IReadTlvDatabase" />
+    /// </returns>
+    /// <warning>
+    ///     This should be the only method available to resolve the requested tags. That way we're consistent in how we're
+    ///     handling data exchange
+    /// </warning>
+    /// <exception cref="TerminalDataException"></exception>
+    public IEnumerable<PrimitiveValue> Resolve(IReadTlvDatabase database)
+    {
+        for (nint i = 0; i < _Value.Count; i++)
+        {
+            if (!TryDequeue(out Tag tag))
+                throw new TerminalDataException($"The {nameof(TagsToRead)} could not dequeue a value from memory");
+
+            if (!database.IsPresentAndNotEmpty(tag))
+                Enqueue(tag);
+
+            yield return database.Get(tag);
+        }
+    }
+
+    public Tag[] GetTagsToReadYet() => _Value.ToArray();
 
     #endregion
 }

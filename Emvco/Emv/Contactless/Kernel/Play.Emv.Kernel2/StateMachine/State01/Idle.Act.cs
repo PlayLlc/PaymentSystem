@@ -222,7 +222,7 @@ public partial class Idle : KernelState
 
         if (tagsToRead != null)
         {
-            _DataExchangeKernelService.Enqueue(DekRequestType.TagsToRead, tagsToRead);
+            _DataExchangeKernelService.Enqueue(DekRequestType.TagsToRead, tagsToRead.GetTagsToReadYet());
 
             // TODO: TagsToReadYet.Update(tagsToRead);
         }
@@ -292,10 +292,10 @@ public partial class Idle : KernelState
     #region S1.15
 
     /// <remarks>Book C-2 Section 6.3.3  S1.15</remarks>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private void AddKnownObjectsToDataToSend()
     {
-        _DataExchangeKernelService.Resolve(_KernelDatabase);
+        _DataExchangeKernelService.Resolve(DekRequestType.TagsToRead);
     }
 
     #endregion
@@ -498,7 +498,8 @@ public partial class Idle : KernelState
     /// <remarks> EMV Book C-2 Section S1.22 </remarks>
     private void DispatchDataExchangeMessages(KernelSessionId kernelSessionId)
     {
-        _DataExchangeKernelService.SendResponse(kernelSessionId);
+        // HACK: The correlationId cannot be null where. We need to revisit the pattern we're using the resolve requests and responses and implement that pattern here
+        _DataExchangeKernelService.SendResponse(kernelSessionId, null);
         _DataExchangeKernelService.SendRequest(kernelSessionId);
         _DataExchangeKernelService.Initialize(DekResponseType.DataToSend);
         _DataExchangeKernelService.Initialize(new DataNeeded());

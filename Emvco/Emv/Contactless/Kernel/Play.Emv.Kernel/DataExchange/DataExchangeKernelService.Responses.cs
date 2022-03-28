@@ -20,10 +20,13 @@ namespace Play.Emv.Kernel.DataExchange
         /// <param name="sessionId"></param>
         /// <param name="correlationId"></param>
         /// <exception cref="InvalidOperationException"></exception>
-        public void SendResponse(KernelSessionId sessionId, CorrelationId correlationId)
+        public void SendResponse(KernelSessionId sessionId, CorrelationId? correlationId)
         {
             lock (_Lock)
             {
+                // BUG: We need to resolve the way we're going to correlate the DET requests and the DEK responses. It's not always going to be a 1 - 1, and we might not even want to always correlate the response with the request
+                throw new NotImplementedException();
+
                 if (!_Lock.Responses.ContainsKey(DekResponseType.DataToSend))
                 {
                     throw new

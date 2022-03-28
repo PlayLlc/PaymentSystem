@@ -5,7 +5,9 @@ using Play.Ber.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Identifiers;
+using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.Services;
+using Play.Emv.Kernel.Services._TempRefactor;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
 
 using Xunit;
@@ -19,6 +21,7 @@ public partial class TerminalActionAnalysisServiceTests
 
     private readonly IFixture _Fixture;
     private readonly GenerateApplicationCryptogramCommandTestSpy _TestSpy;
+    private readonly KernelDatabase _Database;
 
     #endregion
 
@@ -34,6 +37,7 @@ public partial class TerminalActionAnalysisServiceTests
         _Fixture = new Fixture();
         _Fixture.Customize(new AutoMoqCustomization());
         _TestSpy = GenerateApplicationCryptogramCommandTestSpy.Setup(_Fixture);
+        _Database = _Fixture.Create<KernelDatabase>();
     }
 
     #endregion
@@ -55,8 +59,7 @@ public partial class TerminalActionAnalysisServiceTests
             _Fixture.Create<DataObjectListResult>());
 
     private TerminalActionAnalysisCommand GetTerminalActionAnalysisCommand(
-        TerminalVerificationResults terminalVerificationResults,
-        OnlineResponseOutcome onlineResponseOutcome)
+        TerminalVerificationResults terminalVerificationResults, OnlineResponseOutcome onlineResponseOutcome)
     {
         OutcomeParameterSet.Builder outcomeBuilder = OutcomeParameterSet.GetBuilder();
         outcomeBuilder.Set(onlineResponseOutcome);

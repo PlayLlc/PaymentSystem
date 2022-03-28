@@ -161,7 +161,7 @@ namespace Play.Emv.Kernel.DataExchange
         ///     <see cref="DekRequestType" /> in the argument
         /// </returns>
         /// <exception cref="TerminalDataException"></exception>
-        public int ResolveKnownObjects(DekRequestType requestType)
+        public int Resolve(DekRequestType requestType)
         {
             lock (_Lock.Requests)
             {

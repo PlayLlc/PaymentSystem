@@ -34,7 +34,7 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
 
         AttemptToHandleGetDataToBeDone(session.GetTransactionSessionId());
 
-        return _S456.Process(this, (Kernel2Session) session);
+        return _KernelStateResolver.GetKernelState(_S456.Process(this, (Kernel2Session) session));
     }
 
     #region S6.1, S6.3

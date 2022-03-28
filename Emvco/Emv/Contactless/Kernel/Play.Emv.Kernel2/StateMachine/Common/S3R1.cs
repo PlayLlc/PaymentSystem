@@ -256,10 +256,10 @@ public class S3R1 : CommonProcessing
     #region S3R1.14
 
     /// <remarks> EMV Book C-2 Section S3R1.14 </remarks>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private void ResolveKnownTagsToRead()
     {
-        _DataExchangeKernelService.Resolve(_KernelDatabase);
+        _DataExchangeKernelService.Resolve(DekRequestType.TagsToRead);
     }
 
     #endregion
@@ -288,7 +288,9 @@ public class S3R1 : CommonProcessing
     private void ExchangeData(KernelSessionId sessionId)
     {
         _DataExchangeKernelService.SendRequest(sessionId);
-        _DataExchangeKernelService.SendResponse(sessionId);
+
+        // HACK: The correlationId cannot be null where. We need to revisit the pattern we're using the resolve requests and responses and implement that pattern here
+        _DataExchangeKernelService.SendResponse(sessionId, null);
         _DataExchangeKernelService.Initialize(DekRequestType.DataNeeded);
         _DataExchangeKernelService.Initialize(DekResponseType.DataToSend);
     }

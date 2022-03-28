@@ -10,6 +10,7 @@ using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Kernel.Services;
+using Play.Emv.Kernel.Services._TempRefactor;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
 
@@ -39,30 +40,18 @@ public class TerminalActionAnalysisServiceFactory
             .Setup(a => a.GetAuthenticationMethod(It.IsAny<TerminalCapabilities>(), It.IsAny<ApplicationInterchangeProfile>()))
             .Returns(AuthenticationTypes.CombinedDataAuthentication);
 
-        fixture.Register(() => new TerminalActionAnalysisService(fixture.Create<IHandlePcdRequests>(), authenticationTypeResolver.Object,
-                                                                 new TerminalType(TerminalType.EnvironmentType.Attended, terminalType,
-                                                                                  TerminalType.TerminalOperatorType.Merchant),
-                                                                 fixture.Create<TerminalCapabilities>(), GetTerminalActionCodeDefault(),
-                                                                 GetTerminalActionCodeDenial(), GetTerminalActionCodeOnline(),
-                                                                 GetIssuerActionCodeDefault(), GetIssuerActionCodeDenial(),
-                                                                 GetIssuerActionCodeOnline()));
+        fixture.Register(() => new TerminalActionAnalysisService(fixture.Create<IHandlePcdRequests>(),
+                                                                 fixture.Create<IResolveAuthenticationType>()));
 
         return fixture.Create<TerminalActionAnalysisService>();
     }
 
     public static TerminalActionAnalysisService Create(
-        TerminalType.CommunicationType terminalType,
-        TerminalCapabilities terminalCapabilities,
-        IResolveAuthenticationType authenticationResolver,
-        IFixture fixture)
+        TerminalType.CommunicationType terminalType, TerminalCapabilities terminalCapabilities,
+        IResolveAuthenticationType authenticationResolver, IFixture fixture)
     {
-        fixture.Register(() => new TerminalActionAnalysisService(fixture.Create<IHandlePcdRequests>(), authenticationResolver,
-                                                                 new TerminalType(TerminalType.EnvironmentType.Attended, terminalType,
-                                                                                  TerminalType.TerminalOperatorType.Merchant),
-                                                                 terminalCapabilities, GetTerminalActionCodeDefault(),
-                                                                 GetTerminalActionCodeDenial(), GetTerminalActionCodeOnline(),
-                                                                 GetIssuerActionCodeDefault(), GetIssuerActionCodeDenial(),
-                                                                 GetIssuerActionCodeOnline()));
+        fixture.Register(() => new TerminalActionAnalysisService(fixture.Create<IHandlePcdRequests>(),
+                                                                 fixture.Create<IResolveAuthenticationType>()));
 
         return fixture.Create<TerminalActionAnalysisService>();
     }

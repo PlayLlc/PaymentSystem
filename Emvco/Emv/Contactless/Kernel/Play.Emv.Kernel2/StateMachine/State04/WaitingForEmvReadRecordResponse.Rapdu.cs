@@ -71,7 +71,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
         AttemptNextCommand(session);
 
-        return _S456.Process(this, kernel2Session);
+        return _KernelStateResolver.GetKernelState(_S456.Process(this, kernel2Session));
     }
 
     #region S4.4 - S4.6
@@ -198,10 +198,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private static void HandleBerParsingException(
-        KernelSession session,
-        DataExchangeKernelService dataExchanger,
-        KernelDatabase database,
-        IHandleKernelStopRequests kernelEndpoint)
+        KernelSession session, DataExchangeKernelService dataExchanger, KernelDatabase database, IHandleKernelStopRequests kernelEndpoint)
     {
         database.Update(StatusOutcome.EndApplication);
         database.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
@@ -261,10 +258,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     private void UpdateDataNeededWhenIdsIsSupported(
-        Kernel2Session session,
-        ReadRecordResponse rapdu,
-        Tag[] resolvedRecords,
-        bool isRecordSigned)
+        Kernel2Session session, ReadRecordResponse rapdu, Tag[] resolvedRecords, bool isRecordSigned)
     {
         if (!_KernelDatabase.IsPresent(DataStorageRequestedOperatorId.Tag))
         {
@@ -297,7 +291,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     #endregion
 
-    #region S4.31 
+    #region S4.31
 
     /// <remarks>Book C-2 Section S4.32 - S4.33</remarks>
     /// <exception cref="DataElementParsingException"></exception>
