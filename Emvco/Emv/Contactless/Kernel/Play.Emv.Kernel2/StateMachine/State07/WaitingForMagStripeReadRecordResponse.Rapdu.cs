@@ -67,10 +67,8 @@ namespace Play.Emv.Kernel2.StateMachine
 
             UpdateDiscretionaryTrackData();
 
-            return _KernelStateResolver.GetKernelState(_S78.Process(this, (Kernel2Session) session);
+            return _KernelStateResolver.GetKernelState(_S78.Process(this, (Kernel2Session) session));
         }
-
-
 
         #region S7.4 - S7.6
 
