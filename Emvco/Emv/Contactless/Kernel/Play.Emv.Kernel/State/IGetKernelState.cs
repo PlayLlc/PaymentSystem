@@ -1,7 +1,6 @@
 ﻿using Play.Emv.Identifiers;
-using Play.Emv.Kernel.State;
 
-namespace Play.Emv.Kernel2.StateMachine;
+namespace Play.Emv.Kernel.State;
 
 public interface IGetKernelState
 {

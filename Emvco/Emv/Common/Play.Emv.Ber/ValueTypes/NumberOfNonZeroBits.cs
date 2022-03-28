@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Play.Emv.Ber.DataElements;
 
-using Play.Emv.Ber.DataElements;
-
-namespace Play.Emv.Ber.ValueTypes
+namespace Play.Emv.Ber
 {
     /// <summary>
     ///     Number of non-zero bits in PUNATC(Track2) – NATC(Track2)
