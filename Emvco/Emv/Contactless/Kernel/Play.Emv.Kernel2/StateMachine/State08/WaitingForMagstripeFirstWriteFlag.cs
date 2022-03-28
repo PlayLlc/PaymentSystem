@@ -12,7 +12,7 @@ using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
-public class WaitingForMagstripeFirstWriteFlag : KernelState
+public partial class WaitingForMagstripeFirstWriteFlag : KernelState
 {
     #region Static Metadata
 
@@ -20,13 +20,21 @@ public class WaitingForMagstripeFirstWriteFlag : KernelState
 
     #endregion
 
+    #region Instance Values
+
+    private readonly S78 _S78;
+
+    #endregion
+
     #region Constructor
 
     public WaitingForMagstripeFirstWriteFlag(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint) :
+        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, S78 s78) :
         base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver, pcdEndpoint)
-    { }
+    {
+        _S78 = s78;
+    }
 
     #endregion
 
@@ -36,20 +44,6 @@ public class WaitingForMagstripeFirstWriteFlag : KernelState
 
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, ActivateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    #endregion
-
-    #region STOP
-
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, StopKernelRequest signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
@@ -68,6 +62,7 @@ public class WaitingForMagstripeFirstWriteFlag : KernelState
 
     #region DET
 
+    // BUG: Need to make sure you're properly implementing each DEK handler for each state
     /// <summary>
     ///     Handle
     /// </summary>
@@ -86,16 +81,6 @@ public class WaitingForMagstripeFirstWriteFlag : KernelState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion

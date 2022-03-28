@@ -389,8 +389,6 @@ namespace Play.Emv.Kernel2.StateMachine
                 _Database.Update(Level2Error.CardDataMissing);
                 _Database.SetUiRequestOnRestartPresent(true);
                 _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
-
-                _KernelEndpoint.Request(new StopKernelRequest(sessionId));
             }
             catch (TerminalDataException)
             {
