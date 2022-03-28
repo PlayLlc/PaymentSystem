@@ -27,12 +27,12 @@ public partial class WaitingForPdolData : KernelState
     {
         HandleRequestOutOfSync(session, signal);
 
-        _KernelDatabase.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcome.EndApplication);
 
-        if (!_KernelDatabase.GetErrorIndication().IsErrorPresent())
-            _KernelDatabase.Update(Level3Error.Stop);
+        if (!_Database.GetErrorIndication().IsErrorPresent())
+            _Database.Update(Level3Error.Stop);
 
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), signal.GetKernelSessionId(), _KernelDatabase.GetOutcome()));
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), signal.GetKernelSessionId(), _Database.GetOutcome()));
 
         // BUG: I think the book says to clear the database and session on stop but i think our implementation might still use DEK to grab the required data before sending it to the acquirer. Check the pattern in the book and your implementation
         Clear();

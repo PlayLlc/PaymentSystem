@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using Play.Ber.Exceptions;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Icc;
 using Play.Emv.Pcd.Contracts;
@@ -27,7 +28,7 @@ public class ApplicationCryptogramGenerator : IGenerateApplicationCryptogram
     #region Instance Members
 
     // HACK: We need to wrap the contents of this method in a try catch and capture any Level1Errors that occur while transceiving. This is where we need to be cognizant of timeouts happening
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public async Task<GenerateApplicationCryptogramResponse> Transceive(GenerateApplicationCryptogramRequest command)
     {
         try

@@ -21,8 +21,6 @@ public partial class WaitingForGetDataResponse : KernelState
 
     #region Instance Values
 
-    private readonly IHandlePcdRequests _PcdEndpoint;
-    private readonly IGetKernelState _KernelStateResolver;
     private readonly S456 _S456;
 
     #endregion
@@ -30,12 +28,10 @@ public partial class WaitingForGetDataResponse : KernelState
     #region Instance Members
 
     public WaitingForGetDataResponse(
-        KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, S456 s456) :
-        base(kernelDatabase, dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver)
+        base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver, pcdEndpoint)
     {
-        _PcdEndpoint = pcdEndpoint;
-        _KernelStateResolver = kernelStateResolver;
         _S456 = s456;
     }
 

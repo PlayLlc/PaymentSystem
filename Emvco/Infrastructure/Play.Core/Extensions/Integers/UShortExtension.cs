@@ -34,7 +34,7 @@ public static class UShortExtension
         if (value == 0)
             return 1;
 
-        byte bitLog = (byte) System.Math.Log2(value);
+        byte bitLog = (byte) Math.Log2(value);
 
         return (byte) (bitLog + 1);
     }
@@ -46,13 +46,14 @@ public static class UShortExtension
 
     public static byte GetNumberOfDigits(this in ushort value)
     {
-        double count = System.Math.Log10(System.Math.Pow(2, value.GetMostSignificantBit()));
+        double count = Math.Log10(Math.Pow(2, value.GetMostSignificantBit()));
 
         return (byte) ((count % 1) == 0 ? count : count + 1);
     }
 
     public static bool HasValue(this ushort value, ushort valueToCheck) => (value & valueToCheck) != 0;
-    public static bool IsBitSet(this in ushort value, byte bitPosition) => (value & (1 << bitPosition)) != 0;
+    public static bool IsBitSet(this ushort value, byte bitPosition) => (value & (1 << bitPosition)) != 0;
+    public static bool IsBitSet(this ushort value, Bits bit) => (value & BitLookup.GetBit(bit)) != 0;
     public static bool IsEven(this ushort value) => (value % 2) == 0;
 
     public static byte LeftPaddedUnsetBitCount(this in ushort value)

@@ -86,7 +86,7 @@ public partial class EmvCodec : BerCodec
         }
     }
 
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="System.InvalidOperationException"></exception>
     public PrimitiveValue[] DecodePrimitiveValuesAtRuntime(ReadOnlySpan<byte> value)
     {

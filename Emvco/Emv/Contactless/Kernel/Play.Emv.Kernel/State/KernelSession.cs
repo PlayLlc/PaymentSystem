@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
@@ -74,12 +75,12 @@ public class KernelSession
     public bool TryPeekActiveTag(out RecordRange result) => _ActiveApplicationFileLocator.TryPeek(out result);
     public bool IsActiveTagEmpty() => _ActiveApplicationFileLocator.IsEmpty();
 
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public PrimitiveValue[] ResolveActiveTag(ReadRecordResponse rapdu)
     {
         _ = _ActiveApplicationFileLocator.TryDequeue(out RecordRange? result);
 
-        return rapdu.GetRecords();
+        return rapdu.GetPrimitiveDataObjects();
     }
 
     public void ClearActiveTags() => _ActiveApplicationFileLocator.Clear();

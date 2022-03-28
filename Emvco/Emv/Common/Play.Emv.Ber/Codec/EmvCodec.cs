@@ -4,7 +4,7 @@ using Play.Codecs;
 
 namespace Play.Emv.Ber;
 
-public partial class EmvCodec : BerCodec
+public partial class EmvCodec : BerCodec, IResolveKnownObjectsAtRuntime
 {
     #region Static Metadata
 

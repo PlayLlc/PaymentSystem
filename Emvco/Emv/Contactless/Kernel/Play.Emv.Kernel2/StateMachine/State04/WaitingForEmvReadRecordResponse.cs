@@ -31,9 +31,9 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     #region Instance Members
 
     public WaitingForEmvReadRecordResponse(
-        KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IHandleTerminalRequests terminalEndpoint, ICleanTornTransactions kernelCleaner, S456 s456) : base(kernelDatabase,
+        IHandleTerminalRequests terminalEndpoint, ICleanTornTransactions kernelCleaner, S456 s456) : base(database,
      dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver, pcdEndpoint)
     {
         _TerminalEndpoint = terminalEndpoint;

@@ -18,7 +18,7 @@ public record PrimaryAccountNumber : PlayProprietaryDataElement<char[]>
     public static readonly Tag Tag = CreateProprietaryTag(DataFieldId);
 
     public static readonly PlayEncodingId EncodingId = NumericCodec.EncodingId;
-    private const int _MaxByteLength = 10;
+    public const int _MaxByteLength = 10;
     private const byte _MaxCharLength = 19;
     public const byte DataFieldId = 2;
 
@@ -28,29 +28,6 @@ public record PrimaryAccountNumber : PlayProprietaryDataElement<char[]>
 
     public PrimaryAccountNumber(ReadOnlySpan<char> value) : base(value.ToArray())
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public static byte GetMaxByteLength() => _MaxByteLength;
-    public override ushort GetDataFieldId() => DataFieldId;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    /// <summary>
-    ///     Checks whether the Issuer EncodingId provided in the argument matches the leftmost 3 - 8 PAN digits (allowing for
-    ///     the possible padding of the Issuer EncodingId with hexadecimal 'F's)
-    /// </summary>
-    /// <param name="issuerIdentifier"></param>
-    /// <returns></returns>
-    /// <exception cref="CodecParsingException"></exception>
-    public bool IsIssuerIdentifierMatching(IssuerIdentificationNumber issuerIdentifier)
-    {
-        uint thisPan = PlayCodec.NumericCodec.DecodeToUInt16(PlayCodec.NumericCodec.Encode(_Value));
-
-        return thisPan == (uint) issuerIdentifier;
-    }
 
     #endregion
 
@@ -77,6 +54,29 @@ public record PrimaryAccountNumber : PlayProprietaryDataElement<char[]>
         Check.Primitive.ForMaxCharLength(result.Length, _MaxCharLength, Tag);
 
         return new PrimaryAccountNumber(result);
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    public static byte GetMaxByteLength() => _MaxByteLength;
+    public override ushort GetDataFieldId() => DataFieldId;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+
+    /// <summary>
+    ///     Checks whether the Issuer EncodingId provided in the argument matches the leftmost 3 - 8 PAN digits (allowing for
+    ///     the possible padding of the Issuer EncodingId with hexadecimal 'F's)
+    /// </summary>
+    /// <param name="issuerIdentifier"></param>
+    /// <returns></returns>
+    /// <exception cref="CodecParsingException"></exception>
+    public bool IsIssuerIdentifierMatching(IssuerIdentificationNumber issuerIdentifier)
+    {
+        uint thisPan = PlayCodec.NumericCodec.DecodeToUInt16(PlayCodec.NumericCodec.Encode(_Value));
+
+        return thisPan == (uint) issuerIdentifier;
     }
 
     #endregion

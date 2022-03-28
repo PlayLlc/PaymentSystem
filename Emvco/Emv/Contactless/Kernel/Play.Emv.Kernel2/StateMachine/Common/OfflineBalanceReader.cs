@@ -57,19 +57,19 @@ public partial class OfflineBalanceReader : CommonProcessing
 
     /// <summary>
     /// </summary>
-    /// <param name="kernelStateId"></param>
+    /// <param name="currentStateIdRetriever"></param>
     /// <param name="session"></param>
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// >
-    public override StateId Process(IGetKernelStateId kernelStateId, Kernel2Session session)
+    public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
     {
-        HandleRequestOutOfSync(kernelStateId.GetStateId());
+        HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());
 
-        if (_PreGenAcBalanceReader.GetValidStateIds().Any(a => a == kernelStateId.GetStateId()))
-            return _PreGenAcBalanceReader.Process(kernelStateId, session);
+        if (_PreGenAcBalanceReader.GetValidStateIds().Any(a => a == currentStateIdRetriever.GetStateId()))
+            return _PreGenAcBalanceReader.Process(currentStateIdRetriever, session);
 
-        return _PostGenAcBalanceReader.Process(kernelStateId, session);
+        return _PostGenAcBalanceReader.Process(currentStateIdRetriever, session);
     }
 
     #endregion

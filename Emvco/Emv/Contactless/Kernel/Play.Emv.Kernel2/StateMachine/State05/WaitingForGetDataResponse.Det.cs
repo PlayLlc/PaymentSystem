@@ -33,7 +33,7 @@ public partial class WaitingForGetDataResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void UpdateDataExchangeSignal(QueryTerminalResponse signal)
     {
-        _KernelDatabase.Update(signal.GetDataToSend().AsPrimitiveValues());
+        _Database.Update(signal.GetDataToSend().AsPrimitiveValues());
     }
 
     #endregion

@@ -19,7 +19,7 @@ public abstract class KernelState : IGetKernelStateId
 {
     #region Instance Values
 
-    protected readonly KernelDatabase _KernelDatabase;
+    protected readonly KernelDatabase _Database;
     protected readonly DataExchangeKernelService _DataExchangeKernelService;
     protected readonly IKernelEndpoint _KernelEndpoint;
     protected readonly IManageTornTransactions _TornTransactionManager;
@@ -31,10 +31,10 @@ public abstract class KernelState : IGetKernelStateId
     #region Instance Members
 
     protected KernelState(
-        KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint)
     {
-        _KernelDatabase = kernelDatabase;
+        _Database = database;
         _DataExchangeKernelService = dataExchangeKernelService;
         _KernelEndpoint = kernelEndpoint;
         _TornTransactionManager = tornTransactionManager;
@@ -53,7 +53,7 @@ public abstract class KernelState : IGetKernelStateId
 
     public void Clear()
     {
-        _KernelDatabase.Deactivate();
+        _Database.Deactivate();
         _DataExchangeKernelService.Clear();
     }
 
@@ -71,10 +71,10 @@ public abstract class KernelState : IGetKernelStateId
     /// <exception cref="TerminalDataException"></exception>
     private void HandleBerEncodingException(CorrelationId correlationId, KernelSessionId kernelSessionId)
     {
-        _KernelDatabase.Update(StatusOutcome.SelectNext);
-        _KernelDatabase.Update(StartOutcome.C);
+        _Database.Update(StatusOutcome.SelectNext);
+        _Database.Update(StartOutcome.C);
 
-        _KernelEndpoint.Send(new OutKernelResponse(correlationId, kernelSessionId, _KernelDatabase.GetOutcome()));
+        _KernelEndpoint.Send(new OutKernelResponse(correlationId, kernelSessionId, _Database.GetOutcome()));
     }
 
     /// <param name="session"></param>

@@ -34,28 +34,21 @@ public partial class Idle : KernelState
 
     #endregion
 
-    #region Constructor
+    #region Instance Members
 
     public Idle(
-        ICleanTornTransactions kernelCleaner,
-        KernelDatabase kernelDatabase,
-        DataExchangeKernelService dataExchange,
-        IGetKernelState kernelStateResolver,
-        IKernelEndpoint kernelEndpoint,
-        IHandleTerminalRequests terminalEndpoint,
-        IHandlePcdRequests pcdEndpoint,
-        IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(kernelDatabase, dataExchange, kernelEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
+        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IHandleTerminalRequests terminalEndpoint, ICleanTornTransactions kernelCleaner,
+        IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(database, dataExchangeKernelService, kernelEndpoint,
+                                                                          tornTransactionManager, kernelStateResolver, pcdEndpoint)
     {
-        _KernelCleaner = kernelCleaner;
-        _KernelStateResolver = kernelStateResolver;
         _TerminalEndpoint = terminalEndpoint;
         _PcdEndpoint = pcdEndpoint;
+        _KernelStateResolver = kernelStateResolver;
+        _KernelCleaner = kernelCleaner;
         _UnpredictableNumberGenerator = unpredictableNumberGenerator;
     }
-
-    #endregion
-
-    #region Instance Members
 
     public override StateId GetStateId() => StateId;
 

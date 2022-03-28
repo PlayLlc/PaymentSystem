@@ -4,6 +4,7 @@ namespace Play.Emv.Ber;
 
 public interface IResolveKnownObjectsAtRuntime
 {
-    public IEnumerable<PrimitiveValue> DecodePrimitiveSiblingsAtRuntime(ReadOnlyMemory<byte> value);
-    public bool TryDecodingPrimitiveValueAtRuntime(ReadOnlyMemory<byte> value, out PrimitiveValue? result);
+    public PrimitiveValue DecodePrimitiveValueAtRuntime(ReadOnlySpan<byte> value);
+    public PrimitiveValue[] DecodePrimitiveValuesAtRuntime(ReadOnlySpan<byte> value);
+    public bool TryDecodingPrimitiveValueAtRuntime(ReadOnlySpan<byte> value, out PrimitiveValue? result);
 }

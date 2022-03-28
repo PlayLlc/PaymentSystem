@@ -18,6 +18,10 @@ public record Track1Data : DataElement<byte[]>
     public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialCodec.EncodingId;
     public static readonly Tag Tag = 0x56;
     private const byte _MaxByteLength = 76;
+    private const byte _StartSentinel = (byte) '%';
+    private const byte _FormatCode = (byte) 'B';
+    private const byte _FieldSeparator = (byte) '^';
+    private const byte _EndSentinel = (byte) '?';
 
     #endregion
 
@@ -25,41 +29,6 @@ public record Track1Data : DataElement<byte[]>
 
     public Track1Data(ReadOnlySpan<byte> value) : base(value.ToArray())
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    /// <exception cref="CardDataException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    public PrimaryAccountNumber GetPrimaryAccountNumber(PunatcTrack1 value)
-    {
-        const byte startSentinel = (byte) '%';
-        const byte formatCode = (byte) 'B';
-        const byte fieldSeparator = (byte) '=';
-
-        int offset = 0;
-
-        if (_Value[0] == startSentinel)
-            offset++;
-
-        if (_Value[offset++] != formatCode)
-            throw new CardDataException($"The {nameof(PrimaryAccountNumber)} was provided in an unknown format");
-
-        int startRange = offset;
-
-        for (; offset < PrimaryAccountNumber.GetMaxByteLength(); offset++)
-        {
-            if (_Value[offset] == fieldSeparator)
-                return PrimaryAccountNumber.Decode(_Value.AsSpan()[startRange..offset]);
-        }
-
-        throw new CardDataException($"The {nameof(PrimaryAccountNumber)} was provided in an unknown format");
-    }
 
     #endregion
 
@@ -81,6 +50,64 @@ public record Track1Data : DataElement<byte[]>
         char[] result = PlayCodec.AlphaNumericSpecialCodec.DecodeToChars(value);
 
         return new Track1Data(value);
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+
+    public Track1DiscretionaryData GetTrack1DiscretionaryData()
+    {
+        ReadOnlySpan<byte> value = _Value.ToArray();
+
+        return Track1DiscretionaryData.Decode(value[GetDiscretionaryDataOffset(value)..]);
+    }
+
+    private int GetSecondFieldSeparatorOffset(ReadOnlySpan<byte> value)
+    {
+        int offset = 0;
+
+        for (int j = 0; j < 2; offset++)
+        {
+            if (value[offset] == _FieldSeparator)
+                j++;
+        }
+
+        if (offset != 2)
+            throw new BerParsingException($"The {nameof(Track1Data)} could not find the 2nd field separator");
+
+        return offset;
+    }
+
+    private int GetExpiryDateOffset(ReadOnlySpan<byte> value) => GetSecondFieldSeparatorOffset(value) + 1;
+    private int GetServiceCodeOffset(ReadOnlySpan<byte> value) => GetExpiryDateOffset(value) + 4;
+    private int GetDiscretionaryDataOffset(ReadOnlySpan<byte> value) => GetExpiryDateOffset(value) + 3;
+
+    /// <exception cref="CardDataException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    public PrimaryAccountNumber GetPrimaryAccountNumber(PunatcTrack1 value)
+    {
+        int offset = 0;
+
+        if (_Value[0] == _StartSentinel)
+            offset++;
+
+        if (_Value[offset++] != _FormatCode)
+            throw new CardDataException($"The {nameof(PrimaryAccountNumber)} was provided in an unknown format");
+
+        int startRange = offset;
+
+        for (; offset < PrimaryAccountNumber.GetMaxByteLength(); offset++)
+        {
+            if (_Value[offset] == _FieldSeparator)
+                return PrimaryAccountNumber.Decode(_Value.AsSpan()[startRange..offset]);
+        }
+
+        throw new CardDataException($"The {nameof(PrimaryAccountNumber)} was provided in an unknown format");
     }
 
     #endregion

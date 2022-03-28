@@ -86,15 +86,15 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         if (!signal.IsSuccessful())
             return false;
 
-        _KernelDatabase.Update(MessageIdentifier.TryAgain);
-        _KernelDatabase.Update(Status.ReadyToRead);
-        _KernelDatabase.Update(new MessageHoldTime(0));
-        _KernelDatabase.Update(StatusOutcome.EndApplication);
-        _KernelDatabase.Update(StartOutcome.B);
-        _KernelDatabase.SetUiRequestOnRestartPresent(true);
-        _KernelDatabase.Update(signal.GetLevel1Error());
-        _KernelDatabase.Update(MessageOnErrorIdentifier.TryAgain);
-        _KernelDatabase.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+        _Database.Update(MessageIdentifier.TryAgain);
+        _Database.Update(Status.ReadyToRead);
+        _Database.Update(new MessageHoldTime(0));
+        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StartOutcome.B);
+        _Database.SetUiRequestOnRestartPresent(true);
+        _Database.Update(signal.GetLevel1Error());
+        _Database.Update(MessageOnErrorIdentifier.TryAgain);
+        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
         _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
 
@@ -113,14 +113,14 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         if (signal.GetStatusWords() == StatusWords._9000)
             return false;
 
-        _KernelDatabase.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
-        _KernelDatabase.Update(Status.NotReady);
-        _KernelDatabase.Update(StatusOutcome.EndApplication);
-        _KernelDatabase.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
-        _KernelDatabase.Update(Level2Error.StatusBytes);
-        _KernelDatabase.Update(signal.GetStatusWords());
-        _KernelDatabase.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-        _KernelDatabase.SetUiRequestOnRestartPresent(true);
+        _Database.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
+        _Database.Update(Status.NotReady);
+        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
+        _Database.Update(Level2Error.StatusBytes);
+        _Database.Update(signal.GetStatusWords());
+        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+        _Database.SetUiRequestOnRestartPresent(true);
 
         _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
 
@@ -157,7 +157,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         {
             PrimitiveValue[] records = session.ResolveActiveTag(rapdu);
 
-            _KernelDatabase.Update(rapdu.GetPrimitiveValues(_RuntimeCodec));
+            _Database.Update(rapdu.GetPrimitiveDataObjects());
 
             resolvedRecords = records.Select(a => a.GetTag()).ToArray();
 
@@ -166,7 +166,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         catch (BerParsingException)
         {
             // TODO: Logging
-            HandleBerParsingException(session, _DataExchangeKernelService, _KernelDatabase, _KernelEndpoint);
+            HandleBerParsingException(session, _DataExchangeKernelService, _Database, _KernelEndpoint);
             resolvedRecords = Array.Empty<Tag>();
 
             return false;
@@ -174,7 +174,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         catch (CodecParsingException)
         {
             // TODO: Logging
-            HandleBerParsingException(session, _DataExchangeKernelService, _KernelDatabase, _KernelEndpoint);
+            HandleBerParsingException(session, _DataExchangeKernelService, _Database, _KernelEndpoint);
             resolvedRecords = Array.Empty<Tag>();
 
             return false;
@@ -182,7 +182,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         catch (Exception)
         {
             // TODO: Logging
-            HandleBerParsingException(session, _DataExchangeKernelService, _KernelDatabase, _KernelEndpoint);
+            HandleBerParsingException(session, _DataExchangeKernelService, _Database, _KernelEndpoint);
             resolvedRecords = Array.Empty<Tag>();
 
             return false;
@@ -223,7 +223,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="CodecParsingException"></exception>
     private void UpdateDataNeeded(Kernel2Session session, ReadRecordResponse rapdu, Tag[] resolvedRecords, bool isRecordSigned)
     {
-        if (_KernelDatabase.IsIntegratedDataStorageSupported())
+        if (_Database.IsIntegratedDataStorageSupported())
             UpdateDataNeededWhenIdsIsSupported(session, rapdu, resolvedRecords, isRecordSigned);
         else
             UpdateDataNeededWhenIdsIsNotSupported(resolvedRecords);
@@ -243,7 +243,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         for (int i = 0; i < resolvedRecords.Length; i++)
         {
             if (resolvedRecords[i] == CardRiskManagementDataObjectList1.Tag)
-                HandleCdol1((CardRiskManagementDataObjectList1) _KernelDatabase.Get(CardRiskManagementDataObjectList1.Tag));
+                HandleCdol1((CardRiskManagementDataObjectList1) _Database.Get(CardRiskManagementDataObjectList1.Tag));
         }
     }
 
@@ -261,7 +261,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     private void UpdateDataNeededWhenIdsIsSupported(
         Kernel2Session session, ReadRecordResponse rapdu, Tag[] resolvedRecords, bool isRecordSigned)
     {
-        if (!_KernelDatabase.IsPresent(DataStorageRequestedOperatorId.Tag))
+        if (!_Database.IsPresent(DataStorageRequestedOperatorId.Tag))
         {
             UpdateDataNeededWhenIdsIsNotSupported(resolvedRecords);
 
@@ -271,10 +271,10 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         for (int i = 0; i < resolvedRecords.Length; i++)
         {
             if (resolvedRecords[i] == CardRiskManagementDataObjectList1.Tag)
-                HandleCdol1((CardRiskManagementDataObjectList1) _KernelDatabase.Get(CardRiskManagementDataObjectList1.Tag));
+                HandleCdol1((CardRiskManagementDataObjectList1) _Database.Get(CardRiskManagementDataObjectList1.Tag));
 
             if (resolvedRecords[i] == DataStorageDataObjectList.Tag)
-                HandleDsdol(session, rapdu, isRecordSigned, (DataStorageDataObjectList) _KernelDatabase.Get(DataStorageDataObjectList.Tag));
+                HandleDsdol(session, rapdu, isRecordSigned, (DataStorageDataObjectList) _Database.Get(DataStorageDataObjectList.Tag));
         }
     }
 
@@ -287,7 +287,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="BerParsingException"></exception>
     private void HandleCdol1(CardRiskManagementDataObjectList1 cdol)
     {
-        _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, cdol.GetNeededData(_KernelDatabase));
+        _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, cdol.GetNeededData(_Database));
     }
 
     #endregion
@@ -304,7 +304,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     private void HandleDsdol(Kernel2Session session, ReadRecordResponse rapdu, bool isRecordSigned, DataStorageDataObjectList dsdol)
     {
         // BUG: I think this section is wrong
-        if (!_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out PrimitiveValue? idsStatus))
+        if (!_Database.TryGet(IntegratedDataStorageStatus.Tag, out PrimitiveValue? idsStatus))
         {
             AttemptToUpdateStaticDataToBeAuthenticated(session, rapdu, isRecordSigned);
 
@@ -318,7 +318,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
             return;
         }
 
-        if (_KernelDatabase.TryGet(DataStorageSlotManagementControl.Tag, out PrimitiveValue? dsSlotControl))
+        if (_Database.TryGet(DataStorageSlotManagementControl.Tag, out PrimitiveValue? dsSlotControl))
         {
             AttemptToUpdateStaticDataToBeAuthenticated(session, rapdu, isRecordSigned);
 
@@ -347,7 +347,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="BerParsingException"></exception>
     private void EnqueueDsdolToDataNeeded(DataStorageDataObjectList dsdol)
     {
-        _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, dsdol.GetNeededData(_KernelDatabase));
+        _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, dsdol.GetNeededData(_Database));
     }
 
     #endregion
@@ -375,7 +375,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <remarks>Book C-2 Section S4.36</remarks>
     private bool IsReadingRequired(Kernel2Session session)
     {
-        if (!_KernelDatabase.IsReadAllRecordsActivated())
+        if (!_Database.IsReadAllRecordsActivated())
             return true;
 
         if (session.GetOdaStatus() != OdaStatusTypes.Cda)
@@ -393,32 +393,32 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     private void OptimizeRead(KernelSession session)
     {
-        if (!_KernelDatabase.IsPresentAndNotEmpty(ApplicationExpirationDate.Tag))
+        if (!_Database.IsPresentAndNotEmpty(ApplicationExpirationDate.Tag))
         {
             AttemptNextCommand(session);
 
             return;
         }
 
-        if (!_KernelDatabase.IsPresentAndNotEmpty(ApplicationPan.Tag))
+        if (!_Database.IsPresentAndNotEmpty(ApplicationPan.Tag))
             return;
-        if (!_KernelDatabase.IsPresentAndNotEmpty(ApplicationPanSequenceNumber.Tag))
+        if (!_Database.IsPresentAndNotEmpty(ApplicationPanSequenceNumber.Tag))
             return;
-        if (!_KernelDatabase.IsPresentAndNotEmpty(ApplicationUsageControl.Tag))
+        if (!_Database.IsPresentAndNotEmpty(ApplicationUsageControl.Tag))
             return;
-        if (!_KernelDatabase.IsPresentAndNotEmpty(CvmList.Tag))
+        if (!_Database.IsPresentAndNotEmpty(CvmList.Tag))
             return;
-        if (!_KernelDatabase.IsPresentAndNotEmpty(IssuerActionCodeDefault.Tag))
+        if (!_Database.IsPresentAndNotEmpty(IssuerActionCodeDefault.Tag))
             return;
-        if (!_KernelDatabase.IsPresentAndNotEmpty(IssuerActionCodeDenial.Tag))
+        if (!_Database.IsPresentAndNotEmpty(IssuerActionCodeDenial.Tag))
             return;
-        if (!_KernelDatabase.IsPresentAndNotEmpty(IssuerActionCodeOnline.Tag))
+        if (!_Database.IsPresentAndNotEmpty(IssuerActionCodeOnline.Tag))
             return;
-        if (!_KernelDatabase.IsPresentAndNotEmpty(IssuerCountryCode.Tag))
+        if (!_Database.IsPresentAndNotEmpty(IssuerCountryCode.Tag))
             return;
-        if (!_KernelDatabase.IsPresentAndNotEmpty(Track2EquivalentData.Tag))
+        if (!_Database.IsPresentAndNotEmpty(Track2EquivalentData.Tag))
             return;
-        if (!_KernelDatabase.IsPresentAndNotEmpty(CardRiskManagementDataObjectList1.Tag))
+        if (!_Database.IsPresentAndNotEmpty(CardRiskManagementDataObjectList1.Tag))
             return;
 
         session.ClearActiveTags();

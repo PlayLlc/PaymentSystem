@@ -15,3 +15,10 @@ Play.Ber layer. You can use that throughout the system
 Now that you're using mostly BigIntegers when deserializing for large binary var - you're creating
 a lot of heap allocations with byte arrays. You're going to want to use a pool or create a custom
 that passes by reference 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Move Error Handling in Kernel to a single object
+
+How to distinguish between internal errors that have not been found and removed from our code
+base. There will be some errors that are severe enough that we'll want to stop the application
+but we don't want to stop the application from running. Unthrown exceptions are a no-no

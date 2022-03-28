@@ -92,7 +92,7 @@ public sealed record Kernel2KnownObjects : KnownObjects
             {DataStorageUnpredictableNumber.Tag, new(DataStorageUnpredictableNumber.Tag)},
             {DataStorageVersionNumberTerminal.Tag, new(DataStorageVersionNumberTerminal.Tag)},
             {DataToSend.Tag, new(DataToSend.Tag)},
-            {DiscretionaryDataCardTrack1.Tag, new(DiscretionaryDataCardTrack1.Tag)},
+            {Track1DiscretionaryData.Tag, new(Track1DiscretionaryData.Tag)},
             {DiscretionaryDataCardTrack2.Tag, new(DiscretionaryDataCardTrack2.Tag)},
             {DedicatedFileName.Tag, new(DedicatedFileName.Tag)},
             {DefaultUnpredictableNumberDataObjectList.Tag, new(DefaultUnpredictableNumberDataObjectList.Tag)},

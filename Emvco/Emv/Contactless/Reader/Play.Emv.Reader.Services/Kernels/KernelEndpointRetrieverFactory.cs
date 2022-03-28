@@ -17,12 +17,9 @@ internal class KernelEndpointRetrieverFactory
     #region Instance Members
 
     internal static KernelRetriever Create(
-        ReaderDatabase readerDatabase,
-        ICleanTornTransactions tornTransactionCleaner,
-        IHandleTerminalRequests terminalEndpoint,
-        IKernelEndpoint kernelEndpoint,
-        IHandlePcdRequests pcdEndpoint,
-        IGenerateUnpredictableNumber unpredictableNumberGenerator)
+        ReaderDatabase readerDatabase, ICleanTornTransactions tornTransactionCleaner, IHandleTerminalRequests terminalEndpoint,
+        IKernelEndpoint kernelEndpoint, IHandlePcdRequests pcdEndpoint, IGenerateUnpredictableNumber unpredictableNumberGenerator,
+        IManageTornTransactions tornTransactionsManager)
     {
         KernelProcess[] kernels =
         {
@@ -31,8 +28,8 @@ internal class KernelEndpointRetrieverFactory
 
                                          // HACK - We shouldn't need to use a concrete type to pull these values from the reader database
                                          new Kernel2PersistentValues(readerDatabase.GetPersistentKernelValues(ShortKernelIdTypes.Kernel2)),
-                                         new Kernel2KnownObjects(),
-                                         terminalEndpoint, kernelEndpoint, pcdEndpoint, unpredictableNumberGenerator,
+                                         new Kernel2KnownObjects(), terminalEndpoint, kernelEndpoint, pcdEndpoint,
+                                         unpredictableNumberGenerator, tornTransactionsManager,
                                          readerDatabase.GetCertificateAuthorityDatasets(new KernelId(ShortKernelIdTypes.Kernel2)))
         };
 

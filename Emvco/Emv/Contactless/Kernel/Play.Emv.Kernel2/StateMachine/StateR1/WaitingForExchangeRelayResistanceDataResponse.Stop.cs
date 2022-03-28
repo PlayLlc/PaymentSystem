@@ -21,12 +21,12 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         HandleRequestOutOfSync(session, signal);
         session.Stopwatch.Stop();
 
-        _KernelDatabase.Update(Level3Error.Stop);
+        _Database.Update(Level3Error.Stop);
 
-        _KernelDatabase.Update(StatusOutcome.EndApplication);
-        _KernelDatabase.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+        _Database.Update(StatusOutcome.EndApplication);
+        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), signal.GetKernelSessionId(), _KernelDatabase.GetOutcome()));
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), signal.GetKernelSessionId(), _Database.GetOutcome()));
 
         Clear();
 

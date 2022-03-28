@@ -17,22 +17,18 @@ public class Kernel2ProcessFactory
     #region Instance Members
 
     public static Kernel2Process Create(
-        ICleanTornTransactions tornTransactionCleaner,
-        Kernel2Configuration kernel2Configuration,
-        Kernel2PersistentValues kernel2PersistentValues,
-        Kernel2KnownObjects knownObjects,
-        IHandleTerminalRequests terminalEndpoint,
-        IKernelEndpoint kernelEndpoint,
-        IHandlePcdRequests pcdEndpoint,
-        IGenerateUnpredictableNumber unpredictableNumberGenerator,
-        CertificateAuthorityDataset[] certificates)
+        ICleanTornTransactions tornTransactionCleaner, Kernel2Configuration kernel2Configuration,
+        Kernel2PersistentValues kernel2PersistentValues, Kernel2KnownObjects knownObjects, IHandleTerminalRequests terminalEndpoint,
+        IKernelEndpoint kernelEndpoint, IHandlePcdRequests pcdEndpoint, IGenerateUnpredictableNumber unpredictableNumberGenerator,
+        IManageTornTransactions tornTransactionManager, CertificateAuthorityDataset[] certificates)
     {
-        KernelDatabase kernelDatabase = new KernelDatabase(certificates, kernel2PersistentValues, knownObjects);
+        KernelDatabase kernelDatabase = new(certificates, kernel2PersistentValues, knownObjects);
 
         Kernel2StateResolver kernel2StateResolver = Kernel2StateResolver.Create(tornTransactionCleaner, kernelDatabase,
                                                                                 new DataExchangeKernelService(terminalEndpoint,
-                                                                                 kernelDatabase, kernelEndpoint), terminalEndpoint,
-                                                                                kernelEndpoint, pcdEndpoint, unpredictableNumberGenerator);
+                                                                                 kernelDatabase, kernelEndpoint),
+                                                                                tornTransactionManager, terminalEndpoint, kernelEndpoint,
+                                                                                pcdEndpoint, unpredictableNumberGenerator);
         Kernel2StateMachine stateMachine = new(kernel2StateResolver.GetKernelState(Idle.StateId));
 
         return new Kernel2Process(stateMachine);

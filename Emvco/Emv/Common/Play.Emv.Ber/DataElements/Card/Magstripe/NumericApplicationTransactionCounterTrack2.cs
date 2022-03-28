@@ -1,6 +1,9 @@
-﻿using Play.Ber.DataObjects;
+﻿using System.Reflection.Metadata.Ecma335;
+
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -9,7 +12,7 @@ namespace Play.Emv.Ber.DataElements;
 ///     The value of NATC(Track2) represents the number of digits of the Application Transaction Counter to be included in
 ///     the discretionary data field of Track 2 Data.
 /// </summary>
-public record NumericApplicationTransactionCounterTrack2 : DataElement<ulong>
+public record NumericApplicationTransactionCounterTrack2 : DataElement<byte>
 {
     #region Static Metadata
 
@@ -21,17 +24,12 @@ public record NumericApplicationTransactionCounterTrack2 : DataElement<ulong>
 
     #region Constructor
 
-    public NumericApplicationTransactionCounterTrack2(ulong value) : base(value)
+    public NumericApplicationTransactionCounterTrack2(byte value) : base(value)
     { }
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
+    public int GetSetBitCount() => _Value.GetBitCount();
 
     #region Serialization
 
@@ -47,12 +45,19 @@ public record NumericApplicationTransactionCounterTrack2 : DataElement<ulong>
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
+        byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
 
         return new NumericApplicationTransactionCounterTrack2(result);
     }
 
     public new byte[] EncodeValue() => EncodeValue(_ByteLength);
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

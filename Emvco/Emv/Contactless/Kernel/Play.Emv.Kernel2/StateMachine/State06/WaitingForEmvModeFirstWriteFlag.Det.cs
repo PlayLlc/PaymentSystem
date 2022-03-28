@@ -50,9 +50,9 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
         if (!session.Timer.IsTimedOut())
             return false;
 
-        _KernelDatabase.Update(StatusOutcome.EndApplication);
-        _KernelDatabase.Update(Level3Error.TimeOut);
-        _KernelDatabase.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(Level3Error.TimeOut);
+        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
         _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
 
@@ -67,7 +67,7 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void UpdateDatabase(QueryTerminalResponse signal)
     {
-        _KernelDatabase.Update(signal.GetDataToSend().AsPrimitiveValues());
+        _Database.Update(signal.GetDataToSend().AsPrimitiveValues());
     }
 
     #endregion

@@ -71,11 +71,11 @@ public partial class WaitingForPdolData : KernelState
         if (!session.Timer.IsTimedOut())
             return false;
 
-        _KernelDatabase.Update(StatusOutcome.EndApplication);
-        _KernelDatabase.Update(Level3Error.TimeOut);
-        _KernelDatabase.Initialize(DiscretionaryData.Tag);
+        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(Level3Error.TimeOut);
+        _Database.Initialize(DiscretionaryData.Tag);
         _DataExchangeKernelService.Initialize(DekResponseType.DiscretionaryData);
-        _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _KernelDatabase.GetErrorIndication());
+        _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _Database.GetErrorIndication());
 
         _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
 
@@ -93,7 +93,7 @@ public partial class WaitingForPdolData : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void UpdateDataExchangeSignal(QueryTerminalResponse signal)
     {
-        _KernelDatabase.Update(signal.GetDataToSend().AsPrimitiveValues());
+        _Database.Update(signal.GetDataToSend().AsPrimitiveValues());
     }
 
     #endregion
@@ -112,9 +112,9 @@ public partial class WaitingForPdolData : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private bool IsPdolDataMissing(Kernel2Session session, out ProcessingOptionsDataObjectList pdol)
     {
-        pdol = _KernelDatabase.Get<ProcessingOptionsDataObjectList>(ProcessingOptionsDataObjectList.Tag);
+        pdol = _Database.Get<ProcessingOptionsDataObjectList>(ProcessingOptionsDataObjectList.Tag);
 
-        if (!pdol!.IsRequestedDataAvailable(_KernelDatabase))
+        if (!pdol!.IsRequestedDataAvailable(_Database))
             return false;
 
         session.SetIsPdolDataMissing(false);
@@ -131,9 +131,9 @@ public partial class WaitingForPdolData : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
     private GetProcessingOptionsRequest CreateGetProcessingOptionsCapdu(KernelSession session, ProcessingOptionsDataObjectList pdol) =>
-        !_KernelDatabase.IsPresentAndNotEmpty(ProcessingOptionsDataObjectList.Tag)
+        !_Database.IsPresentAndNotEmpty(ProcessingOptionsDataObjectList.Tag)
             ? GetProcessingOptionsRequest.Create(session.GetTransactionSessionId())
-            : GetProcessingOptionsRequest.Create(pdol.AsDataObjectListResult(_KernelDatabase), session.GetTransactionSessionId());
+            : GetProcessingOptionsRequest.Create(pdol.AsDataObjectListResult(_Database), session.GetTransactionSessionId());
 
     #endregion
 

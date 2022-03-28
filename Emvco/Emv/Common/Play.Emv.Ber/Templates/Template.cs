@@ -1,5 +1,6 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 
 namespace Play.Emv.Ber.Templates;
@@ -26,7 +27,7 @@ public abstract class Template : ConstructedValue
         return primitiveDescendents.ToArray();
     }
 
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public uint GetTagLengthValueByteCount() => GetTagLengthValueByteCount(_Codec);
 
     public TagLengthValue AsTagLengthValue() => AsTagLengthValue(_Codec);

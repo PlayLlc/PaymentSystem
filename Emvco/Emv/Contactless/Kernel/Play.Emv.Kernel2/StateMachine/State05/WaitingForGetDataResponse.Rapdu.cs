@@ -17,6 +17,7 @@ using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
+using Play.Icc.Exceptions;
 using Play.Icc.FileSystem.ElementaryFiles;
 
 using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
@@ -58,17 +59,17 @@ public partial class WaitingForGetDataResponse : KernelState
         if (!signal.IsSuccessful())
             return false;
 
-        _KernelDatabase.Update(MessageIdentifier.TryAgain);
-        _KernelDatabase.Update(Status.ReadyToRead);
-        _KernelDatabase.Update(new MessageHoldTime(0));
+        _Database.Update(MessageIdentifier.TryAgain);
+        _Database.Update(Status.ReadyToRead);
+        _Database.Update(new MessageHoldTime(0));
 
-        _KernelDatabase.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcome.EndApplication);
 
-        _KernelDatabase.Update(StartOutcome.B);
-        _KernelDatabase.SetUiRequestOnRestartPresent(true);
-        _KernelDatabase.Update(signal.GetLevel1Error());
-        _KernelDatabase.Update(MessageOnErrorIdentifier.TryAgain);
-        _KernelDatabase.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+        _Database.Update(StartOutcome.B);
+        _Database.SetUiRequestOnRestartPresent(true);
+        _Database.Update(signal.GetLevel1Error());
+        _Database.Update(MessageOnErrorIdentifier.TryAgain);
+        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
         _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
 
@@ -129,25 +130,26 @@ public partial class WaitingForGetDataResponse : KernelState
     {
         try
         {
-            PrimitiveValue[] getData = _RuntimeCodec.DecodePrimitiveSiblingsAtRuntime(signal.GetData()).ToArray();
+            if (!signal.TryGetPrimitiveValue(out PrimitiveValue? result))
+                throw new BerParsingException($"The {nameof(WaitingForGetDataResponse)} could not persist the {nameof(GetDataResponse)}");
 
-            _KernelDatabase.Update(getData);
+            _Database.Update(result!);
             _DataExchangeKernelService.Resolve(DekRequestType.TagsToRead);
         }
         catch (BerParsingException)
         {
             // TODO: Logging
-            HandleBerParsingException(_DataExchangeKernelService, _KernelDatabase);
+            HandleBerParsingException(_DataExchangeKernelService, _Database);
         }
         catch (CodecParsingException)
         {
             // TODO: Logging
-            HandleBerParsingException(_DataExchangeKernelService, _KernelDatabase);
+            HandleBerParsingException(_DataExchangeKernelService, _Database);
         }
         catch (Exception)
         {
             // TODO: Logging
-            HandleBerParsingException(_DataExchangeKernelService, _KernelDatabase);
+            HandleBerParsingException(_DataExchangeKernelService, _Database);
         }
     }
 

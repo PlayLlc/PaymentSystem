@@ -1,4 +1,5 @@
-﻿using Play.Emv.Exceptions;
+﻿using Play.Emv.Ber.Exceptions;
+using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.State;
 using Play.Emv.Messaging;
@@ -13,7 +14,7 @@ namespace Play.Emv.Kernel2.StateMachine
         // BUG: Need to make sure you're properly implementing each DEK handler for each state
 
         /// <exception cref="RequestOutOfSyncException"></exception>
-        /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+        /// <exception cref="TerminalDataException"></exception>
         public override KernelState Handle(KernelSession session, QueryTerminalResponse signal)
         {
             HandleRequestOutOfSync(session, signal);
@@ -26,10 +27,10 @@ namespace Play.Emv.Kernel2.StateMachine
 
         #region S7.1
 
-        /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+        /// <exception cref="TerminalDataException"></exception>
         private void UpdateDatabase(QueryTerminalResponse signal)
         {
-            _KernelDatabase.Update(signal.GetDataToSend().AsPrimitiveValues());
+            _Database.Update(signal.GetDataToSend().AsPrimitiveValues());
         }
 
         #endregion

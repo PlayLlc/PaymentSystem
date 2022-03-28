@@ -20,7 +20,7 @@ internal class KernelOutcome
 
     private static readonly Tag[] _MagstripeDiscretionaryData =
     {
-        ApplicationCapabilitiesInformation.Tag, DiscretionaryDataCardTrack1.Tag, DiscretionaryDataCardTrack2.Tag, ErrorIndication.Tag,
+        ApplicationCapabilitiesInformation.Tag, Track1DiscretionaryData.Tag, DiscretionaryDataCardTrack2.Tag, ErrorIndication.Tag,
         ThirdPartyData.Tag
     };
 

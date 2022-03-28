@@ -71,7 +71,7 @@ public partial class Idle : KernelState
     private void UpdateLanguagePreferences(Kernel2Session session, FileControlInformationAdf fci)
     {
         if (fci.TryGetLanguagePreference(out LanguagePreference? languagePreference))
-            ((KernelDatabase) _KernelDatabase).Update(languagePreference!);
+            ((KernelDatabase) _Database).Update(languagePreference!);
     }
 
     /// <remarks>Book C-2 Section 6.3.3 - S1.7</remarks>
@@ -80,10 +80,10 @@ public partial class Idle : KernelState
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     private void HandleBerEncodingException(CorrelationId correlationId, KernelSessionId kernelSessionId)
     {
-        _KernelDatabase.Update(StatusOutcome.SelectNext);
-        _KernelDatabase.Update(StartOutcome.C);
+        _Database.Update(StatusOutcome.SelectNext);
+        _Database.Update(StartOutcome.C);
 
-        _KernelEndpoint.Send(new OutKernelResponse(correlationId, kernelSessionId, _KernelDatabase.GetOutcome()));
+        _KernelEndpoint.Send(new OutKernelResponse(correlationId, kernelSessionId, _Database.GetOutcome()));
     }
 
     /// <summary>
@@ -99,8 +99,8 @@ public partial class Idle : KernelState
         {
             if (result!.IsSupportForFieldOffDetectionSet())
             {
-                byte holdTime = ((MessageHoldTime) _KernelDatabase.Get(MessageHoldTime.Tag)).EncodeValue()[0];
-                _KernelDatabase.Update(new FieldOffRequestOutcome(holdTime));
+                byte holdTime = ((MessageHoldTime) _Database.Get(MessageHoldTime.Tag)).EncodeValue()[0];
+                _Database.Update(new FieldOffRequestOutcome(holdTime));
             }
         }
     }
@@ -119,7 +119,7 @@ public partial class Idle : KernelState
     {
         try
         {
-            _KernelDatabase.Update(signal.AsPrimitiveValues());
+            _Database.Update(signal.AsPrimitiveValues());
             result = signal.GetFileControlInformationCardResponse().GetFileControlInformation();
 
             return true;
@@ -127,14 +127,14 @@ public partial class Idle : KernelState
         catch (BerParsingException)
         {
             /* logging */
-            _KernelDatabase.Update(Level2Error.ParsingError);
+            _Database.Update(Level2Error.ParsingError);
             HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
         }
 
         catch (CardDataMissingException)
         {
             /* logging */
-            _KernelDatabase.Update(Level2Error.CardDataError);
+            _Database.Update(Level2Error.CardDataError);
             HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
         }
 
@@ -152,35 +152,35 @@ public partial class Idle : KernelState
     {
         try
         {
-            _KernelDatabase.Activate(kernelSessionId);
-            _KernelDatabase.Update(transaction.AsPrimitiveValueArray());
+            _Database.Activate(kernelSessionId);
+            _Database.Update(transaction.AsPrimitiveValueArray());
 
             OutcomeParameterSet.Builder outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
             UserInterfaceRequestData.Builder userInterfaceBuilder = UserInterfaceRequestData.GetBuilder();
 
-            userInterfaceBuilder.Set((MessageHoldTime) _KernelDatabase.Get(MessageHoldTime.Tag));
-            _KernelDatabase.Reset(outcomeParameterSetBuilder.Complete());
-            _KernelDatabase.Reset(userInterfaceBuilder.Complete());
-            _KernelDatabase.Reset(new ErrorIndication());
+            userInterfaceBuilder.Set((MessageHoldTime) _Database.Get(MessageHoldTime.Tag));
+            _Database.Reset(outcomeParameterSetBuilder.Complete());
+            _Database.Reset(userInterfaceBuilder.Complete());
+            _Database.Reset(new ErrorIndication());
 
             return true;
         }
         catch (BerParsingException)
         {
-            _KernelDatabase.Update(Level2Error.ParsingError);
+            _Database.Update(Level2Error.ParsingError);
             HandleBerEncodingException(correlationId, kernelSessionId);
         }
 
         catch (CardDataMissingException)
         {
             /* logging */
-            _KernelDatabase.Update(Level2Error.ParsingError);
+            _Database.Update(Level2Error.ParsingError);
             HandleBerEncodingException(correlationId, kernelSessionId);
         }
         catch (Exception)
         {
             /* logging */
-            _KernelDatabase.Update(Level2Error.ParsingError);
+            _Database.Update(Level2Error.ParsingError);
             HandleBerEncodingException(correlationId, kernelSessionId);
         }
 
@@ -198,14 +198,14 @@ public partial class Idle : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     private void InitializeEmvDataObjects()
     {
-        CardDataInputCapability cardDataInputCapability = _KernelDatabase.Get<CardDataInputCapability>(CardDataInputCapability.Tag);
-        SecurityCapability securityCapability = _KernelDatabase.Get<SecurityCapability>(SecurityCapability.Tag);
+        CardDataInputCapability cardDataInputCapability = _Database.Get<CardDataInputCapability>(CardDataInputCapability.Tag);
+        SecurityCapability securityCapability = _Database.Get<SecurityCapability>(SecurityCapability.Tag);
 
-        _KernelDatabase.Initialize(StaticDataAuthenticationTagList.Tag);
-        _KernelDatabase.Update(new TerminalCapabilities(cardDataInputCapability, securityCapability));
-        _KernelDatabase.Update(new CvmResults(0));
+        _Database.Initialize(StaticDataAuthenticationTagList.Tag);
+        _Database.Update(new TerminalCapabilities(cardDataInputCapability, securityCapability));
+        _Database.Update(new CvmResults(0));
 
-        _KernelDatabase.Update(_UnpredictableNumberGenerator.GenerateUnpredictableNumber());
+        _Database.Update(_UnpredictableNumberGenerator.GenerateUnpredictableNumber());
     }
 
     #endregion
@@ -248,7 +248,7 @@ public partial class Idle : KernelState
         if (fci.TryGetProcessingOptionsDataObjectList(out ProcessingOptionsDataObjectList? pdol))
             AddKnownObjectsToDataToSend();
 
-        if (pdol!.IsRequestedDataAvailable(_KernelDatabase))
+        if (pdol!.IsRequestedDataAvailable(_Database))
         {
             session.SetIsPdolDataMissing(false);
             HandlePdolDataIsReady(session.GetTransactionSessionId(), pdol);
@@ -269,7 +269,7 @@ public partial class Idle : KernelState
     /// <remarks>Book C-2 Section 6.3.3  S1.13.2 - S1.13.3</remarks>
     private void HandlePdolDataIsReady(TransactionSessionId transactionSessionId, ProcessingOptionsDataObjectList pdol)
     {
-        SendGetProcessingOptions(GetProcessingOptionsRequest.Create(pdol.AsCommandTemplate(_KernelDatabase), transactionSessionId));
+        SendGetProcessingOptions(GetProcessingOptionsRequest.Create(pdol.AsCommandTemplate(_Database), transactionSessionId));
     }
 
     /// <remarks>Book C-2 Section 6.3.3 S1.13.4 - S1.13.5</remarks>
@@ -308,17 +308,17 @@ public partial class Idle : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void InitializeAcPutData()
     {
-        _KernelDatabase.Update(new PostGenAcPutDataStatus(0));
-        _KernelDatabase.Update(new PreGenAcPutDataStatus(0));
-        _KernelDatabase.Initialize(DekResponseType.TagsToWriteBeforeGenAc);
-        _KernelDatabase.Initialize(DekResponseType.TagsToWriteAfterGenAc);
+        _Database.Update(new PostGenAcPutDataStatus(0));
+        _Database.Update(new PreGenAcPutDataStatus(0));
+        _Database.Initialize(DekResponseType.TagsToWriteBeforeGenAc);
+        _Database.Initialize(DekResponseType.TagsToWriteAfterGenAc);
 
-        if (_KernelDatabase.TryGet(TagsToWriteBeforeGenAc.Tag, out PrimitiveValue? tagsToWriteBeforeGenAc))
+        if (_Database.TryGet(TagsToWriteBeforeGenAc.Tag, out PrimitiveValue? tagsToWriteBeforeGenAc))
             _DataExchangeKernelService.Enqueue(DekResponseType.TagsToWriteBeforeGenAc, tagsToWriteBeforeGenAc!);
         else
             _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, TagsToWriteBeforeGenAc.Tag);
 
-        if (!_KernelDatabase.TryGet(TagsToWriteAfterGenAc.Tag, out PrimitiveValue? tagsToWriteAfterGenAc))
+        if (!_Database.TryGet(TagsToWriteAfterGenAc.Tag, out PrimitiveValue? tagsToWriteAfterGenAc))
             _DataExchangeKernelService.Enqueue(DekResponseType.TagsToWriteAfterGenAc, tagsToWriteAfterGenAc!);
         else
             _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, TagsToWriteAfterGenAc.Tag);
@@ -335,9 +335,9 @@ public partial class Idle : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void UpdateIntegratedDataStorage()
     {
-        _KernelDatabase.Update(new IntegratedDataStorageStatus(0));
-        _KernelDatabase.Update(new DataStorageSummaryStatus(0));
-        _KernelDatabase.Update(new DataStorageDigestHash(0));
+        _Database.Update(new IntegratedDataStorageStatus(0));
+        _Database.Update(new DataStorageSummaryStatus(0));
+        _Database.Update(new DataStorageDigestHash(0));
     }
 
     #endregion
@@ -352,7 +352,7 @@ public partial class Idle : KernelState
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     private void HandleDataStorageVersionNumberTerm(Kernel2Session session)
     {
-        if (!_KernelDatabase.IsPresentAndNotEmpty(DataStorageVersionNumberTerminal.Tag))
+        if (!_Database.IsPresentAndNotEmpty(DataStorageVersionNumberTerminal.Tag))
         {
             EnqueueDataStorageId();
             EnqueueApplicationCapabilitiesInformation();
@@ -360,7 +360,7 @@ public partial class Idle : KernelState
             return;
         }
 
-        if (!_KernelDatabase.IsPresent(DataStorageRequestedOperatorId.Tag))
+        if (!_Database.IsPresent(DataStorageRequestedOperatorId.Tag))
         {
             EnqueueDataStorageId();
             EnqueueApplicationCapabilitiesInformation();
@@ -383,7 +383,7 @@ public partial class Idle : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void EnqueueDataStorageId()
     {
-        if (_KernelDatabase.TryGet(DataStorageId.Tag, out PrimitiveValue? dataStorageId))
+        if (_Database.TryGet(DataStorageId.Tag, out PrimitiveValue? dataStorageId))
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, dataStorageId!);
         else
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, new DataStorageId(0));
@@ -396,7 +396,7 @@ public partial class Idle : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void EnqueueApplicationCapabilitiesInformation()
     {
-        if (_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out PrimitiveValue? applicationCapabilitiesInformation))
+        if (_Database.TryGet(ApplicationCapabilitiesInformation.Tag, out PrimitiveValue? applicationCapabilitiesInformation))
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, applicationCapabilitiesInformation!);
         else
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, new ApplicationCapabilitiesInformation(0));
@@ -419,10 +419,10 @@ public partial class Idle : KernelState
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     private KernelState RouteStateTransition(Kernel2Session session)
     {
-        if (!_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out PrimitiveValue? applicationCapabilitiesInformationTlv))
+        if (!_Database.TryGet(ApplicationCapabilitiesInformation.Tag, out PrimitiveValue? applicationCapabilitiesInformationTlv))
             return HandlePdolData(session);
 
-        if (!_KernelDatabase.IsPresentAndNotEmpty(DataStorageId.Tag))
+        if (!_Database.IsPresentAndNotEmpty(DataStorageId.Tag))
             return HandlePdolData(session);
 
         ApplicationCapabilitiesInformation applicationCapabilitiesInformation =
@@ -451,10 +451,10 @@ public partial class Idle : KernelState
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     private void SetIntegratedDataStorageReadStatus()
     {
-        if (_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out PrimitiveValue? integratedDataStorageStatusTlv))
+        if (_Database.TryGet(IntegratedDataStorageStatus.Tag, out PrimitiveValue? integratedDataStorageStatusTlv))
         {
             IntegratedDataStorageStatus integratedDataStorageStatus = (IntegratedDataStorageStatus) integratedDataStorageStatusTlv!;
-            _KernelDatabase.Update(integratedDataStorageStatus.SetRead(true));
+            _Database.Update(integratedDataStorageStatus.SetRead(true));
         }
     }
 
@@ -522,7 +522,7 @@ public partial class Idle : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void SetTimeout(Kernel2Session session)
     {
-        TimeoutValue timeout = _KernelDatabase.Get<TimeoutValue>(TimeoutValue.Tag);
+        TimeoutValue timeout = _Database.Get<TimeoutValue>(TimeoutValue.Tag);
 
         session.Timer.Start((Milliseconds) timeout, () => _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId())));
     }

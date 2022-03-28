@@ -152,12 +152,14 @@ public class S456 : CommonProcessing
 
     #region S456.1
 
+    /// <remarks>EMV Book C-2 Section S456.1</remarks>
     private bool TryToGetNeededData() => _DataExchangeKernelService.IsEmpty(DekRequestType.TagsToRead);
 
     #endregion
 
     #region S456.2 - S456.4
 
+    /// <remarks>EMV Book C-2 Section S456.2 - S456.4</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool TryToReadApplicationData(Kernel2Session session)
     {
@@ -176,12 +178,14 @@ public class S456 : CommonProcessing
 
     #region S456.5
 
+    /// <remarks>EMV Book C-2 Section S456.5</remarks>
     private bool IsProceedToFirstWriteFlagEmpty() => !_KernelDatabase.IsPresentAndNotEmpty(ProceedToFirstWriteFlag.Tag);
 
     #endregion
 
     #region S456.8
 
+    /// <remarks>EMV Book C-2 Section S456.8</remarks>
     private void AttemptToExchangeData(KernelSessionId sessionId)
     {
         if (_DataExchangeKernelService.IsEmpty(DekRequestType.DataNeeded))
@@ -201,6 +205,7 @@ public class S456 : CommonProcessing
 
     #region S456.6 - S456.10
 
+    /// <remarks>EMV Book C-2 Section S456.6 - S456.10</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool TryWaitingForFirstWriteFlag(KernelSession session)
     {
@@ -219,6 +224,7 @@ public class S456 : CommonProcessing
 
     #region S456.7 - S456.10
 
+    /// <remarks>EMV Book C-2 Section S456.7 - S456.10</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void HandleWaitingForFirstWriteFlag(KernelSession session)
     {
@@ -231,6 +237,7 @@ public class S456 : CommonProcessing
 
     #region S456.11
 
+    /// <remarks>EMV Book C-2 Section S456.11</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool IsProceedToFirstWriteFlagNonZero()
     {
@@ -244,6 +251,7 @@ public class S456 : CommonProcessing
 
     #region S456.12
 
+    /// <remarks>EMV Book C-2 Section S456.12</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool IsAmountAuthorizedEmpty() => !_KernelDatabase.IsPresentAndNotEmpty(AmountAuthorizedNumeric.Tag);
 
@@ -251,6 +259,7 @@ public class S456 : CommonProcessing
 
     #region S456.13
 
+    /// <remarks>EMV Book C-2 Section S456.13</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void HandleLevel3Error(KernelSessionId sessionId)
     {
@@ -265,6 +274,7 @@ public class S456 : CommonProcessing
 
     #region S456.14 - S456.15
 
+    /// <remarks>EMV Book C-2 Section S456.14 - S456.15</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool TryHandlingMaxTransactionAmountExceeded(KernelSessionId sessionId)
     {
@@ -280,6 +290,7 @@ public class S456 : CommonProcessing
 
     #region S456.14
 
+    /// <remarks>EMV Book C-2 Section S456.14</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool IsMaxTransactionAmountExceeded()
     {
@@ -297,6 +308,7 @@ public class S456 : CommonProcessing
 
     #region S456.15
 
+    /// <remarks>EMV Book C-2 Section S456.15</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void HandleMaxTransactionAmountExceeded(KernelSessionId sessionId)
     {
@@ -313,6 +325,7 @@ public class S456 : CommonProcessing
 
     #region S456.16
 
+    /// <remarks>EMV Book C-2 Section S456.16</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool AreMandatoryDataObjectsPresent()
     {
@@ -330,6 +343,7 @@ public class S456 : CommonProcessing
 
     #region S456.16 - S456.17.2
 
+    /// <remarks>EMV Book C-2 Section S456.16 - S456.17.2</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool TryHandleMandatoryDataObjectsAreMissing(KernelSessionId sessionId)
     {
@@ -353,6 +367,7 @@ public class S456 : CommonProcessing
 
     #region S456.18 - S456.20.2
 
+    /// <remarks>EMV Book C-2 Section S456.18 - S456.20.2</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool TryHandleIntegratedDataStorageError(KernelSessionId sessionId)
     {
@@ -374,6 +389,7 @@ public class S456 : CommonProcessing
 
     #region S456.19
 
+    /// <remarks>EMV Book C-2 Section S456.19</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool IsDataStorageIdValid()
     {
@@ -388,6 +404,7 @@ public class S456 : CommonProcessing
 
     #region S456.20.1 - S456.20.2
 
+    /// <remarks>EMV Book C-2 Section S456.20.1 - S456.20.2</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void HandleIntegratedDataStorageError(KernelSessionId sessionId)
     {
@@ -406,12 +423,14 @@ public class S456 : CommonProcessing
 
     #region S456.21
 
+    /// <remarks>EMV Book C-2 Section S456.21</remarks>
     private void EnqueueKnownTagsToRead() => _DataExchangeKernelService.Resolve(DekRequestType.TagsToRead);
 
     #endregion
 
     #region S456.22 - S456.23
 
+    /// <remarks>EMV Book C-2 Section S456.22 - S456.23</remarks>
     private void AttemptToExchangeDataToSend(KernelSessionId sessionId)
     {
         if (_DataExchangeKernelService.IsEmpty(DekResponseType.DataToSend))
@@ -425,6 +444,7 @@ public class S456 : CommonProcessing
 
     #region S456.24 - S456.27.2
 
+    /// <remarks>EMV Book C-2 Section S456.24 - S456.27.2</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool TryToHandleCdaError(Kernel2Session session)
     {
@@ -443,6 +463,7 @@ public class S456 : CommonProcessing
 
     #region S456.25
 
+    /// <remarks>EMV Book C-2 Section S456.25</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void AttemptToHandleCdaError()
     {
@@ -465,6 +486,7 @@ public class S456 : CommonProcessing
 
     #region S456.25 continued
 
+    /// <remarks>EMV Book C-2 Section S456.25 continued</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool AreMandatoryCdaObjectsPresent()
     {
@@ -488,6 +510,7 @@ public class S456 : CommonProcessing
 
     #region S456.25 continued
 
+    /// <remarks>EMV Book C-2 Section S456.25 continued</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool IsCaPublicCertificatePresent()
     {
@@ -506,6 +529,7 @@ public class S456 : CommonProcessing
 
     #region S456.25 continued
 
+    /// <remarks>EMV Book C-2 Section S456.25 continued</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void HandleMandatoryCdaObjectsAreNotPresent()
     {
@@ -517,6 +541,7 @@ public class S456 : CommonProcessing
 
     #region S456.25 continued
 
+    /// <remarks>EMV Book C-2 Section S456.25 continued</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void HandleCaPublicKeyNotPresent()
     {
@@ -527,6 +552,7 @@ public class S456 : CommonProcessing
 
     #region S456.26 - S456.28
 
+    /// <remarks>EMV Book C-2 Section S456.26 - S456.28</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool TryHandlingStaticDataAuthenticationError(Kernel2Session session)
     {
@@ -565,6 +591,7 @@ public class S456 : CommonProcessing
 
     #region S456.27.1 - S456.27.2
 
+    /// <remarks>EMV Book C-2 Section S456.27.1 - S456.27.2</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void HandleStaticDataAuthenticationError(KernelSessionId sessionId)
     {
@@ -583,6 +610,7 @@ public class S456 : CommonProcessing
 
     #region S456.30 - S456.33
 
+    /// <remarks>EMV Book C-2 Section S456.30 - S456.33</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void InitializeCvmFlags()
     {
@@ -596,6 +624,7 @@ public class S456 : CommonProcessing
 
     #region S456.30 - S456.33
 
+    /// <remarks>EMV Book C-2 Section S456.30 - S456.33</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool IsCvmLimitExceeded()
     {
@@ -611,6 +640,7 @@ public class S456 : CommonProcessing
 
     #region S456.31 - S456.32
 
+    /// <remarks>EMV Book C-2 Section S456.31 - S456.32</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void SetCvmRequiredFlags()
     {
@@ -622,6 +652,7 @@ public class S456 : CommonProcessing
 
     #region S456.33
 
+    /// <remarks>EMV Book C-2 Section S456.33</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void SetCvmNotRequiredFlags()
     {
@@ -632,6 +663,7 @@ public class S456 : CommonProcessing
 
     #region S456.34
 
+    /// <remarks>EMV Book C-2 Section S456.34</remarks>
     /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     private bool IsStateTransitionNeededAfterReadingOfflineBalance(
@@ -646,6 +678,7 @@ public class S456 : CommonProcessing
 
     #region S456.35
 
+    /// <remarks>EMV Book C-2 Section S456.35</remarks>
     /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     private void ValidateProcessingRestrictions()
@@ -658,6 +691,7 @@ public class S456 : CommonProcessing
 
     #region S456.36
 
+    /// <remarks>EMV Book C-2 Section S456.36</remarks>
     /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     private void SelectCardholderVerificationMethod()
@@ -669,6 +703,7 @@ public class S456 : CommonProcessing
 
     #region S456.37 - S456.38
 
+    /// <remarks>EMV Book C-2 Section S456.37 - S456.38</remarks>
     private void AttemptToSetTransactionExceedsFloorLimitFlag(KernelDatabase database)
     {
         AmountAuthorizedNumeric authorizedAmount = _KernelDatabase.Get<AmountAuthorizedNumeric>(AmountAuthorizedNumeric.Tag);
@@ -686,6 +721,7 @@ public class S456 : CommonProcessing
 
     #region S456.39
 
+    /// <remarks>EMV Book C-2 Section S456.39</remarks>
     private GenerateApplicationCryptogramRequest PerformTerminalActionAnalysis(TransactionSessionId sessionId, KernelDatabase database) =>
         _TerminalActionAnalyzer.Process(sessionId, database);
 
@@ -695,6 +731,7 @@ public class S456 : CommonProcessing
 
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="IccProtocolException"></exception>
+    /// <remarks>EMV Book C-2 Section S456.42, S456.50 - S456.51</remarks>
     private bool TryToWriteDataBeforeGeneratingApplicationCryptogram(TransactionSessionId sessionId)
     {
         if (!_KernelDatabase.IsPresentAndNotEmpty(TagsToWriteBeforeGenAc.Tag))
@@ -714,6 +751,7 @@ public class S456 : CommonProcessing
 
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="IccProtocolException"></exception>
+    /// <remarks>EMV Book C-2 Section S456.50 - S456.51</remarks>
     private void SendPutData(TransactionSessionId sessionId, PrimitiveValue tagToWrite)
     {
         PutDataRequest capdu = PutDataRequest.Create(sessionId, tagToWrite);
@@ -726,6 +764,7 @@ public class S456 : CommonProcessing
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <remarks>EMV Book C-2 Section S456.44, S456.47 - S456.49</remarks>
     private bool TryRecoveringTornTransaction(TransactionSessionId sessionId)
     {
         if (!_KernelDatabase.IsIdsAndTtrImplemented())
@@ -754,6 +793,7 @@ public class S456 : CommonProcessing
 
     #region S456.43 - S456.46
 
+    /// <remarks>EMV Book C-2 Section S456.43 - S456.46</remarks>
     private bool SendGenerateAcCapdu(GenerateApplicationCryptogramRequest capdu)
     {
         _PcdEndpoint.Request(capdu);

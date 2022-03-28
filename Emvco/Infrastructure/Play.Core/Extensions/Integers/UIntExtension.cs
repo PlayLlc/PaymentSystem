@@ -25,7 +25,7 @@ public static class UIntExtension
         if (value == 0)
             return 1;
 
-        int bitLog = (int) System.Math.Log2(value);
+        int bitLog = (int) Math.Log2(value);
 
         return bitLog + 1;
     }
@@ -45,12 +45,13 @@ public static class UIntExtension
 
     public static byte GetNumberOfDigits(this uint value)
     {
-        double count = System.Math.Log10(System.Math.Pow(2, value.GetMostSignificantBit()));
+        double count = Math.Log10(Math.Pow(2, value.GetMostSignificantBit()));
 
         return (byte) ((count % 1) == 0 ? count : count + 1);
     }
 
     public static bool HasValue(this uint value, uint valueToCheck) => (value & valueToCheck) != 0;
+    public static bool IsBitSet(this uint value, Bits bit) => (value & BitLookup.GetBit(bit)) != 0;
     public static bool IsBitSet(this uint value, byte bitPosition) => (value & ((uint) 1 << bitPosition)) != 0;
     public static bool IsEven(this uint value) => (value % 2) == 0;
 

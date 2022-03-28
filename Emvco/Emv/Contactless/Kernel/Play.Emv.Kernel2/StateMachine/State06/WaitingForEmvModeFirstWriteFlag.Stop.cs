@@ -19,10 +19,10 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
         HandleRequestOutOfSync(session, signal);
-        _KernelDatabase.Update(StatusOutcome.EndApplication);
-        _KernelDatabase.Update(Level3Error.Stop);
-        _KernelDatabase.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _KernelDatabase.GetOutcome()));
+        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(Level3Error.Stop);
+        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
 
         // BUG: I think the book says to clear the database and session on stop but i think our implementation might still use DEK to grab the required data before sending it to the acquirer. Check the pattern in the book and your implementation
         Clear();

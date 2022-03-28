@@ -25,14 +25,14 @@ public partial class WaitingForGetDataResponse : KernelState
     {
         HandleRequestOutOfSync(session, signal);
 
-        _KernelDatabase.Update(Level3Error.Stop);
+        _Database.Update(Level3Error.Stop);
 
-        _KernelDatabase.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcome.EndApplication);
 
         // HACK: This is being called twice when a STOP signal is requested by the Kernel State itself
-        _KernelDatabase.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
-        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _KernelDatabase.GetOutcome()));
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
 
         // BUG: I think the book says to clear the database and session on stop but i think our implementation might still use DEK to grab the required data before sending it to the acquirer. Check the pattern in the book and your implementation
         Clear();

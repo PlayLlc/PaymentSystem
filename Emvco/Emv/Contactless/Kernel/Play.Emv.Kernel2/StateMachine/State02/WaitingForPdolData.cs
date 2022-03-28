@@ -30,16 +30,13 @@ public partial class WaitingForPdolData : KernelState
 
     #endregion
 
-    #region Constructor
+    #region Instance Members
 
     public WaitingForPdolData(
-        IKernelEndpoint kernelEndpoint,
-        IHandleTerminalRequests terminalEndpoint,
-        IHandlePcdRequests pcdEndpoint,
-        IGetKernelState kernelStateResolver,
-        ICleanTornTransactions kernelCleaner,
-        KernelDatabase kernelDatabase,
-        DataExchangeKernelService dataExchangeKernelService) : base(kernelDatabase, dataExchangeKernelService, kernelEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
+        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IHandleTerminalRequests terminalEndpoint, ICleanTornTransactions kernelCleaner) : base(database, dataExchangeKernelService,
+     kernelEndpoint, tornTransactionManager, kernelStateResolver, pcdEndpoint)
     {
         _KernelEndpoint = kernelEndpoint;
         _TerminalEndpoint = terminalEndpoint;
@@ -47,10 +44,6 @@ public partial class WaitingForPdolData : KernelState
         _KernelStateResolver = kernelStateResolver;
         _KernelCleaner = kernelCleaner;
     }
-
-    #endregion
-
-    #region Instance Members
 
     public override StateId GetStateId() => StateId;
 

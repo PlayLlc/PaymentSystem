@@ -2,6 +2,8 @@
 using System.Linq;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
+using Play.Ber.Identifiers;
 using Play.Emv.Ber;
 using Play.Emv.Ber.Templates;
 using Play.Emv.Icc;
@@ -35,13 +37,10 @@ public record ReadRecordResponse : QueryPcdResponse
 
     #region Instance Members
 
-    public PrimitiveValue[] GetPrimitiveValues(IResolveKnownObjectsAtRuntime runtimeCodec) =>
-        runtimeCodec.DecodePrimitiveSiblingsAtRuntime(GetData().AsMemory()).ToArray();
-
     public ShortFileId GetShortFileId() => _ShortFileId;
 
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
-    public PrimitiveValue[] GetRecords() => ReadRecordResponseTemplate.GetRecords(GetData());
+    /// <exception cref="BerParsingException"></exception>
+    public PrimitiveValue[] GetPrimitiveDataObjects() => ReadRecordResponseTemplate.GetPrimitiveValuesFromRecords(GetData());
 
     public int GetValueByteCount() => GetData().Length;
 

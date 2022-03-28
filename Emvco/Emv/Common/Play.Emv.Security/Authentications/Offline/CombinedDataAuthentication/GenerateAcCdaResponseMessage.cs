@@ -4,6 +4,7 @@ using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
@@ -35,10 +36,8 @@ public class GenerateAcCdaResponseMessage : ResponseMessageTemplate
     #region Constructor
 
     public GenerateAcCdaResponseMessage(
-        CryptogramInformationData cryptogramInformationData,
-        ApplicationTransactionCounter applicationTransactionCounter,
-        SignedDynamicApplicationData signedDynamicApplicationData,
-        IssuerApplicationData? issuerApplicationData,
+        CryptogramInformationData cryptogramInformationData, ApplicationTransactionCounter applicationTransactionCounter,
+        SignedDynamicApplicationData signedDynamicApplicationData, IssuerApplicationData? issuerApplicationData,
         PosCardholderInteractionInformation? posCardholderInteractionInformation)
     {
         _CryptogramInformationData = cryptogramInformationData;
@@ -47,6 +46,65 @@ public class GenerateAcCdaResponseMessage : ResponseMessageTemplate
         _IssuerApplicationData = issuerApplicationData;
         _PosCardholderInteractionInformation = posCardholderInteractionInformation;
     }
+
+    #endregion
+
+    #region Serialization
+
+    /// <exception cref="BerParsingException"></exception>
+    public override byte[] EncodeTagLengthValue(BerCodec codec) => new TagLengthValue(Tag, EncodeValue(codec)).EncodeTagLengthValue();
+
+    /// <exception cref="BerParsingException"></exception>
+    public override byte[] EncodeValue(BerCodec codec) =>
+        _IssuerApplicationData == null
+            ? codec.EncodeTagLengthValue(this, _CryptogramInformationData, _ApplicationTransactionCounter, _SignedDynamicApplicationData)
+            : codec.EncodeTagLengthValue(this, _CryptogramInformationData, _ApplicationTransactionCounter, _SignedDynamicApplicationData,
+                                         _IssuerApplicationData);
+
+    #endregion
+
+    #region Equality
+
+    public override bool Equals(object? obj) => obj is GenerateAcCdaResponseMessage generateAcResponse && Equals(generateAcResponse);
+    public override bool Equals(ConstructedValue? other) => other is GenerateAcCdaResponseMessage message && Equals(message);
+
+    public bool Equals(GenerateAcCdaResponseMessage other) =>
+        (GetTag() == other.GetTag())
+        && _CryptogramInformationData.Equals(other._CryptogramInformationData)
+        && _ApplicationTransactionCounter.Equals(other._ApplicationTransactionCounter)
+        && _SignedDynamicApplicationData.Equals(other._SignedDynamicApplicationData)
+        && _IssuerApplicationData!.Equals(other._IssuerApplicationData)
+        && PosCardholderInteractionInformation.EqualsStatic(_PosCardholderInteractionInformation,
+                                                            other._PosCardholderInteractionInformation)
+        && IssuerApplicationData.EqualsStatic(_IssuerApplicationData, other._IssuerApplicationData);
+
+    public override bool Equals(ConstructedValue? x, ConstructedValue? y)
+    {
+        if (x == null)
+            return y == null;
+
+        if (y == null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public bool Equals(GenerateAcCdaResponseMessage x, GenerateAcCdaResponseMessage y) => x.Equals(y);
+
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            return (GetTag().GetHashCode()
+                    + _CryptogramInformationData.GetHashCode()
+                    + _ApplicationTransactionCounter.GetHashCode()
+                    + _SignedDynamicApplicationData.GetHashCode()
+                    + _IssuerApplicationData?.GetHashCode())
+                ?? (0 + _PosCardholderInteractionInformation?.GetHashCode()) ?? 0;
+        }
+    }
+
+    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
 
     #endregion
 
@@ -104,65 +162,6 @@ public class GenerateAcCdaResponseMessage : ResponseMessageTemplate
                 ?? (0 + _PosCardholderInteractionInformation?.GetValueByteCount(codec)) ?? 0);
         }
     }
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
-    public override byte[] EncodeTagLengthValue(BerCodec codec) => new TagLengthValue(Tag, EncodeValue(codec)).EncodeTagLengthValue();
-
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
-    public override byte[] EncodeValue(BerCodec codec) =>
-        _IssuerApplicationData == null
-            ? codec.EncodeTagLengthValue(this, _CryptogramInformationData, _ApplicationTransactionCounter, _SignedDynamicApplicationData)
-            : codec.EncodeTagLengthValue(this, _CryptogramInformationData, _ApplicationTransactionCounter, _SignedDynamicApplicationData,
-                                         _IssuerApplicationData);
-
-    #endregion
-
-    #region Equality
-
-    public override bool Equals(object? obj) => obj is GenerateAcCdaResponseMessage generateAcResponse && Equals(generateAcResponse);
-    public override bool Equals(ConstructedValue? other) => other is GenerateAcCdaResponseMessage message && Equals(message);
-
-    public bool Equals(GenerateAcCdaResponseMessage other) =>
-        (GetTag() == other.GetTag())
-        && _CryptogramInformationData.Equals(other._CryptogramInformationData)
-        && _ApplicationTransactionCounter.Equals(other._ApplicationTransactionCounter)
-        && _SignedDynamicApplicationData.Equals(other._SignedDynamicApplicationData)
-        && _IssuerApplicationData!.Equals(other._IssuerApplicationData)
-        && PosCardholderInteractionInformation.EqualsStatic(_PosCardholderInteractionInformation,
-                                                            other._PosCardholderInteractionInformation)
-        && IssuerApplicationData.EqualsStatic(_IssuerApplicationData, other._IssuerApplicationData);
-
-    public override bool Equals(ConstructedValue? x, ConstructedValue? y)
-    {
-        if (x == null)
-            return y == null;
-
-        if (y == null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public bool Equals(GenerateAcCdaResponseMessage x, GenerateAcCdaResponseMessage y) => x.Equals(y);
-
-    public override int GetHashCode()
-    {
-        unchecked
-        {
-            return (GetTag().GetHashCode()
-                    + _CryptogramInformationData.GetHashCode()
-                    + _ApplicationTransactionCounter.GetHashCode()
-                    + _SignedDynamicApplicationData.GetHashCode()
-                    + _IssuerApplicationData?.GetHashCode())
-                ?? (0 + _PosCardholderInteractionInformation?.GetHashCode()) ?? 0;
-        }
-    }
-
-    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
 
     #endregion
 }

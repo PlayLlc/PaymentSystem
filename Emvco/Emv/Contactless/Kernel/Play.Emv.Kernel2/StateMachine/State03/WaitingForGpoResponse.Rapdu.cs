@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
@@ -50,9 +51,9 @@ public partial class WaitingForGpoResponse : KernelState
 
         Kernel2Session kernel2Session = (Kernel2Session) session;
         ApplicationInterchangeProfile applicationInterchangeProfile =
-            _KernelDatabase.Get<ApplicationInterchangeProfile>(ApplicationInterchangeProfile.Tag);
-        ApplicationFileLocator applicationFileLocator = _KernelDatabase.Get<ApplicationFileLocator>(ApplicationFileLocator.Tag);
-        KernelConfiguration kernelConfiguration = _KernelDatabase.Get<KernelConfiguration>(KernelConfiguration.Tag);
+            _Database.Get<ApplicationInterchangeProfile>(ApplicationInterchangeProfile.Tag);
+        ApplicationFileLocator applicationFileLocator = _Database.Get<ApplicationFileLocator>(ApplicationFileLocator.Tag);
+        KernelConfiguration kernelConfiguration = _Database.Get<KernelConfiguration>(KernelConfiguration.Tag);
 
         if (IsEmvModeSupported(applicationInterchangeProfile))
             return HandleEmvMode(kernel2Session, applicationFileLocator, applicationInterchangeProfile, kernelConfiguration);
@@ -74,15 +75,15 @@ public partial class WaitingForGpoResponse : KernelState
         if (!signal.IsSuccessful())
             return false;
 
-        _KernelDatabase.Update(MessageIdentifier.TryAgain);
-        _KernelDatabase.Update(Status.ReadyToRead);
-        _KernelDatabase.Update(new MessageHoldTime(0));
-        _KernelDatabase.Update(StatusOutcome.EndApplication);
-        _KernelDatabase.Update(StartOutcome.B);
-        _KernelDatabase.SetUiRequestOnRestartPresent(true);
-        _KernelDatabase.Update(signal.GetLevel1Error());
-        _KernelDatabase.Update(MessageOnErrorIdentifier.TryAgain);
-        _KernelDatabase.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+        _Database.Update(MessageIdentifier.TryAgain);
+        _Database.Update(Status.ReadyToRead);
+        _Database.Update(new MessageHoldTime(0));
+        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StartOutcome.B);
+        _Database.SetUiRequestOnRestartPresent(true);
+        _Database.Update(signal.GetLevel1Error());
+        _Database.Update(MessageOnErrorIdentifier.TryAgain);
+        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
         _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
 
@@ -101,14 +102,14 @@ public partial class WaitingForGpoResponse : KernelState
         if (signal.GetStatusWords() == StatusWords._9000)
             return false;
 
-        _KernelDatabase.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
-        _KernelDatabase.Update(Status.NotReady);
-        _KernelDatabase.Update(StatusOutcome.EndApplication);
-        _KernelDatabase.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
-        _KernelDatabase.Update(Level2Error.StatusBytes);
-        _KernelDatabase.Update(signal.GetStatusWords());
-        _KernelDatabase.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-        _KernelDatabase.SetUiRequestOnRestartPresent(true);
+        _Database.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
+        _Database.Update(Status.NotReady);
+        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
+        _Database.Update(Level2Error.StatusBytes);
+        _Database.Update(signal.GetStatusWords());
+        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+        _Database.SetUiRequestOnRestartPresent(true);
 
         _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
 
@@ -132,7 +133,7 @@ public partial class WaitingForGpoResponse : KernelState
             ProcessingOptions processingOptions = signal.AsProcessingOptions();
             PrimitiveValue[] dataToGet = signal.AsProcessingOptions().GetPrimitiveDescendants();
 
-            _KernelDatabase.Update(dataToGet);
+            _Database.Update(dataToGet);
             _DataExchangeKernelService.Resolve(DekRequestType.TagsToRead);
 
             return true;
@@ -159,13 +160,13 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     private void HandleBerParsingException(KernelSession session, QueryPcdResponse signal)
     {
-        _KernelDatabase.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
-        _KernelDatabase.Update(Status.NotReady);
-        _KernelDatabase.Update(StatusOutcome.EndApplication);
-        _KernelDatabase.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
-        _KernelDatabase.Update(Level2Error.ParsingError);
-        _KernelDatabase.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-        _KernelDatabase.SetUiRequestOnRestartPresent(true);
+        _Database.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
+        _Database.Update(Status.NotReady);
+        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
+        _Database.Update(Level2Error.ParsingError);
+        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+        _Database.SetUiRequestOnRestartPresent(true);
 
         _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
     }
@@ -181,14 +182,14 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     private bool TryHandleMissingCardData(KernelSession session)
     {
-        if (!_KernelDatabase.IsPresentAndNotEmpty(ApplicationFileLocator.Tag))
+        if (!_Database.IsPresentAndNotEmpty(ApplicationFileLocator.Tag))
         {
             HandleInvalidResponse(session, Level2Error.CardDataMissing);
 
             return true;
         }
 
-        if (!_KernelDatabase.IsPresentAndNotEmpty(ApplicationInterchangeProfile.Tag))
+        if (!_Database.IsPresentAndNotEmpty(ApplicationInterchangeProfile.Tag))
         {
             HandleInvalidResponse(session, Level2Error.CardDataMissing);
 
@@ -208,7 +209,7 @@ public partial class WaitingForGpoResponse : KernelState
         if (!applicationInterchangeProfile.IsEmvModeSupported())
             return false;
 
-        if (_KernelDatabase.IsEmvModeSupported())
+        if (_Database.IsEmvModeSupported())
             return false;
 
         return true;
@@ -225,7 +226,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     private bool TryHandlingMagstripeNotSupported(Kernel2Session session)
     {
-        if (_KernelDatabase.IsMagstripeModeSupported())
+        if (_Database.IsMagstripeModeSupported())
             return false;
 
         HandleInvalidResponse(session, Level2Error.MagstripeNotSupported);
@@ -237,7 +238,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     #region Emv Mode
 
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -273,7 +274,7 @@ public partial class WaitingForGpoResponse : KernelState
     #region S3.33 - S3.35
 
     /// <remarks>EMV Book C-2 Section S3.33 - S3.35</remarks>
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -283,16 +284,15 @@ public partial class WaitingForGpoResponse : KernelState
         if (IsOnDeviceCardholderVerificationSupported(applicationInterchangeProfile))
         {
             ReaderContactlessTransactionLimitWhenCvmIsOnDevice onDevice =
-                (ReaderContactlessTransactionLimitWhenCvmIsOnDevice) _KernelDatabase.Get(ReaderContactlessTransactionLimitWhenCvmIsOnDevice
-                                                                                             .Tag);
+                (ReaderContactlessTransactionLimitWhenCvmIsOnDevice) _Database.Get(ReaderContactlessTransactionLimitWhenCvmIsOnDevice.Tag);
 
             session.Update(onDevice);
         }
         else
         {
             ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice onDevice =
-                (ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice)
-                _KernelDatabase.Get(ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Tag);
+                (ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice) _Database.Get(ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice
+                                                                                          .Tag);
 
             session.Update(onDevice);
         }
@@ -303,7 +303,7 @@ public partial class WaitingForGpoResponse : KernelState
         if (!applicationInterchangeProfile.IsOnDeviceCardholderVerificationSupported())
             return false;
 
-        if (!_KernelDatabase.IsOnDeviceCardholderVerificationSupported())
+        if (!_Database.IsOnDeviceCardholderVerificationSupported())
             return false;
 
         return true;
@@ -319,7 +319,7 @@ public partial class WaitingForGpoResponse : KernelState
         if (!applicationInterchangeProfile.IsRelayResistanceProtocolSupported())
             return false;
 
-        if (!_KernelDatabase.IsRelayResistanceProtocolSupported())
+        if (!_Database.IsRelayResistanceProtocolSupported())
             return false;
 
         return true;
@@ -330,14 +330,14 @@ public partial class WaitingForGpoResponse : KernelState
     #region S3.65
 
     /// <remarks>EMV Book C-2 Section S3.65</remarks>
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
     private KernelState HandleRelayResistanceProtocolNotSupported(Kernel2Session session)
     {
-        _KernelDatabase.Set(TerminalVerificationResultCodes.RelayResistanceNotPerformed);
+        _Database.Set(TerminalVerificationResultCodes.RelayResistanceNotPerformed);
 
         return _KernelStateResolver.GetKernelState(_S3R1.Process(this, session));
     }
@@ -376,10 +376,10 @@ public partial class WaitingForGpoResponse : KernelState
     private TerminalRelayResistanceEntropy CreateTerminalEntropy()
     {
         UnpredictableNumber unpredictableNumber = _UnpredictableNumberGenerator.GenerateUnpredictableNumber();
-        _KernelDatabase.Update(unpredictableNumber);
+        _Database.Update(unpredictableNumber);
 
         TerminalRelayResistanceEntropy entropy = new(unpredictableNumber);
-        _KernelDatabase.Update(entropy);
+        _Database.Update(entropy);
 
         return entropy;
     }
@@ -390,7 +390,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     #region Magstripe Mode
 
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -424,7 +424,7 @@ public partial class WaitingForGpoResponse : KernelState
     #region S3.73 - S3.75
 
     /// <remarks>Emv Book C-2 Section S3.73 - S3.75 </remarks>
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -434,16 +434,15 @@ public partial class WaitingForGpoResponse : KernelState
         if (IsOnDeviceCardholderVerificationSupported(applicationInterchangeProfile))
         {
             ReaderContactlessTransactionLimitWhenCvmIsOnDevice onDevice =
-                (ReaderContactlessTransactionLimitWhenCvmIsOnDevice) _KernelDatabase.Get(ReaderContactlessTransactionLimitWhenCvmIsOnDevice
-                                                                                             .Tag);
+                (ReaderContactlessTransactionLimitWhenCvmIsOnDevice) _Database.Get(ReaderContactlessTransactionLimitWhenCvmIsOnDevice.Tag);
 
             session.Update(onDevice);
         }
         else
         {
             ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice onDevice =
-                (ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice)
-                _KernelDatabase.Get(ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice.Tag);
+                (ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice) _Database.Get(ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice
+                                                                                          .Tag);
             session.Update(onDevice);
         }
     }
@@ -507,14 +506,14 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     private void HandleInvalidResponse(KernelSession session, Level2Error level2Error)
     {
-        _KernelDatabase.Update(level2Error);
-        _KernelDatabase.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
-        _KernelDatabase.Update(Status.NotReady);
-        _KernelDatabase.Update(StatusOutcome.EndApplication);
-        _KernelDatabase.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
-        _KernelDatabase.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-        _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _KernelDatabase.GetErrorIndication());
-        _KernelDatabase.SetUiRequestOnRestartPresent(true);
+        _Database.Update(level2Error);
+        _Database.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
+        _Database.Update(Status.NotReady);
+        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
+        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+        _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _Database.GetErrorIndication());
+        _Database.SetUiRequestOnRestartPresent(true);
 
         _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
     }

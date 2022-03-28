@@ -7,15 +7,17 @@ using Play.Emv.Ber.Exceptions;
 namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
-///     Discretionary part of track 1 according to [ISO/IEC 7813].
+///     If Track 1 Data is present, then DD Card (Track1) contains a copy of the discretionary data field of Track 1 Data
+///     as returned by the Card in the file read using the READ RECORD command during a mag-stripe mode transaction (i.e.
+///     without Unpredictable Number (Numeric), Application Transaction Counter, CVC3 (Track1) and nUN included).
 /// </summary>
 public record Track1DiscretionaryData : DataElement<char[]>
 {
     #region Static Metadata
 
+    public static readonly Tag Tag = 0xDF812A;
     public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialCodec.EncodingId;
-    public static readonly Tag Tag = 0x9F1F;
-    private const byte _MaxByteLength = 54;
+    private const byte _MaxByteLength = 56;
 
     #endregion
 
@@ -26,32 +28,31 @@ public record Track1DiscretionaryData : DataElement<char[]>
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Exception"></exception>
     public static Track1DiscretionaryData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
     public override Track1DiscretionaryData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Exception"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public static Track1DiscretionaryData Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        char[] result = PlayCodec.AlphaNumericSpecialCodec.DecodeToChars(value);
+        DecodedResult<char[]> result = _Codec.Decode(EncodingId, value) as DecodedResult<char[]>
+            ?? throw new
+                DataElementParsingException($"The {nameof(Track1DiscretionaryData)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<char[]>)}");
 
-        return new Track1DiscretionaryData(result);
+        return new Track1DiscretionaryData(result.Value);
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

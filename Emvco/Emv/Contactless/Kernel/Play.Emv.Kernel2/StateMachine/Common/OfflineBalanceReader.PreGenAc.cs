@@ -49,18 +49,18 @@ public partial class OfflineBalanceReader : CommonProcessing
 
         /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
         /// <exception cref="TerminalDataException"></exception>
-        public override StateId Process(IGetKernelStateId kernelStateId, Kernel2Session session)
+        public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
         {
-            HandleRequestOutOfSync(kernelStateId.GetStateId());
+            HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());
 
             if (!_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out PrimitiveValue? applicationCapabilitiesInformation))
-                return kernelStateId.GetStateId();
+                return currentStateIdRetriever.GetStateId();
 
             if (!((ApplicationCapabilitiesInformation) applicationCapabilitiesInformation!).SupportForBalanceReading())
-                return kernelStateId.GetStateId();
+                return currentStateIdRetriever.GetStateId();
 
             if (!_KernelDatabase.IsPresent(BalanceReadBeforeGenAc.Tag))
-                return kernelStateId.GetStateId();
+                return currentStateIdRetriever.GetStateId();
 
             GetDataRequest capdu = GetDataRequest.Create(OfflineAccumulatorBalance.Tag, session.GetTransactionSessionId());
             _PcdEndpoint.Request(capdu);

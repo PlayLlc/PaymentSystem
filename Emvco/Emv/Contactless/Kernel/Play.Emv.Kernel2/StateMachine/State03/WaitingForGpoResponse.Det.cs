@@ -33,7 +33,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     private void UpdateDatabase(QueryTerminalResponse signal)
     {
-        _KernelDatabase.Update(signal.GetDataToSend().AsPrimitiveValues());
+        _Database.Update(signal.GetDataToSend().AsPrimitiveValues());
     }
 
     #endregion

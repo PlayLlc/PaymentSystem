@@ -13,6 +13,10 @@ namespace Play.Emv.Ber.DataElements;
 ///     sentinel and LRC. The Track 2 Data has a maximum length of 37 positions and is present in the file read using the
 ///     READ RECORD command during a mag-stripe mode transaction. It is made up of the following sub-fields:
 /// </summary>
+/// <remarks>
+///     There are two formats used to encode Track 2 data. Those two different formats are represented by the 2
+///     different constant start and end sentinels as well as the field separator
+/// </remarks>
 public record Track2Data : DataElement<BigInteger>
 {
     #region Static Metadata
@@ -20,6 +24,12 @@ public record Track2Data : DataElement<BigInteger>
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0x9F6B;
     private const byte _MaxByteLength = 19;
+    private const byte _StartSentinel1 = 0xB;
+    private const byte _StartSentinel2 = (byte) ';';
+    private const byte _FieldSeparator1 = 0xD;
+    private const byte _FieldSeparator2 = (byte) '=';
+    private const byte _EndSentinel1 = 0xF;
+    private const byte _EndSentinel2 = (byte) '?';
 
     #endregion
 
@@ -37,12 +47,50 @@ public record Track2Data : DataElement<BigInteger>
 
     #endregion
 
-    #region Instance Members
+    public PrimaryAccountNumber GetPrimaryAccountNumber()
+    {
+        Span<byte> buffer = _Value.ToByteArray();
 
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
+        // There are two different formats used to encode Track 2
+        if ((buffer[0] == _StartSentinel1) || (buffer[0] == _StartSentinel2))
+            buffer[1..].CopyTo(buffer[..]);
 
-    #endregion
+        for (int i = 0; i < PrimaryAccountNumber.GetMaxByteLength(); i++)
+        {
+            if ((buffer[i] == _FieldSeparator1) || (buffer[i] == _FieldSeparator2))
+                return PrimaryAccountNumber.Decode(buffer[..i]);
+        }
+
+        throw new BerParsingException($"The {nameof(Track2Data)} could not decode a valid {nameof(PrimaryAccountNumber)}");
+    }
+
+    public Track2DiscretionaryData GetTrack2DiscretionaryData()
+    {
+        Span<byte> buffer = _Value.ToByteArray();
+
+        return Track2DiscretionaryData.Decode(buffer[GetDiscretionaryDataOffset(buffer)..]);
+    }
+
+    private int GetPrimaryAccountNumberOffset(ReadOnlySpan<byte> buffer)
+    {
+        int offset = 0;
+
+        // There are two different formats used to encode Track 2
+        if ((buffer[0] == _StartSentinel1) || (buffer[0] == _StartSentinel2))
+            offset++;
+
+        for (; offset < PrimaryAccountNumber.GetMaxByteLength(); offset++)
+        {
+            if ((buffer[offset] == _FieldSeparator1) || (buffer[offset] == _FieldSeparator2))
+                return offset;
+        }
+
+        throw new BerParsingException($"The {nameof(Track2Data)} could not decode a valid {nameof(PrimaryAccountNumber)}");
+    }
+
+    private int GetExpiryDateOffset(ReadOnlySpan<byte> buffer) => GetPrimaryAccountNumberOffset(buffer) + 1;
+    private int GetServiceCodeOffset(ReadOnlySpan<byte> buffer) => GetExpiryDateOffset(buffer) + 2;
+    private int GetDiscretionaryDataOffset(ReadOnlySpan<byte> buffer) => GetServiceCodeOffset(buffer) + 3;
 
     #region Serialization
 
@@ -66,6 +114,13 @@ public record Track2Data : DataElement<BigInteger>
 
     public new byte[] EncodeValue() => _Value.ToByteArray();
     public new byte[] EncodeValue(int length) => _Value.ToByteArray()[..length];
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

@@ -66,7 +66,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 
     #region Denial
 
-    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private static ActionCodes GetDenialActionCodes(KernelDatabase database)
     {
         TerminalActionCodeDenial terminalActionCodeDenial = database.Get<TerminalActionCodeDenial>(TerminalActionCodeDenial.Tag);
@@ -84,7 +84,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <param name="database"></param>
     /// <param name="terminalVerificationResults"></param>
     /// <param name="flag"></param>
-    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private static void ProcessDenialActionCodes(
         KernelDatabase database, TerminalVerificationResults terminalVerificationResults, ref ActionFlag flag)
     {
@@ -98,7 +98,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 
     #region Default
 
-    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private static ActionCodes GetDefaultActionCodes(KernelDatabase database)
     {
         TerminalActionCodeDefault terminalActionCodeDenial = database.Get<TerminalActionCodeDefault>(TerminalActionCodeDefault.Tag);
@@ -114,7 +114,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     ///     specify the conditions that cause the transaction to be rejected if it might have been approved online but the
     ///     terminal is for any reason unable to process the transaction online
     /// </summary>
-    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private void ProcessDefaultActionCodes(
         KernelDatabase database, TerminalVerificationResults terminalVerificationResult, ref ActionFlag flag)
     {
@@ -152,7 +152,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 
     #region Online
 
-    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private static ActionCodes GetOnlineActionCodes(KernelDatabase database)
     {
         TerminalActionCodeOnline terminalActionCodeOnline = database.Get<TerminalActionCodeOnline>(TerminalActionCodeOnline.Tag);
@@ -164,7 +164,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         return denialActionCodes;
     }
 
-    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private void ProcessOnlineActionCodes(
         KernelDatabase database, TerminalVerificationResults terminalVerificationResult, ref ActionFlag flag)
     {

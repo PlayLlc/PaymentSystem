@@ -59,7 +59,7 @@ public readonly struct EncodedTlvSiblings
         for (int i = 0; i < _SiblingMetadata.Length; i++)
         {
             Tag tag = _SiblingMetadata.Span[i].GetTag();
-            TagLengthValue? tlv = new(tag, GetValueOctetsOfSibling(tag).Span);
+            result[i] = new TagLengthValue(tag, GetValueOctetsOfSibling(tag));
         }
 
         return result;

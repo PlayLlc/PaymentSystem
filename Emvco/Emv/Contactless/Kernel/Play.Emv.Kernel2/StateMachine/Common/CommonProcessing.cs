@@ -55,7 +55,7 @@ public abstract class CommonProcessing
         }
     }
 
-    public abstract StateId Process(IGetKernelStateId kernelStateId, Kernel2Session session);
+    public abstract StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session);
 
     #endregion
 }

@@ -32,17 +32,14 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     #region Constructor
 
     public WaitingForExchangeRelayResistanceDataResponse(
-        KernelDatabase kernelDatabase,
-        DataExchangeKernelService dataExchange,
-        IKernelEndpoint kernelEndpoint,
-        IGetKernelState kernelStateResolver,
-        IGenerateUnpredictableNumber unpredictableNumberGenerator,
-        S3R1 s3R1,
-        IHandlePcdRequests pcdEndpoint) : base(kernelDatabase, dataExchange, kernelEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
+        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, S3R1 s3R1,
+        IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(database, dataExchangeKernelService, kernelEndpoint,
+                                                                          tornTransactionManager, kernelStateResolver, pcdEndpoint)
     {
-        _KernelStateResolver = kernelStateResolver;
-        _UnpredictableNumberGenerator = unpredictableNumberGenerator;
         _S3R1 = s3R1;
+        _UnpredictableNumberGenerator = unpredictableNumberGenerator;
+        _KernelStateResolver = kernelStateResolver;
         _PcdEndpoint = pcdEndpoint;
     }
 
