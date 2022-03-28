@@ -35,9 +35,9 @@ public partial class OfflineBalanceReader : CommonProcessing
         #region Constructor
 
         public PreGenAcBalanceReader(
-            KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
-            IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint) : base(kernelDatabase, dataExchangeKernelService,
-                                                                                   kernelStateResolver, pcdEndpoint, kernelEndpoint)
+            KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
+            IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint) : base(database, dataExchangeKernelService, kernelStateResolver,
+                                                                                   pcdEndpoint, kernelEndpoint)
         { }
 
         #endregion
@@ -52,13 +52,13 @@ public partial class OfflineBalanceReader : CommonProcessing
         {
             HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());
 
-            if (!_KernelDatabase.TryGet(ApplicationCapabilitiesInformation.Tag, out PrimitiveValue? applicationCapabilitiesInformation))
+            if (!_Database.TryGet(ApplicationCapabilitiesInformation.Tag, out PrimitiveValue? applicationCapabilitiesInformation))
                 return currentStateIdRetriever.GetStateId();
 
             if (!((ApplicationCapabilitiesInformation) applicationCapabilitiesInformation!).SupportForBalanceReading())
                 return currentStateIdRetriever.GetStateId();
 
-            if (!_KernelDatabase.IsPresent(BalanceReadBeforeGenAc.Tag))
+            if (!_Database.IsPresent(BalanceReadBeforeGenAc.Tag))
                 return currentStateIdRetriever.GetStateId();
 
             GetDataRequest capdu = GetDataRequest.Create(OfflineAccumulatorBalance.Tag, session.GetTransactionSessionId());

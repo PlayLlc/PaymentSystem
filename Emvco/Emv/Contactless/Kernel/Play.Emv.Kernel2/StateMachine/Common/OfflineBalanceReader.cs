@@ -38,14 +38,14 @@ public partial class OfflineBalanceReader : CommonProcessing
     #region Constructor
 
     public OfflineBalanceReader(
-        KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
-        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint) : base(kernelDatabase, dataExchangeKernelService,
-                                                                               kernelStateResolver, pcdEndpoint, kernelEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
+        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint) : base(database, dataExchangeKernelService, kernelStateResolver,
+                                                                               pcdEndpoint, kernelEndpoint)
     {
         _PreGenAcBalanceReader =
-            new PreGenAcBalanceReader(kernelDatabase, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint);
+            new PreGenAcBalanceReader(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint);
         _PostGenAcBalanceReader =
-            new PostGenAcBalanceReader(kernelDatabase, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint);
+            new PostGenAcBalanceReader(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint);
     }
 
     #endregion

@@ -38,9 +38,9 @@ public class S3R1 : CommonProcessing
     #region Constructor
 
     public S3R1(
-        KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
-        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint) : base(kernelDatabase, dataExchangeKernelService,
-                                                                               kernelStateResolver, pcdEndpoint, kernelEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
+        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint) : base(database, dataExchangeKernelService, kernelStateResolver,
+                                                                               pcdEndpoint, kernelEndpoint)
     { }
 
     #endregion
@@ -86,14 +86,14 @@ public class S3R1 : CommonProcessing
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     private void HandleIdsFlags(Kernel2Session session)
     {
-        if (!_KernelDatabase.IsIdsAndTtrImplemented())
+        if (!_Database.IsIdsAndTtrImplemented())
         {
             SetOfflineAuthNotPerformed();
 
             return;
         }
 
-        if (!_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out PrimitiveValue? idsStatus))
+        if (!_Database.TryGet(IntegratedDataStorageStatus.Tag, out PrimitiveValue? idsStatus))
         {
             SetOfflineAuthNotPerformed();
 
@@ -118,14 +118,14 @@ public class S3R1 : CommonProcessing
     /// <exception cref="InvalidOperationException"></exception>
     private bool HandleCardDataError(KernelSession session)
     {
-        _KernelDatabase.Update(Level2Error.CardDataError);
-        _KernelDatabase.Update(MessageIdentifier.CardError);
-        _KernelDatabase.Update(Status.NotReady);
-        _KernelDatabase.Update(StatusOutcome.EndApplication);
-        _KernelDatabase.Update(MessageOnErrorIdentifier.TryAgain);
-        _KernelDatabase.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-        _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _KernelDatabase.GetErrorIndication());
-        _KernelDatabase.SetUiRequestOnRestartPresent(true);
+        _Database.Update(Level2Error.CardDataError);
+        _Database.Update(MessageIdentifier.CardError);
+        _Database.Update(Status.NotReady);
+        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(MessageOnErrorIdentifier.TryAgain);
+        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+        _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _Database.GetErrorIndication());
+        _Database.SetUiRequestOnRestartPresent(true);
 
         return true;
     }
@@ -187,26 +187,26 @@ public class S3R1 : CommonProcessing
     /// <exception cref="InvalidOperationException"></exception>
     private void AttemptToHandleIntegratedDataStorage(Kernel2Session session)
     {
-        if (!_KernelDatabase.IsIntegratedDataStorageSupported())
+        if (!_Database.IsIntegratedDataStorageSupported())
             return;
 
-        if (!_KernelDatabase.TryGet(IntegratedDataStorageStatus.Tag, out PrimitiveValue? idsStatus))
+        if (!_Database.TryGet(IntegratedDataStorageStatus.Tag, out PrimitiveValue? idsStatus))
             return;
 
         if (!IntegratedDataStorageStatus.Decode(((IntegratedDataStorageStatus) idsStatus!).EncodeValue().AsSpan()).IsReadSet())
             return;
 
-        if (_KernelDatabase.TryGet(DataStorageSlotAvailability.Tag, out PrimitiveValue? dataStorageSlotAvailability))
+        if (_Database.TryGet(DataStorageSlotAvailability.Tag, out PrimitiveValue? dataStorageSlotAvailability))
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, dataStorageSlotAvailability!);
-        if (_KernelDatabase.TryGet(DataStorageSummary1.Tag, out PrimitiveValue? dataStorageSummary1))
+        if (_Database.TryGet(DataStorageSummary1.Tag, out PrimitiveValue? dataStorageSummary1))
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, dataStorageSummary1!);
-        if (_KernelDatabase.TryGet(DataStorageUnpredictableNumber.Tag, out PrimitiveValue? dataStorageUnpredictableNumber))
+        if (_Database.TryGet(DataStorageUnpredictableNumber.Tag, out PrimitiveValue? dataStorageUnpredictableNumber))
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, dataStorageUnpredictableNumber!);
-        if (_KernelDatabase.TryGet(DataStorageSlotManagementControl.Tag, out PrimitiveValue? dataStorageSlotManagementControl))
+        if (_Database.TryGet(DataStorageSlotManagementControl.Tag, out PrimitiveValue? dataStorageSlotManagementControl))
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, dataStorageSlotManagementControl!);
-        if (_KernelDatabase.TryGet(DataStorageOperatorDataSetCard.Tag, out PrimitiveValue? dataStorageOperatorDataSetCard))
+        if (_Database.TryGet(DataStorageOperatorDataSetCard.Tag, out PrimitiveValue? dataStorageOperatorDataSetCard))
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, dataStorageOperatorDataSetCard!);
-        if (_KernelDatabase.TryGet(UnpredictableNumber.Tag, out PrimitiveValue? unpredictableNumber))
+        if (_Database.TryGet(UnpredictableNumber.Tag, out PrimitiveValue? unpredictableNumber))
             _DataExchangeKernelService.Enqueue(DekResponseType.DataToSend, unpredictableNumber!);
     }
 
@@ -218,14 +218,13 @@ public class S3R1 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private bool IsIntegratedStorageReadingStillRequired()
     {
-        if (_KernelDatabase.IsPresentAndNotEmpty(DataStorageSummary1.Tag)
-            && _KernelDatabase.IsPresentAndNotEmpty(DataStorageOperatorDataSetCard.Tag))
+        if (_Database.IsPresentAndNotEmpty(DataStorageSummary1.Tag) && _Database.IsPresentAndNotEmpty(DataStorageOperatorDataSetCard.Tag))
             return true;
 
-        if (_KernelDatabase.IsPresentAndNotEmpty(DataStorageSlotAvailability.Tag)
-            && _KernelDatabase.IsPresentAndNotEmpty(DataStorageSummary1.Tag)
-            && _KernelDatabase.IsPresentAndNotEmpty(DataStorageUnpredictableNumber.Tag)
-            && _KernelDatabase.IsPresentAndNotEmpty(DataStorageOperatorDataSetCard.Tag))
+        if (_Database.IsPresentAndNotEmpty(DataStorageSlotAvailability.Tag)
+            && _Database.IsPresentAndNotEmpty(DataStorageSummary1.Tag)
+            && _Database.IsPresentAndNotEmpty(DataStorageUnpredictableNumber.Tag)
+            && _Database.IsPresentAndNotEmpty(DataStorageOperatorDataSetCard.Tag))
             return true;
 
         return false;
@@ -243,10 +242,10 @@ public class S3R1 : CommonProcessing
     private void StopReadingIntegratedStorage()
     {
         IntegratedDataStorageStatus idsStatus =
-            IntegratedDataStorageStatus.Decode(((IntegratedDataStorageStatus) _KernelDatabase.Get(IntegratedDataStorageStatus.Tag))
-                                               .EncodeValue().AsSpan());
+            IntegratedDataStorageStatus.Decode(((IntegratedDataStorageStatus) _Database.Get(IntegratedDataStorageStatus.Tag)).EncodeValue()
+                                               .AsSpan());
 
-        _KernelDatabase.Update(idsStatus.SetRead(false));
+        _Database.Update(idsStatus.SetRead(false));
     }
 
     #endregion
@@ -305,10 +304,10 @@ public class S3R1 : CommonProcessing
     private bool DoesTheCardAndTerminalSupportCombinedDataAuth(Kernel2Session session)
     {
         ApplicationInterchangeProfile applicationInterchangeProfile =
-            ApplicationInterchangeProfile.Decode(((ApplicationInterchangeProfile) _KernelDatabase.Get(ApplicationInterchangeProfile.Tag))
+            ApplicationInterchangeProfile.Decode(((ApplicationInterchangeProfile) _Database.Get(ApplicationInterchangeProfile.Tag))
                                                  .EncodeValue().AsSpan());
         TerminalCapabilities terminalCapabilities =
-            TerminalCapabilities.Decode(((TerminalCapabilities) _KernelDatabase.Get(TerminalCapabilities.Tag)).EncodeValue().AsSpan());
+            TerminalCapabilities.Decode(((TerminalCapabilities) _Database.Get(TerminalCapabilities.Tag)).EncodeValue().AsSpan());
 
         if (!applicationInterchangeProfile.IsCombinedDataAuthenticationSupported())
             return false;
@@ -339,7 +338,7 @@ public class S3R1 : CommonProcessing
     /// <remarks> EMV Book C-2 Section S3R1.20 </remarks>
     private void SetOfflineAuthNotPerformed()
     {
-        _KernelDatabase.Set(TerminalVerificationResultCodes.OfflineDataAuthenticationWasNotPerformed);
+        _Database.Set(TerminalVerificationResultCodes.OfflineDataAuthenticationWasNotPerformed);
     }
 
     #endregion

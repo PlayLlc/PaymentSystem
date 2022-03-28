@@ -86,8 +86,6 @@ namespace Play.Emv.Kernel2.StateMachine
                 _Database.Update(MessageOnErrorIdentifier.TryAgain);
                 _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
-                _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
-
                 return true;
             }
             catch (DataElementParsingException)

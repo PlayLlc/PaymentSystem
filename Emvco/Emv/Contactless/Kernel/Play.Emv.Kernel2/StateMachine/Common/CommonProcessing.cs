@@ -17,7 +17,7 @@ public abstract class CommonProcessing
 {
     #region Instance Values
 
-    protected readonly KernelDatabase _KernelDatabase;
+    protected readonly KernelDatabase _Database;
     protected readonly DataExchangeKernelService _DataExchangeKernelService;
     protected readonly IGetKernelState _KernelStateResolver;
     protected readonly IHandlePcdRequests _PcdEndpoint;
@@ -29,10 +29,10 @@ public abstract class CommonProcessing
     #region Constructor
 
     protected CommonProcessing(
-        KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
         IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint)
     {
-        _KernelDatabase = kernelDatabase;
+        _Database = database;
         _DataExchangeKernelService = dataExchangeKernelService;
         _KernelStateResolver = kernelStateResolver;
         _PcdEndpoint = pcdEndpoint;

@@ -348,8 +348,6 @@ public class AlphabeticCodec : PlayCodec
 
     #region Decode To Chars
 
-    
-
     public char[] DecodeToChars(ReadOnlySpan<byte> value)
     {
         char[] result = new char[value.Length];

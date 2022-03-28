@@ -48,11 +48,11 @@ public class S456 : CommonProcessing
     #region Constructor
 
     public S456(
-        KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
         IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint, OfflineBalanceReader offlineBalanceReader,
         IValidateCombinationCapability combinationCapabilityValidator, IValidateCombinationCompatibility combinationCompatibilityValidator,
         ISelectCardholderVerificationMethod cardholderVerificationMethodSelector, IPerformTerminalActionAnalysis terminalActionAnalyzer,
-        IManageTornTransactions tornTransactionManager) : base(kernelDatabase, dataExchangeKernelService, kernelStateResolver, pcdEndpoint,
+        IManageTornTransactions tornTransactionManager) : base(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint,
                                                                kernelEndpoint)
     {
         _OfflineBalanceReader = offlineBalanceReader;
@@ -128,11 +128,11 @@ public class S456 : CommonProcessing
         SelectCardholderVerificationMethod();
 
         // S456.37 - S456.38
-        AttemptToSetTransactionExceedsFloorLimitFlag(_KernelDatabase);
+        AttemptToSetTransactionExceedsFloorLimitFlag(_Database);
 
         // S456.39
         GenerateApplicationCryptogramRequest generateApplicationCryptogramCapdu =
-            PerformTerminalActionAnalysis(session.GetTransactionSessionId(), _KernelDatabase);
+            PerformTerminalActionAnalysis(session.GetTransactionSessionId(), _Database);
 
         // S456.42, S456.50 - S456.51
         if (TryToWriteDataBeforeGeneratingApplicationCryptogram(session.GetTransactionSessionId()))
@@ -175,7 +175,7 @@ public class S456 : CommonProcessing
     #region S456.5
 
     /// <remarks>EMV Book C-2 Section S456.5</remarks>
-    private bool IsProceedToFirstWriteFlagEmpty() => !_KernelDatabase.IsPresentAndNotEmpty(ProceedToFirstWriteFlag.Tag);
+    private bool IsProceedToFirstWriteFlagEmpty() => !_Database.IsPresentAndNotEmpty(ProceedToFirstWriteFlag.Tag);
 
     #endregion
 
@@ -226,7 +226,7 @@ public class S456 : CommonProcessing
     {
         _DataExchangeKernelService.Resolve(DekRequestType.TagsToRead);
         AttemptToExchangeData(session.GetKernelSessionId());
-        session.Timer.Start((Milliseconds) (TimeoutValue) _KernelDatabase.Get(TimeoutValue.Tag));
+        session.Timer.Start((Milliseconds) (TimeoutValue) _Database.Get(TimeoutValue.Tag));
     }
 
     #endregion
@@ -237,7 +237,7 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private bool IsProceedToFirstWriteFlagNonZero()
     {
-        if (_KernelDatabase.TryGet(ProceedToFirstWriteFlag.Tag, out PrimitiveValue? result))
+        if (_Database.TryGet(ProceedToFirstWriteFlag.Tag, out PrimitiveValue? result))
             return false;
 
         return (ProceedToFirstWriteFlag) result! != 0;
@@ -249,7 +249,7 @@ public class S456 : CommonProcessing
 
     /// <remarks>EMV Book C-2 Section S456.12</remarks>
     /// <exception cref="TerminalDataException"></exception>
-    private bool IsAmountAuthorizedEmpty() => !_KernelDatabase.IsPresentAndNotEmpty(AmountAuthorizedNumeric.Tag);
+    private bool IsAmountAuthorizedEmpty() => !_Database.IsPresentAndNotEmpty(AmountAuthorizedNumeric.Tag);
 
     #endregion
 
@@ -259,9 +259,9 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private void HandleLevel3Error(KernelSessionId sessionId)
     {
-        _KernelDatabase.Update(StatusOutcome.EndApplication);
-        _KernelDatabase.Update(Level3Error.AmountNotPresent);
-        _KernelDatabase.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(Level3Error.AmountNotPresent);
+        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
         _KernelEndpoint.Request(new StopKernelRequest(sessionId));
     }
@@ -290,12 +290,12 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private bool IsMaxTransactionAmountExceeded()
     {
-        AmountAuthorizedNumeric authorizedAmount = _KernelDatabase.Get<AmountAuthorizedNumeric>(AmountAuthorizedNumeric.Tag);
+        AmountAuthorizedNumeric authorizedAmount = _Database.Get<AmountAuthorizedNumeric>(AmountAuthorizedNumeric.Tag);
 
-        ReaderContactlessTransactionLimit transactionLimit = _KernelDatabase.GetReaderContactlessTransactionLimit();
+        ReaderContactlessTransactionLimit transactionLimit = _Database.GetReaderContactlessTransactionLimit();
 
         // BUG: We need to make sure that the application currency and transaction currency are the same. Need to resolve the Terminal Reference Currency if they are different
-        TransactionCurrencyCode currency = _KernelDatabase.Get<TransactionCurrencyCode>(TransactionCurrencyCode.Tag);
+        TransactionCurrencyCode currency = _Database.Get<TransactionCurrencyCode>(TransactionCurrencyCode.Tag);
 
         return authorizedAmount.AsMoney(currency) > transactionLimit.AsMoney(currency);
     }
@@ -308,11 +308,11 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private void HandleMaxTransactionAmountExceeded(KernelSessionId sessionId)
     {
-        _KernelDatabase.Update(FieldOffRequestOutcome.NotAvailable);
-        _KernelDatabase.Update(StatusOutcome.SelectNext);
-        _KernelDatabase.Update(StartOutcome.C);
-        _KernelDatabase.Update(Level2Error.MaxLimitExceeded);
-        _KernelDatabase.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+        _Database.Update(FieldOffRequestOutcome.NotAvailable);
+        _Database.Update(StatusOutcome.SelectNext);
+        _Database.Update(StartOutcome.C);
+        _Database.Update(Level2Error.MaxLimitExceeded);
+        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
         _KernelEndpoint.Request(new StopKernelRequest(sessionId));
     }
@@ -325,11 +325,11 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private bool AreMandatoryDataObjectsPresent()
     {
-        if (!_KernelDatabase.IsPresentAndNotEmpty(ApplicationExpirationDate.Tag))
+        if (!_Database.IsPresentAndNotEmpty(ApplicationExpirationDate.Tag))
             return false;
-        if (!_KernelDatabase.IsPresentAndNotEmpty(ApplicationPan.Tag))
+        if (!_Database.IsPresentAndNotEmpty(ApplicationPan.Tag))
             return false;
-        if (!_KernelDatabase.IsPresentAndNotEmpty(CardRiskManagementDataObjectList1.Tag))
+        if (!_Database.IsPresentAndNotEmpty(CardRiskManagementDataObjectList1.Tag))
             return false;
 
         return true;
@@ -346,13 +346,13 @@ public class S456 : CommonProcessing
         if (!AreMandatoryDataObjectsPresent())
             return false;
 
-        _KernelDatabase.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
-        _KernelDatabase.Update(Status.NotReady);
-        _KernelDatabase.Update(StatusOutcome.EndApplication);
-        _KernelDatabase.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
-        _KernelDatabase.Update(Level2Error.CardDataMissing);
-        _KernelDatabase.SetUiRequestOnRestartPresent(true);
-        _KernelDatabase.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+        _Database.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
+        _Database.Update(Status.NotReady);
+        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
+        _Database.Update(Level2Error.CardDataMissing);
+        _Database.SetUiRequestOnRestartPresent(true);
+        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
         _KernelEndpoint.Request(new StopKernelRequest(sessionId));
 
@@ -367,10 +367,10 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private bool TryHandleIntegratedDataStorageError(KernelSessionId sessionId)
     {
-        if (!_KernelDatabase.IsIdsAndTtrImplemented())
+        if (!_Database.IsIdsAndTtrImplemented())
             return false;
 
-        if (!_KernelDatabase.IsIntegratedDataStorageReadFlagSet())
+        if (!_Database.IsIntegratedDataStorageReadFlagSet())
             return false;
 
         if (IsDataStorageIdValid())
@@ -389,9 +389,9 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private bool IsDataStorageIdValid()
     {
-        DataStorageId dataStorageId = _KernelDatabase.Get<DataStorageId>(DataStorageId.Tag);
-        ApplicationPan applicationPan = _KernelDatabase.Get<ApplicationPan>(ApplicationPan.Tag);
-        _KernelDatabase.TryGet(ApplicationPanSequenceNumber.Tag, out ApplicationPanSequenceNumber? applicationPanSequenceNumber);
+        DataStorageId dataStorageId = _Database.Get<DataStorageId>(DataStorageId.Tag);
+        ApplicationPan applicationPan = _Database.Get<ApplicationPan>(ApplicationPan.Tag);
+        _Database.TryGet(ApplicationPanSequenceNumber.Tag, out ApplicationPanSequenceNumber? applicationPanSequenceNumber);
 
         return dataStorageId.IsDataStorageIdValid(applicationPan, applicationPanSequenceNumber);
     }
@@ -404,13 +404,13 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private void HandleIntegratedDataStorageError(KernelSessionId sessionId)
     {
-        _KernelDatabase.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
-        _KernelDatabase.Update(Status.NotReady);
-        _KernelDatabase.Update(StatusOutcome.EndApplication);
-        _KernelDatabase.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
-        _KernelDatabase.Update(Level2Error.CardDataError);
-        _KernelDatabase.SetUiRequestOnRestartPresent(true);
-        _KernelDatabase.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+        _Database.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
+        _Database.Update(Status.NotReady);
+        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
+        _Database.Update(Level2Error.CardDataError);
+        _Database.SetUiRequestOnRestartPresent(true);
+        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
         _KernelEndpoint.Request(new StopKernelRequest(sessionId));
     }
@@ -486,17 +486,17 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private bool AreMandatoryCdaObjectsPresent()
     {
-        if (!_KernelDatabase.IsPresentAndNotEmpty(CaPublicKeyIndex.Tag))
+        if (!_Database.IsPresentAndNotEmpty(CaPublicKeyIndex.Tag))
             return false;
-        if (!_KernelDatabase.IsPresentAndNotEmpty(IssuerPublicKeyCertificate.Tag))
+        if (!_Database.IsPresentAndNotEmpty(IssuerPublicKeyCertificate.Tag))
             return false;
-        if (!_KernelDatabase.IsPresentAndNotEmpty(IssuerPublicKeyExponent.Tag))
+        if (!_Database.IsPresentAndNotEmpty(IssuerPublicKeyExponent.Tag))
             return false;
-        if (!_KernelDatabase.IsPresentAndNotEmpty(IccPublicKeyCertificate.Tag))
+        if (!_Database.IsPresentAndNotEmpty(IccPublicKeyCertificate.Tag))
             return false;
-        if (!_KernelDatabase.IsPresentAndNotEmpty(IccPublicKeyExponent.Tag))
+        if (!_Database.IsPresentAndNotEmpty(IccPublicKeyExponent.Tag))
             return false;
-        if (!_KernelDatabase.IsPresentAndNotEmpty(StaticDataAuthenticationTagList.Tag))
+        if (!_Database.IsPresentAndNotEmpty(StaticDataAuthenticationTagList.Tag))
             return false;
 
         return true;
@@ -510,12 +510,12 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private bool IsCaPublicCertificatePresent()
     {
-        ApplicationDedicatedFileName applicationName = _KernelDatabase.Get<ApplicationDedicatedFileName>(ApplicationDedicatedFileName.Tag);
-        CaPublicKeyIndex caPublicKeyIndex = _KernelDatabase.Get<CaPublicKeyIndex>(CaPublicKeyIndex.Tag);
+        ApplicationDedicatedFileName applicationName = _Database.Get<ApplicationDedicatedFileName>(ApplicationDedicatedFileName.Tag);
+        CaPublicKeyIndex caPublicKeyIndex = _Database.Get<CaPublicKeyIndex>(CaPublicKeyIndex.Tag);
 
         RegisteredApplicationProviderIndicator rid = applicationName.GetRegisteredApplicationProviderIndicator();
 
-        if (!_KernelDatabase.TryGet(rid, caPublicKeyIndex, out CaPublicKeyCertificate? caPublicKeyCertificate))
+        if (!_Database.TryGet(rid, caPublicKeyIndex, out CaPublicKeyCertificate? caPublicKeyCertificate))
             return false;
 
         return true;
@@ -529,8 +529,8 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private void HandleMandatoryCdaObjectsAreNotPresent()
     {
-        _KernelDatabase.Set(TerminalVerificationResultCodes.IccDataMissing);
-        _KernelDatabase.Set(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
+        _Database.Set(TerminalVerificationResultCodes.IccDataMissing);
+        _Database.Set(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
     }
 
     #endregion
@@ -541,7 +541,7 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private void HandleCaPublicKeyNotPresent()
     {
-        _KernelDatabase.Set(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
+        _Database.Set(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
     }
 
     #endregion
@@ -552,7 +552,7 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private bool TryHandlingStaticDataAuthenticationError(Kernel2Session session)
     {
-        if (!_KernelDatabase.IsPresentAndNotEmpty(StaticDataAuthenticationTagList.Tag))
+        if (!_Database.IsPresentAndNotEmpty(StaticDataAuthenticationTagList.Tag))
         {
             HandleStaticDataAuthenticationError(session.GetKernelSessionId());
 
@@ -562,8 +562,8 @@ public class S456 : CommonProcessing
         try
         {
             StaticDataAuthenticationTagList staticDataAuthenticationTagList =
-                _KernelDatabase.Get<StaticDataAuthenticationTagList>(StaticDataAuthenticationTagList.Tag);
-            session.EnqueueStaticDataToBeAuthenticated(staticDataAuthenticationTagList, _KernelDatabase);
+                _Database.Get<StaticDataAuthenticationTagList>(StaticDataAuthenticationTagList.Tag);
+            session.EnqueueStaticDataToBeAuthenticated(staticDataAuthenticationTagList, _Database);
         }
         catch (CryptographicAuthenticationMethodFailedException)
         {
@@ -591,13 +591,13 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private void HandleStaticDataAuthenticationError(KernelSessionId sessionId)
     {
-        _KernelDatabase.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
-        _KernelDatabase.Update(Status.NotReady);
-        _KernelDatabase.Update(StatusOutcome.EndApplication);
-        _KernelDatabase.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
-        _KernelDatabase.Update(Level2Error.CardDataError);
-        _KernelDatabase.SetUiRequestOnRestartPresent(true);
-        _KernelDatabase.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+        _Database.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
+        _Database.Update(Status.NotReady);
+        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
+        _Database.Update(Level2Error.CardDataError);
+        _Database.SetUiRequestOnRestartPresent(true);
+        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
         _KernelEndpoint.Request(new StopKernelRequest(sessionId));
     }
@@ -625,9 +625,9 @@ public class S456 : CommonProcessing
     private bool IsCvmLimitExceeded()
     {
         // BUG: We need to make sure that we're grabbing the correct currency code when comparing units of money. Take a look at the specification and see when you're supposed to be using TransactionReferenceCurrencyCode
-        TransactionCurrencyCode transactionCurrencyCode = _KernelDatabase.Get<TransactionCurrencyCode>(TransactionCurrencyCode.Tag);
-        AmountAuthorizedNumeric amountAuthorizedNumeric = _KernelDatabase.Get<AmountAuthorizedNumeric>(AmountAuthorizedNumeric.Tag);
-        ReaderCvmRequiredLimit readerCvmRequiredLimit = _KernelDatabase.Get<ReaderCvmRequiredLimit>(ReaderCvmRequiredLimit.Tag);
+        TransactionCurrencyCode transactionCurrencyCode = _Database.Get<TransactionCurrencyCode>(TransactionCurrencyCode.Tag);
+        AmountAuthorizedNumeric amountAuthorizedNumeric = _Database.Get<AmountAuthorizedNumeric>(AmountAuthorizedNumeric.Tag);
+        ReaderCvmRequiredLimit readerCvmRequiredLimit = _Database.Get<ReaderCvmRequiredLimit>(ReaderCvmRequiredLimit.Tag);
 
         return amountAuthorizedNumeric.AsMoney(transactionCurrencyCode) > readerCvmRequiredLimit.AsMoney(transactionCurrencyCode);
     }
@@ -640,8 +640,8 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private void SetCvmRequiredFlags()
     {
-        _KernelDatabase.SetIsReceiptPresent(true);
-        _KernelDatabase.SetCardVerificationMethodNotRequired(false);
+        _Database.SetIsReceiptPresent(true);
+        _Database.SetCardVerificationMethodNotRequired(false);
     }
 
     #endregion
@@ -652,7 +652,7 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private void SetCvmNotRequiredFlags()
     {
-        _KernelDatabase.SetCardVerificationMethodNotRequired(true);
+        _Database.SetCardVerificationMethodNotRequired(true);
     }
 
     #endregion
@@ -679,8 +679,8 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private void ValidateProcessingRestrictions()
     {
-        _CombinationCompatibilityValidator.Process(_KernelDatabase);
-        _CombinationCapabilityValidator.Process(_KernelDatabase);
+        _CombinationCompatibilityValidator.Process(_Database);
+        _CombinationCapabilityValidator.Process(_Database);
     }
 
     #endregion
@@ -692,7 +692,7 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private void SelectCardholderVerificationMethod()
     {
-        _CardholderVerificationMethodSelector.Process(_KernelDatabase);
+        _CardholderVerificationMethodSelector.Process(_Database);
     }
 
     #endregion
@@ -702,12 +702,12 @@ public class S456 : CommonProcessing
     /// <remarks>EMV Book C-2 Section S456.37 - S456.38</remarks>
     private void AttemptToSetTransactionExceedsFloorLimitFlag(KernelDatabase database)
     {
-        AmountAuthorizedNumeric authorizedAmount = _KernelDatabase.Get<AmountAuthorizedNumeric>(AmountAuthorizedNumeric.Tag);
+        AmountAuthorizedNumeric authorizedAmount = _Database.Get<AmountAuthorizedNumeric>(AmountAuthorizedNumeric.Tag);
 
-        ReaderContactlessFloorLimit transactionLimit = _KernelDatabase.Get<ReaderContactlessFloorLimit>(ReaderContactlessFloorLimit.Tag);
+        ReaderContactlessFloorLimit transactionLimit = _Database.Get<ReaderContactlessFloorLimit>(ReaderContactlessFloorLimit.Tag);
 
         // BUG: We need to make sure that the application currency and transaction currency are the same. Need to resolve the Terminal Reference Currency if they are different
-        TransactionCurrencyCode currency = _KernelDatabase.Get<TransactionCurrencyCode>(TransactionCurrencyCode.Tag);
+        TransactionCurrencyCode currency = _Database.Get<TransactionCurrencyCode>(TransactionCurrencyCode.Tag);
 
         if (authorizedAmount.AsMoney(currency) > transactionLimit.AsMoney(currency))
             database.Set(TerminalVerificationResultCodes.TransactionExceedsFloorLimit);
@@ -730,7 +730,7 @@ public class S456 : CommonProcessing
     /// <remarks>EMV Book C-2 Section S456.42, S456.50 - S456.51</remarks>
     private bool TryToWriteDataBeforeGeneratingApplicationCryptogram(TransactionSessionId sessionId)
     {
-        if (!_KernelDatabase.IsPresentAndNotEmpty(TagsToWriteBeforeGenAc.Tag))
+        if (!_Database.IsPresentAndNotEmpty(TagsToWriteBeforeGenAc.Tag))
             return false;
 
         if (!_DataExchangeKernelService.TryPeek(DekResponseType.TagsToWriteBeforeGenAc, out PrimitiveValue? tagToWrite))
@@ -763,20 +763,20 @@ public class S456 : CommonProcessing
     /// <remarks>EMV Book C-2 Section S456.44, S456.47 - S456.49</remarks>
     private bool TryRecoveringTornTransaction(TransactionSessionId sessionId)
     {
-        if (!_KernelDatabase.IsIdsAndTtrImplemented())
+        if (!_Database.IsIdsAndTtrImplemented())
             return false;
-        if (!_KernelDatabase.IsTornTransactionRecoverySupported())
-            return false;
-
-        if (_KernelDatabase.IsPresentAndNotEmpty(ApplicationPanSequenceNumber.Tag))
+        if (!_Database.IsTornTransactionRecoverySupported())
             return false;
 
-        if (!_TornTransactionManager.TryGet(_KernelDatabase.Get<ApplicationPan>(ApplicationPan.Tag),
-                                            _KernelDatabase.Get<ApplicationPanSequenceNumber>(ApplicationPanSequenceNumber.Tag),
+        if (_Database.IsPresentAndNotEmpty(ApplicationPanSequenceNumber.Tag))
+            return false;
+
+        if (!_TornTransactionManager.TryGet(_Database.Get<ApplicationPan>(ApplicationPan.Tag),
+                                            _Database.Get<ApplicationPanSequenceNumber>(ApplicationPanSequenceNumber.Tag),
                                             out TornRecord? tornRecord))
             return false;
 
-        if (!_KernelDatabase.TryGet(DataRecoveryDataObjectListRelatedData.Tag, out DataRecoveryDataObjectListRelatedData? ddolRelatedData))
+        if (!_Database.TryGet(DataRecoveryDataObjectListRelatedData.Tag, out DataRecoveryDataObjectListRelatedData? ddolRelatedData))
             return false;
 
         RecoverAcRequest capdu = RecoverAcRequest.Create(sessionId, ddolRelatedData!);
