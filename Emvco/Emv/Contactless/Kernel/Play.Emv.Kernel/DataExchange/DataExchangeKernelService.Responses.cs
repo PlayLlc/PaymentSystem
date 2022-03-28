@@ -24,7 +24,7 @@ namespace Play.Emv.Kernel.DataExchange
         {
             lock (_Lock)
             {
-                if (!_Lock.Requests.ContainsKey(DekResponseType.DataToSend))
+                if (!_Lock.Responses.ContainsKey(DekResponseType.DataToSend))
                 {
                     throw new
                         InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not {nameof(SendResponse)} the List Item to the Terminal because the List does not exist");
@@ -61,9 +61,9 @@ namespace Play.Emv.Kernel.DataExchange
         /// <exception cref="TerminalDataException"></exception>
         public bool TryPeek(DekResponseType type, out PrimitiveValue? result)
         {
-            lock (_Lock.Requests)
+            lock (_Lock.Responses)
             {
-                if (!_Lock.Requests.ContainsKey(type))
+                if (!_Lock.Responses.ContainsKey(type))
                 {
                     throw new
                         TerminalDataException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
@@ -86,7 +86,7 @@ namespace Play.Emv.Kernel.DataExchange
         /// <exception cref="OverflowException"></exception>
         public void Initialize(DataExchangeResponse list)
         {
-            lock (_Lock.Requests)
+            lock (_Lock.Responses)
             {
                 DekResponseType dekResponseType = DekResponseType.Get(list.GetTag());
 
@@ -113,20 +113,20 @@ namespace Play.Emv.Kernel.DataExchange
         /// <exception cref="OverflowException"></exception>
         public void Initialize(DekResponseType dekResponseType)
         {
-            lock (_Lock.Requests)
+            lock (_Lock.Responses)
             {
-                if (!_Lock.Requests.TryGetValue(dekResponseType, out DataExchangeRequest? dataExchangeRequest))
+                if (!_Lock.Responses.TryGetValue(dekResponseType, out DataExchangeResponse? dataExchangeResponse))
                 {
-                    _ = _Lock.Requests.TryAdd(dekResponseType, DekRequestType.GetDefaultList(dekResponseType));
+                    _ = _Lock.Responses.TryAdd(dekResponseType, DekResponseType.GetDefaultList(dekResponseType));
 
                     return;
                 }
 
                 // if the list is already initialized, but isn't empty, then something went wrong. We'll throw here
-                if (!dataExchangeRequest.IsEmpty())
+                if (!dataExchangeResponse.IsEmpty())
                 {
                     throw new
-                        TerminalDataException($"The {nameof(DataExchangeKernelService)} cannot {nameof(Initialize)} because a non empty list already exists for the {nameof(DekRequestType)} with the tag {dekResponseType}");
+                        TerminalDataException($"The {nameof(DataExchangeKernelService)} cannot {nameof(Initialize)} because a non empty list already exists for the {nameof(DekResponseType)} with the tag {dekResponseType}");
                 }
             }
         }
@@ -141,41 +141,42 @@ namespace Play.Emv.Kernel.DataExchange
         /// <exception cref="TerminalDataException"></exception>
         public void Enqueue(DekResponseType type, params PrimitiveValue[] listItems)
         {
-            lock (_Lock.Requests)
+            lock (_Lock.Responses)
             {
-                if (!_Lock.Responses.TryGetValue(type, out DataExchangeResponse? dekRequestList))
+                if (!_Lock.Responses.TryGetValue(type, out DataExchangeResponse? dekResponseList))
                 {
                     throw new
                         TerminalDataException($"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
                 }
 
-                dekRequestList!.Enqueue(listItems);
+                dekResponseList!.Enqueue(listItems);
             }
         }
 
         /// <summary>
         ///     Resolves known objects from the list of <see cref="PrimitiveValue" /> provided in the argument for the list
-        ///     specified by the <see cref="DekRequestType" />, and returns an integer representing the number of objects remaining
+        ///     specified by the <see cref="DekResponseType" />, and returns an integer representing the number of objects
+        ///     remaining
         ///     to be resolved
         /// </summary>
-        /// <param name="requestType"></param>
+        /// <param name="responseType"></param>
         /// <param name="values"></param>
         /// <returns>
         ///     An integer value that represents the number of data objects yet to be resolved for the list specified by the
         ///     <see cref="DekResponseType" /> in the argument
         /// </returns>
         /// <exception cref="TerminalDataException"></exception>
-        public int Resolve(DekResponseType requestType, params PrimitiveValue[] values)
+        public int Resolve(DekResponseType responseType, params PrimitiveValue[] values)
         {
             lock (_Lock)
             {
-                if (!_Lock.Requests.ContainsKey(requestType))
+                if (!_Lock.Responses.ContainsKey(responseType))
                 {
                     throw new
                         TerminalDataException($"The {nameof(DataExchangeKernelService)} could not {nameof(Resolve)} the {nameof(DekResponseType)} because it has not yet been initialized");
                 }
 
-                DataExchangeResponse list = _Lock.Responses[requestType];
+                DataExchangeResponse list = _Lock.Responses[responseType];
                 list.Enqueue(values);
 
                 return list.Count();

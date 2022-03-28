@@ -5,7 +5,7 @@ using Play.Emv.Terminal.Contracts;
 
 namespace Play.Emv.Kernel.DataExchange
 {
-    public partial class DataExchangeKernelService
+    public partial class DataExchangeKernelService : IQueryDek, IWriteToDek, IDekEndpointClient
     {
         #region Instance Values
 
