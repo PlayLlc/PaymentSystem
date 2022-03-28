@@ -274,6 +274,7 @@ namespace Play.Emv.Kernel2.StateMachine
 
         #region S78.15
 
+        /// <exception cref="TerminalDataException"></exception>
         private void GenerateUnpredictableNumber()
         {
             NumberOfNonZeroBits nun = new(_Database.Get<PunatcTrack2>(PunatcTrack2.Tag),
@@ -289,15 +290,16 @@ namespace Play.Emv.Kernel2.StateMachine
 
         #region S78.16 - S78.18
 
-        private bool TryWaitingForCryptographicCheckSum1()
-        { }
+        private bool TryWaitingForCryptographicCheckSum1() => throw new NotImplementedException();
 
         #endregion
 
         #region S78.16 - S78.22
 
         private void HandleWaitingForCryptographicCheckSum2()
-        { }
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
 
