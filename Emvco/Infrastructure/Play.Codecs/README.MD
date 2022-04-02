@@ -2,9 +2,7 @@
 
 ## Module Description
 
->This module transforms card related data into a format that can be understood by Payment Processors and Payment Gateways who utilize the ISO/IEC 8583 standard. 
-
->Payment Processors and Gateways who do utilize this standard will have a slightly different implementation, but this module can be used as a baseline to simplify the integration for Processors and Gateways who utilze this standard
+>This module allows users to encode and decode between well known encoding formats
 
 
 ## Module Specifications
