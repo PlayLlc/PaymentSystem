@@ -10,8 +10,19 @@ using Play.Core.Specifications;
 
 namespace Play.Codecs;
 
+// BUG: This is incorrect probably. This encoding is probably 2 digits per byte, and a leading 0xC or 0xD to indicate whether it is positive or negative
 public class SignedNumericCodec : PlayCodec
 {
+    #region Serialization
+
+    #region Decode To DecodedMetadata
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => throw new NotImplementedException();
+
+    #endregion
+
+    #endregion
+
     #region Instance Members
 
     /// <summary>
@@ -58,16 +69,6 @@ public class SignedNumericCodec : PlayCodec
 
         return (ulong) BuildInteger(result, value);
     }
-
-    #endregion
-
-    #region Serialization
-
-    #region Decode To DecodedMetadata
-
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => throw new NotImplementedException();
-
-    #endregion
 
     #endregion
 
