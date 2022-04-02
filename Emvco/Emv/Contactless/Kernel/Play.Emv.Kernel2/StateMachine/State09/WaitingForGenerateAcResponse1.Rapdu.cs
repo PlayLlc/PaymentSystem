@@ -158,7 +158,8 @@ public partial class WaitingForGenerateAcResponse1
     /// <exception cref="TerminalDataException"></exception>
     private void HandleTornTransaction(KernelSessionId sessionId, QueryPcdResponse signal)
     {
-        var drdol = _Database.Get<DataRecoveryDataObjectList>(DataRecoveryDataObjectList.Tag).AsRelatedData(_Database);
+        DataRecoveryDataObjectListRelatedData? drdol = _Database.Get<DataRecoveryDataObjectList>(DataRecoveryDataObjectList.Tag)
+            .AsRelatedData(_Database);
         if (_TornTransactionManager.TryAddAndDisplace(_Database, out TornRecord? displacedRecord))
             _Database.Update(displacedRecord!);
 

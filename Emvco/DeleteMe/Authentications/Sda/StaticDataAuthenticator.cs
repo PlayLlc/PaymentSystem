@@ -77,18 +77,12 @@ internal class StaticDataAuthenticator
         {
             TerminalVerificationResults terminalVerificationResults =
                 database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
-            ErrorIndication errorIndication = database.Get<ErrorIndication>(ErrorIndication.Tag);
 
             TerminalVerificationResults.Builder tvrBuilder = TerminalVerificationResults.GetBuilder();
             tvrBuilder.Reset(terminalVerificationResults);
             tvrBuilder.Set(TerminalVerificationResultCodes.StaticDataAuthenticationFailed);
-            ErrorIndication.Builder errorIndicationBuilder = ErrorIndication.GetBuilder();
-            errorIndicationBuilder.Reset(errorIndication);
-            errorIndicationBuilder.Set(Level2Error.TerminalDataError);
-            errorIndicationBuilder.Set(StatusWords.NotAvailable);
 
             database.Update(tvrBuilder.Complete());
-            database.Update(errorIndicationBuilder.Complete());
         }
         catch (TerminalDataException exception)
         {

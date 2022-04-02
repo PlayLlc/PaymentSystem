@@ -1,10 +1,15 @@
-﻿namespace DeleteMe.Authentications.Dda;
+﻿using DeleteMe.Certificates;
+
+using Play.Emv.Ber;
+
+namespace DeleteMe.Authentications.Dda;
 
 public interface IAuthenticateDynamicData
 {
     #region Instance Members
 
-    public AuthenticateDynamicDataResponse Authenticate(AuthenticateDynamicDataCommand command);
+    public void Authenticate(
+        ITlvReaderAndWriter database, ICertificateDatabase certificateDatabase, StaticDataToBeAuthenticated staticDataToBeAuthenticated);
 
     #endregion
 }

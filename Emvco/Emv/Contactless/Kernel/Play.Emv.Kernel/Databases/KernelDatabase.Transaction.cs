@@ -25,7 +25,7 @@ public partial class KernelDatabase
         if (TryGet(MobileSupportIndicator.Tag, out MobileSupportIndicator? mobileSupportIndicator))
             return mobileSupportIndicator;
 
-        var defaultMobileSupportIndicator = _MobileSupportIndicatorBuilder.Complete();
+        MobileSupportIndicator? defaultMobileSupportIndicator = _MobileSupportIndicatorBuilder.Complete();
         Update(defaultMobileSupportIndicator);
 
         return defaultMobileSupportIndicator;

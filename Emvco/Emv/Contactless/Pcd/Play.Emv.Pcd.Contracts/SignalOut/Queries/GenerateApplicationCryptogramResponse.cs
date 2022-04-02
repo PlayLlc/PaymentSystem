@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Play.Ber.DataObjects;
@@ -20,15 +21,6 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
 
     #endregion
 
-    #region Instance Values
-
-    private readonly CryptogramInformationData _CryptogramInformationData;
-    private readonly ApplicationTransactionCounter _ApplicationTransactionCounter;
-    private readonly ApplicationCryptogram _ApplicationCryptogram;
-    private readonly IssuerApplicationData? _IssuerApplicationData;
-
-    #endregion
-
     #region Constructor
 
     /// <summary>
@@ -42,78 +34,33 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public GenerateApplicationCryptogramResponse(
-        CorrelationId correlation,
-        TransactionSessionId transactionSessionId,
-        GenerateApplicationCryptogramRApduSignal response) : base(correlation, MessageTypeId, transactionSessionId, response)
-    {
-        //HACK: We should be parsing this on demand rather than immediately after we transceive
-        GenerateApplicationCryptogramResponseMetadata a = DecodeData(response);
-        _CryptogramInformationData = a.CryptogramInformationData;
-        _ApplicationTransactionCounter = a.ApplicationTransactionCounter;
-        _ApplicationCryptogram = a.ApplicationCryptogram;
-        _IssuerApplicationData = a.IssuerApplicationData;
-    }
+        CorrelationId correlation, TransactionSessionId transactionSessionId, GenerateApplicationCryptogramRApduSignal response) :
+        base(correlation, MessageTypeId, transactionSessionId, response)
+    { }
 
     #endregion
 
-    #region Instance Members
-
-    public CryptogramInformationData GetCryptogramInformationData() => _CryptogramInformationData;
-    public ApplicationTransactionCounter GetApplicationTransactionCounter() => _ApplicationTransactionCounter;
-    public ApplicationCryptogram GetApplicationCryptogram() => _ApplicationCryptogram;
-
-    public bool TryGetIssuerApplicationData(out IssuerApplicationData? result)
-    {
-        if (_IssuerApplicationData is null)
-        {
-            result = null;
-
-            return false;
-        }
-
-        result = _IssuerApplicationData;
-
-        return true;
-    }
-
-    /// <summary>
-    ///     DecodeData
-    /// </summary>
-    /// <param name="rapdu"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    public PrimitiveValue[] GetPrimitiveDataObjects() =>
+        DecodePrimitiveValues(ResponseMessageTemplate.DecodeData(GetRApduSignal())).ToArray();
+
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    private static GenerateApplicationCryptogramResponseMetadata DecodeData(GenerateApplicationCryptogramRApduSignal rapdu)
+    private IEnumerable<PrimitiveValue> DecodePrimitiveValues(TagLengthValue[] values)
     {
-        TagLengthValue[] a = ResponseMessageTemplate.DecodeData(rapdu);
-
-        CryptogramInformationData cryptogramInformationData =
-            CryptogramInformationData.Decode(a.First(a => a.GetTag() == CryptogramInformationData.Tag).EncodeValue().AsSpan());
-        ApplicationTransactionCounter applicationTransactionCounter =
-            ApplicationTransactionCounter.Decode(a.First(a => a.GetTag() == ApplicationTransactionCounter.Tag).EncodeValue().AsSpan());
-        ApplicationCryptogram applicationCryptogram =
-            ApplicationCryptogram.Decode(a.First(a => a.GetTag() == ApplicationCryptogram.Tag).EncodeValue().AsSpan());
-
-        if (!a.Any(a => a.GetTag() == IssuerApplicationData.Tag))
+        // TODO: Validate mandatory data objects
+        for (int i = 0; i < values.Length; i++)
         {
-            return new GenerateApplicationCryptogramResponseMetadata(cryptogramInformationData, applicationTransactionCounter,
-                                                                     applicationCryptogram, null);
+            if (values[i].GetTag() == CryptogramInformationData.Tag)
+                yield return CryptogramInformationData.Decode(values[i].EncodeValue().AsSpan());
+            else if (values[i].GetTag() == ApplicationTransactionCounter.Tag)
+                yield return ApplicationTransactionCounter.Decode(values[i].EncodeValue().AsSpan());
+            else if (values[i].GetTag() == ApplicationCryptogram.Tag)
+                yield return ApplicationCryptogram.Decode(values[i].EncodeValue().AsSpan());
+            else if (values[i].GetTag() == IssuerApplicationData.Tag)
+                yield return IssuerApplicationData.Decode(values[i].EncodeValue().AsSpan());
+            else if (values[i].GetTag() == PosCardholderInteractionInformation.Tag)
+                yield return PosCardholderInteractionInformation.Decode(values[i].EncodeValue().AsSpan());
         }
-
-        IssuerApplicationData issuerApplicationData =
-            IssuerApplicationData.Decode(a.First(a => a.GetTag() == IssuerApplicationData.Tag).EncodeValue().AsSpan());
-
-        return new GenerateApplicationCryptogramResponseMetadata(cryptogramInformationData, applicationTransactionCounter,
-                                                                 applicationCryptogram, issuerApplicationData);
     }
-
-    #endregion
-
-    private record GenerateApplicationCryptogramResponseMetadata(
-        CryptogramInformationData CryptogramInformationData,
-        ApplicationTransactionCounter ApplicationTransactionCounter,
-        ApplicationCryptogram ApplicationCryptogram,
-        IssuerApplicationData? IssuerApplicationData);
 }

@@ -32,14 +32,16 @@ internal class DynamicDataAuthenticator : IAuthenticateDynamicData
     }
 
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
-    public void Authenticate(ITlvReaderAndWriter database)
+    public void Authenticate(
+        ITlvReaderAndWriter database, ICertificateDatabase certificateDatabase, StaticDataToBeAuthenticated staticDataToBeAuthenticated)
     {
         try
         {
             SignedDynamicApplicationData signedDynamicApplicationData =
                 database.Get<SignedDynamicApplicationData>(SignedDynamicApplicationData.Tag);
 
-            DecodedIccPublicKeyCertificate decodedIccCertificate = _CertificateFactory.RecoverIccCertificate();
+            DecodedIccPublicKeyCertificate decodedIccCertificate =
+                _CertificateFactory.RecoverIccCertificate(database, certificateDatabase, staticDataToBeAuthenticated);
 
             // Step 1
             ValidateEncipheredSignatureLength(signedDynamicApplicationData, decodedIccCertificate);
@@ -83,20 +85,12 @@ internal class DynamicDataAuthenticator : IAuthenticateDynamicData
         {
             TerminalVerificationResults terminalVerificationResults =
                 database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
-            ErrorIndication errorIndication = database.Get<ErrorIndication>(ErrorIndication.Tag);
 
-            TerminalVerificationResults.Builder tvrBuilder = TerminalVerificationResults.GetBuilder();
-            tvrBuilder.Reset(terminalVerificationResults);
-            tvrBuilder.Set(TerminalVerificationResultCodes.DynamicDataAuthenticationFailed);
-            ErrorIndication.Builder errorIndicationBuilder = ErrorIndication.GetBuilder();
-            errorIndicationBuilder.Reset(errorIndication);
+            TerminalVerificationResults.Builder builder = TerminalVerificationResults.GetBuilder();
+            builder.Reset(terminalVerificationResults);
+            builder.Set(TerminalVerificationResultCodes.DynamicDataAuthenticationFailed);
 
-            // HACK: Check these values
-            errorIndicationBuilder.Set(Level2Error.TerminalDataError);
-            errorIndicationBuilder.Set(StatusWords.NotAvailable);
-
-            database.Update(tvrBuilder.Complete());
-            database.Update(errorIndicationBuilder.Complete());
+            database.Update(builder.Complete());
         }
         catch (TerminalDataException exception)
         {

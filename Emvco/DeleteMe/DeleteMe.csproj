@@ -11,8 +11,4 @@
     <ProjectReference Include="..\Emv\Contactless\Pcd\Play.Emv.Pcd.Contracts\Play.Emv.Pcd.Contracts.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Authentications\Pin\" />
-  </ItemGroup>
-
 </Project>

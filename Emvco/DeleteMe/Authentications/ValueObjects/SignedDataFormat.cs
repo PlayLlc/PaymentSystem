@@ -4,7 +4,7 @@ using Play.Core;
 
 namespace DeleteMe.Authentications;
 
-public sealed record SignedDataFormat : EnumObject<byte>, IEqualityComparer<SignedDataFormat>
+internal sealed record SignedDataFormat : EnumObject<byte>, IEqualityComparer<SignedDataFormat>
 {
     #region Static Metadata
 

@@ -1,5 +1,6 @@
 ﻿using DeleteMe.Authentications.Cda;
 
+using Play.Emv.Ber.DataElements;
 using Play.Encryption.Hashing;
 using Play.Encryption.Signing;
 
@@ -27,7 +28,7 @@ internal class DecodedSignedDynamicApplicationData : DecodedSignature
         return result!;
     }
 
-    public IccDynamicData GetIccDynamicData() => new(_Message1[2..GetIccDynamicDataLength()].ToArray());
+    public IccDynamicData GetIccDynamicData() => new(_Message1[3..GetIccDynamicDataLength()].ToArray());
     public byte GetIccDynamicDataLength() => _Message1[2];
     public byte[] GetPadPattern() => _Message1[(GetIccDynamicDataLength() + 2)..].ToArray();
 

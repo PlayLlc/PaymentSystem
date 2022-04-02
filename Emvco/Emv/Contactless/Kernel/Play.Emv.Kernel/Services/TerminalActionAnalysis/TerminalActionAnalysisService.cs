@@ -225,6 +225,8 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
             == AuthenticationTypes.CombinedDataAuthentication;
 
         CardRiskManagementDataObjectList1 cdol1 = database.Get<CardRiskManagementDataObjectList1>(CardRiskManagementDataObjectList1.Tag);
+
+        // BUG: This isn't always included in a CDA request for Generate AC. Check EMV Book 2 Section 6.6.1
         DataStorageDataObjectList ddol = database.Get<DataStorageDataObjectList>(DataStorageDataObjectList.Tag);
 
         return GenerateApplicationCryptogramRequest.Create(sessionId,

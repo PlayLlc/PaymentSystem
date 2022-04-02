@@ -32,28 +32,6 @@ public record SelectionDataObjectList : DataObjectList, IEqualityComparer<Select
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => checked((ushort) GetByteCount());
-
-    // TODO: AmountAuthorizedNumeric could also be requested by the PICC. Need to account for that if the current transaction
-    // TODO: already went online or some shit
-
-    private TagLengthValue GetRequestedDataObject(in TagLength requestedDataObject, TagLengthValue[] values)
-    {
-        for (int i = 0; i < values.Length; i++)
-        {
-            if (values[i].GetTag() == requestedDataObject.GetTag())
-                return values[i];
-        }
-
-        return new UnknownPrimitiveValue(requestedDataObject.GetTag(), requestedDataObject.GetLength()).AsTagLengthValue();
-    }
-
-    #endregion
-
     #region Serialization
 
     public override SelectionDataObjectList Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
@@ -81,6 +59,28 @@ public record SelectionDataObjectList : DataObjectList, IEqualityComparer<Select
     }
 
     public int GetHashCode(SelectionDataObjectList obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => checked((ushort) GetValueByteCount());
+
+    // TODO: AmountAuthorizedNumeric could also be requested by the PICC. Need to account for that if the current transaction
+    // TODO: already went online or some shit
+
+    private TagLengthValue GetRequestedDataObject(in TagLength requestedDataObject, TagLengthValue[] values)
+    {
+        for (int i = 0; i < values.Length; i++)
+        {
+            if (values[i].GetTag() == requestedDataObject.GetTag())
+                return values[i];
+        }
+
+        return new UnknownPrimitiveValue(requestedDataObject.GetTag(), requestedDataObject.GetLength()).AsTagLengthValue();
+    }
 
     #endregion
 }

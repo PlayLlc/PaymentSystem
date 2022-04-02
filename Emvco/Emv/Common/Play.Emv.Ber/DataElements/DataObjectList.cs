@@ -156,6 +156,15 @@ public abstract record DataObjectList : DataElement<byte[]>
         return new DataObjectListResult(buffer);
     }
 
+    /// <summary>
+    ///     Gets the byte count of the value field for the command template this data object list will create
+    /// </summary>
+    /// <returns></returns>
+    public int GetValueByteCountOfCommandTemplate()
+    {
+        return _DataObjects?.Sum(a => a.GetValueByteCount()) ?? 0;
+    }
+
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="BerParsingException"></exception>
@@ -180,7 +189,7 @@ public abstract record DataObjectList : DataElement<byte[]>
     /// </summary>
     /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
-    public int GetByteCount()
+    public int GetValueByteCount()
     {
         return DataObjects.Sum(a => a.GetTagLengthByteCount());
     }
