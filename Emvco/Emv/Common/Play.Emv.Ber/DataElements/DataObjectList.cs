@@ -104,11 +104,15 @@ public abstract record DataObjectList : DataElement<byte[]>
         return true;
     }
 
+    // TODO: Should this DataObjectListResult pattern be updated? We have RelatedData objects, Command templates, etc. Should we be doing a covariant return type for each DOL?
+
     /// <exception cref="BerParsingException"></exception>
     /// <remarks>Book 3 Section 5.4</remarks>
     public virtual DataObjectListResult AsDataObjectListResult(PrimitiveValue[] dataObjects)
     {
         ValidateCommandTemplate(dataObjects);
+
+        // HACK: You have a weird pattern going on. You first decode to DataObjectListResult, and then to a Command Template. This probably needs to be refactored to be more clear
         PrimitiveValue[] result = new PrimitiveValue[DataObjects.Length];
 
         for (int i = 0; i < DataObjects.Length; i++)
@@ -133,6 +137,8 @@ public abstract record DataObjectList : DataElement<byte[]>
             throw new
                 TerminalDataException($"The method {nameof(AsDataObjectListResult)} could not be processed because a requested data item was not present in the database");
         }
+
+        // HACK: You have a weird pattern going on. You first decode to DataObjectListResult, and then to a Command Template. This probably needs to be refactored to be more clear
 
         PrimitiveValue[] buffer = new PrimitiveValue[DataObjects.Length];
 

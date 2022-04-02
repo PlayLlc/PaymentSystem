@@ -132,6 +132,10 @@ public partial class WaitingForMagStripeReadRecordResponse
         {
             // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
         }
+        catch (Exception)
+        {
+            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
+        }
         finally
         {
             _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));

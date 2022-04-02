@@ -34,8 +34,17 @@ public partial class KernelDatabase
     /// <exception cref="InvalidOperationException"></exception>
     public void CreateEmvDiscretionaryData(DataExchangeKernelService dataExchanger)
     {
+        // HACK: this logic should live inside discretionary data
         KernelOutcome.CreateEmvDiscretionaryData(this, dataExchanger);
     }
+
+    /// <exception cref="TerminalDataException"></exception>
+    public void CreateEmvDataRecord(DataExchangeKernelService dataExchanger) =>
+        dataExchanger.Enqueue(DekResponseType.DiscretionaryData, DataRecord.CreateEmvDataRecord(this));
+
+    /// <exception cref="TerminalDataException"></exception>
+    public void CreateMagstripeDataRecord(DataExchangeKernelService dataExchanger) =>
+        dataExchanger.Enqueue(DekResponseType.DiscretionaryData, DataRecord.CreateMagstripeDataRecord(this));
 
     /// <summary>
     ///     CreateMagstripeDiscretionaryData

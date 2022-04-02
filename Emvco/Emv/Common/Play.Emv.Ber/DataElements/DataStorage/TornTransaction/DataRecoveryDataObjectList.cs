@@ -32,14 +32,6 @@ public record DataRecoveryDataObjectList : DataObjectList
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="BerParsingException"></exception>
@@ -50,6 +42,21 @@ public record DataRecoveryDataObjectList : DataObjectList
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public static DataRecoveryDataObjectList Decode(ReadOnlySpan<byte> value) => new(value.ToArray());
+
+    #endregion
+
+    #region Instance Members
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    public DataRecoveryDataObjectListRelatedData AsRelatedData(IReadTlvDatabase database) =>
+        DataRecoveryDataObjectListRelatedData.Decode(AsCommandTemplate(database).EncodeValue().AsSpan());
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

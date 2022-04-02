@@ -132,6 +132,9 @@ public partial class KernelDatabase
     /// <exception cref="TerminalDataException"></exception>
     public bool IsIntegratedDataStorageReadFlagSet() => GetIntegratedDataStorageStatus().IsReadSet();
 
+    /// <exception cref="TerminalDataException"></exception>
+    public bool IsIntegratedDataStorageWriteFlagSet() => GetIntegratedDataStorageStatus().IsWriteSet();
+
     /// <summary>
     ///     Indicates if this payment system supports Integrated Data Storage and Torn Transaction Recovery
     /// </summary>

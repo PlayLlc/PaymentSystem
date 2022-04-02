@@ -12,11 +12,17 @@ using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
-public class WaitingForGenerateAcResponse1 : KernelState
+public partial class WaitingForGenerateAcResponse1 : KernelState
 {
     #region Static Metadata
 
     public static readonly StateId StateId = new(nameof(WaitingForGenerateAcResponse1));
+
+    #endregion
+
+    #region Instance Values
+
+    private readonly IManageTornTransactions _TornTransactionManager;
 
     #endregion
 
@@ -26,7 +32,9 @@ public class WaitingForGenerateAcResponse1 : KernelState
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint) :
         base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver, pcdEndpoint)
-    { }
+    {
+        _TornTransactionManager = tornTransactionManager;
+    }
 
     #endregion
 
@@ -36,20 +44,6 @@ public class WaitingForGenerateAcResponse1 : KernelState
 
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, ActivateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    #endregion
-
-    #region STOP
-
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, StopKernelRequest signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
@@ -67,6 +61,8 @@ public class WaitingForGenerateAcResponse1 : KernelState
     #endregion
 
     #region DET
+
+    // BUG: Need to make sure you're properly implementing each DEK handler for each state
 
     /// <summary>
     ///     Handle
@@ -86,30 +82,6 @@ public class WaitingForGenerateAcResponse1 : KernelState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    #endregion
-
-    #region RAPDU
-
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion

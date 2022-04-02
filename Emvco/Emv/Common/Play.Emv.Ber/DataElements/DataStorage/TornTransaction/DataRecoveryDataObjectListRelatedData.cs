@@ -1,4 +1,6 @@
-﻿using Play.Ber.DataObjects;
+﻿using System.Numerics;
+
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
@@ -8,7 +10,7 @@ namespace Play.Emv.Ber.DataElements;
 /// <summary>
 ///     Command data field of the RECOVER AC command, coded according to DRDOL.
 /// </summary>
-public record DataRecoveryDataObjectListRelatedData : DataElement<ushort>
+public record DataRecoveryDataObjectListRelatedData : DataElement<BigInteger>
 {
     #region Static Metadata
 
@@ -20,15 +22,8 @@ public record DataRecoveryDataObjectListRelatedData : DataElement<ushort>
 
     #region Constructor
 
-    public DataRecoveryDataObjectListRelatedData(ushort value) : base(value)
+    public DataRecoveryDataObjectListRelatedData(BigInteger value) : base(value)
     { }
-
-    #endregion
-
-    #region Instance Members
-
-    public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 
@@ -46,7 +41,7 @@ public record DataRecoveryDataObjectListRelatedData : DataElement<ushort>
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
         return new DataRecoveryDataObjectListRelatedData(result);
     }
@@ -56,9 +51,10 @@ public record DataRecoveryDataObjectListRelatedData : DataElement<ushort>
 
     #endregion
 
-    #region Operator Overrides
+    #region Instance Members
 
-    public static explicit operator ushort(DataRecoveryDataObjectListRelatedData value) => value._Value;
+    public override Tag GetTag() => Tag;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 }

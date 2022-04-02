@@ -36,6 +36,7 @@ internal class KernelOutcome
     /// <exception cref="InvalidOperationException"></exception>
     public static void CreateEmvDiscretionaryData(IReadTlvDatabase database, DataExchangeKernelService dataExchanger)
     {
+        // HACK: this logic should live inside discretionary data
         dataExchanger.Initialize(DekResponseType.DiscretionaryData);
 
         for (nint i = 0; i < _EmvDiscretionaryData.Length; i++)
@@ -53,6 +54,7 @@ internal class KernelOutcome
     /// <exception cref="InvalidOperationException"></exception>
     public static void CreateMagstripeDiscretionaryData(IReadTlvDatabase database, DataExchangeKernelService dataExchanger)
     {
+        // HACK: this logic should live inside discretionary data
         dataExchanger.Initialize(DekResponseType.DiscretionaryData);
 
         for (nint i = 0; i < _MagstripeDiscretionaryData.Length; i++)
