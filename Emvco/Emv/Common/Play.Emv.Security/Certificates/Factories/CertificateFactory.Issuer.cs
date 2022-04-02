@@ -10,6 +10,7 @@ using Play.Encryption.Certificates;
 using Play.Encryption.Hashing;
 using Play.Encryption.Signing;
 using Play.Globalization.Time;
+using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Security.Certificates.Factories;
 
@@ -60,7 +61,8 @@ internal partial class CertificateFactory
             ValidateExpiryDate(decodedSignature.GetMessage1());
 
             // Step 10
-            ValidateIssuerCertificate();
+            ValidateIssuerCertificate(certificateDatabase, caPublicKey.GetRegisteredApplicationProviderIndicator(),
+                                      caPublicKey.GetPublicKeySerialNumber());
 
             // Step 11
             ValidateIssuerPublicKeyAlgorithmIndicator(decodedSignature.GetMessage1());
@@ -227,9 +229,16 @@ internal partial class CertificateFactory
 
     #region 6.3 Step 10
 
-    private static void ValidateIssuerCertificate()
+    /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    private static void ValidateIssuerCertificate(
+        ICertificateDatabase certificateDatabase, RegisteredApplicationProviderIndicator rid, CertificateSerialNumber serialNumber)
     {
-        // HACK: This step is optional. It gives us the opportunity to check if the issuer certificate has been revoked. Let's implement the logic for this 
+        if (certificateDatabase.IsRevoked(rid, serialNumber))
+        {
+            throw new
+                CryptographicAuthenticationMethodFailedException($"Authentication failed because the {nameof(ValidateIssuerCertificate)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");
+        }
     }
 
     #endregion

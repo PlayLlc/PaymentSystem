@@ -75,7 +75,7 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    public PrimitiveValue[] GetPrimitiveDataObjects(IWriteIccSecuritySessionData session) =>
+    public PrimitiveValue[] GetPrimitiveDataObjects() =>
         DecodePrimitiveValues(ResponseMessageTemplate.DecodeData(GetRApduSignal())).ToArray();
 
     /// <exception cref="DataElementParsingException"></exception>

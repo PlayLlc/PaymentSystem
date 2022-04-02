@@ -33,7 +33,7 @@ internal class DecodedSignedDynamicApplicationDataCda : DecodedSignature
 
     public byte[] GetSignatureHashPlainText()
     {
-        var unpredictableNumber = GetUnpredictableNumber();
+        UnpredictableNumber? unpredictableNumber = GetUnpredictableNumber();
         Span<byte> result = stackalloc byte[_Message1.GetByteCount() + unpredictableNumber.GetByteCount()];
 
         _Message1.AsSpan()[1..^21].CopyTo(result);

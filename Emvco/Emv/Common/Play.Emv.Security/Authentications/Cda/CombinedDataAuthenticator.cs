@@ -26,6 +26,19 @@ internal class CombinedDataAuthenticator
 
     #endregion
 
+    #region Constructor
+
+    public CombinedDataAuthenticator(
+        HashAlgorithmProvider hashAlgorithmProvider, SignatureService signatureService, CertificateFactory certificateFactory)
+    {
+        _Codec = EmvCodec.GetBerCodec();
+        _HashAlgorithmProvider = hashAlgorithmProvider;
+        _SignatureService = signatureService;
+        _CertificateFactory = certificateFactory;
+    }
+
+    #endregion
+
     #region Section 6 CDA Failed
 
     /// <remarks>
@@ -107,7 +120,7 @@ internal class CombinedDataAuthenticator
     /// <exception cref="TerminalDataException"></exception>
     private void ValidateCryptogramInformationData(ITlvReaderAndWriter database, IccDynamicData dynamicData)
     {
-        var dynamicCid = dynamicData.GetCryptogramInformationData();
+        CryptogramInformationData? dynamicCid = dynamicData.GetCryptogramInformationData();
         CryptogramInformationData cryptogramInformationData = database.Get<CryptogramInformationData>(CryptogramInformationData.Tag);
 
         if (dynamicCid != cryptogramInformationData)
@@ -167,15 +180,6 @@ internal class CombinedDataAuthenticator
     #endregion
 
     #region Instance Members
-
-    public CombinedDataAuthenticator(
-        HashAlgorithmProvider hashAlgorithmProvider, SignatureService signatureService, CertificateFactory certificateFactory)
-    {
-        _Codec = EmvCodec.GetBerCodec();
-        _HashAlgorithmProvider = hashAlgorithmProvider;
-        _SignatureService = signatureService;
-        _CertificateFactory = certificateFactory;
-    }
 
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
     public void AuthenticateFirstGenAc(

@@ -6,6 +6,7 @@ using Play.Core.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Security;
 using Play.Emv.Security.Certificates;
+using Play.Encryption.Certificates;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Kernel.Contracts;
@@ -47,6 +48,13 @@ public class CertificateAuthorityDataset
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     public bool TryGet(CaPublicKeyIndex index, out CaPublicKeyCertificate? result) => _CaMap.TryGetValue(index, out result);
+
+    public bool TryGet(CertificateSerialNumber serialNumber, out CaPublicKeyCertificate? result)
+    {
+        result = _CaMap.Values.FirstOrDefault(a => a.GetPublicKeySerialNumber() == serialNumber);
+
+        return result != null;
+    }
 
     /// <returns>
     ///     <see cref="RegisteredApplicationProviderIndicator" />

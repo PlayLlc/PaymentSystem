@@ -8,6 +8,7 @@ using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases.Certificates;
 using Play.Emv.Security;
 using Play.Emv.Security.Certificates;
+using Play.Encryption.Certificates;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Kernel.Databases;
@@ -40,6 +41,16 @@ public partial class KernelDatabase : ICertificateDatabase
             return true;
 
         return result!.IsRevoked();
+    }
+
+    public bool IsRevoked(RegisteredApplicationProviderIndicator rid, CertificateSerialNumber serialNumber)
+    {
+        CertificateAuthorityDataset dataSet = _Certificates.FirstOrDefault(a => a.Key == rid).Value;
+
+        if (!dataSet.TryGet(serialNumber, out CaPublicKeyCertificate? caPublicKeyCertificate))
+            return true;
+
+        return caPublicKeyCertificate!.IsRevoked();
     }
 
     /// <summary>

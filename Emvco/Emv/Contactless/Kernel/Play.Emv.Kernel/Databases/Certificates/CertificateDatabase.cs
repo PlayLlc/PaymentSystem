@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
@@ -6,6 +7,7 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Security;
 using Play.Emv.Security.Certificates;
+using Play.Encryption.Certificates;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Kernel.Databases.Certificates;
@@ -35,13 +37,22 @@ public class CertificateDatabase : ICertificateDatabase
     /// <param name="rid"></param>
     /// <param name="caPublicKeyIndex"></param>
     /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
     public bool IsRevoked(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex caPublicKeyIndex)
     {
         if (!TryGet(rid, caPublicKeyIndex, out CaPublicKeyCertificate? result))
             return true;
 
         return result!.IsRevoked();
+    }
+
+    public bool IsRevoked(RegisteredApplicationProviderIndicator rid, CertificateSerialNumber serialNumber)
+    {
+        CertificateAuthorityDataset dataSet = _Certificates.FirstOrDefault(a => a.Key == rid).Value;
+
+        if (!dataSet.TryGet(serialNumber, out CaPublicKeyCertificate? caPublicKeyCertificate))
+            return true;
+
+        return caPublicKeyCertificate!.IsRevoked();
     }
 
     public void PurgeRevokedCertificates()
