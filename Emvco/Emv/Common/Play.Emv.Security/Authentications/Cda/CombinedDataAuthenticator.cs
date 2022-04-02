@@ -39,6 +39,85 @@ internal class CombinedDataAuthenticator
 
     #endregion
 
+    #region Instance Members
+
+    /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
+    public void AuthenticateFirstGenAc(
+        GenerateApplicationCryptogramResponse rapdu, ITlvReaderAndWriter database, ICertificateDatabase certificateDatabase,
+        StaticDataToBeAuthenticated staticDataToBeAuthenticated)
+    {
+        try
+        {
+            SignedDynamicApplicationData signedDynamicApplicationData =
+                database.Get<SignedDynamicApplicationData>(SignedDynamicApplicationData.Tag);
+
+            DecodedIccPublicKeyCertificate decodedIccCertificate =
+                _CertificateFactory.RecoverIccCertificate(database, certificateDatabase, staticDataToBeAuthenticated);
+
+            // Step 1
+            ValidateEncipheredSignatureLength(signedDynamicApplicationData, decodedIccCertificate);
+
+            // Step 2, Step 
+            DecodedSignedDynamicApplicationDataCda decodedSignature =
+                RecoverSignedDynamicApplicationData(decodedIccCertificate, signedDynamicApplicationData);
+
+            // Step 3 is covered by SignatureService.IsSignatureValid() below
+
+            // Step 4
+            ValidateSignedDataFormat(decodedSignature.GetSignedDataFormat());
+
+            // Step 5 
+            IccDynamicData iccDynamicData = RetrieveIccDynamicData(database, decodedSignature);
+
+            // Step 6
+            ValidateCryptogramInformationData(database, iccDynamicData);
+
+            // Step 7
+            ReadOnlySpan<byte> dataToBeSigned = ReconstructDynamicDataToBeSigned(decodedSignature);
+
+            // Step 8
+            Hash calculatedHash = ProduceHashResultForDynamicData(decodedSignature.GetHashAlgorithmIndicator(), dataToBeSigned);
+
+            // Step 9
+            ValidateHashResult(decodedSignature.GetHash(), calculatedHash);
+
+            // WARNING =========================================================================================================================================
+            // BUG: For now we are only validating for the first GENERATE AC request. We are NOT distinguishing between the first and second when authenticating
+            // WARNING =========================================================================================================================================
+
+            // Step 10
+            ReadOnlySpan<byte> concatenatedTransactionData = ConcatenateTransactionDataHashCode(database, rapdu);
+
+            // Step 11
+            Hash transactionDataHashCode =
+                ProduceTransactionDataHashCode(decodedSignature.GetHashAlgorithmIndicator(), concatenatedTransactionData);
+
+            // Step 12
+            ValidateTransactionDataHashCode(decodedSignature, transactionDataHashCode);
+        }
+        catch (TerminalDataException)
+        {
+            // TODO: Logging 
+            SetCombinedDataAuthenticationFailed(database);
+        }
+        catch (CryptographicAuthenticationMethodFailedException)
+        {
+            // TODO: Logging 
+            SetCombinedDataAuthenticationFailed(database);
+        }
+        catch (CodecParsingException)
+        {
+            // TODO: Logging 
+            SetCombinedDataAuthenticationFailed(database);
+        }
+
+        catch (Exception)
+        {
+            // TODO: Logging 
+            SetCombinedDataAuthenticationFailed(database);
+        }
+    }
+
     #region Section 6 CDA Failed
 
     /// <remarks>
@@ -179,87 +258,6 @@ internal class CombinedDataAuthenticator
 
     #endregion
 
-    #region Instance Members
-
-    /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
-    public void AuthenticateFirstGenAc(
-        GenerateApplicationCryptogramResponse rapdu, ITlvReaderAndWriter database, ICertificateDatabase certificateDatabase,
-        StaticDataToBeAuthenticated staticDataToBeAuthenticated)
-    {
-        try
-        {
-            SignedDynamicApplicationData signedDynamicApplicationData =
-                database.Get<SignedDynamicApplicationData>(SignedDynamicApplicationData.Tag);
-
-            DecodedIccPublicKeyCertificate decodedIccCertificate =
-                _CertificateFactory.RecoverIccCertificate(database, certificateDatabase, staticDataToBeAuthenticated);
-
-            // Step 1
-            ValidateEncipheredSignatureLength(signedDynamicApplicationData, decodedIccCertificate);
-
-            // Step 2, Step 
-            DecodedSignedDynamicApplicationDataCda decodedSignature =
-                RecoverSignedDynamicApplicationData(decodedIccCertificate, signedDynamicApplicationData);
-
-            // Step 3 is covered by SignatureService.IsSignatureValid() below
-
-            // Step 4
-            ValidateSignedDataFormat(decodedSignature.GetSignedDataFormat());
-
-            // Step 5
-            IccDynamicData iccDynamicData = decodedSignature.GetIccDynamicData();
-
-            // Step 6
-            ValidateCryptogramInformationData(database, iccDynamicData);
-
-            // Step 7
-            ReadOnlySpan<byte> dataToBeSigned = ReconstructDynamicDataToBeSigned(decodedSignature);
-
-            // Step 8
-            Hash calculatedHash = ProduceHashResultForDynamicData(decodedSignature.GetHashAlgorithmIndicator(), dataToBeSigned);
-
-            // Step 9
-            ValidateHashResult(decodedSignature.GetHash(), calculatedHash);
-
-            // WARNING =========================================================================================================================================
-            // BUG: For now we are only validating for the first GENERATE AC request. We are NOT distinguishing between the first and second when authenticating
-            // WARNING =========================================================================================================================================
-
-            // Step 10
-            ReadOnlySpan<byte> concatenatedTransactionData = ConcatenateTransactionDataHashCode(database, rapdu);
-
-            // Step 11
-            Hash transactionDataHashCode =
-                ProduceTransactionDataHashCode(decodedSignature.GetHashAlgorithmIndicator(), concatenatedTransactionData);
-
-            // Step 12
-            ValidateTransactionDataHashCode(decodedSignature, transactionDataHashCode);
-        }
-        catch (TerminalDataException)
-        {
-            // TODO: Logging 
-            SetCombinedDataAuthenticationFailed(database);
-        }
-        catch (CryptographicAuthenticationMethodFailedException)
-        {
-            // TODO: Logging 
-            SetCombinedDataAuthenticationFailed(database);
-        }
-        catch (CodecParsingException)
-        {
-            // TODO: Logging 
-            SetCombinedDataAuthenticationFailed(database);
-        }
-
-        catch (Exception)
-        {
-            // TODO: Logging 
-            SetCombinedDataAuthenticationFailed(database);
-        }
-    }
-
-    #endregion
-
     #region 6.2.2 Step 10.a
 
     /// <remarks>EMV Book 2 Section 6.6.2 Step 10.a</remarks>
@@ -304,7 +302,20 @@ internal class CombinedDataAuthenticator
 
     #region 6.6.2 Step 5
 
+    /// <exception cref="TerminalDataException"></exception>
+    public IccDynamicData RetrieveIccDynamicData(ITlvReaderAndWriter database, DecodedSignedDynamicApplicationDataCda decodedSignature)
+    {
+        IccDynamicData iccDynamicData = decodedSignature.GetIccDynamicData();
+
+        database.Update(iccDynamicData.GetCryptogram());
+        database.Update(iccDynamicData.GetIccDynamicNumber());
+
+        return iccDynamicData;
+    }
+
     // Step 5 is accomplished in the main authenticate method
+
+    #endregion
 
     #endregion
 }
