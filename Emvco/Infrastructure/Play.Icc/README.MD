@@ -6,5 +6,5 @@
 
 ## Module Specifications
 
-> ### * ISO/IEC 7816-4 (ICC Messaging)
+> ### ISO/IEC 7816-4 (ICC Messaging)
 >> An international standard related to electronic identification cards with contacts, especially smart cards, and more recently, contactless mobile devices
