@@ -1,13 +1,17 @@
-﻿namespace DeleteMe.Authentications.Cda;
+﻿using DeleteMe.Certificates;
+
+using Play.Emv.Ber;
+using Play.Emv.Pcd.Contracts;
+
+namespace DeleteMe.Authentications.Cda;
 
 public interface IAuthenticateCombinedData
 {
     #region Instance Members
 
-    public AuthenticateCombinedDataResponse AuthenticateSda(AuthenticateCombinedData1Command command);
-    public AuthenticateCombinedDataResponse AuthenticateDda(AuthenticateCombinedData2Command command);
-    public AuthenticateCombinedDataResponse AuthenticateFirstCda(AuthenticateCombinedData2Command command);
-    public AuthenticateCombinedDataResponse AuthenticateSecondCda(AuthenticateCombinedData2Command command);
+    public void AuthenticateFirstCda(
+        GenerateApplicationCryptogramResponse rapdu, ITlvReaderAndWriter database, ICertificateDatabase certificateDatabase,
+        StaticDataToBeAuthenticated staticDataToBeAuthenticated);
 
     #endregion
 }
