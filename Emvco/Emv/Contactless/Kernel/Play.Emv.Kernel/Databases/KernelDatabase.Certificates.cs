@@ -18,6 +18,7 @@ public partial class KernelDatabase : ICertificateDatabase
     private readonly ImmutableSortedDictionary<RegisteredApplicationProviderIndicator, CertificateAuthorityDataset> _Certificates;
 
     #endregion
+
     #region Instance Members
 
     /// <summary>
@@ -33,6 +34,7 @@ public partial class KernelDatabase : ICertificateDatabase
             throw new
                 TerminalDataException($"The method {nameof(IsRevoked)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
+
         if (!TryGet(rid, caPublicKeyIndex, out CaPublicKeyCertificate? result))
             return true;
 
@@ -47,12 +49,18 @@ public partial class KernelDatabase : ICertificateDatabase
     {
         if (!IsActive())
             return;
+
         for (int i = 0; i < _Certificates.Count; i++)
             _Certificates.ElementAt(i).Value.PurgeRevokedCertificates();
     }
 
     /// <summary>
-    ///     Attempts to get the <see cref="CaPublicKeyCertificate" /> associated with the <param name="rid" /> and  <param name="index"></param> provided. If the <see cref="CaPublicKeyCertificate" /> is revoked or none can be found then the return value will be false
+    ///     Attempts to get the <see cref="CaPublicKeyCertificate" /> associated with the
+    ///     <param name="rid" />
+    ///     and
+    ///     <param name="index"></param>
+    ///     provided. If the <see cref="CaPublicKeyCertificate" /> is revoked or none can be found then the return value will
+    ///     be false
     /// </summary>
     /// <exception cref="TerminalDataException"></exception>
     public bool TryGet(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex index, out CaPublicKeyCertificate? result)
