@@ -7,8 +7,13 @@
 
 >This module is agnostic between EMV implementations, such as Contact and Contactless
 
+
 ## Module Specifications
 
-> ### EMV Book 1, Application Independent ICC to Terminal Interface
+> ### EMV Book 2, Security and Key Management
 
-> ### EMV Book D, Contactless Communication Protocol
+
+> ### EMV Book 3, Application Specification
+
+
+> ### EMV Book 4, Cardholder, Attendant, and Acquirer Interface
