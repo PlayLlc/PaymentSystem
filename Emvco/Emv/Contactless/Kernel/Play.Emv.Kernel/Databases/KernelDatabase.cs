@@ -70,7 +70,7 @@ public partial class KernelDatabase : IManageKernelDatabaseLifetime
         PurgeRevokedCertificates();
     }
 
-    public bool IsActive() => _KernelSessionId != null;
+    protected bool IsActive() => _KernelSessionId != null;
 
     #endregion
 }
