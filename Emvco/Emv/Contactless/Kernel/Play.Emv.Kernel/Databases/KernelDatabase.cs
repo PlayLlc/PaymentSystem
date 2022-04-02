@@ -20,11 +20,6 @@ public partial class KernelDatabase : IManageKernelDatabaseLifetime
     #region Instance Values
 
     protected KernelSessionId? _KernelSessionId;
-    protected OutcomeParameterSet.Builder _OutcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
-    protected UserInterfaceRequestData.Builder _UserInterfaceRequestDataBuilder = UserInterfaceRequestData.GetBuilder();
-    protected ErrorIndication.Builder _ErrorIndicationBuilder = ErrorIndication.GetBuilder();
-    protected TerminalVerificationResults.Builder _TerminalVerificationResultBuilder = TerminalVerificationResults.GetBuilder();
-    protected TerminalCapabilities.Builder _TerminalCapabilitiesBuilder = TerminalCapabilities.GetBuilder();
 
     #endregion
 

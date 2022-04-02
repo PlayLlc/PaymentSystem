@@ -168,6 +168,9 @@ public static class ByteExtensions
         return 0;
     }
 
+    // TODO: manipulating the argument should be fine because it should be a value copy, but ensure that methods like these don't change the value of the byte invoking this method
+    public static byte SetBit(this byte input, Bits bitToSet) => (byte) (input | (byte) bitToSet);
+
     /// <summary>
     ///     This method will modify the byte passed in as an argument. It will not return a copy
     ///     Sets the specified bit for the byte passed in to the method.
