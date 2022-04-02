@@ -38,7 +38,7 @@ public record GetDataResponse : QueryPcdResponse
     public TagLengthValue GetTagLengthValueResult() => EmvCodec.GetBerCodec().DecodeTagLengthValue(GetRApduSignal().GetData().AsSpan());
 
     /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public bool TryGetPrimitiveValue(out PrimitiveValue? result)
     {
         uint tag = _Codec.GetFirstTag(GetData());
@@ -73,7 +73,7 @@ public record GetDataResponse : QueryPcdResponse
     }
 
     /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private bool TryDecodingOfflineAccumulatorBalance(Tag tag, out PrimitiveValue? result)
     {
         if (tag != OfflineAccumulatorBalance.Tag)
@@ -89,7 +89,7 @@ public record GetDataResponse : QueryPcdResponse
     }
 
     /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private bool TryDecodingProtectedDataEnvelope1(Tag tag, out PrimitiveValue? result)
     {
         if (tag != ProtectedDataEnvelope1.Tag)
@@ -105,7 +105,7 @@ public record GetDataResponse : QueryPcdResponse
     }
 
     /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private bool TryDecodingProtectedDataEnvelope2(Tag tag, out PrimitiveValue? result)
     {
         if (tag != ProtectedDataEnvelope2.Tag)
@@ -121,7 +121,7 @@ public record GetDataResponse : QueryPcdResponse
     }
 
     /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private bool TryDecodingProtectedDataEnvelope3(Tag tag, out PrimitiveValue? result)
     {
         if (tag != ProtectedDataEnvelope3.Tag)
@@ -137,7 +137,7 @@ public record GetDataResponse : QueryPcdResponse
     }
 
     /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private bool TryDecodingProtectedDataEnvelope4(Tag tag, out PrimitiveValue? result)
     {
         if (tag != ProtectedDataEnvelope4.Tag)
@@ -153,7 +153,7 @@ public record GetDataResponse : QueryPcdResponse
     }
 
     /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private bool TryDecodingProtectedDataEnvelope5(Tag tag, out PrimitiveValue? result)
     {
         if (tag != ProtectedDataEnvelope5.Tag)
@@ -169,7 +169,7 @@ public record GetDataResponse : QueryPcdResponse
     }
 
     /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private bool TryDecodingUnprotectedDataEnvelope1(Tag tag, out PrimitiveValue? result)
     {
         if (tag != UnprotectedDataEnvelope1.Tag)
@@ -185,7 +185,7 @@ public record GetDataResponse : QueryPcdResponse
     }
 
     /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private bool TryDecodingUnprotectedDataEnvelope2(Tag tag, out PrimitiveValue? result)
     {
         if (tag != UnprotectedDataEnvelope2.Tag)
@@ -201,7 +201,7 @@ public record GetDataResponse : QueryPcdResponse
     }
 
     /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private bool TryDecodingUnprotectedDataEnvelope3(Tag tag, out PrimitiveValue? result)
     {
         if (tag != UnprotectedDataEnvelope3.Tag)
@@ -217,7 +217,7 @@ public record GetDataResponse : QueryPcdResponse
     }
 
     /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private bool TryDecodingUnprotectedDataEnvelope4(Tag tag, out PrimitiveValue? result)
     {
         if (tag != UnprotectedDataEnvelope4.Tag)
@@ -233,7 +233,7 @@ public record GetDataResponse : QueryPcdResponse
     }
 
     /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private bool TryDecodingUnprotectedDataEnvelope5(Tag tag, out PrimitiveValue? result)
     {
         if (tag != UnprotectedDataEnvelope5.Tag)

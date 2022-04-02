@@ -27,13 +27,44 @@ public record TagsToWriteAfterGenAc : DataExchangeResponse, IEqualityComparer<Ta
 
     #endregion
 
+    #region Serialization
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static TagsToWriteAfterGenAc Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override TagsToWriteAfterGenAc Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static TagsToWriteAfterGenAc Decode(ReadOnlySpan<byte> value) => new(ResolveTagsToWrite(value).ToArray());
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(TagsToWriteAfterGenAc? x, TagsToWriteAfterGenAc? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public int GetHashCode(TagsToWriteAfterGenAc obj) => obj.GetHashCode();
+
+    #endregion
+
     #region Instance Members
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="System.InvalidOperationException"></exception>
     private static IEnumerable<PrimitiveValue> ResolveTagsToWrite(ReadOnlySpan<byte> value)
     {
@@ -60,37 +91,6 @@ public record TagsToWriteAfterGenAc : DataExchangeResponse, IEqualityComparer<Ta
 
         return result;
     }
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static TagsToWriteAfterGenAc Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override TagsToWriteAfterGenAc Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static TagsToWriteAfterGenAc Decode(ReadOnlySpan<byte> value) => new(ResolveTagsToWrite(value).ToArray());
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(TagsToWriteAfterGenAc? x, TagsToWriteAfterGenAc? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(TagsToWriteAfterGenAc obj) => obj.GetHashCode();
 
     #endregion
 }

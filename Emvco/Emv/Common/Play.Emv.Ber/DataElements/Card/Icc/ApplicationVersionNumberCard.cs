@@ -25,23 +25,16 @@ public record ApplicationVersionNumberCard : DataElement<ushort>
 
     #endregion
 
-    #region Instance Members
-
-    public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ApplicationVersionNumberCard Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override ApplicationVersionNumberCard Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ApplicationVersionNumberCard Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -59,6 +52,13 @@ public record ApplicationVersionNumberCard : DataElement<ushort>
     #region Operator Overrides
 
     public static explicit operator ushort(ApplicationVersionNumberCard value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public override Tag GetTag() => Tag;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 }

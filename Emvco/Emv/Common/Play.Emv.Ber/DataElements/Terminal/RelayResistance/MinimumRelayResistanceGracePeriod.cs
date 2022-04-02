@@ -27,23 +27,16 @@ public record MinimumRelayResistanceGracePeriod : DataElement<RelaySeconds>
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static MinimumRelayResistanceGracePeriod Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override MinimumRelayResistanceGracePeriod Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static MinimumRelayResistanceGracePeriod Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -61,6 +54,13 @@ public record MinimumRelayResistanceGracePeriod : DataElement<RelaySeconds>
     #region Operator Overrides
 
     public static implicit operator RelaySeconds(MinimumRelayResistanceGracePeriod value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

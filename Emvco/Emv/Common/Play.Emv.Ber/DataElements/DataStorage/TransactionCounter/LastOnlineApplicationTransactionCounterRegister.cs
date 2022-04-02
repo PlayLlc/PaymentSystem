@@ -26,24 +26,16 @@ public record LastOnlineApplicationTransactionCounterRegister : DataElement<usho
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public byte[] Encode() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static LastOnlineApplicationTransactionCounterRegister Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override LastOnlineApplicationTransactionCounterRegister Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static LastOnlineApplicationTransactionCounterRegister Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -72,6 +64,14 @@ public record LastOnlineApplicationTransactionCounterRegister : DataElement<usho
     }
 
     public int GetHashCode(LastOnlineApplicationTransactionCounterRegister obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public byte[] Encode() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 }

@@ -26,23 +26,16 @@ public record PositionOfCardVerificationCode3Track1 : DataElement<ulong>
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static PositionOfCardVerificationCode3Track1 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override PositionOfCardVerificationCode3Track1 Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static PositionOfCardVerificationCode3Track1 Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -53,6 +46,13 @@ public record PositionOfCardVerificationCode3Track1 : DataElement<ulong>
     }
 
     public new byte[] EncodeValue() => EncodeValue(_ByteLength);
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

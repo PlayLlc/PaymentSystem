@@ -32,6 +32,34 @@ public record IssuerApplicationData : DataElement<BigInteger>, IEqualityComparer
 
     #endregion
 
+    #region Serialization
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static IssuerApplicationData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override IssuerApplicationData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static IssuerApplicationData Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
+
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
+
+        return new IssuerApplicationData(result);
+    }
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(IssuerApplicationData? x, IssuerApplicationData? y) => EqualsStatic(x, y);
+    public int GetHashCode(IssuerApplicationData obj) => obj.GetHashCode();
+
+    #endregion
+
     #region Instance Members
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
@@ -48,34 +76,6 @@ public record IssuerApplicationData : DataElement<BigInteger>, IEqualityComparer
 
         return x.Equals(y);
     }
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static IssuerApplicationData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override IssuerApplicationData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static IssuerApplicationData Decode(ReadOnlySpan<byte> value)
-    {
-        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
-
-        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
-
-        return new IssuerApplicationData(result);
-    }
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(IssuerApplicationData? x, IssuerApplicationData? y) => EqualsStatic(x, y);
-    public int GetHashCode(IssuerApplicationData obj) => obj.GetHashCode();
 
     #endregion
 }

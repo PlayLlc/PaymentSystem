@@ -4,6 +4,7 @@ using System.Linq;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.Templates;
@@ -23,29 +24,62 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
 
     #region Constructor
 
-    /// <summary>
-    ///     ctor
-    /// </summary>
-    /// <param name="correlation"></param>
-    /// <param name="transactionSessionId"></param>
-    /// <param name="response"></param>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public GenerateApplicationCryptogramResponse(
-        CorrelationId correlation, TransactionSessionId transactionSessionId, GenerateApplicationCryptogramRApduSignal response) :
-        base(correlation, MessageTypeId, transactionSessionId, response)
-    { }
+        IWriteIccSecuritySessionData session, CorrelationId correlation, TransactionSessionId transactionSessionId,
+        GenerateApplicationCryptogramRApduSignal response) : base(correlation, MessageTypeId, transactionSessionId, response)
+    {
+        session.Update(this);
+    }
 
     #endregion
 
+    /// <exception cref="TerminalDataException"></exception>
+    public static PrimitiveValue[] ResolveResponseData(IReadTlvDatabase database)
+    {
+        PrimitiveValue[] result = new PrimitiveValue[GetCountOfDataObjectsReturned(database)];
+
+        int offset = 0;
+
+        if (database.IsPresent(CryptogramInformationData.Tag))
+            result[offset++] = database.Get<CryptogramInformationData>(CryptogramInformationData.Tag);
+        if (database.IsPresent(ApplicationTransactionCounter.Tag))
+            result[offset++] = database.Get<ApplicationTransactionCounter>(ApplicationTransactionCounter.Tag);
+        if (database.IsPresent(ApplicationCryptogram.Tag))
+            result[offset++] = database.Get<ApplicationCryptogram>(ApplicationCryptogram.Tag);
+        if (database.IsPresent(IssuerApplicationData.Tag))
+            result[offset++] = database.Get<IssuerApplicationData>(IssuerApplicationData.Tag);
+        if (database.IsPresent(PosCardholderInteractionInformation.Tag))
+            result[offset] = database.Get<PosCardholderInteractionInformation>(PosCardholderInteractionInformation.Tag);
+
+        return result;
+    }
+
+    /// <exception cref="TerminalDataException"></exception>
+    private static int GetCountOfDataObjectsReturned(IReadTlvDatabase database)
+    {
+        int offset = 0;
+
+        if (database.IsPresent(CryptogramInformationData.Tag))
+            offset++;
+        if (database.IsPresent(ApplicationTransactionCounter.Tag))
+            offset++;
+        if (database.IsPresent(ApplicationCryptogram.Tag))
+            offset++;
+        if (database.IsPresent(IssuerApplicationData.Tag))
+            offset++;
+        if (database.IsPresent(PosCardholderInteractionInformation.Tag))
+            offset++;
+
+        return offset;
+    }
+
     /// <exception cref="BerParsingException"></exception>
-    public PrimitiveValue[] GetPrimitiveDataObjects() =>
+    /// <exception cref="CodecParsingException"></exception>
+    public PrimitiveValue[] GetPrimitiveDataObjects(IWriteIccSecuritySessionData session) =>
         DecodePrimitiveValues(ResponseMessageTemplate.DecodeData(GetRApduSignal())).ToArray();
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private IEnumerable<PrimitiveValue> DecodePrimitiveValues(TagLengthValue[] values)
     {
         // TODO: Validate mandatory data objects

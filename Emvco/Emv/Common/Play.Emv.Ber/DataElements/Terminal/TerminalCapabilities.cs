@@ -32,37 +32,16 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public bool IsCardCaptureSupported() => _Value.IsBitSet(22);
-    public bool IsCombinedDataAuthenticationSupported() => _Value.IsBitSet(21);
-    public bool IsDynamicDataAuthenticationSupported() => _Value.IsBitSet(23);
-    public bool IsEncipheredPinForOfflineVerificationSupported() => _Value.IsBitSet(13);
-    public bool IsEncipheredPinForOnlineVerificationSupported() => _Value.IsBitSet(15);
-    public bool IsIcWithContactsSupported() => _Value.IsBitSet(6);
-    public bool IsMagneticStripeSupported() => _Value.IsBitSet(7);
-    public bool IsManualKeyEntrySupported() => _Value.IsBitSet(8);
-    public bool IsNoCardVerificationMethodRequiredSet() => _Value.IsBitSet(12);
-    public bool IsPlaintextPinForIccVerificationSupported() => _Value.IsBitSet(16);
-    public bool IsSignaturePaperSupported() => _Value.IsBitSet(14);
-    public bool IsStaticDataAuthenticationSupported() => _Value.IsBitSet(24);
-    public static Builder GetBuilder() => new();
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static TerminalCapabilities Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override TerminalCapabilities Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static TerminalCapabilities Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -91,6 +70,27 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
     }
 
     public int GetHashCode(TerminalCapabilities obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public bool IsCardCaptureSupported() => _Value.IsBitSet(22);
+    public bool IsCombinedDataAuthenticationSupported() => _Value.IsBitSet(21);
+    public bool IsDynamicDataAuthenticationSupported() => _Value.IsBitSet(23);
+    public bool IsEncipheredPinForOfflineVerificationSupported() => _Value.IsBitSet(13);
+    public bool IsEncipheredPinForOnlineVerificationSupported() => _Value.IsBitSet(15);
+    public bool IsIcWithContactsSupported() => _Value.IsBitSet(6);
+    public bool IsMagneticStripeSupported() => _Value.IsBitSet(7);
+    public bool IsManualKeyEntrySupported() => _Value.IsBitSet(8);
+    public bool IsNoCardVerificationMethodRequiredSet() => _Value.IsBitSet(12);
+    public bool IsPlaintextPinForIccVerificationSupported() => _Value.IsBitSet(16);
+    public bool IsSignaturePaperSupported() => _Value.IsBitSet(14);
+    public bool IsStaticDataAuthenticationSupported() => _Value.IsBitSet(24);
+    public static Builder GetBuilder() => new();
 
     #endregion
 

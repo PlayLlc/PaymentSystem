@@ -26,7 +26,7 @@ public class ApplicationPriorityIdentifierTests
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Fact]
     public void BerEncoding_DeserializingDataElement_CreatesPrimitiveValue()
     {
@@ -40,7 +40,7 @@ public class ApplicationPriorityIdentifierTests
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Fact]
     public void BerEncoding_EncodingDataElement_SerializesExpectedValue()
     {
@@ -57,7 +57,7 @@ public class ApplicationPriorityIdentifierTests
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Fact]
     public void BerEncoding_EncodingDataElementTlv_SerializesExpectedValue()
     {
@@ -74,7 +74,7 @@ public class ApplicationPriorityIdentifierTests
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Fact]
     public void BerEncoding_EncodingToTagLengthValue_SerializesExpectedValue()
     {
@@ -90,7 +90,7 @@ public class ApplicationPriorityIdentifierTests
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Fact]
     public void TagLengthValue_SerializingToBer_ReturnsExpectedResult()
     {

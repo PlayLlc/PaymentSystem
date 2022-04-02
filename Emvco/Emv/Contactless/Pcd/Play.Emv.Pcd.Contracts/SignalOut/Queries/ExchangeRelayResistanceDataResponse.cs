@@ -37,12 +37,11 @@ public record ExchangeRelayResistanceDataResponse : QueryPcdResponse
     /// <param name="response"></param>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="IccProtocolException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public ExchangeRelayResistanceDataResponse(
-        CorrelationId correlation,
-        TransactionSessionId transactionSessionId,
-        ExchangeRelayResistanceDataRApduSignal response) : base(correlation, MessageTypeId, transactionSessionId, response)
+        CorrelationId correlation, TransactionSessionId transactionSessionId, ExchangeRelayResistanceDataRApduSignal response) :
+        base(correlation, MessageTypeId, transactionSessionId, response)
     {
         if (GetStatusWords() == StatusWords._9000)
             _RelayResistanceResponseData = DecodeData(response);
@@ -67,7 +66,7 @@ public record ExchangeRelayResistanceDataResponse : QueryPcdResponse
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="IccProtocolException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private static PrimitiveValue[] DecodeData(ExchangeRelayResistanceDataRApduSignal rapdu)
     {

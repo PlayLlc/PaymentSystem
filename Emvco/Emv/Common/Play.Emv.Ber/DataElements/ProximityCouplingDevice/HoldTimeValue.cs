@@ -40,30 +40,16 @@ public record HoldTimeValue : DataElement<Deciseconds>, IEqualityComparer<HoldTi
 
     #endregion
 
-    #region Instance Members
-
-    public Milliseconds AsMilliseconds() => _Value;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-
-    /// <summary>
-    ///     The hold time in units of 100 ms
-    /// </summary>
-    public Deciseconds GetHoldTime() => _Value;
-
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static HoldTimeValue Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override HoldTimeValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static HoldTimeValue Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -100,6 +86,20 @@ public record HoldTimeValue : DataElement<Deciseconds>, IEqualityComparer<HoldTi
     #region Operator Overrides
 
     public static explicit operator Deciseconds(HoldTimeValue value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public Milliseconds AsMilliseconds() => _Value;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+
+    /// <summary>
+    ///     The hold time in units of 100 ms
+    /// </summary>
+    public Deciseconds GetHoldTime() => _Value;
+
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

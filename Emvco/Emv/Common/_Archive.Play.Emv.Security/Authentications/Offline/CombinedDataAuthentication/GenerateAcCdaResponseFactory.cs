@@ -35,7 +35,7 @@ public class GenerateAcCdaResponseFactory : TemplateFactory<GenerateAcCdaRespons
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override GenerateAcCdaResponseMessage Create(RApduSignal value)
     {
         EncodedTlvSiblings encodedTlvSiblings = _Codec.DecodeSiblings(value.GetData());

@@ -31,26 +31,16 @@ public record ExtendedSelection : DataElement<BigInteger>, IEqualityComparer<Ext
 
     #endregion
 
-    #region Instance Members
-
-    public byte[] AsByteArray() => _Value.ToByteArray();
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public int GetValueByteCount() => _Value.GetByteCount();
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ExtendedSelection Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override ExtendedSelection Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ExtendedSelection Decode(ReadOnlySpan<byte> value)
     {
         BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
@@ -74,6 +64,16 @@ public record ExtendedSelection : DataElement<BigInteger>, IEqualityComparer<Ext
     }
 
     public int GetHashCode(ExtendedSelection obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public byte[] AsByteArray() => _Value.ToByteArray();
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public int GetValueByteCount() => _Value.GetByteCount();
 
     #endregion
 }

@@ -32,7 +32,7 @@ internal class CvmQueue
     #region Constructor
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     public CvmQueue(CvmList cvmList, NumericCurrencyCode currencyCode)
     {
@@ -50,7 +50,7 @@ internal class CvmQueue
     #region Instance Members
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public bool TrySelect(KernelDatabase database)

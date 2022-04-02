@@ -29,24 +29,16 @@ public record IssuerScriptIdentifier : DataElement<uint>, IEqualityComparer<Issu
 
     #endregion
 
-    #region Instance Members
-
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static IssuerScriptIdentifier Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override IssuerScriptIdentifier Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static IssuerScriptIdentifier Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -75,6 +67,14 @@ public record IssuerScriptIdentifier : DataElement<uint>, IEqualityComparer<Issu
     }
 
     public int GetHashCode(IssuerScriptIdentifier obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override Tag GetTag() => Tag;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 }

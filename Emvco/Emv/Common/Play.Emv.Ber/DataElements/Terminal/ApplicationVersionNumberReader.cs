@@ -27,30 +27,16 @@ public record ApplicationVersionNumberReader : DataElement<ushort>, IEqualityCom
 
     #endregion
 
-    #region Instance Members
-
-    public bool IsCardholderVerificationIsSupported() => _Value.IsBitSet(5);
-    public bool IsCdaSupported() => _Value.IsBitSet(1);
-    public bool IsDdaSupported() => _Value.IsBitSet(6);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public bool IsIssuerAuthenticationIsSupported19() => _Value.IsBitSet(3);
-    public bool IsSdaSupported() => _Value.IsBitSet(7);
-    public bool TerminalRiskManagementIsToBePerformed() => _Value.IsBitSet(4);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ApplicationVersionNumberReader Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override ApplicationVersionNumberReader Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ApplicationVersionNumberReader Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -85,6 +71,20 @@ public record ApplicationVersionNumberReader : DataElement<ushort>, IEqualityCom
     #region Operator Overrides
 
     public static explicit operator ushort(ApplicationVersionNumberReader value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public bool IsCardholderVerificationIsSupported() => _Value.IsBitSet(5);
+    public bool IsCdaSupported() => _Value.IsBitSet(1);
+    public bool IsDdaSupported() => _Value.IsBitSet(6);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public bool IsIssuerAuthenticationIsSupported19() => _Value.IsBitSet(3);
+    public bool IsSdaSupported() => _Value.IsBitSet(7);
+    public bool TerminalRiskManagementIsToBePerformed() => _Value.IsBitSet(4);
 
     #endregion
 }

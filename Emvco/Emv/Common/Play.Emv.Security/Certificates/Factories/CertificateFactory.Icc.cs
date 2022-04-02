@@ -1,17 +1,15 @@
-﻿using DeleteMe.Authentications;
-using DeleteMe.Exceptions;
-
-using Play.Codecs;
+﻿using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Security.Exceptions;
 using Play.Encryption.Certificates;
 using Play.Encryption.Hashing;
 using Play.Encryption.Signing;
 using Play.Globalization.Time;
 
-namespace DeleteMe.Certificates;
+namespace Play.Emv.Security.Certificates.Factories;
 
 internal partial class CertificateFactory
 {

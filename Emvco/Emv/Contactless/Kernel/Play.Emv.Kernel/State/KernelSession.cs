@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
@@ -7,7 +8,7 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Security.Authentications.Static;
+using Play.Emv.Security;
 using Play.Globalization.Time;
 using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Messaging;
@@ -23,6 +24,8 @@ public class KernelSession
     private readonly KernelSessionId _KernelSessionId;
     private readonly CorrelationId _CorrelationId;
     private readonly ActiveApplicationFileLocator _ActiveApplicationFileLocator = new();
+
+    // Security
     private readonly StaticDataToBeAuthenticated _StaticDataToBeAuthenticated = new();
 
     #endregion
@@ -46,6 +49,8 @@ public class KernelSession
     #endregion
 
     #region Static Data To Be Authenticated
+
+    public StaticDataToBeAuthenticated GetStaticDataToBeAuthenticated() => _StaticDataToBeAuthenticated;
 
     /// <exception cref="Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
     public void EnqueueStaticDataToBeAuthenticated(EmvCodec codec, ReadRecordResponse rapdu) =>

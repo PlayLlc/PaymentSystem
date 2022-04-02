@@ -32,14 +32,6 @@ public record IssuerAuthenticationData : DataElement<BigInteger>, IEqualityCompa
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    #endregion
-
     #region Serialization
 
     public static IssuerAuthenticationData Decode(ReadOnlyMemory<byte> value, BerCodec codec) => Decode(value.Span, codec);
@@ -65,13 +57,13 @@ public record IssuerAuthenticationData : DataElement<BigInteger>, IEqualityCompa
     }
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static IssuerAuthenticationData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override IssuerAuthenticationData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static IssuerAuthenticationData Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
@@ -98,6 +90,14 @@ public record IssuerAuthenticationData : DataElement<BigInteger>, IEqualityCompa
     }
 
     public int GetHashCode(IssuerAuthenticationData obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

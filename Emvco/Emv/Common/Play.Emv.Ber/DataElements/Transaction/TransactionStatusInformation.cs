@@ -33,6 +33,30 @@ public record TransactionStatusInformation : DataElement<ushort>
 
     #endregion
 
+    #region Serialization
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static TransactionStatusInformation Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override TransactionStatusInformation Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static TransactionStatusInformation Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
+
+        ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
+
+        return new TransactionStatusInformation(result);
+    }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
+
+    #endregion
+
     #region Instance Members
 
     public static TransactionStatusInformation Create() => new();
@@ -54,30 +78,6 @@ public record TransactionStatusInformation : DataElement<ushort>
     public bool OfflineDataAuthenticationWasPerformed() => _Value.IsBitSet(8);
     public bool ScriptProcessingWasPerformed() => _Value.IsBitSet(3);
     public bool TerminalRiskManagementWasPerformed() => _Value.IsBitSet(4);
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static TransactionStatusInformation Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override TransactionStatusInformation Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static TransactionStatusInformation Decode(ReadOnlySpan<byte> value)
-    {
-        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
-
-        ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
-
-        return new TransactionStatusInformation(result);
-    }
-
-    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 }

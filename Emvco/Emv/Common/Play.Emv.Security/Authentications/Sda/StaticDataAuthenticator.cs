@@ -1,17 +1,12 @@
-﻿using DeleteMe.Certificates;
-using DeleteMe.Exceptions;
-
-using Play.Ber.Exceptions;
-using Play.Codecs.Exceptions;
-using Play.Emv.Ber;
+﻿using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
-using Play.Encryption.Certificates;
+using Play.Emv.Security.Certificates;
+using Play.Emv.Security.Certificates.Factories;
+using Play.Emv.Security.Exceptions;
 using Play.Encryption.Signing;
-using Play.Icc.Messaging.Apdu;
 
-namespace DeleteMe.Authentications;
+namespace Play.Emv.Security.Authentications.Sda;
 
 internal class StaticDataAuthenticator
 {
@@ -24,10 +19,10 @@ internal class StaticDataAuthenticator
 
     #region Constructor
 
-    public StaticDataAuthenticator(SignatureService signatureService)
+    public StaticDataAuthenticator(SignatureService signatureService, CertificateFactory certificateFactory)
     {
         _SignedStaticApplicationDataDecoder = new SignedStaticApplicationDataDecoder(signatureService);
-        _CertificateFactory = new CertificateFactory();
+        _CertificateFactory = certificateFactory;
     }
 
     #endregion

@@ -33,7 +33,7 @@ public partial class WaitingForPdolData : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override KernelState Handle(KernelSession session, QueryTerminalResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
@@ -63,7 +63,7 @@ public partial class WaitingForPdolData : KernelState
     /// <param name="session"></param>
     /// <returns></returns>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandleTimeout(KernelSession session)

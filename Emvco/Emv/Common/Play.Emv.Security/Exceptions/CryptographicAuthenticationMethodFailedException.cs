@@ -3,7 +3,7 @@
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Enums;
 
-namespace DeleteMe.Exceptions;
+namespace Play.Emv.Security.Exceptions;
 
 /// <summary>
 ///     When a form of authentication fails, such as Combined Data Authentication, Dynamic Data Authentication, or Static

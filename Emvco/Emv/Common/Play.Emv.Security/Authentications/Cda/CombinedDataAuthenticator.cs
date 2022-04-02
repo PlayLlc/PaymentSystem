@@ -1,27 +1,21 @@
-﻿using DeleteMe.Authentications.Dda;
-using DeleteMe.Certificates;
-using DeleteMe.Exceptions;
+﻿using Microsoft.Toolkit.HighPerformance.Buffers;
 
-using Microsoft.Toolkit.HighPerformance.Buffers;
-
-using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Security.Certificates;
+using Play.Emv.Security.Certificates.Factories;
+using Play.Emv.Security.Exceptions;
 using Play.Encryption.Certificates;
 using Play.Encryption.Hashing;
 using Play.Encryption.Signing;
-using Play.Icc.Messaging.Apdu;
 
-namespace DeleteMe.Authentications.Cda;
+namespace Play.Emv.Security.Authentications.Cda;
 
-internal partial class CombinedDataAuthenticator : IAuthenticateCombinedData
+internal class CombinedDataAuthenticator
 {
     #region Instance Values
 
@@ -184,7 +178,7 @@ internal partial class CombinedDataAuthenticator : IAuthenticateCombinedData
     }
 
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
-    public void AuthenticateFirstCda(
+    public void AuthenticateFirstGenAc(
         GenerateApplicationCryptogramResponse rapdu, ITlvReaderAndWriter database, ICertificateDatabase certificateDatabase,
         StaticDataToBeAuthenticated staticDataToBeAuthenticated)
     {

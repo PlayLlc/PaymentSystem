@@ -29,25 +29,16 @@ public record KernelId : DataElement<byte>, IEqualityComparer<KernelId>
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public ShortKernelIdTypes GetShortKernelId() => ShortKernelIdTypes.Get(_Value);
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static KernelId Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override KernelId Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static KernelId Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -86,6 +77,15 @@ public record KernelId : DataElement<byte>, IEqualityComparer<KernelId>
     public static explicit operator byte(KernelId value) => value._Value;
     public static bool operator !=(ShortKernelIdTypes left, KernelId right) => !left.Equals(right);
     public static bool operator !=(KernelId left, ShortKernelIdTypes right) => !right.Equals(left);
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public ShortKernelIdTypes GetShortKernelId() => ShortKernelIdTypes.Get(_Value);
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

@@ -38,17 +38,10 @@ public record DefaultUnpredictableNumberDataObjectList : DataObjectList, IEquali
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static DefaultUnpredictableNumberDataObjectList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override DefaultUnpredictableNumberDataObjectList Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
@@ -78,6 +71,13 @@ public record DefaultUnpredictableNumberDataObjectList : DataObjectList, IEquali
     }
 
     public int GetHashCode(DefaultUnpredictableNumberDataObjectList obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

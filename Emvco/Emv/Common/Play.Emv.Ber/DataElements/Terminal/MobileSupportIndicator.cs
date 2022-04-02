@@ -39,13 +39,13 @@ public record MobileSupportIndicator : DataElement<byte>, IEqualityComparer<Mobi
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static MobileSupportIndicator Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override MobileSupportIndicator Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static MobileSupportIndicator Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

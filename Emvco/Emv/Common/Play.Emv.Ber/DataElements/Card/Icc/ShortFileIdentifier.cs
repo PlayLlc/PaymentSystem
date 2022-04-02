@@ -43,35 +43,16 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public ushort GetByteCount() => 1;
-    public override Tag GetTag() => Tag;
-    public static bool IsValid(byte value) => value is >= _MinValue and <= _MaxValue;
-
-    public static bool IsValid(Tag value)
-    {
-        uint valueCopy = value;
-
-        if (valueCopy > byte.MaxValue)
-            return false;
-
-        return valueCopy is >= _MinValue and <= _MaxValue;
-    }
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ShortFileIdentifier Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override ShortFileIdentifier Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ShortFileIdentifier Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -115,6 +96,25 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
     public static implicit operator ShortFileId(ShortFileIdentifier value) => new(value._Value);
     public static bool operator !=(ShortFileIdentifier left, Tag right) => !left.Equals(right);
     public static bool operator !=(Tag left, ShortFileIdentifier right) => !right.Equals(left);
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public ushort GetByteCount() => 1;
+    public override Tag GetTag() => Tag;
+    public static bool IsValid(byte value) => value is >= _MinValue and <= _MaxValue;
+
+    public static bool IsValid(Tag value)
+    {
+        uint valueCopy = value;
+
+        if (valueCopy > byte.MaxValue)
+            return false;
+
+        return valueCopy is >= _MinValue and <= _MaxValue;
+    }
 
     #endregion
 }

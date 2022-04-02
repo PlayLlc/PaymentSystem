@@ -29,7 +29,7 @@ public class RelayResistanceDataExchanger : IExchangeRelayResistanceData
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public async Task<ExchangeRelayResistanceDataResponse> Transceive(ExchangeRelayResistanceDataRequest command)
     {
         try

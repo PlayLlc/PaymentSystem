@@ -24,7 +24,7 @@ internal record ManualCashCondition : CvmCondition
 
     public override CvmConditionCode GetConditionCode() => Code;
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     protected override bool IsConditionSatisfied(KernelDatabase database, Money xAmount, Money yAmount) =>
         database.IsManualCashTransaction();
 

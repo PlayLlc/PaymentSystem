@@ -10,6 +10,7 @@ using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
+using Play.Emv.Security.Authentications;
 
 namespace Play.Emv.Kernel.Services;
 
@@ -18,24 +19,11 @@ namespace Play.Emv.Kernel.Services;
 /// </remarks>
 public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 {
-    #region Instance Values
-
-    private readonly IResolveAuthenticationType _AuthenticationTypeResolver;
-
-    #endregion
-
     #region Instance Members
 
-    public TerminalActionAnalysisService(IResolveAuthenticationType authenticationTypeResolver)
-    {
-        _AuthenticationTypeResolver = authenticationTypeResolver;
-    }
+    public TerminalActionAnalysisService()
+    { }
 
-    /// <summary>
-    ///     Process
-    /// </summary>
-    /// <param name="command"></param>
-    /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
@@ -60,6 +48,27 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
             return CreateProceedOfflineResponse(sessionId, database);
 
         throw new InvalidOperationException("The Terminal Action Analysis result could not be determined");
+    }
+
+    /// <remarks>
+    ///     Book 3 Section 10.3
+    /// </remarks>
+    private AuthenticationTypes GetAuthenticationMethod(
+        TerminalCapabilities terminalCapabilities, ApplicationInterchangeProfile applicationInterchangeProfile)
+    {
+        if (applicationInterchangeProfile.IsStaticDataAuthenticationSupported()
+            && terminalCapabilities.IsStaticDataAuthenticationSupported())
+            return AuthenticationTypes.CombinedDataAuthentication;
+
+        if (applicationInterchangeProfile.IsDynamicDataAuthenticationSupported()
+            && terminalCapabilities.IsDynamicDataAuthenticationSupported())
+            return AuthenticationTypes.DynamicDataAuthentication;
+
+        if (applicationInterchangeProfile.IsCombinedDataAuthenticationSupported()
+            && terminalCapabilities.IsCombinedDataAuthenticationSupported())
+            return AuthenticationTypes.CombinedDataAuthentication;
+
+        return AuthenticationTypes.None;
     }
 
     #endregion
@@ -219,9 +228,8 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     private GenerateApplicationCryptogramRequest CreateProceedOfflineResponse(TransactionSessionId sessionId, KernelDatabase database)
     {
         bool isCdaRequested =
-            _AuthenticationTypeResolver.GetAuthenticationMethod(database.Get<TerminalCapabilities>(TerminalCapabilities.Tag),
-                                                                database.Get<ApplicationInterchangeProfile>(ApplicationInterchangeProfile
-                                                                    .Tag))
+            GetAuthenticationMethod(database.Get<TerminalCapabilities>(TerminalCapabilities.Tag),
+                                    database.Get<ApplicationInterchangeProfile>(ApplicationInterchangeProfile.Tag))
             == AuthenticationTypes.CombinedDataAuthentication;
 
         CardRiskManagementDataObjectList1 cdol1 = database.Get<CardRiskManagementDataObjectList1>(CardRiskManagementDataObjectList1.Tag);

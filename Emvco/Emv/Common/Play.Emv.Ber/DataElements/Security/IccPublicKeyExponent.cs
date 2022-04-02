@@ -33,25 +33,16 @@ public record IccPublicKeyExponent : DataElement<uint>
 
     #endregion
 
-    #region Instance Members
-
-    public PublicKeyExponent AsPublicKeyExponent() => PublicKeyExponent.Create(_Value);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(EncodingId, _Value);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static IccPublicKeyExponent Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override IccPublicKeyExponent Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static IccPublicKeyExponent Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
@@ -63,6 +54,15 @@ public record IccPublicKeyExponent : DataElement<uint>
     }
 
     public new byte[] EncodeValue(int length) => EncodeValue();
+
+    #endregion
+
+    #region Instance Members
+
+    public PublicKeyExponent AsPublicKeyExponent() => PublicKeyExponent.Create(_Value);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(EncodingId, _Value);
 
     #endregion
 }

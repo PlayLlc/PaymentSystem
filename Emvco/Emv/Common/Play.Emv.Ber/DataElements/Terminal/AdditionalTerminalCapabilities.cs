@@ -27,6 +27,47 @@ public record AdditionalTerminalCapabilities : DataElement<ulong>, IEqualityComp
 
     #endregion
 
+    #region Serialization
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static AdditionalTerminalCapabilities Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override AdditionalTerminalCapabilities Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static AdditionalTerminalCapabilities Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
+
+        ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
+
+        return new AdditionalTerminalCapabilities(result);
+    }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(AdditionalTerminalCapabilities? x, AdditionalTerminalCapabilities? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public int GetHashCode(AdditionalTerminalCapabilities obj) => obj.GetHashCode();
+
+    #endregion
+
     #region Instance Members
 
     public bool Administrative() => _Value.IsBitSet(33);
@@ -60,47 +101,6 @@ public record AdditionalTerminalCapabilities : DataElement<ulong>, IEqualityComp
     public bool PrintCardholder() => _Value.IsBitSet(15);
     public bool Services() => _Value.IsBitSet(38);
     public bool Transfer() => _Value.IsBitSet(35);
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static AdditionalTerminalCapabilities Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override AdditionalTerminalCapabilities Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static AdditionalTerminalCapabilities Decode(ReadOnlySpan<byte> value)
-    {
-        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
-
-        ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
-
-        return new AdditionalTerminalCapabilities(result);
-    }
-
-    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public new byte[] EncodeValue(int length) => EncodeValue();
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(AdditionalTerminalCapabilities? x, AdditionalTerminalCapabilities? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(AdditionalTerminalCapabilities obj) => obj.GetHashCode();
 
     #endregion
 }

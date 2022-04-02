@@ -27,24 +27,14 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() =>
-        throw new NotImplementedException("This is an internal configuration object so serialization is not needed");
-
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    #endregion
-
     #region Serialization
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static MerchantCategoryCode Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override MerchantCategoryCode Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static MerchantCategoryCode Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -73,6 +63,16 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
     }
 
     public int GetHashCode(MerchantCategoryCode obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() =>
+        throw new NotImplementedException("This is an internal configuration object so serialization is not needed");
+
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 

@@ -9,7 +9,7 @@ using Play.Encryption.Hashing;
 using Play.Globalization.Time;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace DeleteMe.Certificates;
+namespace Play.Emv.Security;
 
 public class CaPublicKeyCertificate : PublicKeyCertificate
 {

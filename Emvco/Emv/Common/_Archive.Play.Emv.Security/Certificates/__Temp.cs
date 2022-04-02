@@ -40,7 +40,7 @@ internal class __Temp
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
     /// <remarks>EMV Book 2 Section 6.4</remarks>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private DecodedIccPublicKeyCertificate Create(
         DecodedIssuerPublicKeyCertificate issuerCertificate, StaticDataToBeAuthenticated staticDataToBeAuthenticated,
         IccPublicKeyCertificate encipheredCertificate, ApplicationPan applicationPan,

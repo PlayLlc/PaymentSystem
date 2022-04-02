@@ -4,7 +4,7 @@ using Play.Emv.Ber.DataElements;
 using Play.Encryption.Certificates;
 using Play.Encryption.Signing;
 
-namespace DeleteMe.Authentications;
+namespace Play.Emv.Security.Authentications.Sda;
 
 internal class SignedStaticApplicationDataDecoder
 {

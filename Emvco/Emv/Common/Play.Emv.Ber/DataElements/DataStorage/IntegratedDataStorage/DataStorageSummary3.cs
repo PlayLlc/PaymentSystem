@@ -29,23 +29,16 @@ public record DataStorageSummary3 : DataElement<BigInteger>
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static DataStorageSummary3 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override DataStorageSummary3 Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static DataStorageSummary3 Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
@@ -55,6 +48,13 @@ public record DataStorageSummary3 : DataElement<BigInteger>
 
         return new DataStorageSummary3(result);
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

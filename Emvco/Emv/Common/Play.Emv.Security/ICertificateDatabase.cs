@@ -2,7 +2,7 @@
 using Play.Emv.Ber.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace DeleteMe.Certificates;
+namespace Play.Emv.Security;
 
 public interface ICertificateDatabase
 {

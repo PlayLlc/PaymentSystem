@@ -26,41 +26,14 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
 
     #endregion
 
-    #region Instance Members
-
-    public bool CombinedDataAuthenticationIndicator() => _Value.IsBitSet(9);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-
-    public SdsSchemeIndicator GetSdsSchemeIndicator()
-    {
-        const byte bitOffset = 1;
-
-        return SdsSchemeIndicator.Get((byte) (_Value >> bitOffset));
-    }
-
-    public DataStorageVersionNumber GetDataStorageVersionNumber()
-    {
-        const byte bitOffset = 16;
-        const byte bitMask = 0b00111111;
-
-        return new DataStorageVersionNumber((byte) (_Value >> bitOffset).GetMaskedValue(bitMask));
-    }
-
-    public override Tag GetTag() => Tag;
-    public bool SupportForBalanceReading() => _Value.IsBitSet(10);
-    public bool IsSupportForFieldOffDetectionSet() => _Value.IsBitSet(11);
-    public byte[] Encode() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-
-    #endregion
-
     #region Serialization
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ApplicationCapabilitiesInformation Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override ApplicationCapabilitiesInformation Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ApplicationCapabilitiesInformation Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -89,6 +62,33 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
     }
 
     public int GetHashCode(ApplicationCapabilitiesInformation obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public bool CombinedDataAuthenticationIndicator() => _Value.IsBitSet(9);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+
+    public SdsSchemeIndicator GetSdsSchemeIndicator()
+    {
+        const byte bitOffset = 1;
+
+        return SdsSchemeIndicator.Get((byte) (_Value >> bitOffset));
+    }
+
+    public DataStorageVersionNumber GetDataStorageVersionNumber()
+    {
+        const byte bitOffset = 16;
+        const byte bitMask = 0b00111111;
+
+        return new DataStorageVersionNumber((byte) (_Value >> bitOffset).GetMaskedValue(bitMask));
+    }
+
+    public override Tag GetTag() => Tag;
+    public bool SupportForBalanceReading() => _Value.IsBitSet(10);
+    public bool IsSupportForFieldOffDetectionSet() => _Value.IsBitSet(11);
+    public byte[] Encode() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 }

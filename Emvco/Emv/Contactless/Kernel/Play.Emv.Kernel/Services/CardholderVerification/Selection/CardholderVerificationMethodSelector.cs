@@ -15,7 +15,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public void Process(KernelDatabase database)
     {
@@ -50,7 +50,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 
     // HACK: I'm not sure if this is correct. We're attempting to ensure we're using the same base currency when we add, subtract, and compare money values. If the application currency and transaction currency are different then we're using the reference currency. Check to see what the actual logic should be
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private NumericCurrencyCode GetCurrencyCode(KernelDatabase database)
@@ -91,9 +91,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     /// <remarks>EMV Book C-2 Section CVM.2 - CVM.4 & EMV Book 3 Section 10.5</remarks>
     /// <exception cref="TerminalDataException"></exception>
     public void CreateResultForOfflineVerification(
-        KernelDatabase database,
-        NumericCurrencyCode currencyCode,
-        AmountAuthorizedNumeric transactionAmount,
+        KernelDatabase database, NumericCurrencyCode currencyCode, AmountAuthorizedNumeric transactionAmount,
         ReaderCvmRequiredLimit readerCvmThreshold)
     {
         if (!database!.IsPlaintextPinForIccVerificationSupported())
@@ -193,7 +191,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     #region CVM.9 - CVM.25 - Selection Loop
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public static void Select(KernelDatabase database, CvmList cvmList, NumericCurrencyCode currencyCode)

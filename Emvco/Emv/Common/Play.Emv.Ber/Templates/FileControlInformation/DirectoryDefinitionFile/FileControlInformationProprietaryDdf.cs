@@ -28,26 +28,6 @@ public class FileControlInformationProprietaryDdf : FileControlInformationPropri
 
     #endregion
 
-    #region Instance Members
-
-    public override FileControlInformationIssuerDiscretionaryDataDdf GetFileControlInformationIssuerDiscretionaryData() =>
-        _FileControlInformationIssuerDiscretionaryDataAdf;
-
-    public ShortFileIdentifier GetShortFileIdentifier() => _ShortFileIdentifier;
-    public override Tag GetTag() => Tag;
-
-    public override Tag[] GetChildTags()
-    {
-        return new[] {FileControlInformationIssuerDiscretionaryDataTemplate.Tag, ShortFileIdentifier.Tag};
-    }
-
-    protected override IEncodeBerDataObjects?[] GetChildren()
-    {
-        return new IEncodeBerDataObjects?[] {_FileControlInformationIssuerDiscretionaryDataAdf, _ShortFileIdentifier};
-    }
-
-    #endregion
-
     #region Serialization
 
     public static FileControlInformationProprietaryDdf Decode(ReadOnlyMemory<byte> rawBer) => Decode(_Codec.DecodeChildren(rawBer));
@@ -55,7 +35,7 @@ public class FileControlInformationProprietaryDdf : FileControlInformationPropri
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CardDataMissingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static FileControlInformationProprietaryDdf Decode(EncodedTlvSiblings encodedChildren)
     {
         FileControlInformationIssuerDiscretionaryDataDdf fciProprietaryTemplate =
@@ -120,6 +100,26 @@ public class FileControlInformationProprietaryDdf : FileControlInformationPropri
 
             return _ShortFileIdentifier.GetHashCode() + _FileControlInformationIssuerDiscretionaryDataAdf.GetHashCode();
         }
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    public override FileControlInformationIssuerDiscretionaryDataDdf GetFileControlInformationIssuerDiscretionaryData() =>
+        _FileControlInformationIssuerDiscretionaryDataAdf;
+
+    public ShortFileIdentifier GetShortFileIdentifier() => _ShortFileIdentifier;
+    public override Tag GetTag() => Tag;
+
+    public override Tag[] GetChildTags()
+    {
+        return new[] {FileControlInformationIssuerDiscretionaryDataTemplate.Tag, ShortFileIdentifier.Tag};
+    }
+
+    protected override IEncodeBerDataObjects?[] GetChildren()
+    {
+        return new IEncodeBerDataObjects?[] {_FileControlInformationIssuerDiscretionaryDataAdf, _ShortFileIdentifier};
     }
 
     #endregion

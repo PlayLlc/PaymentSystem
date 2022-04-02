@@ -31,34 +31,16 @@ public record TransactionDate : DataElement<uint>, IEqualityComparer<Transaction
 
     #endregion
 
-    #region Instance Members
-
-    private static uint GetNumeric(DateTimeUtc value)
-    {
-        int result = value.Year();
-        result *= 100;
-        result += value.Month();
-        result *= 100;
-        result += value.Day();
-
-        return (uint) result;
-    }
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static TransactionDate Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override TransactionDate Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static TransactionDate Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -95,6 +77,24 @@ public record TransactionDate : DataElement<uint>, IEqualityComparer<Transaction
     #region Operator Overrides
 
     public static explicit operator uint(TransactionDate value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    private static uint GetNumeric(DateTimeUtc value)
+    {
+        int result = value.Year();
+        result *= 100;
+        result += value.Month();
+        result *= 100;
+        result += value.Day();
+
+        return (uint) result;
+    }
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

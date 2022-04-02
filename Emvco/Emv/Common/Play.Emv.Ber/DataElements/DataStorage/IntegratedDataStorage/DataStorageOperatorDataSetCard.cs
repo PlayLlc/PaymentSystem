@@ -27,23 +27,16 @@ public record DataStorageOperatorDataSetCard : DataElement<BigInteger>
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static DataStorageOperatorDataSetCard Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override DataStorageOperatorDataSetCard Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static DataStorageOperatorDataSetCard Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
@@ -52,6 +45,13 @@ public record DataStorageOperatorDataSetCard : DataElement<BigInteger>
 
         return new DataStorageOperatorDataSetCard(result);
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

@@ -55,7 +55,7 @@ public class DirectoryEntry : Template
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CardDataMissingException"></exception>
     public static DirectoryEntry Decode(EncodedTlvSiblings encodedTlvSiblings)
     {

@@ -29,25 +29,16 @@ public record AmountOtherNumeric : DataElement<ulong>, IEqualityComparer<AmountO
 
     #endregion
 
-    #region Instance Members
-
-    public Money AsMoney(NumericCurrencyCode numericCurrencyCode) => new(_Value, numericCurrencyCode);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static AmountOtherNumeric Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override AmountOtherNumeric Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static AmountOtherNumeric Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -78,6 +69,15 @@ public record AmountOtherNumeric : DataElement<ulong>, IEqualityComparer<AmountO
     }
 
     public int GetHashCode(AmountOtherNumeric obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public Money AsMoney(NumericCurrencyCode numericCurrencyCode) => new(_Value, numericCurrencyCode);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

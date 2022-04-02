@@ -13,38 +13,37 @@ using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
 
-namespace Play.Emv.Kernel2.StateMachine.Common
+namespace Play.Emv.Kernel2.StateMachine.Common;
+
+public class S910 : CommonProcessing
 {
-    public class S910 : CommonProcessing
+    #region Instance Values
+
+    private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
+
+    protected override StateId[] _ValidStateIds { get; } =
     {
-        #region Instance Values
+        WaitingForMagStripeReadRecordResponse.StateId, WaitingForMagstripeFirstWriteFlag.StateId
+    };
 
-        private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
+    #endregion
 
-        protected override StateId[] _ValidStateIds { get; } =
-        {
-            WaitingForMagStripeReadRecordResponse.StateId, WaitingForMagstripeFirstWriteFlag.StateId
-        };
+    #region Constructor
 
-        #endregion
+    public S910(
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
+        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint, IGenerateUnpredictableNumber unpredictableNumberGenerator) :
+        base(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
+    {
+        _UnpredictableNumberGenerator = unpredictableNumberGenerator;
+    }
 
-        #region Constructor
+    #endregion
 
-        public S910(
-            KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
-            IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint, IGenerateUnpredictableNumber unpredictableNumberGenerator) :
-            base(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
-        {
-            _UnpredictableNumberGenerator = unpredictableNumberGenerator;
-        }
+    public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
+    {
+        HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());
 
-        #endregion
-
-        public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
-        {
-            HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());
-
-            throw new NotImplementedException();
-        }
+        throw new NotImplementedException();
     }
 }

@@ -31,40 +31,16 @@ public record UnprotectedDataEnvelope5 : DataElement<BigInteger>, IEqualityCompa
 
     #endregion
 
-    #region Instance Members
-
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static bool TryDecoding(TagLengthValue value, out UnprotectedDataEnvelope5? result)
-    {
-        if (value.GetTag() != Tag)
-        {
-            result = null;
-
-            return false;
-        }
-
-        result = Decode(value.EncodeValue().AsSpan());
-
-        return true;
-    }
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static UnprotectedDataEnvelope5 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override UnprotectedDataEnvelope5 Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static UnprotectedDataEnvelope5 Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
@@ -90,6 +66,30 @@ public record UnprotectedDataEnvelope5 : DataElement<BigInteger>, IEqualityCompa
     }
 
     public int GetHashCode(UnprotectedDataEnvelope5 obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override Tag GetTag() => Tag;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static bool TryDecoding(TagLengthValue value, out UnprotectedDataEnvelope5? result)
+    {
+        if (value.GetTag() != Tag)
+        {
+            result = null;
+
+            return false;
+        }
+
+        result = Decode(value.EncodeValue().AsSpan());
+
+        return true;
+    }
 
     #endregion
 }

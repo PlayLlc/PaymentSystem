@@ -24,7 +24,7 @@ public partial class WaitingForGpoResponse : KernelState
 {
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
@@ -179,7 +179,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private bool TryHandleMissingCardData(KernelSession session)
     {
         if (!_Database.IsPresentAndNotEmpty(ApplicationFileLocator.Tag))
@@ -223,7 +223,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private bool TryHandlingMagstripeNotSupported(Kernel2Session session)
     {
         if (_Database.IsMagstripeModeSupported())
@@ -239,7 +239,7 @@ public partial class WaitingForGpoResponse : KernelState
     #region Emv Mode
 
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -276,7 +276,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <remarks>EMV Book C-2 Section S3.33 - S3.35</remarks>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private void SetContactlessTransactionLimitForEmvMode(
         Kernel2Session session, ApplicationInterchangeProfile applicationInterchangeProfile)
@@ -331,7 +331,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     /// <remarks>EMV Book C-2 Section S3.65</remarks>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -392,7 +392,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private KernelState HandleMagstripeMode(
         Kernel2Session session, ApplicationFileLocator applicationFileLocator, ApplicationInterchangeProfile applicationInterchangeProfile,
@@ -426,7 +426,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <remarks>Emv Book C-2 Section S3.73 - S3.75 </remarks>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private void SetContactlessTransactionLimitForMagstripeMode(
         Kernel2Session session, ApplicationInterchangeProfile applicationInterchangeProfile)
@@ -503,7 +503,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private void HandleInvalidResponse(KernelSession session, Level2Error level2Error)
     {
         _Database.Update(level2Error);

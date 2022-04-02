@@ -35,7 +35,7 @@ public class ProcessingOptions : ResponseMessageTemplate
     /// </summary>
     /// <param name="values"></param>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public ProcessingOptions(TagLengthValue[] values)
     {
         _ApplicationFileLocator =
@@ -47,18 +47,6 @@ public class ProcessingOptions : ResponseMessageTemplate
 
     #endregion
 
-    #region Instance Members
-
-    public override Tag GetTag() => Tag;
-    public override Tag[] GetChildTags() => ChildTags;
-
-    protected override IEncodeBerDataObjects[] GetChildren()
-    {
-        return new IEncodeBerDataObjects[] {_ApplicationFileLocator, _ApplicationInterchangeProfile};
-    }
-
-    #endregion
-
     #region Serialization
 
     public static ProcessingOptions Decode(ReadOnlyMemory<byte> rawBer) => Decode(_Codec.DecodeChildren(rawBer));
@@ -66,7 +54,7 @@ public class ProcessingOptions : ResponseMessageTemplate
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CardDataMissingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private static ProcessingOptions Decode(EncodedTlvSiblings encodedTlvSiblings)
     {
         ApplicationFileLocator applicationFileLocator =
@@ -116,6 +104,18 @@ public class ProcessingOptions : ResponseMessageTemplate
     }
 
     public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override Tag GetTag() => Tag;
+    public override Tag[] GetChildTags() => ChildTags;
+
+    protected override IEncodeBerDataObjects[] GetChildren()
+    {
+        return new IEncodeBerDataObjects[] {_ApplicationFileLocator, _ApplicationInterchangeProfile};
+    }
 
     #endregion
 }

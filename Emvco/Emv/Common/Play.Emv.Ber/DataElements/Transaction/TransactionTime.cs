@@ -31,34 +31,16 @@ public record TransactionTime : DataElement<uint>, IEqualityComparer<Transaction
 
     #endregion
 
-    #region Instance Members
-
-    private static uint GetNumeric(DateTimeUtc value)
-    {
-        int result = value.Hour();
-        result *= 100;
-        result += value.Minute();
-        result *= 100;
-        result += value.Second();
-
-        return (uint) result;
-    }
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static TransactionTime Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override TransactionTime Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static TransactionTime Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -89,6 +71,24 @@ public record TransactionTime : DataElement<uint>, IEqualityComparer<Transaction
     }
 
     public int GetHashCode(TransactionTime obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    private static uint GetNumeric(DateTimeUtc value)
+    {
+        int result = value.Hour();
+        result *= 100;
+        result += value.Minute();
+        result *= 100;
+        result += value.Second();
+
+        return (uint) result;
+    }
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

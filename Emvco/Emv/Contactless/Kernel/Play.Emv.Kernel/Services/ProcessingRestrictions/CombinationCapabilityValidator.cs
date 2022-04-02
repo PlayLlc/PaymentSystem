@@ -13,7 +13,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     #region Instance Members
 
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public void Process(KernelDatabase database)
@@ -55,7 +55,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private bool IsTerminalAnAtm(KernelDatabase database)
     {
@@ -92,7 +92,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     #region PRE.11 - PRE.14 Terminal Compatibility
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -171,9 +171,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private void InitializeCashTransactionCompatibilityFlags(
-        ApplicationUsageControl applicationUsageControl,
-        TerminalCountryCode terminalCountryCode,
-        IssuerCountryCode issuerCountryCode,
+        ApplicationUsageControl applicationUsageControl, TerminalCountryCode terminalCountryCode, IssuerCountryCode issuerCountryCode,
         KernelDatabase database)
     {
         if (!IsCashTransaction(database))
@@ -247,12 +245,10 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private void InitializeCountryCompatibilityFlags(
-        ApplicationUsageControl applicationUsageControl,
-        TerminalCountryCode terminalCountryCode,
-        IssuerCountryCode issuerCountryCode,
+        ApplicationUsageControl applicationUsageControl, TerminalCountryCode terminalCountryCode, IssuerCountryCode issuerCountryCode,
         KernelDatabase database)
     {
         if (!IsPurchaseTransaction(database))
@@ -269,7 +265,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
 
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private bool IsPurchaseTransaction(KernelDatabase database)
     {
@@ -327,11 +323,9 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private void InitializeCashbackCompatibilityFlags(
-        ApplicationUsageControl applicationUsageControl,
-        TerminalCountryCode terminalCountryCode,
-        IssuerCountryCode issuerCountryCode,
+        ApplicationUsageControl applicationUsageControl, TerminalCountryCode terminalCountryCode, IssuerCountryCode issuerCountryCode,
         KernelDatabase database)
     {
         if (!IsCashbackRequested(database))
@@ -348,7 +342,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
 
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private bool IsCashbackRequested(KernelDatabase database)
     {
         if (database.IsPresentAndNotEmpty(AmountOtherNumeric.Tag))

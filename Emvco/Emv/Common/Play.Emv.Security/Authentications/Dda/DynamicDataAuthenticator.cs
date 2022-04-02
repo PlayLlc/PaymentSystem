@@ -1,20 +1,17 @@
-﻿using DeleteMe.Certificates;
-using DeleteMe.Exceptions;
-
-using Play.Ber.Exceptions;
+﻿using Play.Ber.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Security.Certificates;
+using Play.Emv.Security.Certificates.Factories;
+using Play.Emv.Security.Exceptions;
 using Play.Encryption.Certificates;
-using Play.Encryption.Hashing;
 using Play.Encryption.Signing;
-using Play.Icc.Messaging.Apdu;
 
-namespace DeleteMe.Authentications.Dda;
+namespace Play.Emv.Security.Authentications.Dda;
 
-internal class DynamicDataAuthenticator : IAuthenticateDynamicData
+internal class DynamicDataAuthenticator
 {
     #region Instance Values
 

@@ -45,45 +45,14 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
 
     #endregion
 
-    #region Instance Members
-
-    public AlternateInterfacePreferenceOutcome GetAlternateInterfacePreferenceOutcome() =>
-        AlternateInterfacePreferenceOutcome.Get((byte) (_Value >> _AlternateInterfaceOutcomeOffset));
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public static Builder GetBuilder() => new();
-    public CvmPerformedOutcome GetCvmPerformed() => CvmPerformedOutcome.Get((byte) (_Value >> _CvmOutcomeOffset));
-    public FieldOffRequestOutcome GetFieldOffRequestOutcome() => new((byte) (_Value >> _FieldOffRequestOutcomeOffset));
-    public OnlineResponseOutcome GetOnlineResponseOutcome() => OnlineResponseOutcome.Get((byte) (_Value >> _OnlineResponseOutcomeOffset));
-    public StartOutcome GetStartOutcome() => StartOutcome.Get((byte) (_Value >> _StartOutcomeOffset));
-    public StatusOutcome GetStatusOutcome() => StatusOutcome.Get((byte) (_Value >> _StatusOutcomeOffset));
-    public override Tag GetTag() => Tag;
-
-    public Milliseconds GetTimeout()
-    {
-        const byte bitOffset = (8 - 1) * 8;
-
-        return new Milliseconds((byte) (_Value >> bitOffset));
-    }
-
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public bool IsDataRecordPresent() => _Value.IsBitSet(38);
-    public bool IsDiscretionaryDataPresent() => _Value.IsBitSet(37);
-    public bool IsReceiptPresent() => _Value.IsBitSet(36);
-    public bool IsTimeout() => GetOnlineResponseOutcome() == OnlineResponseOutcome.NotAvailable;
-    public bool IsUiRequestOnOutcomePresent() => _Value.IsBitSet(40);
-    public bool IsUiRequestOnRestartPresent() => _Value.IsBitSet(39);
-
-    #endregion
-
     #region Serialization
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static OutcomeParameterSet Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override OutcomeParameterSet Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static OutcomeParameterSet Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -118,6 +87,37 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
     #region Operator Overrides
 
     public static OutcomeParameterSet operator |(OutcomeParameterSet left, OutcomeParameterSet right) => new(left._Value | right._Value);
+
+    #endregion
+
+    #region Instance Members
+
+    public AlternateInterfacePreferenceOutcome GetAlternateInterfacePreferenceOutcome() =>
+        AlternateInterfacePreferenceOutcome.Get((byte) (_Value >> _AlternateInterfaceOutcomeOffset));
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public static Builder GetBuilder() => new();
+    public CvmPerformedOutcome GetCvmPerformed() => CvmPerformedOutcome.Get((byte) (_Value >> _CvmOutcomeOffset));
+    public FieldOffRequestOutcome GetFieldOffRequestOutcome() => new((byte) (_Value >> _FieldOffRequestOutcomeOffset));
+    public OnlineResponseOutcome GetOnlineResponseOutcome() => OnlineResponseOutcome.Get((byte) (_Value >> _OnlineResponseOutcomeOffset));
+    public StartOutcome GetStartOutcome() => StartOutcome.Get((byte) (_Value >> _StartOutcomeOffset));
+    public StatusOutcome GetStatusOutcome() => StatusOutcome.Get((byte) (_Value >> _StatusOutcomeOffset));
+    public override Tag GetTag() => Tag;
+
+    public Milliseconds GetTimeout()
+    {
+        const byte bitOffset = (8 - 1) * 8;
+
+        return new Milliseconds((byte) (_Value >> bitOffset));
+    }
+
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public bool IsDataRecordPresent() => _Value.IsBitSet(38);
+    public bool IsDiscretionaryDataPresent() => _Value.IsBitSet(37);
+    public bool IsReceiptPresent() => _Value.IsBitSet(36);
+    public bool IsTimeout() => GetOnlineResponseOutcome() == OnlineResponseOutcome.NotAvailable;
+    public bool IsUiRequestOnOutcomePresent() => _Value.IsBitSet(40);
+    public bool IsUiRequestOnRestartPresent() => _Value.IsBitSet(39);
 
     #endregion
 

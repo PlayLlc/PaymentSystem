@@ -31,28 +31,16 @@ public record TerminalIdentification : DataElement<char[]>, IEqualityComparer<Te
 
     #endregion
 
-    #region Instance Members
-
-    public override string ToString() => AsToken();
-    public Span<char> AsSpan() => _Value.AsSpan()[^_ByteLength..];
-    public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
-    public string AsToken() => new(_Value.AsSpan()[^_ByteLength..]);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static TerminalIdentification Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override TerminalIdentification Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static TerminalIdentification Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -96,6 +84,18 @@ public record TerminalIdentification : DataElement<char[]>, IEqualityComparer<Te
     public static explicit operator Span<char>(TerminalIdentification value) => value.AsSpan();
     public static explicit operator ReadOnlySpan<char>(TerminalIdentification value) => value.AsSpan();
     public static explicit operator string(TerminalIdentification value) => value.AsToken();
+
+    #endregion
+
+    #region Instance Members
+
+    public override string ToString() => AsToken();
+    public Span<char> AsSpan() => _Value.AsSpan()[^_ByteLength..];
+    public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
+    public string AsToken() => new(_Value.AsSpan()[^_ByteLength..]);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

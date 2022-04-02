@@ -22,23 +22,16 @@ public record MaxTimeForProcessingRelayResistanceApdu : DataElement<RelaySeconds
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static MaxTimeForProcessingRelayResistanceApdu Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override MaxTimeForProcessingRelayResistanceApdu Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static MaxTimeForProcessingRelayResistanceApdu Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -56,6 +49,13 @@ public record MaxTimeForProcessingRelayResistanceApdu : DataElement<RelaySeconds
     #region Operator Overrides
 
     public static implicit operator RelaySeconds(MaxTimeForProcessingRelayResistanceApdu value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

@@ -30,24 +30,16 @@ public record ProtectedDataEnvelope1 : DataElement<BigInteger>, IEqualityCompare
 
     #endregion
 
-    #region Instance Members
-
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ProtectedDataEnvelope1 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override ProtectedDataEnvelope1 Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ProtectedDataEnvelope1 Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
@@ -73,6 +65,14 @@ public record ProtectedDataEnvelope1 : DataElement<BigInteger>, IEqualityCompare
     }
 
     public int GetHashCode(ProtectedDataEnvelope1 obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override Tag GetTag() => Tag;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 }

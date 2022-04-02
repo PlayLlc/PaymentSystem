@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Play.Core.Exceptions;
+using Play.Emv.Security;
 using Play.Emv.Security.Certificates;
 
 namespace Play.Emv.Kernel.Databases.Certificates;

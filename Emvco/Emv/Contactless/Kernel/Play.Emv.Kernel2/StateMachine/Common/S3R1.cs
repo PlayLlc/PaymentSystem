@@ -48,7 +48,7 @@ public class S3R1 : CommonProcessing
     #region Instance Members
 
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
@@ -83,7 +83,7 @@ public class S3R1 : CommonProcessing
 
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private void HandleIdsFlags(Kernel2Session session)
     {
         if (!_Database.IsIdsAndTtrImplemented())
@@ -113,7 +113,7 @@ public class S3R1 : CommonProcessing
 
     // HACK: This should live in State 3 Section C
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private bool HandleCardDataError(KernelSession session)
@@ -183,7 +183,7 @@ public class S3R1 : CommonProcessing
     /// <remarks> EMV Book C-2 Section S3R1.10 - S3R1.11 </remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private void AttemptToHandleIntegratedDataStorage(Kernel2Session session)
     {
@@ -237,7 +237,7 @@ public class S3R1 : CommonProcessing
     /// <remarks> EMV Book C-2 Section S3R1.13 </remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private void StopReadingIntegratedStorage()
     {
@@ -298,7 +298,7 @@ public class S3R1 : CommonProcessing
 
     /// <remarks> EMV Book C-2 Section S3R1.17 </remarks>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private bool DoesTheCardAndTerminalSupportCombinedDataAuth(Kernel2Session session)
@@ -334,7 +334,7 @@ public class S3R1 : CommonProcessing
 
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <remarks> EMV Book C-2 Section S3R1.20 </remarks>
     private void SetOfflineAuthNotPerformed()
     {

@@ -27,25 +27,16 @@ public record StaticDataAuthenticationTagList : DataElement<Tag[]>, IEqualityCom
 
     #endregion
 
-    #region Instance Members
-
-    public Tag[] GetRequiredTags() => _Value;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static StaticDataAuthenticationTagList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override StaticDataAuthenticationTagList Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public static StaticDataAuthenticationTagList Decode(ReadOnlySpan<byte> value)
     {
@@ -70,6 +61,15 @@ public record StaticDataAuthenticationTagList : DataElement<Tag[]>, IEqualityCom
     }
 
     public int GetHashCode(StaticDataAuthenticationTagList obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public Tag[] GetRequiredTags() => _Value;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

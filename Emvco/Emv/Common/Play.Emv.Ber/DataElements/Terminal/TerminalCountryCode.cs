@@ -34,24 +34,15 @@ public record TerminalCountryCode : DataElement<NumericCountryCode>, IEqualityCo
 
     #endregion
 
-    #region Instance Members
-
-    public NumericCountryCode AsCountryCode() => _Value;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static TerminalCountryCode Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override TerminalCountryCode Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     public static TerminalCountryCode Decode(ReadOnlySpan<byte> value)
     {
@@ -93,6 +84,15 @@ public record TerminalCountryCode : DataElement<NumericCountryCode>, IEqualityCo
     public static bool operator ==(NumericCountryCode left, TerminalCountryCode right) => right._Value.Equals(left);
     public static bool operator !=(TerminalCountryCode left, NumericCountryCode right) => !left._Value.Equals(right);
     public static bool operator !=(NumericCountryCode left, TerminalCountryCode right) => !right._Value.Equals(left);
+
+    #endregion
+
+    #region Instance Members
+
+    public NumericCountryCode AsCountryCode() => _Value;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

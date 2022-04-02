@@ -1,4 +1,5 @@
 ﻿using Play.Emv.Configuration;
+using Play.Emv.Security;
 using Play.Emv.Security.Certificates;
 
 namespace Play.Emv.Terminal.Configuration.ApplicationDependent;
@@ -19,11 +20,8 @@ public class ApplicationDependentConfiguration
     #region Constructor
 
     public ApplicationDependentConfiguration(
-        ApplicationInformation applicationInformation,
-        MerchantInformation merchantInformation,
-        SecurityConfiguration securityConfiguration,
-        TerminalRiskConfiguration terminalRiskConfiguration,
-        TerminalActionAnalysisConfiguration terminalActionAnalysisConfiguration,
+        ApplicationInformation applicationInformation, MerchantInformation merchantInformation, SecurityConfiguration securityConfiguration,
+        TerminalRiskConfiguration terminalRiskConfiguration, TerminalActionAnalysisConfiguration terminalActionAnalysisConfiguration,
         TransactionConfiguration transactionConfiguration)
     {
         _ApplicationInformation = applicationInformation;

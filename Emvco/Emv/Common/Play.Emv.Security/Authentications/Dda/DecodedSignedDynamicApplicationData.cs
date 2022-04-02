@@ -1,10 +1,7 @@
-﻿using DeleteMe.Authentications.Cda;
-
-using Play.Emv.Ber.DataElements;
-using Play.Encryption.Hashing;
+﻿using Play.Encryption.Hashing;
 using Play.Encryption.Signing;
 
-namespace DeleteMe.Authentications.Dda;
+namespace Play.Emv.Security.Authentications.Dda;
 
 internal class DecodedSignedDynamicApplicationData : DecodedSignature
 {

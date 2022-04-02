@@ -28,6 +28,30 @@ public record DataStorageOperatorDataSetInfoForReader : DataElement<byte>
 
     #endregion
 
+    #region Serialization
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static DataStorageOperatorDataSetCard Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override DataStorageOperatorDataSetCard Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static DataStorageOperatorDataSetCard Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
+
+        byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
+
+        return new DataStorageOperatorDataSetCard(result);
+    }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
+
+    #endregion
+
     #region Instance Members
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
@@ -47,30 +71,6 @@ public record DataStorageOperatorDataSetInfoForReader : DataElement<byte>
 
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
     public bool IsStopIfWriteFailedSet() => _Value.IsBitSet(Bits.Two);
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static DataStorageOperatorDataSetCard Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override DataStorageOperatorDataSetCard Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static DataStorageOperatorDataSetCard Decode(ReadOnlySpan<byte> value)
-    {
-        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
-
-        byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
-
-        return new DataStorageOperatorDataSetCard(result);
-    }
-
-    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 }

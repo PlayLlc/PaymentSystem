@@ -3,7 +3,7 @@
 using Play.Emv.Ber.DataElements;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace DeleteMe.Certificates;
+namespace Play.Emv.Security;
 
 /// <summary>
 ///     A composite key that uniquely identifies a certificate for an Issuer

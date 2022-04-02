@@ -22,21 +22,14 @@ public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<Ap
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ApplicationEffectiveDate Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override ApplicationEffectiveDate Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ApplicationEffectiveDate Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -71,6 +64,13 @@ public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<Ap
     #region Operator Overrides
 
     public static explicit operator uint(ApplicationEffectiveDate value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

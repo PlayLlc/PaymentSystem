@@ -26,32 +26,14 @@ public record ApplicationExpirationDate : DataElement<uint>, IEqualityComparer<A
 
     #endregion
 
-    #region Instance Members
-
-    public bool CombinedDataAuthenticationIndicator() => _Value.IsBitSet(9);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-
-    public SdsSchemeIndicator GetSdsSchemeIndicator()
-    {
-        const byte bitOffset = 1;
-
-        return SdsSchemeIndicator.Get((byte) (_Value >> bitOffset));
-    }
-
-    public override Tag GetTag() => Tag;
-    public bool SupportForBalanceReading() => _Value.IsBitSet(10);
-    public bool SupportForFieldOffDetection() => _Value.IsBitSet(11);
-
-    #endregion
-
     #region Serialization
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ApplicationExpirationDate Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override ApplicationExpirationDate Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ApplicationExpirationDate Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -86,6 +68,24 @@ public record ApplicationExpirationDate : DataElement<uint>, IEqualityComparer<A
     #region Operator Overrides
 
     public static explicit operator uint(ApplicationExpirationDate value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public bool CombinedDataAuthenticationIndicator() => _Value.IsBitSet(9);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+
+    public SdsSchemeIndicator GetSdsSchemeIndicator()
+    {
+        const byte bitOffset = 1;
+
+        return SdsSchemeIndicator.Get((byte) (_Value >> bitOffset));
+    }
+
+    public override Tag GetTag() => Tag;
+    public bool SupportForBalanceReading() => _Value.IsBitSet(10);
+    public bool SupportForFieldOffDetection() => _Value.IsBitSet(11);
 
     #endregion
 }

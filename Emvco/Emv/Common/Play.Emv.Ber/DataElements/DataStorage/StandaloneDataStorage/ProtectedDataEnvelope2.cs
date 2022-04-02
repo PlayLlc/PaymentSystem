@@ -29,23 +29,16 @@ public record ProtectedDataEnvelope2 : DataElement<BigInteger>, IEqualityCompare
 
     #endregion
 
-    #region Instance Members
-
-    public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ProtectedDataEnvelope2 Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override ProtectedDataEnvelope2 Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ProtectedDataEnvelope2 Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
@@ -71,6 +64,13 @@ public record ProtectedDataEnvelope2 : DataElement<BigInteger>, IEqualityCompare
     }
 
     public int GetHashCode(ProtectedDataEnvelope2 obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override Tag GetTag() => Tag;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 }

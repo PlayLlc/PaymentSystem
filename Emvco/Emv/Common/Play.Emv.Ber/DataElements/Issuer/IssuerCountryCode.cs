@@ -28,32 +28,14 @@ public record IssuerCountryCode : DataElement<NumericCountryCode>, IEqualityComp
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    public static bool StaticEquals(IssuerCountryCode? x, IssuerCountryCode? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    #endregion
-
     #region Serialization
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static IssuerCountryCode Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override IssuerCountryCode Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static IssuerCountryCode Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -90,6 +72,24 @@ public record IssuerCountryCode : DataElement<NumericCountryCode>, IEqualityComp
     #region Operator Overrides
 
     public static implicit operator NumericCountryCode(IssuerCountryCode value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+
+    public static bool StaticEquals(IssuerCountryCode? x, IssuerCountryCode? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
 
     #endregion
 }

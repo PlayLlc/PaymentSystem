@@ -2,7 +2,7 @@
 using Play.Emv.Ber.DataElements;
 using Play.Encryption.Hashing;
 
-namespace DeleteMe.Authentications.Cda;
+namespace Play.Emv.Security.Authentications;
 
 internal class IccDynamicData
 {

@@ -26,21 +26,14 @@ public record ApplicationCurrencyCode : DataElement<NumericCurrencyCode>
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ApplicationCurrencyCode Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override ApplicationCurrencyCode Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ApplicationCurrencyCode Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -58,6 +51,13 @@ public record ApplicationCurrencyCode : DataElement<NumericCurrencyCode>
     #region Operator Overrides
 
     public static implicit operator NumericCurrencyCode(ApplicationCurrencyCode value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

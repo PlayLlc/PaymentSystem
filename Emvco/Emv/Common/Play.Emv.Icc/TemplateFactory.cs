@@ -16,7 +16,7 @@ public abstract class TemplateFactory<T> where T : Template
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public abstract T Create(RApduSignal value);
 
     #endregion

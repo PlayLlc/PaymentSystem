@@ -1,14 +1,13 @@
-﻿using DeleteMe.Exceptions;
-
-using Play.Codecs;
+﻿using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Security.Exceptions;
 using Play.Encryption.Certificates;
 using Play.Encryption.Hashing;
 using Play.Encryption.Signing;
 using Play.Globalization.Time;
 
-namespace DeleteMe.Certificates;
+namespace Play.Emv.Security.Certificates;
 
 internal class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
 {

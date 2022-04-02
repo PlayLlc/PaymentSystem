@@ -20,7 +20,7 @@ public partial class WaitingForGetDataResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
         HandleRequestOutOfSync(session, signal);

@@ -28,6 +28,47 @@ public record TerminalTransactionQualifiers : DataElement<uint>, IEqualityCompar
 
     #endregion
 
+    #region Serialization
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static TerminalTransactionQualifiers Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override TerminalTransactionQualifiers Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static TerminalTransactionQualifiers Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
+
+        uint result = PlayCodec.BinaryCodec.DecodeToUInt32(value);
+
+        return new TerminalTransactionQualifiers(result);
+    }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(TerminalTransactionQualifiers? x, TerminalTransactionQualifiers? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public int GetHashCode(TerminalTransactionQualifiers obj) => obj.GetHashCode();
+
+    #endregion
+
     #region Instance Members
 
     public TerminalTransactionQualifiers AsValueCopy() => new(_Value);
@@ -71,47 +112,6 @@ public record TerminalTransactionQualifiers : DataElement<uint>, IEqualityCompar
     {
         _Value = _Value.SetBit(Bits.Eight, 2);
     }
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static TerminalTransactionQualifiers Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override TerminalTransactionQualifiers Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static TerminalTransactionQualifiers Decode(ReadOnlySpan<byte> value)
-    {
-        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
-
-        uint result = PlayCodec.BinaryCodec.DecodeToUInt32(value);
-
-        return new TerminalTransactionQualifiers(result);
-    }
-
-    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public new byte[] EncodeValue(int length) => EncodeValue();
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(TerminalTransactionQualifiers? x, TerminalTransactionQualifiers? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(TerminalTransactionQualifiers obj) => obj.GetHashCode();
 
     #endregion
 }

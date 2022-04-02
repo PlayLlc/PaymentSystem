@@ -27,32 +27,14 @@ public record IssuerCodeTableIndex : DataElement<byte>, IEqualityComparer<Issuer
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    public static bool StaticEquals(IssuerCodeTableIndex? x, IssuerCodeTableIndex? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    #endregion
-
     #region Serialization
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static IssuerCodeTableIndex Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override IssuerCodeTableIndex Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static IssuerCodeTableIndex Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -83,6 +65,24 @@ public record IssuerCodeTableIndex : DataElement<byte>, IEqualityComparer<Issuer
     }
 
     public int GetHashCode(IssuerCodeTableIndex obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+
+    public static bool StaticEquals(IssuerCodeTableIndex? x, IssuerCodeTableIndex? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
 
     #endregion
 }

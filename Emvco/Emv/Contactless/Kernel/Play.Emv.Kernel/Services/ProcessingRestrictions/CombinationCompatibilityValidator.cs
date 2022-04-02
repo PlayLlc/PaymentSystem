@@ -12,7 +12,7 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
     #region Instance Members
 
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public void Process(KernelDatabase database)
     {
@@ -25,7 +25,7 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
     /// <remarks>EMV Book C-2 Section PRE.1 - PRE.3 </remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public static void CheckVersionNumber(KernelDatabase database)
     {
@@ -48,7 +48,7 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
     #region PRE.4 - PRE.8
 
     /// <remarks>EMV Book C-2 Section PRE.4 - PRE.8 </remarks>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public void HandleApplicationActivationStatus(KernelDatabase database)
@@ -59,7 +59,7 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
         HandleExpiredApplication(database, transactionDate);
     }
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public static void HandleApplicationNotYetActive(KernelDatabase database, TransactionDate transactionDate)
@@ -70,7 +70,7 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
             database.Set(TerminalVerificationResultCodes.ExpiredApplication);
     }
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public static void HandleExpiredApplication(KernelDatabase database, TransactionDate transactionDate)

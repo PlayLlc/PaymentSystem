@@ -28,45 +28,16 @@ public record TerminalCategoriesSupportedList : DataElement<BigInteger>, IEquali
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    public TerminalCategoryCode[] GetTerminalCategoryCodes()
-    {
-        if (_Value == 0)
-            return Array.Empty<TerminalCategoryCode>();
-
-        BigInteger temp = _Value;
-        TerminalCategoryCode[] result = (_Value.GetByteCount() % Specs.Integer.UInt16.ByteCount) == 0
-            ? new TerminalCategoryCode[_Value.GetByteCount() / Specs.Integer.UInt16.ByteCount]
-            : new TerminalCategoryCode[(_Value.GetByteCount() / Specs.Integer.UInt16.ByteCount) + 1];
-
-        for (int i = 0; temp > 0; i++)
-        {
-            result[i] = TerminalCategoryCode.Get((ushort) temp);
-            temp >>= 16;
-        }
-
-        return result;
-    }
-
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public bool IsPointOfInteractionApduCommandRequested() => GetTerminalCategoryCodes().Any(a => a == TerminalCategoryCode.TransitGate);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static TerminalCategoriesSupportedList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override TerminalCategoriesSupportedList Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static TerminalCategoriesSupportedList Decode(ReadOnlySpan<byte> value)
     {
         BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
@@ -93,6 +64,35 @@ public record TerminalCategoriesSupportedList : DataElement<BigInteger>, IEquali
     }
 
     public int GetHashCode(TerminalCategoriesSupportedList obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+
+    public TerminalCategoryCode[] GetTerminalCategoryCodes()
+    {
+        if (_Value == 0)
+            return Array.Empty<TerminalCategoryCode>();
+
+        BigInteger temp = _Value;
+        TerminalCategoryCode[] result = (_Value.GetByteCount() % Specs.Integer.UInt16.ByteCount) == 0
+            ? new TerminalCategoryCode[_Value.GetByteCount() / Specs.Integer.UInt16.ByteCount]
+            : new TerminalCategoryCode[(_Value.GetByteCount() / Specs.Integer.UInt16.ByteCount) + 1];
+
+        for (int i = 0; temp > 0; i++)
+        {
+            result[i] = TerminalCategoryCode.Get((ushort) temp);
+            temp >>= 16;
+        }
+
+        return result;
+    }
+
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public bool IsPointOfInteractionApduCommandRequested() => GetTerminalCategoryCodes().Any(a => a == TerminalCategoryCode.TransitGate);
 
     #endregion
 }

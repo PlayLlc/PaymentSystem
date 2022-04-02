@@ -28,19 +28,12 @@ public record PostGenAcPutDataStatus : DataElement<byte>, IEqualityComparer<Post
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
     public override PostGenAcPutDataStatus Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static PostGenAcPutDataStatus Decode(ReadOnlyMemory<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -49,7 +42,7 @@ public record PostGenAcPutDataStatus : DataElement<byte>, IEqualityComparer<Post
     }
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static PostGenAcPutDataStatus Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -73,6 +66,13 @@ public record PostGenAcPutDataStatus : DataElement<byte>, IEqualityComparer<Post
     }
 
     public int GetHashCode(PostGenAcPutDataStatus obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

@@ -27,23 +27,16 @@ public record IccPublicKeyCertificate : DataElement<BigInteger>, IEqualityCompar
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static IccPublicKeyCertificate Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override IccPublicKeyCertificate Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static IccPublicKeyCertificate Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
@@ -69,6 +62,13 @@ public record IccPublicKeyCertificate : DataElement<BigInteger>, IEqualityCompar
     }
 
     public int GetHashCode(IccPublicKeyCertificate obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

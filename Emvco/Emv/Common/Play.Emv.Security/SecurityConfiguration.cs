@@ -1,10 +1,8 @@
 ﻿using System.Collections.Immutable;
 
-using DeleteMe.Certificates;
-
 using Play.Core.Exceptions;
 
-namespace DeleteMe;
+namespace Play.Emv.Security;
 
 public class SecurityConfiguration
 {

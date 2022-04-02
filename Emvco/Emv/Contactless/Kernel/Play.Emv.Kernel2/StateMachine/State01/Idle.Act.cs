@@ -31,7 +31,7 @@ public partial class Idle : KernelState
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public override KernelState Handle(KernelSession session, ActivateKernelRequest signal)
     {
         HandleRequestOutOfSync(session, signal);
@@ -77,7 +77,7 @@ public partial class Idle : KernelState
     /// <remarks>Book C-2 Section 6.3.3 - S1.7</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private void HandleBerEncodingException(CorrelationId correlationId, KernelSessionId kernelSessionId)
     {
         _Database.Update(StatusOutcome.SelectNext);
@@ -113,8 +113,8 @@ public partial class Idle : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private bool TryParseTemplateAndAddTransactionDataToDatabase(ActivateKernelRequest signal, out FileControlInformationAdf? result)
     {
         try
@@ -146,8 +146,8 @@ public partial class Idle : KernelState
     /// <remarks>Book C-2 Section 6.2.3; Book C-2 Section 6.3.3 - S1.7 & S1.8</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private bool TryInitialize(CorrelationId correlationId, KernelSessionId kernelSessionId, Transaction transaction)
     {
         try
@@ -194,7 +194,7 @@ public partial class Idle : KernelState
     /// <remarks>Book C-2 Section 6.3.3 - S1.9</remarks>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private void InitializeEmvDataObjects()
     {
@@ -349,7 +349,7 @@ public partial class Idle : KernelState
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private void HandleDataStorageVersionNumberTerm(Kernel2Session session)
     {
         if (!_Database.IsPresentAndNotEmpty(DataStorageVersionNumberTerminal.Tag))
@@ -416,7 +416,7 @@ public partial class Idle : KernelState
     /// <exception cref="DataElementParsingException"></exception>
     /// <remarks> EMV Book C-2 Section S1.19 </remarks>
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private KernelState RouteStateTransition(Kernel2Session session)
     {
         if (!_Database.TryGet(ApplicationCapabilitiesInformation.Tag, out PrimitiveValue? applicationCapabilitiesInformationTlv))
@@ -448,7 +448,7 @@ public partial class Idle : KernelState
     /// <remarks> EMV Book C-2 Section S1.20 </remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private void SetIntegratedDataStorageReadStatus()
     {
         if (_Database.TryGet(IntegratedDataStorageStatus.Tag, out PrimitiveValue? integratedDataStorageStatusTlv))
@@ -472,7 +472,7 @@ public partial class Idle : KernelState
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <remarks> EMV Book C-2 Section S1.21 </remarks>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     private KernelState HandlePdolData(Kernel2Session session)
     {
@@ -518,7 +518,7 @@ public partial class Idle : KernelState
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <remarks> EMV Book C-2 Section S1.23 </remarks>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     private void SetTimeout(Kernel2Session session)
     {

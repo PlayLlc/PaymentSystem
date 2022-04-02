@@ -32,6 +32,48 @@ public record ReferenceControlParameter : DataElement<byte>, IEqualityComparer<R
 
     #endregion
 
+    #region Serialization
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static ReferenceControlParameter Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override ReferenceControlParameter Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CardDataException"></exception>
+    public static ReferenceControlParameter Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
+
+        byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
+
+        return new ReferenceControlParameter(result);
+    }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(ReferenceControlParameter? x, ReferenceControlParameter? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public int GetHashCode(ReferenceControlParameter obj) => obj.GetHashCode();
+
+    #endregion
+
     #region Instance Members
 
     private static byte Create(CryptogramTypes cryptogramTypes, bool isCombinedDataAuthenticationSupported)
@@ -62,48 +104,6 @@ public record ReferenceControlParameter : DataElement<byte>, IEqualityComparer<R
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static ReferenceControlParameter Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override ReferenceControlParameter Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    /// <exception cref="CardDataException"></exception>
-    public static ReferenceControlParameter Decode(ReadOnlySpan<byte> value)
-    {
-        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
-
-        byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
-
-        return new ReferenceControlParameter(result);
-    }
-
-    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public new byte[] EncodeValue(int length) => EncodeValue();
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(ReferenceControlParameter? x, ReferenceControlParameter? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(ReferenceControlParameter obj) => obj.GetHashCode();
 
     #endregion
 }

@@ -26,6 +26,30 @@ public record IntegratedDataStorageStatus : DataElement<byte>
 
     #endregion
 
+    #region Serialization
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static IntegratedDataStorageStatus Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override IntegratedDataStorageStatus Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static IntegratedDataStorageStatus Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
+
+        byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
+
+        return new IntegratedDataStorageStatus(result);
+    }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
+
+    #endregion
+
     #region Instance Members
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
@@ -38,30 +62,6 @@ public record IntegratedDataStorageStatus : DataElement<byte>
 
     public IntegratedDataStorageStatus SetWrite(bool value) =>
         value ? new IntegratedDataStorageStatus(_Value.SetBits(Bits.Seven)) : new IntegratedDataStorageStatus(_Value.ClearBits(Bits.Seven));
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static IntegratedDataStorageStatus Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override IntegratedDataStorageStatus Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static IntegratedDataStorageStatus Decode(ReadOnlySpan<byte> value)
-    {
-        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
-
-        byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
-
-        return new IntegratedDataStorageStatus(result);
-    }
-
-    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
 }

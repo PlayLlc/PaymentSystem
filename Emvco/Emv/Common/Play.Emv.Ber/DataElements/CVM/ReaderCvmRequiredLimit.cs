@@ -28,22 +28,14 @@ public record ReaderCvmRequiredLimit : DataElement<ulong>, IEqualityComparer<Rea
 
     #endregion
 
-    #region Instance Members
-
-    public Money AsMoney(NumericCurrencyCode currencyCode) => new(_Value, currencyCode);
-    public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-
-    #endregion
-
     #region Serialization
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ReaderCvmRequiredLimit Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override ReaderCvmRequiredLimit Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ReaderCvmRequiredLimit Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -72,6 +64,14 @@ public record ReaderCvmRequiredLimit : DataElement<ulong>, IEqualityComparer<Rea
     }
 
     public int GetHashCode(ReaderCvmRequiredLimit obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public Money AsMoney(NumericCurrencyCode currencyCode) => new(_Value, currencyCode);
+    public override Tag GetTag() => Tag;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 }

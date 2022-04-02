@@ -29,43 +29,16 @@ public record PoiInformation : DataElement<BigInteger>, IEqualityComparer<PoiInf
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    // BUG: Double check this logic is correct. Is the Terminal Category Code derived from the Merchant Category Code?
-    private bool IsTerminalMatch(MerchantCategoryCode merchantCategoryCode) => throw new NotImplementedException();
-
-    public TerminalCategoryCode[] GetTerminalCategoryCodes()
-    {
-        HashSet<TerminalCategoryCode> buffer = new();
-        ReadOnlySpan<byte> temp = _Value.ToByteArray();
-
-        while (true)
-        {
-            if (temp.Length < 2)
-                break;
-
-            buffer.Add(TerminalCategoryCode.Get(temp[..1]));
-            temp = temp[..(2 + temp[2])];
-        }
-
-        return buffer.ToArray();
-    }
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static PoiInformation Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override PoiInformation Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static PoiInformation Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
@@ -91,6 +64,33 @@ public record PoiInformation : DataElement<BigInteger>, IEqualityComparer<PoiInf
     }
 
     public int GetHashCode(PoiInformation obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+
+    // BUG: Double check this logic is correct. Is the Terminal Category Code derived from the Merchant Category Code?
+    private bool IsTerminalMatch(MerchantCategoryCode merchantCategoryCode) => throw new NotImplementedException();
+
+    public TerminalCategoryCode[] GetTerminalCategoryCodes()
+    {
+        HashSet<TerminalCategoryCode> buffer = new();
+        ReadOnlySpan<byte> temp = _Value.ToByteArray();
+
+        while (true)
+        {
+            if (temp.Length < 2)
+                break;
+
+            buffer.Add(TerminalCategoryCode.Get(temp[..1]));
+            temp = temp[..(2 + temp[2])];
+        }
+
+        return buffer.ToArray();
+    }
 
     #endregion
 }

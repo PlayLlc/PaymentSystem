@@ -25,24 +25,16 @@ public record UnpredictableNumber : DataElement<uint>, IEqualityComparer<Unpredi
 
     #endregion
 
-    #region Instance Members
-
-    public ushort GetByteCount() => _ByteLength;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static UnpredictableNumber Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override UnpredictableNumber Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static UnpredictableNumber Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -77,6 +69,14 @@ public record UnpredictableNumber : DataElement<uint>, IEqualityComparer<Unpredi
     #region Operator Overrides
 
     public static explicit operator uint(UnpredictableNumber value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public ushort GetByteCount() => _ByteLength;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

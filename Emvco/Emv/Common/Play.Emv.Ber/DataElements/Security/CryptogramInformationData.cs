@@ -32,6 +32,47 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
 
     #endregion
 
+    #region Serialization
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static CryptogramInformationData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override CryptogramInformationData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static CryptogramInformationData Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
+
+        byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
+
+        return new CryptogramInformationData(result);
+    }
+
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue(int length) => EncodeValue();
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(CryptogramInformationData? x, CryptogramInformationData? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public int GetHashCode(CryptogramInformationData obj) => obj.GetHashCode();
+
+    #endregion
+
     #region Instance Members
 
     private static byte Create(CryptogramTypes cryptogramTypes, bool isCombinedDataAuthenticationSupported)
@@ -61,6 +102,9 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
         return result!;
     }
 
+    /// <remarks>EMV Book C-2 Section S9.23</remarks>
+    public bool IsValid(IReadTlvDatabase tlvDatabase) => throw new NotImplementedException();
+
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
@@ -69,47 +113,6 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
     /// </summary>
     /// <returns></returns>
     public bool IsCdaSignatureRequested() => _Value.IsBitSet(Bits.Five);
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static CryptogramInformationData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override CryptogramInformationData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    public static CryptogramInformationData Decode(ReadOnlySpan<byte> value)
-    {
-        Check.Primitive.ForExactLength(value, _ByteLength, Tag);
-
-        byte result = PlayCodec.BinaryCodec.DecodeToByte(value);
-
-        return new CryptogramInformationData(result);
-    }
-
-    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public new byte[] EncodeValue(int length) => EncodeValue();
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(CryptogramInformationData? x, CryptogramInformationData? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(CryptogramInformationData obj) => obj.GetHashCode();
 
     #endregion
 }

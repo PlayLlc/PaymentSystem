@@ -14,7 +14,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="System.InvalidOperationException"></exception>
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {

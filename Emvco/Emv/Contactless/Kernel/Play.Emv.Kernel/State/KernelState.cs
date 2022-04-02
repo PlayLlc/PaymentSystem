@@ -66,7 +66,7 @@ public abstract class KernelState : IGetKernelStateId
     /// <param name="correlationId"></param>
     /// <param name="kernelSessionId"></param>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     private void HandleBerEncodingException(CorrelationId correlationId, KernelSessionId kernelSessionId)
     {

@@ -27,25 +27,16 @@ public record IssuerActionCodeDefault : DataElement<ulong>, IEqualityComparer<Is
 
     #endregion
 
-    #region Instance Members
-
-    public ActionCodes AsActionCodes() => new(_Value);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static IssuerActionCodeDefault Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override IssuerActionCodeDefault Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static IssuerActionCodeDefault Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -74,6 +65,15 @@ public record IssuerActionCodeDefault : DataElement<ulong>, IEqualityComparer<Is
     }
 
     public int GetHashCode(IssuerActionCodeDefault obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public ActionCodes AsActionCodes() => new(_Value);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

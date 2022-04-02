@@ -19,29 +19,10 @@ public class FileControlInformationDdf : FileControlInformationTemplate
     #region Constructor
 
     public FileControlInformationDdf(
-        DedicatedFileName dedicatedFileName,
-        FileControlInformationProprietaryDdf fileControlInformationProprietary)
+        DedicatedFileName dedicatedFileName, FileControlInformationProprietaryDdf fileControlInformationProprietary)
     {
         _DedicatedFileName = dedicatedFileName;
         _FileControlInformationProprietary = fileControlInformationProprietary;
-    }
-
-    #endregion
-
-    #region Instance Members
-
-    public DedicatedFileName GetDedicatedFileName() => _DedicatedFileName;
-    public override FileControlInformationProprietaryDdf GetFileControlInformationProprietary() => _FileControlInformationProprietary;
-    public override Tag GetTag() => Tag;
-
-    public override Tag[] GetChildTags()
-    {
-        return new[] {DedicatedFileName.Tag, FileControlInformationProprietaryTemplate.Tag};
-    }
-
-    protected override IEncodeBerDataObjects?[] GetChildren()
-    {
-        return new IEncodeBerDataObjects?[] {_DedicatedFileName, _FileControlInformationProprietary};
     }
 
     #endregion
@@ -53,7 +34,7 @@ public class FileControlInformationDdf : FileControlInformationTemplate
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CardDataMissingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private static FileControlInformationDdf Decode(EncodedTlvSiblings encodedSiblings)
     {
         DedicatedFileName dedicatedFileName = _Codec.AsPrimitive(DedicatedFileName.Decode, DedicatedFileName.Tag, encodedSiblings)
@@ -108,6 +89,24 @@ public class FileControlInformationDdf : FileControlInformationTemplate
     }
 
     public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public DedicatedFileName GetDedicatedFileName() => _DedicatedFileName;
+    public override FileControlInformationProprietaryDdf GetFileControlInformationProprietary() => _FileControlInformationProprietary;
+    public override Tag GetTag() => Tag;
+
+    public override Tag[] GetChildTags()
+    {
+        return new[] {DedicatedFileName.Tag, FileControlInformationProprietaryTemplate.Tag};
+    }
+
+    protected override IEncodeBerDataObjects?[] GetChildren()
+    {
+        return new IEncodeBerDataObjects?[] {_DedicatedFileName, _FileControlInformationProprietary};
+    }
 
     #endregion
 }

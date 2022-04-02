@@ -43,13 +43,13 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static UserInterfaceRequestData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override UserInterfaceRequestData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static UserInterfaceRequestData Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);

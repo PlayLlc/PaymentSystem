@@ -2,7 +2,7 @@
 using Play.Encryption.Hashing;
 using Play.Encryption.Signing;
 
-namespace DeleteMe.Authentications.Cda;
+namespace Play.Emv.Security.Authentications.Cda;
 
 internal class DecodedSignedDynamicApplicationDataCda : DecodedSignature
 {

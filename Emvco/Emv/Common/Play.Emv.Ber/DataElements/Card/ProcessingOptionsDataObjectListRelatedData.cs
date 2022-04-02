@@ -28,24 +28,16 @@ public record ProcessingOptionsDataObjectListRelatedData : DataElement<BigIntege
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ProcessingOptionsDataObjectListRelatedData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override ProcessingOptionsDataObjectListRelatedData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ProcessingOptionsDataObjectListRelatedData Decode(ReadOnlySpan<byte> value)
     {
         BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
@@ -69,6 +61,14 @@ public record ProcessingOptionsDataObjectListRelatedData : DataElement<BigIntege
     }
 
     public int GetHashCode(ProcessingOptionsDataObjectListRelatedData obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

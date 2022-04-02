@@ -47,49 +47,16 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
 
     #endregion
 
-    #region Instance Members
-
-    //private static ulong BuildErrorIndication(Level1Error[] level1Errors, Level2Error[] level2Errors, Level3Error[] level3Errors)
-    //{
-    //    ulong result = 0;
-
-    //    for (nint i = 0; i < level1Errors?.Length; i++)
-    //        result |= SetLevel1Error(level1Errors![i]);
-
-    //    for (nint i = 0; i < level2Errors?.Length; i++)
-    //        result |= SetLevel2Error(level2Errors![i]);
-
-    //    for (nint i = 0; i < level3Errors?.Length; i++)
-    //        result |= SetLevel3Error(level3Errors![i]);
-
-    //    return result;
-    //}
-    public static Builder GetBuilder() => new();
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public Level1Error GetL1() => Level1Error.Get((byte) (_Value >> 40));
-    public Level2Error GetL2() => Level2Error.Get((byte) (_Value >> 32));
-    public Level3Error GetL3() => Level3Error.Get((byte) (_Value >> 24));
-    public MessageOnErrorIdentifier GetMessageIdentifier() => (MessageOnErrorIdentifier) MessageOnErrorIdentifier.Get((byte) _Value);
-    public StatusWords GetStatusWords() => new(new StatusWord((byte) (_Value >> 16)), new StatusWord((byte) (_Value >> 8)));
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public bool IsErrorPresent() => (GetL1() != Level1Error.Ok) || (GetL2() != Level2Error.Ok) || (GetL3() != Level3Error.Ok);
-    public bool IsErrorPresent(Level1Error value) => ((byte) (_Value >> 40)).AreBitsSet(value);
-    public bool IsErrorPresent(Level2Error value) => ((byte) (_Value >> 40)).AreBitsSet(value);
-    public bool IsErrorPresent(Level3Error value) => ((byte) (_Value >> 40)).AreBitsSet(value);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ErrorIndication Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override ErrorIndication Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static ErrorIndication Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -124,6 +91,39 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
     #region Operator Overrides
 
     public static implicit operator ulong(ErrorIndication value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    //private static ulong BuildErrorIndication(Level1Error[] level1Errors, Level2Error[] level2Errors, Level3Error[] level3Errors)
+    //{
+    //    ulong result = 0;
+
+    //    for (nint i = 0; i < level1Errors?.Length; i++)
+    //        result |= SetLevel1Error(level1Errors![i]);
+
+    //    for (nint i = 0; i < level2Errors?.Length; i++)
+    //        result |= SetLevel2Error(level2Errors![i]);
+
+    //    for (nint i = 0; i < level3Errors?.Length; i++)
+    //        result |= SetLevel3Error(level3Errors![i]);
+
+    //    return result;
+    //}
+    public static Builder GetBuilder() => new();
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public Level1Error GetL1() => Level1Error.Get((byte) (_Value >> 40));
+    public Level2Error GetL2() => Level2Error.Get((byte) (_Value >> 32));
+    public Level3Error GetL3() => Level3Error.Get((byte) (_Value >> 24));
+    public MessageOnErrorIdentifier GetMessageIdentifier() => (MessageOnErrorIdentifier) MessageOnErrorIdentifier.Get((byte) _Value);
+    public StatusWords GetStatusWords() => new(new StatusWord((byte) (_Value >> 16)), new StatusWord((byte) (_Value >> 8)));
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public bool IsErrorPresent() => (GetL1() != Level1Error.Ok) || (GetL2() != Level2Error.Ok) || (GetL3() != Level3Error.Ok);
+    public bool IsErrorPresent(Level1Error value) => ((byte) (_Value >> 40)).AreBitsSet(value);
+    public bool IsErrorPresent(Level2Error value) => ((byte) (_Value >> 40)).AreBitsSet(value);
+    public bool IsErrorPresent(Level3Error value) => ((byte) (_Value >> 40)).AreBitsSet(value);
 
     #endregion
 

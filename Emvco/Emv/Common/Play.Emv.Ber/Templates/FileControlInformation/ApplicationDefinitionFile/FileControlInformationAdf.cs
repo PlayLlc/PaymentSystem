@@ -21,49 +21,10 @@ public class FileControlInformationAdf : FileControlInformationTemplate
     #region Constructor
 
     public FileControlInformationAdf(
-        DedicatedFileName dedicatedFileName,
-        FileControlInformationProprietaryAdf fileControlInformationProprietary)
+        DedicatedFileName dedicatedFileName, FileControlInformationProprietaryAdf fileControlInformationProprietary)
     {
         _DedicatedFileName = dedicatedFileName;
         _FileControlInformationProprietary = fileControlInformationProprietary;
-    }
-
-    #endregion
-
-    #region Instance Members
-
-    public bool TryGetLanguagePreference(out LanguagePreference? result) =>
-        _FileControlInformationProprietary.TryGetLanguagePreference(out result);
-
-    public Tag[] GetRequestedDataObjects() => _FileControlInformationProprietary.GetRequestedDataObjects();
-
-    public bool TryGetProcessingOptionsDataObjectList(out ProcessingOptionsDataObjectList? result) =>
-        _FileControlInformationProprietary.TryGetProcessingOptionsDataObjectList(out result);
-
-    public bool GetProcessingOptionsDataObjectListResult(IReadTlvDatabase database, out CommandTemplate? result) =>
-        _FileControlInformationProprietary.TryGetProcessingOptionsRelatedData(database, out result);
-
-    public DedicatedFileName GetDedicatedFileName() => _DedicatedFileName;
-    public override FileControlInformationProprietaryAdf GetFileControlInformationProprietary() => _FileControlInformationProprietary;
-    public override Tag GetTag() => Tag;
-
-    public override Tag[] GetChildTags()
-    {
-        return new[] {DedicatedFileName.Tag, FileControlInformationProprietaryTemplate.Tag};
-    }
-
-    public override ushort GetValueByteCount(BerCodec codec) => GetValueByteCount();
-    public bool IsDataObjectRequested(Tag tag) => _FileControlInformationProprietary.IsDataObjectRequested(tag);
-
-    public bool IsNetworkOf(RegisteredApplicationProviderIndicators rid) =>
-        rid == _DedicatedFileName.GetRegisteredApplicationProviderIdentifier();
-
-    public bool TryGetApplicationCapabilitiesInformation(out ApplicationCapabilitiesInformation? result) =>
-        _FileControlInformationProprietary.TryGetApplicationCapabilitiesInformation(out result);
-
-    protected override IEncodeBerDataObjects?[] GetChildren()
-    {
-        return new IEncodeBerDataObjects?[] {_DedicatedFileName, _FileControlInformationProprietary};
     }
 
     #endregion
@@ -76,7 +37,7 @@ public class FileControlInformationAdf : FileControlInformationTemplate
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     /// <exception cref="CardDataMissingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private static FileControlInformationAdf Decode(EncodedTlvSiblings encodedSiblings)
     {
         DedicatedFileName dedicatedFileName = _Codec.AsPrimitive(DedicatedFileName.Decode, DedicatedFileName.Tag, encodedSiblings)
@@ -131,6 +92,44 @@ public class FileControlInformationAdf : FileControlInformationTemplate
     }
 
     public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public bool TryGetLanguagePreference(out LanguagePreference? result) =>
+        _FileControlInformationProprietary.TryGetLanguagePreference(out result);
+
+    public Tag[] GetRequestedDataObjects() => _FileControlInformationProprietary.GetRequestedDataObjects();
+
+    public bool TryGetProcessingOptionsDataObjectList(out ProcessingOptionsDataObjectList? result) =>
+        _FileControlInformationProprietary.TryGetProcessingOptionsDataObjectList(out result);
+
+    public bool GetProcessingOptionsDataObjectListResult(IReadTlvDatabase database, out CommandTemplate? result) =>
+        _FileControlInformationProprietary.TryGetProcessingOptionsRelatedData(database, out result);
+
+    public DedicatedFileName GetDedicatedFileName() => _DedicatedFileName;
+    public override FileControlInformationProprietaryAdf GetFileControlInformationProprietary() => _FileControlInformationProprietary;
+    public override Tag GetTag() => Tag;
+
+    public override Tag[] GetChildTags()
+    {
+        return new[] {DedicatedFileName.Tag, FileControlInformationProprietaryTemplate.Tag};
+    }
+
+    public override ushort GetValueByteCount(BerCodec codec) => GetValueByteCount();
+    public bool IsDataObjectRequested(Tag tag) => _FileControlInformationProprietary.IsDataObjectRequested(tag);
+
+    public bool IsNetworkOf(RegisteredApplicationProviderIndicators rid) =>
+        rid == _DedicatedFileName.GetRegisteredApplicationProviderIdentifier();
+
+    public bool TryGetApplicationCapabilitiesInformation(out ApplicationCapabilitiesInformation? result) =>
+        _FileControlInformationProprietary.TryGetApplicationCapabilitiesInformation(out result);
+
+    protected override IEncodeBerDataObjects?[] GetChildren()
+    {
+        return new IEncodeBerDataObjects?[] {_DedicatedFileName, _FileControlInformationProprietary};
+    }
 
     #endregion
 }

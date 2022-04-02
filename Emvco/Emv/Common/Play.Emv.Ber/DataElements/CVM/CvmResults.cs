@@ -31,35 +31,16 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
 
     #endregion
 
-    #region Instance Members
-
-    private static uint Create(CvmCode cvmCode, CvmConditionCode cvmConditionCode, CvmResultCodes cvmResultCode)
-    {
-        uint result = (uint) cvmCode << 16;
-        result |= (uint) cvmConditionCode << 8;
-        result |= (uint) cvmResultCode;
-
-        return result;
-    }
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => _ByteLength;
-    public new ushort GetValueByteCount() => _ByteLength;
-    public byte[] Encode() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static CvmResults Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override CvmResults Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static CvmResults Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -88,6 +69,25 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
     }
 
     public int GetHashCode(CvmResults obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    private static uint Create(CvmCode cvmCode, CvmConditionCode cvmConditionCode, CvmResultCodes cvmResultCode)
+    {
+        uint result = (uint) cvmCode << 16;
+        result |= (uint) cvmConditionCode << 8;
+        result |= (uint) cvmResultCode;
+
+        return result;
+    }
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => _ByteLength;
+    public new ushort GetValueByteCount() => _ByteLength;
+    public byte[] Encode() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 }

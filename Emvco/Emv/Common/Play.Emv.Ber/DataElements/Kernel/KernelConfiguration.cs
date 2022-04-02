@@ -28,37 +28,16 @@ public record KernelConfiguration : DataElement<byte>, IEqualityComparer<KernelC
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public bool IsEmvModeSupported() => !_Value.IsBitSet(Bits.Seven);
-    public bool IsMagstripeModeSupported() => !_Value.IsBitSet(Bits.Eight);
-    public bool IsOnDeviceCardholderVerificationSupported() => _Value.IsBitSet(Bits.Six);
-
-    /// <summary>
-    ///     When this flag is set the kernel will read all of the records listed in the <see cref="ApplicationFileLocator" />,
-    ///     regardless if Combined Data Authentication is supported or not
-    /// </summary>
-    /// <returns></returns>
-    public bool IsReadAllRecordsActivated() => _Value.IsBitSet(Bits.Three);
-
-    public bool IsRelayResistanceProtocolSupported() => _Value.IsBitSet(Bits.Five);
-    public bool IsReservedForPaymentSystem() => _Value.IsBitSet(Bits.Four);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static KernelConfiguration Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override KernelConfiguration Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static KernelConfiguration Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -87,6 +66,27 @@ public record KernelConfiguration : DataElement<byte>, IEqualityComparer<KernelC
     }
 
     public int GetHashCode(KernelConfiguration obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public bool IsEmvModeSupported() => !_Value.IsBitSet(Bits.Seven);
+    public bool IsMagstripeModeSupported() => !_Value.IsBitSet(Bits.Eight);
+    public bool IsOnDeviceCardholderVerificationSupported() => _Value.IsBitSet(Bits.Six);
+
+    /// <summary>
+    ///     When this flag is set the kernel will read all of the records listed in the <see cref="ApplicationFileLocator" />,
+    ///     regardless if Combined Data Authentication is supported or not
+    /// </summary>
+    /// <returns></returns>
+    public bool IsReadAllRecordsActivated() => _Value.IsBitSet(Bits.Three);
+
+    public bool IsRelayResistanceProtocolSupported() => _Value.IsBitSet(Bits.Five);
+    public bool IsReservedForPaymentSystem() => _Value.IsBitSet(Bits.Four);
 
     #endregion
 }

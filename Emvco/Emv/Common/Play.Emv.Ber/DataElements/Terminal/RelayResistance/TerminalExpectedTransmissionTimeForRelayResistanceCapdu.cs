@@ -27,24 +27,17 @@ public record TerminalExpectedTransmissionTimeForRelayResistanceCapdu : DataElem
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static TerminalExpectedTransmissionTimeForRelayResistanceCapdu Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override TerminalExpectedTransmissionTimeForRelayResistanceCapdu Decode(TagLengthValue value) =>
         Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static TerminalExpectedTransmissionTimeForRelayResistanceCapdu Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -62,6 +55,13 @@ public record TerminalExpectedTransmissionTimeForRelayResistanceCapdu : DataElem
     #region Operator Overrides
 
     public static implicit operator RelaySeconds(TerminalExpectedTransmissionTimeForRelayResistanceCapdu value) => value._Value;
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }

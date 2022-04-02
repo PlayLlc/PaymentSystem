@@ -24,41 +24,16 @@ public record PosCardholderInteractionInformation : DataElement<uint>, IEquality
 
     #endregion
 
-    #region Instance Members
-
-    public bool IsSecondTapRequiredForWallet() => _Value.IsBitSet(1);
-    public bool IsOnDeviceCvmRequired() => _Value.IsBitSet(9);
-    public bool IsAcknowledgementRequired() => _Value.IsBitSet(10);
-    public bool IsOfflinePinChangeRequired() => _Value.IsBitSet(11);
-    public bool IsContextConflicting() => _Value.IsBitSet(12);
-    public bool IsOnDeviceCvmVerificationSuccessful() => _Value.IsBitSet(9);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    public static bool EqualsStatic(PosCardholderInteractionInformation? x, PosCardholderInteractionInformation? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static PosCardholderInteractionInformation Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override PosCardholderInteractionInformation Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static PosCardholderInteractionInformation Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -84,6 +59,31 @@ public record PosCardholderInteractionInformation : DataElement<uint>, IEquality
     }
 
     public int GetHashCode(PosCardholderInteractionInformation obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public bool IsSecondTapRequiredForWallet() => _Value.IsBitSet(1);
+    public bool IsOnDeviceCvmRequired() => _Value.IsBitSet(9);
+    public bool IsAcknowledgementRequired() => _Value.IsBitSet(10);
+    public bool IsOfflinePinChangeRequired() => _Value.IsBitSet(11);
+    public bool IsContextConflicting() => _Value.IsBitSet(12);
+    public bool IsOnDeviceCvmVerificationSuccessful() => _Value.IsBitSet(9);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+
+    public static bool EqualsStatic(PosCardholderInteractionInformation? x, PosCardholderInteractionInformation? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
 
     #endregion
 }

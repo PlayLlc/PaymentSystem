@@ -18,7 +18,7 @@ public class KernelIdentifierTests
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Fact]
     public void Test()
     {
@@ -35,7 +35,7 @@ public class KernelIdentifierTests
     /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     [Fact]
     public void Test2()
     {

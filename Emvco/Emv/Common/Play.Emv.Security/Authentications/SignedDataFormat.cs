@@ -2,7 +2,7 @@
 
 using Play.Core;
 
-namespace DeleteMe.Authentications;
+namespace Play.Emv.Security.Authentications;
 
 internal sealed record SignedDataFormat : EnumObject<byte>, IEqualityComparer<SignedDataFormat>
 {

@@ -49,7 +49,7 @@ public record DataRecoveryDataObjectList : DataObjectList
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="OverflowException"></exception>
     public DataRecoveryDataObjectListRelatedData AsRelatedData(IReadTlvDatabase database) =>
         DataRecoveryDataObjectListRelatedData.Decode(AsCommandTemplate(database).EncodeValue().AsSpan());

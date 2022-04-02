@@ -50,24 +50,16 @@ public record CaPublicKeyIndex : DataElement<byte>, IEqualityComparer<CaPublicKe
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static CaPublicKeyIndex Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
     public override CaPublicKeyIndex Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static CaPublicKeyIndex Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
@@ -103,6 +95,14 @@ public record CaPublicKeyIndex : DataElement<byte>, IEqualityComparer<CaPublicKe
 
     public static explicit operator byte(CaPublicKeyIndex value) => value._Value;
     public static explicit operator CaPublicKeyIndex(byte value) => new(value);
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }
