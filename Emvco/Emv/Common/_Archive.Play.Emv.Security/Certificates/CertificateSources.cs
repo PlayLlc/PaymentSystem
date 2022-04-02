@@ -1,10 +1,12 @@
-﻿using System.Collections.Immutable;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 
 using Play.Core;
 
-namespace DeleteMe.Certificates;
+namespace Play.Emv.Security.Certificates;
 
-internal sealed record CertificateSources : EnumObject<byte>, IEqualityComparer<CertificateSources>
+public sealed record CertificateSources : EnumObject<byte>, IEqualityComparer<CertificateSources>
 {
     #region Static Metadata
 

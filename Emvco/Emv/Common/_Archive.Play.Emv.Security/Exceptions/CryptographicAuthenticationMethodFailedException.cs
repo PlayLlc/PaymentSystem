@@ -1,9 +1,10 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Enums;
 
-namespace DeleteMe.Exceptions;
+namespace Play.Emv.Security.Exceptions;
 
 /// <summary>
 ///     When a form of authentication fails, such as Combined Data Authentication, Dynamic Data Authentication, or Static
@@ -15,20 +16,27 @@ public class CryptographicAuthenticationMethodFailedException : CodecParsingExce
     #region Constructor
 
     public CryptographicAuthenticationMethodFailedException(
-        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
+        string message,
+        [CallerFilePath] string fileName = "",
+        [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(CryptographicAuthenticationMethodFailedException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public CryptographicAuthenticationMethodFailedException(
-        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
+        Exception innerException,
+        [CallerFilePath] string fileName = "",
+        [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(CryptographicAuthenticationMethodFailedException), fileName, memberName, lineNumber)}",
              innerException)
     { }
 
     public CryptographicAuthenticationMethodFailedException(
-        string message, Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
+        string message,
+        Exception innerException,
+        [CallerFilePath] string fileName = "",
+        [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(CryptographicAuthenticationMethodFailedException), fileName, memberName, lineNumber)} {message}",
              innerException)
