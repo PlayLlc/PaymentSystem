@@ -4,9 +4,9 @@ namespace DeleteMe.Certificates
 {
     internal partial class CertificateFactory
     {
-        #region Instance Values
+        #region Static Metadata
 
-        protected readonly SignatureService _SignatureService = new();
+        protected static readonly SignatureService _SignatureService = new();
 
         #endregion
     }

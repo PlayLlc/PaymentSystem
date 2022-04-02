@@ -22,7 +22,7 @@ public partial class KernelDatabase
     /// <exception cref="TerminalDataException"></exception>
     public MobileSupportIndicator GetMobileSupportIndicator()
     {
-        if (TryGet<MobileSupportIndicator>(MobileSupportIndicator.Tag, out MobileSupportIndicator? mobileSupportIndicator))
+        if (TryGet(MobileSupportIndicator.Tag, out MobileSupportIndicator? mobileSupportIndicator))
             return mobileSupportIndicator;
 
         var defaultMobileSupportIndicator = _MobileSupportIndicatorBuilder.Complete();

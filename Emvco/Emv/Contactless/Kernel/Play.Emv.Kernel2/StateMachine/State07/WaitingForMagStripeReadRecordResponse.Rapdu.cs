@@ -406,7 +406,7 @@ public partial class WaitingForMagStripeReadRecordResponse
         Track2DiscretionaryData track2DiscretionaryData = _Database.Get<Track2Data>(Track2Data.Tag).GetTrack2DiscretionaryData();
         _Database.Update(track2DiscretionaryData);
 
-        if (!_Database.TryGet<Track1Data>(Track1Data.Tag, out Track1Data? track1Data))
+        if (!_Database.TryGet(Track1Data.Tag, out Track1Data? track1Data))
             return;
 
         _Database.Update(track1Data!.GetTrack1DiscretionaryData());

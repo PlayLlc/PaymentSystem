@@ -35,8 +35,6 @@ internal class StaticDataAuthenticator
     #region Instance Members
 
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="TerminalDataException"></exception>
     public void Authenticate(
         ITlvReaderAndWriter tlvDatabase, ICertificateDatabase certificateDatabase, StaticDataToBeAuthenticated staticDataToBeAuthenticated)
     {
@@ -72,23 +70,31 @@ internal class StaticDataAuthenticator
 
     #region Validation
 
-    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
     private static void SetStaticDataAuthenticationFailedResponse(ITlvReaderAndWriter database)
     {
-        TerminalVerificationResults terminalVerificationResults =
-            database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
-        ErrorIndication errorIndication = database.Get<ErrorIndication>(ErrorIndication.Tag);
+        try
+        {
+            TerminalVerificationResults terminalVerificationResults =
+                database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
+            ErrorIndication errorIndication = database.Get<ErrorIndication>(ErrorIndication.Tag);
 
-        TerminalVerificationResults.Builder tvrBuilder = TerminalVerificationResults.GetBuilder();
-        tvrBuilder.Reset(terminalVerificationResults);
-        tvrBuilder.Set(TerminalVerificationResultCodes.StaticDataAuthenticationFailed);
-        ErrorIndication.Builder errorIndicationBuilder = ErrorIndication.GetBuilder();
-        errorIndicationBuilder.Reset(errorIndication);
-        errorIndicationBuilder.Set(Level2Error.TerminalDataError);
-        errorIndicationBuilder.Set(StatusWords.NotAvailable);
+            TerminalVerificationResults.Builder tvrBuilder = TerminalVerificationResults.GetBuilder();
+            tvrBuilder.Reset(terminalVerificationResults);
+            tvrBuilder.Set(TerminalVerificationResultCodes.StaticDataAuthenticationFailed);
+            ErrorIndication.Builder errorIndicationBuilder = ErrorIndication.GetBuilder();
+            errorIndicationBuilder.Reset(errorIndication);
+            errorIndicationBuilder.Set(Level2Error.TerminalDataError);
+            errorIndicationBuilder.Set(StatusWords.NotAvailable);
 
-        database.Update(tvrBuilder.Complete());
-        database.Update(errorIndicationBuilder.Complete());
+            database.Update(tvrBuilder.Complete());
+            database.Update(errorIndicationBuilder.Complete());
+        }
+        catch (TerminalDataException exception)
+        {
+            // TODO: Logging
+            throw new CryptographicAuthenticationMethodFailedException(exception);
+        }
     }
 
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
