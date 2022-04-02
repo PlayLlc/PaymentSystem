@@ -105,7 +105,6 @@ public class SelectApduCommand : ApduCommand
     ///     Selects the File Control Information for the current ICC
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="EncodingException"></exception>
     public static SelectApduCommand SelectFileControlInformation(DedicatedFileName fileName) =>
         new(new Class(SecureMessaging.NotAuthenticated, LogicalChannel.BasicChannel), Instruction.SelectFile, SelectionMode.File,
             FilePosition.FirstOrOnly, fileName.AsByteArray());

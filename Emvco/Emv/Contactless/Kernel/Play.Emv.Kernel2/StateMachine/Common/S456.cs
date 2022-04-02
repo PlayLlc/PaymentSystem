@@ -4,6 +4,7 @@ using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
@@ -67,9 +68,10 @@ public class S456 : CommonProcessing
 
     #region Instance Members
 
-    /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="IccProtocolException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
     {
         HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());

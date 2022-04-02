@@ -202,7 +202,7 @@ public class NumericCodec : PlayCodec
 
     #region Encode
 
-    public bool TryEncode(ReadOnlySpan<char> value, out byte[] result)
+    public bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
     {
         if (!IsValid(value))
         {
@@ -216,10 +216,11 @@ public class NumericCodec : PlayCodec
         return true;
     }
 
+    /// <exception cref="CodecParsingException"></exception>
     public byte[] Encode(string value)
     {
         if ((value.Length % 2) != 0)
-            throw new ArgumentOutOfRangeException(nameof(value));
+            throw new CodecParsingException(new ArgumentOutOfRangeException(nameof(value)));
 
         int length = value.Length / 2;
 
@@ -243,6 +244,8 @@ public class NumericCodec : PlayCodec
             return buffer.ToArray();
         }
     }
+
+    #region Deprecated
 
     /// <summary>
     ///     Encode
@@ -350,6 +353,114 @@ public class NumericCodec : PlayCodec
 
         return Encode(Unsafe.As<_T[], byte[]>(ref value), length);
     }
+
+    /// <summary>
+    ///     Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="CodecParsingException"></exception>
+    public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
+    {
+        // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+        {
+            Encode(Unsafe.As<_T, char>(ref value), buffer, ref offset);
+
+            return;
+        }
+
+        if (!type.IsNumericType())
+            throw new CodecParsingException(this, type);
+
+        nint byteSize = Unsafe.SizeOf<_T>();
+
+        if (byteSize == Specs.Integer.UInt8.ByteCount)
+            Encode(Unsafe.As<_T, byte>(ref value), buffer, ref offset);
+        else if (byteSize == Specs.Integer.UInt16.ByteCount)
+            Encode(Unsafe.As<_T, ushort>(ref value), buffer, ref offset);
+        else if (byteSize <= Specs.Integer.UInt32.ByteCount)
+            Encode(Unsafe.As<_T, uint>(ref value), buffer, ref offset);
+        else if (byteSize <= Specs.Integer.UInt64.ByteCount)
+            Encode(Unsafe.As<_T, ulong>(ref value), buffer, ref offset);
+        else
+            Encode(Unsafe.As<_T, BigInteger>(ref value), buffer, ref offset);
+    }
+
+    /// <summary>
+    ///     Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="CodecParsingException"></exception>
+    public override void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset)
+    {
+        // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+        {
+            Encode(Unsafe.As<_T, char>(ref value), length, buffer, ref offset);
+
+            return;
+        }
+
+        if (!type.IsNumericType())
+            throw new CodecParsingException(this, type);
+
+        if (length == Specs.Integer.UInt8.ByteCount)
+            Encode(Unsafe.As<_T, byte>(ref value));
+        else if (length == Specs.Integer.UInt16.ByteCount)
+            Encode(Unsafe.As<_T, ushort>(ref value));
+        else if (length == 3)
+            Encode(Unsafe.As<_T, uint>(ref value), length, buffer, ref offset);
+        else if (length == Specs.Integer.UInt32.ByteCount)
+            Encode(Unsafe.As<_T, uint>(ref value), buffer, ref offset);
+        else if (length < Specs.Integer.UInt64.ByteCount)
+            Encode(Unsafe.As<_T, ulong>(ref value), length, buffer, ref offset);
+        else if (length == Specs.Integer.UInt64.ByteCount)
+            Encode(Unsafe.As<_T, ulong>(ref value), buffer, ref offset);
+        else
+            Encode(Unsafe.As<_T, BigInteger>(ref value), length, buffer, ref offset);
+    }
+
+    /// <summary>
+    ///     Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="CodecParsingException"></exception>
+    public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
+    {
+        if (typeof(_T).IsChar())
+            Encode(Unsafe.As<_T[], char[]>(ref value));
+        else
+            throw new CodecParsingException(this, typeof(_T));
+    }
+
+    /// <summary>
+    ///     Encode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="length"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <exception cref="CodecParsingException"></exception>
+    public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
+    {
+        if (typeof(_T) == typeof(char))
+            Encode(Unsafe.As<_T[], char[]>(ref value), length);
+        else
+            throw new CodecParsingException(this, typeof(_T));
+    }
+
+    #endregion
 
     public byte[] Encode(ReadOnlySpan<char> value) => Encode(value, value.Length);
 
@@ -524,112 +635,6 @@ public class NumericCodec : PlayCodec
             bytes[j] = buffer[i];
 
         return buffer.Length;
-    }
-
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="buffer"></param>
-    /// <param name="offset"></param>
-    /// <exception cref="CodecParsingException"></exception>
-    public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
-    {
-        // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
-        Type type = typeof(_T);
-
-        if (type.IsChar())
-        {
-            Encode(Unsafe.As<_T, char>(ref value), buffer, ref offset);
-
-            return;
-        }
-
-        if (!type.IsNumericType())
-            throw new CodecParsingException(this, type);
-
-        nint byteSize = Unsafe.SizeOf<_T>();
-
-        if (byteSize == Specs.Integer.UInt8.ByteCount)
-            Encode(Unsafe.As<_T, byte>(ref value), buffer, ref offset);
-        else if (byteSize == Specs.Integer.UInt16.ByteCount)
-            Encode(Unsafe.As<_T, ushort>(ref value), buffer, ref offset);
-        else if (byteSize <= Specs.Integer.UInt32.ByteCount)
-            Encode(Unsafe.As<_T, uint>(ref value), buffer, ref offset);
-        else if (byteSize <= Specs.Integer.UInt64.ByteCount)
-            Encode(Unsafe.As<_T, ulong>(ref value), buffer, ref offset);
-        else
-            Encode(Unsafe.As<_T, BigInteger>(ref value), buffer, ref offset);
-    }
-
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="length"></param>
-    /// <param name="buffer"></param>
-    /// <param name="offset"></param>
-    /// <exception cref="CodecParsingException"></exception>
-    public override void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset)
-    {
-        // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
-        Type type = typeof(_T);
-
-        if (type.IsChar())
-        {
-            Encode(Unsafe.As<_T, char>(ref value), length, buffer, ref offset);
-
-            return;
-        }
-
-        if (!type.IsNumericType())
-            throw new CodecParsingException(this, type);
-
-        if (length == Specs.Integer.UInt8.ByteCount)
-            Encode(Unsafe.As<_T, byte>(ref value));
-        else if (length == Specs.Integer.UInt16.ByteCount)
-            Encode(Unsafe.As<_T, ushort>(ref value));
-        else if (length == 3)
-            Encode(Unsafe.As<_T, uint>(ref value), length, buffer, ref offset);
-        else if (length == Specs.Integer.UInt32.ByteCount)
-            Encode(Unsafe.As<_T, uint>(ref value), buffer, ref offset);
-        else if (length < Specs.Integer.UInt64.ByteCount)
-            Encode(Unsafe.As<_T, ulong>(ref value), length, buffer, ref offset);
-        else if (length == Specs.Integer.UInt64.ByteCount)
-            Encode(Unsafe.As<_T, ulong>(ref value), buffer, ref offset);
-        else
-            Encode(Unsafe.As<_T, BigInteger>(ref value), length, buffer, ref offset);
-    }
-
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="buffer"></param>
-    /// <param name="offset"></param>
-    /// <exception cref="CodecParsingException"></exception>
-    public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
-    {
-        if (typeof(_T).IsChar())
-            Encode(Unsafe.As<_T[], char[]>(ref value));
-        else
-            throw new CodecParsingException(this, typeof(_T));
-    }
-
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="length"></param>
-    /// <param name="buffer"></param>
-    /// <param name="offset"></param>
-    /// <exception cref="CodecParsingException"></exception>
-    public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
-    {
-        if (typeof(_T) == typeof(char))
-            Encode(Unsafe.As<_T[], char[]>(ref value), length);
-        else
-            throw new CodecParsingException(this, typeof(_T));
     }
 
     /// <summary>

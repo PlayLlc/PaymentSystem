@@ -126,8 +126,6 @@ namespace Play.Emv.Kernel2.StateMachine
                 _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
                 _Database.SetUiRequestOnRestartPresent(true);
 
-                _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
-
                 return true;
             }
             catch (TerminalDataException)

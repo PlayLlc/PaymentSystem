@@ -47,6 +47,8 @@ namespace Play.Emv.Kernel2.StateMachine
 
         #region Instance Members
 
+        /// <exception cref="TerminalDataException"></exception>
+        /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
         public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
         {
             HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());

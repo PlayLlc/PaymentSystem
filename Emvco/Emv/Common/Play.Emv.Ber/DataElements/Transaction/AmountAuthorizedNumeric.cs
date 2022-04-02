@@ -28,14 +28,6 @@ public record AmountAuthorizedNumeric : DataElement<ulong>, IEqualityComparer<Am
 
     #endregion
 
-    #region Instance Members
-
-    public Money AsMoney(NumericCurrencyCode numericCurrencyCode) => new(_Value, numericCurrencyCode);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -50,7 +42,7 @@ public record AmountAuthorizedNumeric : DataElement<ulong>, IEqualityComparer<Am
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        ushort result = PlayCodec.NumericCodec.DecodeToUInt16(value);
+        ulong result = PlayCodec.NumericCodec.DecodeToUInt64(value);
 
         return new AmountAuthorizedNumeric(result);
     }
@@ -85,6 +77,14 @@ public record AmountAuthorizedNumeric : DataElement<ulong>, IEqualityComparer<Am
     public static implicit operator ulong(AmountAuthorizedNumeric value) => value._Value;
     public static bool operator !=(AmountAuthorizedNumeric left, ulong right) => !(left == right);
     public static bool operator !=(ulong left, AmountAuthorizedNumeric right) => !(left == right);
+
+    #endregion
+
+    #region Instance Members
+
+    public Money AsMoney(NumericCurrencyCode numericCurrencyCode) => new(_Value, numericCurrencyCode);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 }
