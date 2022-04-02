@@ -1,201 +1,267 @@
-﻿using Microsoft.Toolkit.HighPerformance.Buffers;
+﻿using DeleteMe.Exceptions;
+
+using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs;
+using Play.Codecs.Exceptions;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Exceptions;
 using Play.Encryption.Certificates;
 using Play.Encryption.Hashing;
 using Play.Encryption.Signing;
 using Play.Globalization.Time;
+using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace DeleteMe.Certificates.Issuer;
-
-internal partial class CertificateFactory
+namespace DeleteMe.Certificates
 {
-    internal static class Issuer
+    internal partial class CertificateFactory
     {
-        #region Static Metadata
+        #region Instance Members
 
-        private static readonly CompressedNumericCodec _CompressedNumericCodec = new();
-        private static readonly NumericCodec _NumericCodec = new();
+        /// <remarks>
+        ///     Book 3 Section 5.3
+        /// </remarks>
+        /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
+        /// <exception cref="CodecParsingException"></exception>
+        /// <exception cref="TerminalDataException"></exception>
+        public DecodedIssuerPublicKeyCertificate RecoverIssuerCertificate(
+            ITlvReaderAndWriter tlvDatabase, ICertificateDatabase certificateDatabase)
+        {
+            try
+            {
+                IssuerPublicKeyCertificate issuerPublicKey = tlvDatabase.Get<IssuerPublicKeyCertificate>(IssuerPublicKeyCertificate.Tag);
+                IssuerPublicKeyExponent issuerExponent = tlvDatabase.Get<IssuerPublicKeyExponent>(IssuerPublicKeyExponent.Tag);
+                IssuerPublicKeyRemainder issuerRemainder = tlvDatabase.Get<IssuerPublicKeyRemainder>(IssuerPublicKeyRemainder.Tag);
+                CaPublicKeyCertificate caPublicKey = RecoverCertificateAuthorityCertificate(tlvDatabase, certificateDatabase);
+                DecodedSignature decodedSignature = _SignatureService.Decrypt(issuerPublicKey.GetEncipherment(), caPublicKey);
+
+                // Step 1
+                ValidateKeyLength(caPublicKey, issuerPublicKey);
+
+                // Step 2
+                RecoverSignedIssuerPublicKey(caPublicKey, issuerPublicKey);
+
+                // Step 4
+                ValidateCertificateFormat(decodedSignature);
+
+                // Step 5
+                byte[] concatenatedValues = GetConcatenatedValuesForHash(caPublicKey, decodedSignature, issuerRemainder, issuerExponent);
+
+                // Step 6
+                HashAlgorithmIndicator hashAlgorithmIndicator =
+                    DecodedIssuerPublicKeyCertificate.GetHashAlgorithmIndicator(decodedSignature.GetMessage1());
+
+                // Step 7
+                ValidateHashedResult(hashAlgorithmIndicator, concatenatedValues, decodedSignature);
+
+                // Step 8
+                ValidateIssuerIdentifier(tlvDatabase, decodedSignature);
+
+                // Step 9
+                ValidateExpiryDate(decodedSignature.GetMessage1());
+
+                // Step 10
+                ValidateIssuerCertificate();
+
+                // Step 11
+                ValidateIssuerPublicKeyAlgorithmIndicator(decodedSignature.GetMessage1());
+
+                return DecodedIssuerPublicKeyCertificate.Create(caPublicKey, issuerRemainder, issuerExponent, decodedSignature);
+            }
+            catch (TerminalDataException exception)
+            {
+                // TODO: Logging
+                throw new CryptographicAuthenticationMethodFailedException(exception);
+            }
+            catch (CryptographicAuthenticationMethodFailedException)
+            {
+                // TODO: Logging
+                throw;
+            }
+            catch (CodecParsingException exception)
+            {
+                // TODO: Logging
+                throw new CryptographicAuthenticationMethodFailedException(exception);
+            }
+
+            catch (Exception exception)
+            {
+                // TODO: Logging
+                throw new CryptographicAuthenticationMethodFailedException(exception);
+            }
+        }
+
+        #region 6.3 Step 1
+
+        /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
+        private static void ValidateKeyLength(CaPublicKeyCertificate caPublicKeyCertificate, IssuerPublicKeyCertificate issuerPublicKey)
+        {
+            if (caPublicKeyCertificate.GetPublicKeyModulus().GetByteCount() != issuerPublicKey.GetEncipherment().Length)
+            {
+                throw new
+                    CryptographicAuthenticationMethodFailedException($"Authentication failed because the {nameof(ValidateKeyLength)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");
+            }
+        }
 
         #endregion
 
-        #region Instance Members
+        #region 6.3 Step 2
 
-        /// <exception cref="InvalidOperationException"></exception>
-        private static DecodedIssuerPublicKeyCertificate Create(
-            CaPublicKeyCertificate caPublicKeyCertificate, PublicKeyRemainder publicKeyRemainder, PublicKeyExponent publicKeyExponent,
-            Message1 message1)
+        private DecodedSignature RecoverSignedIssuerPublicKey(
+            CaPublicKeyCertificate caPublicKey, IssuerPublicKeyCertificate issuerPublicKey) =>
+            _SignatureService.Decrypt(issuerPublicKey.GetEncipherment(), caPublicKey);
+
+        #endregion
+
+        #region 6.3 Step 4
+
+        /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
+        private void ValidateCertificateFormat(DecodedSignature decodedSignature)
         {
-            IssuerIdentificationNumber issuerIdentificationNumber = GetIssuerIdentificationNumber(message1);
-            CertificateSerialNumber serialNumber = GetCertificateSerialNumber(message1);
-            HashAlgorithmIndicator hashAlgorithm = GetHashAlgorithmIndicator(message1);
-            PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator = GetPublicKeyAlgorithmIndicator(message1);
-            DateRange validityPeriod = new(ShortDate.Min, GetCertificateExpirationDate(message1));
-
-            PublicKeyModulus publicKeyModulus = GetPublicKeyModulus(caPublicKeyCertificate, message1, publicKeyRemainder);
-            PublicKeyInfo publicKeyInfo = new(publicKeyModulus, publicKeyExponent);
-
-            return new DecodedIssuerPublicKeyCertificate(issuerIdentificationNumber, serialNumber, hashAlgorithm,
-                                                         publicKeyAlgorithmIndicator, validityPeriod, publicKeyInfo);
+            if (decodedSignature.GetMessage1()[0] != CertificateSources.Issuer)
+            {
+                throw new
+                    CryptographicAuthenticationMethodFailedException($"Authentication failed because the {nameof(ValidateCertificateFormat)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");
+            }
         }
 
-        private static ShortDate GetCertificateExpirationDate(Message1 message1) =>
-            new(_NumericCodec.DecodeToUInt16(message1[new Range(5, 7)]));
+        #endregion
 
-        private static CertificateSerialNumber GetCertificateSerialNumber(Message1 message1) => new(message1[new Range(7, 10)]);
+        #region 6.3 Step 5
 
-        // TODO: The remainder and exponent will be coming from the TLV Database. No need to pass those with the
-        // TODO: command. You can pass the ITlvDatabase and query when it's relevant
-
-        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
         private static byte[] GetConcatenatedValuesForHash(
-            CaPublicKeyCertificate caPublicKeyCertificate, Message1 message1, PublicKeyRemainder publicKeyRemainder,
+            CaPublicKeyCertificate caPublicKeyCertificate, DecodedSignature decodedSignature, IssuerPublicKeyRemainder publicKeyRemainder,
             PublicKeyExponent publicKeyExponent)
         {
-            byte issuerPublicKeyLength = GetIssuerPublicKeyLength(message1);
-            byte issuerExponentLength = GetIssuerPublicKeyExponentLength(message1);
+            byte issuerPublicKeyLength = DecodedIssuerPublicKeyCertificate.GetIssuerPublicKeyLength(decodedSignature.GetMessage1());
+            byte issuerExponentLength = DecodedIssuerPublicKeyCertificate.GetIssuerPublicKeyExponentLength(decodedSignature.GetMessage1());
 
             using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(14 + issuerPublicKeyLength + issuerExponentLength);
             Span<byte> buffer = spanOwner.Span;
 
-            message1[2..(2 + 14)].ToArray().AsSpan().CopyTo(buffer);
-            GetPublicKeyModulus(caPublicKeyCertificate, message1, publicKeyRemainder).AsByteArray().AsSpan().CopyTo(buffer[17..]);
+            decodedSignature.GetMessage1()[2..(2 + 14)].ToArray().AsSpan().CopyTo(buffer);
+            DecodedIssuerPublicKeyCertificate.GetPublicKeyModulus(caPublicKeyCertificate, decodedSignature, publicKeyRemainder)
+                .AsByteArray().AsSpan().CopyTo(buffer[17..]);
             publicKeyExponent.Encode().AsSpan().CopyTo(buffer[^publicKeyExponent.GetByteCount()..]);
 
             return buffer.ToArray();
         }
 
-        private static HashAlgorithmIndicator GetHashAlgorithmIndicator(Message1 message1) => HashAlgorithmIndicator.Get(message1[11]);
+        #endregion
 
-        private static IssuerIdentificationNumber GetIssuerIdentificationNumber(Message1 message1) =>
-            new(_CompressedNumericCodec.DecodeToUInt16(message1[new Range(1, 5)]));
+        #region 6.3 Step 7
 
-        private static byte GetIssuerPublicKeyExponentLength(Message1 message1) => message1[14];
-        private static byte GetIssuerPublicKeyLength(Message1 message1) => message1[13];
-
-        private static Range GetLeftmostIssuerPublicKeyRange(CaPublicKeyCertificate caPublicKeyCertificate) =>
-            new(15, caPublicKeyCertificate.GetPublicKeyModulus().GetByteCount() - 36);
-
-        private static PublicKeyAlgorithmIndicator GetPublicKeyAlgorithmIndicator(Message1 message1) =>
-            PublicKeyAlgorithmIndicator.Get(message1[12]);
-
-        /// <exception cref="InvalidOperationException"></exception>
-        private static PublicKeyModulus GetPublicKeyModulus(
-            CaPublicKeyCertificate caPublicKeyCertificate, Message1 message1, PublicKeyRemainder publicKeyRemainder)
+        /// <summary>
+        ///     This method includes validation from previous states regarding the validity of the deciphered signature from the
+        ///     <see cref="IccPublicKeyCertificate" />
+        /// </summary>
+        /// <remarks>EMV Book 2 Section 6.3 Step 2, 3, 5 - 7 </remarks>
+        /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
+        private void ValidateHashedResult(
+            HashAlgorithmIndicator hashAlgorithmIndicator, ReadOnlySpan<byte> concatenatedValues, DecodedSignature decodedSignature)
         {
-            if (IsIssuerPublicKeySplit(caPublicKeyCertificate, message1))
+            if (!_SignatureService.IsSignatureValid(hashAlgorithmIndicator, concatenatedValues, decodedSignature))
             {
-                if (publicKeyRemainder.IsEmpty())
-                    throw new InvalidOperationException($"A {nameof(PublicKeyRemainder)} was expected but could not be retrieved");
-
-                Span<byte> modulusBuffer = stackalloc byte[GetIssuerPublicKeyLength(message1)];
-                message1[GetLeftmostIssuerPublicKeyRange(caPublicKeyCertificate)].CopyTo(modulusBuffer);
-                publicKeyRemainder.AsSpan().CopyTo(modulusBuffer[^publicKeyRemainder.GetByteCount()..]);
-
-                return new PublicKeyModulus(modulusBuffer.ToArray());
+                throw new
+                    CryptographicAuthenticationMethodFailedException($"Authentication failed because the {nameof(ValidateHashedResult)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");
             }
-
-            return new PublicKeyModulus(message1[GetLeftmostIssuerPublicKeyRange(caPublicKeyCertificate)]);
         }
 
-        private static bool IsCertificateFormatValid(Message1 message1) => message1[0] == CertificateSources.Issuer;
+        #endregion
 
-        private static bool IsExpiryDateValid(Message1 message1)
-        {
-            DateTime today = DateTime.UtcNow;
-            DateTime expiryDate = GetCertificateExpirationDate(message1).AsDateTimeUtc();
+        #region 6.3 Step 8
 
-            return new DateTime(today.Year, today.Month, today.Day)
-                <= new DateTime(expiryDate.Year, expiryDate.Month, DateTime.DaysInMonth(expiryDate.Year, expiryDate.Month));
-        }
-
-        private static bool IsIssuerPublicKeyAlgorithmIndicatorValid(Message1 message1) =>
-            PublicKeyAlgorithmIndicator.Exists((byte) GetPublicKeyAlgorithmIndicator(message1));
-
-        private static bool IsIssuerPublicKeySplit(CaPublicKeyCertificate caPublicKeyCertificate, Message1 message1) =>
-            GetIssuerPublicKeyLength(message1) > caPublicKeyCertificate.GetPublicKeyModulus().GetByteCount();
-
-        /// <exception cref="InvalidOperationException"></exception>
-        private static bool IsValid(
-            SignatureService signatureService, CaPublicKeyCertificate caPublicKeyCertificate, DecodedSignature decodedSignature,
-            PublicKeyExponent publicKeyExponent, PublicKeyRemainder publicKeyRemainder, int enciphermentLength)
-        {
-            Message1 message1 = decodedSignature.GetMessage1();
-
-            // Step 1
-            if (caPublicKeyCertificate.GetPublicKeyModulus().GetByteCount() != enciphermentLength)
-                return false;
-
-            // Step 11 (placed before other steps because we're using this indicator to validate the signature)
-            if (!IsIssuerPublicKeyAlgorithmIndicatorValid(message1))
-                return false;
-
-            // Step 2, 3, 5, 6, 7
-            if (!signatureService.IsSignatureValid(GetHashAlgorithmIndicator(decodedSignature.GetMessage1()),
-                                                   GetConcatenatedValuesForHash(caPublicKeyCertificate, decodedSignature.GetMessage1(),
-                                                                                publicKeyRemainder, publicKeyExponent), decodedSignature))
-                return false;
-
-            // Step 4
-            if (IsCertificateFormatValid(message1))
-                return false;
-
-            // Step 8
-            // verify IssuerIdentificationNumber == IIN
-
-            // Step 9
-            if (!IsExpiryDateValid(message1))
-                return false;
-
-            //// Step 10
-            //if(_CertificateAuthorityDatabase.IsRevoked(_TlvDatabase.Get(CertificateAuthorityPublicKeyIndex.Tag), GetCertificateSerialNumber)
-
-            return true;
-        }
-
-        /// <remarks>
-        ///     Book 3 Section 5.3
-        /// </remarks>
-        /// <exception cref="InvalidOperationException"></exception>
-        public static bool TryCreate(
-            SignatureService signatureService, CaPublicKeyCertificate publicKeyCertificate,
-            IssuerPublicKeyCertificate encipheredCertificate, IssuerPublicKeyExponent encipheredPublicKeyExponent,
-            IssuerPublicKeyRemainder enciphermentPublicKeyRemainder, out DecodedIssuerPublicKeyCertificate? result)
+        /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
+        private void ValidateIssuerIdentifier(ITlvReaderAndWriter database, DecodedSignature decodedSignature)
         {
             try
             {
-                ReadOnlySpan<byte> encipherment = encipheredCertificate.GetEncipherment();
-                DecodedSignature decodedSignature = signatureService.Decrypt(encipherment, publicKeyCertificate);
+                IssuerIdentificationNumber issuerIdentificationNumber =
+                    new(PlayCodec.CompressedNumericCodec.DecodeToUInt16(decodedSignature.GetMessage1()[new Range(1, 5)]));
 
-                if (!IsValid(signatureService, publicKeyCertificate, decodedSignature, encipheredPublicKeyExponent.AsPublicKeyExponent(),
-                             enciphermentPublicKeyRemainder.AsPublicKeyRemainder(), encipherment.Length))
+                ApplicationPan pan = database.Get<ApplicationPan>(ApplicationPan.Tag);
+
+                if (!pan.IsIssuerIdentifierMatching(issuerIdentificationNumber))
                 {
-                    result = null;
-
-                    return false;
+                    throw new
+                        CryptographicAuthenticationMethodFailedException($"Authentication failed because the {nameof(ValidateIssuerIdentifier)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");
                 }
 
-                result = Create(publicKeyCertificate, enciphermentPublicKeyRemainder.AsPublicKeyRemainder(),
-                                encipheredPublicKeyExponent.AsPublicKeyExponent(), decodedSignature.GetMessage1());
-
-                return true;
+                database.Update(issuerIdentificationNumber);
             }
-            catch (InvalidOperationException invalidOperationException)
+            catch (TerminalDataException exception)
             {
-                // LOG
-                result = null;
-
-                return false;
+                // TODO: Logging
+                throw new CryptographicAuthenticationMethodFailedException(exception);
             }
-            catch (Exception e)
+            catch (CryptographicAuthenticationMethodFailedException)
             {
-                // LOG
-                result = null;
-
-                return false;
+                // TODO: Logging
+                throw;
+            }
+            catch (Exception exception)
+            {
+                // TODO: Logging
+                throw new CryptographicAuthenticationMethodFailedException(exception);
             }
         }
+
+        #endregion
+
+        #region 6.3 Step 9
+
+        /// <exception cref="CodecParsingException"></exception>
+        private static void ValidateExpiryDate(Message1 message1)
+        {
+            ShortDate expiryDate = DecodedIssuerPublicKeyCertificate.GetCertificateExpirationDate(message1);
+
+            ShortDate today = ShortDate.Today();
+
+            if (expiryDate < today)
+            {
+                throw new
+                    CryptographicAuthenticationMethodFailedException($"Authentication failed because the {nameof(ValidateExpiryDate)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");
+            }
+        }
+
+        #endregion
+
+        #region 6.3 Step 10
+
+        private static void ValidateIssuerCertificate()
+        {
+            // HACK: This step is optional. It gives us the opportunity to check if the issuer certificate has been revoked. Let's implement the logic for this 
+        }
+
+        #endregion
+
+        #region 6.3 Step 11
+
+        /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
+        private static void ValidateIssuerPublicKeyAlgorithmIndicator(Message1 message1)
+        {
+            if (!PublicKeyAlgorithmIndicator.Exists((byte) DecodedIssuerPublicKeyCertificate.GetPublicKeyAlgorithmIndicator(message1)))
+            {
+                throw new
+                    CryptographicAuthenticationMethodFailedException($"Authentication failed because the {nameof(ValidateIssuerPublicKeyAlgorithmIndicator)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");
+            }
+        }
+
+        #endregion
+
+        #region 6.3 Step 3
+
+        // Step 3 is handled by Step 7. The deciphered signature validation is encapsulated in  the SignatureService.IsSignatureValid()
+
+        #endregion
+
+        #region 6.3 Step 6
+
+        // This step is encapsulated in the DecodedIssuerPublicKeyCertificate.GetHashAlgorithmIndicator(decodedSignature.GetMessage1());
+
+        #endregion
 
         #endregion
     }

@@ -1,15 +1,16 @@
 ﻿using DeleteMe.Exceptions;
 
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Encryption.Certificates;
 using Play.Encryption.Hashing;
 using Play.Encryption.Signing;
 using Play.Globalization.Time;
 
-namespace DeleteMe.Certificates.Issuer;
+namespace DeleteMe.Certificates;
 
-public class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
+internal class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
 {
     #region Static Metadata
 
@@ -50,17 +51,18 @@ public class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
     internal static HashAlgorithmIndicator GetHashAlgorithmIndicator(Message1 message1) => HashAlgorithmIndicator.Get(message1[11]);
     private static CertificateSerialNumber GetCertificateSerialNumber(Message1 message1) => new(message1[new Range(7, 10)]);
 
-    private static PublicKeyAlgorithmIndicator GetPublicKeyAlgorithmIndicator(Message1 message1) =>
+    internal static PublicKeyAlgorithmIndicator GetPublicKeyAlgorithmIndicator(Message1 message1) =>
         PublicKeyAlgorithmIndicator.Get(message1[12]);
 
-    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     internal static ShortDate GetCertificateExpirationDate(Message1 message1) =>
         new(PlayCodec.NumericCodec.DecodeToUInt16(message1[new Range(5, 7)]));
 
     private static bool IsIssuerPublicKeySplit(CaPublicKeyCertificate caPublicKeyCertificate, Message1 message1) =>
         GetIssuerPublicKeyLength(message1) > caPublicKeyCertificate.GetPublicKeyModulus().GetByteCount();
 
-    public static byte GetIssuerPublicKeyLength(Message1 message1) => message1[13];
+    internal static byte GetIssuerPublicKeyLength(Message1 message1) => message1[13];
+    internal static byte GetIssuerPublicKeyExponentLength(Message1 message1) => message1[14];
 
     private static Range GetLeftmostIssuerPublicKeyRange(CaPublicKeyCertificate caPublicKeyCertificate) =>
         new(15, caPublicKeyCertificate.GetPublicKeyModulus().GetByteCount() - 36);

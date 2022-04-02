@@ -10,12 +10,12 @@ namespace Play.Globalization.Time;
 /// <remarks>
 ///     All internal DateTime values are UTC
 /// </remarks>
-public readonly struct ShortDateValue
+public readonly struct ShortDate
 {
     #region Static Metadata
 
     private static readonly int _MillenniumAndCentury = (byte) (DateTime.Now.Year / 100);
-    public static readonly ShortDateValue MinValue = new(1901);
+    public static readonly ShortDate Min = new(1901);
     private const byte _YyMmDdLength = 6;
     private const byte _YyMmLength = 4;
 
@@ -33,7 +33,7 @@ public readonly struct ShortDateValue
     ///     Constructor for a YYMM Short Date Value
     /// </summary>
     /// <param name="value"></param>
-    public ShortDateValue(ushort value)
+    public ShortDate(ushort value)
     {
         if (value.GetNumberOfDigits() != _YyMmLength)
         {
@@ -45,7 +45,7 @@ public readonly struct ShortDateValue
         ;
     }
 
-    public ShortDateValue(uint value)
+    public ShortDate(uint value)
     {
         byte numberOfDigits = value.GetNumberOfDigits();
 
@@ -58,44 +58,52 @@ public readonly struct ShortDateValue
         _Value = new DateTime(GetYear(value), GetMonth(value), GetDay(value), 0, 0, 0, 0, DateTimeKind.Utc);
     }
 
+    public ShortDate(DateTime dateTime)
+    {
+        _Value = dateTime;
+        new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0, 0, DateTimeKind.Utc);
+    }
+
     #endregion
+
+    public static ShortDate Today() => new(DateTime.Today);
 
     #region Equality
 
-    public bool Equals(ShortDateValue other) => _Value == other._Value;
+    public bool Equals(ShortDate other) => _Value == other._Value;
     public bool Equals(DateTime other) => _Value == other;
-    public bool Equals(ShortDateValue x, ShortDateValue y) => x.Equals(y);
-    public override bool Equals(object? obj) => obj is ShortDateValue shortDateValueYyMm && Equals(shortDateValueYyMm);
-    public int GetHashCode(ShortDateValue obj) => obj.GetHashCode();
+    public bool Equals(ShortDate x, ShortDate y) => x.Equals(y);
+    public override bool Equals(object? obj) => obj is ShortDate shortDateValueYyMm && Equals(shortDateValueYyMm);
+    public int GetHashCode(ShortDate obj) => obj.GetHashCode();
     public override int GetHashCode() => unchecked(27329 * _Value.GetHashCode());
 
     #endregion
 
     #region Operator Overrides
 
-    public static bool operator >(ShortDateValue x, DateTimeUtc y) => x._Value > y;
-    public static bool operator <(ShortDateValue x, DateTimeUtc y) => x._Value < y;
-    public static bool operator >(DateTimeUtc x, ShortDateValue y) => x > y._Value;
-    public static bool operator <(DateTimeUtc x, ShortDateValue y) => x < y._Value;
-    public static bool operator ==(ShortDateValue x, ShortDateValue y) => x.Equals(y);
-    public static bool operator ==(ShortDateValue x, DateTime y) => x.Equals(y);
-    public static bool operator ==(DateTime x, ShortDateValue y) => y.Equals(x);
-    public static bool operator >(ShortDateValue x, ShortDateValue y) => x._Value > y._Value;
-    public static bool operator >(ShortDateValue x, DateTime y) => x._Value > y;
-    public static bool operator >(DateTime x, ShortDateValue y) => x > y._Value;
-    public static bool operator >=(ShortDateValue x, ShortDateValue y) => x._Value >= y._Value;
-    public static bool operator >=(ShortDateValue x, DateTime y) => x._Value >= y;
-    public static bool operator >=(DateTime x, ShortDateValue y) => x >= y._Value;
-    public static bool operator !=(ShortDateValue x, ShortDateValue y) => !x.Equals(y);
-    public static bool operator !=(ShortDateValue x, DateTime y) => !x.Equals(y);
-    public static bool operator !=(DateTime x, ShortDateValue y) => !y.Equals(x);
-    public static bool operator <(ShortDateValue x, ShortDateValue y) => x._Value < y._Value;
-    public static bool operator <(ShortDateValue x, DateTime y) => x._Value < y;
-    public static bool operator <(DateTime x, ShortDateValue y) => x < y._Value;
-    public static bool operator <=(ShortDateValue x, ShortDateValue y) => x._Value <= y._Value;
-    public static bool operator <=(ShortDateValue x, DateTime y) => x._Value <= y;
-    public static bool operator <=(DateTime x, ShortDateValue y) => x <= y._Value;
-    public static implicit operator DateTime(ShortDateValue value) => value._Value;
+    public static bool operator >(ShortDate x, DateTimeUtc y) => x._Value > y;
+    public static bool operator <(ShortDate x, DateTimeUtc y) => x._Value < y;
+    public static bool operator >(DateTimeUtc x, ShortDate y) => x > y._Value;
+    public static bool operator <(DateTimeUtc x, ShortDate y) => x < y._Value;
+    public static bool operator ==(ShortDate x, ShortDate y) => x.Equals(y);
+    public static bool operator ==(ShortDate x, DateTime y) => x.Equals(y);
+    public static bool operator ==(DateTime x, ShortDate y) => y.Equals(x);
+    public static bool operator >(ShortDate x, ShortDate y) => x._Value > y._Value;
+    public static bool operator >(ShortDate x, DateTime y) => x._Value > y;
+    public static bool operator >(DateTime x, ShortDate y) => x > y._Value;
+    public static bool operator >=(ShortDate x, ShortDate y) => x._Value >= y._Value;
+    public static bool operator >=(ShortDate x, DateTime y) => x._Value >= y;
+    public static bool operator >=(DateTime x, ShortDate y) => x >= y._Value;
+    public static bool operator !=(ShortDate x, ShortDate y) => !x.Equals(y);
+    public static bool operator !=(ShortDate x, DateTime y) => !x.Equals(y);
+    public static bool operator !=(DateTime x, ShortDate y) => !y.Equals(x);
+    public static bool operator <(ShortDate x, ShortDate y) => x._Value < y._Value;
+    public static bool operator <(ShortDate x, DateTime y) => x._Value < y;
+    public static bool operator <(DateTime x, ShortDate y) => x < y._Value;
+    public static bool operator <=(ShortDate x, ShortDate y) => x._Value <= y._Value;
+    public static bool operator <=(ShortDate x, DateTime y) => x._Value <= y;
+    public static bool operator <=(DateTime x, ShortDate y) => x <= y._Value;
+    public static implicit operator DateTime(ShortDate value) => value._Value;
 
     #endregion
 

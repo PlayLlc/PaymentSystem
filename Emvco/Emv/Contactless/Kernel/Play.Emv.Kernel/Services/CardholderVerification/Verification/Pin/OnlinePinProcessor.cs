@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Emv.Ber;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Kernel.Databases;
 
 namespace Play.Emv.Kernel.Services.Verification;
@@ -22,7 +23,7 @@ internal class OnlinePinProcessor : IVerifyCardholderPinOnline
     /// </summary>
     /// <param name="database"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public CvmCode Process(KernelDatabase database)
     {
         try

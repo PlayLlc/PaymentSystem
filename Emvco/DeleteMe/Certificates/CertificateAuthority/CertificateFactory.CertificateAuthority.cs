@@ -1,21 +1,24 @@
 ﻿using DeleteMe.Exceptions;
 
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace DeleteMe.Certificates
 {
-    public partial class CertificateFactory
+    internal partial class CertificateFactory
     {
-        internal static class CertificateAuthority
+        /// <remarks>EMV Book 2 Section 5.2</remarks>
+        /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
+        public static CaPublicKeyCertificate RecoverCertificateAuthorityCertificate(
+            ITlvReaderAndWriter tlvDatabase, ICertificateDatabase certificateDatabase)
         {
-            /// <remarks>EMV Book 2 Section 5.2</remarks>
-            /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
-            public static CaPublicKeyCertificate GetCaPublicKey(ICertificateDatabase certificateDatabase, IReadTlvDatabase database)
+            try
             {
-                CaPublicKeyIndex index = database.Get<CaPublicKeyIndex>(CaPublicKeyIndex.Tag);
-                RegisteredApplicationProviderIndicator rid = database.Get<ApplicationDedicatedFileName>(ApplicationDedicatedFileName.Tag)
+                CaPublicKeyIndex index = tlvDatabase.Get<CaPublicKeyIndex>(CaPublicKeyIndex.Tag);
+                RegisteredApplicationProviderIndicator rid = tlvDatabase.Get<ApplicationDedicatedFileName>(ApplicationDedicatedFileName.Tag)
                     .GetRegisteredApplicationProviderIndicator();
 
                 if (!certificateDatabase.TryGet(rid, index, out CaPublicKeyCertificate? caPublicKey))
@@ -25,7 +28,22 @@ namespace DeleteMe.Certificates
                         CryptographicAuthenticationMethodFailedException($"The {nameof(CaPublicKeyCertificate)} with the {nameof(CaPublicKeyIndex)} value: [{index}] was unavailable for the {nameof(RegisteredApplicationProviderIndicator)}: [{rid}]. Authentication has failed");
                 }
 
-                return caPublicKey;
+                return caPublicKey!;
+            }
+            catch (TerminalDataException exception)
+            {
+                // TODO: Logging
+                throw new CryptographicAuthenticationMethodFailedException(exception);
+            }
+            catch (CryptographicAuthenticationMethodFailedException)
+            {
+                // TODO: Logging
+                throw;
+            }
+            catch (Exception exception)
+            {
+                // TODO: Logging
+                throw new CryptographicAuthenticationMethodFailedException(exception);
             }
         }
     }

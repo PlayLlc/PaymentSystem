@@ -4,7 +4,7 @@ using Play.Core;
 
 namespace DeleteMe.Certificates;
 
-public sealed record CertificateSources : EnumObject<byte>, IEqualityComparer<CertificateSources>
+internal sealed record CertificateSources : EnumObject<byte>, IEqualityComparer<CertificateSources>
 {
     #region Static Metadata
 

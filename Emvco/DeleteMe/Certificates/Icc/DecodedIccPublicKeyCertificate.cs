@@ -1,4 +1,4 @@
-﻿using DeleteMe.Certificates.Issuer;
+﻿using DeleteMe.Authentications;
 using DeleteMe.Exceptions;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
@@ -11,9 +11,9 @@ using Play.Encryption.Hashing;
 using Play.Encryption.Signing;
 using Play.Globalization.Time;
 
-namespace DeleteMe.Certificates.Icc;
+namespace DeleteMe.Certificates;
 
-public class DecodedIccPublicKeyCertificate : PublicKeyCertificate
+internal class DecodedIccPublicKeyCertificate : PublicKeyCertificate
 {
     #region Static Metadata
 
