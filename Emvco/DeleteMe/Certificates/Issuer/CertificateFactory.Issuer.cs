@@ -1,16 +1,13 @@
-﻿using System;
-
-using Microsoft.Toolkit.HighPerformance.Buffers;
+﻿using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Security.Certificates.Issuer;
 using Play.Encryption.Certificates;
 using Play.Encryption.Hashing;
 using Play.Encryption.Signing;
 using Play.Globalization.Time;
 
-namespace Play.Emv.Security.Certificates;
+namespace DeleteMe.Certificates.Issuer;
 
 internal partial class CertificateFactory
 {
@@ -20,21 +17,11 @@ internal partial class CertificateFactory
 
         private static readonly CompressedNumericCodec _CompressedNumericCodec = new();
         private static readonly NumericCodec _NumericCodec = new();
-        private const byte _RecoveredDataHeader = 0x6A;
-        private const byte _RecoveredDataTrailer = 0xBC;
 
         #endregion
 
         #region Instance Members
 
-        /// <summary>
-        ///     Create
-        /// </summary>
-        /// <param name="caPublicKeyCertificate"></param>
-        /// <param name="publicKeyRemainder"></param>
-        /// <param name="publicKeyExponent"></param>
-        /// <param name="message1"></param>
-        /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
         private static DecodedIssuerPublicKeyCertificate Create(
             CaPublicKeyCertificate caPublicKeyCertificate, PublicKeyRemainder publicKeyRemainder, PublicKeyExponent publicKeyExponent,
@@ -129,16 +116,6 @@ internal partial class CertificateFactory
         private static bool IsIssuerPublicKeySplit(CaPublicKeyCertificate caPublicKeyCertificate, Message1 message1) =>
             GetIssuerPublicKeyLength(message1) > caPublicKeyCertificate.GetPublicKeyModulus().GetByteCount();
 
-        /// <summary>
-        ///     IsValid
-        /// </summary>
-        /// <param name="signatureService"></param>
-        /// <param name="caPublicKeyCertificate"></param>
-        /// <param name="decodedSignature"></param>
-        /// <param name="publicKeyExponent"></param>
-        /// <param name="publicKeyRemainder"></param>
-        /// <param name="enciphermentLength"></param>
-        /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
         private static bool IsValid(
             SignatureService signatureService, CaPublicKeyCertificate caPublicKeyCertificate, DecodedSignature decodedSignature,

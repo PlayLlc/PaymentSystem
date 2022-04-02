@@ -31,55 +31,6 @@ public record ApplicationPan : DataElement<BigInteger>
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    /// <summary>
-    ///     Concatenate from left to right the Application PAN (without any 'F' padding) with the Application PAN Sequence
-    ///     Number (if the Application PAN Sequence Number is not present, then it is replaced by a '00' byte). The result, Y,
-    ///     must be padded to the left with a hexadecimal zero if necessary to ensure whole bytes. It must also be padded to
-    ///     the left with hexadecimal zeroes if necessary to ensure a minimum length of 8 bytes.
-    /// </summary>
-    /// <remarks>Emv Book C-2 Section S456.19</remarks>
-    /// <exception cref="OverflowException"></exception>
-    public DataStorageId AsDataStorageId(ApplicationPanSequenceNumber? sequenceNumber)
-    {
-        const byte minDataStorageIdLength = 8;
-
-        Span<byte> valueBuffer = _Value.ToByteArray().RemoveLeftPadding(new Nibble(0xF));
-
-        int resultByteCount = valueBuffer.Length + (sequenceNumber == null ? 0 : 1);
-
-        if (resultByteCount < minDataStorageIdLength)
-            return CreateDataStorageIdMinimumLengthDataStorageId(valueBuffer, sequenceNumber);
-
-        Span<byte> resultBuffer = stackalloc byte[resultByteCount];
-
-        if (sequenceNumber != null)
-            resultBuffer[^1] = (byte) sequenceNumber!;
-
-        valueBuffer.CopyTo(resultBuffer);
-
-        return new DataStorageId(new BigInteger(valueBuffer));
-    }
-
-    private DataStorageId CreateDataStorageIdMinimumLengthDataStorageId(
-        ReadOnlySpan<byte> value, ApplicationPanSequenceNumber? sequenceNumber)
-    {
-        Span<byte> resultBuffer = stackalloc byte[8];
-
-        if (sequenceNumber != null)
-            resultBuffer[^1] = (byte) sequenceNumber!;
-
-        value.CopyTo(resultBuffer);
-
-        return new DataStorageId(new BigInteger(resultBuffer));
-    }
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="CodecParsingException"></exception>
@@ -115,6 +66,69 @@ public record ApplicationPan : DataElement<BigInteger>
     }
 
     public int GetHashCode(ApplicationPan obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+
+    /// <summary>
+    ///     Concatenate from left to right the Application PAN (without any 'F' padding) with the Application PAN Sequence
+    ///     Number (if the Application PAN Sequence Number is not present, then it is replaced by a '00' byte). The result, Y,
+    ///     must be padded to the left with a hexadecimal zero if necessary to ensure whole bytes. It must also be padded to
+    ///     the left with hexadecimal zeroes if necessary to ensure a minimum length of 8 bytes.
+    /// </summary>
+    /// <remarks>Emv Book C-2 Section S456.19</remarks>
+    /// <exception cref="OverflowException"></exception>
+    public DataStorageId AsDataStorageId(ApplicationPanSequenceNumber? sequenceNumber)
+    {
+        const byte minDataStorageIdLength = 8;
+
+        Span<byte> valueBuffer = _Value.ToByteArray().RemoveLeftPadding(new Nibble(0xF));
+
+        int resultByteCount = valueBuffer.Length + (sequenceNumber == null ? 0 : 1);
+
+        if (resultByteCount < minDataStorageIdLength)
+            return CreateDataStorageIdMinimumLengthDataStorageId(valueBuffer, sequenceNumber);
+
+        Span<byte> resultBuffer = stackalloc byte[resultByteCount];
+
+        if (sequenceNumber != null)
+            resultBuffer[^1] = (byte) sequenceNumber!;
+
+        valueBuffer.CopyTo(resultBuffer);
+
+        return new DataStorageId(new BigInteger(valueBuffer));
+    }
+
+    /// <summary>
+    ///     Checks whether the Issuer EncodingId provided in the argument matches the leftmost 3 - 8 PAN digits (allowing for
+    ///     the possible padding of the Issuer EncodingId with hexadecimal 'F's)
+    /// </summary>
+    /// <param name="issuerIdentifier"></param>
+    /// <returns></returns>
+    /// <exception cref="CodecParsingException"></exception>
+    public bool IsIssuerIdentifierMatching(IssuerIdentificationNumber issuerIdentifier)
+    {
+        uint thisPan = PlayCodec.NumericCodec.DecodeToUInt16(PlayCodec.NumericCodec.Encode(_Value));
+
+        return thisPan == (uint) issuerIdentifier;
+    }
+
+    private DataStorageId CreateDataStorageIdMinimumLengthDataStorageId(
+        ReadOnlySpan<byte> value, ApplicationPanSequenceNumber? sequenceNumber)
+    {
+        Span<byte> resultBuffer = stackalloc byte[8];
+
+        if (sequenceNumber != null)
+            resultBuffer[^1] = (byte) sequenceNumber!;
+
+        value.CopyTo(resultBuffer);
+
+        return new DataStorageId(new BigInteger(resultBuffer));
+    }
 
     #endregion
 }

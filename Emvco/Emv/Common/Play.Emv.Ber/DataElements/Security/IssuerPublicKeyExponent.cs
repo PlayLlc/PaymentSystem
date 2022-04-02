@@ -33,17 +33,6 @@ public record IssuerPublicKeyExponent : DataElement<uint>, IEqualityComparer<Iss
 
     #endregion
 
-    #region Instance Members
-
-    public byte[] AsByteArray() => PlayCodec.UnsignedIntegerCodec.Encode(_Value);
-    public PublicKeyExponent AsPublicKeyExponent() => PublicKeyExponent.Create(_Value);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public int GetByteCount() => _Value.GetMostSignificantBit();
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="BerParsingException"></exception>
@@ -78,6 +67,18 @@ public record IssuerPublicKeyExponent : DataElement<uint>, IEqualityComparer<Iss
     }
 
     public int GetHashCode(IssuerPublicKeyExponent obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Instance Members
+
+    public byte[] AsByteArray() => PlayCodec.UnsignedIntegerCodec.Encode(_Value);
+    public PublicKeyExponent AsPublicKeyExponent() => PublicKeyExponent.Create(_Value);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public int GetByteCount() => _Value.GetMostSignificantBit();
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public static implicit operator PublicKeyExponent(IssuerPublicKeyExponent value) => PublicKeyExponent.Create(value._Value);
 
     #endregion
 }

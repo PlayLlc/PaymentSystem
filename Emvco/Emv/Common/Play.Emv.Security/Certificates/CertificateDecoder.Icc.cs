@@ -38,10 +38,8 @@ internal partial class CertificateFactory
         /// <remarks>EMV Book 2 Section 6.4</remarks>
         /// <exception cref="InvalidOperationException"></exception>
         public static DecodedIccPublicKeyCertificate TryCreate(
-            DecodedIssuerPublicKeyCertificate issuerCertificate,
-            StaticDataToBeAuthenticated staticDataToBeAuthenticated,
-            IccPublicKeyCertificate encipheredCertificate,
-            ApplicationPan applicationPan,
+            DecodedIssuerPublicKeyCertificate issuerCertificate, StaticDataToBeAuthenticated staticDataToBeAuthenticated,
+            IccPublicKeyCertificate encipheredCertificate, ApplicationPan applicationPan,
             IccPublicKeyRemainder? encipheredPublicKeyRemainder = null)
         {
             // Step 1
@@ -54,9 +52,9 @@ internal partial class CertificateFactory
             // Step 2
             DecodedSignature decodedSignature = _SignatureService.Decrypt(encipheredCertificate.EncodeValue(), issuerCertificate);
 
-            CertificateFormat certificateFormat;
+            CertificateSources certificateSources;
             ApplicationPan recoveredPan;
-            ShortDateValue expirationDate;
+            ShortDate expirationDate;
             CertificateSerialNumber serialNumber;
             HashAlgorithmIndicator hashAlgorithmIndicator;
             byte iccModulusLength;
@@ -65,10 +63,9 @@ internal partial class CertificateFactory
             // Resolving decoded signature values
             try
             {
-                certificateFormat = CertificateFormat.Get(decodedSignature.GetMessage1()[0]);
+                certificateSources = CertificateSources.Get(decodedSignature.GetMessage1()[0]);
                 recoveredPan = ApplicationPan.Decode(decodedSignature.GetMessage1()[1..11]);
-                expirationDate =
-                    new ShortDateValue(PlayCodec.NumericCodec.DecodeToUInt16(decodedSignature.GetMessage1()[new Range(11, 13)]));
+                expirationDate = new ShortDate(PlayCodec.NumericCodec.DecodeToUInt16(decodedSignature.GetMessage1()[new Range(11, 13)]));
                 serialNumber = new CertificateSerialNumber(decodedSignature.GetMessage1()[13..16]);
                 hashAlgorithmIndicator = HashAlgorithmIndicator.Get(decodedSignature.GetMessage1()[16]);
 
@@ -90,10 +87,10 @@ internal partial class CertificateFactory
             }
 
             // Step 4
-            if (certificateFormat != CertificateFormat.Icc)
+            if (certificateSources != CertificateSources.Icc)
             {
                 throw new
-                    CryptographicAuthenticationMethodFailedException($"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the {nameof(CertificateFormat)} expected is {CertificateFormat.Icc} but the format provided was: [{certificateFormat}]");
+                    CryptographicAuthenticationMethodFailedException($"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the {nameof(CertificateSources)} expected is {CertificateSources.Icc} but the format provided was: [{certificateSources}]");
             }
 
             // Step 5
@@ -133,8 +130,8 @@ internal partial class CertificateFactory
             PublicKeyModulus publicKeyModulus = DecodedIccPublicKeyCertificate.ResolvePublicKeyModulus(iccModulusLength, issuerCertificate,
              decodedSignature.GetMessage1(), encipheredPublicKeyRemainder?.AsPublicKeyRemainder());
 
-            return new DecodedIccPublicKeyCertificate(new DateRange(ShortDateValue.MinValue, expirationDate), serialNumber,
-                                                      hashAlgorithmIndicator, publicKeyAlgorithmIndicator!,
+            return new DecodedIccPublicKeyCertificate(new DateRange(ShortDate.Min, expirationDate), serialNumber, hashAlgorithmIndicator,
+                                                      publicKeyAlgorithmIndicator!,
                                                       new PublicKeyInfo(publicKeyModulus, exponent.AsPublicKeyExponent(),
                                                                         encipheredPublicKeyRemainder?.AsPublicKeyRemainder()));
         }

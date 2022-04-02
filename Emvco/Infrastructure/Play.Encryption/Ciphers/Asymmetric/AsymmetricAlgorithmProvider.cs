@@ -27,6 +27,7 @@ internal class AsymmetricAlgorithmProvider
         new Dictionary<PublicKeyAlgorithmIndicator, IAsymmetricCodec> {{PublicKeyAlgorithmIndicator.Rsa, new RsaCodec()}}
             .ToImmutableSortedDictionary();
 
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public byte[] Decrypt(ReadOnlySpan<byte> cipherText, PublicKeyCertificate publicKeyCertificate)
     {
         if (!_AsymmetricAlgorithmMap.TryGetValue(publicKeyCertificate.GetPublicKeyAlgorithmIndicator(),
@@ -39,6 +40,7 @@ internal class AsymmetricAlgorithmProvider
         return asymmetricCodec.Sign(cipherText, publicKeyCertificate.GetPublicKeyInfo());
     }
 
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public byte[] Sign(ReadOnlySpan<byte> clearText, PublicKeyCertificate publicKeyCertificate)
     {
         if (!_AsymmetricAlgorithmMap.TryGetValue(publicKeyCertificate.GetPublicKeyAlgorithmIndicator(),

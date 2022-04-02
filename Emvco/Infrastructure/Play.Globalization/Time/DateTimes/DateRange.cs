@@ -6,14 +6,14 @@ public readonly struct DateRange
 {
     #region Instance Values
 
-    private readonly ShortDateValue _ActivationDate;
-    private readonly ShortDateValue _ExpiryDate;
+    private readonly ShortDate _ActivationDate;
+    private readonly ShortDate _ExpiryDate;
 
     #endregion
 
     #region Constructor
 
-    public DateRange(ShortDateValue activationDate, ShortDateValue expiryDate)
+    public DateRange(ShortDate activationDate, ShortDate expiryDate)
     {
         if (activationDate > expiryDate)
         {
@@ -29,8 +29,8 @@ public readonly struct DateRange
 
     #region Instance Members
 
-    public ShortDateValue GetActivationDate() => _ActivationDate;
-    public ShortDateValue GetExpirationDate() => _ExpiryDate;
+    public ShortDate GetActivationDate() => _ActivationDate;
+    public ShortDate GetExpirationDate() => _ExpiryDate;
     public bool IsActive() => _ExpiryDate < DateTimeUtc.Now();
     public bool IsExpired() => !IsActive();
 

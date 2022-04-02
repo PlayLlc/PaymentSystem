@@ -9,7 +9,7 @@ public class DecodedIccPinPublicKeyCertificate : PublicKeyCertificate
 {
     #region Static Metadata
 
-    private static readonly CertificateFormat _CertificateFormat = CertificateFormat.Issuer;
+    private static readonly CertificateSources _CertificateSources = CertificateSources.Issuer;
 
     #endregion
 
@@ -22,11 +22,8 @@ public class DecodedIccPinPublicKeyCertificate : PublicKeyCertificate
     #region Constructor
 
     public DecodedIccPinPublicKeyCertificate(
-        IssuerIdentificationNumber issuerIdentificationNumber,
-        CertificateSerialNumber certificateSerialNumber,
-        HashAlgorithmIndicator hashAlgorithmIndicator,
-        PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator,
-        DateRange validityPeriod,
+        IssuerIdentificationNumber issuerIdentificationNumber, CertificateSerialNumber certificateSerialNumber,
+        HashAlgorithmIndicator hashAlgorithmIndicator, PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator, DateRange validityPeriod,
         PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber, hashAlgorithmIndicator, publicKeyAlgorithmIndicator, validityPeriod,
                                             publicKeyInfo)
     {
@@ -37,7 +34,7 @@ public class DecodedIccPinPublicKeyCertificate : PublicKeyCertificate
 
     #region Instance Members
 
-    public CertificateFormat GetCertificateFormat() => _CertificateFormat;
+    public CertificateSources GetCertificateFormat() => _CertificateSources;
     public IssuerIdentificationNumber GetIssuerIdentificationNumber() => _IssuerIdentificationNumber;
 
     #endregion

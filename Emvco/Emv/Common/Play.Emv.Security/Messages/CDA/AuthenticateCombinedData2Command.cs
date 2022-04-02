@@ -28,12 +28,9 @@ public class AuthenticateCombinedData2Command
     #region Constructor
 
     public AuthenticateCombinedData2Command(
-        DecodedIccPublicKeyCertificate iccPublicKeyCertificate,
-        UnpredictableNumber unpredictableNumber,
-        DataObjectListResult processingOptionsDataObjectListResult,
-        DataObjectListResult cardRiskManagementDataObjectList1Result,
-        DataObjectListResult cardRiskManagementDataObjectList2Result,
-        GenerateAcCdaResponseMessage generateAcCdaResponseMessage,
+        DecodedIccPublicKeyCertificate iccPublicKeyCertificate, UnpredictableNumber unpredictableNumber,
+        DataObjectListResult processingOptionsDataObjectListResult, DataObjectListResult cardRiskManagementDataObjectList1Result,
+        DataObjectListResult cardRiskManagementDataObjectList2Result, GenerateAcCdaResponseMessage generateAcCdaResponseMessage,
         SignedDynamicApplicationData signedDynamicApplicationData)
     {
         _IccPublicKeyCertificate = iccPublicKeyCertificate;

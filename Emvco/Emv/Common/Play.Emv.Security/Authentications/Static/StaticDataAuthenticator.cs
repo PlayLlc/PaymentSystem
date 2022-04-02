@@ -12,6 +12,8 @@ using Play.Encryption.Certificates;
 using Play.Encryption.Signing;
 using Play.Icc.Messaging.Apdu;
 
+using CertificateFactory = Play.Emv.Security._TempRefactoring.Certificates.CertificateFactory;
+
 namespace Play.Emv.Security.Authentications.Static;
 
 internal class StaticDataAuthenticator
@@ -96,13 +98,11 @@ internal class StaticDataAuthenticator
     #region Validation
 
     private bool IsIssuerPublicKeyCertificateLengthValid(
-        CaPublicKeyCertificate caPublicKeyCertificate,
-        IssuerPublicKeyCertificate issuerPublicKeyCertificate) =>
+        CaPublicKeyCertificate caPublicKeyCertificate, IssuerPublicKeyCertificate issuerPublicKeyCertificate) =>
         caPublicKeyCertificate.GetPublicKeyModulus().GetByteCount() != issuerPublicKeyCertificate.GetByteCount();
 
     private bool IsStaticDataToBeAuthenticatedValid(
-        DecodedIssuerPublicKeyCertificate decodedCertificateResult,
-        SignedStaticApplicationData signedStaticApplicationData,
+        DecodedIssuerPublicKeyCertificate decodedCertificateResult, SignedStaticApplicationData signedStaticApplicationData,
         ReadOnlySpan<byte> staticDataToBeAuthenticated) =>
         _SignedStaticApplicationDataDecoder.IsValid(decodedCertificateResult!, signedStaticApplicationData,
                                                     staticDataToBeAuthenticated.ToArray());

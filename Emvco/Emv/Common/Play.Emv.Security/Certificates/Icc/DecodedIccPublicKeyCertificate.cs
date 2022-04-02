@@ -18,19 +18,16 @@ public class DecodedIccPublicKeyCertificate : PublicKeyCertificate
     #region Static Metadata
 
     private static readonly NumericCodec _Codec = PlayCodec.NumericCodec;
-    private static readonly CertificateFormat _CertificateFormat = CertificateFormat.Icc;
+    private static readonly CertificateSources _CertificateSources = CertificateSources.Icc;
 
     #endregion
 
     #region Constructor
 
     public DecodedIccPublicKeyCertificate(
-        DateRange validityPeriod,
-        CertificateSerialNumber certificateSerialNumber,
-        HashAlgorithmIndicator hashAlgorithmIndicator,
-        PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator,
-        PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber, hashAlgorithmIndicator, publicKeyAlgorithmIndicator, validityPeriod,
-                                            publicKeyInfo)
+        DateRange validityPeriod, CertificateSerialNumber certificateSerialNumber, HashAlgorithmIndicator hashAlgorithmIndicator,
+        PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator, PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber,
+     hashAlgorithmIndicator, publicKeyAlgorithmIndicator, validityPeriod, publicKeyInfo)
     { }
 
     #endregion
@@ -46,9 +43,7 @@ public class DecodedIccPublicKeyCertificate : PublicKeyCertificate
     /// <param name="publicKeyRemainder"></param>
     /// <returns></returns>
     public static byte[] ConcatenateRecoveryHash(
-        DecodedSignature issuerCertificate,
-        IccPublicKeyExponent publicKeyExponent,
-        StaticDataToBeAuthenticated staticDataToBeAuthenticated,
+        DecodedSignature issuerCertificate, IccPublicKeyExponent publicKeyExponent, StaticDataToBeAuthenticated staticDataToBeAuthenticated,
         IccPublicKeyRemainder? publicKeyRemainder = null)
     {
         int leftMostDataElementDigitsByteCount = issuerCertificate.GetMessage1().GetByteCount() - 2;
@@ -87,9 +82,7 @@ public class DecodedIccPublicKeyCertificate : PublicKeyCertificate
     /// <param name="publicKeyRemainder"></param>
     /// <returns></returns>
     internal static PublicKeyModulus ResolvePublicKeyModulus(
-        byte iccModulusLength,
-        DecodedIssuerPublicKeyCertificate issuerPublicKeyCertificate,
-        Message1 message1,
+        byte iccModulusLength, DecodedIssuerPublicKeyCertificate issuerPublicKeyCertificate, Message1 message1,
         PublicKeyRemainder? publicKeyRemainder = null)
     {
         Span<byte> modulusBuffer = stackalloc byte[iccModulusLength];
@@ -103,10 +96,8 @@ public class DecodedIccPublicKeyCertificate : PublicKeyCertificate
         return new PublicKeyModulus(message1[1..(message1.GetByteCount() - 42)]);
     }
 
-    private static ShortDateValue GetCertificateExpirationDate(Message1 message1) =>
-        new(_Codec.DecodeToUInt16(message1[new Range(11, 13)]));
-
-    public CertificateFormat GetCertificateFormat() => _CertificateFormat;
+    private static ShortDate GetCertificateExpirationDate(Message1 message1) => new(_Codec.DecodeToUInt16(message1[new Range(11, 13)]));
+    public CertificateSources GetCertificateFormat() => _CertificateSources;
 
     #endregion
 }

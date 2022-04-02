@@ -118,7 +118,7 @@ public partial class WaitingForGenerateAcResponse1
 
     #endregion
 
-    #region S9.9 - S9.10
+    #region S9.9 - S9.10, S9.14 - S9.15
 
     /// <exception cref="TerminalDataException"></exception>
     private void HandleL1ErrorTryAgain(KernelSessionId sessionId, QueryPcdResponse signal)

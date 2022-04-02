@@ -15,6 +15,7 @@ internal class RsaCodec : IAsymmetricCodec
         return rsaProvider.Decrypt(decodedSignature.ToArray(), RSAEncryptionPadding.Pkcs1);
     }
 
+    /// <exception cref="CryptographicException"></exception>
     private static RSACryptoServiceProvider GetRsaProvider(PublicKeyExponent exponent, PublicKeyModulus modulus)
     {
         RSACryptoServiceProvider? rsaProvider = new();
@@ -25,6 +26,7 @@ internal class RsaCodec : IAsymmetricCodec
         return rsaProvider;
     }
 
+    /// <exception cref="CryptographicException"></exception>
     public byte[] Sign(ReadOnlySpan<byte> message, PublicKeyInfo publicKeyInfo)
     {
         RSACryptoServiceProvider rsaProvider = GetRsaProvider(publicKeyInfo.GetPublicKeyExponent(), publicKeyInfo.GetPublicKeyModulus());

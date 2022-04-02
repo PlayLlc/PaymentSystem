@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Emv\Common\Play.Emv\Play.Emv.csproj" />
+    <ProjectReference Include="..\Emv\Contactless\Pcd\Play.Emv.Pcd.Contracts\Play.Emv.Pcd.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Authentications\Cda\" />
+    <Folder Include="Authentications\Dda\" />
+    <Folder Include="Authentications\" />
+  </ItemGroup>
+
+</Project>

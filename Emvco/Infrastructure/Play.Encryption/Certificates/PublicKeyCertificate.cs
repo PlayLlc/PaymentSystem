@@ -38,11 +38,8 @@ public class PublicKeyCertificate
     #region Constructor
 
     public PublicKeyCertificate(
-        CertificateSerialNumber certificateSerialNumber,
-        HashAlgorithmIndicator hashAlgorithmIndicator,
-        PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator,
-        DateRange validityPeriod,
-        PublicKeyInfo publicKeyInfo)
+        CertificateSerialNumber certificateSerialNumber, HashAlgorithmIndicator hashAlgorithmIndicator,
+        PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator, DateRange validityPeriod, PublicKeyInfo publicKeyInfo)
     {
         _CertificateSerialNumber = certificateSerialNumber;
         _HashAlgorithmIndicator = hashAlgorithmIndicator;
@@ -62,8 +59,8 @@ public class PublicKeyCertificate
     public PublicKeyInfo GetPublicKeyInfo() => _PublicKeyInfo;
     public PublicKeyModulus GetPublicKeyModulus() => _PublicKeyInfo.GetPublicKeyModulus();
     public CertificateSerialNumber GetPublicKeySerialNumber() => _CertificateSerialNumber;
-    public ShortDateValue GetExpirationDate() => _ValidityPeriod.GetExpirationDate();
-    public ShortDateValue GetActivationDate() => _ValidityPeriod.GetActivationDate();
+    public ShortDate GetExpirationDate() => _ValidityPeriod.GetExpirationDate();
+    public ShortDate GetActivationDate() => _ValidityPeriod.GetActivationDate();
     public bool IsExpired() => _ValidityPeriod.IsExpired();
 
     #endregion

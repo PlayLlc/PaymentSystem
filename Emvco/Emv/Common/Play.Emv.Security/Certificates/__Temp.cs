@@ -42,10 +42,8 @@ internal class __Temp
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     private DecodedIccPublicKeyCertificate Create(
-        DecodedIssuerPublicKeyCertificate issuerCertificate,
-        StaticDataToBeAuthenticated staticDataToBeAuthenticated,
-        IccPublicKeyCertificate encipheredCertificate,
-        ApplicationPan applicationPan,
+        DecodedIssuerPublicKeyCertificate issuerCertificate, StaticDataToBeAuthenticated staticDataToBeAuthenticated,
+        IccPublicKeyCertificate encipheredCertificate, ApplicationPan applicationPan,
         IccPublicKeyRemainder? encipheredPublicKeyRemainder = null)
     {
         // Step 1
@@ -60,9 +58,9 @@ internal class __Temp
 
         // created shit
 
-        CertificateFormat certificateFormat = CertificateFormat.Get(decodedSignature.GetMessage1()[0]);
+        CertificateSources certificateSources = CertificateSources.Get(decodedSignature.GetMessage1()[0]);
         ApplicationPan recoveredPan = ApplicationPan.Decode(decodedSignature.GetMessage1()[1..11]);
-        ShortDateValue expirationDate = new(PlayCodec.NumericCodec.DecodeToUInt16(decodedSignature.GetMessage1()[new Range(11, 13)]));
+        ShortDate expirationDate = new(PlayCodec.NumericCodec.DecodeToUInt16(decodedSignature.GetMessage1()[new Range(11, 13)]));
         CertificateSerialNumber serialNumber = new(decodedSignature.GetMessage1()[13..16]);
         HashAlgorithmIndicator hashAlgorithmIndicator = HashAlgorithmIndicator.Get(decodedSignature.GetMessage1()[16]);
 
@@ -73,10 +71,10 @@ internal class __Temp
             : new IccPublicKeyExponent(PublicKeyExponent._3);
 
         // Step 4
-        if (certificateFormat != CertificateFormat.Icc)
+        if (certificateSources != CertificateSources.Icc)
         {
             throw new
-                CryptographicAuthenticationMethodFailedException($"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the {nameof(CertificateFormat)} expected is {CertificateFormat.Icc} but the format provided was: [{certificateFormat}]");
+                CryptographicAuthenticationMethodFailedException($"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the {nameof(CertificateSources)} expected is {CertificateSources.Icc} but the format provided was: [{certificateSources}]");
         }
 
         // Step 5
@@ -115,8 +113,8 @@ internal class __Temp
         PublicKeyModulus publicKeyModulus = DecodedIccPublicKeyCertificate.ResolvePublicKeyModulus(iccModulusLength, issuerCertificate,
          decodedSignature.GetMessage1(), encipheredPublicKeyRemainder?.AsPublicKeyRemainder());
 
-        return new DecodedIccPublicKeyCertificate(new DateRange(ShortDateValue.MinValue, expirationDate), serialNumber,
-                                                  hashAlgorithmIndicator, publicKeyAlgorithmIndicator!,
+        return new DecodedIccPublicKeyCertificate(new DateRange(ShortDate.Min, expirationDate), serialNumber, hashAlgorithmIndicator,
+                                                  publicKeyAlgorithmIndicator!,
                                                   new PublicKeyInfo(publicKeyModulus, exponent.AsPublicKeyExponent(),
                                                                     encipheredPublicKeyRemainder?.AsPublicKeyRemainder()));
     }

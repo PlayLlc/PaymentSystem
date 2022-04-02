@@ -28,15 +28,6 @@ public record IssuerPublicKeyRemainder : DataElement<BigInteger>, IEqualityCompa
 
     #endregion
 
-    #region Instance Members
-
-    public PublicKeyRemainder AsPublicKeyRemainder() => new(_Value);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    #endregion
-
     #region Serialization
 
     /// <exception cref="BerParsingException"></exception>
@@ -69,6 +60,21 @@ public record IssuerPublicKeyRemainder : DataElement<BigInteger>, IEqualityCompa
     }
 
     public int GetHashCode(IssuerPublicKeyRemainder obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator PublicKeyRemainder(IssuerPublicKeyRemainder value) => new(value._Value);
+
+    #endregion
+
+    #region Instance Members
+
+    public PublicKeyRemainder AsPublicKeyRemainder() => new(_Value);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

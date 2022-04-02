@@ -43,10 +43,8 @@ internal class CombinedDataAuthenticator : IAuthenticateCombinedData
                      command.GetTransactionDataHashCodeInput(_BerCodec));
 
     private AuthenticateCombinedDataResponse Authenticate(
-        DecodedIccPublicKeyCertificate iccPublicKeyCertificate,
-        UnpredictableNumber unpredictableNumber,
-        GenerateAcCdaResponseMessage generateAcCdaResponseMessage,
-        ReadOnlySpan<byte> transactionDataHashCodeInput)
+        DecodedIccPublicKeyCertificate iccPublicKeyCertificate, UnpredictableNumber unpredictableNumber,
+        GenerateAcCdaResponseMessage generateAcCdaResponseMessage, ReadOnlySpan<byte> transactionDataHashCodeInput)
     {
         if (!IsEncipheredSignatureLengthValid(generateAcCdaResponseMessage.GetSignedDynamicApplicationData(), iccPublicKeyCertificate))
             return CreateCombinedAuthenticationFailedResponse();
@@ -72,8 +70,12 @@ internal class CombinedDataAuthenticator : IAuthenticateCombinedData
                                                     decodedSignature.GetIccDynamicData().GetIccDynamicNumber());
     }
 
+    #endregion
+
+    #region S6.6.2
+
     /// <remarks>
-    ///     Book 2 Section 6.6.2 Step
+    ///     Book 2 Section 6.6.2 Step 1
     /// </remarks>
     private static AuthenticateCombinedDataResponse CreateCombinedAuthenticationFailedResponse()
     {
@@ -93,8 +95,7 @@ internal class CombinedDataAuthenticator : IAuthenticateCombinedData
     ///     Book 2 Section 6.6.2 Step 1
     /// </remarks>
     private bool IsEncipheredSignatureLengthValid(
-        SignedDynamicApplicationData signedDynamicApplicationData,
-        DecodedIccPublicKeyCertificate iccPublicKeyCertificate)
+        SignedDynamicApplicationData signedDynamicApplicationData, DecodedIccPublicKeyCertificate iccPublicKeyCertificate)
     {
         if (signedDynamicApplicationData.GetByteCount() != iccPublicKeyCertificate.GetPublicKeyModulus().GetByteCount())
             return false;
@@ -112,22 +113,18 @@ internal class CombinedDataAuthenticator : IAuthenticateCombinedData
                                            ReconstructDynamicDataToBeSigned(decodedSignature, unpredictableNumber), decodedSignature);
 
     private bool IsTransactionDataHashCodeValid(
-        HashAlgorithmIndicator hashAlgorithmIndicator,
-        ReadOnlySpan<byte> transactionDataHashCodeInput,
-        Hash transactionDataHashCode) =>
+        HashAlgorithmIndicator hashAlgorithmIndicator, ReadOnlySpan<byte> transactionDataHashCodeInput, Hash transactionDataHashCode) =>
         transactionDataHashCode == _HashAlgorithmProvider.Generate(transactionDataHashCodeInput, hashAlgorithmIndicator);
 
     private byte[] ReconstructDynamicDataToBeSigned(
-        DecodedSignedDynamicApplicationDataCda decodedSignedDynamicApplicationData,
-        UnpredictableNumber unpredictableNumber) =>
+        DecodedSignedDynamicApplicationDataCda decodedSignedDynamicApplicationData, UnpredictableNumber unpredictableNumber) =>
         decodedSignedDynamicApplicationData.GetSignatureHashPlainText(unpredictableNumber);
 
     /// <remarks>
     ///     Book 2 Section 6.6.2 Step 2
     /// </remarks>
     private DecodedSignedDynamicApplicationDataCda RecoverSignedDynamicApplicationData(
-        PublicKeyCertificate issuerPublicKeyCertificate,
-        SignedDynamicApplicationData encipheredData) =>
+        PublicKeyCertificate issuerPublicKeyCertificate, SignedDynamicApplicationData encipheredData) =>
         new(_SignatureService.Decrypt(encipheredData.AsByteArray(), issuerPublicKeyCertificate));
 
     #endregion
