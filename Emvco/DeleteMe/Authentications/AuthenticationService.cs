@@ -13,7 +13,7 @@ namespace Play.Emv.Security;
 
 public interface ISecureTransactionSession
 {
-    public void Authenticate(
+    public void Authenticate( //
         ITlvReaderAndWriter tlvDatabase, ICertificateDatabase certificateDatabase, StaticDataToBeAuthenticated staticDataToBeAuthenticated);
 
     public AuthenticateCombinedDataResponse Authenticate(AuthenticateCombinedData1Command command);
