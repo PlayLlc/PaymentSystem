@@ -30,7 +30,7 @@ public record MessageIdentifier : EnumObject<byte>
     public static readonly MessageIdentifier IncorrectPin;
     public static readonly MessageIdentifier InsertCard;
     public static readonly MessageIdentifier InsertSwipeOrTryAnotherCard;
-    public static readonly MessageIdentifier NoMessageDisplayed;
+    public static readonly MessageIdentifier ClearDisplay;
     public static readonly MessageIdentifier NotAccepted;
     public static readonly MessageIdentifier NotAvailable;
     public static readonly MessageIdentifier PinOk;
@@ -90,7 +90,7 @@ public record MessageIdentifier : EnumObject<byte>
         const byte authorizingPleaseWait = 27;
         const byte insertSwipeOrTryAnotherCard = 28;
         const byte pleaseInsertCard = 29;
-        const byte noMessageDisplayed = 30;
+        const byte clearDisplay = 30;
         const byte seePhoneForInstructions = 32;
         const byte presentCardAgain = 33;
 
@@ -130,7 +130,7 @@ public record MessageIdentifier : EnumObject<byte>
         AuthorizingPleaseWait = new MessageIdentifier(authorizingPleaseWait);
         InsertSwipeOrTryAnotherCard = new MessageIdentifier(insertSwipeOrTryAnotherCard);
         PleaseInsertCard = new MessageIdentifier(pleaseInsertCard);
-        NoMessageDisplayed = new MessageIdentifier(noMessageDisplayed);
+        ClearDisplay = new MessageIdentifier(clearDisplay);
         SeePhoneForInstructions = new MessageIdentifier(seePhoneForInstructions);
         PresentCardAgain = new MessageIdentifier(presentCardAgain);
 
@@ -169,7 +169,7 @@ public record MessageIdentifier : EnumObject<byte>
             {authorizingPleaseWait, AuthorizingPleaseWait},
             {insertSwipeOrTryAnotherCard, InsertSwipeOrTryAnotherCard},
             {pleaseInsertCard, PleaseInsertCard},
-            {noMessageDisplayed, NoMessageDisplayed},
+            {clearDisplay, ClearDisplay},
             {seePhoneForInstructions, SeePhoneForInstructions},
             {seePhoneForInstructions, SeePhoneForInstructions},
             {presentCardAgain, PresentCardAgain}

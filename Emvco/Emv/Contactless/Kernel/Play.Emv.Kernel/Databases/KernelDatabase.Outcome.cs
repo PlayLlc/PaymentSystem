@@ -67,7 +67,7 @@ public partial class KernelDatabase
         (TerminalVerificationResults) Get(TerminalVerificationResults.Tag);
 
     /// <exception cref="TerminalDataException"></exception>
-    private UserInterfaceRequestData GetUserInterfaceRequestData()
+    public UserInterfaceRequestData GetUserInterfaceRequestData()
     {
         if (IsPresentAndNotEmpty(UserInterfaceRequestData.Tag))
         {

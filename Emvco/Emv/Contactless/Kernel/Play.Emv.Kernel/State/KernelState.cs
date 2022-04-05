@@ -2,6 +2,7 @@
 using Play.Emv.Ber;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.DataExchange;
+using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
@@ -25,14 +26,16 @@ public abstract class KernelState : IGetKernelStateId
     protected readonly IManageTornTransactions _TornTransactionManager;
     protected readonly IGetKernelState _KernelStateResolver;
     protected readonly IHandlePcdRequests _PcdEndpoint;
+    protected readonly IHandleDisplayRequests _DisplayEndpoint;
 
     #endregion
 
-    #region Constructor
+    #region Instance Members
 
     protected KernelState(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint)
+        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IHandleDisplayRequests displayEndpoint)
     {
         _Database = database;
         _DataExchangeKernelService = dataExchangeKernelService;
@@ -40,11 +43,8 @@ public abstract class KernelState : IGetKernelStateId
         _TornTransactionManager = tornTransactionManager;
         _KernelStateResolver = kernelStateResolver;
         _PcdEndpoint = pcdEndpoint;
+        _DisplayEndpoint = displayEndpoint;
     }
-
-    #endregion
-
-    #region Instance Members
 
     public abstract StateId GetStateId();
     public abstract KernelState Handle(KernelSession session, ActivateKernelRequest signal);

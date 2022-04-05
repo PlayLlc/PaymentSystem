@@ -5,9 +5,11 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
+using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Messaging;
@@ -35,21 +37,23 @@ public partial class WaitingForGenerateAcResponse1
         if (TryHandleL1Error(session.GetKernelSessionId(), signal))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        if (TryHandleLevel2StatusByteError(out StateId stateIdForStatusByteErrorFlow))
-            return _KernelStateResolver.GetKernelState(stateIdForStatusByteErrorFlow);
+        Kernel2Session kernel2Session = (Kernel2Session) session;
 
-        if (TryHandleLevel2ParsingError(out StateId stateIdForParsingErrorFlow))
-            return _KernelStateResolver.GetKernelState(stateIdForParsingErrorFlow);
+        if (TryHandleLevel2StatusByteError(kernel2Session, (GenerateApplicationCryptogramResponse) signal,
+                                           out StateId? stateIdForStatusByteErrorFlow))
+            return _KernelStateResolver.GetKernelState(stateIdForStatusByteErrorFlow!.Value);
 
-        if (TryHandleMissingMandatoryDataObjects(out StateId stateIdForMissingMandatoryDataObjectsFlow))
-            return _KernelStateResolver.GetKernelState(stateIdForMissingMandatoryDataObjectsFlow);
+        if (TryHandleLevel2ParsingError(kernel2Session, (GenerateApplicationCryptogramResponse) signal,
+                                        out StateId? stateIdForParsingErrorFlow))
+            return _KernelStateResolver.GetKernelState(stateIdForParsingErrorFlow!.Value);
 
-        if (TryHandleInvalidCryptogramInformationData(out StateId stateIdForInvalidCryptogramInformationDataFlow))
-            return _KernelStateResolver.GetKernelState(stateIdForInvalidCryptogramInformationDataFlow);
+        if (TryHandleMissingMandatoryDataObjects(kernel2Session, out StateId? stateIdForMissingMandatoryDataObjectsFlow))
+            return _KernelStateResolver.GetKernelState(stateIdForMissingMandatoryDataObjectsFlow!.Value);
 
-        return _KernelStateResolver.GetKernelState(HandleAuthentication());
+        if (TryHandleInvalidCryptogramInformationData(kernel2Session, out StateId? stateIdForInvalidCryptogramInformationDataFlow))
+            return _KernelStateResolver.GetKernelState(stateIdForInvalidCryptogramInformationDataFlow!.Value);
 
-        throw new NotImplementedException();
+        return _KernelStateResolver.GetKernelState(HandleAuthentication(kernel2Session));
     }
 
     #region S9.5 - S9.15 - L1RSP
@@ -329,8 +333,44 @@ public partial class WaitingForGenerateAcResponse1
 
     #region S925 - S928
 
+    /// <exception cref="TerminalDataException"></exception>
     private StateId HandleAuthentication(Kernel2Session session)
-    { }
+    {
+        _BalanceReader.Process(this, session);
+
+        if (!IsPosGenAcWriteNeeded())
+            SetDisplayMessage();
+
+        // S928 is executed in the common object S910
+        return _S910.Process(this, session);
+    }
+
+    #endregion
+
+    #region S926
+
+    /// <exception cref="TerminalDataException"></exception>
+    private bool IsPosGenAcWriteNeeded() => _DataExchangeKernelService.IsEmpty(DekResponseType.TagsToWriteAfterGenAc);
+
+    #endregion
+
+    #region S927
+
+    /// <exception cref="TerminalDataException"></exception>
+    private void SetDisplayMessage()
+    {
+        _Database.Update(MessageIdentifier.ClearDisplay);
+        _Database.Update(Status.CardReadSuccessful);
+        _Database.Update(MessageHoldTime.MinimumValue);
+
+        _DisplayEndpoint.Request(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
+    }
+
+    #endregion
+
+    #region S928
+
+    // S928 is executed within the S910 common object
 
     #endregion
 

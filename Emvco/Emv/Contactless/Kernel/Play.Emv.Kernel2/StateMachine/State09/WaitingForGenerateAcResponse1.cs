@@ -22,16 +22,24 @@ public partial class WaitingForGenerateAcResponse1 : KernelState
 
     #region Instance Values
 
-    private readonly IManageTornTransactions _TornTransactionManager;
     private readonly S910 _S910;
+    private readonly OfflineBalanceReader _BalanceReader;
 
     #endregion
 
-    public WaitingForGenerateAcResponse1(KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint, IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, S910 s910) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver, pcdEndpoint)
+    #region Constructor
+
+    public WaitingForGenerateAcResponse1(
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
+        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, S910 s910,
+        OfflineBalanceReader balanceReader) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager,
+                                                   kernelStateResolver, pcdEndpoint)
     {
-        _TornTransactionManager = tornTransactionManager;
         _S910 = s910;
+        _BalanceReader = balanceReader;
     }
+
+    #endregion
 
     public override StateId GetStateId() => StateId;
 
