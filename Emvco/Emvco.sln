@@ -201,9 +201,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Codecs", "Infrastructu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Ber", "Emv\Common\Play.Emv.Ber\Play.Emv.Ber.csproj", "{A5FBB91D-38CE-41EC-875A-1CFCE00B2821}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_Archive.Play.Emv.Security", "Emv\Common\_Archive.Play.Emv.Security\_Archive.Play.Emv.Security.csproj", "{6F4132D8-590A-4CE7-A47E-D90D624FC15E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_Archive.Play.Emv.Security", "Emv\Common\_Archive.Play.Emv.Security\_Archive.Play.Emv.Security.csproj", "{6F4132D8-590A-4CE7-A47E-D90D624FC15E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Emv.Security", "Emv\Common\Play.Emv.Security\Play.Emv.Security.csproj", "{DAE8877C-E80B-4DB5-B24B-588851904908}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Security", "Emv\Common\Play.Emv.Security\Play.Emv.Security.csproj", "{DAE8877C-E80B-4DB5-B24B-588851904908}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{C1C94816-DDE0-4143-8A91-F34D9CD5D2F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -586,6 +588,7 @@ Global
 		{A5FBB91D-38CE-41EC-875A-1CFCE00B2821} = {A90155A8-5E10-46E1-88E1-B1BAF91B7438}
 		{6F4132D8-590A-4CE7-A47E-D90D624FC15E} = {A90155A8-5E10-46E1-88E1-B1BAF91B7438}
 		{DAE8877C-E80B-4DB5-B24B-588851904908} = {A90155A8-5E10-46E1-88E1-B1BAF91B7438}
+		{C1C94816-DDE0-4143-8A91-F34D9CD5D2F0} = {510E9F99-3873-4844-980B-F440BF1350B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E9927CF8-C10C-47E1-87FD-7ACEEBCD340D}

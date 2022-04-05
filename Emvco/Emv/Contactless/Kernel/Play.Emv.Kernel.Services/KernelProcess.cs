@@ -9,7 +9,7 @@ using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel.Services;
 
-public abstract class KernelProcess : CommandProcessingQueue
+internal abstract class KernelProcess : CommandProcessingQueue
 {
     #region Instance Values
 
