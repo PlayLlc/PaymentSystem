@@ -3,6 +3,7 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 
@@ -29,7 +30,13 @@ public record NumericApplicationTransactionCounterTrack2 : DataElement<byte>
 
     #endregion
 
+    #region Instance Members
+
     public int GetSetBitCount() => _Value.GetBitCount();
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+
+    #endregion
 
     #region Serialization
 
@@ -51,13 +58,6 @@ public record NumericApplicationTransactionCounterTrack2 : DataElement<byte>
     }
 
     public new byte[] EncodeValue() => EncodeValue(_ByteLength);
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 }

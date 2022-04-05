@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -25,6 +26,15 @@ public record TerminalActionCodeDenial : DataElement<ulong>, IEqualityComparer<T
 
     public TerminalActionCodeDenial(ulong value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public ActionCodes AsActionCodes() => new(_Value);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -66,15 +76,6 @@ public record TerminalActionCodeDenial : DataElement<ulong>, IEqualityComparer<T
     }
 
     public int GetHashCode(TerminalActionCodeDenial obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public ActionCodes AsActionCodes() => new(_Value);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

@@ -1,6 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -25,6 +26,13 @@ public record PostGenAcPutDataStatus : DataElement<byte>, IEqualityComparer<Post
 
     public PostGenAcPutDataStatus(byte value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 
@@ -66,13 +74,6 @@ public record PostGenAcPutDataStatus : DataElement<byte>, IEqualityComparer<Post
     }
 
     public int GetHashCode(PostGenAcPutDataStatus obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 }

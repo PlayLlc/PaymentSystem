@@ -1,6 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 
@@ -26,6 +27,21 @@ public record IntegratedDataStorageStatus : DataElement<byte>
 
     #endregion
 
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public bool IsReadSet() => _Value.IsBitSet(Bits.Eight);
+    public bool IsWriteSet() => _Value.IsBitSet(Bits.Seven);
+
+    public IntegratedDataStorageStatus SetRead(bool value) =>
+        value ? new IntegratedDataStorageStatus(_Value.SetBits(Bits.Eight)) : new IntegratedDataStorageStatus(_Value.ClearBits(Bits.Eight));
+
+    public IntegratedDataStorageStatus SetWrite(bool value) =>
+        value ? new IntegratedDataStorageStatus(_Value.SetBits(Bits.Seven)) : new IntegratedDataStorageStatus(_Value.ClearBits(Bits.Seven));
+
+    #endregion
+
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -47,21 +63,6 @@ public record IntegratedDataStorageStatus : DataElement<byte>
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
     public new byte[] EncodeValue(int length) => EncodeValue();
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public bool IsReadSet() => _Value.IsBitSet(Bits.Eight);
-    public bool IsWriteSet() => _Value.IsBitSet(Bits.Seven);
-
-    public IntegratedDataStorageStatus SetRead(bool value) =>
-        value ? new IntegratedDataStorageStatus(_Value.SetBits(Bits.Eight)) : new IntegratedDataStorageStatus(_Value.ClearBits(Bits.Eight));
-
-    public IntegratedDataStorageStatus SetWrite(bool value) =>
-        value ? new IntegratedDataStorageStatus(_Value.SetBits(Bits.Seven)) : new IntegratedDataStorageStatus(_Value.ClearBits(Bits.Seven));
 
     #endregion
 }

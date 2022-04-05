@@ -2,6 +2,7 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 
@@ -43,6 +44,18 @@ public class ProcessingOptions : ResponseMessageTemplate
         _ApplicationInterchangeProfile =
             ApplicationInterchangeProfile.Decode(values.First(a => a.GetTag() == ApplicationInterchangeProfile.Tag).EncodeValue()
                                                      .AsMemory());
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    public override Tag GetTag() => Tag;
+    public override Tag[] GetChildTags() => ChildTags;
+
+    protected override IEncodeBerDataObjects[] GetChildren()
+    {
+        return new IEncodeBerDataObjects[] {_ApplicationFileLocator, _ApplicationInterchangeProfile};
     }
 
     #endregion
@@ -104,18 +117,6 @@ public class ProcessingOptions : ResponseMessageTemplate
     }
 
     public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public override Tag GetTag() => Tag;
-    public override Tag[] GetChildTags() => ChildTags;
-
-    protected override IEncodeBerDataObjects[] GetChildren()
-    {
-        return new IEncodeBerDataObjects[] {_ApplicationFileLocator, _ApplicationInterchangeProfile};
-    }
 
     #endregion
 }

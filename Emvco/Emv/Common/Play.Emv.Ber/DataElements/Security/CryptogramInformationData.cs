@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
@@ -29,6 +30,67 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
     public CryptogramInformationData(CryptogramTypes cryptogramTypes, bool isCombinedDataAuthenticationSupported) :
         base(Create(cryptogramTypes, isCombinedDataAuthenticationSupported))
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    private static byte Create(CryptogramTypes cryptogramTypes, bool isCombinedDataAuthenticationSupported)
+    {
+        if (isCombinedDataAuthenticationSupported)
+            return (byte) (cryptogramTypes | (byte) Bits.Five);
+
+        return (byte) cryptogramTypes;
+    }
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+
+    /// <summary>
+    ///     GetCryptogramType
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    public CryptogramTypes GetCryptogramType()
+    {
+        if (!CryptogramTypes.TryGet(_Value, out CryptogramTypes? result))
+        {
+            throw new
+                DataElementParsingException($"The {nameof(CryptogramInformationData)} expected a {nameof(CryptogramTypes)} but none could be found");
+        }
+
+        return result!;
+    }
+
+    /// <remarks>EMV Book C-2 Section S9.23</remarks>
+    /// <exception cref="TerminalDataException"></exception>
+    public bool IsValid(IReadTlvDatabase database)
+    {
+        if (_Value.AreBitsSet(CryptogramTypes.ApplicationAuthenticationCryptogram))
+            return true;
+
+        ReferenceControlParameter referenceControlParameter = database.Get<ReferenceControlParameter>(ReferenceControlParameter.Tag);
+
+        if (_Value.AreBitsSet(CryptogramTypes.TransactionCryptogram))
+            return referenceControlParameter.GetCryptogramType() == CryptogramTypes.TransactionCryptogram;
+
+        if (_Value.AreBitsSet(CryptogramTypes.AuthorizationRequestCryptogram))
+        {
+            return (referenceControlParameter.GetCryptogramType() == CryptogramTypes.TransactionCryptogram)
+                || (referenceControlParameter.GetCryptogramType() == CryptogramTypes.AuthorizationRequestCryptogram);
+        }
+
+        return false;
+    }
+
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+
+    /// <summary>
+    ///     Value signifying whether a Combined Data Authentication Signature has been requested by the ICC
+    /// </summary>
+    /// <returns></returns>
+    public bool IsCdaSignatureRequested() => _Value.IsBitSet(Bits.Five);
 
     #endregion
 
@@ -70,49 +132,6 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
     }
 
     public int GetHashCode(CryptogramInformationData obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    private static byte Create(CryptogramTypes cryptogramTypes, bool isCombinedDataAuthenticationSupported)
-    {
-        if (isCombinedDataAuthenticationSupported)
-            return (byte) (cryptogramTypes | (byte) Bits.Five);
-
-        return (byte) cryptogramTypes;
-    }
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-
-    /// <summary>
-    ///     GetCryptogramType
-    /// </summary>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="DataElementParsingException"></exception>
-    public CryptogramTypes GetCryptogramType()
-    {
-        if (!CryptogramTypes.TryGet(_Value, out CryptogramTypes? result))
-        {
-            throw new
-                DataElementParsingException($"The {nameof(CryptogramInformationData)} expected a {nameof(CryptogramTypes)} but none could be found");
-        }
-
-        return result!;
-    }
-
-    /// <remarks>EMV Book C-2 Section S9.23</remarks>
-    public bool IsValid(IReadTlvDatabase tlvDatabase) => throw new NotImplementedException();
-
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    /// <summary>
-    ///     Value signifying whether a Combined Data Authentication Signature has been requested by the ICC
-    /// </summary>
-    /// <returns></returns>
-    public bool IsCdaSignatureRequested() => _Value.IsBitSet(Bits.Five);
 
     #endregion
 }

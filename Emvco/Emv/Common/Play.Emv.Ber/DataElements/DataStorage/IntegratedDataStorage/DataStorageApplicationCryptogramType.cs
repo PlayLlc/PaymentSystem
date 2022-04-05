@@ -1,6 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 
@@ -27,6 +28,13 @@ public record DataStorageApplicationCryptogramType : DataElement<byte>, IEqualit
         if (!CryptogramTypes.IsValid(value))
             throw new CardDataException($"The argument {nameof(value)} was not recognized as a valid {nameof(CryptogramTypes)}");
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 
@@ -68,13 +76,6 @@ public record DataStorageApplicationCryptogramType : DataElement<byte>, IEqualit
     }
 
     public int GetHashCode(DataStorageApplicationCryptogramType obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 }

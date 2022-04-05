@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -24,6 +25,16 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
 
     public MerchantCategoryCode(ushort value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() =>
+        throw new NotImplementedException("This is an internal configuration object so serialization is not needed");
+
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -63,16 +74,6 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
     }
 
     public int GetHashCode(MerchantCategoryCode obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() =>
-        throw new NotImplementedException("This is an internal configuration object so serialization is not needed");
-
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 

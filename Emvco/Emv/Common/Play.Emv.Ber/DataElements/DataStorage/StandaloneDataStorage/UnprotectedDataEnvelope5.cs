@@ -4,6 +4,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -28,6 +29,30 @@ public record UnprotectedDataEnvelope5 : DataElement<BigInteger>, IEqualityCompa
 
     public UnprotectedDataEnvelope5(BigInteger value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override Tag GetTag() => Tag;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static bool TryDecoding(TagLengthValue value, out UnprotectedDataEnvelope5? result)
+    {
+        if (value.GetTag() != Tag)
+        {
+            result = null;
+
+            return false;
+        }
+
+        result = Decode(value.EncodeValue().AsSpan());
+
+        return true;
+    }
 
     #endregion
 
@@ -66,30 +91,6 @@ public record UnprotectedDataEnvelope5 : DataElement<BigInteger>, IEqualityCompa
     }
 
     public int GetHashCode(UnprotectedDataEnvelope5 obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    public static bool TryDecoding(TagLengthValue value, out UnprotectedDataEnvelope5? result)
-    {
-        if (value.GetTag() != Tag)
-        {
-            result = null;
-
-            return false;
-        }
-
-        result = Decode(value.EncodeValue().AsSpan());
-
-        return true;
-    }
 
     #endregion
 }

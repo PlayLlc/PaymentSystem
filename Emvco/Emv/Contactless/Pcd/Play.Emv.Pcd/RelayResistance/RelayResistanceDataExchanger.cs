@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Icc;
@@ -46,14 +47,14 @@ public class RelayResistanceDataExchanger : IExchangeRelayResistanceData
             // TODO: Logging
             return new ExchangeRelayResistanceDataResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
                                                            new ExchangeRelayResistanceDataRApduSignal(Array.Empty<byte>(),
-                                                            Level1Error.ProtocolError));
+                                                                                                      Level1Error.ProtocolError));
         }
         catch (PcdTimeoutException)
         {
             // TODO: Logging
             return new ExchangeRelayResistanceDataResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
                                                            new ExchangeRelayResistanceDataRApduSignal(Array.Empty<byte>(),
-                                                            Level1Error.TimeOutError));
+                                                                                                      Level1Error.TimeOutError));
         }
     }
 

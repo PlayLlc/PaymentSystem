@@ -1,6 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -19,6 +20,13 @@ public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<Ap
 
     public ApplicationEffectiveDate(uint value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 
@@ -64,13 +72,6 @@ public record ApplicationEffectiveDate : DataElement<uint>, IEqualityComparer<Ap
     #region Operator Overrides
 
     public static explicit operator uint(ApplicationEffectiveDate value) => value._Value;
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 }

@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Currency;
@@ -27,6 +28,14 @@ public record TransactionReferenceCurrencyCode : DataElement<NumericCurrencyCode
 
     public TransactionReferenceCurrencyCode(NumericCurrencyCode value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -76,14 +85,6 @@ public record TransactionReferenceCurrencyCode : DataElement<NumericCurrencyCode
     #region Operator Overrides
 
     public static implicit operator NumericCurrencyCode(TransactionReferenceCurrencyCode value) => value._Value;
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

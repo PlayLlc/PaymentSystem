@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 
@@ -24,6 +25,20 @@ public record ApplicationVersionNumberReader : DataElement<ushort>, IEqualityCom
 
     public ApplicationVersionNumberReader(ushort value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public bool IsCardholderVerificationIsSupported() => _Value.IsBitSet(5);
+    public bool IsCdaSupported() => _Value.IsBitSet(1);
+    public bool IsDdaSupported() => _Value.IsBitSet(6);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public bool IsIssuerAuthenticationIsSupported19() => _Value.IsBitSet(3);
+    public bool IsSdaSupported() => _Value.IsBitSet(7);
+    public bool TerminalRiskManagementIsToBePerformed() => _Value.IsBitSet(4);
 
     #endregion
 
@@ -71,20 +86,6 @@ public record ApplicationVersionNumberReader : DataElement<ushort>, IEqualityCom
     #region Operator Overrides
 
     public static explicit operator ushort(ApplicationVersionNumberReader value) => value._Value;
-
-    #endregion
-
-    #region Instance Members
-
-    public bool IsCardholderVerificationIsSupported() => _Value.IsBitSet(5);
-    public bool IsCdaSupported() => _Value.IsBitSet(1);
-    public bool IsDdaSupported() => _Value.IsBitSet(6);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public bool IsIssuerAuthenticationIsSupported19() => _Value.IsBitSet(3);
-    public bool IsSdaSupported() => _Value.IsBitSet(7);
-    public bool TerminalRiskManagementIsToBePerformed() => _Value.IsBitSet(4);
 
     #endregion
 }

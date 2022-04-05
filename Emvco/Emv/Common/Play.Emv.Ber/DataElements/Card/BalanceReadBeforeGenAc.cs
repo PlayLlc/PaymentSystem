@@ -1,6 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 
@@ -29,6 +30,13 @@ public record BalanceReadBeforeGenAc : DataElement<ulong>
 
     #endregion
 
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+
+    #endregion
+
     #region Serialization
 
     /// <exception cref="CodecParsingException"></exception>
@@ -50,13 +58,6 @@ public record BalanceReadBeforeGenAc : DataElement<ulong>
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
     public new byte[] EncodeValue(int length) => EncodeValue();
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 }

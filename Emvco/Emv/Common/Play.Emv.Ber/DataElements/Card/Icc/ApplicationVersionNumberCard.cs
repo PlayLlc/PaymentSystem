@@ -1,6 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -22,6 +23,13 @@ public record ApplicationVersionNumberCard : DataElement<ushort>
 
     public ApplicationVersionNumberCard(ushort value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public override Tag GetTag() => Tag;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 
@@ -52,13 +60,6 @@ public record ApplicationVersionNumberCard : DataElement<ushort>
     #region Operator Overrides
 
     public static explicit operator ushort(ApplicationVersionNumberCard value) => value._Value;
-
-    #endregion
-
-    #region Instance Members
-
-    public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 }

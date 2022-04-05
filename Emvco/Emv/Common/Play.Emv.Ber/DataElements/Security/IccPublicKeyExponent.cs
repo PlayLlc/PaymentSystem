@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 using Play.Encryption.Certificates;
 
@@ -33,6 +34,15 @@ public record IccPublicKeyExponent : DataElement<uint>
 
     #endregion
 
+    #region Instance Members
+
+    public PublicKeyExponent AsPublicKeyExponent() => PublicKeyExponent.Create(_Value);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(EncodingId, _Value);
+
+    #endregion
+
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -54,15 +64,6 @@ public record IccPublicKeyExponent : DataElement<uint>
     }
 
     public new byte[] EncodeValue(int length) => EncodeValue();
-
-    #endregion
-
-    #region Instance Members
-
-    public PublicKeyExponent AsPublicKeyExponent() => PublicKeyExponent.Create(_Value);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(EncodingId, _Value);
 
     #endregion
 }

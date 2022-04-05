@@ -3,6 +3,7 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -27,6 +28,13 @@ public record DataRecoveryDataObjectListRelatedData : DataElement<BigInteger>
 
     #endregion
 
+    #region Instance Members
+
+    public override Tag GetTag() => Tag;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+
+    #endregion
+
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -48,13 +56,6 @@ public record DataRecoveryDataObjectListRelatedData : DataElement<BigInteger>
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
     public new byte[] EncodeValue(int length) => EncodeValue();
-
-    #endregion
-
-    #region Instance Members
-
-    public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 }

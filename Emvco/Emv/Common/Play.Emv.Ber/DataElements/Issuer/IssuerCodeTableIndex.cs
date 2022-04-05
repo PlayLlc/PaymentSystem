@@ -1,6 +1,7 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 
@@ -24,6 +25,24 @@ public record IssuerCodeTableIndex : DataElement<byte>, IEqualityComparer<Issuer
 
     public IssuerCodeTableIndex(byte value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+
+    public static bool StaticEquals(IssuerCodeTableIndex? x, IssuerCodeTableIndex? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
 
     #endregion
 
@@ -65,24 +84,6 @@ public record IssuerCodeTableIndex : DataElement<byte>, IEqualityComparer<Issuer
     }
 
     public int GetHashCode(IssuerCodeTableIndex obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    public static bool StaticEquals(IssuerCodeTableIndex? x, IssuerCodeTableIndex? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
 
     #endregion
 }

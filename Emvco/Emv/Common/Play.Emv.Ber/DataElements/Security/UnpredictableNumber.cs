@@ -1,6 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -22,6 +23,14 @@ public record UnpredictableNumber : DataElement<uint>, IEqualityComparer<Unpredi
 
     public UnpredictableNumber(uint value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public ushort GetByteCount() => _ByteLength;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 
@@ -69,14 +78,6 @@ public record UnpredictableNumber : DataElement<uint>, IEqualityComparer<Unpredi
     #region Operator Overrides
 
     public static explicit operator uint(UnpredictableNumber value) => value._Value;
-
-    #endregion
-
-    #region Instance Members
-
-    public ushort GetByteCount() => _ByteLength;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 }

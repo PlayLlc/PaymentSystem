@@ -4,6 +4,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -27,6 +28,14 @@ public record IssuerScriptTemplate1 : DataElement<BigInteger>, IEqualityComparer
 
     public IssuerScriptTemplate1(BigInteger value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override Tag GetTag() => Tag;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 
@@ -63,14 +72,6 @@ public record IssuerScriptTemplate1 : DataElement<BigInteger>, IEqualityComparer
     }
 
     public int GetHashCode(IssuerScriptTemplate1 obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 }

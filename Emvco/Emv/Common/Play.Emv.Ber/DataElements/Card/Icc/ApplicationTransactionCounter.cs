@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -23,6 +24,14 @@ public record ApplicationTransactionCounter : DataElement<ushort>, IEqualityComp
 
     public ApplicationTransactionCounter(ushort value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -64,14 +73,6 @@ public record ApplicationTransactionCounter : DataElement<ushort>, IEqualityComp
     }
 
     public int GetHashCode(ApplicationTransactionCounter obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

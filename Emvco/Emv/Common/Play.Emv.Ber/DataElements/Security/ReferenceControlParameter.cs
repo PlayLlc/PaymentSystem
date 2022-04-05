@@ -2,6 +2,7 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
@@ -29,6 +30,38 @@ public record ReferenceControlParameter : DataElement<byte>, IEqualityComparer<R
         if (!CryptogramTypes.IsValid(value))
             throw new CardDataException($"The argument {nameof(value)} was not recognized as a valid {nameof(CryptogramTypes)}");
     }
+
+    #endregion
+
+    #region Instance Members
+
+    private static byte Create(CryptogramTypes cryptogramTypes, bool isCombinedDataAuthenticationSupported)
+    {
+        if (isCombinedDataAuthenticationSupported)
+            return (byte) (cryptogramTypes | (byte) Bits.Five);
+
+        return (byte) cryptogramTypes;
+    }
+
+    /// <summary>
+    ///     GetCryptogramType
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="DataElementParsingException"></exception>
+    public CryptogramTypes GetCryptogramType()
+    {
+        if (!CryptogramTypes.TryGet(_Value, out CryptogramTypes? result))
+        {
+            throw new
+                DataElementParsingException($"The {nameof(CryptogramInformationData)} expected a {nameof(CryptogramTypes)} but none could be found");
+        }
+
+        return result!;
+    }
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -71,39 +104,6 @@ public record ReferenceControlParameter : DataElement<byte>, IEqualityComparer<R
     }
 
     public int GetHashCode(ReferenceControlParameter obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    private static byte Create(CryptogramTypes cryptogramTypes, bool isCombinedDataAuthenticationSupported)
-    {
-        if (isCombinedDataAuthenticationSupported)
-            return (byte) (cryptogramTypes | (byte) Bits.Five);
-
-        return (byte) cryptogramTypes;
-    }
-
-    /// <summary>
-    ///     GetCryptogramType
-    /// </summary>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="DataElementParsingException"></exception>
-    public CryptogramTypes GetCryptogramType()
-    {
-        if (!CryptogramTypes.TryGet(_Value, out CryptogramTypes? result))
-        {
-            throw new
-                DataElementParsingException($"The {nameof(CryptogramInformationData)} expected a {nameof(CryptogramTypes)} but none could be found");
-        }
-
-        return result!;
-    }
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

@@ -3,6 +3,7 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -27,6 +28,13 @@ public record DataStorageOperatorDataSetTerminal : DataElement<BigInteger>
 
     #endregion
 
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+
+    #endregion
+
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -45,13 +53,6 @@ public record DataStorageOperatorDataSetTerminal : DataElement<BigInteger>
 
         return new DataStorageOperatorDataSetTerminal(result);
     }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 }

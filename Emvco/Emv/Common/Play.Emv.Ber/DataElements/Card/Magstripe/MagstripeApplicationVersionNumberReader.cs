@@ -1,6 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -22,6 +23,13 @@ public record MagstripeApplicationVersionNumberReader : DataElement<RelaySeconds
 
     public MagstripeApplicationVersionNumberReader(RelaySeconds value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 
@@ -52,13 +60,6 @@ public record MagstripeApplicationVersionNumberReader : DataElement<RelaySeconds
     #region Operator Overrides
 
     public static implicit operator RelaySeconds(MagstripeApplicationVersionNumberReader value) => value._Value;
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 }

@@ -1,6 +1,7 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 using Play.Icc.FileSystem.ElementaryFiles;
 
@@ -40,6 +41,25 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
 
     public ShortFileIdentifier(ShortFileId value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public ushort GetByteCount() => 1;
+    public override Tag GetTag() => Tag;
+    public static bool IsValid(byte value) => value is >= _MinValue and <= _MaxValue;
+
+    public static bool IsValid(Tag value)
+    {
+        uint valueCopy = value;
+
+        if (valueCopy > byte.MaxValue)
+            return false;
+
+        return valueCopy is >= _MinValue and <= _MaxValue;
+    }
 
     #endregion
 
@@ -96,25 +116,6 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
     public static implicit operator ShortFileId(ShortFileIdentifier value) => new(value._Value);
     public static bool operator !=(ShortFileIdentifier left, Tag right) => !left.Equals(right);
     public static bool operator !=(Tag left, ShortFileIdentifier right) => !right.Equals(left);
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public ushort GetByteCount() => 1;
-    public override Tag GetTag() => Tag;
-    public static bool IsValid(byte value) => value is >= _MinValue and <= _MaxValue;
-
-    public static bool IsValid(Tag value)
-    {
-        uint valueCopy = value;
-
-        if (valueCopy > byte.MaxValue)
-            return false;
-
-        return valueCopy is >= _MinValue and <= _MaxValue;
-    }
 
     #endregion
 }

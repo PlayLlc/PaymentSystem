@@ -9,8 +9,10 @@ using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.State;
+using Play.Emv.Kernel2.Databases;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
+using Play.Icc.Messaging.Apdu;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
@@ -33,10 +35,22 @@ public partial class WaitingForGenerateAcResponse1
         if (TryHandleL1Error(session.GetKernelSessionId(), signal))
             return _KernelStateResolver.GetKernelState(StateId);
 
+        if (TryHandleLevel2StatusByteError(out StateId stateIdForStatusByteErrorFlow))
+            return _KernelStateResolver.GetKernelState(stateIdForStatusByteErrorFlow);
+
+        if (TryHandleLevel2ParsingError(out StateId stateIdForParsingErrorFlow))
+            return _KernelStateResolver.GetKernelState(stateIdForParsingErrorFlow);
+
+        if (TryHandleMissingMandatoryDataObjects(out StateId stateIdForMissingMandatoryDataObjectsFlow))
+            return _KernelStateResolver.GetKernelState(stateIdForMissingMandatoryDataObjectsFlow);
+
+        if (TryHandleInvalidCryptogramInformationData(out StateId stateIdForInvalidCryptogramInformationDataFlow))
+            return _KernelStateResolver.GetKernelState(stateIdForInvalidCryptogramInformationDataFlow);
+
+        return _KernelStateResolver.GetKernelState(HandleAuthentication());
+
         throw new NotImplementedException();
     }
-
-    #endregion
 
     #region S9.5 - S9.15 - L1RSP
 
@@ -166,6 +180,159 @@ public partial class WaitingForGenerateAcResponse1
 
         HandleL1ErrorTryAgain(sessionId, signal);
     }
+
+    #endregion
+
+    #region S916 - S917
+
+    /// <exception cref="TerminalDataException"></exception>
+    private bool TryHandleLevel2StatusByteError(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu, out StateId? stateId)
+    {
+        if (rapdu.GetStatusWords() == StatusWords._9000)
+        {
+            stateId = null;
+
+            return false;
+        }
+
+        SetLevel2StatusByteError(rapdu);
+
+        stateId = _S910.Process(this, session);
+
+        return true;
+    }
+
+    #endregion
+
+    #region S917
+
+    /// <exception cref="TerminalDataException"></exception>
+    private void SetLevel2StatusByteError(GenerateApplicationCryptogramResponse rapdu)
+    {
+        _Database.Update(Level2Error.StatusBytes);
+        _Database.Update(rapdu.GetStatusWords());
+    }
+
+    #endregion
+
+    #region S918 - S920
+
+    /// <exception cref="TerminalDataException"></exception>
+    private bool TryHandleLevel2ParsingError(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu, out StateId? stateId)
+    {
+        try
+        {
+            _Database.Update(rapdu.ResolveResponseData(_Database));
+            stateId = null;
+
+            return false;
+        }
+        catch (TerminalDataException)
+        {
+            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
+            stateId = HandleLevel2ParsingError(session);
+
+            return true;
+        }
+        catch (Exception)
+        {
+            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
+            stateId = HandleLevel2ParsingError(session);
+
+            return true;
+        }
+    }
+
+    #endregion
+
+    #region S920
+
+    /// <exception cref="TerminalDataException"></exception>
+    private StateId HandleLevel2ParsingError(Kernel2Session session)
+    {
+        _Database.Update(Level2Error.ParsingError);
+
+        return _S910.Process(this, session);
+    }
+
+    #endregion
+
+    #region S921 - S922
+
+    /// <exception cref="TerminalDataException"></exception>
+    private bool TryHandleMissingMandatoryDataObjects(Kernel2Session session, out StateId? stateId)
+    {
+        if (!_Database.IsPresentAndNotEmpty(ApplicationTransactionCounter.Tag))
+        {
+            stateId = HandleMissingMandatoryDataObjects(session);
+
+            return true;
+        }
+
+        if (!_Database.IsPresentAndNotEmpty(CryptogramInformationData.Tag))
+        {
+            stateId = HandleMissingMandatoryDataObjects(session);
+
+            return true;
+        }
+
+        stateId = null;
+
+        return false;
+    }
+
+    #endregion
+
+    #region S922
+
+    /// <exception cref="TerminalDataException"></exception>
+    private StateId HandleMissingMandatoryDataObjects(Kernel2Session session)
+    {
+        _Database.Update(Level2Error.CardDataMissing);
+
+        return _S910.Process(this, session);
+    }
+
+    #endregion
+
+    #region S923 - S924
+
+    /// <exception cref="TerminalDataException"></exception>
+    private bool TryHandleInvalidCryptogramInformationData(Kernel2Session session, out StateId? stateId)
+    {
+        CryptogramInformationData cid = _Database.Get<CryptogramInformationData>(CryptogramInformationData.Tag);
+
+        if (!cid.IsValid(_Database))
+        {
+            stateId = HandleInvalidCryptogramInformationData(session);
+
+            return true;
+        }
+
+        stateId = null;
+
+        return false;
+    }
+
+    #endregion
+
+    #region S924
+
+    private StateId HandleInvalidCryptogramInformationData(Kernel2Session session)
+    {
+        _Database.Update(Level2Error.CardDataError);
+
+        return _S910.Process(this, session);
+    }
+
+    #endregion
+
+    #region S925 - S928
+
+    private StateId HandleAuthentication(Kernel2Session session)
+    { }
+
+    #endregion
 
     #endregion
 }

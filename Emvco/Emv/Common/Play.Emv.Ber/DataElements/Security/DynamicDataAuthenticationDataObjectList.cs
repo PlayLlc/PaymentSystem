@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -34,6 +35,14 @@ public record DynamicDataAuthenticationDataObjectList : DataObjectList, IEqualit
                 CardDataMissingException($"The {nameof(DynamicDataAuthenticationDataObjectList)} must contain a tag for {nameof(UnpredictableNumber)}");
         }
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -70,14 +79,6 @@ public record DynamicDataAuthenticationDataObjectList : DataObjectList, IEqualit
     }
 
     public int GetHashCode(DynamicDataAuthenticationDataObjectList obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

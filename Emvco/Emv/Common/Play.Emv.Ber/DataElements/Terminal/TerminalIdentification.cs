@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 
@@ -28,6 +29,18 @@ public record TerminalIdentification : DataElement<char[]>, IEqualityComparer<Te
         if (value.Length > 8)
             throw new DataElementParsingException($"The argument {nameof(value)} must have 8 digits or less");
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public override string ToString() => AsToken();
+    public Span<char> AsSpan() => _Value.AsSpan()[^_ByteLength..];
+    public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
+    public string AsToken() => new(_Value.AsSpan()[^_ByteLength..]);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -84,18 +97,6 @@ public record TerminalIdentification : DataElement<char[]>, IEqualityComparer<Te
     public static explicit operator Span<char>(TerminalIdentification value) => value.AsSpan();
     public static explicit operator ReadOnlySpan<char>(TerminalIdentification value) => value.AsSpan();
     public static explicit operator string(TerminalIdentification value) => value.AsToken();
-
-    #endregion
-
-    #region Instance Members
-
-    public override string ToString() => AsToken();
-    public Span<char> AsSpan() => _Value.AsSpan()[^_ByteLength..];
-    public TagLengthValue AsTagLengthValue(BerCodec codec) => new(GetTag(), EncodeValue(codec));
-    public string AsToken() => new(_Value.AsSpan()[^_ByteLength..]);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

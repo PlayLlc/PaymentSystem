@@ -2,6 +2,7 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization;
@@ -31,6 +32,15 @@ public record TerminalCountryCode : DataElement<NumericCountryCode>, IEqualityCo
 
     public TerminalCountryCode(CultureProfile value) : base(value.GetNumericCountryCode())
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public NumericCountryCode AsCountryCode() => _Value;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -84,15 +94,6 @@ public record TerminalCountryCode : DataElement<NumericCountryCode>, IEqualityCo
     public static bool operator ==(NumericCountryCode left, TerminalCountryCode right) => right._Value.Equals(left);
     public static bool operator !=(TerminalCountryCode left, NumericCountryCode right) => !left._Value.Equals(right);
     public static bool operator !=(NumericCountryCode left, TerminalCountryCode right) => !right._Value.Equals(left);
-
-    #endregion
-
-    #region Instance Members
-
-    public NumericCountryCode AsCountryCode() => _Value;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

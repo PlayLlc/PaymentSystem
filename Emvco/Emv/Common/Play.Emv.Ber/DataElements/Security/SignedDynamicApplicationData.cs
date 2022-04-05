@@ -4,6 +4,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
 
@@ -25,6 +26,16 @@ public record SignedDynamicApplicationData : DataElement<BigInteger>, IEqualityC
     {
         _Value = value;
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public byte[] AsByteArray() => _Value.ToByteArray();
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public ushort GetByteCount() => (ushort) _Value.GetByteCount();
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -59,16 +70,6 @@ public record SignedDynamicApplicationData : DataElement<BigInteger>, IEqualityC
     }
 
     public int GetHashCode(SignedDynamicApplicationData obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public byte[] AsByteArray() => _Value.ToByteArray();
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public ushort GetByteCount() => (ushort) _Value.GetByteCount();
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

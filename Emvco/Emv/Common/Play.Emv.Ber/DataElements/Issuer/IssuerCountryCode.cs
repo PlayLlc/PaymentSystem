@@ -1,6 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Country;
@@ -25,6 +26,24 @@ public record IssuerCountryCode : DataElement<NumericCountryCode>, IEqualityComp
 
     public IssuerCountryCode(NumericCountryCode value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+
+    public static bool StaticEquals(IssuerCountryCode? x, IssuerCountryCode? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
 
     #endregion
 
@@ -72,24 +91,6 @@ public record IssuerCountryCode : DataElement<NumericCountryCode>, IEqualityComp
     #region Operator Overrides
 
     public static implicit operator NumericCountryCode(IssuerCountryCode value) => value._Value;
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    public static bool StaticEquals(IssuerCountryCode? x, IssuerCountryCode? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
 
     #endregion
 }

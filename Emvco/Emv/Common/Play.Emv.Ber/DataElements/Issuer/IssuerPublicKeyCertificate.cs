@@ -4,6 +4,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -25,6 +26,17 @@ public record IssuerPublicKeyCertificate : DataElement<BigInteger>, IEqualityCom
 
     public IssuerPublicKeyCertificate(BigInteger value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public byte[] AsByteArray() => _Value.ToByteArray();
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public int GetByteCount() => _Value.GetByteCount();
+    public ReadOnlySpan<byte> GetEncipherment() => _Value.ToByteArray().AsSpan();
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -61,17 +73,6 @@ public record IssuerPublicKeyCertificate : DataElement<BigInteger>, IEqualityCom
     }
 
     public int GetHashCode(IssuerPublicKeyCertificate obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public byte[] AsByteArray() => _Value.ToByteArray();
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public int GetByteCount() => _Value.GetByteCount();
-    public ReadOnlySpan<byte> GetEncipherment() => _Value.ToByteArray().AsSpan();
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

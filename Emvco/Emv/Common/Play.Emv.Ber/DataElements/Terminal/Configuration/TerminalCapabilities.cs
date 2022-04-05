@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 
@@ -29,6 +30,27 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
     public TerminalCapabilities(CardDataInputCapability cardDataInputCapability, SecurityCapability securityCapability) :
         base((uint) (securityCapability << 16) | cardDataInputCapability)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public bool IsCardCaptureSupported() => _Value.IsBitSet(22);
+    public bool IsCombinedDataAuthenticationSupported() => _Value.IsBitSet(21);
+    public bool IsDynamicDataAuthenticationSupported() => _Value.IsBitSet(23);
+    public bool IsEncipheredPinForOfflineVerificationSupported() => _Value.IsBitSet(13);
+    public bool IsEncipheredPinForOnlineVerificationSupported() => _Value.IsBitSet(15);
+    public bool IsIcWithContactsSupported() => _Value.IsBitSet(6);
+    public bool IsMagneticStripeSupported() => _Value.IsBitSet(7);
+    public bool IsManualKeyEntrySupported() => _Value.IsBitSet(8);
+    public bool IsNoCardVerificationMethodRequiredSet() => _Value.IsBitSet(12);
+    public bool IsPlaintextPinForIccVerificationSupported() => _Value.IsBitSet(16);
+    public bool IsSignaturePaperSupported() => _Value.IsBitSet(14);
+    public bool IsStaticDataAuthenticationSupported() => _Value.IsBitSet(24);
+    public static Builder GetBuilder() => new();
 
     #endregion
 
@@ -70,27 +92,6 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
     }
 
     public int GetHashCode(TerminalCapabilities obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public bool IsCardCaptureSupported() => _Value.IsBitSet(22);
-    public bool IsCombinedDataAuthenticationSupported() => _Value.IsBitSet(21);
-    public bool IsDynamicDataAuthenticationSupported() => _Value.IsBitSet(23);
-    public bool IsEncipheredPinForOfflineVerificationSupported() => _Value.IsBitSet(13);
-    public bool IsEncipheredPinForOnlineVerificationSupported() => _Value.IsBitSet(15);
-    public bool IsIcWithContactsSupported() => _Value.IsBitSet(6);
-    public bool IsMagneticStripeSupported() => _Value.IsBitSet(7);
-    public bool IsManualKeyEntrySupported() => _Value.IsBitSet(8);
-    public bool IsNoCardVerificationMethodRequiredSet() => _Value.IsBitSet(12);
-    public bool IsPlaintextPinForIccVerificationSupported() => _Value.IsBitSet(16);
-    public bool IsSignaturePaperSupported() => _Value.IsBitSet(14);
-    public bool IsStaticDataAuthenticationSupported() => _Value.IsBitSet(24);
-    public static Builder GetBuilder() => new();
 
     #endregion
 

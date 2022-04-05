@@ -2,6 +2,7 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Time.Seconds;
 
@@ -24,6 +25,14 @@ public record TimeoutValue : DataElement<Milliseconds>, IEqualityComparer<Timeou
 
     public TimeoutValue(Milliseconds value) : base((ushort) value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -71,14 +80,6 @@ public record TimeoutValue : DataElement<Milliseconds>, IEqualityComparer<Timeou
     #region Operator Overrides
 
     public static explicit operator Milliseconds(TimeoutValue value) => new(value._Value);
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

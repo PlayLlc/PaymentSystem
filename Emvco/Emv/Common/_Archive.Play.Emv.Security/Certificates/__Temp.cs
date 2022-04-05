@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Security.Authentications.Static;
 using Play.Emv.Security.Certificates.Icc;
@@ -111,7 +112,9 @@ internal class __Temp
         }
 
         PublicKeyModulus publicKeyModulus = DecodedIccPublicKeyCertificate.ResolvePublicKeyModulus(iccModulusLength, issuerCertificate,
-         decodedSignature.GetMessage1(), encipheredPublicKeyRemainder?.AsPublicKeyRemainder());
+                                                                                                   decodedSignature.GetMessage1(),
+                                                                                                   encipheredPublicKeyRemainder
+                                                                                                       ?.AsPublicKeyRemainder());
 
         return new DecodedIccPublicKeyCertificate(new DateRange(ShortDate.Min, expirationDate), serialNumber, hashAlgorithmIndicator,
                                                   publicKeyAlgorithmIndicator!,

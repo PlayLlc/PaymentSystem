@@ -2,6 +2,7 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Currency;
@@ -26,6 +27,15 @@ public record AmountOtherNumeric : DataElement<ulong>, IEqualityComparer<AmountO
 
     public AmountOtherNumeric(ulong value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public Money AsMoney(NumericCurrencyCode numericCurrencyCode) => new(_Value, numericCurrencyCode);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -69,15 +79,6 @@ public record AmountOtherNumeric : DataElement<ulong>, IEqualityComparer<AmountO
     }
 
     public int GetHashCode(AmountOtherNumeric obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public Money AsMoney(NumericCurrencyCode numericCurrencyCode) => new(_Value, numericCurrencyCode);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

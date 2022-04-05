@@ -2,6 +2,7 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 
@@ -29,6 +30,49 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
 
     public TerminalVerificationResults(TerminalVerificationResult value) : base((ulong) value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public static Builder GetBuilder() => new();
+    public bool ApplicationNotYetEffective() => _Value.IsBitSet(30);
+    public bool CardAppearsOnTerminalExceptionFile() => _Value.IsBitSet(37);
+    public bool CardholderVerificationWasNotSuccessful() => _Value.IsBitSet(24);
+    public bool CombinationDataAuthenticationFailed() => _Value.IsBitSet(35);
+    public bool DefaultTransactionCertificateDataObjectListUsed() => _Value.IsBitSet(8);
+    public bool DynamicDataAuthenticationFailed() => _Value.IsBitSet(36);
+    public bool ExpiredApplication() => _Value.IsBitSet(31);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public bool IccAndTerminalHaveDifferentApplicationVersions() => _Value.IsBitSet(32);
+    public bool IccDataMissing() => _Value.IsBitSet(38);
+    public bool IssuerAuthenticationFailed() => _Value.IsBitSet(7);
+    public bool LowerConsecutiveOfflineLimitExceeded() => _Value.IsBitSet(15);
+    public bool MerchantForcedTransactionOnline() => _Value.IsBitSet(12);
+    public bool NewCard() => _Value.IsBitSet(28);
+    public bool OfflineDataAuthenticationWasNotPerformed() => _Value.IsBitSet(40);
+    public bool OnlinePinEntered() => _Value.IsBitSet(19);
+    public bool PinEntryRequiredAndPinPadNotPresentOrNotWorking() => _Value.IsBitSet(21);
+    public bool PinEntryRequiredPinPadPresentButPinWasNotEntered() => _Value.IsBitSet(20);
+    public bool PinTryLimitExceeded() => _Value.IsBitSet(22);
+    public bool RelayResistanceThresholdExceeded() => _Value.IsBitSet(4);
+    public bool RelayResistanceTimeLimitsExceeded() => _Value.IsBitSet(3);
+    public bool RequestedServiceNotAllowedForCardProduct() => _Value.IsBitSet(29);
+    public bool ScriptProcessingFailedAfterFinalGenerateAc() => _Value.IsBitSet(5);
+    public bool ScriptProcessingFailedBeforeFinalGenerateAc() => _Value.IsBitSet(6);
+
+    public void SetBits(TerminalVerificationResult terminalVerificationResult)
+    {
+        _Value.SetBits((ulong) terminalVerificationResult);
+    }
+
+    public bool StaticDataAuthenticationFailed() => _Value.IsBitSet(39);
+    public bool TransactionExceedsFloorLimit() => _Value.IsBitSet(16);
+    public bool TransactionSelectedRandomlyForOnlineProcessing() => _Value.IsBitSet(13);
+    public bool UnrecognizedCvm() => _Value.IsBitSet(23);
+    public bool UpperConsecutiveOfflineLimitExceeded() => _Value.IsBitSet(14);
 
     #endregion
 
@@ -85,49 +129,6 @@ public record TerminalVerificationResults : DataElement<ulong>, IEqualityCompare
 
     public static TerminalVerificationResults operator |(TerminalVerificationResults left, TerminalVerificationResults right) =>
         new(left._Value | right._Value);
-
-    #endregion
-
-    #region Instance Members
-
-    public static Builder GetBuilder() => new();
-    public bool ApplicationNotYetEffective() => _Value.IsBitSet(30);
-    public bool CardAppearsOnTerminalExceptionFile() => _Value.IsBitSet(37);
-    public bool CardholderVerificationWasNotSuccessful() => _Value.IsBitSet(24);
-    public bool CombinationDataAuthenticationFailed() => _Value.IsBitSet(35);
-    public bool DefaultTransactionCertificateDataObjectListUsed() => _Value.IsBitSet(8);
-    public bool DynamicDataAuthenticationFailed() => _Value.IsBitSet(36);
-    public bool ExpiredApplication() => _Value.IsBitSet(31);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public bool IccAndTerminalHaveDifferentApplicationVersions() => _Value.IsBitSet(32);
-    public bool IccDataMissing() => _Value.IsBitSet(38);
-    public bool IssuerAuthenticationFailed() => _Value.IsBitSet(7);
-    public bool LowerConsecutiveOfflineLimitExceeded() => _Value.IsBitSet(15);
-    public bool MerchantForcedTransactionOnline() => _Value.IsBitSet(12);
-    public bool NewCard() => _Value.IsBitSet(28);
-    public bool OfflineDataAuthenticationWasNotPerformed() => _Value.IsBitSet(40);
-    public bool OnlinePinEntered() => _Value.IsBitSet(19);
-    public bool PinEntryRequiredAndPinPadNotPresentOrNotWorking() => _Value.IsBitSet(21);
-    public bool PinEntryRequiredPinPadPresentButPinWasNotEntered() => _Value.IsBitSet(20);
-    public bool PinTryLimitExceeded() => _Value.IsBitSet(22);
-    public bool RelayResistanceThresholdExceeded() => _Value.IsBitSet(4);
-    public bool RelayResistanceTimeLimitsExceeded() => _Value.IsBitSet(3);
-    public bool RequestedServiceNotAllowedForCardProduct() => _Value.IsBitSet(29);
-    public bool ScriptProcessingFailedAfterFinalGenerateAc() => _Value.IsBitSet(5);
-    public bool ScriptProcessingFailedBeforeFinalGenerateAc() => _Value.IsBitSet(6);
-
-    public void SetBits(TerminalVerificationResult terminalVerificationResult)
-    {
-        _Value.SetBits((ulong) terminalVerificationResult);
-    }
-
-    public bool StaticDataAuthenticationFailed() => _Value.IsBitSet(39);
-    public bool TransactionExceedsFloorLimit() => _Value.IsBitSet(16);
-    public bool TransactionSelectedRandomlyForOnlineProcessing() => _Value.IsBitSet(13);
-    public bool UnrecognizedCvm() => _Value.IsBitSet(23);
-    public bool UpperConsecutiveOfflineLimitExceeded() => _Value.IsBitSet(14);
 
     #endregion
 

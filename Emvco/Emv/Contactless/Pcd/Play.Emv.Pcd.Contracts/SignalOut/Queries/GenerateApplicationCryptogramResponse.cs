@@ -4,6 +4,7 @@ using System.Linq;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
@@ -33,8 +34,10 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
 
     #endregion
 
+    #region Instance Members
+
     /// <exception cref="TerminalDataException"></exception>
-    public static PrimitiveValue[] ResolveResponseData(IReadTlvDatabase database)
+    public PrimitiveValue[] ResolveResponseData(IReadTlvDatabase database)
     {
         PrimitiveValue[] result = new PrimitiveValue[GetCountOfDataObjectsReturned(database)];
 
@@ -97,4 +100,6 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
                 yield return PosCardholderInteractionInformation.Decode(values[i].EncodeValue().AsSpan());
         }
     }
+
+    #endregion
 }

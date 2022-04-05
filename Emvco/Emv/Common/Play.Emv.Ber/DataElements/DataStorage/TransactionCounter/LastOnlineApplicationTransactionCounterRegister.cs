@@ -1,6 +1,7 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -9,7 +10,7 @@ namespace Play.Emv.Ber.DataElements;
 ///     ATC value of the last transaction that went online
 /// </summary>
 public record LastOnlineApplicationTransactionCounterRegister : DataElement<ushort>,
-    IEqualityComparer<LastOnlineApplicationTransactionCounterRegister>
+                                                                IEqualityComparer<LastOnlineApplicationTransactionCounterRegister>
 {
     #region Static Metadata
 
@@ -23,6 +24,14 @@ public record LastOnlineApplicationTransactionCounterRegister : DataElement<usho
 
     public LastOnlineApplicationTransactionCounterRegister(ushort value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public byte[] Encode() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 
@@ -64,14 +73,6 @@ public record LastOnlineApplicationTransactionCounterRegister : DataElement<usho
     }
 
     public int GetHashCode(LastOnlineApplicationTransactionCounterRegister obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public byte[] Encode() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 }

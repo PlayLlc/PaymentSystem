@@ -1,6 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Currency;
 
@@ -25,6 +26,14 @@ public record ReaderCvmRequiredLimit : DataElement<ulong>, IEqualityComparer<Rea
 
     public ReaderCvmRequiredLimit(ulong value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public Money AsMoney(NumericCurrencyCode currencyCode) => new(_Value, currencyCode);
+    public override Tag GetTag() => Tag;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 
@@ -64,14 +73,6 @@ public record ReaderCvmRequiredLimit : DataElement<ulong>, IEqualityComparer<Rea
     }
 
     public int GetHashCode(ReaderCvmRequiredLimit obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public Money AsMoney(NumericCurrencyCode currencyCode) => new(_Value, currencyCode);
-    public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
 
     #endregion
 }

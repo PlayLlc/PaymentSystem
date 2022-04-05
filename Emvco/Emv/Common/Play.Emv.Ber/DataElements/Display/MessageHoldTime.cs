@@ -1,6 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Time.Seconds;
 
@@ -53,6 +54,20 @@ public record MessageHoldTime : DataElement<Deciseconds>, IEqualityComparer<Mess
 
     #endregion
 
+    #region Instance Members
+
+    public Milliseconds AsMilliseconds() => _Value;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+
+    /// <summary>
+    ///     The hold time in units of 100 ms
+    /// </summary>
+    public Deciseconds GetHoldTime() => _Value;
+
+    public override Tag GetTag() => Tag;
+
+    #endregion
+
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -97,20 +112,6 @@ public record MessageHoldTime : DataElement<Deciseconds>, IEqualityComparer<Mess
     #region Operator Overrides
 
     public static implicit operator Deciseconds(MessageHoldTime value) => value._Value;
-
-    #endregion
-
-    #region Instance Members
-
-    public Milliseconds AsMilliseconds() => _Value;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-
-    /// <summary>
-    ///     The hold time in units of 100 ms
-    /// </summary>
-    public Deciseconds GetHoldTime() => _Value;
-
-    public override Tag GetTag() => Tag;
 
     #endregion
 }

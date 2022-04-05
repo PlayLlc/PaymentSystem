@@ -4,6 +4,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataElements.Display;
 using Play.Emv.Ber.Exceptions;
@@ -16,7 +17,7 @@ namespace Play.Emv.Ber.DataElements;
 ///     Description: Combines all parameters to be sent with the OUT DataExchangeSignal or MSG DataExchangeSignal.
 /// </summary>
 public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimitiveValueMetadata,
-    IEqualityComparer<UserInterfaceRequestData>
+                                         IEqualityComparer<UserInterfaceRequestData>
 {
     #region Static Metadata
 
@@ -37,6 +38,27 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
 
     private UserInterfaceRequestData(BigInteger value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public ulong? GetAmount() =>
+        GetValueQualifier() == ValueQualifier.None ? null : ((ulong) (_Value >> _MoneyOffset)).GetMaskedValue(0xFFFF000000000000);
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public static Builder GetBuilder() => new();
+    public NumericCurrencyCode GetCurrencyCode() => new((ushort) (_Value >> _CurrencyCodeOffset));
+
+    public MessageHoldTime GetHoldTimeValue() =>
+        new(new Milliseconds((long) ((ulong) (_Value >> _HoldTimeOffset)).GetMaskedValue(0xFFFF000000000000)));
+
+    public LanguagePreference GetLanguagePreference() => new((ulong) (_Value >> _LanguagePreferenceOffset));
+    public MessageIdentifier GetMessageIdentifier() => MessageIdentifier.Get((byte) (_Value >> _MessageIdentifierOffset));
+    public Status GetStatus() => Status.Get((byte) (_Value >> _StatusOffset));
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public ValueQualifier GetValueQualifier() => ValueQualifier.Get((byte) (_Value >> _ValueQualifierOffset));
 
     #endregion
 
@@ -85,27 +107,6 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
 
     public static UserInterfaceRequestData operator |(UserInterfaceRequestData left, UserInterfaceRequestData right) =>
         new(left._Value | right._Value);
-
-    #endregion
-
-    #region Instance Members
-
-    public ulong? GetAmount() =>
-        GetValueQualifier() == ValueQualifier.None ? null : ((ulong) (_Value >> _MoneyOffset)).GetMaskedValue(0xFFFF000000000000);
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public static Builder GetBuilder() => new();
-    public NumericCurrencyCode GetCurrencyCode() => new((ushort) (_Value >> _CurrencyCodeOffset));
-
-    public MessageHoldTime GetHoldTimeValue() =>
-        new(new Milliseconds((long) ((ulong) (_Value >> _HoldTimeOffset)).GetMaskedValue(0xFFFF000000000000)));
-
-    public LanguagePreference GetLanguagePreference() => new((ulong) (_Value >> _LanguagePreferenceOffset));
-    public MessageIdentifier GetMessageIdentifier() => MessageIdentifier.Get((byte) (_Value >> _MessageIdentifierOffset));
-    public Status GetStatus() => Status.Get((byte) (_Value >> _StatusOffset));
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public ValueQualifier GetValueQualifier() => ValueQualifier.Get((byte) (_Value >> _ValueQualifierOffset));
 
     #endregion
 

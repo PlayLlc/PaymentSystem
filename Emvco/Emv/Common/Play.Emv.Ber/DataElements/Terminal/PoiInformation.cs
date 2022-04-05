@@ -3,6 +3,7 @@ using System.Numerics;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -26,6 +27,33 @@ public record PoiInformation : DataElement<BigInteger>, IEqualityComparer<PoiInf
 
     public PoiInformation(BigInteger value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+
+    // BUG: Double check this logic is correct. Is the Terminal Category Code derived from the Merchant Category Code?
+    private bool IsTerminalMatch(MerchantCategoryCode merchantCategoryCode) => throw new NotImplementedException();
+
+    public TerminalCategoryCode[] GetTerminalCategoryCodes()
+    {
+        HashSet<TerminalCategoryCode> buffer = new();
+        ReadOnlySpan<byte> temp = _Value.ToByteArray();
+
+        while (true)
+        {
+            if (temp.Length < 2)
+                break;
+
+            buffer.Add(TerminalCategoryCode.Get(temp[..1]));
+            temp = temp[..(2 + temp[2])];
+        }
+
+        return buffer.ToArray();
+    }
 
     #endregion
 
@@ -64,33 +92,6 @@ public record PoiInformation : DataElement<BigInteger>, IEqualityComparer<PoiInf
     }
 
     public int GetHashCode(PoiInformation obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-
-    // BUG: Double check this logic is correct. Is the Terminal Category Code derived from the Merchant Category Code?
-    private bool IsTerminalMatch(MerchantCategoryCode merchantCategoryCode) => throw new NotImplementedException();
-
-    public TerminalCategoryCode[] GetTerminalCategoryCodes()
-    {
-        HashSet<TerminalCategoryCode> buffer = new();
-        ReadOnlySpan<byte> temp = _Value.ToByteArray();
-
-        while (true)
-        {
-            if (temp.Length < 2)
-                break;
-
-            buffer.Add(TerminalCategoryCode.Get(temp[..1]));
-            temp = temp[..(2 + temp[2])];
-        }
-
-        return buffer.ToArray();
-    }
 
     #endregion
 }

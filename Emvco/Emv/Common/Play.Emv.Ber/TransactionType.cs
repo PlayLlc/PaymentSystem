@@ -2,6 +2,7 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
@@ -37,6 +38,28 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
     public TransactionType(byte value) : base(value)
     {
         Validate(value);
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+
+    /// <summary>
+    ///     Validate
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="DataElementParsingException"></exception>
+    private void Validate(byte value)
+    {
+        if (value.GetNumberOfDigits() != _CharLength)
+        {
+            throw new
+                DataElementParsingException($"The Primitive Value {nameof(TransactionType)} could not be initialized because the decoded character length was out of range. The decoded character length was {value.GetNumberOfDigits()} but must be {_CharLength} bytes in length");
+        }
     }
 
     #endregion
@@ -95,28 +118,6 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
     public static bool operator !=(TransactionType left, TransactionTypes right) => left._Value != (byte) right;
     public static bool operator ==(TransactionTypes left, TransactionType right) => right._Value == (byte) left;
     public static bool operator !=(TransactionTypes left, TransactionType right) => right._Value != (byte) left;
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    /// <summary>
-    ///     Validate
-    /// </summary>
-    /// <param name="value"></param>
-    /// <exception cref="DataElementParsingException"></exception>
-    private void Validate(byte value)
-    {
-        if (value.GetNumberOfDigits() != _CharLength)
-        {
-            throw new
-                DataElementParsingException($"The Primitive Value {nameof(TransactionType)} could not be initialized because the decoded character length was out of range. The decoded character length was {value.GetNumberOfDigits()} but must be {_CharLength} bytes in length");
-        }
-    }
 
     #endregion
 }

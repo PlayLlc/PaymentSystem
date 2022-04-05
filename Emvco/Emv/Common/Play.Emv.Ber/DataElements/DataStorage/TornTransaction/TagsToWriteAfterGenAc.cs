@@ -2,6 +2,7 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
 
@@ -24,37 +25,6 @@ public record TagsToWriteAfterGenAc : DataExchangeResponse, IEqualityComparer<Ta
 
     public TagsToWriteAfterGenAc(params PrimitiveValue[] value) : base(value)
     { }
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    public static TagsToWriteAfterGenAc Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override TagsToWriteAfterGenAc Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    public static TagsToWriteAfterGenAc Decode(ReadOnlySpan<byte> value) => new(ResolveTagsToWrite(value).ToArray());
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(TagsToWriteAfterGenAc? x, TagsToWriteAfterGenAc? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(TagsToWriteAfterGenAc obj) => obj.GetHashCode();
 
     #endregion
 
@@ -91,6 +61,37 @@ public record TagsToWriteAfterGenAc : DataExchangeResponse, IEqualityComparer<Ta
 
         return result;
     }
+
+    #endregion
+
+    #region Serialization
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static TagsToWriteAfterGenAc Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override TagsToWriteAfterGenAc Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static TagsToWriteAfterGenAc Decode(ReadOnlySpan<byte> value) => new(ResolveTagsToWrite(value).ToArray());
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(TagsToWriteAfterGenAc? x, TagsToWriteAfterGenAc? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public int GetHashCode(TagsToWriteAfterGenAc obj) => obj.GetHashCode();
 
     #endregion
 }

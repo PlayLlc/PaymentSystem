@@ -1,6 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Time.Seconds;
@@ -37,6 +38,20 @@ public record HoldTimeValue : DataElement<Deciseconds>, IEqualityComparer<HoldTi
                                                                                   $"The argument {nameof(value)} must be at least 100 ms to initialize a {nameof(HoldTimeValue)}"));
         }
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public Milliseconds AsMilliseconds() => _Value;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+
+    /// <summary>
+    ///     The hold time in units of 100 ms
+    /// </summary>
+    public Deciseconds GetHoldTime() => _Value;
+
+    public override Tag GetTag() => Tag;
 
     #endregion
 
@@ -86,20 +101,6 @@ public record HoldTimeValue : DataElement<Deciseconds>, IEqualityComparer<HoldTi
     #region Operator Overrides
 
     public static explicit operator Deciseconds(HoldTimeValue value) => value._Value;
-
-    #endregion
-
-    #region Instance Members
-
-    public Milliseconds AsMilliseconds() => _Value;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-
-    /// <summary>
-    ///     The hold time in units of 100 ms
-    /// </summary>
-    public Deciseconds GetHoldTime() => _Value;
-
-    public override Tag GetTag() => Tag;
 
     #endregion
 }

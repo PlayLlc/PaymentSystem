@@ -1,6 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Time;
@@ -28,6 +29,24 @@ public record TransactionTime : DataElement<uint>, IEqualityComparer<Transaction
 
     public TransactionTime(DateTimeUtc dateTime) : base(GetNumeric(dateTime))
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    private static uint GetNumeric(DateTimeUtc value)
+    {
+        int result = value.Hour();
+        result *= 100;
+        result += value.Minute();
+        result *= 100;
+        result += value.Second();
+
+        return (uint) result;
+    }
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
 
     #endregion
 
@@ -71,24 +90,6 @@ public record TransactionTime : DataElement<uint>, IEqualityComparer<Transaction
     }
 
     public int GetHashCode(TransactionTime obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    private static uint GetNumeric(DateTimeUtc value)
-    {
-        int result = value.Hour();
-        result *= 100;
-        result += value.Minute();
-        result *= 100;
-        result += value.Second();
-
-        return (uint) result;
-    }
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 }

@@ -2,6 +2,7 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 
@@ -28,6 +29,25 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
     public CvmResults(CvmCode cvmPerformed, CvmConditionCode cvmConditionCode, CvmResultCodes cvmResultCode) :
         base(Create(cvmPerformed, cvmConditionCode, cvmResultCode))
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    private static uint Create(CvmCode cvmCode, CvmConditionCode cvmConditionCode, CvmResultCodes cvmResultCode)
+    {
+        uint result = (uint) cvmCode << 16;
+        result |= (uint) cvmConditionCode << 8;
+        result |= (uint) cvmResultCode;
+
+        return result;
+    }
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => _ByteLength;
+    public new ushort GetValueByteCount() => _ByteLength;
+    public byte[] Encode() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 
@@ -69,25 +89,6 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
     }
 
     public int GetHashCode(CvmResults obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    private static uint Create(CvmCode cvmCode, CvmConditionCode cvmConditionCode, CvmResultCodes cvmResultCode)
-    {
-        uint result = (uint) cvmCode << 16;
-        result |= (uint) cvmConditionCode << 8;
-        result |= (uint) cvmResultCode;
-
-        return result;
-    }
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => _ByteLength;
-    public new ushort GetValueByteCount() => _ByteLength;
-    public byte[] Encode() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 }

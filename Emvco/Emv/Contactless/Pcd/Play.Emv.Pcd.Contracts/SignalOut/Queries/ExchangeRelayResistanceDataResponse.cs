@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Play.Ber.DataObjects;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.Templates;
