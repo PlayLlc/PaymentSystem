@@ -15,8 +15,6 @@ public class UnicodeCodec
 
     #endregion
 
-    #region Instance Members
-
     public PlayEncodingId GetPlayEncodingId() => EncodingId;
     public int GetByteCount(char[] chars, int index, int count) => _UnicodeCodec.GetByteCount(chars, index, count);
 
@@ -88,6 +86,4 @@ public class UnicodeCodec
 
         return true;
     }
-
-    #endregion
 }

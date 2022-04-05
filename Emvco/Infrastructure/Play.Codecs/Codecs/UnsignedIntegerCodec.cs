@@ -10,7 +10,39 @@ namespace Play.Codecs;
 
 public class UnsignedIntegerCodec : PlayCodec
 {
-    #region Serialization
+    #region Instance Members
+
+    private byte[] GetAllBytes(ulong value, byte byteCount)
+    {
+        Span<byte> buffer = stackalloc byte[byteCount];
+        byte bitShift = 0;
+        byte mostSignificantByte = value.GetMostSignificantByte();
+
+        for (int i = 0, j = mostSignificantByte; i < mostSignificantByte; i++, j--)
+        {
+            buffer[j] = (byte) (value >> bitShift);
+            bitShift += 8;
+        }
+
+        return buffer.ToArray();
+    }
+
+    private byte[] GetTrimmedBytes(ulong value)
+    {
+        byte mostSignificantByte = value.GetMostSignificantByte();
+        Span<byte> buffer = stackalloc byte[mostSignificantByte];
+        byte bitShift = 0;
+
+        for (int i = mostSignificantByte - 1; i >= 0; i--)
+        {
+            buffer[i] = (byte) (value >> bitShift);
+            bitShift += 8;
+        }
+
+        return buffer.ToArray();
+    }
+
+    #endregion
 
     #region Decode To DecodedMetadata
 
@@ -43,42 +75,6 @@ public class UnsignedIntegerCodec : PlayCodec
         BigInteger bigIntegerResult = DecodeToBigInteger(value);
 
         return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
-    }
-
-    #endregion
-
-    #endregion
-
-    #region Instance Members
-
-    private byte[] GetAllBytes(ulong value, byte byteCount)
-    {
-        Span<byte> buffer = stackalloc byte[byteCount];
-        byte bitShift = 0;
-        byte mostSignificantByte = value.GetMostSignificantByte();
-
-        for (int i = 0, j = mostSignificantByte; i < mostSignificantByte; i++, j--)
-        {
-            buffer[j] = (byte) (value >> bitShift);
-            bitShift += 8;
-        }
-
-        return buffer.ToArray();
-    }
-
-    private byte[] GetTrimmedBytes(ulong value)
-    {
-        byte mostSignificantByte = value.GetMostSignificantByte();
-        Span<byte> buffer = stackalloc byte[mostSignificantByte];
-        byte bitShift = 0;
-
-        for (int i = mostSignificantByte - 1; i >= 0; i--)
-        {
-            buffer[i] = (byte) (value >> bitShift);
-            bitShift += 8;
-        }
-
-        return buffer.ToArray();
     }
 
     #endregion
