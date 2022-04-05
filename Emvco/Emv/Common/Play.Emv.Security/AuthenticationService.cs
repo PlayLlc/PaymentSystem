@@ -64,17 +64,10 @@ public class AuthenticationService : IAuthenticateTransactionSession
 
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
     public void AuthenticateFirstCda(
-        ITlvReaderAndWriter database, ICertificateDatabase certificateDatabase, StaticDataToBeAuthenticated staticDataToBeAuthenticated)
+        ITlvReaderAndWriter database, ICertificateDatabase certificateDatabase, GenerateApplicationCryptogramResponse rapdu,
+        StaticDataToBeAuthenticated staticDataToBeAuthenticated)
     {
-        if (!sessionSecurityRepository.TryGetGenerateApplicationCryptogramResponse(out GenerateApplicationCryptogramResponse?
-                                                                                       generateApplicationCryptogramResponse))
-        {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"The {nameof(AuthenticationService)} failed to {nameof(AuthenticateFirstCda)} because a {nameof(GenerateApplicationCryptogramResponse)} could not be found");
-        }
-
-        _CombinedDataAuthenticator.AuthenticateFirstGenAc(generateApplicationCryptogramResponse!, database, certificateDatabase,
-                                                          sessionSecurityRepository.GetStaticDataToBeAuthenticated());
+        _CombinedDataAuthenticator.AuthenticateFirstGenAc(rapdu, database, certificateDatabase, staticDataToBeAuthenticated);
     }
 
     #endregion

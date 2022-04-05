@@ -53,7 +53,7 @@ public partial class WaitingForGenerateAcResponse1
         if (TryHandleInvalidCryptogramInformationData(kernel2Session, out StateId? stateIdForInvalidCryptogramInformationDataFlow))
             return _KernelStateResolver.GetKernelState(stateIdForInvalidCryptogramInformationDataFlow!.Value);
 
-        return _KernelStateResolver.GetKernelState(HandleAuthentication(kernel2Session));
+        return _KernelStateResolver.GetKernelState(HandleAuthentication(kernel2Session, signal));
     }
 
     #region S9.5 - S9.15 - L1RSP
@@ -111,10 +111,10 @@ public partial class WaitingForGenerateAcResponse1
     {
         try
         {
-            _Database.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
+            _Database.Update(MessageIdentifier.ErrorUseAnotherCard);
             _Database.Update(Status.NotReady);
             _Database.Update(StatusOutcome.EndApplication);
-            _Database.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
+            _Database.Update(MessageOnErrorIdentifier.ErrorUseAnotherCard);
             _Database.Update(signal.GetLevel1Error());
             _Database.SetIsDataRecordPresent(true);
             _Database.CreateEmvDataRecord(_DataExchangeKernelService);
@@ -334,9 +334,9 @@ public partial class WaitingForGenerateAcResponse1
     #region S925 - S928
 
     /// <exception cref="TerminalDataException"></exception>
-    private StateId HandleAuthentication(Kernel2Session session)
+    private StateId HandleAuthentication(Kernel2Session session, QueryPcdResponse message)
     {
-        _BalanceReader.Process(this, session);
+        _BalanceReader.Process(this, session, message);
 
         if (!IsPosGenAcWriteNeeded())
             SetDisplayMessage();

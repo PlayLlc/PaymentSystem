@@ -10,14 +10,13 @@ using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
+using Play.Messaging;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
-public class S910 : CommonProcessing
+public partial class S910 : CommonProcessing
 {
     #region Instance Values
-
-    private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
 
     protected override StateId[] _ValidStateIds { get; } =
     {
@@ -38,46 +37,42 @@ public class S910 : CommonProcessing
 
     #endregion
 
-    public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
+    /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message)
     {
         HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());
 
+        if (IsInvalidResponse(currentStateIdRetriever, session))
+            return ProcessInvalidResponse();
+
+        if (_Database.IsPresentAndNotEmpty(SignedDynamicApplicationData.Tag))
+            return ProcessWithCda();
+
+        return ProcessWithoutCda();
+    }
+
+    #region Invalid Response - F, C
+
+    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    private bool IsInvalidResponse(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
+    {
         ErrorIndication errorIndication = _Database.GetErrorIndication();
 
         if (errorIndication.IsErrorPresent(Level2Error.StatusBytes))
-            return ProcessC(currentStateIdRetriever, session); 
+            return true;
 
         if (errorIndication.IsErrorPresent(Level2Error.ParsingError))
-            return ProcessC(currentStateIdRetriever, session);
+            return true;
 
         if (errorIndication.IsErrorPresent(Level2Error.CardDataError))
-            return ProcessC(currentStateIdRetriever, session);
+            return true;
 
         if (errorIndication.IsErrorPresent(Level2Error.CardDataMissing))
-            return ProcessC(currentStateIdRetriever, session);
+            return true;
 
-        if (_Database.IsPresentAndNotEmpty(SignedDynamicApplicationData.Tag))
-            return ProcessA(currentStateIdRetriever, session);
-
-        return ProcessB(currentStateIdRetriever, session);  
+        return false;
     }
 
-
-    private StateId ProcessC(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
-    {
-        throw new NotImplementedException();
-    }
-
-    private StateId ProcessA(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
-    {
-        throw new NotImplementedException();
-    }
-
-    private StateId ProcessB(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
-    {
-        throw new NotImplementedException();
-    }
+    #endregion
 }
-
-
- 

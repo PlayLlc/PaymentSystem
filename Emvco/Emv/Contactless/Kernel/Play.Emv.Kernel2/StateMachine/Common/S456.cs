@@ -21,8 +21,10 @@ using Play.Emv.Security.Exceptions;
 using Play.Globalization.Time.Seconds;
 using Play.Icc.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
+using Play.Messaging;
 
 using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
+using MessageIdentifier = Play.Emv.Ber.MessageIdentifier;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
@@ -73,7 +75,7 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
+    public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message)
     {
         HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());
 
@@ -349,10 +351,10 @@ public class S456 : CommonProcessing
         if (!AreMandatoryDataObjectsPresent())
             return false;
 
-        _Database.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
+        _Database.Update(MessageIdentifier.ErrorUseAnotherCard);
         _Database.Update(Status.NotReady);
         _Database.Update(StatusOutcome.EndApplication);
-        _Database.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
+        _Database.Update(MessageOnErrorIdentifier.ErrorUseAnotherCard);
         _Database.Update(Level2Error.CardDataMissing);
         _Database.SetUiRequestOnRestartPresent(true);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
@@ -407,10 +409,10 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private void HandleIntegratedDataStorageError(KernelSessionId sessionId)
     {
-        _Database.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
+        _Database.Update(MessageIdentifier.ErrorUseAnotherCard);
         _Database.Update(Status.NotReady);
         _Database.Update(StatusOutcome.EndApplication);
-        _Database.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
+        _Database.Update(MessageOnErrorIdentifier.ErrorUseAnotherCard);
         _Database.Update(Level2Error.CardDataError);
         _Database.SetUiRequestOnRestartPresent(true);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
@@ -594,10 +596,10 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     private void HandleStaticDataAuthenticationError(KernelSessionId sessionId)
     {
-        _Database.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
+        _Database.Update(MessageIdentifier.ErrorUseAnotherCard);
         _Database.Update(Status.NotReady);
         _Database.Update(StatusOutcome.EndApplication);
-        _Database.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
+        _Database.Update(MessageOnErrorIdentifier.ErrorUseAnotherCard);
         _Database.Update(Level2Error.CardDataError);
         _Database.SetUiRequestOnRestartPresent(true);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);

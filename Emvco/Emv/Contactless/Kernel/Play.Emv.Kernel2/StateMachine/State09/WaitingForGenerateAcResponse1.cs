@@ -1,4 +1,5 @@
-﻿using Play.Emv.Exceptions;
+﻿using Play.Emv.Display.Contracts;
+using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
@@ -31,9 +32,12 @@ public partial class WaitingForGenerateAcResponse1 : KernelState
 
     public WaitingForGenerateAcResponse1(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, S910 s910,
-        OfflineBalanceReader balanceReader) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager,
-                                                   kernelStateResolver, pcdEndpoint)
+        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IHandleDisplayRequests displayEndpoint, S910 s910, OfflineBalanceReader balanceReader) : base(database, dataExchangeKernelService,
+                                                                                                      kernelEndpoint,
+                                                                                                      tornTransactionManager,
+                                                                                                      kernelStateResolver, pcdEndpoint,
+                                                                                                      displayEndpoint)
     {
         _S910 = s910;
         _BalanceReader = balanceReader;

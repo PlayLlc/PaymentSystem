@@ -117,10 +117,10 @@ public partial class WaitingForMagStripeReadRecordResponse
         try
         {
             // HACK: Move exception handling to a single exception handler
-            _Database.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
+            _Database.Update(MessageIdentifier.ErrorUseAnotherCard);
             _Database.Update(Status.NotReady);
             _Database.Update(StatusOutcome.EndApplication);
-            _Database.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
+            _Database.Update(MessageOnErrorIdentifier.ErrorUseAnotherCard);
             _Database.Update(Level2Error.StatusBytes);
             _Database.Update(signal.GetStatusWords());
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
@@ -200,10 +200,10 @@ public partial class WaitingForMagStripeReadRecordResponse
         try
         {
             // HACK: Move exception handling to a single exception handler
-            _Database.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
+            _Database.Update(MessageIdentifier.ErrorUseAnotherCard);
             _Database.Update(Status.NotReady);
             _Database.Update(StatusOutcome.EndApplication);
-            _Database.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
+            _Database.Update(MessageOnErrorIdentifier.ErrorUseAnotherCard);
             _Database.Update(Level2Error.ParsingError);
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
             _Database.SetUiRequestOnRestartPresent(true);
@@ -261,10 +261,10 @@ public partial class WaitingForMagStripeReadRecordResponse
                 return false;
 
             // HACK: Move exception handling to a single exception handler
-            _Database.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
+            _Database.Update(MessageIdentifier.ErrorUseAnotherCard);
             _Database.Update(Status.NotReady);
             _Database.Update(StatusOutcome.EndApplication);
-            _Database.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
+            _Database.Update(MessageOnErrorIdentifier.ErrorUseAnotherCard);
             _Database.Update(Level2Error.CardDataMissing);
             _Database.SetUiRequestOnRestartPresent(true);
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
@@ -317,7 +317,7 @@ public partial class WaitingForMagStripeReadRecordResponse
                                                           _Database
                                                               .Get<
                                                                   NumericApplicationTransactionCounterTrack2>(NumericApplicationTransactionCounterTrack2
-                                                                  .Tag));
+                                                                                                                  .Tag));
 
             if (!numberOfNonZeroBits.IsInRange())
             {
@@ -378,10 +378,10 @@ public partial class WaitingForMagStripeReadRecordResponse
     {
         try
         {
-            _Database.Update(MessageIdentifier.InsertSwipeOrTryAnotherCard);
+            _Database.Update(MessageIdentifier.ErrorUseAnotherCard);
             _Database.Update(Status.NotReady);
             _Database.Update(StatusOutcome.EndApplication);
-            _Database.Update(MessageOnErrorIdentifier.InsertSwipeOrTryAnotherCard);
+            _Database.Update(MessageOnErrorIdentifier.ErrorUseAnotherCard);
             _Database.Update(Level2Error.CardDataMissing);
             _Database.SetUiRequestOnRestartPresent(true);
             _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);

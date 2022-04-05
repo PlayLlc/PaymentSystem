@@ -17,6 +17,7 @@ using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
 using Play.Globalization.Time.Seconds;
+using Play.Messaging;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
@@ -49,7 +50,7 @@ public class S78 : CommonProcessing
 
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
-    public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
+    public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message)
     {
         HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());
 
@@ -282,7 +283,7 @@ public class S78 : CommonProcessing
     {
         NumberOfNonZeroBits nun = new(_Database.Get<PunatcTrack2>(PunatcTrack2.Tag),
                                       _Database.Get<NumericApplicationTransactionCounterTrack2>(NumericApplicationTransactionCounterTrack2
-                                          .Tag));
+                                                                                                    .Tag));
 
         UnpredictableNumber unpredictableNumber = _UnpredictableNumberGenerator.GenerateUnpredictableNumber(nun);
         _Database.Update(unpredictableNumber);

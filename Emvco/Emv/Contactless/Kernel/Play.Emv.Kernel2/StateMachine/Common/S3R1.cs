@@ -15,8 +15,10 @@ using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
 using Play.Icc.FileSystem.ElementaryFiles;
+using Play.Messaging;
 
 using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
+using MessageIdentifier = Play.Emv.Ber.MessageIdentifier;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
@@ -53,7 +55,7 @@ public class S3R1 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
-    public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
+    public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message)
     {
         HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());
 

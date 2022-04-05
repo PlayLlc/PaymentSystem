@@ -72,7 +72,7 @@ public partial class Idle : KernelState
     private void UpdateLanguagePreferences(Kernel2Session session, FileControlInformationAdf fci)
     {
         if (fci.TryGetLanguagePreference(out LanguagePreference? languagePreference))
-            ((KernelDatabase) _Database).Update(languagePreference!);
+            _Database.Update(languagePreference!);
     }
 
     /// <remarks>Book C-2 Section 6.3.3 - S1.7</remarks>

@@ -268,7 +268,7 @@ internal class CombinedDataAuthenticator
     {
         ProcessingOptionsDataObjectList pdol = database.Get<ProcessingOptionsDataObjectList>(ProcessingOptionsDataObjectList.Tag);
         CardRiskManagementDataObjectList1 cdol1 = database.Get<CardRiskManagementDataObjectList1>(CardRiskManagementDataObjectList1.Tag);
-        PrimitiveValue[] rapduDataObjects = rapdu.GetPrimitiveDataObjects();
+        PrimitiveValue[] rapduDataObjects = rapdu.GetPrimitiveDataObjects(database);
         int pdolResultLength = pdol.GetValueByteCountOfCommandTemplate();
         int cdolResultLength = cdol1.GetValueByteCountOfCommandTemplate();
         int rapduResultLength = (int) rapduDataObjects.Sum(a => a.GetTagLengthValueByteCount(_Codec));

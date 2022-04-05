@@ -8,6 +8,7 @@ using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
+using Play.Messaging;
 
 using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
 
@@ -54,7 +55,7 @@ public abstract class CommonProcessing
         }
     }
 
-    public abstract StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session);
+    public abstract StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message);
 
     #endregion
 }

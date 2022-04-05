@@ -29,7 +29,7 @@ public record MessageIdentifier : EnumObject<byte>
     public static readonly MessageIdentifier EnterPin;
     public static readonly MessageIdentifier IncorrectPin;
     public static readonly MessageIdentifier InsertCard;
-    public static readonly MessageIdentifier InsertSwipeOrTryAnotherCard;
+    public static readonly MessageIdentifier ErrorUseAnotherCard;
     public static readonly MessageIdentifier ClearDisplay;
     public static readonly MessageIdentifier NotAccepted;
     public static readonly MessageIdentifier NotAvailable;
@@ -128,7 +128,7 @@ public record MessageIdentifier : EnumObject<byte>
         PleasePresentOneCardOnly = new MessageIdentifier(pleasePresentOneCardOnly);
         ApprovedPleaseSign = new MessageIdentifier(approvedPleaseSign);
         AuthorizingPleaseWait = new MessageIdentifier(authorizingPleaseWait);
-        InsertSwipeOrTryAnotherCard = new MessageIdentifier(insertSwipeOrTryAnotherCard);
+        ErrorUseAnotherCard = new MessageIdentifier(insertSwipeOrTryAnotherCard);
         PleaseInsertCard = new MessageIdentifier(pleaseInsertCard);
         ClearDisplay = new MessageIdentifier(clearDisplay);
         SeePhoneForInstructions = new MessageIdentifier(seePhoneForInstructions);
@@ -167,7 +167,7 @@ public record MessageIdentifier : EnumObject<byte>
             {pleasePresentOneCardOnly, PleasePresentOneCardOnly},
             {approvedPleaseSign, ApprovedPleaseSign},
             {authorizingPleaseWait, AuthorizingPleaseWait},
-            {insertSwipeOrTryAnotherCard, InsertSwipeOrTryAnotherCard},
+            {insertSwipeOrTryAnotherCard, ErrorUseAnotherCard},
             {pleaseInsertCard, PleaseInsertCard},
             {clearDisplay, ClearDisplay},
             {seePhoneForInstructions, SeePhoneForInstructions},

@@ -14,8 +14,6 @@ using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Icc.Messaging.Apdu;
 using Play.Messaging;
 
-using MessageIdentifier = Play.Emv.Ber.MessageIdentifier;
-
 namespace Play.Emv.Selection.Start;
 
 /// <summary>
@@ -110,7 +108,7 @@ public class CombinationSelector
             builder.Set(StatusOutcome.EndApplication);
             builder.SetIsUiRequestOnOutcomePresent(true);
 
-            userInterfaceRequestDataBuilder.Set(MessageIdentifier.InsertSwipeOrTryAnotherCard);
+            userInterfaceRequestDataBuilder.Set(MessageIdentifier.ErrorUseAnotherCard);
             userInterfaceRequestDataBuilder.Set(Status.ReadyToRead);
             userInterfaceRequestDataBuilder.Set(new MessageHoldTime(Milliseconds.Zero));
         }
@@ -241,7 +239,7 @@ public class CombinationSelector
     private void ProcessEmptyCandidateList(Outcome outcome)
     {
         UserInterfaceRequestData.Builder? userInterfaceRequestDataBuilder = UserInterfaceRequestData.GetBuilder();
-        userInterfaceRequestDataBuilder.Set(MessageIdentifier.InsertSwipeOrTryAnotherCard);
+        userInterfaceRequestDataBuilder.Set(MessageIdentifier.ErrorUseAnotherCard);
         userInterfaceRequestDataBuilder.Set(Status.ReadyToRead);
 
         OutcomeParameterSet.Builder? outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
