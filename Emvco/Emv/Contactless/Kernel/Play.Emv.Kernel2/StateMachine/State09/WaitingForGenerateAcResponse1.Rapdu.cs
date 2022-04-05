@@ -226,7 +226,7 @@ public partial class WaitingForGenerateAcResponse1
     {
         try
         {
-            _Database.Update(rapdu.ResolveResponseData(_Database));
+            _Database.Update(rapdu.GetPrimitiveDataObjects(_Database));
             stateId = null;
 
             return false;

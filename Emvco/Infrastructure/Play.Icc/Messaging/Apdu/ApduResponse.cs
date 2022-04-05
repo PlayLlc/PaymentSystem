@@ -30,6 +30,7 @@ public abstract class ApduResponse : IApduResponse
     /// <returns></returns>
     public byte[] GetData() => _Data;
 
+    public int GetDataByteCount() => _Data.Length;
     public byte GetStatusWord1() => _StatusWords.GetStatusWord1();
     public byte GetStatusWord2() => _StatusWords.GetStatusWord2();
     public string GetStatusWordDescription() => _StatusWords.GetDescription();

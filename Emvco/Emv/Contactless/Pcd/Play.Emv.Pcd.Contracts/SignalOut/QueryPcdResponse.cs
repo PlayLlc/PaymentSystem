@@ -31,10 +31,8 @@ public record QueryPcdResponse : ResponseSignal
     #region Constructor
 
     public QueryPcdResponse(
-        CorrelationId correlationId,
-        MessageTypeId messageTypeId,
-        TransactionSessionId transactionSessionId,
-        RApduSignal rApduSignal) : base(correlationId, messageTypeId, ChannelTypeId)
+        CorrelationId correlationId, MessageTypeId messageTypeId, TransactionSessionId transactionSessionId, RApduSignal rApduSignal) :
+        base(correlationId, messageTypeId, ChannelTypeId)
     {
         _TransactionSessionId = transactionSessionId;
         _RApduSignal = rApduSignal;
@@ -62,6 +60,7 @@ public record QueryPcdResponse : ResponseSignal
     public Level1Error GetLevel1Error() => _RApduSignal.GetLevel1Error();
     public StatusWords GetStatusWords() => _RApduSignal.GetStatusWords();
     public byte[] GetData() => _RApduSignal.GetData();
+    public int GetDataByteCount() => _RApduSignal.GetDataByteCount();
 
     #endregion
 }
