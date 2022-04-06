@@ -121,7 +121,7 @@ namespace Play.Emv.Kernel2.StateMachine
             private StateId HandleRelayResistanceData(IGetKernelStateId currentGetKernelStateId, Kernel2Session session)
             {
                 if (_Database.IsSet(TerminalVerificationResultCodes.RelayResistancePerformed))
-                    StoreRelayResistanceDataInTrack2();
+                    UpdateTrack2DiscretionaryData();
 
                 return _ResponseHandler.HandleValidResponse(currentGetKernelStateId, session);
             }
@@ -130,58 +130,51 @@ namespace Play.Emv.Kernel2.StateMachine
 
             #region S910.39
 
-            private void StoreRelayResistanceDataInTrack2()
+            /// <exception cref="TerminalDataException"></exception>
+            /// <exception cref="OverflowException"></exception>
+            /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+            /// <exception cref="Exception"></exception>
+            private void UpdateTrack2DiscretionaryData()
             {
                 if (!_Database.IsPresentAndNotEmpty(Track2EquivalentData.Tag))
                     return;
 
                 Track2EquivalentData track2EquivalentDataBuffer = _Database.Get<Track2EquivalentData>(Track2EquivalentData.Tag);
+                Nibble[] discretionaryDataBuffer;
 
                 if (track2EquivalentDataBuffer.GetNumberOfDigitsInPrimaryAccountNumber() <= 16)
                 {
-                    track2EquivalentDataBuffer = track2EquivalentDataBuffer.UpdateDiscretionaryData(new Nibble[]
+                    discretionaryDataBuffer = new Nibble[]
                     {
-                        0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
-                        0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
-                        0x0
-                    });
+                        0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+                        0x0, 0x0, 0x0, 0x0, 0x0
+                    };
                 }
                 else
                 {
-                    track2EquivalentDataBuffer =
-                        track2EquivalentDataBuffer.UpdateDiscretionaryData(new Nibble[]
-                        {
-                            0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
-                            0x0, 0x0
-                        });
+                    discretionaryDataBuffer = new Nibble[]
+                    {
+                        0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+                        0x0, 0x0
+                    };
                 }
 
                 if (_Database.TryGet(CaPublicKeyIndex.Tag, out CaPublicKeyIndex? caPublicKeyIndex) && ((byte) caPublicKeyIndex! < 0x0A))
-                {
-                    Nibble[] discretionaryDataCaScope = track2EquivalentDataBuffer.GetDiscretionaryData().AsNibbleArray();
-                    discretionaryDataCaScope[0] = new Nibble((byte) caPublicKeyIndex!);
-                    track2EquivalentDataBuffer = track2EquivalentDataBuffer.UpdateDiscretionaryData(discretionaryDataCaScope);
-                }
+                    discretionaryDataBuffer[0] = new Nibble((byte) caPublicKeyIndex!);
 
                 var rrpCounter = _Database.Get<RelayResistanceProtocolCounter>(RelayResistanceProtocolCounter.Tag);
-                Nibble[] discretionaryDataRrpScope = track2EquivalentDataBuffer.GetDiscretionaryData().AsNibbleArray();
-                discretionaryDataRrpScope[1] = new Nibble((byte) rrpCounter!);
-                track2EquivalentDataBuffer = track2EquivalentDataBuffer.UpdateDiscretionaryData(discretionaryDataRrpScope);
+                discretionaryDataBuffer[1] = new Nibble((byte) rrpCounter!);
 
                 var deviceRelayResistanceEntropy = _Database.Get<DeviceRelayResistanceEntropy>(DeviceRelayResistanceEntropy.Tag);
-                Nibble[] discretionaryDataEntropyScope = track2EquivalentDataBuffer.GetDiscretionaryData().AsNibbleArray();
                 ReadOnlySpan<Nibble> deviceRelayResistanceEntropyNibbles = deviceRelayResistanceEntropy.EncodeValue()[^2..].AsNibbleArray();
-                deviceRelayResistanceEntropyNibbles.CopyTo(discretionaryDataEntropyScope[2..]);
-                track2EquivalentDataBuffer = track2EquivalentDataBuffer.UpdateDiscretionaryData(discretionaryDataEntropyScope);
+                deviceRelayResistanceEntropyNibbles.CopyTo(discretionaryDataBuffer[2..]);
 
                 if (track2EquivalentDataBuffer.GetNumberOfDigitsInPrimaryAccountNumber() <= 16)
                 {
                     byte entropySeed = deviceRelayResistanceEntropy.EncodeValue()[^3];
-                    Nibble[] discretionaryDataEntropyScope2 = track2EquivalentDataBuffer.GetDiscretionaryData().AsNibbleArray();
-                    discretionaryDataEntropyScope2[4] = new Nibble((byte) (entropySeed / 100));
-                    discretionaryDataEntropyScope2[5] = new Nibble((byte) ((entropySeed / 10) % 10));
-                    discretionaryDataEntropyScope2[6] = new Nibble((byte) (entropySeed % 100));
-                    track2EquivalentDataBuffer = track2EquivalentDataBuffer.UpdateDiscretionaryData(discretionaryDataEntropyScope2);
+                    discretionaryDataBuffer[4] = new Nibble((byte) (entropySeed / 100));
+                    discretionaryDataBuffer[5] = new Nibble((byte) ((entropySeed / 10) % 10));
+                    discretionaryDataBuffer[6] = new Nibble((byte) (entropySeed % 100));
                 }
 
                 MeasuredRelayResistanceProcessingTime time =
@@ -190,19 +183,14 @@ namespace Play.Emv.Kernel2.StateMachine
 
                 ushort timeSeed = (ushort) ((ushort) timeInMilliseconds > 999 ? 999 : (ushort) timeInMilliseconds);
 
-                Nibble[] discretionaryDataTimeScope = track2EquivalentDataBuffer.GetDiscretionaryData().AsNibbleArray();
-                discretionaryDataTimeScope[^3] = new Nibble((byte) (timeSeed / 100));
-                discretionaryDataTimeScope[^2] = new Nibble((byte) ((timeSeed / 10) % 10));
-                discretionaryDataTimeScope[^1] = new Nibble((byte) (timeSeed % 100));
+                discretionaryDataBuffer[^3] = new Nibble((byte) (timeSeed / 100));
+                discretionaryDataBuffer[^2] = new Nibble((byte) ((timeSeed / 10) % 10));
+                discretionaryDataBuffer[^1] = new Nibble((byte) (timeSeed % 100));
 
-                _Database.Update(track2EquivalentDataBuffer.UpdateDiscretionaryData(discretionaryDataTimeScope));
+                _Database.Update(track2EquivalentDataBuffer.UpdateDiscretionaryData(discretionaryDataBuffer));
             }
 
             #endregion
-
-            #endregion
-
-            #region Temp
 
             #region S910.33, S910.35 - S910.37
 
