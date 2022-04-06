@@ -392,8 +392,55 @@ namespace Play.Emv.Kernel2.StateMachine._Temp
 
             #region S910.78.1 -S910.81
 
+            /// <exception cref="TerminalDataException"></exception>
             private void HandleOutMessage()
-            { }
+            {
+                PosCardholderInteractionInformation pcii =
+                    _Database.Get<PosCardholderInteractionInformation>(PosCardholderInteractionInformation.Tag);
+
+                if (pcii.IsSecondTapNeeded())
+                {
+                    HandleDisplayMessageForSecondTapNeeded();
+
+                    return;
+                }
+
+                HandleDisplayMessage();
+            }
+
+            #endregion
+
+            #region S910.79 - S910.80
+
+            /// <exception cref="TerminalDataException"></exception>
+            private void HandleDisplayMessageForSecondTapNeeded()
+            {
+                _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+                _Database.SetUiRequestOnRestartPresent(true);
+                _Database.Update(Status.ReadyToRead);
+                _Database.Update(MessageHoldTime.MinimumValue);
+
+                // BUG: How are we handling approved OUTCOME signals again? Need to send to Main
+                throw new NotImplementedException();
+
+                //_ReaderEndpoint.Reply(Outcome);
+            }
+
+            #endregion
+
+            #region S910.81
+
+            /// <exception cref="TerminalDataException"></exception>
+            private void HandleDisplayMessage()
+            {
+                _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+                _Database.SetUiRequestOnRestartPresent(true);
+
+                // BUG: How are we handling approved OUTCOME signals again? Need to send to Main
+                throw new NotImplementedException();
+
+                //_ReaderEndpoint.Reply(Outcome);
+            }
 
             #endregion
 

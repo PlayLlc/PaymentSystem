@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.State;
@@ -26,8 +28,29 @@ namespace Play.Emv.Kernel2.StateMachine._Temp
             }
 
             public StateId ProcessWithoutCda(
-                IGetKernelStateId currentStateIdRetriever, Kernel2Session session, GenerateApplicationCryptogramResponse rapdu) =>
+                IGetKernelStateId currentStateIdRetriever, Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
+            {
+                if (TryHandlingForMissingMandatoryData(session.GetKernelSessionId()))
+                    return currentStateIdRetriever.GetStateId();
+
                 throw new NotImplementedException();
+            }
+
+            #region S910.30 - S910.31
+
+            /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+            private bool TryHandlingForMissingMandatoryData(KernelSessionId sessionId)
+            {
+                if (_Database.IsPresentAndNotEmpty(ApplicationCryptogram.Tag))
+                    return false;
+
+                _Database.Update(Level2Error.CardDataMissing);
+                _ResponseHandler.ProcessInvalidDataResponse(sessionId);
+
+                return true;
+            }
+
+            #endregion
         }
     }
 }
