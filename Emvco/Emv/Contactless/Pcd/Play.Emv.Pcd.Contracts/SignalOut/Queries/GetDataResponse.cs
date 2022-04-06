@@ -5,6 +5,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;
 using Play.Messaging;
@@ -38,7 +39,7 @@ public record GetDataResponse : QueryPcdResponse
 
     public TagLengthValue GetTagLengthValueResult() => EmvCodec.GetBerCodec().DecodeTagLengthValue(GetRApduSignal().GetData().AsSpan());
 
-    /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public bool TryGetPrimitiveValue(out PrimitiveValue? result)
     {
@@ -73,7 +74,7 @@ public record GetDataResponse : QueryPcdResponse
         return false;
     }
 
-    /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     private bool TryDecodingOfflineAccumulatorBalance(Tag tag, out PrimitiveValue? result)
     {
@@ -89,7 +90,7 @@ public record GetDataResponse : QueryPcdResponse
         return true;
     }
 
-    /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     private bool TryDecodingProtectedDataEnvelope1(Tag tag, out PrimitiveValue? result)
     {
@@ -105,7 +106,7 @@ public record GetDataResponse : QueryPcdResponse
         return true;
     }
 
-    /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     private bool TryDecodingProtectedDataEnvelope2(Tag tag, out PrimitiveValue? result)
     {
@@ -121,7 +122,7 @@ public record GetDataResponse : QueryPcdResponse
         return true;
     }
 
-    /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     private bool TryDecodingProtectedDataEnvelope3(Tag tag, out PrimitiveValue? result)
     {
@@ -137,7 +138,7 @@ public record GetDataResponse : QueryPcdResponse
         return true;
     }
 
-    /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     private bool TryDecodingProtectedDataEnvelope4(Tag tag, out PrimitiveValue? result)
     {
@@ -153,7 +154,7 @@ public record GetDataResponse : QueryPcdResponse
         return true;
     }
 
-    /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     private bool TryDecodingProtectedDataEnvelope5(Tag tag, out PrimitiveValue? result)
     {
@@ -169,7 +170,7 @@ public record GetDataResponse : QueryPcdResponse
         return true;
     }
 
-    /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     private bool TryDecodingUnprotectedDataEnvelope1(Tag tag, out PrimitiveValue? result)
     {
@@ -185,7 +186,7 @@ public record GetDataResponse : QueryPcdResponse
         return true;
     }
 
-    /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     private bool TryDecodingUnprotectedDataEnvelope2(Tag tag, out PrimitiveValue? result)
     {
@@ -201,7 +202,7 @@ public record GetDataResponse : QueryPcdResponse
         return true;
     }
 
-    /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     private bool TryDecodingUnprotectedDataEnvelope3(Tag tag, out PrimitiveValue? result)
     {
@@ -217,7 +218,7 @@ public record GetDataResponse : QueryPcdResponse
         return true;
     }
 
-    /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     private bool TryDecodingUnprotectedDataEnvelope4(Tag tag, out PrimitiveValue? result)
     {
@@ -233,7 +234,7 @@ public record GetDataResponse : QueryPcdResponse
         return true;
     }
 
-    /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     private bool TryDecodingUnprotectedDataEnvelope5(Tag tag, out PrimitiveValue? result)
     {

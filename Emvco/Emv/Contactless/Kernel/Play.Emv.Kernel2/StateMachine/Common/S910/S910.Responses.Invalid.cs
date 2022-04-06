@@ -19,7 +19,7 @@ namespace Play.Emv.Kernel2.StateMachine
             #region S910.7.1 - S910.7.2
 
             /// <remarks>EMV Book C-2 Section S910.7.1 - S910.7.2</remarks>
-            /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+            /// <exception cref="TerminalDataException"></exception>
             public void HandleCamFailed(KernelSessionId sessionId)
             {
                 _Database.Update(Level2Error.CryptographicAuthenticationMethodFailed);
@@ -65,7 +65,7 @@ namespace Play.Emv.Kernel2.StateMachine
             #region S910.61 - S910.62
 
             /// <remarks>EMV Book C-2 Section S910.50 - S910.53</remarks>
-            /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+            /// <exception cref="TerminalDataException"></exception>
             public void ProcessInvalidWriteResponse(KernelSessionId sessionId)
             {
                 SetDisplayMessage();
@@ -78,7 +78,7 @@ namespace Play.Emv.Kernel2.StateMachine
             #region S910.50
 
             /// <remarks>EMV Book C-2 Section S910.50</remarks>
-            /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+            /// <exception cref="TerminalDataException"></exception>
             private void SetDisplayMessage()
             {
                 _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);

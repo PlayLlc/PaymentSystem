@@ -6,6 +6,7 @@ using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Pcd.Contracts;
+using Play.Icc.Exceptions;
 
 namespace Play.Emv.Pcd;
 
@@ -29,7 +30,7 @@ public class RelayResistanceDataExchanger : IExchangeRelayResistanceData
     #region Instance Members
 
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public async Task<ExchangeRelayResistanceDataResponse> Transceive(ExchangeRelayResistanceDataRequest command)
     {

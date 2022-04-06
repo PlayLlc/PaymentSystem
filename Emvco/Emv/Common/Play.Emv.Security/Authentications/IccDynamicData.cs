@@ -4,6 +4,7 @@ using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Exceptions;
 using Play.Encryption.Hashing;
 
 namespace Play.Emv.Security.Authentications;
@@ -36,7 +37,7 @@ internal class IccDynamicData
     public Hash GetTransactionDataHashCode() => new(_Value[(GetIccDynamicNumberLength() + 10)..Hash.Length]);
     private bool IsDataStorageSummaryAvailable() => _Value.Length > (30 + GetIccDynamicNumberLength());
 
-    /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="OverflowException"></exception>
     public bool TryGetAdditionalData(out PrimitiveValue[] result)
@@ -53,7 +54,7 @@ internal class IccDynamicData
         return true;
     }
 
-    /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="OverflowException"></exception>
     private IEnumerable<PrimitiveValue> DecodeAdditionalData(ReadOnlySpan<byte> value)

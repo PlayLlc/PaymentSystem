@@ -1,12 +1,15 @@
 ﻿using System;
 
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
+using Play.Icc.Exceptions;
 
 namespace Play.Emv.Kernel2.StateMachine
 {
@@ -14,22 +17,28 @@ namespace Play.Emv.Kernel2.StateMachine
     {
         private partial class AuthenticationHandler
         {
-            /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+            /// <exception cref="TerminalDataException"></exception>
+            /// <exception cref="DataElementParsingException"></exception>
+            /// <exception cref="IccProtocolException"></exception>
             public StateId ProcessWithoutCda(
                 IGetKernelStateId currentStateIdRetriever, Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
             {
+                // S910.30 - S910.31
                 if (TryHandlingForMissingMandatoryData(session.GetKernelSessionId()))
                     return currentStateIdRetriever.GetStateId();
 
-                if (!IsApplicationAuthenticationCryptogram())
-                    return HandleIsNotAac(currentStateIdRetriever, session);
-                else
-                    return HandleAac(currentStateIdRetriever, session);
+                return IsApplicationAuthenticationCryptogram()
+                    ? HandleAac(currentStateIdRetriever, session)
+                    : HandleIsNotAac(currentStateIdRetriever, session);
             }
 
-            /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
-            /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
-            /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+            #region Temp
+
+            #region S910.33, S910.35 - S910.37
+
+            /// <exception cref="TerminalDataException"></exception>
+            /// <exception cref="DataElementParsingException"></exception>
+            /// <exception cref="IccProtocolException"></exception>
             private StateId HandleAac(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
             {
                 if (IsIdsReadFlagSet())
@@ -50,32 +59,27 @@ namespace Play.Emv.Kernel2.StateMachine
                 return currentStateIdRetriever.GetStateId();
             }
 
+            #endregion
+
+            #region S910.34, S910.38 - S910.39
+
             private StateId HandleIsNotAac(IGetKernelStateId currentGetKernelStateId, Kernel2Session session)
             {
-                if (TryHandleIsNotAacDataError(session.GetKernelSessionId()))
-                    return currentGetKernelStateId.GetStateId();
-
-                HandleRelayResistanceData();
-
-                return _ResponseHandler.HandleValidResponse(currentGetKernelStateId, session);
-            }
-
-            private bool TryHandleIsNotAacDataError(KernelSessionId sessionId)
-            {
                 if (!IsCdaRequested())
-                    return false;
+                    return HandleRelayResistanceData(currentGetKernelStateId, session);
 
-                HandleInvalidResponse(sessionId);
+                HandleInvalidResponse(session.GetKernelSessionId());
 
-                return true;
+                return currentGetKernelStateId.GetStateId();
             }
 
-            private bool HandleRelayResistanceData()
-            { }
+            #endregion
+
+            #endregion
 
             #region S910.30 - S910.31
 
-            /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+            /// <exception cref="TerminalDataException"></exception>
             private bool TryHandlingForMissingMandatoryData(KernelSessionId sessionId)
             {
                 if (_Database.IsPresentAndNotEmpty(ApplicationCryptogram.Tag))
@@ -144,6 +148,27 @@ namespace Play.Emv.Kernel2.StateMachine
             {
                 _Database.Update(Level2Error.CardDataError);
                 _ResponseHandler.ProcessInvalidDataResponse(sessionId);
+            }
+
+            #endregion
+
+            #region S910.38 - S910.39
+
+            private StateId HandleRelayResistanceData(IGetKernelStateId currentGetKernelStateId, Kernel2Session session)
+            {
+                if (_Database.IsSet(TerminalVerificationResultCodes.RelayResistancePerformed))
+                    StoreRelayResistanceDataInTrack2();
+
+                return _ResponseHandler.HandleValidResponse(currentGetKernelStateId, session);
+            }
+
+            #endregion
+
+            #region S910.39
+
+            private void StoreRelayResistanceDataInTrack2()
+            {
+                throw new NotImplementedException();
             }
 
             #endregion
