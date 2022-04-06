@@ -58,8 +58,58 @@ public record DataStorageSummaryStatus : DataElement<byte>
         return new DataStorageSummaryStatus(result);
     }
 
+    public static Builder GetBuilder() => new();
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
     public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
+
+    public class Builder : PrimitiveValueBuilder<byte>
+    {
+        #region Constructor
+
+        internal Builder(DataStorageSummaryStatus outcomeParameterSet)
+        {
+            _Value = outcomeParameterSet._Value;
+        }
+
+        internal Builder()
+        { }
+
+        #endregion
+
+        #region Instance Members
+
+        public void Reset(DataStorageSummaryStatus value)
+        {
+            _Value = value._Value;
+        }
+
+        public override DataStorageSummaryStatus Complete() => new(_Value);
+        public bool IsReadSuccessful() => _Value.IsBitSet(Bits.Eight);
+        public bool IsSuccessfulWrite() => _Value.IsBitSet(Bits.Seven);
+
+        public void SetReadIsSuccessful(bool value)
+        {
+            if (value)
+                _Value.SetBit(Bits.Eight);
+
+            _Value.ClearBits(Bits.Eight);
+        }
+
+        public void SetWriteIsSuccessful(bool value)
+        {
+            if (value)
+                _Value.SetBit(Bits.Seven);
+
+            _Value.ClearBits(Bits.Seven);
+        }
+
+        protected override void Set(byte bitsToSet)
+        {
+            _Value |= bitsToSet;
+        }
+
+        #endregion
+    }
 }

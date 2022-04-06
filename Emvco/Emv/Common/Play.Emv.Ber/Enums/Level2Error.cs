@@ -9,13 +9,13 @@ public record Level2Error : EnumObject<byte>
     #region Static Metadata
 
     private static readonly ImmutableSortedDictionary<byte, Level2Error> _ValueObjectMap;
-    public static readonly Level2Error CamFailed;
+    public static readonly Level2Error CryptographicAuthenticationMethodFailed;
     public static readonly Level2Error CardDataError;
     public static readonly Level2Error CardDataMissing;
     public static readonly Level2Error EmptyCandidateList;
     public static readonly Level2Error IdsDataError;
     public static readonly Level2Error IdsNoMatchingAc;
-    public static readonly Level2Error IdsReaderError;
+    public static readonly Level2Error IdsReadError;
     public static readonly Level2Error IdsWriterError;
     public static readonly Level2Error MagstripeNotSupported;
     public static readonly Level2Error MaxLimitExceeded;
@@ -49,13 +49,13 @@ public record Level2Error : EnumObject<byte>
         const byte statusBytes = 3;
         const byte terminalDataError = 15;
 
-        CamFailed = new Level2Error(camFailed);
+        CryptographicAuthenticationMethodFailed = new Level2Error(camFailed);
         CardDataError = new Level2Error(cardDataError);
         CardDataMissing = new Level2Error(cardDataMissing);
         EmptyCandidateList = new Level2Error(emptyCandidateList);
         IdsDataError = new Level2Error(idsDataError);
         IdsNoMatchingAc = new Level2Error(idsNoMatchingAc);
-        IdsReaderError = new Level2Error(idsReaderError);
+        IdsReadError = new Level2Error(idsReaderError);
         IdsWriterError = new Level2Error(idsWriterError);
         MagstripeNotSupported = new Level2Error(magStripeNotSupported);
         MaxLimitExceeded = new Level2Error(maxLimitExceeded);
@@ -67,13 +67,13 @@ public record Level2Error : EnumObject<byte>
         TerminalDataError = new Level2Error(terminalDataError);
         _ValueObjectMap = new Dictionary<byte, Level2Error>
         {
-            {camFailed, CamFailed},
+            {camFailed, CryptographicAuthenticationMethodFailed},
             {cardDataError, CardDataError},
             {cardDataMissing, CardDataMissing},
             {emptyCandidateList, EmptyCandidateList},
             {idsDataError, IdsDataError},
             {idsNoMatchingAc, IdsNoMatchingAc},
-            {idsReaderError, IdsReaderError},
+            {idsReaderError, IdsReadError},
             {idsWriterError, IdsWriterError},
             {magStripeNotSupported, MagstripeNotSupported},
             {maxLimitExceeded, MaxLimitExceeded},

@@ -110,7 +110,6 @@ public partial class BerCodec
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
     public TagLengthValue[] DecodeTagLengthValues(ReadOnlyMemory<byte> value) => DecodeTagLengthValues(value.Span);
 
     /// <exception cref="BerParsingException"></exception>

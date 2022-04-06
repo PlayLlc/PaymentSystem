@@ -12,6 +12,7 @@ using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Security;
 using Play.Messaging;
 
 namespace Play.Emv.Kernel2.StateMachine;
@@ -20,7 +21,10 @@ public partial class S910 : CommonProcessing
 {
     #region Instance Values
 
+    // HACK: Maybe convert these response handlers into one
     private readonly InvalidResponseHandler _InvalidResponseHandler;
+    private readonly ValidResponseHandler _ValidResponseHandler;
+    private readonly IAuthenticateTransactionSession _AuthenticationService;
 
     protected override StateId[] _ValidStateIds { get; } =
     {
@@ -33,10 +37,12 @@ public partial class S910 : CommonProcessing
 
     public S910(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
-        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint) : base(database, dataExchangeKernelService, kernelStateResolver,
-                                                                               pcdEndpoint, kernelEndpoint)
+        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint, IAuthenticateTransactionSession authenticationService) :
+        base(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
     {
         _InvalidResponseHandler = new InvalidResponseHandler(database, dataExchangeKernelService, kernelEndpoint);
+        _ValidResponseHandler = new ValidResponseHandler(database, dataExchangeKernelService, kernelEndpoint);
+        _AuthenticationService = authenticationService;
     }
 
     #endregion

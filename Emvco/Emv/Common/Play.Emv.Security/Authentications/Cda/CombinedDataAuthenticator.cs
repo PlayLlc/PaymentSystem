@@ -303,6 +303,9 @@ internal class CombinedDataAuthenticator
     #region 6.6.2 Step 5
 
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
     public IccDynamicData RetrieveIccDynamicData(ITlvReaderAndWriter database, DecodedSignedDynamicApplicationDataCda decodedSignature)
     {
         IccDynamicData iccDynamicData = decodedSignature.GetIccDynamicData();
@@ -310,10 +313,11 @@ internal class CombinedDataAuthenticator
         database.Update(iccDynamicData.GetCryptogram());
         database.Update(iccDynamicData.GetIccDynamicNumber());
 
+        if (iccDynamicData.TryGetAdditionalData(out PrimitiveValue[] additionalData))
+            database.Update(additionalData);
+
         return iccDynamicData;
     }
-
-    // Step 5 is accomplished in the main authenticate method
 
     #endregion
 

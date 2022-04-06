@@ -22,38 +22,20 @@ public partial class KernelDatabase
     protected ErrorIndication.Builder _ErrorIndicationBuilder = ErrorIndication.GetBuilder();
     protected TerminalVerificationResults.Builder _TerminalVerificationResultBuilder = TerminalVerificationResults.GetBuilder();
     protected TerminalCapabilities.Builder _TerminalCapabilitiesBuilder = TerminalCapabilities.GetBuilder();
+    protected DataStorageSummaryStatus.Builder _DataStorageSummaryStatusBuilder = DataStorageSummaryStatus.GetBuilder();
 
     #endregion
 
     #region Outcome
 
-    /// <summary>
-    ///     CreateEmvDiscretionaryData
-    /// </summary>
-    /// <param name="dataExchanger"></param>
-    /// <exception cref="InvalidOperationException"></exception>
-    public void CreateEmvDiscretionaryData(DataExchangeKernelService dataExchanger)
+    #region Read
+
+    public DataStorageSummaryStatus GetDataStorageSummaryStatus()
     {
-        // HACK: this logic should live inside discretionary data
-        KernelOutcome.CreateEmvDiscretionaryData(this, dataExchanger);
-    }
+        if (IsPresentAndNotEmpty(DataStorageSummaryStatus.Tag))
+            return _DataStorageSummaryStatusBuilder.Complete();
 
-    /// <exception cref="TerminalDataException"></exception>
-    public void CreateEmvDataRecord(DataExchangeKernelService dataExchanger) =>
-        dataExchanger.Enqueue(DekResponseType.DiscretionaryData, DataRecord.CreateEmvDataRecord(this));
-
-    /// <exception cref="TerminalDataException"></exception>
-    public void CreateMagstripeDataRecord(DataExchangeKernelService dataExchanger) =>
-        dataExchanger.Enqueue(DekResponseType.DiscretionaryData, DataRecord.CreateMagstripeDataRecord(this));
-
-    /// <summary>
-    ///     CreateMagstripeDiscretionaryData
-    /// </summary>
-    /// <param name="dataExchanger"></param>
-    /// <exception cref="InvalidOperationException"></exception>
-    public void CreateMagstripeDiscretionaryData(DataExchangeKernelService dataExchanger)
-    {
-        KernelOutcome.CreateMagstripeDiscretionaryData(this, dataExchanger);
+        return (DataStorageSummaryStatus) Get(DataStorageSummaryStatus.Tag);
     }
 
     /// <exception cref="TerminalDataException"></exception>
@@ -93,6 +75,14 @@ public partial class KernelDatabase
         return (DataRecord) Get(DataRecord.Tag);
     }
 
+    public bool IsSet(TerminalVerificationResultCodes value)
+    {
+        if (IsPresentAndNotEmpty(TerminalVerificationResults.Tag))
+            return false;
+
+        return ((TerminalVerificationResults) Get(TerminalVerificationResults.Tag)).IsSet(value);
+    }
+
     /// <summary>
     ///     GetDiscretionaryData
     /// </summary>
@@ -106,7 +96,44 @@ public partial class KernelDatabase
         return (DiscretionaryData) Get(DiscretionaryData.Tag);
     }
 
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    public Outcome GetOutcome() =>
+        new(GetErrorIndication(), GetOutcomeParameterSet(), GetDataRecord(), GetDiscretionaryData(), GetUserInterfaceRequestData());
+
+    #endregion
+
     #region Write Outcome
+
+    /// <summary>
+    ///     CreateEmvDiscretionaryData
+    /// </summary>
+    /// <param name="dataExchanger"></param>
+    /// <exception cref="InvalidOperationException"></exception>
+    public void CreateEmvDiscretionaryData(DataExchangeKernelService dataExchanger)
+    {
+        // HACK: this logic should live inside discretionary data
+        KernelOutcome.CreateEmvDiscretionaryData(this, dataExchanger);
+    }
+
+    /// <exception cref="TerminalDataException"></exception>
+    public void CreateEmvDataRecord(DataExchangeKernelService dataExchanger) =>
+        dataExchanger.Enqueue(DekResponseType.DiscretionaryData, DataRecord.CreateEmvDataRecord(this));
+
+    /// <exception cref="TerminalDataException"></exception>
+    public void CreateMagstripeDataRecord(DataExchangeKernelService dataExchanger) =>
+        dataExchanger.Enqueue(DekResponseType.DiscretionaryData, DataRecord.CreateMagstripeDataRecord(this));
+
+    /// <summary>
+    ///     CreateMagstripeDiscretionaryData
+    /// </summary>
+    /// <param name="dataExchanger"></param>
+    /// <exception cref="InvalidOperationException"></exception>
+    public void CreateMagstripeDiscretionaryData(DataExchangeKernelService dataExchanger)
+    {
+        KernelOutcome.CreateMagstripeDiscretionaryData(this, dataExchanger);
+    }
 
     /// <exception cref="TerminalDataException"></exception>
     public void Update(MessageIdentifier value)
@@ -419,6 +446,52 @@ public partial class KernelDatabase
         }
     }
 
+    /// <exception cref="TerminalDataException"></exception>
+    public void SetReadIsSuccessful(bool value)
+    {
+        try
+        {
+            _DataStorageSummaryStatusBuilder.Reset(GetDataStorageSummaryStatus());
+            _DataStorageSummaryStatusBuilder.SetReadIsSuccessful(value);
+            Update(_DataStorageSummaryStatusBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+    }
+
+    /// <exception cref="TerminalDataException"></exception>
+    public void SetWriteIsSuccessful(bool value)
+    {
+        try
+        {
+            _DataStorageSummaryStatusBuilder.Reset(GetDataStorageSummaryStatus());
+            _DataStorageSummaryStatusBuilder.SetWriteIsSuccessful(value);
+            Update(_DataStorageSummaryStatusBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+    }
+
     /// <summary>
     ///     Update
     /// </summary>
@@ -554,12 +627,6 @@ public partial class KernelDatabase
     }
 
     #endregion
-
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="TerminalDataException"></exception>
-    public Outcome GetOutcome() =>
-        new(GetErrorIndication(), GetOutcomeParameterSet(), GetDataRecord(), GetDiscretionaryData(), GetUserInterfaceRequestData());
 
     #endregion
 }

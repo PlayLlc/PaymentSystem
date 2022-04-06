@@ -59,4 +59,10 @@ public record DataStorageSummary2 : DataElement<BigInteger>
     }
 
     #endregion
+
+    public static explicit operator BigInteger(DataStorageSummary2 value) => value._Value;
+    public static bool operator ==(DataStorageSummary1 left, DataStorageSummary2 right) => (BigInteger) left == right._Value;
+    public static bool operator !=(DataStorageSummary1 left, DataStorageSummary2 right) => (BigInteger) left != right._Value;
+    public static bool operator ==(DataStorageSummary2 left, DataStorageSummary1 right) => left._Value == (BigInteger) right;
+    public static bool operator !=(DataStorageSummary2 left, DataStorageSummary1 right) => left._Value != (BigInteger) right;
 }

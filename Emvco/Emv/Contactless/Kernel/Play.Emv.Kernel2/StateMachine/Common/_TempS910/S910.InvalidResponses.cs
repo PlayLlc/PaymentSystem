@@ -4,8 +4,8 @@ using Play.Ber.DataObjects;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
-using Play.Emv.DataExchange;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
@@ -43,24 +43,40 @@ namespace Play.Emv.Kernel2.StateMachine
 
             #endregion
 
+            #region S910.7.1 - S910.7.2
+
+            /// <remarks>EMV Book C-2 Section S910.7.1 - S910.7.2</remarks>
+            /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+            public StateId HandleCamFailed(IGetKernelStateId currentStateIdRetriever, KernelSessionId sessionId)
+            {
+                _Database.Update(Level2Error.CryptographicAuthenticationMethodFailed);
+                _Database.Set(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
+
+                return ProcessInvalidResponse1(currentStateIdRetriever, sessionId);
+            }
+
+            #endregion
+
             #region S910.50 - S910.53
 
-            /// <exception cref="TerminalDataException"></exception>
+            /// <remarks>EMV Book C-2 Section S910.50 - S910.53</remarks>
+            /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
             public StateId ProcessInvalidResponse1(IGetKernelStateId currentStateIdRetriever, KernelSessionId sessionId)
             {
-                SetInvalidDisplayMessage();
+                SetDisplayMessage();
 
-                HandleInvalidResponse(sessionId);
+                ProcessInvalidResponse2(sessionId);
 
                 return currentStateIdRetriever.GetStateId();
             }
 
             #endregion
 
-            #region S910.50, S910.61
+            #region S910.50
 
-            /// <exception cref="TerminalDataException"></exception>
-            private void SetInvalidDisplayMessage()
+            /// <remarks>EMV Book C-2 Section S910.50</remarks>
+            /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+            private void SetDisplayMessage()
             {
                 _Database.Update(MessageIdentifier.ErrorUseAnotherCard);
                 _Database.Update(Status.NotReady);
@@ -71,26 +87,27 @@ namespace Play.Emv.Kernel2.StateMachine
 
             #region S910.51 - S910.52
 
+            /// <remarks>EMV Book C-2 Section S910.51 - S910.52</remarks>
             /// <exception cref="TerminalDataException"></exception>
-            private void HandleInvalidResponse(KernelSessionId sessionId)
+            private void ProcessInvalidResponse2(KernelSessionId sessionId)
             {
                 if (!_Database.IsIdsAndTtrImplemented())
                 {
-                    HandleInvalidResponseOutcome(sessionId);
+                    HandleOutcome(sessionId);
 
                     return;
                 }
 
                 if (!_Database.TryGet(IntegratedDataStorageStatus.Tag, out IntegratedDataStorageStatus? idsStatus))
                 {
-                    HandleInvalidResponseOutcome(sessionId);
+                    HandleOutcome(sessionId);
 
                     return;
                 }
 
                 if (!idsStatus!.IsWriteSet())
                 {
-                    HandleInvalidResponseOutcome(sessionId);
+                    HandleOutcome(sessionId);
 
                     return;
                 }
@@ -102,6 +119,7 @@ namespace Play.Emv.Kernel2.StateMachine
 
             #region S910.52
 
+            /// <remarks>EMV Book C-2 Section S910.52</remarks>
             private void HandleOutcomeWithIdsWriteFlag(KernelSessionId sessionId)
             {
                 try
@@ -131,7 +149,8 @@ namespace Play.Emv.Kernel2.StateMachine
 
             #region S910.53
 
-            private void HandleInvalidResponseOutcome(KernelSessionId sessionId)
+            /// <remarks>EMV Book C-2 Section S910.53</remarks>
+            private void HandleOutcome(KernelSessionId sessionId)
             {
                 try
                 {
@@ -152,20 +171,6 @@ namespace Play.Emv.Kernel2.StateMachine
                 {
                     _KernelEndpoint.Request(new StopKernelRequest(sessionId));
                 }
-            }
-
-            #endregion
-
-            #region S910.61 - S910.62
-
-            /// <exception cref="TerminalDataException"></exception>
-            public StateId ProcessInvalidResponse2(IGetKernelStateId currentStateIdRetriever, KernelSessionId sessionId)
-            {
-                SetInvalidDisplayMessage();
-
-                HandleInvalidResponseOutcome(sessionId);
-
-                return currentStateIdRetriever.GetStateId();
             }
 
             #endregion
