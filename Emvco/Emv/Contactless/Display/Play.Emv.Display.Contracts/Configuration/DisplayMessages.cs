@@ -14,23 +14,22 @@ public class DisplayMessages
     #region Instance Values
 
     private readonly CultureProfile _CultureProfile;
-    private readonly ImmutableSortedDictionary<MessageIdentifier, DisplayMessage> _DisplayMessages;
+    private readonly ImmutableSortedDictionary<MessageIdentifiers, DisplayMessage> _DisplayMessages;
 
     #endregion
 
     #region Constructor
 
     public DisplayMessages(
-        LanguagePreference languagePreference,
-        TerminalCountryCode terminalCountryCode,
-        Dictionary<MessageIdentifier, DisplayMessage> displayMessages)
+        LanguagePreference languagePreference, TerminalCountryCode terminalCountryCode,
+        Dictionary<MessageIdentifiers, DisplayMessage> displayMessages)
     {
         _CultureProfile = new CultureProfile(terminalCountryCode.AsCountryCode(), languagePreference.GetPreferredLanguage());
         CheckCore.ForEmptySequence(displayMessages, nameof(displayMessages));
         _DisplayMessages = displayMessages.ToImmutableSortedDictionary(a => a.Key, b => b.Value);
     }
 
-    public DisplayMessages(CultureProfile cultureProfile, Dictionary<MessageIdentifier, DisplayMessage> displayMessages)
+    public DisplayMessages(CultureProfile cultureProfile, Dictionary<MessageIdentifiers, DisplayMessage> displayMessages)
     {
         _CultureProfile = cultureProfile;
         CheckCore.ForEmptySequence(displayMessages, nameof(displayMessages));
@@ -42,7 +41,7 @@ public class DisplayMessages
     #region Instance Members
 
     public CultureProfile GetCultureProfile() => throw new NotImplementedException();
-    public DisplayMessage Get(MessageIdentifier messageIdentifier) => _DisplayMessages[messageIdentifier];
+    public DisplayMessage Get(MessageIdentifiers messageIdentifiers) => _DisplayMessages[messageIdentifiers];
     public LanguagePreference GetLanguagePreference() => new(_CultureProfile.GetAlpha2LanguageCode());
     public TerminalCountryCode GeTerminalCountryCode() => new(_CultureProfile.GetNumericCountryCode());
 

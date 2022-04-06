@@ -13,23 +13,27 @@ using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
 using Play.Emv.Security.Exceptions;
-using Play.Messaging;
 
-namespace Play.Emv.Kernel2.StateMachine
+namespace Play.Emv.Kernel2.StateMachine._Temp
 {
-    // WARNING: This implementation is pretty divergent from the original EMVco specification because of some encapsulation we do in the Play.Emv.Security module. Double check this logic and shit
-
-    public partial class S910
+    public partial class _S910
     {
         private class WithCda
         {
             private readonly KernelDatabase _Database;
-            private readonly DataExchangeKernelService _DataExchangeKernelService;
-            private readonly IKernelEndpoint _KernelEndpoint;
+            private readonly ResponseHandler _ResponseHandler;
+            private readonly IAuthenticateTransactionSession _AuthenticationService;
+
+            public WithCda(KernelDatabase database, ResponseHandler responseHandler, IAuthenticateTransactionSession authenticationService)
+            {
+                _Database = database;
+                _ResponseHandler = responseHandler;
+                _AuthenticationService = authenticationService;
+            }
 
             /// <exception cref="TerminalDataException"></exception>
             /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
-            private StateId ProcessWithCda(
+            public StateId ProcessWithCda(
                 IGetKernelStateId currentStateIdRetriever, Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
             {
                 // S910.1
@@ -49,7 +53,7 @@ namespace Play.Emv.Kernel2.StateMachine
 
                 // S910.5, S910.6
                 if (IsIdsReadFlagSet(integratedDataStorageStatus))
-                    return _ValidResponseHandler.HandleValidResponse(currentStateIdRetriever, session.GetKernelSessionId());
+                    return _ResponseHandler.HandleValidResponse(currentStateIdRetriever, session.GetKernelSessionId());
 
                 // S910.8 - S910.9
                 if (TryHandlingMissingDataSummary2(currentStateIdRetriever, session.GetKernelSessionId()))
@@ -73,7 +77,7 @@ namespace Play.Emv.Kernel2.StateMachine
                 if (TryHandlingInvalidDataStorageSummary2And3Equality(session.GetKernelSessionId()))
                     return currentStateIdRetriever.GetStateId();
 
-                return _ValidResponseHandler.HandleValidResponse(currentStateIdRetriever, session.GetKernelSessionId());
+                return _ResponseHandler.HandleValidResponse(currentStateIdRetriever, session.GetKernelSessionId());
             }
 
             #region S910.1, S910.4, S910.4.1, S910.3, S910.3.1
@@ -97,14 +101,14 @@ namespace Play.Emv.Kernel2.StateMachine
                 catch (CryptographicAuthenticationMethodFailedException)
                 {
                     // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-                    _InvalidResponseHandler.HandleCamFailed(session.GetKernelSessionId());
+                    _ResponseHandler.HandleCamFailed(session.GetKernelSessionId());
 
                     return false;
                 }
                 catch (Exception)
                 {
                     // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-                    _InvalidResponseHandler.HandleCamFailed(session.GetKernelSessionId());
+                    _ResponseHandler.HandleCamFailed(session.GetKernelSessionId());
 
                     return false;
                 }
@@ -131,7 +135,7 @@ namespace Play.Emv.Kernel2.StateMachine
 
                 if (!IsMandatoryRelayResistantDataPresent())
                 {
-                    _InvalidResponseHandler.ProcessInvalidDataResponse(sessionId);
+                    _ResponseHandler.ProcessInvalidDataResponse(sessionId);
 
                     return true;
                 }
@@ -141,7 +145,7 @@ namespace Play.Emv.Kernel2.StateMachine
 
                 if (!IsRelayResistantDataStorageVersion2DataValid())
                 {
-                    _InvalidResponseHandler.ProcessInvalidDataResponse(sessionId);
+                    _ResponseHandler.ProcessInvalidDataResponse(sessionId);
 
                     return true;
                 }
@@ -224,7 +228,7 @@ namespace Play.Emv.Kernel2.StateMachine
 
                 if (!IsMandatoryRelayResistantDataPresent())
                 {
-                    _InvalidResponseHandler.ProcessInvalidDataResponse(sessionId);
+                    _ResponseHandler.ProcessInvalidDataResponse(sessionId);
 
                     return true;
                 }
@@ -243,7 +247,7 @@ namespace Play.Emv.Kernel2.StateMachine
                     return false;
 
                 _Database.Update(Level2Error.CardDataMissing);
-                _InvalidResponseHandler.ProcessInvalidDataResponse(sessionId);
+                _ResponseHandler.ProcessInvalidDataResponse(sessionId);
 
                 return true;
             }
@@ -263,7 +267,7 @@ namespace Play.Emv.Kernel2.StateMachine
                     return false;
 
                 _Database.Update(Level2Error.IdsReadError);
-                _InvalidResponseHandler.ProcessInvalidDataResponse(sessionId);
+                _ResponseHandler.ProcessInvalidDataResponse(sessionId);
 
                 return true;
             }
@@ -293,7 +297,7 @@ namespace Play.Emv.Kernel2.StateMachine
                     return false;
                 }
 
-                successfulResponseStateId = _ValidResponseHandler.HandleValidResponse(currentStateIdRetriever, sessionId);
+                successfulResponseStateId = _ResponseHandler.HandleValidResponse(currentStateIdRetriever, sessionId);
 
                 return true;
             }
@@ -309,7 +313,7 @@ namespace Play.Emv.Kernel2.StateMachine
                     return false;
 
                 _Database.Update(Level2Error.CardDataMissing);
-                _InvalidResponseHandler.ProcessInvalidDataResponse(sessionId);
+                _ResponseHandler.ProcessInvalidDataResponse(sessionId);
 
                 return true;
             }
@@ -335,7 +339,7 @@ namespace Play.Emv.Kernel2.StateMachine
                     return false;
 
                 _Database.Update(Level2Error.IdsWriterError);
-                _InvalidResponseHandler.ProcessInvalidWriteResponse(sessionId);
+                _ResponseHandler.ProcessInvalidWriteResponse(sessionId);
 
                 return true;
             }

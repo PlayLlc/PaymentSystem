@@ -15,8 +15,6 @@ using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Messaging;
 
-using MessageIdentifier = Play.Emv.Ber.MessageIdentifier;
-
 namespace Play.Emv.Kernel2.StateMachine
 {
     public partial class S910
@@ -52,7 +50,7 @@ namespace Play.Emv.Kernel2.StateMachine
                 _Database.Update(Level2Error.CryptographicAuthenticationMethodFailed);
                 _Database.Set(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
 
-                ProcessInvalidResponse1(sessionId);
+                ProcessInvalidDataResponse(sessionId);
             }
 
             #endregion
@@ -61,7 +59,7 @@ namespace Play.Emv.Kernel2.StateMachine
 
             /// <remarks>EMV Book C-2 Section S910.51 - S910.52</remarks>
             /// <exception cref="TerminalDataException"></exception>
-            public void ProcessInvalidResponse1(KernelSessionId sessionId)
+            public void ProcessInvalidDataResponse(KernelSessionId sessionId)
             {
                 if (!_Database.IsIdsAndTtrImplemented())
                 {
@@ -108,7 +106,7 @@ namespace Play.Emv.Kernel2.StateMachine
             /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
             private void SetDisplayMessage()
             {
-                _Database.Update(MessageIdentifier.ErrorUseAnotherCard);
+                _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
                 _Database.Update(Status.NotReady);
                 _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
             }
@@ -123,7 +121,7 @@ namespace Play.Emv.Kernel2.StateMachine
                 try
                 {
                     _Database.Update(StatusOutcome.EndApplication);
-                    _Database.Update(MessageOnErrorIdentifier.ErrorUseAnotherCard);
+                    _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
                     _Database.SetIsDataRecordPresent(true);
                     _Database.CreateEmvDataRecord(_DataExchangeKernelService);
                     _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
@@ -153,7 +151,7 @@ namespace Play.Emv.Kernel2.StateMachine
                 try
                 {
                     _Database.Update(StatusOutcome.EndApplication);
-                    _Database.Update(MessageOnErrorIdentifier.ErrorUseAnotherCard);
+                    _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
                     _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
                     _Database.SetUiRequestOnRestartPresent(true);
                 }

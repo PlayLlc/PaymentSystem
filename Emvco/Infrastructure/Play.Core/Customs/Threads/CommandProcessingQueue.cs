@@ -48,7 +48,7 @@ public abstract class CommandProcessingQueue
     ///     can be used to enqueue new signals as they come in
     /// </summary>
     /// <param name="command"></param>
-    protected void Enqueue(dynamic command)
+    protected void Enqueue(dynamic command) // HACK: Update this to use Message or something strongly typed
     {
         lock (_ProcessState)
         {

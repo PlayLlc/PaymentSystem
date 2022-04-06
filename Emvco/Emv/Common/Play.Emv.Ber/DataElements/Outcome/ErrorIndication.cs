@@ -70,7 +70,7 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
     public Level1Error GetL1() => Level1Error.Get((byte) (_Value >> 40));
     public Level2Error GetL2() => Level2Error.Get((byte) (_Value >> 32));
     public Level3Error GetL3() => Level3Error.Get((byte) (_Value >> 24));
-    public MessageOnErrorIdentifier GetMessageIdentifier() => (MessageOnErrorIdentifier) MessageOnErrorIdentifier.Get((byte) _Value);
+    public MessageOnErrorIdentifiers GetMessageIdentifier() => (MessageOnErrorIdentifiers) MessageOnErrorIdentifiers.Get((byte) _Value);
     public StatusWords GetStatusWords() => new(new StatusWord((byte) (_Value >> 16)), new StatusWord((byte) (_Value >> 8)));
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
@@ -187,7 +187,7 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
             _Value |= (ulong) statusWords >> offset;
         }
 
-        public void Set(MessageIdentifier value)
+        public void Set(MessageIdentifiers value)
         {
             _Value.ClearBits(byte.MaxValue);
             _Value |= (ulong) value;

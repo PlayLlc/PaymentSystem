@@ -42,9 +42,7 @@ public class ProtocolActivator
     ///     for new transactions with a fixed amount or as Start B after Outcome Processing.
     /// </summary>
     public void ActivateProtocol(
-        TransactionSessionId transactionSessionId,
-        Outcome outcome,
-        PreProcessingIndicators preProcessingIndicators,
+        TransactionSessionId transactionSessionId, Outcome outcome, PreProcessingIndicators preProcessingIndicators,
         CandidateList candidateList)
     {
         ProcessIfActivationIsNotARestart(outcome, preProcessingIndicators, candidateList);
@@ -73,9 +71,7 @@ public class ProtocolActivator
     /// <param name="candidateList"></param>
     /// <remarks>EMVco Book B Section 3.2.1.1</remarks>
     private void ProcessIfActivationIsNotARestart(
-        Outcome outcome,
-        PreProcessingIndicators preProcessingIndicators,
-        CandidateList candidateList)
+        Outcome outcome, PreProcessingIndicators preProcessingIndicators, CandidateList candidateList)
     {
         if (outcome.IsRestart())
             return;
@@ -94,7 +90,7 @@ public class ProtocolActivator
     private static DisplayMessageRequest GetReadyToReadDisplayMessage()
     {
         UserInterfaceRequestData.Builder? builder = UserInterfaceRequestData.GetBuilder();
-        builder.Set(MessageIdentifier.PresentCard);
+        builder.Set(MessageIdentifiers.PresentCard);
         builder.Set(Status.ReadyToRead);
 
         return new DisplayMessageRequest(builder.Complete());
@@ -128,7 +124,7 @@ public class ProtocolActivator
     private static DisplayMessageRequest GetReadyToReadDisplayMessage(Outcome outcome)
     {
         UserInterfaceRequestData.Builder? builder = UserInterfaceRequestData.GetBuilder();
-        builder.Set(MessageIdentifier.PresentCard);
+        builder.Set(MessageIdentifiers.PresentCard);
         builder.Set(Status.ReadyToRead);
         outcome.Update(builder);
 

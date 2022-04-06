@@ -3,8 +3,6 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Messaging;
 using Play.Messaging;
 
-using MessageIdentifier = Play.Emv.Ber.MessageIdentifier;
-
 namespace Play.Emv.Display.Contracts;
 
 /// <summary>
@@ -37,7 +35,7 @@ public record DisplayMessageRequest : RequestSignal
     #region Instance Members
 
     public LanguagePreference GetLanguagePreference() => _UserInterfaceRequestData.GetLanguagePreference();
-    public MessageIdentifier GetMessageIdentifier() => _UserInterfaceRequestData.GetMessageIdentifier();
+    public MessageIdentifiers GetMessageIdentifier() => _UserInterfaceRequestData.GetMessageIdentifier();
     public UserInterfaceRequestData GetUserInterfaceRequestData() => _UserInterfaceRequestData;
     public Status GetStatus() => _UserInterfaceRequestData.GetStatus();
 

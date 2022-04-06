@@ -30,15 +30,15 @@ public class DisplayMessageRepository
     ///     Get
     /// </summary>
     /// <param name="cultureProfile"></param>
-    /// <param name="messageIdentifier"></param>
+    /// <param name="messageIdentifiers"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public DisplayMessage Get(CultureProfile cultureProfile, MessageIdentifier messageIdentifier)
+    public DisplayMessage Get(CultureProfile cultureProfile, MessageIdentifiers messageIdentifiers)
     {
         if (!_Map.TryGetValue(cultureProfile, out DisplayMessages? messages))
             throw new InvalidOperationException();
 
-        return messages.Get(messageIdentifier);
+        return messages.Get(messageIdentifiers);
     }
 
     #endregion

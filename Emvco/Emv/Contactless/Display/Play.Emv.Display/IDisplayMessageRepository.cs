@@ -8,7 +8,7 @@ public interface IDisplayMessageRepository
 {
     #region Instance Members
 
-    DisplayMessage Get(Alpha2LanguageCode alpha2LanguageCode, MessageIdentifier messageIdentifier);
+    DisplayMessage Get(Alpha2LanguageCode alpha2LanguageCode, MessageIdentifiers messageIdentifiers);
 
     #endregion
 }

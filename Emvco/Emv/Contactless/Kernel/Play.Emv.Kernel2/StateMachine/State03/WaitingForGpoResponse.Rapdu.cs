@@ -76,14 +76,14 @@ public partial class WaitingForGpoResponse : KernelState
         if (!signal.IsSuccessful())
             return false;
 
-        _Database.Update(MessageIdentifier.TryAgain);
+        _Database.Update(MessageIdentifiers.TryAgain);
         _Database.Update(Status.ReadyToRead);
         _Database.Update(new MessageHoldTime(0));
         _Database.Update(StatusOutcome.EndApplication);
         _Database.Update(StartOutcome.B);
         _Database.SetUiRequestOnRestartPresent(true);
         _Database.Update(signal.GetLevel1Error());
-        _Database.Update(MessageOnErrorIdentifier.TryAgain);
+        _Database.Update(MessageOnErrorIdentifiers.TryAgain);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
         _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
@@ -103,10 +103,10 @@ public partial class WaitingForGpoResponse : KernelState
         if (signal.GetStatusWords() == StatusWords._9000)
             return false;
 
-        _Database.Update(MessageIdentifier.ErrorUseAnotherCard);
+        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Status.NotReady);
         _Database.Update(StatusOutcome.EndApplication);
-        _Database.Update(MessageOnErrorIdentifier.ErrorUseAnotherCard);
+        _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.StatusBytes);
         _Database.Update(signal.GetStatusWords());
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
@@ -161,10 +161,10 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     private void HandleBerParsingException(KernelSession session, QueryPcdResponse signal)
     {
-        _Database.Update(MessageIdentifier.ErrorUseAnotherCard);
+        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Status.NotReady);
         _Database.Update(StatusOutcome.EndApplication);
-        _Database.Update(MessageOnErrorIdentifier.ErrorUseAnotherCard);
+        _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.ParsingError);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _Database.SetUiRequestOnRestartPresent(true);
@@ -508,10 +508,10 @@ public partial class WaitingForGpoResponse : KernelState
     private void HandleInvalidResponse(KernelSession session, Level2Error level2Error)
     {
         _Database.Update(level2Error);
-        _Database.Update(MessageIdentifier.ErrorUseAnotherCard);
+        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Status.NotReady);
         _Database.Update(StatusOutcome.EndApplication);
-        _Database.Update(MessageOnErrorIdentifier.ErrorUseAnotherCard);
+        _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _Database.GetErrorIndication());
         _Database.SetUiRequestOnRestartPresent(true);

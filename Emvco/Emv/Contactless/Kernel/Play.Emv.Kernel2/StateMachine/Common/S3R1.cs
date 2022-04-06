@@ -19,7 +19,6 @@ using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Messaging;
 
 using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
-using MessageIdentifier = Play.Emv.Ber.MessageIdentifier;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
@@ -123,10 +122,10 @@ public class S3R1 : CommonProcessing
     private bool HandleCardDataError(KernelSession session)
     {
         _Database.Update(Level2Error.CardDataError);
-        _Database.Update(MessageIdentifier.CardError);
+        _Database.Update(MessageIdentifiers.CardError);
         _Database.Update(Status.NotReady);
         _Database.Update(StatusOutcome.EndApplication);
-        _Database.Update(MessageOnErrorIdentifier.TryAgain);
+        _Database.Update(MessageOnErrorIdentifiers.TryAgain);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _Database.GetErrorIndication());
         _Database.SetUiRequestOnRestartPresent(true);

@@ -36,6 +36,8 @@ public record PosCardholderInteractionInformation : DataElement<uint>, IEquality
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public bool IsSecondTapNeeded() => _Value.AreAnyBitsSet(0x30F);
+    public uint GetMaskedValue(MessageTableEntry value) => _Value.GetMaskedValue((uint) value.GetPciiMask());
 
     public static bool EqualsStatic(PosCardholderInteractionInformation? x, PosCardholderInteractionInformation? y)
     {

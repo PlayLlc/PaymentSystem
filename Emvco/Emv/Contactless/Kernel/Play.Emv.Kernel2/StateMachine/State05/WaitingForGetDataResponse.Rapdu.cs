@@ -55,7 +55,7 @@ public partial class WaitingForGetDataResponse : KernelState
         if (!signal.IsSuccessful())
             return false;
 
-        _Database.Update(MessageIdentifier.TryAgain);
+        _Database.Update(MessageIdentifiers.TryAgain);
         _Database.Update(Status.ReadyToRead);
         _Database.Update(new MessageHoldTime(0));
 
@@ -64,7 +64,7 @@ public partial class WaitingForGetDataResponse : KernelState
         _Database.Update(StartOutcome.B);
         _Database.SetUiRequestOnRestartPresent(true);
         _Database.Update(signal.GetLevel1Error());
-        _Database.Update(MessageOnErrorIdentifier.TryAgain);
+        _Database.Update(MessageOnErrorIdentifiers.TryAgain);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
         _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));

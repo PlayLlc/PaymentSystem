@@ -111,10 +111,10 @@ public partial class WaitingForGenerateAcResponse1
     {
         try
         {
-            _Database.Update(MessageIdentifier.ErrorUseAnotherCard);
+            _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
             _Database.Update(Status.NotReady);
             _Database.Update(StatusOutcome.EndApplication);
-            _Database.Update(MessageOnErrorIdentifier.ErrorUseAnotherCard);
+            _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
             _Database.Update(signal.GetLevel1Error());
             _Database.SetIsDataRecordPresent(true);
             _Database.CreateEmvDataRecord(_DataExchangeKernelService);
@@ -145,7 +145,7 @@ public partial class WaitingForGenerateAcResponse1
         try
         {
             // HACK: Move exception handling to a single exception handler
-            _Database.Update(MessageIdentifier.TryAgain);
+            _Database.Update(MessageIdentifiers.TryAgain);
             _Database.Update(Status.ReadyToRead);
             _Database.Update(MessageHoldTime.MinimumValue);
 
@@ -153,7 +153,7 @@ public partial class WaitingForGenerateAcResponse1
             _Database.Update(StartOutcome.B);
             _Database.SetUiRequestOnRestartPresent(true);
             _Database.Update(signal.GetLevel1Error());
-            _Database.Update(MessageOnErrorIdentifier.TryAgain);
+            _Database.Update(MessageOnErrorIdentifiers.TryAgain);
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         }
         catch (TerminalDataException)
@@ -359,7 +359,7 @@ public partial class WaitingForGenerateAcResponse1
     /// <exception cref="TerminalDataException"></exception>
     private void SetDisplayMessage()
     {
-        _Database.Update(MessageIdentifier.ClearDisplay);
+        _Database.Update(MessageIdentifiers.ClearDisplay);
         _Database.Update(Status.CardReadSuccessful);
         _Database.Update(MessageHoldTime.MinimumValue);
 

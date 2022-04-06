@@ -25,11 +25,7 @@ public partial class S910 : CommonProcessing
     private readonly InvalidResponseHandler _InvalidResponseHandler;
     private readonly ValidResponseHandler _ValidResponseHandler;
     private readonly IAuthenticateTransactionSession _AuthenticationService;
-
-    protected override StateId[] _ValidStateIds { get; } =
-    {
-        WaitingForMagStripeReadRecordResponse.StateId, WaitingForMagstripeFirstWriteFlag.StateId
-    };
+    protected override StateId[] _ValidStateIds { get; } = {WaitingForGenerateAcResponse1.StateId, WaitingForRecoverAcResponse.StateId};
 
     #endregion
 
@@ -51,24 +47,35 @@ public partial class S910 : CommonProcessing
 
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
     public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message)
     {
         HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());
 
-        if (IsInvalidResponse(currentStateIdRetriever, session))
-            return _InvalidResponseHandler.ProcessInvalidResponse1(currentStateIdRetriever, session.GetKernelSessionId());
+        if (TryProcessingInvalidDataResponse(session.GetKernelSessionId()))
+            return currentStateIdRetriever.GetStateId();
 
-        if (_Database.IsPresentAndNotEmpty(SignedDynamicApplicationData.Tag))
-            return ProcessWithCda();
+        if (IsWithCda())
+            return ProcessWithCda(currentStateIdRetriever, session, (GenerateApplicationCryptogramResponse) message);
 
         return ProcessWithoutCda();
     }
 
     /// <exception cref="TerminalDataException"></exception>
-    private bool IsInvalidResponse(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
+    private bool TryProcessingInvalidDataResponse(KernelSessionId sessionId)
     {
         ErrorIndication errorIndication = _Database.GetErrorIndication();
 
+        if (!IsInvalidDataResponsePresent(errorIndication))
+            return false;
+
+        _InvalidResponseHandler.ProcessInvalidDataResponse(sessionId);
+
+        return false;
+    }
+
+    private bool IsInvalidDataResponsePresent(ErrorIndication errorIndication)
+    {
         if (errorIndication.IsErrorPresent(Level2Error.StatusBytes))
             return true;
 
@@ -83,6 +90,9 @@ public partial class S910 : CommonProcessing
 
         return false;
     }
+
+    /// <exception cref="TerminalDataException"></exception>
+    private bool IsWithCda() => _Database.IsPresentAndNotEmpty(SignedDynamicApplicationData.Tag);
 
     #endregion
 }

@@ -1,10 +1,13 @@
 ﻿using System.Numerics;
+using System.Reflection.Metadata.Ecma335;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
+using Play.Globalization.Country;
 
 namespace Play.Emv.Ber.DataElements;
 
@@ -36,6 +39,23 @@ public record ThirdPartyData : DataElement<BigInteger>
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
+    public Alpha2CountryCode GetCountryCode() => new(PlayCodec.AlphabeticCodec.DecodeToChars(_Value.ToByteArray()[..2].AsSpan()));
+    public ushort GetUniqueIdentifier() => PlayCodec.UnsignedIntegerCodec.DecodeToUInt16(_Value.ToByteArray()[2..4].AsSpan());
+    private bool IsDeviceTypePresent() => GetUniqueIdentifier().IsBitSet(16);
+
+    public bool TryGetDeviceType(out ushort? result)
+    {
+        if (!IsDeviceTypePresent())
+        {
+            result = null;
+
+            return false;
+        }
+
+        result = PlayCodec.UnsignedIntegerCodec.DecodeToUInt16(_Value.ToByteArray()[4..6]);
+
+        return true;
+    }
 
     #endregion
 

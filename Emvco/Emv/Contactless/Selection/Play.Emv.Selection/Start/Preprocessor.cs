@@ -15,9 +15,7 @@ public class Preprocessor
     ///     Entry Point is initiated at Pre-Processing for a new transaction with a variable amount.
     /// </summary>
     public void SetPreprocessingIndicators(
-        in Outcome outcome,
-        in PreProcessingIndicators preProcessingIndicators,
-        in AmountAuthorizedNumeric amountAuthorizedNumeric,
+        in Outcome outcome, in PreProcessingIndicators preProcessingIndicators, in AmountAuthorizedNumeric amountAuthorizedNumeric,
         in CultureProfile cultureProfile)
     {
         preProcessingIndicators.Set(amountAuthorizedNumeric, cultureProfile);
@@ -42,7 +40,7 @@ public class Preprocessor
         outcomeParameterSetBuilder.SetIsDataRecordPresent(false);
         outcomeParameterSetBuilder.SetIsDiscretionaryDataPresent(false);
         outcomeParameterSetBuilder.Set(new Milliseconds(0));
-        userInterfaceSetter.Set(MessageIdentifier.PleaseInsertOrSwipeCard);
+        userInterfaceSetter.Set(MessageIdentifiers.PleaseInsertOrSwipeCard);
         userInterfaceSetter.Set(Status.ProcessingError);
 
         outcome.Update(outcomeParameterSetBuilder);

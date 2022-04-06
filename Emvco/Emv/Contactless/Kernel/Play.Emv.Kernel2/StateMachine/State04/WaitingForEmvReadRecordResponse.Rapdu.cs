@@ -84,14 +84,14 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         if (!signal.IsSuccessful())
             return false;
 
-        _Database.Update(MessageIdentifier.TryAgain);
+        _Database.Update(MessageIdentifiers.TryAgain);
         _Database.Update(Status.ReadyToRead);
         _Database.Update(new MessageHoldTime(0));
         _Database.Update(StatusOutcome.EndApplication);
         _Database.Update(StartOutcome.B);
         _Database.SetUiRequestOnRestartPresent(true);
         _Database.Update(signal.GetLevel1Error());
-        _Database.Update(MessageOnErrorIdentifier.TryAgain);
+        _Database.Update(MessageOnErrorIdentifiers.TryAgain);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
         _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
@@ -111,10 +111,10 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         if (signal.GetStatusWords() == StatusWords._9000)
             return false;
 
-        _Database.Update(MessageIdentifier.ErrorUseAnotherCard);
+        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Status.NotReady);
         _Database.Update(StatusOutcome.EndApplication);
-        _Database.Update(MessageOnErrorIdentifier.ErrorUseAnotherCard);
+        _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.StatusBytes);
         _Database.Update(signal.GetStatusWords());
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
@@ -200,7 +200,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         KernelSession session, DataExchangeKernelService dataExchanger, KernelDatabase database, IHandleKernelStopRequests kernelEndpoint)
     {
         database.Update(StatusOutcome.EndApplication);
-        database.Update(MessageOnErrorIdentifier.ErrorUseAnotherCard);
+        database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         database.Update(Level2Error.ParsingError);
         database.CreateEmvDiscretionaryData(dataExchanger);
         database.SetUiRequestOnRestartPresent(true);

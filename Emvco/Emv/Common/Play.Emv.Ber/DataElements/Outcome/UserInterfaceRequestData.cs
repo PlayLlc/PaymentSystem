@@ -54,7 +54,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
         new(new Milliseconds((long) ((ulong) (_Value >> _HoldTimeOffset)).GetMaskedValue(0xFFFF000000000000)));
 
     public LanguagePreference GetLanguagePreference() => new((ulong) (_Value >> _LanguagePreferenceOffset));
-    public MessageIdentifier GetMessageIdentifier() => MessageIdentifier.Get((byte) (_Value >> _MessageIdentifierOffset));
+    public MessageIdentifiers GetMessageIdentifier() => MessageIdentifiers.Get((byte) (_Value >> _MessageIdentifierOffset));
     public Status GetStatus() => Status.Get((byte) (_Value >> _StatusOffset));
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
@@ -121,7 +121,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
 
         internal Builder()
         {
-            Set(MessageIdentifier.NotAvailable);
+            Set(MessageIdentifiers.NotAvailable);
             Set(Status.NotAvailable);
             Set(MessageHoldTime.MinimumValue);
 
@@ -138,7 +138,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
             _Value = value._Value;
         }
 
-        public void Set(MessageIdentifier bitsToSet)
+        public void Set(MessageIdentifiers bitsToSet)
         {
             _Value.ClearBits(byte.MaxValue << _MessageIdentifierOffset);
             _Value |= (BigInteger) bitsToSet << _MessageIdentifierOffset;

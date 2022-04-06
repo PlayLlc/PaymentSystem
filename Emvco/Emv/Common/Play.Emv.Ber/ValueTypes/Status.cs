@@ -3,6 +3,8 @@ using System.Numerics;
 
 namespace Play.Emv.Ber;
 
+// TODO: This needs to be separated into an Enum and a struct value type. This enum is too large for a struct because of all the static metadata
+
 /// <summary>
 ///     Identifies the status of the transaction (for example when the card can be removed) to be indicated through the
 ///     setting of lights or LEDs and/or the production of an audio signal. More information on Status is provided in
@@ -77,7 +79,7 @@ public readonly struct Status
         }.ToImmutableSortedDictionary();
     }
 
-    private Status(byte value)
+    internal Status(byte value)
     {
         _Value = value;
     }
@@ -106,6 +108,15 @@ public readonly struct Status
     public bool Equals(Status x, Status y) => x.Equals(y);
     public bool Equals(byte other) => _Value == other;
     public override int GetHashCode() => 4440131 * _Value.GetHashCode();
+
+    #endregion
+
+    #region Serialization
+
+    public void Decode(Span<byte> buffer, ref int offset)
+    {
+        buffer[offset++] = _Value;
+    }
 
     #endregion
 

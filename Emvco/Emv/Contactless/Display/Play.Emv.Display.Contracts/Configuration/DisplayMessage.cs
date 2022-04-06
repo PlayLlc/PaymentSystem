@@ -8,16 +8,16 @@ public class DisplayMessage
     #region Instance Values
 
     protected readonly string _Message;
-    internal readonly byte _Identifier;
+    internal readonly byte Identifiers;
 
     #endregion
 
     #region Constructor
 
-    public DisplayMessage(MessageIdentifier identifier, string message)
+    public DisplayMessage(MessageIdentifiers identifiers, string message)
     {
         _Message = message;
-        _Identifier = identifier;
+        Identifiers = identifiers;
     }
 
     #endregion

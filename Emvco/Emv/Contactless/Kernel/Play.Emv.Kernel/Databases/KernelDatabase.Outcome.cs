@@ -136,7 +136,33 @@ public partial class KernelDatabase
     }
 
     /// <exception cref="TerminalDataException"></exception>
-    public void Update(MessageIdentifier value)
+    public void Update(MessageIdentifiers value)
+    {
+        try
+        {
+            _UserInterfaceRequestDataBuilder.Reset(GetUserInterfaceRequestData());
+            _UserInterfaceRequestDataBuilder.Set(value);
+            Update(_UserInterfaceRequestDataBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
+                                            exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
+                                            exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
+                                            exception);
+        }
+    }
+
+    /// <exception cref="TerminalDataException"></exception>
+    public void Update(ValueQualifier value)
     {
         try
         {
