@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml;
 
 using Play.Core.Extensions;
 
@@ -11,6 +12,7 @@ public readonly record struct Nibble
 {
     #region Static Metadata
 
+    public static readonly Nibble MaxValue = new(0xF);
     private const byte _UnrelatedBits = 0xF0;
 
     #endregion
@@ -42,6 +44,7 @@ public readonly record struct Nibble
     #region Operator Overrides
 
     public static implicit operator byte(Nibble value) => value._Value;
+    public static implicit operator Nibble(byte value) => new(value);
 
     #endregion
 }

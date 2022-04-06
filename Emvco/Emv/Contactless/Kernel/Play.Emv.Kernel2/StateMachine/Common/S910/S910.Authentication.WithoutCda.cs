@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Play.Core;
+using Play.Core.Extensions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
@@ -9,6 +11,7 @@ using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
+using Play.Globalization.Time.Seconds;
 using Play.Icc.Exceptions;
 
 namespace Play.Emv.Kernel2.StateMachine
@@ -17,6 +20,8 @@ namespace Play.Emv.Kernel2.StateMachine
     {
         private partial class AuthenticationHandler
         {
+            #region Instance Members
+
             /// <exception cref="TerminalDataException"></exception>
             /// <exception cref="DataElementParsingException"></exception>
             /// <exception cref="IccProtocolException"></exception>
@@ -31,51 +36,6 @@ namespace Play.Emv.Kernel2.StateMachine
                     ? HandleAac(currentStateIdRetriever, session)
                     : HandleIsNotAac(currentStateIdRetriever, session);
             }
-
-            #region Temp
-
-            #region S910.33, S910.35 - S910.37
-
-            /// <exception cref="TerminalDataException"></exception>
-            /// <exception cref="DataElementParsingException"></exception>
-            /// <exception cref="IccProtocolException"></exception>
-            private StateId HandleAac(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
-            {
-                if (IsIdsReadFlagSet())
-                {
-                    HandleInvalidResponse(session.GetKernelSessionId());
-
-                    return currentStateIdRetriever.GetStateId();
-                }
-
-                if (!IsApplicationAuthenticationCryptogramRequested())
-                    return _ResponseHandler.HandleValidResponse(currentStateIdRetriever, session);
-
-                if (!IsCdaRequested())
-                    return _ResponseHandler.HandleValidResponse(currentStateIdRetriever, session);
-
-                HandleInvalidResponse(session.GetKernelSessionId());
-
-                return currentStateIdRetriever.GetStateId();
-            }
-
-            #endregion
-
-            #region S910.34, S910.38 - S910.39
-
-            private StateId HandleIsNotAac(IGetKernelStateId currentGetKernelStateId, Kernel2Session session)
-            {
-                if (!IsCdaRequested())
-                    return HandleRelayResistanceData(currentGetKernelStateId, session);
-
-                HandleInvalidResponse(session.GetKernelSessionId());
-
-                return currentGetKernelStateId.GetStateId();
-            }
-
-            #endregion
-
-            #endregion
 
             #region S910.30 - S910.31
 
@@ -175,59 +135,115 @@ namespace Play.Emv.Kernel2.StateMachine
                 if (!_Database.IsPresentAndNotEmpty(Track2EquivalentData.Tag))
                     return;
 
-                Track2EquivalentData track2EquivalentData = _Database.Get<Track2EquivalentData>(Track2EquivalentData.Tag);
+                Track2EquivalentData track2EquivalentDataBuffer = _Database.Get<Track2EquivalentData>(Track2EquivalentData.Tag);
 
-                if (track2EquivalentData.GetNumberOfDigitsInPrimaryAccountNumber() <= 16)
-                    track2EquivalentData.ZeroFillDiscretionaryDataWith13HexZeros();
+                if (track2EquivalentDataBuffer.GetNumberOfDigitsInPrimaryAccountNumber() <= 16)
+                {
+                    track2EquivalentDataBuffer = track2EquivalentDataBuffer.UpdateDiscretionaryData(new Nibble[]
+                    {
+                        0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+                        0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+                        0x0
+                    });
+                }
+                else
+                {
+                    track2EquivalentDataBuffer =
+                        track2EquivalentDataBuffer.UpdateDiscretionaryData(new Nibble[]
+                        {
+                            0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+                            0x0, 0x0
+                        });
+                }
 
-                /*
-                 *  IF [IsNotEmpty(TagOf(Track 2 Equivalent Data))]
-	                THEN
+                if (_Database.TryGet(CaPublicKeyIndex.Tag, out CaPublicKeyIndex? caPublicKeyIndex) && ((byte) caPublicKeyIndex! < 0x0A))
+                {
+                    Nibble[] discretionaryDataCaScope = track2EquivalentDataBuffer.GetDiscretionaryData().AsNibbleArray();
+                    discretionaryDataCaScope[0] = new Nibble((byte) caPublicKeyIndex!);
+                    track2EquivalentDataBuffer = track2EquivalentDataBuffer.UpdateDiscretionaryData(discretionaryDataCaScope);
+                }
 
-	                    IF [Number of digits in 'Primary Account Number' in Track 2 Equivalent Data ≤ 16]
-	                    THEN
-	                        Replace 'Discretionary Data' in Track 2 Equivalent Data with
-	                        '0000000000000' (13 hexadecimal zeroes). Pad with 'F' if needed to
-	                        ensure whole bytes.
-	                    ELSE
-	                        Replace 'Discretionary Data' in Track 2 Equivalent Data with
-	                        '0000000000' (10 hexadecimal zeroes). Pad with 'F' if needed to
-	                        ensure whole bytes.
-	                    ENDIF
+                var rrpCounter = _Database.Get<RelayResistanceProtocolCounter>(RelayResistanceProtocolCounter.Tag);
+                Nibble[] discretionaryDataRrpScope = track2EquivalentDataBuffer.GetDiscretionaryData().AsNibbleArray();
+                discretionaryDataRrpScope[1] = new Nibble((byte) rrpCounter!);
+                track2EquivalentDataBuffer = track2EquivalentDataBuffer.UpdateDiscretionaryData(discretionaryDataRrpScope);
 
-	                    IF [IsNotEmpty(TagOf(CA Public Key Index (Card))) AND CA Public Key Index (Card) < '0A']
-	                    THEN
-	                        Replace the most significant digit of the 'Discretionary Data' in Track 2
-	                        Equivalent Data with a digit representing CA Public Key Index (Card).
-	                    ENDIF
+                var deviceRelayResistanceEntropy = _Database.Get<DeviceRelayResistanceEntropy>(DeviceRelayResistanceEntropy.Tag);
+                Nibble[] discretionaryDataEntropyScope = track2EquivalentDataBuffer.GetDiscretionaryData().AsNibbleArray();
+                ReadOnlySpan<Nibble> deviceRelayResistanceEntropyNibbles = deviceRelayResistanceEntropy.EncodeValue()[^2..].AsNibbleArray();
+                deviceRelayResistanceEntropyNibbles.CopyTo(discretionaryDataEntropyScope[2..]);
+                track2EquivalentDataBuffer = track2EquivalentDataBuffer.UpdateDiscretionaryData(discretionaryDataEntropyScope);
 
-	                    Replace the second most significant digit of the 'Discretionary Data' in Track 2
-	                    Equivalent Data with a digit representing RRP Counter.
+                if (track2EquivalentDataBuffer.GetNumberOfDigitsInPrimaryAccountNumber() <= 16)
+                {
+                    byte entropySeed = deviceRelayResistanceEntropy.EncodeValue()[^3];
+                    Nibble[] discretionaryDataEntropyScope2 = track2EquivalentDataBuffer.GetDiscretionaryData().AsNibbleArray();
+                    discretionaryDataEntropyScope2[4] = new Nibble((byte) (entropySeed / 100));
+                    discretionaryDataEntropyScope2[5] = new Nibble((byte) ((entropySeed / 10) % 10));
+                    discretionaryDataEntropyScope2[6] = new Nibble((byte) (entropySeed % 100));
+                    track2EquivalentDataBuffer = track2EquivalentDataBuffer.UpdateDiscretionaryData(discretionaryDataEntropyScope2);
+                }
 
-                        Convert the two least significant bytes of the Device Relay Resistance Entropy
-                        from 2 byte binary to 5 digit decimal by considering the two bytes as an
-                        integer in the range 0 to 65535. Replace the 5 digits of 'Discretionary Data' in
-                        Track 2 Equivalent Data that follow the RRP Counter digit with that value.
+                MeasuredRelayResistanceProcessingTime time =
+                    _Database.Get<MeasuredRelayResistanceProcessingTime>(MeasuredRelayResistanceProcessingTime.Tag);
+                Milliseconds timeInMilliseconds = (RelaySeconds) time;
 
-                        IF [Number of digits in 'Primary Account Number' in Track 2 Equivalent Data ≤ 16]
-                        THEN
-                            Convert the third least significant byte of Device Relay Resistance
-                            Entropy from binary to 3 digit decimal in the range 0 to 255. Replace
-                            the next 3 digits of 'Discretionary Data' in Track 2 Equivalent Data
-                            with that value.
-                        ENDIF
+                ushort timeSeed = (ushort) ((ushort) timeInMilliseconds > 999 ? 999 : (ushort) timeInMilliseconds);
 
-                        Divide the Measured Relay Resistance Processing Time by 10 using the div
-                        operator to give a count in milliseconds. If the value exceeds '03E7' (999),
-                        then set the value to '03E7'. Convert this value from 2 byte binary to 3 digit
-                        decimal by considering the 2 bytes as an integer. Replace the 3 least
-                        significant digits of 'Discretionary Data' in Track 2 Equivalent Data with this
-                        3 digit decimal value.
-                    ENDIF
-                 */
+                Nibble[] discretionaryDataTimeScope = track2EquivalentDataBuffer.GetDiscretionaryData().AsNibbleArray();
+                discretionaryDataTimeScope[^3] = new Nibble((byte) (timeSeed / 100));
+                discretionaryDataTimeScope[^2] = new Nibble((byte) ((timeSeed / 10) % 10));
+                discretionaryDataTimeScope[^1] = new Nibble((byte) (timeSeed % 100));
 
-                throw new NotImplementedException();
+                _Database.Update(track2EquivalentDataBuffer.UpdateDiscretionaryData(discretionaryDataTimeScope));
             }
+
+            #endregion
+
+            #endregion
+
+            #region Temp
+
+            #region S910.33, S910.35 - S910.37
+
+            /// <exception cref="TerminalDataException"></exception>
+            /// <exception cref="DataElementParsingException"></exception>
+            /// <exception cref="IccProtocolException"></exception>
+            private StateId HandleAac(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
+            {
+                if (IsIdsReadFlagSet())
+                {
+                    HandleInvalidResponse(session.GetKernelSessionId());
+
+                    return currentStateIdRetriever.GetStateId();
+                }
+
+                if (!IsApplicationAuthenticationCryptogramRequested())
+                    return _ResponseHandler.HandleValidResponse(currentStateIdRetriever, session);
+
+                if (!IsCdaRequested())
+                    return _ResponseHandler.HandleValidResponse(currentStateIdRetriever, session);
+
+                HandleInvalidResponse(session.GetKernelSessionId());
+
+                return currentStateIdRetriever.GetStateId();
+            }
+
+            #endregion
+
+            #region S910.34, S910.38 - S910.39
+
+            private StateId HandleIsNotAac(IGetKernelStateId currentGetKernelStateId, Kernel2Session session)
+            {
+                if (!IsCdaRequested())
+                    return HandleRelayResistanceData(currentGetKernelStateId, session);
+
+                HandleInvalidResponse(session.GetKernelSessionId());
+
+                return currentGetKernelStateId.GetStateId();
+            }
+
+            #endregion
 
             #endregion
         }

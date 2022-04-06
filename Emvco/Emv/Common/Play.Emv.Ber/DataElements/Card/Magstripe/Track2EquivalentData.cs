@@ -43,35 +43,6 @@ public record Track2EquivalentData : DataElement<BigInteger>
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Exception"></exception>
-    public static Track2EquivalentData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override Track2EquivalentData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Exception"></exception>
-    public static Track2EquivalentData Decode(ReadOnlySpan<byte> value)
-    {
-        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
-
-        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
-
-        return new Track2EquivalentData(result);
-    }
-
-    public new byte[] EncodeValue() => _Value.ToByteArray();
-    public new byte[] EncodeValue(int length) => _Value.ToByteArray()[..length];
-
-    #endregion
-
-    #region _New
-
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     private int GetPrimaryAccountNumberNibbleOffset(ReadOnlySpan<Nibble> value)
@@ -129,10 +100,79 @@ public record Track2EquivalentData : DataElement<BigInteger>
     }
 
     /// <exception cref="OverflowException"></exception>
-    public Track2EquivalentData UpdateDiscretionaryData(ReadOnlySpan<byte> value)
+    public byte[] GetDiscretionaryData()
     {
-        ReadOnlySpan<Nibble> valueBuffer = value.AsNibbleArray();
+        ReadOnlySpan<Nibble> buffer = _Value.ToByteArray().AsNibbleArray();
+
+        return buffer[GetDiscretionaryDataNibbleOffset(buffer)..].AsByteArray();
     }
+
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Exception"></exception>
+    public Track2EquivalentData UpdateDiscretionaryData(ReadOnlySpan<byte> discretionaryData)
+    {
+        ReadOnlySpan<Nibble> valueBuffer = _Value.ToByteArray().AsNibbleArray();
+        ReadOnlySpan<Nibble> discretionaryDataBuffer = discretionaryData.AsNibbleArray();
+        int discretionaryDataOffset = GetDiscretionaryDataNibbleOffset(valueBuffer);
+
+        int nibbleCount = discretionaryDataOffset + discretionaryDataBuffer.Length;
+
+        Span<Nibble> resultBuffer = stackalloc Nibble[nibbleCount + (nibbleCount % 2)];
+
+        valueBuffer[..discretionaryDataOffset].CopyTo(resultBuffer);
+        discretionaryDataBuffer.CopyTo(resultBuffer[discretionaryDataOffset..]);
+
+        if ((nibbleCount % 2) != 0)
+            resultBuffer[^1] = Nibble.MaxValue;
+
+        return Decode(resultBuffer.AsByteArray().AsSpan());
+    }
+
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Exception"></exception>
+    public Track2EquivalentData UpdateDiscretionaryData(ReadOnlySpan<Nibble> discretionaryData)
+    {
+        ReadOnlySpan<Nibble> valueBuffer = _Value.ToByteArray().AsNibbleArray();
+        int discretionaryDataOffset = GetDiscretionaryDataNibbleOffset(valueBuffer);
+
+        int nibbleCount = discretionaryDataOffset + discretionaryData.Length;
+
+        Span<Nibble> resultBuffer = stackalloc Nibble[nibbleCount + (nibbleCount % 2)];
+
+        valueBuffer[..discretionaryDataOffset].CopyTo(resultBuffer);
+        discretionaryData.CopyTo(resultBuffer[discretionaryDataOffset..]);
+
+        if ((nibbleCount % 2) != 0)
+            resultBuffer[^1] = Nibble.MaxValue;
+
+        return Decode(resultBuffer.AsByteArray().AsSpan());
+    }
+
+    #endregion
+
+    #region Serialization
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Exception"></exception>
+    public static Track2EquivalentData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    /// <exception cref="BerParsingException"></exception>
+    public override Track2EquivalentData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="BerParsingException"></exception>
+    public static Track2EquivalentData Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
+
+        BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
+
+        return new Track2EquivalentData(result);
+    }
+
+    public new byte[] EncodeValue() => _Value.ToByteArray();
+    public new byte[] EncodeValue(int length) => _Value.ToByteArray()[..length];
 
     #endregion
 }

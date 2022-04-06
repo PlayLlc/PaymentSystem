@@ -1,8 +1,5 @@
 ﻿namespace Play.Emv.Ber;
 
-/// <summary>
-///     The underlying value for Action Codes such as TerminalActionCodeDefault, IssuerActionCodeDefault, etc
-/// </summary>
 public readonly record struct RrpCounter
 {
     #region Instance Values

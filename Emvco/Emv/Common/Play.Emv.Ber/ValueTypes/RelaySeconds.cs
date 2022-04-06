@@ -132,7 +132,8 @@ public readonly record struct RelaySeconds
     public static bool operator <=(TimeSpan left, RelaySeconds right) => right.AsTimeSpan() <= left;
     public static implicit operator RelaySeconds(Seconds value) => new(value);
     public static implicit operator RelaySeconds(Deciseconds value) => new(value);
-    public static implicit operator Microseconds(RelaySeconds value) => new(value);
+    public static implicit operator Microseconds(RelaySeconds value) => new(value.AsTimeSpan());
+    public static implicit operator Milliseconds(RelaySeconds value) => new(value.AsTimeSpan());
 
     #endregion
 }

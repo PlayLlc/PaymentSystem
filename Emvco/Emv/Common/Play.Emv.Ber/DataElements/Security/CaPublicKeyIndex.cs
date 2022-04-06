@@ -16,35 +16,12 @@ public record CaPublicKeyIndex : DataElement<byte>, IEqualityComparer<CaPublicKe
     #region Static Metadata
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
-    public static readonly CaPublicKeyIndex Five;
-    public static readonly CaPublicKeyIndex Four;
-    public static readonly CaPublicKeyIndex One;
-    public static readonly CaPublicKeyIndex Six;
-    public static readonly CaPublicKeyIndex Three;
-    public static readonly CaPublicKeyIndex Two;
     public static readonly Tag Tag = 0x8F;
     private const byte _ByteLength = 1;
 
     #endregion
 
     #region Constructor
-
-    static CaPublicKeyIndex()
-    {
-        const byte one = 1;
-        const byte two = 2;
-        const byte three = 3;
-        const byte four = 4;
-        const byte five = 5;
-        const byte six = 6;
-
-        One = new CaPublicKeyIndex(one);
-        Two = new CaPublicKeyIndex(two);
-        Three = new CaPublicKeyIndex(three);
-        Four = new CaPublicKeyIndex(four);
-        Five = new CaPublicKeyIndex(five);
-        Six = new CaPublicKeyIndex(six);
-    }
 
     public CaPublicKeyIndex(byte value) : base(value)
     { }

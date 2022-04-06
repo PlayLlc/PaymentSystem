@@ -47,9 +47,9 @@ public record DeviceRelayResistanceEntropy : DataElement<RelaySeconds>
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
+        uint result = PlayCodec.BinaryCodec.DecodeToUInt32(value);
 
-        return new DeviceRelayResistanceEntropy(result);
+        return new DeviceRelayResistanceEntropy(new RelaySeconds(result));
     }
 
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);

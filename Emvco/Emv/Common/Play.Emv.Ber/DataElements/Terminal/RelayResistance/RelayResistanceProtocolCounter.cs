@@ -53,4 +53,11 @@ public record RelayResistanceProtocolCounter : DataElement<byte>
     public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
+
+    #region Operator Overrides
+
+    public static explicit operator byte(RelayResistanceProtocolCounter value) => value._Value;
+    public static explicit operator RelayResistanceProtocolCounter(byte value) => new(value);
+
+    #endregion
 }
