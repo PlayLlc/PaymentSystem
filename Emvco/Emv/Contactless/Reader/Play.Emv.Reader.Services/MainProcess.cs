@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using Play.Core;
 using Play.Emv.Display.Contracts;
+using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Pcd.Contracts;
@@ -48,7 +49,7 @@ internal class MainProcess : CommandProcessingQueue
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     private async Task Handle(ActivateReaderRequest request)
     {
         await Task.Run(() => { _MainStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
@@ -59,7 +60,7 @@ internal class MainProcess : CommandProcessingQueue
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     private async Task Handle(OutSelectionResponse request)
     {
         await Task.Run(() => { _MainStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
@@ -70,7 +71,7 @@ internal class MainProcess : CommandProcessingQueue
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     private async Task Handle(OutKernelResponse request)
     {
         await Task.Run(() => { _MainStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);
@@ -81,7 +82,7 @@ internal class MainProcess : CommandProcessingQueue
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     private async Task Handle(StopReaderRequest request)
     {
         await Task.Run(() => { _MainStateMachine.Handle(request); }, _CancellationTokenSource.Token).ConfigureAwait(false);

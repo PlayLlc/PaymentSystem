@@ -665,7 +665,7 @@ public class S456 : CommonProcessing
     #region S456.34
 
     /// <remarks>EMV Book C-2 Section S456.34</remarks>
-    /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     private bool IsStateTransitionNeededAfterReadingOfflineBalance(
         IGetKernelStateId currentStateIdRetriever, Kernel2Session session, out StateId? stateId)
@@ -680,7 +680,7 @@ public class S456 : CommonProcessing
     #region S456.35
 
     /// <remarks>EMV Book C-2 Section S456.35</remarks>
-    /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     private void ValidateProcessingRestrictions()
     {
@@ -693,7 +693,7 @@ public class S456 : CommonProcessing
     #region S456.36
 
     /// <remarks>EMV Book C-2 Section S456.36</remarks>
-    /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     private void SelectCardholderVerificationMethod()
     {

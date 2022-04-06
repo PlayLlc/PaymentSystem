@@ -7,6 +7,7 @@ using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
@@ -49,7 +50,7 @@ public class S78 : CommonProcessing
     #region Instance Members
 
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message)
     {
         HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());
@@ -88,7 +89,7 @@ public class S78 : CommonProcessing
 
     #region S78.1 - S78.7
 
-    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private bool TryWaitingForFirstWriteFlag(KernelSession session)
     {
         if (!IsProceedToFirstWriteFlagNonZero())
@@ -106,14 +107,14 @@ public class S78 : CommonProcessing
 
     #region S78.1
 
-    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private bool IsProceedToFirstWriteFlagEmpty() => !_Database.IsPresentAndNotEmpty(ProceedToFirstWriteFlag.Tag);
 
     #endregion
 
     #region S78.2
 
-    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private void EnqueueProceedToFirstWriteFlag() =>
         _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, ProceedToFirstWriteFlag.Tag);
 
@@ -121,7 +122,7 @@ public class S78 : CommonProcessing
 
     #region S78.3 - S78.6
 
-    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private void HandleWaitingForFirstWriteFlag(KernelSession session)
     {
         // S78.3
@@ -138,7 +139,7 @@ public class S78 : CommonProcessing
 
     #region S78.4 - S78.5
 
-    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private void AttemptToExchangeData(KernelSessionId sessionId)
     {
         if (_DataExchangeKernelService.IsEmpty(DekRequestType.DataNeeded))
@@ -158,7 +159,7 @@ public class S78 : CommonProcessing
 
     #region S78.7
 
-    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private bool IsProceedToFirstWriteFlagNonZero()
     {
         if (_Database.TryGet(ProceedToFirstWriteFlag.Tag, out PrimitiveValue? result))
@@ -171,7 +172,7 @@ public class S78 : CommonProcessing
 
     #region S78.8
 
-    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private bool IsAmountAuthorizedEmpty() => !_Database.IsPresentAndNotEmpty(AmountAuthorizedNumeric.Tag);
 
     #endregion
@@ -204,7 +205,7 @@ public class S78 : CommonProcessing
 
     #region S78.10 - S78.11
 
-    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private bool TryHandlingMaxTransactionAmountExceeded(KernelSessionId sessionId)
     {
         if (!IsMaxTransactionAmountExceeded())
@@ -219,7 +220,7 @@ public class S78 : CommonProcessing
 
     #region S78.10
 
-    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private bool IsMaxTransactionAmountExceeded()
     {
         AmountAuthorizedNumeric authorizedAmount = _Database.Get<AmountAuthorizedNumeric>(AmountAuthorizedNumeric.Tag);
@@ -236,7 +237,7 @@ public class S78 : CommonProcessing
 
     #region S78.11
 
-    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private void HandleMaxTransactionAmountExceeded(KernelSessionId sessionId)
     {
         _Database.Update(FieldOffRequestOutcome.NotAvailable);

@@ -1,6 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.DataExchange;
@@ -46,7 +47,7 @@ public partial class OfflineBalanceReader : CommonProcessing
 
         public StateId[] GetValidStateIds() => _ValidStateIds;
 
-        /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
+        /// <exception cref="RequestOutOfSyncException"></exception>
         /// <exception cref="TerminalDataException"></exception>
         public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
         {

@@ -2,6 +2,8 @@
 
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Exceptions;
+using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Databases;
@@ -18,6 +20,8 @@ public partial class S910 : CommonProcessing
 {
     #region Instance Values
 
+    private readonly InvalidResponseHandler _InvalidResponseHandler;
+
     protected override StateId[] _ValidStateIds { get; } =
     {
         WaitingForMagStripeReadRecordResponse.StateId, WaitingForMagstripeFirstWriteFlag.StateId
@@ -29,22 +33,24 @@ public partial class S910 : CommonProcessing
 
     public S910(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
-        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint, IGenerateUnpredictableNumber unpredictableNumberGenerator) :
-        base(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
+        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint) : base(database, dataExchangeKernelService, kernelStateResolver,
+                                                                               pcdEndpoint, kernelEndpoint)
     {
-        _UnpredictableNumberGenerator = unpredictableNumberGenerator;
+        _InvalidResponseHandler = new InvalidResponseHandler(database, dataExchangeKernelService, kernelEndpoint);
     }
 
     #endregion
 
-    /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
-    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    #region Instance Members
+
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message)
     {
         HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());
 
         if (IsInvalidResponse(currentStateIdRetriever, session))
-            return ProcessInvalidResponse();
+            return _InvalidResponseHandler.ProcessInvalidResponse1(currentStateIdRetriever, session.GetKernelSessionId());
 
         if (_Database.IsPresentAndNotEmpty(SignedDynamicApplicationData.Tag))
             return ProcessWithCda();
@@ -52,9 +58,7 @@ public partial class S910 : CommonProcessing
         return ProcessWithoutCda();
     }
 
-    #region Invalid Response - F, C
-
-    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private bool IsInvalidResponse(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
     {
         ErrorIndication errorIndication = _Database.GetErrorIndication();
