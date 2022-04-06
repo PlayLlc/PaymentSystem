@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs.Exceptions;
+using Play.Core;
 using Play.Core.Exceptions;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
@@ -462,6 +463,22 @@ public class NumericCodec : PlayCodec
 
     #endregion
 
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset">The number of bytes to offset</param>
+    /// <exception cref="CodecParsingException"></exception>
+    public void Encode(ReadOnlySpan<Nibble> value, Span<byte> buffer, ref int offset)
+    {
+        int byteCount = (value.Length / 2) + (value.Length % 2);
+
+        if (byteCount < (buffer.Length - offset))
+            throw new CodecParsingException($"The {nameof(buffer)} argument was too small to encode the provided value");
+
+        value.CopyTo(buffer[offset..(byteCount + offset)]);
+
+        offset += byteCount;
+    }
+
     public byte[] Encode(ReadOnlySpan<char> value) => Encode(value, value.Length);
 
     public byte[] Encode(ReadOnlySpan<char> value, int length)
@@ -842,6 +859,24 @@ public class NumericCodec : PlayCodec
     #endregion
 
     #region Decode To Nibbles
+
+    /// <exception cref="OverflowException"></exception>
+    public Nibble[] DecodeToNibbles(ReadOnlySpan<byte> value) => value.AsNibbleArray();
+
+    /// <exception cref="OverflowException"></exception>
+    public bool TryDecodingToNibbles(ReadOnlySpan<byte> value, out Nibble[] result)
+    {
+        if (!IsValid(value))
+        {
+            result = Array.Empty<Nibble>();
+
+            return false;
+        }
+
+        result = value.AsNibbleArray();
+
+        return true;
+    }
 
     #endregion
 }

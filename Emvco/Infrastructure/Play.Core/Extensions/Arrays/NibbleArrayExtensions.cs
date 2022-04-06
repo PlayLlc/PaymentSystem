@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
+using Play.Core.Exceptions;
+
 namespace Play.Core.Extensions.Arrays
 {
     public static class NibbleArrayExtensions
@@ -31,6 +33,23 @@ namespace Play.Core.Extensions.Arrays
             }
 
             return result;
+        }
+
+        /// <exception cref="PlayInternalException"></exception>
+        public static void CopyTo(this Nibble[] value, Span<byte> buffer)
+        {
+            int byteCount = (value.Length / 2) + (value.Length % 2);
+
+            if (buffer.Length < byteCount)
+                throw new PlayInternalException($"The {nameof(buffer)} argument was too small to perform the {nameof(CopyTo)} sequence");
+
+            for (int i = 0; i < value.Length; i++)
+            {
+                if ((i % 2) == 0)
+                    buffer[i / 2] = (byte) (value[i] << 4);
+                else
+                    buffer[i / 2] |= value[i];
+            }
         }
 
         #endregion
