@@ -1,45 +1,20 @@
 ﻿using System;
 
-using Play.Ber.DataObjects;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
-using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Kernel.Databases;
-using Play.Emv.Kernel.DataExchange;
-using Play.Emv.Kernel.State;
-using Play.Emv.Kernel2.Databases;
-using Play.Messaging;
 
 namespace Play.Emv.Kernel2.StateMachine
 {
     public partial class S910
     {
-        private class InvalidResponseHandler
+        private partial class ResponseHandler
         {
-            #region Instance Values
-
-            private readonly KernelDatabase _Database;
-            private readonly DataExchangeKernelService _DataExchangeKernelService;
-            private readonly IKernelEndpoint _KernelEndpoint;
-
-            #endregion
-
-            #region Constructor
-
-            public InvalidResponseHandler(
-                KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint)
-            {
-                _Database = database;
-                _DataExchangeKernelService = dataExchangeKernelService;
-                _KernelEndpoint = kernelEndpoint;
-            }
-
-            #endregion
+            #region Invalid Responses
 
             #region S910.7.1 - S910.7.2
 
@@ -168,6 +143,8 @@ namespace Play.Emv.Kernel2.StateMachine
                     _KernelEndpoint.Request(new StopKernelRequest(sessionId));
                 }
             }
+
+            #endregion
 
             #endregion
         }

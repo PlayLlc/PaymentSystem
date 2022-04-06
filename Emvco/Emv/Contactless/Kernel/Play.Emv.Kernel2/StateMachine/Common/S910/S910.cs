@@ -12,24 +12,20 @@ using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
 using Play.Messaging;
 
-namespace Play.Emv.Kernel2.StateMachine._Temp
+namespace Play.Emv.Kernel2.StateMachine
 {
-    public partial class _S910 : CommonProcessing
+    public partial class S910 : CommonProcessing
     {
         private readonly ResponseHandler _ResponseHandler;
-        private readonly WithCda _WithCda;
-        private readonly WithoutCda _WithoutCda;
-        private readonly IAuthenticateTransactionSession _AuthenticationService;
+        private readonly AuthenticationHandler _AuthenticationHandler;
 
-        public _S910(
+        public S910(
             KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
             IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint, IAuthenticateTransactionSession authenticationService) :
             base(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
         {
-            _AuthenticationService = authenticationService;
-            _ResponseHandler = new ResponseHandler(database, dataExchangeKernelService, kernelEndpoint);
-            _WithCda = new WithCda(database, _ResponseHandler, _AuthenticationService);
-            _WithoutCda = new WithoutCda(database, _ResponseHandler, _AuthenticationService);
+            _ResponseHandler = new ResponseHandler(database, dataExchangeKernelService, kernelEndpoint, pcdEndpoint);
+            _AuthenticationHandler = new AuthenticationHandler(database, _ResponseHandler, authenticationService);
         }
 
         protected override StateId[] _ValidStateIds { get; } = {WaitingForGenerateAcResponse1.StateId, WaitingForRecoverAcResponse.StateId};
@@ -47,9 +43,10 @@ namespace Play.Emv.Kernel2.StateMachine._Temp
                 return currentStateIdRetriever.GetStateId();
 
             if (IsWithCda())
-                return _WithCda.ProcessWithCda(currentStateIdRetriever, session, (GenerateApplicationCryptogramResponse) message);
+                return _AuthenticationHandler.ProcessWithCda(currentStateIdRetriever, session,
+                                                             (GenerateApplicationCryptogramResponse) message);
 
-            return _WithCda.ProcessWithCda(currentStateIdRetriever, session, (GenerateApplicationCryptogramResponse) message);
+            return _AuthenticationHandler.ProcessWithCda(currentStateIdRetriever, session, (GenerateApplicationCryptogramResponse) message);
         }
 
         /// <exception cref="TerminalDataException"></exception>

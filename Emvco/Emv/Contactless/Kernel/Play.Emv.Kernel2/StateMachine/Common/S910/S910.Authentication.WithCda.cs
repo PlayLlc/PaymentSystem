@@ -1,38 +1,26 @@
 ﻿using System;
 
+using Play.Core.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
-using Play.Emv.Kernel;
 using Play.Emv.Kernel.Databases;
-using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
 using Play.Emv.Security.Exceptions;
 
-namespace Play.Emv.Kernel2.StateMachine._Temp
+namespace Play.Emv.Kernel2.StateMachine
 {
-    public partial class _S910
+    public partial class S910
     {
-        private class WithCda
+        private partial class AuthenticationHandler
         {
-            private readonly KernelDatabase _Database;
-            private readonly ResponseHandler _ResponseHandler;
-            private readonly IAuthenticateTransactionSession _AuthenticationService;
-
-            public WithCda(KernelDatabase database, ResponseHandler responseHandler, IAuthenticateTransactionSession authenticationService)
-            {
-                _Database = database;
-                _ResponseHandler = responseHandler;
-                _AuthenticationService = authenticationService;
-            }
-
-            /// <exception cref="TerminalDataException"></exception>
-            /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+            /// <exception cref="PlayInternalException"></exception>
+            /// <exception cref="Play.Core.Exceptions"></exception>
             public StateId ProcessWithCda(
                 IGetKernelStateId currentStateIdRetriever, Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
             {
@@ -53,21 +41,20 @@ namespace Play.Emv.Kernel2.StateMachine._Temp
 
                 // S910.5, S910.6
                 if (IsIdsReadFlagSet(integratedDataStorageStatus))
-                    return _ResponseHandler.HandleValidResponse(currentStateIdRetriever, session.GetKernelSessionId());
+                    return _ResponseHandler.HandleValidResponse(currentStateIdRetriever, session);
 
                 // S910.8 - S910.9
                 if (TryHandlingMissingDataSummary2(currentStateIdRetriever, session.GetKernelSessionId()))
                     return currentStateIdRetriever.GetStateId();
 
-                if (TryHandlingInvalidDataStorageSummary1And2Equality(currentStateIdRetriever, session.GetKernelSessionId()))
+                if (TryHandlingInvalidDataStorageSummary1And2Equality(session.GetKernelSessionId()))
                     return currentStateIdRetriever.GetStateId();
 
                 // S910.12
                 SetSuccessfulRead();
 
                 // S910.13
-                if (TryHandleIdsWriteFlagNotSet(currentStateIdRetriever, session.GetKernelSessionId(),
-                                                out StateId? successfulResponseStateId))
+                if (TryHandleIdsWriteFlagNotSet(currentStateIdRetriever, session, out StateId? successfulResponseStateId))
                     return successfulResponseStateId!.Value;
 
                 // S910.14 - S910.15
@@ -77,7 +64,7 @@ namespace Play.Emv.Kernel2.StateMachine._Temp
                 if (TryHandlingInvalidDataStorageSummary2And3Equality(session.GetKernelSessionId()))
                     return currentStateIdRetriever.GetStateId();
 
-                return _ResponseHandler.HandleValidResponse(currentStateIdRetriever, session.GetKernelSessionId());
+                return _ResponseHandler.HandleValidResponse(currentStateIdRetriever, session);
             }
 
             #region S910.1, S910.4, S910.4.1, S910.3, S910.3.1
@@ -158,7 +145,7 @@ namespace Play.Emv.Kernel2.StateMachine._Temp
             #region S910.2
 
             /// <exception cref="TerminalDataException"></exception>
-            public bool IsIdsReadFlagSet(IntegratedDataStorageStatus? integratedDataStorageStatus)
+            private bool IsIdsReadFlagSet(IntegratedDataStorageStatus? integratedDataStorageStatus)
             {
                 if (!_Database.IsIdsAndTtrImplemented())
                     return false;
@@ -257,8 +244,7 @@ namespace Play.Emv.Kernel2.StateMachine._Temp
             #region S910.10 - S910.11
 
             /// <exception cref="TerminalDataException"></exception>
-            private bool TryHandlingInvalidDataStorageSummary1And2Equality(
-                IGetKernelStateId currentStateIdRetriever, KernelSessionId sessionId)
+            private bool TryHandlingInvalidDataStorageSummary1And2Equality(KernelSessionId sessionId)
             {
                 DataStorageSummary1 dataStorageSummary1 = _Database.Get<DataStorageSummary1>(DataStorageSummary1.Tag);
                 DataStorageSummary2 dataStorageSummary2 = _Database.Get<DataStorageSummary2>(DataStorageSummary2.Tag);
@@ -288,7 +274,7 @@ namespace Play.Emv.Kernel2.StateMachine._Temp
 
             /// <exception cref="TerminalDataException"></exception>
             private bool TryHandleIdsWriteFlagNotSet(
-                IGetKernelStateId currentStateIdRetriever, KernelSessionId sessionId, out StateId? successfulResponseStateId)
+                IGetKernelStateId currentStateIdRetriever, Kernel2Session session, out StateId? successfulResponseStateId)
             {
                 if (_Database.IsIntegratedDataStorageWriteFlagSet())
                 {
@@ -297,7 +283,7 @@ namespace Play.Emv.Kernel2.StateMachine._Temp
                     return false;
                 }
 
-                successfulResponseStateId = _ResponseHandler.HandleValidResponse(currentStateIdRetriever, sessionId);
+                successfulResponseStateId = _ResponseHandler.HandleValidResponse(currentStateIdRetriever, session);
 
                 return true;
             }

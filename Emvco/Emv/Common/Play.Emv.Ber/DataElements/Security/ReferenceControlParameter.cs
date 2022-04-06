@@ -35,13 +35,15 @@ public record ReferenceControlParameter : DataElement<byte>, IEqualityComparer<R
 
     #region Instance Members
 
-    private static byte Create(CryptogramTypes cryptogramTypes, bool isCombinedDataAuthenticationSupported)
+    private static byte Create(CryptogramTypes cryptogramTypes, bool isCdaSignatureRequested)
     {
-        if (isCombinedDataAuthenticationSupported)
+        if (isCdaSignatureRequested)
             return (byte) (cryptogramTypes | (byte) Bits.Five);
 
         return (byte) cryptogramTypes;
     }
+
+    public bool IsCdaSignatureRequested() => _Value.IsBitSet(Bits.Five);
 
     /// <summary>
     ///     GetCryptogramType

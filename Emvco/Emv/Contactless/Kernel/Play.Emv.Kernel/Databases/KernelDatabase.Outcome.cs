@@ -75,6 +75,7 @@ public partial class KernelDatabase
         return (DataRecord) Get(DataRecord.Tag);
     }
 
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsSet(TerminalVerificationResultCodes value)
     {
         if (IsPresentAndNotEmpty(TerminalVerificationResults.Tag))
@@ -96,9 +97,8 @@ public partial class KernelDatabase
         return (DiscretionaryData) Get(DiscretionaryData.Tag);
     }
 
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public Outcome GetOutcome() =>
         new(GetErrorIndication(), GetOutcomeParameterSet(), GetDataRecord(), GetDiscretionaryData(), GetUserInterfaceRequestData());
 

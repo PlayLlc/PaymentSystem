@@ -8,180 +8,25 @@ using Play.Emv.Ber.DataElements.Display;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
-using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
 using Play.Icc.Exceptions;
 
-namespace Play.Emv.Kernel2.StateMachine._Temp
+namespace Play.Emv.Kernel2.StateMachine
 {
-    public partial class _S910
+    public partial class S910
     {
-        private class ResponseHandler
+        private partial class ResponseHandler
         {
-            #region Instance Values
-
-            private readonly KernelDatabase _Database;
-            private readonly DataExchangeKernelService _DataExchangeKernelService;
-            private readonly IKernelEndpoint _KernelEndpoint;
-            private readonly IHandlePcdRequests _PcdEndpoint;
-
-            #endregion
-
-            #region Invalid Responses
-
-            #region S910.7.1 - S910.7.2
-
-            public ResponseHandler(
-                KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-                IHandlePcdRequests pcdEndpoint)
-            {
-                _Database = database;
-                _DataExchangeKernelService = dataExchangeKernelService;
-                _KernelEndpoint = kernelEndpoint;
-                _PcdEndpoint = pcdEndpoint;
-            }
-
-            /// <remarks>EMV Book C-2 Section S910.7.1 - S910.7.2</remarks>
-            /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
-            public void HandleCamFailed(KernelSessionId sessionId)
-            {
-                _Database.Update(Level2Error.CryptographicAuthenticationMethodFailed);
-                _Database.Set(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
-
-                ProcessInvalidDataResponse(sessionId);
-            }
-
-            #endregion
-
-            #region S910.51 - S910.52
-
-            /// <remarks>EMV Book C-2 Section S910.51 - S910.52</remarks>
-            /// <exception cref="TerminalDataException"></exception>
-            public void ProcessInvalidDataResponse(KernelSessionId sessionId)
-            {
-                if (!_Database.IsIdsAndTtrImplemented())
-                {
-                    HandleInvalidOutcome(sessionId);
-
-                    return;
-                }
-
-                if (!_Database.TryGet(IntegratedDataStorageStatus.Tag, out IntegratedDataStorageStatus? idsStatus))
-                {
-                    HandleInvalidOutcome(sessionId);
-
-                    return;
-                }
-
-                if (!idsStatus!.IsWriteSet())
-                {
-                    HandleInvalidOutcome(sessionId);
-
-                    return;
-                }
-
-                HandleOutcomeWithIdsWriteFlag(sessionId);
-            }
-
-            #endregion
-
-            #region S910.61 - S910.62
-
-            /// <remarks>EMV Book C-2 Section S910.50 - S910.53</remarks>
-            /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
-            public void ProcessInvalidWriteResponse(KernelSessionId sessionId)
-            {
-                SetDisplayMessage();
-
-                HandleInvalidOutcome(sessionId);
-            }
-
-            #endregion
-
-            #region S910.50
-
-            /// <remarks>EMV Book C-2 Section S910.50</remarks>
-            /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
-            private void SetDisplayMessage()
-            {
-                _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-                _Database.Update(Status.NotReady);
-                _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
-            }
-
-            #endregion
-
-            #region S910.52
-
-            /// <remarks>EMV Book C-2 Section S910.52</remarks>
-            private void HandleOutcomeWithIdsWriteFlag(KernelSessionId sessionId)
-            {
-                try
-                {
-                    _Database.Update(StatusOutcome.EndApplication);
-                    _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
-                    _Database.SetIsDataRecordPresent(true);
-                    _Database.CreateEmvDataRecord(_DataExchangeKernelService);
-                    _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-                    _Database.SetUiRequestOnRestartPresent(true);
-                }
-                catch (TerminalDataException)
-                {
-                    // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-                }
-                catch (Exception)
-                {
-                    // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-                }
-                finally
-                {
-                    _KernelEndpoint.Request(new StopKernelRequest(sessionId));
-                }
-            }
-
-            #endregion
-
-            #region S910.53
-
-            /// <remarks>EMV Book C-2 Section S910.53</remarks>
-            private void HandleInvalidOutcome(KernelSessionId sessionId)
-            {
-                try
-                {
-                    _Database.Update(StatusOutcome.EndApplication);
-                    _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
-                    _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-                    _Database.SetUiRequestOnRestartPresent(true);
-                }
-                catch (TerminalDataException)
-                {
-                    // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-                }
-                catch (Exception)
-                {
-                    // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-                }
-                finally
-                {
-                    _KernelEndpoint.Request(new StopKernelRequest(sessionId));
-                }
-            }
-
-            #endregion
-
-            #endregion
-
             #region Valid Responses
 
             /// <exception cref="TerminalDataException"></exception>
             /// <exception cref="DataElementParsingException"></exception>
             /// <exception cref="IccProtocolException"></exception>
-            public StateId HandleValidResponse(IGetKernelStateId currentStateIdRetriever, KernelSessionId sessionId)
+            public StateId HandleValidResponse(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
             {
                 // S910.70
                 BuildDataRecord();
@@ -190,12 +35,12 @@ namespace Play.Emv.Kernel2.StateMachine._Temp
                 if (!TryPreparingOutcomeForSecondTap())
                     PrepareOutcomeParameterSetForCid();
 
-                if (TryWaitingForPutDataResponseAfterGeneratingAc(sessionId))
+                if (TryWaitingForPutDataResponseAfterGeneratingAc(session.GetKernelSessionId()))
                     return WaitingForPutDataResponseAfterGenerateAc.StateId;
 
-                HandleOutMessage();
+                HandleOutMessage(session);
 
-                return currentStateIdRetriever.GetStateId();
+                return Idle.StateId;
             }
 
             #region S910.70
@@ -393,19 +238,19 @@ namespace Play.Emv.Kernel2.StateMachine._Temp
             #region S910.78.1 -S910.81
 
             /// <exception cref="TerminalDataException"></exception>
-            private void HandleOutMessage()
+            private void HandleOutMessage(Kernel2Session session)
             {
                 PosCardholderInteractionInformation pcii =
                     _Database.Get<PosCardholderInteractionInformation>(PosCardholderInteractionInformation.Tag);
 
                 if (pcii.IsSecondTapNeeded())
                 {
-                    HandleDisplayMessageForSecondTapNeeded();
+                    HandleDisplayMessageForSecondTapNeeded(session);
 
                     return;
                 }
 
-                HandleDisplayMessage();
+                HandleDisplayMessage(session);
             }
 
             #endregion
@@ -413,17 +258,15 @@ namespace Play.Emv.Kernel2.StateMachine._Temp
             #region S910.79 - S910.80
 
             /// <exception cref="TerminalDataException"></exception>
-            private void HandleDisplayMessageForSecondTapNeeded()
+            private void HandleDisplayMessageForSecondTapNeeded(Kernel2Session session)
             {
                 _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
                 _Database.SetUiRequestOnRestartPresent(true);
                 _Database.Update(Status.ReadyToRead);
                 _Database.Update(MessageHoldTime.MinimumValue);
 
-                // BUG: How are we handling approved OUTCOME signals again? Need to send to Main
-                throw new NotImplementedException();
-
-                //_ReaderEndpoint.Reply(Outcome);
+                _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(),
+                                                           _Database.GetOutcome()));
             }
 
             #endregion
@@ -431,15 +274,14 @@ namespace Play.Emv.Kernel2.StateMachine._Temp
             #region S910.81
 
             /// <exception cref="TerminalDataException"></exception>
-            private void HandleDisplayMessage()
+            /// <exception cref="InvalidOperationException"></exception>
+            private void HandleDisplayMessage(Kernel2Session session)
             {
                 _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
                 _Database.SetUiRequestOnRestartPresent(true);
 
-                // BUG: How are we handling approved OUTCOME signals again? Need to send to Main
-                throw new NotImplementedException();
-
-                //_ReaderEndpoint.Reply(Outcome);
+                _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(),
+                                                           _Database.GetOutcome()));
             }
 
             #endregion
