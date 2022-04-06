@@ -840,4 +840,8 @@ public class NumericCodec : PlayCodec
     }
 
     #endregion
+
+    #region Decode To Nibbles
+
+    #endregion
 }

@@ -123,5 +123,47 @@ public static partial class ReadOnlySpanExtensions
         return result;
     }
 
+    public static byte[] ShiftRightOneNibble(this ReadOnlySpan<byte> value)
+    {
+        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(value.Length);
+        Span<byte> buffer = spanOwner.Span;
+
+        buffer[0] = value[0].ShiftNibbleRight(0x0);
+
+        for (int i = 1; i < value.Length; i++)
+            buffer[i] = value[i].ShiftNibbleRight(value[i - 1].GetRightNibble());
+
+        return buffer.ToArray();
+    }
+
+    public static byte[] ShiftLeftOneNibble(this ReadOnlySpan<byte> value)
+    {
+        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(value.Length + 1);
+        Span<byte> buffer = spanOwner.Span;
+
+        for (int i = 1; i < value.Length; i++)
+            buffer[i] = value[i].ShiftNibbleLeft(value[i + 1].GetLeftNibble());
+
+        buffer[^1] = value[^1].ShiftNibbleLeft(0x00);
+
+        return buffer.ToArray();
+    }
+
+    /// <exception cref="OverflowException"></exception>
+    public static Nibble[] AsNibbleArray(this ReadOnlySpan<byte> value)
+    {
+        Nibble[] result = new Nibble[value.Length * 2];
+
+        for (int i = 0; i < result.Length; i++)
+        {
+            if ((i % 2) == 0)
+                result[i] = new Nibble((byte) (value[i / 2] >> 4));
+            else
+                result[i] = new Nibble(value[i / 2].GetMaskedValue(0xF0));
+        }
+
+        return result;
+    }
+
     #endregion
 }

@@ -7,15 +7,15 @@
 	  <Optimize>false</Optimize>
 	</PropertyGroup>
 	<ItemGroup>
+	  <Compile Remove="Customs\Identifiers\**" />
 	  <Compile Remove="Customs\Sessions\**" />
+	  <EmbeddedResource Remove="Customs\Identifiers\**" />
 	  <EmbeddedResource Remove="Customs\Sessions\**" />
+	  <None Remove="Customs\Identifiers\**" />
 	  <None Remove="Customs\Sessions\**" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Play.Unmanaged\Play.Unmanaged.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Customs\Identifiers\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <PackageReference Include="Microsoft.Toolkit.HighPerformance" Version="7.1.2" />

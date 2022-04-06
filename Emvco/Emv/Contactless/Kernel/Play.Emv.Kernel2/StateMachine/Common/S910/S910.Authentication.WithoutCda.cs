@@ -48,7 +48,7 @@ namespace Play.Emv.Kernel2.StateMachine
                     return currentStateIdRetriever.GetStateId();
                 }
 
-                if (!IsApplicationAuthenticationCryptogram())
+                if (!IsApplicationAuthenticationCryptogramRequested())
                     return _ResponseHandler.HandleValidResponse(currentStateIdRetriever, session);
 
                 if (!IsCdaRequested())
@@ -95,9 +95,11 @@ namespace Play.Emv.Kernel2.StateMachine
 
             #region S910.32
 
+            /// <exception cref="TerminalDataException"></exception>
+            /// <exception cref="DataElementParsingException"></exception>
             private bool IsApplicationAuthenticationCryptogram()
             {
-                var cid = _Database.Get<CryptogramInformationData>(CryptogramInformationData.Tag);
+                CryptogramInformationData cid = _Database.Get<CryptogramInformationData>(CryptogramInformationData.Tag);
 
                 return cid.GetCryptogramType() == CryptogramTypes.ApplicationAuthenticationCryptogram;
             }
@@ -125,20 +127,22 @@ namespace Play.Emv.Kernel2.StateMachine
 
             #region S910.34, S910.36
 
-            private bool IsCdaRequested()
-            {
-                if (!_Database.TryGet(ReferenceControlParameter.Tag, out ReferenceControlParameter? referenceControlParameter))
-                    return false;
-
-                return referenceControlParameter!.IsCdaSignatureRequested();
-            }
+            /// <exception cref="TerminalDataException"></exception>
+            private bool IsCdaRequested() =>
+                _Database.TryGet(ReferenceControlParameter.Tag, out ReferenceControlParameter? referenceControlParameter)
+                && referenceControlParameter!.IsCdaSignatureRequested();
 
             #endregion
 
             #region S910.35
 
-            private bool IsApplicationAuthenticationCryptogram(ReferenceControlParameter referenceControlParameter) =>
-                referenceControlParameter.GetCryptogramType() == CryptogramTypes.ApplicationAuthenticationCryptogram;
+            private bool IsApplicationAuthenticationCryptogramRequested()
+            {
+                if (!_Database.TryGet(ReferenceControlParameter.Tag, out ReferenceControlParameter? referenceControlParameter))
+                    return false;
+
+                return referenceControlParameter!.GetCryptogramType() == CryptogramTypes.ApplicationAuthenticationCryptogram;
+            }
 
             #endregion
 
@@ -168,6 +172,60 @@ namespace Play.Emv.Kernel2.StateMachine
 
             private void StoreRelayResistanceDataInTrack2()
             {
+                if (!_Database.IsPresentAndNotEmpty(Track2EquivalentData.Tag))
+                    return;
+
+                Track2EquivalentData track2EquivalentData = _Database.Get<Track2EquivalentData>(Track2EquivalentData.Tag);
+
+                if (track2EquivalentData.GetNumberOfDigitsInPrimaryAccountNumber() <= 16)
+                    track2EquivalentData.ZeroFillDiscretionaryDataWith13HexZeros();
+
+                /*
+                 *  IF [IsNotEmpty(TagOf(Track 2 Equivalent Data))]
+	                THEN
+
+	                    IF [Number of digits in 'Primary Account Number' in Track 2 Equivalent Data ≤ 16]
+	                    THEN
+	                        Replace 'Discretionary Data' in Track 2 Equivalent Data with
+	                        '0000000000000' (13 hexadecimal zeroes). Pad with 'F' if needed to
+	                        ensure whole bytes.
+	                    ELSE
+	                        Replace 'Discretionary Data' in Track 2 Equivalent Data with
+	                        '0000000000' (10 hexadecimal zeroes). Pad with 'F' if needed to
+	                        ensure whole bytes.
+	                    ENDIF
+
+	                    IF [IsNotEmpty(TagOf(CA Public Key Index (Card))) AND CA Public Key Index (Card) < '0A']
+	                    THEN
+	                        Replace the most significant digit of the 'Discretionary Data' in Track 2
+	                        Equivalent Data with a digit representing CA Public Key Index (Card).
+	                    ENDIF
+
+	                    Replace the second most significant digit of the 'Discretionary Data' in Track 2
+	                    Equivalent Data with a digit representing RRP Counter.
+
+                        Convert the two least significant bytes of the Device Relay Resistance Entropy
+                        from 2 byte binary to 5 digit decimal by considering the two bytes as an
+                        integer in the range 0 to 65535. Replace the 5 digits of 'Discretionary Data' in
+                        Track 2 Equivalent Data that follow the RRP Counter digit with that value.
+
+                        IF [Number of digits in 'Primary Account Number' in Track 2 Equivalent Data ≤ 16]
+                        THEN
+                            Convert the third least significant byte of Device Relay Resistance
+                            Entropy from binary to 3 digit decimal in the range 0 to 255. Replace
+                            the next 3 digits of 'Discretionary Data' in Track 2 Equivalent Data
+                            with that value.
+                        ENDIF
+
+                        Divide the Measured Relay Resistance Processing Time by 10 using the div
+                        operator to give a count in milliseconds. If the value exceeds '03E7' (999),
+                        then set the value to '03E7'. Convert this value from 2 byte binary to 3 digit
+                        decimal by considering the 2 bytes as an integer. Replace the 3 least
+                        significant digits of 'Discretionary Data' in Track 2 Equivalent Data with this
+                        3 digit decimal value.
+                    ENDIF
+                 */
+
                 throw new NotImplementedException();
             }
 
