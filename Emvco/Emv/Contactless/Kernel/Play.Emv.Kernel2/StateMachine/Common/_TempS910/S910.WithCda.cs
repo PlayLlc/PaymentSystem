@@ -19,6 +19,7 @@ namespace Play.Emv.Kernel2.StateMachine
     public partial class S910
     {
         /// <exception cref="TerminalDataException"></exception>
+        /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
         private StateId ProcessWithCda(
             IGetKernelStateId currentStateIdRetriever, Kernel2Session session, GenerateApplicationCryptogramResponse rapdu,
             StaticDataToBeAuthenticated staticDataToBeAuthenticated)
@@ -56,11 +57,13 @@ namespace Play.Emv.Kernel2.StateMachine
                 return successfulResponseStateId!.Value;
 
             // S910.14 - S910.15
-            if (TryHandlingMissingDataSummary3(currentStateIdRetriever, session.GetKernelSessionId()))
+            if (TryHandlingMissingDataSummary3(session.GetKernelSessionId()))
                 return currentStateIdRetriever.GetStateId();
 
-            if (TryHandlingInvalidDataStorageSummary2And3Equality(currentStateIdRetriever, session.GetKernelSessionId()))
+            if (TryHandlingInvalidDataStorageSummary2And3Equality(session.GetKernelSessionId()))
                 return currentStateIdRetriever.GetStateId();
+
+            return _ValidResponseHandler.HandleValidResponse(currentStateIdRetriever, session.GetKernelSessionId());
         }
 
         #region S910.1, S910.4, S910.4.1, S910.3, S910.3.1
@@ -84,14 +87,14 @@ namespace Play.Emv.Kernel2.StateMachine
             catch (CryptographicAuthenticationMethodFailedException)
             {
                 // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-                _InvalidResponseHandler.HandleCamFailed(currentStateIdRetriever, session.GetKernelSessionId());
+                _InvalidResponseHandler.HandleCamFailed(session.GetKernelSessionId());
 
                 return false;
             }
             catch (Exception)
             {
                 // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-                _InvalidResponseHandler.HandleCamFailed(currentStateIdRetriever, session.GetKernelSessionId());
+                _InvalidResponseHandler.HandleCamFailed(session.GetKernelSessionId());
 
                 return false;
             }
@@ -117,7 +120,7 @@ namespace Play.Emv.Kernel2.StateMachine
 
             if (!IsMandatoryRelayResistantDataPresent())
             {
-                _InvalidResponseHandler.ProcessInvalidResponse1(currentStateIdRetriever, sessionId);
+                _InvalidResponseHandler.ProcessInvalidResponse1(sessionId);
 
                 return true;
             }
@@ -127,7 +130,7 @@ namespace Play.Emv.Kernel2.StateMachine
 
             if (!IsRelayResistantDataStorageVersion2DataValid())
             {
-                _InvalidResponseHandler.ProcessInvalidResponse1(currentStateIdRetriever, sessionId);
+                _InvalidResponseHandler.ProcessInvalidResponse1(sessionId);
 
                 return true;
             }
@@ -202,6 +205,7 @@ namespace Play.Emv.Kernel2.StateMachine
 
         #region S910.2.1, S910.4 - S910.4.1
 
+        /// <exception cref="TerminalDataException"></exception>
         private bool TryHandlingStandaloneDataStorageError(IGetKernelStateId currentStateIdRetriever, KernelSessionId sessionId)
         {
             if (_Database.IsSet(TerminalVerificationResultCodes.RelayResistancePerformed))
@@ -209,7 +213,7 @@ namespace Play.Emv.Kernel2.StateMachine
 
             if (!IsMandatoryRelayResistantDataPresent())
             {
-                _InvalidResponseHandler.ProcessInvalidResponse1(currentStateIdRetriever, sessionId);
+                _InvalidResponseHandler.ProcessInvalidResponse1(sessionId);
 
                 return true;
             }
@@ -228,7 +232,7 @@ namespace Play.Emv.Kernel2.StateMachine
                 return false;
 
             _Database.Update(Level2Error.CardDataMissing);
-            _InvalidResponseHandler.ProcessInvalidResponse1(currentStateIdRetriever, sessionId);
+            _InvalidResponseHandler.ProcessInvalidResponse1(sessionId);
 
             return true;
         }
@@ -247,7 +251,7 @@ namespace Play.Emv.Kernel2.StateMachine
                 return false;
 
             _Database.Update(Level2Error.IdsReadError);
-            _InvalidResponseHandler.ProcessInvalidResponse1(currentStateIdRetriever, sessionId);
+            _InvalidResponseHandler.ProcessInvalidResponse1(sessionId);
 
             return true;
         }
@@ -287,13 +291,13 @@ namespace Play.Emv.Kernel2.StateMachine
         #region S910.14 - S910.15
 
         /// <exception cref="TerminalDataException"></exception>
-        private bool TryHandlingMissingDataSummary3(IGetKernelStateId currentStateIdRetriever, KernelSessionId sessionId)
+        private bool TryHandlingMissingDataSummary3(KernelSessionId sessionId)
         {
             if (_Database.IsPresentAndNotEmpty(DataStorageSummary3.Tag))
                 return false;
 
             _Database.Update(Level2Error.CardDataMissing);
-            _InvalidResponseHandler.ProcessInvalidResponse1(currentStateIdRetriever, sessionId);
+            _InvalidResponseHandler.ProcessInvalidResponse1(sessionId);
 
             return true;
         }
@@ -303,7 +307,7 @@ namespace Play.Emv.Kernel2.StateMachine
         #region S910.16, S910.18 - S910.19
 
         /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
-        private bool TryHandlingInvalidDataStorageSummary2And3Equality(IGetKernelStateId currentStateIdRetriever, KernelSessionId sessionId)
+        private bool TryHandlingInvalidDataStorageSummary2And3Equality(KernelSessionId sessionId)
         {
             DataStorageSummary2 dataStorageSummary2 = _Database.Get<DataStorageSummary2>(DataStorageSummary2.Tag);
             DataStorageSummary3 dataStorageSummary3 = _Database.Get<DataStorageSummary3>(DataStorageSummary3.Tag);
@@ -319,7 +323,7 @@ namespace Play.Emv.Kernel2.StateMachine
                 return false;
 
             _Database.Update(Level2Error.IdsWriterError);
-            _InvalidResponseHandler.ProcessInvalidResponse1(currentStateIdRetriever, sessionId);
+            _InvalidResponseHandler.ProcessInvalidWriteResponse(sessionId);
 
             return true;
         }

@@ -47,27 +47,57 @@ namespace Play.Emv.Kernel2.StateMachine
 
             /// <remarks>EMV Book C-2 Section S910.7.1 - S910.7.2</remarks>
             /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
-            public StateId HandleCamFailed(IGetKernelStateId currentStateIdRetriever, KernelSessionId sessionId)
+            public void HandleCamFailed(KernelSessionId sessionId)
             {
                 _Database.Update(Level2Error.CryptographicAuthenticationMethodFailed);
                 _Database.Set(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
 
-                return ProcessInvalidResponse1(currentStateIdRetriever, sessionId);
+                ProcessInvalidResponse1(sessionId);
             }
 
             #endregion
 
-            #region S910.50 - S910.53
+            #region S910.51 - S910.52
+
+            /// <remarks>EMV Book C-2 Section S910.51 - S910.52</remarks>
+            /// <exception cref="TerminalDataException"></exception>
+            public void ProcessInvalidResponse1(KernelSessionId sessionId)
+            {
+                if (!_Database.IsIdsAndTtrImplemented())
+                {
+                    HandleInvalidOutcome(sessionId);
+
+                    return;
+                }
+
+                if (!_Database.TryGet(IntegratedDataStorageStatus.Tag, out IntegratedDataStorageStatus? idsStatus))
+                {
+                    HandleInvalidOutcome(sessionId);
+
+                    return;
+                }
+
+                if (!idsStatus!.IsWriteSet())
+                {
+                    HandleInvalidOutcome(sessionId);
+
+                    return;
+                }
+
+                HandleOutcomeWithIdsWriteFlag(sessionId);
+            }
+
+            #endregion
+
+            #region S910.61 - S910.62
 
             /// <remarks>EMV Book C-2 Section S910.50 - S910.53</remarks>
             /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
-            public StateId ProcessInvalidResponse1(IGetKernelStateId currentStateIdRetriever, KernelSessionId sessionId)
+            public void ProcessInvalidWriteResponse(KernelSessionId sessionId)
             {
                 SetDisplayMessage();
 
-                ProcessInvalidResponse2(sessionId);
-
-                return currentStateIdRetriever.GetStateId();
+                HandleInvalidOutcome(sessionId);
             }
 
             #endregion
@@ -81,38 +111,6 @@ namespace Play.Emv.Kernel2.StateMachine
                 _Database.Update(MessageIdentifier.ErrorUseAnotherCard);
                 _Database.Update(Status.NotReady);
                 _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
-            }
-
-            #endregion
-
-            #region S910.51 - S910.52
-
-            /// <remarks>EMV Book C-2 Section S910.51 - S910.52</remarks>
-            /// <exception cref="TerminalDataException"></exception>
-            private void ProcessInvalidResponse2(KernelSessionId sessionId)
-            {
-                if (!_Database.IsIdsAndTtrImplemented())
-                {
-                    HandleOutcome(sessionId);
-
-                    return;
-                }
-
-                if (!_Database.TryGet(IntegratedDataStorageStatus.Tag, out IntegratedDataStorageStatus? idsStatus))
-                {
-                    HandleOutcome(sessionId);
-
-                    return;
-                }
-
-                if (!idsStatus!.IsWriteSet())
-                {
-                    HandleOutcome(sessionId);
-
-                    return;
-                }
-
-                HandleOutcomeWithIdsWriteFlag(sessionId);
             }
 
             #endregion
@@ -150,7 +148,7 @@ namespace Play.Emv.Kernel2.StateMachine
             #region S910.53
 
             /// <remarks>EMV Book C-2 Section S910.53</remarks>
-            private void HandleOutcome(KernelSessionId sessionId)
+            private void HandleInvalidOutcome(KernelSessionId sessionId)
             {
                 try
                 {
