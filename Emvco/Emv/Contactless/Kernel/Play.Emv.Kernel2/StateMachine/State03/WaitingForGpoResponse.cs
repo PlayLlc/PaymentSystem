@@ -1,4 +1,5 @@
-﻿using Play.Emv.Exceptions;
+﻿using Play.Emv.Display.Contracts;
+using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
@@ -13,6 +14,25 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForGpoResponse : KernelState
 {
+    #region Constructor
+
+    public WaitingForGpoResponse(
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
+        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IHandleDisplayRequests displayEndpoint, S3R1 s3R1, IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(database,
+                                                                                                                             dataExchangeKernelService,
+                                                                                                                             kernelEndpoint,
+                                                                                                                             tornTransactionManager,
+                                                                                                                             kernelStateResolver,
+                                                                                                                             pcdEndpoint,
+                                                                                                                             displayEndpoint)
+    {
+        _S3R1 = s3R1;
+        _UnpredictableNumberGenerator = unpredictableNumberGenerator;
+    }
+
+    #endregion
+
     #region Static Metadata
 
     public static readonly StateId StateId = new(nameof(WaitingForGpoResponse));
@@ -23,20 +43,6 @@ public partial class WaitingForGpoResponse : KernelState
 
     private readonly S3R1 _S3R1;
     private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
-
-    #endregion
-
-    #region Constructor
-
-    public WaitingForGpoResponse(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, S3R1 s3R1,
-        IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(database, dataExchangeKernelService, kernelEndpoint,
-                                                                          tornTransactionManager, kernelStateResolver, pcdEndpoint)
-    {
-        _S3R1 = s3R1;
-        _UnpredictableNumberGenerator = unpredictableNumberGenerator;
-    }
 
     #endregion
 

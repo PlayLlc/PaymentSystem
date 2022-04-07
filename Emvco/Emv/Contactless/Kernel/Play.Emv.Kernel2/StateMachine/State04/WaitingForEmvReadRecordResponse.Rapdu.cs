@@ -71,7 +71,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
         AttemptNextCommand(session);
 
-        return _KernelStateResolver.GetKernelState(_S456.Process(this, kernel2Session));
+        return _KernelStateResolver.GetKernelState(_S456.Process(this, kernel2Session, signal));
     }
 
     #region S4.4 - S4.6
@@ -82,7 +82,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandleL1Error(KernelSession session, QueryPcdResponse signal)
     {
-        if (!signal.IsSuccessful())
+        if (!signal.IsLevel1ErrorPresent())
             return false;
 
         _Database.Update(MessageIdentifiers.TryAgain);

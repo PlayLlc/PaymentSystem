@@ -31,7 +31,7 @@ public partial class WaitingForMagstripeFirstWriteFlag
         // S8.7
         session.Timer.Stop();
 
-        return _KernelStateResolver.GetKernelState(_S78.Process(this, (Kernel2Session) session));
+        return _KernelStateResolver.GetKernelState(_S78.Process(this, (Kernel2Session) session, signal));
     }
 
     private bool TryHandleTimeout(KernelSession session)

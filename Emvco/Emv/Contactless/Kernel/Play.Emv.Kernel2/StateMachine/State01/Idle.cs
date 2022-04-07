@@ -1,4 +1,5 @@
-﻿using Play.Emv.Exceptions;
+﻿using Play.Emv.Display.Contracts;
+using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
@@ -26,9 +27,6 @@ public partial class Idle : KernelState
 
     #region Instance Values
 
-    private readonly IHandleTerminalRequests _TerminalEndpoint;
-    private readonly IHandlePcdRequests _PcdEndpoint;
-    private readonly IGetKernelState _KernelStateResolver;
     private readonly ICleanTornTransactions _KernelCleaner;
     private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
 
@@ -39,13 +37,11 @@ public partial class Idle : KernelState
     public Idle(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IHandleTerminalRequests terminalEndpoint, ICleanTornTransactions kernelCleaner,
+        IHandleDisplayRequests displayEndpoint, ICleanTornTransactions kernelCleaner,
         IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(database, dataExchangeKernelService, kernelEndpoint,
-                                                                          tornTransactionManager, kernelStateResolver, pcdEndpoint)
+                                                                          tornTransactionManager, kernelStateResolver, pcdEndpoint,
+                                                                          displayEndpoint)
     {
-        _TerminalEndpoint = terminalEndpoint;
-        _PcdEndpoint = pcdEndpoint;
-        _KernelStateResolver = kernelStateResolver;
         _KernelCleaner = kernelCleaner;
         _UnpredictableNumberGenerator = unpredictableNumberGenerator;
     }

@@ -68,7 +68,7 @@ public partial class WaitingForGenerateAcResponse1
     /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     public bool TryHandleL1Error(KernelSessionId sessionId, QueryPcdResponse signal)
     {
-        if (signal.IsSuccessful())
+        if (signal.IsLevel1ErrorPresent())
             return false;
 
         if (!IsTransactionRecoverySupported())
@@ -364,7 +364,7 @@ public partial class WaitingForGenerateAcResponse1
     #region S924
 
     /// <summary>
-    /// HandleInvalidCryptogramInformationData
+    ///     HandleInvalidCryptogramInformationData
     /// </summary>
     /// <param name="session"></param>
     /// <param name="rapdu"></param>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Play.Ber.DataObjects;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Kernel.Databases;
@@ -77,54 +78,27 @@ internal class TornTransactionManager : IManageTornTransactions
     ///     Adds a new Torn Record to the Manager. If the number of records surpass the max number of allowed records, a
     ///     <see cref="TornRecord" /> is removed from this queue and returned in the out parameter
     /// </summary>
-    /// <param name="value"></param>
+    /// <param name="database"></param>
     /// <param name="displacedRecord">
     ///     This value is not null if a record is added and the maximum number of records already
     ///     exist
     /// </param>
-    /// <exception cref="NotImplementedException"></exception>
-    public bool TryAddAndDisplace(ITlvReaderAndWriter value, out TornRecord? displacedRecord)
+    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    public bool TryAddAndDisplace(ITlvReaderAndWriter database, out TornRecord? displacedRecord)
     {
-        /* todo: Create a new torn record, and add these to it if they exist in the DB
-         * Amount, Authorized (Numeric)
-Amount, Other (Numeric)
-Application PAN
-Application PAN Sequence Number
-Balance Read Before Gen AC
-CDOL1 Related Data
-CVM Results
-DRDOL Related Data
-DS Summary 1
-IDS Status
-Interface Device Serial Number
-PDOL Related Data
-Reference Control Parameter
-Terminal Capabilities
-Terminal Country Code
-Terminal Type
-Terminal Verification Results
-Transaction Category Code
-Transaction Currency Code
-Transaction Date
-        Transaction Time
-Transaction Type
-Unpredictable Number
-Terminal Relay Resistance Entropy
-Device Relay Resistance Entropy
-Min Time For Processing Relay Resistance APDU
-Max Time For Processing Relay Resistance APDU
-Device Estimated Transmission Time For Relay Resistance R-APDU
-Measured Relay Resistance Processing Time
-RRP Counter
-         */
-        throw new NotImplementedException();
+        TornRecord currentRecord = TornRecord.Create(database);
+        _TornRecords.Enqueue(currentRecord);
 
-        if (_TornRecords.Count <= _MaxNumberOfLogs)
-            return null;
+        if (_TornRecords.Count >= _MaxNumberOfLogs)
+        {
+            displacedRecord = _TornRecords.Dequeue();
 
-        // _TornRecords.Enqueue(value);
+            return true;
+        }
 
-        return _TornRecords.Dequeue();
+        displacedRecord = null;
+
+        return false;
     }
 
     public bool TryGet(ApplicationPan pan, ApplicationPanSequenceNumber sequenceNumber, out TornRecord? result)

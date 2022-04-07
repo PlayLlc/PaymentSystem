@@ -18,11 +18,14 @@ using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Icc.Messaging.Apdu;
+using Play.Messaging;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForGpoResponse : KernelState
 {
+    #region Instance Members
+
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
@@ -73,7 +76,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandleL1Error(KernelSession session, QueryPcdResponse signal)
     {
-        if (!signal.IsSuccessful())
+        if (!signal.IsLevel1ErrorPresent())
             return false;
 
         _Database.Update(MessageIdentifiers.TryAgain);
@@ -115,61 +118,6 @@ public partial class WaitingForGpoResponse : KernelState
         _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
 
         return true;
-    }
-
-    #endregion
-
-    #region S3.10 - S3.12
-
-    /// <remarks>Book C-2 SectionS3.10 - S3.12</remarks>
-    /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    private bool TryPersistingRapdu(KernelSession session, GetProcessingOptionsResponse signal)
-    {
-        if (signal.GetStatusWords() == StatusWords._9000)
-            return false;
-
-        try
-        {
-            ProcessingOptions processingOptions = signal.AsProcessingOptions();
-            PrimitiveValue[] dataToGet = signal.AsProcessingOptions().GetPrimitiveDescendants();
-
-            _Database.Update(dataToGet);
-            _DataExchangeKernelService.Resolve(DekRequestType.TagsToRead);
-
-            return true;
-        }
-        catch (TerminalDataException)
-        {
-            // TODO: Logging
-
-            HandleBerParsingException(session, signal);
-
-            return false;
-        }
-        catch (Exception)
-        {
-            // TODO: Logging
-
-            HandleBerParsingException(session, signal);
-
-            return false;
-        }
-    }
-
-    /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    private void HandleBerParsingException(KernelSession session, QueryPcdResponse signal)
-    {
-        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Status.NotReady);
-        _Database.Update(StatusOutcome.EndApplication);
-        _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Level2Error.ParsingError);
-        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-        _Database.SetUiRequestOnRestartPresent(true);
-
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
     }
 
     #endregion
@@ -238,6 +186,86 @@ public partial class WaitingForGpoResponse : KernelState
 
     #endregion
 
+    #region S3.90.1 - S3.90.2
+
+    /// <remarks>Emv Book C-2 Section S3.90.1 - S3.90.2 </remarks>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    private void HandleInvalidResponse(KernelSession session, Level2Error level2Error)
+    {
+        _Database.Update(level2Error);
+        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(Status.NotReady);
+        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+        _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _Database.GetErrorIndication());
+        _Database.SetUiRequestOnRestartPresent(true);
+
+        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+    }
+
+    #endregion
+
+    #endregion
+
+    #region S3.10 - S3.12
+
+    /// <remarks>Book C-2 SectionS3.10 - S3.12</remarks>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    private bool TryPersistingRapdu(KernelSession session, GetProcessingOptionsResponse signal)
+    {
+        if (signal.GetStatusWords() == StatusWords._9000)
+            return false;
+
+        try
+        {
+            ProcessingOptions processingOptions = signal.AsProcessingOptions();
+            PrimitiveValue[] dataToGet = signal.AsProcessingOptions().GetPrimitiveDescendants();
+
+            _Database.Update(dataToGet);
+            _DataExchangeKernelService.Resolve(DekRequestType.TagsToRead);
+
+            return true;
+        }
+        catch (TerminalDataException)
+        {
+            // TODO: Logging
+
+            HandleBerParsingException(session, signal);
+
+            return false;
+        }
+        catch (Exception)
+        {
+            // TODO: Logging
+
+            HandleBerParsingException(session, signal);
+
+            return false;
+        }
+    }
+
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    private void HandleBerParsingException(KernelSession session, QueryPcdResponse signal)
+    {
+        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(Status.NotReady);
+        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(Level2Error.ParsingError);
+        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+        _Database.SetUiRequestOnRestartPresent(true);
+
+        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+    }
+
+    #endregion
+
     #region Emv Mode
 
     /// <exception cref="BerParsingException"></exception>
@@ -246,8 +274,8 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
     private KernelState HandleEmvMode(
-        Kernel2Session session, ApplicationFileLocator applicationFileLocator, ApplicationInterchangeProfile applicationInterchangeProfile,
-        KernelConfiguration kernelConfiguration)
+        Kernel2Session session, Message message, ApplicationFileLocator applicationFileLocator,
+        ApplicationInterchangeProfile applicationInterchangeProfile, KernelConfiguration kernelConfiguration)
     {
         SetActiveAflForEmvMode(session, applicationFileLocator, kernelConfiguration);
         SetContactlessTransactionLimitForEmvMode(session, applicationInterchangeProfile);
@@ -255,7 +283,7 @@ public partial class WaitingForGpoResponse : KernelState
         if (IsRelayResistanceProtocolSupported(applicationInterchangeProfile))
             return InitializeRelayResistanceProtocol(session);
 
-        return HandleRelayResistanceProtocolNotSupported(session);
+        return HandleRelayResistanceProtocolNotSupported(session, message);
     }
 
     #region S3.30 - S3.32
@@ -301,7 +329,7 @@ public partial class WaitingForGpoResponse : KernelState
     }
 
     /// <summary>
-    /// IsOnDeviceCardholderVerificationSupported
+    ///     IsOnDeviceCardholderVerificationSupported
     /// </summary>
     /// <param name="applicationInterchangeProfile"></param>
     /// <returns></returns>
@@ -344,11 +372,11 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    private KernelState HandleRelayResistanceProtocolNotSupported(Kernel2Session session)
+    private KernelState HandleRelayResistanceProtocolNotSupported(Kernel2Session session, Message message)
     {
         _Database.Set(TerminalVerificationResultCodes.RelayResistanceNotPerformed);
 
-        return _KernelStateResolver.GetKernelState(_S3R1.Process(this, session));
+        return _KernelStateResolver.GetKernelState(_S3R1.Process(this, session, message));
     }
 
     #endregion
@@ -504,29 +532,6 @@ public partial class WaitingForGpoResponse : KernelState
     }
 
     #endregion
-
-    #endregion
-
-    #region S3.90.1 - S3.90.2
-
-    /// <remarks>Emv Book C-2 Section S3.90.1 - S3.90.2 </remarks>
-    /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    private void HandleInvalidResponse(KernelSession session, Level2Error level2Error)
-    {
-        _Database.Update(level2Error);
-        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Status.NotReady);
-        _Database.Update(StatusOutcome.EndApplication);
-        _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
-        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-        _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _Database.GetErrorIndication());
-        _Database.SetUiRequestOnRestartPresent(true);
-
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
-    }
 
     #endregion
 }

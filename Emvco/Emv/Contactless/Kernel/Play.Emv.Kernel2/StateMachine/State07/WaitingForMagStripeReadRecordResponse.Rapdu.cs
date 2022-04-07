@@ -65,7 +65,7 @@ public partial class WaitingForMagStripeReadRecordResponse
 
         UpdateDiscretionaryTrackData();
 
-        return _KernelStateResolver.GetKernelState(_S78.Process(this, (Kernel2Session) session));
+        return _KernelStateResolver.GetKernelState(_S78.Process(this, (Kernel2Session) session, signal));
     }
 
     #region S7.4 - S7.6
@@ -74,7 +74,7 @@ public partial class WaitingForMagStripeReadRecordResponse
     /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandleL1Error(KernelSession session, QueryPcdResponse signal)
     {
-        if (!signal.IsSuccessful())
+        if (!signal.IsLevel1ErrorPresent())
             return false;
 
         try
@@ -153,7 +153,7 @@ public partial class WaitingForMagStripeReadRecordResponse
     #region S7.11 - S7.16
 
     /// <summary>
-    /// TryResolveActiveRecords
+    ///     TryResolveActiveRecords
     /// </summary>
     /// <param name="session"></param>
     /// <param name="rapdu"></param>
@@ -207,7 +207,7 @@ public partial class WaitingForMagStripeReadRecordResponse
     #region S7.13.1 - S7.13.2
 
     /// <summary>
-    /// HandleBerParsingException
+    ///     HandleBerParsingException
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -271,7 +271,7 @@ public partial class WaitingForMagStripeReadRecordResponse
     #region S7.20 - S7.21.2
 
     /// <summary>
-    /// TryHandlingMissingMandatoryObjects
+    ///     TryHandlingMissingMandatoryObjects
     /// </summary>
     /// <param name="sessionId"></param>
     /// <returns></returns>
@@ -399,7 +399,7 @@ public partial class WaitingForMagStripeReadRecordResponse
     #region S7.24.1 - S7.24.2
 
     /// <summary>
-    /// HandleMagstripeDataIsInvalid
+    ///     HandleMagstripeDataIsInvalid
     /// </summary>
     /// <param name="sessionId"></param>
     /// <exception cref="InvalidOperationException"></exception>

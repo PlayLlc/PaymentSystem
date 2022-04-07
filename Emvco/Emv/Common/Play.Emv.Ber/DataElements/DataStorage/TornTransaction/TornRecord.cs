@@ -25,10 +25,93 @@ public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
 
     #endregion
 
+    #region Instance Members
+
+    /// <exception cref="Exceptions.TerminalDataException"></exception>
+    public static TornRecord Create(ITlvReaderAndWriter database)
+    {
+        List<PrimitiveValue> buffer = new();
+
+        if (database.TryGet(AmountAuthorizedNumeric.Tag, out AmountAuthorizedNumeric? amountAuthorizedNumeric))
+            buffer.Add(amountAuthorizedNumeric!);
+        if (database.TryGet(AmountOtherNumeric.Tag, out AmountOtherNumeric? amountOtherNumeric))
+            buffer.Add(amountOtherNumeric!);
+        if (database.TryGet(ApplicationPan.Tag, out ApplicationPan? applicationPan))
+            buffer.Add(applicationPan!);
+        if (database.TryGet(ApplicationPanSequenceNumber.Tag, out ApplicationPanSequenceNumber? applicationPanSequenceNumber))
+            buffer.Add(applicationPanSequenceNumber!);
+        if (database.TryGet(BalanceReadBeforeGenAc.Tag, out BalanceReadBeforeGenAc? balanceReadBeforeGenAc))
+            buffer.Add(balanceReadBeforeGenAc!);
+        if (database.TryGet(CardRiskManagementDataObjectList1RelatedData.Tag,
+                            out CardRiskManagementDataObjectList1RelatedData? cardRiskManagementDataObjectList1RelatedData))
+            buffer.Add(cardRiskManagementDataObjectList1RelatedData!);
+        if (database.TryGet(CvmResults.Tag, out CvmResults? cvmResults))
+            buffer.Add(cvmResults!);
+        if (database.TryGet(DataRecoveryDataObjectListRelatedData.Tag,
+                            out DataRecoveryDataObjectListRelatedData? dataRecoveryDataObjectListRelatedData))
+            buffer.Add(dataRecoveryDataObjectListRelatedData!);
+        if (database.TryGet(DataStorageSummary1.Tag, out DataStorageSummary1? dataStorageSummary1))
+            buffer.Add(dataStorageSummary1!);
+        if (database.TryGet(DataStorageSummaryStatus.Tag, out DataStorageSummaryStatus? dataStorageSummaryStatus))
+            buffer.Add(dataStorageSummaryStatus!);
+        if (database.TryGet(InterfaceDeviceSerialNumber.Tag, out InterfaceDeviceSerialNumber? interfaceDeviceSerialNumber))
+            buffer.Add(interfaceDeviceSerialNumber!);
+        if (database.TryGet(ProcessingOptionsDataObjectListRelatedData.Tag,
+                            out ProcessingOptionsDataObjectListRelatedData? processingOptionsDataObjectListRelatedData))
+            buffer.Add(processingOptionsDataObjectListRelatedData!);
+        if (database.TryGet(ReferenceControlParameter.Tag, out ReferenceControlParameter? referenceControlParameter))
+            buffer.Add(referenceControlParameter!);
+        if (database.TryGet(TerminalCapabilities.Tag, out TerminalCapabilities? terminalCapabilities))
+            buffer.Add(terminalCapabilities!);
+        if (database.TryGet(TerminalCountryCode.Tag, out TerminalCountryCode? terminalCountryCode))
+            buffer.Add(terminalCountryCode!);
+        if (database.TryGet(TerminalType.Tag, out TerminalType? terminalType))
+            buffer.Add(terminalType!);
+        if (database.TryGet(TerminalVerificationResults.Tag, out TerminalVerificationResults? terminalVerificationResults))
+            buffer.Add(terminalVerificationResults!);
+        if (database.TryGet(TransactionCategoryCode.Tag, out TransactionCategoryCode? transactionCategoryCode))
+            buffer.Add(transactionCategoryCode!);
+        if (database.TryGet(TransactionCurrencyCode.Tag, out TransactionCurrencyCode? transactionCurrencyCode))
+            buffer.Add(transactionCurrencyCode!);
+        if (database.TryGet(TransactionDate.Tag, out TransactionDate? transactionDate))
+            buffer.Add(transactionDate!);
+        if (database.TryGet(TransactionTime.Tag, out TransactionTime? transactionTime))
+            buffer.Add(transactionTime!);
+        if (database.TryGet(UnpredictableNumber.Tag, out UnpredictableNumber? unpredictableNumber))
+            buffer.Add(unpredictableNumber!);
+        if (database.TryGet(TerminalRelayResistanceEntropy.Tag, out TerminalRelayResistanceEntropy? terminalRelayResistanceEntropy))
+            buffer.Add(terminalRelayResistanceEntropy!);
+        if (database.TryGet(DeviceRelayResistanceEntropy.Tag, out DeviceRelayResistanceEntropy? deviceRelayResistanceEntropy))
+            buffer.Add(deviceRelayResistanceEntropy!);
+        if (database.TryGet(MinTimeForProcessingRelayResistanceApdu.Tag,
+                            out MinTimeForProcessingRelayResistanceApdu? minTimeForProcessingRelayResistanceApdu))
+            buffer.Add(minTimeForProcessingRelayResistanceApdu!);
+        if (database.TryGet(MaxTimeForProcessingRelayResistanceApdu.Tag,
+                            out MaxTimeForProcessingRelayResistanceApdu? maxTimeForProcessingRelayResistanceApdu))
+            buffer.Add(maxTimeForProcessingRelayResistanceApdu!);
+        if (database.TryGet(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag,
+                            out DeviceEstimatedTransmissionTimeForRelayResistanceRapdu?
+                                deviceEstimatedTransmissionTimeForRelayResistanceRapdu))
+            buffer.Add(deviceEstimatedTransmissionTimeForRelayResistanceRapdu!);
+        if (database.TryGet(MeasuredRelayResistanceProcessingTime.Tag,
+                            out MeasuredRelayResistanceProcessingTime? measuredRelayResistanceProcessingTime))
+            buffer.Add(measuredRelayResistanceProcessingTime!);
+        if (database.TryGet(RelayResistanceProtocolCounter.Tag, out RelayResistanceProtocolCounter? relayResistanceProtocolCounter))
+            buffer.Add(relayResistanceProtocolCounter!);
+
+        return new TornRecord(buffer.ToArray());
+    }
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public bool IsMatch(ApplicationPan pan, ApplicationPanSequenceNumber sequenceNumber) => throw new NotImplementedException();
+
+    #endregion
+
     #region Serialization
 
     /// <summary>
-    /// Decode
+    ///     Decode
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -72,14 +155,6 @@ public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
     }
 
     public int GetHashCode(TornRecord obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public bool IsMatch(ApplicationPan pan, ApplicationPanSequenceNumber sequenceNumber) => throw new NotImplementedException();
 
     #endregion
 }

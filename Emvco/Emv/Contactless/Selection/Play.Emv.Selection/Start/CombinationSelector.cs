@@ -108,7 +108,7 @@ public class CombinationSelector
             builder.Set(StatusOutcome.EndApplication);
             builder.SetIsUiRequestOnOutcomePresent(true);
 
-            userInterfaceRequestDataBuilder.Set(MessageIdentifier.ErrorUseAnotherCard);
+            userInterfaceRequestDataBuilder.Set(MessageIdentifiers.ErrorUseAnotherCard);
             userInterfaceRequestDataBuilder.Set(Status.ReadyToRead);
             userInterfaceRequestDataBuilder.Set(new MessageHoldTime(Milliseconds.Zero));
         }
@@ -239,7 +239,7 @@ public class CombinationSelector
     private void ProcessEmptyCandidateList(Outcome outcome)
     {
         UserInterfaceRequestData.Builder? userInterfaceRequestDataBuilder = UserInterfaceRequestData.GetBuilder();
-        userInterfaceRequestDataBuilder.Set(MessageIdentifier.ErrorUseAnotherCard);
+        userInterfaceRequestDataBuilder.Set(MessageIdentifiers.ErrorUseAnotherCard);
         userInterfaceRequestDataBuilder.Set(Status.ReadyToRead);
 
         OutcomeParameterSet.Builder? outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();

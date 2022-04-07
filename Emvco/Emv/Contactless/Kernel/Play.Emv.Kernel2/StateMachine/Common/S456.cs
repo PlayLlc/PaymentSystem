@@ -123,7 +123,7 @@ public class S456 : CommonProcessing
         InitializeCvmFlags();
 
         // S456.34
-        if (IsStateTransitionNeededAfterReadingOfflineBalance(currentStateIdRetriever, session, out StateId? stateIdTransition))
+        if (IsStateTransitionNeededAfterReadingOfflineBalance(currentStateIdRetriever, session, message, out StateId? stateIdTransition))
             return stateIdTransition!.Value;
 
         // S456.35
@@ -688,9 +688,9 @@ public class S456 : CommonProcessing
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     private bool IsStateTransitionNeededAfterReadingOfflineBalance(
-        IGetKernelStateId currentStateIdRetriever, Kernel2Session session, out StateId? stateId)
+        IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message rapdu, out StateId? stateId)
     {
-        stateId = _OfflineBalanceReader.Process(currentStateIdRetriever, session);
+        stateId = _OfflineBalanceReader.Process(currentStateIdRetriever, session, rapdu);
 
         return stateId != currentStateIdRetriever.GetStateId();
     }

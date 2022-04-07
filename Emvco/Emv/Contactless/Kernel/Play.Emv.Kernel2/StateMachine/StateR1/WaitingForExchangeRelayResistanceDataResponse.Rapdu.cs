@@ -16,11 +16,14 @@ using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
 using Play.Globalization.Time.Seconds;
 using Play.Icc.Messaging.Apdu;
+using Play.Messaging;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 {
+    #region Instance Members
+
     #region RAPDU
 
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -56,7 +59,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         if (IsRelayRetryNeeded((Kernel2Session) session, processingTime))
             return RetryRelayResistanceProtocol((Kernel2Session) session);
 
-        return CompleteRelayResistance((Kernel2Session) session, processingTime);
+        return CompleteRelayResistance((Kernel2Session) session, processingTime, signal);
     }
 
     #endregion
@@ -69,7 +72,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandleL1Error(KernelSession session, QueryPcdResponse signal)
     {
-        if (!signal.IsSuccessful())
+        if (!signal.IsLevel1ErrorPresent())
             return false;
 
         session.Stopwatch.Stop();
@@ -113,62 +116,6 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
 
         return true;
-    }
-
-    #endregion
-
-    #region SR1.14 - SR1.17
-
-    /// <remarks>Book C-2 Section SR1.14 - SR1.17 </remarks>
-    /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    private bool TryPersistingRapdu(KernelSession session, GetDataResponse signal)
-    {
-        if (signal.GetStatusWords() == StatusWords._9000)
-            return false;
-
-        try
-        {
-            // BUG: I'm pretty sure we're supposed to discard any values that the card doesn't have. Look at the logic and fix this
-            if (!signal.TryGetPrimitiveValue(out PrimitiveValue? getDataElement))
-                throw new NotImplementedException();
-
-            _Database.Update(getDataElement!);
-            _DataExchangeKernelService.Resolve(DekRequestType.TagsToRead);
-
-            return true;
-        }
-        catch (TerminalDataException)
-        {
-            // TODO: Logging
-
-            HandleBerParsingException(session, signal);
-
-            return false;
-        }
-        catch (Exception)
-        {
-            // TODO: Logging
-
-            HandleBerParsingException(session, signal);
-
-            return false;
-        }
-    }
-
-    /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    private void HandleBerParsingException(KernelSession session, QueryPcdResponse signal)
-    {
-        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Status.NotReady);
-        _Database.Update(StatusOutcome.EndApplication);
-        _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Level2Error.ParsingError);
-        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-        _Database.SetUiRequestOnRestartPresent(true);
-
-        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
     }
 
     #endregion
@@ -311,7 +258,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <remarks>Book C-2 Section SR1.28 - SR1.32 </remarks>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    private KernelState CompleteRelayResistance(Kernel2Session session, MeasuredRelayResistanceProcessingTime relayTime)
+    private KernelState CompleteRelayResistance(Kernel2Session session, MeasuredRelayResistanceProcessingTime relayTime, Message rapdu)
     {
         if (IsRelayOutOfUpperBounds(relayTime))
             SetRelayTimeLimitExceeded();
@@ -321,7 +268,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 
         SetRelayResistancePerformed();
 
-        return _KernelStateResolver.GetKernelState(_S3R1.Process(this, session));
+        return _KernelStateResolver.GetKernelState(_S3R1.Process(this, session, rapdu));
     }
 
     #endregion
@@ -432,6 +379,64 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
             return true;
 
         return false;
+    }
+
+    #endregion
+
+    #endregion
+
+    #region SR1.14 - SR1.17
+
+    /// <remarks>Book C-2 Section SR1.14 - SR1.17 </remarks>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    private bool TryPersistingRapdu(KernelSession session, GetDataResponse signal)
+    {
+        if (signal.GetStatusWords() == StatusWords._9000)
+            return false;
+
+        try
+        {
+            // BUG: I'm pretty sure we're supposed to discard any values that the card doesn't have. Look at the logic and fix this
+            if (!signal.TryGetPrimitiveValue(out PrimitiveValue? getDataElement))
+                throw new NotImplementedException();
+
+            _Database.Update(getDataElement!);
+            _DataExchangeKernelService.Resolve(DekRequestType.TagsToRead);
+
+            return true;
+        }
+        catch (TerminalDataException)
+        {
+            // TODO: Logging
+
+            HandleBerParsingException(session, signal);
+
+            return false;
+        }
+        catch (Exception)
+        {
+            // TODO: Logging
+
+            HandleBerParsingException(session, signal);
+
+            return false;
+        }
+    }
+
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    private void HandleBerParsingException(KernelSession session, QueryPcdResponse signal)
+    {
+        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(Status.NotReady);
+        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(Level2Error.ParsingError);
+        _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+        _Database.SetUiRequestOnRestartPresent(true);
+
+        _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
     }
 
     #endregion

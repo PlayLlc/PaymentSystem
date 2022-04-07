@@ -1,4 +1,5 @@
-﻿using Play.Emv.Exceptions;
+﻿using Play.Emv.Display.Contracts;
+using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
@@ -14,19 +15,20 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public class WaitingForGenerateAcResponse2 : KernelState
 {
-    #region Static Metadata
-
-    public static readonly StateId StateId = new(nameof(WaitingForGenerateAcResponse2));
-
-    #endregion
-
     #region Constructor
 
     public WaitingForGenerateAcResponse2(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint) :
-        base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver, pcdEndpoint)
+        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IHandleDisplayRequests displayEndpoint) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager,
+                                                       kernelStateResolver, pcdEndpoint, displayEndpoint)
     { }
+
+    #endregion
+
+    #region Static Metadata
+
+    public static readonly StateId StateId = new(nameof(WaitingForGenerateAcResponse2));
 
     #endregion
 
