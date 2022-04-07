@@ -1,4 +1,5 @@
-﻿using Play.Emv.Exceptions;
+﻿using Play.Emv.Display.Contracts;
+using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
@@ -14,28 +15,18 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 {
-    #region Static Metadata
-
-    public static readonly StateId StateId = new(nameof(WaitingForExchangeRelayResistanceDataResponse));
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly S3R1 _S3R1;
-    private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
-    private readonly IGetKernelState _KernelStateResolver;
-    private readonly IHandlePcdRequests _PcdEndpoint;
-
-    #endregion
-
     #region Constructor
 
     public WaitingForExchangeRelayResistanceDataResponse(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, S3R1 s3R1,
-        IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(database, dataExchangeKernelService, kernelEndpoint,
-                                                                          tornTransactionManager, kernelStateResolver, pcdEndpoint)
+        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IHandleDisplayRequests displayEndpoint, S3R1 s3R1, IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(database,
+                                                                                                                             dataExchangeKernelService,
+                                                                                                                             kernelEndpoint,
+                                                                                                                             tornTransactionManager,
+                                                                                                                             kernelStateResolver,
+                                                                                                                             pcdEndpoint,
+                                                                                                                             displayEndpoint)
     {
         _S3R1 = s3R1;
         _UnpredictableNumberGenerator = unpredictableNumberGenerator;
@@ -44,6 +35,14 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     }
 
     #endregion
+
+    #region Static Metadata
+
+    public static readonly StateId StateId = new(nameof(WaitingForExchangeRelayResistanceDataResponse));
+
+    #endregion
+
+    #region Instance Members
 
     public override StateId GetStateId() => StateId;
 
@@ -64,6 +63,17 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    #endregion
+
+    #endregion
+
+    #region Instance Values
+
+    private readonly S3R1 _S3R1;
+    private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
+    private readonly IGetKernelState _KernelStateResolver;
+    private readonly IHandlePcdRequests _PcdEndpoint;
 
     #endregion
 

@@ -60,7 +60,7 @@ public partial class WaitingForGpoResponse : KernelState
         KernelConfiguration kernelConfiguration = _Database.Get<KernelConfiguration>(KernelConfiguration.Tag);
 
         if (IsEmvModeSupported(applicationInterchangeProfile))
-            return HandleEmvMode(kernel2Session, applicationFileLocator, applicationInterchangeProfile, kernelConfiguration);
+            return HandleEmvMode(kernel2Session, signal, applicationFileLocator, applicationInterchangeProfile, kernelConfiguration);
 
         if (TryHandlingMagstripeNotSupported(kernel2Session))
             return _KernelStateResolver.GetKernelState(StateId);

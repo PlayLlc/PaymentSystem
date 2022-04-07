@@ -1,4 +1,5 @@
-﻿using Play.Emv.Exceptions;
+﻿using Play.Emv.Display.Contracts;
+using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
@@ -14,21 +15,24 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public class WaitingForCccResponse1 : KernelState
 {
+    #region Constructor
+
+    public WaitingForCccResponse1(
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
+        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IHandleDisplayRequests displayEndpoint) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager,
+                                                       kernelStateResolver, pcdEndpoint, displayEndpoint)
+    { }
+
+    #endregion
+
     #region Static Metadata
 
     public static readonly StateId StateId = new(nameof(WaitingForCccResponse1));
 
     #endregion
 
-    #region Constructor
-
-    public WaitingForCccResponse1(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint) :
-        base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver, pcdEndpoint)
-    { }
-
-    #endregion
+    #region Instance Members
 
     public override StateId GetStateId() => StateId;
 
@@ -66,6 +70,22 @@ public class WaitingForCccResponse1 : KernelState
 
     #endregion
 
+    #region RAPDU
+
+    /// <summary>
+    ///     Handle
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <returns></returns>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    #endregion
+
+    #endregion
+
     #region DET
 
     /// <summary>
@@ -96,20 +116,6 @@ public class WaitingForCccResponse1 : KernelState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    #endregion
-
-    #region RAPDU
-
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion

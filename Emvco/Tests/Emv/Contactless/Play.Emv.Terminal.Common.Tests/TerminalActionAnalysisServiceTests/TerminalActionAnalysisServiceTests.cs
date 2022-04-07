@@ -43,14 +43,29 @@ public partial class TerminalActionAnalysisServiceTests
 
     #region Instance Members
 
-    private TerminalActionAnalysisService GetOfflineOnlyTerminalActionAnalysisService() =>
-        TerminalActionAnalysisServiceFactory.Create(TerminalType.CommunicationType.OfflineOnly, _Fixture);
+    private KernelDatabase GetKernelDatabaseForOfflineOnly()
+    {
+        var builder = KernelDatabaseFactory.GetBuilder();
+        builder.SetOfflineOnlyTerminal();
 
-    private TerminalActionAnalysisService GetOnlineOnlyTerminalActionAnalysisService() =>
-        TerminalActionAnalysisServiceFactory.Create(TerminalType.CommunicationType.OnlineOnly, _Fixture);
+        return builder.Complete();
+    }
 
-    private TerminalActionAnalysisService GetOnlineAndOfflineCapableTerminalActionAnalysisService() =>
-        TerminalActionAnalysisServiceFactory.Create(TerminalType.CommunicationType.OnlineAndOfflineCapable, _Fixture);
+    private KernelDatabase GetKernelDatabaseForOnlineOnly()
+    {
+        var builder = KernelDatabaseFactory.GetBuilder();
+        builder.SetOnlineOnlyTerminal();
+
+        return builder.Complete();
+    }
+
+    private KernelDatabase GetKernelDatabaseForOnlineAndOfflineCapable()
+    {
+        var builder = KernelDatabaseFactory.GetBuilder();
+        builder.SetOnlineAndOfflineCapableTerminal();
+
+        return builder.Complete();
+    }
 
     private TerminalActionAnalysisCommand GetTerminalActionAnalysisCommand(TerminalVerificationResults terminalVerificationResults) =>
         new(_Fixture.Freeze<TransactionSessionId>(), OutcomeParameterSet.Default, terminalVerificationResults,

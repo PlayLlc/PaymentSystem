@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+using Play.Emv.Display.Contracts;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Databases;
@@ -33,14 +34,14 @@ public class Kernel2StateResolver : IGetKernelState
     public static Kernel2StateResolver Create(
         ICleanTornTransactions tornTransactionCleaner, KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService,
         IManageTornTransactions tornTransactionManager, IHandleTerminalRequests terminalEndpoint, IKernelEndpoint kernelEndpoint,
-        IHandlePcdRequests pcdEndpoint, IGenerateUnpredictableNumber unpredictableNumberGenerator)
+        IHandlePcdRequests pcdEndpoint, IGenerateUnpredictableNumber unpredictableNumberGenerator, IHandleDisplayRequests displayRequests)
     {
         Kernel2StateResolver kernelStateResolver = new();
 
         KernelState[] kernelStates =
         {
             new Idle(kernelDatabase, dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver,
-                     pcdEndpoint, terminalEndpoint, tornTransactionCleaner, unpredictableNumberGenerator)
+                     pcdEndpoint, displayRequests, tornTransactionCleaner, unpredictableNumberGenerator)
         };
 
         foreach (KernelState state in kernelStates)

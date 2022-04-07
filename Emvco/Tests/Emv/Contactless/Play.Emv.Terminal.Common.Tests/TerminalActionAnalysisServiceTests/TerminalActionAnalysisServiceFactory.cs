@@ -32,27 +32,6 @@ public class TerminalActionAnalysisServiceFactory
 
     #region Instance Members
 
-    public static TerminalActionAnalysisService Create(TerminalType.CommunicationType terminalType, IFixture fixture)
-    {
-        Mock<IResolveAuthenticationType>? authenticationTypeResolver = new();
-        authenticationTypeResolver
-            .Setup(a => a.GetAuthenticationMethod(It.IsAny<TerminalCapabilities>(), It.IsAny<ApplicationInterchangeProfile>()))
-            .Returns(AuthenticationTypes.CombinedDataAuthentication);
-
-        fixture.Register(() => new TerminalActionAnalysisService(fixture.Create<IResolveAuthenticationType>()));
-
-        return fixture.Create<TerminalActionAnalysisService>();
-    }
-
-    public static TerminalActionAnalysisService Create(
-        TerminalType.CommunicationType terminalType, TerminalCapabilities terminalCapabilities,
-        IResolveAuthenticationType authenticationResolver, IFixture fixture)
-    {
-        fixture.Register(() => new TerminalActionAnalysisService(fixture.Create<IResolveAuthenticationType>()));
-
-        return fixture.Create<TerminalActionAnalysisService>();
-    }
-
     public static ActionCodes GetRandomIssuerActionCodeOnline() =>
         IssuerActionCodesOnline.ElementAt(_Random.Next(0, IssuerActionCodesDefault.Count - 1));
 

@@ -27,10 +27,10 @@ public partial class TerminalActionAnalysisServiceTests
     [Fact]
     public void OnlineAndOfflineCapableTerminal_WithDefaultTerminalVerificationResults_GeneratesTransactionCryptogram()
     {
-        TerminalActionAnalysisService sut = GetOnlineAndOfflineCapableTerminalActionAnalysisService();
+        TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults(0));
 
-        sut.Process(command.GetTransactionSessionId(), _Database);
+        sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
 
         Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), _TestSpy.GetTransactionSessionId());
         Assert.Equal(CryptogramTypes.TransactionCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
@@ -54,10 +54,10 @@ public partial class TerminalActionAnalysisServiceTests
                    MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OnlineAndOfflineCapableTerminal_WithTerminalActionCodeOnline_GeneratesAuthorizationRequestCryptogram(ActionCodes actionCode)
     {
-        TerminalActionAnalysisService sut = GetOnlineAndOfflineCapableTerminalActionAnalysisService();
+        TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode));
 
-        sut.Process(command.GetTransactionSessionId(), _Database);
+        sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
 
         Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), _TestSpy.GetTransactionSessionId());
         Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
@@ -75,10 +75,10 @@ public partial class TerminalActionAnalysisServiceTests
                    MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OnlineAndOfflineCapableTerminal_WithIssuerActionCodeOnline_GeneratesAuthorizationRequestCryptogram(ActionCodes actionCode)
     {
-        TerminalActionAnalysisService sut = GetOnlineAndOfflineCapableTerminalActionAnalysisService();
+        TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode));
 
-        sut.Process(command.GetTransactionSessionId(), _Database);
+        sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
 
         Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), _TestSpy.GetTransactionSessionId());
         Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
@@ -98,11 +98,11 @@ public partial class TerminalActionAnalysisServiceTests
     public void OnlineAndOfflineCapableTerminal_WithTerminalAndIssuerActionCodeOnline_GeneratesAuthorizationRequestCryptogram(
         ActionCodes terminalActionCode, ActionCodes issuerActionCodes)
     {
-        TerminalActionAnalysisService sut = GetOnlineAndOfflineCapableTerminalActionAnalysisService();
+        TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command =
             GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) terminalActionCode | (ulong) issuerActionCodes));
 
-        sut.Process(command.GetTransactionSessionId(), _Database);
+        sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
 
         Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), _TestSpy.GetTransactionSessionId());
         Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
@@ -121,10 +121,10 @@ public partial class TerminalActionAnalysisServiceTests
     public void OnlineAndOfflineCapableTerminal_WithoutTimeoutAndIssuerActionCodeDefault_GeneratesAuthenticationRequestCryptogram(
         ActionCodes actionCode)
     {
-        TerminalActionAnalysisService sut = GetOnlineAndOfflineCapableTerminalActionAnalysisService();
+        TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode));
 
-        sut.Process(command.GetTransactionSessionId(), _Database);
+        sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
 
         Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), _TestSpy.GetTransactionSessionId());
         Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
@@ -145,11 +145,11 @@ public partial class TerminalActionAnalysisServiceTests
         OnlineAndOfflineCapableTerminal_WithoutTimeoutTerminalAndIssuerActionCodeDefault_GeneratesApplicationAuthenticationCryptogram(
             ActionCodes terminalActionCode, ActionCodes issuerActionCodes)
     {
-        TerminalActionAnalysisService sut = GetOnlineAndOfflineCapableTerminalActionAnalysisService();
+        TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command =
             GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) terminalActionCode | (ulong) issuerActionCodes));
 
-        sut.Process(command.GetTransactionSessionId(), _Database);
+        sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
 
         Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), _TestSpy.GetTransactionSessionId());
         Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
@@ -172,11 +172,11 @@ public partial class TerminalActionAnalysisServiceTests
     public void OnlineAndOfflineCapableTerminal_WithTimeoutAndTerminalActionCodeDefault_GeneratesAuthenticationRequestCryptogram(
         ActionCodes actionCode)
     {
-        TerminalActionAnalysisService sut = GetOnlineAndOfflineCapableTerminalActionAnalysisService();
+        TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode),
                                                                                  OnlineResponseOutcome.NotAvailable);
 
-        sut.Process(command.GetTransactionSessionId(), _Database);
+        sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
 
         Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), _TestSpy.GetTransactionSessionId());
         Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
@@ -195,11 +195,11 @@ public partial class TerminalActionAnalysisServiceTests
     public void OnlineAndOfflineCapableTerminal_WithTimeoutAndIssuerActionCodeDefault_GeneratesAuthenticationRequestCryptogram(
         ActionCodes actionCode)
     {
-        TerminalActionAnalysisService sut = GetOnlineAndOfflineCapableTerminalActionAnalysisService();
+        TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode),
                                                                                  OnlineResponseOutcome.NotAvailable);
 
-        sut.Process(command.GetTransactionSessionId(), _Database);
+        sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
 
         Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), _TestSpy.GetTransactionSessionId());
         Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
@@ -220,12 +220,12 @@ public partial class TerminalActionAnalysisServiceTests
         OnlineAndOfflineCapableTerminal_WithTimeoutAndTerminalAndIssuerActionCodeDefault_GeneratesApplicationAuthenticationCryptogram(
             ActionCodes terminalActionCode, ActionCodes issuerActionCodes)
     {
-        TerminalActionAnalysisService sut = GetOnlineAndOfflineCapableTerminalActionAnalysisService();
+        TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command =
             GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) terminalActionCode | (ulong) issuerActionCodes),
                                              OnlineResponseOutcome.NotAvailable);
 
-        sut.Process(command.GetTransactionSessionId(), _Database);
+        sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
 
         Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), _TestSpy.GetTransactionSessionId());
         Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
@@ -244,10 +244,10 @@ public partial class TerminalActionAnalysisServiceTests
     public void OnlineAndOfflineCapableTerminal_WithTerminalActionCodeDenial_GeneratesApplicationAuthenticationCryptogram(
         ActionCodes actionCode)
     {
-        TerminalActionAnalysisService sut = GetOnlineAndOfflineCapableTerminalActionAnalysisService();
+        TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode));
 
-        sut.Process(command.GetTransactionSessionId(), _Database);
+        sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
 
         Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), _TestSpy.GetTransactionSessionId());
         Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
@@ -266,10 +266,10 @@ public partial class TerminalActionAnalysisServiceTests
     public void OnlineAndOfflineCapableTerminal_WithIssuerActionCodeDenial_GeneratesApplicationAuthenticationCryptogram(
         ActionCodes actionCode)
     {
-        TerminalActionAnalysisService sut = GetOnlineAndOfflineCapableTerminalActionAnalysisService();
+        TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode));
 
-        sut.Process(command.GetTransactionSessionId(), _Database);
+        sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
 
         Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), _TestSpy.GetTransactionSessionId());
         Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
@@ -289,11 +289,11 @@ public partial class TerminalActionAnalysisServiceTests
     public void OnlineAndOfflineCapableTerminal_WithTerminalAndIssuerActionCodeDenial_GeneratesApplicationAuthenticationCryptogram(
         ActionCodes terminalActionCode, ActionCodes issuerActionCodes)
     {
-        TerminalActionAnalysisService sut = GetOnlineAndOfflineCapableTerminalActionAnalysisService();
+        TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command =
             GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) terminalActionCode | (ulong) issuerActionCodes));
 
-        sut.Process(command.GetTransactionSessionId(), _Database);
+        sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
 
         Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), _TestSpy.GetTransactionSessionId());
         Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());

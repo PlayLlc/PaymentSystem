@@ -42,7 +42,7 @@ public partial class WaitingForGetDataResponse : KernelState
         if (!TryHandleGetDataToBeDone(session.GetTransactionSessionId()))
             HandleRemainingApplicationFilesToRead(session);
 
-        return _KernelStateResolver.GetKernelState(_S456.Process(this, (Kernel2Session) session));
+        return _KernelStateResolver.GetKernelState(_S456.Process(this, (Kernel2Session) session, signal));
     }
 
     #region S5.5 - S5.6
@@ -53,7 +53,7 @@ public partial class WaitingForGetDataResponse : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandleL1Error(KernelSession session, QueryPcdResponse signal)
     {
-        if (!signal.IsSuccessful())
+        if (!signal.IsLevel1ErrorPresent())
             return false;
 
         _Database.Update(MessageIdentifiers.TryAgain);

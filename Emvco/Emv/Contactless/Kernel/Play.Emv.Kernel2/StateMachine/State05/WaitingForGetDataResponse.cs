@@ -1,4 +1,5 @@
-﻿using Play.Emv.Exceptions;
+﻿using Play.Emv.Display.Contracts;
+using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
@@ -13,27 +14,26 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForGetDataResponse : KernelState
 {
+    #region Constructor
+
+    public WaitingForGetDataResponse(
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
+        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IHandleDisplayRequests displayEndpoint, S456 s456) : base(database, dataExchangeKernelService, kernelEndpoint,
+                                                                  tornTransactionManager, kernelStateResolver, pcdEndpoint, displayEndpoint)
+    {
+        _S456 = s456;
+    }
+
+    #endregion
+
     #region Static Metadata
 
     public static readonly StateId StateId = new(nameof(WaitingForGetDataResponse));
 
     #endregion
 
-    #region Instance Values
-
-    private readonly S456 _S456;
-
-    #endregion
-
     #region Instance Members
-
-    public WaitingForGetDataResponse(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, S456 s456) :
-        base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver, pcdEndpoint)
-    {
-        _S456 = s456;
-    }
 
     public override StateId GetStateId() => StateId;
 
@@ -57,6 +57,14 @@ public partial class WaitingForGetDataResponse : KernelState
 
     #endregion
 
+    #endregion
+
+    #region Instance Values
+
+    private readonly S456 _S456;
+
+    #endregion
+
     #region DET
 
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -66,8 +74,6 @@ public partial class WaitingForGetDataResponse : KernelState
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    #endregion
 
     #endregion
 }

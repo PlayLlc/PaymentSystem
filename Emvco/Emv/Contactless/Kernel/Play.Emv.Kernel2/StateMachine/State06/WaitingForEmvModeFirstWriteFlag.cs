@@ -1,4 +1,5 @@
-﻿using Play.Emv.Exceptions;
+﻿using Play.Emv.Display.Contracts;
+using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
@@ -14,37 +15,26 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForEmvModeFirstWriteFlag : KernelState
 {
+    #region Constructor
+
+    public WaitingForEmvModeFirstWriteFlag(
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
+        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IHandleDisplayRequests displayEndpoint, S456 s456) : base(database, dataExchangeKernelService, kernelEndpoint,
+                                                                  tornTransactionManager, kernelStateResolver, pcdEndpoint, displayEndpoint)
+    {
+        _S456 = s456;
+    }
+
+    #endregion
+
     #region Static Metadata
 
     public static readonly StateId StateId = new(nameof(WaitingForEmvModeFirstWriteFlag));
 
     #endregion
 
-    #region Instance Values
-
-    private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
-    private readonly IHandleTerminalRequests _TerminalEndpoint;
-    private readonly ICleanTornTransactions _KernelCleaner;
-    private readonly S456 _S456;
-
-    #endregion
-
-    #region Constructor
-
-    public WaitingForEmvModeFirstWriteFlag(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IGenerateUnpredictableNumber unpredictableNumberGenerator, IHandleTerminalRequests terminalEndpoint,
-        ICleanTornTransactions kernelCleaner, S456 s456) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager,
-                                                                kernelStateResolver, pcdEndpoint)
-    {
-        _UnpredictableNumberGenerator = unpredictableNumberGenerator;
-        _TerminalEndpoint = terminalEndpoint;
-        _KernelCleaner = kernelCleaner;
-        _S456 = s456;
-    }
-
-    #endregion
+    #region Instance Members
 
     public override StateId GetStateId() => StateId;
 
@@ -74,6 +64,14 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    #endregion
+
+    #endregion
+
+    #region Instance Values
+
+    private readonly S456 _S456;
 
     #endregion
 
