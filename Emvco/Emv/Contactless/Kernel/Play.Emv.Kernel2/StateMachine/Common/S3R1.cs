@@ -268,6 +268,7 @@ public class S3R1 : CommonProcessing
 
     /// <remarks> EMV Book C-2 Section S3R1.15 </remarks>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private bool IsDataExchangeNeeded()
     {
         if (_DataExchangeKernelService.IsEmpty(DekRequestType.DataNeeded))
@@ -285,6 +286,7 @@ public class S3R1 : CommonProcessing
 
     /// <remarks> EMV Book C-2 Section S3R1.16 </remarks>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private void ExchangeData(KernelSessionId sessionId)
     {
         _DataExchangeKernelService.SendRequest(sessionId);

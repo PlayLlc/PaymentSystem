@@ -59,6 +59,13 @@ public record Track1Data : DataElement<byte[]>
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
+    /// <summary>
+    /// GetTrack1DiscretionaryData
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public Track1DiscretionaryData GetTrack1DiscretionaryData()
     {
         ReadOnlySpan<byte> value = _Value.ToArray();
@@ -66,6 +73,12 @@ public record Track1Data : DataElement<byte[]>
         return Track1DiscretionaryData.Decode(value[GetDiscretionaryDataOffset(value)..]);
     }
 
+    /// <summary>
+    /// GetSecondFieldSeparatorOffset
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="BerParsingException"></exception>
     private int GetSecondFieldSeparatorOffset(ReadOnlySpan<byte> value)
     {
         int offset = 0;

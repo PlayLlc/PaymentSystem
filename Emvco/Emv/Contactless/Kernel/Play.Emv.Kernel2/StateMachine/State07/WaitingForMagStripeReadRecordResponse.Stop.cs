@@ -11,6 +11,15 @@ public partial class WaitingForMagStripeReadRecordResponse
 
     #region S7.7 - S7.8
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <returns></returns> 
+    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
         HandleRequestOutOfSync(session, signal);

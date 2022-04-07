@@ -26,6 +26,7 @@ public partial class S910
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="IccProtocolException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
         public StateId HandleValidResponse(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
         {
             // S910.70
@@ -107,6 +108,7 @@ public partial class S910
 
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="TerminalDataException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
         private void PrepareOutcomeParameterSetForCid()
         {
             CryptogramInformationData cid = _Database.Get<CryptogramInformationData>(CryptogramInformationData.Tag);
@@ -238,6 +240,7 @@ public partial class S910
         #region S910.78.1 -S910.81
 
         /// <exception cref="TerminalDataException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
         private void HandleOutMessage(Kernel2Session session)
         {
             PosCardholderInteractionInformation pcii =
@@ -258,6 +261,7 @@ public partial class S910
         #region S910.79 - S910.80
 
         /// <exception cref="TerminalDataException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
         private void HandleDisplayMessageForSecondTapNeeded(Kernel2Session session)
         {
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);

@@ -205,6 +205,7 @@ public partial class WaitingForGpoResponse : KernelState
     #region S3.15 - S3.16
 
     /// <remarks>EMV Book C-2 Section S3.15 - S3.16</remarks>
+    /// <exception cref="TerminalDataException"></exception>
     private bool IsEmvModeSupported(ApplicationInterchangeProfile applicationInterchangeProfile)
     {
         if (!applicationInterchangeProfile.IsEmvModeSupported())
@@ -299,6 +300,12 @@ public partial class WaitingForGpoResponse : KernelState
         }
     }
 
+    /// <summary>
+    /// IsOnDeviceCardholderVerificationSupported
+    /// </summary>
+    /// <param name="applicationInterchangeProfile"></param>
+    /// <returns></returns>
+    /// <exception cref="TerminalDataException"></exception>
     private bool IsOnDeviceCardholderVerificationSupported(ApplicationInterchangeProfile applicationInterchangeProfile)
     {
         if (!applicationInterchangeProfile.IsOnDeviceCardholderVerificationSupported())
@@ -315,6 +322,7 @@ public partial class WaitingForGpoResponse : KernelState
     #region S3.60
 
     /// <remarks>EMV Book C-2 Section S3.60</remarks>
+    /// <exception cref="TerminalDataException"></exception>
     private bool IsRelayResistanceProtocolSupported(ApplicationInterchangeProfile applicationInterchangeProfile)
     {
         if (!applicationInterchangeProfile.IsRelayResistanceProtocolSupported())
@@ -465,6 +473,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     /// <remarks>Emv Book C-2 Section S3.77 - S3.78 </remarks>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private void HandleDekRequest(Kernel2Session session)
     {
         if (_DataExchangeKernelService.IsEmpty(DekRequestType.DataNeeded))

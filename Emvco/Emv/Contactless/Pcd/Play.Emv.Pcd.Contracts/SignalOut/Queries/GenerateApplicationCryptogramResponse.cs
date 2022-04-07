@@ -65,6 +65,7 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public PrimitiveValue[] GetPrimitiveDataObjects(IReadTlvDatabase database)
     {
         if (GetDataByteCount() == 0)

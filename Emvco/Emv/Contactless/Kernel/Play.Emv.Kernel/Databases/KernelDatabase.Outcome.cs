@@ -30,6 +30,11 @@ public partial class KernelDatabase
 
     #region Read
 
+    /// <summary>
+    /// GetDataStorageSummaryStatus
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="TerminalDataException"></exception>
     public DataStorageSummaryStatus GetDataStorageSummaryStatus()
     {
         if (IsPresentAndNotEmpty(DataStorageSummaryStatus.Tag))
@@ -111,6 +116,7 @@ public partial class KernelDatabase
     /// </summary>
     /// <param name="dataExchanger"></param>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void CreateEmvDiscretionaryData(DataExchangeKernelService dataExchanger)
     {
         // HACK: this logic should live inside discretionary data
@@ -130,6 +136,7 @@ public partial class KernelDatabase
     /// </summary>
     /// <param name="dataExchanger"></param>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void CreateMagstripeDiscretionaryData(DataExchangeKernelService dataExchanger)
     {
         KernelOutcome.CreateMagstripeDiscretionaryData(this, dataExchanger);

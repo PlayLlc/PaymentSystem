@@ -124,7 +124,11 @@ public class AlphabeticCodec : PlayCodec
 
         return value is >= bigA and <= bigZ || value is >= littleA and <= littleZ;
     }
-
+     
+    /// <summary>
+    /// Validate
+    /// </summary>
+    /// <param name="value"></param>
     /// <exception cref="CodecParsingException"></exception>
     private void Validate(byte value)
     {
@@ -236,15 +240,15 @@ public class AlphabeticCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
-    /// <returns></returns>
-    /// <exception cref="CodecParsingException"></exception>
+    /// <returns></returns> 
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value, int length)
     {
         Validate(value);
 
         if (length > value.Length)
-            throw new InvalidOperationException();
+            throw new CodecParsingException( new ArgumentOutOfRangeException(nameof(value), $"The {nameof(AlphabeticCodec)} could not {nameof(Encode)} the value because the length was out of range"));
 
         byte[] byteArray = new byte[length];
 

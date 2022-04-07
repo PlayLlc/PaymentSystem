@@ -30,6 +30,11 @@ public partial class WaitingForGenerateAcResponse1
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
@@ -59,6 +64,8 @@ public partial class WaitingForGenerateAcResponse1
     #region S9.5 - S9.15 - L1RSP
 
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     public bool TryHandleL1Error(KernelSessionId sessionId, QueryPcdResponse signal)
     {
         if (signal.IsSuccessful())
@@ -175,6 +182,8 @@ public partial class WaitingForGenerateAcResponse1
     #region S9.11 - S9.15
 
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     private void HandleTornTransaction(KernelSessionId sessionId, QueryPcdResponse signal)
     {
         DataRecoveryDataObjectListRelatedData? drdol = _Database.Get<DataRecoveryDataObjectList>(DataRecoveryDataObjectList.Tag)
@@ -190,6 +199,11 @@ public partial class WaitingForGenerateAcResponse1
     #region S916 - S917
 
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandleLevel2StatusByteError(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu, out StateId? stateId)
     {
         if (rapdu.GetStatusWords() == StatusWords._9000)
@@ -222,6 +236,11 @@ public partial class WaitingForGenerateAcResponse1
     #region S918 - S920
 
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandleLevel2ParsingError(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu, out StateId? stateId)
     {
         try
@@ -252,6 +271,11 @@ public partial class WaitingForGenerateAcResponse1
     #region S920
 
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private StateId HandleLevel2ParsingError(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
     {
         _Database.Update(Level2Error.ParsingError);
@@ -264,6 +288,11 @@ public partial class WaitingForGenerateAcResponse1
     #region S921 - S922
 
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandleMissingMandatoryDataObjects(
         Kernel2Session session, GenerateApplicationCryptogramResponse rapdu, out StateId? stateId)
     {
@@ -291,6 +320,11 @@ public partial class WaitingForGenerateAcResponse1
     #region S922
 
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private StateId HandleMissingMandatoryDataObjects(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
     {
         _Database.Update(Level2Error.CardDataMissing);
@@ -303,6 +337,11 @@ public partial class WaitingForGenerateAcResponse1
     #region S923 - S924
 
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandleInvalidCryptogramInformationData(
         Kernel2Session session, GenerateApplicationCryptogramResponse rapdu, out StateId? stateId)
     {
@@ -324,6 +363,18 @@ public partial class WaitingForGenerateAcResponse1
 
     #region S924
 
+    /// <summary>
+    /// HandleInvalidCryptogramInformationData
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="rapdu"></param>
+    /// <returns></returns>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private StateId HandleInvalidCryptogramInformationData(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
     {
         _Database.Update(Level2Error.CardDataError);
@@ -336,6 +387,11 @@ public partial class WaitingForGenerateAcResponse1
     #region S925 - S928
 
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private StateId HandleAuthentication(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
     {
         _BalanceReader.Process(this, session, rapdu);

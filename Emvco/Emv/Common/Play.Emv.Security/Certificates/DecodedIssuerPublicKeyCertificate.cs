@@ -31,6 +31,15 @@ internal class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
 
     internal CertificateSources GetCertificateFormat() => _CertificateSources;
 
+    /// <summary>
+    /// Create
+    /// </summary>
+    /// <param name="caPublicKeyCertificate"></param>
+    /// <param name="issuerRemainder"></param>
+    /// <param name="issuerExponent"></param>
+    /// <param name="decodedSignature"></param>
+    /// <returns></returns>
+    /// <exception cref="CodecParsingException"></exception>
     internal static DecodedIssuerPublicKeyCertificate Create(
         CaPublicKeyCertificate caPublicKeyCertificate, IssuerPublicKeyRemainder issuerRemainder, IssuerPublicKeyExponent issuerExponent,
         DecodedSignature decodedSignature)

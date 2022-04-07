@@ -30,6 +30,12 @@ public record DataRecord : DataExchangeResponse, IEqualityComparer<DataRecord>
     public static DataRecord CreateMagstripeDataRecord(IReadTlvDatabase database) =>
         new(RetrieveMagstripeDataRecordObjects(database).ToArray());
 
+    /// <summary>
+    /// RetrieveMagstripeDataRecordObjects
+    /// </summary>
+    /// <param name="database"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     public static IEnumerable<PrimitiveValue> RetrieveMagstripeDataRecordObjects(IReadTlvDatabase database)
     {
         if (database.TryGet(ApplicationLabel.Tag, out ApplicationLabel? applicationLabel))

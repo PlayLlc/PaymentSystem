@@ -34,6 +34,7 @@ internal class KernelOutcome
     /// <param name="database"></param>
     /// <param name="dataExchanger"></param>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     public static void CreateEmvDiscretionaryData(IReadTlvDatabase database, DataExchangeKernelService dataExchanger)
     {
         // HACK: this logic should live inside discretionary data
@@ -52,6 +53,7 @@ internal class KernelOutcome
     /// <param name="database"></param>
     /// <param name="dataExchanger"></param>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     public static void CreateMagstripeDiscretionaryData(IReadTlvDatabase database, DataExchangeKernelService dataExchanger)
     {
         // HACK: this logic should live inside discretionary data

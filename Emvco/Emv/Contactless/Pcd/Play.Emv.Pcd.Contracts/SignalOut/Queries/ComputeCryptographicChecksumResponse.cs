@@ -39,6 +39,14 @@ public record ComputeCryptographicChecksumResponse : QueryPcdResponse
         // TODO: Handle for mandatory objects not present. Set Level 2 error
         DecodePrimitiveValues(ResponseMessageTemplate.DecodeData(GetRApduSignal())).ToArray();
 
+    /// <summary>
+    /// DecodePrimitiveValues
+    /// </summary>
+    /// <param name="values"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Ber.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private IEnumerable<PrimitiveValue> DecodePrimitiveValues(TagLengthValue[] values)
     {
         for (int i = 0; i < values.Length; i++)

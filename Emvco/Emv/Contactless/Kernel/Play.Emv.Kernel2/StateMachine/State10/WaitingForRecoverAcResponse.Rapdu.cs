@@ -33,6 +33,12 @@ public partial class WaitingForRecoverAcResponse
     /// <param name="signal"></param>
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         RecoverAcResponse rapdu = (RecoverAcResponse) signal;
@@ -121,6 +127,9 @@ public partial class WaitingForRecoverAcResponse
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandlingBerParsingException(Kernel2Session session, RecoverAcResponse rapdu)
     {
         try
@@ -193,6 +202,7 @@ public partial class WaitingForRecoverAcResponse
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private void UpdateDatabaseWithRapdu(RecoverAcResponse rapdu)
     {
         _Database.Update(rapdu.GetPrimitiveDataObjects());
@@ -203,6 +213,11 @@ public partial class WaitingForRecoverAcResponse
     #region S10.14
 
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private void HandleBerParsingError(Kernel2Session session, RecoverAcResponse rapdu)
     {
         _Database.Update(Level2Error.ParsingError);
@@ -213,6 +228,18 @@ public partial class WaitingForRecoverAcResponse
 
     #region S10.15 - S10.16
 
+    /// <summary>
+    /// TryHandlingMissingMandatoryData
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="rapdu"></param>
+    /// <returns></returns>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandlingMissingMandatoryData(Kernel2Session session, RecoverAcResponse rapdu)
     {
         if (_Database.IsPresentAndNotEmpty(ApplicationTransactionCounter.Tag))
@@ -236,6 +263,17 @@ public partial class WaitingForRecoverAcResponse
 
     #region S10.16
 
+    /// <summary>
+    /// HandleMissingMandatoryData
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="rapdu"></param>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private void HandleMissingMandatoryData(Kernel2Session session, RecoverAcResponse rapdu)
     {
         _Database.Update(Level2Error.CardDataMissing);
@@ -246,6 +284,18 @@ public partial class WaitingForRecoverAcResponse
 
     #region S10.17 - S10.18
 
+    /// <summary>
+    /// TryHandlingInvalidCryptogramInformationData
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="rapdu"></param>
+    /// <returns></returns>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandlingInvalidCryptogramInformationData(Kernel2Session session, RecoverAcResponse rapdu)
     {
         CryptogramInformationData cid = _Database.Get<CryptogramInformationData>(CryptogramInformationData.Tag);
@@ -264,6 +314,17 @@ public partial class WaitingForRecoverAcResponse
 
     #region S10.18
 
+    /// <summary>
+    /// HandleInvalidCryptogramInformationData
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="rapdu"></param>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private void HandleInvalidCryptogramInformationData(Kernel2Session session, RecoverAcResponse rapdu)
     {
         _Database.Update(Level2Error.CardDataError);
@@ -274,6 +335,18 @@ public partial class WaitingForRecoverAcResponse
 
     #region S10.19 - S10.22
 
+    /// <summary>
+    /// HandleCda
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="rapdu"></param>
+    /// <returns></returns>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private StateId HandleCda(Kernel2Session session, RecoverAcResponse rapdu)
     {
         _OfflineBalanceReader.Process(this, session, rapdu);

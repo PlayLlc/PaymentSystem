@@ -28,7 +28,12 @@ public static partial class ReadOnlySpanExtensions
 
         return result;
     }
-
+     
+    /// <summary>
+    /// CopyTo
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
     /// <exception cref="PlayInternalException"></exception>
     public static void CopyTo(this ReadOnlySpan<Nibble> value, Span<byte> buffer)
     {

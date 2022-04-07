@@ -23,6 +23,9 @@ public partial class S910
 
         /// <exception cref="PlayInternalException"></exception>
         /// <exception cref="Play.Core.Exceptions"></exception>
+        /// <exception cref="DataElementParsingException"></exception>
+        /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
         public StateId ProcessWithCda(
             IGetKernelStateId currentStateIdRetriever, Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
         {
@@ -273,6 +276,9 @@ public partial class S910
         #region S910.13
 
         /// <exception cref="TerminalDataException"></exception>
+        /// <exception cref="DataElementParsingException"></exception>
+        /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
         private bool TryHandleIdsWriteFlagNotSet(
             IGetKernelStateId currentStateIdRetriever, Kernel2Session session, out StateId? successfulResponseStateId)
         {

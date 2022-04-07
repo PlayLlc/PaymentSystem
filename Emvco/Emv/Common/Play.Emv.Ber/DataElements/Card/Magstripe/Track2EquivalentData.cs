@@ -72,6 +72,7 @@ public record Track2EquivalentData : DataElement<BigInteger>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public PrimaryAccountNumber GetPrimaryAccountNumber()
     {
         ReadOnlySpan<Nibble> buffer = _Value.ToByteArray().AsNibbleArray();
@@ -100,6 +101,7 @@ public record Track2EquivalentData : DataElement<BigInteger>
     }
 
     /// <exception cref="OverflowException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public byte[] GetDiscretionaryData()
     {
         ReadOnlySpan<Nibble> buffer = _Value.ToByteArray().AsNibbleArray();

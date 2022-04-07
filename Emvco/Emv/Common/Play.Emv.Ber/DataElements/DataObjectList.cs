@@ -47,6 +47,12 @@ public abstract record DataObjectList : DataElement<byte[]>
 
     #region Instance Members
 
+    /// <summary>
+    /// IsRequestedDataAvailable
+    /// </summary>
+    /// <param name="database"></param>
+    /// <returns></returns>
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsRequestedDataAvailable(IReadTlvDatabase database)
     {
         foreach (TagLength item in DataObjects)
@@ -78,6 +84,7 @@ public abstract record DataObjectList : DataElement<byte[]>
 
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public bool TryGetRequestedDataItems(IReadTlvDatabase database, out PrimitiveValue[] result)
     {
         if (!IsRequestedDataAvailable(database))

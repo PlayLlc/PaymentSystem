@@ -15,6 +15,13 @@ internal class UnpredictableNumberGenerator : IGenerateUnpredictableNumber
     public UnpredictableNumber GenerateUnpredictableNumber() => new(Randomize.Numeric.UInt());
 
     // WARNING: This should be generated using a device that can ensure total uniqueness, like a DUKPT compliant machine
+    /// <summary>
+    /// GenerateUnpredictableNumber
+    /// </summary>
+    /// <param name="nun"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Ber.Exceptions.DataElementParsingException"></exception>
+    /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     public UnpredictableNumber GenerateUnpredictableNumber(NumberOfNonZeroBits nun)
     {
         UnpredictableNumber offset = GenerateUnpredictableNumber();

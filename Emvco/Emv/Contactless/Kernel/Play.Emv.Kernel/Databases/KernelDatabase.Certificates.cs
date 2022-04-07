@@ -29,6 +29,7 @@ public partial class KernelDatabase : ICertificateDatabase
     ///     revoked. Certificates can also be revoked by the issuer
     /// </summary>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public bool IsRevoked(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex caPublicKeyIndex)
     {
         if (!IsActive())
@@ -75,6 +76,7 @@ public partial class KernelDatabase : ICertificateDatabase
     ///     be false
     /// </summary>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public bool TryGet(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex index, out CaPublicKeyCertificate? result)
     {
         if (!IsActive())

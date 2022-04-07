@@ -7,6 +7,13 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForGenerateAcResponse1
 {
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <returns></returns>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryTerminalResponse signal)
     {
         HandleRequestOutOfSync(session, signal);

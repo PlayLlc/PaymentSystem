@@ -73,6 +73,7 @@ public abstract class KernelState : IGetKernelStateId
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     private void HandleBerEncodingException(CorrelationId correlationId, KernelSessionId kernelSessionId)
     {
         _Database.Update(StatusOutcome.SelectNext);

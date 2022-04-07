@@ -64,6 +64,7 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
 
     /// <remarks>EMV Book C-2 Section S9.23</remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public bool IsValid(IReadTlvDatabase database)
     {
         if (_Value.AreBitsSet(CryptogramTypes.ApplicationAuthenticationCryptogram))

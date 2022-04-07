@@ -29,6 +29,7 @@ public partial class WaitingForGetDataResponse : KernelState
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         HandleRequestOutOfSync(session, signal);

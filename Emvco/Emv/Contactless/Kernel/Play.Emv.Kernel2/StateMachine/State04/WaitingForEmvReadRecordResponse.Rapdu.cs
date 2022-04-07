@@ -42,6 +42,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
@@ -283,6 +284,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <remarks>Book C-2 Section S4.29</remarks>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private void HandleCdol1(CardRiskManagementDataObjectList1 cdol)
     {
         _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, cdol.GetNeededData(_Database));
@@ -343,6 +345,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <param name="dsdol"></param>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private void EnqueueDsdolToDataNeeded(DataStorageDataObjectList dsdol)
     {
         _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, dsdol.GetNeededData(_Database));
@@ -371,6 +374,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     #region S4.36
 
     /// <remarks>Book C-2 Section S4.36</remarks>
+    /// <exception cref="TerminalDataException"></exception>
     private bool IsReadingRequired(Kernel2Session session)
     {
         if (!_Database.IsReadAllRecordsActivated())

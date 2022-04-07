@@ -264,6 +264,8 @@ internal class CombinedDataAuthenticator
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
     /// <exception cref="OverflowException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     private byte[] ConcatenateTransactionDataHashCode(ITlvReaderAndWriter database, GenerateApplicationCryptogramResponse rapdu)
     {
         ProcessingOptionsDataObjectList pdol = database.Get<ProcessingOptionsDataObjectList>(ProcessingOptionsDataObjectList.Tag);
@@ -306,6 +308,7 @@ internal class CombinedDataAuthenticator
     /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="OverflowException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public IccDynamicData RetrieveIccDynamicData(ITlvReaderAndWriter database, DecodedSignedDynamicApplicationDataCda decodedSignature)
     {
         IccDynamicData iccDynamicData = decodedSignature.GetIccDynamicData();

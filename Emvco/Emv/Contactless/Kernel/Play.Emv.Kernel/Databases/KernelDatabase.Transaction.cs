@@ -84,6 +84,7 @@ public partial class KernelDatabase
     /// <summary>
     ///     A transaction in which the cardholder receives cash from a self service kiosk or cashier
     /// </summary>
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsCashbackTransaction()
     {
         TransactionType transactionType = GetTransactionType();
@@ -95,6 +96,7 @@ public partial class KernelDatabase
     ///     A legacy transaction that was manually keyed by an attended
     /// </summary>
     /// <returns></returns>
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsManualTransaction()
     {
         PosEntryMode? posEntryMode = GetPosEntryMode();
@@ -122,6 +124,7 @@ public partial class KernelDatabase
     /// <summary>
     ///     A sale of goods and services
     /// </summary>
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsPurchaseTransaction()
     {
         TransactionType transactionType = GetTransactionType();
@@ -139,6 +142,7 @@ public partial class KernelDatabase
     ///     A transaction in which the cardholder receives cash, such as a quick loan, ATM withdrawal using a credit card, and
     ///     so on
     /// </summary>
+    /// <exception cref="TerminalDataException"></exception>
     public bool IsCashTransaction()
     {
         TransactionType transactionType = GetTransactionType();

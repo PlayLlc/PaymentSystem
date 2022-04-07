@@ -47,6 +47,12 @@ public record Track2Data : DataElement<BigInteger>
 
     #endregion
 
+    /// <summary>
+    /// GetPrimaryAccountNumber
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public PrimaryAccountNumber GetPrimaryAccountNumber()
     {
         Span<byte> buffer = _Value.ToByteArray();
@@ -64,6 +70,13 @@ public record Track2Data : DataElement<BigInteger>
         throw new BerParsingException($"The {nameof(Track2Data)} could not decode a valid {nameof(PrimaryAccountNumber)}");
     }
 
+    /// <summary>
+    /// GetTrack2DiscretionaryData
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public Track2DiscretionaryData GetTrack2DiscretionaryData()
     {
         Span<byte> buffer = _Value.ToByteArray();
@@ -71,6 +84,12 @@ public record Track2Data : DataElement<BigInteger>
         return Track2DiscretionaryData.Decode(buffer[GetDiscretionaryDataOffset(buffer)..]);
     }
 
+    /// <summary>
+    /// GetPrimaryAccountNumberOffset
+    /// </summary>
+    /// <param name="buffer"></param>
+    /// <returns></returns>
+    /// <exception cref="BerParsingException"></exception>
     private int GetPrimaryAccountNumberOffset(ReadOnlySpan<byte> buffer)
     {
         int offset = 0;

@@ -156,6 +156,14 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
 
     public override Tag[] GetChildTags() => ChildTags;
 
+    /// <summary>
+    /// AsCommandTemplate
+    /// </summary>
+    /// <param name="codec"></param>
+    /// <param name="poiInformation"></param>
+    /// <param name="selectionDataObjectListValues"></param>
+    /// <returns></returns>
+    /// <exception cref="BerParsingException"></exception>
     public CommandTemplate AsCommandTemplate(BerCodec codec, PoiInformation poiInformation, PrimitiveValue[] selectionDataObjectListValues)
     {
         if ((_SelectionDataObjectList != null) && (!_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))
@@ -181,6 +189,8 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
     /// <param name="database"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public CommandTemplate AsCommandTemplate(IReadTlvDatabase database)
     {
         if ((_SelectionDataObjectList != null) && (!_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))

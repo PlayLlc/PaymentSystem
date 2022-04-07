@@ -18,6 +18,8 @@ public partial class WaitingForMagstripeFirstWriteFlag
 
     // BUG: Need to make sure you're properly implementing each DEK handler for each state
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryTerminalResponse signal)
     {
         if (TryHandleTimeout(session))

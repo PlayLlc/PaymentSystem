@@ -38,6 +38,7 @@ namespace Play.Emv.Pcd.Contracts.SignalOut.Queries
         /// <exception cref="IccProtocolException"></exception>
         /// <exception cref="BerParsingException"></exception>
         /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
         public PrimitiveValue[] GetPrimitiveDataObjects()
         {
             PrimitiveValue[] result = DecodePrimitiveValues(ResponseMessageTemplate.DecodeData(GetRApduSignal())).ToArray();

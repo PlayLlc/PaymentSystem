@@ -25,6 +25,9 @@ public partial class S910
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="IccProtocolException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+        /// <exception cref="Exception"></exception>
         public StateId ProcessWithoutCda(
             IGetKernelStateId currentStateIdRetriever, Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
         {
@@ -57,6 +60,7 @@ public partial class S910
 
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="DataElementParsingException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
         private bool IsApplicationAuthenticationCryptogram()
         {
             CryptogramInformationData cid = _Database.Get<CryptogramInformationData>(CryptogramInformationData.Tag);
@@ -96,6 +100,12 @@ public partial class S910
 
         #region S910.35
 
+        /// <summary>
+        /// IsApplicationAuthenticationCryptogramRequested
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="TerminalDataException"></exception>
+        /// <exception cref="DataElementParsingException"></exception>
         private bool IsApplicationAuthenticationCryptogramRequested()
         {
             if (!_Database.TryGet(ReferenceControlParameter.Tag, out ReferenceControlParameter? referenceControlParameter))
@@ -108,6 +118,11 @@ public partial class S910
 
         #region S910.37
 
+        /// <summary>
+        /// HandleInvalidResponse
+        /// </summary>
+        /// <param name="sessionId"></param>
+        /// <exception cref="TerminalDataException"></exception>
         private void HandleInvalidResponse(KernelSessionId sessionId)
         {
             _Database.Update(Level2Error.CardDataError);
@@ -118,6 +133,15 @@ public partial class S910
 
         #region S910.38 - S910.39
 
+        /// <summary>
+        /// HandleRelayResistanceData
+        /// </summary>
+        /// <param name="currentGetKernelStateId"></param>
+        /// <param name="session"></param>
+        /// <returns></returns>
+        /// <exception cref="TerminalDataException"></exception>
+        /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+        /// <exception cref="Exception"></exception>
         private StateId HandleRelayResistanceData(IGetKernelStateId currentGetKernelStateId, Kernel2Session session)
         {
             if (_Database.IsSet(TerminalVerificationResultCodes.RelayResistancePerformed))
@@ -198,6 +222,7 @@ public partial class S910
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="IccProtocolException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
         private StateId HandleAac(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
         {
             if (IsIdsReadFlagSet())
@@ -222,6 +247,15 @@ public partial class S910
 
         #region S910.34, S910.38 - S910.39
 
+        /// <summary>
+        /// HandleIsNotAac
+        /// </summary>
+        /// <param name="currentGetKernelStateId"></param>
+        /// <param name="session"></param>
+        /// <returns></returns>
+        /// <exception cref="TerminalDataException"></exception>
+        /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+        /// <exception cref="Exception"></exception>
         private StateId HandleIsNotAac(IGetKernelStateId currentGetKernelStateId, Kernel2Session session)
         {
             if (!IsCdaRequested())

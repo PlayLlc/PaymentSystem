@@ -211,6 +211,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private GenerateApplicationCryptogramRequest CreateDenyTransactionResponse(TransactionSessionId sessionId, KernelDatabase database)
     {
         CardRiskManagementDataObjectList1 cdol1 = database.Get<CardRiskManagementDataObjectList1>(CardRiskManagementDataObjectList1.Tag);
@@ -225,6 +226,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private GenerateApplicationCryptogramRequest CreateProceedOfflineResponse(TransactionSessionId sessionId, KernelDatabase database)
     {
         bool isCdaRequested =
@@ -246,6 +248,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private GenerateApplicationCryptogramRequest CreateProceedOnlineResponse(TransactionSessionId sessionId, KernelDatabase database)
     {
         CardRiskManagementDataObjectList1 cdol1 = database.Get<CardRiskManagementDataObjectList1>(CardRiskManagementDataObjectList1.Tag);

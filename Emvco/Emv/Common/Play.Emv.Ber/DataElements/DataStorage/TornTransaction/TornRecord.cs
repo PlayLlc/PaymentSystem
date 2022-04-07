@@ -27,6 +27,12 @@ public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
 
     #region Serialization
 
+    /// <summary>
+    /// Decode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="BerParsingException"></exception>
     public override DiscretionaryData Decode(TagLengthValue value)
     {
         throw new NotImplementedException();
@@ -37,6 +43,7 @@ public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
     }
 
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public static DiscretionaryData Decode(ReadOnlyMemory<byte> value)
     {
         throw new NotImplementedException();

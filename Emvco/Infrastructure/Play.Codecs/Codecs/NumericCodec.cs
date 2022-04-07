@@ -467,6 +467,7 @@ public class NumericCodec : PlayCodec
     /// <param name="buffer"></param>
     /// <param name="offset">The number of bytes to offset</param>
     /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     public void Encode(ReadOnlySpan<Nibble> value, Span<byte> buffer, ref int offset)
     {
         int byteCount = (value.Length / 2) + (value.Length % 2);

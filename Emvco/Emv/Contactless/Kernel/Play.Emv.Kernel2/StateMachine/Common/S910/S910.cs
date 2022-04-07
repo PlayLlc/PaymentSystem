@@ -42,6 +42,9 @@ public partial class S910 : CommonProcessing
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message)
     {
         HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());

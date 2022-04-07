@@ -23,6 +23,7 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="IccProtocolException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
     public override KernelState Handle(KernelSession session, QueryTerminalResponse signal)
     {
         HandleRequestOutOfSync(session, signal);

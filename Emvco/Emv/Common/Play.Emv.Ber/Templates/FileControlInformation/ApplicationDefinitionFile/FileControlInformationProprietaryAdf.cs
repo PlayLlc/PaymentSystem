@@ -71,6 +71,14 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
         return true;
     }
 
+    /// <summary>
+    /// TryGetProcessingOptionsRelatedData
+    /// </summary>
+    /// <param name="database"></param>
+    /// <param name="result"></param>
+    /// <returns></returns>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public bool TryGetProcessingOptionsRelatedData(IReadTlvDatabase database, out CommandTemplate? result)
     {
         if (_ProcessingOptionsDataObjectList is null)

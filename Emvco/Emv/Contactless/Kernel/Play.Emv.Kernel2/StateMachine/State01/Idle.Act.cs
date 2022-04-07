@@ -79,6 +79,7 @@ public partial class Idle : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private void HandleBerEncodingException(CorrelationId correlationId, KernelSessionId kernelSessionId)
     {
         _Database.Update(StatusOutcome.SelectNext);
@@ -149,6 +150,7 @@ public partial class Idle : KernelState
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool TryInitialize(CorrelationId correlationId, KernelSessionId kernelSessionId, Transaction transaction)
     {
         try
@@ -215,6 +217,7 @@ public partial class Idle : KernelState
 
     /// <remarks>Book C-2 Section 6.3.3 - S1.10</remarks>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private void InitializeDataExchangeObjects(TagsToRead? tagsToRead)
     {
         // TODO: DataExchangeKernelService
@@ -244,6 +247,8 @@ public partial class Idle : KernelState
 
     /// <remarks>Book C-2 Section 6.3.3 - S1.12</remarks>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private void HandleProcessingOptionsDataObjectList(Kernel2Session session, FileControlInformationAdf fci)
     {
         if (fci.TryGetProcessingOptionsDataObjectList(out ProcessingOptionsDataObjectList? pdol))
@@ -268,6 +273,8 @@ public partial class Idle : KernelState
     // S1.13.1 Is handled by HandleProcessingOptionsDataObjectList and the below methods
 
     /// <remarks>Book C-2 Section 6.3.3  S1.13.2 - S1.13.3</remarks>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     private void HandlePdolDataIsReady(TransactionSessionId transactionSessionId, ProcessingOptionsDataObjectList pdol)
     {
         SendGetProcessingOptions(GetProcessingOptionsRequest.Create(pdol.AsCommandTemplate(_Database), transactionSessionId));
@@ -498,6 +505,7 @@ public partial class Idle : KernelState
     /// <param name="kernelSessionId"></param>
     /// <exception cref="InvalidOperationException"></exception>
     /// <remarks> EMV Book C-2 Section S1.22 </remarks>
+    /// <exception cref="TerminalDataException"></exception>
     private void DispatchDataExchangeMessages(KernelSessionId kernelSessionId)
     {
         // HACK: The correlationId cannot be null where. We need to revisit the pattern we're using the resolve requests and responses and implement that pattern here

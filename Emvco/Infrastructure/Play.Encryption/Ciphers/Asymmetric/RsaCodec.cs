@@ -8,6 +8,13 @@ internal class RsaCodec : IAsymmetricCodec
 {
     #region Instance Members
 
+    /// <summary>
+    /// Decrypt
+    /// </summary>
+    /// <param name="decodedSignature"></param>
+    /// <param name="publicKeyInfo"></param>
+    /// <returns></returns>
+    /// <exception cref="CryptographicException"></exception>
     public byte[] Decrypt(ReadOnlySpan<byte> decodedSignature, PublicKeyInfo publicKeyInfo)
     {
         RSACryptoServiceProvider rsaProvider = GetRsaProvider(publicKeyInfo.GetPublicKeyExponent(), publicKeyInfo.GetPublicKeyModulus());

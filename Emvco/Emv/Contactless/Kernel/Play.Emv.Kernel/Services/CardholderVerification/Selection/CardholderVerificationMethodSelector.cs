@@ -71,6 +71,13 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
 
     #region CVM.1
 
+    /// <summary>
+    /// IsOfflineVerificationSupported
+    /// </summary>
+    /// <param name="aip"></param>
+    /// <param name="database"></param>
+    /// <returns></returns>
+    /// <exception cref="TerminalDataException"></exception>
     public static bool IsOfflineVerificationSupported(ApplicationInterchangeProfile aip, KernelDatabase database)
     {
         if (!aip.IsOnDeviceCardholderVerificationSupported())

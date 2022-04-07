@@ -23,6 +23,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// </summary>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Fact]
     public void OnlineAndOfflineCapableTerminal_WithDefaultTerminalVerificationResults_GeneratesTransactionCryptogram()
     {
@@ -47,6 +48,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <param name="actionCode"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalActionCodeOnline), 10,
                    MemberType = typeof(TerminalActionAnalysisServiceFixture))]
@@ -67,6 +69,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <param name="actionCode"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomIssuerActionCodeOnline), 10,
                    MemberType = typeof(TerminalActionAnalysisServiceFixture))]
@@ -88,6 +91,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <param name="issuerActionCodes"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalAndIssuerActionCodeOnline), 10,
                    MemberType = typeof(TerminalActionAnalysisServiceFixture))]
@@ -110,6 +114,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <param name="actionCode"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomIssuerActionCodeDefault), 10,
                    MemberType = typeof(TerminalActionAnalysisServiceFixture))]
@@ -132,6 +137,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <param name="issuerActionCodes"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalAndIssuerActionCodeDefault), 10,
                    MemberType = typeof(TerminalActionAnalysisServiceFixture))]
@@ -159,6 +165,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <param name="actionCode"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalActionCodeDefault), 10,
                    MemberType = typeof(TerminalActionAnalysisServiceFixture))]
@@ -181,6 +188,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <param name="actionCode"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomIssuerActionCodeDefault), 10,
                    MemberType = typeof(TerminalActionAnalysisServiceFixture))]
@@ -204,6 +212,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <param name="issuerActionCodes"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalAndIssuerActionCodeDefault), 10,
                    MemberType = typeof(TerminalActionAnalysisServiceFixture))]
@@ -228,6 +237,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <param name="actionCode"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalActionCodeDenial), 10,
                    MemberType = typeof(TerminalActionAnalysisServiceFixture))]
@@ -249,6 +259,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <param name="actionCode"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomIssuerActionCodeDenial), 10,
                    MemberType = typeof(TerminalActionAnalysisServiceFixture))]
@@ -271,6 +282,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <param name="issuerActionCodes"></param>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalAndIssuerActionCodeDenial), 10,
                    MemberType = typeof(TerminalActionAnalysisServiceFixture))]

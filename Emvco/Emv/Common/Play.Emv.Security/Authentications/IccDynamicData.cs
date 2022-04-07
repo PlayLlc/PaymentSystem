@@ -40,6 +40,7 @@ internal class IccDynamicData
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="OverflowException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public bool TryGetAdditionalData(out PrimitiveValue[] result)
     {
         if (!IsDataStorageSummaryAvailable())
@@ -57,6 +58,7 @@ internal class IccDynamicData
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="OverflowException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     private IEnumerable<PrimitiveValue> DecodeAdditionalData(ReadOnlySpan<byte> value)
     {
         EmvCodec codec = EmvCodec.GetBerCodec();

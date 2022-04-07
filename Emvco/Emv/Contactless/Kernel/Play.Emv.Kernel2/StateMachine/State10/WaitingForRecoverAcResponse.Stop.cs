@@ -11,6 +11,13 @@ public partial class WaitingForRecoverAcResponse
 {
     #region STOP
 
+    /// <summary>
+    /// Handle
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <returns></returns>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
         HandleRequestOutOfSync(session, signal);

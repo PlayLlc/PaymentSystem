@@ -74,6 +74,7 @@ public class S456 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message)
     {
         HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());
@@ -161,6 +162,7 @@ public class S456 : CommonProcessing
 
     /// <remarks>EMV Book C-2 Section S456.2 - S456.4</remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     private bool TryToReadApplicationData(Kernel2Session session)
     {
         if (!session.IsActiveTagEmpty())
@@ -186,6 +188,8 @@ public class S456 : CommonProcessing
     #region S456.8
 
     /// <remarks>EMV Book C-2 Section S456.8</remarks>
+    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private void AttemptToExchangeData(KernelSessionId sessionId)
     {
         if (_DataExchangeKernelService.IsEmpty(DekRequestType.DataNeeded))
@@ -207,6 +211,7 @@ public class S456 : CommonProcessing
 
     /// <remarks>EMV Book C-2 Section S456.6 - S456.10</remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     private bool TryWaitingForFirstWriteFlag(KernelSession session)
     {
         if (!IsProceedToFirstWriteFlagNonZero())
@@ -226,6 +231,7 @@ public class S456 : CommonProcessing
 
     /// <remarks>EMV Book C-2 Section S456.7 - S456.10</remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     private void HandleWaitingForFirstWriteFlag(KernelSession session)
     {
         _DataExchangeKernelService.Resolve(DekRequestType.TagsToRead);
@@ -261,6 +267,7 @@ public class S456 : CommonProcessing
 
     /// <remarks>EMV Book C-2 Section S456.13</remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     private void HandleLevel3Error(KernelSessionId sessionId)
     {
         _Database.Update(StatusOutcome.EndApplication);
@@ -276,6 +283,7 @@ public class S456 : CommonProcessing
 
     /// <remarks>EMV Book C-2 Section S456.14 - S456.15</remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     private bool TryHandlingMaxTransactionAmountExceeded(KernelSessionId sessionId)
     {
         if (!IsMaxTransactionAmountExceeded())
@@ -310,6 +318,7 @@ public class S456 : CommonProcessing
 
     /// <remarks>EMV Book C-2 Section S456.15</remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     private void HandleMaxTransactionAmountExceeded(KernelSessionId sessionId)
     {
         _Database.Update(FieldOffRequestOutcome.NotAvailable);
@@ -345,6 +354,7 @@ public class S456 : CommonProcessing
 
     /// <remarks>EMV Book C-2 Section S456.16 - S456.17.2</remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     private bool TryHandleMandatoryDataObjectsAreMissing(KernelSessionId sessionId)
     {
         if (!AreMandatoryDataObjectsPresent())
@@ -369,6 +379,7 @@ public class S456 : CommonProcessing
 
     /// <remarks>EMV Book C-2 Section S456.18 - S456.20.2</remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     private bool TryHandleIntegratedDataStorageError(KernelSessionId sessionId)
     {
         if (!_Database.IsIdsAndTtrImplemented())
@@ -406,6 +417,7 @@ public class S456 : CommonProcessing
 
     /// <remarks>EMV Book C-2 Section S456.20.1 - S456.20.2</remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     private void HandleIntegratedDataStorageError(KernelSessionId sessionId)
     {
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
@@ -431,6 +443,8 @@ public class S456 : CommonProcessing
     #region S456.22 - S456.23
 
     /// <remarks>EMV Book C-2 Section S456.22 - S456.23</remarks>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     private void AttemptToExchangeDataToSend(KernelSessionId sessionId)
     {
         if (_DataExchangeKernelService.IsEmpty(DekResponseType.DataToSend))
@@ -446,6 +460,7 @@ public class S456 : CommonProcessing
 
     /// <remarks>EMV Book C-2 Section S456.24 - S456.27.2</remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     private bool TryToHandleCdaError(Kernel2Session session)
     {
         if (session.GetOdaStatus() != OdaStatusTypes.Cda)
@@ -465,6 +480,7 @@ public class S456 : CommonProcessing
 
     /// <remarks>EMV Book C-2 Section S456.25</remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     private void AttemptToHandleCdaError()
     {
         if (!AreMandatoryCdaObjectsPresent())
@@ -512,6 +528,7 @@ public class S456 : CommonProcessing
 
     /// <remarks>EMV Book C-2 Section S456.25 continued</remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     private bool IsCaPublicCertificatePresent()
     {
         ApplicationDedicatedFileName applicationName = _Database.Get<ApplicationDedicatedFileName>(ApplicationDedicatedFileName.Tag);
@@ -554,6 +571,7 @@ public class S456 : CommonProcessing
 
     /// <remarks>EMV Book C-2 Section S456.26 - S456.28</remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     private bool TryHandlingStaticDataAuthenticationError(Kernel2Session session)
     {
         if (!_Database.IsPresentAndNotEmpty(StaticDataAuthenticationTagList.Tag))
@@ -593,6 +611,7 @@ public class S456 : CommonProcessing
 
     /// <remarks>EMV Book C-2 Section S456.27.1 - S456.27.2</remarks>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     private void HandleStaticDataAuthenticationError(KernelSessionId sessionId)
     {
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
@@ -704,6 +723,7 @@ public class S456 : CommonProcessing
     #region S456.37 - S456.38
 
     /// <remarks>EMV Book C-2 Section S456.37 - S456.38</remarks>
+    /// <exception cref="TerminalDataException"></exception>
     private void AttemptToSetTransactionExceedsFloorLimitFlag(KernelDatabase database)
     {
         AmountAuthorizedNumeric authorizedAmount = _Database.Get<AmountAuthorizedNumeric>(AmountAuthorizedNumeric.Tag);

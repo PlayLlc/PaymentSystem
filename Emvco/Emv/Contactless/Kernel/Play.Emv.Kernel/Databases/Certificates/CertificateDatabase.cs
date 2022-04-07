@@ -37,6 +37,7 @@ public class CertificateDatabase : ICertificateDatabase
     /// <param name="rid"></param>
     /// <param name="caPublicKeyIndex"></param>
     /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public bool IsRevoked(RegisteredApplicationProviderIndicator rid, CaPublicKeyIndex caPublicKeyIndex)
     {
         if (!TryGet(rid, caPublicKeyIndex, out CaPublicKeyCertificate? result))

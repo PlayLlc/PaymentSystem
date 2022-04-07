@@ -78,6 +78,7 @@ public class StaticDataToBeAuthenticated
     /// <param name="database"></param>
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     public void Enqueue(StaticDataAuthenticationTagList tagList, IReadTlvDatabase database)
     {
         Tag[] requiredTags = tagList.GetRequiredTags();

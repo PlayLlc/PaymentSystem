@@ -34,7 +34,12 @@ public static class NibbleArrayExtensions
 
         return result;
     }
-
+     
+    /// <summary>
+    /// CopyTo
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="buffer"></param>
     /// <exception cref="PlayInternalException"></exception>
     public static void CopyTo(this Nibble[] value, Span<byte> buffer)
     {

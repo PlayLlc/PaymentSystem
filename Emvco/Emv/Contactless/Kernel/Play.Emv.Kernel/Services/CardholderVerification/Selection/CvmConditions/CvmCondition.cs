@@ -73,6 +73,15 @@ internal abstract record CvmCondition
 
     public static bool Exists(CvmConditionCode code) => _Conditions.ContainsKey(code);
 
+    /// <summary>
+    /// IsCvmSupported
+    /// </summary>
+    /// <param name="database"></param>
+    /// <param name="code"></param>
+    /// <param name="xAmount"></param>
+    /// <param name="yAmount"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     public static bool IsCvmSupported(KernelDatabase database, CvmConditionCode code, Money xAmount, Money yAmount)
     {
         if (!_Conditions.ContainsKey(code))
@@ -89,6 +98,12 @@ internal abstract record CvmCondition
 
     public abstract CvmConditionCode GetConditionCode();
 
+    /// <summary>
+    /// IsRequiredDataPresent
+    /// </summary>
+    /// <param name="database"></param>
+    /// <returns></returns>
+    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     private bool IsRequiredDataPresent(IReadTlvDatabase database)
     {
         if (_RequiredData.Length == 0)

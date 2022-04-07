@@ -32,6 +32,9 @@ public partial class WaitingForMagStripeReadRecordResponse
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
@@ -68,6 +71,7 @@ public partial class WaitingForMagStripeReadRecordResponse
     #region S7.4 - S7.6
 
     /// <remarks>EMV Book C-2 Section S7.4 - S7.6</remarks>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandleL1Error(KernelSession session, QueryPcdResponse signal)
     {
         if (!signal.IsSuccessful())
@@ -148,6 +152,13 @@ public partial class WaitingForMagStripeReadRecordResponse
 
     #region S7.11 - S7.16
 
+    /// <summary>
+    /// TryResolveActiveRecords
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="rapdu"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool TryResolveActiveRecords(KernelSession session, ReadRecordResponse rapdu)
     {
         try
@@ -195,6 +206,12 @@ public partial class WaitingForMagStripeReadRecordResponse
 
     #region S7.13.1 - S7.13.2
 
+    /// <summary>
+    /// HandleBerParsingException
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     private void HandleBerParsingException(KernelSession session, QueryPcdResponse signal)
     {
         try
@@ -253,6 +270,12 @@ public partial class WaitingForMagStripeReadRecordResponse
 
     #region S7.20 - S7.21.2
 
+    /// <summary>
+    /// TryHandlingMissingMandatoryObjects
+    /// </summary>
+    /// <param name="sessionId"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandlingMissingMandatoryObjects(KernelSessionId sessionId)
     {
         try
@@ -309,6 +332,7 @@ public partial class WaitingForMagStripeReadRecordResponse
     #region S7.22, S7.24.1 - S7.24.2
 
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool IsMagstripeDataOkay(KernelSessionId sessionId)
     {
         try
@@ -374,6 +398,11 @@ public partial class WaitingForMagStripeReadRecordResponse
 
     #region S7.24.1 - S7.24.2
 
+    /// <summary>
+    /// HandleMagstripeDataIsInvalid
+    /// </summary>
+    /// <param name="sessionId"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     private void HandleMagstripeDataIsInvalid(KernelSessionId sessionId)
     {
         try
@@ -401,6 +430,9 @@ public partial class WaitingForMagStripeReadRecordResponse
     #region S7.23
 
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     private void UpdateDiscretionaryTrackData()
     {
         Track2DiscretionaryData track2DiscretionaryData = _Database.Get<Track2Data>(Track2Data.Tag).GetTrack2DiscretionaryData();

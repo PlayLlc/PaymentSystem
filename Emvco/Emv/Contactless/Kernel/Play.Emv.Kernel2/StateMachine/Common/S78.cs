@@ -51,6 +51,7 @@ public class S78 : CommonProcessing
 
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message)
     {
         HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());
@@ -90,6 +91,7 @@ public class S78 : CommonProcessing
     #region S78.1 - S78.7
 
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool TryWaitingForFirstWriteFlag(KernelSession session)
     {
         if (!IsProceedToFirstWriteFlagNonZero())
@@ -123,6 +125,7 @@ public class S78 : CommonProcessing
     #region S78.3 - S78.6
 
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private void HandleWaitingForFirstWriteFlag(KernelSession session)
     {
         // S78.3
@@ -140,6 +143,7 @@ public class S78 : CommonProcessing
     #region S78.4 - S78.5
 
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private void AttemptToExchangeData(KernelSessionId sessionId)
     {
         if (_DataExchangeKernelService.IsEmpty(DekRequestType.DataNeeded))
@@ -206,6 +210,7 @@ public class S78 : CommonProcessing
     #region S78.10 - S78.11
 
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandlingMaxTransactionAmountExceeded(KernelSessionId sessionId)
     {
         if (!IsMaxTransactionAmountExceeded())
@@ -238,6 +243,7 @@ public class S78 : CommonProcessing
     #region S78.11
 
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private void HandleMaxTransactionAmountExceeded(KernelSessionId sessionId)
     {
         _Database.Update(FieldOffRequestOutcome.NotAvailable);
@@ -254,6 +260,7 @@ public class S78 : CommonProcessing
     #region S78.12 - S78.14
 
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private void HandleDataExchange(KernelSessionId sessionId)
     {
         ResolveKnownTagsToReadYet();

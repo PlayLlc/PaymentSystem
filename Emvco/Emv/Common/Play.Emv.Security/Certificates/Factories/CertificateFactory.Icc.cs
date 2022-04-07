@@ -16,6 +16,7 @@ internal partial class CertificateFactory
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
     /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public DecodedIccPublicKeyCertificate RecoverIccCertificate(
         ITlvReaderAndWriter tlvDatabase, ICertificateDatabase certificateDatabase, StaticDataToBeAuthenticated staticDataToBeAuthenticated)
     {
