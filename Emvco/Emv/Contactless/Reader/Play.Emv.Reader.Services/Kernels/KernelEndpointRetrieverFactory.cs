@@ -2,6 +2,7 @@
 
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
+using Play.Emv.Display.Contracts;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel2.Configuration;
@@ -19,7 +20,7 @@ internal class KernelEndpointRetrieverFactory
     internal static KernelRetriever Create(
         ReaderDatabase readerDatabase, ICleanTornTransactions tornTransactionCleaner, IHandleTerminalRequests terminalEndpoint,
         IKernelEndpoint kernelEndpoint, IHandlePcdRequests pcdEndpoint, IGenerateUnpredictableNumber unpredictableNumberGenerator,
-        IManageTornTransactions tornTransactionsManager)
+        IManageTornTransactions tornTransactionsManager, IHandleDisplayRequests displayEndpoint)
     {
         KernelProcess[] kernels =
         {
@@ -30,7 +31,8 @@ internal class KernelEndpointRetrieverFactory
                                          new Kernel2PersistentValues(readerDatabase.GetPersistentKernelValues(ShortKernelIdTypes.Kernel2)),
                                          new Kernel2KnownObjects(), terminalEndpoint, kernelEndpoint, pcdEndpoint,
                                          unpredictableNumberGenerator, tornTransactionsManager,
-                                         readerDatabase.GetCertificateAuthorityDatasets(new KernelId(ShortKernelIdTypes.Kernel2)))
+                                         readerDatabase.GetCertificateAuthorityDatasets(new KernelId(ShortKernelIdTypes.Kernel2)),
+                                         displayEndpoint)
         };
 
         return new KernelRetriever(kernels.ToDictionary(a => a.GetKernelId(), b => b));
