@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,7 +8,6 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;
-using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Messaging;
 
 namespace Play.Emv.Pcd.Contracts;
@@ -26,7 +24,9 @@ public record ComputeCryptographicChecksumResponse : QueryPcdResponse
 
     public ComputeCryptographicChecksumResponse(
         CorrelationId correlationId, TransactionSessionId transactionSessionId, ReadRecordRApduSignal rApdu) : base(correlationId,
-     MessageTypeId, transactionSessionId, rApdu)
+                                                                                                                    MessageTypeId,
+                                                                                                                    transactionSessionId,
+                                                                                                                    rApdu)
     { }
 
     #endregion
@@ -40,7 +40,7 @@ public record ComputeCryptographicChecksumResponse : QueryPcdResponse
         DecodePrimitiveValues(ResponseMessageTemplate.DecodeData(GetRApduSignal())).ToArray();
 
     /// <summary>
-    /// DecodePrimitiveValues
+    ///     DecodePrimitiveValues
     /// </summary>
     /// <param name="values"></param>
     /// <returns></returns>

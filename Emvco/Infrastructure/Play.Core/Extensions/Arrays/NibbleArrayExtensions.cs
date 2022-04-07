@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Core.Exceptions;
 
@@ -34,9 +28,9 @@ public static class NibbleArrayExtensions
 
         return result;
     }
-     
+
     /// <summary>
-    /// CopyTo
+    ///     CopyTo
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>

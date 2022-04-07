@@ -5,7 +5,6 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.Ber;
-using Play.Emv.Ber.DataElements;
 
 namespace Play.Emv.TestData.Ber.Primitive;
 

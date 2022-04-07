@@ -1,6 +1,5 @@
 ﻿using Play.Emv.Configuration;
 using Play.Emv.Security;
-using Play.Emv.Security.Certificates;
 
 namespace Play.Emv.Terminal.Configuration.ApplicationDependent;
 

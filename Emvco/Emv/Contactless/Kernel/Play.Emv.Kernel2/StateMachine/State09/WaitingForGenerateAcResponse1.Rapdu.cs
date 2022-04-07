@@ -12,7 +12,6 @@ using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
-using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Icc.Messaging.Apdu;
 

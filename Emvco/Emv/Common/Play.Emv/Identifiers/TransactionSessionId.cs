@@ -1,5 +1,4 @@
 ﻿using Play.Emv.Ber;
-using Play.Emv.Ber.DataElements;
 using Play.Randoms;
 
 namespace Play.Emv.Identifiers;
@@ -24,6 +23,13 @@ public readonly struct TransactionSessionId
 
     #endregion
 
+    #region Instance Members
+
+    private static ulong GetConstructorValueTransactionType(TransactionType transactionType) => (ulong) transactionType << (7 * 8);
+    public TransactionType GetTransactionType() => new((byte) (_Value >> (7 * 8)));
+
+    #endregion
+
     #region Equality
 
     public bool Equals(TransactionSessionId transactionSessionId) => transactionSessionId._Value == _Value;
@@ -45,13 +51,6 @@ public readonly struct TransactionSessionId
     public static bool operator ==(TransactionSessionId left, TransactionSessionId right) => left._Value == right._Value;
     public static explicit operator ulong(TransactionSessionId value) => value._Value;
     public static bool operator !=(TransactionSessionId left, TransactionSessionId right) => !(left == right);
-
-    #endregion
-
-    #region Instance Members
-
-    private static ulong GetConstructorValueTransactionType(TransactionType transactionType) => (ulong) transactionType << (7 * 8);
-    public TransactionType GetTransactionType() => new((byte) (_Value >> (7 * 8)));
 
     #endregion
 }

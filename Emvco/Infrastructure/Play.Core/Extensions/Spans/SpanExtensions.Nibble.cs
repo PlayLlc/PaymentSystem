@@ -1,7 +1,5 @@
 ﻿using System;
 
-using Microsoft.Toolkit.HighPerformance.Buffers;
-
 using Play.Core.Exceptions;
 
 namespace Play.Core.Extensions;

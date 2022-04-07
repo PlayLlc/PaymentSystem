@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 using Play.Emv.Ber;
-using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Icc.FileSystem.DedicatedFiles;
 
@@ -26,6 +25,18 @@ public class CombinationCompositeKey : IEquatable<CombinationCompositeKey>, IEqu
         _KernelIdTypes = kernelIdTypes;
         _TransactionType = transactionType;
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public DedicatedFileName GetApplicationId() => _DedicatedFileName;
+    public ShortKernelIdTypes GetKernelId() => _KernelIdTypes;
+
+    public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
+        _DedicatedFileName.GetRegisteredApplicationProviderIdentifier();
+
+    public TransactionType GetTransactionType() => _TransactionType;
 
     #endregion
 
@@ -70,18 +81,6 @@ public class CombinationCompositeKey : IEquatable<CombinationCompositeKey>, IEqu
 
     public static bool operator ==(CombinationCompositeKey left, CombinationCompositeKey right) => left.Equals(right);
     public static bool operator !=(CombinationCompositeKey left, CombinationCompositeKey right) => !left.Equals(right);
-
-    #endregion
-
-    #region Instance Members
-
-    public DedicatedFileName GetApplicationId() => _DedicatedFileName;
-    public ShortKernelIdTypes GetKernelId() => _KernelIdTypes;
-
-    public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
-        _DedicatedFileName.GetRegisteredApplicationProviderIdentifier();
-
-    public TransactionType GetTransactionType() => _TransactionType;
 
     #endregion
 }

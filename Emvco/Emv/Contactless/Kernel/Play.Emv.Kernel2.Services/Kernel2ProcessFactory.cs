@@ -1,7 +1,7 @@
-﻿using Play.Emv.Kernel;
+﻿using Play.Emv.Display.Contracts;
+using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
-using Play.Emv.Kernel.Databases.Certificates;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel2.Configuration;
@@ -20,15 +20,16 @@ public class Kernel2ProcessFactory
         ICleanTornTransactions tornTransactionCleaner, Kernel2Configuration kernel2Configuration,
         Kernel2PersistentValues kernel2PersistentValues, Kernel2KnownObjects knownObjects, IHandleTerminalRequests terminalEndpoint,
         IKernelEndpoint kernelEndpoint, IHandlePcdRequests pcdEndpoint, IGenerateUnpredictableNumber unpredictableNumberGenerator,
-        IManageTornTransactions tornTransactionManager, CertificateAuthorityDataset[] certificates)
+        IManageTornTransactions tornTransactionManager, CertificateAuthorityDataset[] certificates, IHandleDisplayRequests displayEndpoint)
     {
         KernelDatabase kernelDatabase = new(certificates, kernel2PersistentValues, knownObjects);
 
         Kernel2StateResolver kernel2StateResolver = Kernel2StateResolver.Create(tornTransactionCleaner, kernelDatabase,
                                                                                 new DataExchangeKernelService(terminalEndpoint,
-                                                                                 kernelDatabase, kernelEndpoint),
+                                                                                                              kernelDatabase,
+                                                                                                              kernelEndpoint),
                                                                                 tornTransactionManager, terminalEndpoint, kernelEndpoint,
-                                                                                pcdEndpoint, unpredictableNumberGenerator);
+                                                                                pcdEndpoint, unpredictableNumberGenerator, displayEndpoint);
         Kernel2StateMachine stateMachine = new(kernel2StateResolver.GetKernelState(Idle.StateId));
 
         return new Kernel2Process(stateMachine);

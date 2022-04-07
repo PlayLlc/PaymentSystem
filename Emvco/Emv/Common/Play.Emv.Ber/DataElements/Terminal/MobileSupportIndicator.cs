@@ -5,7 +5,6 @@ using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
-using Play.Globalization.Time.Seconds;
 
 namespace Play.Emv.Ber.DataElements;
 

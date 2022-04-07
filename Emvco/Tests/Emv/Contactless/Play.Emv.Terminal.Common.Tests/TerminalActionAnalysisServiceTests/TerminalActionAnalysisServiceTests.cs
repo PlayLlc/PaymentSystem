@@ -6,7 +6,6 @@ using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
-using Play.Emv.Kernel.Services;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
 
 using Xunit;

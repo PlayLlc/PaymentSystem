@@ -9,25 +9,11 @@ using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForGenerateAcResponse1 : KernelState
 {
-    #region Static Metadata
-
-    public static readonly StateId StateId = new(nameof(WaitingForGenerateAcResponse1));
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly S910 _S910;
-    private readonly OfflineBalanceReader _BalanceReader;
-
-    #endregion
-
     #region Constructor
 
     public WaitingForGenerateAcResponse1(
@@ -44,6 +30,14 @@ public partial class WaitingForGenerateAcResponse1 : KernelState
     }
 
     #endregion
+
+    #region Static Metadata
+
+    public static readonly StateId StateId = new(nameof(WaitingForGenerateAcResponse1));
+
+    #endregion
+
+    #region Instance Members
 
     public override StateId GetStateId() => StateId;
 
@@ -64,6 +58,15 @@ public partial class WaitingForGenerateAcResponse1 : KernelState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    #endregion
+
+    #endregion
+
+    #region Instance Values
+
+    private readonly S910 _S910;
+    private readonly OfflineBalanceReader _BalanceReader;
 
     #endregion
 

@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Play.Emv.Ber.ValueTypes;
+﻿namespace Play.Emv.Ber.ValueTypes;
 
 /// <summary>
 ///     Indicates the text string to be displayed, with the different standard messages defined in  Book A section 9.4. If

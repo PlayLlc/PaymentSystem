@@ -16,7 +16,6 @@ using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
-using Play.Emv.Security.Certificates;
 using Play.Emv.Security.Exceptions;
 using Play.Globalization.Time.Seconds;
 using Play.Icc.Exceptions;

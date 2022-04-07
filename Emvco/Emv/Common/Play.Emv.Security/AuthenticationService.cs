@@ -1,8 +1,5 @@
 ﻿using Play.Emv.Ber;
-using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Security.Authentications;
 using Play.Emv.Security.Authentications.Cda;
 using Play.Emv.Security.Authentications.Dda;
 using Play.Emv.Security.Authentications.Sda;

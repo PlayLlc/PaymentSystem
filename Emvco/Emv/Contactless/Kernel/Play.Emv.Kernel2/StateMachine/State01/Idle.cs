@@ -9,7 +9,6 @@ using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel2.StateMachine;
@@ -19,20 +18,7 @@ namespace Play.Emv.Kernel2.StateMachine;
 /// </remarks>
 public partial class Idle : KernelState
 {
-    #region Static Metadata
-
-    public static readonly StateId StateId = new(nameof(Idle));
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly ICleanTornTransactions _KernelCleaner;
-    private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
-
-    #endregion
-
-    #region Instance Members
+    #region Constructor
 
     public Idle(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
@@ -45,6 +31,16 @@ public partial class Idle : KernelState
         _KernelCleaner = kernelCleaner;
         _UnpredictableNumberGenerator = unpredictableNumberGenerator;
     }
+
+    #endregion
+
+    #region Static Metadata
+
+    public static readonly StateId StateId = new(nameof(Idle));
+
+    #endregion
+
+    #region Instance Members
 
     public override StateId GetStateId() => StateId;
 
@@ -59,6 +55,15 @@ public partial class Idle : KernelState
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    #endregion
+
+    #endregion
+
+    #region Instance Values
+
+    private readonly ICleanTornTransactions _KernelCleaner;
+    private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
 
     #endregion
 
@@ -93,8 +98,6 @@ public partial class Idle : KernelState
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    #endregion
 
     #endregion
 }

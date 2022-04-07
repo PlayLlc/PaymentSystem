@@ -10,26 +10,11 @@ using Play.Emv.Kernel.Services.ApplicationCryptograms;
 using Play.Emv.Kernel.State;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForRecoverAcResponse : KernelState
 {
-    #region Static Metadata
-
-    public static readonly StateId StateId = new(nameof(WaitingForRecoverAcResponse));
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly S910 _S910;
-    private readonly IPrepareGenerateApplicationCryptogram _PrepareApplicationCryptogramService;
-    private readonly OfflineBalanceReader _OfflineBalanceReader;
-
-    #endregion
-
     #region Constructor
 
     public WaitingForRecoverAcResponse(
@@ -45,6 +30,14 @@ public partial class WaitingForRecoverAcResponse : KernelState
     }
 
     #endregion
+
+    #region Static Metadata
+
+    public static readonly StateId StateId = new(nameof(WaitingForRecoverAcResponse));
+
+    #endregion
+
+    #region Instance Members
 
     public override StateId GetStateId() => StateId;
 
@@ -65,6 +58,16 @@ public partial class WaitingForRecoverAcResponse : KernelState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    #endregion
+
+    #endregion
+
+    #region Instance Values
+
+    private readonly S910 _S910;
+    private readonly IPrepareGenerateApplicationCryptogram _PrepareApplicationCryptogramService;
+    private readonly OfflineBalanceReader _OfflineBalanceReader;
 
     #endregion
 

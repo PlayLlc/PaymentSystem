@@ -15,7 +15,6 @@ using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
-using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Pcd.Contracts.SignalOut.Queries;
 using Play.Icc.Exceptions;
@@ -229,7 +228,7 @@ public partial class WaitingForRecoverAcResponse
     #region S10.15 - S10.16
 
     /// <summary>
-    /// TryHandlingMissingMandatoryData
+    ///     TryHandlingMissingMandatoryData
     /// </summary>
     /// <param name="session"></param>
     /// <param name="rapdu"></param>
@@ -264,7 +263,7 @@ public partial class WaitingForRecoverAcResponse
     #region S10.16
 
     /// <summary>
-    /// HandleMissingMandatoryData
+    ///     HandleMissingMandatoryData
     /// </summary>
     /// <param name="session"></param>
     /// <param name="rapdu"></param>
@@ -285,7 +284,7 @@ public partial class WaitingForRecoverAcResponse
     #region S10.17 - S10.18
 
     /// <summary>
-    /// TryHandlingInvalidCryptogramInformationData
+    ///     TryHandlingInvalidCryptogramInformationData
     /// </summary>
     /// <param name="session"></param>
     /// <param name="rapdu"></param>
@@ -315,7 +314,7 @@ public partial class WaitingForRecoverAcResponse
     #region S10.18
 
     /// <summary>
-    /// HandleInvalidCryptogramInformationData
+    ///     HandleInvalidCryptogramInformationData
     /// </summary>
     /// <param name="session"></param>
     /// <param name="rapdu"></param>
@@ -336,7 +335,7 @@ public partial class WaitingForRecoverAcResponse
     #region S10.19 - S10.22
 
     /// <summary>
-    /// HandleCda
+    ///     HandleCda
     /// </summary>
     /// <param name="session"></param>
     /// <param name="rapdu"></param>
