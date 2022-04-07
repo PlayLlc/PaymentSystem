@@ -42,6 +42,7 @@ public partial class S910
 
         #region S910.30 - S910.31
 
+        /// <remarks>EMV Book C-2 Section S910.30 - S910.31</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private bool TryHandlingForMissingMandatoryData(KernelSessionId sessionId)
         {
@@ -58,6 +59,7 @@ public partial class S910
 
         #region S910.32
 
+        /// <remarks>EMV Book C-2 Section S910.32</remarks>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
@@ -72,6 +74,7 @@ public partial class S910
 
         #region S910.33
 
+        /// <remarks>EMV Book C-2 Section S910.33</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private bool IsIdsReadFlagSet()
         {
@@ -91,6 +94,7 @@ public partial class S910
 
         #region S910.34, S910.36
 
+        /// <remarks>EMV Book C-2 Section S910.34, S910.36</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private bool IsCdaRequested() =>
             _Database.TryGet(ReferenceControlParameter.Tag, out ReferenceControlParameter? referenceControlParameter)
@@ -100,8 +104,9 @@ public partial class S910
 
         #region S910.35
 
+        /// <remarks>EMV Book C-2 Section S910.35</remarks>
         /// <summary>
-        /// IsApplicationAuthenticationCryptogramRequested
+        ///     IsApplicationAuthenticationCryptogramRequested
         /// </summary>
         /// <returns></returns>
         /// <exception cref="TerminalDataException"></exception>
@@ -118,8 +123,9 @@ public partial class S910
 
         #region S910.37
 
+        /// <remarks>EMV Book C-2 Section S910.37</remarks>
         /// <summary>
-        /// HandleInvalidResponse
+        ///     HandleInvalidResponse
         /// </summary>
         /// <param name="sessionId"></param>
         /// <exception cref="TerminalDataException"></exception>
@@ -133,12 +139,7 @@ public partial class S910
 
         #region S910.38 - S910.39
 
-        /// <summary>
-        /// HandleRelayResistanceData
-        /// </summary>
-        /// <param name="currentGetKernelStateId"></param>
-        /// <param name="session"></param>
-        /// <returns></returns>
+        /// <remarks>EMV Book C-2 Section S910.37</remarks>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
         /// <exception cref="Exception"></exception>
@@ -154,6 +155,7 @@ public partial class S910
 
         #region S910.39
 
+        /// <remarks>EMV Book C-2 Section S910.39</remarks>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="OverflowException"></exception>
         /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
@@ -219,6 +221,7 @@ public partial class S910
 
         #region S910.33, S910.35 - S910.37
 
+        /// <remarks>EMV Book C-2 Section S910.33, S910.35 - S910.37</remarks>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="IccProtocolException"></exception>
@@ -247,12 +250,7 @@ public partial class S910
 
         #region S910.34, S910.38 - S910.39
 
-        /// <summary>
-        /// HandleIsNotAac
-        /// </summary>
-        /// <param name="currentGetKernelStateId"></param>
-        /// <param name="session"></param>
-        /// <returns></returns>
+        /// <remarks>EMV Book C-2 Section S910.34, S910.38 - S910.39</remarks>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
         /// <exception cref="Exception"></exception>

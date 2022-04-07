@@ -14,7 +14,7 @@ public partial class S910
 {
     private partial class ResponseHandler
     {
-        #region Invalid Responses
+        #region Instance Members
 
         #region S910.7.1 - S910.7.2
 

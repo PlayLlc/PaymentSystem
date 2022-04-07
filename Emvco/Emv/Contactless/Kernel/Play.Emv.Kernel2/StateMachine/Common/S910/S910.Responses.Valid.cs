@@ -21,7 +21,7 @@ public partial class S910
 {
     private partial class ResponseHandler
     {
-        #region Valid Responses
+        #region Instance Members
 
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="DataElementParsingException"></exception>
@@ -46,6 +46,7 @@ public partial class S910
 
         #region S910.70
 
+        /// <remarks>EMV Book C-2 Section S910.70</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private void BuildDataRecord()
         {
@@ -57,6 +58,7 @@ public partial class S910
 
         #region S910.71
 
+        /// <remarks>EMV Book C-2 Section S910.71</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private bool TryPreparingOutcomeForSecondTap()
         {
@@ -76,6 +78,7 @@ public partial class S910
 
         #region S910.72
 
+        /// <remarks>EMV Book C-2 Section S910.72</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private void PrepareOutcomeParameterSetForPcii()
         {
@@ -87,6 +90,7 @@ public partial class S910
 
         #region S910.73
 
+        /// <remarks>EMV Book C-2 Section S910.73</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private void AttemptToSetPciiDisplayMessage()
         {
@@ -106,6 +110,7 @@ public partial class S910
 
         #region S910.74 - S910.75
 
+        /// <remarks>EMV Book C-2 Section S910.74 - S910.75</remarks>
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
@@ -125,6 +130,7 @@ public partial class S910
 
         #region S910.74 - S910.75 Shared
 
+        /// <remarks>EMV Book C-2 Section S910.74 - S910.75 Shared</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private bool IsDeclined()
         {
@@ -153,6 +159,7 @@ public partial class S910
 
         #region S910.74 - S910.75 Transaction Cryptogram
 
+        /// <remarks>EMV Book C-2 Section S910.74 - S910.75 Transaction Cryptogram</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private void PrepareOutcomeForTransactionCryptogram()
         {
@@ -178,6 +185,7 @@ public partial class S910
 
         #region S910.74 - S910.75 Application Request Cryptogram
 
+        /// <remarks>EMV Book C-2 Section S910.74 - S910.75 Application Request Cryptogram</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private void PrepareOutcomeForApplicationRequestCryptogram()
         {
@@ -196,6 +204,7 @@ public partial class S910
 
         #region S910.74 - S910.75 Application Authentication Cryptogram
 
+        /// <remarks>EMV Book C-2 Section S910.74 - S910.75 Application Authentication Cryptogram</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private void PrepareOutcomeForApplicationAuthenticationCryptogram()
         {
@@ -219,6 +228,7 @@ public partial class S910
 
         #region S910.76 - S910.78
 
+        /// <remarks>EMV Book C-2 Section S910.76 - S910.78</remarks>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="IccProtocolException"></exception>
         private bool TryWaitingForPutDataResponseAfterGeneratingAc(KernelSessionId sessionId)
@@ -239,6 +249,7 @@ public partial class S910
 
         #region S910.78.1 -S910.81
 
+        /// <remarks>EMV Book C-2 Section S910.78.1 -S910.81</remarks>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         private void HandleOutMessage(Kernel2Session session)
@@ -260,6 +271,7 @@ public partial class S910
 
         #region S910.79 - S910.80
 
+        /// <remarks>EMV Book C-2 Section S910.79 - S910.80</remarks>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         private void HandleDisplayMessageForSecondTapNeeded(Kernel2Session session)
@@ -276,6 +288,7 @@ public partial class S910
 
         #region S910.81
 
+        /// <remarks>EMV Book C-2 Section S910.81</remarks>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         private void HandleDisplayMessage(Kernel2Session session)

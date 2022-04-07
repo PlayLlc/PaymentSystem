@@ -73,6 +73,7 @@ public partial class S910
 
         #region S910.1, S910.4, S910.4.1, S910.3, S910.3.1
 
+        /// <remarks>EMV Book C-2 Section S910.1, S910.4, S910.4.1, S910.3, S910.3.1</remarks>
         /// <summary>
         ///     This method Retrieves the required Public Keys, updates the database with the recovered data, and validates the
         ///     signature of the dynamic data
@@ -109,6 +110,7 @@ public partial class S910
 
         #region S910.2, S910.2.2 - S910.3.1
 
+        /// <remarks>EMV Book C-2 Section S910.2, S910.2.2 - S910.3.1</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private bool TryHandlingIntegratedDataStorageError(
             IGetKernelStateId currentStateIdRetriever, KernelSessionId sessionId, IntegratedDataStorageStatus? integratedDataStorageStatus)
@@ -147,6 +149,7 @@ public partial class S910
 
         #region S910.2
 
+        /// <remarks>EMV Book C-2 Section S910.2</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private bool IsIdsReadFlagSet(IntegratedDataStorageStatus? integratedDataStorageStatus)
         {
@@ -166,6 +169,7 @@ public partial class S910
 
         #region S910.3.1, S910.4.1
 
+        /// <remarks>EMV Book C-2 Section S910.3.1, S910.4.1</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private bool IsMandatoryRelayResistantDataPresent()
         {
@@ -185,8 +189,9 @@ public partial class S910
 
         #endregion
 
-        #region S910.3.1 continued
+        #region S910.3.1
 
+        /// <remarks>EMV Book C-2 Section S910.3.1</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private bool IsRelayResistantDataStorageVersion2DataValid()
         {
@@ -210,6 +215,7 @@ public partial class S910
 
         #region S910.2.1, S910.4 - S910.4.1
 
+        /// <remarks>EMV Book C-2 Section S910.2.1, S910.4 - S910.4.1</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private bool TryHandlingStandaloneDataStorageError(IGetKernelStateId currentStateIdRetriever, KernelSessionId sessionId)
         {
@@ -230,6 +236,7 @@ public partial class S910
 
         #region S910.8 - S910.9
 
+        /// <remarks>EMV Book C-2 Section S910.8 - S910.9</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private bool TryHandlingMissingDataSummary2(IGetKernelStateId currentStateIdRetriever, KernelSessionId sessionId)
         {
@@ -246,6 +253,7 @@ public partial class S910
 
         #region S910.10 - S910.11
 
+        /// <remarks>EMV Book C-2 Section S910.10 - S910.11</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private bool TryHandlingInvalidDataStorageSummary1And2Equality(KernelSessionId sessionId)
         {
@@ -265,6 +273,7 @@ public partial class S910
 
         #region S910.12
 
+        /// <remarks>EMV Book C-2 Section S910.12</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private void SetSuccessfulRead()
         {
@@ -275,6 +284,7 @@ public partial class S910
 
         #region S910.13
 
+        /// <remarks>EMV Book C-2 Section S910.13</remarks>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
@@ -298,6 +308,7 @@ public partial class S910
 
         #region S910.14 - S910.15
 
+        /// <remarks>EMV Book C-2 Section S910.14 - S910.15</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private bool TryHandlingMissingDataSummary3(KernelSessionId sessionId)
         {
@@ -314,6 +325,7 @@ public partial class S910
 
         #region S910.16, S910.18 - S910.19
 
+        /// <remarks>EMV Book C-2 Section S910.16, S910.18 - S910.19</remarks>
         /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
         private bool TryHandlingInvalidDataStorageSummary2And3Equality(KernelSessionId sessionId)
         {

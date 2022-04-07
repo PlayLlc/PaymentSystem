@@ -61,9 +61,9 @@ public partial class OfflineBalanceReader : CommonProcessing
         HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());
 
         if (_PreGenAcBalanceReader.GetValidStateIds().Any(a => a == currentStateIdRetriever.GetStateId()))
-            return _PreGenAcBalanceReader.Process(currentStateIdRetriever, session);
+            return _PreGenAcBalanceReader.Process(currentStateIdRetriever, session, message);
 
-        return _PostGenAcBalanceReader.Process(currentStateIdRetriever, session);
+        return _PostGenAcBalanceReader.Process(currentStateIdRetriever, session, message);
     }
 
     #endregion

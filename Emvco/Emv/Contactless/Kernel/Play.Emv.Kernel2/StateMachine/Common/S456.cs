@@ -143,9 +143,11 @@ public class S456 : CommonProcessing
         if (TryToWriteDataBeforeGeneratingApplicationCryptogram(session.GetTransactionSessionId()))
             return WaitingForPutDataResponseBeforeGenerateAc.StateId;
 
+        // S456.44, S456.47 - S456.49
         if (TryRecoveringTornTransaction(session.GetTransactionSessionId()))
             return WaitingForRecoverAcResponse.StateId;
 
+        // S456.43 - S456.46
         SendGenerateAcCapdu(generateApplicationCryptogramCapdu);
 
         return WaitingForGenerateAcResponse1.StateId;
@@ -782,9 +784,9 @@ public class S456 : CommonProcessing
 
     #region S456.44, S456.47 - S456.49
 
+    /// <remarks>EMV Book C-2 Section S456.44, S456.47 - S456.49</remarks>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    /// <remarks>EMV Book C-2 Section S456.44, S456.47 - S456.49</remarks>
     private bool TryRecoveringTornTransaction(TransactionSessionId sessionId)
     {
         if (!_Database.IsIdsAndTtrImplemented())

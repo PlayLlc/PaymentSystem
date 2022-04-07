@@ -90,6 +90,7 @@ public class S78 : CommonProcessing
 
     #region S78.1 - S78.7
 
+    /// <remarks>EMV Book C-2 Section S78.1 - S78.7</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private bool TryWaitingForFirstWriteFlag(KernelSession session)
@@ -109,6 +110,7 @@ public class S78 : CommonProcessing
 
     #region S78.1
 
+    /// <remarks>EMV Book C-2 Section S78.1</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool IsProceedToFirstWriteFlagEmpty() => !_Database.IsPresentAndNotEmpty(ProceedToFirstWriteFlag.Tag);
 
@@ -116,6 +118,7 @@ public class S78 : CommonProcessing
 
     #region S78.2
 
+    /// <remarks>EMV Book C-2 Section S78.2</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void EnqueueProceedToFirstWriteFlag() =>
         _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, ProceedToFirstWriteFlag.Tag);
@@ -124,6 +127,7 @@ public class S78 : CommonProcessing
 
     #region S78.3 - S78.6
 
+    /// <remarks>EMV Book C-2 Section S78.3 - S78.6</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private void HandleWaitingForFirstWriteFlag(KernelSession session)
@@ -142,6 +146,7 @@ public class S78 : CommonProcessing
 
     #region S78.4 - S78.5
 
+    /// <remarks>EMV Book C-2 Section S78.4 - S78.5</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private void AttemptToExchangeData(KernelSessionId sessionId)
@@ -163,6 +168,7 @@ public class S78 : CommonProcessing
 
     #region S78.7
 
+    /// <remarks>EMV Book C-2 Section S78.7</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool IsProceedToFirstWriteFlagNonZero()
     {
@@ -176,6 +182,7 @@ public class S78 : CommonProcessing
 
     #region S78.8
 
+    /// <remarks>EMV Book C-2 Section S78.8</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool IsAmountAuthorizedEmpty() => !_Database.IsPresentAndNotEmpty(AmountAuthorizedNumeric.Tag);
 
@@ -183,6 +190,7 @@ public class S78 : CommonProcessing
 
     #region S78.9
 
+    /// <remarks>EMV Book C-2 Section S78.9</remarks>
     private void HandleLevel3Error(KernelSessionId sessionId)
     {
         try
@@ -209,6 +217,7 @@ public class S78 : CommonProcessing
 
     #region S78.10 - S78.11
 
+    /// <remarks>EMV Book C-2 Section S78.10 - S78.11</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandlingMaxTransactionAmountExceeded(KernelSessionId sessionId)
@@ -225,6 +234,7 @@ public class S78 : CommonProcessing
 
     #region S78.10
 
+    /// <remarks>EMV Book C-2 Section S78.10</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool IsMaxTransactionAmountExceeded()
     {
@@ -242,6 +252,7 @@ public class S78 : CommonProcessing
 
     #region S78.11
 
+    /// <remarks>EMV Book C-2 Section S78.11</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private void HandleMaxTransactionAmountExceeded(KernelSessionId sessionId)
@@ -259,6 +270,7 @@ public class S78 : CommonProcessing
 
     #region S78.12 - S78.14
 
+    /// <remarks>EMV Book C-2 Section S78.12 - S78.14</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private void HandleDataExchange(KernelSessionId sessionId)
@@ -276,6 +288,7 @@ public class S78 : CommonProcessing
 
     #region S78.12
 
+    /// <remarks>EMV Book C-2 Section S78.12</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void ResolveKnownTagsToReadYet()
     {
@@ -286,6 +299,7 @@ public class S78 : CommonProcessing
 
     #region S78.15
 
+    /// <remarks>EMV Book C-2 Section S78.15</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void GenerateUnpredictableNumber()
     {
@@ -301,6 +315,7 @@ public class S78 : CommonProcessing
 
     #region S78.16 - S78.18
 
+    /// <remarks>EMV Book C-2 Section S78.16 - S78.18</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool TryWaitingForCryptographicCheckSum1(TransactionSessionId sessionId)
     {
@@ -323,6 +338,7 @@ public class S78 : CommonProcessing
 
     #region S78.19 - S78.22
 
+    /// <remarks>EMV Book C-2 Section S78.19 - S78.22</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void HandleWaitingForCryptographicCheckSum2(TransactionSessionId sessionId)
     {
@@ -340,6 +356,7 @@ public class S78 : CommonProcessing
 
     #region S78.19
 
+    /// <remarks>EMV Book C-2 Section S78.19</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool IsCvmRequiredLimitExceeded()
     {
@@ -357,6 +374,7 @@ public class S78 : CommonProcessing
 
     #region S78.20
 
+    /// <remarks>EMV Book C-2 Section S78.20</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void SetOfflinePinRequired()
     {

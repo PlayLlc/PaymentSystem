@@ -8,6 +8,7 @@ using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
+using Play.Messaging;
 
 using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
 
@@ -49,7 +50,7 @@ public partial class OfflineBalanceReader : CommonProcessing
 
         /// <exception cref="RequestOutOfSyncException"></exception>
         /// <exception cref="TerminalDataException"></exception>
-        public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
+        public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message)
         {
             HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());
 

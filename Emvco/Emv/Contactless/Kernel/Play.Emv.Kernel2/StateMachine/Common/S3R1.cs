@@ -337,22 +337,16 @@ public class S3R1 : CommonProcessing
 
     #region S3R1.20
 
+    /// <remarks> EMV Book C-2 Section S3R1.20 </remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    /// <remarks> EMV Book C-2 Section S3R1.20 </remarks>
     private void SetOfflineAuthNotPerformed()
     {
         _Database.Set(TerminalVerificationResultCodes.OfflineDataAuthenticationWasNotPerformed);
     }
 
     #endregion
-
-    #endregion
-
-    #region S3R1.18
-
-    // HELLO!
 
     #endregion
 }
