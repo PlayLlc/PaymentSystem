@@ -5,7 +5,6 @@ using System.Linq;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Kernel.Databases.Certificates;
 using Play.Emv.Security;
 using Play.Emv.Security.Certificates;
 using Play.Encryption.Certificates;
@@ -88,7 +87,7 @@ public partial class KernelDatabase : ICertificateDatabase
         if (!_Certificates.TryGetValue(rid, out CertificateAuthorityDataset? dataset))
         {
             throw new
-                TerminalDataException($"The {nameof(CertificateDatabase)} does not have a {nameof(CertificateAuthorityDataset)} for the {nameof(RegisteredApplicationProviderIndicator)} value: [{rid}]");
+                TerminalDataException($"The {nameof(KernelDatabase)} does not have a {nameof(CertificateAuthorityDataset)} for the {nameof(RegisteredApplicationProviderIndicator)} value: [{rid}]");
         }
 
         return dataset.TryGet(index, out result);

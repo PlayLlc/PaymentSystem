@@ -6,13 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Display\Play.Emv.Display.Contracts\Play.Emv.Display.Contracts.csproj" />
-    <ProjectReference Include="..\..\Terminal\Play.Emv.Terminal.Contracts\Play.Emv.Terminal.Contracts.csproj" />
-    <ProjectReference Include="..\Play.Emv.Kernel.Contracts\Play.Emv.Kernel.Contracts.csproj" />
+    <Compile Remove="Services\SequenceNumberManagement\**" />
+    <EmbeddedResource Remove="Services\SequenceNumberManagement\**" />
+    <None Remove="Services\SequenceNumberManagement\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\SequenceNumberManagement\" />
+    <ProjectReference Include="..\..\Display\Play.Emv.Display.Contracts\Play.Emv.Display.Contracts.csproj" />
+    <ProjectReference Include="..\..\Terminal\Play.Emv.Terminal.Contracts\Play.Emv.Terminal.Contracts.csproj" />
+    <ProjectReference Include="..\Play.Emv.Kernel.Contracts\Play.Emv.Kernel.Contracts.csproj" />
   </ItemGroup>
 
 </Project>
