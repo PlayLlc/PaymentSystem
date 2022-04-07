@@ -7,7 +7,7 @@ using Play.Emv.Messaging;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
-public partial class WaitingForGenerateAcResponse1
+public partial class WaitingForRecoverAcResponse
 {
     #region STOP
 
@@ -15,7 +15,7 @@ public partial class WaitingForGenerateAcResponse1
     {
         HandleRequestOutOfSync(session, signal);
 
-        // CHECK: The S9 algorithm only specified to recursively set the state on a STOP signal. Check the specs to make sure that's valid with all STOP signal rules
+        // CHECK: The S10 algorithm only specified to recursively set the state on a STOP signal. Check the specs to make sure that's valid with all STOP signal rules
         return _KernelStateResolver.GetKernelState(StateId);
     }
 

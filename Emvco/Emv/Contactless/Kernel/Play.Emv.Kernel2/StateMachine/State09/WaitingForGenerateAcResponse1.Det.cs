@@ -11,6 +11,7 @@ public partial class WaitingForGenerateAcResponse1
     {
         HandleRequestOutOfSync(session, signal);
 
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+        // CHECK: The S9 algorithm only specified to recursively set the state on a STOP signal. Check the specs to make sure that's valid with all STOP signal rules
+        return _KernelStateResolver.GetKernelState(StateId);
     }
 }

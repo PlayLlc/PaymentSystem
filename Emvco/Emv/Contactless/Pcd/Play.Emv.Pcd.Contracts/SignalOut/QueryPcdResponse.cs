@@ -43,7 +43,8 @@ public record QueryPcdResponse : ResponseSignal
     #region Instance Members
 
     public bool IsTransactionActive(TransactionSessionId currentTransactionSession) => _TransactionSessionId == currentTransactionSession;
-    public bool IsSuccessful() => _RApduSignal.IsSuccessful();
+    public bool IsLevel1ErrorPresent() => GetLevel1Error() != Level1Error.Ok;
+    public bool IsLevel2ErrorPresent() => GetStatusWords() != StatusWords._9000;
     public TransactionSessionId GetTransactionSessionId() => _TransactionSessionId;
     public TagLengthValue[] AsTagLengthValues() => _Codec.DecodeTagLengthValues(GetData().AsSpan());
     public RApduSignal GetRApduSignal() => _RApduSignal;

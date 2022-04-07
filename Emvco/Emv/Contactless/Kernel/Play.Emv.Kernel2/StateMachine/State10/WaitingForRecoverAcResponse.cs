@@ -1,10 +1,12 @@
-﻿using Play.Emv.Exceptions;
+﻿using Play.Emv.Display.Contracts;
+using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
+using Play.Emv.Kernel.Services.ApplicationCryptograms;
 using Play.Emv.Kernel.State;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
@@ -12,7 +14,7 @@ using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
-public class WaitingForRecoverAcResponse : KernelState
+public partial class WaitingForRecoverAcResponse : KernelState
 {
     #region Static Metadata
 
@@ -20,13 +22,27 @@ public class WaitingForRecoverAcResponse : KernelState
 
     #endregion
 
+    #region Instance Values
+
+    private readonly S910 _S910;
+    private readonly IPrepareGenerateApplicationCryptogram _PrepareApplicationCryptogramService;
+    private readonly OfflineBalanceReader _OfflineBalanceReader;
+
+    #endregion
+
     #region Constructor
 
     public WaitingForRecoverAcResponse(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint) :
-        base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver, pcdEndpoint)
-    { }
+        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IHandleDisplayRequests displayEndpoint, S910 s910, IPrepareGenerateApplicationCryptogram prepareApplicationCryptogramService,
+        OfflineBalanceReader offlineBalanceReader) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager,
+                                                          kernelStateResolver, pcdEndpoint, displayEndpoint)
+    {
+        _S910 = s910;
+        _PrepareApplicationCryptogramService = prepareApplicationCryptogramService;
+        _OfflineBalanceReader = offlineBalanceReader;
+    }
 
     #endregion
 
@@ -36,20 +52,6 @@ public class WaitingForRecoverAcResponse : KernelState
 
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, ActivateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    #endregion
-
-    #region STOP
-
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, StopKernelRequest signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
@@ -67,6 +69,8 @@ public class WaitingForRecoverAcResponse : KernelState
     #endregion
 
     #region DET
+
+    // BUG: Need to make sure you're properly implementing each DEK handler for each state
 
     /// <summary>
     ///     Handle
@@ -86,30 +90,6 @@ public class WaitingForRecoverAcResponse : KernelState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    #endregion
-
-    #region RAPDU
-
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion

@@ -34,26 +34,26 @@ public partial class WaitingForGenerateAcResponse1
     {
         HandleRequestOutOfSync(session, signal);
 
+        GenerateApplicationCryptogramResponse rapdu = (GenerateApplicationCryptogramResponse) signal;
+
         if (TryHandleL1Error(session.GetKernelSessionId(), signal))
             return _KernelStateResolver.GetKernelState(StateId);
 
         Kernel2Session kernel2Session = (Kernel2Session) session;
 
-        if (TryHandleLevel2StatusByteError(kernel2Session, (GenerateApplicationCryptogramResponse) signal,
-                                           out StateId? stateIdForStatusByteErrorFlow))
+        if (TryHandleLevel2StatusByteError(kernel2Session, rapdu, out StateId? stateIdForStatusByteErrorFlow))
             return _KernelStateResolver.GetKernelState(stateIdForStatusByteErrorFlow!.Value);
 
-        if (TryHandleLevel2ParsingError(kernel2Session, (GenerateApplicationCryptogramResponse) signal,
-                                        out StateId? stateIdForParsingErrorFlow))
+        if (TryHandleLevel2ParsingError(kernel2Session, rapdu, out StateId? stateIdForParsingErrorFlow))
             return _KernelStateResolver.GetKernelState(stateIdForParsingErrorFlow!.Value);
 
-        if (TryHandleMissingMandatoryDataObjects(kernel2Session, out StateId? stateIdForMissingMandatoryDataObjectsFlow))
+        if (TryHandleMissingMandatoryDataObjects(kernel2Session, rapdu, out StateId? stateIdForMissingMandatoryDataObjectsFlow))
             return _KernelStateResolver.GetKernelState(stateIdForMissingMandatoryDataObjectsFlow!.Value);
 
-        if (TryHandleInvalidCryptogramInformationData(kernel2Session, out StateId? stateIdForInvalidCryptogramInformationDataFlow))
+        if (TryHandleInvalidCryptogramInformationData(kernel2Session, rapdu, out StateId? stateIdForInvalidCryptogramInformationDataFlow))
             return _KernelStateResolver.GetKernelState(stateIdForInvalidCryptogramInformationDataFlow!.Value);
 
-        return _KernelStateResolver.GetKernelState(HandleAuthentication(kernel2Session, signal));
+        return _KernelStateResolver.GetKernelState(HandleAuthentication(kernel2Session, rapdu));
     }
 
     #region S9.5 - S9.15 - L1RSP
@@ -201,7 +201,7 @@ public partial class WaitingForGenerateAcResponse1
 
         SetLevel2StatusByteError(rapdu);
 
-        stateId = _S910.Process(this, session);
+        stateId = _S910.Process(this, session, rapdu);
 
         return true;
     }
@@ -234,14 +234,14 @@ public partial class WaitingForGenerateAcResponse1
         catch (TerminalDataException)
         {
             // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-            stateId = HandleLevel2ParsingError(session);
+            stateId = HandleLevel2ParsingError(session, rapdu);
 
             return true;
         }
         catch (Exception)
         {
             // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-            stateId = HandleLevel2ParsingError(session);
+            stateId = HandleLevel2ParsingError(session, rapdu);
 
             return true;
         }
@@ -252,11 +252,11 @@ public partial class WaitingForGenerateAcResponse1
     #region S920
 
     /// <exception cref="TerminalDataException"></exception>
-    private StateId HandleLevel2ParsingError(Kernel2Session session)
+    private StateId HandleLevel2ParsingError(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
     {
         _Database.Update(Level2Error.ParsingError);
 
-        return _S910.Process(this, session);
+        return _S910.Process(this, session, rapdu);
     }
 
     #endregion
@@ -264,18 +264,19 @@ public partial class WaitingForGenerateAcResponse1
     #region S921 - S922
 
     /// <exception cref="TerminalDataException"></exception>
-    private bool TryHandleMissingMandatoryDataObjects(Kernel2Session session, out StateId? stateId)
+    private bool TryHandleMissingMandatoryDataObjects(
+        Kernel2Session session, GenerateApplicationCryptogramResponse rapdu, out StateId? stateId)
     {
         if (!_Database.IsPresentAndNotEmpty(ApplicationTransactionCounter.Tag))
         {
-            stateId = HandleMissingMandatoryDataObjects(session);
+            stateId = HandleMissingMandatoryDataObjects(session, rapdu);
 
             return true;
         }
 
         if (!_Database.IsPresentAndNotEmpty(CryptogramInformationData.Tag))
         {
-            stateId = HandleMissingMandatoryDataObjects(session);
+            stateId = HandleMissingMandatoryDataObjects(session, rapdu);
 
             return true;
         }
@@ -290,11 +291,11 @@ public partial class WaitingForGenerateAcResponse1
     #region S922
 
     /// <exception cref="TerminalDataException"></exception>
-    private StateId HandleMissingMandatoryDataObjects(Kernel2Session session)
+    private StateId HandleMissingMandatoryDataObjects(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
     {
         _Database.Update(Level2Error.CardDataMissing);
 
-        return _S910.Process(this, session);
+        return _S910.Process(this, session, rapdu);
     }
 
     #endregion
@@ -302,13 +303,14 @@ public partial class WaitingForGenerateAcResponse1
     #region S923 - S924
 
     /// <exception cref="TerminalDataException"></exception>
-    private bool TryHandleInvalidCryptogramInformationData(Kernel2Session session, out StateId? stateId)
+    private bool TryHandleInvalidCryptogramInformationData(
+        Kernel2Session session, GenerateApplicationCryptogramResponse rapdu, out StateId? stateId)
     {
         CryptogramInformationData cid = _Database.Get<CryptogramInformationData>(CryptogramInformationData.Tag);
 
         if (!cid.IsValid(_Database))
         {
-            stateId = HandleInvalidCryptogramInformationData(session);
+            stateId = HandleInvalidCryptogramInformationData(session, rapdu);
 
             return true;
         }
@@ -322,11 +324,11 @@ public partial class WaitingForGenerateAcResponse1
 
     #region S924
 
-    private StateId HandleInvalidCryptogramInformationData(Kernel2Session session)
+    private StateId HandleInvalidCryptogramInformationData(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
     {
         _Database.Update(Level2Error.CardDataError);
 
-        return _S910.Process(this, session);
+        return _S910.Process(this, session, rapdu);
     }
 
     #endregion
@@ -334,15 +336,15 @@ public partial class WaitingForGenerateAcResponse1
     #region S925 - S928
 
     /// <exception cref="TerminalDataException"></exception>
-    private StateId HandleAuthentication(Kernel2Session session, QueryPcdResponse message)
+    private StateId HandleAuthentication(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
     {
-        _BalanceReader.Process(this, session, message);
+        _BalanceReader.Process(this, session, rapdu);
 
         if (!IsPosGenAcWriteNeeded())
             SetDisplayMessage();
 
         // S928 is executed in the common object S910
-        return _S910.Process(this, session);
+        return _S910.Process(this, session, rapdu);
     }
 
     #endregion

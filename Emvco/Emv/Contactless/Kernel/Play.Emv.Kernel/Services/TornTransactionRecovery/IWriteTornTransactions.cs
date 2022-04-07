@@ -6,7 +6,11 @@ namespace Play.Emv.Kernel.Services;
 
 public interface IWriteTornTransactions
 {
+    #region Instance Members
+
     public bool TryAddAndDisplace(ITlvReaderAndWriter value, out TornRecord? displacedRecord);
     public bool TryDequeue(out TornRecord? result);
     public TornRecord[]? Truncate(KernelDatabase database);
+
+    #endregion
 }
