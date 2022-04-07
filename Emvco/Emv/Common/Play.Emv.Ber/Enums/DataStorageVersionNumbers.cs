@@ -4,7 +4,7 @@ using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.Enums;
 
-public sealed record DataStorageVersionNumbers : EnumObject<DataStorageVersionNumber>
+public sealed record DataStorageVersionNumbers : EnumObject<byte>
 {
     #region Static Metadata
 
@@ -12,7 +12,7 @@ public sealed record DataStorageVersionNumbers : EnumObject<DataStorageVersionNu
     public static readonly DataStorageVersionNumbers Version1 = new(0b1);
     public static readonly DataStorageVersionNumbers Version2 = new(0b10);
 
-    private static readonly Dictionary<DataStorageVersionNumber, DataStorageVersionNumbers> _ValueMap = new()
+    private static readonly Dictionary<byte, DataStorageVersionNumbers> _ValueMap = new()
     {
         {NotSupported, NotSupported}, {Version1, Version1}, {Version2, Version2}
     };

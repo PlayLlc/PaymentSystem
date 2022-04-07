@@ -24,7 +24,7 @@ public readonly record struct DataStorageVersionNumber
 
     #region Operator Overrides
 
-    public static explicit operator byte(DataStorageVersionNumber value) => value._Value;
+    public static implicit operator byte(DataStorageVersionNumber value) => value._Value;
 
     #endregion
 }

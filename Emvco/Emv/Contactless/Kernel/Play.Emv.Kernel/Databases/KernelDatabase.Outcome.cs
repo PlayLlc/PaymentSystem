@@ -1,6 +1,5 @@
 ﻿using System;
 
-using Play.Ber.Exceptions;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
@@ -31,7 +30,7 @@ public partial class KernelDatabase
     #region Read
 
     /// <summary>
-    /// GetDataStorageSummaryStatus
+    ///     GetDataStorageSummaryStatus
     /// </summary>
     /// <returns></returns>
     /// <exception cref="TerminalDataException"></exception>

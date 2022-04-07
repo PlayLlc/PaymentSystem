@@ -9,8 +9,6 @@ using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Security;
-using Play.Emv.Security.Authentications;
 
 namespace Play.Emv.Kernel.Services;
 
@@ -19,10 +17,14 @@ namespace Play.Emv.Kernel.Services;
 /// </remarks>
 public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 {
-    #region Instance Members
+    #region Constructor
 
     public TerminalActionAnalysisService()
     { }
+
+    #endregion
+
+    #region Instance Members
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>

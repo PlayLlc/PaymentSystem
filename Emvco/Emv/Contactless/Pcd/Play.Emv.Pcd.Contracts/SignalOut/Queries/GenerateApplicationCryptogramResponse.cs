@@ -27,11 +27,9 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
     #region Constructor
 
     public GenerateApplicationCryptogramResponse(
-        IWriteIccSecuritySessionData session, CorrelationId correlation, TransactionSessionId transactionSessionId,
-        GenerateApplicationCryptogramRApduSignal response) : base(correlation, MessageTypeId, transactionSessionId, response)
-    {
-        session.Update(this);
-    }
+        CorrelationId correlation, TransactionSessionId transactionSessionId, GenerateApplicationCryptogramRApduSignal response) :
+        base(correlation, MessageTypeId, transactionSessionId, response)
+    { }
 
     #endregion
 

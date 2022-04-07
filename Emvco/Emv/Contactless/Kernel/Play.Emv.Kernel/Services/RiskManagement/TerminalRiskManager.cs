@@ -5,13 +5,12 @@ using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Kernel.Services.SplitPayment;
-using Play.Emv.Logs;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
 using Play.Globalization.Currency;
 
 namespace Play.Emv.Kernel.Services;
 
-// TODO: Not sure if we're supposed to cross reference the sequence number and only check that, or if we're supposed to be stopping some kind of rapid attack. Both would make sense separately but checking sequence wouldn't make sense for risk
+// CHECK: Not sure if we're supposed to cross reference the sequence number and only check that, or if we're supposed to be stopping some kind of rapid attack. Both would make sense separately but checking sequence wouldn't make sense for risk
 /// <summary>
 ///     Terminal risk management is that portion of risk management performed by the terminal to protect the acquirer,
 ///     issuer, and system from fraud.
@@ -135,9 +134,10 @@ internal class TerminalRiskManager : IManageTerminalRisk
             return false;
 
         return await _PercentageSelectionQueue.IsRandomSelection(GetTransactionTargetPercentage(amountAuthorizedNumeric, terminalFloorLimit,
-                                                                  biasedRandomSelectionThreshold,
-                                                                  biasedRandomSelectionMaximumTargetPercentage,
-                                                                  randomSelectionTargetPercentage)).ConfigureAwait(false);
+                                                                                                biasedRandomSelectionThreshold,
+                                                                                                biasedRandomSelectionMaximumTargetPercentage,
+                                                                                                randomSelectionTargetPercentage))
+            .ConfigureAwait(false);
     }
 
     // TODO: Not sure if we're supposed to be looking at sequence number here 

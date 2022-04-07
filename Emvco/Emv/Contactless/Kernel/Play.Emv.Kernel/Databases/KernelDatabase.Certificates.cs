@@ -6,7 +6,6 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Security;
-using Play.Emv.Security.Certificates;
 using Play.Encryption.Certificates;
 using Play.Icc.FileSystem.DedicatedFiles;
 

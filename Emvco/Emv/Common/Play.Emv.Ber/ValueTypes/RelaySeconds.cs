@@ -119,7 +119,7 @@ public readonly record struct RelaySeconds
     public static bool operator >=(RelaySeconds left, RelaySeconds right) => left._Value >= right._Value;
     public static bool operator >=(RelaySeconds left, TimeSpan right) => left.AsTimeSpan() >= right;
     public static bool operator >=(TimeSpan left, RelaySeconds right) => right.AsTimeSpan() >= left;
-    public static implicit operator TimeSpan(RelaySeconds value) => value.AsTimeSpan();
+    public static explicit operator TimeSpan(RelaySeconds value) => value.AsTimeSpan();
     public static implicit operator RelaySeconds(TimeSpan value) => new(value);
     public static implicit operator RelaySeconds(int value) => new((uint) value);
     public static bool operator !=(RelaySeconds left, TimeSpan right) => !left.Equals(right);
