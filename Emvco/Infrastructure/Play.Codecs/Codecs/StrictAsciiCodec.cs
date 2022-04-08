@@ -17,10 +17,10 @@ public class StrictAsciiCodec
     private static readonly Encoding _ErrorDetectingEncoder = GetEncoder();
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMappers =
-        Enumerable.Range(32, 126 - 32).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
+        Enumerable.Range(32, (126 - 32) + 1).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
 
     private static readonly ImmutableSortedDictionary<byte, char> _CharMapper =
-        Enumerable.Range(32, 126 - 32).ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
+        Enumerable.Range(32, (126 - 32) + 1).ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
 
     private const byte _MinByteDecimal = 32;
     private const byte _MaxByteDecimal = 126;

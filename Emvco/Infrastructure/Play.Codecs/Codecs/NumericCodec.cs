@@ -501,148 +501,134 @@ public class NumericCodec : PlayCodec
 
     public byte[] Encode(byte value)
     {
-        return new[] {value};
+        byte numberOfDigits = value.GetNumberOfDigits();
+        byte[] buffer = new byte[(numberOfDigits / 2) + (numberOfDigits % 2)];
+
+        for (int i = buffer.Length - 1; i >= 0; i--)
+        {
+            buffer[i] = (byte) (value % 10);
+            value /= 10;
+            buffer[i] += (byte) ((value % 10) * 10);
+            value /= 10;
+        }
+
+        return buffer;
     }
 
     public byte[] Encode(ushort value)
     {
-        const byte byteSize = Specs.Integer.UInt16.ByteCount;
         byte numberOfDigits = value.GetNumberOfDigits();
-        int numberOfBytes = (numberOfDigits / 2) + (numberOfDigits % 2);
+        byte[] buffer = new byte[(numberOfDigits / 2) + (numberOfDigits % 2)];
 
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(byteSize);
-        Span<byte> buffer = spanOwner.Span;
-
-        for (int i = byteSize - numberOfBytes, j = (numberOfBytes * 2) - 1; i < byteSize; i++, j -= 2)
+        for (int i = buffer.Length - 1; i >= 0; i--)
         {
-            buffer[i] = (byte) ((value / Math.Pow(10, j - 1)) % 10);
-            buffer[i] |= (byte) ((byte) ((value / Math.Pow(10, j)) % 10) << 4);
+            buffer[i] = (byte) (value % 10);
+            value /= 10;
+            buffer[i] += (byte) ((value % 10) * 10);
+            value /= 10;
         }
 
-        return buffer.ToArray();
-    }
-
-    public byte[] Encode(uint value)
-    {
-        const byte byteSize = Specs.Integer.UInt32.ByteCount;
-        byte numberOfDigits = value.GetNumberOfDigits();
-        int numberOfBytes = (numberOfDigits / 2) + (numberOfDigits % 2);
-
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(byteSize);
-        Span<byte> buffer = spanOwner.Span;
-
-        for (int i = byteSize - numberOfBytes, j = (numberOfBytes * 2) - 1; i < byteSize; i++, j -= 2)
-        {
-            buffer[i] = (byte) ((value / Math.Pow(10, j - 1)) % 10);
-            buffer[i] |= (byte) ((byte) ((value / Math.Pow(10, j)) % 10) << 4);
-        }
-
-        return buffer.ToArray();
+        return buffer;
     }
 
     public byte[] Encode(uint value, int length)
     {
-        byte numberOfDigits = value.GetNumberOfDigits();
-        int numberOfBytes = (numberOfDigits / 2) + (numberOfDigits % 2);
+        byte[] buffer = new byte[length];
 
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(length);
-        Span<byte> buffer = spanOwner.Span;
-
-        for (int i = length - numberOfBytes, j = (numberOfBytes * 2) - 1; i < length; i++, j -= 2)
+        for (int i = buffer.Length - 1; i >= 0; i--)
         {
-            buffer[i] = (byte) ((value / Math.Pow(10, j - 1)) % 10);
-            buffer[i] |= (byte) ((byte) ((value / Math.Pow(10, j)) % 10) << 4);
+            buffer[i] = (byte) (value % 10);
+            value /= 10;
+            buffer[i] += (byte) ((value % 10) * 10);
+            value /= 10;
         }
 
-        return buffer.ToArray();
+        return buffer;
+    }
+
+    public byte[] Encode(uint value)
+    {
+        byte numberOfDigits = value.GetNumberOfDigits();
+        byte[] buffer = new byte[(numberOfDigits / 2) + (numberOfDigits % 2)];
+
+        for (int i = buffer.Length - 1; i >= 0; i--)
+        {
+            buffer[i] = (byte) (value % 10);
+            value /= 10;
+            buffer[i] += (byte) ((value % 10) * 10);
+            value /= 10;
+        }
+
+        return buffer;
     }
 
     public byte[] Encode(ulong value)
     {
-        const byte byteSize = Specs.Integer.UInt64.ByteCount;
         byte numberOfDigits = value.GetNumberOfDigits();
-        int numberOfBytes = (numberOfDigits / 2) + (numberOfDigits % 2);
+        byte[] buffer = new byte[(numberOfDigits / 2) + (numberOfDigits % 2)];
 
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(byteSize);
-        Span<byte> buffer = spanOwner.Span;
-
-        for (int i = byteSize - numberOfBytes, j = (numberOfBytes * 2) - 1; i < byteSize; i++, j -= 2)
+        for (int i = buffer.Length - 1; i >= 0; i--)
         {
-            buffer[i] = (byte) ((value / Math.Pow(10, j - 1)) % 10);
-            buffer[i] |= (byte) ((byte) ((value / Math.Pow(10, j)) % 10) << 4);
+            buffer[i] = (byte) (value % 10);
+            value /= 10;
+            buffer[i] += (byte) ((value % 10) * 10);
+            value /= 10;
         }
 
-        return buffer.ToArray();
+        return buffer;
     }
 
     public byte[] Encode(ulong value, int length)
     {
-        byte numberOfDigits = value.GetNumberOfDigits();
-        int numberOfBytes = (numberOfDigits / 2) + (numberOfDigits % 2);
+        byte[] buffer = new byte[length];
 
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(length);
-        Span<byte> buffer = spanOwner.Span;
-
-        for (int i = length - numberOfBytes, j = (numberOfBytes * 2) - 1; i < length; i++, j -= 2)
+        for (int i = buffer.Length - 1; i >= 0; i--)
         {
-            buffer[i] = (byte) ((value / Math.Pow(10, j - 1)) % 10);
-            buffer[i] |= (byte) ((byte) ((value / Math.Pow(10, j)) % 10) << 4);
+            buffer[i] = (byte) (value % 10);
+            value /= 10;
+            buffer[i] += (byte) ((value % 10) * 10);
+            value /= 10;
         }
 
-        return buffer.ToArray();
+        return buffer;
     }
 
     // TODO: This is likely wrong
     public byte[] Encode(BigInteger value)
     {
         byte numberOfDigits = value.GetNumberOfDigits();
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate((numberOfDigits % 2) + (numberOfDigits / 2));
-        Span<byte> buffer = spanOwner.Span;
+        byte[] buffer = new byte[(numberOfDigits / 2) + (numberOfDigits % 2)];
 
-        for (int i = (buffer.Length * 2) - numberOfDigits, j = numberOfDigits - 1; i < (buffer.Length * 2); i++, j--)
+        for (int i = buffer.Length - 1; i >= 0; i--)
         {
-            if ((i % 2) == 0)
-                buffer[i / 2] = (byte) ((byte) ((value / (BigInteger) Math.Pow(10, j)) % 10) << 4);
-            else
-                buffer[i / 2] |= (byte) ((value / (BigInteger) Math.Pow(10, j)) % 10);
+            buffer[i] = (byte) (value % 10);
+            value /= 10;
+            buffer[i] += (byte) ((value % 10) * 10);
+            value /= 10;
         }
 
-        return buffer.ToArray();
+        return buffer;
     }
 
     // TODO: This is likely wrong
+    /// <exception cref="OverflowException"></exception>
     public byte[] Encode(BigInteger value, int length)
     {
-        byte numberOfDigits = value.GetNumberOfDigits();
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate((numberOfDigits % 2) + (numberOfDigits / 2));
-        Span<byte> buffer = spanOwner.Span;
-        int numberOfBytes = (numberOfDigits / 2) + (numberOfDigits % 2);
+        byte[] buffer = new byte[length];
 
-        if (length == numberOfBytes)
-            return Encode(value);
-
-        if (length > numberOfBytes)
+        for (int i = buffer.Length - 1; i >= 0; i--)
         {
-            for (int i = length - numberOfBytes, j = numberOfDigits - 1; i < length; i++, j--)
-            {
-                if ((i % 2) == 0)
-                    buffer[i / 2] = (byte) ((byte) ((value / (BigInteger) Math.Pow(10, j)) % 10) << 4);
-                else
-                    buffer[i / 2] |= (byte) ((value / (BigInteger) Math.Pow(10, j)) % 10);
-            }
+            buffer[i] = (byte) (value % 10);
+            value /= 10;
 
-            return buffer.ToArray();
+            if (value == 0)
+                break;
+
+            buffer[i] += (byte) ((value % 10) * 10);
+            value /= 10;
         }
 
-        for (int i = length - numberOfBytes, j = numberOfDigits - (numberOfDigits - (length * 2)) - 1; i < length; i++, j--)
-        {
-            if ((i % 2) == 0)
-                buffer[i / 2] = (byte) ((byte) ((value / (BigInteger) Math.Pow(10, j)) % 10) << 4);
-            else
-                buffer[i / 2] |= (byte) ((value / (BigInteger) Math.Pow(10, j)) % 10);
-        }
-
-        return buffer.ToArray();
+        return buffer;
     }
 
     public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
@@ -757,15 +743,15 @@ public class NumericCodec : PlayCodec
     /// <exception cref="CodecParsingException"></exception>
     public BigInteger DecodeToBigInteger(ReadOnlySpan<byte> value)
     {
-        for (byte i = 0; i < value.Length; i++)
+        BigInteger resultBuffer = 0;
+
+        for (int i = value.Length - 1, j = 0; i >= 0; i--, j += 2)
         {
-            if (!IsValid(value))
-                throw new ArgumentOutOfRangeException(nameof(value));
+            resultBuffer += (BigInteger) ((value[i] % 10) * Math.Pow(10, j));
+            resultBuffer += (BigInteger) (((value[i] / 10) % 10) * Math.Pow(10, j + 1));
         }
 
-        BigInteger result = 0;
-
-        return BuildInteger(result, value);
+        return resultBuffer;
     }
 
     public byte DecodeToByte(ReadOnlySpan<byte> value)
@@ -783,12 +769,12 @@ public class NumericCodec : PlayCodec
     /// <exception cref="CodecParsingException"></exception>
     public byte DecodeToByte(byte value)
     {
-        Validate(value);
+        byte resultBuffer = 0;
 
-        int leftNibble = value >> 4;
-        byte rightNibble = (byte) (value & ~0xF0);
+        resultBuffer += (byte) (value % 10);
+        resultBuffer += (byte) (((value / 10) % 10) * 10);
 
-        return (byte) ((leftNibble * 10) + rightNibble);
+        return resultBuffer;
     }
 
     /// <summary>
@@ -799,9 +785,15 @@ public class NumericCodec : PlayCodec
     /// <exception cref="CodecParsingException"></exception>
     public uint DecodeToUInt32(ReadOnlySpan<byte> value)
     {
-        uint result = 0;
+        uint resultBuffer = 0;
 
-        return (uint) BuildInteger(result, value);
+        for (int i = value.Length - 1, j = 0; i >= 0; i--, j += 2)
+        {
+            resultBuffer += (uint) ((value[i] % 10) * Math.Pow(10, j));
+            resultBuffer += (uint) (((value[i] / 10) % 10) * Math.Pow(10, j + 1));
+        }
+
+        return resultBuffer;
     }
 
     /// <summary>
@@ -812,9 +804,15 @@ public class NumericCodec : PlayCodec
     /// <exception cref="CodecParsingException"></exception>
     public ulong DecodeToUInt64(ReadOnlySpan<byte> value)
     {
-        ulong result = 0;
+        ulong resultBuffer = 0;
 
-        return (ulong) BuildInteger(result, value);
+        for (int i = value.Length - 1, j = 0; i >= 0; i--, j += 2)
+        {
+            resultBuffer += (ulong) ((value[i] % 10) * Math.Pow(10, j));
+            resultBuffer += (ulong) (((value[i] / 10) % 10) * Math.Pow(10, j + 1));
+        }
+
+        return resultBuffer;
     }
 
     /// <summary>
@@ -825,9 +823,15 @@ public class NumericCodec : PlayCodec
     /// <exception cref="CodecParsingException"></exception>
     public ushort DecodeToUInt16(ReadOnlySpan<byte> value)
     {
-        ushort result = 0;
+        ushort resultBuffer = 0;
 
-        return (ushort) BuildInteger(result, value);
+        for (int i = value.Length - 1, j = 0; i >= 0; i--, j += 2)
+        {
+            resultBuffer += (ushort) ((value[i] % 10) * Math.Pow(10, j));
+            resultBuffer += (ushort) (((value[i] / 10) % 10) * Math.Pow(10, j + 1));
+        }
+
+        return resultBuffer;
     }
 
     private static byte DecodeToByte(char leftChar, char rightChar)
@@ -837,46 +841,6 @@ public class NumericCodec : PlayCodec
         result += _ByteMap[rightChar];
 
         return result;
-    }
-
-    /// <summary>
-    ///     BuildInteger
-    /// </summary>
-    /// <param name="resultBuffer"></param>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="CodecParsingException"></exception>
-    private dynamic BuildInteger(dynamic resultBuffer, ReadOnlySpan<byte> value)
-    {
-        if (resultBuffer != byte.MinValue)
-            resultBuffer = 0;
-
-        for (int i = 0, j = (value.Length * 2) - 2; i < value.Length; i++, j -= 2)
-            resultBuffer += DecodeToByte(value[i]) * Math.Pow(10, j);
-
-        return resultBuffer;
-    }
-
-    #endregion
-
-    #region Decode To Nibbles
-
-    /// <exception cref="OverflowException"></exception>
-    public Nibble[] DecodeToNibbles(ReadOnlySpan<byte> value) => value.AsNibbleArray();
-
-    /// <exception cref="OverflowException"></exception>
-    public bool TryDecodingToNibbles(ReadOnlySpan<byte> value, out Nibble[] result)
-    {
-        if (!IsValid(value))
-        {
-            result = Array.Empty<Nibble>();
-
-            return false;
-        }
-
-        result = value.AsNibbleArray();
-
-        return true;
     }
 
     #endregion

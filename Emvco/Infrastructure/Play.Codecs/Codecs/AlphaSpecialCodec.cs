@@ -44,14 +44,14 @@ public class AlphaSpecialCodec : PlayCodec
 
     // 32 - 126
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = Enumerable.Range(65, 80 - 65)
-        .Concat(Enumerable.Range(97, 122 - 97)).Concat(Enumerable.Range(32, 47 - 32)).Concat(Enumerable.Range(58, 64 - 58))
-        .Concat(Enumerable.Range(91, 96 - 91)).Concat(Enumerable.Range(123, 126 - 123))
-        .ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
+        .Concat(Enumerable.Range(97, (122 - 97) + 1)).Concat(Enumerable.Range(32, (47 - 32) + 1))
+        .Concat(Enumerable.Range(58, (64 - 58) + 1)).Concat(Enumerable.Range(91, (96 - 91) + 1))
+        .Concat(Enumerable.Range(123, (126 - 123) + 1)).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
 
     private static readonly ImmutableSortedDictionary<byte, char> _CharMapper = Enumerable.Range(65, 80 - 65)
-        .Concat(Enumerable.Range(97, 122 - 97)).Concat(Enumerable.Range(32, 47 - 32)).Concat(Enumerable.Range(58, 64 - 58))
-        .Concat(Enumerable.Range(91, 96 - 91)).Concat(Enumerable.Range(123, 126 - 123))
-        .ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
+        .Concat(Enumerable.Range(97, (122 - 97) + 1)).Concat(Enumerable.Range(32, (47 - 32) + 1))
+        .Concat(Enumerable.Range(58, (64 - 58) + 1)).Concat(Enumerable.Range(91, (96 - 91) + 1))
+        .Concat(Enumerable.Range(123, (126 - 123) + 1)).ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
 
     #endregion
 
@@ -217,7 +217,7 @@ public class AlphaSpecialCodec : PlayCodec
     #endregion
 
     #region Decode To Chars
-     
+
     public char[] DecodeToChars(ReadOnlySpan<byte> value)
     {
         char[] result = new char[value.Length];

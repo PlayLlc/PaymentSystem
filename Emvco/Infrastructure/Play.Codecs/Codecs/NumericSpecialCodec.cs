@@ -15,13 +15,13 @@ public class NumericSpecialCodec : PlayCodec
 
     public static readonly PlayEncodingId EncodingId = new(typeof(NumericSpecialCodec));
 
-    private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = Enumerable.Range(0, 10).Concat(Enumerable.Range(32, 47 - 32))
-        .Concat(Enumerable.Range(58, 64 - 58)).Concat(Enumerable.Range(91, 96 - 91)).Concat(Enumerable.Range(123, 126 - 123))
-        .ToImmutableSortedDictionary(a => (char) (a + 48), b => (byte) b);
+    private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = Enumerable.Range(0, 10)
+        .Concat(Enumerable.Range(32, (47 - 32) + 1)).Concat(Enumerable.Range(58, (64 - 58) + 1)).Concat(Enumerable.Range(91, (96 - 91) + 1))
+        .Concat(Enumerable.Range(123, (126 - 123) + 1)).ToImmutableSortedDictionary(a => (char) (a + 48), b => (byte) b);
 
-    private static readonly ImmutableSortedDictionary<byte, char> _CharMap = Enumerable.Range(0, 10).Concat(Enumerable.Range(32, 47 - 32))
-        .Concat(Enumerable.Range(58, 64 - 58)).Concat(Enumerable.Range(91, 96 - 91)).Concat(Enumerable.Range(123, 126 - 123))
-        .ToImmutableSortedDictionary(a => (byte) a, b => (char) (b + 48));
+    private static readonly ImmutableSortedDictionary<byte, char> _CharMap = Enumerable.Range(0, 10)
+        .Concat(Enumerable.Range(32, (47 - 32) + 1)).Concat(Enumerable.Range(58, (64 - 58) + 1)).Concat(Enumerable.Range(91, (96 - 91) + 1))
+        .Concat(Enumerable.Range(123, (126 - 123) + 1)).ToImmutableSortedDictionary(a => (byte) a, b => (char) (b + 48));
 
     #endregion
 

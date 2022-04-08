@@ -48,11 +48,11 @@ public class AlphabeticCodec : PlayCodec
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public static readonly PlayEncodingId EncodingId = new(typeof(AlphabeticCodec));
 
-    private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = Enumerable.Range(65, 90 - 65)
-        .Concat(Enumerable.Range(97, 122 - 97)).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
+    private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = Enumerable.Range(65, (90 - 65) + 1)
+        .Concat(Enumerable.Range(97, (122 - 97) + 1)).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
 
-    private static readonly ImmutableSortedDictionary<byte, char> _CharMapper = Enumerable.Range(65, 90 - 65)
-        .Concat(Enumerable.Range(97, 122 - 97)).ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
+    private static readonly ImmutableSortedDictionary<byte, char> _CharMapper = Enumerable.Range(65, (90 - 65) + 1)
+        .Concat(Enumerable.Range(97, (122 - 97) + 1)).ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
 
     #endregion
 
@@ -124,9 +124,9 @@ public class AlphabeticCodec : PlayCodec
 
         return value is >= bigA and <= bigZ || value is >= littleA and <= littleZ;
     }
-     
+
     /// <summary>
-    /// Validate
+    ///     Validate
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="CodecParsingException"></exception>
@@ -240,7 +240,7 @@ public class AlphabeticCodec : PlayCodec
     /// </summary>
     /// <param name="value"></param>
     /// <param name="length"></param>
-    /// <returns></returns> 
+    /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value, int length)
@@ -248,7 +248,10 @@ public class AlphabeticCodec : PlayCodec
         Validate(value);
 
         if (length > value.Length)
-            throw new CodecParsingException( new ArgumentOutOfRangeException(nameof(value), $"The {nameof(AlphabeticCodec)} could not {nameof(Encode)} the value because the length was out of range"));
+        {
+            throw new CodecParsingException(new ArgumentOutOfRangeException(nameof(value),
+                                                                            $"The {nameof(AlphabeticCodec)} could not {nameof(Encode)} the value because the length was out of range"));
+        }
 
         byte[] byteArray = new byte[length];
 

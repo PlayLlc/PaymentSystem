@@ -50,12 +50,12 @@ public class SpecialCodec : PlayCodec
 
     // 32 - 126
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = Enumerable.Range(32, 47 - 32)
-        .Concat(Enumerable.Range(58, 64 - 58)).Concat(Enumerable.Range(91, 96 - 91)).Concat(Enumerable.Range(123, 126 - 123))
-        .ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
+        .Concat(Enumerable.Range(58, (64 - 58) + 1)).Concat(Enumerable.Range(91, (96 - 91) + 1))
+        .Concat(Enumerable.Range(123, (126 - 123) + 1)).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
 
     private static readonly ImmutableSortedDictionary<byte, char> _CharMapper = Enumerable.Range(32, 47 - 32)
-        .Concat(Enumerable.Range(58, 64 - 58)).Concat(Enumerable.Range(91, 96 - 91)).Concat(Enumerable.Range(123, 126 - 123))
-        .ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
+        .Concat(Enumerable.Range(58, (64 - 58) + 1)).Concat(Enumerable.Range(91, (96 - 91) + 1))
+        .Concat(Enumerable.Range(123, (126 - 123) + 1)).ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
 
     #endregion
 

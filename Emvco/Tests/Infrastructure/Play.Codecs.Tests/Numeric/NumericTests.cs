@@ -25,7 +25,7 @@ public class NumericTests
     #region Instance Members
 
     /// <summary>
-    /// RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult
+    ///     RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult
     /// </summary>
     /// <param name="testValue"></param>
     /// <exception cref="CodecParsingException"></exception>
@@ -40,7 +40,7 @@ public class NumericTests
     }
 
     /// <summary>
-    /// RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult
+    ///     RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult
     /// </summary>
     /// <param name="testValue"></param>
     /// <exception cref="CodecParsingException"></exception>

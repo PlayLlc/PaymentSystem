@@ -32,10 +32,10 @@ public class AlphaNumericSpecialCodec : PlayCodec
 
     // 32 - 126
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap =
-        Enumerable.Range(32, 126 - 32).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
+        Enumerable.Range(32, (126 - 32) + 1).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
 
     private static readonly ImmutableSortedDictionary<byte, char> _CharMap =
-        Enumerable.Range(32, 126 - 32).ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
+        Enumerable.Range(32, (126 - 32) + 1).ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
 
     #endregion
 

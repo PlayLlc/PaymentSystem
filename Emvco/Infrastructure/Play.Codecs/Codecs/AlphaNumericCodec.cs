@@ -48,11 +48,11 @@ public class AlphaNumericCodec : PlayCodec
     public static readonly PlayEncodingId EncodingId = new(typeof(AlphaNumericCodec));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = Enumerable.Range(0, 10)
-        .Concat(Enumerable.Range(65, 90 - 65)).Concat(Enumerable.Range(97, 122 - 97))
+        .Concat(Enumerable.Range(65, (90 - 65) + 1)).Concat(Enumerable.Range(97, (122 - 97) + 1))
         .ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
 
     private static readonly ImmutableSortedDictionary<byte, char> _CharMapper = Enumerable.Range(0, 10)
-        .Concat(Enumerable.Range(65, 90 - 65)).Concat(Enumerable.Range(97, 122 - 97))
+        .Concat(Enumerable.Range(65, (90 - 65) + 1)).Concat(Enumerable.Range(97, (122 - 97) + 1))
         .ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
 
     #endregion
@@ -345,7 +345,6 @@ public class AlphaNumericCodec : PlayCodec
     #endregion
 
     #region Decode To Chars
-     
 
     public char[] DecodeToChars(ReadOnlySpan<byte> value)
     {

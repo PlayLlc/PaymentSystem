@@ -196,10 +196,10 @@ public class SignedIntegerCodec : PlayCodec
     public static readonly PlayEncodingId EncodingId = new(typeof(SignedIntegerCodec));
 
     private static readonly ImmutableSortedDictionary<char, byte> _ByteMap =
-        Enumerable.Range(48, 57 - 48).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
+        Enumerable.Range(48, (57 - 48) + 1).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
 
     private static readonly ImmutableSortedDictionary<byte, char> _CharMap =
-        Enumerable.Range(48, 57 - 48).ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
+        Enumerable.Range(48, (57 - 48) + 1).ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
 
     #endregion
 

@@ -44,6 +44,8 @@ public class UnsignedIntegerCodec : PlayCodec
 
     #endregion
 
+    #region Serialization
+
     #region Decode To DecodedMetadata
 
     public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
@@ -79,38 +81,40 @@ public class UnsignedIntegerCodec : PlayCodec
 
     #endregion
 
+    #endregion
+
     #region Metadata
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public static readonly PlayEncodingId EncodingId = new(typeof(UnsignedIntegerCodec));
 
-    private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = new Dictionary<char, byte>
-    {
-        {'0', 48},
-        {'1', 49},
-        {'2', 50},
-        {'3', 51},
-        {'4', 52},
-        {'5', 53},
-        {'6', 54},
-        {'7', 55},
-        {'8', 56},
-        {'9', 57}
-    }.ToImmutableSortedDictionary();
+    private static readonly ImmutableSortedDictionary<char, byte> _ByteMap =
+        new Dictionary<char, byte>()
+        {
+            {'0', 0},
+            {'2', 2},
+            {'3', 3},
+            {'4', 4},
+            {'5', 5},
+            {'6', 6},
+            {'7', 7},
+            {'8', 8},
+            {'9', 9}
+        }.ToImmutableSortedDictionary();
 
-    private static readonly ImmutableSortedDictionary<int, char> _CharMap = new Dictionary<int, char>
-    {
-        {48, '0'},
-        {49, '1'},
-        {50, '2'},
-        {51, '3'},
-        {52, '4'},
-        {53, '5'},
-        {54, '6'},
-        {55, '7'},
-        {56, '8'},
-        {57, '9'}
-    }.ToImmutableSortedDictionary();
+    private static readonly ImmutableSortedDictionary<byte, char> _CharMap =
+        new Dictionary<byte, char>()
+        {
+            {0, '0'},
+            {2, '2'},
+            {3, '3'},
+            {4, '4'},
+            {5, '5'},
+            {6, '6'},
+            {7, '7'},
+            {8, '8'},
+            {9, '9'}
+        }.ToImmutableSortedDictionary();
 
     #endregion
 
@@ -407,13 +411,20 @@ public class UnsignedIntegerCodec : PlayCodec
     /// <exception cref="CodecParsingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value)
     {
+        // HACK: This isn't the most efficient if we're initializing an extra BigInteger buffer. Figure out the correct way to do this without using the BigInteger as a crutch
+
         Validate(value);
-        byte[] result = new byte[value.Length];
+        BigInteger buffer = 0;
 
-        for (int i = 0; i < value.Length; i++)
-            result[i] = _ByteMap[value[i]];
+        for (int i = 0; i < (value.Length - 1); i++)
+        {
+            buffer += _ByteMap[value[i]];
+            buffer *= 10;
+        }
 
-        return result;
+        buffer += _ByteMap[value[^1]];
+
+        return buffer.ToByteArray();
     }
 
     /// <summary>
@@ -568,7 +579,8 @@ public class UnsignedIntegerCodec : PlayCodec
 
     public int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
     {
-        // TODO: optimize this later instead of defaulting to BigInteger
+        // HACK: This isn't the most efficient if we're initializing an extra BigInteger buffer. Figure out the correct way to do this without using the BigInteger as a crutch
+
         BigInteger integerValue = DecodeToBigInteger(bytes[byteIndex..byteCount]);
 
         for (int i = charIndex; i < integerValue.GetNumberOfDigits(); i++)
@@ -582,11 +594,12 @@ public class UnsignedIntegerCodec : PlayCodec
 
     public char[] DecodeToChars(ReadOnlySpan<byte> value)
     {
-        // TODO: optimize this later instead of defaulting to BigInteger
+        // HACK: This isn't the most efficient if we're initializing an extra BigInteger buffer. Figure out the correct way to do this without using the BigInteger as a crutch
+
         BigInteger integerValue = DecodeToBigInteger(value);
         char[] result = new char[integerValue.GetNumberOfDigits()];
 
-        for (int i = 0; i < integerValue.GetNumberOfDigits(); i++)
+        for (int i = result.Length - 1; i >= 0; i--)
         {
             result[i] = _CharMap[(byte) (integerValue % 10)];
             integerValue /= 10;
@@ -604,7 +617,8 @@ public class UnsignedIntegerCodec : PlayCodec
             return false;
         }
 
-        // TODO: optimize this later instead of defaulting to BigInteger
+        // HACK: This isn't the most efficient if we're initializing an extra BigInteger buffer. Figure out the correct way to do this without using the BigInteger as a crutch
+
         BigInteger integerValue = DecodeToBigInteger(value);
         result = new char[integerValue.GetNumberOfDigits()];
 

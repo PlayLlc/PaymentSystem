@@ -92,7 +92,7 @@ public class HexadecimalCodec : PlayCodec
         return resultWithoutRemainder + 1;
     }
 
-    public ushort GetByteCount(string value) => (ushort) (value.Length * 2);
+    public ushort GetByteCount(string value) => (ushort) ((value.Length / 2) + (value.Length % 2));
     public override ushort GetByteCount<_T>(_T value) => throw new NotImplementedException();
     public override ushort GetByteCount<_T>(_T[] value) => throw new NotImplementedException();
 
