@@ -1,4 +1,5 @@
 ﻿using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
 using Play.Emv.Ber.DataElements;
 
 namespace Play.Emv.TestData.Ber.Primitive;
@@ -24,6 +25,21 @@ public class ApplicationExpirationDateTestTlv : TestTlv
     #region Instance Members
 
     public override Tag GetTag() => ApplicationExpirationDate.Tag;
+
+    #endregion
+
+    #region Serialization
+
+    public new byte[] EncodeTagLengthValue()
+    {
+        TagLength tl = new(GetTag(), _ContentOctets);
+        Span<byte> result = new byte[tl.GetTagLengthValueByteCount()];
+
+        tl.Encode().CopyTo(result);
+        _ContentOctets.CopyTo(result[tl.GetValueOffset()..]);
+
+        return result.ToArray();
+    }
 
     #endregion
 }

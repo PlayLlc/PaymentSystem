@@ -1,4 +1,8 @@
-﻿namespace Play.Codecs;
+﻿using System.Text;
+
+using Play.Core.Specifications;
+
+namespace Play.Codecs;
 
 public readonly record struct PlayEncodingId
 {
@@ -12,7 +16,18 @@ public readonly record struct PlayEncodingId
 
     public PlayEncodingId(Type value)
     {
-        _Value = PlayCodec.SignedIntegerCodec.DecodeToInt32(PlayCodec.UnicodeCodec.Encode(value.FullName));
+        const int hash = 269;
+        int result = 0;
+
+        ReadOnlySpan<byte> hashSeed = Encoding.ASCII.GetBytes(value.FullName!);
+
+        unchecked
+        {
+            for (int i = 0; i < hashSeed.Length; i++)
+                result += hashSeed[i] * hash;
+
+            _Value = result;
+        }
     }
 
     #endregion

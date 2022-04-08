@@ -111,7 +111,6 @@ public class BinaryCodec : PlayCodec
     /// <exception cref="CodecParsingException"></exception>
     public override ushort GetByteCount<T>(T value) where T : struct
     {
-        
         // HACK: We're removing the dynamic decoding capability and using explicit decoding calls
         nint byteSize = Unsafe.SizeOf<T>();
 
@@ -197,7 +196,6 @@ public class BinaryCodec : PlayCodec
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T value) where T : struct
     {
-        
         // HACK: We're removing the dynamic decoding capability and using explicit decoding calls
         // TODO: this is inefficient it's using reflection. Let's try and optimize this somehow
         Type type = typeof(T);
@@ -270,8 +268,8 @@ public class BinaryCodec : PlayCodec
 
         if (type.IsChar())
             return Encode(Unsafe.As<T[], char[]>(ref value));
-        if (type.IsNumericType())
-            return Encode(Unsafe.As<T[], byte[]>(ref value));
+        if (type.IsByte())
+            return Unsafe.As<T[], byte[]>(ref value);
 
         throw new CodecParsingException(this, typeof(T));
     }

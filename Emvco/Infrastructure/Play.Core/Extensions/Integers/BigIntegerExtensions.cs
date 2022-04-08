@@ -35,7 +35,7 @@ public static class BigIntegerExtensions
         if (value == 0)
             return 0;
 
-        double count = System.Math.Log((double) value, 2);
+        double count = Math.Log((double) value, 2);
 
         return (int) ((count % 1) == 0 ? count : count + 1);
     }
@@ -47,7 +47,7 @@ public static class BigIntegerExtensions
 
     public static byte GetNumberOfDigits(this in BigInteger value)
     {
-        double count = System.Math.Log10(System.Math.Pow(2, value.GetMostSignificantBit()));
+        double count = Math.Log10(Math.Pow(2, value.GetMostSignificantBit()));
 
         return (byte) ((count % 1) == 0 ? count : count + 1);
     }
@@ -87,6 +87,18 @@ public static class BigIntegerExtensions
         resultWithoutRemainder = (uint) (value / divisor);
 
         return (int) (value % divisor);
+    }
+
+    public static byte GetNumberOfDigits(this BigInteger value)
+    {
+        checked
+        {
+            byte offset = 0;
+            for (; value > 0; offset++)
+                value /= 10;
+
+            return offset;
+        }
     }
 
     #endregion

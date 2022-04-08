@@ -19,7 +19,7 @@ public partial class EmvCodec : BerCodec, IResolveKnownObjectsAtRuntime
         {CompressedNumericCodec.EncodingId, new CompressedNumericCodec()},
         {NumericCodec.EncodingId, new NumericCodec()},
         {BinaryCodec.EncodingId, new BinaryCodec()},
-        {BerEncodingIdType.VariableCodec, new HexadecimalCodec()}
+        {HexadecimalCodec.EncodingId, new HexadecimalCodec()}
     });
 
     private static readonly EmvCodec _Codec = new();
