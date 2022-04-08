@@ -21,8 +21,8 @@ public partial class EncodingTestDataFactory
     {
         #region Static Metadata
 
-        public static byte[] ValueBytes = {0x01, 0x23, 0x45};
-        public static byte[] TlvBytes = {0x01, 0x23, 0x45};
+        public static byte[] ValueBytes = {1, 23, 45};
+        public static byte[] TlvBytes = {1, 23, 45};
         public const ushort ValueUshort = 12345;
         public const uint ValueUint = 12345;
         public const ulong ValueUlong = 12345;

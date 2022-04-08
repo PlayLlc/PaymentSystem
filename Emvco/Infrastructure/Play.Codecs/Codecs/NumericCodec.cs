@@ -533,9 +533,15 @@ public class NumericCodec : PlayCodec
 
     public byte[] Encode(uint value, int length)
     {
+        // xx xx x0
         byte[] buffer = new byte[length];
 
-        for (int i = buffer.Length - 1; i >= 0; i--)
+        var valueNumericByteCount = (value.GetNumberOfDigits() / 2) + (value.GetNumberOfDigits() % 2);
+
+        if (length < valueNumericByteCount)
+            value /= (uint) Math.Pow(10, (valueNumericByteCount - length) * 2);
+
+        for (int i = buffer.Length - 1, j = 0; i >= 0; i--, j += 2)
         {
             buffer[i] = (byte) (value % 10);
             value /= 10;

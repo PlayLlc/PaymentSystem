@@ -334,17 +334,6 @@ public class SignedIntegerCodec : PlayCodec
         return true;
     }
 
-    public override bool IsValid(ReadOnlySpan<byte> value)
-    {
-        for (int i = 0; i < value.Length; i++)
-        {
-            if (!IsValid(value[i]))
-                return false;
-        }
-
-        return true;
-    }
-
     private bool IsValid(char value)
     {
         const char minCharValue = '0';
@@ -354,35 +343,6 @@ public class SignedIntegerCodec : PlayCodec
             return true;
 
         return false;
-    }
-
-    private bool IsValid(byte value)
-    {
-        const byte minCharValue = (byte) '0';
-        const byte maxCharValue = (byte) '9';
-
-        if (value is >= minCharValue and <= maxCharValue)
-            return true;
-
-        return false;
-    }
-
-    private void Validate(ReadOnlySpan<byte> value)
-    {
-        for (int i = 0; i < value.Length; i++)
-        {
-            if (!IsValid(value[i]))
-                throw new ArgumentOutOfRangeException();
-        }
-    }
-
-    private void Validate(ReadOnlySpan<char> value)
-    {
-        for (int i = 0; i < value.Length; i++)
-        {
-            if (!IsValid(value[i]))
-                throw new ArgumentOutOfRangeException();
-        }
     }
 
     #endregion
@@ -693,8 +653,6 @@ public class SignedIntegerCodec : PlayCodec
 
     public char[] DecodeToChars(ReadOnlySpan<byte> value)
     {
-        Validate(value);
-
         dynamic integerValue = GetInteger(value);
         char[] result = new char[integerValue.GetNumberOfDigits()];
 
@@ -711,13 +669,6 @@ public class SignedIntegerCodec : PlayCodec
 
     public bool TryDecodingToChars(ReadOnlySpan<byte> value, out char[] result)
     {
-        if (!IsValid(value))
-        {
-            result = Array.Empty<char>();
-
-            return false;
-        }
-
         dynamic integerValue = GetInteger(value);
         result = new char[integerValue.GetNumberOfDigits()];
 
