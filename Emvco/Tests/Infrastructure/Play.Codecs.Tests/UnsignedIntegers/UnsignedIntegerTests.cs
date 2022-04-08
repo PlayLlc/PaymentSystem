@@ -1,10 +1,13 @@
-﻿using Play.Codecs.Exceptions;
+﻿using System;
+
+using Play.Codecs.Exceptions;
+using Play.Tests.Core.BaseTestClasses;
 
 using Xunit;
 
 namespace Play.Codecs.Tests.UnsignedIntegers;
 
-public class UnsignedIntegerTests
+public class UnsignedIntegerTests : TestBase
 {
     #region Instance Values
 
@@ -26,47 +29,47 @@ public class UnsignedIntegerTests
     /// <summary>
     ///     RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult
     /// </summary>
-    /// <param name="testValue"></param>
+    /// <param name="expected"></param>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="Exceptions.CodecParsingException"></exception>
     [Theory]
     [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(UnsignedIntegerFixture))]
-    public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
+    public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] expected)
     {
-        string decoded = _SystemUnderTest.DecodeToString(testValue);
-        byte[] encoded = _SystemUnderTest.Encode(decoded);
+        string? decoded = _SystemUnderTest.DecodeToString(expected);
+        byte[]? actual = _SystemUnderTest.Encode(decoded);
 
-        Assert.Equal(testValue, encoded);
+        Assertion(() => { Assert.Equal(expected, actual!); }, Build.Equals.Message(expected, actual!));
     }
 
     [Theory]
     [MemberData(nameof(UnsignedIntegerFixture.GetRandomUShort), 100, MemberType = typeof(UnsignedIntegerFixture))]
-    public void RandomDecodedUShort_EncodingThenDecoding_ReturnsExpectedResult(ushort testValue)
+    public void RandomDecodedUShort_EncodingThenDecoding_ReturnsExpectedResult(ushort expected)
     {
-        byte[]? decoded = _SystemUnderTest.Encode(testValue);
-        ushort encoded = _SystemUnderTest.DecodeToUInt16(decoded);
+        byte[]? decoded = _SystemUnderTest.Encode(expected);
+        ushort actual = _SystemUnderTest.DecodeToUInt16(decoded);
 
-        Assert.Equal(testValue, encoded);
+        Assert.Equal(expected, actual);
     }
 
     [Theory]
     [MemberData(nameof(UnsignedIntegerFixture.GetRandomUInt), 100, MemberType = typeof(UnsignedIntegerFixture))]
-    public void RandomDecodedUInt_EncodingThenDecoding_ReturnsExpectedResult(ushort testValue)
+    public void RandomDecodedUInt_EncodingThenDecoding_ReturnsExpectedResult(uint expected)
     {
-        byte[]? decoded = _SystemUnderTest.Encode(testValue);
-        uint encoded = _SystemUnderTest.DecodeToUInt32(decoded);
+        byte[]? decoded = _SystemUnderTest.Encode(expected);
+        uint actual = _SystemUnderTest.DecodeToUInt32(decoded);
 
-        Assert.Equal(testValue, encoded);
+        Assertion(() => { Assert.Equal(expected, actual); }, Build.Equals.Message(expected, actual));
     }
 
     [Theory]
     [MemberData(nameof(UnsignedIntegerFixture.GetRandomULong), 100, MemberType = typeof(UnsignedIntegerFixture))]
-    public void RandomDecodedULong_EncodingThenDecoding_ReturnsExpectedResult(ushort testValue)
+    public void RandomDecodedULong_EncodingThenDecoding_ReturnsExpectedResult(ulong expected)
     {
-        byte[]? decoded = _SystemUnderTest.Encode(testValue);
-        ulong encoded = _SystemUnderTest.DecodeToUInt64(decoded);
+        byte[]? decoded = _SystemUnderTest.Encode(expected);
+        ulong actual = _SystemUnderTest.DecodeToUInt64(decoded);
 
-        Assert.Equal(testValue, encoded);
+        Assertion(() => { Assert.Equal(expected, actual); }, Build.Equals.Message(expected, actual));
     }
 
     #endregion

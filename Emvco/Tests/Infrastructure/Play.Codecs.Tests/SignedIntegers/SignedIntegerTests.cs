@@ -1,6 +1,4 @@
-﻿using Xunit;
-
-namespace Play.Codecs.Tests.SignedIntegers;
+﻿namespace Play.Codecs.Tests.SignedIntegers;
 
 public class SignedIntegerTests
 {

@@ -6,6 +6,8 @@ namespace Play.Emv.Ber;
 
 public interface IReadTlvDatabase
 {
+    #region Instance Members
+
     /// <summary>
     ///     Gets the <see cref="PrimitiveValue" /> associated with the <see cref="Tag" /> in the arg
     /// </summary>
@@ -26,7 +28,7 @@ public interface IReadTlvDatabase
     /// <exception cref="TerminalDataException">
     ///     This exception gets thrown internally because something was coded or incorrectly configured in our code base. An
     ///     assumption was made that the database value was present when it was not.
-    /// </exception> 
+    /// </exception>
     public T Get<T>(Tag tag) where T : PrimitiveValue;
 
     /// <summary>
@@ -71,4 +73,6 @@ public interface IReadTlvDatabase
     /// <returns></returns>
     /// <exception cref="TerminalDataException"></exception>
     public bool IsPresentAndNotEmpty(Tag tag);
+
+    #endregion
 }

@@ -66,7 +66,23 @@ public readonly struct ShortDate
 
     #endregion
 
+    #region Instance Members
+
     public static ShortDate Today() => new(DateTime.Today);
+    public DateTime AsDateTimeUtc() => _Value;
+    public ushort AsYyMm() => (ushort) (((byte) (_Value.Year % 100) * 100) + _Value.Month);
+    public uint AsYyMmDd() => (uint) (((_Value.Year % 100) * 10000) + (_Value.Month * 100) + _Value.Day);
+    private static byte GetDay(uint value) => value.GetNumberOfDigits() == 6 ? GetDayYyMmDd(value) : GetDayYyMm(value);
+    private static byte GetDayYyMm(uint value) => 1;
+    private static byte GetDayYyMmDd(uint value) => (byte) (value % 100);
+    private static byte GetMonth(uint value) => value.GetNumberOfDigits() == 6 ? GetMonthYyMmDd(value) : GetMonthYyMm(value);
+    private static byte GetMonthYyMm(uint value) => (byte) (value % 100);
+    private static byte GetMonthYyMmDd(uint value) => (byte) ((value / 100) % 100);
+    private static int GetYear(uint value) => value.GetNumberOfDigits() == 6 ? GetYearYyMmDd(value) : GetYearYyMm(value);
+    private static byte GetYearYyMm(uint value) => (byte) ((_MillenniumAndCentury * 100) + (value / 100));
+    private static byte GetYearYyMmDd(uint value) => (byte) ((_MillenniumAndCentury * 100) + (value / 10000));
+
+    #endregion
 
     #region Equality
 
@@ -104,23 +120,6 @@ public readonly struct ShortDate
     public static bool operator <=(ShortDate x, DateTime y) => x._Value <= y;
     public static bool operator <=(DateTime x, ShortDate y) => x <= y._Value;
     public static implicit operator DateTime(ShortDate value) => value._Value;
-
-    #endregion
-
-    #region Instance Members
-
-    public DateTime AsDateTimeUtc() => _Value;
-    public ushort AsYyMm() => (ushort) (((byte) (_Value.Year % 100) * 100) + _Value.Month);
-    public uint AsYyMmDd() => (uint) (((_Value.Year % 100) * 10000) + (_Value.Month * 100) + _Value.Day);
-    private static byte GetDay(uint value) => value.GetNumberOfDigits() == 6 ? GetDayYyMmDd(value) : GetDayYyMm(value);
-    private static byte GetDayYyMm(uint value) => 1;
-    private static byte GetDayYyMmDd(uint value) => (byte) (value % 100);
-    private static byte GetMonth(uint value) => value.GetNumberOfDigits() == 6 ? GetMonthYyMmDd(value) : GetMonthYyMm(value);
-    private static byte GetMonthYyMm(uint value) => (byte) (value % 100);
-    private static byte GetMonthYyMmDd(uint value) => (byte) ((value / 100) % 100);
-    private static int GetYear(uint value) => value.GetNumberOfDigits() == 6 ? GetYearYyMmDd(value) : GetYearYyMm(value);
-    private static byte GetYearYyMm(uint value) => (byte) ((_MillenniumAndCentury * 100) + (value / 100));
-    private static byte GetYearYyMmDd(uint value) => (byte) ((_MillenniumAndCentury * 100) + (value / 10000));
 
     #endregion
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Play.Tests.Core.Random;
+using Play.Randoms;
 
 namespace Play.Codecs.Tests.SignedIntegers;
 
@@ -21,7 +21,7 @@ internal class SignedIntegerFixture
             throw new ArgumentOutOfRangeException(nameof(minLength));
 
         for (int i = 0; i < count; i++)
-            yield return new object[] {Randomize.Array.Bytes(_Random.Next(minLength, maxLength))};
+            yield return new object[] {Randomize.Arrays.Bytes(_Random.Next(minLength, maxLength))};
     }
 
     public static IEnumerable<object[]> GetRandomSByte(int count)

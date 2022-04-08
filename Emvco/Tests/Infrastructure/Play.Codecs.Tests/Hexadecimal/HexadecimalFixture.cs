@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Play.Tests.Core.Random;
+using Play.Randoms;
 
 namespace Play.Codecs.Tests.Hexadecimal;
 
