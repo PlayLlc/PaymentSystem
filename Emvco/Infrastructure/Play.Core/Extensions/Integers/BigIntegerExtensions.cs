@@ -89,11 +89,11 @@ public static class BigIntegerExtensions
         return (int) (value % divisor);
     }
 
-    public static byte GetNumberOfDigits(this BigInteger value)
+    public static int GetNumberOfDigits(this BigInteger value)
     {
         checked
         {
-            byte offset = 0;
+            int offset = 0;
             for (; value > 0; offset++)
                 value /= 10;
 

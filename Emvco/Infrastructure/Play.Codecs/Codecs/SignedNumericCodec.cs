@@ -469,7 +469,7 @@ public class SignedNumericCodec : PlayCodec
     // TODO: This is likely wrong
     public byte[] Encode(BigInteger value)
     {
-        byte numberOfDigits = value.GetNumberOfDigits();
+        int numberOfDigits = value.GetNumberOfDigits();
         using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate((numberOfDigits % 2) + (numberOfDigits / 2) + 1);
         Span<byte> buffer = spanOwner.Span;
 
@@ -488,7 +488,7 @@ public class SignedNumericCodec : PlayCodec
 
     public byte[] Encode(BigInteger value, Span<byte> buffer, ref int offset)
     {
-        byte numberOfDigits = value.GetNumberOfDigits();
+        int numberOfDigits = value.GetNumberOfDigits();
 
         buffer[offset++] = (byte) (value < 0 ? _Negative : _Positive);
 
@@ -508,7 +508,7 @@ public class SignedNumericCodec : PlayCodec
     // TODO: This is likely wrong
     public byte[] Encode(BigInteger value, int length)
     {
-        byte numberOfDigits = value.GetNumberOfDigits();
+        int numberOfDigits = value.GetNumberOfDigits();
         int numberOfBytes = numberOfDigits + 1;
 
         if (length == numberOfBytes)

@@ -602,7 +602,7 @@ public class NumericCodec : PlayCodec
     // TODO: This is likely wrong
     public byte[] Encode(BigInteger value)
     {
-        byte numberOfDigits = value.GetNumberOfDigits();
+        int numberOfDigits = value.GetNumberOfDigits();
         byte[] buffer = new byte[(numberOfDigits / 2) + (numberOfDigits % 2)];
 
         for (int i = buffer.Length - 1; i >= 0; i--)
