@@ -27,9 +27,18 @@ public record IssuerPublicKeyExponent : DataElement<uint>, IEqualityComparer<Iss
     #region Constructor
 
     public IssuerPublicKeyExponent(uint value) : base(value)
-    {
-        _Value = value;
-    }
+    { }
+
+    #endregion
+
+    #region Instance Members
+
+    public byte[] AsByteArray() => PlayCodec.UnsignedIntegerCodec.Encode(_Value);
+    public PublicKeyExponent AsPublicKeyExponent() => PublicKeyExponent.Create(_Value);
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public int GetByteCount() => _Value.GetMostSignificantBit();
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -70,14 +79,8 @@ public record IssuerPublicKeyExponent : DataElement<uint>, IEqualityComparer<Iss
 
     #endregion
 
-    #region Instance Members
+    #region Operator Overrides
 
-    public byte[] AsByteArray() => PlayCodec.UnsignedIntegerCodec.Encode(_Value);
-    public PublicKeyExponent AsPublicKeyExponent() => PublicKeyExponent.Create(_Value);
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public int GetByteCount() => _Value.GetMostSignificantBit();
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public static implicit operator PublicKeyExponent(IssuerPublicKeyExponent value) => PublicKeyExponent.Create(value._Value);
 
     #endregion

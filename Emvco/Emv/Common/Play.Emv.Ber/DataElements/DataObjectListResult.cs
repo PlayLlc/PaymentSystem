@@ -1,4 +1,6 @@
-﻿using Play.Ber.DataObjects;
+﻿using System.Numerics;
+
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Emv.Ber.Templates;
 
@@ -55,7 +57,7 @@ public class DataObjectListResult : IEqualityComparer<DataObjectListResult>, IEq
         for (int i = 0; i < _Value.Length; i++)
             buffer.AddRange(_Value[i].EncodeValue(_Codec));
 
-        return new CommandTemplate(buffer.ToArray());
+        return new CommandTemplate(new BigInteger(buffer.ToArray()));
     }
 
     public PrimitiveValue[] AsPrimitiveValues() => _Value;

@@ -1,3 +1,5 @@
+using System.Numerics;
+
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
@@ -27,38 +29,8 @@ public record SelectionDataObjectList : DataObjectList, IEqualityComparer<Select
 
     #region Constructor
 
-    public SelectionDataObjectList(byte[] value) : base(value)
+    public SelectionDataObjectList(BigInteger value) : base(value)
     { }
-
-    #endregion
-
-    #region Serialization
-
-    public override SelectionDataObjectList Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="BerParsingException"></exception>
-    public static SelectionDataObjectList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public static SelectionDataObjectList Decode(ReadOnlySpan<byte> value) => new(value.ToArray());
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(SelectionDataObjectList? x, SelectionDataObjectList? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(SelectionDataObjectList obj) => obj.GetHashCode();
 
     #endregion
 
@@ -81,6 +53,36 @@ public record SelectionDataObjectList : DataObjectList, IEqualityComparer<Select
 
         return new UnknownPrimitiveValue(requestedDataObject.GetTag(), requestedDataObject.GetLength()).AsTagLengthValue();
     }
+
+    #endregion
+
+    #region Serialization
+
+    public override SelectionDataObjectList Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="BerParsingException"></exception>
+    public static SelectionDataObjectList Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public static SelectionDataObjectList Decode(ReadOnlySpan<byte> value) => new(new BigInteger(value.ToArray()));
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(SelectionDataObjectList? x, SelectionDataObjectList? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public int GetHashCode(SelectionDataObjectList obj) => obj.GetHashCode();
 
     #endregion
 }

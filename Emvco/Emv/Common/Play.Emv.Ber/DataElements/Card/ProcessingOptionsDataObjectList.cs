@@ -1,3 +1,5 @@
+using System.Numerics;
+
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
@@ -25,7 +27,7 @@ public record ProcessingOptionsDataObjectList : DataObjectList
 
     #region Constructor
 
-    public ProcessingOptionsDataObjectList(byte[] value) : base(value)
+    public ProcessingOptionsDataObjectList(BigInteger value) : base(value)
     { }
 
     #endregion
@@ -58,7 +60,7 @@ public record ProcessingOptionsDataObjectList : DataObjectList
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static ProcessingOptionsDataObjectList Decode(ReadOnlySpan<byte> value) => new(value.ToArray());
+    public static ProcessingOptionsDataObjectList Decode(ReadOnlySpan<byte> value) => new(new BigInteger(value.ToArray()));
 
     #endregion
 
