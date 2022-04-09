@@ -7,6 +7,8 @@ using Play.Emv.TestData.Ber.Constructed;
 
 using Xunit;
 
+using DirectoryEntry = Play.Emv.Ber.Templates.DirectoryEntry;
+
 namespace Play.Emv.Templates.Tests.FileControlInformation;
 
 public class DirectoryEntryTests
