@@ -78,17 +78,17 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
             return _SelectionDataObjectList.AsCommandTemplate(selectionDataObjectListValues);
 
         if (_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false)
-            return new CommandTemplate(poiInformation.EncodeValue(codec));
+            return CommandTemplate.Decode(poiInformation.EncodeValue().AsSpan());
 
         if ((_SelectionDataObjectList != null) && (_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))
         {
             Span<byte> dolEncoding = _SelectionDataObjectList.AsCommandTemplate(selectionDataObjectListValues).EncodeValue();
             Span<byte> terminalCategoryEncoding = poiInformation.EncodeValue(codec);
 
-            return new CommandTemplate(dolEncoding.ConcatArrays(terminalCategoryEncoding));
+            return CommandTemplate.Decode(dolEncoding.ConcatArrays(terminalCategoryEncoding).AsSpan());
         }
 
-        return new CommandTemplate(Array.Empty<byte>());
+        return new CommandTemplate(0);
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
 
         if (database.IsPresentAndNotEmpty(PoiInformation.Tag)
             && (_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))
-            return new CommandTemplate(database.Get(PoiInformation.Tag).EncodeValue(_Codec));
+            return CommandTemplate.Decode(database.Get(PoiInformation.Tag).EncodeValue(_Codec).AsSpan());
 
         if ((_SelectionDataObjectList != null)
             && database.IsPresentAndNotEmpty(PoiInformation.Tag)
@@ -115,10 +115,10 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
             Span<byte> dolEncoding = _SelectionDataObjectList.AsCommandTemplate(database).EncodeValue();
             Span<byte> terminalCategoryEncoding = database.Get(PoiInformation.Tag).EncodeValue(_Codec);
 
-            return new CommandTemplate(dolEncoding.ConcatArrays(terminalCategoryEncoding));
+            return CommandTemplate.Decode(dolEncoding.ConcatArrays(terminalCategoryEncoding).AsSpan());
         }
 
-        return new CommandTemplate(Array.Empty<byte>());
+        return new CommandTemplate(0);
     }
 
     public ApplicationDedicatedFileName[] GetApplicationDedicatedFileNames()

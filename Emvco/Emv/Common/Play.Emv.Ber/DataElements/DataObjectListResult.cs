@@ -2,6 +2,7 @@
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
+using Play.Emv.Ber.Extensions.Arrays;
 using Play.Emv.Ber.Templates;
 
 namespace Play.Emv.Ber.DataElements;
@@ -62,6 +63,7 @@ public class DataObjectListResult : IEqualityComparer<DataObjectListResult>, IEq
 
     public PrimitiveValue[] AsPrimitiveValues() => _Value;
     public int ByteCount() => _Value.Length;
+    public byte[] Encode() => _Value.Encode();
 
     #endregion
 
@@ -69,7 +71,7 @@ public class DataObjectListResult : IEqualityComparer<DataObjectListResult>, IEq
 
     public override bool Equals(object? other) => other is DataObjectListResult dataObjectListResult && Equals(dataObjectListResult);
 
-    public bool Equals(DataObjectListResult x, DataObjectListResult y)
+    public bool Equals(DataObjectListResult? x, DataObjectListResult? y)
     {
         if (x is null)
             return y is null;

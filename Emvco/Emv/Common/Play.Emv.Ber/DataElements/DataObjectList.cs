@@ -175,7 +175,6 @@ public abstract record DataObjectList : DataElement<BigInteger>
     }
 
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="OverflowException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public virtual CommandTemplate AsCommandTemplate(IReadTlvDatabase database) => AsDataObjectListResult(database).AsCommandTemplate();
 

@@ -22,6 +22,7 @@ public record CardRiskManagementDataObjectList1RelatedData : DataObjectList
 
     #region Constructor
 
+    /// <exception cref="BerParsingException"></exception>
     public CardRiskManagementDataObjectList1RelatedData(BigInteger value) : base(value)
     { }
 

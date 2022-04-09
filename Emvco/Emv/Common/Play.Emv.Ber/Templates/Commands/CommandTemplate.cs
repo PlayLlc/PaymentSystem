@@ -12,7 +12,7 @@ namespace Play.Emv.Ber.Templates;
 /// <summary>
 ///     Identifies the data field of a command message
 /// </summary>
-public record CommandTemplate : DataElement<BigInteger>, IEquatable<CommandTemplate>, IEqualityComparer<CommandTemplate>
+public record CommandTemplate : DataElement<BigInteger>
 {
     #region Static Metadata
 
@@ -24,6 +24,9 @@ public record CommandTemplate : DataElement<BigInteger>, IEquatable<CommandTempl
     #region Constructor
 
     public CommandTemplate(BigInteger value) : base(value)
+    { }
+
+    public CommandTemplate(DataObjectListResult value) : base(new BigInteger(value.Encode()))
     { }
 
     #endregion
@@ -45,43 +48,6 @@ public record CommandTemplate : DataElement<BigInteger>, IEquatable<CommandTempl
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public static CommandTemplate Decode(ReadOnlySpan<byte> value) => new(new BigInteger(value.ToArray()));
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(CommandTemplate? x, CommandTemplate? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public virtual bool Equals(CommandTemplate? other)
-    {
-        if (other == null)
-            return false;
-
-        return _Value == other._Value;
-    }
-
-    public override int GetHashCode()
-    {
-        const int hash = 45707;
-
-        unchecked
-        {
-            int result = (int) ((hash * GetTag()) + (hash * _Value));
-
-            return result;
-        }
-    }
-
-    public int GetHashCode(CommandTemplate obj) => obj.GetHashCode();
 
     #endregion
 }

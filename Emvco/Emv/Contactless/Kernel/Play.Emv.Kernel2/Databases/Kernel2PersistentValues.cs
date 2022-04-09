@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
@@ -52,7 +53,10 @@ public class Kernel2PersistentValues : PersistentValues
             {CardDataInputCapability.Tag, new CardDataInputCapability(0x00)},
             {CvmCapabilityCvmRequired.Tag, new CvmCapabilityCvmRequired(0x00)},
             {CvmCapabilityNoCvmRequired.Tag, new CvmCapabilityNoCvmRequired(0x00)},
-            {UnpredictableNumberDataObjectList.Tag, new UnpredictableNumberDataObjectList(new byte[] {0x9F, 0x6A, 0x04})},
+            {
+                UnpredictableNumberDataObjectList.Tag,
+                new UnpredictableNumberDataObjectList(new BigInteger(new byte[] {0x9F, 0x6A, 0x04}))
+            },
             {HoldTimeValue.Tag, new HoldTimeValue(new Deciseconds(0x0D))},
             {KernelConfiguration.Tag, new KernelConfiguration(0x00)},
             {KernelId.Tag, (KernelId) ShortKernelIdTypes.Kernel2},

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
@@ -20,7 +21,7 @@ public record MockDataObjectList : DataObjectList
 
     #region Constructor
 
-    public MockDataObjectList(byte[] value) : base(value)
+    public MockDataObjectList(byte[] value) : base(new BigInteger(value))
     { }
 
     #endregion

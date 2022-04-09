@@ -157,8 +157,9 @@ public class ProcessingOptionsDataObjectListTests
 
         ProcessingOptionsDataObjectList sut = ProcessingOptionsDataObjectList.Decode(testData.EncodeValue().AsSpan());
 
-        CommandTemplate expectedResult =
-            new(testData.GetTerminalValues().SelectMany(a => a.EncodeTagLengthValue(EmvCodec.GetBerCodec())).ToArray());
+        CommandTemplate expectedResult = CommandTemplate.Decode(testData.GetTerminalValues()
+                                                                    .SelectMany(a => a.EncodeTagLengthValue(EmvCodec.GetBerCodec()))
+                                                                    .ToArray().AsSpan());
 
         CommandTemplate testValue = sut.AsCommandTemplate(testData.GetTerminalValues());
 

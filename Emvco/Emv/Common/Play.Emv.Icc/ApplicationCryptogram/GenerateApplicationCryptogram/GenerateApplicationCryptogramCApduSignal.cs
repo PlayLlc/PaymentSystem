@@ -20,20 +20,14 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
     { }
 
     protected GenerateApplicationCryptogramCApduSignal(
-        byte @class,
-        byte instruction,
-        byte parameter1,
-        byte parameter2,
-        ReadOnlySpan<byte> data) : base(@class, instruction, parameter1, parameter2, data)
+        byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) : base(@class, instruction, parameter1,
+                                                                                                         parameter2, data)
     { }
 
     protected GenerateApplicationCryptogramCApduSignal(
-        byte @class,
-        byte instruction,
-        byte parameter1,
-        byte parameter2,
-        ReadOnlySpan<byte> data,
-        uint? le) : base(@class, instruction, parameter1, parameter2, data, le)
+        byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint? le) : base(@class, instruction,
+                                                                                                                   parameter1, parameter2,
+                                                                                                                   data, le)
     { }
 
     #endregion
@@ -41,9 +35,7 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
     #region Instance Members
 
     public static GenerateApplicationCryptogramCApduSignal Create(
-        CryptogramTypes cryptogramTypes,
-        bool isCdaRequested,
-        DataObjectListResult cardRiskManagementDataObjectListResult) =>
+        CryptogramTypes cryptogramTypes, bool isCdaRequested, DataObjectListResult cardRiskManagementDataObjectListResult) =>
         Create(cryptogramTypes, isCdaRequested, cardRiskManagementDataObjectListResult.AsCommandTemplate());
 
     /// <summary>
@@ -56,21 +48,18 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
     /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
     public static GenerateApplicationCryptogramCApduSignal Create(
-        CryptogramTypes cryptogramTypes,
-        bool isCdaRequested,
-        DataObjectListResult cardRiskManagementDataObjectListResult,
+        CryptogramTypes cryptogramTypes, bool isCdaRequested, DataObjectListResult cardRiskManagementDataObjectListResult,
         DataObjectListResult dataStorageDataObjectListResult)
     {
-        CommandTemplate? commandTemplate = new(cardRiskManagementDataObjectListResult.AsByteArray().AsSpan()
-                                                   .ConcatArrays(dataStorageDataObjectListResult.AsByteArray()));
+        CommandTemplate? commandTemplate = CommandTemplate.Decode(cardRiskManagementDataObjectListResult.AsByteArray().AsSpan()
+                                                                      .ConcatArrays(dataStorageDataObjectListResult.AsByteArray().AsSpan())
+                                                                      .AsSpan());
 
         return Create(cryptogramTypes, isCdaRequested, commandTemplate);
     }
 
     private static GenerateApplicationCryptogramCApduSignal Create(
-        CryptogramTypes cryptogramTypes,
-        bool isCdaRequested,
-        CommandTemplate commandTemplate)
+        CryptogramTypes cryptogramTypes, bool isCdaRequested, CommandTemplate commandTemplate)
     {
         if (cryptogramTypes == CryptogramTypes.TransactionCryptogram)
             return CreateTc(isCdaRequested, commandTemplate);

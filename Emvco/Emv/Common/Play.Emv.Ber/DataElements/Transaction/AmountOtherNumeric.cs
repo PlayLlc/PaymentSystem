@@ -1,6 +1,8 @@
 ﻿using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
+using Play.Ber.Lengths;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
@@ -20,6 +22,12 @@ public record AmountOtherNumeric : DataElement<ulong>, IEqualityComparer<AmountO
     public static readonly Tag Tag = 0x9F03;
     private const byte _ByteLength = 6;
     private const byte _CharLength = 12;
+
+    #endregion
+
+    #region Instance Values
+
+    private Length _Length;
 
     #endregion
 
