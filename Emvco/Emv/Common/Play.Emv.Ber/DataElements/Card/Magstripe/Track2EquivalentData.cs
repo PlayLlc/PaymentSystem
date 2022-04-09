@@ -47,14 +47,14 @@ public record Track2EquivalentData : DataElement<BigInteger>
     /// <exception cref="DataElementParsingException"></exception>
     private int GetPrimaryAccountNumberNibbleOffset(ReadOnlySpan<Nibble> value)
     {
-        for (int i = 0; i < (PrimaryAccountNumber._MaxByteLength * 2); i++)
+        for (int i = 0; i < (ApplicationPan.GetMaxByteCount() * 2); i++)
         {
             if (value[i] == _FieldSeparator1)
                 return i;
         }
 
         throw new
-            DataElementParsingException($"A valid {nameof(PrimaryAccountNumber)} could not be resolved from the {nameof(Track2EquivalentData)}");
+            DataElementParsingException($"A valid {nameof(ApplicationPan)} could not be resolved from the {nameof(Track2EquivalentData)}");
     }
 
     /// <exception cref="OverflowException"></exception>
@@ -73,11 +73,11 @@ public record Track2EquivalentData : DataElement<BigInteger>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="System.InvalidOperationException"></exception>
-    public PrimaryAccountNumber GetPrimaryAccountNumber()
+    public ApplicationPan GetPrimaryAccountNumber()
     {
         ReadOnlySpan<Nibble> buffer = _Value.ToByteArray().AsNibbleArray();
 
-        return PrimaryAccountNumber.Decode(buffer[..GetPrimaryAccountNumberNibbleOffset(buffer)].AsByteArray().AsSpan());
+        return ApplicationPan.Decode(buffer[..GetPrimaryAccountNumberNibbleOffset(buffer)].AsByteArray().AsSpan());
     }
 
     /// <exception cref="OverflowException"></exception>

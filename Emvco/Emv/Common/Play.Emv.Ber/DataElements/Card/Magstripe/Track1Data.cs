@@ -82,7 +82,7 @@ public record Track1Data : DataElement<BigInteger>
     /// <exception cref="CardDataException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public PrimaryAccountNumber GetPrimaryAccountNumber(PunatcTrack1 value)
+    public ApplicationPan GetPrimaryAccountNumber(PunatcTrack1 value)
     {
         int offset = 0;
 
@@ -92,17 +92,17 @@ public record Track1Data : DataElement<BigInteger>
             offset++;
 
         if (buffer[offset++] != _FormatCode)
-            throw new CardDataException($"The {nameof(PrimaryAccountNumber)} was provided in an unknown format");
+            throw new CardDataException($"The {nameof(ApplicationPan)} was provided in an unknown format");
 
         int startRange = offset;
 
-        for (; offset < PrimaryAccountNumber.GetMaxByteLength(); offset++)
+        for (; offset < ApplicationPan.GetMaxByteCount(); offset++)
         {
             if (buffer[offset] == _FieldSeparator)
-                return PrimaryAccountNumber.Decode(buffer[startRange..offset]);
+                return ApplicationPan.Decode(buffer[startRange..offset]);
         }
 
-        throw new CardDataException($"The {nameof(PrimaryAccountNumber)} was provided in an unknown format");
+        throw new CardDataException($"The {nameof(ApplicationPan)} was provided in an unknown format");
     }
 
     #endregion

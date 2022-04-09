@@ -47,13 +47,16 @@ public record Track2Data : DataElement<BigInteger>
 
     #endregion
 
+    #region Instance Members
+
     /// <summary>
-    /// GetPrimaryAccountNumber
+    ///     GetPrimaryAccountNumber
     /// </summary>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public PrimaryAccountNumber GetPrimaryAccountNumber()
+    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    public ApplicationPan GetPrimaryAccountNumber()
     {
         Span<byte> buffer = _Value.ToByteArray();
 
@@ -61,17 +64,17 @@ public record Track2Data : DataElement<BigInteger>
         if ((buffer[0] == _StartSentinel1) || (buffer[0] == _StartSentinel2))
             buffer[1..].CopyTo(buffer[..]);
 
-        for (int i = 0; i < PrimaryAccountNumber.GetMaxByteLength(); i++)
+        for (int i = 0; i < ApplicationPan.GetMaxByteCount(); i++)
         {
             if ((buffer[i] == _FieldSeparator1) || (buffer[i] == _FieldSeparator2))
-                return PrimaryAccountNumber.Decode(buffer[..i]);
+                return ApplicationPan.Decode(buffer[..i]);
         }
 
-        throw new BerParsingException($"The {nameof(Track2Data)} could not decode a valid {nameof(PrimaryAccountNumber)}");
+        throw new BerParsingException($"The {nameof(Track2Data)} could not decode a valid {nameof(ApplicationPan)}");
     }
 
     /// <summary>
-    /// GetTrack2DiscretionaryData
+    ///     GetTrack2DiscretionaryData
     /// </summary>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
@@ -85,7 +88,7 @@ public record Track2Data : DataElement<BigInteger>
     }
 
     /// <summary>
-    /// GetPrimaryAccountNumberOffset
+    ///     GetPrimaryAccountNumberOffset
     /// </summary>
     /// <param name="buffer"></param>
     /// <returns></returns>
@@ -98,18 +101,22 @@ public record Track2Data : DataElement<BigInteger>
         if ((buffer[0] == _StartSentinel1) || (buffer[0] == _StartSentinel2))
             offset++;
 
-        for (; offset < PrimaryAccountNumber.GetMaxByteLength(); offset++)
+        for (; offset < ApplicationPan.GetMaxByteCount(); offset++)
         {
             if ((buffer[offset] == _FieldSeparator1) || (buffer[offset] == _FieldSeparator2))
                 return offset;
         }
 
-        throw new BerParsingException($"The {nameof(Track2Data)} could not decode a valid {nameof(PrimaryAccountNumber)}");
+        throw new BerParsingException($"The {nameof(Track2Data)} could not decode a valid {nameof(ApplicationPan)}");
     }
 
     private int GetExpiryDateOffset(ReadOnlySpan<byte> buffer) => GetPrimaryAccountNumberOffset(buffer) + 1;
     private int GetServiceCodeOffset(ReadOnlySpan<byte> buffer) => GetExpiryDateOffset(buffer) + 2;
     private int GetDiscretionaryDataOffset(ReadOnlySpan<byte> buffer) => GetServiceCodeOffset(buffer) + 3;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+
+    #endregion
 
     #region Serialization
 
@@ -133,13 +140,6 @@ public record Track2Data : DataElement<BigInteger>
 
     public new byte[] EncodeValue() => _Value.ToByteArray();
     public new byte[] EncodeValue(int length) => _Value.ToByteArray()[..length];
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 }

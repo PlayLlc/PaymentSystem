@@ -28,7 +28,7 @@ public class SplitPaymentLogItem : PaymentLogItem
     #region Constructor
 
     public SplitPaymentLogItem(
-        Money amountAuthorizedNumeric, PrimaryAccountNumber primaryAccountNumber, uint sequenceNumber, ShortDate transactionDate) :
+        Money amountAuthorizedNumeric, ApplicationPan primaryAccountNumber, uint sequenceNumber, ShortDate transactionDate) :
         base(primaryAccountNumber, sequenceNumber, transactionDate)
     {
         _Subtotal = amountAuthorizedNumeric;
@@ -39,7 +39,7 @@ public class SplitPaymentLogItem : PaymentLogItem
     #region Instance Members
 
     public SplitPaymentLogItem CreateNewSnapshot(
-        Money amountAuthorizedNumeric, PrimaryAccountNumber primaryAccountNumber, uint sequenceNumber, ShortDate transactionDate)
+        Money amountAuthorizedNumeric, ApplicationPan primaryAccountNumber, uint sequenceNumber, ShortDate transactionDate)
     {
         if (!_Subtotal.IsCommonCurrency(amountAuthorizedNumeric))
         {

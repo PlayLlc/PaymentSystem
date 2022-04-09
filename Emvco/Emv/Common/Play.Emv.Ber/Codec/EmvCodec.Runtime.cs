@@ -7,6 +7,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataElements;
+using Play.Encryption.Hashing;
 
 namespace Play.Emv.Ber;
 
@@ -30,7 +31,7 @@ public partial class EmvCodec : BerCodec
     /// <exception cref="ReflectionTypeLoadException"></exception>
     static EmvCodec()
     {
-        _DefaultPrimitiveMap = GetDefaultPrimitiveValues().ToImmutableSortedDictionary(a => a.GetTag(), b => b);
+        _DefaultPrimitiveMap = GetDefaultPrimitiveValues().ToDictionary(a => a.GetTag(), b => b).ToImmutableSortedDictionary();
     }
 
     #endregion
@@ -48,6 +49,26 @@ public partial class EmvCodec : BerCodec
         foreach (Type type in uniqueAssemblies.GetTypes()
             .Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(PrimitiveValue))))
             codecs.Add((PrimitiveValue) FormatterServices.GetUninitializedObject(type));
+
+        List<Tag> tags = new();
+
+        foreach (var prim in codecs)
+        {
+            try
+            {
+                tags.Add(prim.GetTag());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("");
+            }
+        }
+
+        HashSet<Tag> distinct = new(tags);
+        IEnumerable<Tag> duplicates = tags.Except(distinct.ToList());
+
+        foreach (var tag in duplicates)
+            Console.WriteLine($"{tag}");
 
         return codecs;
     }

@@ -24,6 +24,8 @@ namespace Play.Emv.Kernel.Services;
 ///     • Random transaction selection
 ///     • Velocity checking
 /// </summary>
+
+// DEPRECATING: We're refactoring Terminal Risk Management a bit. No commands sent. We'll add kernel DB interfaces as method injection
 internal class TerminalRiskManager : IManageTerminalRisk
 {
     #region Instance Values
@@ -150,7 +152,7 @@ internal class TerminalRiskManager : IManageTerminalRisk
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
     private bool IsFloorLimitExceeded(
-        PrimaryAccountNumber primaryAccountNumber, /*uint sequenceNumber,*/
+        ApplicationPan primaryAccountNumber, /*uint sequenceNumber,*/
         Money amountAuthorizedNumeric, Money terminalFloorLimit)
     {
         if (!_SplitPaymentCoordinator.TryGetSplitPaymentLogItem(primaryAccountNumber, out SplitPaymentLogItem result))

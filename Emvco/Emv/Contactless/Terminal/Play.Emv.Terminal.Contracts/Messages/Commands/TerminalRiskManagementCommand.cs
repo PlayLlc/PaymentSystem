@@ -6,6 +6,7 @@ using Play.Globalization.Currency;
 
 namespace Play.Emv.Terminal.Contracts.Messages.Commands;
 
+// DEPRECATING: We're refactoring Terminal Risk Management a bit
 public class TerminalRiskManagementCommand
 {
     #region Instance Values
@@ -15,7 +16,7 @@ public class TerminalRiskManagementCommand
     private readonly CultureProfile _CultureProfile;
     private readonly ushort? _LastOnlineApplicationTransactionCount;
     private readonly byte? _LowerConsecutiveOfflineLimit;
-    private readonly PrimaryAccountNumber _PrimaryAccountNumber;
+    private readonly ApplicationPan _PrimaryAccountNumber;
     private readonly TerminalRiskConfiguration _TerminalRiskConfiguration;
     private readonly byte? _UpperConsecutiveOfflineLimit;
 
@@ -24,7 +25,7 @@ public class TerminalRiskManagementCommand
     #region Constructor
 
     public TerminalRiskManagementCommand(
-        PrimaryAccountNumber primaryAccountNumber, CultureProfile cultureProfile, AmountAuthorizedNumeric amountAmountAuthorizedNumeric,
+        ApplicationPan primaryAccountNumber, CultureProfile cultureProfile, AmountAuthorizedNumeric amountAmountAuthorizedNumeric,
         TerminalRiskConfiguration terminalRiskConfiguration)
     {
         _PrimaryAccountNumber = primaryAccountNumber;
@@ -34,7 +35,7 @@ public class TerminalRiskManagementCommand
     }
 
     public TerminalRiskManagementCommand(
-        PrimaryAccountNumber primaryAccountNumber, CultureProfile cultureProfile, AmountAuthorizedNumeric amountAmountAuthorizedNumeric,
+        ApplicationPan primaryAccountNumber, CultureProfile cultureProfile, AmountAuthorizedNumeric amountAmountAuthorizedNumeric,
         TerminalRiskConfiguration terminalRiskConfiguration, ushort applicationTransactionCount,
         ushort lastOnlineApplicationTransactionCount, byte lowerConsecutiveOfflineLimit, byte upperConsecutiveOfflineLimit)
     {
@@ -58,7 +59,7 @@ public class TerminalRiskManagementCommand
     public Money GetBiasedRandomSelectionThreshold() => _TerminalRiskConfiguration.GetBiasedRandomSelectionThreshold();
     public ushort? GetLastOnlineApplicationTransactionCount() => _LastOnlineApplicationTransactionCount;
     public byte? GetLowerConsecutiveOfflineLimit() => _LowerConsecutiveOfflineLimit;
-    public PrimaryAccountNumber GetPrimaryAccountNumber() => _PrimaryAccountNumber;
+    public ApplicationPan GetPrimaryAccountNumber() => _PrimaryAccountNumber;
     public Percentage GetRandomSelectionTargetPercentage() => _TerminalRiskConfiguration.GetRandomSelectionTargetPercentage();
     public Money GetTerminalFloorLimit() => _TerminalRiskConfiguration.GetTerminalFloorLimit();
     public byte? GetUpperConsecutiveOfflineLimit() => _UpperConsecutiveOfflineLimit;

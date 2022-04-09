@@ -10,7 +10,7 @@ public abstract class PaymentLogItem
     /// <summary>
     ///     The account number associated to this transaction snapshot
     /// </summary>
-    protected readonly PrimaryAccountNumber _PrimaryAccountNumber;
+    protected readonly ApplicationPan _PrimaryAccountNumber;
 
     /// <summary>
     ///     A sequential number of transaction log items associated to this <see cref="PrimaryAccountNumber" />
@@ -26,7 +26,7 @@ public abstract class PaymentLogItem
 
     #region Constructor
 
-    protected PaymentLogItem(PrimaryAccountNumber primaryAccountNumber, uint sequenceNumber, ShortDate transactionDate)
+    protected PaymentLogItem(ApplicationPan primaryAccountNumber, uint sequenceNumber, ShortDate transactionDate)
     {
         _PrimaryAccountNumber = primaryAccountNumber;
         _SequenceNumber = sequenceNumber;

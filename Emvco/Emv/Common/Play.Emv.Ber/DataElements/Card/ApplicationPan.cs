@@ -19,8 +19,8 @@ public record ApplicationPan : DataElement<BigInteger>
 
     public static readonly PlayEncodingId EncodingId = CompressedNumericCodec.EncodingId;
     public static readonly Tag Tag = 0x5A;
-    private const byte _MaxByteLength = 10;
-    private const byte _MaxCharLength = 19;
+    private const byte _MaxByteCount = 10;
+    private const byte _MaxCharCount = 19;
 
     #endregion
 
@@ -31,46 +31,10 @@ public record ApplicationPan : DataElement<BigInteger>
 
     #endregion
 
-    #region Serialization
-
-    /// <exception cref="CodecParsingException"></exception>
-    public static ApplicationPan Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override ApplicationPan Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="CodecParsingException"></exception>
-    public static ApplicationPan Decode(ReadOnlySpan<byte> value)
-    {
-        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
-
-        BigInteger result = PlayCodec.NumericCodec.DecodeToBigInteger(value);
-
-        Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _MaxCharLength, Tag);
-
-        return new ApplicationPan(result);
-    }
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(ApplicationPan? x, ApplicationPan? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(ApplicationPan obj) => obj.GetHashCode();
-
-    #endregion
-
     #region Instance Members
 
+    public static int GetMaxByteCount() => _MaxByteCount;
+    public static int GetMaxCharCount() => _MaxCharCount;
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
@@ -129,6 +93,44 @@ public record ApplicationPan : DataElement<BigInteger>
 
         return new DataStorageId(new BigInteger(resultBuffer));
     }
+
+    #endregion
+
+    #region Serialization
+
+    /// <exception cref="CodecParsingException"></exception>
+    public static ApplicationPan Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override ApplicationPan Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="CodecParsingException"></exception>
+    public static ApplicationPan Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForMaximumLength(value, _MaxByteCount, Tag);
+
+        BigInteger result = PlayCodec.NumericCodec.DecodeToBigInteger(value);
+
+        Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _MaxCharCount, Tag);
+
+        return new ApplicationPan(result);
+    }
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(ApplicationPan? x, ApplicationPan? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public int GetHashCode(ApplicationPan obj) => obj.GetHashCode();
 
     #endregion
 }

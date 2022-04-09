@@ -8,6 +8,23 @@ using Play.Core.Specifications;
 
 namespace Play.Codecs;
 
+// TODO: Not sure if this is correct, but try something like the following for two's compliment
+// TODO
+// TODO           // Fast path when capacity is available
+// TODO            while (state.position < buffer.Length)
+// TODO            {
+// TODO                if (value > 127)
+// TODO                {
+// TODO                    buffer[state.position++] = (byte)((value & 0x7F) | 0x80);
+// TODO                    value >>= 7;
+// TODO                }
+// TODO                else
+// TODO                {
+// TODO                    buffer[state.position++] = (byte)value;
+// TODO                    return;
+// TODO                }
+// TODO            }*/
+
 //public class SignedIntegerCodec : PlayCodec
 //{
 //    #region Instance Members

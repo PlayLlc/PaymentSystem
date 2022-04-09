@@ -10,8 +10,8 @@ public interface ICoordinateSplitPayments
     #region Instance Members
 
     public void CreateSnapshot(PaymentLogItem paymentLogItem);
-    public bool TryGetSplitPaymentLogItem(PrimaryAccountNumber primaryAccountNumber, uint sequenceNumber, out SplitPaymentLogItem result);
-    public bool TryGetSplitPaymentLogItem(PrimaryAccountNumber primaryAccountNumber, out SplitPaymentLogItem result);
+    public bool TryGetSplitPaymentLogItem(ApplicationPan primaryAccountNumber, uint sequenceNumber, out SplitPaymentLogItem result);
+    public bool TryGetSplitPaymentLogItem(ApplicationPan primaryAccountNumber, out SplitPaymentLogItem result);
 
     #endregion
 }

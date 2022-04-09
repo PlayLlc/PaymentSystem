@@ -35,10 +35,8 @@ public class GenerateApplicationCryptogramCommandTestSpy
     #region Instance Members
 
     public void UpdateMessageSent(
-        TransactionSessionId sessionId,
-        CryptogramInformationData cryptogramInformationData,
-        DataObjectListResult cardRiskManagementDataObjectListResult,
-        DataObjectListResult? dataStorageDataObjectListResult = null)
+        TransactionSessionId sessionId, CryptogramInformationData cryptogramInformationData,
+        DataObjectListResult cardRiskManagementDataObjectListResult, DataObjectListResult? dataStorageDataObjectListResult = null)
     {
         Clear();
 
@@ -77,12 +75,9 @@ public class GenerateApplicationCryptogramCommandTestSpy
         mock.Setup(a => GenerateApplicationCryptogramRequest.Create(It.IsAny<TransactionSessionId>(), It.IsAny<CryptogramInformationData>(),
                                                                     It.IsAny<DataObjectListResult>(), It.IsAny<DataObjectListResult?>()))
             .Callback((
-                          TransactionSessionId transactionSessionId,
-                          CryptogramInformationData cryptogramInformationData,
-                          DataObjectListResult cardRiskDol,
-                          DataObjectListResult? dataStorageDol) => result.UpdateMessageSent(transactionSessionId,
-                                                                                            cryptogramInformationData, cardRiskDol,
-                                                                                            dataStorageDol));
+                              TransactionSessionId transactionSessionId, CryptogramInformationData cryptogramInformationData,
+                              DataObjectListResult cardRiskDol, DataObjectListResult? dataStorageDol) =>
+                          result.UpdateMessageSent(transactionSessionId, cryptogramInformationData, cardRiskDol, dataStorageDol));
 
         fixture.Register(() => mock.Object);
         fixture.Freeze<GenerateApplicationCryptogramRequest>();
