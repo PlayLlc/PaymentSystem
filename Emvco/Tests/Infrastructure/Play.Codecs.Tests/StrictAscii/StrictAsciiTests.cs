@@ -1,7 +1,6 @@
 ﻿using Play.Codecs.Exceptions;
 using Play.Codecs.Tests.Numeric;
-using Play.Emv.TestData.Ber.Primitive;
-using Play.Tests.Core.BaseTestClasses;
+using Play.Testing.Infrastructure.BaseTestClasses;
 
 using Xunit;
 
@@ -64,16 +63,16 @@ public class StrictAsciiTests : TestBase
     [Fact]
     public void ApplicationLabelByteArray_ConvertingToAsciiString_ReturnsExpectedResult()
     {
-        string expected = ApplicationLabelTestTlv.GetDefaultAsString();
-        string actual = _SystemUnderTest.DecodeToString(ApplicationLabelTestTlv.GetDefaultAsBytes());
+        string expected = GetDefaultTestString();
+        string actual = _SystemUnderTest.DecodeToString(GetDefaultTestBytes());
         Assertion(() => { Assert.Equal(expected, actual); }, Build.Equals.Message(expected, actual));
     }
 
     [Fact]
     public void ApplicationLabelAsciiString_ConvertingToByteArray_ReturnsExpectedResult()
     {
-        byte[] expected = ApplicationLabelTestTlv.GetDefaultAsBytes();
-        byte[] actual = _SystemUnderTest.Encode(ApplicationLabelTestTlv.GetDefaultAsString());
+        byte[] expected = GetDefaultTestBytes();
+        byte[] actual = _SystemUnderTest.Encode(GetDefaultTestString());
 
         Assertion(() => { Assert.Equal(expected, actual); }, Build.Equals.Message(expected, actual));
     }
@@ -81,12 +80,21 @@ public class StrictAsciiTests : TestBase
     [Fact]
     public void ApplicationLabelAsciiString_GettingByteCount_ReturnsExpectedResult()
     {
-        int expected = ApplicationLabelTestTlv.GetDefaultAsBytes().Length;
-        string testData = ApplicationLabelTestTlv.GetDefaultAsString();
+        int expected = GetDefaultTestBytes().Length;
+        string testData = GetDefaultTestString();
         int actual = _SystemUnderTest.GetByteCount(testData);
 
         Assertion(() => { Assert.Equal(expected, actual); }, Build.Equals.Message(expected, actual));
     }
+
+    public static string GetDefaultTestString() => "VISA PREPAID";
+
+    private static byte[] GetDefaultTestBytes() =>
+        new byte[]
+        {
+            0x56, 0x49, 0x53, 0x41, 0x20, 0x50, 0x52, 0x45,
+            0x50, 0x41, 0x49, 0x44
+        };
 
     #endregion
 }

@@ -22,8 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Emv\Contactless\Kernel\Play.Emv.Kernel2\Play.Emv.Kernel2.csproj" />
-    <ProjectReference Include="..\..\..\Play.Tests.Core\Play.Tests.Core.csproj" />
-    <ProjectReference Include="..\..\Common\Play.Emv.Tests\Play.Emv.Tests.csproj" />
+    <ProjectReference Include="..\..\..\..\Play.Testing.Emv.Contactless\Play.Testing.Emv.Contactless.csproj" />
   </ItemGroup>
 
 </Project>

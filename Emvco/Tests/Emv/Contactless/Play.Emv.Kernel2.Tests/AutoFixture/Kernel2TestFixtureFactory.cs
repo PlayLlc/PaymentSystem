@@ -10,7 +10,7 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel2.Tests.TerminalActionAnalysisServiceTests;
-using Play.Tests.Core.AutoFixture.SpecimenBuilders;
+using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders;
 
 namespace Play.Emv.Kernel2.Tests.AutoFixture
 {

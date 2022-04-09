@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Play.Emv.TestData\Play.Emv.TestData.csproj" />
+    <ProjectReference Include="..\..\Testing\Play.Testing.Infrastructure\Play.Testing.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

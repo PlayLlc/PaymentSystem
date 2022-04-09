@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -28,7 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Infrastructure\Play.Icc\Play.Icc.csproj" />
-    <ProjectReference Include="..\..\Play.Emv.TestData\Play.Emv.TestData.csproj" />
+    <ProjectReference Include="..\..\Testing\Play.Testing.Infrastructure\Play.Testing.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

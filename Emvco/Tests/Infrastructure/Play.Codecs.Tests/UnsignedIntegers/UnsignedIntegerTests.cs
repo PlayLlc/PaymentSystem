@@ -1,7 +1,7 @@
 ﻿using System;
 
 using Play.Codecs.Exceptions;
-using Play.Tests.Core.BaseTestClasses;
+using Play.Testing.Infrastructure.BaseTestClasses;
 
 using Xunit;
 
