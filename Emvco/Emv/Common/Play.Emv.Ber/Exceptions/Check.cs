@@ -1,4 +1,6 @@
-﻿using Play.Ber.Identifiers;
+﻿using System.Numerics;
+
+using Play.Ber.Identifiers;
 using Play.Core.Exceptions;
 
 namespace Play.Emv.Ber.Exceptions;
@@ -134,6 +136,17 @@ internal class Check
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="Play.Emv.Ber.Exceptions.DataElementParsingException"></exception>
         public static void ForMaximumLength(ushort value, nint maxLength, Tag tag)
+        {
+            if (value > maxLength)
+            {
+                throw new
+                    DataElementParsingException($"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxLength}");
+            }
+        }
+
+        /// <exception cref="DataElementParsingException"></exception>
+        /// <exception cref="Play.Emv.Ber.Exceptions.DataElementParsingException"></exception>
+        public static void ForMaximumLength(BigInteger value, nint maxLength, Tag tag)
         {
             if (value > maxLength)
             {

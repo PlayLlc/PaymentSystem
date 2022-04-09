@@ -24,9 +24,7 @@ public record CardholderVerificationCode3Track1 : DataElement<ushort>, IEquality
     #region Constructor
 
     public CardholderVerificationCode3Track1(ushort value) : base(value)
-    {
-        _Value = value;
-    }
+    { }
 
     #endregion
 

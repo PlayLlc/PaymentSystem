@@ -25,9 +25,7 @@ public record IccPublicKeyExponent : DataElement<uint>
     #region Constructor
 
     public IccPublicKeyExponent(uint value) : base(value)
-    {
-        _Value = value;
-    }
+    { }
 
     public IccPublicKeyExponent(PublicKeyExponent value) : base((uint) value)
     { }

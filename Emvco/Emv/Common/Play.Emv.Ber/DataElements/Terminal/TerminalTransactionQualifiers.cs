@@ -57,21 +57,15 @@ public record TerminalTransactionQualifiers : DataElement<uint>, IEqualityCompar
     /// <remarks>
     ///     This mutates the underlying value of the current instance
     /// </remarks>
-    public void ResetForPreProcessingIndicator()
+    public TerminalTransactionQualifiers ResetForPreProcessingIndicator()
     {
         const uint bitMask = (uint) 0b11000000 << 16;
-        _Value = _Value.GetMaskedValue(bitMask);
+
+        return new TerminalTransactionQualifiers(_Value.GetMaskedValue(bitMask));
     }
 
-    public void SetCvmRequired()
-    {
-        _Value = _Value.SetBit(Bits.Seven, 2);
-    }
-
-    public void SetOnlineCryptogramRequired()
-    {
-        _Value = _Value.SetBit(Bits.Eight, 2);
-    }
+    public TerminalTransactionQualifiers SetCvmRequired() => new TerminalTransactionQualifiers(_Value.SetBit(Bits.Seven, 2));
+    public TerminalTransactionQualifiers SetOnlineCryptogramRequired() => new TerminalTransactionQualifiers(_Value.SetBit(Bits.Eight, 2));
 
     #endregion
 

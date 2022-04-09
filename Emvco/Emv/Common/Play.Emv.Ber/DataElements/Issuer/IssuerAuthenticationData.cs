@@ -27,9 +27,7 @@ public record IssuerAuthenticationData : DataElement<BigInteger>, IEqualityCompa
     #region Constructor
 
     public IssuerAuthenticationData(BigInteger value) : base(value)
-    {
-        _Value = value;
-    }
+    { }
 
     #endregion
 

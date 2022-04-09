@@ -24,9 +24,7 @@ public record DataAuthenticationCode : DataElement<ushort>, IEqualityComparer<Da
     #region Constructor
 
     public DataAuthenticationCode(ushort value) : base(value)
-    {
-        _Value = value;
-    }
+    { }
 
     #endregion
 

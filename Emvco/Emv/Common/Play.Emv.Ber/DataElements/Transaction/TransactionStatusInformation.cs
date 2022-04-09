@@ -28,9 +28,7 @@ public record TransactionStatusInformation : DataElement<ushort>
     { }
 
     private TransactionStatusInformation(ushort value) : base(value)
-    {
-        _Value = value;
-    }
+    { }
 
     #endregion
 

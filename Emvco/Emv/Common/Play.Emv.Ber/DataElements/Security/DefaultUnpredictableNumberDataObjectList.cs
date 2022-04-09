@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
@@ -30,7 +31,7 @@ public record DefaultUnpredictableNumberDataObjectList : DataObjectList, IEquali
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="CardDataMissingException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public DefaultUnpredictableNumberDataObjectList(BigInteger value) : base(value)
     {
         if (!_Codec.IsTagPresent(UnpredictableNumber.Tag, value.ToByteArray()))
@@ -59,11 +60,12 @@ public record DefaultUnpredictableNumberDataObjectList : DataObjectList, IEquali
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CardDataMissingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public static DefaultUnpredictableNumberDataObjectList Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        return new DefaultUnpredictableNumberDataObjectList(value);
+        return new DefaultUnpredictableNumberDataObjectList(new BigInteger(value));
     }
 
     #endregion

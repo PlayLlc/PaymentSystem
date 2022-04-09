@@ -23,9 +23,7 @@ public record IccPinEnciphermentPublicKeyCertificate : DataElement<BigInteger>, 
     #region Constructor
 
     public IccPinEnciphermentPublicKeyCertificate(BigInteger value) : base(value)
-    {
-        _Value = value;
-    }
+    { }
 
     #endregion
 

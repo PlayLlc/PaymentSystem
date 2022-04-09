@@ -1,4 +1,6 @@
-﻿using Play.Ber.Codecs;
+﻿using System.Numerics;
+
+using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
@@ -26,10 +28,18 @@ public record UnpredictableNumberDataObjectList : DataObjectList
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public UnpredictableNumberDataObjectList(byte[] value) : base(value)
+    public UnpredictableNumberDataObjectList(BigInteger value) : base(value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 
@@ -42,15 +52,7 @@ public record UnpredictableNumberDataObjectList : DataObjectList
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static UnpredictableNumberDataObjectList Decode(ReadOnlySpan<byte> value) => new(value.ToArray());
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public static UnpredictableNumberDataObjectList Decode(ReadOnlySpan<byte> value) => new(new BigInteger(value.ToArray()));
 
     #endregion
 }

@@ -23,9 +23,7 @@ public record IccPinEnciphermentPublicKeyRemainder : DataElement<BigInteger>, IE
     #region Constructor
 
     public IccPinEnciphermentPublicKeyRemainder(BigInteger value) : base(value)
-    {
-        _Value = value;
-    }
+    { }
 
     #endregion
 

@@ -27,9 +27,6 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>, IEqualityC
 
     #region Constructor
 
-    public LanguagePreference(ReadOnlySpan<byte> value) : base(GetAlpha2LanguageCodes(value))
-    { }
-
     public LanguagePreference(ulong value) : base(GetAlpha2LanguageCodes(value))
     { }
 
@@ -112,7 +109,7 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>, IEqualityC
                 DataElementParsingException($"The Primitive Value {nameof(LanguagePreference)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
         }
 
-        return new LanguagePreference(value);
+        return new LanguagePreference(GetAlpha2LanguageCodes(value));
     }
 
     public new byte[] EncodeValue()

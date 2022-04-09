@@ -23,9 +23,7 @@ public record SignedDynamicApplicationData : DataElement<BigInteger>, IEqualityC
     #region Constructor
 
     public SignedDynamicApplicationData(BigInteger value) : base(value)
-    {
-        _Value = value;
-    }
+    { }
 
     #endregion
 
