@@ -121,7 +121,9 @@ public abstract class TestBase
         {
             #region Instance Members
 
+            public static string Message(string expected, string actual) => $"\n\n\t\texpected\t: {expected}; \n\t\tactual\t\t: {actual};";
             public static string Message(byte expected, byte actual) => $"\n\n\t\texpected\t: {expected}; \n\t\tactual\t\t: {actual};";
+            public static string Message(int expected, int actual) => $"\n\n\t\texpected\t: {expected}; \n\t\tactual\t\t: {actual};";
             public static string Message(ushort expected, ushort actual) => $"\n\n\t\texpected\t: {expected}; \n\t\tactual\t\t: {actual};";
             public static string Message(uint expected, uint actual) => $"\n\n\t\texpected\t: {expected}; \n\t\tactual\t\t: {actual};";
             public static string Message(ulong expected, ulong actual) => $"\n\n\t\texpected\t: {expected}; \n\t\tactual\t\t: {actual};";

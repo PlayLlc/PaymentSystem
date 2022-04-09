@@ -11,7 +11,7 @@ using Play.Emv.Terminal.Contracts.Messages.Commands;
 
 using Xunit;
 
-namespace Play.Emv.Terminal.Common.Tests.TerminalActionAnalysisServiceTests;
+namespace Play.Emv.Kernel2.Tests.TerminalActionAnalysisServiceTests;
 
 public partial class TerminalActionAnalysisServiceTests
 {

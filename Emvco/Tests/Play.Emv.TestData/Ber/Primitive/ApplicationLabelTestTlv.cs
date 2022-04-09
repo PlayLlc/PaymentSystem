@@ -27,6 +27,8 @@ public class ApplicationLabelTestTlv : TestTlv
 
     #region Instance Members
 
+    public static byte[] GetDefaultAsBytes() => _DefaultContentOctets;
+    public static string GetDefaultAsString() => "VISA PREPAID";
     public override Tag GetTag() => ApplicationLabel.Tag;
 
     #endregion

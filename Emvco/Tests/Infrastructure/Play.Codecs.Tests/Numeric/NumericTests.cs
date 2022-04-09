@@ -1,5 +1,4 @@
 ﻿using Play.Codecs.Exceptions;
-using Play.Emv.TestData.Encoding;
 
 using Xunit;
 
@@ -102,30 +101,33 @@ public class NumericTests
     [Fact]
     public void AmountUshort_ConvertingToByteArray_ReturnsExpectedResult()
     {
-        ushort testData = EncodingTestDataFactory.Numeric.ValueUshort;
+        ushort testData = 12345;
+        byte[] expected = new byte[] {1, 23, 45};
 
-        byte[] result = _SystemUnderTest.Encode(testData, 3);
+        byte[] actual = _SystemUnderTest.Encode(testData, 3);
 
-        Assert.Equal(result, EncodingTestDataFactory.Numeric.ValueBytes);
+        Assert.Equal(actual, expected);
     }
 
     [Fact]
     public void AmountUint_ConvertingToByteArray_ReturnsExpectedResult()
     {
-        uint testData = EncodingTestDataFactory.Numeric.ValueUint;
-        byte[] result = _SystemUnderTest.Encode(testData, 3);
+        uint testData = 12345;
+        byte[] expected = new byte[] {1, 23, 45};
+        byte[] actual = _SystemUnderTest.Encode(testData, 3);
 
-        Assert.Equal(result, EncodingTestDataFactory.Numeric.ValueBytes);
+        Assert.Equal(expected, actual);
     }
 
     [Fact]
     public void AmountUlong_ConvertingToByteArray_ReturnsExpectedResult()
     {
-        ulong testData = EncodingTestDataFactory.Numeric.ValueUlong;
+        ulong testData = 12345;
 
-        byte[] result = _SystemUnderTest.Encode(testData, 3);
+        byte[] expected = new byte[] {1, 23, 45};
+        byte[] actual = _SystemUnderTest.Encode(testData, 3);
 
-        Assert.Equal(result, EncodingTestDataFactory.Numeric.ValueBytes);
+        Assert.Equal(expected, actual);
     }
 
     #endregion

@@ -1,12 +1,13 @@
 ﻿using Play.Codecs.Exceptions;
 using Play.Codecs.Tests.Numeric;
-using Play.Emv.TestData.Encoding;
+using Play.Emv.TestData.Ber.Primitive;
+using Play.Tests.Core.BaseTestClasses;
 
 using Xunit;
 
 namespace Play.Codecs.Tests.StrictAscii;
 
-public class StrictAsciiTests
+public class StrictAsciiTests : TestBase
 {
     #region Instance Values
 
@@ -28,32 +29,32 @@ public class StrictAsciiTests
     /// <summary>
     ///     RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult
     /// </summary>
-    /// <param name="testValue"></param>
+    /// <param name="expected"></param>
     /// <exception cref="CodecParsingException"></exception>
     [Theory]
     [MemberData(nameof(AsciiFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(NumericFixture))]
-    public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
+    public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] expected)
     {
-        string decoded = _SystemUnderTest.DecodeToString(testValue);
+        string decoded = _SystemUnderTest.DecodeToString(expected);
 
-        byte[] encoded = _SystemUnderTest.Encode(decoded);
+        byte[] actual = _SystemUnderTest.Encode(decoded);
 
-        Assert.Equal(testValue, encoded);
+        Assertion(() => { Assert.Equal(expected, actual); }, Build.Equals.Message(expected, actual));
     }
 
     /// <summary>
     ///     RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult
     /// </summary>
-    /// <param name="testValue"></param>
+    /// <param name="expected"></param>
     /// <exception cref="CodecParsingException"></exception>
     [Theory]
     [MemberData(nameof(AsciiFixture.GetRandomString), 100, 1, 300, MemberType = typeof(NumericFixture))]
-    public void RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult(string testValue)
+    public void RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult(string expected)
     {
-        byte[] decoded = _SystemUnderTest.Encode(testValue);
-        string encoded = _SystemUnderTest.DecodeToString(decoded);
+        byte[] decoded = _SystemUnderTest.Encode(expected);
+        string actual = _SystemUnderTest.DecodeToString(decoded);
 
-        Assert.Equal(testValue, encoded);
+        Assertion(() => { Assert.Equal(expected, actual); }, Build.Equals.Message(expected, actual));
     }
 
     /// <summary>
@@ -63,30 +64,28 @@ public class StrictAsciiTests
     [Fact]
     public void ApplicationLabelByteArray_ConvertingToAsciiString_ReturnsExpectedResult()
     {
-        byte[] testData = EncodingTestDataFactory.StrictAscii.ApplicationLabelBytes;
-
-        string result = _SystemUnderTest.DecodeToString(testData);
-
-        Assert.Equal(result, EncodingTestDataFactory.StrictAscii.ApplicationLabelAscii);
+        string expected = ApplicationLabelTestTlv.GetDefaultAsString();
+        string actual = _SystemUnderTest.DecodeToString(ApplicationLabelTestTlv.GetDefaultAsBytes());
+        Assertion(() => { Assert.Equal(expected, actual); }, Build.Equals.Message(expected, actual));
     }
 
     [Fact]
     public void ApplicationLabelAsciiString_ConvertingToByteArray_ReturnsExpectedResult()
     {
-        string testData = EncodingTestDataFactory.StrictAscii.ApplicationLabelAscii;
+        byte[] expected = ApplicationLabelTestTlv.GetDefaultAsBytes();
+        byte[] actual = _SystemUnderTest.Encode(ApplicationLabelTestTlv.GetDefaultAsString());
 
-        byte[] result = _SystemUnderTest.Encode(testData);
-
-        Assert.Equal(result, EncodingTestDataFactory.StrictAscii.ApplicationLabelBytes);
+        Assertion(() => { Assert.Equal(expected, actual); }, Build.Equals.Message(expected, actual));
     }
 
     [Fact]
     public void ApplicationLabelAsciiString_GettingByteCount_ReturnsExpectedResult()
     {
-        string testData = EncodingTestDataFactory.StrictAscii.ApplicationLabelAscii;
-        int result = _SystemUnderTest.GetByteCount(testData);
+        int expected = ApplicationLabelTestTlv.GetDefaultAsBytes().Length;
+        string testData = ApplicationLabelTestTlv.GetDefaultAsString();
+        int actual = _SystemUnderTest.GetByteCount(testData);
 
-        Assert.Equal(result, EncodingTestDataFactory.StrictAscii.ApplicationLabelBytes.Length);
+        Assertion(() => { Assert.Equal(expected, actual); }, Build.Equals.Message(expected, actual));
     }
 
     #endregion

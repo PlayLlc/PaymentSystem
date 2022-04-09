@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Encoding\Numeric\" />
+    <Folder Include="Encoding\StrictAscii\" />
     <Folder Include="Encoding\UnsignedInteger\" />
   </ItemGroup>
 

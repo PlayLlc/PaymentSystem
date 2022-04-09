@@ -3,7 +3,7 @@
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Kernel.Databases;
 
-namespace Play.Emv.Terminal.Common.Tests.TerminalActionAnalysisServiceTests;
+namespace Play.Emv.Kernel2.Tests.TerminalActionAnalysisServiceTests;
 
 public class KernelDatabaseFactory
 {

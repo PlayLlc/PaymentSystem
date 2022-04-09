@@ -1,16 +1,16 @@
 ﻿using AutoFixture;
-using AutoFixture.AutoMoq;
 
 using Play.Ber.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.TestData.AutoFixture.FixtureFactories;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
 
 using Xunit;
 
-namespace Play.Emv.Terminal.Common.Tests.TerminalActionAnalysisServiceTests;
+namespace Play.Emv.Kernel2.Tests.TerminalActionAnalysisServiceTests;
 
 [Trait("Type", "Unit")]
 public partial class TerminalActionAnalysisServiceTests
@@ -31,9 +31,10 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     public TerminalActionAnalysisServiceTests()
     {
-        _Fixture = new Fixture();
-        _Fixture.Customize(new AutoMoqCustomization());
-        _Database = _Fixture.Create<KernelDatabase>();
+        _Fixture = DefaultFixtureFactory.Create(); 
+        _Database = _Fixture.Create<KernelDatabase>();                                                                      .ClearBits(0xFFFFFF0000000000)));
+
+        //RegisteredApplicationProviderIndicator
     }
 
     #endregion

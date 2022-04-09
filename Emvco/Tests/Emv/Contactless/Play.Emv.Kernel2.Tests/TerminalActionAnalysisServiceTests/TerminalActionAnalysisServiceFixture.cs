@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Play.Emv.Terminal.Common.Tests.TerminalActionAnalysisServiceTests;
+namespace Play.Emv.Kernel2.Tests.TerminalActionAnalysisServiceTests;
 
 internal class TerminalActionAnalysisServiceFixture
 {

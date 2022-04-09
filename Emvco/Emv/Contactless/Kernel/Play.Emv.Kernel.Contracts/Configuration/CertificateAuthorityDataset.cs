@@ -25,7 +25,7 @@ public class CertificateAuthorityDataset
 
     #region Constructor
 
-    protected CertificateAuthorityDataset(
+    public CertificateAuthorityDataset(
         RegisteredApplicationProviderIndicator registeredApplicationProviderIndicator,
         CaPublicKeyCertificate[] certificateAuthorityPublicKeyCertificates)
     {

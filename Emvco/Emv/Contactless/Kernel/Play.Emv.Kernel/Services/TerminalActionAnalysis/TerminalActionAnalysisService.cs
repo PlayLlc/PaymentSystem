@@ -17,13 +17,6 @@ namespace Play.Emv.Kernel.Services;
 /// </remarks>
 public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 {
-    #region Constructor
-
-    public TerminalActionAnalysisService()
-    { }
-
-    #endregion
-
     #region Instance Members
 
     /// <exception cref="InvalidOperationException"></exception>
