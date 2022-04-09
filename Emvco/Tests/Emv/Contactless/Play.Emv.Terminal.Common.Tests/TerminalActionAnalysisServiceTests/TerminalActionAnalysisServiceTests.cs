@@ -18,7 +18,6 @@ public partial class TerminalActionAnalysisServiceTests
     #region Instance Values
 
     private readonly IFixture _Fixture;
-    private readonly GenerateApplicationCryptogramCommandTestSpy _TestSpy;
     private readonly KernelDatabase _Database;
 
     #endregion
@@ -34,7 +33,6 @@ public partial class TerminalActionAnalysisServiceTests
     {
         _Fixture = new Fixture();
         _Fixture.Customize(new AutoMoqCustomization());
-        _TestSpy = GenerateApplicationCryptogramCommandTestSpy.Setup(_Fixture);
         _Database = _Fixture.Create<KernelDatabase>();
     }
 
@@ -44,7 +42,7 @@ public partial class TerminalActionAnalysisServiceTests
 
     private KernelDatabase GetKernelDatabaseForOfflineOnly()
     {
-        var builder = KernelDatabaseFactory.GetBuilder();
+        KernelDatabaseFactory.KernelDatabaseBuilder? builder = KernelDatabaseFactory.GetBuilder();
         builder.SetOfflineOnlyTerminal();
 
         return builder.Complete();
@@ -52,7 +50,7 @@ public partial class TerminalActionAnalysisServiceTests
 
     private KernelDatabase GetKernelDatabaseForOnlineOnly()
     {
-        var builder = KernelDatabaseFactory.GetBuilder();
+        KernelDatabaseFactory.KernelDatabaseBuilder? builder = KernelDatabaseFactory.GetBuilder();
         builder.SetOnlineOnlyTerminal();
 
         return builder.Complete();
@@ -60,7 +58,7 @@ public partial class TerminalActionAnalysisServiceTests
 
     private KernelDatabase GetKernelDatabaseForOnlineAndOfflineCapable()
     {
-        var builder = KernelDatabaseFactory.GetBuilder();
+        KernelDatabaseFactory.KernelDatabaseBuilder? builder = KernelDatabaseFactory.GetBuilder();
         builder.SetOnlineAndOfflineCapableTerminal();
 
         return builder.Complete();

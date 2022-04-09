@@ -6,6 +6,7 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Services;
+using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
 
 using Xunit;
@@ -28,10 +29,10 @@ public partial class TerminalActionAnalysisServiceTests
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults(0));
 
-        sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOfflineOnly());
+        GenerateApplicationCryptogramRequest rapdu = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOfflineOnly());
 
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), _TestSpy.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.TransactionCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
+        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
+        Assert.Equal(CryptogramTypes.TransactionCryptogram, rapdu.GetCryptogramType());
     }
 
     /// <summary>
@@ -49,10 +50,10 @@ public partial class TerminalActionAnalysisServiceTests
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode));
 
-        sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOfflineOnly());
+        GenerateApplicationCryptogramRequest rapdu = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOfflineOnly());
 
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), _TestSpy.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.TransactionCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
+        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
+        Assert.Equal(CryptogramTypes.TransactionCryptogram, rapdu.GetCryptogramType());
     }
 
     /// <summary>
@@ -70,10 +71,10 @@ public partial class TerminalActionAnalysisServiceTests
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode));
 
-        sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOfflineOnly());
+        GenerateApplicationCryptogramRequest rapdu = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOfflineOnly());
 
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), _TestSpy.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.TransactionCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
+        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
+        Assert.Equal(CryptogramTypes.TransactionCryptogram, rapdu.GetCryptogramType());
     }
 
     /// <summary>
@@ -94,10 +95,10 @@ public partial class TerminalActionAnalysisServiceTests
         TerminalActionAnalysisCommand command =
             GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) terminalActionCode | (ulong) issuerActionCodes));
 
-        sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOfflineOnly());
+        GenerateApplicationCryptogramRequest rapdu = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOfflineOnly());
 
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), _TestSpy.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.TransactionCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
+        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
+        Assert.Equal(CryptogramTypes.TransactionCryptogram, rapdu.GetCryptogramType());
     }
 
     #endregion
@@ -119,10 +120,10 @@ public partial class TerminalActionAnalysisServiceTests
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode));
 
-        sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOfflineOnly());
+        GenerateApplicationCryptogramRequest rapdu = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOfflineOnly());
 
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), _TestSpy.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
+        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
+        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, rapdu.GetCryptogramType());
     }
 
     /// <summary>
@@ -140,10 +141,10 @@ public partial class TerminalActionAnalysisServiceTests
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode));
 
-        sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOfflineOnly());
+        GenerateApplicationCryptogramRequest rapdu = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOfflineOnly());
 
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), _TestSpy.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
+        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
+        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, rapdu.GetCryptogramType());
     }
 
     /// <summary>
@@ -161,10 +162,10 @@ public partial class TerminalActionAnalysisServiceTests
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode));
 
-        sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOfflineOnly());
+        GenerateApplicationCryptogramRequest rapdu = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOfflineOnly());
 
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), _TestSpy.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
+        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
+        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, rapdu.GetCryptogramType());
     }
 
     /// <summary>
@@ -182,10 +183,10 @@ public partial class TerminalActionAnalysisServiceTests
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode));
 
-        sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOfflineOnly());
+        GenerateApplicationCryptogramRequest rapdu = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOfflineOnly());
 
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), _TestSpy.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
+        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
+        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, rapdu.GetCryptogramType());
     }
 
     /// <summary>
@@ -206,10 +207,10 @@ public partial class TerminalActionAnalysisServiceTests
         TerminalActionAnalysisCommand command =
             GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) terminalActionCode | (ulong) issuerActionCodes));
 
-        sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOfflineOnly());
+        GenerateApplicationCryptogramRequest rapdu = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOfflineOnly());
 
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), _TestSpy.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
+        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
+        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, rapdu.GetCryptogramType());
     }
 
     /// <summary>
@@ -230,10 +231,10 @@ public partial class TerminalActionAnalysisServiceTests
         TerminalActionAnalysisCommand command =
             GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) terminalActionCode | (ulong) issuerActionCodes));
 
-        sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOfflineOnly());
+        GenerateApplicationCryptogramRequest rapdu = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOfflineOnly());
 
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), _TestSpy.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, _TestSpy.GetCryptogramInformationData()!.GetCryptogramType());
+        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
+        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, rapdu.GetCryptogramType());
     }
 
     #endregion

@@ -2,6 +2,7 @@
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.Templates;
 using Play.Icc.Messaging.Apdu;
 
@@ -130,6 +131,23 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
         return new GenerateApplicationCryptogramCApduSignal(new Class(SecureMessaging.NotRecognized, LogicalChannel.BasicChannel),
                                                             Instruction.CardBlock, referenceControlParameter, 0,
                                                             transactionRelatedData.EncodeValue());
+    }
+
+    public bool IsCdaRequested() => GetParameter1().IsBitSet(Bits.Five);
+
+    /// <exception cref="TerminalDataException"></exception>
+    public CryptogramTypes GetCryptogramTypes()
+    {
+        if (GetParameter1().IsBitSet(Bits.Seven))
+            return CryptogramTypes.TransactionCryptogram;
+
+        if (GetParameter1().IsBitSet(Bits.Eight))
+            return CryptogramTypes.AuthorizationRequestCryptogram;
+
+        if (GetParameter1() == 0)
+            return CryptogramTypes.ApplicationAuthenticationCryptogram;
+
+        throw new TerminalDataException($"The {nameof(GenerateApplicationCryptogramCApduSignal)} was not correctly encoded");
     }
 
     #endregion

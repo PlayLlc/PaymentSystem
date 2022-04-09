@@ -26,4 +26,8 @@
     <ProjectReference Include="..\..\..\..\Emv\Contactless\Kernel\Play.Emv.Kernel\Play.Emv.Kernel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TerminalActionAnalysisServiceTests\___TerminalActionAnalysisServiceSetupShit\" />
+  </ItemGroup>
+
 </Project>

@@ -1,5 +1,6 @@
 ﻿using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;
 using Play.Messaging;
@@ -17,7 +18,8 @@ public record GenerateApplicationCryptogramRequest : QueryPcdRequest
     #region Constructor
 
     private GenerateApplicationCryptogramRequest(TransactionSessionId transactionSessionId, CApduSignal cApduSignal) : base(cApduSignal,
-     MessageTypeId, transactionSessionId)
+                                                                                                                            MessageTypeId,
+                                                                                                                            transactionSessionId)
     { }
 
     #endregion
@@ -35,10 +37,8 @@ public record GenerateApplicationCryptogramRequest : QueryPcdRequest
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public static GenerateApplicationCryptogramRequest Create(
-        TransactionSessionId sessionId,
-        CryptogramInformationData cryptogramInformationData,
-        DataObjectListResult cardRiskManagementDataObjectListResult,
-        DataObjectListResult? dataStorageDataObjectListResult = null)
+        TransactionSessionId sessionId, CryptogramInformationData cryptogramInformationData,
+        DataObjectListResult cardRiskManagementDataObjectListResult, DataObjectListResult? dataStorageDataObjectListResult = null)
     {
         if (dataStorageDataObjectListResult is null)
         {
@@ -56,6 +56,11 @@ public record GenerateApplicationCryptogramRequest : QueryPcdRequest
                                                                     cardRiskManagementDataObjectListResult,
                                                                     dataStorageDataObjectListResult));
     }
+
+    public bool IsCdaRequested() => ((GenerateApplicationCryptogramCApduSignal) GetCApduSignal()).IsCdaRequested();
+
+    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    public CryptogramTypes GetCryptogramType() => ((GenerateApplicationCryptogramCApduSignal) GetCApduSignal()).GetCryptogramTypes();
 
     #endregion
 }

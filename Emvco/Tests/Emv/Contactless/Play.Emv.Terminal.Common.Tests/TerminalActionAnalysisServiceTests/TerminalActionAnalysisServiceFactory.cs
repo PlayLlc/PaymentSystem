@@ -2,8 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using AutoFixture;
+
+using Moq;
+
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Icc;
+using Play.Emv.Identifiers;
 
 namespace Play.Emv.Terminal.Common.Tests.TerminalActionAnalysisServiceTests;
 

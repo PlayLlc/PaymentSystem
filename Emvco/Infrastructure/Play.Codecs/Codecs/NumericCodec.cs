@@ -536,7 +536,7 @@ public class NumericCodec : PlayCodec
         // xx xx x0
         byte[] buffer = new byte[length];
 
-        var valueNumericByteCount = (value.GetNumberOfDigits() / 2) + (value.GetNumberOfDigits() % 2);
+        int valueNumericByteCount = (value.GetNumberOfDigits() / 2) + (value.GetNumberOfDigits() % 2);
 
         if (length < valueNumericByteCount)
             value /= (uint) Math.Pow(10, (valueNumericByteCount - length) * 2);

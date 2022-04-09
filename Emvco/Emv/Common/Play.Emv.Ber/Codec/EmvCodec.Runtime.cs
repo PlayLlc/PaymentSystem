@@ -52,7 +52,7 @@ public partial class EmvCodec : BerCodec
 
         List<Tag> tags = new();
 
-        foreach (var prim in codecs)
+        foreach (PrimitiveValue? prim in codecs)
         {
             try
             {
@@ -67,7 +67,7 @@ public partial class EmvCodec : BerCodec
         HashSet<Tag> distinct = new(tags);
         IEnumerable<Tag> duplicates = tags.Except(distinct.ToList());
 
-        foreach (var tag in duplicates)
+        foreach (Tag tag in duplicates)
             Console.WriteLine($"{tag}");
 
         return codecs;
