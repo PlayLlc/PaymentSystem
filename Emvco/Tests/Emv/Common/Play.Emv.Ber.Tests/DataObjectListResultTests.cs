@@ -7,12 +7,13 @@ using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
 using Play.Emv.TestData.Ber.Primitive;
+using Play.Tests.Core.BaseTestClasses;
 
 using Xunit;
 
 namespace Play.Emv.Ber.Tests;
 
-public class DataObjectListResultTests
+public class DataObjectListResultTests : TestBase
 {
     #region Instance Members
 
@@ -25,6 +26,7 @@ public class DataObjectListResultTests
     {
         PrimitiveValue testData = new ApplicationExpirationDateTestTlv().AsPrimitiveValue();
         DataObjectListResult testValue = new(testData);
+
         Assert.NotNull(testValue);
     }
 

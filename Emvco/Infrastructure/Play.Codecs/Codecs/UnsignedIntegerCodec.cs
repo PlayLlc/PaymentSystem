@@ -644,17 +644,10 @@ public class UnsignedIntegerCodec : PlayCodec
     public uint DecodeToUInt32(ReadOnlySpan<byte> value)
     {
         const byte byteLength = Specs.Integer.UInt32.ByteCount;
+        Span<byte> buffer = stackalloc byte[byteLength];
 
         if (value.Length == 0)
             return 0;
-
-        if (value.Length < byteLength)
-        {
-            Span<byte> buffer = stackalloc byte[byteLength];
-            value.CopyTo(buffer);
-
-            return DecodeToUInt32(value);
-        }
 
         if (value.Length > byteLength)
             return DecodeToUInt32(value[..byteLength]);

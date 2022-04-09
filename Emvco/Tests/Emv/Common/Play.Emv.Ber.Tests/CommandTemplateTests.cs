@@ -4,12 +4,13 @@ using Play.Ber.Exceptions;
 using Play.Emv.Ber.Templates;
 using Play.Emv.TestData.Ber.Constructed;
 using Play.Emv.TestData.Ber.Primitive;
+using Play.Tests.Core.BaseTestClasses;
 
 using Xunit;
 
 namespace Play.Emv.Ber.Tests;
 
-public class CommandTemplateTests
+public class CommandTemplateTests : TestBase
 {
     #region Instance Members
 
@@ -33,10 +34,11 @@ public class CommandTemplateTests
     [Fact]
     public void PrimitiveBerEncoding_DeserializingCommandTemplate_CreatesCommandTemplate()
     {
-        byte[] expectedResult = new AmountAuthorizedNumericTestTlv().EncodeTagLengthValue();
-        CommandTemplate sut = CommandTemplate.Decode(expectedResult.AsSpan());
-        byte[]? testValue = sut.EncodeValue();
-        Assert.Equal(expectedResult, testValue);
+        byte[] expected = new AmountAuthorizedNumericTestTlv().EncodeTagLengthValue();
+        CommandTemplate sut = CommandTemplate.Decode(expected.AsSpan());
+        byte[]? actual = sut.EncodeValue();
+
+        Assertion(() => { Assert.Equal(expected, actual); }, Build.Equals.Message(expected, actual));
     }
 
     /// <summary>

@@ -5,6 +5,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers.Long;
 using Play.Ber.Identifiers.Short;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 
 namespace Play.Ber.Identifiers;
 
@@ -19,8 +20,6 @@ public readonly record struct Tag
     #region Constructor
 
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
     public Tag(ReadOnlySpan<byte> value)
     {
         if (ShortIdentifier.IsValid(value[0]))
@@ -31,14 +30,13 @@ public readonly record struct Tag
         }
 
         byte byteCount = LongIdentifier.GetByteCount(value);
-        LongIdentifier.Validate(value[..byteCount]);
+        uint uintTag = PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(value[..byteCount]);
+        LongIdentifier.Validate(uintTag);
 
-        _Value = PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(value[..byteCount]);
+        _Value = uintTag;
     }
 
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     public Tag(uint value)
     {
         if (ShortIdentifier.IsValid(value))
@@ -56,7 +54,9 @@ public readonly record struct Tag
 
     #region Instance Members
 
+    /// <exception cref="CodecParsingException"></exception>
     public override string ToString() => $"0x{PlayCodec.HexadecimalCodec.DecodeToString(Serialize())};";
+
     public readonly byte GetByteCount() => GetByteCount(_Value);
 
     private static byte GetByteCount(uint value)
@@ -81,6 +81,7 @@ public readonly record struct Tag
     /// <remarks>
     ///     <see cref="ITUT_X690" /> 8.1.2.1
     /// </remarks>
+    /// <exception cref="BerParsingException"></exception>
     public readonly ClassType GetClass() => GetClass(_Value);
 
     /// <exception cref="BerParsingException"></exception>
@@ -108,6 +109,7 @@ public readonly record struct Tag
         return LongIdentifier.GetDataObject(value);
     }
 
+    /// <exception cref="BerParsingException"></exception>
     public readonly ClassType GetClassType() => GetClassType(_Value);
 
     /// <summary>
@@ -146,8 +148,13 @@ public readonly record struct Tag
 
     public readonly bool IsPrimitive() => GetDataObject().IsPrimitive();
     public readonly bool IsConstructed() => !GetDataObject().IsPrimitive();
+
+    /// <exception cref="BerParsingException"></exception>
     public readonly bool IsUniversal() => ClassType.IsUniversal(GetClassType());
+
+    /// <exception cref="BerParsingException"></exception>
     public readonly bool IsApplicationSpecific() => ClassType.IsUniversal(GetClassType());
+
     private static bool IsShortTag(uint value) => ShortIdentifier.IsValid(value);
 
     /// <exception cref="InvalidOperationException"></exception>
@@ -165,6 +172,7 @@ public readonly record struct Tag
     /// <exception cref="BerParsingException"></exception>
     public byte[] Serialize() => PlayCodec.UnsignedIntegerCodec.Encode(_Value, true);
 
+    /// <exception cref="BerParsingException"></exception>
     public void Serialize(Span<byte> buffer, ref int offset)
     {
         PlayCodec.UnsignedIntegerCodec.Encode(_Value, buffer, ref offset);

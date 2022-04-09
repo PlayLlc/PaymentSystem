@@ -41,31 +41,6 @@ public partial class BerCodec
 
     #endregion
 
-    #region Serialization
-
-    /// <summary>
-    ///     EncodeValue
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    private byte[] EncodeValue(IEncodeBerDataObjects value)
-    {
-        if (value is PrimitiveValue primitiveValue)
-            return EncodeTagLengthValue(primitiveValue);
-
-        if (value is ConstructedValue constructedValue)
-            return EncodeValue(constructedValue);
-
-        if (value is SetOf setOfValues)
-            return EncodeValue(setOfValues);
-
-        throw new BerParsingException("This exception should never be thrown");
-    }
-
-    #endregion
-
     #region Instance Members
 
     /// <summary>
@@ -244,6 +219,31 @@ public partial class BerCodec
 
             return buffer[..i].ToArray();
         }
+    }
+
+    #endregion
+
+    #region Serialization
+
+    /// <summary>
+    ///     EncodeValue
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    private byte[] EncodeValue(IEncodeBerDataObjects value)
+    {
+        if (value is PrimitiveValue primitiveValue)
+            return EncodeTagLengthValue(primitiveValue);
+
+        if (value is ConstructedValue constructedValue)
+            return EncodeValue(constructedValue);
+
+        if (value is SetOf setOfValues)
+            return EncodeValue(setOfValues);
+
+        throw new BerParsingException("This exception should never be thrown");
     }
 
     #endregion
