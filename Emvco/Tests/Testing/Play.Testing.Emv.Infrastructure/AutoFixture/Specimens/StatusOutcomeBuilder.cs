@@ -4,7 +4,7 @@ using Play.Emv.Ber;
 using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders;
 using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders.Specimens;
 
-namespace Play.Testing.Emv.Infrastructure.AutoFixture;
+namespace Play.Testing.Emv.Infrastructure.AutoFixture.Specimens;
 
 internal class StatusOutcomeBuilder : SpecimenBuilder
 {

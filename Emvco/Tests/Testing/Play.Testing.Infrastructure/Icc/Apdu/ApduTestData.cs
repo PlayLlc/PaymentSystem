@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.TestData.Icc.Apdu;
+﻿namespace Play.Testing.Infrastructure.Icc.Apdu;
 
 public partial class ApduTestData
 {

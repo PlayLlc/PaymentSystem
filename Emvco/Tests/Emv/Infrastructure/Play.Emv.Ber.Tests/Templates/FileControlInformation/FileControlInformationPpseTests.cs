@@ -1,12 +1,12 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Emv.Ber.Templates;
-using Play.Emv.TestData.Ber.Constructed;
-using Play.Emv.TestData.Ber.Primitive;
+using Play.Testing.Emv.Infrastructure.Ber.Constructed;
+using Play.Testing.Emv.Infrastructure.Ber.Primitive;
 
 using Xunit;
 
-namespace Play.Emv.Templates.Tests.FileControlInformation;
+namespace Play.Emv.Ber.Tests.Templates.FileControlInformation;
 
 public class FileControlInformationPpseTests
 {

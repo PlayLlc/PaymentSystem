@@ -1,11 +1,10 @@
 ﻿using AutoFixture.Kernel;
 
-using Play.Testing.Emv.Infrastructure.AutoFixture;
 using Play.Testing.Emv.Infrastructure.AutoFixture.Specimens;
 using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders;
 using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders.Specimens;
 
-namespace Play.Testing.Infrastructure.AutoFixture.FixtureFactories;
+namespace Play.Testing.Emv.Infrastructure.AutoFixture.FixtureFactories;
 
 public class SpecimenForeman
 {

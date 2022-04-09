@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.TestData.Ber.SetOf;
+﻿namespace Play.Testing.Emv.Infrastructure.Ber.SetOf;
 
 //public abstract class SetOfTlv : TestTlv
 //{

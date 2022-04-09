@@ -1,7 +1,7 @@
 ﻿using System;
 
 using Play.Codecs.Exceptions;
-using Play.Emv.TestData.Icc.Apdu;
+using Play.Testing.Infrastructure.Icc.Apdu;
 
 using Xunit;
 

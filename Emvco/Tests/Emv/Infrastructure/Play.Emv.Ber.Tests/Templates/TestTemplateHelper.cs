@@ -7,7 +7,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.Templates;
 
-namespace Play.Emv.Templates.Tests;
+namespace Play.Emv.Ber.Tests.Templates;
 
 internal class TestTemplateHelper
 {

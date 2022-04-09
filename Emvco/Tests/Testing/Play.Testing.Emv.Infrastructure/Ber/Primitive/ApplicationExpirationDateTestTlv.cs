@@ -2,7 +2,7 @@
 using Play.Ber.InternalFactories;
 using Play.Emv.Ber.DataElements;
 
-namespace Play.Emv.TestData.Ber.Primitive;
+namespace Play.Testing.Emv.Infrastructure.Ber.Primitive;
 
 public class ApplicationExpirationDateTestTlv : TestTlv
 {

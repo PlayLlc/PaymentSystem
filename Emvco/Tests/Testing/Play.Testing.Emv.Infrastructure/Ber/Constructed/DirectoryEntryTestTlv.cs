@@ -1,12 +1,9 @@
-﻿using System.Reflection.PortableExecutable;
-
-using Play.Ber.Identifiers;
-using Play.Emv.Ber.Templates;
-using Play.Emv.TestData.Ber.Primitive;
+﻿using Play.Ber.Identifiers;
+using Play.Testing.Emv.Infrastructure.Ber.Primitive;
 
 using DirectoryEntry = Play.Emv.Ber.Templates.DirectoryEntry;
 
-namespace Play.Emv.TestData.Ber.Constructed;
+namespace Play.Testing.Emv.Infrastructure.Ber.Constructed;
 
 //public class FileControlInformationPpse
 //{

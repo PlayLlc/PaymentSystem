@@ -4,11 +4,11 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.TestData.Ber.Primitive;
+using Play.Testing.Emv.Infrastructure.Ber.Primitive;
 
 using Xunit;
 
-namespace Play.Emv.DataElements.Tests;
+namespace Play.Emv.Ber.Tests.DataElements;
 
 public class ApplicationDedicatedFileNameTests
 {

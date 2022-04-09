@@ -7,7 +7,7 @@ using Play.Emv.Ber.Enums;
 using Play.Globalization.Country;
 using Play.Globalization.Currency;
 
-namespace Play.Emv.TestData.Ber.Primitive;
+namespace Play.Testing.Emv.Infrastructure.Ber.Primitive;
 
 public class ProcessingOptionsDataObjectListTestTlv : TestTlv
 {

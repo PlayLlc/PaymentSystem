@@ -9,7 +9,7 @@ using Play.Ber.Lengths;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
 using Play.Emv.Ber.Tests.TestDoubles;
-using Play.Emv.TestData.Ber.Primitive;
+using Play.Testing.Emv.Infrastructure.Ber.Primitive;
 
 using Xunit;
 

@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoFixture.Kernel;
 
-using AutoFixture.Kernel;
-
-using Play.Core.Extensions;
 using Play.Emv.Ber;
-using Play.Emv.Ber.Enums;
-using Play.Icc.FileSystem.DedicatedFiles;
-using Play.Randoms;
 using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders;
 using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders.Specimens;
 
-namespace Play.Testing.Emv.Infrastructure.AutoFixture;
+namespace Play.Testing.Emv.Infrastructure.AutoFixture.Specimens;
 
 internal class TerminalVerificationResultCodesBuilder : SpecimenBuilder
 {

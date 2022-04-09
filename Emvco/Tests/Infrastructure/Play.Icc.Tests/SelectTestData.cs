@@ -1,6 +1,6 @@
-﻿using Play.Emv.TestData.Icc.Apdu;
-using Play.Icc.FileSystem.DedicatedFiles;
+﻿using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Icc.Messaging.Apdu.SelectFile;
+using Play.Testing.Infrastructure.Icc.Apdu;
 
 using Xunit;
 
