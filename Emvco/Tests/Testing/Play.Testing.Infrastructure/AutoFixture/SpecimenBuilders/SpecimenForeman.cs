@@ -17,7 +17,7 @@ public class SpecimenForeman
 
     #region Instance Values
 
-    public readonly SpecimenBuilderId RegisteredApplicationProviderIndicator = RegisteredApplicationProviderIndicatorBuilder.Id;
+    public readonly SpecimenBuilderId RegisteredApplicationProviderIndicator = RegisteredApplicationProviderIndicatorSpecimenBuilder.Id;
     private readonly List<ISpecimenBuilder> _Buffer;
 
     #endregion
@@ -28,7 +28,7 @@ public class SpecimenForeman
     {
         _Map = new Dictionary<SpecimenBuilderId, ISpecimenBuilder>()
         {
-            {RegisteredApplicationProviderIndicatorBuilder.Id, new RegisteredApplicationProviderIndicatorBuilder()}
+            {RegisteredApplicationProviderIndicatorSpecimenBuilder.Id, new RegisteredApplicationProviderIndicatorSpecimenBuilder()}
         };
     }
 

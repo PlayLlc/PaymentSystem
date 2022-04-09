@@ -9,17 +9,16 @@ using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Ber.DataObjects;
 
-namespace Play.Emv.Ber.Extensions.Arrays
+namespace Play.Emv.Ber.Extensions.Arrays;
+
+public static partial class PrimitiveValues
 {
-    public static partial class PrimitiveValues
+    #region Instance Members
+
+    public static byte[] Encode(this PrimitiveValue[] value)
     {
-        #region Instance Members
-
-        public static byte[] Encode(this PrimitiveValue[] value)
-        {
-            return value.SelectMany(a => a.EncodeValue(EmvCodec.GetBerCodec())).ToArray();
-        }
-
-        #endregion
+        return value.SelectMany(a => a.EncodeValue(EmvCodec.GetBerCodec())).ToArray();
     }
+
+    #endregion
 }

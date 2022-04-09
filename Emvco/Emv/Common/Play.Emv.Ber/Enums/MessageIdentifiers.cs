@@ -185,6 +185,8 @@ public record MessageIdentifiers : EnumObject<byte>
 
     #region Instance Members
 
+    public static MessageIdentifiers[] GetAll() => _ValueObjectMap.Values.ToArray();
+
     public static MessageIdentifiers Get(byte value) =>
         _ValueObjectMap.TryGetValue(value, out MessageIdentifiers? result) ? result : NotAvailable;
 

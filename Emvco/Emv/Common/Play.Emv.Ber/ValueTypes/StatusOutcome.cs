@@ -46,11 +46,7 @@ public readonly struct StatusOutcome
     /// <value>Decimal: 64; HexadecimalCodec: 0x40</value>
     public static readonly StatusOutcome EndApplication;
 
-    // TODO:
-    // public static readonly StatusOutcome RequestOnlinePin;
-
-    /// <summary>
-    ///     The status has not yet been set
+    /// The status has not yet been set
     /// </summary>
     /// <value>Decimal: 0; HexadecimalCodec: 0x0</value>
     public static readonly StatusOutcome NotAvailable;
@@ -148,6 +144,10 @@ public readonly struct StatusOutcome
     #endregion
 
     #region Instance Members
+
+    // TODO:
+    // public static readonly StatusOutcome RequestOnlinePin;
+    public static StatusOutcome[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     public static StatusOutcome Get(byte value)
     {

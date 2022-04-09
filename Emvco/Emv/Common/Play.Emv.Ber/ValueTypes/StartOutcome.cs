@@ -59,6 +59,8 @@ public readonly struct StartOutcome
 
     #region Instance Members
 
+    public static StartOutcome[] GetAll() => _ValueObjectMap.Values.ToArray();
+
     public static StartOutcome Get(byte value)
     {
         if (!TryGet(value, out StartOutcome result))

@@ -88,6 +88,8 @@ public readonly struct Status
 
     #region Instance Members
 
+    public static Status[] GetAll() => _ValueObjectMap.Values.ToArray();
+
     public static Status Get(byte value)
     {
         if (!_ValueObjectMap.ContainsKey(value))
@@ -101,6 +103,15 @@ public readonly struct Status
 
     #endregion
 
+    #region Serialization
+
+    public void Decode(Span<byte> buffer, ref int offset)
+    {
+        buffer[offset++] = _Value;
+    }
+
+    #endregion
+
     #region Equality
 
     public override bool Equals(object? obj) => obj is Status Status && Equals(Status);
@@ -108,15 +119,6 @@ public readonly struct Status
     public bool Equals(Status x, Status y) => x.Equals(y);
     public bool Equals(byte other) => _Value == other;
     public override int GetHashCode() => 4440131 * _Value.GetHashCode();
-
-    #endregion
-
-    #region Serialization
-
-    public void Decode(Span<byte> buffer, ref int offset)
-    {
-        buffer[offset++] = _Value;
-    }
 
     #endregion
 

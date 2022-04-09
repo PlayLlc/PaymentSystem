@@ -2,7 +2,7 @@
 
 namespace Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders.Specimens;
 
-internal abstract class Builder : ISpecimenBuilder
+public abstract class SpecimenBuilder : ISpecimenBuilder
 {
     #region Instance Members
 

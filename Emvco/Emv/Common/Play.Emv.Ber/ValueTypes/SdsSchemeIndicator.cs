@@ -73,6 +73,8 @@ public readonly struct SdsSchemeIndicator
 
     #region Instance Members
 
+    public static SdsSchemeIndicator[] GetAll() => _ValueObjectMap.Values.ToArray();
+
     public static SdsSchemeIndicator Get(byte value)
     {
         const byte bitMask = 0b11111100;

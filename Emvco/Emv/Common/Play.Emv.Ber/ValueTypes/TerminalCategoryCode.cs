@@ -62,6 +62,7 @@ public readonly struct TerminalCategoryCode
 
     #region Instance Members
 
+    public static TerminalCategoryCode[] GetAll() => _ValueObjectMap.Values.ToArray();
     public byte[] AsByteArray() => Encode(_Value);
 
     public static TerminalCategoryCode Get(ReadOnlySpan<byte> value)

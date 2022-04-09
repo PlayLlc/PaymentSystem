@@ -2,14 +2,13 @@
 
 using Play.Emv.Pcd.Contracts;
 
-namespace Play.Emv.Kernel.Services.ApplicationCryptograms
+namespace Play.Emv.Kernel.Services.ApplicationCryptograms;
+
+public class PrepareGenerateApplicationCryptogramService : IPrepareGenerateApplicationCryptogram
 {
-    public class PrepareGenerateApplicationCryptogramService : IPrepareGenerateApplicationCryptogram
-    {
-        #region Instance Members
+    #region Instance Members
 
-        public GenerateApplicationCryptogramRequest Process() => throw new NotImplementedException();
+    public GenerateApplicationCryptogramRequest Process() => throw new NotImplementedException();
 
-        #endregion
-    }
+    #endregion
 }

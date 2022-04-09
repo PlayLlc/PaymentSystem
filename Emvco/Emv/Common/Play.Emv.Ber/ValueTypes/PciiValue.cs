@@ -1,4 +1,5 @@
-﻿using Play.Core.Extensions;
+﻿using Play.Core.Exceptions;
+using Play.Core.Extensions;
 
 namespace Play.Emv.Ber;
 
@@ -20,6 +21,9 @@ internal readonly record struct PciiValue
 
     public PciiValue(uint value)
     {
+        if (value.AreAnyBitsSet(_UnrelatedBits))
+            throw new PlayInternalException($"The {nameof(PciiMask)} must not exceed 3 bytes in length");
+
         _Value = value.ClearBits(_UnrelatedBits);
     }
 

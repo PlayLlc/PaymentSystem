@@ -68,6 +68,8 @@ public readonly struct CvmPerformedOutcome
 
     #region Instance Members
 
+    public static CvmPerformedOutcome[] GetAllValues() => _ValueObjectMap.Values.ToArray();
+
     public static CvmPerformedOutcome Get(byte value)
     {
         const byte bitMask = 0b11111100;

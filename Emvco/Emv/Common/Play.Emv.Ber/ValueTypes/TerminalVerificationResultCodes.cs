@@ -1,4 +1,6 @@
-﻿using Play.Core;
+﻿using System.Collections.Immutable;
+
+using Play.Core;
 using Play.Core.Extensions;
 
 namespace Play.Emv.Ber;
@@ -7,6 +9,7 @@ public record TerminalVerificationResultCodes : EnumObject<TerminalVerificationR
 {
     #region Static Metadata
 
+    private static readonly ImmutableSortedDictionary<TerminalVerificationResult, TerminalVerificationResultCodes> _Map;
     public static TerminalVerificationResultCodes ApplicationNotYetEffective;
     public static TerminalVerificationResultCodes CardAppearsOnTerminalExceptionFile;
     public static TerminalVerificationResultCodes CardholderVerificationWasNotSuccessful;
@@ -86,10 +89,50 @@ public record TerminalVerificationResultCodes : EnumObject<TerminalVerificationR
             new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(13)));
         UnrecognizedCvm = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(23)));
         UpperConsecutiveOfflineLimitExceeded = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(14)));
+
+        _Map = new Dictionary<TerminalVerificationResult, TerminalVerificationResultCodes>()
+        {
+            {ApplicationNotYetEffective, ApplicationNotYetEffective},
+            {CardAppearsOnTerminalExceptionFile, CardAppearsOnTerminalExceptionFile},
+            {CardholderVerificationWasNotSuccessful, CardholderVerificationWasNotSuccessful},
+            {CombinationDataAuthenticationFailed, CombinationDataAuthenticationFailed},
+            {DefaultTransactionCertificateDataObjectListUsed, DefaultTransactionCertificateDataObjectListUsed},
+            {DynamicDataAuthenticationFailed, DynamicDataAuthenticationFailed},
+            {ExpiredApplication, ExpiredApplication},
+            {IccAndTerminalHaveDifferentApplicationVersions, IccAndTerminalHaveDifferentApplicationVersions},
+            {IccDataMissing, IccDataMissing},
+            {IssuerAuthenticationFailed, IssuerAuthenticationFailed},
+            {LowerConsecutiveOfflineLimitExceeded, LowerConsecutiveOfflineLimitExceeded},
+            {MerchantForcedTransactionOnline, MerchantForcedTransactionOnline},
+            {NewCard, NewCard},
+            {OfflineDataAuthenticationWasNotPerformed, OfflineDataAuthenticationWasNotPerformed},
+            {OnlinePinEntered, OnlinePinEntered},
+            {PinEntryRequiredAndPinPadNotPresentOrNotWorking, PinEntryRequiredAndPinPadNotPresentOrNotWorking},
+            {PinEntryRequiredPinPadPresentButPinWasNotEntered, PinEntryRequiredPinPadPresentButPinWasNotEntered},
+            {PinTryLimitExceeded, PinTryLimitExceeded},
+            {RelayResistanceThresholdExceeded, RelayResistanceThresholdExceeded},
+            {RelayResistanceTimeLimitsExceeded, RelayResistanceTimeLimitsExceeded},
+            {RelayResistancePerformed, RelayResistancePerformed},
+            {RelayResistanceNotPerformed, RelayResistanceNotPerformed},
+            {RequestedServiceNotAllowedForCardProduct, RequestedServiceNotAllowedForCardProduct},
+            {ScriptProcessingFailedAfterFinalGenerateAc, ScriptProcessingFailedAfterFinalGenerateAc},
+            {ScriptProcessingFailedBeforeFinalGenerateAc, ScriptProcessingFailedBeforeFinalGenerateAc},
+            {StaticDataAuthenticationFailed, StaticDataAuthenticationFailed},
+            {TransactionExceedsFloorLimit, TransactionExceedsFloorLimit},
+            {TransactionSelectedRandomlyForOnlineProcessing, TransactionSelectedRandomlyForOnlineProcessing},
+            {UnrecognizedCvm, UnrecognizedCvm},
+            {UpperConsecutiveOfflineLimitExceeded, UpperConsecutiveOfflineLimitExceeded}
+        }.ToImmutableSortedDictionary();
     }
 
     private TerminalVerificationResultCodes(TerminalVerificationResult value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public static TerminalVerificationResultCodes[] GetAll() => _Map.Values.ToArray();
 
     #endregion
 }

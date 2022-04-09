@@ -53,6 +53,8 @@ public readonly struct ValueQualifier
 
     #region Instance Members
 
+    public static ValueQualifier[] GetAll() => _ValueObjectMap.Values.ToArray();
+
     public static ValueQualifier Get(byte value)
     {
         const byte bitMask = 0b00001111;

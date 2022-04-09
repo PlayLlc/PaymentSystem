@@ -5,8 +5,19 @@ namespace Play.Emv.Ber;
 
 internal readonly record struct PciiMask
 {
-    private readonly uint _Value;
+    #region Static Metadata
+
     private const uint _UnrelatedBits = 0xFF000000;
+
+    #endregion
+
+    #region Instance Values
+
+    private readonly uint _Value;
+
+    #endregion
+
+    #region Constructor
 
     /// <exception cref="PlayInternalException"></exception>
     public PciiMask(uint value)
@@ -17,6 +28,10 @@ internal readonly record struct PciiMask
         _Value = value.ClearBits(_UnrelatedBits);
     }
 
+    #endregion
+
+    #region Serialization
+
     public void Decode(Span<byte> buffer, ref int offset)
     {
         buffer[offset++] = (byte) (_Value >> 16);
@@ -24,5 +39,11 @@ internal readonly record struct PciiMask
         buffer[offset++] = (byte) _Value;
     }
 
+    #endregion
+
+    #region Operator Overrides
+
     public static explicit operator uint(PciiMask value) => value._Value;
+
+    #endregion
 }

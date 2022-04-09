@@ -20,7 +20,7 @@ public class DefaultFixtureFactory
     static DefaultFixtureFactory()
     {
         SpecimenForeman builder = new();
-        builder.Build(RegisteredApplicationProviderIndicatorBuilder.Id);
+        builder.Build(RegisteredApplicationProviderIndicatorSpecimenBuilder.Id);
 
         _SpecimenBuilders = builder.Complete();
     }
