@@ -1,4 +1,6 @@
-﻿using Play.Ber.DataObjects;
+﻿using System.Numerics;
+
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
@@ -11,7 +13,7 @@ namespace Play.Emv.Ber.DataElements;
 ///     sentinel, end sentinel and LRC. The Track 1 Data may be present in the file read using the READ RECORD command
 ///     during a mag-stripe mode transaction. It is made up of the following sub-fields:
 /// </summary>
-public record Track1Data : DataElement<byte[]>
+public record Track1Data : DataElement<BigInteger>
 {
     #region Static Metadata
 
@@ -27,30 +29,8 @@ public record Track1Data : DataElement<byte[]>
 
     #region Constructor
 
-    public Track1Data(ReadOnlySpan<byte> value) : base(value.ToArray())
+    public Track1Data(BigInteger value) : base(value)
     { }
-
-    #endregion
-
-    #region Serialization
-
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Exception"></exception>
-    public static Track1Data Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override Track1Data Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Exception"></exception>
-    public static Track1Data Decode(ReadOnlySpan<byte> value)
-    {
-        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
-
-        char[] result = PlayCodec.AlphaNumericSpecialCodec.DecodeToChars(value);
-
-        return new Track1Data(value);
-    }
 
     #endregion
 
@@ -60,7 +40,7 @@ public record Track1Data : DataElement<byte[]>
     public override Tag GetTag() => Tag;
 
     /// <summary>
-    /// GetTrack1DiscretionaryData
+    ///     GetTrack1DiscretionaryData
     /// </summary>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
@@ -68,13 +48,13 @@ public record Track1Data : DataElement<byte[]>
     /// <exception cref="DataElementParsingException"></exception>
     public Track1DiscretionaryData GetTrack1DiscretionaryData()
     {
-        ReadOnlySpan<byte> value = _Value.ToArray();
+        ReadOnlySpan<byte> value = _Value.ToByteArray();
 
         return Track1DiscretionaryData.Decode(value[GetDiscretionaryDataOffset(value)..]);
     }
 
     /// <summary>
-    /// GetSecondFieldSeparatorOffset
+    ///     GetSecondFieldSeparatorOffset
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
@@ -106,21 +86,45 @@ public record Track1Data : DataElement<byte[]>
     {
         int offset = 0;
 
-        if (_Value[0] == _StartSentinel)
+        ReadOnlySpan<byte> buffer = _Value.ToByteArray();
+
+        if (buffer[0] == _StartSentinel)
             offset++;
 
-        if (_Value[offset++] != _FormatCode)
+        if (buffer[offset++] != _FormatCode)
             throw new CardDataException($"The {nameof(PrimaryAccountNumber)} was provided in an unknown format");
 
         int startRange = offset;
 
         for (; offset < PrimaryAccountNumber.GetMaxByteLength(); offset++)
         {
-            if (_Value[offset] == _FieldSeparator)
-                return PrimaryAccountNumber.Decode(_Value.AsSpan()[startRange..offset]);
+            if (buffer[offset] == _FieldSeparator)
+                return PrimaryAccountNumber.Decode(buffer[startRange..offset]);
         }
 
         throw new CardDataException($"The {nameof(PrimaryAccountNumber)} was provided in an unknown format");
+    }
+
+    #endregion
+
+    #region Serialization
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Exception"></exception>
+    public static Track1Data Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override Track1Data Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Exception"></exception>
+    public static Track1Data Decode(ReadOnlySpan<byte> value)
+    {
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
+
+        char[] result = PlayCodec.AlphaNumericSpecialCodec.DecodeToChars(value);
+
+        return new Track1Data(new BigInteger(value));
     }
 
     #endregion

@@ -13,7 +13,7 @@ public abstract record DataElement<T>(T _Value) : PrimitiveValue, IEncodeDataEle
 
     #region Instance Values
 
-    protected T _Value = _Value;
+    protected readonly T _Value = _Value;
 
     #endregion
 

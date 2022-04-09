@@ -1,4 +1,6 @@
-﻿using Play.Ber.DataObjects;
+﻿using System.Numerics;
+
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
@@ -28,9 +30,10 @@ public record DefaultUnpredictableNumberDataObjectList : DataObjectList, IEquali
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="CardDataMissingException"></exception>
-    public DefaultUnpredictableNumberDataObjectList(ReadOnlySpan<byte> value) : base(value.ToArray())
+    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    public DefaultUnpredictableNumberDataObjectList(BigInteger value) : base(value)
     {
-        if (!_Codec.IsTagPresent(UnpredictableNumber.Tag, value))
+        if (!_Codec.IsTagPresent(UnpredictableNumber.Tag, value.ToByteArray()))
         {
             throw new
                 CardDataMissingException($"The {nameof(DefaultUnpredictableNumberDataObjectList)} must contain a tag for {nameof(UnpredictableNumber)}");

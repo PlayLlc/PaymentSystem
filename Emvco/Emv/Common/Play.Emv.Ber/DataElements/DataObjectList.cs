@@ -1,4 +1,6 @@
-﻿using Play.Ber.DataObjects;
+﻿using System.Numerics;
+
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
@@ -11,7 +13,7 @@ namespace Play.Emv.Ber.DataElements;
 ///     This object encapsulates Primitive <see cref="TagLength" /> Values requested by the ICC. These are ordered by the
 ///     expected concatenated response values
 /// </summary>
-public abstract record DataObjectList : DataElement<byte[]>
+public abstract record DataObjectList : DataElement<BigInteger>
 {
     #region Instance Values
 
@@ -28,7 +30,7 @@ public abstract record DataObjectList : DataElement<byte[]>
             if (_DataObjects != null)
                 return _DataObjects;
 
-            _DataObjects = _Codec.DecodeTagLengthPairs(_Value);
+            _DataObjects = _Codec.DecodeTagLengthPairs(_Value.ToByteArray());
 
             return _DataObjects;
         }
@@ -40,7 +42,7 @@ public abstract record DataObjectList : DataElement<byte[]>
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    protected DataObjectList(ReadOnlySpan<byte> value) : base(value.ToArray())
+    protected DataObjectList(BigInteger value) : base(value)
     { }
 
     #endregion
@@ -48,7 +50,7 @@ public abstract record DataObjectList : DataElement<byte[]>
     #region Instance Members
 
     /// <summary>
-    /// IsRequestedDataAvailable
+    ///     IsRequestedDataAvailable
     /// </summary>
     /// <param name="database"></param>
     /// <returns></returns>

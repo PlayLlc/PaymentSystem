@@ -1,3 +1,5 @@
+using System.Numerics;
+
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
@@ -10,7 +12,7 @@ namespace Play.Emv.Ber.Templates;
 /// <summary>
 ///     Identifies the data field of a command message
 /// </summary>
-public record CommandTemplate : DataElement<byte[]>, IEquatable<CommandTemplate>, IEqualityComparer<CommandTemplate>
+public record CommandTemplate : DataElement<BigInteger>, IEquatable<CommandTemplate>, IEqualityComparer<CommandTemplate>
 {
     #region Static Metadata
 
@@ -21,7 +23,7 @@ public record CommandTemplate : DataElement<byte[]>, IEquatable<CommandTemplate>
 
     #region Constructor
 
-    public CommandTemplate(ReadOnlySpan<byte> value) : base(value.ToArray())
+    public CommandTemplate(BigInteger value) : base(value)
     { }
 
     #endregion
@@ -29,9 +31,8 @@ public record CommandTemplate : DataElement<byte[]>, IEquatable<CommandTemplate>
     #region Instance Members
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
-    public int GetByteCount() => _Value.Length;
+    public int GetByteCount() => _Value.GetByteCount();
     public override Tag GetTag() => Tag;
-    public byte[] GetValueAsByteArray() => _Value;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
@@ -43,7 +44,7 @@ public record CommandTemplate : DataElement<byte[]>, IEquatable<CommandTemplate>
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static CommandTemplate Decode(ReadOnlySpan<byte> value) => new(value.ToArray());
+    public static CommandTemplate Decode(ReadOnlySpan<byte> value) => new(new BigInteger(value.ToArray()));
 
     #endregion
 
@@ -65,16 +66,7 @@ public record CommandTemplate : DataElement<byte[]>, IEquatable<CommandTemplate>
         if (other == null)
             return false;
 
-        if (_Value.Length != other._Value.Length)
-            return false;
-
-        for (int i = 0; i < _Value.Length; i++)
-        {
-            if (_Value[i] != other._Value[i])
-                return false;
-        }
-
-        return true;
+        return _Value == other._Value;
     }
 
     public override int GetHashCode()
@@ -83,10 +75,7 @@ public record CommandTemplate : DataElement<byte[]>, IEquatable<CommandTemplate>
 
         unchecked
         {
-            int result = (int) (hash * GetTag());
-
-            for (int i = 0; i < _Value.Length; i++)
-                result += hash * _Value[i];
+            int result = (int) ((hash * GetTag()) + (hash * _Value));
 
             return result;
         }

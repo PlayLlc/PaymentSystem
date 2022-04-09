@@ -46,7 +46,7 @@ public partial class EmvCodec : BerCodec
         HashSet<PrimitiveValue> codecs = new();
 
         foreach (Type type in uniqueAssemblies.GetTypes()
-            .Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(DataElement<>))))
+            .Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(PrimitiveValue))))
             codecs.Add((PrimitiveValue) FormatterServices.GetUninitializedObject(type));
 
         return codecs;

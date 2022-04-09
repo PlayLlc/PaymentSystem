@@ -60,6 +60,95 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
 
     #endregion
 
+    #region Instance Members
+
+    public override Tag[] GetChildTags() => ChildTags;
+
+    /// <summary>
+    ///     AsCommandTemplate
+    /// </summary>
+    /// <param name="codec"></param>
+    /// <param name="poiInformation"></param>
+    /// <param name="selectionDataObjectListValues"></param>
+    /// <returns></returns>
+    /// <exception cref="BerParsingException"></exception>
+    public CommandTemplate AsCommandTemplate(BerCodec codec, PoiInformation poiInformation, PrimitiveValue[] selectionDataObjectListValues)
+    {
+        if ((_SelectionDataObjectList != null) && (!_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))
+            return _SelectionDataObjectList.AsCommandTemplate(selectionDataObjectListValues);
+
+        if (_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false)
+            return new CommandTemplate(poiInformation.EncodeValue(codec));
+
+        if ((_SelectionDataObjectList != null) && (_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))
+        {
+            Span<byte> dolEncoding = _SelectionDataObjectList.AsCommandTemplate(selectionDataObjectListValues).EncodeValue();
+            Span<byte> terminalCategoryEncoding = poiInformation.EncodeValue(codec);
+
+            return new CommandTemplate(dolEncoding.ConcatArrays(terminalCategoryEncoding));
+        }
+
+        return new CommandTemplate(Array.Empty<byte>());
+    }
+
+    /// <summary>
+    ///     AsCommandTemplate
+    /// </summary>
+    /// <param name="database"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public CommandTemplate AsCommandTemplate(IReadTlvDatabase database)
+    {
+        if ((_SelectionDataObjectList != null) && (!_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))
+            return _SelectionDataObjectList.AsCommandTemplate(database);
+
+        if (database.IsPresentAndNotEmpty(PoiInformation.Tag)
+            && (_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))
+            return new CommandTemplate(database.Get(PoiInformation.Tag).EncodeValue(_Codec));
+
+        if ((_SelectionDataObjectList != null)
+            && database.IsPresentAndNotEmpty(PoiInformation.Tag)
+            && (_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))
+        {
+            Span<byte> dolEncoding = _SelectionDataObjectList.AsCommandTemplate(database).EncodeValue();
+            Span<byte> terminalCategoryEncoding = database.Get(PoiInformation.Tag).EncodeValue(_Codec);
+
+            return new CommandTemplate(dolEncoding.ConcatArrays(terminalCategoryEncoding));
+        }
+
+        return new CommandTemplate(Array.Empty<byte>());
+    }
+
+    public ApplicationDedicatedFileName[] GetApplicationDedicatedFileNames()
+    {
+        return _DirectoryEntry.Select(a => a.GetApplicationDedicatedFileName()).ToArray();
+    }
+
+    public List<DirectoryEntry> GetDirectoryEntries() => _DirectoryEntry.ToList();
+    public TagLength[] GetRequestedSdolItems() => _SelectionDataObjectList?.GetRequestedItems() ?? Array.Empty<TagLength>();
+    public override Tag GetTag() => Tag;
+    public bool IsDirectoryEntryListEmpty() => GetDirectoryEntries().Count == 0;
+
+    public bool IsPointOfInteractionApduCommandRequested()
+    {
+        if (_SelectionDataObjectList != null)
+            return true;
+
+        if (_TerminalCategoriesSupportedList == null)
+            return false;
+
+        return _TerminalCategoriesSupportedList.IsPointOfInteractionApduCommandRequested();
+    }
+
+    protected override IEncodeBerDataObjects?[] GetChildren()
+    {
+        return new IEncodeBerDataObjects?[] {_DirectoryEntry, _TerminalCategoriesSupportedList, _SelectionDataObjectList};
+    }
+
+    #endregion
+
     #region Serialization
 
     public static FileControlInformationIssuerDiscretionaryDataPpse Decode(ReadOnlyMemory<byte> value) =>
@@ -149,95 +238,6 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
     }
 
     public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public override Tag[] GetChildTags() => ChildTags;
-
-    /// <summary>
-    /// AsCommandTemplate
-    /// </summary>
-    /// <param name="codec"></param>
-    /// <param name="poiInformation"></param>
-    /// <param name="selectionDataObjectListValues"></param>
-    /// <returns></returns>
-    /// <exception cref="BerParsingException"></exception>
-    public CommandTemplate AsCommandTemplate(BerCodec codec, PoiInformation poiInformation, PrimitiveValue[] selectionDataObjectListValues)
-    {
-        if ((_SelectionDataObjectList != null) && (!_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))
-            return _SelectionDataObjectList.AsCommandTemplate(selectionDataObjectListValues);
-
-        if (_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false)
-            return new CommandTemplate(poiInformation.EncodeValue(codec));
-
-        if ((_SelectionDataObjectList != null) && (_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))
-        {
-            Span<byte> dolEncoding = _SelectionDataObjectList.AsCommandTemplate(selectionDataObjectListValues).GetValueAsByteArray();
-            Span<byte> terminalCategoryEncoding = poiInformation.EncodeValue(codec);
-
-            return new CommandTemplate(dolEncoding.ConcatArrays(terminalCategoryEncoding));
-        }
-
-        return new CommandTemplate(Array.Empty<byte>());
-    }
-
-    /// <summary>
-    ///     AsCommandTemplate
-    /// </summary>
-    /// <param name="database"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public CommandTemplate AsCommandTemplate(IReadTlvDatabase database)
-    {
-        if ((_SelectionDataObjectList != null) && (!_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))
-            return _SelectionDataObjectList.AsCommandTemplate(database);
-
-        if (database.IsPresentAndNotEmpty(PoiInformation.Tag)
-            && (_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))
-            return new CommandTemplate(database.Get(PoiInformation.Tag).EncodeValue(_Codec));
-
-        if ((_SelectionDataObjectList != null)
-            && database.IsPresentAndNotEmpty(PoiInformation.Tag)
-            && (_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))
-        {
-            Span<byte> dolEncoding = _SelectionDataObjectList.AsCommandTemplate(database).GetValueAsByteArray();
-            Span<byte> terminalCategoryEncoding = database.Get(PoiInformation.Tag).EncodeValue(_Codec);
-
-            return new CommandTemplate(dolEncoding.ConcatArrays(terminalCategoryEncoding));
-        }
-
-        return new CommandTemplate(Array.Empty<byte>());
-    }
-
-    public ApplicationDedicatedFileName[] GetApplicationDedicatedFileNames()
-    {
-        return _DirectoryEntry.Select(a => a.GetApplicationDedicatedFileName()).ToArray();
-    }
-
-    public List<DirectoryEntry> GetDirectoryEntries() => _DirectoryEntry.ToList();
-    public TagLength[] GetRequestedSdolItems() => _SelectionDataObjectList?.GetRequestedItems() ?? Array.Empty<TagLength>();
-    public override Tag GetTag() => Tag;
-    public bool IsDirectoryEntryListEmpty() => GetDirectoryEntries().Count == 0;
-
-    public bool IsPointOfInteractionApduCommandRequested()
-    {
-        if (_SelectionDataObjectList != null)
-            return true;
-
-        if (_TerminalCategoriesSupportedList == null)
-            return false;
-
-        return _TerminalCategoriesSupportedList.IsPointOfInteractionApduCommandRequested();
-    }
-
-    protected override IEncodeBerDataObjects?[] GetChildren()
-    {
-        return new IEncodeBerDataObjects?[] {_DirectoryEntry, _TerminalCategoriesSupportedList, _SelectionDataObjectList};
-    }
 
     #endregion
 }
