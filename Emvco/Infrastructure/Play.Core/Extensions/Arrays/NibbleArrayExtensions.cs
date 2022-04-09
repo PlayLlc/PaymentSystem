@@ -2,7 +2,7 @@
 
 using Play.Core.Exceptions;
 
-namespace Play.Core.Extensions.Arrays;
+namespace Play.Core.Extensions;
 
 public static class NibbleArrayExtensions
 {

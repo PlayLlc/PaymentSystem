@@ -1,10 +1,6 @@
 ﻿using AutoFixture.Kernel;
 
-using Play.Core.Extensions;
-using Play.Icc.FileSystem.DedicatedFiles;
-using Play.Randoms;
-
-namespace Play.Emv.Ber.TestData.AutoFixture
+namespace Play.Tests.Core.AutoFixture.SpecimenBuilders.Specimens
 {
     internal class RegisteredApplicationProviderIndicatorBuilder : Builder
     {

@@ -1,6 +1,6 @@
 ﻿using AutoFixture.Kernel;
 
-namespace Play.Emv.Ber.TestData.AutoFixture;
+namespace Play.Tests.Core.AutoFixture.SpecimenBuilders.Specimens;
 
 internal abstract class Builder : ISpecimenBuilder
 {

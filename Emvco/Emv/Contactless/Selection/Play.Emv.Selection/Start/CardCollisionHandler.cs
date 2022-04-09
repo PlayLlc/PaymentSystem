@@ -1,5 +1,6 @@
 ﻿using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;

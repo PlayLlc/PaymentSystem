@@ -16,7 +16,6 @@ using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Pcd.Contracts.SignalOut.Queries;
 using Play.Icc.Exceptions;
 
 namespace Play.Emv.Kernel2.StateMachine;

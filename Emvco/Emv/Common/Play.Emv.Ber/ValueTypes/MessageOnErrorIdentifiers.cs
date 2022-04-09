@@ -1,4 +1,6 @@
-﻿namespace Play.Emv.Ber;
+﻿using Play.Emv.Ber.Enums;
+
+namespace Play.Emv.Ber;
 
 public record MessageOnErrorIdentifiers : MessageIdentifiers
 {

@@ -11,7 +11,7 @@ using Play.Emv.Identifiers;
 using Play.Icc.Exceptions;
 using Play.Messaging;
 
-namespace Play.Emv.Pcd.Contracts.SignalOut.Queries
+namespace Play.Emv.Pcd.Contracts
 {
     public record RecoverAcResponse : QueryPcdResponse
     {

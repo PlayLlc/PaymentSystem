@@ -3,10 +3,10 @@
 using Play.Ber.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.TestData.AutoFixture.FixtureFactories;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
+using Play.Tests.Core.AutoFixture.FixtureFactories;
 
 using Xunit;
 
@@ -31,8 +31,8 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     public TerminalActionAnalysisServiceTests()
     {
-        _Fixture = DefaultFixtureFactory.Create(); 
-        _Database = _Fixture.Create<KernelDatabase>();                                                                      .ClearBits(0xFFFFFF0000000000)));
+        _Fixture = DefaultFixtureFactory.Create();
+        _Database = _Fixture.Create<KernelDatabase>();
 
         //RegisteredApplicationProviderIndicator
     }

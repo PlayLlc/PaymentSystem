@@ -1,6 +1,6 @@
 ﻿using Play.Codecs;
 
-namespace Play.Emv.Ber.TestData.AutoFixture;
+namespace Play.Tests.Core.AutoFixture.SpecimenBuilders;
 
 public readonly record struct SpecimenBuilderId
 {

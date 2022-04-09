@@ -2,7 +2,10 @@
 using AutoFixture.AutoMoq;
 using AutoFixture.Kernel;
 
-namespace Play.Emv.Ber.TestData.AutoFixture.FixtureFactories;
+using Play.Tests.Core.AutoFixture.SpecimenBuilders;
+using Play.Tests.Core.AutoFixture.SpecimenBuilders.Specimens;
+
+namespace Play.Tests.Core.AutoFixture.FixtureFactories;
 
 public class DefaultFixtureFactory
 {
