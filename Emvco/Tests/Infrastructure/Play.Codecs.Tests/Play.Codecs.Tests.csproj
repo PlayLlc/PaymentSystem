@@ -30,7 +30,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Testing\Play.Testing.Infrastructure\Play.Testing.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\Play.Codecs\Play.Codecs.csproj" />
+    <ProjectReference Include="..\..\Common\Play.Testing\Play.Testing.csproj" />
   </ItemGroup>
 
 </Project>

@@ -8,7 +8,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\Emv\Common\Play.Emv.Ber\Play.Emv.Ber.csproj" />
-		<ProjectReference Include="..\Play.Testing.Infrastructure\Play.Testing.csproj" />
+		<ProjectReference Include="..\Play.Testing\Play.Testing.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Emv\Contactless\Kernel\Play.Emv.Kernel2\Play.Emv.Kernel2.csproj" />
+    <ProjectReference Include="..\Play.Testing.Emv\Play.Testing.Emv.csproj" />
+  </ItemGroup>
+
+</Project>

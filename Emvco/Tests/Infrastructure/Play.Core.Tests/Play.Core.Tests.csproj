@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Infrastructure\Play.Core\Play.Core.csproj" />
-    <ProjectReference Include="..\..\Testing\Play.Testing.Infrastructure\Play.Testing.csproj" />
+    <ProjectReference Include="..\..\Common\Play.Testing\Play.Testing.csproj" />
   </ItemGroup>
 
 </Project>
