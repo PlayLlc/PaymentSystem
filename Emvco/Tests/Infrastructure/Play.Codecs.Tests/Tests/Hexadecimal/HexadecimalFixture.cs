@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 
 using Play.Randoms;
+using Play.Testing.Infrastructure.BaseTestClasses;
 
 namespace Play.Codecs.Tests.Hexadecimal;
 
-internal class HexadecimalFixture
+internal class HexadecimalFixture : TestBase
 {
     #region Static Metadata
 

@@ -1,6 +1,8 @@
-﻿namespace Play.Codecs.Tests.SignedIntegers;
+﻿using Play.Testing.Infrastructure.BaseTestClasses;
 
-public class SignedIntegerTests
+namespace Play.Codecs.Tests.SignedIntegers;
+
+public class SignedIntegerTests : TestBase
 {
     // TODO: Uncomment this code and ensure the signed integer codec is working as expected
 

@@ -1,10 +1,11 @@
 ﻿using Play.Codecs.Exceptions;
+using Play.Testing.Infrastructure.BaseTestClasses;
 
 using Xunit;
 
 namespace Play.Codecs.Tests.Numeric;
 
-public class NumericTests
+public class NumericTests : TestBase
 {
     #region Instance Values
 

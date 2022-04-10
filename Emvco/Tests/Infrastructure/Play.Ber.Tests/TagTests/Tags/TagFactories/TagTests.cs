@@ -1,10 +1,11 @@
 ﻿using System;
 
 using Play.Ber.InternalFactories;
+using Play.Testing.Infrastructure.BaseTestClasses;
 
 namespace Play.Ber.Tests.TagTests.Tags.TagFactories;
 
-public partial class TagTests
+public partial class TagTests : TestBase
 {
     #region Static Metadata
 

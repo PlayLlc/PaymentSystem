@@ -1,10 +1,11 @@
 ﻿using Play.Codecs.Exceptions;
+using Play.Testing.Infrastructure.BaseTestClasses;
 
 using Xunit;
 
 namespace Play.Codecs.Tests.Alphabetic;
 
-public class AlphabeticTests
+public class AlphabeticTests : TestBase
 {
     #region Instance Values
 
@@ -33,9 +34,9 @@ public class AlphabeticTests
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] testValue)
     {
         string decoded = _SystemUnderTest.DecodeToString(testValue);
-        byte[] encoded = _SystemUnderTest.Encode(decoded);
+        byte[] actual = _SystemUnderTest.Encode(decoded);
 
-        Assert.Equal(testValue, encoded);
+        Assertion(() => Assert.Equal(testValue, actual), Build.Equals.Message(testValue, actual));
     }
 
     /// <summary>
@@ -48,9 +49,8 @@ public class AlphabeticTests
     public void RandomDecodedValue_EncodingThenDecoding_ReturnsExpectedResult(string testValue)
     {
         byte[] decoded = _SystemUnderTest.Encode(testValue);
-        string encoded = _SystemUnderTest.DecodeToString(decoded);
-
-        Assert.Equal(testValue, encoded);
+        string actual = _SystemUnderTest.DecodeToString(decoded);
+        Assertion(() => Assert.Equal(testValue, actual), Build.Equals.Message(testValue, actual));
     }
 
     [Fact]

@@ -2,12 +2,13 @@
 
 using Play.Core.Extensions;
 using Play.Core.Tests.TestData.Fixtures;
+using Play.Testing.Infrastructure.BaseTestClasses;
 
 using Xunit;
 
 namespace Play.Core.Tests.Extensions.Arrays;
 
-public class ByteArrayExtensionsTests
+public class ByteArrayExtensionsTests : TestBase
 {
     #region Static Metadata
 
@@ -20,44 +21,54 @@ public class ByteArrayExtensionsTests
     [Fact]
     public void ByteArray_InvokesCopyValue_CorrectlyCopiesValue()
     {
-        byte[] testValue = {0xFF, 0xFF, 0xF0, 0x01};
-        byte[] expectedResult = {0xFF, 0xFF, 0xF0, 0x01};
+        byte[] expected = {0xFF, 0xFF, 0xF0, 0x01};
+        byte[] actual = expected.CopyValue();
 
-        byte[] result = testValue.CopyValue();
-
-        Assert.NotSame(testValue, result);
-        Assert.Equal(expectedResult, result);
+        Assertion(() =>
+        {
+            Assert.NotSame(expected, actual);
+            Assert.Equal(expected, actual);
+        }, Build.Equals.Message(expected, actual));
     }
 
     [Theory]
     [MemberData(nameof(ByteArrayFixture.GetRandom), 100, 0, 300, MemberType = typeof(ByteArrayFixture))]
     public void RandomByteArray_InvokesCopyValue_CorrectlyCopiesValue(byte[] testValue)
     {
-        byte[] result = testValue.CopyValue();
+        byte[] actual = testValue.CopyValue();
 
-        Assert.NotSame(testValue, result);
-        Assert.Equal(testValue, result);
+        Assertion(() =>
+        {
+            Assert.NotSame(testValue, actual);
+            Assert.Equal(testValue, actual);
+        }, Build.Equals.Message(testValue, actual));
     }
 
     [Fact]
     public void ByteArray_InvokesCopyValue_CreatesValueCopyWithCorrectLength()
     {
         byte[] testValue = {0xFF, 0xFF, 0xF0, 0x01};
-        int expectedLength = testValue.Length;
 
-        byte[] result = testValue.CopyValue();
+        byte[] actual = testValue.CopyValue();
 
-        Assert.Equal(expectedLength, result.Length);
+        Assertion(() =>
+        {
+            Assert.NotSame(testValue, actual);
+            Assert.Equal(testValue.Length, actual.Length);
+        }, Build.Equals.Message(testValue, actual));
     }
 
     [Theory]
     [MemberData(nameof(ByteArrayFixture.GetRandom), 100, 0, 300, MemberType = typeof(ByteArrayFixture))]
     public void RandomByteArray_InvokesCopyValue_CreatesValueCopyWithCorrectLength(byte[] testValue)
     {
-        byte[] result = testValue.CopyValue();
-        int expectedLength = testValue.Length;
+        byte[] actual = testValue.CopyValue();
 
-        Assert.Equal(expectedLength, result.Length);
+        Assertion(() =>
+        {
+            Assert.NotSame(testValue, actual);
+            Assert.Equal(testValue.Length, actual.Length);
+        }, Build.Equals.Message(testValue, actual));
     }
 
     [Fact]
@@ -65,24 +76,24 @@ public class ByteArrayExtensionsTests
     {
         byte[] testValue1 = {0xFF, 0xFF, 0xF0, 0x01};
         byte[] testValue2 = {0xFF, 0xFF, 0xF0, 0x01};
-        byte[] expectedResult = {0xFF, 0xFF, 0xF0, 0x01, 0xFF, 0xFF, 0xF0, 0x01};
+        byte[] expected = {0xFF, 0xFF, 0xF0, 0x01, 0xFF, 0xFF, 0xF0, 0x01};
 
-        byte[] result = testValue1.ConcatArrays(testValue2);
+        byte[] actual = testValue1.ConcatArrays(testValue2);
 
-        Assert.Equal(expectedResult, result);
+        Assertion(() => { Assert.Equal(expected, actual); }, Build.Equals.Message(expected, actual));
     }
 
     [Theory]
     [MemberData(nameof(ByteArrayFixture.GetRandom), 100, 0, 300, MemberType = typeof(ByteArrayFixture))]
     public void RandomByteArray_InvokesConcatArrays_CorrectlyConcatenatesArrays(byte[] testValue)
     {
-        byte[] result = testValue.ConcatArrays(testValue);
+        byte[] actual = testValue.ConcatArrays(testValue);
 
         for (int i = 0; i < testValue.Length; i++)
-            Assert.Equal(testValue[i], result[i]);
+            Assertion(() => Assert.Equal(testValue[i], actual[i]), Build.Equals.Message(testValue[i], actual[i]));
 
         for (int i = 0, j = testValue.Length; i < testValue.Length; i++, j++)
-            Assert.Equal(testValue[i], result[j]);
+            Assertion(() => Assert.Equal(testValue[i], actual[i]), Build.Equals.Message(testValue[i], actual[i]));
     }
 
     [Fact]
@@ -90,21 +101,21 @@ public class ByteArrayExtensionsTests
     {
         byte[] testValue1 = {0xFF, 0xFF, 0xF0, 0x01};
         byte[] testValue2 = {0xFF, 0xFF, 0xF0, 0x05, 0x0D};
-        int expectedResult = testValue1.Length + testValue2.Length;
+        int expected = testValue1.Length + testValue2.Length;
 
-        byte[] result = testValue1.ConcatArrays(testValue2);
+        int actual = testValue1.ConcatArrays(testValue2).Length;
 
-        Assert.Equal(expectedResult, result.Length);
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
     [Theory]
     [MemberData(nameof(ByteArrayFixture.GetRandom), 100, 0, 300, MemberType = typeof(ByteArrayFixture))]
     public void RandomByteArray_InvokesConcatArrays_CreatesValueCopyWithCorrectLength(byte[] testValue)
     {
-        byte[] result = testValue.ConcatArrays(testValue);
-        int expectedResult = testValue.Length * 2;
+        int actual = testValue.ConcatArrays(testValue).Length;
+        int expected = testValue.Length * 2;
 
-        Assert.Equal(expectedResult, result.Length);
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
     #endregion

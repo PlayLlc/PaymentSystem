@@ -1,12 +1,13 @@
 ﻿using System;
 
 using Play.Core.Extensions;
+using Play.Testing.Infrastructure.BaseTestClasses;
 
 using Xunit;
 
 namespace Play.Core.Tests.Extensions.Integers;
 
-public class UintTests
+public class UintTests : TestBase
 {
     #region Instance Members
 
@@ -14,16 +15,18 @@ public class UintTests
     public void Uint_GetNumberOfDigits_ReturnsExpectedResult()
     {
         uint testData = 12345;
-        byte a = testData.GetNumberOfDigits();
-        Console.WriteLine("HI");
+        int expected = 5;
+        byte actual = testData.GetNumberOfDigits();
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
     [Fact]
     public void Uint_GetMostSignificantBit_ReturnsExpectedResult()
     {
         uint testData = 12345;
-        int a = testData.GetMostSignificantBit();
-        Console.WriteLine("HI");
+        int expected = 14;
+        int actual = testData.GetMostSignificantBit();
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
     #endregion

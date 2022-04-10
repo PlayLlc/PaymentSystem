@@ -1,42 +1,43 @@
-﻿using Play.Icc.FileSystem.DedicatedFiles;
+﻿using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
+
+using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Icc.Messaging.Apdu.SelectFile;
+using Play.Testing.Infrastructure.BaseTestClasses;
 using Play.Testing.Infrastructure.Icc.Apdu;
 
 using Xunit;
 
 namespace Play.Icc.Tests;
 
-public class SelectTestData
+public class SelectTestData : TestBase
 {
     #region Instance Members
 
     [Fact]
-    public void DedicatedFileName1_CreatingSelectCommand_ReturnsExpectedResult()
+    public void DedicatedFileName1_CreatingSelectCommand_ReturnsActual()
     {
         DedicatedFileName dedicatedFileName = new(ApduTestData.CApdu.Select.Applet1.DedicatedFileName);
-        byte[] selectAid = SelectApduCommand.DedicatedFile(dedicatedFileName).Serialize();
-        byte[] expectedResult = ApduTestData.CApdu.Select.Applet1.CApdu;
-
-        Assert.Equal(selectAid, expectedResult);
+        byte[] expected = SelectApduCommand.DedicatedFile(dedicatedFileName).Serialize();
+        byte[] actual = ApduTestData.CApdu.Select.Applet1.CApdu;
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
     [Fact]
-    public void DedicatedFileName2_CreatingSelectCommand_ReturnsExpectedResult()
+    public void DedicatedFileName2_CreatingSelectCommand_ReturnsActual()
     {
         DedicatedFileName dedicatedFileName = new(ApduTestData.CApdu.Select.Applet2.DedicatedFileName);
-        byte[] selectAid = SelectApduCommand.DedicatedFile(dedicatedFileName).Serialize();
-        byte[] expectedResult = ApduTestData.CApdu.Select.Applet2.CApdu;
+        byte[] expected = SelectApduCommand.DedicatedFile(dedicatedFileName).Serialize();
+        byte[] actual = ApduTestData.CApdu.Select.Applet2.CApdu;
 
-        Assert.Equal(selectAid, expectedResult);
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
     [Fact]
-    public void Ppse_CreatingSelectCommand_ReturnsExpectedResult()
+    public void Ppse_CreatingSelectCommand_ReturnsActual()
     {
-        byte[] expectedResult = ApduTestData.CApdu.Select.Ppse.PpseBytes;
-        byte[] selectPpseCApdu = SelectApduCommand.SelectProximityPaymentSystemEnvironment().Serialize();
-
-        Assert.Equal(selectPpseCApdu, expectedResult);
+        byte[] expected = ApduTestData.CApdu.Select.Ppse.PpseBytes;
+        byte[] actual = SelectApduCommand.SelectProximityPaymentSystemEnvironment().Serialize();
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
     #endregion

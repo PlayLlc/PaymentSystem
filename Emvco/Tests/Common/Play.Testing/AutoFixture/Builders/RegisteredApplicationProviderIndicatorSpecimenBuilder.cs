@@ -1,6 +1,7 @@
 ﻿using AutoFixture.Kernel;
 
 using Play.Core.Extensions;
+using Play.Icc.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Randoms;
 
@@ -18,7 +19,7 @@ public class RegisteredApplicationProviderIndicatorSpecimenBuilder : SpecimenBui
 
     public override SpecimenBuilderId GetId() => new(nameof(RegisteredApplicationProviderIndicatorSpecimenBuilder));
 
-    /// <exception cref="Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
     public override object Create(object request, ISpecimenContext context)
     {
         Type? type = request as Type;
