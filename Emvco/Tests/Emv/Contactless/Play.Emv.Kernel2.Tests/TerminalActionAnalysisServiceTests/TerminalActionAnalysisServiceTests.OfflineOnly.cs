@@ -8,12 +8,13 @@ using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
+using Play.Testing.Infrastructure.BaseTestClasses;
 
 using Xunit;
 
 namespace Play.Emv.Kernel2.Tests.TerminalActionAnalysisServiceTests;
 
-public partial class TerminalActionAnalysisServiceTests
+public partial class TerminalActionAnalysisServiceTests : TestBase
 {
     #region Transaction Cryptogram - Offline
 
@@ -30,9 +31,11 @@ public partial class TerminalActionAnalysisServiceTests
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults(0));
 
         GenerateApplicationCryptogramRequest rapdu = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOfflineOnly());
-
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.TransactionCryptogram, rapdu.GetCryptogramType());
+        Assertion(() =>
+        {
+            Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
+            Assert.Equal(CryptogramTypes.TransactionCryptogram, rapdu.GetCryptogramType());
+        });
     }
 
     /// <summary>

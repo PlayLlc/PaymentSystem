@@ -6,7 +6,8 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
-using Play.Testing.Infrastructure.AutoFixture.FixtureFactories;
+using Play.Testing.Emv.Contactless;
+using Play.Testing.Infrastructure;
 
 using Xunit;
 

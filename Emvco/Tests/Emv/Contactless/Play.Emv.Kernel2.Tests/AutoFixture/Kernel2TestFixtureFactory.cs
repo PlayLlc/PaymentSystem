@@ -10,7 +10,7 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel2.Tests.TerminalActionAnalysisServiceTests;
-using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders;
+using Play.Testing.Infrastructure;
 
 namespace Play.Emv.Kernel2.Tests.AutoFixture;
 
@@ -26,7 +26,7 @@ public class Kernel2TestFixtureFactory
 
     static Kernel2TestFixtureFactory()
     {
-        SpecimenForeman foreman = new();
+        Foreman foreman = new();
         foreman.Build(foreman.RegisteredApplicationProviderIndicator);
 
         _SpecimenBuilders = foreman.Complete();

@@ -25,7 +25,7 @@ public class Kernel2PersistentValues : PersistentValues
 
     #region Constructor
 
-    public Kernel2PersistentValues(PrimitiveValue[] values)
+    public Kernel2PersistentValues(params PrimitiveValue[] values)
     {
         Dictionary<Tag, PrimitiveValue> persistentValues = GetDefaultValues();
 
