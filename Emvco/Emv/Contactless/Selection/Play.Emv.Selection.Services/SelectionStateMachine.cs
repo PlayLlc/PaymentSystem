@@ -33,12 +33,8 @@ internal class SelectionStateMachine
     #region Constructor
 
     public SelectionStateMachine(
-        IHandlePcdRequests pcdClient,
-        IHandleDisplayRequests displayEndpoint,
-        TransactionProfile[] transactionProfiles,
-        PoiInformation poiInformation,
-        SelectionProcess selectionProcess,
-        ISendSelectionResponses endpointClient)
+        IHandlePcdRequests pcdClient, IHandleDisplayRequests displayEndpoint, TransactionProfile[] transactionProfiles,
+        PoiInformation poiInformation, SelectionProcess selectionProcess, ISendSelectionResponses endpointClient)
     {
         _PcdClient = pcdClient;
         _EndpointClient = endpointClient;

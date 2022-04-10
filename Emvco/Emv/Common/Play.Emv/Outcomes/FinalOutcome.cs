@@ -22,11 +22,8 @@ public class FinalOutcome
     #region Constructor
 
     public FinalOutcome(
-        TransactionSessionId transactionSessionId,
-        KernelSessionId kernelSessionId,
-        OutcomeParameterSet outcomeParameterSet,
-        DiscretionaryData? discretionaryData = null,
-        UserInterfaceRequestData? userInterfaceRequestData = null,
+        TransactionSessionId transactionSessionId, KernelSessionId kernelSessionId, OutcomeParameterSet outcomeParameterSet,
+        DiscretionaryData? discretionaryData = null, UserInterfaceRequestData? userInterfaceRequestData = null,
         DataRecord? dataRecord = null)
     {
         _TransactionSessionId = transactionSessionId;
@@ -38,11 +35,8 @@ public class FinalOutcome
     }
 
     public FinalOutcome(
-        TransactionSessionId transactionSessionId,
-        OutcomeParameterSet outcomeParameterSet,
-        DiscretionaryData? discretionaryData = null,
-        UserInterfaceRequestData? userInterfaceRequestData = null,
-        DataRecord? dataRecord = null)
+        TransactionSessionId transactionSessionId, OutcomeParameterSet outcomeParameterSet, DiscretionaryData? discretionaryData = null,
+        UserInterfaceRequestData? userInterfaceRequestData = null, DataRecord? dataRecord = null)
     {
         _KernelSessionId = null;
         _TransactionSessionId = transactionSessionId;

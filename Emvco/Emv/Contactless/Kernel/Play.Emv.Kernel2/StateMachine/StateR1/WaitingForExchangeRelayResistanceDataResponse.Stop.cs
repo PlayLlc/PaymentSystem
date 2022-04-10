@@ -10,6 +10,8 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 {
+    #region Instance Members
+
     #region STOP
 
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -33,6 +35,8 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 
         return _KernelStateResolver.GetKernelState(StateId);
     }
+
+    #endregion
 
     #endregion
 }

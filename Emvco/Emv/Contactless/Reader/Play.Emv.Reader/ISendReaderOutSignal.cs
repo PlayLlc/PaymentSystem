@@ -4,5 +4,9 @@ namespace Play.Emv.Reader;
 
 public interface ISendReaderOutSignal
 {
+    #region Instance Members
+
     public void Send(OutReaderResponse message);
+
+    #endregion
 }

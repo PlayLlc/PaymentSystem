@@ -5,5 +5,9 @@ namespace Play.Emv.Kernel.Services.Verification;
 
 public interface IVerifyCardholderPinOffline
 {
+    #region Instance Members
+
     public CvmCode Process(KernelDatabase database);
+
+    #endregion
 }

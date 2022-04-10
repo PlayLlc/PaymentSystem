@@ -6,7 +6,11 @@ namespace Play.Emv.Reader.Services;
 
 public interface IHandleResponsesToReader
 {
+    #region Instance Members
+
     public void Handle(OutSelectionResponse message);
     public void Handle(OutKernelResponse message);
     public void Handle(StopPcdAcknowledgedResponse message);
+
+    #endregion
 }

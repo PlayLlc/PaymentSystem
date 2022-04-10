@@ -36,8 +36,7 @@ internal class WaitingForFinalOutcome : TerminalState
     #region Constructor
 
     public WaitingForFinalOutcome(
-        DataExchangeTerminalService dataExchangeTerminalService,
-        IGetTerminalState terminalStateResolver,
+        DataExchangeTerminalService dataExchangeTerminalService, IGetTerminalState terminalStateResolver,
         IHandleAcquirerRequests acquirerEndpoint) : base(dataExchangeTerminalService)
     {
         _TerminalStateResolver = terminalStateResolver;

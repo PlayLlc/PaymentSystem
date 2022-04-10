@@ -27,8 +27,7 @@ public class FileControlInformationPpse : FileControlInformationTemplate
     #region Constructor
 
     public FileControlInformationPpse(
-        DedicatedFileName? dedicatedFileName,
-        FileControlInformationProprietaryPpse fileControlInformationProprietaryPpsePpse)
+        DedicatedFileName? dedicatedFileName, FileControlInformationProprietaryPpse fileControlInformationProprietaryPpsePpse)
     {
         _DedicatedFileName = dedicatedFileName;
         _FileControlInformationProprietaryPpse = fileControlInformationProprietaryPpsePpse;

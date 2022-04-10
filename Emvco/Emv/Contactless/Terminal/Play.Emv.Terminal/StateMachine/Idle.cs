@@ -44,14 +44,10 @@ internal class Idle : TerminalState
     #region Constructor
 
     public Idle(
-        DataExchangeTerminalService dataExchangeTerminalService,
-        TerminalConfiguration terminalConfiguration,
-        IGetTerminalState terminalStateResolver,
-        ISettlementReconciliationService settlementReconciliationService,
-        IGenerateSequenceTraceAuditNumbers sequenceGenerator,
-        IHandleAcquirerRequests acquirerEndpoint,
-        IHandleTerminalRequests terminalEndpoint,
-        IHandleReaderRequests readerEndpoint) : base(dataExchangeTerminalService)
+        DataExchangeTerminalService dataExchangeTerminalService, TerminalConfiguration terminalConfiguration,
+        IGetTerminalState terminalStateResolver, ISettlementReconciliationService settlementReconciliationService,
+        IGenerateSequenceTraceAuditNumbers sequenceGenerator, IHandleAcquirerRequests acquirerEndpoint,
+        IHandleTerminalRequests terminalEndpoint, IHandleReaderRequests readerEndpoint) : base(dataExchangeTerminalService)
     {
         _TerminalConfiguration = terminalConfiguration;
         _TerminalStateResolver = terminalStateResolver;

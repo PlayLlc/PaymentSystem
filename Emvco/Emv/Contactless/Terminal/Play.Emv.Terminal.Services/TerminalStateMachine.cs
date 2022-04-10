@@ -27,8 +27,7 @@ internal class TerminalStateMachine
     #region Constructor
 
     public TerminalStateMachine(
-        TerminalConfiguration terminalConfiguration,
-        IGetTerminalState terminalStateResolver,
+        TerminalConfiguration terminalConfiguration, IGetTerminalState terminalStateResolver,
         IGenerateSequenceTraceAuditNumbers sequenceGenerator)
     {
         _TerminalConfiguration = terminalConfiguration;

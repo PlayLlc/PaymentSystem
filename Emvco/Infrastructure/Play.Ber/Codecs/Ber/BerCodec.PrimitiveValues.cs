@@ -15,6 +15,43 @@ namespace Play.Ber.Codecs;
 
 public partial class BerCodec
 {
+    #region Instance Members
+
+    public T? AsPrimitive<T>(Func<ReadOnlyMemory<byte>, T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings)
+        where T : PrimitiveValue
+    {
+        if (!encodedTlvSiblings.TryGetValueOctetsOfSibling(tag, out ReadOnlyMemory<byte> rawDedicatedFileName))
+            return null;
+
+        return decodeFunc.Invoke(rawDedicatedFileName);
+    }
+
+    public T? AsPrimitive<T>(Func<ReadOnlyMemory<byte>, BerCodec, T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings)
+        where T : PrimitiveValue
+    {
+        if (!encodedTlvSiblings.TryGetValueOctetsOfSibling(tag, out ReadOnlyMemory<byte> rawDedicatedFileName))
+            return null;
+
+        return decodeFunc.Invoke(rawDedicatedFileName, this);
+    }
+
+    public T? AsPrimitive<T>(Func<ReadOnlyMemory<byte>, BerCodec, T> decodeFunc, ReadOnlyMemory<byte> rawEncoding) where T : PrimitiveValue
+    {
+        CheckCore.ForEmptySequence(rawEncoding, nameof(rawEncoding));
+
+        return decodeFunc.Invoke(rawEncoding, this);
+    }
+
+    public ushort GetByteCount(PlayEncodingId playEncodingId, dynamic value) => _ValueFactory.GetByteCount(playEncodingId, value);
+
+    public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T value) where T : struct =>
+        _ValueFactory.GetByteCount(playEncodingId, value);
+
+    public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T[] value) where T : struct =>
+        _ValueFactory.GetByteCount(playEncodingId, value);
+
+    #endregion
+
     #region Serialization
 
     /// <summary>
@@ -118,43 +155,6 @@ public partial class BerCodec
 
         return EncodeTagLengthValue(value, contentOctets);
     }
-
-    #endregion
-
-    #region Instance Members
-
-    public T? AsPrimitive<T>(Func<ReadOnlyMemory<byte>, T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings)
-        where T : PrimitiveValue
-    {
-        if (!encodedTlvSiblings.TryGetValueOctetsOfSibling(tag, out ReadOnlyMemory<byte> rawDedicatedFileName))
-            return null;
-
-        return decodeFunc.Invoke(rawDedicatedFileName);
-    }
-
-    public T? AsPrimitive<T>(Func<ReadOnlyMemory<byte>, BerCodec, T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings)
-        where T : PrimitiveValue
-    {
-        if (!encodedTlvSiblings.TryGetValueOctetsOfSibling(tag, out ReadOnlyMemory<byte> rawDedicatedFileName))
-            return null;
-
-        return decodeFunc.Invoke(rawDedicatedFileName, this);
-    }
-
-    public T? AsPrimitive<T>(Func<ReadOnlyMemory<byte>, BerCodec, T> decodeFunc, ReadOnlyMemory<byte> rawEncoding) where T : PrimitiveValue
-    {
-        CheckCore.ForEmptySequence(rawEncoding, nameof(rawEncoding));
-
-        return decodeFunc.Invoke(rawEncoding, this);
-    }
-
-    public ushort GetByteCount(PlayEncodingId playEncodingId, dynamic value) => _ValueFactory.GetByteCount(playEncodingId, value);
-
-    public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T value) where T : struct =>
-        _ValueFactory.GetByteCount(playEncodingId, value);
-
-    public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T[] value) where T : struct =>
-        _ValueFactory.GetByteCount(playEncodingId, value);
 
     #endregion
 }

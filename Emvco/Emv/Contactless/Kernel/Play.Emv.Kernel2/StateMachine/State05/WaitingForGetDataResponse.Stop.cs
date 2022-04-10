@@ -10,6 +10,8 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForGetDataResponse : KernelState
 {
+    #region Instance Members
+
     #region STOP
 
     /// <summary>
@@ -41,6 +43,8 @@ public partial class WaitingForGetDataResponse : KernelState
 
         return _KernelStateResolver.GetKernelState(Idle.StateId);
     }
+
+    #endregion
 
     #endregion
 }

@@ -16,26 +16,19 @@ public class InvalidSignalRequest : PlayInternalException
     #region Constructor
 
     public InvalidSignalRequest(
-        string message,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(InvalidSignalRequest), fileName, memberName, lineNumber)} {message}")
     { }
 
     public InvalidSignalRequest(
-        Exception innerException,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(InvalidSignalRequest), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public InvalidSignalRequest(
-        string message,
-        Exception innerException,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        string message, Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(InvalidSignalRequest), fileName, memberName, lineNumber)} {message}", innerException)
     { }

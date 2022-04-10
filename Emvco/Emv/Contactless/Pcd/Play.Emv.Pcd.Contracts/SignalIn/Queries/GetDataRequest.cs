@@ -29,7 +29,7 @@ public record GetDataRequest : QueryPcdRequest
     { }
 
     private GetDataRequest(TransactionSessionId transactionSessionId, CApduSignal cApduSignal) : base(cApduSignal, MessageTypeId,
-     transactionSessionId)
+                                                                                                      transactionSessionId)
     { }
 
     #endregion

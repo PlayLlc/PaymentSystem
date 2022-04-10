@@ -8,6 +8,8 @@ namespace Play.Emv.Security.Certificates.Factories;
 
 internal partial class CertificateFactory
 {
+    #region Instance Members
+
     /// <remarks>EMV Book 2 Section 5.2</remarks>
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
     public static CaPublicKeyCertificate RecoverCertificateAuthorityCertificate(
@@ -44,4 +46,6 @@ internal partial class CertificateFactory
             throw new CryptographicAuthenticationMethodFailedException(exception);
         }
     }
+
+    #endregion
 }

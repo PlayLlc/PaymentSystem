@@ -16,7 +16,7 @@ internal class UnpredictableNumberGenerator : IGenerateUnpredictableNumber
 
     // WARNING: This should be generated using a device that can ensure total uniqueness, like a DUKPT compliant machine
     /// <summary>
-    /// GenerateUnpredictableNumber
+    ///     GenerateUnpredictableNumber
     /// </summary>
     /// <param name="nun"></param>
     /// <returns></returns>

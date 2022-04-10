@@ -22,9 +22,7 @@ public class Combination : IEqualityComparer<Combination>, IEquatable<Combinatio
     #region Constructor
 
     protected Combination(
-        CombinationCompositeKey key,
-        DedicatedFileName applicationId,
-        ApplicationPriorityRank applicationPriorityRank,
+        CombinationCompositeKey key, DedicatedFileName applicationId, ApplicationPriorityRank applicationPriorityRank,
         PreProcessingIndicator preProcessingIndicator)
     {
         _CombinationCompositeKey = key;

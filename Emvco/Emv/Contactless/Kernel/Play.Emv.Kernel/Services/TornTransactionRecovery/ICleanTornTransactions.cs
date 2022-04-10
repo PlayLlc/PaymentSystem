@@ -2,5 +2,9 @@
 
 public interface ICleanTornTransactions
 {
+    #region Instance Members
+
     public void Clean();
+
+    #endregion
 }

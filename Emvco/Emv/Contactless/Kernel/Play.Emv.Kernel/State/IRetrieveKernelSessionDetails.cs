@@ -2,5 +2,9 @@
 
 public interface IRetrieveKernelSessionDetails
 {
+    #region Instance Members
+
     public KernelSession GetKernelSession();
+
+    #endregion
 }

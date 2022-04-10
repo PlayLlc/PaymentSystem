@@ -14,13 +14,14 @@ public class ReadRecordApduCommand : ApduCommand
     #region Constructor
 
     private ReadRecordApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class, instruction, parameter1,
-     parameter2)
+                                                                                                          parameter2)
     {
         throw new NotImplementedException("These constructors need to be private and personalized for this instance");
     }
 
     private ReadRecordApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2, uint le) : base(@class, instruction,
-     parameter1, parameter2, le)
+                                                                                                                   parameter1, parameter2,
+                                                                                                                   le)
     {
         throw new NotImplementedException("These constructors need to be private and personalized for this instance");
     }

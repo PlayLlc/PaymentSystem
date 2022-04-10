@@ -72,7 +72,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     #region CVM.1
 
     /// <summary>
-    /// IsOfflineVerificationSupported
+    ///     IsOfflineVerificationSupported
     /// </summary>
     /// <param name="aip"></param>
     /// <param name="database"></param>

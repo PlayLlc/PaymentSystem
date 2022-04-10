@@ -19,12 +19,9 @@ public class TerminalActionAnalysisCommand
     #region Constructor
 
     public TerminalActionAnalysisCommand(
-        TransactionSessionId transactionSessionId,
-        OutcomeParameterSet outcomeParameterSet,
-        TerminalVerificationResults terminalVerificationResults,
-        ApplicationInterchangeProfile applicationInterchangeProfile,
-        DataObjectListResult cardRiskManagementDolResult,
-        DataObjectListResult? dataStorageDolResult)
+        TransactionSessionId transactionSessionId, OutcomeParameterSet outcomeParameterSet,
+        TerminalVerificationResults terminalVerificationResults, ApplicationInterchangeProfile applicationInterchangeProfile,
+        DataObjectListResult cardRiskManagementDolResult, DataObjectListResult? dataStorageDolResult)
     {
         _TerminalVerificationResults = terminalVerificationResults;
         _TransactionSessionId = transactionSessionId;

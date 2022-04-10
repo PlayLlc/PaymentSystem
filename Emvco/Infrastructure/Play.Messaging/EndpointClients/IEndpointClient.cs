@@ -4,6 +4,8 @@ namespace Play.Messaging;
 
 public interface IEndpointClient
 {
+    #region Instance Members
+
     public void Subscribe();
     public void Unsubscribe();
     public void Send(ResponseMessage message);
@@ -18,4 +20,6 @@ public interface IEndpointClient
     public void Publish(Event @event, Milliseconds timeout);
     public void Publish(Event @event, Milliseconds timeout, Action timeoutHandler);
     public void Publish(Event @event, MessagingConfiguration timeoutConfiguration);
+
+    #endregion
 }

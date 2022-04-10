@@ -20,12 +20,9 @@ public class GetFileControlInformationCApduSignal : CApduSignal
     { }
 
     protected GetFileControlInformationCApduSignal(
-        byte @class,
-        byte instruction,
-        byte parameter1,
-        byte parameter2,
-        ReadOnlySpan<byte> data,
-        uint? le) : base(@class, instruction, parameter1, parameter2, data, le)
+        byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint? le) : base(@class, instruction,
+                                                                                                                   parameter1, parameter2,
+                                                                                                                   data, le)
     { }
 
     #endregion

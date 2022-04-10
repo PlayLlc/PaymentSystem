@@ -16,10 +16,8 @@ public record SelectApplicationDefinitionFileInfoResponse : QueryPcdResponse
     #region Constructor
 
     public SelectApplicationDefinitionFileInfoResponse(
-        CorrelationId correlation,
-        TransactionSessionId transactionSessionId,
-        GetFileControlInformationRApduSignal responseApduSignal) : base(correlation, MessageTypeId, transactionSessionId,
-                                                                        responseApduSignal)
+        CorrelationId correlation, TransactionSessionId transactionSessionId, GetFileControlInformationRApduSignal responseApduSignal) :
+        base(correlation, MessageTypeId, transactionSessionId, responseApduSignal)
     { }
 
     #endregion

@@ -9,7 +9,7 @@ internal class RsaCodec : IAsymmetricCodec
     #region Instance Members
 
     /// <summary>
-    /// Decrypt
+    ///     Decrypt
     /// </summary>
     /// <param name="decodedSignature"></param>
     /// <param name="publicKeyInfo"></param>

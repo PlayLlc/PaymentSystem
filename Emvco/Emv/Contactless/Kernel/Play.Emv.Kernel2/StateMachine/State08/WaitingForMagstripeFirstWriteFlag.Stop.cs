@@ -7,10 +7,12 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForMagstripeFirstWriteFlag
 {
+    #region Instance Members
+
     #region STOP
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
@@ -34,6 +36,8 @@ public partial class WaitingForMagstripeFirstWriteFlag
 
         return _KernelStateResolver.GetKernelState(Idle.StateId);
     }
+
+    #endregion
 
     #endregion
 }

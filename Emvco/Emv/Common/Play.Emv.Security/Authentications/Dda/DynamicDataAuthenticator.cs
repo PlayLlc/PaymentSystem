@@ -20,13 +20,17 @@ internal class DynamicDataAuthenticator
 
     #endregion
 
-    #region Instance Members
+    #region Constructor
 
     public DynamicDataAuthenticator(SignatureService signatureService, CertificateFactory certificateFactory)
     {
         _SignatureService = signatureService;
         _CertificateFactory = certificateFactory;
     }
+
+    #endregion
+
+    #region Instance Members
 
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
     public void Authenticate(
@@ -125,12 +129,6 @@ internal class DynamicDataAuthenticator
 
     #endregion
 
-    #region 6.5.2 Step 3
-
-    // Step 3 is accomplished by Step 6-7 SignatureService.IsSignatureValid()
-
-    #endregion
-
     #region 6.5.2 Step 4
 
     /// <remarks>
@@ -181,6 +179,12 @@ internal class DynamicDataAuthenticator
     }
 
     #endregion
+
+    #endregion
+
+    #region 6.5.2 Step 3
+
+    // Step 3 is accomplished by Step 6-7 SignatureService.IsSignatureValid()
 
     #endregion
 }

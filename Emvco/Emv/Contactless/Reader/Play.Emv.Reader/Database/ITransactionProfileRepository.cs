@@ -8,8 +8,11 @@ namespace Play.Emv.Reader.Database;
 
 public interface ITransactionProfileRepository
 {
+    #region Instance Members
+
     public Dictionary<CombinationCompositeKey, TransactionProfile> Get(
-        IssuerIdentificationNumber issuerIdentificationNumber,
-        MerchantIdentifier merchantIdentifier,
+        IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier,
         TerminalIdentification terminalIdentification);
+
+    #endregion
 }

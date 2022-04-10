@@ -12,35 +12,25 @@ public class TerminalDataException : PlayInternalException
     #region Constructor
 
     public TerminalDataException(
-        string parameterName,
-        string message,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        string parameterName, string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(TerminalDataException), fileName, memberName, lineNumber)}. Parameter {parameterName} experienced an issue. {message}")
     { }
 
     public TerminalDataException(
-        string message,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(TerminalDataException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public TerminalDataException(
-        Exception innerException,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(TerminalDataException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public TerminalDataException(
-        string message,
-        Exception innerException,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        string message, Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(TerminalDataException), fileName, memberName, lineNumber)} {message}", innerException)
     { }

@@ -37,15 +37,15 @@ public record GetProcessingOptionsRequest : QueryPcdRequest
     /// <param name="transactionSessionId"></param>
     /// <exception cref="BerParsingException"></exception>
     private GetProcessingOptionsRequest(
-        DataObjectListResult dataObjectListResult,
-        CApduSignal cApduSignal,
-        TransactionSessionId transactionSessionId) : base(cApduSignal, MessageTypeId, transactionSessionId)
+        DataObjectListResult dataObjectListResult, CApduSignal cApduSignal, TransactionSessionId transactionSessionId) :
+        base(cApduSignal, MessageTypeId, transactionSessionId)
     {
         _CommandTemplate = dataObjectListResult.AsCommandTemplate();
     }
 
     private GetProcessingOptionsRequest(CApduSignal cApduSignal, TransactionSessionId transactionSessionId) : base(cApduSignal,
-     MessageTypeId, transactionSessionId)
+                                                                                                                   MessageTypeId,
+                                                                                                                   transactionSessionId)
     {
         _CommandTemplate = null;
     }

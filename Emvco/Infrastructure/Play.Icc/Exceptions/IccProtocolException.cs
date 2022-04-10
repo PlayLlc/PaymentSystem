@@ -13,35 +13,25 @@ public class IccProtocolException : PlayException
     #region Constructor
 
     public IccProtocolException(
-        string parameterName,
-        string message,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        string parameterName, string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(IccProtocolException), fileName, memberName, lineNumber)}. Parameter {parameterName} experienced an issue. {message}")
     { }
 
     public IccProtocolException(
-        string message,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(IccProtocolException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public IccProtocolException(
-        Exception innerException,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(IccProtocolException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public IccProtocolException(
-        string message,
-        Exception innerException,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        string message, Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(IccProtocolException), fileName, memberName, lineNumber)} {message}", innerException)
     { }

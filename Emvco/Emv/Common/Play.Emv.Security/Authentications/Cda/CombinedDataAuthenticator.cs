@@ -258,6 +258,30 @@ internal class CombinedDataAuthenticator
 
     #endregion
 
+    #region 6.6.2 Step 5
+
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="System.InvalidOperationException"></exception>
+    public IccDynamicData RetrieveIccDynamicData(ITlvReaderAndWriter database, DecodedSignedDynamicApplicationDataCda decodedSignature)
+    {
+        IccDynamicData iccDynamicData = decodedSignature.GetIccDynamicData();
+
+        database.Update(iccDynamicData.GetCryptogram());
+        database.Update(iccDynamicData.GetIccDynamicNumber());
+
+        if (iccDynamicData.TryGetAdditionalData(out PrimitiveValue[] additionalData))
+            database.Update(additionalData);
+
+        return iccDynamicData;
+    }
+
+    #endregion
+
+    #endregion
+
     #region 6.2.2 Step 10.a
 
     /// <remarks>EMV Book 2 Section 6.6.2 Step 10.a</remarks>
@@ -299,30 +323,6 @@ internal class CombinedDataAuthenticator
     #region 6.6.2 Step 3
 
     // Step 3 is covered by SignatureService.IsSignatureValid() in another method
-
-    #endregion
-
-    #region 6.6.2 Step 5
-
-    /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="OverflowException"></exception>
-    /// <exception cref="System.InvalidOperationException"></exception>
-    public IccDynamicData RetrieveIccDynamicData(ITlvReaderAndWriter database, DecodedSignedDynamicApplicationDataCda decodedSignature)
-    {
-        IccDynamicData iccDynamicData = decodedSignature.GetIccDynamicData();
-
-        database.Update(iccDynamicData.GetCryptogram());
-        database.Update(iccDynamicData.GetIccDynamicNumber());
-
-        if (iccDynamicData.TryGetAdditionalData(out PrimitiveValue[] additionalData))
-            database.Update(additionalData);
-
-        return iccDynamicData;
-    }
-
-    #endregion
 
     #endregion
 }

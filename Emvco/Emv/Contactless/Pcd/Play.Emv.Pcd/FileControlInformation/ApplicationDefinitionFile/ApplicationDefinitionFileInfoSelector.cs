@@ -41,14 +41,14 @@ public class ApplicationDefinitionFileInfoSelector : ISelectApplicationDefinitio
 
             return new SelectApplicationDefinitionFileInfoResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
                                                                    new GetFileControlInformationRApduSignal(Array.Empty<byte>(),
-                                                                    Level1Error.ProtocolError));
+                                                                                                            Level1Error.ProtocolError));
         }
         catch (PcdTimeoutException)
         {
             // TODO: Logging
             return new SelectApplicationDefinitionFileInfoResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
                                                                    new GetFileControlInformationRApduSignal(Array.Empty<byte>(),
-                                                                    Level1Error.TimeOutError));
+                                                                                                            Level1Error.TimeOutError));
         }
     }
 

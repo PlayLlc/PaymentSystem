@@ -40,6 +40,84 @@ public record Money : IEqualityComparer<Money>
 
     #endregion
 
+    #region Instance Members
+
+    /// <summary>
+    ///     Add
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public Money Add(Money value)
+    {
+        if (_Currency != value._Currency)
+        {
+            throw new
+                InvalidOperationException($"The money could not be altered because the argument {nameof(value)} has a numeric currency code of: [{value._Currency}] which is different than: [{_Currency}]");
+        }
+
+        return new Money(_Amount + value._Amount, _Currency);
+    }
+
+    /// <summary>
+    ///     Formats the money value to string according to the local culture of this type
+    /// </summary>
+    public string AsLocalFormat(CultureProfile cultureProfile) => cultureProfile.GetFiatFormat(this);
+
+    public NumericCurrencyCode GetCurrencyCode(CultureProfile cultureProfile) => cultureProfile.GetNumericCurrencyCode();
+
+    public bool IsBaseAmount()
+    {
+        if ((byte) _Currency.GetMinorUnitLength() != _Amount.GetNumberOfDigits())
+            return false;
+
+        if ((_Amount / (byte) _Currency.GetMinorUnitLength()) == 1)
+            return true;
+
+        return false;
+    }
+
+    /// <summary>
+    ///     Returns true if the <see cref="Money" /> objects share a common currency between one another
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    public bool IsCommonCurrency(Money other) => _Currency == other._Currency;
+
+    public bool IsZeroAmount() => _Amount == 0;
+
+    /// <summary>
+    ///     Subtract
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public Money Subtract(Money value)
+    {
+        if (!IsCommonCurrency(value))
+        {
+            throw new
+                InvalidOperationException($"The money could not be altered because the argument {nameof(value)} is of currency {value._Currency.GetNumericCode()} which is different than {_Currency.GetNumericCode()}");
+        }
+
+        return new Money(_Amount - value._Amount, _Currency);
+    }
+
+    /// <summary>
+    ///     Formats the money value to string according to the local culture of this type
+    /// </summary>
+    public override string ToString()
+    {
+        int precision = _Currency.GetMinorUnitLength();
+        string yourValue = $"{_Currency.GetCurrencySymbol()}{_Amount / Math.Pow(10, precision)}";
+
+        return yourValue;
+    }
+
+    public string ToString(CultureProfile profile) => profile.GetFiatFormat(this);
+
+    #endregion
+
     #region Equality
 
     public bool Equals(Money? x, Money? y)
@@ -160,84 +238,6 @@ public record Money : IEqualityComparer<Money>
 
         return new Money(left._Amount - right._Amount, left._Currency);
     }
-
-    #endregion
-
-    #region Instance Members
-
-    /// <summary>
-    ///     Add
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    public Money Add(Money value)
-    {
-        if (_Currency != value._Currency)
-        {
-            throw new
-                InvalidOperationException($"The money could not be altered because the argument {nameof(value)} has a numeric currency code of: [{value._Currency}] which is different than: [{_Currency}]");
-        }
-
-        return new Money(_Amount + value._Amount, _Currency);
-    }
-
-    /// <summary>
-    ///     Formats the money value to string according to the local culture of this type
-    /// </summary>
-    public string AsLocalFormat(CultureProfile cultureProfile) => cultureProfile.GetFiatFormat(this);
-
-    public NumericCurrencyCode GetCurrencyCode(CultureProfile cultureProfile) => cultureProfile.GetNumericCurrencyCode();
-
-    public bool IsBaseAmount()
-    {
-        if ((byte) _Currency.GetMinorUnitLength() != _Amount.GetNumberOfDigits())
-            return false;
-
-        if ((_Amount / (byte) _Currency.GetMinorUnitLength()) == 1)
-            return true;
-
-        return false;
-    }
-
-    /// <summary>
-    ///     Returns true if the <see cref="Money" /> objects share a common currency between one another
-    /// </summary>
-    /// <param name="other"></param>
-    /// <returns></returns>
-    public bool IsCommonCurrency(Money other) => _Currency == other._Currency;
-
-    public bool IsZeroAmount() => _Amount == 0;
-
-    /// <summary>
-    ///     Subtract
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    public Money Subtract(Money value)
-    {
-        if (!IsCommonCurrency(value))
-        {
-            throw new
-                InvalidOperationException($"The money could not be altered because the argument {nameof(value)} is of currency {value._Currency.GetNumericCode()} which is different than {_Currency.GetNumericCode()}");
-        }
-
-        return new Money(_Amount - value._Amount, _Currency);
-    }
-
-    /// <summary>
-    ///     Formats the money value to string according to the local culture of this type
-    /// </summary>
-    public override string ToString()
-    {
-        int precision = _Currency.GetMinorUnitLength();
-        string yourValue = $"{_Currency.GetCurrencySymbol()}{_Amount / Math.Pow(10, precision)}";
-
-        return yourValue;
-    }
-
-    public string ToString(CultureProfile profile) => profile.GetFiatFormat(this);
 
     #endregion
 }

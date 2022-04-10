@@ -96,9 +96,7 @@ public class PreProcessingIndicator
     ///     Emv Book B Section 3.1.1.4 and 3.1.1.5
     /// </remarks>
     private void SetContactlessApplicationNotAllowed(
-        Money amountAuthorizedNumeric,
-        Money readerContactlessTransactionLimit,
-        bool isZeroAmountAllowedForOffline)
+        Money amountAuthorizedNumeric, Money readerContactlessTransactionLimit, bool isZeroAmountAllowedForOffline)
     {
         if (amountAuthorizedNumeric.IsZeroAmount())
             return;
@@ -192,8 +190,7 @@ public class PreProcessingIndicator
     ///     Emv Book B Section 3.1.1.6
     /// </remarks>
     private ReaderContactlessFloorLimitExceededHasBeenSetEvent SetReaderContactlessFloorLimitExceeded(
-        Money amountAuthorizedNumeric,
-        Money readerContactlessFloorLimit)
+        Money amountAuthorizedNumeric, Money readerContactlessFloorLimit)
     {
         if (amountAuthorizedNumeric > readerContactlessFloorLimit)
             ReaderContactlessFloorLimitExceeded = true;
@@ -205,8 +202,7 @@ public class PreProcessingIndicator
     ///     Emv Book B Section 3.1.1.8
     /// </remarks>
     private ReaderCvmRequiredLimitExceededHasBeenSetEvent SetReaderCvmRequiredLimitExceeded(
-        Money amountAuthorizedNumeric,
-        Money readerCvmRequiredLimit)
+        Money amountAuthorizedNumeric, Money readerCvmRequiredLimit)
     {
         if (amountAuthorizedNumeric > readerCvmRequiredLimit)
             ReaderCvmRequiredLimitExceeded = true;

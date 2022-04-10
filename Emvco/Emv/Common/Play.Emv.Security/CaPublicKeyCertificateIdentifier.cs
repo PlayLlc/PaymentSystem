@@ -9,7 +9,7 @@ namespace Play.Emv.Security;
 ///     A composite key that uniquely identifies a certificate for an Issuer
 /// </summary>
 public class CaPublicKeyCertificateIdentifier : IEqualityComparer<CaPublicKeyCertificateIdentifier>,
-    IEquatable<CaPublicKeyCertificateIdentifier>
+                                                IEquatable<CaPublicKeyCertificateIdentifier>
 {
     #region Instance Values
 
@@ -26,6 +26,13 @@ public class CaPublicKeyCertificateIdentifier : IEqualityComparer<CaPublicKeyCer
         _RegisteredApplicationProviderIndicator = registeredApplicationProviderIndicator;
         _Index = caPublicKeyIndex;
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public CaPublicKeyIndex GetCaPublicKeyIndex() => _Index;
+    public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() => _RegisteredApplicationProviderIndicator;
 
     #endregion
 
@@ -61,13 +68,6 @@ public class CaPublicKeyCertificateIdentifier : IEqualityComparer<CaPublicKeyCer
 
         return unchecked((hash * _RegisteredApplicationProviderIndicator.GetHashCode()) + (hash * _Index.GetHashCode()));
     }
-
-    #endregion
-
-    #region Instance Members
-
-    public CaPublicKeyIndex GetCaPublicKeyIndex() => _Index;
-    public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() => _RegisteredApplicationProviderIndicator;
 
     #endregion
 }

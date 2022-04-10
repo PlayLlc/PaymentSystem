@@ -32,6 +32,31 @@ public record UnprotectedDataEnvelope3 : DataElement<BigInteger>, IEqualityCompa
 
     #endregion
 
+    #region Instance Members
+
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+    public override Tag GetTag() => Tag;
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static bool TryDecoding(TagLengthValue value, out UnprotectedDataEnvelope3? result)
+    {
+        if (value.GetTag() != Tag)
+        {
+            result = null;
+
+            return false;
+        }
+
+        result = Decode(value.EncodeValue().AsSpan());
+
+        return true;
+    }
+
+    #endregion
+
     #region Serialization
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -67,31 +92,6 @@ public record UnprotectedDataEnvelope3 : DataElement<BigInteger>, IEqualityCompa
     }
 
     public int GetHashCode(UnprotectedDataEnvelope3 obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public override Tag GetTag() => Tag;
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    public static bool TryDecoding(TagLengthValue value, out UnprotectedDataEnvelope3? result)
-    {
-        if (value.GetTag() != Tag)
-        {
-            result = null;
-
-            return false;
-        }
-
-        result = Decode(value.EncodeValue().AsSpan());
-
-        return true;
-    }
 
     #endregion
 }

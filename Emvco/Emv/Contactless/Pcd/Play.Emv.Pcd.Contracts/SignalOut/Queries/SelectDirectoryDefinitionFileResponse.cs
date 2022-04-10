@@ -22,9 +22,7 @@ public record SelectDirectoryDefinitionFileResponse : QueryPcdResponse
     #region Constructor
 
     public SelectDirectoryDefinitionFileResponse(
-        CorrelationId correlation,
-        TransactionSessionId transactionSessionId,
-        FileControlInformationDdf fileControlInformation,
+        CorrelationId correlation, TransactionSessionId transactionSessionId, FileControlInformationDdf fileControlInformation,
         GetFileControlInformationRApduSignal responseApduSignal) : base(correlation, MessageTypeId, transactionSessionId,
                                                                         responseApduSignal)
     {
@@ -32,10 +30,8 @@ public record SelectDirectoryDefinitionFileResponse : QueryPcdResponse
     }
 
     public SelectDirectoryDefinitionFileResponse(
-        CorrelationId correlation,
-        TransactionSessionId transactionSessionId,
-        GetFileControlInformationRApduSignal responseApduSignal) : base(correlation, MessageTypeId, transactionSessionId,
-                                                                        responseApduSignal)
+        CorrelationId correlation, TransactionSessionId transactionSessionId, GetFileControlInformationRApduSignal responseApduSignal) :
+        base(correlation, MessageTypeId, transactionSessionId, responseApduSignal)
     { }
 
     #endregion

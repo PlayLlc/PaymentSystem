@@ -5,6 +5,8 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class Idle : KernelState
 {
+    #region Instance Members
+
     #region CLEAN
 
     public override KernelState Handle(CleanKernelRequest signal)
@@ -13,6 +15,8 @@ public partial class Idle : KernelState
 
         return _KernelStateResolver.GetKernelState(StateId);
     }
+
+    #endregion
 
     #endregion
 }

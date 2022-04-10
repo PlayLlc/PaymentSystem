@@ -6,5 +6,9 @@ namespace Play.Emv.Terminal.StateMachine;
 
 public interface ISettlementReconciliationService
 {
+    #region Instance Members
+
     public AcquirerRequestSignal CreateSettlementRequest(AcquirerMessageFactory messageFactory, DateTimeUtc settlementRequestTimeUtc);
+
+    #endregion
 }

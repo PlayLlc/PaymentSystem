@@ -25,12 +25,9 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
     #region Constructor
 
     public FileControlInformationProprietaryAdf(
-        FileControlInformationIssuerDiscretionaryDataAdf fileControlInformationIssuerDiscretionaryData,
-        ApplicationLabel? applicationLabel,
-        ApplicationPriorityIndicator? applicationPriorityIndicator,
-        ProcessingOptionsDataObjectList? processingOptionsDataObjectList,
-        LanguagePreference? languagePreference,
-        IssuerCodeTableIndex? issuerCodeTableIndex,
+        FileControlInformationIssuerDiscretionaryDataAdf fileControlInformationIssuerDiscretionaryData, ApplicationLabel? applicationLabel,
+        ApplicationPriorityIndicator? applicationPriorityIndicator, ProcessingOptionsDataObjectList? processingOptionsDataObjectList,
+        LanguagePreference? languagePreference, IssuerCodeTableIndex? issuerCodeTableIndex,
         ApplicationPreferredName? applicationPreferredName)
     {
         _FileControlInformationIssuerDiscretionaryDataAdf = fileControlInformationIssuerDiscretionaryData;
@@ -72,7 +69,7 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
     }
 
     /// <summary>
-    /// TryGetProcessingOptionsRelatedData
+    ///     TryGetProcessingOptionsRelatedData
     /// </summary>
     /// <param name="database"></param>
     /// <param name="result"></param>
@@ -158,7 +155,8 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
         ApplicationPriorityIndicator? applicationPriorityIndicator =
             _Codec.AsPrimitive(ApplicationPriorityIndicator.Decode, ApplicationPriorityIndicator.Tag, encodedChildren);
         ProcessingOptionsDataObjectList? processingOptionsDataObjectList = _Codec.AsPrimitive(ProcessingOptionsDataObjectList.Decode,
-         ProcessingOptionsDataObjectList.Tag, encodedChildren);
+                                                                                              ProcessingOptionsDataObjectList.Tag,
+                                                                                              encodedChildren);
 
         // EMV Book 1 Section 12.2.4 tells us not to enforce encoding errors for the following data elements.
         // Instead, we treat it as if it wasn't returned from the ICC at all

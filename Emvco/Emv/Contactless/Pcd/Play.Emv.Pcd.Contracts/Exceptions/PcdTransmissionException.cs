@@ -14,35 +14,25 @@ public class PcdTransmissionException : PlayException
     #region Constructor
 
     public PcdTransmissionException(
-        string parameterName,
-        string message,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        string parameterName, string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(PcdTransmissionException), fileName, memberName, lineNumber)}. Parameter {parameterName} experienced an issue. {message}")
     { }
 
     public PcdTransmissionException(
-        string message,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(PcdTransmissionException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public PcdTransmissionException(
-        Exception innerException,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(PcdTransmissionException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public PcdTransmissionException(
-        string message,
-        Exception innerException,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        string message, Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(PcdTransmissionException), fileName, memberName, lineNumber)} {message}", innerException)
     { }

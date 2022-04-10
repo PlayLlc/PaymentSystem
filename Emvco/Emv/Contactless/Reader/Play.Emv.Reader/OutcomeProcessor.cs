@@ -25,9 +25,7 @@ public class OutcomeProcessor : IProcessOutcome
     #region Constructor
 
     public OutcomeProcessor(
-        IHandleSelectionRequests selectionEndpoint,
-        IHandleDisplayRequests displayEndpoint,
-        IReaderEndpoint readerEndpoint)
+        IHandleSelectionRequests selectionEndpoint, IHandleDisplayRequests displayEndpoint, IReaderEndpoint readerEndpoint)
     {
         _SelectionEndpoint = selectionEndpoint;
         _DisplayEndpoint = displayEndpoint;

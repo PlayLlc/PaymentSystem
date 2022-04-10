@@ -14,35 +14,25 @@ public class PcdTimeoutException : PlayException
     #region Constructor
 
     public PcdTimeoutException(
-        string parameterName,
-        string message,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        string parameterName, string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(PcdTimeoutException), fileName, memberName, lineNumber)}. Parameter {parameterName} experienced an issue. {message}")
     { }
 
     public PcdTimeoutException(
-        string message,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(PcdTimeoutException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public PcdTimeoutException(
-        Exception innerException,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(PcdTimeoutException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public PcdTimeoutException(
-        string message,
-        Exception innerException,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        string message, Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(PcdTimeoutException), fileName, memberName, lineNumber)} {message}", innerException)
     { }

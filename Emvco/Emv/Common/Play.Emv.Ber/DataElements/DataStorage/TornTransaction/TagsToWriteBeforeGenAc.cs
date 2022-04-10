@@ -27,37 +27,6 @@ public record TagsToWriteBeforeGenAc : DataExchangeResponse, IEqualityComparer<T
 
     #endregion
 
-    #region Serialization
-
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    public static TagsToWriteAfterGenAc Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
-
-    public override TagsToWriteAfterGenAc Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    public static TagsToWriteAfterGenAc Decode(ReadOnlySpan<byte> value) => new(ResolveTagsToWrite(value).ToArray());
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(TagsToWriteBeforeGenAc? x, TagsToWriteBeforeGenAc? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(TagsToWriteBeforeGenAc obj) => obj.GetHashCode();
-
-    #endregion
-
     #region Instance Members
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
@@ -91,6 +60,37 @@ public record TagsToWriteBeforeGenAc : DataExchangeResponse, IEqualityComparer<T
 
         return result;
     }
+
+    #endregion
+
+    #region Serialization
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static TagsToWriteAfterGenAc Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    public override TagsToWriteAfterGenAc Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public static TagsToWriteAfterGenAc Decode(ReadOnlySpan<byte> value) => new(ResolveTagsToWrite(value).ToArray());
+
+    #endregion
+
+    #region Equality
+
+    public bool Equals(TagsToWriteBeforeGenAc? x, TagsToWriteBeforeGenAc? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
+    public int GetHashCode(TagsToWriteBeforeGenAc obj) => obj.GetHashCode();
 
     #endregion
 }

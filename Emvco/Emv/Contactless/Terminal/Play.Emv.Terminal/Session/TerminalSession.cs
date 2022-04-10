@@ -21,9 +21,7 @@ public class TerminalSession
     #region Constructor
 
     public TerminalSession(
-        SystemTraceAuditNumber systemTraceAuditNumber,
-        MessageTypeIndicator messageTypeIndicator,
-        Transaction transaction)
+        SystemTraceAuditNumber systemTraceAuditNumber, MessageTypeIndicator messageTypeIndicator, Transaction transaction)
     {
         SystemTraceAuditNumber = systemTraceAuditNumber;
         MessageTypeIndicator = messageTypeIndicator;

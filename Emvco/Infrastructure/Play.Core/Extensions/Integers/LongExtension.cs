@@ -11,7 +11,7 @@ public static class LongExtension
 
     public static int GetMostSignificantBit(this long value)
     {
-        double count = System.Math.Log2(value);
+        double count = Math.Log2(value);
 
         return (int) ((count % 1) == 0 ? count : count + 1);
     }
@@ -23,7 +23,7 @@ public static class LongExtension
 
     public static byte GetNumberOfDigits(this long value)
     {
-        double count = System.Math.Log10(System.Math.Pow(2, value.GetMostSignificantBit()));
+        double count = Math.Log10(Math.Pow(2, value.GetMostSignificantBit()));
 
         return (byte) ((count % 1) == 0 ? count : count + 1);
     }

@@ -15,35 +15,25 @@ public class MagstripeNotSupportedException : PlayException
     #region Constructor
 
     public MagstripeNotSupportedException(
-        string parameterName,
-        string message,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        string parameterName, string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(MagstripeNotSupportedException), fileName, memberName, lineNumber)}. Parameter {parameterName} experienced an issue. {message}")
     { }
 
     public MagstripeNotSupportedException(
-        string message,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(MagstripeNotSupportedException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public MagstripeNotSupportedException(
-        Exception innerException,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(MagstripeNotSupportedException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public MagstripeNotSupportedException(
-        string message,
-        Exception innerException,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        string message, Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(MagstripeNotSupportedException), fileName, memberName, lineNumber)} {message}", innerException)
     { }

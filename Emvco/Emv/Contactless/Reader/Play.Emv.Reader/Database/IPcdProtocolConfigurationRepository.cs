@@ -5,8 +5,11 @@ namespace Play.Emv.Reader.Database;
 
 public interface IPcdProtocolConfigurationRepository
 {
+    #region Instance Members
+
     public PcdProtocolConfiguration Get(
-        IssuerIdentificationNumber issuerIdentificationNumber,
-        MerchantIdentifier merchantIdentifier,
+        IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier,
         TerminalIdentification terminalIdentification);
+
+    #endregion
 }

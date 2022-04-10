@@ -32,11 +32,8 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
     #region Constructor
 
     private MainEndpoint(
-        ActivateReaderRequest activateReaderRequest,
-        ICreateEndpointClient messageRouter,
-        IHandleDisplayRequests displayEndpoint,
-        IHandleSelectionRequests selectionEndpoint,
-        KernelRetriever kernelRetriever)
+        ActivateReaderRequest activateReaderRequest, ICreateEndpointClient messageRouter, IHandleDisplayRequests displayEndpoint,
+        IHandleSelectionRequests selectionEndpoint, KernelRetriever kernelRetriever)
     {
         ChannelIdentifier = new ChannelIdentifier(SelectionSessionId);
         _MainProcess = new MainProcess(activateReaderRequest, selectionEndpoint, displayEndpoint, this, kernelRetriever);
@@ -147,11 +144,8 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
     #endregion
 
     internal static MainEndpoint Create(
-        ActivateReaderRequest activateReaderRequest,
-        ICreateEndpointClient messageRouter,
-        IHandleDisplayRequests displayEndpoint,
-        IHandleSelectionRequests selectionEndpoint,
-        KernelRetriever kernelRetriever) =>
+        ActivateReaderRequest activateReaderRequest, ICreateEndpointClient messageRouter, IHandleDisplayRequests displayEndpoint,
+        IHandleSelectionRequests selectionEndpoint, KernelRetriever kernelRetriever) =>
         new(activateReaderRequest, messageRouter, displayEndpoint, selectionEndpoint, kernelRetriever);
 
     public void Dispose()

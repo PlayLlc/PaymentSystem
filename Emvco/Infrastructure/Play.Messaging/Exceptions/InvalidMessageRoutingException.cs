@@ -11,18 +11,13 @@ public class InvalidMessageRoutingException : MessagingException
     #region Constructor
 
     public InvalidMessageRoutingException(
-        string message,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(MessagingException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public InvalidMessageRoutingException(
-        Message message,
-        IMessageChannel messageChannel,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        Message message, IMessageChannel messageChannel, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(MessagingException), fileName, memberName, lineNumber)} "
              + "\n\r"
@@ -30,18 +25,13 @@ public class InvalidMessageRoutingException : MessagingException
     { }
 
     public InvalidMessageRoutingException(
-        Exception innerException,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(MessagingException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public InvalidMessageRoutingException(
-        string message,
-        Exception innerException,
-        [CallerFilePath] string fileName = "",
-        [CallerMemberName] string memberName = "",
+        string message, Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) :
         base($"{TraceExceptionMessage(typeof(MessagingException), fileName, memberName, lineNumber)} {message}", innerException)
     { }

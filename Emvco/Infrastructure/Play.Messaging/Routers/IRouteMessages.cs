@@ -2,6 +2,8 @@
 
 internal interface IRouteMessages : ICreateEndpointClient
 {
+    #region Instance Members
+
     void Subscribe(IMessageChannel messageChannel);
     void Unsubscribe(ChannelIdentifier channelIdentifier);
     void Send(RequestMessageEnvelope messageEnvelop);
@@ -9,4 +11,6 @@ internal interface IRouteMessages : ICreateEndpointClient
     void Subscribe(EventHandlerBase eventHandler);
     void Unsubscribe(EventHandlerBase eventHandler);
     Task Publish(EventEnvelope eventEnvelope);
+
+    #endregion
 }

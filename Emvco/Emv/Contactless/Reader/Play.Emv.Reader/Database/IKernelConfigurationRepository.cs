@@ -6,8 +6,11 @@ namespace Play.Emv.Reader.Database;
 
 public interface IKernelConfigurationRepository
 {
+    #region Instance Members
+
     public Dictionary<KernelId, KernelConfiguration> Get(
-        IssuerIdentificationNumber issuerIdentificationNumber,
-        MerchantIdentifier merchantIdentifier,
+        IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier,
         TerminalIdentification terminalIdentification);
+
+    #endregion
 }

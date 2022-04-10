@@ -29,9 +29,7 @@ internal class MainStateMachine
     #region Constructor
 
     public MainStateMachine(
-        IHandleSelectionRequests selectionEndpoint,
-        KernelRetriever kernelRetriever,
-        IHandleDisplayRequests displayEndpoint,
+        IHandleSelectionRequests selectionEndpoint, KernelRetriever kernelRetriever, IHandleDisplayRequests displayEndpoint,
         IReaderEndpoint readerEndpoint)
     {
         _ReaderEndpoint = readerEndpoint;

@@ -15,8 +15,7 @@ public class TerminalActionAnalysisConfiguration
     #region Constructor
 
     public TerminalActionAnalysisConfiguration(
-        TerminalActionCodeDefault terminalActionCodeDefault,
-        TerminalActionCodeDenial terminalActionCodeDenial,
+        TerminalActionCodeDefault terminalActionCodeDefault, TerminalActionCodeDenial terminalActionCodeDenial,
         TerminalActionCodeOnline terminalActionCodeOnline)
     {
         _TerminalActionCodeDefault = terminalActionCodeDefault;

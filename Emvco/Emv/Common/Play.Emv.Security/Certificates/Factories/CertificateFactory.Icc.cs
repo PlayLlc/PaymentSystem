@@ -13,6 +13,8 @@ namespace Play.Emv.Security.Certificates.Factories;
 
 internal partial class CertificateFactory
 {
+    #region Instance Members
+
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
     /// <exception cref="CodecParsingException"></exception>
@@ -111,11 +113,15 @@ internal partial class CertificateFactory
         }
 
         PublicKeyModulus publicKeyModulus = DecodedIccPublicKeyCertificate.ResolvePublicKeyModulus(iccModulusLength, issuerCertificate,
-         decodedSignature.GetMessage1(), iccPublicKeyRemainder?.AsPublicKeyRemainder());
+                                                                                                   decodedSignature.GetMessage1(),
+                                                                                                   iccPublicKeyRemainder
+                                                                                                       ?.AsPublicKeyRemainder());
 
         return new DecodedIccPublicKeyCertificate(new DateRange(ShortDate.Min, expirationDate), serialNumber, hashAlgorithmIndicator,
                                                   publicKeyAlgorithmIndicator!,
                                                   new PublicKeyInfo(publicKeyModulus, exponent.AsPublicKeyExponent(),
                                                                     iccPublicKeyRemainder?.AsPublicKeyRemainder()));
     }
+
+    #endregion
 }

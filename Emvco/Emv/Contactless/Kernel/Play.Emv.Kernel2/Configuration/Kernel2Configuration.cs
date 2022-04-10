@@ -23,9 +23,7 @@ public record Kernel2Configuration : KernelConfiguration
     // TODO: IsIntegratedDataStorageSupported is true if DSRequestedOperatorId or DSVNTerm is present in TLVDatabase with length == 0
     // TODO: IsBalanceReadingSupported is true if BalanceReadBeforeGenAC or BalanceReadAfterGenAC is present in TLVDatabase with length == 0
     public Kernel2Configuration(
-        KernelConfiguration kernelConfiguration,
-        bool isIntegratedDataStorageSupported = false,
-        bool isBalanceReadingSupported = false,
+        KernelConfiguration kernelConfiguration, bool isIntegratedDataStorageSupported = false, bool isBalanceReadingSupported = false,
         bool isTornTransactionRecoverySupported = false) : base(kernelConfiguration)
     {
         _IsIntegratedDataStorageSupported = false;

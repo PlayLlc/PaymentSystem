@@ -15,8 +15,7 @@ public class ApplicationInformation
     #region Constructor
 
     public ApplicationInformation(
-        AcquirerIdentifier acquirerIdentifier,
-        ApplicationIdentifier applicationIdentifier,
+        AcquirerIdentifier acquirerIdentifier, ApplicationIdentifier applicationIdentifier,
         ApplicationVersionNumberReader applicationVersionNumber)
     {
         _AcquirerIdentifier = acquirerIdentifier;

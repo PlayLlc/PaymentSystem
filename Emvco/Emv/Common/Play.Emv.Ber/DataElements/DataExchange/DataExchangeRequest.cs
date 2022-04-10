@@ -14,6 +14,23 @@ public abstract record DataExchangeRequest : DataExchangeList<Tag>
 
     #endregion
 
+    #region Instance Members
+
+    public bool TryPeek(out Tag result) => _Value.TryPeek(out result);
+
+    public void Enqueue(DataExchangeRequest item)
+    {
+        Enqueue(item._Value.ToArray());
+    }
+
+    /// <exception cref="OverflowException"></exception>
+    public new int GetValueByteCount()
+    {
+        return _Value.Sum(a => a.GetByteCount());
+    }
+
+    #endregion
+
     #region Serialization
 
     /// <exception cref="OverflowException"></exception>
@@ -32,23 +49,6 @@ public abstract record DataExchangeRequest : DataExchangeList<Tag>
     public new byte[] EncodeTagLengthValue()
     {
         return _Codec.EncodeTagLengthValue(GetTag(), _Value.SelectMany(a => a.Serialize()).ToList().AsSpan());
-    }
-
-    #endregion
-
-    #region Instance Members
-
-    public bool TryPeek(out Tag result) => _Value.TryPeek(out result);
-
-    public void Enqueue(DataExchangeRequest item)
-    {
-        Enqueue(item._Value.ToArray());
-    }
-
-    /// <exception cref="OverflowException"></exception>
-    public new int GetValueByteCount()
-    {
-        return _Value.Sum(a => a.GetByteCount());
     }
 
     #endregion

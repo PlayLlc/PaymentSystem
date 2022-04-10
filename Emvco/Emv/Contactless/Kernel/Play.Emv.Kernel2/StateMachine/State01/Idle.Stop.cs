@@ -10,6 +10,8 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class Idle : KernelState
 {
+    #region Instance Members
+
     #region STOP
 
     /// <summary>
@@ -38,6 +40,8 @@ public partial class Idle : KernelState
 
         return _KernelStateResolver.GetKernelState(StateId);
     }
+
+    #endregion
 
     #endregion
 }

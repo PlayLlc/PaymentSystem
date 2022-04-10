@@ -24,6 +24,8 @@ public readonly record struct NumberOfNonZeroBits
 
     #endregion
 
+    #region Instance Members
+
     /// <summary>
     ///     Validates whether the Track 2 object that initialized this object are in a valid range
     /// </summary>
@@ -34,6 +36,8 @@ public readonly record struct NumberOfNonZeroBits
     /// </summary>
     public bool IsInRange(PunatcTrack1 punatc, NumericApplicationTransactionCounterTrack1 natc) =>
         IsInRange() && ((punatc.GetSetBitCount() - natc.GetSetBitCount()) != _Value);
+
+    #endregion
 
     #region Operator Overrides
 

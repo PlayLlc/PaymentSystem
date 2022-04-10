@@ -11,9 +11,13 @@ namespace Play.Emv.Kernel.Databases;
 
 public partial class KernelDatabase : ITlvReaderAndWriter
 {
+    #region Instance Values
+
     private readonly SortedDictionary<Tag, PrimitiveValue?> _Database;
     private readonly PersistentValues _PersistentValues;
     private readonly KnownObjects _KnownObjects;
+
+    #endregion
 
     #region Lifetime Management
 
@@ -34,7 +38,8 @@ public partial class KernelDatabase : ITlvReaderAndWriter
     #endregion
 
     #region Read
-     /// <summary>
+
+    /// <summary>
     ///     Returns true if a TLV object with the provided <see cref="Tag" /> exists in the database and the corresponding
     ///     <see cref="PrimitiveValue" /> in an out parameter
     /// </summary>
@@ -60,6 +65,7 @@ public partial class KernelDatabase : ITlvReaderAndWriter
 
         return true;
     }
+
     /// <summary>
     ///     Gets the <see cref="PrimitiveValue" /> associated with the <see cref="Tag" /> in the arg
     /// </summary>
@@ -102,7 +108,7 @@ public partial class KernelDatabase : ITlvReaderAndWriter
             return false;
         }
 
-        result = (T)databaseValue!;
+        result = (T) databaseValue!;
 
         return true;
     }
@@ -122,7 +128,7 @@ public partial class KernelDatabase : ITlvReaderAndWriter
         if (!_Database.TryGetValue(tag, out PrimitiveValue? result))
             throw new TerminalDataException($"The argument {nameof(tag)} provided does not exist in {nameof(KernelDatabase)}");
 
-        return (T)result!;
+        return (T) result!;
     }
 
     /// <summary>
@@ -165,14 +171,17 @@ public partial class KernelDatabase : ITlvReaderAndWriter
                 TerminalDataException($"The method {nameof(IsPresentAndNotEmpty)} cannot be accessed because {nameof(KernelDatabase)} is not active");
         }
 
-        return  IsPresent(tag) && (_Database[tag] != null);
+        return IsPresent(tag) && (_Database[tag] != null);
     }
+
     #endregion
 
     #region Write
-    
+
     /// <summary>
-    ///     Updates the database with the <param name="value"></param> if it is a recognized object and discards the value if it is not recognized
+    ///     Updates the database with the
+    ///     <param name="value"></param>
+    ///     if it is a recognized object and discards the value if it is not recognized
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="TerminalDataException"></exception>
@@ -194,7 +203,9 @@ public partial class KernelDatabase : ITlvReaderAndWriter
     }
 
     /// <summary>
-    ///     Updates the the database with all recognized <param name="values" /> provided it is not recognized
+    ///     Updates the the database with all recognized
+    ///     <param name="values" />
+    ///     provided it is not recognized
     /// </summary>
     /// <param name="values"></param>
     /// <exception cref="TerminalDataException"></exception>
@@ -245,8 +256,6 @@ public partial class KernelDatabase : ITlvReaderAndWriter
             Initialize(tag[i]);
         }
     }
+
     #endregion
-
-
-    
 }

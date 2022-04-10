@@ -39,12 +39,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     #endregion
 
-    #region Instance Values
-
-    private readonly S3R1 _S3R1;
-    private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
-
-    #endregion
+    #region Instance Members
 
     public override StateId GetStateId() => StateId;
 
@@ -66,6 +61,15 @@ public partial class WaitingForGpoResponse : KernelState
 
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    #endregion
+
+    #endregion
+
+    #region Instance Values
+
+    private readonly S3R1 _S3R1;
+    private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
 
     #endregion
 

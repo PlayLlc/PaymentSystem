@@ -40,6 +40,22 @@ internal sealed record CertificateSources : EnumObject<byte>, IEqualityComparer<
 
     #endregion
 
+    #region Instance Members
+
+    public int GetByteSize() => _Value;
+    public static bool TryGet(byte value, out CertificateSources? result) => _ValueObjectMap.TryGetValue(value, out result);
+
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public static CertificateSources Get(byte value)
+    {
+        if (!_ValueObjectMap.TryGetValue(value, out CertificateSources? result))
+            throw new ArgumentOutOfRangeException(nameof(value));
+
+        return result!;
+    }
+
+    #endregion
+
     #region Equality
 
     public bool Equals(CertificateSources? other) => other is not null && (_Value == other._Value);
@@ -57,22 +73,6 @@ internal sealed record CertificateSources : EnumObject<byte>, IEqualityComparer<
 
     public int GetHashCode(CertificateSources other) => other.GetHashCode();
     public override int GetHashCode() => unchecked(_Value.GetHashCode() * 13879);
-
-    #endregion
-
-    #region Instance Members
-
-    public int GetByteSize() => _Value;
-    public static bool TryGet(byte value, out CertificateSources? result) => _ValueObjectMap.TryGetValue(value, out result);
-
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public static CertificateSources Get(byte value)
-    {
-        if (!_ValueObjectMap.TryGetValue(value, out CertificateSources? result))
-            throw new ArgumentOutOfRangeException(nameof(value));
-
-        return result!;
-    }
 
     #endregion
 }

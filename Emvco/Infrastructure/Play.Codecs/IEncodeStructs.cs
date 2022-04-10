@@ -2,6 +2,8 @@
 
 public interface IEncodeStructs
 {
+    #region Instance Members
+
     public ushort GetByteCount<_T>(_T value) where _T : struct;
     public ushort GetByteCount<_T>(_T[] value) where _T : struct;
 
@@ -68,4 +70,6 @@ public interface IEncodeStructs
     ///     The raw encoded bytes of the value provided
     /// </returns>
     public byte[] Encode<_T>(_T[] value, int length) where _T : struct;
+
+    #endregion
 }

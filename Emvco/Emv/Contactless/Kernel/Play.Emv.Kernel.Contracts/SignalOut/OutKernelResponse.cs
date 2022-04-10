@@ -24,7 +24,7 @@ public record OutKernelResponse : ResponseSignal
     #region Constructor
 
     public OutKernelResponse(CorrelationId correlationId, KernelSessionId sessionId, Outcome outcome) : base(correlationId, MessageTypeId,
-     ChannelTypeId)
+                                                                                                             ChannelTypeId)
     {
         _Outcome = outcome;
         _KernelSessionId = sessionId;

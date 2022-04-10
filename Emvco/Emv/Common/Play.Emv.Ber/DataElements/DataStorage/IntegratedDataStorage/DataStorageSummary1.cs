@@ -60,5 +60,9 @@ public record DataStorageSummary1 : DataElement<BigInteger>
 
     #endregion
 
+    #region Operator Overrides
+
     public static explicit operator BigInteger(DataStorageSummary1 value) => value._Value;
+
+    #endregion
 }

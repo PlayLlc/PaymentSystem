@@ -42,8 +42,7 @@ public record DiscretionaryData : DataExchangeResponse, IEqualityComparer<Discre
     public static DiscretionaryData Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodePrimitiveValuesAtRuntime(value.Span).ToArray());
 
     /// <exception cref="BerParsingException"></exception>
-    public static DiscretionaryData Decode(ReadOnlySpan<byte> value) =>
-        new(_Codec.DecodePrimitiveValuesAtRuntime(value).ToArray());
+    public static DiscretionaryData Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodePrimitiveValuesAtRuntime(value).ToArray());
 
     #endregion
 

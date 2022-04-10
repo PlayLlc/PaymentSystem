@@ -257,6 +257,8 @@ internal partial class CertificateFactory
 
     #endregion
 
+    #endregion
+
     #region 6.3 Step 3
 
     // Step 3 is handled by Step 7. The deciphered signature validation is encapsulated in  the SignatureService.IsSignatureValid()
@@ -266,8 +268,6 @@ internal partial class CertificateFactory
     #region 6.3 Step 6
 
     // This step is encapsulated in the DecodedIssuerPublicKeyCertificate.GetHashAlgorithmIndicator(decodedSignature.GetMessage1());
-
-    #endregion
 
     #endregion
 }

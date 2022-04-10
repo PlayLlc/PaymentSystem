@@ -229,6 +229,20 @@ public sealed record Kernel2KnownObjects : KnownObjects
 
     #endregion
 
+    #region Instance Members
+
+    public int CompareTo(Kernel2KnownObjects other) => _Value._Value.CompareTo(other._Value);
+    public override bool Exists(Tag value) => _ValueObjectMap.ContainsKey(value);
+
+    public static IEnumerator<Tag> GetEnumerator()
+    {
+        return _ValueObjectMap.Values.Select(a => (Tag) a).GetEnumerator();
+    }
+
+    public static bool TryGet(Tag value, out Kernel2KnownObjects result) => _ValueObjectMap.TryGetValue(value, out result);
+
+    #endregion
+
     #region Equality
 
     public bool Equals(Kernel2KnownObjects? other) => !(other is null) && (_Value == other._Value);
@@ -270,20 +284,6 @@ public sealed record Kernel2KnownObjects : KnownObjects
 
         return result;
     }
-
-    #endregion
-
-    #region Instance Members
-
-    public int CompareTo(Kernel2KnownObjects other) => _Value._Value.CompareTo(other._Value);
-    public override bool Exists(Tag value) => _ValueObjectMap.ContainsKey(value);
-
-    public static IEnumerator<Tag> GetEnumerator()
-    {
-        return _ValueObjectMap.Values.Select(a => (Tag) a).GetEnumerator();
-    }
-
-    public static bool TryGet(Tag value, out Kernel2KnownObjects result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion
 }

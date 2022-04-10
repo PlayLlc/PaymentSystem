@@ -24,9 +24,9 @@ public record AcquirerResponseSignal : ResponseSignal
     #region Constructor
 
     protected AcquirerResponseSignal(
-        CorrelationId correlationId,
-        MessageTypeIndicator messageTypeIndicator,
-        TagLengthValue[] tagLengthValues) : base(correlationId, MessageTypeId, ChannelTypeId)
+        CorrelationId correlationId, MessageTypeIndicator messageTypeIndicator, TagLengthValue[] tagLengthValues) : base(correlationId,
+                                                                                                                         MessageTypeId,
+                                                                                                                         ChannelTypeId)
     {
         MessageTypeIndicator = messageTypeIndicator;
         TagLengthValues = tagLengthValues;

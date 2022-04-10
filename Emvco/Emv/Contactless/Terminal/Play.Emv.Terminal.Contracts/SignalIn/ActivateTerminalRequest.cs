@@ -31,15 +31,9 @@ public record ActivateTerminalRequest : RequestSignal
     #region Constructor
 
     public ActivateTerminalRequest(
-        MessageTypeIndicator messageTypeIndicator,
-        PosEntryMode posEntryMode,
-        string terminalIdentification,
-        byte accountType,
-        ulong amountAuthorized,
-        ulong otherAmount,
-        byte transactionType,
-        ulong acquirerIdentifier,
-        string merchantIdentifier) : base(MessageTypeId, ChannelTypeId)
+        MessageTypeIndicator messageTypeIndicator, PosEntryMode posEntryMode, string terminalIdentification, byte accountType,
+        ulong amountAuthorized, ulong otherAmount, byte transactionType, ulong acquirerIdentifier, string merchantIdentifier) :
+        base(MessageTypeId, ChannelTypeId)
     {
         _PosEntryMode = posEntryMode;
         _MessageTypeIndicator = messageTypeIndicator;

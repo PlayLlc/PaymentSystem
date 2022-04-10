@@ -132,8 +132,7 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
     #endregion
 
     public static TerminalEndpoint Create(
-        ITerminalConfigurationRepository terminalConfigurationRepository,
-        ICreateEndpointClient messageRouter) =>
+        ITerminalConfigurationRepository terminalConfigurationRepository, ICreateEndpointClient messageRouter) =>
         new(terminalConfigurationRepository, messageRouter);
 
     public void Dispose()

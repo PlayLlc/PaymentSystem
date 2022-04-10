@@ -26,9 +26,7 @@ public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposa
     #region Constructor
 
     private DisplayEndpoint(
-        IDisplayMessages displayService,
-        IDisplayLed ledDisplayService,
-        IDisplayMessageRepository displayMessageRepository,
+        IDisplayMessages displayService, IDisplayLed ledDisplayService, IDisplayMessageRepository displayMessageRepository,
         ICreateEndpointClient messageRouter)
     {
         _DisplayProcess = new DisplayProcess(displayService, ledDisplayService, displayMessageRepository);
@@ -87,9 +85,7 @@ public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposa
     #endregion
 
     public static DisplayEndpoint Create(
-        IDisplayMessages displayService,
-        IDisplayLed ledDisplayService,
-        IDisplayMessageRepository displayMessageRepository,
+        IDisplayMessages displayService, IDisplayLed ledDisplayService, IDisplayMessageRepository displayMessageRepository,
         ICreateEndpointClient messageRouter) =>
         new(displayService, ledDisplayService, displayMessageRepository, messageRouter);
 

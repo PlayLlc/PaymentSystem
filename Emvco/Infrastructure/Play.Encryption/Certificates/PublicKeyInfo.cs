@@ -13,9 +13,7 @@ public class PublicKeyInfo
     #region Constructor
 
     public PublicKeyInfo(
-        PublicKeyModulus publicKeyModulus,
-        PublicKeyExponent publicKeyExponent,
-        PublicKeyRemainder? publicKeyRemainder = null)
+        PublicKeyModulus publicKeyModulus, PublicKeyExponent publicKeyExponent, PublicKeyRemainder? publicKeyRemainder = null)
     {
         _PublicKeyModulus = publicKeyModulus;
         _PublicKeyExponent = publicKeyExponent;

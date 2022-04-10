@@ -36,6 +36,7 @@ public record DataStorageSummaryStatus : DataElement<byte>
     public override Tag GetTag() => Tag;
     public bool IsReadSuccessful() => _Value.IsBitSet(Bits.Eight);
     public bool IsSuccessfulWrite() => _Value.IsBitSet(Bits.Seven);
+    public static Builder GetBuilder() => new();
 
     #endregion
 
@@ -58,7 +59,6 @@ public record DataStorageSummaryStatus : DataElement<byte>
         return new DataStorageSummaryStatus(result);
     }
 
-    public static Builder GetBuilder() => new();
     public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
     public new byte[] EncodeValue(int length) => EncodeValue();
 

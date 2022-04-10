@@ -47,19 +47,13 @@ public class AlphaNumericCodec : PlayCodec
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public static readonly PlayEncodingId EncodingId = new(typeof(AlphaNumericCodec));
 
-    private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper =
-        Enumerable.Range(0, 10)
-        .Concat(Enumerable.Range(48, (57 - 48) + 1))
-        .Concat(Enumerable.Range(65, (90 - 65) + 1))
-        .Concat(Enumerable.Range(97, (122 - 97) + 1))
-        .ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
+    private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = Enumerable.Range(0, 10)
+        .Concat(Enumerable.Range(48, (57 - 48) + 1)).Concat(Enumerable.Range(65, (90 - 65) + 1))
+        .Concat(Enumerable.Range(97, (122 - 97) + 1)).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
 
-    private static readonly ImmutableSortedDictionary<byte, char> _CharMapper =
-        Enumerable.Range(0, 10) 
-        .Concat(Enumerable.Range(48, (57 - 48) + 1))
-        .Concat(Enumerable.Range(65, (90 - 65) + 1))
-        .Concat(Enumerable.Range(97, (122 - 97) + 1))
-        .ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
+    private static readonly ImmutableSortedDictionary<byte, char> _CharMapper = Enumerable.Range(0, 10)
+        .Concat(Enumerable.Range(48, (57 - 48) + 1)).Concat(Enumerable.Range(65, (90 - 65) + 1))
+        .Concat(Enumerable.Range(97, (122 - 97) + 1)).ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
 
     #endregion
 

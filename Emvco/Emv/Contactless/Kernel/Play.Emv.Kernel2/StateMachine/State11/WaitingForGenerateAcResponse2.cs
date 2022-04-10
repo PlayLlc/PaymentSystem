@@ -32,6 +32,8 @@ public class WaitingForGenerateAcResponse2 : KernelState
 
     #endregion
 
+    #region Instance Members
+
     public override StateId GetStateId() => StateId;
 
     #region ACT
@@ -68,6 +70,22 @@ public class WaitingForGenerateAcResponse2 : KernelState
 
     #endregion
 
+    #region RAPDU
+
+    /// <summary>
+    ///     Handle
+    /// </summary>
+    /// <param name="session"></param>
+    /// <param name="signal"></param>
+    /// <returns></returns>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
+        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+
+    #endregion
+
+    #endregion
+
     #region DET
 
     /// <summary>
@@ -98,20 +116,6 @@ public class WaitingForGenerateAcResponse2 : KernelState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    #endregion
-
-    #region RAPDU
-
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion

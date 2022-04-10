@@ -68,6 +68,20 @@ internal record Instruction : EnumObject<byte>, IComparable<Instruction>
 
     #endregion
 
+    #region Instance Members
+
+    public int CompareTo([AllowNull] Instruction other)
+    {
+        if (other is null)
+            return 1;
+
+        return _Value.CompareTo(other);
+    }
+
+    public static Instruction Get(byte value) => _ValueObjectMap[value];
+
+    #endregion
+
     #region Equality
 
     public bool Equals(Instruction x, Instruction y) => x.Equals(y);
@@ -97,20 +111,6 @@ internal record Instruction : EnumObject<byte>, IComparable<Instruction>
     public static implicit operator byte(Instruction value) => value._Value;
     public static bool operator !=(Instruction left, byte right) => !(left == right);
     public static bool operator !=(byte left, Instruction right) => !(left == right);
-
-    #endregion
-
-    #region Instance Members
-
-    public int CompareTo([AllowNull] Instruction other)
-    {
-        if (other is null)
-            return 1;
-
-        return _Value.CompareTo(other);
-    }
-
-    public static Instruction Get(byte value) => _ValueObjectMap[value];
 
     #endregion
 }

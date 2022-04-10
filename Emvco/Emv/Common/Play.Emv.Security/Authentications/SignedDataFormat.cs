@@ -46,6 +46,13 @@ internal sealed record SignedDataFormat : EnumObject<byte>, IEqualityComparer<Si
 
     #endregion
 
+    #region Instance Members
+
+    public int GetByteSize() => _Value;
+    public static bool TryGet(byte value, out SignedDataFormat? result) => _ValueObjectMap.TryGetValue(value, out result);
+
+    #endregion
+
     #region Equality
 
     public bool Equals(SignedDataFormat? other) => other is not null && (_Value == other._Value);
@@ -63,13 +70,6 @@ internal sealed record SignedDataFormat : EnumObject<byte>, IEqualityComparer<Si
 
     public int GetHashCode(SignedDataFormat other) => other.GetHashCode();
     public override int GetHashCode() => unchecked(_Value.GetHashCode() * 31153);
-
-    #endregion
-
-    #region Instance Members
-
-    public int GetByteSize() => _Value;
-    public static bool TryGet(byte value, out SignedDataFormat? result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion
 }

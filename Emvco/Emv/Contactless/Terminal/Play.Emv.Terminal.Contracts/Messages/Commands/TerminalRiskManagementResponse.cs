@@ -29,8 +29,7 @@ public class TerminalRiskManagementResponse
     #region Constructor
 
     public TerminalRiskManagementResponse(
-        TerminalVerificationResult terminalVerificationResult,
-        TransactionStatusInformationFlags transactionStatus)
+        TerminalVerificationResult terminalVerificationResult, TransactionStatusInformationFlags transactionStatus)
     {
         _TerminalVerificationResult = terminalVerificationResult;
         _TransactionStatus = transactionStatus;

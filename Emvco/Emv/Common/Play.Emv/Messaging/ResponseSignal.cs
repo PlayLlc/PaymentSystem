@@ -7,7 +7,8 @@ public abstract record ResponseSignal : ResponseMessage
     #region Constructor
 
     protected ResponseSignal(CorrelationId correlationId, MessageTypeId messageTypeId, ChannelTypeId channelTypeId) : base(correlationId,
-     messageTypeId, channelTypeId)
+                                                                                                                           messageTypeId,
+                                                                                                                           channelTypeId)
     { }
 
     #endregion

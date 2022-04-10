@@ -45,14 +45,14 @@ public class ApplicationCryptogramGenerator : IGenerateApplicationCryptogram
 
             return new GenerateApplicationCryptogramResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
                                                              new GenerateApplicationCryptogramRApduSignal(Array.Empty<byte>(),
-                                                              Level1Error.ProtocolError));
+                                                                                                          Level1Error.ProtocolError));
         }
         catch (PcdTimeoutException)
         {
             // TODO: Logging
             return new GenerateApplicationCryptogramResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
                                                              new GenerateApplicationCryptogramRApduSignal(Array.Empty<byte>(),
-                                                              Level1Error.TimeOutError));
+                                                                                                          Level1Error.TimeOutError));
         }
     }
 

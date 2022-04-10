@@ -30,7 +30,7 @@ public abstract class KernelState : IGetKernelStateId
 
     #endregion
 
-    #region Instance Members
+    #region Constructor
 
     protected KernelState(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
@@ -45,6 +45,10 @@ public abstract class KernelState : IGetKernelStateId
         _PcdEndpoint = pcdEndpoint;
         _DisplayEndpoint = displayEndpoint;
     }
+
+    #endregion
+
+    #region Instance Members
 
     public abstract StateId GetStateId();
     public abstract KernelState Handle(KernelSession session, ActivateKernelRequest signal);

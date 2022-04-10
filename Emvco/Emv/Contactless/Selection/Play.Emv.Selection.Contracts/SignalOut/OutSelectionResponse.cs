@@ -27,9 +27,7 @@ public record OutSelectionResponse : ResponseSignal
     #region Constructor
 
     public OutSelectionResponse(
-        CorrelationId correlationId,
-        Transaction transaction,
-        CombinationCompositeKey combinationCompositeKey,
+        CorrelationId correlationId, Transaction transaction, CombinationCompositeKey combinationCompositeKey,
         TerminalTransactionQualifiers terminalTransactionQualifiers,
         SelectApplicationDefinitionFileInfoResponse applicationFileInformationResponse) : base(correlationId, MessageTypeId, ChannelTypeId)
     {

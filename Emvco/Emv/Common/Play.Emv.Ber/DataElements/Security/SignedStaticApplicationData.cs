@@ -29,6 +29,14 @@ public record SignedStaticApplicationData : DataElement<BigInteger>, IEqualityCo
 
     #endregion
 
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+
+    #endregion
+
     #region Serialization
 
     public static SignedStaticApplicationData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
@@ -57,14 +65,6 @@ public record SignedStaticApplicationData : DataElement<BigInteger>, IEqualityCo
     }
 
     public int GetHashCode(SignedStaticApplicationData obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

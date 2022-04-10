@@ -10,6 +10,8 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForEmvModeFirstWriteFlag : KernelState
 {
+    #region Instance Members
+
     #region STOP
 
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -30,6 +32,8 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
 
         return _KernelStateResolver.GetKernelState(Idle.StateId);
     }
+
+    #endregion
 
     #endregion
 }

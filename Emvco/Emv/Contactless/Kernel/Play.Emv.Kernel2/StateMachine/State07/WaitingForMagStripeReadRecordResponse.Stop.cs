@@ -7,16 +7,18 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForMagStripeReadRecordResponse
 {
+    #region Instance Members
+
     #region STOP
 
     #region S7.7 - S7.8
 
     /// <summary>
-    /// Handle
+    ///     Handle
     /// </summary>
     /// <param name="session"></param>
     /// <param name="signal"></param>
-    /// <returns></returns> 
+    /// <returns></returns>
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
@@ -36,6 +38,8 @@ public partial class WaitingForMagStripeReadRecordResponse
 
         return _KernelStateResolver.GetKernelState(Idle.StateId);
     }
+
+    #endregion
 
     #endregion
 

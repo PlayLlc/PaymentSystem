@@ -18,8 +18,7 @@ public class TransactionConfiguration
     #region Constructor
 
     public TransactionConfiguration(
-        TransactionCurrencyCode transactionCurrencyCode,
-        TransactionCurrencyExponent transactionCurrencyExponent,
+        TransactionCurrencyCode transactionCurrencyCode, TransactionCurrencyExponent transactionCurrencyExponent,
         TransactionReferenceCurrencyCode transactionReferenceCurrencyCode,
         TransactionReferenceCurrencyExponent transactionReferenceCurrencyExponent)
     {

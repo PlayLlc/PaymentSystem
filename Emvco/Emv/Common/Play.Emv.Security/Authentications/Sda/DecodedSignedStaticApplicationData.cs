@@ -26,7 +26,8 @@ internal class DecodedSignedStaticApplicationData : DecodedSignature
     { }
 
     private DecodedSignedStaticApplicationData(byte leadingByte, Message1 message1, Hash hash, byte trailingByte) : base(leadingByte,
-     message1, hash, trailingByte)
+                                                                                                                         message1, hash,
+                                                                                                                         trailingByte)
     { }
 
     #endregion

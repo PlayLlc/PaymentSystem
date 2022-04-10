@@ -27,11 +27,13 @@ public record DataRecord : DataExchangeResponse, IEqualityComparer<DataRecord>
 
     #endregion
 
+    #region Instance Members
+
     public static DataRecord CreateMagstripeDataRecord(IReadTlvDatabase database) =>
         new(RetrieveMagstripeDataRecordObjects(database).ToArray());
 
     /// <summary>
-    /// RetrieveMagstripeDataRecordObjects
+    ///     RetrieveMagstripeDataRecordObjects
     /// </summary>
     /// <param name="database"></param>
     /// <returns></returns>
@@ -123,6 +125,12 @@ public record DataRecord : DataExchangeResponse, IEqualityComparer<DataRecord>
             yield return unpredictableNumber!;
     }
 
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
+
+    #endregion
+
     #region Serialization
 
     /// <exception cref="BerParsingException"></exception>
@@ -151,14 +159,6 @@ public record DataRecord : DataExchangeResponse, IEqualityComparer<DataRecord>
     }
 
     public int GetHashCode(DataRecord obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     #endregion
 }

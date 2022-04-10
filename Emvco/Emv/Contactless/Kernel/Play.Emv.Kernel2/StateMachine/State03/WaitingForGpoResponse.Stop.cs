@@ -10,6 +10,8 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForGpoResponse : KernelState
 {
+    #region Instance Members
+
     #region STOP
 
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -34,6 +36,8 @@ public partial class WaitingForGpoResponse : KernelState
 
         return _KernelStateResolver.GetKernelState(Idle.StateId);
     }
+
+    #endregion
 
     #endregion
 }

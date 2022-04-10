@@ -17,8 +17,7 @@ public class CardholderVerificationMethodService
     #region Constructor
 
     public CardholderVerificationMethodService(
-        IVerifyCardholderPinOffline offlinePinAuthentication,
-        IVerifyCardholderPinOnline onlinePinAuthentication,
+        IVerifyCardholderPinOffline offlinePinAuthentication, IVerifyCardholderPinOnline onlinePinAuthentication,
         IVerifyCardholderSignature cardholderSignatureVerification)
     {
         _OfflinePinAuthentication = offlinePinAuthentication;

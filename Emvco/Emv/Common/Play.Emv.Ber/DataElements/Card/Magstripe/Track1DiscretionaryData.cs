@@ -28,6 +28,13 @@ public record Track1DiscretionaryData : DataElement<char[]>
 
     #endregion
 
+    #region Instance Members
+
+    public override PlayEncodingId GetEncodingId() => EncodingId;
+    public override Tag GetTag() => Tag;
+
+    #endregion
+
     #region Serialization
 
     public static Track1DiscretionaryData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
@@ -46,13 +53,6 @@ public record Track1DiscretionaryData : DataElement<char[]>
 
         return new Track1DiscretionaryData(result.Value);
     }
-
-    #endregion
-
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-    public override Tag GetTag() => Tag;
 
     #endregion
 }

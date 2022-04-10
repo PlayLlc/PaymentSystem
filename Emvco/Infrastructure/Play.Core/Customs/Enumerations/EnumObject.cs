@@ -13,7 +13,7 @@ namespace Play.Core;
 ///     instances. No instantiation from outside the derived class should be allowed
 /// </remarks>
 public abstract record EnumObject<T> : IEquatable<T>, IEqualityComparer<T>, IComparable<T>, IEqualityComparer<EnumObject<T>>,
-    IComparable<EnumObject<T>> where T : unmanaged
+                                       IComparable<EnumObject<T>> where T : unmanaged
 {
     #region Instance Values
 
@@ -23,7 +23,8 @@ public abstract record EnumObject<T> : IEquatable<T>, IEqualityComparer<T>, ICom
 
     #region Constructor
 
-    protected EnumObject() {}
+    protected EnumObject()
+    { }
 
     protected EnumObject(T value)
     {

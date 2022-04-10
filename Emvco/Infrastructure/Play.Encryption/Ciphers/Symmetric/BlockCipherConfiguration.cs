@@ -15,11 +15,7 @@ public class BlockCipherConfiguration
     #region Constructor
 
     public BlockCipherConfiguration(
-        BlockCipherMode cipherMode,
-        BlockPaddingMode paddingMode,
-        KeySize keySize,
-        BlockSize blockSize,
-        IPreprocessPlainText? preprocessor)
+        BlockCipherMode cipherMode, BlockPaddingMode paddingMode, KeySize keySize, BlockSize blockSize, IPreprocessPlainText? preprocessor)
     {
         _CipherMode = cipherMode;
         _PaddingMode = paddingMode;

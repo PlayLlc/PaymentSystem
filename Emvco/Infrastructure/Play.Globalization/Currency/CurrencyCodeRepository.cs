@@ -42,9 +42,7 @@ internal static class CurrencyCodeRepository
 
     /// <exception cref="InvalidOperationException"></exception>
     public static Currency ResolveCurrency(
-        ushort numericCurrencyCode,
-        string alpha3CurrencyCode,
-        Dictionary<string, NumberFormatInfo> formatMap)
+        ushort numericCurrencyCode, string alpha3CurrencyCode, Dictionary<string, NumberFormatInfo> formatMap)
     {
         // We're throwing here because there's adding and subtracting we have to do when processing transactions
         // so we need to make sure we only include currencies when we're able to determine their precision

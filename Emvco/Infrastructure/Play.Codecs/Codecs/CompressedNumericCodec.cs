@@ -126,7 +126,7 @@ public class CompressedNumericCodec : PlayCodec
     #endregion
 
     #region Count
-    
+
     // HACK: We're removing the dynamic decoding capability and using explicit decoding calls
     public override ushort GetByteCount<T>(T value) where T : struct => checked((ushort) Unsafe.SizeOf<T>());
 

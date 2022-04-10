@@ -48,7 +48,7 @@ public class DirectoryDefinitionFileInformationSelector : ISelectDirectoryDefini
 
             return new SelectDirectoryDefinitionFileResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
                                                              new GetFileControlInformationRApduSignal(Array.Empty<byte>(),
-                                                              Level1Error.ProtocolError));
+                                                                                                      Level1Error.ProtocolError));
         }
         catch (PcdTimeoutException)
         {
@@ -56,7 +56,7 @@ public class DirectoryDefinitionFileInformationSelector : ISelectDirectoryDefini
 
             return new SelectDirectoryDefinitionFileResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
                                                              new GetFileControlInformationRApduSignal(Array.Empty<byte>(),
-                                                              Level1Error.ProtocolError));
+                                                                                                      Level1Error.ProtocolError));
         }
     }
 

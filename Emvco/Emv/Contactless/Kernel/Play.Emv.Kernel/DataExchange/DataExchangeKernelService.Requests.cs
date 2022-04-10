@@ -16,6 +16,8 @@ namespace Play.Emv.Kernel.DataExchange;
 
 public partial class DataExchangeKernelService
 {
+    #region Instance Members
+
     #region Endpoint
 
     public void SendRequest(KernelSessionId sessionId)
@@ -32,6 +34,8 @@ public partial class DataExchangeKernelService
             _Lock.Responses[DekRequestType.DataNeeded].Clear();
         }
     }
+
+    #endregion
 
     #endregion
 

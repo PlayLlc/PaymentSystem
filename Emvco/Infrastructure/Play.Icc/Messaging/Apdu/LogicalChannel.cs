@@ -83,6 +83,19 @@ public readonly struct LogicalChannel
 
     #endregion
 
+    #region Instance Members
+
+    public static LogicalChannel Get(byte value)
+    {
+        const byte logicalChannelMask = 0xFC;
+
+        return _ValueObjectMap[value.GetMaskedValue(logicalChannelMask)];
+    }
+
+    public static bool IsValid(byte value) => _ValueObjectMap.ContainsKey(value);
+
+    #endregion
+
     #region Equality
 
     public override bool Equals(object? obj) => obj is LogicalChannel logicalChannel && Equals(logicalChannel);
@@ -117,19 +130,6 @@ public readonly struct LogicalChannel
     public static bool operator !=(LogicalChannel left, LogicalChannel right) => !(left == right);
     public static bool operator !=(LogicalChannel left, byte right) => !(left == right);
     public static bool operator !=(byte left, LogicalChannel right) => !(left == right);
-
-    #endregion
-
-    #region Instance Members
-
-    public static LogicalChannel Get(byte value)
-    {
-        const byte logicalChannelMask = 0xFC;
-
-        return _ValueObjectMap[value.GetMaskedValue(logicalChannelMask)];
-    }
-
-    public static bool IsValid(byte value) => _ValueObjectMap.ContainsKey(value);
 
     #endregion
 }

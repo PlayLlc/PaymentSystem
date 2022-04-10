@@ -74,7 +74,7 @@ internal abstract record CvmCondition
     public static bool Exists(CvmConditionCode code) => _Conditions.ContainsKey(code);
 
     /// <summary>
-    /// IsCvmSupported
+    ///     IsCvmSupported
     /// </summary>
     /// <param name="database"></param>
     /// <param name="code"></param>
@@ -99,7 +99,7 @@ internal abstract record CvmCondition
     public abstract CvmConditionCode GetConditionCode();
 
     /// <summary>
-    /// IsRequiredDataPresent
+    ///     IsRequiredDataPresent
     /// </summary>
     /// <param name="database"></param>
     /// <returns></returns>

@@ -73,9 +73,7 @@ public class Outcome
     }
 
     public Outcome(
-        OutcomeParameterSet outcomeParameterSet,
-        DiscretionaryData discretionaryData,
-        UserInterfaceRequestData userInterfaceRequestData)
+        OutcomeParameterSet outcomeParameterSet, DiscretionaryData discretionaryData, UserInterfaceRequestData userInterfaceRequestData)
     {
         _OutcomeParameterSet = outcomeParameterSet;
         _DiscretionaryData = discretionaryData;
@@ -85,11 +83,8 @@ public class Outcome
     }
 
     public Outcome(
-        ErrorIndication errorIndication,
-        OutcomeParameterSet outcomeParameterSet,
-        DataRecord? dataRecord = null,
-        DiscretionaryData? discretionaryData = null,
-        UserInterfaceRequestData? userInterfaceRequestData = null)
+        ErrorIndication errorIndication, OutcomeParameterSet outcomeParameterSet, DataRecord? dataRecord = null,
+        DiscretionaryData? discretionaryData = null, UserInterfaceRequestData? userInterfaceRequestData = null)
     {
         _ErrorIndication = errorIndication;
         _OutcomeParameterSet = outcomeParameterSet;

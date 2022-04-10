@@ -32,7 +32,7 @@ internal class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
     internal CertificateSources GetCertificateFormat() => _CertificateSources;
 
     /// <summary>
-    /// Create
+    ///     Create
     /// </summary>
     /// <param name="caPublicKeyCertificate"></param>
     /// <param name="issuerRemainder"></param>

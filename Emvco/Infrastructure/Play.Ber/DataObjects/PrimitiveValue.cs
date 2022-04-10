@@ -8,8 +8,37 @@ using Play.Codecs;
 namespace Play.Ber.DataObjects;
 
 public abstract record PrimitiveValue : IEqualityComparer<PrimitiveValue>, IEncodeBerDataObjects, IRetrievePrimitiveValueMetadata,
-    IDecodeDataElement
+                                        IDecodeDataElement
 {
+    #region Instance Members
+
+    public TagLengthValue AsTagLengthValue(BerCodec codec)
+    {
+        Tag tag = GetTag();
+        byte[]? contentOctets = EncodeValue(codec);
+
+        return new TagLengthValue(GetTag(), EncodeValue(codec));
+    }
+
+    public abstract PlayEncodingId GetEncodingId();
+    public abstract Tag GetTag();
+
+    public uint GetTagLengthValueByteCount(BerCodec codec) =>
+        checked((uint) Tag.GetByteCount(this) + Length.GetByteCount(this, codec) + GetValueByteCount(codec));
+
+    /// <summary>
+    ///     Gets the Tag-Length-Value byte count of this object
+    /// </summary>
+    /// <param name="codec"></param>
+    /// <param name="length">The length of this object's Value field</param>
+    /// <returns></returns>
+    public uint GetTagLengthValueByteCount(BerCodec codec, int length) =>
+        checked((uint) Tag.GetByteCount(this) + Length.GetByteCount(this, codec) + GetValueByteCount(codec));
+
+    public abstract ushort GetValueByteCount(BerCodec codec);
+
+    #endregion
+
     #region Serialization
 
     public abstract PrimitiveValue Decode(TagLengthValue value);
@@ -45,35 +74,6 @@ public abstract record PrimitiveValue : IEqualityComparer<PrimitiveValue>, IEnco
     }
 
     public int GetHashCode(PrimitiveValue obj) => obj.GetHashCode();
-
-    #endregion
-
-    #region Instance Members
-
-    public TagLengthValue AsTagLengthValue(BerCodec codec)
-    {
-        Tag tag = GetTag();
-        byte[]? contentOctets = EncodeValue(codec);
-
-        return new TagLengthValue(GetTag(), EncodeValue(codec));
-    }
-
-    public abstract PlayEncodingId GetEncodingId();
-    public abstract Tag GetTag();
-
-    public uint GetTagLengthValueByteCount(BerCodec codec) =>
-        checked((uint) Tag.GetByteCount(this) + Length.GetByteCount(this, codec) + GetValueByteCount(codec));
-
-    /// <summary>
-    ///     Gets the Tag-Length-Value byte count of this object
-    /// </summary>
-    /// <param name="codec"></param>
-    /// <param name="length">The length of this object's Value field</param>
-    /// <returns></returns>
-    public uint GetTagLengthValueByteCount(BerCodec codec, int length) =>
-        checked((uint) Tag.GetByteCount(this) + Length.GetByteCount(this, codec) + GetValueByteCount(codec));
-
-    public abstract ushort GetValueByteCount(BerCodec codec);
 
     #endregion
 }

@@ -53,9 +53,7 @@ public partial class S910 : CommonProcessing
             return currentStateIdRetriever.GetStateId();
 
         if (IsWithCda())
-        {
             return _AuthenticationHandler.ProcessWithCda(currentStateIdRetriever, session, (GenerateApplicationCryptogramResponse) message);
-        }
 
         return _AuthenticationHandler.ProcessWithCda(currentStateIdRetriever, session, (GenerateApplicationCryptogramResponse) message);
     }

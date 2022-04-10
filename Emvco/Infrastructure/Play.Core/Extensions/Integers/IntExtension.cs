@@ -19,7 +19,7 @@ public static class IntExtension
         if (value == 0)
             return 0;
 
-        double count = System.Math.Log2(value);
+        double count = Math.Log2(value);
 
         return (int) ((count % 1) == 0 ? count : count + 1);
     }
@@ -31,7 +31,7 @@ public static class IntExtension
 
     public static byte GetNumberOfDigits(this int value)
     {
-        double count = System.Math.Log10(value);
+        double count = Math.Log10(value);
 
         return (byte) ((count % 1) == 0 ? count : count + 1);
     }

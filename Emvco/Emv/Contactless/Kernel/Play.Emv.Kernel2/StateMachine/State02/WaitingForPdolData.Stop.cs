@@ -12,6 +12,8 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForPdolData : KernelState
 {
+    #region Instance Members
+
     #region STOP
 
     /// <summary>
@@ -41,6 +43,8 @@ public partial class WaitingForPdolData : KernelState
 
         return _KernelStateResolver.GetKernelState(StateId);
     }
+
+    #endregion
 
     #endregion
 }

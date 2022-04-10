@@ -28,9 +28,9 @@ public static partial class ReadOnlySpanExtensions
 
         return result;
     }
-     
+
     /// <summary>
-    /// CopyTo
+    ///     CopyTo
     /// </summary>
     /// <param name="value"></param>
     /// <param name="buffer"></param>

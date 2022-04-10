@@ -33,10 +33,8 @@ public class WaitingForSettlementResponse : TerminalState
     #region Constructor
 
     public WaitingForSettlementResponse(
-        DataExchangeTerminalService dataExchangeTerminalService,
-        IHandleTerminalRequests terminalEndpoint,
-        ISettlementReconciliationService settlementReconciliationService,
-        IGetTerminalState terminalStateResolver,
+        DataExchangeTerminalService dataExchangeTerminalService, IHandleTerminalRequests terminalEndpoint,
+        ISettlementReconciliationService settlementReconciliationService, IGetTerminalState terminalStateResolver,
         IGenerateSequenceTraceAuditNumbers sequenceGenerator) : base(dataExchangeTerminalService)
     {
         _TerminalEndpoint = terminalEndpoint;

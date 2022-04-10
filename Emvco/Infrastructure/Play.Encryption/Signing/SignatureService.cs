@@ -37,9 +37,7 @@ public class SignatureService
     }
 
     private bool IsHashValid(
-        HashAlgorithmIndicator hashAlgorithmIndicator,
-        DecodedSignature decodedSignature,
-        ReadOnlySpan<byte> message) =>
+        HashAlgorithmIndicator hashAlgorithmIndicator, DecodedSignature decodedSignature, ReadOnlySpan<byte> message) =>
         decodedSignature.GetHash() == _HashAlgorithmProvider.Generate(message, hashAlgorithmIndicator);
 
     private bool IsLeadingByteValid(DecodedSignature decodedSignature) =>

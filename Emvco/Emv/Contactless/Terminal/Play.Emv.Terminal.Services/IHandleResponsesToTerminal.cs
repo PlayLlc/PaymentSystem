@@ -6,8 +6,12 @@ namespace Play.Emv.Terminal.Services;
 
 internal interface IHandleResponsesToTerminal
 {
+    #region Instance Members
+
     internal void Handle(OutReaderResponse message);
     internal void Handle(QueryKernelResponse message);
     internal void Handle(StopReaderAcknowledgedResponse message);
     internal void Handle(AcquirerResponseSignal message);
+
+    #endregion
 }

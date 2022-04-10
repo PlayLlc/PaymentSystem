@@ -6,6 +6,8 @@ namespace Play.Emv.Security;
 
 public interface IAuthenticateTransactionSession
 {
+    #region Instance Members
+
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
     public void AuthenticateSda(
         ITlvReaderAndWriter database, ICertificateDatabase certificateDatabase, StaticDataToBeAuthenticated staticDataToBeAuthenticated);
@@ -18,4 +20,6 @@ public interface IAuthenticateTransactionSession
     public void AuthenticateFirstCda(
         ITlvReaderAndWriter database, ICertificateDatabase certificateDatabase, GenerateApplicationCryptogramResponse rapdu,
         StaticDataToBeAuthenticated staticDataToBeAuthenticated);
+
+    #endregion
 }

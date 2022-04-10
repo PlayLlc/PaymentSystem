@@ -5,5 +5,9 @@
 /// </summary>
 public interface IExchangeDataWithTheTerminal
 {
+    #region Instance Members
+
     public DataExchangeTerminalId GetDataExchangeTerminalId();
+
+    #endregion
 }

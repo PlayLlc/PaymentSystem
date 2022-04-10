@@ -7,11 +7,12 @@ public class WriteRecordApduCommand : ApduCommand
     #region Constructor
 
     private WriteRecordApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class, instruction, parameter1,
-     parameter2)
+                                                                                                           parameter2)
     { }
 
     private WriteRecordApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2, uint le) : base(@class, instruction,
-     parameter1, parameter2, le)
+                                                                                                                    parameter1, parameter2,
+                                                                                                                    le)
     { }
 
     private WriteRecordApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) :

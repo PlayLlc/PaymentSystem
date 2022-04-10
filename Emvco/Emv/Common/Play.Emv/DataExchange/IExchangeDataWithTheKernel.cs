@@ -5,5 +5,9 @@
 /// </summary>
 public interface IExchangeDataWithTheKernel
 {
+    #region Instance Members
+
     public DataExchangeKernelId GetDataExchangeKernelId();
+
+    #endregion
 }

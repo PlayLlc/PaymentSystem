@@ -17,7 +17,7 @@ public record ComputeCryptographicChecksumRequest : QueryPcdRequest
 
     private ComputeCryptographicChecksumRequest(
         TransactionSessionId transactionSessionId, ComputeCryptographicChecksumCApduSignal cApduSignal) : base(cApduSignal, MessageTypeId,
-     transactionSessionId)
+                                                                                                               transactionSessionId)
     { }
 
     #endregion

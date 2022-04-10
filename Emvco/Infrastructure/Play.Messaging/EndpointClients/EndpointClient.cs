@@ -59,7 +59,7 @@ public class EndpointClient : IEndpointClient
     {
         _MessageRouter.Send(EnvelopeFactory.CreateResponseEnvelope(message,
                                                                    new MessagingConfiguration(new TimeoutConfiguration(timeout,
-                                                                    timeoutHandler))));
+                                                                                                                       timeoutHandler))));
     }
 
     public void Send(ResponseMessage message, MessagingConfiguration messagingConfiguration)
@@ -85,7 +85,7 @@ public class EndpointClient : IEndpointClient
     {
         _MessageRouter.Send(EnvelopeFactory.CreateRequestEnvelope(message,
                                                                   new MessagingConfiguration(new TimeoutConfiguration(timeout,
-                                                                                              timeoutHandler))));
+                                                                                                                      timeoutHandler))));
     }
 
     public void Send(RequestMessage message, MessagingConfiguration messagingConfiguration)

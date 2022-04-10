@@ -24,8 +24,7 @@ public record ExchangeRelayResistanceDataRequest : QueryPcdRequest
     #region Instance Members
 
     public static ExchangeRelayResistanceDataRequest Create(
-        TransactionSessionId sessionId,
-        TerminalRelayResistanceEntropy terminalRelayResistanceEntropy) =>
+        TransactionSessionId sessionId, TerminalRelayResistanceEntropy terminalRelayResistanceEntropy) =>
         new(sessionId, ExchangeRelayResistanceDataCApduSignal.Create(terminalRelayResistanceEntropy.EncodeValue()));
 
     #endregion

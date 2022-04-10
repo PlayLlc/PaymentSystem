@@ -16,10 +16,8 @@ public class MerchantInformation
     #region Constructor
 
     public MerchantInformation(
-        TerminalIdentification terminalIdentification,
-        MerchantNameAndLocation merchantNameAndLocation,
-        MerchantIdentifier merchantIdentifier,
-        MerchantCategoryCode merchantCategoryCode)
+        TerminalIdentification terminalIdentification, MerchantNameAndLocation merchantNameAndLocation,
+        MerchantIdentifier merchantIdentifier, MerchantCategoryCode merchantCategoryCode)
     {
         _TerminalIdentification = terminalIdentification;
         _MerchantNameAndLocation = merchantNameAndLocation;

@@ -26,16 +26,12 @@ internal class ReaderDatabase
     #region Constructor
 
     public ReaderDatabase(
-        IssuerIdentificationNumber issuerIdentificationNumber,
-        MerchantIdentifier merchantIdentifier,
-        TerminalIdentification terminalIdentification,
-        LanguagePreference languagePreference,
-        ICertificateAuthorityDatasetRepository certificateAuthorityDatasetRepository,
-        IDisplayMessageRepository displayMessageRepository,
+        IssuerIdentificationNumber issuerIdentificationNumber, MerchantIdentifier merchantIdentifier,
+        TerminalIdentification terminalIdentification, LanguagePreference languagePreference,
+        ICertificateAuthorityDatasetRepository certificateAuthorityDatasetRepository, IDisplayMessageRepository displayMessageRepository,
         IKernelConfigurationRepository kernelConfigurationRepository,
         IPcdProtocolConfigurationRepository pcdProtocolConfigurationRepository,
-        IPersistentKernelValuesRepository persistentKernelValuesRepository,
-        ITransactionProfileRepository transactionProfileRepository)
+        IPersistentKernelValuesRepository persistentKernelValuesRepository, ITransactionProfileRepository transactionProfileRepository)
     {
         _KernelConfigurations = kernelConfigurationRepository.Get(issuerIdentificationNumber, merchantIdentifier, terminalIdentification);
         _PersistentKernelValues =
