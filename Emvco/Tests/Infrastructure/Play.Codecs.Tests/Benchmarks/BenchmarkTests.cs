@@ -21,11 +21,29 @@ namespace Play.Codecs.Tests.Benchmarks
 
         #endregion
 
+        #region Instance Values
+
+        private readonly bool _IsBenchmarkTestingFlagSet;
+
+        #endregion
+
+        #region Constructor
+
+        public BenchmarkTests()
+        {
+            // HACK: We need to put this in a json value so we can control it globally
+            _IsBenchmarkTestingFlagSet = false;
+        }
+
+        #endregion
+
         #region Instance Members
 
-        [Fact]
+        [SkippableFact]
         public void HexadecimalCodec_HexadecimalBenchmarks_Summary()
         {
+            Skip.IfNot(_IsBenchmarkTestingFlagSet);
+
             WriteSummaryReport(BenchmarkRunner.Run<HexadecimalBenchmarks>());
         }
 
