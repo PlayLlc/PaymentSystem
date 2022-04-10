@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="CompressedNumeric\**" />
+    <EmbeddedResource Remove="CompressedNumeric\**" />
+    <None Remove="CompressedNumeric\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
     <PackageReference Include="FluentAssertions" Version="6.6.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
@@ -22,11 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Testing\Play.Testing.Infrastructure\Play.Testing.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="CompressedNumeric\" />
+    <ProjectReference Include="..\..\Testing\Play.Testing.Infrastructure\Play.Testing.csproj" />
   </ItemGroup>
 
 </Project>

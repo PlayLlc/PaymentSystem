@@ -28,7 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Infrastructure\Play.Icc\Play.Icc.csproj" />
-    <ProjectReference Include="..\..\Testing\Play.Testing.Infrastructure\Play.Testing.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Testing\Play.Testing.Infrastructure\Play.Testing.csproj" />
   </ItemGroup>
 
 </Project>
