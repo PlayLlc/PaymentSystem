@@ -29,8 +29,8 @@ public class DisplayProcess : CommandProcessingQueue
     #region Constructor
 
     public DisplayProcess(
-        IDisplayMessages messageDisplayService, IDisplayLed ledDisplayService, IDisplayMessageRepository displayMessageRepository) :
-        base(new CancellationTokenSource())
+        IDisplayMessages messageDisplayService, IDisplayLed ledDisplayService, IDisplayMessageRepository displayMessageRepository) : base(
+        new CancellationTokenSource())
     {
         _MessageDisplayService = messageDisplayService;
         _LedDisplayService = ledDisplayService;

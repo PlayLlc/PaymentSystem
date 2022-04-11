@@ -34,8 +34,8 @@ public record ShortFileIdentifier : DataElement<byte>, IEqualityComparer<ShortFi
     {
         if (value > _MaxValue)
         {
-            throw new
-                DataElementParsingException($"The argument {nameof(value)} was out of range. {nameof(ShortFileIdentifier)} objects must have a decimal value between {_MinValue} and {_MaxValue}");
+            throw new DataElementParsingException(
+                $"The argument {nameof(value)} was out of range. {nameof(ShortFileIdentifier)} objects must have a decimal value between {_MinValue} and {_MaxValue}");
         }
     }
 

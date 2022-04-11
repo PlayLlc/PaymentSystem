@@ -32,9 +32,8 @@ public readonly struct ShortFileId
     {
         if (value > _MaxValue)
         {
-            throw new
-                IccProtocolException(new
-                                         ArgumentOutOfRangeException($"The argument {nameof(value)} was out of range. ShortFileIdentifier (SFI) can not be more than five bits in length"));
+            throw new IccProtocolException(new ArgumentOutOfRangeException(
+                $"The argument {nameof(value)} was out of range. ShortFileIdentifier (SFI) can not be more than five bits in length"));
         }
 
         _Value = value;

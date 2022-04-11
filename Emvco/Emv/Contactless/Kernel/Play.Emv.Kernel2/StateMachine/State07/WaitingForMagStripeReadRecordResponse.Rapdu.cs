@@ -247,8 +247,7 @@ public partial class WaitingForMagStripeReadRecordResponse
             return;
 
         _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded,
-                                           _Database.Get<UnpredictableNumberDataObjectList>(UnpredictableNumberDataObjectList.Tag)
-                                               .GetNeededData(_Database));
+            _Database.Get<UnpredictableNumberDataObjectList>(UnpredictableNumberDataObjectList.Tag).GetNeededData(_Database));
     }
 
     #endregion
@@ -338,10 +337,7 @@ public partial class WaitingForMagStripeReadRecordResponse
         try
         {
             NumberOfNonZeroBits numberOfNonZeroBits = new(_Database.Get<PunatcTrack2>(PunatcTrack2.Tag),
-                                                          _Database
-                                                              .Get<
-                                                                  NumericApplicationTransactionCounterTrack2>(NumericApplicationTransactionCounterTrack2
-                                                                                                                  .Tag));
+                _Database.Get<NumericApplicationTransactionCounterTrack2>(NumericApplicationTransactionCounterTrack2.Tag));
 
             if (!numberOfNonZeroBits.IsInRange())
             {
@@ -361,7 +357,7 @@ public partial class WaitingForMagStripeReadRecordResponse
             }
 
             if (!_Database.TryGet(NumericApplicationTransactionCounterTrack1.Tag,
-                                  out NumericApplicationTransactionCounterTrack1? natcTrack1))
+                out NumericApplicationTransactionCounterTrack1? natcTrack1))
             {
                 HandleMagstripeDataIsInvalid(sessionId);
 

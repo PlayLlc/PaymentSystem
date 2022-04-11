@@ -24,8 +24,8 @@ public record RecoverAcResponse : QueryPcdResponse
     #region Constructor
 
     public RecoverAcResponse(
-        CorrelationId correlationId, TransactionSessionId transactionSessionId, RecoverApplicationCryptogramRApduSignal rApdu) :
-        base(correlationId, MessageTypeId, transactionSessionId, rApdu)
+        CorrelationId correlationId, TransactionSessionId transactionSessionId, RecoverApplicationCryptogramRApduSignal rApdu) : base(
+        correlationId, MessageTypeId, transactionSessionId, rApdu)
     { }
 
     #endregion
@@ -74,8 +74,8 @@ public record RecoverAcResponse : QueryPcdResponse
 
         if (cid is null)
         {
-            throw new
-                IccProtocolException($"The required object: [{nameof(CryptogramInformationData)}] was missing from the {nameof(RecoverAcResponse)}");
+            throw new IccProtocolException(
+                $"The required object: [{nameof(CryptogramInformationData)}] was missing from the {nameof(RecoverAcResponse)}");
         }
 
         if (cid!.IsCdaSignatureRequested())
@@ -89,14 +89,14 @@ public record RecoverAcResponse : QueryPcdResponse
     {
         if (values.All(a => a.GetTag() != ApplicationTransactionCounter.Tag))
         {
-            throw new
-                IccProtocolException($"The object: [{nameof(ApplicationTransactionCounter)}] was required when CDA is not requested but was missing from the {nameof(RecoverAcResponse)}");
+            throw new IccProtocolException(
+                $"The object: [{nameof(ApplicationTransactionCounter)}] was required when CDA is not requested but was missing from the {nameof(RecoverAcResponse)}");
         }
 
         if (values.All(a => a.GetTag() != SignedDynamicApplicationData.Tag))
         {
-            throw new
-                IccProtocolException($"The object: [{nameof(SignedDynamicApplicationData)}] was required when CDA is not requested but was missing from the {nameof(RecoverAcResponse)}");
+            throw new IccProtocolException(
+                $"The object: [{nameof(SignedDynamicApplicationData)}] was required when CDA is not requested but was missing from the {nameof(RecoverAcResponse)}");
         }
     }
 
@@ -105,14 +105,14 @@ public record RecoverAcResponse : QueryPcdResponse
     {
         if (values.All(a => a.GetTag() != ApplicationTransactionCounter.Tag))
         {
-            throw new
-                IccProtocolException($"The object: [{nameof(ApplicationTransactionCounter)}] was required when CDA is not requested but was missing from the {nameof(RecoverAcResponse)}");
+            throw new IccProtocolException(
+                $"The object: [{nameof(ApplicationTransactionCounter)}] was required when CDA is not requested but was missing from the {nameof(RecoverAcResponse)}");
         }
 
         if (values.All(a => a.GetTag() != ApplicationCryptogram.Tag))
         {
-            throw new
-                IccProtocolException($"The object: [{nameof(ApplicationCryptogram)}] was required when CDA is not requested but was missing from the {nameof(RecoverAcResponse)}");
+            throw new IccProtocolException(
+                $"The object: [{nameof(ApplicationCryptogram)}] was required when CDA is not requested but was missing from the {nameof(RecoverAcResponse)}");
         }
     }
 

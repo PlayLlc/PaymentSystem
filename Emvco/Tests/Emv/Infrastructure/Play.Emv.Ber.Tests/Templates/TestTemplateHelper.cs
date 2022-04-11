@@ -32,7 +32,7 @@ internal class TestTemplateHelper
         if (dataElements.Count > index.Length)
         {
             throw new ArgumentOutOfRangeException(nameof(index),
-                                                  $"The argument {nameof(index)} has fewer items than argument {nameof(dataElements)}. Please ensure that all {nameof(dataElements)} children have been indexed");
+                $"The argument {nameof(index)} has fewer items than argument {nameof(dataElements)}. Please ensure that all {nameof(dataElements)} children have been indexed");
         }
 
         List<byte> result = new();
@@ -48,7 +48,7 @@ internal class TestTemplateHelper
         if (result.Count < dataElements.Count)
         {
             throw new ArgumentOutOfRangeException(nameof(index),
-                                                  $"The argument {nameof(index)} has is missing an item in the {nameof(dataElements)} argument. Please ensure that all {nameof(dataElements)} children have been indexed");
+                $"The argument {nameof(index)} has is missing an item in the {nameof(dataElements)} argument. Please ensure that all {nameof(dataElements)} children have been indexed");
         }
 
         return result.ToArray();

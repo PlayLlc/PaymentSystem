@@ -132,19 +132,18 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     {
         TerminalExpectedTransmissionTimeForRelayResistanceCapdu terminalExpectedCapduTransmissionTime =
             (TerminalExpectedTransmissionTimeForRelayResistanceCapdu) _Database.Get(TerminalExpectedTransmissionTimeForRelayResistanceCapdu
-                                                                                        .Tag);
+                .Tag);
 
         TerminalExpectedTransmissionTimeForRelayResistanceRapdu terminalExpectedRapduTransmissionTime =
             (TerminalExpectedTransmissionTimeForRelayResistanceRapdu) _Database.Get(TerminalExpectedTransmissionTimeForRelayResistanceRapdu
-                                                                                        .Tag);
+                .Tag);
 
         DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceExpectedRapduTransmissionTime =
             (DeviceEstimatedTransmissionTimeForRelayResistanceRapdu) _Database.Get(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu
-                                                                                       .Tag);
+                .Tag);
 
-        MeasuredRelayResistanceProcessingTime processingTime =
-            MeasuredRelayResistanceProcessingTime.Create(timeElapsed, terminalExpectedCapduTransmissionTime,
-                                                         terminalExpectedRapduTransmissionTime, deviceExpectedRapduTransmissionTime);
+        MeasuredRelayResistanceProcessingTime processingTime = MeasuredRelayResistanceProcessingTime.Create(timeElapsed,
+            terminalExpectedCapduTransmissionTime, terminalExpectedRapduTransmissionTime, deviceExpectedRapduTransmissionTime);
 
         _Database.Update(processingTime);
 
@@ -298,11 +297,11 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
             return false;
 
         DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceEstimate =
-            _Database.Get<DeviceEstimatedTransmissionTimeForRelayResistanceRapdu>(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu
-                                                                                      .Tag);
+            _Database.Get<DeviceEstimatedTransmissionTimeForRelayResistanceRapdu>(
+                DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag);
         TerminalExpectedTransmissionTimeForRelayResistanceRapdu terminalEstimate =
             _Database.Get<TerminalExpectedTransmissionTimeForRelayResistanceRapdu>(TerminalExpectedTransmissionTimeForRelayResistanceRapdu
-                                                                                       .Tag);
+                .Tag);
         RelayResistanceTransmissionTimeMismatchThreshold mismatchThreshold =
             _Database.Get<RelayResistanceTransmissionTimeMismatchThreshold>(RelayResistanceTransmissionTimeMismatchThreshold.Tag);
         MinTimeForProcessingRelayResistanceApdu minThreshold =

@@ -42,7 +42,7 @@ internal class StaticDataAuthenticator
                 tlvDatabase.Get<SignedStaticApplicationData>(SignedStaticApplicationData.Tag);
 
             ValidateStaticDataToBeAuthenticated(recoveredIssuerCertificate!, signedStaticApplicationData,
-                                                staticDataToBeAuthenticated.Encode());
+                staticDataToBeAuthenticated.Encode());
         }
         catch (TerminalDataException)
         {
@@ -93,10 +93,10 @@ internal class StaticDataAuthenticator
         ReadOnlySpan<byte> staticDataToBeAuthenticated)
     {
         if (!_SignedStaticApplicationDataDecoder.IsValid(decodedCertificateResult!, signedStaticApplicationData,
-                                                         staticDataToBeAuthenticated.ToArray()))
+            staticDataToBeAuthenticated.ToArray()))
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"The {nameof(StaticDataAuthenticator)} failed Static Data Authentication because the constraint {nameof(ValidateStaticDataToBeAuthenticated)} was invalid");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"The {nameof(StaticDataAuthenticator)} failed Static Data Authentication because the constraint {nameof(ValidateStaticDataToBeAuthenticated)} was invalid");
         }
     }
 

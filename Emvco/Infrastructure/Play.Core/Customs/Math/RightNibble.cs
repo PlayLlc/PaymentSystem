@@ -26,7 +26,7 @@ internal readonly record struct RightNibble
         if (value.AreBitsSet(_UnrelatedBits))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                                                  $"The {nameof(RightNibble)} could not be initialized because the argument provided has more bits set than a nibble");
+                $"The {nameof(RightNibble)} could not be initialized because the argument provided has more bits set than a nibble");
         }
 
         _Value = value;

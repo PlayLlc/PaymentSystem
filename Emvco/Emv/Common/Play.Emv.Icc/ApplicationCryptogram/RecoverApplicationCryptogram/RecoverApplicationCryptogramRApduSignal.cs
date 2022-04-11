@@ -71,8 +71,8 @@ public class RecoverApplicationCryptogramRApduSignal : RApduSignal
         if (tag == SignedDynamicApplicationData.Tag)
             return SignedDynamicApplicationData.Decode(value);
 
-        throw new
-            TerminalDataException($"The {nameof(RecoverApplicationCryptogramRApduSignal)} tried to decode an unknown data object with the {nameof(Tag)} value of [{tag}]");
+        throw new TerminalDataException(
+            $"The {nameof(RecoverApplicationCryptogramRApduSignal)} tried to decode an unknown data object with the {nameof(Tag)} value of [{tag}]");
     }
 
     private IEnumerable<Tag> GetKnownTags(TagLengthValue[] values)

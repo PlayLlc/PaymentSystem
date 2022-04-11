@@ -35,7 +35,7 @@ public record HoldTimeValue : DataElement<Deciseconds>, IEqualityComparer<HoldTi
         if (value < _MinimumValue)
         {
             throw new DataElementParsingException(new ArgumentOutOfRangeException(nameof(value),
-                                                                                  $"The argument {nameof(value)} must be at least 100 ms to initialize a {nameof(HoldTimeValue)}"));
+                $"The argument {nameof(value)} must be at least 100 ms to initialize a {nameof(HoldTimeValue)}"));
         }
     }
 

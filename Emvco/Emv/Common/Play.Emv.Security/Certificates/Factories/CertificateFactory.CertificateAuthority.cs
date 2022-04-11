@@ -24,8 +24,8 @@ internal partial class CertificateFactory
             if (!certificateDatabase.TryGet(rid, index, out CaPublicKeyCertificate? caPublicKey))
             {
                 // TODO: Update the transaction flow correctly and set the transaction values rather than throw this error
-                throw new
-                    CryptographicAuthenticationMethodFailedException($"The {nameof(CaPublicKeyCertificate)} with the {nameof(CaPublicKeyIndex)} value: [{index}] was unavailable for the {nameof(RegisteredApplicationProviderIndicator)}: [{rid}]. Authentication has failed");
+                throw new CryptographicAuthenticationMethodFailedException(
+                    $"The {nameof(CaPublicKeyCertificate)} with the {nameof(CaPublicKeyIndex)} value: [{index}] was unavailable for the {nameof(RegisteredApplicationProviderIndicator)}: [{rid}]. Authentication has failed");
             }
 
             return caPublicKey!;

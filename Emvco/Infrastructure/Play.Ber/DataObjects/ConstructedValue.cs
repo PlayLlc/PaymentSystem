@@ -9,7 +9,7 @@ using Play.Ber.Lengths;
 namespace Play.Ber.DataObjects;
 
 public abstract class ConstructedValue : IEncodeBerDataObjects, IRetrieveConstructedValueMetadata, IEqualityComparer<ConstructedValue>,
-                                         IEquatable<ConstructedValue>
+    IEquatable<ConstructedValue>
 {
     #region Instance Members
 

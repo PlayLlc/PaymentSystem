@@ -40,14 +40,14 @@ public class ProcessingOptionsRetriever : IGetProcessingOptions
             // TODO: Logging
 
             return new GetProcessingOptionsResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
-                                                    new GetProcessingOptionsRApduSignal(Array.Empty<byte>(), Level1Error.ProtocolError));
+                new GetProcessingOptionsRApduSignal(Array.Empty<byte>(), Level1Error.ProtocolError));
         }
         catch (PcdTimeoutException)
         {
             // TODO: Logging
 
             return new GetProcessingOptionsResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
-                                                    new GetProcessingOptionsRApduSignal(Array.Empty<byte>(), Level1Error.ProtocolError));
+                new GetProcessingOptionsRApduSignal(Array.Empty<byte>(), Level1Error.ProtocolError));
         }
     }
 

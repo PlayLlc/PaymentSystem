@@ -1,35 +1,71 @@
-﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:s="clr-namespace:System;assembly=mscorlib"
+                        xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml"
+                        xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/CodeInspection/Daemon/ConfigureAwaitAnalysisMode/@EntryValue">Library</s:String>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Ccommands/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Ccommon/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Ccommon_005Cbr1/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Ccommon_005Cgac/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Ccommon_005Cs910/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Ccommon_005C_005Ftemp/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Ccommon_005C_005Ftemps910/@EntryIndexedValue">False</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate01/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate02/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate03/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate04/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate05/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate06/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate07/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate08/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate09/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate10/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate11/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate12/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate13/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate14/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate15/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate16/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate17/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstater1/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstates/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstates_005Cs3r1/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstates_005Csr1/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstates_005Cstate1/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstates_005Cstate2/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstates_005C_005Ftemp_005Flogicalgroup_005Cs3r1/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstates_005C_005Ftemp_005Flogicalgroup_005Cstate1/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstates_005C_005Ftemp_005Flogicalgroup_005Cstate2/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Ccommands/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Ccommon/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Ccommon_005Cbr1/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Ccommon_005Cgac/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Ccommon_005Cs910/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Ccommon_005C_005Ftemp/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Ccommon_005C_005Ftemps910/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate01/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate02/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate03/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate04/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate05/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate06/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate07/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate08/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate09/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate10/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate11/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate12/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate13/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate14/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate15/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate16/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstate17/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstater1/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstates/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstates_005Cs3r1/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstates_005Csr1/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstates_005Cstate1/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstates_005Cstate2/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstates_005C_005Ftemp_005Flogicalgroup_005Cs3r1/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstates_005C_005Ftemp_005Flogicalgroup_005Cstate1/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean
+		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=statemachine_005Cstates_005C_005Ftemp_005Flogicalgroup_005Cstate2/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

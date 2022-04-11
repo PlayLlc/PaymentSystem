@@ -19,26 +19,26 @@ public class TerminalException : PlayInternalException
 
     public TerminalException(
         string parameterName, string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(TerminalException), fileName, memberName, lineNumber)}. Parameter {parameterName} experienced an issue. {message}")
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(TerminalException), fileName, memberName, lineNumber)}. Parameter {parameterName} experienced an issue. {message}")
     { }
 
     public TerminalException(
         string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(TerminalException), fileName, memberName, lineNumber)} {message}")
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(TerminalException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public TerminalException(
         Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(TerminalException), fileName, memberName, lineNumber)}", innerException)
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(TerminalException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public TerminalException(
         string message, Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(TerminalException), fileName, memberName, lineNumber)} {message}", innerException)
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(TerminalException), fileName, memberName, lineNumber)} {message}", innerException)
     { }
 
     #endregion

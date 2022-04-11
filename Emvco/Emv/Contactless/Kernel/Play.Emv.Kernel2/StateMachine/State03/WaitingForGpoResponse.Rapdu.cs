@@ -37,8 +37,8 @@ public partial class WaitingForGpoResponse : KernelState
 
         if (signal is not GetProcessingOptionsResponse rapdu)
         {
-            throw new
-                RequestOutOfSyncException($"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
+            throw new RequestOutOfSyncException(
+                $"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
         }
 
         if (TryHandleL1Error(session, rapdu))
@@ -322,7 +322,7 @@ public partial class WaitingForGpoResponse : KernelState
         {
             ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice onDevice =
                 (ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice) _Database.Get(ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice
-                                                                                          .Tag);
+                    .Tag);
 
             session.Update(onDevice);
         }
@@ -479,7 +479,7 @@ public partial class WaitingForGpoResponse : KernelState
         {
             ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice onDevice =
                 (ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice) _Database.Get(ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice
-                                                                                          .Tag);
+                    .Tag);
             session.Update(onDevice);
         }
     }

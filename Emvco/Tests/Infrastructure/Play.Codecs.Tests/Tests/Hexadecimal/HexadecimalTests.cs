@@ -167,11 +167,7 @@ public class HexadecimalTests : TestBase
     {
         string testData = "DFFC3C01CD6E4FA13021";
 
-        byte[] expected =
-        {
-            0xDF, 0xFC, 0x3C, 0x01, 0xCD, 0x6E, 0x4F, 0xA1,
-            0x30, 0x21
-        };
+        byte[] expected = {0xDF, 0xFC, 0x3C, 0x01, 0xCD, 0x6E, 0x4F, 0xA1, 0x30, 0x21};
         byte[] actual = PlayCodec.HexadecimalCodec.Encode(testData);
 
         Assert.Equal(expected, actual);
@@ -196,11 +192,7 @@ public class HexadecimalTests : TestBase
     {
         string testData = "FFC3C01CD6E4FA13021";
 
-        byte[] expected =
-        {
-            0x0F, 0xFC, 0x3C, 0x01, 0xCD, 0x6E, 0x4F, 0xA1,
-            0x30, 0x21
-        };
+        byte[] expected = {0x0F, 0xFC, 0x3C, 0x01, 0xCD, 0x6E, 0x4F, 0xA1, 0x30, 0x21};
         byte[] actual = PlayCodec.HexadecimalCodec.Encode(testData);
 
         Assert.Equal(expected, actual);

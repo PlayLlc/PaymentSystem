@@ -38,8 +38,8 @@ public readonly struct CvmCode
 
         if (!CvmCodes.Exists(_Value))
         {
-            throw new
-                TerminalDataException($"An unrecognized {nameof(CvmCode)} cannot be processed by the terminal. Please check if the {nameof(CvmCode)} is recognized by the terminal before verifying support");
+            throw new TerminalDataException(
+                $"An unrecognized {nameof(CvmCode)} cannot be processed by the terminal. Please check if the {nameof(CvmCode)} is recognized by the terminal before verifying support");
         }
 
         if (_Value == CvmCodes.Fail)

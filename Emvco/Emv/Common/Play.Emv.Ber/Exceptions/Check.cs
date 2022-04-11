@@ -29,8 +29,8 @@ internal class Check
         {
             if (value.Length != length)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the Tag {tag} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {length} bytes in length");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the Tag {tag} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {length} bytes in length");
             }
         }
 
@@ -40,8 +40,8 @@ internal class Check
         {
             if (value < minLength)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the Tag {tag} could not be initialized because the char length provided was out of range. The char length was {value} but must be at least {minLength} bytes in length");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the Tag {tag} could not be initialized because the char length provided was out of range. The char length was {value} but must be at least {minLength} bytes in length");
             }
         }
 
@@ -51,8 +51,8 @@ internal class Check
         {
             if (value > maxLength)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the Tag {tag} could not be initialized because the char length provided was out of range. The char length was {value} but must be less than {maxLength} bytes in length");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the Tag {tag} could not be initialized because the char length provided was out of range. The char length was {value} but must be less than {maxLength} bytes in length");
             }
         }
 
@@ -62,8 +62,8 @@ internal class Check
         {
             if (value > maxLength)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the Tag {tag} could not be initialized because the char length provided was out of range. The char length was {value} but must be less than {maxLength} bytes in length");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the Tag {tag} could not be initialized because the char length provided was out of range. The char length was {value} but must be less than {maxLength} bytes in length");
             }
         }
 
@@ -73,8 +73,8 @@ internal class Check
         {
             if (value > maxLength)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the Tag {tag} could not be initialized because the char length provided was out of range. The char length was {value} but must be less than {maxLength} bytes in length");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the Tag {tag} could not be initialized because the char length provided was out of range. The char length was {value} but must be less than {maxLength} bytes in length");
             }
         }
 
@@ -84,8 +84,8 @@ internal class Check
         {
             if (value != length)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the Tag {tag} could not be initialized because the char length provided was out of range. The char length was {value} but must be {length} bytes in length");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the Tag {tag} could not be initialized because the char length provided was out of range. The char length was {value} but must be {length} bytes in length");
             }
         }
 
@@ -95,8 +95,8 @@ internal class Check
         {
             if (value < minLength)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be greater than {minLength}");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be greater than {minLength}");
             }
         }
 
@@ -106,8 +106,8 @@ internal class Check
         {
             if (value < minLength)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be greater than {minLength}");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be greater than {minLength}");
             }
         }
 
@@ -117,8 +117,8 @@ internal class Check
         {
             if (value < minLength)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be greater than {minLength}");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be greater than {minLength}");
             }
         }
 
@@ -128,8 +128,8 @@ internal class Check
         {
             if (value > maxLength)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxLength}");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxLength}");
             }
         }
 
@@ -139,8 +139,8 @@ internal class Check
         {
             if (value > maxLength)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxLength}");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxLength}");
             }
         }
 
@@ -150,8 +150,8 @@ internal class Check
         {
             if (value > maxLength)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxLength}");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxLength}");
             }
         }
 
@@ -161,8 +161,8 @@ internal class Check
         {
             if (value > maxLength)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxLength}");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxLength}");
             }
         }
 
@@ -178,8 +178,8 @@ internal class Check
         {
             if (value.Length != length)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the Tag {tag} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {length} bytes in length");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the Tag {tag} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {length} bytes in length");
             }
         }
 
@@ -195,8 +195,8 @@ internal class Check
         {
             if (value.Length != length)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the Tag {tag} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {length} bytes in length");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the Tag {tag} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be {length} bytes in length");
             }
         }
 
@@ -212,8 +212,8 @@ internal class Check
         {
             if (value.Count != length)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the Tag {tag} could not be initialized because the byte length provided was out of range. The byte length was {value.Count} but must be {length} bytes in length");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the Tag {tag} could not be initialized because the byte length provided was out of range. The byte length was {value.Count} but must be {length} bytes in length");
             }
         }
 
@@ -230,8 +230,8 @@ internal class Check
         {
             if (value.Count > maxLength)
             {
-                throw new
-                    DataElementParsingException($"The primitive value with the Tag {tag} was expected to have a maximum length of {maxLength} but did not");
+                throw new DataElementParsingException(
+                    $"The primitive value with the Tag {tag} was expected to have a maximum length of {maxLength} but did not");
             }
         }
 
@@ -248,8 +248,8 @@ internal class Check
         {
             if (value.Length > maxLength)
             {
-                throw new
-                    DataElementParsingException($"The primitive value with the Tag {tag} was expected to have a maximum length of {maxLength} but did not");
+                throw new DataElementParsingException(
+                    $"The primitive value with the Tag {tag} was expected to have a maximum length of {maxLength} but did not");
             }
         }
 
@@ -259,8 +259,8 @@ internal class Check
         {
             if (value.Length < minLength)
             {
-                throw new
-                    DataElementParsingException($"The primitive value with the Tag {tag} was expected to have a minimum length of {minLength} but did not");
+                throw new DataElementParsingException(
+                    $"The primitive value with the Tag {tag} was expected to have a minimum length of {minLength} but did not");
             }
         }
 
@@ -270,8 +270,8 @@ internal class Check
         {
             if (value > maxValue)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxValue}");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxValue}");
             }
         }
 
@@ -281,8 +281,8 @@ internal class Check
         {
             if (value > maxValue)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxValue}");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxValue}");
             }
         }
 
@@ -292,8 +292,8 @@ internal class Check
         {
             if (value > maxValue)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxValue}");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxValue}");
             }
         }
 
@@ -303,8 +303,8 @@ internal class Check
         {
             if (value > maxValue)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxValue}");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxValue}");
             }
         }
 
@@ -314,8 +314,8 @@ internal class Check
         {
             if (value < minValue)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {minValue}");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {minValue}");
             }
         }
 
@@ -325,8 +325,8 @@ internal class Check
         {
             if (value < minValue)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no less than {minValue}");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no less than {minValue}");
             }
         }
 
@@ -336,8 +336,8 @@ internal class Check
         {
             if (value < minValue)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no less than {minValue}");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no less than {minValue}");
             }
         }
 
@@ -347,8 +347,8 @@ internal class Check
         {
             if (value < minValue)
             {
-                throw new
-                    DataElementParsingException($"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no less than {minValue}");
+                throw new DataElementParsingException(
+                    $"The Primitive Value with the {nameof(tag)}: [{tag}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no less than {minValue}");
             }
         }
 

@@ -25,11 +25,8 @@ public class Kernel2ProcessFactory
         KernelDatabase kernelDatabase = new(certificates, kernel2PersistentValues, knownObjects);
 
         Kernel2StateResolver kernel2StateResolver = Kernel2StateResolver.Create(tornTransactionCleaner, kernelDatabase,
-                                                                                new DataExchangeKernelService(terminalEndpoint,
-                                                                                                              kernelDatabase,
-                                                                                                              kernelEndpoint),
-                                                                                tornTransactionManager, terminalEndpoint, kernelEndpoint,
-                                                                                pcdEndpoint, unpredictableNumberGenerator, displayEndpoint);
+            new DataExchangeKernelService(terminalEndpoint, kernelDatabase, kernelEndpoint), tornTransactionManager, terminalEndpoint,
+            kernelEndpoint, pcdEndpoint, unpredictableNumberGenerator, displayEndpoint);
         Kernel2StateMachine stateMachine = new(kernel2StateResolver.GetKernelState(Idle.StateId));
 
         return new Kernel2Process(stateMachine);

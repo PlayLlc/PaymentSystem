@@ -36,8 +36,8 @@ public record DefaultUnpredictableNumberDataObjectList : DataObjectList, IEquali
     {
         if (!_Codec.IsTagPresent(UnpredictableNumber.Tag, value.ToByteArray()))
         {
-            throw new
-                CardDataMissingException($"The {nameof(DefaultUnpredictableNumberDataObjectList)} must contain a tag for {nameof(UnpredictableNumber)}");
+            throw new CardDataMissingException(
+                $"The {nameof(DefaultUnpredictableNumberDataObjectList)} must contain a tag for {nameof(UnpredictableNumber)}");
         }
     }
 

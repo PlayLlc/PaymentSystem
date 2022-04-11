@@ -16,22 +16,22 @@ public class CryptographicAuthenticationMethodFailedException : CodecParsingExce
 
     public CryptographicAuthenticationMethodFailedException(
         string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(CryptographicAuthenticationMethodFailedException), fileName, memberName, lineNumber)} {message}")
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(CryptographicAuthenticationMethodFailedException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public CryptographicAuthenticationMethodFailedException(
         Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(CryptographicAuthenticationMethodFailedException), fileName, memberName, lineNumber)}",
-             innerException)
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(CryptographicAuthenticationMethodFailedException), fileName, memberName, lineNumber)}",
+        innerException)
     { }
 
     public CryptographicAuthenticationMethodFailedException(
         string message, Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(CryptographicAuthenticationMethodFailedException), fileName, memberName, lineNumber)} {message}",
-             innerException)
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(CryptographicAuthenticationMethodFailedException), fileName, memberName, lineNumber)} {message}",
+        innerException)
     { }
 
     #endregion

@@ -14,8 +14,8 @@ public record PutDataResponse : QueryPcdResponse
 
     #region Constructor
 
-    public PutDataResponse(CorrelationId correlationId, TransactionSessionId transactionSessionId, PutDataRApduSignal rApdu) :
-        base(correlationId, MessageTypeId, transactionSessionId, rApdu)
+    public PutDataResponse(CorrelationId correlationId, TransactionSessionId transactionSessionId, PutDataRApduSignal rApdu) : base(
+        correlationId, MessageTypeId, transactionSessionId, rApdu)
     { }
 
     #endregion

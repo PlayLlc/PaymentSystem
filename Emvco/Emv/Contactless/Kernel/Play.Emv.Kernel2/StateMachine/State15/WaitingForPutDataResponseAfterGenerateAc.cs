@@ -21,7 +21,7 @@ public class WaitingForPutDataResponseAfterGenerateAc : KernelState
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
         IHandleDisplayRequests displayEndpoint) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager,
-                                                       kernelStateResolver, pcdEndpoint, displayEndpoint)
+        kernelStateResolver, pcdEndpoint, displayEndpoint)
     { }
 
     #endregion

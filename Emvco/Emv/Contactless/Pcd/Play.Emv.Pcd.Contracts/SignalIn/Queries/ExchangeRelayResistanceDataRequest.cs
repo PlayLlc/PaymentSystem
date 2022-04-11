@@ -15,8 +15,8 @@ public record ExchangeRelayResistanceDataRequest : QueryPcdRequest
 
     #region Constructor
 
-    private ExchangeRelayResistanceDataRequest(TransactionSessionId transactionSessionId, CApduSignal cApduSignal) :
-        base(cApduSignal, MessageTypeId, transactionSessionId)
+    private ExchangeRelayResistanceDataRequest(TransactionSessionId transactionSessionId, CApduSignal cApduSignal) : base(cApduSignal,
+        MessageTypeId, transactionSessionId)
     { }
 
     #endregion

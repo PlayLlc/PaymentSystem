@@ -32,7 +32,7 @@ public readonly struct RegisteredApplicationProviderIndicator
         if (value.GetMostSignificantByte() > ByteCount)
         {
             throw new IccProtocolException(new ArgumentOutOfRangeException(nameof(value),
-                                                                           $"The value {value} exceeded that maximum byte count of: [{ByteCount}] bytes in length"));
+                $"The value {value} exceeded that maximum byte count of: [{ByteCount}] bytes in length"));
         }
 
         _Value = value;

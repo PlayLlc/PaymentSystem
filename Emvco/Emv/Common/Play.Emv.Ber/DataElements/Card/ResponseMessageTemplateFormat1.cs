@@ -49,8 +49,8 @@ public record ResponseMessageTemplateFormat1 : DataElement<byte[]>, IEqualityCom
     public static ResponseMessageTemplateFormat1 Decode(ReadOnlySpan<byte> value)
     {
         DecodedResult<byte[]> result = _Codec.Decode(EncodingId, value) as DecodedResult<byte[]>
-            ?? throw new
-                DataElementParsingException($"The {nameof(ResponseMessageTemplateFormat1)} could not be initialized because the {nameof(BerEncodingIdType.VariableCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
+            ?? throw new DataElementParsingException(
+                $"The {nameof(ResponseMessageTemplateFormat1)} could not be initialized because the {nameof(BerEncodingIdType.VariableCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
 
         return new ResponseMessageTemplateFormat1(result.Value);
     }

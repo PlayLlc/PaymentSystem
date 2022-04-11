@@ -191,14 +191,14 @@ public class DirectoryEntry : Template
 
         ApplicationDedicatedFileName applicationDedicatedFileName =
             encodedTlvSiblings.TryGetValueOctetsOfSibling(ApplicationDedicatedFileName.Tag,
-                                                          out ReadOnlyMemory<byte> rawApplicationDedicatedFileName)
+                out ReadOnlyMemory<byte> rawApplicationDedicatedFileName)
                 ? ApplicationDedicatedFileName.Decode(rawApplicationDedicatedFileName)
-                : throw new
-                    CardDataMissingException($"A problem occurred while decoding {nameof(DirectoryEntry)}. A {nameof(ApplicationDedicatedFileName)} was expected but could not be found");
+                : throw new CardDataMissingException(
+                    $"A problem occurred while decoding {nameof(DirectoryEntry)}. A {nameof(ApplicationDedicatedFileName)} was expected but could not be found");
 
         ApplicationPriorityIndicator applicationPriorityIndicator =
             encodedTlvSiblings.TryGetValueOctetsOfSibling(ApplicationPriorityIndicator.Tag,
-                                                          out ReadOnlyMemory<byte> rawApplicationPriorityIndicator)
+                out ReadOnlyMemory<byte> rawApplicationPriorityIndicator)
                 ? ApplicationPriorityIndicator.Decode(rawApplicationPriorityIndicator)
                 : new ApplicationPriorityIndicator(0);
 
@@ -215,7 +215,7 @@ public class DirectoryEntry : Template
             kernelIdentifier = kernelIdDefault;
 
         return new DirectoryEntry(applicationDedicatedFileName, applicationPriorityIndicator, applicationLabel, kernelIdentifier,
-                                  extendedSelection);
+            extendedSelection);
     }
 
     #endregion

@@ -47,7 +47,7 @@ public partial class Specs
             if (value > 9)
             {
                 throw new ArgumentOutOfRangeException(nameof(value),
-                                                      $"The argument {nameof(value)} was out of the range of digit values. Please provide a digit from 0 - 9");
+                    $"The argument {nameof(value)} was out of the range of digit values. Please provide a digit from 0 - 9");
             }
 
             return _CharMapper[value];
@@ -58,7 +58,7 @@ public partial class Specs
             if (value > 9)
             {
                 throw new ArgumentOutOfRangeException(nameof(value),
-                                                      $"The argument {nameof(value)} was out of the range of digit values. Please provide a digit from 0 - 9");
+                    $"The argument {nameof(value)} was out of the range of digit values. Please provide a digit from 0 - 9");
             }
 
             return _DigitMapper[value];

@@ -26,8 +26,8 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
     #region Constructor
 
     public GenerateApplicationCryptogramResponse(
-        CorrelationId correlation, TransactionSessionId transactionSessionId, GenerateApplicationCryptogramRApduSignal response) :
-        base(correlation, MessageTypeId, transactionSessionId, response)
+        CorrelationId correlation, TransactionSessionId transactionSessionId, GenerateApplicationCryptogramRApduSignal response) : base(
+        correlation, MessageTypeId, transactionSessionId, response)
     { }
 
     #endregion
@@ -122,20 +122,20 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
     {
         if (database.IsPresentAndNotEmpty(CryptogramInformationData.Tag))
         {
-            throw new
-                DataElementParsingException($"Parsing has failed because the required object: [{nameof(CryptogramInformationData)}] returned from the {nameof(GenerateApplicationCryptogramResponse)} is already present and not empty in the database");
+            throw new DataElementParsingException(
+                $"Parsing has failed because the required object: [{nameof(CryptogramInformationData)}] returned from the {nameof(GenerateApplicationCryptogramResponse)} is already present and not empty in the database");
         }
 
         if (database.IsPresentAndNotEmpty(ApplicationTransactionCounter.Tag))
         {
-            throw new
-                DataElementParsingException($"Parsing has failed because the required object: [{nameof(ApplicationTransactionCounter)}] returned from the {nameof(GenerateApplicationCryptogramResponse)} is already present and not empty in the database");
+            throw new DataElementParsingException(
+                $"Parsing has failed because the required object: [{nameof(ApplicationTransactionCounter)}] returned from the {nameof(GenerateApplicationCryptogramResponse)} is already present and not empty in the database");
         }
 
         if (database.IsPresentAndNotEmpty(ApplicationCryptogram.Tag))
         {
-            throw new
-                DataElementParsingException($"Parsing has failed because the required object: [{nameof(ApplicationCryptogram)}] returned from the {nameof(GenerateApplicationCryptogramResponse)} is already present and not empty in the database");
+            throw new DataElementParsingException(
+                $"Parsing has failed because the required object: [{nameof(ApplicationCryptogram)}] returned from the {nameof(GenerateApplicationCryptogramResponse)} is already present and not empty in the database");
         }
     }
 
@@ -144,20 +144,20 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
     {
         if (values.All(a => a.GetTag() != CryptogramInformationData.Tag))
         {
-            throw new
-                DataElementParsingException($"Parsing has failed because the required object: [{nameof(CryptogramInformationData)}] could not be retrieved from the {nameof(GenerateApplicationCryptogramResponse)}");
+            throw new DataElementParsingException(
+                $"Parsing has failed because the required object: [{nameof(CryptogramInformationData)}] could not be retrieved from the {nameof(GenerateApplicationCryptogramResponse)}");
         }
 
         if (values.All(a => a.GetTag() != ApplicationTransactionCounter.Tag))
         {
-            throw new
-                DataElementParsingException($"Parsing has failed because the required object: [{nameof(ApplicationTransactionCounter)}] could not be retrieved from the {nameof(GenerateApplicationCryptogramResponse)}");
+            throw new DataElementParsingException(
+                $"Parsing has failed because the required object: [{nameof(ApplicationTransactionCounter)}] could not be retrieved from the {nameof(GenerateApplicationCryptogramResponse)}");
         }
 
         if (values.All(a => a.GetTag() != ApplicationCryptogram.Tag))
         {
-            throw new
-                DataElementParsingException($"Parsing has failed because the required object: [{nameof(ApplicationCryptogram)}] could not be retrieved from the {nameof(GenerateApplicationCryptogramResponse)}");
+            throw new DataElementParsingException(
+                $"Parsing has failed because the required object: [{nameof(ApplicationCryptogram)}] could not be retrieved from the {nameof(GenerateApplicationCryptogramResponse)}");
         }
     }
 

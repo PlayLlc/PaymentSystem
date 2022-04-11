@@ -6,12 +6,12 @@ public class ExchangeRelayResistanceDataCApduSignal : CApduSignal
 {
     #region Constructor
 
-    private ExchangeRelayResistanceDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) :
-        base(@class, instruction, parameter1, parameter2)
+    private ExchangeRelayResistanceDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class,
+        instruction, parameter1, parameter2)
     { }
 
-    private ExchangeRelayResistanceDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint le) :
-        base(@class, instruction, parameter1, parameter2, le)
+    private ExchangeRelayResistanceDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint le) : base(@class,
+        instruction, parameter1, parameter2, le)
     { }
 
     private ExchangeRelayResistanceDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data)
@@ -20,8 +20,7 @@ public class ExchangeRelayResistanceDataCApduSignal : CApduSignal
 
     private ExchangeRelayResistanceDataCApduSignal(
         byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint le) : base(@class, instruction,
-                                                                                                                  parameter1, parameter2,
-                                                                                                                  data, le)
+        parameter1, parameter2, data, le)
     { }
 
     #endregion
@@ -35,7 +34,7 @@ public class ExchangeRelayResistanceDataCApduSignal : CApduSignal
             throw new ArgumentOutOfRangeException(nameof(terminalRelayResistanceEntropy));
 
         return new ExchangeRelayResistanceDataCApduSignal(new Class(SecureMessaging.Proprietary), Instruction.ExchangeRelayResistanceData,
-                                                          0, 0, terminalRelayResistanceEntropy, 0);
+            0, 0, terminalRelayResistanceEntropy, 0);
     }
 
     #endregion

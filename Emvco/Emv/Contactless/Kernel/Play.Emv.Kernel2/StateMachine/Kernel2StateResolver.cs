@@ -41,7 +41,7 @@ public class Kernel2StateResolver : IGetKernelState
         KernelState[] kernelStates =
         {
             new Idle(kernelDatabase, dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver,
-                     pcdEndpoint, displayRequests, tornTransactionCleaner, unpredictableNumberGenerator)
+                pcdEndpoint, displayRequests, tornTransactionCleaner, unpredictableNumberGenerator)
         };
 
         foreach (KernelState state in kernelStates)

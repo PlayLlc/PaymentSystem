@@ -29,33 +29,33 @@ public class CodecParsingException : PlayException
 
     public CodecParsingException(
         PlayCodec codec, Type encodedType, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(CodecParsingException), fileName, memberName, lineNumber)} "
-             + $"The {codec.GetType().Name} does not have the capability to {memberName} the type: [{encodedType.Name}]")
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(CodecParsingException), fileName, memberName, lineNumber)} "
+        + $"The {codec.GetType().Name} does not have the capability to {memberName} the type: [{encodedType.Name}]")
     { }
 
     public CodecParsingException(
         string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(CodecParsingException), fileName, memberName, lineNumber)} {message}")
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(CodecParsingException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public CodecParsingException(
         string message, string value, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(CodecParsingException), fileName, memberName, lineNumber)} {message}. The offending value was: {value}")
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(CodecParsingException), fileName, memberName, lineNumber)} {message}. The offending value was: {value}")
     { }
 
     public CodecParsingException(
         Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(CodecParsingException), fileName, memberName, lineNumber)}", innerException)
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(CodecParsingException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public CodecParsingException(
         string message, Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(CodecParsingException), fileName, memberName, lineNumber)} {message}", innerException)
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(CodecParsingException), fileName, memberName, lineNumber)} {message}", innerException)
     { }
 
     #endregion

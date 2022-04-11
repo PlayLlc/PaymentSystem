@@ -19,7 +19,7 @@ public class ExchangeRelayResistanceDataRApduSignal : RApduSignal
         if (value.Length != _ByteLength)
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                                                  $"The expected length was {_ByteLength} but the value provided was {value.Length} bytes in length");
+                $"The expected length was {_ByteLength} but the value provided was {value.Length} bytes in length");
         }
     }
 
@@ -29,7 +29,7 @@ public class ExchangeRelayResistanceDataRApduSignal : RApduSignal
         if (value.Length != _ByteLength)
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                                                  $"The expected length was {_ByteLength} but the value provided was {value.Length} bytes in length");
+                $"The expected length was {_ByteLength} but the value provided was {value.Length} bytes in length");
         }
     }
 

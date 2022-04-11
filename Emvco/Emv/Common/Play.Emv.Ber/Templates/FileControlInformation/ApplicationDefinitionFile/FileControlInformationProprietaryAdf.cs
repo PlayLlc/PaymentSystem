@@ -144,9 +144,9 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
     {
         FileControlInformationIssuerDiscretionaryDataAdf fciProprietaryTemplate =
             _Codec.AsConstructed(FileControlInformationIssuerDiscretionaryDataAdf.Decode,
-                                 FileControlInformationIssuerDiscretionaryDataAdf.Tag, encodedChildren)
-            ?? throw new
-                CardDataMissingException($"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataAdf)}. A {nameof(FileControlInformationIssuerDiscretionaryDataAdf)} was expected but could not be found");
+                FileControlInformationIssuerDiscretionaryDataAdf.Tag, encodedChildren)
+            ?? throw new CardDataMissingException(
+                $"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataAdf)}. A {nameof(FileControlInformationIssuerDiscretionaryDataAdf)} was expected but could not be found");
 
         ApplicationLabel? applicationLabel = null;
         ApplicationPreferredName? applicationPreferredName = null;
@@ -155,8 +155,7 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
         ApplicationPriorityIndicator? applicationPriorityIndicator =
             _Codec.AsPrimitive(ApplicationPriorityIndicator.Decode, ApplicationPriorityIndicator.Tag, encodedChildren);
         ProcessingOptionsDataObjectList? processingOptionsDataObjectList = _Codec.AsPrimitive(ProcessingOptionsDataObjectList.Decode,
-                                                                                              ProcessingOptionsDataObjectList.Tag,
-                                                                                              encodedChildren);
+            ProcessingOptionsDataObjectList.Tag, encodedChildren);
 
         // EMV Book 1 Section 12.2.4 tells us not to enforce encoding errors for the following data elements.
         // Instead, we treat it as if it wasn't returned from the ICC at all
@@ -181,8 +180,7 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
         }
 
         return new FileControlInformationProprietaryAdf(fciProprietaryTemplate, applicationLabel, applicationPriorityIndicator,
-                                                        processingOptionsDataObjectList, languagePreference, issuerCodeTableIndex,
-                                                        applicationPreferredName);
+            processingOptionsDataObjectList, languagePreference, issuerCodeTableIndex, applicationPreferredName);
     }
 
     #endregion

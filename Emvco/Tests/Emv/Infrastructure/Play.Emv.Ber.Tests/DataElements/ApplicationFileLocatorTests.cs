@@ -160,8 +160,8 @@ public class ApplicationFileLocatorTests
     {
         ApplicationFileLocatorTestTlv testData = new(new byte[]
         {
-            0x08, 0x32, 0x1C, 0x01, 0x1C, 0x14, 0x22, 0x10,
-            0x03, 0x05, 0x01, 0x04
+            0x08, 0x32, 0x1C, 0x01, 0x1C, 0x14, 0x22, 0x10, 0x03, 0x05,
+            0x01, 0x04
         });
         ApplicationFileLocator sut = ApplicationFileLocator.Decode(testData.EncodeValue().AsSpan());
         int expectedResult = testData.GetTagLengthValueByteCount();

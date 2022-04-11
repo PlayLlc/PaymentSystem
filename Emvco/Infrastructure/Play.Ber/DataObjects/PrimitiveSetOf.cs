@@ -60,5 +60,5 @@ public abstract record PrimitiveSetOf : PrimitiveValue, IReadOnlyList<PrimitiveV
         _Values.Length != 0
             ? _Values[index]
             : throw new BerParsingException(new ArgumentOutOfRangeException(nameof(index),
-                                                                            $"The {nameof(PrimitiveSetOf)} could not retrieve the requested {nameof(PrimitiveSetOf)} because the index value [{index}] was out of range"));
+                $"The {nameof(PrimitiveSetOf)} could not retrieve the requested {nameof(PrimitiveSetOf)} because the index value [{index}] was out of range"));
 }

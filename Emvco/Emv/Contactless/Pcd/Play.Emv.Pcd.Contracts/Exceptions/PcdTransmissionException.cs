@@ -15,26 +15,26 @@ public class PcdTransmissionException : PlayException
 
     public PcdTransmissionException(
         string parameterName, string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(PcdTransmissionException), fileName, memberName, lineNumber)}. Parameter {parameterName} experienced an issue. {message}")
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(PcdTransmissionException), fileName, memberName, lineNumber)}. Parameter {parameterName} experienced an issue. {message}")
     { }
 
     public PcdTransmissionException(
         string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(PcdTransmissionException), fileName, memberName, lineNumber)} {message}")
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(PcdTransmissionException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public PcdTransmissionException(
         Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(PcdTransmissionException), fileName, memberName, lineNumber)}", innerException)
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(PcdTransmissionException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public PcdTransmissionException(
         string message, Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"{TraceExceptionMessage(typeof(PcdTransmissionException), fileName, memberName, lineNumber)} {message}", innerException)
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"{TraceExceptionMessage(typeof(PcdTransmissionException), fileName, memberName, lineNumber)} {message}", innerException)
     { }
 
     #endregion

@@ -31,7 +31,7 @@ public class RecordReader : IReadRecords
         try
         {
             ReadRecordRApduSignal response = new(await _PcdTransceiver.Transceive(command.Serialize()).ConfigureAwait(false),
-                                                 command.GetShortFileId());
+                command.GetShortFileId());
 
             // TODO Handle for Status  Words
 
@@ -42,15 +42,13 @@ public class RecordReader : IReadRecords
             // TODO: Logging
 
             return new ReadRecordResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
-                                          new ReadRecordRApduSignal(Array.Empty<byte>(), command.GetShortFileId(),
-                                                                    Level1Error.ProtocolError));
+                new ReadRecordRApduSignal(Array.Empty<byte>(), command.GetShortFileId(), Level1Error.ProtocolError));
         }
         catch (PcdTimeoutException)
         {
             // TODO: Logging
             return new ReadRecordResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
-                                          new ReadRecordRApduSignal(Array.Empty<byte>(), command.GetShortFileId(),
-                                                                    Level1Error.TimeOutError));
+                new ReadRecordRApduSignal(Array.Empty<byte>(), command.GetShortFileId(), Level1Error.TimeOutError));
         }
     }
 

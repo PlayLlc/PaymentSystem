@@ -26,8 +26,8 @@ public record CvmResults : DataElement<uint>, IEqualityComparer<CvmResults>
     public CvmResults(uint value) : base(value)
     { }
 
-    public CvmResults(CvmCode cvmPerformed, CvmConditionCode cvmConditionCode, CvmResultCodes cvmResultCode) :
-        base(Create(cvmPerformed, cvmConditionCode, cvmResultCode))
+    public CvmResults(CvmCode cvmPerformed, CvmConditionCode cvmConditionCode, CvmResultCodes cvmResultCode) : base(Create(cvmPerformed,
+        cvmConditionCode, cvmResultCode))
     { }
 
     #endregion

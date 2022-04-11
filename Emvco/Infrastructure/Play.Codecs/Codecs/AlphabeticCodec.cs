@@ -250,7 +250,7 @@ public class AlphabeticCodec : PlayCodec
         if (length > value.Length)
         {
             throw new CodecParsingException(new ArgumentOutOfRangeException(nameof(value),
-                                                                            $"The {nameof(AlphabeticCodec)} could not {nameof(Encode)} the value because the length was out of range"));
+                $"The {nameof(AlphabeticCodec)} could not {nameof(Encode)} the value because the length was out of range"));
         }
 
         byte[] byteArray = new byte[length];

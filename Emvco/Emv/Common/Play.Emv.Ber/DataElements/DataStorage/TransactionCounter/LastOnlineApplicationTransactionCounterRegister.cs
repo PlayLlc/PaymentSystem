@@ -10,7 +10,7 @@ namespace Play.Emv.Ber.DataElements;
 ///     ATC value of the last transaction that went online
 /// </summary>
 public record LastOnlineApplicationTransactionCounterRegister : DataElement<ushort>,
-                                                                IEqualityComparer<LastOnlineApplicationTransactionCounterRegister>
+    IEqualityComparer<LastOnlineApplicationTransactionCounterRegister>
 {
     #region Static Metadata
 

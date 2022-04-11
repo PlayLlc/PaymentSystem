@@ -25,8 +25,8 @@ internal class Check
         {
             if (value.Length != length)
             {
-                throw new
-                    InterchangeDataFieldOutOfRangeException($"The {nameof(InterchangeDataField)} with the {nameof(DataFieldId)} {dataFieldId} could not be initialized because the byte length provided was out of range. The byte length was: [{value.Length}] but must be {length} bytes in length");
+                throw new InterchangeDataFieldOutOfRangeException(
+                    $"The {nameof(InterchangeDataField)} with the {nameof(DataFieldId)} {dataFieldId} could not be initialized because the byte length provided was out of range. The byte length was: [{value.Length}] but must be {length} bytes in length");
             }
         }
 
@@ -39,8 +39,8 @@ internal class Check
         {
             if (value.Length != length)
             {
-                throw new
-                    InterchangeDataFieldOutOfRangeException($"The {nameof(InterchangeDataField)} with the {nameof(DataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was: [{value.Length}] but must be {length} bytes in length");
+                throw new InterchangeDataFieldOutOfRangeException(
+                    $"The {nameof(InterchangeDataField)} with the {nameof(DataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was: [{value.Length}] but must be {length} bytes in length");
             }
         }
 
@@ -55,8 +55,8 @@ internal class Check
         {
             if (value.Length != length)
             {
-                throw new
-                    InterchangeDataFieldOutOfRangeException($"The {nameof(InterchangeDataField)} with the {nameof(DataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was: [{value.Length}] but must be {length} bytes in length");
+                throw new InterchangeDataFieldOutOfRangeException(
+                    $"The {nameof(InterchangeDataField)} with the {nameof(DataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was: [{value.Length}] but must be {length} bytes in length");
             }
         }
 
@@ -71,8 +71,8 @@ internal class Check
         {
             if (value < minLength)
             {
-                throw new
-                    InterchangeDataFieldOutOfRangeException($"The {nameof(InterchangeDataField)} with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be greater than {minLength}");
+                throw new InterchangeDataFieldOutOfRangeException(
+                    $"The {nameof(InterchangeDataField)} with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be greater than {minLength}");
             }
         }
 
@@ -87,8 +87,8 @@ internal class Check
         {
             if (value < minLength)
             {
-                throw new
-                    InterchangeDataFieldOutOfRangeException($"The {nameof(InterchangeDataField)} with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be greater than {minLength}");
+                throw new InterchangeDataFieldOutOfRangeException(
+                    $"The {nameof(InterchangeDataField)} with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be greater than {minLength}");
             }
         }
 
@@ -103,8 +103,8 @@ internal class Check
         {
             if (value.Length < minLength)
             {
-                throw new
-                    InterchangeDataFieldOutOfRangeException($"The {nameof(InterchangeDataField)} with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be less than {minLength} bytes in length");
+                throw new InterchangeDataFieldOutOfRangeException(
+                    $"The {nameof(InterchangeDataField)} with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be less than {minLength} bytes in length");
             }
         }
 
@@ -119,8 +119,8 @@ internal class Check
         {
             if (value.Length < minLength)
             {
-                throw new
-                    InterchangeDataFieldOutOfRangeException($"The {nameof(InterchangeDataField)} with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be less than {minLength} bytes in length");
+                throw new InterchangeDataFieldOutOfRangeException(
+                    $"The {nameof(InterchangeDataField)} with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be less than {minLength} bytes in length");
             }
         }
 
@@ -135,8 +135,8 @@ internal class Check
         {
             if (value.Count < minLength)
             {
-                throw new
-                    InterchangeDataFieldOutOfRangeException($"The {nameof(InterchangeDataField)} with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was {value.Count} but must be less than {minLength} bytes in length");
+                throw new InterchangeDataFieldOutOfRangeException(
+                    $"The {nameof(InterchangeDataField)} with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was {value.Count} but must be less than {minLength} bytes in length");
             }
         }
 
@@ -152,8 +152,8 @@ internal class Check
         {
             if (value.Count > maxLength)
             {
-                throw new
-                    InterchangeDataFieldOutOfRangeException($"The {nameof(InterchangeDataField)} with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was {value.Count} but must not exceed {maxLength} bytes in length");
+                throw new InterchangeDataFieldOutOfRangeException(
+                    $"The {nameof(InterchangeDataField)} with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was {value.Count} but must not exceed {maxLength} bytes in length");
             }
         }
 
@@ -168,8 +168,8 @@ internal class Check
         {
             if (value.Length > maxLength)
             {
-                throw new
-                    InterchangeDataFieldOutOfRangeException($"The {nameof(InterchangeDataField)} with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was: [{value.Length}] but must not exceed {maxLength} bytes in length");
+                throw new InterchangeDataFieldOutOfRangeException(
+                    $"The {nameof(InterchangeDataField)} with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was: [{value.Length}] but must not exceed {maxLength} bytes in length");
             }
         }
 
@@ -185,8 +185,8 @@ internal class Check
         {
             if (value.Length > maxLength)
             {
-                throw new
-                    InterchangeDataFieldOutOfRangeException($"The {nameof(InterchangeDataField)} with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was: [{value.Length}] but must not exceed {maxLength} bytes in length");
+                throw new InterchangeDataFieldOutOfRangeException(
+                    $"The {nameof(InterchangeDataField)} with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the byte length provided was out of range. The byte length was: [{value.Length}] but must not exceed {maxLength} bytes in length");
             }
         }
 
@@ -201,8 +201,8 @@ internal class Check
         {
             if (value > maxLength)
             {
-                throw new
-                    InterchangeDataFieldOutOfRangeException($"The {nameof(InterchangeDataField)} with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxLength}");
+                throw new InterchangeDataFieldOutOfRangeException(
+                    $"The {nameof(InterchangeDataField)} with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxLength}");
             }
         }
 
@@ -217,8 +217,8 @@ internal class Check
         {
             if (value > maxLength)
             {
-                throw new
-                    InterchangeDataFieldOutOfRangeException($"The {nameof(InterchangeDataField)} with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxLength}");
+                throw new InterchangeDataFieldOutOfRangeException(
+                    $"The {nameof(InterchangeDataField)} with the {nameof(dataFieldId)}: [{dataFieldId}], could not be initialized because the value was out of range. The value provided was: [{value}] but must be no greater than {maxLength}");
             }
         }
 

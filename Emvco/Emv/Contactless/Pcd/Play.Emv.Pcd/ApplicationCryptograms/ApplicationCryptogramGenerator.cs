@@ -34,7 +34,7 @@ public class ApplicationCryptogramGenerator : IGenerateApplicationCryptogram
         try
         {
             GenerateApplicationCryptogramRApduSignal response = new(await _PcdTransceiver
-                                                                        .Transceive(command.Serialize()).ConfigureAwait(false));
+                .Transceive(command.Serialize()).ConfigureAwait(false));
 
             return new GenerateApplicationCryptogramResponse(command.GetCorrelationId(), command.GetTransactionSessionId(), response);
         }
@@ -44,15 +44,13 @@ public class ApplicationCryptogramGenerator : IGenerateApplicationCryptogram
             // TODO: Logging
 
             return new GenerateApplicationCryptogramResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
-                                                             new GenerateApplicationCryptogramRApduSignal(Array.Empty<byte>(),
-                                                                                                          Level1Error.ProtocolError));
+                new GenerateApplicationCryptogramRApduSignal(Array.Empty<byte>(), Level1Error.ProtocolError));
         }
         catch (PcdTimeoutException)
         {
             // TODO: Logging
             return new GenerateApplicationCryptogramResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
-                                                             new GenerateApplicationCryptogramRApduSignal(Array.Empty<byte>(),
-                                                                                                          Level1Error.TimeOutError));
+                new GenerateApplicationCryptogramRApduSignal(Array.Empty<byte>(), Level1Error.TimeOutError));
         }
     }
 

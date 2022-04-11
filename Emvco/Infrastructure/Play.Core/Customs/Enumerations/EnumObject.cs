@@ -13,7 +13,7 @@ namespace Play.Core;
 ///     instances. No instantiation from outside the derived class should be allowed
 /// </remarks>
 public abstract record EnumObject<T> : IEquatable<T>, IEqualityComparer<T>, IComparable<T>, IEqualityComparer<EnumObject<T>>,
-                                       IComparable<EnumObject<T>> where T : unmanaged
+    IComparable<EnumObject<T>> where T : unmanaged
 {
     #region Instance Values
 
@@ -64,9 +64,9 @@ public abstract record EnumObject<T> : IEquatable<T>, IEqualityComparer<T>, ICom
                 if (!rawValues.Add((EnumObject<T>) fieldInfo.GetRawConstantValue()))
                 {
                     throw new TypeInitializationException(type.FullName,
-                                                          new
-                                                              InvalidOperationException($"The {type.Name} declares two instances with the same underlying {typeof(T)} values. "
-                                                                                        + "Please ensure unique values for the enum"));
+                        new InvalidOperationException(
+                            $"The {type.Name} declares two instances with the same underlying {typeof(T)} values. "
+                            + "Please ensure unique values for the enum"));
                 }
             }
         }

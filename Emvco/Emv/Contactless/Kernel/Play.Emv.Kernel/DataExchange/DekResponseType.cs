@@ -58,8 +58,8 @@ public record DekResponseType : EnumObject<Tag>
     {
         if (!_TagMap.ContainsKey(tag))
         {
-            throw new
-                TerminalDataException($"The {nameof(Tag)} argument with the value {tag} could not be recognized for a {nameof(DekResponseType)}");
+            throw new TerminalDataException(
+                $"The {nameof(Tag)} argument with the value {tag} could not be recognized for a {nameof(DekResponseType)}");
         }
 
         return _TagMap[tag];

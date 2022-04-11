@@ -139,15 +139,15 @@ public class BinaryCodec : PlayCodec
         if ((value.Length % 8) != 0)
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                                                  $"The {nameof(BinaryCodec)} Encoding expects a string that is divisible by 8");
+                $"The {nameof(BinaryCodec)} Encoding expects a string that is divisible by 8");
         }
 
         for (int i = 0; i < value.Length; i++)
         {
             if ((value[i] != '0') && (value[i] != '1'))
             {
-                throw new
-                    ArgumentOutOfRangeException($"The {nameof(BinaryCodec)} Encoding expects all string values to be either a '1' or a '0'");
+                throw new ArgumentOutOfRangeException(
+                    $"The {nameof(BinaryCodec)} Encoding expects all string values to be either a '1' or a '0'");
             }
         }
     }
@@ -458,8 +458,8 @@ public class BinaryCodec : PlayCodec
             Encode(Unsafe.As<T[], char[]>(ref value), buffer, ref offset);
         else if (typeof(T).IsNumericType())
         {
-            throw new
-                CodecParsingException($"The {nameof(BinaryCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+            throw new CodecParsingException(
+                $"The {nameof(BinaryCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
         }
         else
             Encode(Unsafe.As<T[], byte[]>(ref value), buffer, ref offset);
@@ -484,8 +484,8 @@ public class BinaryCodec : PlayCodec
             Encode(Unsafe.As<T[], byte[]>(ref value), length, buffer, ref offset);
         else
         {
-            throw new
-                CodecParsingException($"The {nameof(BinaryCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+            throw new CodecParsingException(
+                $"The {nameof(BinaryCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
         }
     }
 

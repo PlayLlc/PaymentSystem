@@ -33,8 +33,8 @@ public record MessageHoldTime : DataElement<Deciseconds>, IEqualityComparer<Mess
     {
         if (_Value < _MinimumValue)
         {
-            throw new
-                DataElementParsingException($"The argument {nameof(value)} must be at least 100 ms to initialize a {nameof(MessageHoldTime)}");
+            throw new DataElementParsingException(
+                $"The argument {nameof(value)} must be at least 100 ms to initialize a {nameof(MessageHoldTime)}");
         }
     }
 
@@ -47,8 +47,8 @@ public record MessageHoldTime : DataElement<Deciseconds>, IEqualityComparer<Mess
     {
         if (_Value < _MinimumValue)
         {
-            throw new
-                DataElementParsingException($"The argument {nameof(value)} must be at least 100 ms to initialize a {nameof(MessageHoldTime)}");
+            throw new DataElementParsingException(
+                $"The argument {nameof(value)} must be at least 100 ms to initialize a {nameof(MessageHoldTime)}");
         }
     }
 

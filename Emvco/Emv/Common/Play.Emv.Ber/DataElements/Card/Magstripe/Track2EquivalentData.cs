@@ -53,8 +53,8 @@ public record Track2EquivalentData : DataElement<BigInteger>
                 return i;
         }
 
-        throw new
-            DataElementParsingException($"A valid {nameof(ApplicationPan)} could not be resolved from the {nameof(Track2EquivalentData)}");
+        throw new DataElementParsingException(
+            $"A valid {nameof(ApplicationPan)} could not be resolved from the {nameof(Track2EquivalentData)}");
     }
 
     /// <exception cref="OverflowException"></exception>
@@ -87,7 +87,7 @@ public record Track2EquivalentData : DataElement<BigInteger>
         ReadOnlySpan<Nibble> buffer = _Value.ToByteArray().AsNibbleArray();
 
         return new ShortDate(PlayCodec.UnsignedIntegerCodec.DecodeToUInt16(buffer[..GetExpirationDateNibbleOffset(buffer)].AsByteArray()
-                                                                               .AsSpan()));
+            .AsSpan()));
     }
 
     /// <exception cref="OverflowException"></exception>
@@ -97,7 +97,7 @@ public record Track2EquivalentData : DataElement<BigInteger>
         ReadOnlySpan<Nibble> buffer = _Value.ToByteArray().AsNibbleArray();
 
         return new ServiceCode(PlayCodec.UnsignedIntegerCodec.DecodeToUInt16(buffer[..GetServiceCodeNibbleOffset(buffer)].AsByteArray()
-                                                                                 .AsSpan()));
+            .AsSpan()));
     }
 
     /// <exception cref="OverflowException"></exception>

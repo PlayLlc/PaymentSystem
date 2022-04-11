@@ -118,7 +118,7 @@ public class DataObjectListTests
 
         MockDataObjectList sut =
             MockDataObjectListTestFactory.Create(testData.Select(a => new TagLength(a.GetTag(), a.EncodeValue(EmvCodec.GetBerCodec())))
-                                                     .ToArray());
+                .ToArray());
         CommandTemplate commandTemplate = sut.AsCommandTemplate(testData);
         Assert.NotNull(commandTemplate);
     }
@@ -135,7 +135,7 @@ public class DataObjectListTests
 
         MockDataObjectList sut =
             MockDataObjectListTestFactory.Create(testData.Select(a => new TagLength(a.GetTag(), a.EncodeValue(EmvCodec.GetBerCodec())))
-                                                     .ToArray());
+                .ToArray());
         CommandTemplate commandTemplate = sut.AsCommandTemplate(testData);
         byte[] expectedResult = testData.SelectMany(a => a.EncodeTagLengthValue(EmvCodec.GetBerCodec())).ToArray();
         byte[] testValue = commandTemplate.EncodeValue();

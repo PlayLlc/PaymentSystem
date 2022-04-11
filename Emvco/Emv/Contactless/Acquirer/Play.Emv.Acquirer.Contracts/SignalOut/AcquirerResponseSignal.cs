@@ -25,8 +25,7 @@ public record AcquirerResponseSignal : ResponseSignal
 
     protected AcquirerResponseSignal(
         CorrelationId correlationId, MessageTypeIndicator messageTypeIndicator, TagLengthValue[] tagLengthValues) : base(correlationId,
-                                                                                                                         MessageTypeId,
-                                                                                                                         ChannelTypeId)
+        MessageTypeId, ChannelTypeId)
     {
         MessageTypeIndicator = messageTypeIndicator;
         TagLengthValues = tagLengthValues;

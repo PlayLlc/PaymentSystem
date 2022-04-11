@@ -16,8 +16,8 @@ public record GetProcessingOptionsResponse : QueryPcdResponse
     #region Constructor
 
     public GetProcessingOptionsResponse(
-        CorrelationId correlation, TransactionSessionId transactionSessionId, GetProcessingOptionsRApduSignal response) :
-        base(correlation, MessageTypeId, transactionSessionId, response)
+        CorrelationId correlation, TransactionSessionId transactionSessionId, GetProcessingOptionsRApduSignal response) : base(correlation,
+        MessageTypeId, transactionSessionId, response)
     { }
 
     #endregion

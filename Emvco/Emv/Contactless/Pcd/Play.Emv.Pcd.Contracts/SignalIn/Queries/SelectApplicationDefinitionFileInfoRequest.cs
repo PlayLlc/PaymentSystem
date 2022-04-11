@@ -22,8 +22,8 @@ public record SelectApplicationDefinitionFileInfoRequest : QueryPcdRequest
     #region Constructor
 
     public SelectApplicationDefinitionFileInfoRequest(
-        TransactionSessionId transactionSessionId, CApduSignal cApduSignal, DedicatedFileName dedicatedFileName) :
-        base(cApduSignal, MessageTypeId, transactionSessionId)
+        TransactionSessionId transactionSessionId, CApduSignal cApduSignal, DedicatedFileName dedicatedFileName) : base(cApduSignal,
+        MessageTypeId, transactionSessionId)
     {
         _DedicatedFileName = dedicatedFileName;
     }

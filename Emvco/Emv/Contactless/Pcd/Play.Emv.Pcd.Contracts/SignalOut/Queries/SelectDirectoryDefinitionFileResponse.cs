@@ -24,7 +24,7 @@ public record SelectDirectoryDefinitionFileResponse : QueryPcdResponse
     public SelectDirectoryDefinitionFileResponse(
         CorrelationId correlation, TransactionSessionId transactionSessionId, FileControlInformationDdf fileControlInformation,
         GetFileControlInformationRApduSignal responseApduSignal) : base(correlation, MessageTypeId, transactionSessionId,
-                                                                        responseApduSignal)
+        responseApduSignal)
     {
         _FileControlInformation = fileControlInformation;
     }

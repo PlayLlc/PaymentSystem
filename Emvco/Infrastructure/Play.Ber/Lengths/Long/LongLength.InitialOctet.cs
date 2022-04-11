@@ -102,9 +102,9 @@ internal static partial class LongLength
 
             if (!SubsequentOctetCountIsSupportedByThisCodeBase(value))
             {
-                throw new
-                    BerParsingException("This is embarrassing. Our code base doesn't support the amount of bytes needed to support the "
-                                        + $"{nameof(SubsequentOctets)} for the requested {nameof(LongLength)} object");
+                throw new BerParsingException(
+                    "This is embarrassing. Our code base doesn't support the amount of bytes needed to support the "
+                    + $"{nameof(SubsequentOctets)} for the requested {nameof(LongLength)} object");
             }
         }
 

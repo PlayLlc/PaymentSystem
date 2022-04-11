@@ -34,7 +34,7 @@ public class ProximityPaymentSystemEnvironmentInfoSelector : ISelectProximityPay
                 new(await _PcdTransceiver.Transceive(command.Serialize()).ConfigureAwait(false));
 
             return new SelectProximityPaymentSystemEnvironmentResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
-                                                                       rApduSignal);
+                rApduSignal);
         }
 
         catch (PcdProtocolException)
@@ -42,16 +42,14 @@ public class ProximityPaymentSystemEnvironmentInfoSelector : ISelectProximityPay
             // TODO: Logging
 
             return new SelectProximityPaymentSystemEnvironmentResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
-                                                                       new GetFileControlInformationRApduSignal(Array.Empty<byte>(),
-                                                                                                                Level1Error.ProtocolError));
+                new GetFileControlInformationRApduSignal(Array.Empty<byte>(), Level1Error.ProtocolError));
         }
         catch (PcdTimeoutException)
         {
             // TODO: Logging
 
             return new SelectProximityPaymentSystemEnvironmentResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
-                                                                       new GetFileControlInformationRApduSignal(Array.Empty<byte>(),
-                                                                                                                Level1Error.ProtocolError));
+                new GetFileControlInformationRApduSignal(Array.Empty<byte>(), Level1Error.ProtocolError));
         }
     }
 

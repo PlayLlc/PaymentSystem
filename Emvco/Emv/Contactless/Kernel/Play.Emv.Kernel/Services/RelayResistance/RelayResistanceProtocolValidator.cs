@@ -48,8 +48,8 @@ internal class RelayResistanceProtocolValidator
     {
         if (transactionSessionId != _SessionId)
         {
-            throw new
-                TerminalDataException($"The {nameof(RelayResistanceProtocolValidator)} recieved a request with an invalid {nameof(TransactionSessionId)}. The expected {nameof(TransactionSessionId)} was: [{_SessionId}], but the value received was: [{transactionSessionId}]");
+            throw new TerminalDataException(
+                $"The {nameof(RelayResistanceProtocolValidator)} recieved a request with an invalid {nameof(TransactionSessionId)}. The expected {nameof(TransactionSessionId)} was: [{_SessionId}], but the value received was: [{transactionSessionId}]");
         }
 
         MeasuredRelayResistanceProcessingTime processingTime = CalculateMeasuredRrpTime(timeElapsed, tlvDatabase);
@@ -76,19 +76,18 @@ internal class RelayResistanceProtocolValidator
     private MeasuredRelayResistanceProcessingTime CalculateMeasuredRrpTime(Seconds timeElapsed, IReadTlvDatabase tlvDatabase)
     {
         TerminalExpectedTransmissionTimeForRelayResistanceCapdu terminalExpectedCapduTransmissionTime =
-            (TerminalExpectedTransmissionTimeForRelayResistanceCapdu)
-            tlvDatabase.Get(TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Tag);
+            (TerminalExpectedTransmissionTimeForRelayResistanceCapdu) tlvDatabase.Get(
+                TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Tag);
 
         TerminalExpectedTransmissionTimeForRelayResistanceRapdu terminalExpectedRapduTransmissionTime =
-            (TerminalExpectedTransmissionTimeForRelayResistanceRapdu)
-            tlvDatabase.Get(TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Tag);
+            (TerminalExpectedTransmissionTimeForRelayResistanceRapdu) tlvDatabase.Get(
+                TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Tag);
         DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceExpectedRapduTransmissionTime =
             (DeviceEstimatedTransmissionTimeForRelayResistanceRapdu) tlvDatabase.Get(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu
-                                                                                         .Tag);
+                .Tag);
 
-        MeasuredRelayResistanceProcessingTime processingTime =
-            MeasuredRelayResistanceProcessingTime.Create(timeElapsed, terminalExpectedCapduTransmissionTime,
-                                                         terminalExpectedRapduTransmissionTime, deviceExpectedRapduTransmissionTime);
+        MeasuredRelayResistanceProcessingTime processingTime = MeasuredRelayResistanceProcessingTime.Create(timeElapsed,
+            terminalExpectedCapduTransmissionTime, terminalExpectedRapduTransmissionTime, deviceExpectedRapduTransmissionTime);
 
         return processingTime;
     }

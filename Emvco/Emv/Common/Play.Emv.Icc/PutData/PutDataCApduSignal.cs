@@ -18,19 +18,19 @@ public class PutDataCApduSignal : CApduSignal
     #region Constructor
 
     private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class, instruction, parameter1,
-                                                                                                       parameter2)
+        parameter2)
     { }
 
     private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint? le) : base(@class, instruction,
-                                                                                                                 parameter1, parameter2, le)
+        parameter1, parameter2, le)
     { }
 
-    private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) :
-        base(@class, instruction, parameter1, parameter2, data)
+    private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) : base(@class,
+        instruction, parameter1, parameter2, data)
     { }
 
-    private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint? le) :
-        base(@class, instruction, parameter1, parameter2, data, le)
+    private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint? le) : base(
+        @class, instruction, parameter1, parameter2, data, le)
     { }
 
     #endregion
@@ -48,15 +48,15 @@ public class PutDataCApduSignal : CApduSignal
     {
         if (!DataObject.Exists(value.GetTag()))
         {
-            throw new
-                IccProtocolException($"The {nameof(PutDataApduCommand)} could not be initialized because the {nameof(Tag)} value in the argument: [{value}] could not be recognized");
+            throw new IccProtocolException(
+                $"The {nameof(PutDataApduCommand)} could not be initialized because the {nameof(Tag)} value in the argument: [{value}] could not be recognized");
         }
 
         PutDataApduCommand? command = PutDataApduCommand.Create(ProprietaryMessageIdentifier._8x, (ushort) value.GetTag(),
-                                                                value.EncodeValue(EmvCodec.GetBerCodec()).AsSpan());
+            value.EncodeValue(EmvCodec.GetBerCodec()).AsSpan());
 
         return new PutDataCApduSignal(command.GetClass(), command.GetInstruction(), command.GetParameter1(), command.GetParameter2(),
-                                      command.GetData());
+            command.GetData());
     }
 
     #endregion

@@ -75,8 +75,8 @@ public class BerConfiguration
 
         List<ConstructedValue> codecs = new();
 
-        foreach (Type type in uniqueAssemblies.SelectMany(a => a.GetTypes())
-            .Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(ConstructedValue))))
+        foreach (Type type in uniqueAssemblies.SelectMany(a => a.GetTypes()).Where(myType =>
+            myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(ConstructedValue))))
             codecs.Add((ConstructedValue) FormatterServices.GetUninitializedObject(type));
 
         return codecs;
@@ -125,9 +125,9 @@ public class BerConfiguration
 
         const string stringSeparator = ", ";
 
-        throw new
-            BerParsingException($"Duplicate {nameof(PlayEncodingId)} - There was a problem found while building the encoding mapping for {nameof(PlayCodec)} because there were duplicate values. "
-                                + $"Here is a list of the {nameof(PlayCodec)} that have a {nameof(PlayEncodingId)} that is not unique: [{string.Join(stringSeparator, duplicateValues)}");
+        throw new BerParsingException(
+            $"Duplicate {nameof(PlayEncodingId)} - There was a problem found while building the encoding mapping for {nameof(PlayCodec)} because there were duplicate values. "
+            + $"Here is a list of the {nameof(PlayCodec)} that have a {nameof(PlayEncodingId)} that is not unique: [{string.Join(stringSeparator, duplicateValues)}");
     }
 
     /// <summary>
@@ -155,8 +155,7 @@ public class BerConfiguration
         foreach (PlayEncodingId identifier in duplicateIdentifiers)
         {
             codecsWithTheSameIdentifiers.Add(identifier,
-                                             playCodecs.Where(a => a.GetEncodingId() == identifier).Select(a => a.GetType().Name)
-                                                 .ToArray());
+                playCodecs.Where(a => a.GetEncodingId() == identifier).Select(a => a.GetType().Name).ToArray());
         }
 
         StringBuilder builder = new();
@@ -168,8 +167,8 @@ public class BerConfiguration
             builder.Append($"{string.Join(stringSeparator, keyValue.Value)}] \n");
         }
 
-        throw new
-            BerParsingException($"Duplicate Identifiers - There was a problem found while building the encoding mapping for {nameof(PlayCodec)} because some of the types use the same identifier. The Fully Qualified Name of each {nameof(PlayCodec)} implementation must be unique. Here is a list of the types that implement the same Identifier: {builder}");
+        throw new BerParsingException(
+            $"Duplicate Identifiers - There was a problem found while building the encoding mapping for {nameof(PlayCodec)} because some of the types use the same identifier. The Fully Qualified Name of each {nameof(PlayCodec)} implementation must be unique. Here is a list of the types that implement the same Identifier: {builder}");
     }
 
     /// <exception cref="InvalidOperationException"></exception>
@@ -200,8 +199,8 @@ public class BerConfiguration
             builder.Append($"{string.Join(stringSeparator, keyValue.Value)}] \n");
         }
 
-        throw new
-            BerParsingException($"There was a runtime error when validating that all {nameof(PrimitiveValue)} subclasses are correctly mapped to a {nameof(PlayCodec)}. Please check the {nameof(BerConfiguration)} for any errors. Here's a list of unmapped {nameof(PrimitiveValue)} subclasses: {builder}");
+        throw new BerParsingException(
+            $"There was a runtime error when validating that all {nameof(PrimitiveValue)} subclasses are correctly mapped to a {nameof(PlayCodec)}. Please check the {nameof(BerConfiguration)} for any errors. Here's a list of unmapped {nameof(PrimitiveValue)} subclasses: {builder}");
     }
 
     /// <summary>

@@ -81,9 +81,8 @@ public record FileIdentifier : PrimitiveValue
     public static FileIdentifier Decode(BerCodec codec, ReadOnlySpan<byte> value)
     {
         DecodedResult<ushort> result = codec.Decode(EncodingId, value) as DecodedResult<ushort>
-            ?? throw new
-                IccProtocolException(new
-                                         InvalidOperationException($"The {nameof(FileIdentifier)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}"));
+            ?? throw new IccProtocolException(new InvalidOperationException(
+                $"The {nameof(FileIdentifier)} could not be initialized because the {nameof(BinaryCodec)} returned a null {nameof(DecodedResult<ushort>)}"));
 
         return new FileIdentifier(result.Value);
     }

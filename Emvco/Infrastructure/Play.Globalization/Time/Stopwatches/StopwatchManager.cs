@@ -54,8 +54,8 @@ public class StopwatchManager
         {
             if (_StopwatchSession.IsRunning())
             {
-                throw new
-                    InvalidOperationException($"The {nameof(StopwatchManager)} could not complete the {nameof(Start)} method because the {nameof(StopwatchManager)} is currently running");
+                throw new InvalidOperationException(
+                    $"The {nameof(StopwatchManager)} could not complete the {nameof(Start)} method because the {nameof(StopwatchManager)} is currently running");
             }
 
             _StopwatchSession.Start();
@@ -69,8 +69,8 @@ public class StopwatchManager
         {
             if (!_StopwatchSession.IsRunning())
             {
-                throw new
-                    InvalidOperationException($"The {nameof(StopwatchManager)} could not complete the {nameof(GetElapsedTime)} method because the {nameof(StopwatchManager)} is currently not running");
+                throw new InvalidOperationException(
+                    $"The {nameof(StopwatchManager)} could not complete the {nameof(GetElapsedTime)} method because the {nameof(StopwatchManager)} is currently not running");
             }
 
             return _StopwatchSession.GetElapsedTime();

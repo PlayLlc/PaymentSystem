@@ -12,8 +12,8 @@ namespace Play.Emv.Pcd.Services;
 ///     A facade that encapsulates card reading and writing functionality
 /// </summary>
 public class CardClient : IReadRecords, ISelectApplicationDefinitionFileInformation, ISelectDirectoryDefinitionFileInformation,
-                          ISelectProximityPaymentSystemEnvironmentInfo, ISendPoiInformation, IGetProcessingOptions, IGetData,
-                          IManagePcdLifecycle, IExchangeRelayResistanceData
+    ISelectProximityPaymentSystemEnvironmentInfo, ISendPoiInformation, IGetProcessingOptions, IGetData, IManagePcdLifecycle,
+    IExchangeRelayResistanceData
 {
     #region Instance Values
 

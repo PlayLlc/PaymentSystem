@@ -14,9 +14,11 @@ public class PlayUnitTestArrangeException : PlayException
 
     public PlayUnitTestArrangeException(
         string message, Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) :
-        base($"[ARRANGE EXCEPTION] An exception occurred during the 'arrange' section of this unit test" + $"\n\tMessage:  {message}" + $"\n\tTrace: {TraceExceptionMessage(typeof(PlayInternalException), fileName, memberName, lineNumber)} " + $"\n\n\tInnerException",
-             innerException)
+        [CallerLineNumber] int lineNumber = 0) : base(
+        $"[ARRANGE EXCEPTION] An exception occurred during the 'arrange' section of this unit test"
+        + $"\n\tMessage:  {message}"
+        + $"\n\tTrace: {TraceExceptionMessage(typeof(PlayInternalException), fileName, memberName, lineNumber)} "
+        + $"\n\n\tInnerException", innerException)
     { }
 
     #endregion

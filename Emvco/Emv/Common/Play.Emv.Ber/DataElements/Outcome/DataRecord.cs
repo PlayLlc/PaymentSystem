@@ -49,7 +49,7 @@ public record DataRecord : DataExchangeResponse, IEqualityComparer<DataRecord>
         if (database.TryGet(IssuerCodeTableIndex.Tag, out IssuerCodeTableIndex? issuerCodeTableIndex))
             yield return issuerCodeTableIndex!;
         if (database.TryGet(MagstripeApplicationVersionNumberReader.Tag,
-                            out MagstripeApplicationVersionNumberReader? magstripeApplicationVersionNumberReader))
+            out MagstripeApplicationVersionNumberReader? magstripeApplicationVersionNumberReader))
             yield return magstripeApplicationVersionNumberReader!;
         if (database.TryGet(PaymentAccountReference.Tag, out PaymentAccountReference? paymentAccountReference))
             yield return paymentAccountReference!;

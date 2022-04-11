@@ -22,8 +22,8 @@ public record SelectDirectoryDefinitionFileRequest : QueryPcdRequest
     #region Constructor
 
     private SelectDirectoryDefinitionFileRequest(
-        TransactionSessionId transactionSessionId, CApduSignal cApduSignal, DedicatedFileName directoryDefinitionFileName) :
-        base(cApduSignal, MessageTypeId, transactionSessionId)
+        TransactionSessionId transactionSessionId, CApduSignal cApduSignal, DedicatedFileName directoryDefinitionFileName) : base(
+        cApduSignal, MessageTypeId, transactionSessionId)
     {
         _DirectoryDefinitionFileName = directoryDefinitionFileName;
     }

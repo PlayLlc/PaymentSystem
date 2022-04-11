@@ -24,8 +24,8 @@ public record ReadRecordResponse : QueryPcdResponse
 
     #region Constructor
 
-    public ReadRecordResponse(CorrelationId correlationId, TransactionSessionId transactionSessionId, ReadRecordRApduSignal rApdu) :
-        base(correlationId, MessageTypeId, transactionSessionId, rApdu)
+    public ReadRecordResponse(CorrelationId correlationId, TransactionSessionId transactionSessionId, ReadRecordRApduSignal rApdu) : base(
+        correlationId, MessageTypeId, transactionSessionId, rApdu)
     { }
 
     #endregion

@@ -53,8 +53,8 @@ public class StaticDataToBeAuthenticated
     {
         if (codec.DecodeTag(rapdu.GetData()) != ReadRecordResponseTemplate.Tag)
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"The {nameof(StaticDataToBeAuthenticated)} encountered a {nameof(ReadRecordResponse)} with a {nameof(Tag)} that was not equal to {ReadRecordResponseTemplate.Tag}");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"The {nameof(StaticDataToBeAuthenticated)} encountered a {nameof(ReadRecordResponse)} with a {nameof(Tag)} that was not equal to {ReadRecordResponseTemplate.Tag}");
         }
 
         if (rapdu.GetShortFileId().IsUniversalFile())
@@ -85,14 +85,14 @@ public class StaticDataToBeAuthenticated
 
         if (requiredTags.Length > 1)
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"Static Data Authentication has failed because {nameof(StaticDataAuthenticationTagList)} contained an unexpected {nameof(Tag)}. Only {ApplicationInterchangeProfile.Tag} should be present");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"Static Data Authentication has failed because {nameof(StaticDataAuthenticationTagList)} contained an unexpected {nameof(Tag)}. Only {ApplicationInterchangeProfile.Tag} should be present");
         }
 
         if (requiredTags[0] != ApplicationInterchangeProfile.Tag)
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"Static Data Authentication has failed because {nameof(StaticDataAuthenticationTagList)} contained an unexpected {nameof(Tag)}. Only {ApplicationInterchangeProfile.Tag} should be provided but the {nameof(Tag)} value: [{requiredTags[0]}] was present");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"Static Data Authentication has failed because {nameof(StaticDataAuthenticationTagList)} contained an unexpected {nameof(Tag)}. Only {ApplicationInterchangeProfile.Tag} should be provided but the {nameof(Tag)} value: [{requiredTags[0]}] was present");
         }
 
         PrimitiveValue aip = database.Get(ApplicationInterchangeProfile.Tag);

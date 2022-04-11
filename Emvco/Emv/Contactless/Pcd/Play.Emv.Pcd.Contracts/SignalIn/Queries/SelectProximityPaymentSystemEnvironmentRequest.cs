@@ -14,8 +14,8 @@ public record SelectProximityPaymentSystemEnvironmentRequest : QueryPcdRequest
 
     #region Constructor
 
-    private SelectProximityPaymentSystemEnvironmentRequest(CApduSignal cApduSignal, TransactionSessionId transactionSessionId) :
-        base(cApduSignal, MessageTypeId, transactionSessionId)
+    private SelectProximityPaymentSystemEnvironmentRequest(CApduSignal cApduSignal, TransactionSessionId transactionSessionId) : base(
+        cApduSignal, MessageTypeId, transactionSessionId)
     { }
 
     #endregion

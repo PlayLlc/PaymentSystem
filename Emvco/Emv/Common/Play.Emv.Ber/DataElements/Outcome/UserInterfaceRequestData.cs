@@ -18,7 +18,7 @@ namespace Play.Emv.Ber.DataElements;
 ///     Description: Combines all parameters to be sent with the OUT DataExchangeSignal or MSG DataExchangeSignal.
 /// </summary>
 public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimitiveValueMetadata,
-                                         IEqualityComparer<UserInterfaceRequestData>
+    IEqualityComparer<UserInterfaceRequestData>
 {
     #region Static Metadata
 

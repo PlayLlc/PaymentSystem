@@ -57,8 +57,8 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
     {
         if (value.GetNumberOfDigits() != _CharLength)
         {
-            throw new
-                DataElementParsingException($"The Primitive Value {nameof(TransactionType)} could not be initialized because the decoded character length was out of range. The decoded character length was {value.GetNumberOfDigits()} but must be {_CharLength} bytes in length");
+            throw new DataElementParsingException(
+                $"The Primitive Value {nameof(TransactionType)} could not be initialized because the decoded character length was out of range. The decoded character length was {value.GetNumberOfDigits()} but must be {_CharLength} bytes in length");
         }
     }
 

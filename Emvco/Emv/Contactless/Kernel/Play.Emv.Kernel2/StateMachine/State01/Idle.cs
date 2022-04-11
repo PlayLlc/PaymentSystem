@@ -25,8 +25,7 @@ public partial class Idle : KernelState
         IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
         IHandleDisplayRequests displayEndpoint, ICleanTornTransactions kernelCleaner,
         IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(database, dataExchangeKernelService, kernelEndpoint,
-                                                                          tornTransactionManager, kernelStateResolver, pcdEndpoint,
-                                                                          displayEndpoint)
+        tornTransactionManager, kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
         _KernelCleaner = kernelCleaner;
         _UnpredictableNumberGenerator = unpredictableNumberGenerator;

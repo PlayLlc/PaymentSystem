@@ -164,14 +164,14 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
 
         if (!encodedTlvSiblings.TryGetRawSetOf(DirectoryEntry.Tag, out Span<ReadOnlyMemory<byte>> sequenceOfResult))
         {
-            throw new
-                CardDataMissingException($"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataDdf)}. A Set of {nameof(DirectoryEntry)} objects were expected but could not be found");
+            throw new CardDataMissingException(
+                $"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataDdf)}. A Set of {nameof(DirectoryEntry)} objects were expected but could not be found");
         }
 
         SetOf<DirectoryEntry> directoryEntry = new(sequenceOfResult.ToArray().Select(DirectoryEntry.Decode).ToArray());
 
         if (encodedTlvSiblings.TryGetValueOctetsOfSibling(TerminalCategoriesSupportedList.Tag,
-                                                          out ReadOnlyMemory<byte> rawTerminalCategoriesSupportedList))
+            out ReadOnlyMemory<byte> rawTerminalCategoriesSupportedList))
         {
             terminalCategoriesSupportedList =
                 (_Codec.Decode(TerminalCategoriesSupportedList.EncodingId, rawTerminalCategoriesSupportedList.Span) as
@@ -182,11 +182,11 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
         {
             selectionDataObjectList =
                 ((DecodedResult<SelectionDataObjectList>) _Codec.Decode(SelectionDataObjectList.EncodingId,
-                                                                        rawSelectionDataObjectList.Span)).Value;
+                    rawSelectionDataObjectList.Span)).Value;
         }
 
         return new FileControlInformationIssuerDiscretionaryDataPpse(directoryEntry, terminalCategoriesSupportedList,
-                                                                     selectionDataObjectList);
+            selectionDataObjectList);
     }
 
     #endregion

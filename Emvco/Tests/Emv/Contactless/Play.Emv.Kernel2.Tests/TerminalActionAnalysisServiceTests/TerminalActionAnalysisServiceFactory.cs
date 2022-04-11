@@ -55,7 +55,7 @@ public class TerminalActionAnalysisServiceFactory
     public static List<ActionCodes> IssuerActionCodesOnline = new()
     {
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes
-                            .PinEntryRequiredPinPadPresentButPinWasNotEntered),
+            .PinEntryRequiredPinPadPresentButPinWasNotEntered),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.CardholderVerificationWasNotSuccessful),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.CombinationDataAuthenticationFailed),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.DynamicDataAuthenticationFailed),
@@ -66,11 +66,11 @@ public class TerminalActionAnalysisServiceFactory
     {
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.IssuerAuthenticationFailed),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes
-                            .PinEntryRequiredAndPinPadNotPresentOrNotWorking),
+            .PinEntryRequiredAndPinPadNotPresentOrNotWorking),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes
-                            .ScriptProcessingFailedAfterFinalGenerateAc),
-        new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes
-                            .ScriptProcessingFailedBeforeFinalGenerateAc),
+            .ScriptProcessingFailedAfterFinalGenerateAc),
+        new ActionCodes(
+            (ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.ScriptProcessingFailedBeforeFinalGenerateAc),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.CombinationDataAuthenticationFailed),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.DynamicDataAuthenticationFailed),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.StaticDataAuthenticationFailed)
@@ -91,7 +91,7 @@ public class TerminalActionAnalysisServiceFactory
     {
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.MerchantForcedTransactionOnline),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes
-                            .TransactionSelectedRandomlyForOnlineProcessing),
+            .TransactionSelectedRandomlyForOnlineProcessing),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.TransactionExceedsFloorLimit),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.UpperConsecutiveOfflineLimitExceeded),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.UnrecognizedCvm),
@@ -104,7 +104,7 @@ public class TerminalActionAnalysisServiceFactory
     public static List<ActionCodes> TerminalActionCodesDefault = new()
     {
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes
-                            .PinEntryRequiredAndPinPadNotPresentOrNotWorking),
+            .PinEntryRequiredAndPinPadNotPresentOrNotWorking),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.OfflineDataAuthenticationWasNotPerformed),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.CombinationDataAuthenticationFailed),
         new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.DynamicDataAuthenticationFailed),

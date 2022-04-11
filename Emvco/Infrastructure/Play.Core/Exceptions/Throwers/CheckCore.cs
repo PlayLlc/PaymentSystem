@@ -143,7 +143,7 @@ public class CheckCore
         if (value.Count > maxLength)
         {
             throw new ArgumentOutOfRangeException(name,
-                                                  $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
+                $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
         }
     }
 
@@ -159,7 +159,7 @@ public class CheckCore
         if (value.Length > maxLength)
         {
             throw new ArgumentOutOfRangeException(name,
-                                                  $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
+                $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
         }
     }
 
@@ -175,7 +175,7 @@ public class CheckCore
         if (value.Length > maxLength)
         {
             throw new ArgumentOutOfRangeException(name,
-                                                  $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
+                $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
         }
     }
 
@@ -191,7 +191,7 @@ public class CheckCore
         if (value.Length > maxLength)
         {
             throw new ArgumentOutOfRangeException(name,
-                                                  $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
+                $"The argument {name} was expected to have a maximum length of {maxLength} but did not");
         }
     }
 
@@ -207,7 +207,7 @@ public class CheckCore
         if (value.Length < minLength)
         {
             throw new ArgumentOutOfRangeException(name,
-                                                  $"The argument {name} was expected to have a minimum length of {minLength} but did not");
+                $"The argument {name} was expected to have a minimum length of {minLength} but did not");
         }
     }
 
@@ -223,7 +223,7 @@ public class CheckCore
         if (value.Count < minLength)
         {
             throw new ArgumentOutOfRangeException(name,
-                                                  $"The argument {name} was expected to have a minimum length of {minLength} but did not");
+                $"The argument {name} was expected to have a minimum length of {minLength} but did not");
         }
     }
 
@@ -239,7 +239,7 @@ public class CheckCore
         if (value.Length < minLength)
         {
             throw new ArgumentOutOfRangeException(name,
-                                                  $"The argument {name} was expected to have a minimum length of {minLength} but did not");
+                $"The argument {name} was expected to have a minimum length of {minLength} but did not");
         }
     }
 
@@ -255,7 +255,7 @@ public class CheckCore
         if (value.Length < minLength)
         {
             throw new ArgumentOutOfRangeException(name,
-                                                  $"The argument {name} was expected to have a minimum length of {minLength} but did not");
+                $"The argument {name} was expected to have a minimum length of {minLength} but did not");
         }
     }
 

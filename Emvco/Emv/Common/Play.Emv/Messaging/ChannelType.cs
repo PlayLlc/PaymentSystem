@@ -48,7 +48,7 @@ public record ChannelType : EnumObject<ChannelTypeId>
             return nameof(Selection);
 
         throw new ArgumentOutOfRangeException(nameof(value),
-                                              $"No {nameof(ChannelType)} could not be found with the {nameof(ChannelTypeId)}: [{value}]");
+            $"No {nameof(ChannelType)} could not be found with the {nameof(ChannelTypeId)}: [{value}]");
     }
 
     #endregion

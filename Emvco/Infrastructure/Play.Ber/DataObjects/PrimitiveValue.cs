@@ -8,7 +8,7 @@ using Play.Codecs;
 namespace Play.Ber.DataObjects;
 
 public abstract record PrimitiveValue : IEqualityComparer<PrimitiveValue>, IEncodeBerDataObjects, IRetrievePrimitiveValueMetadata,
-                                        IDecodeDataElement
+    IDecodeDataElement
 {
     #region Instance Members
 

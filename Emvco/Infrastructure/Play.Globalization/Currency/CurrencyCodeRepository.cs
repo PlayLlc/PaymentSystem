@@ -50,7 +50,7 @@ internal static class CurrencyCodeRepository
             throw new InvalidOperationException();
 
         return new Currency(new NumericCurrencyCode(numericCurrencyCode), new Alpha3CurrencyCode(alpha3CurrencyCode),
-                            formatMap[alpha3CurrencyCode].CurrencySymbol, formatMap[alpha3CurrencyCode].CurrencyDecimalDigits);
+            formatMap[alpha3CurrencyCode].CurrencySymbol, formatMap[alpha3CurrencyCode].CurrencyDecimalDigits);
     }
 
     private static List<Currency> GetCurrencyCodes(Dictionary<string, NumberFormatInfo> formatMap) =>
@@ -286,7 +286,7 @@ internal static class CurrencyCodeRepository
         if (alpha3Code.Length != 3)
         {
             throw new ArgumentOutOfRangeException(nameof(alpha3Code),
-                                                  $"The argument {nameof(alpha3Code)} must be three characters in length");
+                $"The argument {nameof(alpha3Code)} must be three characters in length");
         }
 
         _Buffer[0] = alpha3Code[0];

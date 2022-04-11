@@ -31,13 +31,12 @@ public partial class DataExchangeKernelService
 
             if (!_Lock.Responses.ContainsKey(DekResponseType.DataToSend))
             {
-                throw new
-                    InvalidOperationException($"The {nameof(DataExchangeKernelService)} could not {nameof(SendResponse)} the List Item to the Terminal because the List does not exist");
+                throw new InvalidOperationException(
+                    $"The {nameof(DataExchangeKernelService)} could not {nameof(SendResponse)} the List Item to the Terminal because the List does not exist");
             }
 
             QueryKernelResponse queryKernelResponse = new(correlationId, (DataToSend) _Lock.Responses[DekResponseType.DataToSend],
-                                                          new DataExchangeTerminalId(sessionId.GetKernelId(),
-                                                                                     sessionId.GetTransactionSessionId()));
+                new DataExchangeTerminalId(sessionId.GetKernelId(), sessionId.GetTransactionSessionId()));
 
             _KernelEndpoint.Send(queryKernelResponse);
             _Lock.Responses[DekResponseType.DataToSend].Clear();
@@ -57,8 +56,8 @@ public partial class DataExchangeKernelService
         {
             if (!_Lock.Responses.ContainsKey(type))
             {
-                throw new
-                    TerminalDataException($"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
+                throw new TerminalDataException(
+                    $"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
             }
 
             return _Lock.Responses[type].Count() == 0;
@@ -72,8 +71,8 @@ public partial class DataExchangeKernelService
         {
             if (!_Lock.Responses.ContainsKey(type))
             {
-                throw new
-                    TerminalDataException($"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
+                throw new TerminalDataException(
+                    $"The {nameof(DataExchangeKernelService)} could not Dequeue the List Item because the List does not exist");
             }
 
             return _Lock.Responses[type].TryPeek(out result);
@@ -107,8 +106,8 @@ public partial class DataExchangeKernelService
             // if the list is already initialized, but isn't empty, then something went wrong. We'll throw here
             if (!dekExchangeResponse.IsEmpty())
             {
-                throw new
-                    TerminalDataException($"The {nameof(DataExchangeKernelService)} cannot {nameof(Initialize)} because a non empty list already exists for the {nameof(DekResponseType)} with the tag {dekResponseType}");
+                throw new TerminalDataException(
+                    $"The {nameof(DataExchangeKernelService)} cannot {nameof(Initialize)} because a non empty list already exists for the {nameof(DekResponseType)} with the tag {dekResponseType}");
             }
 
             // otherwise we'll just enqueue the empty list
@@ -132,8 +131,8 @@ public partial class DataExchangeKernelService
             // if the list is already initialized, but isn't empty, then something went wrong. We'll throw here
             if (!dataExchangeResponse.IsEmpty())
             {
-                throw new
-                    TerminalDataException($"The {nameof(DataExchangeKernelService)} cannot {nameof(Initialize)} because a non empty list already exists for the {nameof(DekResponseType)} with the tag {dekResponseType}");
+                throw new TerminalDataException(
+                    $"The {nameof(DataExchangeKernelService)} cannot {nameof(Initialize)} because a non empty list already exists for the {nameof(DekResponseType)} with the tag {dekResponseType}");
             }
         }
     }
@@ -152,8 +151,8 @@ public partial class DataExchangeKernelService
         {
             if (!_Lock.Responses.TryGetValue(type, out DataExchangeResponse? dekResponseList))
             {
-                throw new
-                    TerminalDataException($"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
+                throw new TerminalDataException(
+                    $"The {nameof(DataExchangeKernelService)} could not Enqueue the List Item because the List does not exist");
             }
 
             dekResponseList!.Enqueue(listItems);
@@ -179,8 +178,8 @@ public partial class DataExchangeKernelService
         {
             if (!_Lock.Responses.ContainsKey(responseType))
             {
-                throw new
-                    TerminalDataException($"The {nameof(DataExchangeKernelService)} could not {nameof(Resolve)} the {nameof(DekResponseType)} because it has not yet been initialized");
+                throw new TerminalDataException(
+                    $"The {nameof(DataExchangeKernelService)} could not {nameof(Resolve)} the {nameof(DekResponseType)} because it has not yet been initialized");
             }
 
             DataExchangeResponse list = _Lock.Responses[responseType];

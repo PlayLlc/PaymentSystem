@@ -29,8 +29,8 @@ internal readonly ref struct DataFieldSpan
 
         if (value.Length > absoluteMaximumByteCount)
         {
-            throw new
-                InvalidOperationException($"The length of the {nameof(DataFieldSpan)} was: [{value.Length}] which exceeds the maximum allowed length of {absoluteMaximumByteCount} bytes");
+            throw new InvalidOperationException(
+                $"The length of the {nameof(DataFieldSpan)} was: [{value.Length}] which exceeds the maximum allowed length of {absoluteMaximumByteCount} bytes");
         }
 
         _DataFieldId = dataField;

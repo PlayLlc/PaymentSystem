@@ -43,12 +43,12 @@ public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
         if (database.TryGet(BalanceReadBeforeGenAc.Tag, out BalanceReadBeforeGenAc? balanceReadBeforeGenAc))
             buffer.Add(balanceReadBeforeGenAc!);
         if (database.TryGet(CardRiskManagementDataObjectList1RelatedData.Tag,
-                            out CardRiskManagementDataObjectList1RelatedData? cardRiskManagementDataObjectList1RelatedData))
+            out CardRiskManagementDataObjectList1RelatedData? cardRiskManagementDataObjectList1RelatedData))
             buffer.Add(cardRiskManagementDataObjectList1RelatedData!);
         if (database.TryGet(CvmResults.Tag, out CvmResults? cvmResults))
             buffer.Add(cvmResults!);
         if (database.TryGet(DataRecoveryDataObjectListRelatedData.Tag,
-                            out DataRecoveryDataObjectListRelatedData? dataRecoveryDataObjectListRelatedData))
+            out DataRecoveryDataObjectListRelatedData? dataRecoveryDataObjectListRelatedData))
             buffer.Add(dataRecoveryDataObjectListRelatedData!);
         if (database.TryGet(DataStorageSummary1.Tag, out DataStorageSummary1? dataStorageSummary1))
             buffer.Add(dataStorageSummary1!);
@@ -57,7 +57,7 @@ public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
         if (database.TryGet(InterfaceDeviceSerialNumber.Tag, out InterfaceDeviceSerialNumber? interfaceDeviceSerialNumber))
             buffer.Add(interfaceDeviceSerialNumber!);
         if (database.TryGet(ProcessingOptionsDataObjectListRelatedData.Tag,
-                            out ProcessingOptionsDataObjectListRelatedData? processingOptionsDataObjectListRelatedData))
+            out ProcessingOptionsDataObjectListRelatedData? processingOptionsDataObjectListRelatedData))
             buffer.Add(processingOptionsDataObjectListRelatedData!);
         if (database.TryGet(ReferenceControlParameter.Tag, out ReferenceControlParameter? referenceControlParameter))
             buffer.Add(referenceControlParameter!);
@@ -84,17 +84,16 @@ public record TornRecord : DataExchangeResponse, IEqualityComparer<TornRecord>
         if (database.TryGet(DeviceRelayResistanceEntropy.Tag, out DeviceRelayResistanceEntropy? deviceRelayResistanceEntropy))
             buffer.Add(deviceRelayResistanceEntropy!);
         if (database.TryGet(MinTimeForProcessingRelayResistanceApdu.Tag,
-                            out MinTimeForProcessingRelayResistanceApdu? minTimeForProcessingRelayResistanceApdu))
+            out MinTimeForProcessingRelayResistanceApdu? minTimeForProcessingRelayResistanceApdu))
             buffer.Add(minTimeForProcessingRelayResistanceApdu!);
         if (database.TryGet(MaxTimeForProcessingRelayResistanceApdu.Tag,
-                            out MaxTimeForProcessingRelayResistanceApdu? maxTimeForProcessingRelayResistanceApdu))
+            out MaxTimeForProcessingRelayResistanceApdu? maxTimeForProcessingRelayResistanceApdu))
             buffer.Add(maxTimeForProcessingRelayResistanceApdu!);
         if (database.TryGet(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag,
-                            out DeviceEstimatedTransmissionTimeForRelayResistanceRapdu?
-                                deviceEstimatedTransmissionTimeForRelayResistanceRapdu))
+            out DeviceEstimatedTransmissionTimeForRelayResistanceRapdu? deviceEstimatedTransmissionTimeForRelayResistanceRapdu))
             buffer.Add(deviceEstimatedTransmissionTimeForRelayResistanceRapdu!);
         if (database.TryGet(MeasuredRelayResistanceProcessingTime.Tag,
-                            out MeasuredRelayResistanceProcessingTime? measuredRelayResistanceProcessingTime))
+            out MeasuredRelayResistanceProcessingTime? measuredRelayResistanceProcessingTime))
             buffer.Add(measuredRelayResistanceProcessingTime!);
         if (database.TryGet(RelayResistanceProtocolCounter.Tag, out RelayResistanceProtocolCounter? relayResistanceProtocolCounter))
             buffer.Add(relayResistanceProtocolCounter!);

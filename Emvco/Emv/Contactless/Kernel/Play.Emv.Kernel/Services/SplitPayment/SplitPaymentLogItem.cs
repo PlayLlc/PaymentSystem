@@ -28,8 +28,8 @@ public class SplitPaymentLogItem : PaymentLogItem
     #region Constructor
 
     public SplitPaymentLogItem(
-        Money amountAuthorizedNumeric, ApplicationPan primaryAccountNumber, uint sequenceNumber, ShortDate transactionDate) :
-        base(primaryAccountNumber, sequenceNumber, transactionDate)
+        Money amountAuthorizedNumeric, ApplicationPan primaryAccountNumber, uint sequenceNumber, ShortDate transactionDate) : base(
+        primaryAccountNumber, sequenceNumber, transactionDate)
     {
         _Subtotal = amountAuthorizedNumeric;
     }
@@ -44,7 +44,7 @@ public class SplitPaymentLogItem : PaymentLogItem
         if (!_Subtotal.IsCommonCurrency(amountAuthorizedNumeric))
         {
             throw new TerminalDataException(new ArgumentOutOfRangeException(nameof(amountAuthorizedNumeric),
-                                                                            $"The argument {nameof(amountAuthorizedNumeric)} is not in the same currency"));
+                $"The argument {nameof(amountAuthorizedNumeric)} is not in the same currency"));
         }
 
         if (primaryAccountNumber != _PrimaryAccountNumber)

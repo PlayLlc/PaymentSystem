@@ -107,7 +107,7 @@ public partial record TerminalType
             if (!TryGet(terminalOperatorType, out TerminalOperatorType result))
             {
                 throw new DataElementParsingException(nameof(TerminalOperatorType),
-                                                      $"The {nameof(TerminalOperatorType)} could not be found from the number supplied to the argument: {nameof(terminalOperatorType)}");
+                    $"The {nameof(TerminalOperatorType)} could not be found from the number supplied to the argument: {nameof(terminalOperatorType)}");
             }
 
             return result;

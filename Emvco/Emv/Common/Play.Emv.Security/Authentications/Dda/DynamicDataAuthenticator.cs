@@ -48,9 +48,8 @@ internal class DynamicDataAuthenticator
             ValidateEncipheredSignatureLength(signedDynamicApplicationData, decodedIccCertificate);
 
             // Step 2
-            DecodedSignedDynamicApplicationData decodedSignature =
-                RecoverSignedDynamicApplicationData(decodedIccCertificate,
-                                                    database.Get<SignedDynamicApplicationData>(SignedDynamicApplicationData.Tag));
+            DecodedSignedDynamicApplicationData decodedSignature = RecoverSignedDynamicApplicationData(decodedIccCertificate,
+                database.Get<SignedDynamicApplicationData>(SignedDynamicApplicationData.Tag));
 
             // Step 3 is accomplished by Step 6 - 7 below
 
@@ -111,8 +110,8 @@ internal class DynamicDataAuthenticator
     {
         if (signedDynamicApplicationData.GetByteCount() != issuerPublicKeyCertificate.GetPublicKeyModulus().GetByteCount())
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"The {nameof(DynamicDataAuthenticator)} failed Dynamic Data Authentication because the constraint {nameof(ValidateEncipheredSignatureLength)} was invalid");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"The {nameof(DynamicDataAuthenticator)} failed Dynamic Data Authentication because the constraint {nameof(ValidateEncipheredSignatureLength)} was invalid");
         }
     }
 
@@ -139,8 +138,8 @@ internal class DynamicDataAuthenticator
     {
         if (signedDataFormat != SignedDataFormat._3)
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"The {nameof(DynamicDataAuthenticator)} failed Dynamic Data Authentication because the constraint {nameof(ValidateSignedDataFormat)} was invalid");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"The {nameof(DynamicDataAuthenticator)} failed Dynamic Data Authentication because the constraint {nameof(ValidateSignedDataFormat)} was invalid");
         }
     }
 
@@ -170,11 +169,10 @@ internal class DynamicDataAuthenticator
         DataObjectListResult dynamicDataObjectListResult)
     {
         if (!_SignatureService.IsSignatureValid(decodedSignature.GetHashAlgorithmIndicator(),
-                                                ReconstructDynamicDataToBeSigned(decodedSignature, dynamicDataObjectListResult),
-                                                decodedSignature))
+            ReconstructDynamicDataToBeSigned(decodedSignature, dynamicDataObjectListResult), decodedSignature))
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"The {nameof(DynamicDataAuthenticator)} failed Dynamic Data Authentication because the constraint {nameof(ValidateSignedData)} was invalid");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"The {nameof(DynamicDataAuthenticator)} failed Dynamic Data Authentication because the constraint {nameof(ValidateSignedData)} was invalid");
         }
     }
 

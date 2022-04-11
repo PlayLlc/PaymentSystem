@@ -24,9 +24,7 @@ public record ComputeCryptographicChecksumResponse : QueryPcdResponse
 
     public ComputeCryptographicChecksumResponse(
         CorrelationId correlationId, TransactionSessionId transactionSessionId, ReadRecordRApduSignal rApdu) : base(correlationId,
-                                                                                                                    MessageTypeId,
-                                                                                                                    transactionSessionId,
-                                                                                                                    rApdu)
+        MessageTypeId, transactionSessionId, rApdu)
     { }
 
     #endregion

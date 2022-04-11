@@ -32,14 +32,13 @@ public class DirectoryDefinitionFileInformationSelector : ISelectDirectoryDefini
         try
         {
             GetFileControlInformationRApduSignal response = new(await _PcdTransceiver
-                                                                    .Transceive(GetFileControlInformationCApduSignal
-                                                                                    .Get(command.GetDirectoryDefinitionFileName())
-                                                                                    .Serialize()).ConfigureAwait(false));
+                .Transceive(GetFileControlInformationCApduSignal.Get(command.GetDirectoryDefinitionFileName()).Serialize())
+                .ConfigureAwait(false));
 
             FileControlInformationDdf template = FileControlInformationDdf.Decode(response.GetData());
 
             return new SelectDirectoryDefinitionFileResponse(command.GetCorrelationId(), command.GetTransactionSessionId(), template,
-                                                             response);
+                response);
         }
 
         catch (PcdProtocolException)
@@ -47,16 +46,14 @@ public class DirectoryDefinitionFileInformationSelector : ISelectDirectoryDefini
             // TODO: Logging
 
             return new SelectDirectoryDefinitionFileResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
-                                                             new GetFileControlInformationRApduSignal(Array.Empty<byte>(),
-                                                                                                      Level1Error.ProtocolError));
+                new GetFileControlInformationRApduSignal(Array.Empty<byte>(), Level1Error.ProtocolError));
         }
         catch (PcdTimeoutException)
         {
             // TODO: Logging
 
             return new SelectDirectoryDefinitionFileResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
-                                                             new GetFileControlInformationRApduSignal(Array.Empty<byte>(),
-                                                                                                      Level1Error.ProtocolError));
+                new GetFileControlInformationRApduSignal(Array.Empty<byte>(), Level1Error.ProtocolError));
         }
     }
 

@@ -58,8 +58,8 @@ internal class SystemTraceAuditNumberSequencer : IGenerateSequenceTraceAuditNumb
     {
         if (settlementAcknowledgement.MessageTypeIndicator != MessageTypeIndicatorTypes.Reconciliation.ReconciliationResponse)
         {
-            throw new
-                InvalidOperationException($"A process attempted to reset the {nameof(SystemTraceAuditNumberSequencer)} but the argument provided was not a {MessageTypeIndicatorTypes.Reconciliation.ReconciliationResponse.GetType().Name} response. The {nameof(MessageTypeIndicator)} provided was: [{settlementAcknowledgement.MessageTypeIndicator}] but should have been: [{new MessageTypeIndicator((ushort) MessageTypeIndicatorTypes.Reconciliation.ReconciliationResponse)}]");
+            throw new InvalidOperationException(
+                $"A process attempted to reset the {nameof(SystemTraceAuditNumberSequencer)} but the argument provided was not a {MessageTypeIndicatorTypes.Reconciliation.ReconciliationResponse.GetType().Name} response. The {nameof(MessageTypeIndicator)} provided was: [{settlementAcknowledgement.MessageTypeIndicator}] but should have been: [{new MessageTypeIndicator((ushort) MessageTypeIndicatorTypes.Reconciliation.ReconciliationResponse)}]");
         }
 
         _Stan = _MinimumValue;

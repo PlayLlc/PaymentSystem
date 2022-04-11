@@ -45,8 +45,8 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
     {
         if (value.GetByteCount() < RegisteredApplicationProviderIndicator.ByteCount)
         {
-            throw new
-                DataElementParsingException($"The {nameof(ApplicationDedicatedFileName)} requires a {nameof(RegisteredApplicationProviderIndicator)} but none could be found");
+            throw new DataElementParsingException(
+                $"The {nameof(ApplicationDedicatedFileName)} requires a {nameof(RegisteredApplicationProviderIndicator)} but none could be found");
         }
     }
 

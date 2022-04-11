@@ -185,8 +185,8 @@ public partial class WaitingForRecoverAcResponse
         // CHECK: I'm not sure if we're supposed to simply dequeue the last torn entry from the Torn Transaction Manager at this point in the flow
         if (!_TornTransactionManager.TryDequeue(out TornRecord? tornRecord))
         {
-            throw new
-                TerminalDataException($"The {nameof(WaitingForRecoverAcResponse)} could not {nameof(RemoveTornEntry)} from the {nameof(IWriteTornTransactions)}");
+            throw new TerminalDataException(
+                $"The {nameof(WaitingForRecoverAcResponse)} could not {nameof(RemoveTornEntry)} from the {nameof(IWriteTornTransactions)}");
         }
 
         _Database.Update(tornRecord!.GetDataObjects());

@@ -52,8 +52,8 @@ public record Money : IEqualityComparer<Money>
     {
         if (_Currency != value._Currency)
         {
-            throw new
-                InvalidOperationException($"The money could not be altered because the argument {nameof(value)} has a numeric currency code of: [{value._Currency}] which is different than: [{_Currency}]");
+            throw new InvalidOperationException(
+                $"The money could not be altered because the argument {nameof(value)} has a numeric currency code of: [{value._Currency}] which is different than: [{_Currency}]");
         }
 
         return new Money(_Amount + value._Amount, _Currency);
@@ -96,8 +96,8 @@ public record Money : IEqualityComparer<Money>
     {
         if (!IsCommonCurrency(value))
         {
-            throw new
-                InvalidOperationException($"The money could not be altered because the argument {nameof(value)} is of currency {value._Currency.GetNumericCode()} which is different than {_Currency.GetNumericCode()}");
+            throw new InvalidOperationException(
+                $"The money could not be altered because the argument {nameof(value)} is of currency {value._Currency.GetNumericCode()} which is different than {_Currency.GetNumericCode()}");
         }
 
         return new Money(_Amount - value._Amount, _Currency);
@@ -142,8 +142,8 @@ public record Money : IEqualityComparer<Money>
     {
         if (!left.IsCommonCurrency(right))
         {
-            throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
+            throw new InvalidOperationException(
+                $"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
         }
 
         return new Money(left._Amount + right._Amount, left._Currency);
@@ -158,8 +158,8 @@ public record Money : IEqualityComparer<Money>
 
         if (!left.IsCommonCurrency(right))
         {
-            throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
+            throw new InvalidOperationException(
+                $"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
         }
 
         return new Money(left._Amount / right._Amount, left._Currency);
@@ -172,8 +172,8 @@ public record Money : IEqualityComparer<Money>
     {
         if (!left.IsCommonCurrency(right))
         {
-            throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
+            throw new InvalidOperationException(
+                $"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
         }
 
         return left._Amount > right._Amount;
@@ -184,8 +184,8 @@ public record Money : IEqualityComparer<Money>
     {
         if (!left.IsCommonCurrency(right))
         {
-            throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
+            throw new InvalidOperationException(
+                $"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
         }
 
         return left._Amount >= right._Amount;
@@ -196,8 +196,8 @@ public record Money : IEqualityComparer<Money>
     {
         if (!left.IsCommonCurrency(right))
         {
-            throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
+            throw new InvalidOperationException(
+                $"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
         }
 
         return left._Amount < right._Amount;
@@ -208,8 +208,8 @@ public record Money : IEqualityComparer<Money>
     {
         if (!left.IsCommonCurrency(right))
         {
-            throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
+            throw new InvalidOperationException(
+                $"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
         }
 
         return left._Amount >= right._Amount;
@@ -220,8 +220,8 @@ public record Money : IEqualityComparer<Money>
     {
         if (!left.IsCommonCurrency(right))
         {
-            throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
+            throw new InvalidOperationException(
+                $"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
         }
 
         return new Money(left._Amount * right._Amount, left._Currency);
@@ -232,8 +232,8 @@ public record Money : IEqualityComparer<Money>
     {
         if (!left.IsCommonCurrency(right))
         {
-            throw new
-                InvalidOperationException($"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
+            throw new InvalidOperationException(
+                $"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
         }
 
         return new Money(left._Amount - right._Amount, left._Currency);

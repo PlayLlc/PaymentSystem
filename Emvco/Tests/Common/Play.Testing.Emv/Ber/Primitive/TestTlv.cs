@@ -66,7 +66,7 @@ public abstract class TestTlv : IDecodeDataElement
         if (children.Length > childIndex.Length)
         {
             throw new ArgumentOutOfRangeException(nameof(childIndex),
-                                                  $"The argument {nameof(childIndex)} has fewer items than argument {nameof(children)}");
+                $"The argument {nameof(childIndex)} has fewer items than argument {nameof(children)}");
         }
 
         Span<byte> buffer = stackalloc byte[children.Sum(a => a.GetTagLengthValueByteCount())];

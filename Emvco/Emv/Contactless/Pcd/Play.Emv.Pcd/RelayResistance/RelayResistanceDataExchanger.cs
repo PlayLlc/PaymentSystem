@@ -47,15 +47,13 @@ public class RelayResistanceDataExchanger : IExchangeRelayResistanceData
         {
             // TODO: Logging
             return new ExchangeRelayResistanceDataResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
-                                                           new ExchangeRelayResistanceDataRApduSignal(Array.Empty<byte>(),
-                                                                                                      Level1Error.ProtocolError));
+                new ExchangeRelayResistanceDataRApduSignal(Array.Empty<byte>(), Level1Error.ProtocolError));
         }
         catch (PcdTimeoutException)
         {
             // TODO: Logging
             return new ExchangeRelayResistanceDataResponse(command.GetCorrelationId(), command.GetTransactionSessionId(),
-                                                           new ExchangeRelayResistanceDataRApduSignal(Array.Empty<byte>(),
-                                                                                                      Level1Error.TimeOutError));
+                new ExchangeRelayResistanceDataRApduSignal(Array.Empty<byte>(), Level1Error.TimeOutError));
         }
     }
 

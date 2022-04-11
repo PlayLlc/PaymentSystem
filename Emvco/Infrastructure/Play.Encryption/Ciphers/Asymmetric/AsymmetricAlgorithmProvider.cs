@@ -31,10 +31,10 @@ internal class AsymmetricAlgorithmProvider
     public byte[] Decrypt(ReadOnlySpan<byte> cipherText, PublicKeyCertificate publicKeyCertificate)
     {
         if (!_AsymmetricAlgorithmMap.TryGetValue(publicKeyCertificate.GetPublicKeyAlgorithmIndicator(),
-                                                 out IAsymmetricCodec? asymmetricCodec))
+            out IAsymmetricCodec? asymmetricCodec))
         {
             throw new ArgumentOutOfRangeException(nameof(publicKeyCertificate),
-                                                  $"There was no {nameof(IAsymmetricCodec)} available for the argument {nameof(publicKeyCertificate)} with the {nameof(PublicKeyAlgorithmIndicator)} value of {publicKeyCertificate.GetPublicKeyAlgorithmIndicator()}");
+                $"There was no {nameof(IAsymmetricCodec)} available for the argument {nameof(publicKeyCertificate)} with the {nameof(PublicKeyAlgorithmIndicator)} value of {publicKeyCertificate.GetPublicKeyAlgorithmIndicator()}");
         }
 
         return asymmetricCodec.Sign(cipherText, publicKeyCertificate.GetPublicKeyInfo());
@@ -44,10 +44,10 @@ internal class AsymmetricAlgorithmProvider
     public byte[] Sign(ReadOnlySpan<byte> clearText, PublicKeyCertificate publicKeyCertificate)
     {
         if (!_AsymmetricAlgorithmMap.TryGetValue(publicKeyCertificate.GetPublicKeyAlgorithmIndicator(),
-                                                 out IAsymmetricCodec? asymmetricCodec))
+            out IAsymmetricCodec? asymmetricCodec))
         {
             throw new ArgumentOutOfRangeException(nameof(publicKeyCertificate),
-                                                  $"There was no {nameof(IAsymmetricCodec)} available for the argument {nameof(publicKeyCertificate)} with the {nameof(PublicKeyAlgorithmIndicator)} value of {publicKeyCertificate.GetPublicKeyAlgorithmIndicator()}");
+                $"There was no {nameof(IAsymmetricCodec)} available for the argument {nameof(publicKeyCertificate)} with the {nameof(PublicKeyAlgorithmIndicator)} value of {publicKeyCertificate.GetPublicKeyAlgorithmIndicator()}");
         }
 
         return asymmetricCodec.Sign(clearText, publicKeyCertificate.GetPublicKeyInfo());

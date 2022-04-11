@@ -9,7 +9,7 @@ namespace Play.Emv.Security;
 ///     A composite key that uniquely identifies a certificate for an Issuer
 /// </summary>
 public class CaPublicKeyCertificateIdentifier : IEqualityComparer<CaPublicKeyCertificateIdentifier>,
-                                                IEquatable<CaPublicKeyCertificateIdentifier>
+    IEquatable<CaPublicKeyCertificateIdentifier>
 {
     #region Instance Values
 

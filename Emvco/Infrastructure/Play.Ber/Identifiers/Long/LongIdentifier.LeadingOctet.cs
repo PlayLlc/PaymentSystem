@@ -71,9 +71,9 @@ internal static partial class LongIdentifier
         {
             if (!IsLongIdentifierFlagPresent(value))
             {
-                throw new
-                    BerParsingException($"The {nameof(Tag)} could not be initialized because the argument {PlayCodec.BinaryCodec.DecodeToString(value)} contained an invalid format",
-                                        new ArgumentOutOfRangeException(nameof(value)));
+                throw new BerParsingException(
+                    $"The {nameof(Tag)} could not be initialized because the argument {PlayCodec.BinaryCodec.DecodeToString(value)} contained an invalid format",
+                    new ArgumentOutOfRangeException(nameof(value)));
             }
         }
 

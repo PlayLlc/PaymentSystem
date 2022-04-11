@@ -8,11 +8,11 @@ public class SendPoiInformationCApduSignal : CApduSignal
     #region Constructor
 
     protected SendPoiInformationCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class, instruction,
-                                                                                                                    parameter1, parameter2)
+        parameter1, parameter2)
     { }
 
-    protected SendPoiInformationCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint? le) :
-        base(@class, instruction, parameter1, parameter2, le)
+    protected SendPoiInformationCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint? le) : base(@class,
+        instruction, parameter1, parameter2, le)
     { }
 
     protected SendPoiInformationCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) :
@@ -21,8 +21,7 @@ public class SendPoiInformationCApduSignal : CApduSignal
 
     protected SendPoiInformationCApduSignal(
         byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint? le) : base(@class, instruction,
-                                                                                                                   parameter1, parameter2,
-                                                                                                                   data, le)
+        parameter1, parameter2, data, le)
     { }
 
     #endregion
