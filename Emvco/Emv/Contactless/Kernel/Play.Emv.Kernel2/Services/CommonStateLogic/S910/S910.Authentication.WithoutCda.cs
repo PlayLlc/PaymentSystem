@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Play.Ber.Exceptions;
 using Play.Core;
 using Play.Core.Extensions;
 using Play.Emv.Ber;
@@ -25,7 +26,7 @@ public partial class S910
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="IccProtocolException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
-        /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+        /// <exception cref="BerParsingException"></exception>
         /// <exception cref="Exception"></exception>
         public StateId ProcessWithoutCda(
             IGetKernelStateId currentStateIdRetriever, Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
@@ -140,7 +141,7 @@ public partial class S910
 
         /// <remarks>EMV Book C-2 Section S910.37</remarks>
         /// <exception cref="TerminalDataException"></exception>
-        /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+        /// <exception cref="BerParsingException"></exception>
         /// <exception cref="Exception"></exception>
         private StateId HandleRelayResistanceData(IGetKernelStateId currentGetKernelStateId, Kernel2Session session)
         {
@@ -157,7 +158,7 @@ public partial class S910
         /// <remarks>EMV Book C-2 Section S910.39</remarks>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="OverflowException"></exception>
-        /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+        /// <exception cref="BerParsingException"></exception>
         /// <exception cref="Exception"></exception>
         private void UpdateTrack2DiscretionaryData()
         {
@@ -176,9 +177,7 @@ public partial class S910
                 };
             }
             else
-            {
                 discretionaryDataBuffer = new Nibble[] {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
-            }
 
             if (_Database.TryGet(CaPublicKeyIndex.Tag, out CaPublicKeyIndex? caPublicKeyIndex) && ((byte) caPublicKeyIndex! < 0x0A))
                 discretionaryDataBuffer[0] = new Nibble((byte) caPublicKeyIndex!);
@@ -247,7 +246,7 @@ public partial class S910
 
         /// <remarks>EMV Book C-2 Section S910.34, S910.38 - S910.39</remarks>
         /// <exception cref="TerminalDataException"></exception>
-        /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+        /// <exception cref="BerParsingException"></exception>
         /// <exception cref="Exception"></exception>
         private StateId HandleIsNotAac(IGetKernelStateId currentGetKernelStateId, Kernel2Session session)
         {

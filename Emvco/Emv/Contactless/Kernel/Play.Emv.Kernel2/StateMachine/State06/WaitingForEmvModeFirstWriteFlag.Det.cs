@@ -1,4 +1,5 @@
-﻿using Play.Ber.Identifiers;
+﻿using Play.Ber.Exceptions;
+using Play.Ber.Identifiers;
 using Play.Emv.Ber;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
@@ -23,7 +24,7 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="System.InvalidOperationException"></exception>
     /// <exception cref="IccProtocolException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public override KernelState Handle(KernelSession session, QueryTerminalResponse signal)
     {
         HandleRequestOutOfSync(session, signal);

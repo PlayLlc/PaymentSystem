@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Play.Ber.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
@@ -34,6 +35,26 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
             {
                 DataStorageDataObjectList dataStorageDataObjectList =
                     _Database.Get<DataStorageDataObjectList>(DataStorageDataObjectList.Tag);
+
+                if (!IsDataStorageDigestHashPresent(dataStorageDataObjectList))
+                {
+                    HandleGenerateAcCapdu(session);
+
+                    return currentStateIdRetriever.GetStateId();
+                }
+
+                if (!IsDataStorageInputTermPresent())
+                {
+                    HandleGenerateAcCapdu(session);
+
+                    return currentStateIdRetriever.GetStateId();
+                }
+
+                UpdateDataStorageDigestHash();
+
+                HandleGenerateAcCapdu(session);
+
+                return currentStateIdRetriever.GetStateId();
             }
 
             #region GAC.40
@@ -53,13 +74,24 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
 
             private void UpdateDataStorageDigestHash()
             {
-                DataStorageVersionNumbers number 
+                ApplicationCapabilitiesInformation? applicationCapabilitiesInformation =
+                    _Database.Get<ApplicationCapabilitiesInformation>(ApplicationCapabilitiesInformation.Tag);
+
+                DataStorageInputTerminal input = _Database.Get<DataStorageInputTerminal>(DataStorageInputTerminal.Tag);
+
+                if (applicationCapabilitiesInformation.GetDataStorageVersionNumber() == DataStorageVersionNumbers.Version1)
+                    Owhf2.Sign(_Database, input.EncodeValue());
+                else
+                    Owhf2Aes.Sign(_Database, input.EncodeValue());
             }
 
             #endregion
 
             #region GAC.45 - GAC.48
 
+            /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+            /// <exception cref="OverflowException"></exception>
+            /// <exception cref="BerParsingException"></exception>
             private void HandleGenerateAcCapdu(Kernel2Session session)
             {
                 CryptogramType acType = session.GetApplicationCryptogramType();
@@ -70,31 +102,24 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
                 CardRiskManagementDataObjectList1RelatedData cdol1RelatedData =
                     _Database.Get<CardRiskManagementDataObjectList1RelatedData>(CardRiskManagementDataObjectList1RelatedData.Tag);
 
-                GenerateApplicationCryptogramRequest? capdu = GenerateApplicationCryptogramRequest.Create(session.GetTransactionSessionId(), referenceControlParam,
-                    cdol1RelatedData, dataStorageDataObjectList.AsDataObjectListResult(_Database));
+                DataStorageDataObjectList dsDol = _Database.Get<DataStorageDataObjectList>(DataStorageDataObjectList.Tag);
+
+                GenerateApplicationCryptogramRequest? capdu = GenerateApplicationCryptogramRequest.Create(session.GetTransactionSessionId(),
+                    referenceControlParam, cdol1RelatedData, dsDol.AsDataObjectListResult(_Database));
 
                 _PcdEndpoint.Request(capdu);
             }
 
             #endregion
 
-            private void InitializeDataStorageDigestHash()
-            {
-                ApplicationCapabilitiesInformation? applicationCapabilitiesInformation = _Database.Get<ApplicationCapabilitiesInformation>(ApplicationCapabilitiesInformation.Tag);
-
-                if(applicationCapabilitiesInformation.GetDataStorageVersionNumber() == DataStorageVersionNumbers.Version1)
-                    Owhf2.
- 
-            }
-
             private void SetVersion1Hash()
             {
                 //owhf2
             }
+
             private void SetVersion2Hash()
             {
                 //OWHF2AES(
-
             }
 
             #endregion

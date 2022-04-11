@@ -1,6 +1,7 @@
 ﻿using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
@@ -261,7 +262,7 @@ internal class CombinedDataAuthenticator
     #region 6.6.2 Step 5
 
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="System.InvalidOperationException"></exception>
@@ -286,7 +287,7 @@ internal class CombinedDataAuthenticator
 
     /// <remarks>EMV Book 2 Section 6.6.2 Step 10.a</remarks>
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="System.InvalidOperationException"></exception>
