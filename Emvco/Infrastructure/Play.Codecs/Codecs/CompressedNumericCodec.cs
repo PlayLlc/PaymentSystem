@@ -258,11 +258,7 @@ public class CompressedNumericCodec : PlayCodec
         }
     }
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    // DEPRECATING: This method will eventually be deprecated in favor of strongly typed arguments
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T value)
@@ -285,12 +281,7 @@ public class CompressedNumericCodec : PlayCodec
         return Encode(Unsafe.As<T, BigInteger>(ref value));
     }
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="length"></param>
-    /// <returns></returns>
+    // DEPRECATING: This method will eventually be deprecated in favor of strongly typed arguments
     /// <exception cref="Exception"></exception>
     public override byte[] Encode<T>(T value, int length)
     {
@@ -310,6 +301,7 @@ public class CompressedNumericCodec : PlayCodec
         return Encode(Unsafe.As<T, BigInteger>(ref value), length);
     }
 
+    // DEPRECATING: This method will eventually be deprecated in favor of strongly typed arguments
     public override byte[] Encode<T>(T[] value)
     {
         if (typeof(T) == typeof(char))
@@ -318,12 +310,7 @@ public class CompressedNumericCodec : PlayCodec
         throw new NotImplementedException();
     }
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="length"></param>
-    /// <returns></returns>
+    // DEPRECATING: This method will eventually be deprecated in favor of strongly typed arguments
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T[] value, int length)
     {
@@ -335,12 +322,6 @@ public class CompressedNumericCodec : PlayCodec
 
     public byte[] Encode(ReadOnlySpan<char> value) => Encode(value, value.Length);
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="length"></param>
-    /// <returns></returns>
     /// <exception cref="CodecParsingException"></exception>
     public byte[] Encode(ReadOnlySpan<char> value, int length)
     {
@@ -364,9 +345,9 @@ public class CompressedNumericCodec : PlayCodec
                 }
                 catch (IndexOutOfRangeException exception)
                 {
-                    throw new
-                        CodecParsingException($"The value could not be encoded by {nameof(CompressedNumericCodec)} because there was an invalid character",
-                                              exception);
+                    throw new CodecParsingException(
+                        $"The value could not be encoded by {nameof(CompressedNumericCodec)} because there was an invalid character",
+                        exception);
                 }
             }
 
@@ -389,9 +370,9 @@ public class CompressedNumericCodec : PlayCodec
                 }
                 catch (IndexOutOfRangeException exception)
                 {
-                    throw new
-                        CodecParsingException($"The value could not be encoded by {nameof(CompressedNumericCodec)} because there was an invalid character",
-                                              exception);
+                    throw new CodecParsingException(
+                        $"The value could not be encoded by {nameof(CompressedNumericCodec)} because there was an invalid character",
+                        exception);
                 }
             }
 
@@ -658,9 +639,9 @@ public class CompressedNumericCodec : PlayCodec
             }
             catch (IndexOutOfRangeException exception)
             {
-                throw new
-                    CodecParsingException($"The value could not be encoded by {nameof(CompressedNumericCodec)} because there was an invalid character",
-                                          exception);
+                throw new CodecParsingException(
+                    $"The value could not be encoded by {nameof(CompressedNumericCodec)} because there was an invalid character",
+                    exception);
             }
         }
 

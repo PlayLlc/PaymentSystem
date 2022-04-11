@@ -188,6 +188,8 @@ public class AlphaNumericCodec : PlayCodec
         return false;
     }
 
+    // DEPRECATING: This method will eventually be deprecated in favor of strongly typed arguments
+
     /// <summary>
     ///     Encode
     /// </summary>
@@ -201,6 +203,8 @@ public class AlphaNumericCodec : PlayCodec
 
         throw new CodecParsingException("The code should not reach this point");
     }
+
+    // DEPRECATING: This method will eventually be deprecated in favor of strongly typed arguments
 
     /// <summary>
     ///     Encode
@@ -219,6 +223,7 @@ public class AlphaNumericCodec : PlayCodec
         throw new CodecParsingException("The code should not reach this point");
     }
 
+    // DEPRECATING: This method will eventually be deprecated in favor of strongly typed arguments
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T[] value) where T : struct
     {
@@ -227,6 +232,8 @@ public class AlphaNumericCodec : PlayCodec
 
         throw new CodecParsingException("The code should not reach this point");
     }
+
+    // DEPRECATING: This method will eventually be deprecated in favor of strongly typed arguments
 
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T[] value, int length) where T : struct
@@ -259,12 +266,7 @@ public class AlphaNumericCodec : PlayCodec
 
     public PlayEncodingId GetPlayEncodingId() => EncodingId;
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="buffer"></param>
-    /// <param name="offset"></param>
+    // DEPRECATING: This method will eventually be deprecated in favor of strongly typed arguments
     /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
     {
@@ -274,13 +276,7 @@ public class AlphaNumericCodec : PlayCodec
             throw new CodecParsingException("The code should not reach this point");
     }
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="length"></param>
-    /// <param name="buffer"></param>
-    /// <param name="offset"></param>
+    // DEPRECATING: This method will eventually be deprecated in favor of strongly typed arguments
     /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
@@ -290,12 +286,7 @@ public class AlphaNumericCodec : PlayCodec
             throw new CodecParsingException("The code should not reach this point");
     }
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="buffer"></param>
-    /// <param name="offset"></param>
+    // DEPRECATING: This method will eventually be deprecated in favor of strongly typed arguments
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T[] value, Span<byte> buffer, ref int offset) where T : struct
@@ -306,13 +297,7 @@ public class AlphaNumericCodec : PlayCodec
             throw new CodecParsingException("The code should not reach this point");
     }
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="length"></param>
-    /// <param name="buffer"></param>
-    /// <param name="offset"></param>
+    // DEPRECATING: This method will eventually be deprecated in favor of strongly typed arguments
     /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T[] value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
@@ -322,12 +307,6 @@ public class AlphaNumericCodec : PlayCodec
             throw new CodecParsingException("The code should not reach this point");
     }
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="buffer"></param>
-    /// <param name="offset"></param>
     /// <exception cref="CodecParsingException"></exception>
     public void Encode(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
     {

@@ -31,6 +31,9 @@ public sealed record BlockCipherAlgorithm : EnumObject<byte>, IEqualityComparer<
     ///     Valid Key Sizes: 128
     ///     Valid Block Sizes: 8
     /// </summary>
+    /// <remarks>
+    ///     EMV Book 2 Section Annex B
+    /// </remarks>
     public static readonly BlockCipherAlgorithm TripleDes;
 
     #endregion
@@ -48,7 +51,7 @@ public sealed record BlockCipherAlgorithm : EnumObject<byte>, IEqualityComparer<
 
         _ValueObjectMap =
             new Dictionary<byte, BlockCipherAlgorithm> {{tripleDes, TripleDes}, {aes, Aes}}.ToImmutableSortedDictionary(a => a.Key,
-                                                                                                                        b => b.Value);
+                b => b.Value);
     }
 
     private BlockCipherAlgorithm(byte value) : base(value)

@@ -54,33 +54,27 @@ public class GenerateApplicationCryptogramCApduSignal : CApduSignal
 
     /// <exception cref="BerParsingException"></exception>
     public static GenerateApplicationCryptogramCApduSignal Create(
-        ReferenceControlParameter referenceControlParameter, DataObjectListResult cardRiskManagementDataObjectListResult)
-    {
-        CommandTemplate cardRiskCommandTemplate = cardRiskManagementDataObjectListResult.AsCommandTemplate();
+        ReferenceControlParameter referenceControlParameter,
+        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectListResult) =>
 
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(cardRiskCommandTemplate.GetValueByteCount());
-        Span<byte> buffer = spanOwner.Span;
-
-        cardRiskCommandTemplate.EncodeValue().CopyTo(buffer);
-
-        return new GenerateApplicationCryptogramCApduSignal(new Class(SecureMessaging.NotRecognized, LogicalChannel.BasicChannel),
-            Instruction.CardBlock, (byte) referenceControlParameter, 0, buffer);
-    }
+        // CHECK: Check that the use of the CardRiskManagementDataObjectList1RelatedData is used correctly when creating this CAPDU
+        new(new Class(SecureMessaging.NotRecognized, LogicalChannel.BasicChannel), Instruction.CardBlock, (byte) referenceControlParameter,
+            0, cardRiskManagementDataObjectListResult.EncodeTagLengthValue());
 
     /// <exception cref="BerParsingException"></exception>
     public static GenerateApplicationCryptogramCApduSignal Create(
-        ReferenceControlParameter referenceControlParameter, DataObjectListResult cardRiskManagementDataObjectListResult,
+        ReferenceControlParameter referenceControlParameter,
+        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectListResult,
         DataObjectListResult dataStorageDataObjectListResult)
     {
-        CommandTemplate cardRiskCommandTemplate = cardRiskManagementDataObjectListResult.AsCommandTemplate();
         CommandTemplate dataStorageCommandTemplate = dataStorageDataObjectListResult.AsCommandTemplate();
 
-        using SpanOwner<byte> spanOwner =
-            SpanOwner<byte>.Allocate(cardRiskCommandTemplate.GetValueByteCount() + dataStorageCommandTemplate.GetValueByteCount());
+        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(cardRiskManagementDataObjectListResult.GetValueByteCount()
+            + dataStorageCommandTemplate.GetValueByteCount());
         Span<byte> buffer = spanOwner.Span;
 
-        cardRiskCommandTemplate.EncodeValue().CopyTo(buffer);
-        dataStorageCommandTemplate.EncodeValue().CopyTo(buffer[cardRiskCommandTemplate.GetValueByteCount()..]);
+        cardRiskManagementDataObjectListResult.EncodeValue().CopyTo(buffer);
+        dataStorageCommandTemplate.EncodeValue().CopyTo(buffer[cardRiskManagementDataObjectListResult.GetValueByteCount()..]);
 
         return new GenerateApplicationCryptogramCApduSignal(new Class(SecureMessaging.NotRecognized, LogicalChannel.BasicChannel),
             Instruction.CardBlock, (byte) referenceControlParameter, 0, buffer);

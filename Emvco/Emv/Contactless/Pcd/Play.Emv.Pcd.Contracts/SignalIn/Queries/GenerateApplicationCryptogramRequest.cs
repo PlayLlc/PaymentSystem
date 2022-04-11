@@ -28,12 +28,13 @@ public record GenerateApplicationCryptogramRequest : QueryPcdRequest
 
     public static GenerateApplicationCryptogramRequest Create(
         TransactionSessionId sessionId, ReferenceControlParameter referenceControlParameter,
-        DataObjectListResult cardRiskManagementDataObjectListResult, DataObjectListResult? dataStorageDataObjectListResult = null)
+        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectList1RelatedData,
+        DataObjectListResult? dataStorageDataObjectListResult = null)
     {
         if (dataStorageDataObjectListResult is null)
         {
             return new GenerateApplicationCryptogramRequest(sessionId,
-                GenerateApplicationCryptogramCApduSignal.Create(referenceControlParameter, cardRiskManagementDataObjectListResult));
+                GenerateApplicationCryptogramCApduSignal.Create(referenceControlParameter, cardRiskManagementDataObjectList1RelatedData));
         }
 
         return new GenerateApplicationCryptogramRequest(sessionId,

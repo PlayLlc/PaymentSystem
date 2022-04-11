@@ -2,7 +2,7 @@
 
 namespace Play.Messaging;
 
-public class PlayEndpointClient : IEndpointClient
+public class EndpointClient : IEndpointClient
 {
     #region Instance Values
 
@@ -14,13 +14,13 @@ public class PlayEndpointClient : IEndpointClient
 
     #region Constructor
 
-    internal PlayEndpointClient(IRouteMessages messageRouter, IMessageChannel messageChannel)
+    internal EndpointClient(IRouteMessages messageRouter, IMessageChannel messageChannel)
     {
         _MessageRouter = messageRouter;
         _MessageChannel = messageChannel;
     }
 
-    internal PlayEndpointClient(IRouteMessages messageRouter, IMessageChannel messageChannel, TimeoutConfiguration? timeoutConfiguration)
+    internal EndpointClient(IRouteMessages messageRouter, IMessageChannel messageChannel, TimeoutConfiguration? timeoutConfiguration)
     {
         _MessageRouter = messageRouter;
         _MessageChannel = messageChannel;

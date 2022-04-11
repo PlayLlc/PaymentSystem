@@ -49,6 +49,11 @@ public abstract record DataObjectList : DataElement<BigInteger>
 
     #region Instance Members
 
+    public bool IsObjectPresent(Tag tagToSearch)
+    {
+        return _DataObjects?.Any(a => a.GetTag() == tagToSearch) ?? false;
+    }
+
     /// <summary>
     ///     IsRequestedDataAvailable
     /// </summary>
@@ -143,8 +148,8 @@ public abstract record DataObjectList : DataElement<BigInteger>
     {
         if (!TryGetRequestedDataItems(database, out PrimitiveValue[] result))
         {
-            throw new
-                TerminalDataException($"The method {nameof(AsDataObjectListResult)} could not be processed because a requested data item was not present in the database");
+            throw new TerminalDataException(
+                $"The method {nameof(AsDataObjectListResult)} could not be processed because a requested data item was not present in the database");
         }
 
         // HACK: You have a weird pattern going on. You first decode to DataObjectListResult, and then to a Command Template. This probably needs to be refactored to be more clear
@@ -225,9 +230,8 @@ public abstract record DataObjectList : DataElement<BigInteger>
         {
             if (DataObjects.All(a => a.GetTag() != value[i].GetTag()))
             {
-                throw new
-                    BerParsingException(new
-                                            ArgumentOutOfRangeException($"The argument {nameof(value)} did not contain a value for the requested object with the tag: {DataObjects[i].GetTag()}"));
+                throw new BerParsingException(new ArgumentOutOfRangeException(
+                    $"The argument {nameof(value)} did not contain a value for the requested object with the tag: {DataObjects[i].GetTag()}"));
             }
         }
     }

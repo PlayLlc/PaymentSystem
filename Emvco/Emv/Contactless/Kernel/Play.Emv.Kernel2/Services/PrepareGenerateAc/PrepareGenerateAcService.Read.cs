@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Play.Ber.Exceptions;
+using Play.Core.Extensions.IEnumerable;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.State;
@@ -25,48 +28,42 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
             #region Instance Values
 
             private readonly KernelDatabase _Database;
+            private readonly IHandlePcdRequests _PcdEndpoint;
+
+            #endregion
+
+            #region Constructor
+
+            public ReadIntegratedDataStorage(KernelDatabase database, IHandlePcdRequests pcdEndpoint)
+            {
+                _Database = database;
+                _PcdEndpoint = pcdEndpoint;
+            }
 
             #endregion
 
             #region Instance Members
 
+            /// <exception cref="TerminalDataException"></exception>
+            /// <exception cref="OverflowException"></exception>
+            /// <exception cref="BerParsingException"></exception>
             public StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message)
             {
-                CryptogramType acType = session.GetApplicationCryptogramType();
+                ReferenceControlParameter referenceControlParam = new(CryptogramTypes.AuthorizationRequestCryptogram, true);
 
-                var referenceControlParam = new ReferenceControlParameter(CryptogramTypes.AuthorizationRequestCryptogram, true);
+                _Database.Update(referenceControlParam);
 
-                _Database.Update(referenceControlParam); 
+                _Database.Get<CardRiskManagementDataObjectList1>(CryptogramInformationData.Tag);
+                var cardRiskManagementDataObjectList1 =
+                    _Database.Get<CardRiskManagementDataObjectList1>(CardRiskManagementDataObjectList1.Tag);
+                var cdol1RelatedData = new CardRiskManagementDataObjectList1RelatedData(cardRiskManagementDataObjectList1
+                    .AsCommandTemplate(_Database).EncodeValue().AsBigInteger());
 
-                _Database.Get<CryptogramInformationData>(CryptogramInformationData.Tag);
+                _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(session.GetTransactionSessionId(), referenceControlParam,
+                    cdol1RelatedData));
 
-                GenerateApplicationCryptogramRequest.Create(session.GetTransactionSessionId(),)
-
-
+                return currentStateIdRetriever.GetStateId();
             }
-
-            #region GAC.27 - GAC.29
-
-
-
-            private void SetAcTypeInReferenceControl(Kernel2Session session)
-            {
-
-
-
-            }
-
-            #endregion
-
-            #region GAC.29
-
-            private void HandleGenerateAcRequest(ReferenceControlParameter referenceControlParameter, Kernel2Session session)
-            {
-
-
-            }
-
-            #endregion
 
             #endregion
         }
