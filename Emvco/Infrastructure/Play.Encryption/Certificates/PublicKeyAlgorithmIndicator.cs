@@ -45,7 +45,7 @@ public class PublicKeyAlgorithmIndicator : IEqualityComparer<PublicKeyAlgorithmI
         if (!_ValueObjectMap.TryGetValue(value, out PublicKeyAlgorithmIndicator? result))
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                                                  $"No {nameof(PublicKeyAlgorithmIndicator)} could be retrieved because the argument provided does not match a definition value");
+                $"No {nameof(PublicKeyAlgorithmIndicator)} could be retrieved because the argument provided does not match a definition value");
         }
 
         return result!;
