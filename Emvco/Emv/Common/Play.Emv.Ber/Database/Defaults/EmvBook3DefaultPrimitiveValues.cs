@@ -14,7 +14,7 @@ public class EmvBook3DefaultValues : DefaultValues
     /// </summary>
     public override void AddDefaults(KnownObjects knownObjects, Dictionary<Tag, PrimitiveValue> defaultValueMap)
     {
-        foreach (var prim in GetActionCodeDefaults())
+        foreach (PrimitiveValue? prim in GetActionCodeDefaults())
         {
             if (knownObjects.Exists(prim.GetTag()))
                 defaultValueMap.TryAdd(prim.GetTag(), prim);

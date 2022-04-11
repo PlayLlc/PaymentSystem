@@ -60,7 +60,7 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
                 CardRiskManagementDataObjectList1RelatedData cdol1RelatedData =
                     _Database.Get<CardRiskManagementDataObjectList1RelatedData>(CardRiskManagementDataObjectList1RelatedData.Tag);
 
-                var capdu = GenerateApplicationCryptogramRequest.Create(session.GetTransactionSessionId(), referenceControlParam,
+                GenerateApplicationCryptogramRequest? capdu = GenerateApplicationCryptogramRequest.Create(session.GetTransactionSessionId(), referenceControlParam,
                     cdol1RelatedData, dataStorageDataObjectList.AsDataObjectListResult(_Database));
 
                 _PcdEndpoint.Request(capdu);
@@ -70,7 +70,7 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
 
             private void InitializeDataStorageDigestHash()
             {
-                var applicationCapabilitiesInformation = _Database.Get<ApplicationCapabilitiesInformation>(ApplicationCapabilitiesInformation.Tag);
+                ApplicationCapabilitiesInformation? applicationCapabilitiesInformation = _Database.Get<ApplicationCapabilitiesInformation>(ApplicationCapabilitiesInformation.Tag);
 
                 if(applicationCapabilitiesInformation.GetDataStorageVersionNumber() == DataStorageVersionNumbers.Version1)
                 /*

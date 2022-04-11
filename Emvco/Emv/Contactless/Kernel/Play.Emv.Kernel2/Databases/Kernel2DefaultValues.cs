@@ -23,7 +23,7 @@ public class Kernel2DefaultValues : DefaultValues
     /// </summary>
     public override void AddDefaults(KnownObjects knownObjects, Dictionary<Tag, PrimitiveValue> defaultValueMap)
     {
-        foreach (var prim in GetKernel2Defaults())
+        foreach (PrimitiveValue? prim in GetKernel2Defaults())
         {
             if (knownObjects.Exists(prim.GetTag()))
                 defaultValueMap.TryAdd(prim.GetTag(), prim);

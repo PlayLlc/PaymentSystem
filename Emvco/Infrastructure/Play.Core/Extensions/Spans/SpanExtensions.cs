@@ -11,6 +11,14 @@ public static partial class SpanExtensions
 
     public static BigInteger AsBigInteger(this Span<byte> value) => new(value);
 
+    public static void SetBits(this Span<byte> value, ReadOnlySpan<byte> other)
+    {
+        int maxCount = value.Length > other.Length ? value.Length : other.Length;
+
+        for (int i = 0; i < maxCount; i++)
+            value[i] |= other[i];
+    }
+
     /// <exception cref="OverflowException"></exception>
     public static byte[] RemoveLeftPadding(this Span<byte> value, Nibble paddingValue)
     {

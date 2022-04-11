@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Microsoft.Toolkit.HighPerformance.Buffers;
+
 using Play.Core.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber;
@@ -12,55 +14,49 @@ using Play.Emv.Ber.Exceptions;
 using Play.Encryption;
 using Play.Encryption.Ciphers.Symmetric;
 
-namespace Play.Emv.Security.Ciphers.Symmetric
+namespace Play.Emv.Security.Ciphers.Symmetrics
 {
     /// <summary>
     ///     OWHF2 is the DES-based variant of the one-way function for computing the digest. OWHF2 computes an 8-byte output R
     ///     based on an 8-byte input PD.
     /// </summary>
     /// <remarks>EMVco Book C-2 Section 8.2</remarks>
-    public class Owhf2 : IBlockCipher
+    public class Owhf2
     {
-        #region Instance Values
+        #region Static Metadata
 
-        private readonly TripleDesCodec _Codec;
-        private readonly byte[] _Key;
+        private static readonly TripleDesCodec _Codec = new(new BlockCipherConfiguration(BlockCipherMode.Cbc, BlockPaddingMode.None,
+            KeySize._128, BlockSize._8, new Iso7816PlainTextPreprocessor(BlockSize._8)));
 
         #endregion
 
         #region Constructor
 
-        /// <exception cref="TerminalDataException"></exception>
-        /// <exception cref="PlayInternalException"></exception>
-        /// <exception cref="OverflowException"></exception>
-        public Owhf2(IReadTlvDatabase database)
-        {
-            _Codec = new TripleDesCodec(SetupCodec());
-
-            _Key = ResolveKey(database);
-        }
+        public Owhf2()
+        { }
 
         #endregion
 
         #region Instance Members
 
-        private static BlockCipherConfiguration SetupCodec() =>
-            new(BlockCipherMode.Cbc, BlockPaddingMode.None, KeySize._128, BlockSize._8, new Iso7816PlainTextPreprocessor(BlockSize._8));
+        /// <exception cref="TerminalDataException"></exception>
+        /// <exception cref="PlayInternalException"></exception>
+        /// <exception cref="OverflowException"></exception>
+        public byte[] Encrypt(IReadTlvDatabase database, ReadOnlySpan<byte> message)
+        {
+            using SpanOwner<byte> owner = SpanOwner<byte>.Allocate(16);
+            Span<byte> buffer = owner.Span;
+            ResolveKey(database, buffer);
 
-        public BlockCipherAlgorithm GetAlgorithm() => _Codec.GetAlgorithm();
-        public BlockCipherMode GetCipherMode() => _Codec.GetCipherMode();
-        public KeySize GetKeySize() => _Codec.GetKeySize();
-        public byte[] Sign(ReadOnlySpan<byte> message, ReadOnlySpan<byte> key) => _Codec.Sign(message, key);
+            return _Codec.Sign(message, buffer);
+        }
 
         #endregion
 
         #region Key Generation
 
         /// <remarks>EMVco Book C-2 Section 8.2 </remarks>
-        public int GetPermanentSlotIdLength(DataStorageId id) =>
-
-            // CHECK: The spec in EMVco Book C-2 Section 8.2 doesn't specify whether we're using the full TLV encoding or just the Value. Need to verify
-            id.GetValueByteCount();
+        public int GetPermanentSlotIdLength(DataStorageId id) => id.GetValueByteCount();
 
         /// <exception cref="PlayInternalException"></exception>
         public byte[] ResolveObjectId(
@@ -76,71 +72,59 @@ namespace Play.Emv.Security.Ciphers.Symmetric
         }
 
         /// <exception cref="PlayInternalException"></exception>
-        public byte[] ResolveLeftKey(
+        public void ResolveLeftKey(
             DataStorageId dataStorageId, DataStorageRequestedOperatorId operatorId, DataStorageOperatorDataSetInfo info,
-            DataStorageSlotManagementControl? control)
+            DataStorageSlotManagementControl? control, Span<byte> buffer)
         {
             ReadOnlySpan<byte> dataStorageIdContentOctets = dataStorageId.EncodeValue();
             ReadOnlySpan<byte> objectId = ResolveObjectId(operatorId, info, control);
-
-            byte[] result = new byte[8];
 
             for (int i = 0; i < 6; i++)
             {
                 unchecked
                 {
-                    result[i] = (byte) ((((dataStorageIdContentOctets[i - 1] / 16) * 10) + (dataStorageIdContentOctets[i - 1] % 16)) * 2);
+                    buffer[i] = (byte) ((((dataStorageIdContentOctets[i - 1] / 16) * 10) + (dataStorageIdContentOctets[i - 1] % 16)) * 2);
                 }
             }
 
-            objectId[4..6].CopyTo(result[^2..]);
-
-            return result;
+            objectId[4..6].CopyTo(buffer[^2..]);
         }
 
         /// <exception cref="PlayInternalException"></exception>
         /// <exception cref="OverflowException"></exception>
-        public byte[] ResolveRightKey(
+        public void ResolveRightKey(
             DataStorageId dataStorageId, DataStorageRequestedOperatorId operatorId, DataStorageOperatorDataSetInfo info,
-            DataStorageSlotManagementControl? control)
+            DataStorageSlotManagementControl? control, Span<byte> buffer)
         {
             ReadOnlySpan<byte> dataStorageIdContentOctets = dataStorageId.EncodeValue();
             ReadOnlySpan<byte> objectId = ResolveObjectId(operatorId, info, control);
             int permanentSlotIdLength = GetPermanentSlotIdLength(dataStorageId);
 
-            byte[] result = new byte[8];
-
-            for (int i = 0; i < result.Length; i++)
+            for (int i = 0; i < buffer.Length; i++)
             {
                 unchecked
                 {
-                    result[i] = (byte) ((((dataStorageIdContentOctets[(permanentSlotIdLength - 6) + i] / 16) * 10)
+                    buffer[i] = (byte) ((((dataStorageIdContentOctets[(permanentSlotIdLength - 6) + i] / 16) * 10)
                             + (dataStorageIdContentOctets[(permanentSlotIdLength - 6) + i] % 16))
                         * 2);
                 }
             }
 
-            objectId[^2..].CopyTo(result[^2..]);
-
-            return result;
+            objectId[^2..].CopyTo(buffer[^2..]);
         }
 
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="PlayInternalException"></exception>
         /// <exception cref="OverflowException"></exception>
-        private byte[] ResolveKey(IReadTlvDatabase database)
+        private void ResolveKey(IReadTlvDatabase database, Span<byte> buffer)
         {
-            byte[] key = new byte[16];
-
             DataStorageId dataStorageId = database.Get<DataStorageId>(DataStorageId.Tag);
             DataStorageRequestedOperatorId operatorId = database.Get<DataStorageRequestedOperatorId>(DataStorageRequestedOperatorId.Tag);
             DataStorageOperatorDataSetInfo info = database.Get<DataStorageOperatorDataSetInfo>(DataStorageOperatorDataSetInfo.Tag);
             database.TryGet(DataStorageSlotManagementControl.Tag, out DataStorageSlotManagementControl? control);
 
-            ResolveLeftKey(dataStorageId, operatorId, info, control).AsSpan().CopyTo(key);
-            ResolveRightKey(dataStorageId, operatorId, info, control).AsSpan().CopyTo(key[8..]);
-
-            return key;
+            ResolveLeftKey(dataStorageId, operatorId, info, control, buffer[..8]);
+            ResolveRightKey(dataStorageId, operatorId, info, control, buffer[8..]);
         }
 
         #endregion

@@ -4,7 +4,7 @@ using Microsoft.Toolkit.HighPerformance.Buffers;
 
 namespace Play.Encryption.Ciphers.Symmetric;
 
-internal class AesCodec : IBlockCipher
+public class AesCodec : IBlockCipher
 {
     #region Instance Values
 

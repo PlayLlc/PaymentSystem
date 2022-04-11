@@ -2,6 +2,7 @@
 
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
@@ -34,6 +35,8 @@ public record DataStorageId : DataElement<BigInteger>
 
     #region Instance Members
 
+    public new ushort GetTagLengthValueByteCount() => (ushort) new TagLength(Tag, _Value.ToByteArray()).GetTagLengthValueByteCount();
+    public new ushort GetValueByteCount() => (ushort) _Value.GetByteCount();
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 

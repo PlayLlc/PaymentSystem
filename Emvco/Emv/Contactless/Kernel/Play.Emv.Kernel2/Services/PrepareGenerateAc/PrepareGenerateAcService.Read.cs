@@ -54,9 +54,9 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
                 _Database.Update(referenceControlParam);
 
                 _Database.Get<CardRiskManagementDataObjectList1>(CryptogramInformationData.Tag);
-                var cardRiskManagementDataObjectList1 =
+                CardRiskManagementDataObjectList1? cardRiskManagementDataObjectList1 =
                     _Database.Get<CardRiskManagementDataObjectList1>(CardRiskManagementDataObjectList1.Tag);
-                var cdol1RelatedData = new CardRiskManagementDataObjectList1RelatedData(cardRiskManagementDataObjectList1
+                CardRiskManagementDataObjectList1RelatedData? cdol1RelatedData = new(cardRiskManagementDataObjectList1
                     .AsCommandTemplate(_Database).EncodeValue().AsBigInteger());
 
                 _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(session.GetTransactionSessionId(), referenceControlParam,
