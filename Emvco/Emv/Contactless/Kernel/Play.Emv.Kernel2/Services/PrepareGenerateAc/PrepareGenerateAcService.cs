@@ -318,7 +318,7 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
 
         #region GAC.10
 
-        /// <remarks>EMV Book C-2 GAC.10 - GAC13</remarks>
+        /// <remarks>EMV Book C-2 GAC.10</remarks>
         /// <exception cref="PlayInternalException"></exception>
         private bool IsStopIfNoDsOdsTermSet(DataStorageOperatorDataSetInfoForReader dsOdsInfoForReader) =>
             dsOdsInfoForReader.IsStopIfNoDataStorageOperatorSetTerminalSet();

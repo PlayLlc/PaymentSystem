@@ -19,6 +19,7 @@ public record ReferenceControlParameter : DataElement<byte>, IEqualityComparer<R
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xDF8114;
     private const byte _ByteLength = 1;
+    private const byte _CdaRequestedFlag = (byte) Bits.Five;
 
     #endregion
 
@@ -31,31 +32,35 @@ public record ReferenceControlParameter : DataElement<byte>, IEqualityComparer<R
             throw new CardDataException($"The argument {nameof(value)} was not recognized as a valid {nameof(CryptogramTypes)}");
     }
 
+    /// <exception cref="CardDataException"></exception>
+    public ReferenceControlParameter(CryptogramType cryptogramType, bool isCdaSignatureRequested) : base(Create(cryptogramType,
+        isCdaSignatureRequested))
+    {
+        if (!CryptogramTypes.IsValid((byte) cryptogramType))
+            throw new CardDataException($"The argument {nameof(cryptogramType)} was not recognized as a valid {nameof(CryptogramTypes)}");
+    }
+
     #endregion
 
     #region Instance Members
 
-    private static byte Create(CryptogramTypes cryptogramTypes, bool isCdaSignatureRequested)
+    private static byte Create(CryptogramType cryptogramTypes, bool isCdaSignatureRequested)
     {
         if (isCdaSignatureRequested)
-            return (byte) (cryptogramTypes | (byte) Bits.Five);
+            return (byte) ((byte) cryptogramTypes | _CdaRequestedFlag);
 
         return (byte) cryptogramTypes;
     }
 
-    public bool IsCdaSignatureRequested() => _Value.IsBitSet(Bits.Five);
+    public bool IsCdaSignatureRequested() => _Value.IsBitSet(_CdaRequestedFlag);
 
-    /// <summary>
-    ///     GetCryptogramType
-    /// </summary>
-    /// <returns></returns>
     /// <exception cref="DataElementParsingException"></exception>
     public CryptogramTypes GetCryptogramType()
     {
         if (!CryptogramTypes.TryGet(_Value, out CryptogramTypes? result))
         {
-            throw new
-                DataElementParsingException($"The {nameof(CryptogramInformationData)} expected a {nameof(CryptogramTypes)} but none could be found");
+            throw new DataElementParsingException(
+                $"The {nameof(CryptogramInformationData)} expected a {nameof(CryptogramTypes)} but none could be found");
         }
 
         return result!;
@@ -71,8 +76,12 @@ public record ReferenceControlParameter : DataElement<byte>, IEqualityComparer<R
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CardDataException"></exception>
     public static ReferenceControlParameter Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CardDataException"></exception>
     public override ReferenceControlParameter Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
@@ -106,6 +115,12 @@ public record ReferenceControlParameter : DataElement<byte>, IEqualityComparer<R
     }
 
     public int GetHashCode(ReferenceControlParameter obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Operator Overrides
+
+    public static explicit operator byte(ReferenceControlParameter value) => value._Value;
 
     #endregion
 }

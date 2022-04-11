@@ -26,30 +26,18 @@ public record GenerateApplicationCryptogramRequest : QueryPcdRequest
 
     #region Instance Members
 
-    /// <summary>
-    ///     Create
-    /// </summary>
-    /// <param name="sessionId"></param>
-    /// <param name="cryptogramInformationData"></param>
-    /// <param name="cardRiskManagementDataObjectListResult"></param>
-    /// <param name="dataStorageDataObjectListResult"></param>
-    /// <returns></returns>
-    /// <exception cref="System.InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
     public static GenerateApplicationCryptogramRequest Create(
-        TransactionSessionId sessionId, CryptogramInformationData cryptogramInformationData,
+        TransactionSessionId sessionId, ReferenceControlParameter referenceControlParameter,
         DataObjectListResult cardRiskManagementDataObjectListResult, DataObjectListResult? dataStorageDataObjectListResult = null)
     {
         if (dataStorageDataObjectListResult is null)
         {
             return new GenerateApplicationCryptogramRequest(sessionId,
-                GenerateApplicationCryptogramCApduSignal.Create(cryptogramInformationData.GetCryptogramType(),
-                    cryptogramInformationData.IsCdaSignatureRequested(), cardRiskManagementDataObjectListResult));
+                GenerateApplicationCryptogramCApduSignal.Create(referenceControlParameter, cardRiskManagementDataObjectListResult));
         }
 
         return new GenerateApplicationCryptogramRequest(sessionId,
-            GenerateApplicationCryptogramCApduSignal.Create(cryptogramInformationData.GetCryptogramType(),
-                cryptogramInformationData.IsCdaSignatureRequested(), cardRiskManagementDataObjectListResult,
+            GenerateApplicationCryptogramCApduSignal.Create(referenceControlParameter, cardRiskManagementDataObjectListResult,
                 dataStorageDataObjectListResult));
     }
 

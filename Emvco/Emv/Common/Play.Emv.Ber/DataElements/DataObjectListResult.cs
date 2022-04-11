@@ -2,6 +2,7 @@
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
+using Play.Ber.Lengths;
 using Play.Emv.Ber.Extensions.Arrays;
 using Play.Emv.Ber.Templates;
 
@@ -62,7 +63,7 @@ public class DataObjectListResult : IEqualityComparer<DataObjectListResult>, IEq
     }
 
     public PrimitiveValue[] AsPrimitiveValues() => _Value;
-    public int ByteCount() => _Value.Length;
+    public int ByteCount() => (int) _Value.Sum(a => a.GetTagLengthValueByteCount(_Codec));
     public byte[] Encode() => _Value.Encode();
 
     #endregion

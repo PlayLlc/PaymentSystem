@@ -11,13 +11,13 @@ public sealed record CryptogramTypes : EnumObject<byte>
 
     private static readonly ImmutableSortedDictionary<byte, CryptogramTypes> _ValueObjectMap;
 
-    /// <value>Decimal: 0; Hexadecimal: 0x00</value>
+    /// <value>Binary: 0000 0000; Hexadecimal: 0x00</value>
     public static readonly CryptogramTypes ApplicationAuthenticationCryptogram;
 
-    /// <value>Decimal: 128; Hexadecimal: 0x80</value>
+    /// <value>Binary: 1000 0000; Hexadecimal: 0x80</value>
     public static readonly CryptogramTypes AuthorizationRequestCryptogram;
 
-    /// <value>Decimal: 64; Hexadecimal: 0x40</value>
+    /// <value>Binary: 0100 0000; Hexadecimal: 0x40</value>
     public static readonly CryptogramTypes TransactionCryptogram;
 
     private const byte _UnrelatedBits = 0b00111111;
