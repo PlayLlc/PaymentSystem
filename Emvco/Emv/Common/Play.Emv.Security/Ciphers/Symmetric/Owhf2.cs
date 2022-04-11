@@ -4,14 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Play.Core.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Exceptions;
 using Play.Encryption;
 using Play.Encryption.Ciphers.Symmetric;
 
 namespace Play.Emv.Security.Ciphers.Symmetric
 {
+    /// <summary>
+    ///     OWHF2 is the DES-based variant of the one-way function for computing the digest. OWHF2 computes an 8-byte output R
+    ///     based on an 8-byte input PD.
+    /// </summary>
+    /// <remarks>EMVco Book C-2 Section 8.2</remarks>
     public class Owhf2 : IBlockCipher
     {
         #region Instance Values
@@ -44,12 +51,7 @@ namespace Play.Emv.Security.Ciphers.Symmetric
 
         #endregion
 
-        #region Temp
-
-        // WARNING =====================================================
-
-        private void TempMain(IReadTlvDatabase database)
-        { }
+        #region Key Generation
 
         /// <remarks>EMVco Book C-2 Section 8.2 </remarks>
         public int GetPermanentSlotIdLength(DataStorageId id) =>
@@ -57,7 +59,7 @@ namespace Play.Emv.Security.Ciphers.Symmetric
             // CHECK: The spec in EMVco Book C-2 Section 8.2 doesn't specify whether we're using the full TLV encoding or just the Value. Need to verify
             id.GetValueByteCount();
 
-        /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+        /// <exception cref="PlayInternalException"></exception>
         public byte[] ResolveObjectId(
             DataStorageRequestedOperatorId operatorId, DataStorageOperatorDataSetInfo info, DataStorageSlotManagementControl? control)
         {
@@ -73,7 +75,7 @@ namespace Play.Emv.Security.Ciphers.Symmetric
             return new byte[8];
         }
 
-        /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+        /// <exception cref="PlayInternalException"></exception>
         public byte[] ResolveLeftKey(
             DataStorageId dataStorageId, DataStorageRequestedOperatorId operatorId, DataStorageOperatorDataSetInfo info,
             DataStorageSlotManagementControl? control)
@@ -83,15 +85,12 @@ namespace Play.Emv.Security.Ciphers.Symmetric
 
             byte[] result = new byte[8];
 
-            // why is it not zero based
             for (int i = 0; i < 6; i++)
             {
                 unchecked
                 {
                     result[i] = (byte) ((((dataStorageIdContentOctets[i - 1] / 16) * 10) + (dataStorageIdContentOctets[i - 1] % 16)) * 2);
                 }
-
-                //
             }
 
             objectId[4..6].CopyTo(result[^2..]);
@@ -99,7 +98,8 @@ namespace Play.Emv.Security.Ciphers.Symmetric
             return result;
         }
 
-        /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+        /// <exception cref="PlayInternalException"></exception>
+        /// <exception cref="OverflowException"></exception>
         public byte[] ResolveRightKey(
             DataStorageId dataStorageId, DataStorageRequestedOperatorId operatorId, DataStorageOperatorDataSetInfo info,
             DataStorageSlotManagementControl? control)
@@ -125,8 +125,9 @@ namespace Play.Emv.Security.Ciphers.Symmetric
             return result;
         }
 
-        /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
-        /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+        /// <exception cref="TerminalDataException"></exception>
+        /// <exception cref="PlayInternalException"></exception>
+        /// <exception cref="OverflowException"></exception>
         private byte[] ResolveKey(IReadTlvDatabase database)
         {
             byte[] key = new byte[16];
