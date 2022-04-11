@@ -30,6 +30,9 @@ namespace Play.Emv.Security.Ciphers.Symmetric
 
         #region Constructor
 
+        /// <exception cref="TerminalDataException"></exception>
+        /// <exception cref="PlayInternalException"></exception>
+        /// <exception cref="OverflowException"></exception>
         public Owhf2(IReadTlvDatabase database)
         {
             _Codec = new TripleDesCodec(SetupCodec());
@@ -69,10 +72,7 @@ namespace Play.Emv.Security.Ciphers.Symmetric
             if (!control?.IsPermanent() ?? false)
                 return operatorId.EncodeValue();
 
-            if (!info.IsVolatile())
-                return operatorId.EncodeValue();
-
-            return new byte[8];
+            return !info.IsVolatile() ? operatorId.EncodeValue() : new byte[8];
         }
 
         /// <exception cref="PlayInternalException"></exception>
