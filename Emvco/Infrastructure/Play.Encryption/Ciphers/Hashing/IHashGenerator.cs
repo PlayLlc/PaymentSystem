@@ -1,4 +1,4 @@
-﻿namespace Play.Encryption.Hashing;
+﻿namespace Play.Encryption.Ciphers.Hashing;
 
 internal interface IHashGenerator
 {

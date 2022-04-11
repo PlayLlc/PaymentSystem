@@ -2,7 +2,9 @@
 using AutoFixture.AutoMoq;
 using AutoFixture.Kernel;
 
-namespace Play.Testing;
+using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders;
+
+namespace Play.Testing.Infrastructure.AutoFixture;
 
 public class TestingFixture : CustomFixture
 {

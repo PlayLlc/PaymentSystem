@@ -1,5 +1,5 @@
 ﻿using Play.Emv.Ber.DataElements;
-using Play.Encryption.Hashing;
+using Play.Encryption.Ciphers.Hashing;
 using Play.Encryption.Signing;
 
 namespace Play.Emv.Security.Authentications.Cda;
@@ -9,9 +9,7 @@ internal class DecodedSignedDynamicApplicationDataCda : DecodedSignature
     #region Constructor
 
     public DecodedSignedDynamicApplicationDataCda(DecodedSignature decodedSignature) : base(decodedSignature.GetLeadingByte(),
-                                                                                            decodedSignature.GetMessage1(),
-                                                                                            decodedSignature.GetHash(),
-                                                                                            decodedSignature.GetTrailingByte())
+        decodedSignature.GetMessage1(), decodedSignature.GetHash(), decodedSignature.GetTrailingByte())
     { }
 
     #endregion

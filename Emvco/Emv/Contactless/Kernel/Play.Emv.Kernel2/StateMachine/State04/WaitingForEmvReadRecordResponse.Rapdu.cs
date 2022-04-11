@@ -16,6 +16,7 @@ using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
+using Play.Emv.Kernel2.Services.CommonStateLogic;
 using Play.Emv.Pcd.Contracts;
 using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Icc.Messaging.Apdu;
@@ -136,8 +137,8 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     {
         if (!session.TryPeekActiveTag(out RecordRange result))
         {
-            throw new
-                TerminalDataException($"The state {nameof(WaitingForEmvModeFirstWriteFlag)} expected the {nameof(KernelSession)} to return a {nameof(RecordRange)} because the {nameof(ApplicationFileLocator)} indicated more files need to be read");
+            throw new TerminalDataException(
+                $"The state {nameof(WaitingForEmvModeFirstWriteFlag)} expected the {nameof(KernelSession)} to return a {nameof(RecordRange)} because the {nameof(ApplicationFileLocator)} indicated more files need to be read");
         }
 
         return result.GetOfflineDataAuthenticationLength() > 0;

@@ -14,11 +14,12 @@ using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
+using Play.Emv.Kernel2.StateMachine;
 using Play.Emv.Pcd.Contracts;
 using Play.Globalization.Time.Seconds;
 using Play.Messaging;
 
-namespace Play.Emv.Kernel2.StateMachine;
+namespace Play.Emv.Kernel2.Services.CommonStateLogic;
 
 public class S78 : CommonProcessing
 {
@@ -37,8 +38,8 @@ public class S78 : CommonProcessing
 
     public S78(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
-        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint, IGenerateUnpredictableNumber unpredictableNumberGenerator) :
-        base(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
+        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint, IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(
+        database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
     {
         _UnpredictableNumberGenerator = unpredictableNumberGenerator;
     }
@@ -302,8 +303,7 @@ public class S78 : CommonProcessing
     private void GenerateUnpredictableNumber()
     {
         NumberOfNonZeroBits nun = new(_Database.Get<PunatcTrack2>(PunatcTrack2.Tag),
-                                      _Database.Get<NumericApplicationTransactionCounterTrack2>(NumericApplicationTransactionCounterTrack2
-                                                                                                    .Tag));
+            _Database.Get<NumericApplicationTransactionCounterTrack2>(NumericApplicationTransactionCounterTrack2.Tag));
 
         UnpredictableNumber unpredictableNumber = _UnpredictableNumberGenerator.GenerateUnpredictableNumber(nun);
         _Database.Update(unpredictableNumber);

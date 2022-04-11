@@ -3,7 +3,7 @@ using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Security.Exceptions;
 using Play.Encryption.Certificates;
-using Play.Encryption.Hashing;
+using Play.Encryption.Ciphers.Hashing;
 using Play.Encryption.Signing;
 using Play.Globalization.Time;
 
@@ -21,8 +21,8 @@ internal class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
 
     public DecodedIssuerPublicKeyCertificate(
         CertificateSerialNumber certificateSerialNumber, HashAlgorithmIndicator hashAlgorithmIndicator,
-        PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator, DateRange validityPeriod, PublicKeyInfo publicKeyInfo) :
-        base(certificateSerialNumber, hashAlgorithmIndicator, publicKeyAlgorithmIndicator, validityPeriod, publicKeyInfo)
+        PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator, DateRange validityPeriod, PublicKeyInfo publicKeyInfo) : base(
+        certificateSerialNumber, hashAlgorithmIndicator, publicKeyAlgorithmIndicator, validityPeriod, publicKeyInfo)
     { }
 
     #endregion
@@ -53,7 +53,7 @@ internal class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
         PublicKeyInfo publicKeyInfo = new(publicKeyModulus, issuerExponent.AsPublicKeyExponent());
 
         return new DecodedIssuerPublicKeyCertificate(serialNumber, hashAlgorithm, publicKeyAlgorithmIndicator, validityPeriod,
-                                                     publicKeyInfo);
+            publicKeyInfo);
     }
 
     internal static HashAlgorithmIndicator GetHashAlgorithmIndicator(Message1 message1) => HashAlgorithmIndicator.Get(message1[11]);
@@ -85,8 +85,8 @@ internal class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
         {
             if (remainder.IsEmpty())
             {
-                throw new
-                    CryptographicAuthenticationMethodFailedException($"A {nameof(PublicKeyRemainder)} was expected but could not be retrieved");
+                throw new CryptographicAuthenticationMethodFailedException(
+                    $"A {nameof(PublicKeyRemainder)} was expected but could not be retrieved");
             }
 
             Span<byte> modulusBuffer = stackalloc byte[GetIssuerPublicKeyLength(decodedSignature.GetMessage1())];

@@ -4,7 +4,7 @@ using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
-using Play.Encryption.Hashing;
+using Play.Encryption.Ciphers.Hashing;
 
 namespace Play.Emv.Security.Authentications;
 

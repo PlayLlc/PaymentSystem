@@ -1,4 +1,4 @@
-﻿using Play.Encryption.Hashing;
+﻿using Play.Encryption.Ciphers.Hashing;
 using Play.Globalization.Time;
 
 namespace Play.Encryption.Certificates;

@@ -1,6 +1,8 @@
 ﻿using AutoFixture.Kernel;
 
-namespace Play.Testing;
+using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders;
+
+namespace Play.Testing.Infrastructure.AutoFixture;
 
 /// <summary>
 ///     A builder that builds a list of custom <see cref="ISpecimenBuilder" /> implementations

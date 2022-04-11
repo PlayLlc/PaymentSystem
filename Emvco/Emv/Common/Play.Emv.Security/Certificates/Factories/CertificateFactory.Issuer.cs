@@ -7,7 +7,7 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Security.Exceptions;
 using Play.Encryption.Certificates;
-using Play.Encryption.Hashing;
+using Play.Encryption.Ciphers.Hashing;
 using Play.Encryption.Signing;
 using Play.Globalization.Time;
 using Play.Icc.FileSystem.DedicatedFiles;
@@ -62,7 +62,7 @@ internal partial class CertificateFactory
 
             // Step 10
             ValidateIssuerCertificate(certificateDatabase, caPublicKey.GetRegisteredApplicationProviderIndicator(),
-                                      caPublicKey.GetPublicKeySerialNumber());
+                caPublicKey.GetPublicKeySerialNumber());
 
             // Step 11
             ValidateIssuerPublicKeyAlgorithmIndicator(decodedSignature.GetMessage1());
@@ -99,8 +99,8 @@ internal partial class CertificateFactory
     {
         if (caPublicKeyCertificate.GetPublicKeyModulus().GetByteCount() != issuerPublicKey.GetEncipherment().Length)
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"Authentication failed because the {nameof(ValidateKeyLength)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"Authentication failed because the {nameof(ValidateKeyLength)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");
         }
     }
 
@@ -120,8 +120,8 @@ internal partial class CertificateFactory
     {
         if (decodedSignature.GetMessage1()[0] != CertificateSources.Issuer)
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"Authentication failed because the {nameof(ValidateCertificateFormat)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"Authentication failed because the {nameof(ValidateCertificateFormat)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");
         }
     }
 
@@ -163,8 +163,8 @@ internal partial class CertificateFactory
     {
         if (!_SignatureService.IsSignatureValid(hashAlgorithmIndicator, concatenatedValues, decodedSignature))
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"Authentication failed because the {nameof(ValidateHashedResult)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"Authentication failed because the {nameof(ValidateHashedResult)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");
         }
     }
 
@@ -184,8 +184,8 @@ internal partial class CertificateFactory
 
             if (!pan.IsIssuerIdentifierMatching(issuerIdentificationNumber))
             {
-                throw new
-                    CryptographicAuthenticationMethodFailedException($"Authentication failed because the {nameof(ValidateIssuerIdentifier)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");
+                throw new CryptographicAuthenticationMethodFailedException(
+                    $"Authentication failed because the {nameof(ValidateIssuerIdentifier)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");
             }
 
             database.Update(issuerIdentificationNumber);
@@ -220,8 +220,8 @@ internal partial class CertificateFactory
 
         if (expiryDate < today)
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"Authentication failed because the {nameof(ValidateExpiryDate)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"Authentication failed because the {nameof(ValidateExpiryDate)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");
         }
     }
 
@@ -236,8 +236,8 @@ internal partial class CertificateFactory
     {
         if (certificateDatabase.IsRevoked(rid, serialNumber))
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"Authentication failed because the {nameof(ValidateIssuerCertificate)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"Authentication failed because the {nameof(ValidateIssuerCertificate)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");
         }
     }
 
@@ -250,8 +250,8 @@ internal partial class CertificateFactory
     {
         if (!PublicKeyAlgorithmIndicator.Exists((byte) DecodedIssuerPublicKeyCertificate.GetPublicKeyAlgorithmIndicator(message1)))
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"Authentication failed because the {nameof(ValidateIssuerPublicKeyAlgorithmIndicator)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"Authentication failed because the {nameof(ValidateIssuerPublicKeyAlgorithmIndicator)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");
         }
     }
 

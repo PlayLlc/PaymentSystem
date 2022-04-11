@@ -7,6 +7,8 @@ using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
+using Play.Emv.Kernel2.Services.BalanceReading;
+using Play.Emv.Kernel2.Services.CommonStateLogic.S910;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 
@@ -21,7 +23,7 @@ public partial class WaitingForRecoverAcResponse : KernelState
         IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
         IHandleDisplayRequests displayEndpoint, S910 s910, IPrepareGenerateApplicationCryptogram prepareApplicationCryptogramService,
         OfflineBalanceReader offlineBalanceReader) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager,
-                                                          kernelStateResolver, pcdEndpoint, displayEndpoint)
+        kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
         _S910 = s910;
         _PrepareApplicationCryptogramService = prepareApplicationCryptogramService;

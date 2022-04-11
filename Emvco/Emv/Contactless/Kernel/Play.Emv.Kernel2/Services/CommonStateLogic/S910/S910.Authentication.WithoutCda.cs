@@ -13,7 +13,7 @@ using Play.Emv.Pcd.Contracts;
 using Play.Globalization.Time.Seconds;
 using Play.Icc.Exceptions;
 
-namespace Play.Emv.Kernel2.StateMachine;
+namespace Play.Emv.Kernel2.Services.CommonStateLogic.S910;
 
 public partial class S910
 {
@@ -171,17 +171,13 @@ public partial class S910
             {
                 discretionaryDataBuffer = new Nibble[]
                 {
-                    0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
-                    0x0, 0x0, 0x0, 0x0, 0x0
+                    0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+                    0x0, 0x0, 0x0
                 };
             }
             else
             {
-                discretionaryDataBuffer = new Nibble[]
-                {
-                    0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
-                    0x0, 0x0
-                };
+                discretionaryDataBuffer = new Nibble[] {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
             }
 
             if (_Database.TryGet(CaPublicKeyIndex.Tag, out CaPublicKeyIndex? caPublicKeyIndex) && ((byte) caPublicKeyIndex! < 0x0A))

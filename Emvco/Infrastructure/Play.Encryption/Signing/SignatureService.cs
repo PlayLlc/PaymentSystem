@@ -2,7 +2,7 @@
 
 using Play.Encryption.Certificates;
 using Play.Encryption.Ciphers.Asymmetric;
-using Play.Encryption.Hashing;
+using Play.Encryption.Ciphers.Hashing;
 
 namespace Play.Encryption.Signing;
 

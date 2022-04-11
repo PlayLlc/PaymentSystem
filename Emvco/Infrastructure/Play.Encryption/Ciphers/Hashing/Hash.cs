@@ -1,4 +1,4 @@
-﻿namespace Play.Encryption.Hashing;
+﻿namespace Play.Encryption.Ciphers.Hashing;
 
 public class Hash : IEquatable<Hash>, IEqualityComparer<Hash>
 {
@@ -21,7 +21,7 @@ public class Hash : IEquatable<Hash>, IEqualityComparer<Hash>
         if (value.Length != Length)
         {
             throw new ArgumentOutOfRangeException(nameof(value),
-                                                  $"The argument {nameof(value)} must be {Length} bytes in length to instantiate a {nameof(Hash)} object");
+                $"The argument {nameof(value)} must be {Length} bytes in length to instantiate a {nameof(Hash)} object");
         }
 
         _Value = value.ToArray();

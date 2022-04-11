@@ -7,12 +7,14 @@ using Play.Emv.Kernel;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
+using Play.Emv.Kernel2.Services.CommonStateLogic;
+using Play.Emv.Kernel2.StateMachine;
 using Play.Emv.Pcd.Contracts;
 using Play.Messaging;
 
 using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
 
-namespace Play.Emv.Kernel2.StateMachine;
+namespace Play.Emv.Kernel2.Services.BalanceReading;
 
 /// <summary>
 ///     A Card may have an offline balance, and some products require the balance to be read and made available to the
@@ -41,7 +43,7 @@ public partial class OfflineBalanceReader : CommonProcessing
     public OfflineBalanceReader(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
         IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint) : base(database, dataExchangeKernelService, kernelStateResolver,
-                                                                               pcdEndpoint, kernelEndpoint)
+        pcdEndpoint, kernelEndpoint)
     {
         _PreGenAcBalanceReader =
             new PreGenAcBalanceReader(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint);

@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Core.Exceptions;
-using Play.Core.Extensions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
-using Play.Encryption;
 using Play.Encryption.Ciphers.Symmetric;
 
-namespace Play.Emv.Security.Ciphers.Symmetrics
+namespace Play.Emv.Kernel.Services
 {
     /// <summary>
     ///     OWHF2 is the DES-based variant of the one-way function for computing the digest. OWHF2 computes an 8-byte output R
@@ -30,25 +24,22 @@ namespace Play.Emv.Security.Ciphers.Symmetrics
 
         #endregion
 
-        #region Constructor
-
-        public Owhf2()
-        { }
-
-        #endregion
-
         #region Instance Members
 
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="PlayInternalException"></exception>
         /// <exception cref="OverflowException"></exception>
-        public byte[] Encrypt(IReadTlvDatabase database, ReadOnlySpan<byte> message)
+        public static byte[] Sign(IReadTlvDatabase database, ReadOnlySpan<byte> message)
         {
-            using SpanOwner<byte> owner = SpanOwner<byte>.Allocate(16);
+            using SpanOwner<byte> owner = SpanOwner<byte>.Allocate(32);
             Span<byte> buffer = owner.Span;
-            ResolveKey(database, buffer);
 
-            return _Codec.Sign(message, buffer);
+            Span<byte> objectId = buffer[..16];
+            Span<byte> key = buffer[16..];
+
+            ResolveKey(database, objectId, key);
+
+            return _Codec.Sign(message, key);
         }
 
         #endregion
@@ -56,28 +47,27 @@ namespace Play.Emv.Security.Ciphers.Symmetrics
         #region Key Generation
 
         /// <remarks>EMVco Book C-2 Section 8.2 </remarks>
-        public int GetPermanentSlotIdLength(DataStorageId id) => id.GetValueByteCount();
+        public static int GetPermanentSlotIdLength(DataStorageId id) => id.GetValueByteCount();
 
         /// <exception cref="PlayInternalException"></exception>
-        public byte[] ResolveObjectId(
-            DataStorageRequestedOperatorId operatorId, DataStorageOperatorDataSetInfo info, DataStorageSlotManagementControl? control)
+        public static void ResolveObjectId(
+            DataStorageRequestedOperatorId operatorId, DataStorageOperatorDataSetInfo info, DataStorageSlotManagementControl? control,
+            Span<byte> buffer)
         {
             if (control is not null)
-                return operatorId.EncodeValue();
+                operatorId.EncodeValue().CopyTo(buffer);
 
             if (!control?.IsPermanent() ?? false)
-                return operatorId.EncodeValue();
+                operatorId.EncodeValue().CopyTo(buffer);
 
-            return !info.IsVolatile() ? operatorId.EncodeValue() : new byte[8];
+            if (info.IsVolatile())
+                operatorId.EncodeValue().CopyTo(buffer);
         }
 
         /// <exception cref="PlayInternalException"></exception>
-        public void ResolveLeftKey(
-            DataStorageId dataStorageId, DataStorageRequestedOperatorId operatorId, DataStorageOperatorDataSetInfo info,
-            DataStorageSlotManagementControl? control, Span<byte> buffer)
+        public static void ResolveLeftKey(ReadOnlySpan<byte> objectId, DataStorageId dataStorageId, Span<byte> buffer)
         {
             ReadOnlySpan<byte> dataStorageIdContentOctets = dataStorageId.EncodeValue();
-            ReadOnlySpan<byte> objectId = ResolveObjectId(operatorId, info, control);
 
             for (int i = 0; i < 6; i++)
             {
@@ -92,12 +82,9 @@ namespace Play.Emv.Security.Ciphers.Symmetrics
 
         /// <exception cref="PlayInternalException"></exception>
         /// <exception cref="OverflowException"></exception>
-        public void ResolveRightKey(
-            DataStorageId dataStorageId, DataStorageRequestedOperatorId operatorId, DataStorageOperatorDataSetInfo info,
-            DataStorageSlotManagementControl? control, Span<byte> buffer)
+        public static void ResolveRightKey(ReadOnlySpan<byte> objectId, DataStorageId dataStorageId, Span<byte> buffer)
         {
             ReadOnlySpan<byte> dataStorageIdContentOctets = dataStorageId.EncodeValue();
-            ReadOnlySpan<byte> objectId = ResolveObjectId(operatorId, info, control);
             int permanentSlotIdLength = GetPermanentSlotIdLength(dataStorageId);
 
             for (int i = 0; i < buffer.Length; i++)
@@ -116,15 +103,17 @@ namespace Play.Emv.Security.Ciphers.Symmetrics
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="PlayInternalException"></exception>
         /// <exception cref="OverflowException"></exception>
-        private void ResolveKey(IReadTlvDatabase database, Span<byte> buffer)
+        private static void ResolveKey(IReadTlvDatabase database, Span<byte> objectId, Span<byte> buffer)
         {
             DataStorageId dataStorageId = database.Get<DataStorageId>(DataStorageId.Tag);
             DataStorageRequestedOperatorId operatorId = database.Get<DataStorageRequestedOperatorId>(DataStorageRequestedOperatorId.Tag);
             DataStorageOperatorDataSetInfo info = database.Get<DataStorageOperatorDataSetInfo>(DataStorageOperatorDataSetInfo.Tag);
             database.TryGet(DataStorageSlotManagementControl.Tag, out DataStorageSlotManagementControl? control);
 
-            ResolveLeftKey(dataStorageId, operatorId, info, control, buffer[..8]);
-            ResolveRightKey(dataStorageId, operatorId, info, control, buffer[8..]);
+            ResolveObjectId(operatorId, info, control, objectId);
+
+            ResolveLeftKey(objectId, dataStorageId, buffer[..8]);
+            ResolveRightKey(objectId, dataStorageId, buffer[8..]);
         }
 
         #endregion

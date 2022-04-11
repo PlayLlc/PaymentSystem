@@ -5,7 +5,7 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Security.Exceptions;
 using Play.Encryption.Certificates;
-using Play.Encryption.Hashing;
+using Play.Encryption.Ciphers.Hashing;
 using Play.Encryption.Signing;
 using Play.Globalization.Time;
 
@@ -31,8 +31,8 @@ internal partial class CertificateFactory
         // Step 1
         if (issuerCertificate.GetPublicKeyModulus().GetByteCount() != iccPublicKeyCertificate.GetValueByteCount())
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the length of the Issuer Public Key Modulus is different than {nameof(IccPublicKeyCertificate)}");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the length of the Issuer Public Key Modulus is different than {nameof(IccPublicKeyCertificate)}");
         }
 
         // Step 2
@@ -75,52 +75,49 @@ internal partial class CertificateFactory
         // Step 4
         if (certificateSources != CertificateSources.Icc)
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the {nameof(CertificateSources)} expected is {CertificateSources.Icc} but the format provided was: [{certificateSources}]");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the {nameof(CertificateSources)} expected is {CertificateSources.Icc} but the format provided was: [{certificateSources}]");
         }
 
         // Step 5
         byte[] hashSeed = DecodedIccPublicKeyCertificate.ConcatenateRecoveryHash(decodedSignature, exponent,
-                                                                                 staticDataToBeAuthenticated, iccPublicKeyRemainder);
+            staticDataToBeAuthenticated, iccPublicKeyRemainder);
 
         // Step 3, 4, 6, 7, 
         if (!_SignatureService.IsSignatureValid(hashAlgorithmIndicator, hashSeed, decodedSignature))
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the hash validation failed");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the hash validation failed");
         }
 
         // Step 8
         if (recoveredPan != applicationPan)
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the {nameof(ApplicationPan)} is different than the value recovered from {nameof(IccPublicKeyCertificate)}");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the {nameof(ApplicationPan)} is different than the value recovered from {nameof(IccPublicKeyCertificate)}");
         }
 
         // Step 9
         if (DateTimeUtc.Today() > expirationDate)
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the {nameof(IccPublicKeyCertificate)} has expired");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the {nameof(IccPublicKeyCertificate)} has expired");
         }
 
         // Step 10
         if (!PublicKeyAlgorithmIndicator.TryGet(decodedSignature.GetMessage1()[17],
-                                                out PublicKeyAlgorithmIndicator? publicKeyAlgorithmIndicator))
+            out PublicKeyAlgorithmIndicator? publicKeyAlgorithmIndicator))
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the {nameof(PublicKeyAlgorithmIndicator)} value: [{decodedSignature.GetMessage1()[17]}] could not be recognized");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the {nameof(PublicKeyAlgorithmIndicator)} value: [{decodedSignature.GetMessage1()[17]}] could not be recognized");
         }
 
         PublicKeyModulus publicKeyModulus = DecodedIccPublicKeyCertificate.ResolvePublicKeyModulus(iccModulusLength, issuerCertificate,
-                                                                                                   decodedSignature.GetMessage1(),
-                                                                                                   iccPublicKeyRemainder
-                                                                                                       ?.AsPublicKeyRemainder());
+            decodedSignature.GetMessage1(), iccPublicKeyRemainder?.AsPublicKeyRemainder());
 
         return new DecodedIccPublicKeyCertificate(new DateRange(ShortDate.Min, expirationDate), serialNumber, hashAlgorithmIndicator,
-                                                  publicKeyAlgorithmIndicator!,
-                                                  new PublicKeyInfo(publicKeyModulus, exponent.AsPublicKeyExponent(),
-                                                                    iccPublicKeyRemainder?.AsPublicKeyRemainder()));
+            publicKeyAlgorithmIndicator!,
+            new PublicKeyInfo(publicKeyModulus, exponent.AsPublicKeyExponent(), iccPublicKeyRemainder?.AsPublicKeyRemainder()));
     }
 
     #endregion

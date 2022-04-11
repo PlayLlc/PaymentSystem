@@ -3,7 +3,7 @@ using Microsoft.Toolkit.HighPerformance.Buffers;
 using Play.Codecs;
 using Play.Emv.Ber.DataElements;
 using Play.Encryption.Certificates;
-using Play.Encryption.Hashing;
+using Play.Encryption.Ciphers.Hashing;
 using Play.Encryption.Signing;
 
 namespace Play.Emv.Security.Authentications.Sda;
@@ -20,14 +20,11 @@ internal class DecodedSignedStaticApplicationData : DecodedSignature
     #region Constructor
 
     public DecodedSignedStaticApplicationData(DecodedSignature decodedSignature) : base(decodedSignature.GetLeadingByte(),
-                                                                                        decodedSignature.GetMessage1(),
-                                                                                        decodedSignature.GetHash(),
-                                                                                        decodedSignature.GetTrailingByte())
+        decodedSignature.GetMessage1(), decodedSignature.GetHash(), decodedSignature.GetTrailingByte())
     { }
 
     private DecodedSignedStaticApplicationData(byte leadingByte, Message1 message1, Hash hash, byte trailingByte) : base(leadingByte,
-                                                                                                                         message1, hash,
-                                                                                                                         trailingByte)
+        message1, hash, trailingByte)
     { }
 
     #endregion

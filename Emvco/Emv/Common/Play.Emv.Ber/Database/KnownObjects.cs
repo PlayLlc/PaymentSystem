@@ -2,7 +2,7 @@
 using Play.Ber.Identifiers;
 using Play.Core;
 
-namespace Play.Emv.Kernel.Databases;
+namespace Play.Emv.Ber;
 
 /// <summary>
 ///     Represents all of the known <see cref="PrimitiveValue" /> objects within a bounded context, such as a specific

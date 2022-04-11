@@ -5,7 +5,7 @@ using Play.Emv.Security.Authentications.Dda;
 using Play.Emv.Security.Authentications.Sda;
 using Play.Emv.Security.Certificates.Factories;
 using Play.Emv.Security.Exceptions;
-using Play.Encryption.Hashing;
+using Play.Encryption.Ciphers.Hashing;
 using Play.Encryption.Signing;
 
 namespace Play.Emv.Security;
@@ -41,8 +41,8 @@ public class AuthenticationService : IAuthenticateTransactionSession
         CertificateFactory certificateFactory = new();
 
         return new AuthenticationService(new StaticDataAuthenticator(signatureService, certificateFactory),
-                                         new DynamicDataAuthenticator(signatureService, certificateFactory),
-                                         new CombinedDataAuthenticator(new HashAlgorithmProvider(), signatureService, certificateFactory));
+            new DynamicDataAuthenticator(signatureService, certificateFactory),
+            new CombinedDataAuthenticator(new HashAlgorithmProvider(), signatureService, certificateFactory));
     }
 
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>

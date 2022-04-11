@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
@@ -12,7 +8,7 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Encryption.Ciphers.Symmetric;
 
-namespace Play.Emv.Security.Ciphers._Temp
+namespace Play.Emv.Kernel.Services
 {
     public class Owhf2Aes
     {
@@ -27,7 +23,7 @@ namespace Play.Emv.Security.Ciphers._Temp
 
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="PlayInternalException"></exception>
-        public static byte[] Encrypt(IReadTlvDatabase database, ReadOnlySpan<byte> inputC)
+        public static byte[] Sign(IReadTlvDatabase database, ReadOnlySpan<byte> inputC)
         {
             if (inputC.Length != 8)
                 throw new TerminalDataException($"The argument {nameof(inputC)} must be 8 bytes in length");

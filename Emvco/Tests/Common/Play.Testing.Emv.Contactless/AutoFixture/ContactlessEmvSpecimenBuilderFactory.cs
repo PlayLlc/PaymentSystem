@@ -1,4 +1,6 @@
-﻿namespace Play.Testing.Emv.Contactless.AutoFixture;
+﻿using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders;
+
+namespace Play.Testing.Emv.Contactless.AutoFixture;
 
 public class ContactlessEmvSpecimenBuilderFactory : SpecimenBuilderFactory
 {

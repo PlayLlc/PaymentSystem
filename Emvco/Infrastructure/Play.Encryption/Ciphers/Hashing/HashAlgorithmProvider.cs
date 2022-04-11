@@ -1,6 +1,6 @@
 ﻿using System.Collections.Immutable;
 
-namespace Play.Encryption.Hashing;
+namespace Play.Encryption.Ciphers.Hashing;
 
 public class HashAlgorithmProvider
 {

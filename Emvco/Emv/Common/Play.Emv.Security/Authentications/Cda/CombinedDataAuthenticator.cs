@@ -10,7 +10,7 @@ using Play.Emv.Security.Certificates;
 using Play.Emv.Security.Certificates.Factories;
 using Play.Emv.Security.Exceptions;
 using Play.Encryption.Certificates;
-using Play.Encryption.Hashing;
+using Play.Encryption.Ciphers.Hashing;
 using Play.Encryption.Signing;
 
 namespace Play.Emv.Security.Authentications.Cda;
@@ -155,8 +155,8 @@ internal class CombinedDataAuthenticator
     {
         if (signedDynamicApplicationData.GetByteCount() != iccPublicKeyCertificate.GetPublicKeyModulus().GetByteCount())
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"The {nameof(CombinedDataAuthenticator)} failed Dynamic Data Authentication because the constraint {nameof(ValidateEncipheredSignatureLength)} was invalid");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"The {nameof(CombinedDataAuthenticator)} failed Dynamic Data Authentication because the constraint {nameof(ValidateEncipheredSignatureLength)} was invalid");
         }
     }
 
@@ -183,8 +183,8 @@ internal class CombinedDataAuthenticator
     {
         if (signedDataFormat != SignedDataFormat._5)
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"The {nameof(CombinedDataAuthenticator)} failed Dynamic Data Authentication because the constraint {nameof(ValidateSignedDataFormat)} was invalid");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"The {nameof(CombinedDataAuthenticator)} failed Dynamic Data Authentication because the constraint {nameof(ValidateSignedDataFormat)} was invalid");
         }
     }
 
@@ -204,8 +204,8 @@ internal class CombinedDataAuthenticator
 
         if (dynamicCid != cryptogramInformationData)
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"The {nameof(CombinedDataAuthenticator)} failed Dynamic Data Authentication because the constraint {nameof(ValidateCryptogramInformationData)} was invalid");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"The {nameof(CombinedDataAuthenticator)} failed Dynamic Data Authentication because the constraint {nameof(ValidateCryptogramInformationData)} was invalid");
         }
     }
 
@@ -236,8 +236,8 @@ internal class CombinedDataAuthenticator
     {
         if (recoveredHash != calculatedHash)
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"The {nameof(CombinedDataAuthenticator)} failed Dynamic Data Authentication because the constraint {nameof(ValidateHashResult)} was invalid");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"The {nameof(CombinedDataAuthenticator)} failed Dynamic Data Authentication because the constraint {nameof(ValidateHashResult)} was invalid");
         }
     }
 
@@ -251,8 +251,8 @@ internal class CombinedDataAuthenticator
     {
         if (decodedSignature.GetIccDynamicData().GetTransactionDataHashCode() != transactionDataHashCode)
         {
-            throw new
-                CryptographicAuthenticationMethodFailedException($"The {nameof(CombinedDataAuthenticator)} failed Dynamic Data Authentication because the constraint {nameof(ValidateTransactionDataHashCode)} was invalid");
+            throw new CryptographicAuthenticationMethodFailedException(
+                $"The {nameof(CombinedDataAuthenticator)} failed Dynamic Data Authentication because the constraint {nameof(ValidateTransactionDataHashCode)} was invalid");
         }
     }
 

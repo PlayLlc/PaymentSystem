@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace Play.Encryption.Hashing;
+namespace Play.Encryption.Ciphers.Hashing;
 
 internal class Sha1HashGenerator : IHashGenerator
 {

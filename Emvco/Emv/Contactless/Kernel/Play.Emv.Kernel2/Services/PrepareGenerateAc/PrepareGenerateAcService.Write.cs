@@ -9,6 +9,7 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
+using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
@@ -42,9 +43,18 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
 
             #endregion
 
-            #region GAC.40
+            #region GAC.41
 
             private bool IsDataStorageInputTermPresent() => _Database.IsPresent(DataStorageInputTerminal.Tag);
+
+            #endregion
+
+            #region GAC.42 - GAC.44
+
+            private void UpdateDataStorageDigestHash()
+            {
+                DataStorageVersionNumbers number 
+            }
 
             #endregion
 
@@ -73,20 +83,17 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
                 ApplicationCapabilitiesInformation? applicationCapabilitiesInformation = _Database.Get<ApplicationCapabilitiesInformation>(ApplicationCapabilitiesInformation.Tag);
 
                 if(applicationCapabilitiesInformation.GetDataStorageVersionNumber() == DataStorageVersionNumbers.Version1)
-                /*
-                 * \['Data Storage Version Number' in Application Capabilities Information =
- VERSION 1] 
-                 */
+                    Owhf2.
+ 
             }
 
             private void SetVersion1Hash()
             {
-                /*
-                 * DS Digest H := OWHF2(DS Input (Term)) Refer to section 8.2 for the description of OWHF2
-                 */
+                //owhf2
             }
             private void SetVersion2Hash()
             {
+                //OWHF2AES(
 
             }
 

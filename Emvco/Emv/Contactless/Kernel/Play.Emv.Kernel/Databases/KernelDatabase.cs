@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
@@ -50,8 +51,8 @@ public partial class KernelDatabase : IManageKernelDatabaseLifetime
     {
         if (IsActive())
         {
-            throw new
-                InvalidOperationException($"A command to initialize the Kernel Database was invoked but the {nameof(KernelDatabase)} is already active");
+            throw new InvalidOperationException(
+                $"A command to initialize the Kernel Database was invoked but the {nameof(KernelDatabase)} is already active");
         }
 
         _KernelSessionId = kernelSessionId;

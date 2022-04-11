@@ -2,7 +2,7 @@
 
 using Play.Emv.Ber.DataElements;
 using Play.Encryption.Certificates;
-using Play.Encryption.Hashing;
+using Play.Encryption.Ciphers.Hashing;
 using Play.Encryption.Signing;
 using Play.Globalization.Time;
 
@@ -15,9 +15,7 @@ internal class DecodedIccPublicKeyCertificate : PublicKeyCertificate
     public DecodedIccPublicKeyCertificate(
         DateRange validityPeriod, CertificateSerialNumber certificateSerialNumber, HashAlgorithmIndicator hashAlgorithmIndicator,
         PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator, PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber,
-                                                                                                     hashAlgorithmIndicator,
-                                                                                                     publicKeyAlgorithmIndicator,
-                                                                                                     validityPeriod, publicKeyInfo)
+        hashAlgorithmIndicator, publicKeyAlgorithmIndicator, validityPeriod, publicKeyInfo)
     { }
 
     #endregion
@@ -38,10 +36,10 @@ internal class DecodedIccPublicKeyCertificate : PublicKeyCertificate
     {
         int leftMostDataElementDigitsByteCount = issuerCertificate.GetMessage1().GetByteCount() - 2;
         using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate((leftMostDataElementDigitsByteCount
-                                                                       + publicKeyExponent.GetValueByteCount()
-                                                                       + staticDataToBeAuthenticated.GetByteCount()
-                                                                       + publicKeyRemainder?.GetByteCount())
-                                                                   ?? 0);
+                + publicKeyExponent.GetValueByteCount()
+                + staticDataToBeAuthenticated.GetByteCount()
+                + publicKeyRemainder?.GetByteCount())
+            ?? 0);
 
         Span<byte> buffer = spanOwner.Span;
         int offset = 0;

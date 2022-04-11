@@ -5,7 +5,7 @@ using Play.Icc.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Randoms;
 
-namespace Play.Testing;
+namespace Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders;
 
 public class RegisteredApplicationProviderIndicatorSpecimenBuilder : SpecimenBuilder
 {

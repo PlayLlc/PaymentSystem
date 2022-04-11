@@ -1,7 +1,7 @@
 ﻿using Play.Emv.Kernel.Databases;
 using Play.Emv.Security;
 
-namespace Play.Emv.Kernel2.StateMachine;
+namespace Play.Emv.Kernel2.Services.CommonStateLogic.S910;
 
 public partial class S910
 {

@@ -5,7 +5,7 @@ using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Emv.Ber.DataElements;
 using Play.Encryption.Certificates;
-using Play.Encryption.Hashing;
+using Play.Encryption.Ciphers.Hashing;
 using Play.Globalization.Time;
 using Play.Icc.FileSystem.DedicatedFiles;
 
@@ -26,7 +26,7 @@ public class CaPublicKeyCertificate : PublicKeyCertificate
         CaPublicKeyCertificateIdentifier id, bool isRevoked, CertificateSerialNumber certificateSerialNumber,
         HashAlgorithmIndicator hashAlgorithmIndicator, PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator, DateRange validityPeriod,
         PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber, hashAlgorithmIndicator, publicKeyAlgorithmIndicator, validityPeriod,
-                                            publicKeyInfo)
+        publicKeyInfo)
     {
         _Id = id;
         _IsRevoked = isRevoked;

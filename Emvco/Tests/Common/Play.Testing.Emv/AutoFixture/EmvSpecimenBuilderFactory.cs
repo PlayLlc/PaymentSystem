@@ -1,4 +1,6 @@
-﻿namespace Play.Testing.Emv;
+﻿using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders;
+
+namespace Play.Testing.Emv;
 
 internal class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
 {

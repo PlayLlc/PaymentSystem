@@ -1,6 +1,5 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
-using Play.Emv.Kernel.Databases;
 
 namespace Play.Emv.Ber;
 
