@@ -8,7 +8,7 @@ using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
-using Play.Testing.Infrastructure.BaseTestClasses;
+using Play.Testing.BaseTestClasses;
 
 using Xunit;
 

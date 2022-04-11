@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 
 using Play.Randoms;
-using Play.Testing.Infrastructure.BaseTestClasses;
+using Play.Testing.BaseTestClasses;
 
-namespace Play.Codecs.Tests.Hexadecimal;
+namespace Play.Codecs.Tests.Tests.Hexadecimal;
 
 internal class HexadecimalFixture : TestBase
 {

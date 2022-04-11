@@ -6,7 +6,7 @@ using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Emv.Ber;
 
-namespace Play.Testing.Emv.Infrastructure.Ber.Primitive;
+namespace Play.Testing.Emv.Ber.Primitive;
 
 public abstract class TestTlv : IDecodeDataElement
 {

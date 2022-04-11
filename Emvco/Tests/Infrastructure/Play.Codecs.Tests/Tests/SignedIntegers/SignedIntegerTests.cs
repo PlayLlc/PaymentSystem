@@ -1,6 +1,6 @@
-﻿using Play.Testing.Infrastructure.BaseTestClasses;
+﻿using Play.Testing.BaseTestClasses;
 
-namespace Play.Codecs.Tests.SignedIntegers;
+namespace Play.Codecs.Tests.Tests.SignedIntegers;
 
 public class SignedIntegerTests : TestBase
 {

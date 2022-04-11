@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Play.Randoms;
 
-namespace Play.Codecs.Tests.AlphaNumeric;
+namespace Play.Codecs.Tests.Tests.AlphaNumeric;
 
 internal class AlphaNumericFixture
 {

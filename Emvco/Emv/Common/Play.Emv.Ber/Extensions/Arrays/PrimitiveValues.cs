@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Toolkit.HighPerformance.Buffers;
-
-using Play.Ber.DataObjects;
+﻿using Play.Ber.DataObjects;
 
 namespace Play.Emv.Ber.Extensions.Arrays;
 

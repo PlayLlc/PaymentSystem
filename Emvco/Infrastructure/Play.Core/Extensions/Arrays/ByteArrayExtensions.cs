@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
@@ -9,6 +10,8 @@ namespace Play.Core.Extensions;
 public static class ByteArrayExtensions
 {
     #region Instance Members
+
+    public static BigInteger AsBigInteger(this byte[] value) => new BigInteger(value);
 
     public static byte[] ConcatArrays(this byte[] value, ReadOnlySpan<byte> other)
     {

@@ -1,13 +1,16 @@
-﻿using Play.Ber.DataObjects;
+﻿using AutoFixture;
+
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Core.Extensions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Globalization.Country;
 using Play.Globalization.Currency;
 
-namespace Play.Testing.Emv.Infrastructure.Ber.Primitive;
+namespace Play.Testing.Emv.Ber.Primitive;
 
 public class ProcessingOptionsDataObjectListTestTlv : TestTlv
 {
@@ -56,6 +59,16 @@ public class ProcessingOptionsDataObjectListTestTlv : TestTlv
     #endregion
 
     #region Instance Members
+
+    public static void RegisterDefault(IFixture fixture)
+    {
+        fixture.Register<ProcessingOptionsDataObjectList>(() => new ProcessingOptionsDataObjectList(new byte[]
+        {
+            0x9F, 0x66, 0x04, 0x9F, 0x02, 0x06, 0x9F, 0x03, 0x06, 0x9F,
+            0x1A, 0x02, 0x95, 0x05, 0x5F, 0x2A, 0x02, 0x9A, 0x03, 0x9C,
+            0x01, 0x9F, 0x37, 0x04, 0x9F, 0x4E, 0x14
+        }.AsBigInteger()));
+    }
 
     public override Tag GetTag() => ProcessingOptionsDataObjectList.Tag;
     public PrimitiveValue[] GetTerminalValues() => _TerminalValues.Values.ToArray();

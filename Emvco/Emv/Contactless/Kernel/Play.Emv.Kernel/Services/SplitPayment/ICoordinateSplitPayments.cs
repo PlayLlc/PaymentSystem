@@ -1,6 +1,6 @@
 ﻿using Play.Emv.Ber.DataElements;
 
-namespace Play.Emv.Kernel.Services.SplitPayment;
+namespace Play.Emv.Kernel.Services;
 
 /// <summary>
 ///     Coordinates transactions that are split into multiple payments and sends the atomized payments as a whole

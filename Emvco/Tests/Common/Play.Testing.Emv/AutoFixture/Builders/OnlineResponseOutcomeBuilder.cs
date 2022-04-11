@@ -1,11 +1,10 @@
 ﻿using AutoFixture.Kernel;
 
 using Play.Emv.Ber;
-using Play.Testing.Infrastructure;
 
-namespace Play.Testing.Emv.Infrastructure.AutoFixture;
+namespace Play.Testing.Emv;
 
-internal class OnlineResponseOutcomeBuilder : SpecimenBuilder
+public class OnlineResponseOutcomeBuilder : SpecimenBuilder
 {
     #region Static Metadata
 

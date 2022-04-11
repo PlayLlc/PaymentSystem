@@ -5,7 +5,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
-using Play.Testing.Emv.Infrastructure.Ber.Primitive;
+using Play.Testing.Emv.Ber.Primitive;
 
 using Xunit;
 

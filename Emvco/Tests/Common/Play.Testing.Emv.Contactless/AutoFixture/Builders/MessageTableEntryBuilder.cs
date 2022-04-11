@@ -2,11 +2,10 @@
 
 using Play.Emv.Ber;
 using Play.Randoms;
-using Play.Testing.Infrastructure;
 
 namespace Play.Testing.Emv.Contactless.AutoFixture;
 
-internal class MessageTableEntryBuilder : SpecimenBuilder
+public class MessageTableEntryBuilder : SpecimenBuilder
 {
     #region Static Metadata
 

@@ -1,6 +1,6 @@
 ﻿using AutoFixture.Kernel;
 
-namespace Play.Testing.Infrastructure;
+namespace Play.Testing;
 
 public abstract class SpecimenBuilder : ISpecimenBuilder
 {

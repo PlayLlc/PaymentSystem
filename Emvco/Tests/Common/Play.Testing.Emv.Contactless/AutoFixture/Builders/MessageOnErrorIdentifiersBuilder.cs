@@ -2,11 +2,10 @@
 
 using Play.Emv.Ber;
 using Play.Emv.Ber.Enums;
-using Play.Testing.Infrastructure;
 
 namespace Play.Testing.Emv.Contactless.AutoFixture;
 
-internal class MessageOnErrorIdentifiersBuilder : SpecimenBuilder
+public class MessageOnErrorIdentifiersBuilder : SpecimenBuilder
 {
     #region Static Metadata
 

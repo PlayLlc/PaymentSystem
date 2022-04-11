@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Play.Randoms;
 
-namespace Play.Codecs.Tests.SignedIntegers;
+namespace Play.Codecs.Tests.Tests.SignedIntegers;
 
 internal class SignedIntegerFixture
 {

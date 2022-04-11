@@ -2,7 +2,7 @@
 
 using Play.Emv.Pcd.Contracts;
 
-namespace Play.Emv.Kernel.Services.ApplicationCryptograms;
+namespace Play.Emv.Kernel.Services;
 
 public class PrepareGenerateApplicationCryptogramService : IPrepareGenerateApplicationCryptogram
 {

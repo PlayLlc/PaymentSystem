@@ -1,7 +1,7 @@
 ﻿using System;
 
 using Play.Ber.InternalFactories;
-using Play.Testing.Infrastructure.BaseTestClasses;
+using Play.Testing.BaseTestClasses;
 
 namespace Play.Ber.Tests.TagTests.Tags.TagFactories;
 

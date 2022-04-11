@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Play.Core.Tests.TestData.Factories;
+namespace Play.Core.Tests.Data.Factories;
 
 internal static class ByteFactory
 {

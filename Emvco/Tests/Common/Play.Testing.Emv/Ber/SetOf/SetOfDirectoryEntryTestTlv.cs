@@ -1,4 +1,4 @@
-﻿namespace Play.Testing.Emv.Infrastructure.Ber.SetOf;
+﻿namespace Play.Testing.Emv.Ber.SetOf;
 
 //public class SetOfDirectoryEntryTestTlv : SetOfTlv
 //{

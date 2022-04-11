@@ -1,9 +1,9 @@
 ﻿using Play.Codecs.Exceptions;
-using Play.Testing.Infrastructure.BaseTestClasses;
+using Play.Testing.BaseTestClasses;
 
 using Xunit;
 
-namespace Play.Codecs.Tests.Numeric;
+namespace Play.Codecs.Tests.Tests.Numeric;
 
 public class NumericTests : TestBase
 {

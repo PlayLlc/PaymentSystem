@@ -1,6 +1,6 @@
 ﻿using Play.Codecs;
 
-namespace Play.Testing.Infrastructure;
+namespace Play.Testing;
 
 public readonly record struct SpecimenBuilderId
 {

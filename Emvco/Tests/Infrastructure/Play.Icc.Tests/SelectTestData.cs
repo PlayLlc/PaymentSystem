@@ -1,9 +1,7 @@
-﻿using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
-
-using Play.Icc.FileSystem.DedicatedFiles;
+﻿using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Icc.Messaging.Apdu.SelectFile;
-using Play.Testing.Infrastructure.BaseTestClasses;
-using Play.Testing.Infrastructure.Icc.Apdu;
+using Play.Testing.BaseTestClasses;
+using Play.Testing.Icc.Apdu;
 
 using Xunit;
 

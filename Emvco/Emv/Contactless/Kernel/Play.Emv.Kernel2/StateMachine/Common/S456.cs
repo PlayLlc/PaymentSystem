@@ -10,7 +10,6 @@ using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
-using Play.Emv.Kernel.Services.ProcessingRestrictions;
 using Play.Emv.Kernel.Services.Selection;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;

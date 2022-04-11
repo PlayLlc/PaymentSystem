@@ -7,7 +7,7 @@ using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
 using Play.Testing.Emv.Contactless;
-using Play.Testing.Infrastructure;
+using Play.Testing.Emv.Contactless.AutoFixture;
 
 using Xunit;
 
@@ -32,10 +32,8 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     public TerminalActionAnalysisServiceTests()
     {
-        _Fixture = DefaultFixtureFactory.Create();
+        _Fixture = new ContactlessEmvFixture().Create();
         _Database = _Fixture.Create<KernelDatabase>();
-
-        //RegisteredApplicationProviderIndicator
     }
 
     #endregion
@@ -78,8 +76,8 @@ public partial class TerminalActionAnalysisServiceTests
         outcomeBuilder.Set(onlineResponseOutcome);
 
         return new TerminalActionAnalysisCommand(_Fixture.Freeze<TransactionSessionId>(), outcomeBuilder.Complete(),
-                                                 terminalVerificationResults, _Fixture.Create<ApplicationInterchangeProfile>(),
-                                                 _Fixture.Create<DataObjectListResult>(), _Fixture.Create<DataObjectListResult>());
+            terminalVerificationResults, _Fixture.Create<ApplicationInterchangeProfile>(), _Fixture.Create<DataObjectListResult>(),
+            _Fixture.Create<DataObjectListResult>());
     }
 
     #endregion

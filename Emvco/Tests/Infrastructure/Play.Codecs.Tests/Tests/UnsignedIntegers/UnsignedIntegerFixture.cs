@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Play.Randoms;
 
-namespace Play.Codecs.Tests.UnsignedIntegers;
+namespace Play.Codecs.Tests.Tests.UnsignedIntegers;
 
 internal class UnsignedIntegerFixture
 {

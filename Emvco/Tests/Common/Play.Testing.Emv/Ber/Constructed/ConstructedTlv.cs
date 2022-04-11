@@ -1,7 +1,7 @@
 ﻿using Play.Ber.Identifiers;
-using Play.Testing.Emv.Infrastructure.Ber.Primitive;
+using Play.Testing.Emv.Ber.Primitive;
 
-namespace Play.Testing.Emv.Infrastructure.Ber.Constructed;
+namespace Play.Testing.Emv.Ber.Constructed;
 
 public abstract class ConstructedTlv : TestTlv
 {

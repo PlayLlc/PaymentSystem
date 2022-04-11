@@ -1,6 +1,6 @@
 ﻿using Play.Emv.Kernel.Databases;
 
-namespace Play.Emv.Kernel.Services.ProcessingRestrictions;
+namespace Play.Emv.Kernel.Services;
 
 public interface IValidateCombinationCapability
 {

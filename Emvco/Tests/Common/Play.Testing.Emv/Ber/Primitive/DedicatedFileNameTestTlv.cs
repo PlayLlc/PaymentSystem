@@ -1,7 +1,7 @@
 ﻿using Play.Ber.Identifiers;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace Play.Testing.Emv.Infrastructure.Ber.Primitive;
+namespace Play.Testing.Emv.Ber.Primitive;
 
 public class DedicatedFileNameTestTlv : TestTlv
 {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
@@ -7,6 +8,8 @@ namespace Play.Core.Extensions;
 public static partial class SpanExtensions
 {
     #region Instance Members
+
+    public static BigInteger AsBigInteger(this Span<byte> value) => new(value);
 
     /// <exception cref="OverflowException"></exception>
     public static byte[] RemoveLeftPadding(this Span<byte> value, Nibble paddingValue)

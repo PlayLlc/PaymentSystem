@@ -4,7 +4,7 @@ using Play.Ber.Exceptions;
 using Play.Emv.Ber;
 using Play.Icc.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
-using Play.Testing.Infrastructure.Icc.Apdu;
+using Play.Testing.Icc.Apdu;
 
 using Xunit;
 

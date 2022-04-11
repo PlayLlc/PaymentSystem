@@ -1,6 +1,6 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Testing.Emv.Infrastructure.Ber.Constructed;
+using Play.Testing.Emv.Ber.Constructed;
 
 using Xunit;
 

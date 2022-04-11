@@ -2,7 +2,7 @@
 
 using Play.Core.Exceptions;
 
-namespace Play.Testing.Infrastructure.BaseTestClasses;
+namespace Play.Testing.BaseTestClasses;
 
 /// <summary>
 ///     Represents Exceptions that are unrelated to a Test Assertion. These exceptions happen during the test setup phase

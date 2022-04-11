@@ -1,11 +1,9 @@
-﻿using System;
-
-using Play.Codecs.Exceptions;
-using Play.Testing.Infrastructure.BaseTestClasses;
+﻿using Play.Codecs.Exceptions;
+using Play.Testing.BaseTestClasses;
 
 using Xunit;
 
-namespace Play.Codecs.Tests.UnsignedIntegers;
+namespace Play.Codecs.Tests.Tests.UnsignedIntegers;
 
 public class UnsignedIntegerTests : TestBase
 {

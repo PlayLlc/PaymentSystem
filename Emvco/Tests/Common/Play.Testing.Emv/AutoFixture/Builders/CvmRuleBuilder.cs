@@ -2,11 +2,10 @@
 
 using Play.Emv.Ber;
 using Play.Randoms;
-using Play.Testing.Infrastructure;
 
-namespace Play.Testing.Emv.Infrastructure.AutoFixture;
+namespace Play.Testing.Emv;
 
-internal class CvmRuleBuilder : SpecimenBuilder
+public class CvmRuleBuilder : SpecimenBuilder
 {
     #region Static Metadata
 

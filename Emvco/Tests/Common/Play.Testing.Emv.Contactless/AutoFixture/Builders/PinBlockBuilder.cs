@@ -2,11 +2,10 @@
 
 using Play.Emv.Ber;
 using Play.Randoms;
-using Play.Testing.Infrastructure;
 
 namespace Play.Testing.Emv.Contactless.AutoFixture;
 
-internal class PinBlockBuilder : SpecimenBuilder
+public class PinBlockBuilder : SpecimenBuilder
 {
     #region Static Metadata
 

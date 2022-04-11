@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using Xunit.Sdk;
 
-namespace Play.Testing.Infrastructure.BaseTestClasses;
+namespace Play.Testing.BaseTestClasses;
 
 public abstract class TestBase
 {

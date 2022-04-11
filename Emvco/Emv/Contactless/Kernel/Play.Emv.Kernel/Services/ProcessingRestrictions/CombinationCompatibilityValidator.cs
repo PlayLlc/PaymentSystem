@@ -6,7 +6,7 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Kernel.Databases;
 
-namespace Play.Emv.Kernel.Services.ProcessingRestrictions;
+namespace Play.Emv.Kernel.Services;
 
 public class CombinationCompatibilityValidator : IValidateCombinationCapability
 {

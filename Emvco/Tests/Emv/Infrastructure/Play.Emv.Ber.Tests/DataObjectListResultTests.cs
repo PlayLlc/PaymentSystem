@@ -6,8 +6,8 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
-using Play.Testing.Emv.Infrastructure.Ber.Primitive;
-using Play.Testing.Infrastructure.BaseTestClasses;
+using Play.Testing.BaseTestClasses;
+using Play.Testing.Emv.Ber.Primitive;
 
 using Xunit;
 

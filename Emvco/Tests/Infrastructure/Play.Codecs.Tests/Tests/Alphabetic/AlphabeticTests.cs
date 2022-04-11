@@ -1,9 +1,9 @@
 ﻿using Play.Codecs.Exceptions;
-using Play.Testing.Infrastructure.BaseTestClasses;
+using Play.Testing.BaseTestClasses;
 
 using Xunit;
 
-namespace Play.Codecs.Tests.Alphabetic;
+namespace Play.Codecs.Tests.Tests.Alphabetic;
 
 public class AlphabeticTests : TestBase
 {

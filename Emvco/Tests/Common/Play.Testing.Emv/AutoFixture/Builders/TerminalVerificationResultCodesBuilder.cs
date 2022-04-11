@@ -1,11 +1,10 @@
 ﻿using AutoFixture.Kernel;
 
 using Play.Emv.Ber;
-using Play.Testing.Infrastructure;
 
-namespace Play.Testing.Emv.Infrastructure.AutoFixture;
+namespace Play.Testing.Emv;
 
-internal class TerminalVerificationResultCodesBuilder : SpecimenBuilder
+public class TerminalVerificationResultCodesBuilder : SpecimenBuilder
 {
     #region Static Metadata
 

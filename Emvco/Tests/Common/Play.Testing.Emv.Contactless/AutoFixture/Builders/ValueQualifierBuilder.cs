@@ -1,38 +1,36 @@
 ﻿using AutoFixture.Kernel;
 
 using Play.Emv.Ber;
-using Play.Testing.Infrastructure;
 
-namespace Play.Testing.Emv.Contactless.AutoFixture
+namespace Play.Testing.Emv.Contactless.AutoFixture;
+
+public class ValueQualifierBuilder : SpecimenBuilder
 {
-    internal class ValueQualifierBuilder : SpecimenBuilder
+    #region Static Metadata
+
+    public static readonly SpecimenBuilderId Id = new(nameof(ValueQualifierBuilder));
+
+    #endregion
+
+    #region Instance Members
+
+    public override SpecimenBuilderId GetId() => Id;
+
+    /// <exception cref="Icc.Exceptions.IccProtocolException"></exception>
+    public override object Create(object request, ISpecimenContext context)
     {
-        #region Static Metadata
+        Type? type = request as Type;
 
-        public static readonly SpecimenBuilderId Id = new(nameof(ValueQualifierBuilder));
+        if (type == null)
+            return new NoSpecimen();
 
-        #endregion
+        if (type != typeof(ValueQualifier))
+            return new NoSpecimen();
 
-        #region Instance Members
+        ValueQualifier[] all = ValueQualifier.GetAll();
 
-        public override SpecimenBuilderId GetId() => Id;
-
-        /// <exception cref="Icc.Exceptions.IccProtocolException"></exception>
-        public override object Create(object request, ISpecimenContext context)
-        {
-            Type? type = request as Type;
-
-            if (type == null)
-                return new NoSpecimen();
-
-            if (type != typeof(ValueQualifier))
-                return new NoSpecimen();
-
-            ValueQualifier[] all = ValueQualifier.GetAll();
-
-            return all[new Random().Next(0, all.Length - 1)];
-        }
-
-        #endregion
+        return all[new Random().Next(0, all.Length - 1)];
     }
+
+    #endregion
 }

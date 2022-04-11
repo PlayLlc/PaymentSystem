@@ -1,12 +1,12 @@
 ﻿using System;
 
 using Play.Core.Extensions;
-using Play.Core.Tests.TestData.Fixtures;
-using Play.Testing.Infrastructure.BaseTestClasses;
+using Play.Core.Tests.Data.Fixtures;
+using Play.Testing.BaseTestClasses;
 
 using Xunit;
 
-namespace Play.Core.Tests.Extensions.Arrays;
+namespace Play.Core.Tests.Tests.Extensions.Arrays;
 
 public class ByteArrayExtensionsTests : TestBase
 {

@@ -186,6 +186,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Testing.Emv", "Tests\C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Testing.Emv.Contactless", "Tests\Common\Play.Testing.Emv.Contactless\Play.Testing.Emv.Contactless.csproj", "{F32E9845-5246-45F8-AEB7-99B0BFD1D9CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Testing.Infrastructure", "Tests\Common\Play.Testing.Infrastructure\Play.Testing.Infrastructure.csproj", "{5C16FBC9-A94F-4640-840E-B263DD47833A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -448,6 +450,10 @@ Global
 		{F32E9845-5246-45F8-AEB7-99B0BFD1D9CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F32E9845-5246-45F8-AEB7-99B0BFD1D9CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F32E9845-5246-45F8-AEB7-99B0BFD1D9CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C16FBC9-A94F-4640-840E-B263DD47833A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C16FBC9-A94F-4640-840E-B263DD47833A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C16FBC9-A94F-4640-840E-B263DD47833A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C16FBC9-A94F-4640-840E-B263DD47833A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -535,6 +541,7 @@ Global
 		{8773855A-91A8-4564-AAF1-96BB8E60EC6A} = {247ED294-E784-42BB-92C7-3DEBFB90580A}
 		{80F6B483-7E2A-4BAA-AFB8-E4EC11201315} = {247ED294-E784-42BB-92C7-3DEBFB90580A}
 		{F32E9845-5246-45F8-AEB7-99B0BFD1D9CD} = {247ED294-E784-42BB-92C7-3DEBFB90580A}
+		{5C16FBC9-A94F-4640-840E-B263DD47833A} = {247ED294-E784-42BB-92C7-3DEBFB90580A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E9927CF8-C10C-47E1-87FD-7ACEEBCD340D}

@@ -1,8 +1,8 @@
 ﻿using Play.Ber.Identifiers;
 using Play.Emv.Ber.Templates;
-using Play.Testing.Emv.Infrastructure.Ber.Primitive;
+using Play.Testing.Emv.Ber.Primitive;
 
-namespace Play.Testing.Emv.Infrastructure.Ber.Constructed;
+namespace Play.Testing.Emv.Ber.Constructed;
 
 public class FileControlInformationPpseTestTlv : ConstructedTlv
 {

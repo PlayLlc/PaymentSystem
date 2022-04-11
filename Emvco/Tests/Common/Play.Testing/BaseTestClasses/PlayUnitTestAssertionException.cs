@@ -2,7 +2,7 @@
 
 using Play.Core.Exceptions;
 
-namespace Play.Testing.Infrastructure.BaseTestClasses;
+namespace Play.Testing.BaseTestClasses;
 
 public class PlayUnitTestAssertionException : PlayException
 {

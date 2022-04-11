@@ -1,12 +1,4 @@
-﻿using System.Collections.Immutable;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-
-using Play.Codecs.Exceptions;
-using Play.Core.Extensions;
-using Play.Core.Specifications;
-
-namespace Play.Codecs;
+﻿namespace Play.Codecs;
 
 // TODO: Not sure if this is correct, but try something like the following for two's compliment
 // TODO

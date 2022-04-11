@@ -1,12 +1,12 @@
 ﻿using System;
 
 using Play.Codecs.Exceptions;
-using Play.Testing.Infrastructure.BaseTestClasses;
-using Play.Testing.Infrastructure.Icc.Apdu;
+using Play.Testing.BaseTestClasses;
+using Play.Testing.Icc.Apdu;
 
 using Xunit;
 
-namespace Play.Codecs.Tests.Hexadecimal;
+namespace Play.Codecs.Tests.Tests.Hexadecimal;
 
 public class HexadecimalTests : TestBase
 {

@@ -1,7 +1,7 @@
 ﻿using Play.Emv.Ber.DataElements;
 using Play.Globalization.Time;
 
-namespace Play.Emv.Kernel.Services.SplitPayment;
+namespace Play.Emv.Kernel.Services;
 
 public abstract class PaymentLogItem
 {

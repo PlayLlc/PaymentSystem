@@ -1,11 +1,10 @@
 ﻿using AutoFixture.Kernel;
 
 using Play.Emv.Ber;
-using Play.Testing.Infrastructure;
 
 namespace Play.Testing.Emv.Contactless.AutoFixture;
 
-internal class StatusOutcomeBuilder : SpecimenBuilder
+public class StatusOutcomeBuilder : SpecimenBuilder
 {
     #region Static Metadata
 

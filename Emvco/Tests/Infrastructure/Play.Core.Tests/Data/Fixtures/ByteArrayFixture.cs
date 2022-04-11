@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Play.Core.Tests.TestData.Factories;
+using Play.Core.Tests.Data.Factories;
 
-namespace Play.Core.Tests.TestData.Fixtures;
+namespace Play.Core.Tests.Data.Fixtures;
 
 internal class ByteArrayFixture
 {

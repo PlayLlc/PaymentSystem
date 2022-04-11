@@ -1,11 +1,9 @@
-﻿using System;
-
-using Play.Core.Extensions;
-using Play.Testing.Infrastructure.BaseTestClasses;
+﻿using Play.Core.Extensions;
+using Play.Testing.BaseTestClasses;
 
 using Xunit;
 
-namespace Play.Core.Tests.Extensions.Integers;
+namespace Play.Core.Tests.Tests.Extensions.Integers;
 
 public class UintTests : TestBase
 {

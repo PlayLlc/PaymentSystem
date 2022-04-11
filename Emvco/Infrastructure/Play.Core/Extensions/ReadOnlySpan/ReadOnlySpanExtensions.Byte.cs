@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
@@ -7,6 +8,8 @@ namespace Play.Core.Extensions;
 public static partial class ReadOnlySpanExtensions
 {
     #region Instance Members
+
+    public static BigInteger AsBigInteger(this ReadOnlySpan<byte> value) => new(value);
 
     public static bool IsValueEqual(this ReadOnlySpan<byte> value, ReadOnlySpan<byte> other)
     {
