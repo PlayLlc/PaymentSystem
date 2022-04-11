@@ -4,6 +4,7 @@ using System.Linq;
 
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Kernel.Databases;
 using Play.Globalization.Time.Seconds;
 
@@ -82,7 +83,7 @@ internal class TornTransactionManager : IManageTornTransactions
     ///     This value is not null if a record is added and the maximum number of records already
     ///     exist
     /// </param>
-    /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public bool TryAddAndDisplace(ITlvReaderAndWriter database, out TornRecord? displacedRecord)
     {
         TornRecord currentRecord = TornRecord.Create(database);

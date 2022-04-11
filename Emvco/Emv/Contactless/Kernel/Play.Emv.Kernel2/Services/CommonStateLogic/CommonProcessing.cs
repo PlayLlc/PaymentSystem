@@ -47,11 +47,12 @@ public abstract class CommonProcessing
     /// <exception cref="RequestOutOfSyncException"></exception>
     protected void HandleRequestOutOfSync(StateId stateId)
     {
+        // TODO: Update the Outcome parameters and send a 'STOP' signal to the Kernel
         if (_ValidStateIds.All(a => a != stateId))
 
         {
-            throw new
-                RequestOutOfSyncException($" The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel. The {GetType().Name} can not process a request originating from the state with the {nameof(StateId)}: [{stateId}] ");
+            throw new RequestOutOfSyncException(
+                $" The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel. The {GetType().Name} can not process a request originating from the state with the {nameof(StateId)}: [{stateId}] ");
         }
     }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Codecs.Exceptions;
+using Play.Core.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
@@ -15,7 +16,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
 
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public void Process(KernelDatabase database)
     {
@@ -69,12 +70,11 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
         TerminalType terminalType = database.Get<TerminalType>(TerminalType.Tag);
 
         TerminalType onlineAtm = new(TerminalType.EnvironmentType.Unattended, TerminalType.CommunicationType.OnlineOnly,
-                                     TerminalType.TerminalOperatorType.FinancialInstitution);
+            TerminalType.TerminalOperatorType.FinancialInstitution);
         TerminalType offlineAtm = new(TerminalType.EnvironmentType.Unattended, TerminalType.CommunicationType.OfflineOnly,
-                                      TerminalType.TerminalOperatorType.FinancialInstitution);
+            TerminalType.TerminalOperatorType.FinancialInstitution);
         TerminalType onlineAndOfflineAtm = new(TerminalType.EnvironmentType.Unattended,
-                                               TerminalType.CommunicationType.OnlineAndOfflineCapable,
-                                               TerminalType.TerminalOperatorType.FinancialInstitution);
+            TerminalType.CommunicationType.OnlineAndOfflineCapable, TerminalType.TerminalOperatorType.FinancialInstitution);
 
         if (terminalType == onlineAtm)
             return true;
@@ -95,7 +95,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private bool IsApplicationCompatibleWithTerminalType(KernelDatabase database)
     {
@@ -109,7 +109,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
 
     #region PRE.11
 
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     private bool IsCompatibleWithNonAtmTerminals(KernelDatabase database, ApplicationUsageControl applicationUsageControl)
     {
@@ -128,7 +128,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
 
     #region PRE.12
 
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     private bool IsCompatibleWithAtmTerminals(KernelDatabase database, ApplicationUsageControl applicationUsageControl)
     {
@@ -169,7 +169,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     #region PRE 15 - 19 Cash Transaction Compatibility
 
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private void InitializeCashTransactionCompatibilityFlags(
         ApplicationUsageControl applicationUsageControl, TerminalCountryCode terminalCountryCode, IssuerCountryCode issuerCountryCode,
@@ -218,7 +218,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     #region PRE.17, PRE.19
 
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     private void CheckIfDomesticCashTransactionIsAllowed(ApplicationUsageControl applicationUsageControl, KernelDatabase database)
     {
         if (!applicationUsageControl.IsValidForDomesticCashTransactions())
@@ -230,7 +230,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     #region PRE.18, PRE.19
 
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     private void CheckIfInternationalCashTransactionIsAllowed(ApplicationUsageControl applicationUsageControl, KernelDatabase database)
     {
         if (!applicationUsageControl.IsValidForInternationalCashTransactions())
@@ -244,7 +244,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     #region PRE.20 - 24 Country Compatibility
 
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -286,7 +286,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     #region PRE.22, PRE.24
 
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     private void CheckIfDomesticGoodsAndServicesAreAllowed(ApplicationUsageControl applicationUsageControl, KernelDatabase database)
     {
         if (applicationUsageControl.IsValidForDomesticGoods())
@@ -303,7 +303,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     #region PRE.23, PRE.24
 
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     private void CheckIfInternationalGoodsAndServicesAreAllowed(ApplicationUsageControl applicationUsageControl, KernelDatabase database)
     {
         if (applicationUsageControl.IsValidForInternationalGoods())
@@ -322,7 +322,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     #region PRE.25 - PRE.29 Cashback Compatibility
 
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     private void InitializeCashbackCompatibilityFlags(
@@ -357,7 +357,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     #region PRE.27, PRE.29
 
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     private void CheckIfDomesticCashbackIsAllowed(ApplicationUsageControl applicationUsageControl, KernelDatabase database)
     {
         if (applicationUsageControl.IsDomesticCashbackAllowed())
@@ -371,7 +371,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     #region PRE.28, PRE.29
 
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     private void CheckIfInternationalCashbackIsAllowed(ApplicationUsageControl applicationUsageControl, KernelDatabase database)
     {
         if (applicationUsageControl.IsInternationalCashbackAllowed())

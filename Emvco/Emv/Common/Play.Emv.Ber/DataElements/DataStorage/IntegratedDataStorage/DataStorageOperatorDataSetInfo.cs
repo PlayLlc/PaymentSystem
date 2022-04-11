@@ -2,6 +2,7 @@
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 
@@ -32,16 +33,16 @@ public record DataStorageOperatorDataSetInfo : DataElement<byte>
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     public bool IsPermanent() => _Value.IsBitSet(Bits.Eight);
 
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     public bool IsVolatile() => _Value.IsBitSet(Bits.Seven);
 
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     public bool IsLowVolatility() => _Value.IsBitSet(Bits.Six);
 
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     public bool IsDeclineOnDataStorageErrorSet() => _Value.IsBitSet(Bits.Four);
 
     #endregion

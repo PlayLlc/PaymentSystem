@@ -13,7 +13,7 @@ using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.Services.Selection;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
-using Play.Emv.Kernel2.Services.GenerateAcSetup;
+using Play.Emv.Kernel2.Services.PrepareGenerateAc;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
 using Play.Emv.Security.Exceptions;
@@ -136,8 +136,7 @@ public class S456 : CommonProcessing
         AttemptToSetTransactionExceedsFloorLimitFlag(_Database);
 
         // S456.39
-        GenerateApplicationCryptogramRequest generateApplicationCryptogramCapdu =
-            PerformTerminalActionAnalysis(session.GetTransactionSessionId(), _Database);
+        PerformTerminalActionAnalysis(session, _Database);
 
         // S456.42, S456.50 - S456.51
         if (TryToWriteDataBeforeGeneratingApplicationCryptogram(session.GetTransactionSessionId()))
@@ -148,7 +147,7 @@ public class S456 : CommonProcessing
             return WaitingForRecoverAcResponse.StateId;
 
         // S456.43 - S456.46
-        SendGenerateAcCapdu(session, _Database, generateApplicationCryptogramCapdu);
+        SendGenerateAcCapdu(session, _Database);
 
         return WaitingForGenerateAcResponse1.StateId;
     }
@@ -744,8 +743,8 @@ public class S456 : CommonProcessing
     #region S456.39
 
     /// <remarks>EMV Book C-2 Section S456.39</remarks>
-    private GenerateApplicationCryptogramRequest PerformTerminalActionAnalysis(TransactionSessionId sessionId, KernelDatabase database) =>
-        _TerminalActionAnalyzer.Process(sessionId, database);
+    private void PerformTerminalActionAnalysis(Kernel2Session session, KernelDatabase database) =>
+        session.Update(_TerminalActionAnalyzer.Process(session.GetTransactionSessionId(), database));
 
     #endregion
 
@@ -817,7 +816,7 @@ public class S456 : CommonProcessing
     #region S456.43 - S456.46
 
     /// <remarks>EMV Book C-2 Section S456.43 - S456.46</remarks>
-    private bool SendGenerateAcCapdu(Kernel2Session session, KernelDatabase database, GenerateApplicationCryptogramRequest capdu)
+    private bool SendGenerateAcCapdu(Kernel2Session session, KernelDatabase database)
     {
         _PcdEndpoint.Request(PrepareGenAc(session, database));
 

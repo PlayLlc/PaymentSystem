@@ -325,7 +325,7 @@ public partial class S910
         #region S910.16, S910.18 - S910.19
 
         /// <remarks>EMV Book C-2 Section S910.16, S910.18 - S910.19</remarks>
-        /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+        /// <exception cref="PlayInternalException"></exception>
         private bool TryHandlingInvalidDataStorageSummary2And3Equality(KernelSessionId sessionId)
         {
             DataStorageSummary2 dataStorageSummary2 = _Database.Get<DataStorageSummary2>(DataStorageSummary2.Tag);
@@ -335,7 +335,7 @@ public partial class S910
                 return false;
 
             if (!_Database.TryGet(DataStorageOperatorDataSetInfoForReader.Tag,
-                                  out DataStorageOperatorDataSetInfoForReader? dataStorageOperatorDataSetInfoForReader))
+                out DataStorageOperatorDataSetInfoForReader? dataStorageOperatorDataSetInfoForReader))
                 return false;
 
             if (!dataStorageOperatorDataSetInfoForReader!.IsStopIfWriteFailedSet())

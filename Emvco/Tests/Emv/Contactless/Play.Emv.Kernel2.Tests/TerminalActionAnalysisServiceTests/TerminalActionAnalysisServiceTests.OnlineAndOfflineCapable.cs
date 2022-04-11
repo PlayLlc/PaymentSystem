@@ -31,11 +31,8 @@ public partial class TerminalActionAnalysisServiceTests
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults(0));
 
-        GenerateApplicationCryptogramRequest rapdu =
-            sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
-
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.TransactionCryptogram, rapdu.GetCryptogramType());
+        CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
+        Assert.Equal(CryptogramTypes.TransactionCryptogram, actual);
     }
 
     #endregion
@@ -53,17 +50,15 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalActionCodeOnline), 10,
-                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OnlineAndOfflineCapableTerminal_WithTerminalActionCodeOnline_GeneratesAuthorizationRequestCryptogram(ActionCodes actionCode)
     {
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode));
 
-        GenerateApplicationCryptogramRequest rapdu =
-            sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
+        CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
 
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, rapdu.GetCryptogramType());
+        Assertion(() => { Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, actual); });
     }
 
     /// <summary>
@@ -75,17 +70,15 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomIssuerActionCodeOnline), 10,
-                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OnlineAndOfflineCapableTerminal_WithIssuerActionCodeOnline_GeneratesAuthorizationRequestCryptogram(ActionCodes actionCode)
     {
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode));
 
-        GenerateApplicationCryptogramRequest rapdu =
-            sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
+        CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
 
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, rapdu.GetCryptogramType());
+        Assertion(() => { Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, actual); });
     }
 
     /// <summary>
@@ -98,7 +91,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalAndIssuerActionCodeOnline), 10,
-                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OnlineAndOfflineCapableTerminal_WithTerminalAndIssuerActionCodeOnline_GeneratesAuthorizationRequestCryptogram(
         ActionCodes terminalActionCode, ActionCodes issuerActionCodes)
     {
@@ -106,11 +99,9 @@ public partial class TerminalActionAnalysisServiceTests
         TerminalActionAnalysisCommand command =
             GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) terminalActionCode | (ulong) issuerActionCodes));
 
-        GenerateApplicationCryptogramRequest rapdu =
-            sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
+        CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
 
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, rapdu.GetCryptogramType());
+        Assertion(() => { Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, actual); });
     }
 
     /// <summary>
@@ -122,18 +113,15 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomIssuerActionCodeDefault), 10,
-                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OnlineAndOfflineCapableTerminal_WithoutTimeoutAndIssuerActionCodeDefault_GeneratesAuthenticationRequestCryptogram(
         ActionCodes actionCode)
     {
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode));
 
-        GenerateApplicationCryptogramRequest rapdu =
-            sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
-
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, rapdu.GetCryptogramType());
+        CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
+        Assertion(() => { Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, actual); });
     }
 
     /// <summary>
@@ -146,7 +134,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalAndIssuerActionCodeDefault), 10,
-                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void
         OnlineAndOfflineCapableTerminal_WithoutTimeoutTerminalAndIssuerActionCodeDefault_GeneratesApplicationAuthenticationCryptogram(
             ActionCodes terminalActionCode, ActionCodes issuerActionCodes)
@@ -155,11 +143,9 @@ public partial class TerminalActionAnalysisServiceTests
         TerminalActionAnalysisCommand command =
             GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) terminalActionCode | (ulong) issuerActionCodes));
 
-        GenerateApplicationCryptogramRequest rapdu =
-            sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
+        CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
 
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, rapdu.GetCryptogramType());
+        Assertion(() => { Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual); });
     }
 
     #endregion
@@ -175,19 +161,17 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalActionCodeDefault), 10,
-                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OnlineAndOfflineCapableTerminal_WithTimeoutAndTerminalActionCodeDefault_GeneratesAuthenticationRequestCryptogram(
         ActionCodes actionCode)
     {
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode),
-                                                                                 OnlineResponseOutcome.NotAvailable);
+            OnlineResponseOutcome.NotAvailable);
 
-        GenerateApplicationCryptogramRequest rapdu =
-            sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
+        CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
 
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, rapdu.GetCryptogramType());
+        Assertion(() => { Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual); });
     }
 
     /// <summary>
@@ -199,19 +183,17 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomIssuerActionCodeDefault), 10,
-                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OnlineAndOfflineCapableTerminal_WithTimeoutAndIssuerActionCodeDefault_GeneratesAuthenticationRequestCryptogram(
         ActionCodes actionCode)
     {
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode),
-                                                                                 OnlineResponseOutcome.NotAvailable);
+            OnlineResponseOutcome.NotAvailable);
 
-        GenerateApplicationCryptogramRequest rapdu =
-            sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
+        CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
 
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, rapdu.GetCryptogramType());
+        Assertion(() => { Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual); });
     }
 
     /// <summary>
@@ -224,21 +206,18 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalAndIssuerActionCodeDefault), 10,
-                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void
         OnlineAndOfflineCapableTerminal_WithTimeoutAndTerminalAndIssuerActionCodeDefault_GeneratesApplicationAuthenticationCryptogram(
             ActionCodes terminalActionCode, ActionCodes issuerActionCodes)
     {
         TerminalActionAnalysisService sut = new();
-        TerminalActionAnalysisCommand command =
-            GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) terminalActionCode | (ulong) issuerActionCodes),
-                                             OnlineResponseOutcome.NotAvailable);
+        TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(
+            new TerminalVerificationResults((ulong) terminalActionCode | (ulong) issuerActionCodes), OnlineResponseOutcome.NotAvailable);
 
-        GenerateApplicationCryptogramRequest rapdu =
-            sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
+        CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
 
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, rapdu.GetCryptogramType());
+        Assertion(() => { Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual); });
     }
 
     /// <summary>
@@ -250,18 +229,16 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalActionCodeDenial), 10,
-                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OnlineAndOfflineCapableTerminal_WithTerminalActionCodeDenial_GeneratesApplicationAuthenticationCryptogram(
         ActionCodes actionCode)
     {
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode));
 
-        GenerateApplicationCryptogramRequest rapdu =
-            sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
+        CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
 
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, rapdu.GetCryptogramType());
+        Assertion(() => { Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual); });
     }
 
     /// <summary>
@@ -273,18 +250,16 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomIssuerActionCodeDenial), 10,
-                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OnlineAndOfflineCapableTerminal_WithIssuerActionCodeDenial_GeneratesApplicationAuthenticationCryptogram(
         ActionCodes actionCode)
     {
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode));
 
-        GenerateApplicationCryptogramRequest rapdu =
-            sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
+        CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
 
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, rapdu.GetCryptogramType());
+        Assertion(() => { Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual); });
     }
 
     /// <summary>
@@ -297,7 +272,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
     [MemberData(nameof(TerminalActionAnalysisServiceFixture.GetRandomTerminalAndIssuerActionCodeDenial), 10,
-                   MemberType = typeof(TerminalActionAnalysisServiceFixture))]
+        MemberType = typeof(TerminalActionAnalysisServiceFixture))]
     public void OnlineAndOfflineCapableTerminal_WithTerminalAndIssuerActionCodeDenial_GeneratesApplicationAuthenticationCryptogram(
         ActionCodes terminalActionCode, ActionCodes issuerActionCodes)
     {
@@ -305,11 +280,9 @@ public partial class TerminalActionAnalysisServiceTests
         TerminalActionAnalysisCommand command =
             GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) terminalActionCode | (ulong) issuerActionCodes));
 
-        GenerateApplicationCryptogramRequest rapdu =
-            sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
+        CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), GetKernelDatabaseForOnlineAndOfflineCapable());
 
-        Assert.Equal(_Fixture.Freeze<TransactionSessionId>(), rapdu.GetTransactionSessionId());
-        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, rapdu.GetCryptogramType());
+        Assertion(() => { Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual); });
     }
 
     #endregion

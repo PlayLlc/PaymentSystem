@@ -70,6 +70,7 @@ public sealed record CryptogramTypes : EnumObject<byte>
     #region Operator Overrides
 
     public static explicit operator byte(CryptogramTypes cryptogramTypes) => cryptogramTypes._Value;
+    public static implicit operator CryptogramType(CryptogramTypes cryptogramTypes) => new(cryptogramTypes._Value);
 
     #endregion
 }

@@ -50,7 +50,7 @@ public class MessageRouter : IRouteMessages
 
     #endregion
 
-    public IEndpointClient CreateEndpointClient(IMessageChannel messageChannel) => new EndpointClient(this, messageChannel);
+    public IEndpointClient CreateEndpointClient(IMessageChannel messageChannel) => new PlayEndpointClient(this, messageChannel);
 
     #region Replies
 

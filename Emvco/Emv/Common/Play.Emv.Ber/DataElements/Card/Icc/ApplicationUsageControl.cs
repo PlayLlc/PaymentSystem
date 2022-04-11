@@ -2,6 +2,7 @@
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 
@@ -60,38 +61,38 @@ public record ApplicationUsageControl : DataElement<ushort>
 
     #region Byte 1
 
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     public bool IsValidForDomesticCashTransactions() => ((byte) (_Value >> 8)).IsBitSet(Bits.Eight);
 
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     public bool IsValidForInternationalCashTransactions() => ((byte) (_Value >> 8)).IsBitSet(Bits.Seven);
 
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     public bool IsValidForDomesticGoods() => ((byte) (_Value >> 8)).IsBitSet(Bits.Six);
 
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     public bool IsValidForInternationalGoods() => ((byte) (_Value >> 8)).IsBitSet(Bits.Five);
 
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     public bool IsValidForDomesticServices() => ((byte) (_Value >> 8)).IsBitSet(Bits.Four);
 
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     public bool IsValidForInternationalServices() => ((byte) (_Value >> 8)).IsBitSet(Bits.Three);
 
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     public bool IsValidAtAtms() => ((byte) (_Value >> 8)).IsBitSet(Bits.Two);
 
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     public bool IsValidAtTerminalsOtherThanAtms() => ((byte) (_Value >> 8)).IsBitSet(Bits.One);
 
     #endregion
 
     #region Byte 2
 
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     public bool IsDomesticCashbackAllowed() => ((byte) _Value).IsBitSet(Bits.Eight);
 
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     public bool IsInternationalCashbackAllowed() => ((byte) _Value).IsBitSet(Bits.Seven);
 
     #endregion

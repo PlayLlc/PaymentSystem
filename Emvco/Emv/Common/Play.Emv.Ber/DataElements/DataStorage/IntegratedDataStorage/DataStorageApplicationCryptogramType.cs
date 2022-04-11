@@ -78,4 +78,10 @@ public record DataStorageApplicationCryptogramType : DataElement<byte>, IEqualit
     public int GetHashCode(DataStorageApplicationCryptogramType obj) => obj.GetHashCode();
 
     #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator CryptogramType(DataStorageApplicationCryptogramType cryptogramTypes) => new(cryptogramTypes._Value);
+
+    #endregion
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.Exceptions;
+using Play.Core.Exceptions;
 using Play.Core.Extensions;
 
 namespace Play.Ber.Identifiers.Long;
@@ -79,9 +80,9 @@ internal static partial class LongIdentifier
             }
             catch (OverflowException exception)
             {
-                throw new
-                    InvalidOperationException("Uh oh, something wasn't coded correctly. This code base only supports a Long Length object with 3 bytes or less",
-                                              exception);
+                throw new InvalidOperationException(
+                    "Uh oh, something wasn't coded correctly. This code base only supports a Long Length object with 3 bytes or less",
+                    exception);
             }
         }
     }
@@ -107,9 +108,8 @@ internal static partial class LongIdentifier
             }
             catch (OverflowException exception)
             {
-                throw new
-                    BerParsingException($"This code base only supports a Long Length object with {MaxLongIdentifierByteCount} bytes or less",
-                                        exception);
+                throw new BerParsingException(
+                    $"This code base only supports a Long Length object with {MaxLongIdentifierByteCount} bytes or less", exception);
             }
         }
     }
@@ -138,7 +138,7 @@ internal static partial class LongIdentifier
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     public static void Validate(ReadOnlySpan<byte> value)
     {
         LeadingOctet.Validate(value[0]);

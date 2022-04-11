@@ -1,4 +1,5 @@
-﻿using Play.Emv.Ber.DataElements;
+﻿using Play.Core.Exceptions;
+using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
@@ -28,8 +29,8 @@ public partial class S910 : CommonProcessing
 
     public S910(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
-        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint, IAuthenticateTransactionSession authenticationService) :
-        base(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
+        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint, IAuthenticateTransactionSession authenticationService) : base(
+        database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
     {
         _ResponseHandler = new ResponseHandler(database, dataExchangeKernelService, kernelEndpoint, pcdEndpoint);
         _AuthenticationHandler = new AuthenticationHandler(database, _ResponseHandler, authenticationService);
@@ -41,7 +42,7 @@ public partial class S910 : CommonProcessing
 
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
     /// <exception cref="System.InvalidOperationException"></exception>
