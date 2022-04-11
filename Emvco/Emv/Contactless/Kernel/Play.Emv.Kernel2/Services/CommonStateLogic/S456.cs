@@ -13,6 +13,7 @@ using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.Services.Selection;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
+using Play.Emv.Kernel2.Services.GenerateAcSetup;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
 using Play.Emv.Security.Exceptions;
@@ -33,6 +34,7 @@ public class S456 : CommonProcessing
     #region Instance Values
 
     private readonly OfflineBalanceReader _OfflineBalanceReader;
+    private readonly PrepareGenerateAcService _PrepareGenAcServiceService;
     private readonly IValidateCombinationCapability _CombinationCapabilityValidator;
     private readonly IValidateCombinationCompatibility _CombinationCompatibilityValidator;
     private readonly ISelectCardholderVerificationMethod _CardholderVerificationMethodSelector;
@@ -54,7 +56,7 @@ public class S456 : CommonProcessing
         IValidateCombinationCapability combinationCapabilityValidator, IValidateCombinationCompatibility combinationCompatibilityValidator,
         ISelectCardholderVerificationMethod cardholderVerificationMethodSelector, IPerformTerminalActionAnalysis terminalActionAnalyzer,
         IManageTornTransactions tornTransactionManager) : base(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint,
-                                                               kernelEndpoint)
+        kernelEndpoint)
     {
         _OfflineBalanceReader = offlineBalanceReader;
         _CombinationCapabilityValidator = combinationCapabilityValidator;
@@ -146,7 +148,7 @@ public class S456 : CommonProcessing
             return WaitingForRecoverAcResponse.StateId;
 
         // S456.43 - S456.46
-        SendGenerateAcCapdu(generateApplicationCryptogramCapdu);
+        SendGenerateAcCapdu(session, _Database, generateApplicationCryptogramCapdu);
 
         return WaitingForGenerateAcResponse1.StateId;
     }
@@ -796,8 +798,7 @@ public class S456 : CommonProcessing
             return false;
 
         if (!_TornTransactionManager.TryGet(_Database.Get<ApplicationPan>(ApplicationPan.Tag),
-                                            _Database.Get<ApplicationPanSequenceNumber>(ApplicationPanSequenceNumber.Tag),
-                                            out TornRecord? tornRecord))
+            _Database.Get<ApplicationPanSequenceNumber>(ApplicationPanSequenceNumber.Tag), out TornRecord? tornRecord))
             return false;
 
         if (!_Database.TryGet(DataRecoveryDataObjectListRelatedData.Tag, out DataRecoveryDataObjectListRelatedData? ddolRelatedData))
@@ -811,15 +812,24 @@ public class S456 : CommonProcessing
 
     #endregion
 
+    #endregion
+
     #region S456.43 - S456.46
 
     /// <remarks>EMV Book C-2 Section S456.43 - S456.46</remarks>
-    private bool SendGenerateAcCapdu(GenerateApplicationCryptogramRequest capdu)
+    private bool SendGenerateAcCapdu(Kernel2Session session, KernelDatabase database, GenerateApplicationCryptogramRequest capdu)
     {
-        _PcdEndpoint.Request(capdu);
+        _PcdEndpoint.Request(PrepareGenAc(session, database));
 
         return true;
     }
+
+    /// <remarks>EMV Book C-2 Section S456.45</remarks>
+
+    #region S456.43 - S456.46
+
+    private GenerateApplicationCryptogramRequest PrepareGenAc(Kernel2Session session, KernelDatabase database) =>
+        _PrepareGenAcServiceService.Create(session, database);
 
     #endregion
 

@@ -43,7 +43,7 @@ public class S3R1 : CommonProcessing
     public S3R1(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
         IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint) : base(database, dataExchangeKernelService, kernelStateResolver,
-                                                                               pcdEndpoint, kernelEndpoint)
+        pcdEndpoint, kernelEndpoint)
     { }
 
     #endregion
@@ -73,7 +73,7 @@ public class S3R1 : CommonProcessing
         if (IsDataExchangeNeeded())
             ExchangeData(session.GetKernelSessionId());
 
-        if (DoesTheCardAndTerminalSupportCombinedDataAuth(session))
+        if (DoesTheCardAndTerminalSupportCombinedDataAuth())
             SetCombinedDataAuthFlag(session);
         else
             HandleIdsFlags(session);
@@ -246,7 +246,7 @@ public class S3R1 : CommonProcessing
     {
         IntegratedDataStorageStatus idsStatus =
             IntegratedDataStorageStatus.Decode(((IntegratedDataStorageStatus) _Database.Get(IntegratedDataStorageStatus.Tag)).EncodeValue()
-                                               .AsSpan());
+                .AsSpan());
 
         _Database.Update(idsStatus.SetRead(false));
     }
@@ -299,32 +299,6 @@ public class S3R1 : CommonProcessing
 
     #endregion
 
-    #region S3R1.17
-
-    /// <remarks> EMV Book C-2 Section S3R1.17 </remarks>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    private bool DoesTheCardAndTerminalSupportCombinedDataAuth(Kernel2Session session)
-    {
-        ApplicationInterchangeProfile applicationInterchangeProfile =
-            ApplicationInterchangeProfile.Decode(((ApplicationInterchangeProfile) _Database.Get(ApplicationInterchangeProfile.Tag))
-                                                 .EncodeValue().AsSpan());
-        TerminalCapabilities terminalCapabilities =
-            TerminalCapabilities.Decode(((TerminalCapabilities) _Database.Get(TerminalCapabilities.Tag)).EncodeValue().AsSpan());
-
-        if (!applicationInterchangeProfile.IsCombinedDataAuthenticationSupported())
-            return false;
-
-        if (terminalCapabilities.IsCombinedDataAuthenticationSupported())
-            return false;
-
-        return true;
-    }
-
-    #endregion
-
     #region S3R1.19
 
     /// <remarks> EMV Book C-2 Section S3R1.19 </remarks>
@@ -345,6 +319,18 @@ public class S3R1 : CommonProcessing
     {
         _Database.Set(TerminalVerificationResultCodes.OfflineDataAuthenticationWasNotPerformed);
     }
+
+    #endregion
+
+    #region S3R1.17
+
+    /// <remarks> EMV Book C-2 Section S3R1.17 </remarks>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    private bool DoesTheCardAndTerminalSupportCombinedDataAuth() =>
+        _Database.GetAuthenticationType() == AuthenticationTypes.CombinedDataAuthentication;
 
     #endregion
 

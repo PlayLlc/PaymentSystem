@@ -19,11 +19,13 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
 {
     #region Instance Members
 
+    // BUG: This isn't supposed to return a Gen AC request. It's supposed to update reference control
+
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
-    public GenerateApplicationCryptogramRequest Process(TransactionSessionId sessionId, KernelDatabase database)
+    public CryptogramTypes Process(TransactionSessionId sessionId, KernelDatabase database)
     {
         ActionFlag resultFlag = ActionFlag.None;
         TerminalVerificationResults terminalVerificationResults =
@@ -34,37 +36,20 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         ProcessDefaultActionCodes(database, terminalVerificationResults, ref resultFlag);
 
         if (resultFlag.HasFlag(ActionFlag.Denial))
-            return CreateDenyTransactionResponse(sessionId, database);
+            return CryptogramTypes.ApplicationAuthenticationCryptogram;
 
         if (resultFlag.HasFlag(ActionFlag.Online))
-            return CreateProceedOnlineResponse(sessionId, database);
+            return CryptogramTypes.AuthorizationRequestCryptogram;
 
         if (resultFlag.HasFlag(ActionFlag.Offline))
-            return CreateProceedOfflineResponse(sessionId, database);
+            return CryptogramTypes.TransactionCryptogram;
 
         throw new InvalidOperationException("The Terminal Action Analysis result could not be determined");
     }
 
-    /// <remarks>
-    ///     Book 3 Section 10.3
-    /// </remarks>
-    private AuthenticationTypes GetAuthenticationMethod(
-        TerminalCapabilities terminalCapabilities, ApplicationInterchangeProfile applicationInterchangeProfile)
-    {
-        if (applicationInterchangeProfile.IsStaticDataAuthenticationSupported()
-            && terminalCapabilities.IsStaticDataAuthenticationSupported())
-            return AuthenticationTypes.CombinedDataAuthentication;
+    #endregion
 
-        if (applicationInterchangeProfile.IsDynamicDataAuthenticationSupported()
-            && terminalCapabilities.IsDynamicDataAuthenticationSupported())
-            return AuthenticationTypes.DynamicDataAuthentication;
-
-        if (applicationInterchangeProfile.IsCombinedDataAuthenticationSupported()
-            && terminalCapabilities.IsCombinedDataAuthenticationSupported())
-            return AuthenticationTypes.CombinedDataAuthentication;
-
-        return AuthenticationTypes.None;
-    }
+    #region _TEMP - required data handling
 
     #endregion
 
@@ -130,7 +115,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         else
         {
             ProcessDefaultActionCodesForOnlineCapableTerminals(outcomeParameterSet, defaultActionCodes, terminalVerificationResult,
-                                                               ref flag);
+                ref flag);
         }
     }
 
@@ -207,52 +192,20 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    private GenerateApplicationCryptogramRequest CreateDenyTransactionResponse(TransactionSessionId sessionId, KernelDatabase database)
-    {
-        CardRiskManagementDataObjectList1 cdol1 = database.Get<CardRiskManagementDataObjectList1>(CardRiskManagementDataObjectList1.Tag);
-        DataStorageDataObjectList ddol = database.Get<DataStorageDataObjectList>(DataStorageDataObjectList.Tag);
-
-        return GenerateApplicationCryptogramRequest.Create(sessionId,
-                                                           new CryptogramInformationData(CryptogramTypes
-                                                                                             .ApplicationAuthenticationCryptogram),
-                                                           cdol1.AsDataObjectListResult(database), ddol.AsDataObjectListResult(database));
-    }
+    private CryptogramTypes CreateDenyTransactionResponse() => CryptogramTypes.ApplicationAuthenticationCryptogram;
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    private GenerateApplicationCryptogramRequest CreateProceedOfflineResponse(TransactionSessionId sessionId, KernelDatabase database)
-    {
-        bool isCdaRequested =
-            GetAuthenticationMethod(database.Get<TerminalCapabilities>(TerminalCapabilities.Tag),
-                                    database.Get<ApplicationInterchangeProfile>(ApplicationInterchangeProfile.Tag))
-            == AuthenticationTypes.CombinedDataAuthentication;
-
-        CardRiskManagementDataObjectList1 cdol1 = database.Get<CardRiskManagementDataObjectList1>(CardRiskManagementDataObjectList1.Tag);
-
-        // BUG: This isn't always included in a CDA request for Generate AC. Check EMV Book 2 Section 6.6.1
-        DataStorageDataObjectList ddol = database.Get<DataStorageDataObjectList>(DataStorageDataObjectList.Tag);
-
-        return GenerateApplicationCryptogramRequest.Create(sessionId,
-                                                           new CryptogramInformationData(CryptogramTypes.TransactionCryptogram,
-                                                                                         isCdaRequested),
-                                                           cdol1.AsDataObjectListResult(database), ddol.AsDataObjectListResult(database));
-    }
+    private CryptogramTypes CreateProceedOfflineResponse(TransactionSessionId sessionId, KernelDatabase database) =>
+        CryptogramTypes.TransactionCryptogram;
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    private GenerateApplicationCryptogramRequest CreateProceedOnlineResponse(TransactionSessionId sessionId, KernelDatabase database)
-    {
-        CardRiskManagementDataObjectList1 cdol1 = database.Get<CardRiskManagementDataObjectList1>(CardRiskManagementDataObjectList1.Tag);
-        DataStorageDataObjectList ddol = database.Get<DataStorageDataObjectList>(DataStorageDataObjectList.Tag);
-
-        return GenerateApplicationCryptogramRequest.Create(sessionId,
-                                                           new CryptogramInformationData(CryptogramTypes.AuthorizationRequestCryptogram),
-                                                           cdol1.AsDataObjectListResult(database), ddol.AsDataObjectListResult(database));
-    }
+    private CryptogramTypes CreateProceedOnlineResponse() => CryptogramTypes.AuthorizationRequestCryptogram;
 
     #endregion
 

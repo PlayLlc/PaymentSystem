@@ -81,6 +81,38 @@ public partial class KernelDatabase
 
     #region Read
 
+    /// <remarks>
+    ///     Book 3 Section 10.3
+    /// </remarks>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    public AuthenticationTypes GetAuthenticationType()
+    {
+        if (!IsPresentAndNotEmpty(ApplicationInterchangeProfile.Tag))
+            return AuthenticationTypes.None;
+
+        ApplicationInterchangeProfile applicationInterchangeProfile =
+            ApplicationInterchangeProfile.Decode(((ApplicationInterchangeProfile) Get(ApplicationInterchangeProfile.Tag)).EncodeValue()
+                .AsSpan());
+        TerminalCapabilities terminalCapabilities =
+            TerminalCapabilities.Decode(((TerminalCapabilities) Get(TerminalCapabilities.Tag)).EncodeValue().AsSpan());
+
+        if (applicationInterchangeProfile.IsCombinedDataAuthenticationSupported()
+            && terminalCapabilities.IsCombinedDataAuthenticationSupported())
+            return AuthenticationTypes.CombinedDataAuthentication;
+
+        if (applicationInterchangeProfile.IsDynamicDataAuthenticationSupported()
+            && terminalCapabilities.IsDynamicDataAuthenticationSupported())
+            return AuthenticationTypes.DynamicDataAuthentication;
+
+        if (applicationInterchangeProfile.IsStaticDataAuthenticationSupported()
+            && terminalCapabilities.IsStaticDataAuthenticationSupported())
+            return AuthenticationTypes.CombinedDataAuthentication;
+
+        return AuthenticationTypes.None;
+    }
+
     /// <summary>
     ///     A transaction in which the cardholder receives cash from a self service kiosk or cashier
     /// </summary>

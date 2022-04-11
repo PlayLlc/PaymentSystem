@@ -239,6 +239,7 @@ public sealed record Kernel2KnownObjects : KnownObjects
         return _ValueObjectMap.Values.Select(a => (Tag) a).GetEnumerator();
     }
 
+    public static bool IsKnown(Tag tag) => _ValueObjectMap.ContainsKey(tag);
     public static bool TryGet(Tag value, out Kernel2KnownObjects result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion
@@ -279,7 +280,7 @@ public sealed record Kernel2KnownObjects : KnownObjects
         if (!TryGet(registeredApplicationProviderIndicator, out Kernel2KnownObjects result))
         {
             throw new ArgumentOutOfRangeException(nameof(registeredApplicationProviderIndicator),
-                                                  $"The {nameof(Kernel2KnownObjects)} could not be found from the number supplied to the argument: {registeredApplicationProviderIndicator}");
+                $"The {nameof(Kernel2KnownObjects)} could not be found from the number supplied to the argument: {registeredApplicationProviderIndicator}");
         }
 
         return result;

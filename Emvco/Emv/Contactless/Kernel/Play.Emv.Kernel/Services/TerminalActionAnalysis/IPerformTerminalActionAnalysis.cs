@@ -1,4 +1,5 @@
-﻿using Play.Emv.Identifiers;
+﻿using Play.Emv.Ber.Enums;
+using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Pcd.Contracts;
 
@@ -8,7 +9,7 @@ public interface IPerformTerminalActionAnalysis
 {
     #region Instance Members
 
-    public GenerateApplicationCryptogramRequest Process(TransactionSessionId sessionId, KernelDatabase database);
+    public CryptogramTypes Process(TransactionSessionId sessionId, KernelDatabase database);
 
     #endregion
 }
