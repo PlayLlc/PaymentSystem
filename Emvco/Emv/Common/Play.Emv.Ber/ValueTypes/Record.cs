@@ -141,81 +141,47 @@ public class Record : IEqualityComparer<Record>, IEquatable<Record>
         {
             throw new TerminalDataException(
                 $"The {nameof(TornRecord)} could not be created because the {nameof(ITlvReaderAndWriter)} did not contain the required {nameof(ApplicationPan)} object");
-        } 
+        }
 
-        if (values.All(a => a.GetTag() != ApplicationPanSequenceNumber.Tag)) 
+        if (values.All(a => a.GetTag() != ApplicationPanSequenceNumber.Tag))
         {
             throw new TerminalDataException(
                 $"The {nameof(TornRecord)} could not be created because the {nameof(ITlvReaderAndWriter)} did not contain the required {nameof(ApplicationPanSequenceNumber)} object");
         }
 
-        buffer.Add(values.FirstOrDefault())
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == AmountAuthorizedNumeric.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == AmountOtherNumeric.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == BalanceReadBeforeGenAc.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == CardRiskManagementDataObjectList1RelatedData.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == CvmResults.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == DataRecoveryDataObjectListRelatedData.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == DataStorageSummary1.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == DataStorageSummaryStatus.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == InterfaceDeviceSerialNumber.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == ProcessingOptionsDataObjectListRelatedData.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == ReferenceControlParameter.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == TerminalCapabilities.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == TerminalCountryCode.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == TerminalType.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == TerminalVerificationResults.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == TransactionCategoryCode.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == TransactionCurrencyCode.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == TransactionDate.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == TransactionTime.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == UnpredictableNumber.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == TerminalRelayResistanceEntropy.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == DeviceRelayResistanceEntropy.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == MinTimeForProcessingRelayResistanceApdu.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == MaxTimeForProcessingRelayResistanceApdu.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == MeasuredRelayResistanceProcessingTime.Tag));
+        buffer.Add(values.FirstOrDefault(a => a.GetTag() == RelayResistanceProtocolCounter.Tag));
 
-        if (values.TryGet(AmountAuthorizedNumeric.Tag, out AmountAuthorizedNumeric? amountAuthorizedNumeric))
-            buffer.Add(amountAuthorizedNumeric!);
-        if (values.TryGet(AmountOtherNumeric.Tag, out AmountOtherNumeric? amountOtherNumeric))
-            buffer.Add(amountOtherNumeric!);
-        if (values.TryGet(BalanceReadBeforeGenAc.Tag, out BalanceReadBeforeGenAc? balanceReadBeforeGenAc))
-            buffer.Add(balanceReadBeforeGenAc!);
-        if (values.TryGet(CardRiskManagementDataObjectList1RelatedData.Tag,
-            out CardRiskManagementDataObjectList1RelatedData? cardRiskManagementDataObjectList1RelatedData))
-            buffer.Add(cardRiskManagementDataObjectList1RelatedData!);
-        if (values.TryGet(CvmResults.Tag, out CvmResults? cvmResults))
-            buffer.Add(cvmResults!);
-        if (values.TryGet(DataRecoveryDataObjectListRelatedData.Tag,
-            out DataRecoveryDataObjectListRelatedData? dataRecoveryDataObjectListRelatedData))
-            buffer.Add(dataRecoveryDataObjectListRelatedData!);
-        if (values.TryGet(DataStorageSummary1.Tag, out DataStorageSummary1? dataStorageSummary1))
-            buffer.Add(dataStorageSummary1!);
-        if (values.TryGet(DataStorageSummaryStatus.Tag, out DataStorageSummaryStatus? dataStorageSummaryStatus))
-            buffer.Add(dataStorageSummaryStatus!);
-        if (values.TryGet(InterfaceDeviceSerialNumber.Tag, out InterfaceDeviceSerialNumber? interfaceDeviceSerialNumber))
-            buffer.Add(interfaceDeviceSerialNumber!);
-        if (values.TryGet(ProcessingOptionsDataObjectListRelatedData.Tag,
-            out ProcessingOptionsDataObjectListRelatedData? processingOptionsDataObjectListRelatedData))
-            buffer.Add(processingOptionsDataObjectListRelatedData!);
-        if (values.TryGet(ReferenceControlParameter.Tag, out ReferenceControlParameter? referenceControlParameter))
-            buffer.Add(referenceControlParameter!);
-        if (values.TryGet(TerminalCapabilities.Tag, out TerminalCapabilities? terminalCapabilities))
-            buffer.Add(terminalCapabilities!);
-        if (values.TryGet(TerminalCountryCode.Tag, out TerminalCountryCode? terminalCountryCode))
-            buffer.Add(terminalCountryCode!);
-        if (values.TryGet(TerminalType.Tag, out TerminalType? terminalType))
-            buffer.Add(terminalType!);
-        if (values.TryGet(TerminalVerificationResults.Tag, out TerminalVerificationResults? terminalVerificationResults))
-            buffer.Add(terminalVerificationResults!);
-        if (values.TryGet(TransactionCategoryCode.Tag, out TransactionCategoryCode? transactionCategoryCode))
-            buffer.Add(transactionCategoryCode!);
-        if (values.TryGet(TransactionCurrencyCode.Tag, out TransactionCurrencyCode? transactionCurrencyCode))
-            buffer.Add(transactionCurrencyCode!);
-        if (values.TryGet(TransactionDate.Tag, out TransactionDate? transactionDate))
-            buffer.Add(transactionDate!);
-        if (values.TryGet(TransactionTime.Tag, out TransactionTime? transactionTime))
-            buffer.Add(transactionTime!);
-        if (values.TryGet(UnpredictableNumber.Tag, out UnpredictableNumber? unpredictableNumber))
-            buffer.Add(unpredictableNumber!);
-        if (values.TryGet(TerminalRelayResistanceEntropy.Tag, out TerminalRelayResistanceEntropy? terminalRelayResistanceEntropy))
-            buffer.Add(terminalRelayResistanceEntropy!);
-        if (values.TryGet(DeviceRelayResistanceEntropy.Tag, out DeviceRelayResistanceEntropy? deviceRelayResistanceEntropy))
-            buffer.Add(deviceRelayResistanceEntropy!);
-        if (values.TryGet(MinTimeForProcessingRelayResistanceApdu.Tag,
-            out MinTimeForProcessingRelayResistanceApdu? minTimeForProcessingRelayResistanceApdu))
-            buffer.Add(minTimeForProcessingRelayResistanceApdu!);
-        if (values.TryGet(MaxTimeForProcessingRelayResistanceApdu.Tag,
-            out MaxTimeForProcessingRelayResistanceApdu? maxTimeForProcessingRelayResistanceApdu))
-            buffer.Add(maxTimeForProcessingRelayResistanceApdu!);
-        if (values.TryGet(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag,
-            out DeviceEstimatedTransmissionTimeForRelayResistanceRapdu? deviceEstimatedTransmissionTimeForRelayResistanceRapdu))
-            buffer.Add(deviceEstimatedTransmissionTimeForRelayResistanceRapdu!);
-        if (values.TryGet(MeasuredRelayResistanceProcessingTime.Tag,
-            out MeasuredRelayResistanceProcessingTime? measuredRelayResistanceProcessingTime))
-            buffer.Add(measuredRelayResistanceProcessingTime!);
-        if (values.TryGet(RelayResistanceProtocolCounter.Tag, out RelayResistanceProtocolCounter? relayResistanceProtocolCounter))
-            buffer.Add(relayResistanceProtocolCounter!);
+        buffer.RemoveAll(item => item == null);
 
-        ApplicationPan applicationPan = values.Get<ApplicationPan>(ApplicationPan.Tag);
+        ApplicationPan applicationPan = (ApplicationPan) values.First(a => a.GetTag() == ApplicationPan.Tag);
         ApplicationPanSequenceNumber applicationPanSequenceNumber =
-            values.Get<ApplicationPanSequenceNumber>(ApplicationPanSequenceNumber.Tag);
+            (ApplicationPanSequenceNumber) values.First(a => a.GetTag() == ApplicationPanSequenceNumber.Tag);
 
         return new Record(new RecordKey(applicationPan, applicationPanSequenceNumber), buffer.ToArray());
     }
