@@ -37,7 +37,7 @@ public record TornRecord : DataExchangeResponse
 
     #endregion
 
-    #region Constructor 
+    #region Constructor
 
     public TornRecord(Record record) : base(record.GetValues())
     {
@@ -57,6 +57,7 @@ public record TornRecord : DataExchangeResponse
 
     private static PrimitiveValue[] InitializeTornEntryValues(PrimitiveValue[] values, out TornEntry tornEntry)
     {
+        //
         Record record = Record.Create(values);
         tornEntry = new TornEntry(record.GetKey());
 
