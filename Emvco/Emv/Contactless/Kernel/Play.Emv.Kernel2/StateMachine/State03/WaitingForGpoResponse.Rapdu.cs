@@ -65,7 +65,7 @@ public partial class WaitingForGpoResponse : KernelState
         if (TryHandlingMagstripeNotSupported(kernel2Session))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        return HandleMagstripeMode(kernel2Session, applicationFileLocator, applicationInterchangeProfile, kernelConfiguration);
+        return HandleMagstripeMode(kernel2Session, applicationFileLocator);
     }
 
     #region S3.4 - S3.5
@@ -233,7 +233,7 @@ public partial class WaitingForGpoResponse : KernelState
         {
             // TODO: Logging
 
-            HandleBerParsingException(session, signal);
+            HandleBerParsingException(session);
 
             return false;
         }
@@ -241,7 +241,7 @@ public partial class WaitingForGpoResponse : KernelState
         {
             // TODO: Logging
 
-            HandleBerParsingException(session, signal);
+            HandleBerParsingException(session);
 
             return false;
         }
@@ -253,7 +253,7 @@ public partial class WaitingForGpoResponse : KernelState
 
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    private void HandleBerParsingException(KernelSession session, QueryPcdResponse signal)
+    private void HandleBerParsingException(KernelSession session)
     {
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Status.NotReady);
@@ -282,7 +282,8 @@ public partial class WaitingForGpoResponse : KernelState
         ApplicationInterchangeProfile applicationInterchangeProfile, KernelConfiguration kernelConfiguration)
     {
         SetActiveAflForEmvMode(session, applicationFileLocator, kernelConfiguration);
-        SetContactlessTransactionLimitForEmvMode(session, applicationInterchangeProfile);
+
+        // S3.33 - S3.35 - Setting the Reader Contactless Transaction Limit is done automatically on retrieval by the KernelDatabase
 
         if (IsRelayResistanceProtocolSupported(applicationInterchangeProfile))
             return InitializeRelayResistanceProtocol(session);
@@ -306,31 +307,6 @@ public partial class WaitingForGpoResponse : KernelState
     #endregion
 
     #region S3.33 - S3.35
-
-    /// <remarks>EMV Book C-2 Section S3.33 - S3.35</remarks>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    private void SetContactlessTransactionLimitForEmvMode(
-        Kernel2Session session, ApplicationInterchangeProfile applicationInterchangeProfile)
-    {
-        if (IsOnDeviceCardholderVerificationSupported(applicationInterchangeProfile))
-        {
-            ReaderContactlessTransactionLimitWhenCvmIsOnDevice onDevice =
-                (ReaderContactlessTransactionLimitWhenCvmIsOnDevice) _Database.Get(ReaderContactlessTransactionLimitWhenCvmIsOnDevice.Tag);
-
-            session.Update(onDevice);
-        }
-        else
-        {
-            ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice onDevice =
-                (ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice) _Database.Get(ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice
-                    .Tag);
-
-            session.Update(onDevice);
-        }
-    }
 
     /// <summary>
     ///     IsOnDeviceCardholderVerificationSupported
@@ -435,12 +411,11 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    private KernelState HandleMagstripeMode(
-        Kernel2Session session, ApplicationFileLocator applicationFileLocator, ApplicationInterchangeProfile applicationInterchangeProfile,
-        KernelConfiguration kernelConfiguration)
+    private KernelState HandleMagstripeMode(Kernel2Session session, ApplicationFileLocator applicationFileLocator)
     {
         SetActiveAflForMagstripeMode(session, applicationFileLocator);
-        SetContactlessTransactionLimitForMagstripeMode(session, applicationInterchangeProfile);
+
+        // S3.73 - S3.75 - Setting the Reader Contactless Transaction Limit is done automatically on retrieval by the KernelDatabase
         UpdateDataToSend();
         HandleDekRequest(session);
         SendReadRecordCommand(session);
@@ -463,30 +438,6 @@ public partial class WaitingForGpoResponse : KernelState
     #endregion
 
     #region S3.73 - S3.75
-
-    /// <remarks>Emv Book C-2 Section S3.73 - S3.75 </remarks>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    private void SetContactlessTransactionLimitForMagstripeMode(
-        Kernel2Session session, ApplicationInterchangeProfile applicationInterchangeProfile)
-    {
-        if (IsOnDeviceCardholderVerificationSupported(applicationInterchangeProfile))
-        {
-            ReaderContactlessTransactionLimitWhenCvmIsOnDevice onDevice =
-                (ReaderContactlessTransactionLimitWhenCvmIsOnDevice) _Database.Get(ReaderContactlessTransactionLimitWhenCvmIsOnDevice.Tag);
-
-            session.Update(onDevice);
-        }
-        else
-        {
-            ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice onDevice =
-                (ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice) _Database.Get(ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice
-                    .Tag);
-            session.Update(onDevice);
-        }
-    }
 
     #endregion
 
