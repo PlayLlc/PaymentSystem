@@ -191,7 +191,13 @@ public partial class WaitingForRecoverAcResponse
         if (!session.TryGetTornEntry(out TornEntry? tornEntry))
         {
             throw new TerminalDataException(
-                $"The {nameof(WaitingForRecoverAcResponse)} could not {nameof(RemoveTornEntry)} from the {nameof(IWriteTornTransactions)}");
+                $"The {nameof(WaitingForRecoverAcResponse)} could not retrieve the {nameof(TornEntry)} from the {nameof(Kernel2Session)}");
+        }
+
+        if (!_Database.TryGet(tornEntry, out TornRecord? tornRecord))
+        {
+            throw new TerminalDataException(
+                $"The {nameof(WaitingForRecoverAcResponse)} could not {nameof(RemoveTornEntry)} from the {nameof(TornTransactionLog)}");
         }
 
         _Database.Update(tornRecord!.GetDataObjects());

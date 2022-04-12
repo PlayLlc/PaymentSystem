@@ -82,8 +82,5 @@ public partial class WaitingForGenerateAcResponse2
 
     #region S11.11
 
-    private bool IsIdsWriteFlagSetInTempTornRecord()
-    { }
-
     #endregion
 }

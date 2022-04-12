@@ -20,9 +20,10 @@ public class Kernel2ProcessFactory
         ICleanTornTransactions tornTransactionCleaner, Kernel2Configuration kernel2Configuration,
         Kernel2PersistentValues kernel2PersistentValues, Kernel2KnownObjects knownObjects, IHandleTerminalRequests terminalEndpoint,
         IKernelEndpoint kernelEndpoint, IHandlePcdRequests pcdEndpoint, IGenerateUnpredictableNumber unpredictableNumberGenerator,
-        IManageTornTransactions tornTransactionManager, CertificateAuthorityDataset[] certificates, IHandleDisplayRequests displayEndpoint)
+        IManageTornTransactions tornTransactionManager, CertificateAuthorityDataset[] certificates, IHandleDisplayRequests displayEndpoint,
+        ScratchPad scratchPad)
     {
-        KernelDatabase kernelDatabase = new(certificates, kernel2PersistentValues, knownObjects);
+        KernelDatabase kernelDatabase = new(certificates, kernel2PersistentValues, knownObjects, scratchPad);
 
         Kernel2StateResolver kernel2StateResolver = Kernel2StateResolver.Create(tornTransactionCleaner, kernelDatabase,
             new DataExchangeKernelService(terminalEndpoint, kernelDatabase, kernelEndpoint), tornTransactionManager, terminalEndpoint,

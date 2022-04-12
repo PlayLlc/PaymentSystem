@@ -20,15 +20,9 @@ public partial class WaitingForPdolData : KernelState
     public WaitingForPdolData(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IHandleDisplayRequests displayEndpoint, IHandleTerminalRequests terminalEndpoint, ICleanTornTransactions kernelCleaner) : base(
-        database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver, pcdEndpoint, displayEndpoint)
-    {
-        _KernelEndpoint = kernelEndpoint;
-        _TerminalEndpoint = terminalEndpoint;
-        _PcdEndpoint = pcdEndpoint;
-        _KernelStateResolver = kernelStateResolver;
-        _KernelCleaner = kernelCleaner;
-    }
+        IHandleDisplayRequests displayEndpoint) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager,
+        kernelStateResolver, pcdEndpoint, displayEndpoint)
+    { }
 
     #endregion
 
@@ -37,8 +31,6 @@ public partial class WaitingForPdolData : KernelState
     public static readonly StateId StateId = new(nameof(WaitingForPdolData));
 
     #endregion
-
-    #region Instance Members
 
     public override StateId GetStateId() => StateId;
 
@@ -79,18 +71,6 @@ public partial class WaitingForPdolData : KernelState
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    #endregion
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly IKernelEndpoint _KernelEndpoint;
-    private readonly IHandleTerminalRequests _TerminalEndpoint;
-    private readonly IHandlePcdRequests _PcdEndpoint;
-    private readonly IGetKernelState _KernelStateResolver;
-    private readonly ICleanTornTransactions _KernelCleaner;
 
     #endregion
 

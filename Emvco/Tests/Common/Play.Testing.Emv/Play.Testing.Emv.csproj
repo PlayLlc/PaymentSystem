@@ -11,8 +11,4 @@
 		<ProjectReference Include="..\Play.Testing.Infrastructure\Play.Testing.Infrastructure.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="AutoFixture\Resistrations\" />
-	</ItemGroup>
-
 </Project>

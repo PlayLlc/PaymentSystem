@@ -38,8 +38,7 @@ public record GenerateApplicationCryptogramRequest : QueryPcdRequest
         }
 
         return new GenerateApplicationCryptogramRequest(sessionId,
-            GenerateApplicationCryptogramCApduSignal.Create(referenceControlParameter, cardRiskManagementDataObjectListResult,
-                dataStorageDataObjectListResult));
+            GenerateApplicationCryptogramCApduSignal.Create(referenceControlParameter, cardRiskManagementDataObjectList1RelatedData));
     }
 
     public bool IsCdaRequested() => ((GenerateApplicationCryptogramCApduSignal) GetCApduSignal()).IsCdaRequested();

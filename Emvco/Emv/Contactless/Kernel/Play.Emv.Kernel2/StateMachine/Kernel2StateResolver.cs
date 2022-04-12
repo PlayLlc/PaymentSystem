@@ -32,7 +32,7 @@ public class Kernel2StateResolver : IGetKernelState
     #region Instance Members
 
     public static Kernel2StateResolver Create(
-        ICleanTornTransactions tornTransactionCleaner, KernelDatabase kernelDatabase, DataExchangeKernelService dataExchangeKernelService,
+        ICleanTornTransactions tornTransactionCleaner, KernelDatabase database, DataExchangeKernelService dataExchangeKernelService,
         IManageTornTransactions tornTransactionManager, IHandleTerminalRequests terminalEndpoint, IKernelEndpoint kernelEndpoint,
         IHandlePcdRequests pcdEndpoint, IGenerateUnpredictableNumber unpredictableNumberGenerator, IHandleDisplayRequests displayRequests)
     {
@@ -40,8 +40,8 @@ public class Kernel2StateResolver : IGetKernelState
 
         KernelState[] kernelStates =
         {
-            new Idle(kernelDatabase, dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver,
-                pcdEndpoint, displayRequests, tornTransactionCleaner, unpredictableNumberGenerator)
+            new Idle(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver, pcdEndpoint,
+                displayRequests, unpredictableNumberGenerator)
         };
 
         foreach (KernelState state in kernelStates)
