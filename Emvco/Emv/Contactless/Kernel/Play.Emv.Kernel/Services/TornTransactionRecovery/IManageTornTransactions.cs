@@ -1,5 +1,6 @@
 ﻿using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Kernel.DataExchange;
 
 namespace Play.Emv.Kernel.Services;
 
@@ -9,7 +10,7 @@ public interface IManageTornTransactions
 
     public void Add(TornRecord tornRecord, ITlvReaderAndWriter database);
     public bool TryGet(TornEntry tornEntry, out TornRecord? result);
-    public void Remove(TornEntry tornEntry);
+    public void Remove(IWriteToDek dataExchangeKernel, TornEntry tornEntry);
 
     #endregion
 }

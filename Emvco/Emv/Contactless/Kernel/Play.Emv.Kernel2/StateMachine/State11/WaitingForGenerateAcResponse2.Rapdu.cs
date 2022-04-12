@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
@@ -36,8 +37,93 @@ public partial class WaitingForGenerateAcResponse2
         if (TryHandlingL1Error(kernel2Session, rapdu))
             return _KernelStateResolver.GetKernelState(StateId);
 
+        if (!TryHandlingL2Error(kernel2Session, rapdu))
+            return _KernelStateResolver.GetKernelState(StateId);
+
         throw new NotImplementedException();
     }
+
+    #region L2 Error
+
+    #region S11.6 - S11.10
+
+    private bool TryHandlingL2Error(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
+    {
+        RemoveTornEntryFrom(session); // S11.5
+
+        // S11.6
+        if (rapdu.IsLevel2ErrorPresent())
+        {
+            // S11.7
+            HandleLStatusBytesError();
+
+            return true;
+        }
+
+        if (TryHandlingBerParsingError(rapdu))
+            return true;
+
+        return false;
+    }
+
+    #endregion
+
+    #region S11.5
+
+    private void RemoveTornEntryFrom(Kernel2Session session)
+    {
+        if (!session.TryGetTornEntry(out TornEntry? tornEntry))
+        {
+            throw new TerminalDataException(
+                $"The {nameof(WaitingForGenerateAcResponse2)} could not complete processing because the {nameof(TornEntry)} could not be retrieved from the {nameof(Kernel2Session)}");
+        }
+
+        _TornTransactionLog.Remove(_DataExchangeKernelService, tornEntry);
+    }
+
+    #endregion
+
+    #region S11.6 - S11.7
+
+    private void HandleLStatusBytesError()
+    { }
+
+    #endregion
+
+    #region S8 - S10
+
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    private bool TryHandlingBerParsingError(GenerateApplicationCryptogramResponse rapdu)
+    {
+        try
+        {
+            _Database.Update(rapdu.GetPrimitiveDataObjects(_Database));
+        }
+        catch (TerminalDataException)
+        {
+            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
+        }
+        catch (BerParsingException)
+        {
+            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
+        }
+        catch (CodecParsingException)
+        {
+            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
+        }
+        catch (Exception)
+        {
+            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
+        }
+
+        throw new NotImplementedException();
+    }
+
+    #endregion
+
+    #endregion
 
     #region L1 Error
 
@@ -59,7 +145,7 @@ public partial class WaitingForGenerateAcResponse2
                 $"The {nameof(WaitingForGenerateAcResponse2)} could not complete processing because the {nameof(TornEntry)} could not be retrieved from the {nameof(Kernel2Session)}");
         }
 
-        HandleIdsReadFlagSet(session, tornEntry!);
+        HandleIdsReadFlagSet(tornEntry!);
 
         PrepareNewTornRecord();
         HandleLevel1Response(session.GetKernelSessionId(), rapdu);
@@ -73,7 +159,7 @@ public partial class WaitingForGenerateAcResponse2
 
     /// <remarks>Book C-2 Section S11.11 - S11.12</remarks>
     /// <exception cref="TerminalDataException"></exception>
-    private void HandleIdsReadFlagSet(Kernel2Session session, TornEntry tornEntry)
+    private void HandleIdsReadFlagSet(TornEntry tornEntry)
     {
         if (!_TornTransactionLog.TryGet(tornEntry!, out TornRecord? tornTempRecord))
         {
@@ -82,23 +168,10 @@ public partial class WaitingForGenerateAcResponse2
         }
 
         if (tornTempRecord!.TryGetRecordItem(IntegratedDataStorageStatus.Tag, out PrimitiveValue? idsStatus))
-            Remove(tornTempRecord);
+            _TornTransactionLog.Remove(_DataExchangeKernelService, tornEntry); // S11.12 
 
-        // S11.12
         if (!((IntegratedDataStorageStatus) idsStatus!).IsWriteSet())
-            Remove(tornTempRecord);
-    }
-
-    #endregion
-
-    #region S11.11 - S11.12 continued
-
-    /// <remarks>Book C-2 Section S11.11 - S11.12</remarks>
-    /// <exception cref="TerminalDataException"></exception>
-    private void Remove(TornRecord tornRecord)
-    {
-        _DataExchangeKernelService.Enqueue(DekResponseType.TornRecord, tornRecord);
-        _TornTransactionLog.Remove(tornRecord.GetKey());
+            _TornTransactionLog.Remove(_DataExchangeKernelService, tornEntry); // S11.12
     }
 
     #endregion
@@ -159,6 +232,10 @@ public partial class WaitingForGenerateAcResponse2
     }
 
     #endregion
+
+    #endregion
+
+    #region S11.5
 
     #endregion
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Kernel.DataExchange;
 using Play.Globalization.Time.Seconds;
 
 namespace Play.Emv.Kernel.Services;
@@ -63,10 +64,13 @@ public class TornTransactionLog : IManageTornTransactions
         return _TornRecords.TryGetValue(tornEntry, out result);
     }
 
-    public void Remove(TornEntry tornEntry)
+    public void Remove(IWriteToDek dataExchangeKernel, TornEntry tornEntry)
     {
-        if (_TornRecords.ContainsKey(tornEntry))
-            _TornRecords.Remove(tornEntry);
+        if (!_TornRecords.ContainsKey(tornEntry))
+            return;
+
+        dataExchangeKernel.Enqueue(DekResponseType.TornRecord, _TornRecords[tornEntry]);
+        _TornRecords.Remove(tornEntry);
     }
 
     private void CleanStaleRecords()
