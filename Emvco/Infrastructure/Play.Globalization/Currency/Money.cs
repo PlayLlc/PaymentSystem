@@ -107,11 +107,11 @@ public record Money : IEqualityComparer<Money>
     ///     Splits currency amounts based on the percentage provided by the argument
     /// </summary>
     /// <param name="value"></param>
-    /// <param name="percentageSplit"></param>
+    /// <param name="probabilitySplit"></param>
     /// <returns></returns>
-    public static (Money Remaining, Money Split) Split(Money value, Percentage percentageSplit)
+    public static (Money Remaining, Money Split) Split(Money value, Probability probabilitySplit)
     {
-        var remaining = value._Amount / (byte) percentageSplit;
+        var remaining = value._Amount / (byte) probabilitySplit;
         var split = value._Amount - remaining;
 
         return (Remaining: new Money(remaining, value._Currency), new Money(split, value._Currency));
@@ -210,6 +210,18 @@ public record Money : IEqualityComparer<Money>
         }
 
         return new Money(left._Amount * right._Amount, left._Currency);
+    }
+
+    /// <exception cref="InvalidOperationException"></exception>
+    public static decimal operator /(Money left, Money right)
+    {
+        if (!left.IsCommonCurrency(right))
+        {
+            throw new InvalidOperationException(
+                $"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
+        }
+
+        return left._Amount / (decimal) right._Amount;
     }
 
     /// <exception cref="InvalidOperationException" />

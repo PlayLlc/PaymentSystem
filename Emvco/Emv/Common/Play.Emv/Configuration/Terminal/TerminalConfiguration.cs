@@ -33,8 +33,8 @@ public abstract record TerminalConfiguration
     private readonly AdditionalTerminalCapabilities _AdditionalTerminalCapabilities;
     private readonly TransactionReferenceCurrencyCode _TransactionReferenceCurrencyCode;
     private readonly TransactionReferenceCurrencyExponent _TransactionReferenceCurrencyExponent;
-    private readonly Percentage _BiasedRandomSelectionPercentage;
-    private readonly Percentage _RandomSelectionTargetPercentage;
+    private readonly Probability _BiasedRandomSelectionProbability;
+    private readonly Probability _RandomSelectionTargetProbability;
 
     /// <summary>
     ///     This is a threshold amount, simply referred to as the threshold value, which can be zero or a positive number
@@ -54,8 +54,8 @@ public abstract record TerminalConfiguration
         TerminalCapabilities terminalCapabilities, TerminalFloorLimit terminalFloorLimit, TerminalType terminalType,
         TerminalCountryCode terminalCountryCode, MerchantCategoryCode merchantCategoryCode, LanguagePreference languagePreference,
         ApplicationVersionNumberReader applicationVersionNumberReader, MerchantNameAndLocation merchantNameAndLocation,
-        TerminalRiskManagementData terminalRiskManagementData, Percentage biasedRandomSelectionPercentage,
-        Percentage randomSelectionTargetPercentage, ulong thresholdValueForBiasedRandomSelection, PoiInformation poiInformation,
+        TerminalRiskManagementData terminalRiskManagementData, Probability biasedRandomSelectionProbability,
+        Probability randomSelectionTargetProbability, ulong thresholdValueForBiasedRandomSelection, PoiInformation poiInformation,
         AdditionalTerminalCapabilities additionalTerminalCapabilities, TransactionReferenceCurrencyCode transactionReferenceCurrencyCode,
         TransactionReferenceCurrencyExponent transactionReferenceCurrencyExponent, AcquirerIdentifier acquirerIdentifier,
         DataStorageRequestedOperatorId dataStorageRequestedOperatorId)
@@ -73,8 +73,8 @@ public abstract record TerminalConfiguration
         _ApplicationVersionNumberReader = applicationVersionNumberReader;
         _MerchantNameAndLocation = merchantNameAndLocation;
         _TerminalRiskManagementData = terminalRiskManagementData;
-        _BiasedRandomSelectionPercentage = biasedRandomSelectionPercentage;
-        _RandomSelectionTargetPercentage = randomSelectionTargetPercentage;
+        _BiasedRandomSelectionProbability = biasedRandomSelectionProbability;
+        _RandomSelectionTargetProbability = randomSelectionTargetProbability;
         _ThresholdValueForBiasedRandomSelection = thresholdValueForBiasedRandomSelection;
         _PoiInformation = poiInformation;
         _AdditionalTerminalCapabilities = additionalTerminalCapabilities;
@@ -117,8 +117,8 @@ public abstract record TerminalConfiguration
 
     // HACK: This is not implemented. Find how we're supposed to store the random and biased percentages and biased threshold value
     public TerminalRiskConfiguration GetTerminalRiskConfiguration(CultureProfile culture) =>
-        new(culture, _TerminalRiskManagementData, _BiasedRandomSelectionPercentage,
-            new Money(_ThresholdValueForBiasedRandomSelection, culture.GetNumericCurrencyCode()), _RandomSelectionTargetPercentage,
+        new(culture, _TerminalRiskManagementData, _BiasedRandomSelectionProbability,
+            new Money(_ThresholdValueForBiasedRandomSelection, culture.GetNumericCurrencyCode()), _RandomSelectionTargetProbability,
             _TerminalFloorLimit);
 
     public MerchantNameAndLocation GetMerchantNameAndLocation() => _MerchantNameAndLocation;

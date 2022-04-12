@@ -6,7 +6,7 @@ using Play.Core;
 
 namespace Play.Emv.Kernel.Services;
 
-internal class PercentageSelectionQueue : IPercentageSelectionQueue
+internal class ProbabilitySelectionQueue : IProbabilitySelectionQueue
 {
     #region Static Metadata
 
@@ -18,15 +18,15 @@ internal class PercentageSelectionQueue : IPercentageSelectionQueue
 
     private readonly ushort _EnqueueCeiling;
     private readonly ushort _EnqueueFloor;
-    private readonly ConcurrentQueue<Percentage> _RandomNumberQueue;
+    private readonly ConcurrentQueue<Probability> _RandomNumberQueue;
 
     #endregion
 
     #region Constructor
 
-    public PercentageSelectionQueue()
+    public ProbabilitySelectionQueue()
     {
-        _RandomNumberQueue = new ConcurrentQueue<Percentage>();
+        _RandomNumberQueue = new ConcurrentQueue<Probability>();
         _EnqueueFloor = 10;
         _EnqueueCeiling = 100;
     }
@@ -37,12 +37,12 @@ internal class PercentageSelectionQueue : IPercentageSelectionQueue
     /// <param name="enqueueCeiling"></param>
     /// <param name="enqueueFloor"></param>
     /// <exception cref="InvalidOperationException"></exception>
-    public PercentageSelectionQueue(ushort enqueueCeiling, ushort enqueueFloor)
+    public ProbabilitySelectionQueue(ushort enqueueCeiling, ushort enqueueFloor)
     {
         if (enqueueFloor >= enqueueCeiling)
             throw new InvalidOperationException($"The argument {nameof(enqueueCeiling)} must be greater than {nameof(enqueueFloor)}");
 
-        _RandomNumberQueue = new ConcurrentQueue<Percentage>();
+        _RandomNumberQueue = new ConcurrentQueue<Probability>();
         _EnqueueFloor = enqueueFloor;
         _EnqueueCeiling = enqueueCeiling;
     }
@@ -56,18 +56,18 @@ internal class PercentageSelectionQueue : IPercentageSelectionQueue
         _RandomNumberQueue.Enqueue(GetRandomPercentage());
     }
 
-    private static Percentage GetRandomPercentage() => new((byte) _Random.Next(0, 99));
+    private static Probability GetRandomPercentage() => new((byte) _Random.Next(0, 99));
 
-    public async Task<bool> IsRandomSelection(Percentage threshold)
+    public async Task<bool> IsRandomSelection(Probability threshold)
     {
-        if (!_RandomNumberQueue.TryDequeue(out Percentage result))
+        if (!_RandomNumberQueue.TryDequeue(out Probability result))
         {
-            Percentage randomPercentage = GetRandomPercentage();
+            Probability randomProbability = GetRandomPercentage();
 
             if (_RandomNumberQueue.Count < _EnqueueFloor)
                 await UpdateQueue().ConfigureAwait(false);
 
-            return randomPercentage <= threshold;
+            return randomProbability <= threshold;
         }
 
         if (_RandomNumberQueue.Count < _EnqueueFloor)

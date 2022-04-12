@@ -137,7 +137,7 @@ public partial class WaitingForRecoverAcResponse
     {
         try
         {
-            RemoveTornEntry();
+            RemoveTornEntry(session);
             UpdateDatabaseWithRapdu(rapdu);
 
             return false;

@@ -9,7 +9,7 @@ public class TerminalRiskConfiguration
 {
     #region Instance Values
 
-    private readonly Percentage _BiasedRandomSelectionMaximumPercentage;
+    private readonly Probability _BiasedRandomSelectionMaximumProbability;
 
     /// <summary>
     ///     This is a threshold amount, simply referred to as the threshold value, which can be zero or a positive number
@@ -18,7 +18,7 @@ public class TerminalRiskConfiguration
     private readonly Money _BiasedRandomSelectionThreshold;
 
     private readonly CultureProfile _CultureProfile;
-    private readonly Percentage _RandomSelectionTargetPercentage;
+    private readonly Probability _RandomSelectionTargetProbability;
     private readonly TerminalFloorLimit _TerminalFloorLimit;
     private readonly TerminalRiskManagementData _TerminalRiskManagementData;
 
@@ -28,14 +28,14 @@ public class TerminalRiskConfiguration
 
     public TerminalRiskConfiguration(
         CultureProfile cultureProfile, TerminalRiskManagementData terminalRiskManagementData,
-        Percentage biasedRandomSelectionMaximumPercentage, Money biasedRandomSelectionThreshold, Percentage randomSelectionTargetPercentage,
-        TerminalFloorLimit terminalFloorLimit)
+        Probability biasedRandomSelectionMaximumProbability, Money biasedRandomSelectionThreshold,
+        Probability randomSelectionTargetProbability, TerminalFloorLimit terminalFloorLimit)
     {
         _CultureProfile = cultureProfile;
         _TerminalRiskManagementData = terminalRiskManagementData;
-        _BiasedRandomSelectionMaximumPercentage = biasedRandomSelectionMaximumPercentage;
+        _BiasedRandomSelectionMaximumProbability = biasedRandomSelectionMaximumProbability;
         _BiasedRandomSelectionThreshold = biasedRandomSelectionThreshold;
-        _RandomSelectionTargetPercentage = randomSelectionTargetPercentage;
+        _RandomSelectionTargetProbability = randomSelectionTargetProbability;
         _TerminalFloorLimit = terminalFloorLimit;
     }
 
@@ -43,9 +43,9 @@ public class TerminalRiskConfiguration
 
     #region Instance Members
 
-    public Percentage GetBiasedRandomSelectionMaximumPercentage() => _BiasedRandomSelectionMaximumPercentage;
+    public Probability GetBiasedRandomSelectionMaximumPercentage() => _BiasedRandomSelectionMaximumProbability;
     public Money GetBiasedRandomSelectionThreshold() => _BiasedRandomSelectionThreshold;
-    public Percentage GetRandomSelectionTargetPercentage() => _RandomSelectionTargetPercentage;
+    public Probability GetRandomSelectionTargetPercentage() => _RandomSelectionTargetProbability;
     public Money GetTerminalFloorLimit() => _TerminalFloorLimit.AsMoney(_CultureProfile);
     public TerminalRiskManagementData GetTerminalRiskManagementData() => _TerminalRiskManagementData;
 

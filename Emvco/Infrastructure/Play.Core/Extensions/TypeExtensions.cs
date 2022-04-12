@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Numerics;
+using System.Collections;
 
 namespace Play.Core.Extensions;
 
@@ -76,7 +77,7 @@ public static class TypeExtensions
     }
 
     public static bool HasDefaultConstructor(this Type t) => t.IsValueType || (t.GetConstructor(Type.EmptyTypes) != null);
-    public static bool IsEnumerable(this Type value) => typeof(IEnumerable).IsAssignableFrom(value);
+    public static bool IsEnumerable(this Type value) => typeof(System.Collections.IEnumerable).IsAssignableFrom(value);
 
     public static bool IsSignedInteger(this Type value)
     {

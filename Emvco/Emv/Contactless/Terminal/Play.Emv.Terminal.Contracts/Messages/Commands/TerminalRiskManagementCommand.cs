@@ -55,12 +55,15 @@ public class TerminalRiskManagementCommand
 
     public Money GetAmountAuthorizedNumeric() => _AmountAmountAuthorizedNumeric.AsMoney(_CultureProfile.GetNumericCurrencyCode());
     public ushort? GetApplicationTransactionCount() => _ApplicationTransactionCount;
-    public Percentage GetBiasedRandomSelectionMaximumPercentage() => _TerminalRiskConfiguration.GetBiasedRandomSelectionMaximumPercentage();
+
+    public Probability GetBiasedRandomSelectionMaximumPercentage() =>
+        _TerminalRiskConfiguration.GetBiasedRandomSelectionMaximumPercentage();
+
     public Money GetBiasedRandomSelectionThreshold() => _TerminalRiskConfiguration.GetBiasedRandomSelectionThreshold();
     public ushort? GetLastOnlineApplicationTransactionCount() => _LastOnlineApplicationTransactionCount;
     public byte? GetLowerConsecutiveOfflineLimit() => _LowerConsecutiveOfflineLimit;
     public ApplicationPan GetPrimaryAccountNumber() => _PrimaryAccountNumber;
-    public Percentage GetRandomSelectionTargetPercentage() => _TerminalRiskConfiguration.GetRandomSelectionTargetPercentage();
+    public Probability GetRandomSelectionTargetPercentage() => _TerminalRiskConfiguration.GetRandomSelectionTargetPercentage();
     public Money GetTerminalFloorLimit() => _TerminalRiskConfiguration.GetTerminalFloorLimit();
     public byte? GetUpperConsecutiveOfflineLimit() => _UpperConsecutiveOfflineLimit;
     public bool IsVelocityCheckSupported() => (_UpperConsecutiveOfflineLimit != null) && (_LowerConsecutiveOfflineLimit != null);

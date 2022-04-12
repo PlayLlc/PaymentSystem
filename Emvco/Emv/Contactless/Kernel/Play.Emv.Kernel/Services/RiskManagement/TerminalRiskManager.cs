@@ -29,17 +29,17 @@ internal class TerminalRiskManager : IManageTerminalRisk
 {
     #region Instance Values
 
-    private readonly IPercentageSelectionQueue _PercentageSelectionQueue;
+    private readonly IProbabilitySelectionQueue _ProbabilitySelectionQueue;
     private readonly ICoordinateSplitPayments _SplitPaymentCoordinator;
 
     #endregion
 
     #region Constructor
 
-    public TerminalRiskManager(ICoordinateSplitPayments splitPaymentCoordinator, IPercentageSelectionQueue percentageSelectionQueue)
+    public TerminalRiskManager(ICoordinateSplitPayments splitPaymentCoordinator, IProbabilitySelectionQueue probabilitySelectionQueue)
     {
         _SplitPaymentCoordinator = splitPaymentCoordinator;
-        _PercentageSelectionQueue = percentageSelectionQueue;
+        _ProbabilitySelectionQueue = probabilitySelectionQueue;
     }
 
     #endregion
@@ -103,17 +103,18 @@ internal class TerminalRiskManager : IManageTerminalRisk
         return true;
     }
 
-    private static Percentage GetTransactionTargetPercentage(
+    private static Probability GetTransactionTargetPercentage(
         Money amountAuthorized, Money terminalFloorLimit, Money biasedRandomSelectionThreshold,
-        Percentage biasedRandomSelectionMaximumTargetPercentage, Percentage randomSelectionTargetPercentage)
+        Probability biasedRandomSelectionMaximumTargetProbability, Probability randomSelectionTargetProbability)
     {
         ulong interpolationFactor = (ulong) ((amountAuthorized - biasedRandomSelectionThreshold)
             / (terminalFloorLimit - biasedRandomSelectionThreshold));
-        int transactionTargetPercent =
-            (((byte) biasedRandomSelectionMaximumTargetPercentage - (byte) randomSelectionTargetPercentage) * (byte) interpolationFactor)
-            + (byte) randomSelectionTargetPercentage;
 
-        return new Percentage((byte) transactionTargetPercent);
+        int transactionTargetPercent =
+            (((byte) biasedRandomSelectionMaximumTargetProbability - (byte) randomSelectionTargetProbability) * (byte) interpolationFactor)
+            + (byte) randomSelectionTargetProbability;
+
+        return new Probability((byte) transactionTargetPercent);
     }
 
     /// <summary>
@@ -126,7 +127,7 @@ internal class TerminalRiskManager : IManageTerminalRisk
     /// </remarks>
     private async Task<bool> IsBiasedRandomSelection(
         Money amountAuthorizedNumeric, Money biasedRandomSelectionThreshold, Money terminalFloorLimit,
-        Percentage biasedRandomSelectionMaximumTargetPercentage, Percentage randomSelectionTargetPercentage)
+        Probability biasedRandomSelectionMaximumTargetProbability, Probability randomSelectionTargetProbability)
     {
         if (amountAuthorizedNumeric < biasedRandomSelectionThreshold)
             return false;
@@ -134,9 +135,9 @@ internal class TerminalRiskManager : IManageTerminalRisk
         if (amountAuthorizedNumeric > terminalFloorLimit)
             return false;
 
-        return await _PercentageSelectionQueue.IsRandomSelection(GetTransactionTargetPercentage(amountAuthorizedNumeric, terminalFloorLimit,
-                biasedRandomSelectionThreshold, biasedRandomSelectionMaximumTargetPercentage, randomSelectionTargetPercentage))
-            .ConfigureAwait(false);
+        return await _ProbabilitySelectionQueue.IsRandomSelection(GetTransactionTargetPercentage(amountAuthorizedNumeric,
+            terminalFloorLimit, biasedRandomSelectionThreshold, biasedRandomSelectionMaximumTargetProbability,
+            randomSelectionTargetProbability)).ConfigureAwait(false);
     }
 
     // TODO: Not sure if we're supposed to be looking at sequence number here 
@@ -183,10 +184,10 @@ internal class TerminalRiskManager : IManageTerminalRisk
     ///     Book 3 Section 10.6.2
     /// </remarks>
     private async Task<bool> IsRandomSelection(
-        Money amountAuthorizedNumeric, Money biasedRandomSelectionThreshold, Percentage randomSelectionTargetPercentage)
+        Money amountAuthorizedNumeric, Money biasedRandomSelectionThreshold, Probability randomSelectionTargetProbability)
     {
         if (amountAuthorizedNumeric < biasedRandomSelectionThreshold)
-            return await _PercentageSelectionQueue.IsRandomSelection(randomSelectionTargetPercentage);
+            return await _ProbabilitySelectionQueue.IsRandomSelection(randomSelectionTargetProbability);
 
         return false;
     }

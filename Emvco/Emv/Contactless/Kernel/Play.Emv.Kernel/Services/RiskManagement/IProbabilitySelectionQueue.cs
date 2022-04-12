@@ -4,11 +4,11 @@ using Play.Core;
 
 namespace Play.Emv.Kernel.Services;
 
-public interface IPercentageSelectionQueue
+public interface IProbabilitySelectionQueue
 {
     #region Instance Members
 
-    public Task<bool> IsRandomSelection(Percentage percentage);
+    public Task<bool> IsRandomSelection(Probability probability);
 
     #endregion
 }
