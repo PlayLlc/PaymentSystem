@@ -27,7 +27,6 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
 
             private readonly KernelDatabase _Database;
             private readonly IHandlePcdRequests _PcdEndpoint;
-            private readonly CdaFailure _CdaFailure;
             private readonly ReadIntegratedDataStorage _ReadIntegratedDataStorage;
 
             #endregion
@@ -35,12 +34,10 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
             #region Constructor
 
             public NoIntegratedDataStorage(
-                KernelDatabase database, IHandlePcdRequests pcdEndpoint, CdaFailure cdaFailure,
-                ReadIntegratedDataStorage readIntegratedDataStorage)
+                KernelDatabase database, IHandlePcdRequests pcdEndpoint, ReadIntegratedDataStorage readIntegratedDataStorage)
             {
                 _Database = database;
                 _PcdEndpoint = pcdEndpoint;
-                _CdaFailure = cdaFailure;
                 _ReadIntegratedDataStorage = readIntegratedDataStorage;
             }
 
@@ -51,35 +48,38 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
             /// <exception cref="TerminalDataException"></exception>
             /// <exception cref="OverflowException"></exception>
             /// <exception cref="BerParsingException"></exception>
+            /// <exception cref="CardDataException"></exception>
             public StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message)
             {
                 if (session.GetOdaStatus() != OdaStatusTypes.Cda)
                 {
-                    HandleCapdu(session);
+                    SetReferenceControlParameterWithoutCdaSignature(session);
+                    SendGenerateAcCommand(session);
 
                     return currentStateIdRetriever.GetStateId();
                 }
 
                 // GAC.21
                 if (_Database.IsSet(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed))
+                    return HandleCdaFailed(currentStateIdRetriever, session); // GAC.22 - GAC.23, GAC.26, GAC.29
 
-                    // GAC.21 - GAC.23, GAC.26, GAC.29
-                    return HandleCdaFailed(currentStateIdRetriever, session);
-
+                // GAC.24
                 if (session.GetApplicationCryptogramType() != CryptogramTypes.ApplicationAuthenticationCryptogram)
-                    return _ReadIntegratedDataStorage.Process(currentStateIdRetriever, session, message);
+                    return _ReadIntegratedDataStorage.Process(currentStateIdRetriever, session, message); // GAC.C
 
+                // GAC.25
                 if (IsCdaSupportedByApplicationForAcTypes())
-                    return _ReadIntegratedDataStorage.Process(currentStateIdRetriever, session, message);
+                    return _ReadIntegratedDataStorage.Process(currentStateIdRetriever, session, message); // GAC.C
 
-                HandleCapdu(session);
-
-                return currentStateIdRetriever.GetStateId();
+                return HandleCdaFailed(currentStateIdRetriever, session);
             }
 
-            #region GAC.21 - GAC.23, GAC.26, GAC.29
+            #region GAC.22 - GAC.23, GAC.26, GAC.29
 
             /// <exception cref="TerminalDataException"></exception>
+            /// <exception cref="OverflowException"></exception>
+            /// <exception cref="BerParsingException"></exception>
+            /// <exception cref="CardDataException"></exception>
             private StateId HandleCdaFailed(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
             {
                 if (IsOnDeviceCardholderVerificationSupported())
@@ -105,6 +105,17 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
 
             #endregion
 
+            #region GAC.26
+
+            /// <exception cref="TerminalDataException"></exception>
+            /// <exception cref="CardDataException"></exception>
+            private void SetReferenceControlParameterWithoutCdaSignature(Kernel2Session session)
+            {
+                _Database.Update(new ReferenceControlParameter(session.GetApplicationCryptogramType(), false));
+            }
+
+            #endregion
+
             #region GAC.29
 
             /// <exception cref="TerminalDataException"></exception>
@@ -117,57 +128,6 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
 
                 _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(session.GetTransactionSessionId(),
                     _Database.Get<ReferenceControlParameter>(ReferenceControlParameter.Tag), cdol1RelatedData));
-            }
-
-            #endregion
-
-            #endregion
-
-            #region CDA FAILURE
-
-            #region GAC.22
-
-            /// <exception cref="TerminalDataException"></exception>
-            private bool IsOnDeviceCardholderVerificationSupported()
-            {
-                if (!_Database.IsOnDeviceCardholderVerificationSupported())
-                    return false;
-
-                if (!_Database.Get<ApplicationInterchangeProfile>(ApplicationInterchangeProfile.Tag)
-                    .IsOnDeviceCardholderVerificationSupported())
-                    return false;
-
-                return true;
-            }
-
-            #endregion
-
-            #region GAC.23
-
-            private void UpdateAac(Kernel2Session session)
-            {
-                session.Update(CryptogramTypes.ApplicationAuthenticationCryptogram);
-            }
-
-            #endregion
-
-            #endregion
-
-            #region GAC.26, GAC.29
-
-            /// <exception cref="TerminalDataException"></exception>
-            private void HandleCapdu(Kernel2Session session)
-            {
-                SetReferenceControlParameterWithoutCdaSignature(session);
-                SendGenerateAcCommand(session);
-            }
-
-            #region GAC.26
-
-            /// <exception cref="TerminalDataException"></exception>
-            private void SetReferenceControlParameterWithoutCdaSignature(Kernel2Session session)
-            {
-                _Database.Update(new ReferenceControlParameter(session.GetApplicationCryptogramType(), false));
             }
 
             #endregion

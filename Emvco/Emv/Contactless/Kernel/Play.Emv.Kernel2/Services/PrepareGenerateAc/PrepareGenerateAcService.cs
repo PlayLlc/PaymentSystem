@@ -1,10 +1,12 @@
 ﻿using System;
 
+using Play.Ber.Exceptions;
 using Play.Core.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
 using Play.Emv.Kernel.Contracts;
@@ -48,10 +50,10 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
             IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint) : base(database, dataExchangeKernelService, kernelStateResolver,
             pcdEndpoint, kernelEndpoint)
         {
-            _NoIds = new NoIntegratedDataStorage();
-            _CdaFailure = new CdaFailure();
-            _ReadIds = new ReadIntegratedDataStorage();
-            _WriteIds = new WriteIntegratedDataStorage();
+            _CdaFailure = new CdaFailure(database, pcdEndpoint);
+            _ReadIds = new ReadIntegratedDataStorage(database, pcdEndpoint);
+            _WriteIds = new WriteIntegratedDataStorage(database, pcdEndpoint);
+            _NoIds = new NoIntegratedDataStorage(database, pcdEndpoint, _ReadIds);
         }
 
         #endregion
@@ -59,7 +61,10 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
         #region Instance Members
 
         /// <exception cref="TerminalDataException"></exception>
-        /// <exception cref="Exceptions.RequestOutOfSyncException"></exception>
+        /// <exception cref="RequestOutOfSyncException"></exception>
+        /// <exception cref="OverflowException"></exception>
+        /// <exception cref="BerParsingException"></exception>
+        /// <exception cref="CardDataException"></exception>
         public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message)
         {
             HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());

@@ -29,6 +29,16 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
 
             #endregion
 
+            #region Constructor
+
+            public WriteIntegratedDataStorage(KernelDatabase database, IHandlePcdRequests pcdEndpoint)
+            {
+                _Database = database;
+                _PcdEndpoint = pcdEndpoint;
+            }
+
+            #endregion
+
             #region Instance Members
 
             public StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message)
