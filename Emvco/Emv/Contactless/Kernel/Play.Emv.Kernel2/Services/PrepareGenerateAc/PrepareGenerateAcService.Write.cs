@@ -17,117 +17,114 @@ using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
 using Play.Messaging;
 
-namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
+namespace Play.Emv.Kernel2.Services.PrepareGenerateAc;
+
+public partial class PrepareGenerateAcService
 {
-    public partial class PrepareGenerateAcService
+    private class WriteIntegratedDataStorage
     {
-        private class WriteIntegratedDataStorage
+        #region Instance Values
+
+        private readonly KernelDatabase _Database;
+        private readonly IHandlePcdRequests _PcdEndpoint;
+
+        #endregion
+
+        #region Constructor
+
+        public WriteIntegratedDataStorage(KernelDatabase database, IHandlePcdRequests pcdEndpoint)
         {
-            #region Instance Values
+            _Database = database;
+            _PcdEndpoint = pcdEndpoint;
+        }
 
-            private readonly KernelDatabase _Database;
-            private readonly IHandlePcdRequests _PcdEndpoint;
+        #endregion
 
-            #endregion
+        #region Instance Members
 
-            #region Constructor
+        public StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message)
+        {
+            DataStorageDataObjectList dataStorageDataObjectList = _Database.Get<DataStorageDataObjectList>(DataStorageDataObjectList.Tag);
 
-            public WriteIntegratedDataStorage(KernelDatabase database, IHandlePcdRequests pcdEndpoint)
+            if (!IsDataStorageDigestHashPresent(dataStorageDataObjectList))
             {
-                _Database = database;
-                _PcdEndpoint = pcdEndpoint;
-            }
-
-            #endregion
-
-            #region Instance Members
-
-            public StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message)
-            {
-                DataStorageDataObjectList dataStorageDataObjectList =
-                    _Database.Get<DataStorageDataObjectList>(DataStorageDataObjectList.Tag);
-
-                if (!IsDataStorageDigestHashPresent(dataStorageDataObjectList))
-                {
-                    HandleGenerateAcCapdu(session);
-
-                    return currentStateIdRetriever.GetStateId();
-                }
-
-                if (!IsDataStorageInputTermPresent())
-                {
-                    HandleGenerateAcCapdu(session);
-
-                    return currentStateIdRetriever.GetStateId();
-                }
-
-                UpdateDataStorageDigestHash();
-
                 HandleGenerateAcCapdu(session);
 
                 return currentStateIdRetriever.GetStateId();
             }
 
-            #region GAC.40
-
-            /// <remarks>Book C-2 Section GAC.40</remarks>
-            private bool IsDataStorageDigestHashPresent(DataStorageDataObjectList dsdol) =>
-                dsdol.IsObjectPresent(DataStorageDigestHash.Tag);
-
-            #endregion
-
-            #region GAC.41
-
-            /// <remarks>Book C-2 Section GAC.41</remarks>
-            private bool IsDataStorageInputTermPresent() => _Database.IsPresent(DataStorageInputTerminal.Tag);
-
-            #endregion
-
-            #region GAC.42 - GAC.44
-
-            /// <remarks>Book C-2 Section GAC.42- GAC.44</remarks>
-            private void UpdateDataStorageDigestHash()
+            if (!IsDataStorageInputTermPresent())
             {
-                ApplicationCapabilitiesInformation? applicationCapabilitiesInformation =
-                    _Database.Get<ApplicationCapabilitiesInformation>(ApplicationCapabilitiesInformation.Tag);
+                HandleGenerateAcCapdu(session);
 
-                DataStorageInputTerminal input = _Database.Get<DataStorageInputTerminal>(DataStorageInputTerminal.Tag);
-
-                if (applicationCapabilitiesInformation.GetDataStorageVersionNumber() == DataStorageVersionNumbers.Version1)
-                    Owhf2.Sign(_Database, input.EncodeValue());
-                else
-                    Owhf2Aes.Sign(_Database, input.EncodeValue());
+                return currentStateIdRetriever.GetStateId();
             }
 
-            #endregion
+            UpdateDataStorageDigestHash();
 
-            #region GAC.45 - GAC.48
+            HandleGenerateAcCapdu(session);
 
-            /// <remarks>Book C-2 Section GAC.45 - GAC.48</remarks>
-            /// <exception cref="TerminalDataException"></exception>
-            /// <exception cref="OverflowException"></exception>
-            /// <exception cref="BerParsingException"></exception>
-            private void HandleGenerateAcCapdu(Kernel2Session session)
-            {
-                CryptogramType acType = session.GetApplicationCryptogramType();
-                ReferenceControlParameter referenceControlParam = new(acType, true);
-
-                _Database.Update(referenceControlParam);
-
-                CardRiskManagementDataObjectList1RelatedData cdol1RelatedData =
-                    _Database.Get<CardRiskManagementDataObjectList1RelatedData>(CardRiskManagementDataObjectList1RelatedData.Tag);
-
-                DataStorageDataObjectList dsDol = _Database.Get<DataStorageDataObjectList>(DataStorageDataObjectList.Tag);
-
-                GenerateApplicationCryptogramRequest? capdu = GenerateApplicationCryptogramRequest.Create(session.GetTransactionSessionId(),
-                    referenceControlParam, cdol1RelatedData, dsDol.AsDataObjectListResult(_Database));
-
-                _PcdEndpoint.Request(capdu);
-            }
-
-            #endregion
-
-            #endregion
+            return currentStateIdRetriever.GetStateId();
         }
+
+        #region GAC.40
+
+        /// <remarks>Book C-2 Section GAC.40</remarks>
+        private bool IsDataStorageDigestHashPresent(DataStorageDataObjectList dsdol) => dsdol.IsObjectPresent(DataStorageDigestHash.Tag);
+
+        #endregion
+
+        #region GAC.41
+
+        /// <remarks>Book C-2 Section GAC.41</remarks>
+        private bool IsDataStorageInputTermPresent() => _Database.IsPresent(DataStorageInputTerminal.Tag);
+
+        #endregion
+
+        #region GAC.42 - GAC.44
+
+        /// <remarks>Book C-2 Section GAC.42- GAC.44</remarks>
+        private void UpdateDataStorageDigestHash()
+        {
+            ApplicationCapabilitiesInformation? applicationCapabilitiesInformation =
+                _Database.Get<ApplicationCapabilitiesInformation>(ApplicationCapabilitiesInformation.Tag);
+
+            DataStorageInputTerminal input = _Database.Get<DataStorageInputTerminal>(DataStorageInputTerminal.Tag);
+
+            if (applicationCapabilitiesInformation.GetDataStorageVersionNumber() == DataStorageVersionNumbers.Version1)
+                Owhf2.Sign(_Database, input.EncodeValue());
+            else
+                Owhf2Aes.Sign(_Database, input.EncodeValue());
+        }
+
+        #endregion
+
+        #region GAC.45 - GAC.48
+
+        /// <remarks>Book C-2 Section GAC.45 - GAC.48</remarks>
+        /// <exception cref="TerminalDataException"></exception>
+        /// <exception cref="OverflowException"></exception>
+        /// <exception cref="BerParsingException"></exception>
+        private void HandleGenerateAcCapdu(Kernel2Session session)
+        {
+            CryptogramType acType = session.GetApplicationCryptogramType();
+            ReferenceControlParameter referenceControlParam = new(acType, true);
+
+            _Database.Update(referenceControlParam);
+
+            CardRiskManagementDataObjectList1RelatedData cdol1RelatedData =
+                _Database.Get<CardRiskManagementDataObjectList1RelatedData>(CardRiskManagementDataObjectList1RelatedData.Tag);
+
+            DataStorageDataObjectList dsDol = _Database.Get<DataStorageDataObjectList>(DataStorageDataObjectList.Tag);
+
+            GenerateApplicationCryptogramRequest? capdu = GenerateApplicationCryptogramRequest.Create(session.GetTransactionSessionId(),
+                referenceControlParam, cdol1RelatedData, dsDol.AsDataObjectListResult(_Database));
+
+            _PcdEndpoint.Request(capdu);
+        }
+
+        #endregion
+
+        #endregion
     }
 }

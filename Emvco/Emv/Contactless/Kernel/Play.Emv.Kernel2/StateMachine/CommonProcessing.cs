@@ -12,7 +12,7 @@ using Play.Messaging;
 
 using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
 
-namespace Play.Emv.Kernel2.Services.CommonStateLogic;
+namespace Play.Emv.Kernel2.StateMachine;
 
 public abstract class CommonProcessing
 {

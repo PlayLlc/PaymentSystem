@@ -9,24 +9,23 @@ using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Core.Specifications;
 
-namespace Play.Core.Extensions.IEnumerable
+namespace Play.Core.Extensions.IEnumerable;
+
+public static class ByteArrayExtensions
 {
-    public static class ByteArrayExtensions
+    #region Instance Members
+
+    public static BigInteger AsBigInteger(this IEnumerable<byte> value) => new(value.AsSpan());
+
+    public static ReadOnlySpan<byte> AsSpan(this IEnumerable<byte> value)
     {
-        #region Instance Members
+        Span<byte> result = new();
 
-        public static BigInteger AsBigInteger(this IEnumerable<byte> value) => new(value.AsSpan());
+        for (int i = 0; i < value.Count(); i++)
+            result[i] = value.ElementAt(i);
 
-        public static ReadOnlySpan<byte> AsSpan(this IEnumerable<byte> value)
-        {
-            Span<byte> result = new();
-
-            for (int i = 0; i < value.Count(); i++)
-                result[i] = value.ElementAt(i);
-
-            return result;
-        }
-
-        #endregion
+        return result;
     }
+
+    #endregion
 }

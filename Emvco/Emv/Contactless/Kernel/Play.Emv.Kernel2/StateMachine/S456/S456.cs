@@ -15,7 +15,6 @@ using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Kernel2.Services.BalanceReading;
 using Play.Emv.Kernel2.Services.PrepareGenerateAc;
-using Play.Emv.Kernel2.StateMachine;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
 using Play.Emv.Security.Exceptions;
@@ -26,7 +25,7 @@ using Play.Messaging;
 
 using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
 
-namespace Play.Emv.Kernel2.Services.CommonStateLogic;
+namespace Play.Emv.Kernel2.StateMachine.S456;
 
 /// <summary>
 ///     This object includes logic that is common to states 4, 5, and 6

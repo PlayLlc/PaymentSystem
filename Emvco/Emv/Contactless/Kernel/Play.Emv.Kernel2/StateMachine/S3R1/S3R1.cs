@@ -14,14 +14,13 @@ using Play.Emv.Kernel;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
-using Play.Emv.Kernel2.StateMachine;
 using Play.Emv.Pcd.Contracts;
 using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Messaging;
 
 using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
 
-namespace Play.Emv.Kernel2.Services.CommonStateLogic;
+namespace Play.Emv.Kernel2.StateMachine.S3R1;
 
 // TODO: Note that symbols S3R1.10, S3R1.11, S3R1.12, S3R1.13 and S3R1.18 are only implemented for the IDS/TORN Implementation Option.
 /// <summary>

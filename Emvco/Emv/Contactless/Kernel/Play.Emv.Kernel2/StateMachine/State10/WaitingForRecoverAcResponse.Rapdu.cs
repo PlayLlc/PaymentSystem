@@ -40,6 +40,8 @@ public partial class WaitingForRecoverAcResponse
     /// <exception cref="InvalidOperationException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
+        HandleRequestOutOfSync(session, signal);
+
         RecoverAcResponse rapdu = (RecoverAcResponse) signal;
         Kernel2Session kernel2Session = (Kernel2Session) session;
 

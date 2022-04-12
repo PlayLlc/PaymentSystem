@@ -7,7 +7,6 @@ using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
-using Play.Emv.Kernel2.Services.CommonStateLogic;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 
@@ -20,7 +19,7 @@ public partial class WaitingForGetDataResponse : KernelState
     public WaitingForGetDataResponse(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IHandleDisplayRequests displayEndpoint, S456 s456) : base(database, dataExchangeKernelService, kernelEndpoint,
+        IHandleDisplayRequests displayEndpoint, S456.S456 s456) : base(database, dataExchangeKernelService, kernelEndpoint,
         tornTransactionManager, kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
         _S456 = s456;
@@ -62,7 +61,7 @@ public partial class WaitingForGetDataResponse : KernelState
 
     #region Instance Values
 
-    private readonly S456 _S456;
+    private readonly S456.S456 _S456;
 
     #endregion
 

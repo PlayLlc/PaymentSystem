@@ -12,11 +12,10 @@ using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
-using Play.Emv.Kernel2.StateMachine;
 using Play.Emv.Pcd.Contracts;
 using Play.Icc.Exceptions;
 
-namespace Play.Emv.Kernel2.Services.CommonStateLogic.S910;
+namespace Play.Emv.Kernel2.StateMachine.S910;
 
 public partial class S910
 {

@@ -7,7 +7,6 @@ using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
-using Play.Emv.Kernel2.Services.CommonStateLogic;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 
@@ -20,8 +19,8 @@ public partial class WaitingForMagstripeFirstWriteFlag : KernelState
     public WaitingForMagstripeFirstWriteFlag(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IHandleDisplayRequests displayEndpoint, S78 s78) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager,
-        kernelStateResolver, pcdEndpoint, displayEndpoint)
+        IHandleDisplayRequests displayEndpoint, S78.S78 s78) : base(database, dataExchangeKernelService, kernelEndpoint,
+        tornTransactionManager, kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
         _S78 = s78;
     }
@@ -76,7 +75,7 @@ public partial class WaitingForMagstripeFirstWriteFlag : KernelState
 
     #region Instance Values
 
-    private readonly S78 _S78;
+    private readonly S78.S78 _S78;
 
     #endregion
 

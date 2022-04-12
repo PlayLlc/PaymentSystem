@@ -7,7 +7,6 @@ using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
-using Play.Emv.Kernel2.Services.CommonStateLogic;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
@@ -21,7 +20,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     public WaitingForExchangeRelayResistanceDataResponse(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IHandleDisplayRequests displayEndpoint, S3R1 s3R1, IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(database,
+        IHandleDisplayRequests displayEndpoint, S3R1.S3R1 s3R1, IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(database,
         dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
         _S3R1 = s3R1;
@@ -66,7 +65,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 
     #region Instance Values
 
-    private readonly S3R1 _S3R1;
+    private readonly S3R1.S3R1 _S3R1;
     private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
     private readonly IGetKernelState _KernelStateResolver;
     private readonly IHandlePcdRequests _PcdEndpoint;

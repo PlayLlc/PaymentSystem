@@ -14,7 +14,7 @@ using Play.Emv.Pcd.Contracts;
 using Play.Globalization.Time.Seconds;
 using Play.Icc.Exceptions;
 
-namespace Play.Emv.Kernel2.Services.CommonStateLogic.S910;
+namespace Play.Emv.Kernel2.StateMachine.S910;
 
 public partial class S910
 {

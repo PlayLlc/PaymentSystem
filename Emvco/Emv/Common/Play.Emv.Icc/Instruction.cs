@@ -70,7 +70,7 @@ internal record Instruction : EnumObject<byte>, IComparable<Instruction>
 
     #region Instance Members
 
-    public int CompareTo([AllowNull] Instruction other)
+    public int CompareTo(Instruction? other)
     {
         if (other is null)
             return 1;

@@ -14,12 +14,11 @@ using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
-using Play.Emv.Kernel2.StateMachine;
 using Play.Emv.Pcd.Contracts;
 using Play.Globalization.Time.Seconds;
 using Play.Messaging;
 
-namespace Play.Emv.Kernel2.Services.CommonStateLogic;
+namespace Play.Emv.Kernel2.StateMachine.S78;
 
 public class S78 : CommonProcessing
 {

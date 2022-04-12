@@ -52,6 +52,7 @@ public readonly record struct DateTimeUtc
     public int Second() => _Value.Second;
     public static DateTimeUtc Now() => new(DateTime.UtcNow.Date);
     public static DateTimeUtc Today() => new(DateTime.UtcNow);
+    public int CompareTo(DateTimeUtc? other) => _Value.CompareTo(other);
 
     #endregion
 

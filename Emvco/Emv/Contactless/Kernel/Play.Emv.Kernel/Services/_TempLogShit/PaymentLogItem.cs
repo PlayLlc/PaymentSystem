@@ -1,7 +1,32 @@
-﻿using Play.Emv.Ber.DataElements;
+﻿using System.Collections.Generic;
+
+using Play.Ber.DataObjects;
+using Play.Emv.Ber;
+using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Time;
 
 namespace Play.Emv.Kernel.Services;
+
+private class Commit
+{
+    #region Instance Values
+
+    private readonly TornRecord _TornRecord;
+    private readonly DateTimeUtc _CommitTimeStamp;
+
+    #endregion
+}
+
+private class TornEntry
+{
+    #region Instance Values
+
+    private readonly ApplicationPan _ApplicationPan;
+    private readonly ApplicationPanSequenceNumber _ApplicationPanSequenceNumber;
+
+    #endregion
+}
 
 public abstract class PaymentLogItem
 {

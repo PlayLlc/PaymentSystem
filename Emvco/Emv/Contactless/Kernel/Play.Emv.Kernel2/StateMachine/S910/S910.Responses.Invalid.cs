@@ -8,7 +8,7 @@ using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 
-namespace Play.Emv.Kernel2.Services.CommonStateLogic.S910;
+namespace Play.Emv.Kernel2.StateMachine.S910;
 
 public partial class S910
 {

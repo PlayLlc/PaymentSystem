@@ -12,7 +12,7 @@ using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
 using Play.Emv.Security.Exceptions;
 
-namespace Play.Emv.Kernel2.Services.CommonStateLogic.S910;
+namespace Play.Emv.Kernel2.StateMachine.S910;
 
 public partial class S910
 {

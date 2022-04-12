@@ -16,7 +16,6 @@ using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
-using Play.Emv.Kernel2.Services.CommonStateLogic;
 using Play.Emv.Pcd.Contracts;
 using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Icc.Messaging.Apdu;
@@ -30,7 +29,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 {
     #region Instance Values
 
-    private readonly S456 _S456;
+    private readonly S456.S456 _S456;
 
     #endregion
 

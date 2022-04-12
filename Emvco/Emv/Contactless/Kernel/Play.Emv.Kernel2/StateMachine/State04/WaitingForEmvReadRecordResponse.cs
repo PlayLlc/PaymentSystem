@@ -7,7 +7,6 @@ using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
-using Play.Emv.Kernel2.Services.CommonStateLogic;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts;
@@ -22,8 +21,9 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     public WaitingForEmvReadRecordResponse(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IHandleDisplayRequests displayEndpoint, IHandleTerminalRequests terminalEndpoint, ICleanTornTransactions kernelCleaner, S456 s456) :
-        base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver, pcdEndpoint, displayEndpoint)
+        IHandleDisplayRequests displayEndpoint, IHandleTerminalRequests terminalEndpoint, ICleanTornTransactions kernelCleaner,
+        S456.S456 s456) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver,
+        pcdEndpoint, displayEndpoint)
     {
         _TerminalEndpoint = terminalEndpoint;
         _KernelCleaner = kernelCleaner;
