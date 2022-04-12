@@ -20,7 +20,7 @@ public partial class WaitingForRecoverAcResponse : KernelState
     public WaitingForRecoverAcResponse(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IHandleDisplayRequests displayEndpoint, S910.S910 s910, IPrepareGenerateApplicationCryptogram prepareApplicationCryptogramService,
+        IHandleDisplayRequests displayEndpoint, __T.S910 s910, IPrepareGenerateApplicationCryptogram prepareApplicationCryptogramService,
         OfflineBalanceReader offlineBalanceReader) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog,
         kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
@@ -39,7 +39,7 @@ public partial class WaitingForRecoverAcResponse : KernelState
 
     #region Instance Values
 
-    private readonly S910.S910 _S910;
+    private readonly __T.S910 _S910;
     private readonly IPrepareGenerateApplicationCryptogram _PrepareApplicationCryptogramService;
     private readonly OfflineBalanceReader _OfflineBalanceReader;
 

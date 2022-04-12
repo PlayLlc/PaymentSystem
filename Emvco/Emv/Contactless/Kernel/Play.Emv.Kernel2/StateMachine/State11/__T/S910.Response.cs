@@ -3,9 +3,9 @@ using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Pcd.Contracts;
 
-namespace Play.Emv.Kernel2.StateMachine;
+namespace Play.Emv.Kernel2.StateMachine.__T;
 
-public partial class WaitingForGenerateAcResponse2
+public partial class S910
 {
     private partial class ResponseHandler
     {

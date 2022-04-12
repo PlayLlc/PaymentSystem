@@ -47,8 +47,6 @@ public partial class OfflineBalanceReader : CommonProcessing
 
         #region Instance Members
 
-        public StateId[] GetValidStateIds() => _ValidStateIds;
-
         /// <exception cref="RequestOutOfSyncException"></exception>
         /// <exception cref="TerminalDataException"></exception>
         public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message)

@@ -20,7 +20,7 @@ public partial class WaitingForGenerateAcResponse1 : KernelState
     public WaitingForGenerateAcResponse1(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IHandleDisplayRequests displayEndpoint, S910.S910 s910, OfflineBalanceReader balanceReader) : base(database,
+        IHandleDisplayRequests displayEndpoint, __T.S910 s910, OfflineBalanceReader balanceReader) : base(database,
         dataExchangeKernelService, kernelEndpoint, tornTransactionLog, kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
         _S910 = s910;
@@ -37,7 +37,7 @@ public partial class WaitingForGenerateAcResponse1 : KernelState
 
     #region Instance Values
 
-    private readonly S910.S910 _S910;
+    private readonly __T.S910 _S910;
     private readonly OfflineBalanceReader _BalanceReader;
 
     #endregion

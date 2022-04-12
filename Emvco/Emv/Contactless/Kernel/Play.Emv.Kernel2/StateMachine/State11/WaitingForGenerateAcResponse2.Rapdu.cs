@@ -20,6 +20,32 @@ using Play.Emv.Pcd.Contracts;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
+/*
+ * =================================================================================
+ * Control Flow Parts
+ * =================================================================================
+ *  Section A		With CDA                        Auth.WithCda.cs
+ *  Section B 		Without CDA                     Auth.WithoutCda.cs
+ *  Section C 		Invalid Response 1              Response.Invalid.cs
+ *  Section D 		Invalid Response 2              Response.Invalid.cs
+ *  Section E 		Valid Response                  Response.Valid.cs
+ *  Section F		Invalid Response 1              Response.Invalid.cs
+ * =================================================================================
+ * Operations
+ * =================================================================================
+ *  Part 1 		    L1RSP                           WaitingForGenerateAcResponse2.cs
+ *  Part 2		    - N/A
+ *  Part 3 		    Balance Reading & Card Write    WaitingForGenerateAcResponse2.cs
+ *  Part 4		    - N/A
+ *  Part 5		    - N/A
+ *  Part 6 		    Replay Attack                   Auth.WithCda.cs
+ *  Part 7		    Route Response                  Auth.WithCda.cs
+ *  Part 8 		    Man in the Middle               Auth.WithCda.cs
+ *  Part 9		    Card State Validation           Auth.WithCda.cs
+ *  Part 10		    Set RRP Results                 Auth.WithoutCda.cs
+ *  Part 11		    Double Tap That Shit            Response.Valid.cs
+ */
+
 public partial class WaitingForGenerateAcResponse2
 {
     /// <exception cref="DataElementParsingException"></exception>
@@ -31,7 +57,7 @@ public partial class WaitingForGenerateAcResponse2
     {
         HandleRequestOutOfSync(session, signal);
 
-        GenerateApplicationCryptogramResponse rapdu = (GenerateApplicationCryptogramResponse) signal;
+        RecoverAcResponse rapdu = (RecoverAcResponse) signal;
         Kernel2Session kernel2Session = (Kernel2Session) session;
 
         if (TryHandlingL1Error(kernel2Session, rapdu))
@@ -43,89 +69,7 @@ public partial class WaitingForGenerateAcResponse2
         throw new NotImplementedException();
     }
 
-    #region L2 Error
-
-    #region S11.6 - S11.10
-
-    private bool TryHandlingL2Error(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
-    {
-        RemoveTornEntryFrom(session); // S11.5
-
-        // S11.6
-        if (rapdu.IsLevel2ErrorPresent())
-        {
-            // S11.7
-            HandleLStatusBytesError();
-
-            return true;
-        }
-
-        if (TryHandlingBerParsingError(rapdu))
-            return true;
-
-        return false;
-    }
-
-    #endregion
-
-    #region S11.5
-
-    private void RemoveTornEntryFrom(Kernel2Session session)
-    {
-        if (!session.TryGetTornEntry(out TornEntry? tornEntry))
-        {
-            throw new TerminalDataException(
-                $"The {nameof(WaitingForGenerateAcResponse2)} could not complete processing because the {nameof(TornEntry)} could not be retrieved from the {nameof(Kernel2Session)}");
-        }
-
-        _TornTransactionLog.Remove(_DataExchangeKernelService, tornEntry);
-    }
-
-    #endregion
-
-    #region S11.6 - S11.7
-
-    private void HandleLStatusBytesError()
-    { }
-
-    #endregion
-
-    #region S8 - S10
-
-    /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    private bool TryHandlingBerParsingError(GenerateApplicationCryptogramResponse rapdu)
-    {
-        try
-        {
-            _Database.Update(rapdu.GetPrimitiveDataObjects(_Database));
-        }
-        catch (TerminalDataException)
-        {
-            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-        }
-        catch (BerParsingException)
-        {
-            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-        }
-        catch (CodecParsingException)
-        {
-            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-        }
-        catch (Exception)
-        {
-            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-        }
-
-        throw new NotImplementedException();
-    }
-
-    #endregion
-
-    #endregion
-
-    #region L1 Error
+    #region Part 1 - L1 Error
 
     #region S11.1, S11.11 - 13, S11.15 - S11.17
 
@@ -134,7 +78,7 @@ public partial class WaitingForGenerateAcResponse2
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="OverflowException"></exception>
-    private bool TryHandlingL1Error(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
+    private bool TryHandlingL1Error(Kernel2Session session, RecoverAcResponse rapdu)
     {
         if (!rapdu.IsLevel1ErrorPresent())
             return false;
@@ -203,7 +147,7 @@ public partial class WaitingForGenerateAcResponse2
     #region S11.16 - S11.17
 
     /// <remarks>Book C-2 Section S11.16 - S11.17</remarks>
-    private void HandleLevel1Response(KernelSessionId sessionId, GenerateApplicationCryptogramResponse rapdu)
+    private void HandleLevel1Response(KernelSessionId sessionId, RecoverAcResponse rapdu)
     {
         try
         {
@@ -229,6 +173,88 @@ public partial class WaitingForGenerateAcResponse2
         {
             _KernelEndpoint.Request(new StopKernelRequest(sessionId));
         }
+    }
+
+    #endregion
+
+    #endregion
+
+    #region L2 Error
+
+    #region S11.6 - S11.10
+
+    private bool TryHandlingL2Error(Kernel2Session session, RecoverAcResponse rapdu)
+    {
+        RemoveTornEntryFrom(session); // S11.5
+
+        // S11.6
+        if (rapdu.IsLevel2ErrorPresent())
+        {
+            // S11.7
+            HandleLStatusBytesError();
+
+            return true;
+        }
+
+        if (TryHandlingBerParsingError(rapdu))
+            return true;
+
+        return false;
+    }
+
+    #endregion
+
+    #region S11.5
+
+    private void RemoveTornEntryFrom(Kernel2Session session)
+    {
+        if (!session.TryGetTornEntry(out TornEntry? tornEntry))
+        {
+            throw new TerminalDataException(
+                $"The {nameof(WaitingForGenerateAcResponse2)} could not complete processing because the {nameof(TornEntry)} could not be retrieved from the {nameof(Kernel2Session)}");
+        }
+
+        _TornTransactionLog.Remove(_DataExchangeKernelService, tornEntry);
+    }
+
+    #endregion
+
+    #region S11.6 - S11.7
+
+    private void HandleLStatusBytesError()
+    { }
+
+    #endregion
+
+    #region S8 - S10
+
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    private bool TryHandlingBerParsingError(RecoverAcResponse rapdu)
+    {
+        try
+        {
+            _Database.Update(rapdu.GetPrimitiveDataObjects());
+        }
+        catch (TerminalDataException)
+        {
+            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
+        }
+        catch (BerParsingException)
+        {
+            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
+        }
+        catch (CodecParsingException)
+        {
+            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
+        }
+        catch (Exception)
+        {
+            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
+        }
+
+        throw new NotImplementedException();
     }
 
     #endregion
