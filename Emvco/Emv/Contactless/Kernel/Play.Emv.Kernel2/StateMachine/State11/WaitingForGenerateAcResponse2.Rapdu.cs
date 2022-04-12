@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Play.Ber.DataObjects;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
@@ -10,6 +11,7 @@ using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
+using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
@@ -19,13 +21,11 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForGenerateAcResponse2
 {
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
+    /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
@@ -33,7 +33,7 @@ public partial class WaitingForGenerateAcResponse2
         GenerateApplicationCryptogramResponse rapdu = (GenerateApplicationCryptogramResponse) signal;
         Kernel2Session kernel2Session = (Kernel2Session) session;
 
-        if (TryHandlingL1Error(session.GetKernelSessionId(), rapdu))
+        if (TryHandlingL1Error(kernel2Session, rapdu))
             return _KernelStateResolver.GetKernelState(StateId);
 
         throw new NotImplementedException();
@@ -41,10 +41,16 @@ public partial class WaitingForGenerateAcResponse2
 
     #region L1 Error
 
+    #region S11.1, S11.11 - 13, S11.15 - S11.17
+
+    /// <remarks>Book C-2 Section S11.1, S11.11 - 13, S11.15 - S11.17</remarks>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    private bool TryHandlingL1Error(Kernel2Session session, QueryPcdResponse signal)
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    private bool TryHandlingL1Error(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
     {
-        if (!signal.IsLevel1ErrorPresent())
+        if (!rapdu.IsLevel1ErrorPresent())
             return false;
 
         if (!session.TryGetTornEntry(out TornEntry? tornEntry))
@@ -53,17 +59,21 @@ public partial class WaitingForGenerateAcResponse2
                 $"The {nameof(WaitingForGenerateAcResponse2)} could not complete processing because the {nameof(TornEntry)} could not be retrieved from the {nameof(Kernel2Session)}");
         }
 
-        // S11.11
-        if (IsIdsWriteFlagSet(session, tornEntry!))
-            _TornTransactionLog.Remove(tornEntry!); // S11.12
+        HandleIdsReadFlagSet(session, tornEntry!);
+
+        PrepareNewTornRecord();
+        HandleLevel1Response(session.GetKernelSessionId(), rapdu);
+
+        return true;
     }
 
     #endregion
 
-    #region S11.11
+    #region S11.11 - S11.12
 
+    /// <remarks>Book C-2 Section S11.11 - S11.12</remarks>
     /// <exception cref="TerminalDataException"></exception>
-    private bool HandleIdsReadFlagSet(Kernel2Session session, TornEntry tornEntry)
+    private void HandleIdsReadFlagSet(Kernel2Session session, TornEntry tornEntry)
     {
         if (!_TornTransactionLog.TryGet(tornEntry!, out TornRecord? tornTempRecord))
         {
@@ -71,33 +81,47 @@ public partial class WaitingForGenerateAcResponse2
                 $"The {nameof(WaitingForGenerateAcResponse2)} could not complete processing because the {nameof(TornRecord)} could not be retrieved from the {nameof(TornTransactionLog)}");
         }
 
-        if (!tornTempRecord!.TryGetRecordItem(IntegratedDataStorageStatus.Tag, out PrimitiveValue? idsStatus))
-            return false;
+        if (tornTempRecord!.TryGetRecordItem(IntegratedDataStorageStatus.Tag, out PrimitiveValue? idsStatus))
+            Remove(tornTempRecord);
 
-        return ((IntegratedDataStorageStatus) idsStatus!).IsWriteSet();
+        // S11.12
+        if (!((IntegratedDataStorageStatus) idsStatus!).IsWriteSet())
+            Remove(tornTempRecord);
+    }
+
+    #endregion
+
+    #region S11.11 - S11.12 continued
+
+    /// <remarks>Book C-2 Section S11.11 - S11.12</remarks>
+    /// <exception cref="TerminalDataException"></exception>
+    private void Remove(TornRecord tornRecord)
+    {
+        _DataExchangeKernelService.Enqueue(DekResponseType.TornRecord, tornRecord);
+        _TornTransactionLog.Remove(tornRecord.GetKey());
     }
 
     #endregion
 
     #region S11.13, S11.15
 
+    /// <remarks>Book C-2 Section S11.13, S11.15</remarks>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="OverflowException"></exception>
     private void PrepareNewTornRecord()
     {
         if (!_Database.TryGet(DataRecoveryDataObjectList.Tag, out DataRecoveryDataObjectList? drDol))
+        {
             throw new TerminalDataException(
                 $"The {nameof(WaitingForGenerateAcResponse2)} could not  create a new {nameof(TornRecord)} because the  {nameof(DataRecoveryDataObjectList)} could not be retrieved from the {nameof(KernelDatabase)}");
+        }
 
         DataRecoveryDataObjectListRelatedData drDolRelatedData = drDol!.AsRelatedData(_Database);
 
         _Database.Update(drDolRelatedData);
 
-        // HACK: /\ The fuck did we just do that for?
-
-        // S11.13, S11.15
         _TornTransactionLog.Add(TornRecord.Create(_Database), _Database);
     }
 
@@ -105,6 +129,7 @@ public partial class WaitingForGenerateAcResponse2
 
     #region S11.16 - S11.17
 
+    /// <remarks>Book C-2 Section S11.16 - S11.17</remarks>
     private void HandleLevel1Response(KernelSessionId sessionId, GenerateApplicationCryptogramResponse rapdu)
     {
         try
@@ -132,6 +157,8 @@ public partial class WaitingForGenerateAcResponse2
             _KernelEndpoint.Request(new StopKernelRequest(sessionId));
         }
     }
+
+    #endregion
 
     #endregion
 }

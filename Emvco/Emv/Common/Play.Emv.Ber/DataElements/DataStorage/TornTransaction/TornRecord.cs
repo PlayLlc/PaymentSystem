@@ -1,4 +1,6 @@
-﻿using Play.Ber.DataObjects;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
@@ -19,6 +21,7 @@ public record TornRecord : DataExchangeResponse
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     public static readonly Tag Tag = 0xFF8101;
+    public static readonly TornRecord Empty = CreateEmptyTornRecord();
 
     #endregion
 
@@ -45,6 +48,7 @@ public record TornRecord : DataExchangeResponse
         _CommitTimeStamp = DateTimeUtc.Now();
     }
 
+    /// <exception cref="TerminalDataException"></exception>
     public TornRecord(params PrimitiveValue[] values) : base(InitializeTornEntryValues(values, out TornEntry tornEntry))
     {
         _Key = tornEntry;
@@ -55,15 +59,25 @@ public record TornRecord : DataExchangeResponse
 
     #region Instance Members
 
+    [SuppressMessage("Design", "Ex0100:Member may throw undocumented exception", Justification = "<Pending>")]
+    public static TornRecord CreateEmptyTornRecord()
+    {
+        ApplicationPan mandatoryRecordObject1 = new(0);
+        ApplicationPanSequenceNumber mandatoryRecordObject2 = new(0);
+
+        return new TornRecord(Record.Create(new PrimitiveValue[] {mandatoryRecordObject1, mandatoryRecordObject2}));
+    }
+
+    /// <exception cref="TerminalDataException"></exception>
     private static PrimitiveValue[] InitializeTornEntryValues(PrimitiveValue[] values, out TornEntry tornEntry)
     {
-        //
         Record record = Record.Create(values);
         tornEntry = new TornEntry(record.GetKey());
 
         return record.GetValues();
     }
 
+    /// <exception cref="OverflowException"></exception>
     public static bool TryGetOldestRecord(TornRecord[] records, out TornRecord? result)
     {
         if (records.Length == 0)

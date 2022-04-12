@@ -26,7 +26,7 @@ public record DekResponseType : EnumObject<Tag>
         {DataToSend, () => new DataToSend()},
         {DataRecord, () => new DataRecord()},
         {DiscretionaryData, () => new DiscretionaryData()},
-        {TornRecord, () => new TornRecord()}
+        {TornRecord, () => Ber.DataElements.TornRecord.Empty}
     };
 
     private static readonly Dictionary<Tag, DekResponseType> _TagMap = new()

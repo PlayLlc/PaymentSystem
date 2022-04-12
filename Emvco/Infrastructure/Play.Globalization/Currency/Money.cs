@@ -111,8 +111,8 @@ public record Money : IEqualityComparer<Money>
     /// <returns></returns>
     public static (Money Remaining, Money Split) Split(Money value, Probability probabilitySplit)
     {
-        var remaining = value._Amount / (byte) probabilitySplit;
-        var split = value._Amount - remaining;
+        ulong remaining = value._Amount / (byte) probabilitySplit;
+        ulong split = value._Amount - remaining;
 
         return (Remaining: new Money(remaining, value._Currency), new Money(split, value._Currency));
     }
