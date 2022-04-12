@@ -9,6 +9,7 @@ using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Security;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
@@ -19,15 +20,27 @@ public partial class WaitingForGenerateAcResponse2 : KernelState
     public WaitingForGenerateAcResponse2(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IHandleDisplayRequests displayEndpoint) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog,
-        kernelStateResolver, pcdEndpoint, displayEndpoint)
-    { }
+        IHandleDisplayRequests displayEndpoint, IAuthenticateTransactionSession authenticationService) : base(database,
+        dataExchangeKernelService, kernelEndpoint, tornTransactionLog, kernelStateResolver, pcdEndpoint, displayEndpoint)
+    {
+        _AuthenticationService = authenticationService;
+        _ResponseHandler = new ResponseHandler();
+        _AuthHandler = new AuthHandler(database, _ResponseHandler, authenticationService);
+    }
 
     #endregion
 
     #region Static Metadata
 
     public static readonly StateId StateId = new(nameof(WaitingForGenerateAcResponse2));
+
+    #endregion
+
+    #region Instance Values
+
+    private readonly IAuthenticateTransactionSession _AuthenticationService;
+    private readonly ResponseHandler _ResponseHandler;
+    private readonly AuthHandler _AuthHandler;
 
     #endregion
 
@@ -56,7 +69,6 @@ public partial class WaitingForGenerateAcResponse2 : KernelState
     #region DET
 
     // BUG: Need to make sure you're properly implementing each DEK handler for each state
-
     /// <summary>
     ///     Handle
     /// </summary>

@@ -16,7 +16,7 @@ namespace Play.Emv.Kernel2.StateMachine.S910;
 
 public partial class S910
 {
-    private partial class AuthenticationHandler
+    private partial class AuthHandler
     {
         #region Instance Members
 

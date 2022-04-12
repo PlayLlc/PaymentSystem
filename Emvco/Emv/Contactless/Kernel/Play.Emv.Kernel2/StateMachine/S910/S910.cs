@@ -20,7 +20,7 @@ public partial class S910 : CommonProcessing
     #region Instance Values
 
     private readonly ResponseHandler _ResponseHandler;
-    private readonly AuthenticationHandler _AuthenticationHandler;
+    private readonly AuthHandler _AuthHandler;
     protected override StateId[] _ValidStateIds { get; } = {WaitingForGenerateAcResponse1.StateId, WaitingForRecoverAcResponse.StateId};
 
     #endregion
@@ -33,7 +33,7 @@ public partial class S910 : CommonProcessing
         database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
     {
         _ResponseHandler = new ResponseHandler(database, dataExchangeKernelService, kernelEndpoint, pcdEndpoint);
-        _AuthenticationHandler = new AuthenticationHandler(database, _ResponseHandler, authenticationService);
+        _AuthHandler = new AuthHandler(database, _ResponseHandler, authenticationService);
     }
 
     #endregion
@@ -54,9 +54,9 @@ public partial class S910 : CommonProcessing
             return currentStateIdRetriever.GetStateId();
 
         if (IsWithCda())
-            return _AuthenticationHandler.ProcessWithCda(currentStateIdRetriever, session, (GenerateApplicationCryptogramResponse) message);
+            return _AuthHandler.ProcessWithCda(currentStateIdRetriever, session, (GenerateApplicationCryptogramResponse) message);
 
-        return _AuthenticationHandler.ProcessWithCda(currentStateIdRetriever, session, (GenerateApplicationCryptogramResponse) message);
+        return _AuthHandler.ProcessWithCda(currentStateIdRetriever, session, (GenerateApplicationCryptogramResponse) message);
     }
 
     /// <exception cref="TerminalDataException"></exception>

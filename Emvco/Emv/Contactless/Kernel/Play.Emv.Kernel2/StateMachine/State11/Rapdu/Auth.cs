@@ -1,11 +1,11 @@
 ﻿using Play.Emv.Kernel.Databases;
 using Play.Emv.Security;
 
-namespace Play.Emv.Kernel2.StateMachine.S910;
+namespace Play.Emv.Kernel2.StateMachine;
 
-public partial class S910
+public partial class WaitingForGenerateAcResponse2
 {
-    private partial class AuthenticationHandler
+    private partial class AuthHandler
     {
         #region Instance Values
 
@@ -17,8 +17,7 @@ public partial class S910
 
         #region Constructor
 
-        public AuthenticationHandler(
-            KernelDatabase database, ResponseHandler responseHandler, IAuthenticateTransactionSession authenticationService)
+        public AuthHandler(KernelDatabase database, ResponseHandler responseHandler, IAuthenticateTransactionSession authenticationService)
         {
             _Database = database;
             _ResponseHandler = responseHandler;
