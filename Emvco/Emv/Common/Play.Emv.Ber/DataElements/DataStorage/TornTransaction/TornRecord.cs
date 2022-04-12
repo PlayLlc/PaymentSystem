@@ -4,6 +4,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
+using Play.Emv.Kernel.Services;
 
 namespace Play.Emv.Ber.DataElements;
 
@@ -22,7 +23,7 @@ public record TornRecord : DataExchangeResponse
 
     #region Instance Values
 
-    private readonly RecordKey _Key;
+    private readonly TornEntry _Key;
 
     #endregion
 
@@ -47,12 +48,12 @@ public record TornRecord : DataExchangeResponse
                 $"The {nameof(TornRecord)} could not be created because the {nameof(ITlvReaderAndWriter)} did not contain the required {nameof(ApplicationPanSequenceNumber)} object");
         }
 
-        _Key = new RecordKey((ApplicationPan) pan!, (ApplicationPanSequenceNumber) sequence);
+        _Key = new TornEntry((ApplicationPan) pan!, (ApplicationPanSequenceNumber) sequence);
     }
 
     public TornRecord(Record record) : base(record.GetValues())
     {
-        _Key = record.GetRecordKey();
+        _Key = new TornEntry(record.GetRecordKey());
     }
 
     #endregion

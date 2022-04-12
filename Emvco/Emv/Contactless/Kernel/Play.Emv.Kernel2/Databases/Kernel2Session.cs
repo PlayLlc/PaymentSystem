@@ -1,6 +1,7 @@
 ﻿using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Identifiers;
+using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Messaging;
 
@@ -13,6 +14,7 @@ public class Kernel2Session : KernelSession
     private CryptogramTypes _ApplicationCryptogramTypes = CryptogramTypes.ApplicationAuthenticationCryptogram;
     private OdaStatusTypes _OdaStatusTypes = OdaStatusTypes.NotAvailable;
     private ReaderContactlessTransactionLimit? _TransactionLimit;
+    private readonly TornEntry? _TornEntry = null;
     private bool _IsPdolDataMissing = true;
     private byte _RelayResistanceProtocolCount;
 
@@ -26,6 +28,20 @@ public class Kernel2Session : KernelSession
     #endregion
 
     #region Read
+
+    public bool TryGetTornEntry(out TornEntry? result)
+    {
+        if (_TornEntry is null)
+        {
+            result = null;
+
+            return false;
+        }
+
+        result = _TornEntry;
+
+        return true;
+    }
 
     public byte GetRelayResistanceProtocolCount() => _RelayResistanceProtocolCount;
     public CryptogramTypes GetApplicationCryptogramType() => _ApplicationCryptogramTypes;
