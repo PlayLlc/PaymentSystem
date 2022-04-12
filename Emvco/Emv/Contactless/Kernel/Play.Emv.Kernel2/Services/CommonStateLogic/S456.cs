@@ -148,8 +148,8 @@ public class S456 : CommonProcessing
         if (TryRecoveringTornTransaction(session.GetTransactionSessionId()))
             return WaitingForRecoverAcResponse.StateId;
 
-        // S456.43 - S456.46
-        SendGenerateAcCapdu(session, _Database);
+        // S456.45 - S456.46
+        SendGenerateAcCapdu(currentStateIdRetriever, session, message);
 
         return WaitingForGenerateAcResponse1.StateId;
     }
@@ -813,24 +813,13 @@ public class S456 : CommonProcessing
 
     #endregion
 
-    #endregion
-
-    #region S456.43 - S456.46
+    #region S456.45 - S456.46
 
     /// <remarks>EMV Book C-2 Section S456.43 - S456.46</remarks>
-    private bool SendGenerateAcCapdu(Kernel2Session session, KernelDatabase database)
+    private void SendGenerateAcCapdu(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message)
     {
-        _PcdEndpoint.Request(PrepareGenAc(session, database));
-
-        return true;
+        _PrepareGenAcServiceService.Process(currentStateIdRetriever, session, message);
     }
-
-    /// <remarks>EMV Book C-2 Section S456.45</remarks>
-
-    #region S456.43 - S456.46
-
-    private GenerateApplicationCryptogramRequest PrepareGenAc(Kernel2Session session, KernelDatabase database) =>
-        _PrepareGenAcServiceService.Create(session, database);
 
     #endregion
 

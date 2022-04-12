@@ -38,7 +38,8 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
 
         protected override StateId[] _ValidStateIds { get; } =
         {
-            WaitingForGpoResponse.StateId, WaitingForExchangeRelayResistanceDataResponse.StateId
+            WaitingForEmvReadRecordResponse.StateId, WaitingForGetDataResponse.StateId, WaitingForEmvModeFirstWriteFlag.StateId,
+            WaitingForRecoverAcResponse.StateId, WaitingForPutDataResponseBeforeGenerateAc.StateId
         };
 
         #endregion
