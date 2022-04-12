@@ -9,7 +9,7 @@ public interface ICoordinateSplitPayments
 {
     #region Instance Members
 
-    public void CreateSnapshot(PaymentLogItem paymentLogItem);
+    public void CreateSnapshot(SplitPaymentLogItem paymentLogItem);
     public bool TryGetSplitPaymentLogItem(ApplicationPan primaryAccountNumber, uint sequenceNumber, out SplitPaymentLogItem result);
     public bool TryGetSplitPaymentLogItem(ApplicationPan primaryAccountNumber, out SplitPaymentLogItem result);
 

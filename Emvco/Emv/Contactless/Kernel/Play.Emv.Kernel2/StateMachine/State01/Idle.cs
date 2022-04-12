@@ -23,11 +23,9 @@ public partial class Idle : KernelState
     public Idle(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IHandleDisplayRequests displayEndpoint, ICleanTornTransactions kernelCleaner,
-        IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(database, dataExchangeKernelService, kernelEndpoint,
-        tornTransactionManager, kernelStateResolver, pcdEndpoint, displayEndpoint)
+        IHandleDisplayRequests displayEndpoint, IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(database,
+        dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
-        _KernelCleaner = kernelCleaner;
         _UnpredictableNumberGenerator = unpredictableNumberGenerator;
     }
 
@@ -36,6 +34,12 @@ public partial class Idle : KernelState
     #region Static Metadata
 
     public static readonly StateId StateId = new(nameof(Idle));
+
+    #endregion
+
+    #region Instance Values
+
+    private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
 
     #endregion
 
@@ -56,13 +60,6 @@ public partial class Idle : KernelState
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly ICleanTornTransactions _KernelCleaner;
-    private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
 
     #endregion
 
