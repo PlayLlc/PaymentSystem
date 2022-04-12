@@ -68,6 +68,13 @@ public record TornRecord : DataExchangeResponse
         _CommitTimeStamp = DateTimeUtc.Now();
     }
 
+    public TornRecord(params PrimitiveValue[] values) : base(values)
+    {
+        var a = Record.Create()
+    }
+
+    private static void Create
+
     #endregion
 
     #region Instance Members
@@ -113,6 +120,13 @@ public record TornRecord : DataExchangeResponse
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
+
+    public bool TryGetRecordItem(Tag tag, out PrimitiveValue? result)
+    {
+        result = _Value.FirstOrDefault(a => a.GetTag() == tag);
+
+        return result is null;
+    }
 
     #endregion
 

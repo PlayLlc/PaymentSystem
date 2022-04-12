@@ -63,6 +63,12 @@ public class TornTransactionLog : IManageTornTransactions
         return _TornRecords.TryGetValue(tornEntry, out result);
     }
 
+    public void Remove(TornEntry tornEntry)
+    {
+        if (_TornRecords.ContainsKey(tornEntry))
+            _TornRecords.Remove(tornEntry);
+    }
+
     private void CleanStaleRecords()
     {
         foreach (KeyValuePair<TornEntry, TornRecord> record in _TornRecords)

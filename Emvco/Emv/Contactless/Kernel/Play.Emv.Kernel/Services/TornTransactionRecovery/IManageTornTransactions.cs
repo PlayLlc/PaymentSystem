@@ -9,6 +9,7 @@ public interface IManageTornTransactions
 
     public void Add(TornRecord tornRecord, ITlvReaderAndWriter database);
     public bool TryGet(TornEntry tornEntry, out TornRecord? result);
+    public void Remove(TornEntry tornEntry);
 
     #endregion
 }

@@ -17,6 +17,7 @@ public record DekResponseType : EnumObject<Tag>
     public static readonly DekResponseType DataToSend = new(Ber.DataElements.DataToSend.Tag);
     public static readonly DekResponseType DataRecord = new(Ber.DataElements.DataRecord.Tag);
     public static readonly DekResponseType DiscretionaryData = new(Ber.DataElements.DiscretionaryData.Tag);
+    public static readonly DekResponseType TornRecord = new(Ber.DataElements.TornRecord.Tag);
 
     private static readonly Dictionary<DekResponseType, Func<DataExchangeResponse>> _DefaultMap = new()
     {
@@ -24,7 +25,8 @@ public record DekResponseType : EnumObject<Tag>
         {TagsToWriteAfterGenAc, () => new TagsToWriteAfterGenAc()},
         {DataToSend, () => new DataToSend()},
         {DataRecord, () => new DataRecord()},
-        {DiscretionaryData, () => new DiscretionaryData()}
+        {DiscretionaryData, () => new DiscretionaryData()},
+        {TornRecord, () => new TornRecord()}
     };
 
     private static readonly Dictionary<Tag, DekResponseType> _TagMap = new()
