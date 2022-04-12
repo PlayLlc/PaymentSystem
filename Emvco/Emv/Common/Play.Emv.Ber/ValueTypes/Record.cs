@@ -11,50 +11,27 @@ using Play.Globalization.Time;
 
 namespace Play.Emv.Ber.ValueTypes;
 
-public record RecordKey : IComparable<RecordKey>
+/// <summary>
+///     A snapshot of a transaction that has previously been processed by this payment system
+/// </summary>
+public class Record : IEqualityComparer<Record>, IEquatable<Record>
 {
     #region Instance Values
 
     /// <summary>
-    ///     The account number associated to this transaction snapshot
-    /// </summary>
-    protected readonly ApplicationPan _ApplicationPan;
-
-    /// <summary>
-    ///     A sequential number of transaction log items associated to this <see cref="PrimaryAccountNumber" />
-    /// </summary>
-    protected readonly ApplicationPanSequenceNumber _SequenceNumber;
-
-    /// <summary>
-    ///     Transaction date in the format YYMMDD
+    ///     The universal time that this record was created
     /// </summary>
     protected readonly DateTimeUtc _CommitTimeStamp;
 
-    #endregion
-
-    #region Constructor
-
-    public RecordKey(ApplicationPan pan, ApplicationPanSequenceNumber sequenceNumber)
-    {
-        _ApplicationPan = pan;
-        _SequenceNumber = sequenceNumber;
-        _CommitTimeStamp = DateTimeUtc.Now();
-    }
-
-    #endregion
-
-    #region Equality
-
-    public int CompareTo(RecordKey? other) => _CommitTimeStamp.CompareTo(other._CommitTimeStamp);
-
-    #endregion
-}
-
-public class Record : IEqualityComparer<Record>, IEquatable<Record>, IComparable<Record>
-{
-    #region Instance Values
-
+    /// <summary>
+    ///     A key that uniquely identifies a Record within a defined time period. This key could potentially cause collisions
+    ///     if the maximum time threshold is not adhered to
+    /// </summary>
     private readonly RecordKey _Key;
+
+    /// <summary>
+    ///     A list of objects relevant to the transaction session that this <see cref="Record" /> belonged to
+    /// </summary>
     private readonly PrimitiveValue[] _Value;
 
     #endregion
@@ -65,6 +42,7 @@ public class Record : IEqualityComparer<Record>, IEquatable<Record>, IComparable
     {
         _Key = key;
         _Value = value;
+        _CommitTimeStamp = DateTimeUtc.Now();
     }
 
     #endregion
@@ -72,6 +50,7 @@ public class Record : IEqualityComparer<Record>, IEquatable<Record>, IComparable
     #region Instance Members
 
     public RecordKey GetRecordKey() => _Key;
+    public PrimitiveValue[] GetValues() => _Value;
 
     /// <exception cref="TerminalDataException"></exception>
     public static Record Create(ITlvReaderAndWriter database)
@@ -163,6 +142,8 @@ public class Record : IEqualityComparer<Record>, IEquatable<Record>, IComparable
 
     #region Equality
 
+    public override bool Equals(object? obj) => obj is Record record && Equals(record);
+
     public bool Equals(Record? x, Record? y)
     {
         if (x is null)
@@ -182,20 +163,21 @@ public class Record : IEqualityComparer<Record>, IEquatable<Record>, IComparable
         return other._Key == _Key;
     }
 
-    public int GetHashCode(Record obj)
+    public override int GetHashCode()
     {
         const int hash = 755437;
 
         return hash * _Key.GetHashCode();
     }
 
-    public int CompareTo(Record? other) => _Key.CompareTo(other?._Key);
+    public int GetHashCode(Record obj) => obj.GetHashCode();
 
     #endregion
 
     #region Operator Overrides
 
-    public static explicit operator TornRecord(Record value) => new(value._Value);
+    public static bool operator ==(Record left, Record right) => left._Key == right._Key;
+    public static bool operator !=(Record left, Record right) => left._Key != right._Key;
 
     #endregion
 }
