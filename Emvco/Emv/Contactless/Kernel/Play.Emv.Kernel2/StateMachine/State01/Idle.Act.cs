@@ -435,10 +435,10 @@ public partial class Idle : KernelState
         ApplicationCapabilitiesInformation applicationCapabilitiesInformation =
             (ApplicationCapabilitiesInformation) applicationCapabilitiesInformationTlv!;
 
-        if ((byte) applicationCapabilitiesInformation.GetDataStorageVersionNumber() == DataStorageVersionNumbers.Version1)
+        if (applicationCapabilitiesInformation.GetDataStorageVersionNumber() == DataStorageVersionNumbers.Version1)
             SetIntegratedDataStorageReadStatus();
 
-        if ((byte) applicationCapabilitiesInformation.GetDataStorageVersionNumber() == DataStorageVersionNumbers.Version2)
+        if (applicationCapabilitiesInformation.GetDataStorageVersionNumber() == DataStorageVersionNumbers.Version2)
             SetIntegratedDataStorageReadStatus();
 
         return HandlePdolData(session);

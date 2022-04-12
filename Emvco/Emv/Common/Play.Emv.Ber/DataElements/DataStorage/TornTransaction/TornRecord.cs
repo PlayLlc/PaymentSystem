@@ -5,6 +5,8 @@ using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Kernel.Services;
+using Play.Globalization.Time;
+using Play.Globalization.Time.Seconds;
 
 namespace Play.Emv.Ber.DataElements;
 
@@ -23,6 +25,15 @@ public record TornRecord : DataExchangeResponse
 
     #region Instance Values
 
+    /// <summary>
+    ///     The universal time that this record was created
+    /// </summary>
+    protected readonly DateTimeUtc _CommitTimeStamp;
+
+    /// <summary>
+    ///     A key that uniquely identifies a Record within a defined time period. This key could potentially cause collisions
+    ///     if the maximum time threshold is not adhered to
+    /// </summary>
     private readonly TornEntry _Key;
 
     #endregion
@@ -49,18 +60,54 @@ public record TornRecord : DataExchangeResponse
         }
 
         _Key = new TornEntry((ApplicationPan) pan!, (ApplicationPanSequenceNumber) sequence);
+        _CommitTimeStamp = DateTimeUtc.Now();
     }
 
     public TornRecord(Record record) : base(record.GetValues())
     {
         _Key = new TornEntry(record.GetRecordKey());
+        _CommitTimeStamp = DateTimeUtc.Now();
     }
 
     #endregion
 
     #region Instance Members
 
-    public RecordKey GetKey() => _Key;
+    public static bool TryGetOldestRecord(TornRecord[] records, out TornRecord? result)
+    {
+        if (records.Length == 0)
+        {
+            result = null;
+
+            return false;
+        }
+
+        if (records.Length == 1)
+        {
+            result = records[0];
+
+            return true;
+        }
+
+        result = records[0];
+
+        for (int i = 1; i < records.Length; i++)
+        {
+            if (records[i]._CommitTimeStamp < result._CommitTimeStamp)
+                result = records[i];
+        }
+
+        return true;
+    }
+
+    public bool HasRecordExpired(Seconds timeout)
+    {
+        Seconds timeElapsed = DateTimeUtc.Now() - _CommitTimeStamp;
+
+        return timeElapsed >= timeout;
+    }
+
+    public TornEntry GetKey() => _Key;
 
     /// <exception cref="Exceptions.TerminalDataException"></exception>
     public static TornRecord Create(ITlvReaderAndWriter database) => new(Record.Create(database));

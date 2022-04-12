@@ -1,4 +1,14 @@
-﻿namespace Play.Emv.Kernel.Services;
+﻿using Play.Emv.Ber;
+using Play.Emv.Ber.DataElements;
 
-public interface IManageTornTransactions : ICleanTornTransactions, IWriteTornTransactions, IReadTornTransactions
-{ }
+namespace Play.Emv.Kernel.Services;
+
+public interface IManageTornTransactions
+{
+    #region Instance Members
+
+    public void Add(TornRecord tornRecord, ITlvReaderAndWriter database);
+    public bool TryGet(TornEntry tornEntry, out TornRecord? result);
+
+    #endregion
+}

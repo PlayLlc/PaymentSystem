@@ -27,7 +27,7 @@ public class Record : IEqualityComparer<Record>, IEquatable<Record>
     ///     A key that uniquely identifies a Record within a defined time period. This key could potentially cause collisions
     ///     if the maximum time threshold is not adhered to
     /// </summary>
-    private readonly RecordKey _Key;
+    protected readonly RecordKey _Key;
 
     /// <summary>
     ///     A list of objects relevant to the transaction session that this <see cref="Record" /> belonged to

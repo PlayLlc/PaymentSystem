@@ -797,8 +797,9 @@ public class S456 : CommonProcessing
         if (_Database.IsPresentAndNotEmpty(ApplicationPanSequenceNumber.Tag))
             return false;
 
-        if (!_TornTransactionManager.TryGet(_Database.Get<ApplicationPan>(ApplicationPan.Tag),
-            _Database.Get<ApplicationPanSequenceNumber>(ApplicationPanSequenceNumber.Tag), out TornRecord? tornRecord))
+        if (!_TornTransactionManager.TryGet(
+            new TornEntry(_Database.Get<ApplicationPan>(ApplicationPan.Tag),
+                _Database.Get<ApplicationPanSequenceNumber>(ApplicationPanSequenceNumber.Tag)), out TornRecord? tornRecord))
             return false;
 
         if (!_Database.TryGet(DataRecoveryDataObjectListRelatedData.Tag, out DataRecoveryDataObjectListRelatedData? ddolRelatedData))

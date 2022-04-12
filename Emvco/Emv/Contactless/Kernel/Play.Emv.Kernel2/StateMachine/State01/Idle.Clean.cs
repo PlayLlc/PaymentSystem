@@ -9,12 +9,11 @@ public partial class Idle : KernelState
 
     #region CLEAN
 
-    public override KernelState Handle(CleanKernelRequest signal)
-    {
-        _KernelCleaner.Clean();
+    public override KernelState Handle(CleanKernelRequest signal) =>
 
-        return _KernelStateResolver.GetKernelState(StateId);
-    }
+        // CHECK: I don't think we're supposed to empty the torn transaction log here. Double check what this logic should be doing and when on a signal
+        //_KernelCleaner.Clean();
+        _KernelStateResolver.GetKernelState(StateId);
 
     #endregion
 

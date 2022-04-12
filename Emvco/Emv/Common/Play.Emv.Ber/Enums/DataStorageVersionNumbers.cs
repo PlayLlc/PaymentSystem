@@ -59,9 +59,9 @@ public sealed record DataStorageVersionNumbers : EnumObject<byte>
 
     #region Operator Overrides
 
-    public static bool operator ==(DataStorageVersionNumbers left, byte right) => (byte) left._Value == right;
-    public static bool operator ==(byte left, DataStorageVersionNumbers right) => left == (byte) right._Value;
-    public static explicit operator byte(DataStorageVersionNumbers value) => (byte) value._Value;
+    public static bool operator ==(DataStorageVersionNumbers left, byte right) => left._Value == right;
+    public static bool operator ==(byte left, DataStorageVersionNumbers right) => left == right._Value;
+    public static explicit operator byte(DataStorageVersionNumbers value) => value._Value;
     public static bool operator !=(DataStorageVersionNumbers left, byte right) => !(left == right);
     public static bool operator !=(byte left, DataStorageVersionNumbers right) => !(left == right);
 

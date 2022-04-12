@@ -186,10 +186,9 @@ public partial class WaitingForRecoverAcResponse
 
     /// <remarks>Book C-2 Section S10.10 - S10.12</remarks>
     /// <exception cref="TerminalDataException"></exception>
-    private void RemoveTornEntry()
+    private void RemoveTornEntry(Kernel2Session session)
     {
-        // CHECK: I'm not sure if we're supposed to simply dequeue the last torn entry from the Torn Transaction Manager at this point in the flow
-        if (!_TornTransactionManager.TryDequeue(out TornRecord? tornRecord))
+        if (!session.TryGetTornEntry(out TornEntry? tornEntry))
         {
             throw new TerminalDataException(
                 $"The {nameof(WaitingForRecoverAcResponse)} could not {nameof(RemoveTornEntry)} from the {nameof(IWriteTornTransactions)}");

@@ -6,6 +6,7 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
@@ -192,10 +193,9 @@ public partial class WaitingForGenerateAcResponse1
     /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     private void HandleTornTransaction(KernelSessionId sessionId, QueryPcdResponse signal)
     {
-        DataRecoveryDataObjectListRelatedData? drdol = _Database.Get<DataRecoveryDataObjectList>(DataRecoveryDataObjectList.Tag)
+        DataRecoveryDataObjectListRelatedData? drDol = _Database.Get<DataRecoveryDataObjectList>(DataRecoveryDataObjectList.Tag)
             .AsRelatedData(_Database);
-        if (_TornTransactionManager.TryAddAndDisplace(_Database, out TornRecord? displacedRecord))
-            _Database.Update(displacedRecord!);
+        _TornTransactionManager.Add(new TornRecord(Record.Create(_Database)), _Database);
 
         HandleL1ErrorTryAgain(sessionId, signal);
     }

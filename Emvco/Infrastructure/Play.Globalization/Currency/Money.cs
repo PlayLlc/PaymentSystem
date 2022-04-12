@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Play.Core;
 using Play.Core.Extensions;
 
 namespace Play.Globalization.Currency;
 
+// WARNING:==========================================================================================================================================================================================================================================
+// TODO: Re-read the section about the money pattern in 'Patterns of Enterprise Application Architecture'. There are a lot of bugs that commonly occur when processing money so let's make sure we do our best to prevent the known issues beforehand
+// WARNING:==========================================================================================================================================================================================================================================
 /// <summary>
 ///     Agnostic fiat value of the currency type specified in the <see cref="CultureProfile" />
 /// </summary>
@@ -87,23 +91,6 @@ public record Money : IEqualityComparer<Money>
     public bool IsZeroAmount() => _Amount == 0;
 
     /// <summary>
-    ///     Subtract
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    public Money Subtract(Money value)
-    {
-        if (!IsCommonCurrency(value))
-        {
-            throw new InvalidOperationException(
-                $"The money could not be altered because the argument {nameof(value)} is of currency {value._Currency.GetNumericCode()} which is different than {_Currency.GetNumericCode()}");
-        }
-
-        return new Money(_Amount - value._Amount, _Currency);
-    }
-
-    /// <summary>
     ///     Formats the money value to string according to the local culture of this type
     /// </summary>
     public override string ToString()
@@ -115,6 +102,20 @@ public record Money : IEqualityComparer<Money>
     }
 
     public string ToString(CultureProfile profile) => profile.GetFiatFormat(this);
+
+    /// <summary>
+    ///     Splits currency amounts based on the percentage provided by the argument
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="percentageSplit"></param>
+    /// <returns></returns>
+    public static (Money Remaining, Money Split) Split(Money value, Percentage percentageSplit)
+    {
+        var remaining = value._Amount / (byte) percentageSplit;
+        var split = value._Amount - remaining;
+
+        return (Remaining: new Money(remaining, value._Currency), new Money(split, value._Currency));
+    }
 
     #endregion
 
@@ -147,22 +148,6 @@ public record Money : IEqualityComparer<Money>
         }
 
         return new Money(left._Amount + right._Amount, left._Currency);
-    }
-
-    /// <exception cref="DivideByZeroException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    public static Money operator /(Money left, Money right)
-    {
-        if (right._Amount == 0)
-            throw new DivideByZeroException($"The argument {nameof(right)} is invalid because it is equal to zero");
-
-        if (!left.IsCommonCurrency(right))
-        {
-            throw new InvalidOperationException(
-                $"Currencies do not match. The numeric currency code of argument {nameof(left)} is {left._Currency.GetNumericCode()} and the argument {nameof(right)} is {right._Currency.GetNumericCode()}");
-        }
-
-        return new Money(left._Amount / right._Amount, left._Currency);
     }
 
     public static explicit operator ulong(Money value) => value._Amount;

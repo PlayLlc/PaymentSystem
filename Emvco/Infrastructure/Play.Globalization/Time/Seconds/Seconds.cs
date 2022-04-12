@@ -78,6 +78,7 @@ public readonly record struct Seconds
     public static explicit operator Microseconds(Seconds value) => new(value);
     public static implicit operator TimeSpan(Seconds value) => value.AsTimeSpan();
     public static implicit operator Seconds(Milliseconds value) => new(value);
+    public static implicit operator Seconds(Ticks value) => new(value);
     public static Microseconds operator *(Seconds left, Seconds right) => new(left._Value * right._Value);
     public static Microseconds operator /(Seconds left, Seconds right) => new(left._Value / right._Value);
     public static Microseconds operator -(Seconds left, Seconds right) => new(left._Value - right._Value);

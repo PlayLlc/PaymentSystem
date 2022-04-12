@@ -10,6 +10,7 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
+using Play.Emv.Kernel.Services;
 
 namespace Play.Emv.Kernel.Databases;
 
@@ -24,8 +25,10 @@ public partial class KernelDatabase : IManageKernelDatabaseLifetime
     #region Constructor
 
     public KernelDatabase(
-        CertificateAuthorityDataset[] certificateAuthorityDataset, PersistentValues persistentValues, KnownObjects knownObjects)
+        CertificateAuthorityDataset[] certificateAuthorityDataset, PersistentValues persistentValues, KnownObjects knownObjects,
+        ScratchPad scratchPad)
     {
+        _ScratchPad = scratchPad;
         _Certificates = certificateAuthorityDataset.ToImmutableSortedDictionary(a => a.GetRid(), b => b);
         _PersistentValues = persistentValues;
         _KnownObjects = knownObjects;
