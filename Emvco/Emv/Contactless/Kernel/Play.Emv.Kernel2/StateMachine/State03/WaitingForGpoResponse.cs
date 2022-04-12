@@ -18,9 +18,9 @@ public partial class WaitingForGpoResponse : KernelState
 
     public WaitingForGpoResponse(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
         IHandleDisplayRequests displayEndpoint, S3R1.S3R1 s3R1, IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(database,
-        dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver, pcdEndpoint, displayEndpoint)
+        dataExchangeKernelService, kernelEndpoint, tornTransactionLog, kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
         _S3R1 = s3R1;
         _UnpredictableNumberGenerator = unpredictableNumberGenerator;
@@ -31,6 +31,13 @@ public partial class WaitingForGpoResponse : KernelState
     #region Static Metadata
 
     public static readonly StateId StateId = new(nameof(WaitingForGpoResponse));
+
+    #endregion
+
+    #region Instance Values
+
+    private readonly S3R1.S3R1 _S3R1;
+    private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
 
     #endregion
 
@@ -58,13 +65,6 @@ public partial class WaitingForGpoResponse : KernelState
     public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly S3R1.S3R1 _S3R1;
-    private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
 
     #endregion
 

@@ -1,12 +1,14 @@
 ﻿using System;
 
 using Play.Emv.Ber;
+using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
+using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
@@ -76,6 +78,17 @@ public partial class WaitingForGenerateAcResponse2
     #endregion
 
     #region S11.11
+
+    private bool IsIdsWriteFlagSet(Kernel2Session session)
+    {
+        if (!session.TryGetTornEntry(out TornEntry? tornEntry))
+            throw new TerminalDataException(
+                $"The {nameof(WaitingForGenerateAcResponse2)} could not complete processing because the {nameof(TornEntry)} could not be retrieved from the {nameof(Kernel2Session)}");
+
+        if (!_TornTransactionLog.TryGet(tornEntry, out TornRecord? tornTempRecord))
+            throw new TerminalDataException(
+                $"The {nameof(WaitingForGenerateAcResponse2)} could not complete processing because the {nameof(TornRecord)} could not be retrieved from the {nameof(TornTransactionLog)}");
+    }
 
     #endregion
 }

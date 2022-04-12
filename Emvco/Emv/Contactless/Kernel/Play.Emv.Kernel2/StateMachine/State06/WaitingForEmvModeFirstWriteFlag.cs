@@ -18,9 +18,9 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
 
     public WaitingForEmvModeFirstWriteFlag(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
         IHandleDisplayRequests displayEndpoint, S456.S456 s456) : base(database, dataExchangeKernelService, kernelEndpoint,
-        tornTransactionManager, kernelStateResolver, pcdEndpoint, displayEndpoint)
+        tornTransactionLog, kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
         _S456 = s456;
     }
@@ -30,6 +30,12 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
     #region Static Metadata
 
     public static readonly StateId StateId = new(nameof(WaitingForEmvModeFirstWriteFlag));
+
+    #endregion
+
+    #region Instance Values
+
+    private readonly S456.S456 _S456;
 
     #endregion
 
@@ -65,12 +71,6 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly S456.S456 _S456;
 
     #endregion
 

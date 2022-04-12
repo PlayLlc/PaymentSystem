@@ -18,9 +18,9 @@ public partial class WaitingForGetDataResponse : KernelState
 
     public WaitingForGetDataResponse(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
         IHandleDisplayRequests displayEndpoint, S456.S456 s456) : base(database, dataExchangeKernelService, kernelEndpoint,
-        tornTransactionManager, kernelStateResolver, pcdEndpoint, displayEndpoint)
+        tornTransactionLog, kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
         _S456 = s456;
     }
@@ -30,6 +30,12 @@ public partial class WaitingForGetDataResponse : KernelState
     #region Static Metadata
 
     public static readonly StateId StateId = new(nameof(WaitingForGetDataResponse));
+
+    #endregion
+
+    #region Instance Values
+
+    private readonly S456.S456 _S456;
 
     #endregion
 
@@ -56,12 +62,6 @@ public partial class WaitingForGetDataResponse : KernelState
     public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly S456.S456 _S456;
 
     #endregion
 

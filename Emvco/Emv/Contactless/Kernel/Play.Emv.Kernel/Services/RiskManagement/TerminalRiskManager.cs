@@ -210,11 +210,7 @@ internal class TerminalRiskManager : IManageTerminalRisk
         return false;
     }
 
-    /// <summary>
-    ///     Process
-    /// </summary>
-    /// <param name="command"></param>
-    /// <returns></returns>
+    // HACK: There's probably no real reason that you're using async here
     /// <exception cref="System.InvalidOperationException"></exception>
     public async Task<TerminalRiskManagementResponse> Process(TerminalRiskManagementCommand command)
     {
@@ -226,8 +222,8 @@ internal class TerminalRiskManager : IManageTerminalRisk
             return CreateRandomlySelectedForOnlineProcessResponse();
 
         if (await IsBiasedRandomSelection(command.GetAmountAuthorizedNumeric(), command.GetBiasedRandomSelectionThreshold(),
-            command.GetTerminalFloorLimit(), command.GetBiasedRandomSelectionMaximumPercentage(),
-            command.GetRandomSelectionTargetPercentage()))
+                command.GetTerminalFloorLimit(), command.GetBiasedRandomSelectionMaximumPercentage(),
+                command.GetRandomSelectionTargetPercentage()).ConfigureAwait(false))
             return CreateRandomlySelectedForOnlineProcessResponse();
 
         if (!command.IsVelocityCheckSupported())

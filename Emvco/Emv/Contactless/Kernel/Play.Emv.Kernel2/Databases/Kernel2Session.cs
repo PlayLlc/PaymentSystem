@@ -10,7 +10,7 @@ public class Kernel2Session : KernelSession
 {
     #region Instance Values
 
-    private readonly TornEntry? _TornEntry = null;
+    private TornEntry? _TornEntry;
     private CryptogramTypes _ApplicationCryptogramTypes = CryptogramTypes.ApplicationAuthenticationCryptogram;
     private OdaStatusTypes _OdaStatusTypes = OdaStatusTypes.NotAvailable;
     private bool _IsPdolDataMissing = true;
@@ -49,6 +49,11 @@ public class Kernel2Session : KernelSession
     #endregion
 
     #region Write
+
+    public void Update(TornEntry tornEntry)
+    {
+        _TornEntry = tornEntry;
+    }
 
     public void IncrementRelayResistanceProtocolCount() => _RelayResistanceProtocolCount++;
     public void SetIsPdolDataMissing(bool value) => _IsPdolDataMissing = value;

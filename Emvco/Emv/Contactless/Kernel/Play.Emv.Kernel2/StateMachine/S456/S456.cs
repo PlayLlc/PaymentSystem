@@ -787,7 +787,7 @@ public class S456 : CommonProcessing
     /// <remarks>EMV Book C-2 Section S456.44, S456.47 - S456.49</remarks>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    private bool TryRecoveringTornTransaction(TransactionSessionId sessionId)
+    private bool TryRecoveringTornTransaction(Kernel2Session session)
     {
         if (!_Database.IsIdsAndTtrImplemented())
             return false;
@@ -802,10 +802,12 @@ public class S456 : CommonProcessing
                 _Database.Get<ApplicationPanSequenceNumber>(ApplicationPanSequenceNumber.Tag)), out TornRecord? tornRecord))
             return false;
 
-        if (!_Database.TryGet(DataRecoveryDataObjectListRelatedData.Tag, out DataRecoveryDataObjectListRelatedData? ddolRelatedData))
-            return false;
+        session.Update(tornRecord!.GetKey());
 
-        RecoverAcRequest capdu = RecoverAcRequest.Create(sessionId, ddolRelatedData!);
+        if (!_Database.TryGet(DataRecoveryDataObjectListRelatedData.Tag, out DataRecoveryDataObjectListRelatedData? ddolRelatedData))
+            throw new TerminalDataException($"The {nameof(S456)} could not complete {nameof(TryRecoveringTornTransaction)} ");
+
+        RecoverAcRequest capdu = RecoverAcRequest.Create(session.GetTransactionSessionId(), ddolRelatedData!);
         _PcdEndpoint.Request(capdu);
 
         return true;

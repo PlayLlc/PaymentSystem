@@ -19,9 +19,9 @@ public partial class WaitingForRecoverAcResponse : KernelState
 
     public WaitingForRecoverAcResponse(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
         IHandleDisplayRequests displayEndpoint, S910.S910 s910, IPrepareGenerateApplicationCryptogram prepareApplicationCryptogramService,
-        OfflineBalanceReader offlineBalanceReader) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager,
+        OfflineBalanceReader offlineBalanceReader) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog,
         kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
         _S910 = s910;
@@ -34,6 +34,14 @@ public partial class WaitingForRecoverAcResponse : KernelState
     #region Static Metadata
 
     public static readonly StateId StateId = new(nameof(WaitingForRecoverAcResponse));
+
+    #endregion
+
+    #region Instance Values
+
+    private readonly S910.S910 _S910;
+    private readonly IPrepareGenerateApplicationCryptogram _PrepareApplicationCryptogramService;
+    private readonly OfflineBalanceReader _OfflineBalanceReader;
 
     #endregion
 
@@ -60,14 +68,6 @@ public partial class WaitingForRecoverAcResponse : KernelState
     public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly S910.S910 _S910;
-    private readonly IPrepareGenerateApplicationCryptogram _PrepareApplicationCryptogramService;
-    private readonly OfflineBalanceReader _OfflineBalanceReader;
 
     #endregion
 

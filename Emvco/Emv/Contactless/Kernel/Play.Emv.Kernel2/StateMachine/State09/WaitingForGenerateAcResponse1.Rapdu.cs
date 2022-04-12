@@ -195,7 +195,7 @@ public partial class WaitingForGenerateAcResponse1
     {
         DataRecoveryDataObjectListRelatedData? drDol = _Database.Get<DataRecoveryDataObjectList>(DataRecoveryDataObjectList.Tag)
             .AsRelatedData(_Database);
-        _TornTransactionManager.Add(new TornRecord(Record.Create(_Database)), _Database);
+        _TornTransactionLog.Add(new TornRecord(Record.Create(_Database)), _Database);
 
         HandleL1ErrorTryAgain(sessionId, signal);
     }

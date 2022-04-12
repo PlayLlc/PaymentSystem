@@ -23,7 +23,7 @@ public abstract class KernelState : IGetKernelStateId
     protected readonly KernelDatabase _Database;
     protected readonly DataExchangeKernelService _DataExchangeKernelService;
     protected readonly IKernelEndpoint _KernelEndpoint;
-    protected readonly IManageTornTransactions _TornTransactionManager;
+    protected readonly IManageTornTransactions _TornTransactionLog;
     protected readonly IGetKernelState _KernelStateResolver;
     protected readonly IHandlePcdRequests _PcdEndpoint;
     protected readonly IHandleDisplayRequests _DisplayEndpoint;
@@ -34,13 +34,13 @@ public abstract class KernelState : IGetKernelStateId
 
     protected KernelState(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
         IHandleDisplayRequests displayEndpoint)
     {
         _Database = database;
         _DataExchangeKernelService = dataExchangeKernelService;
         _KernelEndpoint = kernelEndpoint;
-        _TornTransactionManager = tornTransactionManager;
+        _TornTransactionLog = tornTransactionLog;
         _KernelStateResolver = kernelStateResolver;
         _PcdEndpoint = pcdEndpoint;
         _DisplayEndpoint = displayEndpoint;

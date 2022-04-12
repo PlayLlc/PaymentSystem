@@ -18,8 +18,8 @@ public partial class WaitingForGenerateAcResponse2 : KernelState
 
     public WaitingForGenerateAcResponse2(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IHandleDisplayRequests displayEndpoint) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager,
+        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IHandleDisplayRequests displayEndpoint) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog,
         kernelStateResolver, pcdEndpoint, displayEndpoint)
     { }
 

@@ -19,9 +19,9 @@ public partial class WaitingForGenerateAcResponse1 : KernelState
 
     public WaitingForGenerateAcResponse1(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
         IHandleDisplayRequests displayEndpoint, S910.S910 s910, OfflineBalanceReader balanceReader) : base(database,
-        dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver, pcdEndpoint, displayEndpoint)
+        dataExchangeKernelService, kernelEndpoint, tornTransactionLog, kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
         _S910 = s910;
         _BalanceReader = balanceReader;
@@ -32,6 +32,13 @@ public partial class WaitingForGenerateAcResponse1 : KernelState
     #region Static Metadata
 
     public static readonly StateId StateId = new(nameof(WaitingForGenerateAcResponse1));
+
+    #endregion
+
+    #region Instance Values
+
+    private readonly S910.S910 _S910;
+    private readonly OfflineBalanceReader _BalanceReader;
 
     #endregion
 
@@ -58,13 +65,6 @@ public partial class WaitingForGenerateAcResponse1 : KernelState
     public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly S910.S910 _S910;
-    private readonly OfflineBalanceReader _BalanceReader;
 
     #endregion
 

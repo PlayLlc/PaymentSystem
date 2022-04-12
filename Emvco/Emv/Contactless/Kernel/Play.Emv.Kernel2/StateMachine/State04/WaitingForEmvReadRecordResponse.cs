@@ -20,10 +20,10 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     public WaitingForEmvReadRecordResponse(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionManager, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
         IHandleDisplayRequests displayEndpoint, IHandleTerminalRequests terminalEndpoint, ICleanTornTransactions kernelCleaner,
-        S456.S456 s456) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionManager, kernelStateResolver,
-        pcdEndpoint, displayEndpoint)
+        S456.S456 s456) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog, kernelStateResolver, pcdEndpoint,
+        displayEndpoint)
     {
         _TerminalEndpoint = terminalEndpoint;
         _KernelCleaner = kernelCleaner;
@@ -35,6 +35,13 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     #region Static Metadata
 
     public static readonly StateId StateId = new(nameof(WaitingForEmvReadRecordResponse));
+
+    #endregion
+
+    #region Instance Values
+
+    private readonly IHandleTerminalRequests _TerminalEndpoint;
+    private readonly ICleanTornTransactions _KernelCleaner;
 
     #endregion
 
@@ -61,13 +68,6 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly IHandleTerminalRequests _TerminalEndpoint;
-    private readonly ICleanTornTransactions _KernelCleaner;
 
     #endregion
 
