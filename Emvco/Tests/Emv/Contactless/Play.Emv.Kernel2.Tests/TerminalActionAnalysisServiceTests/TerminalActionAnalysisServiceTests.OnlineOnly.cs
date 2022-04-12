@@ -16,7 +16,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <summary>
     ///     OnlineOnlyTerminal_WithDefaultTerminalVerificationResults_GeneratesAuthorizationRequestCryptogram
     /// </summary>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Fact]
@@ -33,7 +33,7 @@ public partial class TerminalActionAnalysisServiceTests
     ///     OnlineOnlyTerminal_WithTerminalActionCodeOnline_GeneratesAuthorizationRequestCryptogram
     /// </summary>
     /// <param name="actionCode"></param>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
@@ -52,7 +52,7 @@ public partial class TerminalActionAnalysisServiceTests
     ///     OnlineOnlyTerminal_WithIssuerActionCodeOnline_GeneratesAuthorizationRequestCryptogram
     /// </summary>
     /// <param name="actionCode"></param>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
@@ -73,7 +73,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// </summary>
     /// <param name="terminalActionCode"></param>
     /// <param name="issuerActionCodes"></param>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
@@ -94,7 +94,7 @@ public partial class TerminalActionAnalysisServiceTests
     ///     OnlineOnlyTerminal_WithoutTimeoutAndIssuerActionCodeDefault_GeneratesAuthenticationRequestCryptogram
     /// </summary>
     /// <param name="actionCode"></param>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
@@ -114,7 +114,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// </summary>
     /// <param name="terminalActionCode"></param>
     /// <param name="issuerActionCodes"></param>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
@@ -139,7 +139,7 @@ public partial class TerminalActionAnalysisServiceTests
     ///     OnlineOnlyTerminal_WithTimeoutAndTerminalActionCodeDefault_GeneratesAuthenticationRequestCryptogram
     /// </summary>
     /// <param name="actionCode"></param>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
@@ -159,7 +159,7 @@ public partial class TerminalActionAnalysisServiceTests
     ///     OnlineOnlyTerminal_WithTimeoutAndIssuerActionCodeDefault_GeneratesAuthenticationRequestCryptogram
     /// </summary>
     /// <param name="actionCode"></param>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
@@ -180,7 +180,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// </summary>
     /// <param name="terminalActionCode"></param>
     /// <param name="issuerActionCodes"></param>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
@@ -201,7 +201,7 @@ public partial class TerminalActionAnalysisServiceTests
     ///     OnlineOnlyTerminal_WithTerminalActionCodeDenial_GeneratesApplicationAuthenticationCryptogram
     /// </summary>
     /// <param name="actionCode"></param>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
@@ -220,7 +220,7 @@ public partial class TerminalActionAnalysisServiceTests
     ///     OnlineOnlyTerminal_WithIssuerActionCodeDenial_GeneratesApplicationAuthenticationCryptogram
     /// </summary>
     /// <param name="actionCode"></param>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]
@@ -240,7 +240,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// </summary>
     /// <param name="terminalActionCode"></param>
     /// <param name="issuerActionCodes"></param>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
     [Theory]

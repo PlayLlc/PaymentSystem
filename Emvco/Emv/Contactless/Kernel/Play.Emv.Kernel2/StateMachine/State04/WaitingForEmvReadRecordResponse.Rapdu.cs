@@ -17,6 +17,7 @@ using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
+using Play.Icc.Exceptions;
 using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Icc.Messaging.Apdu;
 
@@ -42,7 +43,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         HandleRequestOutOfSync(session, signal);

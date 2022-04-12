@@ -15,6 +15,7 @@ using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
+using Play.Icc.Exceptions;
 using Play.Icc.Messaging.Apdu;
 
 namespace Play.Emv.Kernel2.StateMachine;
@@ -34,7 +35,7 @@ public partial class WaitingForGenerateAcResponse1
     /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
-    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
@@ -209,7 +210,7 @@ public partial class WaitingForGenerateAcResponse1
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandleLevel2StatusByteError(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu, out StateId? stateId)
     {
@@ -247,7 +248,7 @@ public partial class WaitingForGenerateAcResponse1
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandleLevel2ParsingError(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu, out StateId? stateId)
     {
@@ -283,7 +284,7 @@ public partial class WaitingForGenerateAcResponse1
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private StateId HandleLevel2ParsingError(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
     {
@@ -301,7 +302,7 @@ public partial class WaitingForGenerateAcResponse1
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandleMissingMandatoryDataObjects(
         Kernel2Session session, GenerateApplicationCryptogramResponse rapdu, out StateId? stateId)
@@ -334,7 +335,7 @@ public partial class WaitingForGenerateAcResponse1
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private StateId HandleMissingMandatoryDataObjects(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
     {
@@ -352,7 +353,7 @@ public partial class WaitingForGenerateAcResponse1
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="PlayInternalException"></exception>
-    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandleInvalidCryptogramInformationData(
         Kernel2Session session, GenerateApplicationCryptogramResponse rapdu, out StateId? stateId)
@@ -380,7 +381,7 @@ public partial class WaitingForGenerateAcResponse1
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private StateId HandleInvalidCryptogramInformationData(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
     {
@@ -398,7 +399,7 @@ public partial class WaitingForGenerateAcResponse1
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private StateId HandleAuthentication(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
     {

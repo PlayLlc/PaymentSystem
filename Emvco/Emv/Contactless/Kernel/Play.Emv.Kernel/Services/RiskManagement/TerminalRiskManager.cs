@@ -148,7 +148,7 @@ internal class TerminalRiskManager : IManageTerminalRisk
     /// <param name="amountAuthorizedNumeric"></param>
     /// <param name="terminalFloorLimit"></param>
     /// <returns></returns>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private bool IsFloorLimitExceeded(
         ApplicationPan primaryAccountNumber, /*uint sequenceNumber,*/
         Money amountAuthorizedNumeric, Money terminalFloorLimit)
@@ -211,7 +211,7 @@ internal class TerminalRiskManager : IManageTerminalRisk
     }
 
     // HACK: There's probably no real reason that you're using async here
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public async Task<TerminalRiskManagementResponse> Process(TerminalRiskManagementCommand command)
     {
         if (IsFloorLimitExceeded(command.GetPrimaryAccountNumber(), command.GetAmountAuthorizedNumeric(), command.GetTerminalFloorLimit()))

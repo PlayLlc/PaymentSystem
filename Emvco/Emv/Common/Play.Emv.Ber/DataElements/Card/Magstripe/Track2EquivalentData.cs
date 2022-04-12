@@ -72,7 +72,7 @@ public record Track2EquivalentData : DataElement<BigInteger>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public ApplicationPan GetPrimaryAccountNumber()
     {
         ReadOnlySpan<Nibble> buffer = _Value.ToByteArray().AsNibbleArray();

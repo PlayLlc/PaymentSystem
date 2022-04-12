@@ -43,7 +43,7 @@ public record Track1Data : DataElement<BigInteger>
     ///     GetTrack1DiscretionaryData
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     public Track1DiscretionaryData GetTrack1DiscretionaryData()

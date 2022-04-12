@@ -11,6 +11,7 @@ using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
 using Play.Emv.Security.Exceptions;
+using Play.Icc.Exceptions;
 
 namespace Play.Emv.Kernel2.StateMachine.S910;
 
@@ -21,9 +22,9 @@ public partial class S910
         #region Instance Members
 
         /// <exception cref="PlayInternalException"></exception>
-        /// <exception cref="Play.Core.Exceptions"></exception>
+        /// <exception cref="Exceptions"></exception>
         /// <exception cref="DataElementParsingException"></exception>
-        /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+        /// <exception cref="IccProtocolException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         public StateId ProcessWithCda(
             IGetKernelStateId currentStateIdRetriever, Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
@@ -286,7 +287,7 @@ public partial class S910
         /// <remarks>EMV Book C-2 Section S910.13</remarks>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="DataElementParsingException"></exception>
-        /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+        /// <exception cref="IccProtocolException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         private bool TryHandleIdsWriteFlagNotSet(
             IGetKernelStateId currentStateIdRetriever, Kernel2Session session, out StateId? successfulResponseStateId)

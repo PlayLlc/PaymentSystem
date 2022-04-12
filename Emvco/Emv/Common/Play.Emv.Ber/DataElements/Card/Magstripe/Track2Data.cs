@@ -53,7 +53,7 @@ public record Track2Data : DataElement<BigInteger>
     ///     GetPrimaryAccountNumber
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
     public ApplicationPan GetPrimaryAccountNumber()
@@ -77,7 +77,7 @@ public record Track2Data : DataElement<BigInteger>
     ///     GetTrack2DiscretionaryData
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     public Track2DiscretionaryData GetTrack2DiscretionaryData()

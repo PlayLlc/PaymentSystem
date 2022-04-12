@@ -28,7 +28,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <summary>
     ///     ctor
     /// </summary>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public TerminalActionAnalysisServiceTests()
     {

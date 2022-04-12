@@ -106,7 +106,7 @@ public partial class EmvCodec : BerCodec
     }
 
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public PrimitiveValue[] DecodePrimitiveValuesAtRuntime(ReadOnlySpan<byte> value)
     {
         TagLengthValue[] siblings = _Codec.DecodeTagLengthValues(value);

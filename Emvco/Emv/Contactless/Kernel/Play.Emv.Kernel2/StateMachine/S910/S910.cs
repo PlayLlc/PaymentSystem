@@ -11,6 +11,7 @@ using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
+using Play.Icc.Exceptions;
 using Play.Messaging;
 
 namespace Play.Emv.Kernel2.StateMachine.S910;
@@ -44,8 +45,8 @@ public partial class S910 : CommonProcessing
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message)
     {
         HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());

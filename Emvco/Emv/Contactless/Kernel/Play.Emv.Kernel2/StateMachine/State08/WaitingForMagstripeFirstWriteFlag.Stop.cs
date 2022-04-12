@@ -19,7 +19,7 @@ public partial class WaitingForMagstripeFirstWriteFlag
     /// <returns></returns>
     /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
     /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
         HandleRequestOutOfSync(session, signal);

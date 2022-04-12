@@ -15,6 +15,7 @@ using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
+using Play.Icc.Exceptions;
 using Play.Icc.FileSystem.ElementaryFiles;
 
 using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
@@ -30,7 +31,7 @@ public partial class WaitingForGetDataResponse : KernelState
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
+    /// <exception cref="IccProtocolException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         HandleRequestOutOfSync(session, signal);

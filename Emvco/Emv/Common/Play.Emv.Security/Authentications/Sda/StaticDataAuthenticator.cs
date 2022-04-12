@@ -87,7 +87,7 @@ internal class StaticDataAuthenticator
     }
 
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private void ValidateStaticDataToBeAuthenticated(
         DecodedIssuerPublicKeyCertificate decodedCertificateResult, SignedStaticApplicationData signedStaticApplicationData,
         ReadOnlySpan<byte> staticDataToBeAuthenticated)

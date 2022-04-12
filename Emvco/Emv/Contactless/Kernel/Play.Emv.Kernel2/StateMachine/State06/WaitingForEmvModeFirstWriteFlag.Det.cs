@@ -22,7 +22,7 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
     // BUG: Need to make sure you're properly implementing each DEK handler for each state
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public override KernelState Handle(KernelSession session, QueryTerminalResponse signal)
@@ -45,7 +45,7 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
 
     /// <exception cref="TerminalDataException"></exception>
     /// <remarks>Book C-2 Section S6.1, S6.3</remarks>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public bool TryHandleTimeout(KernelSession session)
     {
         if (!session.Timer.IsTimedOut())
@@ -83,7 +83,7 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
     #region S6.8 - S6.12
 
     /// <remarks>Book C-2 Section S6.8 - S6.12</remarks>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public bool AttemptToHandleGetDataToBeDone(TransactionSessionId sessionId)
     {
         if (!_DataExchangeKernelService.TryPeek(DekRequestType.TagsToRead, out Tag tagToRead))
