@@ -22,7 +22,7 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForMagStripeReadRecordResponse
 {
-    #region RAPDU
+    #region Instance Members
 
     /// <summary>
     ///     Handle
@@ -239,6 +239,7 @@ public partial class WaitingForMagStripeReadRecordResponse
 
     #region S7.14 - S7.15
 
+    /// <remarks>Book C-2 Section S7.14 - S7.15</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="BerParsingException"></exception>
     private void HandleUnpredictableNumberDataObjectList()
@@ -254,7 +255,7 @@ public partial class WaitingForMagStripeReadRecordResponse
 
     #region S7.17 - S7.19
 
-    /// <remarks>Book C-2 Section S4.36</remarks>
+    /// <remarks>Book C-2 Section S7.17 - S7.19</remarks>
     private bool IsReadingRequired(Kernel2Session session)
     {
         if (!session.TryPeekActiveTag(out RecordRange recordRange))
@@ -269,11 +270,7 @@ public partial class WaitingForMagStripeReadRecordResponse
 
     #region S7.20 - S7.21.2
 
-    /// <summary>
-    ///     TryHandlingMissingMandatoryObjects
-    /// </summary>
-    /// <param name="sessionId"></param>
-    /// <returns></returns>
+    /// <remarks>Book C-2 Section S7.20 - S7.21.2</remarks>
     /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandlingMissingMandatoryObjects(KernelSessionId sessionId)
     {
@@ -311,6 +308,7 @@ public partial class WaitingForMagStripeReadRecordResponse
 
     #region S7.20
 
+    /// <remarks>Book C-2 Section S7.20</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool AreMandatoryDataObjectsPresent()
     {
@@ -330,6 +328,7 @@ public partial class WaitingForMagStripeReadRecordResponse
 
     #region S7.22, S7.24.1 - S7.24.2
 
+    /// <remarks>Book C-2 Section S7.22, S7.24.1 - S7.24.2</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private bool IsMagstripeDataOkay(KernelSessionId sessionId)
@@ -394,10 +393,7 @@ public partial class WaitingForMagStripeReadRecordResponse
 
     #region S7.24.1 - S7.24.2
 
-    /// <summary>
-    ///     HandleMagstripeDataIsInvalid
-    /// </summary>
-    /// <param name="sessionId"></param>
+    /// <remarks>Book C-2 Section S7.24.1 - S7.24.2</remarks>
     /// <exception cref="InvalidOperationException"></exception>
     private void HandleMagstripeDataIsInvalid(KernelSessionId sessionId)
     {
@@ -425,6 +421,7 @@ public partial class WaitingForMagStripeReadRecordResponse
 
     #region S7.23
 
+    /// <remarks>Book C-2 Section S7.23</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>

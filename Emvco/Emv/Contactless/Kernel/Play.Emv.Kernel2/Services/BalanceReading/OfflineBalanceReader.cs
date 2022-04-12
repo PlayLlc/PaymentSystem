@@ -16,6 +16,8 @@ using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
 
 namespace Play.Emv.Kernel2.Services.BalanceReading;
 
+// TODO: This does not need to inherit from CommonProcessing. We need to abstract this service from the Kernel 2 implementation and move this into the common Play.Emv.Kernel module
+
 /// <summary>
 ///     A Card may have an offline balance, and some products require the balance to be read and made available to the
 ///     customer, either on a receipt or on a display. Not all cards support balance reading and those that do explicitly

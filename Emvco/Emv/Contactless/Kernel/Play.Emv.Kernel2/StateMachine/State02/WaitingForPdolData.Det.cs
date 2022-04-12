@@ -18,11 +18,9 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForPdolData : KernelState
 {
-    #region DET
+    #region Instance Members
 
     // BUG: Need to make sure you're properly implementing each DEK handler for each state
-
-    #region QueryTerminalResponse
 
     /// <summary>
     ///     Handle
@@ -58,11 +56,9 @@ public partial class WaitingForPdolData : KernelState
         return _KernelStateResolver.GetKernelState(StateId);
     }
 
-    /// <summary>
-    ///     TryHandleTimeout
-    /// </summary>
-    /// <param name="session"></param>
-    /// <returns></returns>
+    #region S2.1, S2.3
+
+    /// <remarks>Book C-2 Section S2.1, S2.3</remarks>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
@@ -82,6 +78,8 @@ public partial class WaitingForPdolData : KernelState
 
         return true;
     }
+
+    #endregion
 
     #region S2.6
 
@@ -146,8 +144,6 @@ public partial class WaitingForPdolData : KernelState
     {
         session.Timer.Stop();
     }
-
-    #endregion
 
     #endregion
 

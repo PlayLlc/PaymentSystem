@@ -23,6 +23,8 @@ using Exception = System.Exception;
 
 namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
 {
+    // TODO: This does not need to inherit from CommonProcessing. We need to abstract this service from the Kernel 2 implementation and move this into the common Play.Emv.Kernel module
+
     /// <summary>
     ///     Prepares a Generate AC CAPDU for Terminal implementations with IDS capabilities implemented
     /// </summary>
@@ -54,7 +56,7 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
             _CdaFailure = new CdaFailure(database, pcdEndpoint);
             _ReadIds = new ReadIntegratedDataStorage(database, pcdEndpoint);
             _WriteIds = new WriteIntegratedDataStorage(database, pcdEndpoint);
-            _NoIds = new NoIntegratedDataStorage(database, pcdEndpoint, _ReadIds);
+            _NoIds = new NoIntegratedDataStorage(database, pcdEndpoint, _ReadIds, _CdaFailure);
         }
 
         #endregion

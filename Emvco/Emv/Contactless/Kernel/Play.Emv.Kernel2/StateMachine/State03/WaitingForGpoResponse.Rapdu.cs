@@ -209,8 +209,6 @@ public partial class WaitingForGpoResponse : KernelState
 
     #endregion
 
-    #endregion
-
     #region S3.10 - S3.12
 
     /// <remarks>Book C-2 SectionS3.10 - S3.12</remarks>
@@ -249,6 +247,10 @@ public partial class WaitingForGpoResponse : KernelState
         }
     }
 
+    #endregion
+
+    #region S3.10 - S3.12 continued
+
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private void HandleBerParsingException(KernelSession session, QueryPcdResponse signal)
@@ -263,6 +265,8 @@ public partial class WaitingForGpoResponse : KernelState
 
         _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
     }
+
+    #endregion
 
     #endregion
 

@@ -17,7 +17,7 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForEmvModeFirstWriteFlag : KernelState
 {
-    #region DET
+    #region Instance Members
 
     // BUG: Need to make sure you're properly implementing each DEK handler for each state
     /// <exception cref="RequestOutOfSyncException"></exception>
@@ -34,8 +34,7 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
 
         UpdateDatabase(signal);
 
-        // S6.7
-        session.Timer.Stop();
+        StopTimer(session);
 
         AttemptToHandleGetDataToBeDone(session.GetTransactionSessionId());
 
@@ -76,7 +75,8 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
 
     #region S6.7
 
-    // Implemented in the main QueryTerminalResponse Handle method
+    /// <remarks>Book C-2 Section S5.19 - S5.24</remarks>
+    private void StopTimer(KernelSession session) => session.Timer.Stop();
 
     #endregion
 

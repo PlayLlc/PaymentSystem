@@ -7,11 +7,9 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForGpoResponse : KernelState
 {
-    #region DET
+    #region Instance Members
 
     // BUG: Need to make sure you're properly implementing each DEK handler for each state
-
-    #region Query Terminal Response
 
     /// <summary>
     ///     Handle
@@ -35,8 +33,6 @@ public partial class WaitingForGpoResponse : KernelState
     {
         _Database.Update(signal.GetDataToSend().AsPrimitiveValues());
     }
-
-    #endregion
 
     #endregion
 }

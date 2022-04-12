@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Play.Core.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
@@ -29,7 +30,7 @@ public partial class WaitingForGenerateAcResponse1
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
@@ -62,6 +63,7 @@ public partial class WaitingForGenerateAcResponse1
 
     #region S9.5 - S9.15 - L1RSP
 
+    /// <remarks>Book C-2 Section S9.5 - S9.15 - L1RSP</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
@@ -82,6 +84,7 @@ public partial class WaitingForGenerateAcResponse1
 
     #region S9.5
 
+    /// <remarks>Book C-2 Section S9.5</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool IsTransactionRecoverySupported()
     {
@@ -99,6 +102,7 @@ public partial class WaitingForGenerateAcResponse1
 
     #region S9.6 - S9.10
 
+    /// <remarks>Book C-2 Section S9.6 - S9.10</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void HandleL1Error(KernelSessionId sessionId, QueryPcdResponse signal)
     {
@@ -112,6 +116,7 @@ public partial class WaitingForGenerateAcResponse1
 
     #region S9.7 - S9.8
 
+    /// <remarks>Book C-2 Section S9.7 - S9.8</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void HandleL1ErrorTryAnotherCard(KernelSessionId sessionId, QueryPcdResponse signal)
     {
@@ -145,6 +150,7 @@ public partial class WaitingForGenerateAcResponse1
 
     #region S9.9 - S9.10, S9.14 - S9.15
 
+    /// <remarks>Book C-2 Section S9.9 - S9.10, S9.14 - S9.15</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void HandleL1ErrorTryAgain(KernelSessionId sessionId, QueryPcdResponse signal)
     {
@@ -180,6 +186,7 @@ public partial class WaitingForGenerateAcResponse1
 
     #region S9.11 - S9.15
 
+    /// <remarks>Book C-2 Section S9.11 - S9.15</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
@@ -197,9 +204,10 @@ public partial class WaitingForGenerateAcResponse1
 
     #region S916 - S917
 
+    /// <remarks>Book C-2 Section  S916 - S917</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -234,9 +242,10 @@ public partial class WaitingForGenerateAcResponse1
 
     #region S918 - S920
 
+    /// <remarks>Book C-2 Section S918 - S920</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -269,9 +278,10 @@ public partial class WaitingForGenerateAcResponse1
 
     #region S920
 
+    /// <remarks>Book C-2 Section S920</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -286,9 +296,10 @@ public partial class WaitingForGenerateAcResponse1
 
     #region S921 - S922
 
+    /// <remarks>Book C-2 Section S921 - S922</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -318,9 +329,10 @@ public partial class WaitingForGenerateAcResponse1
 
     #region S922
 
+    /// <remarks>Book C-2 Section S922</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -335,10 +347,11 @@ public partial class WaitingForGenerateAcResponse1
 
     #region S923 - S924
 
+    /// <remarks>Book C-2 Section S923 - S924</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandleInvalidCryptogramInformationData(
@@ -362,15 +375,10 @@ public partial class WaitingForGenerateAcResponse1
 
     #region S924
 
-    /// <summary>
-    ///     HandleInvalidCryptogramInformationData
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="rapdu"></param>
-    /// <returns></returns>
+    /// <remarks>Book C-2 Section S924</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -385,9 +393,10 @@ public partial class WaitingForGenerateAcResponse1
 
     #region S925 - S928
 
+    /// <remarks>Book C-2 Section S925 - S928</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="Play.Icc.Exceptions.IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -406,6 +415,7 @@ public partial class WaitingForGenerateAcResponse1
 
     #region S926
 
+    /// <remarks>Book C-2 Section S926</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool IsPosGenAcWriteNeeded() => _DataExchangeKernelService.IsEmpty(DekResponseType.TagsToWriteAfterGenAc);
 
@@ -413,6 +423,7 @@ public partial class WaitingForGenerateAcResponse1
 
     #region S927
 
+    /// <remarks>Book C-2 Section S927</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void SetDisplayMessage()
     {

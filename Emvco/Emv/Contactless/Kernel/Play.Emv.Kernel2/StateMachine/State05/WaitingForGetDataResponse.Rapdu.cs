@@ -151,6 +151,10 @@ public partial class WaitingForGetDataResponse : KernelState
         }
     }
 
+    #endregion
+
+    #region S5.19 - S5.24 continued
+
     /// <summary>
     ///     HandleBerParsingException
     /// </summary>

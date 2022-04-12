@@ -53,6 +53,7 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
 
             #region GAC.22
 
+            /// <remarks>Book C-2 Section GAC.22</remarks>
             /// <exception cref="TerminalDataException"></exception>
             private bool IsOnDeviceCardholderVerificationSupported()
             {
@@ -70,6 +71,7 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
 
             #region GAC.23
 
+            /// <remarks>Book C-2 Section GAC.23</remarks>
             private void UpdateAac(Kernel2Session session)
             {
                 session.Update(CryptogramTypes.ApplicationAuthenticationCryptogram);
@@ -79,6 +81,7 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
 
             #region GAC.26, GAC.29
 
+            /// <remarks>Book C-2 Section GAC.26, GAC.29</remarks>
             /// <exception cref="TerminalDataException"></exception>
             /// <exception cref="OverflowException"></exception>
             /// <exception cref="BerParsingException"></exception>
@@ -93,6 +96,7 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
 
             #region GAC.26
 
+            /// <remarks>Book C-2 Section GAC.26</remarks>
             /// <exception cref="TerminalDataException"></exception>
             /// <exception cref="CardDataException"></exception>
             private void SetReferenceControlParameterWithoutCdaSignature(Kernel2Session session)
@@ -104,6 +108,7 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
 
             #region GAC.29
 
+            /// <remarks>Book C-2 Section GAC.29</remarks>
             /// <exception cref="TerminalDataException"></exception>
             /// <exception cref="OverflowException"></exception>
             /// <exception cref="BerParsingException"></exception>

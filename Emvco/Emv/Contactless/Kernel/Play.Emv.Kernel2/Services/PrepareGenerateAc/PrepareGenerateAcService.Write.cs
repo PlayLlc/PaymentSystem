@@ -8,6 +8,7 @@ using Play.Ber.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.Services;
@@ -69,6 +70,7 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
 
             #region GAC.40
 
+            /// <remarks>Book C-2 Section GAC.40</remarks>
             private bool IsDataStorageDigestHashPresent(DataStorageDataObjectList dsdol) =>
                 dsdol.IsObjectPresent(DataStorageDigestHash.Tag);
 
@@ -76,12 +78,14 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
 
             #region GAC.41
 
+            /// <remarks>Book C-2 Section GAC.41</remarks>
             private bool IsDataStorageInputTermPresent() => _Database.IsPresent(DataStorageInputTerminal.Tag);
 
             #endregion
 
             #region GAC.42 - GAC.44
 
+            /// <remarks>Book C-2 Section GAC.42- GAC.44</remarks>
             private void UpdateDataStorageDigestHash()
             {
                 ApplicationCapabilitiesInformation? applicationCapabilitiesInformation =
@@ -99,7 +103,8 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
 
             #region GAC.45 - GAC.48
 
-            /// <exception cref="Ber.Exceptions.TerminalDataException"></exception>
+            /// <remarks>Book C-2 Section GAC.45 - GAC.48</remarks>
+            /// <exception cref="TerminalDataException"></exception>
             /// <exception cref="OverflowException"></exception>
             /// <exception cref="BerParsingException"></exception>
             private void HandleGenerateAcCapdu(Kernel2Session session)
@@ -121,16 +126,6 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
             }
 
             #endregion
-
-            private void SetVersion1Hash()
-            {
-                //owhf2
-            }
-
-            private void SetVersion2Hash()
-            {
-                //OWHF2AES(
-            }
 
             #endregion
         }

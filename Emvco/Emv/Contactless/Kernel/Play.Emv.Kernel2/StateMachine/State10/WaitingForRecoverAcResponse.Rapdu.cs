@@ -2,6 +2,7 @@
 
 using Play.Ber.Exceptions;
 using Play.Codecs.Exceptions;
+using Play.Core.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
@@ -22,7 +23,7 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForRecoverAcResponse
 {
-    #region RAPDU
+    #region Instance Members
 
     /// <summary>
     ///     Handle
@@ -35,7 +36,7 @@ public partial class WaitingForRecoverAcResponse
     /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
@@ -106,6 +107,7 @@ public partial class WaitingForRecoverAcResponse
 
     #region S10.7 - S10.9
 
+    /// <remarks>Book C-2 Section S10.7 - S10.9</remarks>
     private bool TryHandlingL2Error(QueryPcdResponse signal)
     {
         if (!signal.IsLevel2ErrorPresent())
@@ -121,12 +123,13 @@ public partial class WaitingForRecoverAcResponse
 
     #region S10.10 - S10.14
 
+    /// <remarks>Book C-2 Section S10.10 - S10.14</remarks>
     /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandlingBerParsingException(Kernel2Session session, RecoverAcResponse rapdu)
     {
@@ -179,6 +182,7 @@ public partial class WaitingForRecoverAcResponse
 
     #region S10.10 - S10.12
 
+    /// <remarks>Book C-2 Section S10.10 - S10.12</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void RemoveTornEntry()
     {
@@ -196,6 +200,7 @@ public partial class WaitingForRecoverAcResponse
 
     #region S10.13
 
+    /// <remarks>Book C-2 Section S10.13</remarks>
     /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
@@ -210,9 +215,10 @@ public partial class WaitingForRecoverAcResponse
 
     #region S10.14
 
+    /// <remarks>Book C-2 Section S10.14</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -226,15 +232,10 @@ public partial class WaitingForRecoverAcResponse
 
     #region S10.15 - S10.16
 
-    /// <summary>
-    ///     TryHandlingMissingMandatoryData
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="rapdu"></param>
-    /// <returns></returns>
+    /// <remarks>Book C-2 Section S10.15 - S10.16</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -261,14 +262,10 @@ public partial class WaitingForRecoverAcResponse
 
     #region S10.16
 
-    /// <summary>
-    ///     HandleMissingMandatoryData
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="rapdu"></param>
+    /// <remarks>Book C-2 Section S10.16</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -282,16 +279,11 @@ public partial class WaitingForRecoverAcResponse
 
     #region S10.17 - S10.18
 
-    /// <summary>
-    ///     TryHandlingInvalidCryptogramInformationData
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="rapdu"></param>
-    /// <returns></returns>
+    /// <remarks>Book C-2 Section S10.17 - S10.18</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private bool TryHandlingInvalidCryptogramInformationData(Kernel2Session session, RecoverAcResponse rapdu)
@@ -312,14 +304,10 @@ public partial class WaitingForRecoverAcResponse
 
     #region S10.18
 
-    /// <summary>
-    ///     HandleInvalidCryptogramInformationData
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="rapdu"></param>
+    /// <remarks>Book C-2 Section S10.18</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -333,15 +321,10 @@ public partial class WaitingForRecoverAcResponse
 
     #region S10.19 - S10.22
 
-    /// <summary>
-    ///     HandleCda
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="rapdu"></param>
-    /// <returns></returns>
+    /// <remarks>Book C-2 Section S10.19 - S10.22</remarks>
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="Play.Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>

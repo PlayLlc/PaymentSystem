@@ -8,8 +8,6 @@ public partial class WaitingForRecoverAcResponse
 {
     #region Instance Members
 
-    #region STOP
-
     /// <summary>
     ///     Handle
     /// </summary>
@@ -24,8 +22,6 @@ public partial class WaitingForRecoverAcResponse
         // CHECK: The S10 algorithm only specified to recursively set the state on a STOP signal. Check the specs to make sure that's valid with all STOP signal rules
         return _KernelStateResolver.GetKernelState(StateId);
     }
-
-    #endregion
 
     #endregion
 }

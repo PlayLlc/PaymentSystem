@@ -29,11 +29,14 @@ public partial class WaitingForMagstripeFirstWriteFlag
         UpdateDatabase(signal);
 
         // S8.7
-        session.Timer.Stop();
+        StopTimer(session);
 
         return _KernelStateResolver.GetKernelState(_S78.Process(this, (Kernel2Session) session, signal));
     }
 
+    #region S8.1 - S8.2
+
+    /// <remarks>Book C-2 Section S8.1 - S8.2</remarks>
     private bool TryHandleTimeout(KernelSession session)
     {
         try
@@ -71,6 +74,8 @@ public partial class WaitingForMagstripeFirstWriteFlag
         return false;
     }
 
+    #endregion
+
     #region S8.6
 
     /// <exception cref="TerminalDataException"></exception>
@@ -83,7 +88,8 @@ public partial class WaitingForMagstripeFirstWriteFlag
 
     #region S8.7
 
-    // Implemented in the main Handle method
+    /// <remarks>Book C-2 Section S8.7</remarks>
+    private void StopTimer(KernelSession session) => session.Timer.Stop();
 
     #endregion
 

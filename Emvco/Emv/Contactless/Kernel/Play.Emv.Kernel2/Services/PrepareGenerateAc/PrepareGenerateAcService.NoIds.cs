@@ -28,17 +28,20 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
             private readonly KernelDatabase _Database;
             private readonly IHandlePcdRequests _PcdEndpoint;
             private readonly ReadIntegratedDataStorage _ReadIntegratedDataStorage;
+            private readonly CdaFailure _CdaFailure;
 
             #endregion
 
             #region Constructor
 
             public NoIntegratedDataStorage(
-                KernelDatabase database, IHandlePcdRequests pcdEndpoint, ReadIntegratedDataStorage readIntegratedDataStorage)
+                KernelDatabase database, IHandlePcdRequests pcdEndpoint, ReadIntegratedDataStorage readIntegratedDataStorage,
+                CdaFailure cdaFailure)
             {
                 _Database = database;
                 _PcdEndpoint = pcdEndpoint;
                 _ReadIntegratedDataStorage = readIntegratedDataStorage;
+                _CdaFailure = cdaFailure;
             }
 
             #endregion
@@ -61,7 +64,7 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
 
                 // GAC.21
                 if (_Database.IsSet(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed))
-                    return HandleCdaFailed(currentStateIdRetriever, session); // GAC.22 - GAC.23, GAC.26, GAC.29
+                    return _CdaFailure.Process(currentStateIdRetriever, session, message); // GAC.D
 
                 // GAC.24
                 if (session.GetApplicationCryptogramType() != CryptogramTypes.ApplicationAuthenticationCryptogram)
@@ -71,29 +74,12 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
                 if (IsCdaSupportedByApplicationForAcTypes())
                     return _ReadIntegratedDataStorage.Process(currentStateIdRetriever, session, message); // GAC.C
 
-                return HandleCdaFailed(currentStateIdRetriever, session);
+                return _CdaFailure.Process(currentStateIdRetriever, session, message); // GAC.D
             }
-
-            #region GAC.22 - GAC.23, GAC.26, GAC.29
-
-            /// <exception cref="TerminalDataException"></exception>
-            /// <exception cref="OverflowException"></exception>
-            /// <exception cref="BerParsingException"></exception>
-            /// <exception cref="CardDataException"></exception>
-            private StateId HandleCdaFailed(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
-            {
-                if (IsOnDeviceCardholderVerificationSupported())
-                    UpdateAac(session);
-
-                HandleCapdu(session);
-
-                return currentStateIdRetriever.GetStateId();
-            }
-
-            #endregion
 
             #region GAC.25
 
+            /// <remarks>Book C-2 Section GAC.25</remarks>
             /// <exception cref="TerminalDataException"></exception>
             private bool IsCdaSupportedByApplicationForAcTypes()
             {
@@ -107,6 +93,7 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
 
             #region GAC.26
 
+            /// <remarks>Book C-2 Section GAC.26</remarks>
             /// <exception cref="TerminalDataException"></exception>
             /// <exception cref="CardDataException"></exception>
             private void SetReferenceControlParameterWithoutCdaSignature(Kernel2Session session)
@@ -118,6 +105,7 @@ namespace Play.Emv.Kernel2.Services.PrepareGenerateAc
 
             #region GAC.29
 
+            /// <remarks>Book C-2 Section GAC.29</remarks>
             /// <exception cref="TerminalDataException"></exception>
             /// <exception cref="OverflowException"></exception>
             /// <exception cref="BerParsingException"></exception>
