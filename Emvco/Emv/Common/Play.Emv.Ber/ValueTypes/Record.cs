@@ -43,7 +43,7 @@ public class Record : IEqualityComparer<Record>, IEquatable<Record>
 
     #region Instance Members
 
-    public RecordKey GetRecordKey() => _Key;
+    public RecordKey GetKey() => _Key;
     public PrimitiveValue[] GetValues() => _Value;
 
     /// <exception cref="TerminalDataException"></exception>
@@ -177,13 +177,13 @@ public class Record : IEqualityComparer<Record>, IEquatable<Record>
         buffer.Add(values.FirstOrDefault(a => a.GetTag() == MeasuredRelayResistanceProcessingTime.Tag));
         buffer.Add(values.FirstOrDefault(a => a.GetTag() == RelayResistanceProtocolCounter.Tag));
 
-        buffer.RemoveAll(item => item == null);
-
         ApplicationPan applicationPan = (ApplicationPan) values.First(a => a.GetTag() == ApplicationPan.Tag);
         ApplicationPanSequenceNumber applicationPanSequenceNumber =
             (ApplicationPanSequenceNumber) values.First(a => a.GetTag() == ApplicationPanSequenceNumber.Tag);
 
-        return new Record(new RecordKey(applicationPan, applicationPanSequenceNumber), buffer.ToArray());
+        buffer.RemoveAll(a => a is null);
+
+        return new Record(new RecordKey(applicationPan, applicationPanSequenceNumber), buffer.ToArray() as PrimitiveValue[]);
     }
 
     #endregion

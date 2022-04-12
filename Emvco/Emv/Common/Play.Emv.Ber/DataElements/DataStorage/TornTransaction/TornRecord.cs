@@ -37,47 +37,31 @@ public record TornRecord : DataExchangeResponse
 
     #endregion
 
-    #region Constructor
-
-    /// <exception cref="TerminalDataException"></exception>
-    private TornRecord(PrimitiveValue[] values) : base(values)
-    {
-        PrimitiveValue? pan = values.FirstOrDefault(a => a.GetTag() == ApplicationPan.Tag);
-
-        if (pan is null)
-        {
-            throw new TerminalDataException(
-                $"The {nameof(TornRecord)} could not be created because the {nameof(ITlvReaderAndWriter)} did not contain the required {nameof(ApplicationPan)} object");
-        }
-
-        PrimitiveValue? sequence = values.FirstOrDefault(a => a.GetTag() == ApplicationPanSequenceNumber.Tag);
-
-        if (sequence is null)
-        {
-            throw new TerminalDataException(
-                $"The {nameof(TornRecord)} could not be created because the {nameof(ITlvReaderAndWriter)} did not contain the required {nameof(ApplicationPanSequenceNumber)} object");
-        }
-
-        _Key = new TornEntry((ApplicationPan) pan!, (ApplicationPanSequenceNumber) sequence);
-        _CommitTimeStamp = DateTimeUtc.Now();
-    }
+    #region Constructor 
 
     public TornRecord(Record record) : base(record.GetValues())
     {
-        _Key = new TornEntry(record.GetRecordKey());
+        _Key = new TornEntry(record.GetKey());
         _CommitTimeStamp = DateTimeUtc.Now();
     }
 
-    public TornRecord(params PrimitiveValue[] values) : base(values)
+    public TornRecord(params PrimitiveValue[] values) : base(InitializeTornEntryValues(values, out TornEntry tornEntry))
     {
-        var a = Record.Create()
+        _Key = tornEntry;
+        _CommitTimeStamp = DateTimeUtc.Now();
     }
-
-    private static void Create
 
     #endregion
 
     #region Instance Members
+
+    private static PrimitiveValue[] InitializeTornEntryValues(PrimitiveValue[] values, out TornEntry tornEntry)
+    {
+        Record record = Record.Create(values);
+        tornEntry = new TornEntry(record.GetKey());
+
+        return record.GetValues();
+    }
 
     public static bool TryGetOldestRecord(TornRecord[] records, out TornRecord? result)
     {
