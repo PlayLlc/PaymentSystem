@@ -2,12 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Toolkit.HighPerformance.Buffers;
-
-using Play.Core.Specifications;
 
 namespace Play.Core.Extensions.IEnumerable;
 

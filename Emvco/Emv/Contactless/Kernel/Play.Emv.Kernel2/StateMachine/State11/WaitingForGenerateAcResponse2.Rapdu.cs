@@ -1,8 +1,5 @@
 ﻿using System;
 
-using Play.Ber.Exceptions;
-using Play.Codecs.Exceptions;
-using Play.Core.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements.Display;
 using Play.Emv.Ber.Enums;
@@ -12,9 +9,7 @@ using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
-using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
-using Play.Icc.Exceptions;
 
 namespace Play.Emv.Kernel2.StateMachine;
 

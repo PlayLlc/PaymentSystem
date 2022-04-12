@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Play.Ber.Exceptions;
 using Play.Core.Extensions.IEnumerable;
-using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
@@ -14,9 +9,7 @@ using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
-using Play.Emv.Kernel2.StateMachine;
 using Play.Emv.Pcd.Contracts;
-using Play.Emv.Security;
 using Play.Messaging;
 
 namespace Play.Emv.Kernel2.Services.PrepareGenerateAc;

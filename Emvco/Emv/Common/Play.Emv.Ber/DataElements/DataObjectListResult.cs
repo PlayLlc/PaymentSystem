@@ -2,7 +2,6 @@
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Lengths;
 using Play.Emv.Ber.Extensions.Arrays;
 using Play.Emv.Ber.Templates;
 

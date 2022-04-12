@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
@@ -12,7 +8,6 @@ using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
-using Play.Emv.Kernel2.StateMachine;
 using Play.Emv.Pcd.Contracts;
 using Play.Messaging;
 

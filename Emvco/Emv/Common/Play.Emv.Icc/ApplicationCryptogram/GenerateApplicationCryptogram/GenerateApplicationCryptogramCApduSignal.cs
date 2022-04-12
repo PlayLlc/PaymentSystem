@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-using Microsoft.Toolkit.HighPerformance.Buffers;
+﻿using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Ber.Exceptions;
 using Play.Core.Extensions;

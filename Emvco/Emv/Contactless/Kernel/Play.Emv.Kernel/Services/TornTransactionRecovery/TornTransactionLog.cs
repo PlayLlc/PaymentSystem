@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
-using Play.Emv.Kernel.Databases;
-using Play.Globalization.Time;
 using Play.Globalization.Time.Seconds;
 
 namespace Play.Emv.Kernel.Services;

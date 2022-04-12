@@ -1,5 +1,4 @@
 ﻿using System.Collections.Immutable;
-using System.Diagnostics.CodeAnalysis;
 
 using Play.Core;
 
@@ -70,14 +69,6 @@ internal record Instruction : EnumObject<byte>, IComparable<Instruction>
 
     #region Instance Members
 
-    public int CompareTo(Instruction? other)
-    {
-        if (other is null)
-            return 1;
-
-        return _Value.CompareTo(other);
-    }
-
     public static Instruction Get(byte value) => _ValueObjectMap[value];
 
     #endregion
@@ -91,6 +82,14 @@ internal record Instruction : EnumObject<byte>, IComparable<Instruction>
         const int hash = 658379;
 
         return hash + _Value.GetHashCode();
+    }
+
+    public int CompareTo(Instruction? other)
+    {
+        if (other is null)
+            return 1;
+
+        return _Value.CompareTo(other);
     }
 
     #endregion

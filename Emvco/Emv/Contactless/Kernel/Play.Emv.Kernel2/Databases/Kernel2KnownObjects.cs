@@ -8,7 +8,6 @@ using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
 using Play.Emv.Ber.Templates;
-using Play.Emv.Kernel.Databases;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Kernel2.Databases;
@@ -231,7 +230,6 @@ public sealed record Kernel2KnownObjects : KnownObjects
 
     #region Instance Members
 
-    public int CompareTo(Kernel2KnownObjects other) => _Value._Value.CompareTo(other._Value);
     public override bool Exists(Tag value) => _ValueObjectMap.ContainsKey(value);
 
     public static IEnumerator<Tag> GetEnumerator()
@@ -267,6 +265,7 @@ public sealed record Kernel2KnownObjects : KnownObjects
     }
 
     public static int GetHashCode(Kernel2KnownObjects obj) => obj.GetHashCode();
+    public int CompareTo(Kernel2KnownObjects other) => _Value._Value.CompareTo(other._Value);
 
     #endregion
 
