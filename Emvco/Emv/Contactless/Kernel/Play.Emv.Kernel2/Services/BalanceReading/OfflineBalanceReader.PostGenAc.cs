@@ -15,7 +15,7 @@ using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
 
 namespace Play.Emv.Kernel2.Services.BalanceReading;
 
-public partial class OfflineBalanceReader : CommonProcessing
+internal partial class OfflineBalanceReader : CommonProcessing
 {
     /// <summary>
     ///     A Card may have an offline balance, and some products require the balance to be read and made available to the

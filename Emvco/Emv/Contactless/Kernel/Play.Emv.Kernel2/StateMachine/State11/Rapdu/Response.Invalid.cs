@@ -12,6 +12,7 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForGenerateAcResponse2
 {
+    // WARNING: THIS IS NOT COMPLETED, THIS IS STUBBED FROM S910
     private partial class ResponseHandler
     {
         #region Instance Members
@@ -22,6 +23,8 @@ public partial class WaitingForGenerateAcResponse2
         /// <exception cref="TerminalDataException"></exception>
         public void HandleCamFailed(KernelSessionId sessionId)
         {
+            throw new NotImplementedException();
+
             _Database.Update(Level2Error.CryptographicAuthenticationMethodFailed);
             _Database.Set(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
 
@@ -36,6 +39,8 @@ public partial class WaitingForGenerateAcResponse2
         /// <exception cref="TerminalDataException"></exception>
         public void ProcessInvalidDataResponse(KernelSessionId sessionId)
         {
+            throw new NotImplementedException();
+
             if (!_Database.IsIdsAndTtrImplemented())
             {
                 HandleInvalidOutcome(sessionId);
@@ -68,9 +73,11 @@ public partial class WaitingForGenerateAcResponse2
         /// <exception cref="TerminalDataException"></exception>
         public void ProcessInvalidWriteResponse(KernelSessionId sessionId)
         {
-            SetDisplayMessage();
+            throw new NotImplementedException();
 
-            HandleInvalidOutcome(sessionId);
+            //SetDisplayMessage();
+
+            //HandleInvalidOutcome(sessionId);
         }
 
         #endregion

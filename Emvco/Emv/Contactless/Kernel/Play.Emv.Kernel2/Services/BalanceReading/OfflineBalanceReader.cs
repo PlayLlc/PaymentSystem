@@ -23,7 +23,7 @@ namespace Play.Emv.Kernel2.Services.BalanceReading;
 ///     indicate it in the Application Capabilities Information.
 /// </summary>
 /// <remarks>Emv Book C-2 Section 3.10</remarks>
-public partial class OfflineBalanceReader : CommonProcessing
+internal partial class OfflineBalanceReader : CommonProcessing, IReadOfflineBalance
 {
     #region Instance Values
 

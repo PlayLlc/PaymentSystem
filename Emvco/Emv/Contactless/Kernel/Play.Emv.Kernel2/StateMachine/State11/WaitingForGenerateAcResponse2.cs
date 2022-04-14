@@ -7,6 +7,7 @@ using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
+using Play.Emv.Kernel2.Services.BalanceReading;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
@@ -15,17 +16,28 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForGenerateAcResponse2 : KernelState
 {
+    #region Instance Values
+
+    private readonly IReadOfflineBalance _BalanceReader;
+    private readonly IAuthenticateTransactionSession _AuthenticationService;
+    private readonly ResponseHandler _ResponseHandler;
+    private readonly AuthHandler _AuthHandler;
+
+    #endregion
+
     #region Constructor
 
     public WaitingForGenerateAcResponse2(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IHandleDisplayRequests displayEndpoint, IAuthenticateTransactionSession authenticationService) : base(database,
-        dataExchangeKernelService, kernelEndpoint, tornTransactionLog, kernelStateResolver, pcdEndpoint, displayEndpoint)
+        IHandleDisplayRequests displayEndpoint, IAuthenticateTransactionSession authenticationService,
+        IReadOfflineBalance offlineBalanceReader) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog,
+        kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
         _AuthenticationService = authenticationService;
-        _ResponseHandler = new ResponseHandler();
+        _ResponseHandler = new ResponseHandler(database, _DataExchangeKernelService, kernelEndpoint, pcdEndpoint);
         _AuthHandler = new AuthHandler(database, _ResponseHandler, authenticationService);
+        _BalanceReader = offlineBalanceReader;
     }
 
     #endregion
@@ -33,14 +45,6 @@ public partial class WaitingForGenerateAcResponse2 : KernelState
     #region Static Metadata
 
     public static readonly StateId StateId = new(nameof(WaitingForGenerateAcResponse2));
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly IAuthenticateTransactionSession _AuthenticationService;
-    private readonly ResponseHandler _ResponseHandler;
-    private readonly AuthHandler _AuthHandler;
 
     #endregion
 

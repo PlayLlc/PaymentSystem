@@ -34,7 +34,7 @@ public class S456 : CommonProcessing
 {
     #region Instance Values
 
-    private readonly OfflineBalanceReader _OfflineBalanceReader;
+    private readonly IReadOfflineBalance _OfflineBalanceReader;
     private readonly PrepareGenerateAcService _PrepareGenAcServiceService;
     private readonly IValidateCombinationCapability _CombinationCapabilityValidator;
     private readonly IValidateCombinationCompatibility _CombinationCompatibilityValidator;
@@ -53,7 +53,7 @@ public class S456 : CommonProcessing
 
     public S456(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
-        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint, OfflineBalanceReader offlineBalanceReader,
+        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint, IReadOfflineBalance offlineBalanceReader,
         IValidateCombinationCapability combinationCapabilityValidator, IValidateCombinationCompatibility combinationCompatibilityValidator,
         ISelectCardholderVerificationMethod cardholderVerificationMethodSelector, IPerformTerminalActionAnalysis terminalActionAnalyzer,
         IManageTornTransactions tornTransactionManager) : base(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint,
@@ -144,7 +144,7 @@ public class S456 : CommonProcessing
             return WaitingForPutDataResponseBeforeGenerateAc.StateId;
 
         // S456.44, S456.47 - S456.49
-        if (TryRecoveringTornTransaction(session.GetTransactionSessionId()))
+        if (TryRecoveringTornTransaction(session))
             return WaitingForRecoverAcResponse.StateId;
 
         // S456.45 - S456.46

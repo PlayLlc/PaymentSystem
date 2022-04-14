@@ -5,6 +5,7 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForGenerateAcResponse2
 {
+    // WARNING: THIS IS NOT COMPLETED, THIS IS STUBBED FROM S910
     private partial class AuthHandler
     {
         #region Instance Values

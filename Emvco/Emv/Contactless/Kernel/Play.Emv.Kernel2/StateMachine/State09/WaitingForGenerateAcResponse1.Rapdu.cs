@@ -403,7 +403,7 @@ public partial class WaitingForGenerateAcResponse1
     /// <exception cref="InvalidOperationException"></exception>
     private StateId HandleAuthentication(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
     {
-        _BalanceReader.Process(this, session, rapdu);
+        _ = _BalanceReader.Process(this, session, rapdu);
 
         if (!IsPosGenAcWriteNeeded())
             SetDisplayMessage();
