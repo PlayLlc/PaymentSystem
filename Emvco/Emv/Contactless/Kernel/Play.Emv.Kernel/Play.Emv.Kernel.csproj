@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Play.Emv.Kernel.Contracts\Play.Emv.Kernel.Contracts.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\PrepareGenAc\" />
+  </ItemGroup>
+
 </Project>

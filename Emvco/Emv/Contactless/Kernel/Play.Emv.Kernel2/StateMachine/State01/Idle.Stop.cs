@@ -1,4 +1,6 @@
-﻿using Play.Codecs.Exceptions;
+﻿using System;
+
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
@@ -10,16 +12,8 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class Idle : KernelState
 {
-    #region Instance Members
-
     #region STOP
 
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
@@ -40,8 +34,6 @@ public partial class Idle : KernelState
 
         return _KernelStateResolver.GetKernelState(StateId);
     }
-
-    #endregion
 
     #endregion
 }

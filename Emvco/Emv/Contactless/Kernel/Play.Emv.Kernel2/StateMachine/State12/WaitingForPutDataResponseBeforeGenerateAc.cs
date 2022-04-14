@@ -7,22 +7,31 @@ using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
+using Play.Emv.Kernel2.Services.PrepareGenerateAc;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
-public class WaitingForPutDataResponseBeforeGenerateAc : KernelState
+public partial class WaitingForPutDataResponseBeforeGenerateAc : KernelState
 {
+    #region Instance Values
+
+    private readonly PrepareGenerateAcService _PrepareGenAcService;
+
+    #endregion
+
     #region Constructor
 
     public WaitingForPutDataResponseBeforeGenerateAc(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IHandleDisplayRequests displayEndpoint) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog,
-        kernelStateResolver, pcdEndpoint, displayEndpoint)
-    { }
+        IHandleDisplayRequests displayEndpoint, PrepareGenerateAcService prepareGenAcService) : base(database, dataExchangeKernelService,
+        kernelEndpoint, tornTransactionLog, kernelStateResolver, pcdEndpoint, displayEndpoint)
+    {
+        _PrepareGenAcService = prepareGenAcService;
+    }
 
     #endregion
 
@@ -31,8 +40,6 @@ public class WaitingForPutDataResponseBeforeGenerateAc : KernelState
     public static readonly StateId StateId = new(nameof(WaitingForPutDataResponseBeforeGenerateAc));
 
     #endregion
-
-    #region Instance Members
 
     public override StateId GetStateId() => StateId;
 
@@ -44,78 +51,21 @@ public class WaitingForPutDataResponseBeforeGenerateAc : KernelState
 
     #endregion
 
-    #region STOP
-
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, StopKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    #endregion
-
     #region CLEAN
 
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="signal"></param>
-    /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
 
-    #region RAPDU
-
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    #endregion
-
-    #endregion
-
     #region DET
 
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
-
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
-    /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) =>
         throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
 
     #endregion
