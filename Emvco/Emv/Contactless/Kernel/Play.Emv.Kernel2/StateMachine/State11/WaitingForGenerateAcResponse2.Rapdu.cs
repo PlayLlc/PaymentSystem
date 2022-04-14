@@ -98,7 +98,7 @@ public partial class WaitingForGenerateAcResponse2
         if (!session.TryGetTornEntry(out TornEntry? tornEntry))
         {
             throw new TerminalDataException(
-                $"The {nameof(WaitingForGenerateAcResponse2)} could not complete processing because the {nameof(TornEntry)} could not be retrieved from the {nameof(Kernel2Session)}");
+                $"The {nameof(Auth)} could not complete processing because the {nameof(TornEntry)} could not be retrieved from the {nameof(Kernel2Session)}");
         }
 
         HandleIdsWriteFlagSet(tornEntry!);
@@ -120,7 +120,7 @@ public partial class WaitingForGenerateAcResponse2
         if (!_TornTransactionLog.TryGet(tornEntry!, out TornRecord? tornTempRecord))
         {
             throw new TerminalDataException(
-                $"The {nameof(WaitingForGenerateAcResponse2)} could not complete processing because the {nameof(TornRecord)} could not be retrieved from the {nameof(TornTransactionLog)}");
+                $"The {nameof(Auth)} could not complete processing because the {nameof(TornRecord)} could not be retrieved from the {nameof(TornTransactionLog)}");
         }
 
         if (tornTempRecord!.TryGetRecordItem(IntegratedDataStorageStatus.Tag, out PrimitiveValue? idsStatus))
@@ -144,7 +144,7 @@ public partial class WaitingForGenerateAcResponse2
         if (!_Database.TryGet(DataRecoveryDataObjectList.Tag, out DataRecoveryDataObjectList? drDol))
         {
             throw new TerminalDataException(
-                $"The {nameof(WaitingForGenerateAcResponse2)} could not  create a new {nameof(TornRecord)} because the  {nameof(DataRecoveryDataObjectList)} could not be retrieved from the {nameof(KernelDatabase)}");
+                $"The {nameof(Auth)} could not  create a new {nameof(TornRecord)} because the  {nameof(DataRecoveryDataObjectList)} could not be retrieved from the {nameof(KernelDatabase)}");
         }
 
         DataRecoveryDataObjectListRelatedData drDolRelatedData = drDol!.AsRelatedData(_Database);
@@ -226,7 +226,7 @@ public partial class WaitingForGenerateAcResponse2
         if (!session.TryGetTornEntry(out TornEntry? tornEntry))
         {
             throw new TerminalDataException(
-                $"The {nameof(WaitingForGenerateAcResponse2)} could not complete processing because the {nameof(TornEntry)} could not be retrieved from the {nameof(Kernel2Session)}");
+                $"The {nameof(Auth)} could not complete processing because the {nameof(TornEntry)} could not be retrieved from the {nameof(Kernel2Session)}");
         }
 
         _TornTransactionLog.Remove(_DataExchangeKernelService, tornEntry!);

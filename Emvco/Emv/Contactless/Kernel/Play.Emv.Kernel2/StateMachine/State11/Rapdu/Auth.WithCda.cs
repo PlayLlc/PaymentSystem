@@ -41,17 +41,17 @@ public partial class WaitingForGenerateAcResponse2
             }
 
             // S11.40
-            if (!TryRetrievePublicKeys(session, rapdu, session.GetStaticDataToBeAuthenticated()))
+            if (!TryRetrievePublicKeys(session, rapdu, session.GetStaticDataToBeAuthenticated(), tempTornRecord!))
                 return StateId;
 
             _Database.TryGet(IntegratedDataStorageStatus.Tag, out IntegratedDataStorageStatus? integratedDataStorageStatus);
 
             // S11.41 - S11.41.2
-            if (TryHandlingIntegratedDataStorageError(session.GetKernelSessionId(), integratedDataStorageStatus))
+            if (TryHandlingIntegratedDataStorageError(session.GetKernelSessionId(), integratedDataStorageStatus, tempTornRecord!))
                 return StateId;
 
             // S11.41.1 - S11.43.1
-            if (TryHandlingStandaloneDataStorageError(session.GetKernelSessionId()))
+            if (TryHandlingStandaloneDataStorageError(session.GetKernelSessionId(), tempTornRecord!))
                 return StateId;
 
             // S11.47
@@ -63,11 +63,11 @@ public partial class WaitingForGenerateAcResponse2
                 return StateId;
 
             // S11.50 - S11.51
-            if (TryHandlingMissingDataSummary2(session.GetKernelSessionId()))
+            if (TryHandlingMissingDataSummary2(session.GetKernelSessionId(), tempTornRecord!))
                 return StateId;
 
             // S11.52 - S11.53
-            if (TryHandlingInvalidDataStorageSummary1And2Equality(session.GetKernelSessionId()))
+            if (TryHandlingInvalidDataStorageSummary1And2Equality(session.GetKernelSessionId(), tempTornRecord!))
                 return StateId;
 
             // S11.54
@@ -78,11 +78,11 @@ public partial class WaitingForGenerateAcResponse2
                 return successfulResponseStateId!.Value;
 
             // S11.56 - S11.57
-            if (TryHandlingMissingDataSummary3(session.GetKernelSessionId()))
+            if (TryHandlingMissingDataSummary3(session.GetKernelSessionId(), tempTornRecord!))
                 return StateId;
 
             // S11.58 - S11.59
-            if (TryHandlingInvalidDataStorageSummary2And3Equality(session.GetKernelSessionId()))
+            if (TryHandlingInvalidDataStorageSummary2And3Equality(session.GetKernelSessionId(), tempTornRecord))
                 return StateId;
 
             // S11.60
@@ -98,7 +98,8 @@ public partial class WaitingForGenerateAcResponse2
         /// </summary>
         /// <exception cref="TerminalDataException"></exception>
         private bool TryRetrievePublicKeys(
-            Kernel2Session session, GenerateApplicationCryptogramResponse rapdu, StaticDataToBeAuthenticated staticDataToBeAuthenticated)
+            Kernel2Session session, GenerateApplicationCryptogramResponse rapdu, StaticDataToBeAuthenticated staticDataToBeAuthenticated,
+            TornRecord tempTornRecord)
         {
             try
             {
@@ -110,14 +111,14 @@ public partial class WaitingForGenerateAcResponse2
             catch (CryptographicAuthenticationMethodFailedException)
             {
                 // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-                _ResponseHandler.ProcessCamFailedResponse(session.GetKernelSessionId());
+                _ResponseHandler.ProcessCamFailedResponse(session.GetKernelSessionId(), tempTornRecord);
 
                 return false;
             }
             catch (Exception)
             {
                 // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-                _ResponseHandler.ProcessCamFailedResponse(session.GetKernelSessionId());
+                _ResponseHandler.ProcessCamFailedResponse(session.GetKernelSessionId(), tempTornRecord);
 
                 return false;
             }
@@ -130,7 +131,7 @@ public partial class WaitingForGenerateAcResponse2
         /// <remarks>EMV Book C-2 Section S11.41 - S11.41.2</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private bool TryHandlingIntegratedDataStorageError(
-            KernelSessionId sessionId, IntegratedDataStorageStatus? integratedDataStorageStatus)
+            KernelSessionId sessionId, IntegratedDataStorageStatus? integratedDataStorageStatus, TornRecord tempTornRecord)
         {
             if (!IsIdsReadFlagSet(integratedDataStorageStatus))
                 return false;
@@ -144,7 +145,7 @@ public partial class WaitingForGenerateAcResponse2
 
             if (!IsMandatoryRelayResistantDataPresent())
             {
-                _ResponseHandler.ProcessCamFailedResponse(sessionId);
+                _ResponseHandler.ProcessCamFailedResponse(sessionId, tempTornRecord);
 
                 return true;
             }
@@ -155,7 +156,7 @@ public partial class WaitingForGenerateAcResponse2
             if (IsRelayResistantDataStorageVersion2DataValid())
                 return false;
 
-            _ResponseHandler.ProcessCamFailedResponse(sessionId);
+            _ResponseHandler.ProcessCamFailedResponse(sessionId, tempTornRecord);
 
             return true;
         }
@@ -227,7 +228,7 @@ public partial class WaitingForGenerateAcResponse2
 
         /// <remarks>EMV Book C-2 Section S11.41.1 - S11.43.1</remarks>
         /// <exception cref="TerminalDataException"></exception>
-        private bool TryHandlingStandaloneDataStorageError(KernelSessionId sessionId)
+        private bool TryHandlingStandaloneDataStorageError(KernelSessionId sessionId, TornRecord tempTornRecord)
         {
             // Verify SDAD is accomplished at the same time as certification recover - S11.40
 
@@ -237,7 +238,7 @@ public partial class WaitingForGenerateAcResponse2
             if (IsMandatoryRelayResistantDataPresent())
                 return false;
 
-            _ResponseHandler.ProcessCamFailedResponse(sessionId);
+            _ResponseHandler.ProcessCamFailedResponse(sessionId, tempTornRecord);
 
             return true;
         }
@@ -270,7 +271,7 @@ public partial class WaitingForGenerateAcResponse2
             if (dsSummary1 == tornDsSummary1)
                 return false;
 
-            HandleInvalidDataSummary1Equality(sessionId);
+            HandleInvalidDataSummary1Equality(sessionId, tempTornRecord);
 
             return true;
         }
@@ -281,10 +282,10 @@ public partial class WaitingForGenerateAcResponse2
 
         /// <remarks>EMV Book C-2 Section S11.49</remarks>
         /// <exception cref="TerminalDataException"></exception>
-        private void HandleInvalidDataSummary1Equality(KernelSessionId sessionId)
+        private void HandleInvalidDataSummary1Equality(KernelSessionId sessionId, TornRecord tempTornRecord)
         {
             _Database.Update(Level2Error.IdsReadError);
-            _ResponseHandler.ProcessInvalidDataResponse(sessionId);
+            _ResponseHandler.ProcessInvalidDataResponse(sessionId, tempTornRecord);
         }
 
         #endregion
@@ -293,13 +294,13 @@ public partial class WaitingForGenerateAcResponse2
 
         /// <remarks>EMV Book C-2 Section S11.50 - S11.51</remarks>
         /// <exception cref="TerminalDataException"></exception>
-        private bool TryHandlingMissingDataSummary2(KernelSessionId sessionId)
+        private bool TryHandlingMissingDataSummary2(KernelSessionId sessionId, TornRecord tempTornRecord)
         {
             if (_Database.IsPresentAndNotEmpty(DataStorageSummary2.Tag))
                 return false;
 
             _Database.Update(Level2Error.CardDataMissing);
-            _ResponseHandler.ProcessInvalidDataResponse(sessionId);
+            _ResponseHandler.ProcessInvalidDataResponse(sessionId, tempTornRecord);
 
             return true;
         }
@@ -310,7 +311,7 @@ public partial class WaitingForGenerateAcResponse2
 
         /// <remarks>EMV Book C-2 Section S11.52 - S11.53</remarks>
         /// <exception cref="TerminalDataException"></exception>
-        private bool TryHandlingInvalidDataStorageSummary1And2Equality(KernelSessionId sessionId)
+        private bool TryHandlingInvalidDataStorageSummary1And2Equality(KernelSessionId sessionId, TornRecord tempTornRecord)
         {
             DataStorageSummary1 dataStorageSummary1 = _Database.Get<DataStorageSummary1>(DataStorageSummary1.Tag);
             DataStorageSummary2 dataStorageSummary2 = _Database.Get<DataStorageSummary2>(DataStorageSummary2.Tag);
@@ -319,7 +320,7 @@ public partial class WaitingForGenerateAcResponse2
                 return false;
 
             _Database.Update(Level2Error.IdsReadError);
-            _ResponseHandler.ProcessInvalidDataResponse(sessionId);
+            _ResponseHandler.ProcessInvalidDataResponse(sessionId, tempTornRecord);
 
             return true;
         }
@@ -364,13 +365,13 @@ public partial class WaitingForGenerateAcResponse2
 
         /// <remarks>EMV Book C-2 Section S11.56 - S11.57</remarks>
         /// <exception cref="TerminalDataException"></exception>
-        private bool TryHandlingMissingDataSummary3(KernelSessionId sessionId)
+        private bool TryHandlingMissingDataSummary3(KernelSessionId sessionId, TornRecord tempTornRecord)
         {
             if (_Database.IsPresentAndNotEmpty(DataStorageSummary3.Tag))
                 return false;
 
             _Database.Update(Level2Error.CardDataMissing);
-            _ResponseHandler.ProcessInvalidDataResponse(sessionId);
+            _ResponseHandler.ProcessInvalidDataResponse(sessionId, tempTornRecord);
 
             return true;
         }
@@ -381,7 +382,7 @@ public partial class WaitingForGenerateAcResponse2
 
         /// <remarks>EMV Book C-2 Section S11.58 - S11.59</remarks>
         /// <exception cref="PlayInternalException"></exception>
-        private bool TryHandlingInvalidDataStorageSummary2And3Equality(KernelSessionId sessionId)
+        private bool TryHandlingInvalidDataStorageSummary2And3Equality(KernelSessionId sessionId, TornRecord tempTornRecord)
         {
             DataStorageSummary2 dataStorageSummary2 = _Database.Get<DataStorageSummary2>(DataStorageSummary2.Tag);
             DataStorageSummary3 dataStorageSummary3 = _Database.Get<DataStorageSummary3>(DataStorageSummary3.Tag);

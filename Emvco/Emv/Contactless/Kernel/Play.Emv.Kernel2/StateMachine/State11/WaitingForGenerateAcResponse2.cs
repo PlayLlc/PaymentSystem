@@ -44,7 +44,7 @@ public partial class WaitingForGenerateAcResponse2 : KernelState
 
     #region Static Metadata
 
-    public static readonly StateId StateId = new(nameof(WaitingForGenerateAcResponse2));
+    public static readonly StateId StateId = new(nameof(Auth));
 
     #endregion
 

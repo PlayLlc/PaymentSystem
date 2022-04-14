@@ -60,7 +60,7 @@ public partial class WaitingForGenerateAcResponse2
 
         /// <remarks>EMV Book C-2 S11.101 - S11.102</remarks>
         /// <exception cref="TerminalDataException"></exception>
-        private void ProcessInvalidWriteResponse(KernelSessionId sessionId)
+        public void ProcessInvalidWriteResponse(KernelSessionId sessionId)
         {
             SetDisplayMessage();
 
