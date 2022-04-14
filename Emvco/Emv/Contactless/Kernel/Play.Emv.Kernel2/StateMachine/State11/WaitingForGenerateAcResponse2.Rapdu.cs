@@ -21,32 +21,6 @@ using Play.Emv.Pcd.Contracts;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
-/*
- * =================================================================================
- * Control Flow Parts
- * =================================================================================
- *  Section A		With CDA                        Auth.WithCda.cs
- *  Section B 		Without CDA                     Auth.WithoutCda.cs
- *  Section C 		Invalid Data Response           Response.Invalid.cs
- *  Section D 		Invalid Write Response          Response.Invalid.cs
- *  Section E 		Valid Response                  Response.Valid.cs
- *  Section F		Invalid CAM Response            Response.Invalid.cs
- * =================================================================================
- * Operations
- * =================================================================================
- *  Part 1 		    L1RSP                           WaitingForGenerateAcResponse2.cs
- *  Part 2		    - N/A
- *  Part 3 		    Balance Reading & Card Write    WaitingForGenerateAcResponse2.cs
- *  Part 4		    - N/A
- *  Part 5		    - N/A
- *  Part 6 		    Replay Attack                   Auth.WithCda.cs
- *  Part 7		    Route Response                  Auth.WithCda.cs
- *  Part 8 		    Man in the Middle               Auth.WithCda.cs
- *  Part 9		    Card State Validation           Auth.WithCda.cs
- *  Part 10		    Set RRP Results                 Auth.WithoutCda.cs
- *  Part 11		    Double Tap That Shit            Response.Valid.cs
- */
-
 public partial class WaitingForGenerateAcResponse2
 {
     /// <exception cref="DataElementParsingException"></exception>
@@ -61,24 +35,36 @@ public partial class WaitingForGenerateAcResponse2
         RecoverAcResponse rapdu = (RecoverAcResponse) signal;
         Kernel2Session kernel2Session = (Kernel2Session) session;
 
+        if (kernel2Session.TryGetTornEntry(out TornEntry? result))
+        {
+            throw new TerminalDataException(
+                $"The {nameof(AuthHandler)} could not {nameof(WaitingForGenerateAcResponse2)} because the expected {nameof(TornEntry)} could not be retrieved from the {nameof(Kernel2Session)}");
+        }
+
+        if (!_Database.TryGet(result!, out TornRecord? tempTornRecord))
+        {
+            throw new TerminalDataException(
+                $"The {nameof(AuthHandler)} could not {nameof(WaitingForGenerateAcResponse2)} because the expected temporary {nameof(TornRecord)} could not be retrieved from the {nameof(TornTransactionLog)}");
+        }
+
         // S11.1, S11.11 - S11.17
-        if (TryHandlingL1Error(kernel2Session, rapdu))
+        if (TryHandlingL1Error(kernel2Session, rapdu, tempTornRecord!))
             return _KernelStateResolver.GetKernelState(StateId);
 
         // S11.5 - S11.10
-        if (TryHandlingL2Error(kernel2Session, rapdu))
+        if (TryHandlingL2Error(kernel2Session, rapdu, tempTornRecord!))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        if (TryHandlingMissingCardData(kernel2Session, rapdu))
+        if (TryHandlingMissingCardData(kernel2Session, tempTornRecord!))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        if (TryHandlingCardDataError(kernel2Session))
+        if (TryHandlingCardDataError(kernel2Session, tempTornRecord!))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        if (TryHandlingCardDataError(kernel2Session))
+        if (TryHandlingCardDataError(kernel2Session, tempTornRecord!))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        return _KernelStateResolver.GetKernelState(ProcessCardholderAuthenticationMethod());
+        return _KernelStateResolver.GetKernelState(ProcessCardholderAuthenticationMethod(kernel2Session, rapdu, tempTornRecord!));
     }
 
     #region L1 Error
@@ -90,7 +76,7 @@ public partial class WaitingForGenerateAcResponse2
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="OverflowException"></exception>
-    private bool TryHandlingL1Error(Kernel2Session session, RecoverAcResponse rapdu)
+    private bool TryHandlingL1Error(Kernel2Session session, RecoverAcResponse rapdu, TornRecord tempTornRecord)
     {
         if (!rapdu.IsLevel1ErrorPresent())
             return false;
@@ -98,7 +84,7 @@ public partial class WaitingForGenerateAcResponse2
         if (!session.TryGetTornEntry(out TornEntry? tornEntry))
         {
             throw new TerminalDataException(
-                $"The {nameof(Auth)} could not complete processing because the {nameof(TornEntry)} could not be retrieved from the {nameof(Kernel2Session)}");
+                $"The {nameof(WaitingForGenerateAcResponse2)} could not complete processing because the {nameof(TornEntry)} could not be retrieved from the {nameof(Kernel2Session)}");
         }
 
         HandleIdsWriteFlagSet(tornEntry!);
@@ -120,7 +106,7 @@ public partial class WaitingForGenerateAcResponse2
         if (!_TornTransactionLog.TryGet(tornEntry!, out TornRecord? tornTempRecord))
         {
             throw new TerminalDataException(
-                $"The {nameof(Auth)} could not complete processing because the {nameof(TornRecord)} could not be retrieved from the {nameof(TornTransactionLog)}");
+                $"The {nameof(WaitingForGenerateAcResponse2)} could not complete processing because the {nameof(TornRecord)} could not be retrieved from the {nameof(TornTransactionLog)}");
         }
 
         if (tornTempRecord!.TryGetRecordItem(IntegratedDataStorageStatus.Tag, out PrimitiveValue? idsStatus))
@@ -144,7 +130,7 @@ public partial class WaitingForGenerateAcResponse2
         if (!_Database.TryGet(DataRecoveryDataObjectList.Tag, out DataRecoveryDataObjectList? drDol))
         {
             throw new TerminalDataException(
-                $"The {nameof(Auth)} could not  create a new {nameof(TornRecord)} because the  {nameof(DataRecoveryDataObjectList)} could not be retrieved from the {nameof(KernelDatabase)}");
+                $"The {nameof(WaitingForGenerateAcResponse2)} could not  create a new {nameof(TornRecord)} because the  {nameof(DataRecoveryDataObjectList)} could not be retrieved from the {nameof(KernelDatabase)}");
         }
 
         DataRecoveryDataObjectListRelatedData drDolRelatedData = drDol!.AsRelatedData(_Database);
@@ -196,7 +182,7 @@ public partial class WaitingForGenerateAcResponse2
     #region S11.5 - S11.10
 
     /// <exception cref="TerminalDataException"></exception>
-    private bool TryHandlingL2Error(Kernel2Session session, RecoverAcResponse rapdu)
+    private bool TryHandlingL2Error(Kernel2Session session, RecoverAcResponse rapdu, TornRecord tempTornRecord)
     {
         // S11.5
         RemoveTornEntryFrom(session);
@@ -205,12 +191,12 @@ public partial class WaitingForGenerateAcResponse2
         if (rapdu.IsLevel2ErrorPresent())
         {
             // S11.7
-            HandleLStatusBytesError(session.GetKernelSessionId());
+            HandleLStatusBytesError(session.GetKernelSessionId(), tempTornRecord);
 
             return true;
         }
 
-        if (TryHandlingBerParsingError(session.GetKernelSessionId(), rapdu))
+        if (TryHandlingBerParsingError(session.GetKernelSessionId(), rapdu, tempTornRecord))
             return true;
 
         return false;
@@ -226,7 +212,7 @@ public partial class WaitingForGenerateAcResponse2
         if (!session.TryGetTornEntry(out TornEntry? tornEntry))
         {
             throw new TerminalDataException(
-                $"The {nameof(Auth)} could not complete processing because the {nameof(TornEntry)} could not be retrieved from the {nameof(Kernel2Session)}");
+                $"The {nameof(WaitingForGenerateAcResponse2)} could not complete processing because the {nameof(TornEntry)} could not be retrieved from the {nameof(Kernel2Session)}");
         }
 
         _TornTransactionLog.Remove(_DataExchangeKernelService, tornEntry!);
@@ -237,10 +223,10 @@ public partial class WaitingForGenerateAcResponse2
     #region S11.7
 
     /// <exception cref="TerminalDataException"></exception>
-    private void HandleLStatusBytesError(KernelSessionId sessionId)
+    private void HandleLStatusBytesError(KernelSessionId sessionId, TornRecord tempTornRecord)
     {
         _Database.Update(Level2Error.StatusBytes);
-        _ResponseHandler.ProcessInvalidDataResponse(sessionId);
+        _ResponseHandler.ProcessInvalidDataResponse(sessionId, tempTornRecord);
     }
 
     #endregion
@@ -250,7 +236,7 @@ public partial class WaitingForGenerateAcResponse2
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    private bool TryHandlingBerParsingError(KernelSessionId sessionId, RecoverAcResponse rapdu)
+    private bool TryHandlingBerParsingError(KernelSessionId sessionId, RecoverAcResponse rapdu, TornRecord tempTornRecord)
     {
         try
         {
@@ -261,28 +247,28 @@ public partial class WaitingForGenerateAcResponse2
         catch (TerminalDataException)
         {
             // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-            HandleBerParsingError(sessionId);
+            HandleBerParsingError(sessionId, tempTornRecord);
 
             return true;
         }
         catch (BerParsingException)
         {
             // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-            HandleBerParsingError(sessionId);
+            HandleBerParsingError(sessionId, tempTornRecord);
 
             return true;
         }
         catch (CodecParsingException)
         {
             // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-            HandleBerParsingError(sessionId);
+            HandleBerParsingError(sessionId, tempTornRecord);
 
             return true;
         }
         catch (Exception)
         {
             // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-            HandleBerParsingError(sessionId);
+            HandleBerParsingError(sessionId, tempTornRecord);
 
             return true;
         }
@@ -293,10 +279,10 @@ public partial class WaitingForGenerateAcResponse2
     #region S11.10
 
     /// <exception cref="TerminalDataException"></exception>
-    private void HandleBerParsingError(KernelSessionId sessionId)
+    private void HandleBerParsingError(KernelSessionId sessionId, TornRecord tempTornRecord)
     {
         _Database.Update(Level2Error.ParsingError);
-        _ResponseHandler.ProcessInvalidDataResponse(sessionId);
+        _ResponseHandler.ProcessInvalidDataResponse(sessionId, tempTornRecord);
     }
 
     #endregion
@@ -307,12 +293,12 @@ public partial class WaitingForGenerateAcResponse2
 
     #region S11.18 - S11.19
 
-    private bool TryHandlingMissingCardData(Kernel2Session session, RecoverAcResponse rapdu)
+    private bool TryHandlingMissingCardData(Kernel2Session session, TornRecord tempTornRecord)
     {
         if (_Database.IsPresentAndNotEmpty(ApplicationTransactionCounter.Tag))
             return false;
 
-        _ResponseHandler.ProcessInvalidDataResponse(session.GetKernelSessionId());
+        _ResponseHandler.ProcessInvalidDataResponse(session.GetKernelSessionId(), tempTornRecord);
 
         return true;
     }
@@ -321,13 +307,13 @@ public partial class WaitingForGenerateAcResponse2
 
     #region S11.20 - S11.21
 
-    private bool TryHandlingCardDataError(Kernel2Session session)
+    private bool TryHandlingCardDataError(Kernel2Session session, TornRecord tempTornRecord)
     {
         if (!IsCryptogramInformationDataValid())
             return false;
 
         _Database.Update(Level2Error.CardDataError);
-        _ResponseHandler.ProcessInvalidDataResponse(session.GetKernelSessionId());
+        _ResponseHandler.ProcessInvalidDataResponse(session.GetKernelSessionId(), tempTornRecord);
 
         return true;
     }
@@ -375,12 +361,12 @@ public partial class WaitingForGenerateAcResponse2
 
     #region S11.25
 
-    private StateId ProcessCardholderAuthenticationMethod()
+    private StateId ProcessCardholderAuthenticationMethod(Kernel2Session session, RecoverAcResponse rapdu, TornRecord tempTornRecord)
     {
         if (_Database.IsPresentAndNotEmpty(SignedDynamicApplicationData.Tag))
-            return _AuthHandler.ProcessWithCda();
+            return _AuthHandler.ProcessWithCda(session, rapdu, tempTornRecord);
 
-        return _AuthHandler.ProcessWithoutCda();
+        return _AuthHandler.ProcessWithoutCda(session, tempTornRecord);
     }
 
     #endregion

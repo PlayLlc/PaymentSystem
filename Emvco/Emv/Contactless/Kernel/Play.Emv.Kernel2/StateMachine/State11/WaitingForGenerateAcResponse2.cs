@@ -35,7 +35,7 @@ public partial class WaitingForGenerateAcResponse2 : KernelState
         kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
         _AuthenticationService = authenticationService;
-        _ResponseHandler = new ResponseHandler(database, _DataExchangeKernelService, kernelEndpoint, pcdEndpoint);
+        _ResponseHandler = new ResponseHandler(database, _DataExchangeKernelService, kernelEndpoint, pcdEndpoint, displayEndpoint);
         _AuthHandler = new AuthHandler(database, _ResponseHandler, authenticationService);
         _BalanceReader = offlineBalanceReader;
     }
@@ -44,7 +44,7 @@ public partial class WaitingForGenerateAcResponse2 : KernelState
 
     #region Static Metadata
 
-    public static readonly StateId StateId = new(nameof(Auth));
+    public static readonly StateId StateId = new(nameof(WaitingForGenerateAcResponse2));
 
     #endregion
 

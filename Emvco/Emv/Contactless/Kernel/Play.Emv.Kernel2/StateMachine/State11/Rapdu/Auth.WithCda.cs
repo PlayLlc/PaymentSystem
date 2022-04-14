@@ -26,20 +26,8 @@ public partial class WaitingForGenerateAcResponse2
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="IccProtocolException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
-        public StateId ProcessWithCda(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
+        public StateId ProcessWithCda(Kernel2Session session, RecoverAcResponse rapdu, TornRecord tempTornRecord)
         {
-            if (session.TryGetTornEntry(out TornEntry? result))
-            {
-                throw new TerminalDataException(
-                    $"The {nameof(AuthHandler)} could not {nameof(ProcessWithCda)} because the expected {nameof(TornEntry)} could not be retrieved from the {nameof(Kernel2Session)}");
-            }
-
-            if (!_Database.TryGet(result!, out TornRecord? tempTornRecord))
-            {
-                throw new TerminalDataException(
-                    $"The {nameof(AuthHandler)} could not {nameof(ProcessWithCda)} because the expected temporary {nameof(TornRecord)} could not be retrieved from the {nameof(TornTransactionLog)}");
-            }
-
             // S11.40
             if (!TryRetrievePublicKeys(session, rapdu, session.GetStaticDataToBeAuthenticated(), tempTornRecord!))
                 return StateId;
@@ -98,7 +86,7 @@ public partial class WaitingForGenerateAcResponse2
         /// </summary>
         /// <exception cref="TerminalDataException"></exception>
         private bool TryRetrievePublicKeys(
-            Kernel2Session session, GenerateApplicationCryptogramResponse rapdu, StaticDataToBeAuthenticated staticDataToBeAuthenticated,
+            Kernel2Session session, RecoverAcResponse rapdu, StaticDataToBeAuthenticated staticDataToBeAuthenticated,
             TornRecord tempTornRecord)
         {
             try

@@ -29,24 +29,11 @@ public partial class WaitingForGenerateAcResponse2
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="BerParsingException"></exception>
         /// <exception cref="Exception"></exception>
-        public StateId ProcessWithoutCda(
-            IGetKernelStateId currentStateIdRetriever, Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
+        public StateId ProcessWithoutCda(Kernel2Session session, TornRecord tempTornRecord)
         {
-            if (session.TryGetTornEntry(out TornEntry? result))
-            {
-                throw new TerminalDataException(
-                    $"The {nameof(AuthHandler)} could not {nameof(ProcessWithCda)} because the expected {nameof(TornEntry)} could not be retrieved from the {nameof(Kernel2Session)}");
-            }
-
-            if (!_Database.TryGet(result!, out TornRecord? tempTornRecord))
-            {
-                throw new TerminalDataException(
-                    $"The {nameof(AuthHandler)} could not {nameof(ProcessWithCda)} because the expected temporary {nameof(TornRecord)} could not be retrieved from the {nameof(TornTransactionLog)}");
-            }
-
             // S11.70 - S11.71
             if (TryHandlingForMissingMandatoryData(session.GetKernelSessionId(), tempTornRecord!))
-                return currentStateIdRetriever.GetStateId();
+                return StateId;
 
             // S11.72 - S11.79
             return IsApplicationAuthenticationCryptogram() ? HandleAac(session, tempTornRecord!) : HandleIsNotAac(session, tempTornRecord!);
