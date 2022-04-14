@@ -28,8 +28,6 @@ public partial class WaitingForGenerateAcResponse2
         /// <exception cref="InvalidOperationException"></exception>
         public StateId HandleValidResponse(Kernel2Session session)
         {
-            throw new NotImplementedException();
-
             // S910.70
             BuildDataRecord();
 
@@ -191,14 +189,8 @@ public partial class WaitingForGenerateAcResponse2
         private void PrepareOutcomeForApplicationRequestCryptogram()
         {
             _Database.Update(StatusOutcome.OnlineRequest);
-
-            if (_Database.IsPurchaseTransaction() || _Database.IsCashTransaction())
-                _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
-
-            if (IsDeclined())
-                _Database.Update(MessageIdentifiers.Declined);
-            else
-                _Database.Update(MessageIdentifiers.PleaseInsertOrSwipeCard);
+            _Database.Update(MessageHoldTime.MinimumValue);
+            _Database.Update(MessageIdentifiers.AuthorizingPleaseWait);
         }
 
         #endregion
@@ -219,10 +211,35 @@ public partial class WaitingForGenerateAcResponse2
                 return;
             }
 
-            if (!IsDeclined())
-                _Database.Update(StatusOutcome.TryAnotherInterface);
-            else
+            if (!_Database.IsIcWithContactsSupported())
+            {
                 _Database.Update(StatusOutcome.Declined);
+
+                return;
+            }
+
+            if (!_Database.TryGet(ThirdPartyData.Tag, out ThirdPartyData? thirdPartyData))
+            {
+                _Database.Update(StatusOutcome.Declined);
+
+                return;
+            }
+
+            if (!thirdPartyData!.GetUniqueIdentifier().IsBitSet(16))
+            {
+                _Database.Update(StatusOutcome.Declined);
+
+                return;
+            }
+
+            if (thirdPartyData.TryGetDeviceType(out ushort? deviceType))
+
+            {
+                if (!IsDeclined())
+                    _Database.Update(StatusOutcome.TryAnotherInterface);
+                else
+                    _Database.Update(StatusOutcome.Declined);
+            }
         }
 
         #endregion
