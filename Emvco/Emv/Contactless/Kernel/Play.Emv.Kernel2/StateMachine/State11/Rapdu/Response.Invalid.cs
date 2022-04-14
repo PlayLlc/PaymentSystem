@@ -17,14 +17,12 @@ public partial class WaitingForGenerateAcResponse2
     {
         #region Instance Members
 
-        #region S910.7.1 - S910.7.2
+        #region S911.46 - S11.46.1
 
-        /// <remarks>EMV Book C-2 Section S910.7.1 - S910.7.2</remarks>
+        /// <remarks>EMV Book C-2 Section S911.46 - S11.46.1</remarks>
         /// <exception cref="TerminalDataException"></exception>
-        public void HandleCamFailed(KernelSessionId sessionId)
+        public void ProcessCamFailedResponse(KernelSessionId sessionId)
         {
-            throw new NotImplementedException();
-
             _Database.Update(Level2Error.CryptographicAuthenticationMethodFailed);
             _Database.Set(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
 

@@ -1,4 +1,7 @@
-﻿using Play.Core.Exceptions;
+﻿using System;
+
+using Play.Ber.Exceptions;
+using Play.Core.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
@@ -47,6 +50,7 @@ public partial class S910 : CommonProcessing
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public override StateId Process(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message)
     {
         HandleRequestOutOfSync(currentStateIdRetriever.GetStateId());
@@ -57,7 +61,7 @@ public partial class S910 : CommonProcessing
         if (IsWithCda())
             return _AuthHandler.ProcessWithCda(currentStateIdRetriever, session, (GenerateApplicationCryptogramResponse) message);
 
-        return _AuthHandler.ProcessWithCda(currentStateIdRetriever, session, (GenerateApplicationCryptogramResponse) message);
+        return _AuthHandler.ProcessWithoutCda(currentStateIdRetriever, session, (GenerateApplicationCryptogramResponse) message);
     }
 
     /// <exception cref="TerminalDataException"></exception>

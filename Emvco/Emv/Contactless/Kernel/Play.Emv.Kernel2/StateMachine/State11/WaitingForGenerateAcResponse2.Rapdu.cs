@@ -27,10 +27,10 @@ namespace Play.Emv.Kernel2.StateMachine;
  * =================================================================================
  *  Section A		With CDA                        Auth.WithCda.cs
  *  Section B 		Without CDA                     Auth.WithoutCda.cs
- *  Section C 		Invalid Response 1              Response.Invalid.cs
- *  Section D 		Invalid Response 2              Response.Invalid.cs
+ *  Section C 		Invalid Data Response           Response.Invalid.cs
+ *  Section D 		Invalid Write Response          Response.Invalid.cs
  *  Section E 		Valid Response                  Response.Valid.cs
- *  Section F		Invalid Response 1              Response.Invalid.cs
+ *  Section F		Invalid CAM Response            Response.Invalid.cs
  * =================================================================================
  * Operations
  * =================================================================================
@@ -72,13 +72,13 @@ public partial class WaitingForGenerateAcResponse2
         if (TryHandlingMissingCardData(kernel2Session, rapdu))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        if (TryHandlingCardDataError(kernel2Session, rapdu))
+        if (TryHandlingCardDataError(kernel2Session))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        if (TryHandlingCardDataError(kernel2Session, rapdu))
+        if (TryHandlingCardDataError(kernel2Session))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        throw new NotImplementedException();
+        return _KernelStateResolver.GetKernelState(ProcessCardholderAuthenticationMethod());
     }
 
     #region L1 Error
@@ -375,8 +375,13 @@ public partial class WaitingForGenerateAcResponse2
 
     #region S11.25
 
-    private void ProcessCardholderAuthenticationMethod()
-    { }
+    private StateId ProcessCardholderAuthenticationMethod()
+    {
+        if (_Database.IsPresentAndNotEmpty(SignedDynamicApplicationData.Tag))
+            return _AuthHandler.ProcessWithCda();
+
+        return _AuthHandler.ProcessWithoutCda();
+    }
 
     #endregion
 }

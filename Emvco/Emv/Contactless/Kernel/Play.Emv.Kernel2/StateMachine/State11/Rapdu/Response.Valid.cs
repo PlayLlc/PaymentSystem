@@ -28,7 +28,7 @@ public partial class WaitingForGenerateAcResponse2
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="IccProtocolException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
-        public StateId HandleValidResponse(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
+        public StateId HandleValidResponse(Kernel2Session session)
         {
             throw new NotImplementedException();
 

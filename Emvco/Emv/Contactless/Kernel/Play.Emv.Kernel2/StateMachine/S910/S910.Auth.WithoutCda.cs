@@ -27,7 +27,6 @@ public partial class S910
         /// <exception cref="IccProtocolException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         /// <exception cref="BerParsingException"></exception>
-        /// <exception cref="Exception"></exception>
         public StateId ProcessWithoutCda(
             IGetKernelStateId currentStateIdRetriever, Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
         {
@@ -142,7 +141,8 @@ public partial class S910
         /// <remarks>EMV Book C-2 Section S910.37</remarks>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="BerParsingException"></exception>
-        /// <exception cref="Exception"></exception>
+        /// <exception cref="IccProtocolException"></exception>
+        /// <exception cref="OverflowException"></exception>
         private StateId HandleRelayResistanceData(IGetKernelStateId currentGetKernelStateId, Kernel2Session session)
         {
             if (_Database.IsSet(TerminalVerificationResultCodes.RelayResistancePerformed))
@@ -159,7 +159,6 @@ public partial class S910
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="OverflowException"></exception>
         /// <exception cref="BerParsingException"></exception>
-        /// <exception cref="Exception"></exception>
         private void UpdateTrack2DiscretionaryData()
         {
             if (!_Database.IsPresentAndNotEmpty(Track2EquivalentData.Tag))
@@ -247,7 +246,6 @@ public partial class S910
         /// <remarks>EMV Book C-2 Section S910.34, S910.38 - S910.39</remarks>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="BerParsingException"></exception>
-        /// <exception cref="Exception"></exception>
         private StateId HandleIsNotAac(IGetKernelStateId currentGetKernelStateId, Kernel2Session session)
         {
             if (!IsCdaRequested())

@@ -20,7 +20,7 @@ public partial class S910
 
         /// <remarks>EMV Book C-2 Section S910.7.1 - S910.7.2</remarks>
         /// <exception cref="TerminalDataException"></exception>
-        public void HandleCamFailed(KernelSessionId sessionId)
+        public void ProcessCamFailedResponse(KernelSessionId sessionId)
         {
             _Database.Update(Level2Error.CryptographicAuthenticationMethodFailed);
             _Database.Set(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);

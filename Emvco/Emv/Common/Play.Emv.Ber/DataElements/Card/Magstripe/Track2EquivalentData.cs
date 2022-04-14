@@ -133,7 +133,6 @@ public record Track2EquivalentData : DataElement<BigInteger>
 
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Exception"></exception>
     public Track2EquivalentData UpdateDiscretionaryData(ReadOnlySpan<Nibble> discretionaryData)
     {
         ReadOnlySpan<Nibble> valueBuffer = _Value.ToByteArray().AsNibbleArray();

@@ -30,7 +30,7 @@ public partial class S910
             IGetKernelStateId currentStateIdRetriever, Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
         {
             // S910.1
-            if (TryRetrievePublicKeys(currentStateIdRetriever, session, rapdu, session.GetStaticDataToBeAuthenticated()))
+            if (!TryRetrievePublicKeys(currentStateIdRetriever, session, rapdu, session.GetStaticDataToBeAuthenticated()))
                 return currentStateIdRetriever.GetStateId();
 
             _Database.TryGet(IntegratedDataStorageStatus.Tag, out IntegratedDataStorageStatus? integratedDataStorageStatus);
@@ -93,14 +93,14 @@ public partial class S910
             catch (CryptographicAuthenticationMethodFailedException)
             {
                 // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-                _ResponseHandler.HandleCamFailed(session.GetKernelSessionId());
+                _ResponseHandler.ProcessCamFailedResponse(session.GetKernelSessionId());
 
                 return false;
             }
             catch (Exception)
             {
                 // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-                _ResponseHandler.HandleCamFailed(session.GetKernelSessionId());
+                _ResponseHandler.ProcessCamFailedResponse(session.GetKernelSessionId());
 
                 return false;
             }
@@ -127,7 +127,7 @@ public partial class S910
 
             if (!IsMandatoryRelayResistantDataPresent())
             {
-                _ResponseHandler.ProcessInvalidDataResponse(sessionId);
+                _ResponseHandler.ProcessCamFailedResponse(sessionId);
 
                 return true;
             }
@@ -137,7 +137,7 @@ public partial class S910
 
             if (!IsRelayResistantDataStorageVersion2DataValid())
             {
-                _ResponseHandler.ProcessInvalidDataResponse(sessionId);
+                _ResponseHandler.ProcessCamFailedResponse(sessionId);
 
                 return true;
             }
@@ -219,12 +219,12 @@ public partial class S910
         /// <exception cref="TerminalDataException"></exception>
         private bool TryHandlingStandaloneDataStorageError(IGetKernelStateId currentStateIdRetriever, KernelSessionId sessionId)
         {
-            if (_Database.IsSet(TerminalVerificationResultCodes.RelayResistancePerformed))
+            if (!_Database.IsSet(TerminalVerificationResultCodes.RelayResistancePerformed))
                 return false;
 
             if (!IsMandatoryRelayResistantDataPresent())
             {
-                _ResponseHandler.ProcessInvalidDataResponse(sessionId);
+                _ResponseHandler.ProcessCamFailedResponse(sessionId);
 
                 return true;
             }
@@ -292,16 +292,16 @@ public partial class S910
         private bool TryHandleIdsWriteFlagNotSet(
             IGetKernelStateId currentStateIdRetriever, Kernel2Session session, out StateId? successfulResponseStateId)
         {
-            if (_Database.IsIntegratedDataStorageWriteFlagSet())
+            if (!_Database.IsIntegratedDataStorageWriteFlagSet())
             {
-                successfulResponseStateId = null;
+                successfulResponseStateId = _ResponseHandler.HandleValidResponse(currentStateIdRetriever, session);
 
-                return false;
+                return true;
             }
 
-            successfulResponseStateId = _ResponseHandler.HandleValidResponse(currentStateIdRetriever, session);
+            successfulResponseStateId = null;
 
-            return true;
+            return false;
         }
 
         #endregion
