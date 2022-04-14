@@ -38,6 +38,8 @@ public partial class WaitingForRecoverAcResponse
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="CardDataException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
@@ -48,7 +50,7 @@ public partial class WaitingForRecoverAcResponse
         if (TryHandlingL1Error(session.GetKernelSessionId(), signal))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        if (TryHandlingL2Error(signal))
+        if (TryHandlingL2Error(kernel2Session, signal))
             return _KernelStateResolver.GetKernelState(WaitingForGenerateAcResponse2.StateId);
 
         // S10.10 - S10.14
@@ -110,13 +112,17 @@ public partial class WaitingForRecoverAcResponse
     #region S10.7 - S10.9
 
     /// <remarks>Book C-2 Section S10.7 - S10.9</remarks>
-    private bool TryHandlingL2Error(QueryPcdResponse signal)
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CardDataException"></exception>
+    private bool TryHandlingL2Error(Kernel2Session session, QueryPcdResponse signal)
     {
         if (!signal.IsLevel2ErrorPresent())
             return false;
 
-        GenerateApplicationCryptogramRequest capdu = _PrepareApplicationCryptogramService.Process();
-        _PcdEndpoint.Request(capdu);
+        _ = _PrepareApplicationCryptogramService.Process(this, session, signal);
 
         return true;
     }

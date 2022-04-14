@@ -94,6 +94,25 @@ public record ApplicationPan : DataElement<BigInteger>
         return new DataStorageId(new BigInteger(resultBuffer));
     }
 
+    /// <exception cref="OverflowException"></exception>
+    private bool IsCheckSumValid()
+    {
+        Nibble[] pan = _Value.ToByteArray().AsNibbleArray();
+
+        for (int i = pan.Length - 1, j = 0; i >= 0; i--, j++)
+        {
+            if ((j % 2) != 0)
+                pan[i] *= 2;
+        }
+
+        int sum = 0;
+
+        for (int i = 0; i < pan.Length; i++)
+            sum += (pan[i] % 10) + ((pan[i] / 10) % 10);
+
+        return (sum % 10) == 0;
+    }
+
     #endregion
 
     #region Serialization

@@ -59,12 +59,25 @@ public class AuthenticationService : IAuthenticateTransactionSession
         _DynamicDataAuthenticator.Authenticate(database, certificateDatabase, staticDataToBeAuthenticated);
     }
 
+    // First 
+
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
-    public void AuthenticateFirstCda(
+    public void AuthenticateCda(
         ITlvReaderAndWriter database, ICertificateDatabase certificateDatabase, GenerateApplicationCryptogramResponse rapdu,
         StaticDataToBeAuthenticated staticDataToBeAuthenticated)
     {
         _CombinedDataAuthenticator.AuthenticateFirstGenAc(rapdu, database, certificateDatabase, staticDataToBeAuthenticated);
+    }
+
+    // Second
+    /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
+    public void AuthenticateCda(
+        ITlvReaderAndWriter database, ICertificateDatabase certificateDatabase, RecoverAcResponse rapdu,
+        StaticDataToBeAuthenticated staticDataToBeAuthenticated)
+    {
+        throw new NotImplementedException();
+
+        // _CombinedDataAuthenticator.AuthenticateFirstGenAc(rapdu, database, certificateDatabase, staticDataToBeAuthenticated);
     }
 
     #endregion

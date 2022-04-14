@@ -85,7 +85,7 @@ internal partial class S910
             try
             {
                 // Retrieves the Issuer PK, ICC PK, and validates the SDAD
-                _AuthenticationService.AuthenticateFirstCda(_Database, _Database, rapdu, staticDataToBeAuthenticated);
+                _AuthenticationService.AuthenticateCda(_Database, _Database, rapdu, staticDataToBeAuthenticated);
 
                 return true;
             }

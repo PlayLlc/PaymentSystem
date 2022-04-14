@@ -17,8 +17,12 @@ public interface IAuthenticateTransactionSession
         ITlvReaderAndWriter database, ICertificateDatabase certificateDatabase, StaticDataToBeAuthenticated staticDataToBeAuthenticated);
 
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
-    public void AuthenticateFirstCda(
+    public void AuthenticateCda(
         ITlvReaderAndWriter database, ICertificateDatabase certificateDatabase, GenerateApplicationCryptogramResponse rapdu,
+        StaticDataToBeAuthenticated staticDataToBeAuthenticated);
+
+    public void AuthenticateCda(
+        ITlvReaderAndWriter database, ICertificateDatabase certificateDatabase, RecoverAcResponse rapdu,
         StaticDataToBeAuthenticated staticDataToBeAuthenticated);
 
     #endregion
