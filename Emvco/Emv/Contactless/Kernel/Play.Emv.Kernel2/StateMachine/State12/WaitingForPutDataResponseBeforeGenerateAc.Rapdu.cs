@@ -75,34 +75,21 @@ namespace Play.Emv.Kernel2.StateMachine
             catch (TerminalDataException)
             {
                 // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-                HandleLevel2Error(rapdu);
+
+                _KernelEndpoint.Request(new StopKernelRequest(sessionId));
 
                 return true;
             }
             catch (Exception)
             {
                 // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-                HandleLevel2Error(rapdu);
+
+                _KernelEndpoint.Request(new StopKernelRequest(sessionId));
 
                 return true;
             }
-            finally
-            {
-                _KernelEndpoint.Request(new StopKernelRequest(sessionId));
-            }
 
             return true;
-        }
-
-        #endregion
-
-        #region S12.8 - S12.12
-
-        /// <remarks>Book C-2 Section S12.8 - S12.12</remarks>
-        private void HandleLevel2Error(PutDataResponse rapdu)
-        {
-            if (rapdu.IsLevel2ErrorPresent())
-                return;
         }
 
         #endregion
