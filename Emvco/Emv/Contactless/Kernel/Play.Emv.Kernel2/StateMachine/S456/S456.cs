@@ -25,7 +25,7 @@ using Play.Messaging;
 
 using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
 
-namespace Play.Emv.Kernel2.StateMachine.S456;
+namespace Play.Emv.Kernel2.StateMachine;
 
 /// <summary>
 ///     This object includes logic that is common to states 4, 5, and 6

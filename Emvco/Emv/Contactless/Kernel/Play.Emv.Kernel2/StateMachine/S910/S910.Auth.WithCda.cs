@@ -13,9 +13,9 @@ using Play.Emv.Security;
 using Play.Emv.Security.Exceptions;
 using Play.Icc.Exceptions;
 
-namespace Play.Emv.Kernel2.StateMachine.S910;
+namespace Play.Emv.Kernel2.StateMachine;
 
-public partial class S910
+internal partial class S910
 {
     private partial class AuthHandler
     {
@@ -30,7 +30,7 @@ public partial class S910
             IGetKernelStateId currentStateIdRetriever, Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
         {
             // S910.1
-            if (!TryRetrievePublicKeys(currentStateIdRetriever, session, rapdu, session.GetStaticDataToBeAuthenticated()))
+            if (!TryRetrievePublicKeys(session, rapdu, session.GetStaticDataToBeAuthenticated()))
                 return currentStateIdRetriever.GetStateId();
 
             _Database.TryGet(IntegratedDataStorageStatus.Tag, out IntegratedDataStorageStatus? integratedDataStorageStatus);
@@ -45,7 +45,7 @@ public partial class S910
 
             // S910.5, S910.6
             if (IsIdsReadFlagSet(integratedDataStorageStatus))
-                return _ResponseHandler.HandleValidResponse(currentStateIdRetriever, session);
+                return _ResponseHandler.HandleValidResponse(session);
 
             // S910.8 - S910.9
             if (TryHandlingMissingDataSummary2(currentStateIdRetriever, session.GetKernelSessionId()))
@@ -68,7 +68,7 @@ public partial class S910
             if (TryHandlingInvalidDataStorageSummary2And3Equality(session.GetKernelSessionId()))
                 return currentStateIdRetriever.GetStateId();
 
-            return _ResponseHandler.HandleValidResponse(currentStateIdRetriever, session);
+            return _ResponseHandler.HandleValidResponse(session);
         }
 
         #region S910.1, S910.4, S910.4.1, S910.3, S910.3.1
@@ -80,8 +80,7 @@ public partial class S910
         /// </summary>
         /// <exception cref="TerminalDataException"></exception>
         private bool TryRetrievePublicKeys(
-            IGetKernelStateId currentStateIdRetriever, Kernel2Session session, GenerateApplicationCryptogramResponse rapdu,
-            StaticDataToBeAuthenticated staticDataToBeAuthenticated)
+            Kernel2Session session, GenerateApplicationCryptogramResponse rapdu, StaticDataToBeAuthenticated staticDataToBeAuthenticated)
         {
             try
             {
@@ -294,7 +293,7 @@ public partial class S910
         {
             if (!_Database.IsIntegratedDataStorageWriteFlagSet())
             {
-                successfulResponseStateId = _ResponseHandler.HandleValidResponse(currentStateIdRetriever, session);
+                successfulResponseStateId = _ResponseHandler.HandleValidResponse(session);
 
                 return true;
             }

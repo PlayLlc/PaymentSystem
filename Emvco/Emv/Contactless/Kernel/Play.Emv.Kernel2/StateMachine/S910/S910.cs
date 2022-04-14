@@ -5,6 +5,7 @@ using Play.Core.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel;
@@ -17,14 +18,15 @@ using Play.Emv.Security;
 using Play.Icc.Exceptions;
 using Play.Messaging;
 
-namespace Play.Emv.Kernel2.StateMachine.S910;
+namespace Play.Emv.Kernel2.StateMachine;
 
-public partial class S910 : CommonProcessing
+internal partial class S910 : CommonProcessing
 {
     #region Instance Values
 
     private readonly ResponseHandler _ResponseHandler;
     private readonly AuthHandler _AuthHandler;
+    private readonly IHandleDisplayRequests _DisplayEndpoint;
     protected override StateId[] _ValidStateIds { get; } = {WaitingForGenerateAcResponse1.StateId, WaitingForRecoverAcResponse.StateId};
 
     #endregion
@@ -33,10 +35,12 @@ public partial class S910 : CommonProcessing
 
     public S910(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
-        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint, IAuthenticateTransactionSession authenticationService) : base(
-        database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
+        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint, IAuthenticateTransactionSession authenticationService,
+        IHandleDisplayRequests displayEndpoint) : base(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint,
+        kernelEndpoint)
     {
-        _ResponseHandler = new ResponseHandler(database, dataExchangeKernelService, kernelEndpoint, pcdEndpoint);
+        _DisplayEndpoint = displayEndpoint;
+        _ResponseHandler = new ResponseHandler(database, dataExchangeKernelService, kernelEndpoint, pcdEndpoint, displayEndpoint);
         _AuthHandler = new AuthHandler(database, _ResponseHandler, authenticationService);
     }
 

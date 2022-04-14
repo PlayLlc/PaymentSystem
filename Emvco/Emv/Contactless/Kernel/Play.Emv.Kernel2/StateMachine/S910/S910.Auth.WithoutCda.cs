@@ -14,9 +14,9 @@ using Play.Emv.Pcd.Contracts;
 using Play.Globalization.Time.Seconds;
 using Play.Icc.Exceptions;
 
-namespace Play.Emv.Kernel2.StateMachine.S910;
+namespace Play.Emv.Kernel2.StateMachine;
 
-public partial class S910
+internal partial class S910
 {
     private partial class AuthHandler
     {
@@ -148,7 +148,7 @@ public partial class S910
             if (_Database.IsSet(TerminalVerificationResultCodes.RelayResistancePerformed))
                 UpdateTrack2DiscretionaryData();
 
-            return _ResponseHandler.HandleValidResponse(currentGetKernelStateId, session);
+            return _ResponseHandler.HandleValidResponse(session);
         }
 
         #endregion
@@ -229,10 +229,10 @@ public partial class S910
             }
 
             if (!IsApplicationAuthenticationCryptogramRequested())
-                return _ResponseHandler.HandleValidResponse(currentStateIdRetriever, session);
+                return _ResponseHandler.HandleValidResponse(session);
 
             if (!IsCdaRequested())
-                return _ResponseHandler.HandleValidResponse(currentStateIdRetriever, session);
+                return _ResponseHandler.HandleValidResponse(session);
 
             HandleInvalidResponse(session.GetKernelSessionId());
 

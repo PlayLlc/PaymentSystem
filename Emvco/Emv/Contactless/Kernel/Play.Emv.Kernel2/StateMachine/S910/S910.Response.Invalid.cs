@@ -8,9 +8,9 @@ using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 
-namespace Play.Emv.Kernel2.StateMachine.S910;
+namespace Play.Emv.Kernel2.StateMachine;
 
-public partial class S910
+internal partial class S910
 {
     private partial class ResponseHandler
     {
@@ -66,7 +66,7 @@ public partial class S910
 
         /// <remarks>EMV Book C-2 Section S910.50 - S910.53</remarks>
         /// <exception cref="TerminalDataException"></exception>
-        private void ProcessInvalidWriteResponse(KernelSessionId sessionId)
+        public void ProcessInvalidWriteResponse(KernelSessionId sessionId)
         {
             SetDisplayMessage();
 

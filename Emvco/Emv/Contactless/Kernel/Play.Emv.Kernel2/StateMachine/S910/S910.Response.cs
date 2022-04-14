@@ -4,9 +4,9 @@ using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Pcd.Contracts;
 
-namespace Play.Emv.Kernel2.StateMachine.S910;
+namespace Play.Emv.Kernel2.StateMachine;
 
-public partial class S910
+internal partial class S910
 {
     private partial class ResponseHandler
     {

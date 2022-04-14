@@ -16,14 +16,20 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForEmvReadRecordResponse : KernelState
 {
+    #region Instance Values
+
+    private readonly IHandleTerminalRequests _TerminalEndpoint;
+    private readonly ICleanTornTransactions _KernelCleaner;
+
+    #endregion
+
     #region Constructor
 
     public WaitingForEmvReadRecordResponse(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IHandleDisplayRequests displayEndpoint, IHandleTerminalRequests terminalEndpoint, ICleanTornTransactions kernelCleaner,
-        S456.S456 s456) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog, kernelStateResolver, pcdEndpoint,
-        displayEndpoint)
+        IHandleDisplayRequests displayEndpoint, IHandleTerminalRequests terminalEndpoint, ICleanTornTransactions kernelCleaner, S456 s456) :
+        base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog, kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
         _TerminalEndpoint = terminalEndpoint;
         _KernelCleaner = kernelCleaner;
@@ -35,13 +41,6 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     #region Static Metadata
 
     public static readonly StateId StateId = new(nameof(WaitingForEmvReadRecordResponse));
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly IHandleTerminalRequests _TerminalEndpoint;
-    private readonly ICleanTornTransactions _KernelCleaner;
 
     #endregion
 

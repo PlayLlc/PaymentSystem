@@ -176,7 +176,7 @@ namespace Play.Emv.Kernel2.StateMachine
             session.Update(tornRecord!.GetKey());
 
             if (!_Database.TryGet(DataRecoveryDataObjectListRelatedData.Tag, out DataRecoveryDataObjectListRelatedData? ddolRelatedData))
-                throw new TerminalDataException($"The {nameof(S456.S456)} could not complete {nameof(TryRecoveringTornTransaction)} ");
+                throw new TerminalDataException($"The {nameof(S456)} could not complete {nameof(TryRecoveringTornTransaction)} ");
 
             RecoverAcRequest capdu = RecoverAcRequest.Create(session.GetTransactionSessionId(), ddolRelatedData!);
             _PcdEndpoint.Request(capdu);

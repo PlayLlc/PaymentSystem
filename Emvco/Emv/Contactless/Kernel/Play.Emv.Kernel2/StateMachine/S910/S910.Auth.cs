@@ -1,9 +1,9 @@
 ﻿using Play.Emv.Kernel.Databases;
 using Play.Emv.Security;
 
-namespace Play.Emv.Kernel2.StateMachine.S910;
+namespace Play.Emv.Kernel2.StateMachine;
 
-public partial class S910
+internal partial class S910
 {
     private partial class AuthHandler
     {

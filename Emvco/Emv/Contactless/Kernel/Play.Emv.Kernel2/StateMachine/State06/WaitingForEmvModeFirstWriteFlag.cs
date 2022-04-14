@@ -14,13 +14,19 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForEmvModeFirstWriteFlag : KernelState
 {
+    #region Instance Values
+
+    private readonly S456 _S456;
+
+    #endregion
+
     #region Constructor
 
     public WaitingForEmvModeFirstWriteFlag(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IHandleDisplayRequests displayEndpoint, S456.S456 s456) : base(database, dataExchangeKernelService, kernelEndpoint,
-        tornTransactionLog, kernelStateResolver, pcdEndpoint, displayEndpoint)
+        IHandleDisplayRequests displayEndpoint, S456 s456) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog,
+        kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
         _S456 = s456;
     }
@@ -30,12 +36,6 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
     #region Static Metadata
 
     public static readonly StateId StateId = new(nameof(WaitingForEmvModeFirstWriteFlag));
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly S456.S456 _S456;
 
     #endregion
 

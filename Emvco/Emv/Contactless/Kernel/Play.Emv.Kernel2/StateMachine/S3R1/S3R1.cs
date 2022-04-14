@@ -20,7 +20,7 @@ using Play.Messaging;
 
 using KernelDatabase = Play.Emv.Kernel.Databases.KernelDatabase;
 
-namespace Play.Emv.Kernel2.StateMachine.S3R1;
+namespace Play.Emv.Kernel2.StateMachine;
 
 // TODO: Note that symbols S3R1.10, S3R1.11, S3R1.12, S3R1.13 and S3R1.18 are only implemented for the IDS/TORN Implementation Option.
 /// <summary>

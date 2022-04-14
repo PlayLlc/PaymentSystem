@@ -30,7 +30,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 {
     #region Instance Values
 
-    private readonly S456.S456 _S456;
+    private readonly S456 _S456;
 
     #endregion
 

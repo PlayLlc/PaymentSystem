@@ -18,7 +18,7 @@ using Play.Emv.Pcd.Contracts;
 using Play.Globalization.Time.Seconds;
 using Play.Messaging;
 
-namespace Play.Emv.Kernel2.StateMachine.S78;
+namespace Play.Emv.Kernel2.StateMachine;
 
 public class S78 : CommonProcessing
 {

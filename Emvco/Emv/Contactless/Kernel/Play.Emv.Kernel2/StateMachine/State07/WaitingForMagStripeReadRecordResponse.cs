@@ -14,12 +14,18 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForMagStripeReadRecordResponse : KernelState
 {
+    #region Instance Values
+
+    private readonly S78 _S78;
+
+    #endregion
+
     #region Constructor
 
     public WaitingForMagStripeReadRecordResponse(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IHandleDisplayRequests displayEndpoint, S78.S78 s78) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog,
+        IHandleDisplayRequests displayEndpoint, S78 s78) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog,
         kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
         _S78 = s78;
@@ -30,12 +36,6 @@ public partial class WaitingForMagStripeReadRecordResponse : KernelState
     #region Static Metadata
 
     public static readonly StateId StateId = new(nameof(WaitingForMagStripeReadRecordResponse));
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly S78.S78 _S78;
 
     #endregion
 

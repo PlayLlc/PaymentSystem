@@ -10,21 +10,30 @@ using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Services.BalanceReading;
 using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Security;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForGenerateAcResponse1 : KernelState
 {
+    #region Instance Values
+
+    private readonly S910 _S910;
+    private readonly OfflineBalanceReader _BalanceReader;
+
+    #endregion
+
     #region Constructor
 
     public WaitingForGenerateAcResponse1(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IHandleDisplayRequests displayEndpoint, __T.S910 s910, OfflineBalanceReader balanceReader) : base(database,
+        IHandleDisplayRequests displayEndpoint, IAuthenticateTransactionSession transactionAuthenticator) : base(database,
         dataExchangeKernelService, kernelEndpoint, tornTransactionLog, kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
-        _S910 = s910;
-        _BalanceReader = balanceReader;
+        _S910 = new S910(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint, transactionAuthenticator,
+            displayEndpoint);
+        _BalanceReader = new OfflineBalanceReader(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint);
     }
 
     #endregion
@@ -32,13 +41,6 @@ public partial class WaitingForGenerateAcResponse1 : KernelState
     #region Static Metadata
 
     public static readonly StateId StateId = new(nameof(WaitingForGenerateAcResponse1));
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly __T.S910 _S910;
-    private readonly OfflineBalanceReader _BalanceReader;
 
     #endregion
 

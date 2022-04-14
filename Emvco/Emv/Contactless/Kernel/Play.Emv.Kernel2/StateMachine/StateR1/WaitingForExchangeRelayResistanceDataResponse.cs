@@ -15,12 +15,21 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
 {
+    #region Instance Values
+
+    private readonly S3R1 _S3R1;
+    private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
+    private readonly IGetKernelState _KernelStateResolver;
+    private readonly IHandlePcdRequests _PcdEndpoint;
+
+    #endregion
+
     #region Constructor
 
     public WaitingForExchangeRelayResistanceDataResponse(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IHandleDisplayRequests displayEndpoint, S3R1.S3R1 s3R1, IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(database,
+        IHandleDisplayRequests displayEndpoint, S3R1 s3R1, IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(database,
         dataExchangeKernelService, kernelEndpoint, tornTransactionLog, kernelStateResolver, pcdEndpoint, displayEndpoint)
     {
         _S3R1 = s3R1;
@@ -34,15 +43,6 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     #region Static Metadata
 
     public static readonly StateId StateId = new(nameof(WaitingForExchangeRelayResistanceDataResponse));
-
-    #endregion
-
-    #region Instance Values
-
-    private readonly S3R1.S3R1 _S3R1;
-    private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
-    private readonly IGetKernelState _KernelStateResolver;
-    private readonly IHandlePcdRequests _PcdEndpoint;
 
     #endregion
 
