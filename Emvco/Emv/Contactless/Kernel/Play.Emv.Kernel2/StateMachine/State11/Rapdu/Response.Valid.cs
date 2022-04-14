@@ -6,7 +6,9 @@ using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
 using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Enumsd;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Display.Contracts;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.DataExchange;
@@ -28,24 +30,26 @@ public partial class WaitingForGenerateAcResponse2
         /// <exception cref="InvalidOperationException"></exception>
         public StateId HandleValidResponse(Kernel2Session session)
         {
-            // S910.70
+            // S11.110
             BuildDataRecord();
 
-            // S910.71 - S910.75
+            // S11.111 - S11.113
             if (!TryPreparingOutcomeForSecondTap())
-                PrepareOutcomeParameterSetForCid();
+                PrepareOutcomeParameterSetForCid(); // S11.114 - S11.115
 
+            // S11.116 - S11.118
             if (TryWaitingForPutDataResponseAfterGeneratingAc(session.GetKernelSessionId()))
                 return WaitingForPutDataResponseAfterGenerateAc.StateId;
 
+            // S11.118.1 S11.121
             HandleOutMessage(session);
 
             return Idle.StateId;
         }
 
-        #region S910.70
+        #region S11.110
 
-        /// <remarks>EMV Book C-2 Section S910.70</remarks>
+        /// <remarks>EMV Book C-2 Section S11.110</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private void BuildDataRecord()
         {
@@ -55,9 +59,9 @@ public partial class WaitingForGenerateAcResponse2
 
         #endregion
 
-        #region S910.71
+        #region S11.111 - S11.113
 
-        /// <remarks>EMV Book C-2 Section S910.71</remarks>
+        /// <remarks>EMV Book C-2 Section S11.111 - S11.113</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private bool TryPreparingOutcomeForSecondTap()
         {
@@ -75,9 +79,9 @@ public partial class WaitingForGenerateAcResponse2
 
         #endregion
 
-        #region S910.72
+        #region S11.112
 
-        /// <remarks>EMV Book C-2 Section S910.72</remarks>
+        /// <remarks>EMV Book C-2 Section S11.112</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private void PrepareOutcomeParameterSetForPcii()
         {
@@ -87,9 +91,9 @@ public partial class WaitingForGenerateAcResponse2
 
         #endregion
 
-        #region S910.73
+        #region S11.113
 
-        /// <remarks>EMV Book C-2 Section S910.73</remarks>
+        /// <remarks>EMV Book C-2 Section S11.113</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private void AttemptToSetPciiDisplayMessage()
         {
@@ -107,9 +111,9 @@ public partial class WaitingForGenerateAcResponse2
 
         #endregion
 
-        #region S910.74 - S910.75
+        #region S11.114 - S11.115
 
-        /// <remarks>EMV Book C-2 Section S910.74 - S910.75</remarks>
+        /// <remarks>EMV Book C-2 Section S11.114 - S11.115</remarks>
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
@@ -127,38 +131,9 @@ public partial class WaitingForGenerateAcResponse2
 
         #endregion
 
-        #region S910.74 - S910.75 Shared
+        #region S11.114 - S11.115 Transaction Cryptogram
 
-        /// <remarks>EMV Book C-2 Section S910.74 - S910.75 Shared</remarks>
-        /// <exception cref="TerminalDataException"></exception>
-        private bool IsDeclined()
-        {
-            if (!_Database.IsPurchaseTransaction() && !_Database.IsCashTransaction())
-                return false;
-
-            if (!_Database.IsIcWithContactsSupported())
-                return true;
-
-            if (!_Database.TryGet(ThirdPartyData.Tag, out ThirdPartyData? thirdPartyData))
-                return false;
-
-            if (thirdPartyData!.GetUniqueIdentifier().AreAnyBitsSet(0x8000))
-                return false;
-
-            if (thirdPartyData!.TryGetDeviceType(out ushort? deviceType))
-                return false;
-
-            if (deviceType == 0x3030)
-                return false;
-
-            return true;
-        }
-
-        #endregion
-
-        #region S910.74 - S910.75 Transaction Cryptogram
-
-        /// <remarks>EMV Book C-2 Section S910.74 - S910.75 Transaction Cryptogram</remarks>
+        /// <remarks>EMV Book C-2 Section S11.114 - S11.115 Transaction Cryptogram</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private void PrepareOutcomeForTransactionCryptogram()
         {
@@ -182,9 +157,9 @@ public partial class WaitingForGenerateAcResponse2
 
         #endregion
 
-        #region S910.74 - S910.75 Application Request Cryptogram
+        #region S11.114 - S11.115 Application Request Cryptogram
 
-        /// <remarks>EMV Book C-2 Section S910.74 - S910.75 Application Request Cryptogram</remarks>
+        /// <remarks>EMV Book C-2 Section S11.114 - S11.115 Application Request Cryptogram</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private void PrepareOutcomeForApplicationRequestCryptogram()
         {
@@ -195,21 +170,21 @@ public partial class WaitingForGenerateAcResponse2
 
         #endregion
 
-        #region S910.74 - S910.75 Application Authentication Cryptogram
+        #region S11.114 - S11.115 Application Authentication Cryptogram
 
-        /// <remarks>EMV Book C-2 Section S910.74 - S910.75 Application Authentication Cryptogram</remarks>
+        /// <remarks>EMV Book C-2 Section S11.114 - S11.115 Application Authentication Cryptogram</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private void PrepareOutcomeForApplicationAuthenticationCryptogram()
         {
-            _Database.Update(MessageHoldTime.MinimumValue);
-            _Database.Update(MessageIdentifiers.ClearDisplay);
-
             if (!_Database.IsPurchaseTransaction() && !_Database.IsCashTransaction())
             {
-                _Database.Update(StatusOutcome.EndApplication);
+                _Database.Update(MessageHoldTime.MinimumValue);
+                _Database.Update(MessageIdentifiers.ClearDisplay);
 
                 return;
             }
+
+            _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
 
             if (!_Database.IsIcWithContactsSupported())
             {
@@ -220,33 +195,40 @@ public partial class WaitingForGenerateAcResponse2
 
             if (!_Database.TryGet(ThirdPartyData.Tag, out ThirdPartyData? thirdPartyData))
             {
-                _Database.Update(StatusOutcome.Declined);
+                _Database.Update(StatusOutcome.TryAnotherInterface);
 
                 return;
             }
 
             if (!thirdPartyData!.GetUniqueIdentifier().IsBitSet(16))
             {
-                _Database.Update(StatusOutcome.Declined);
+                _Database.Update(StatusOutcome.TryAnotherInterface);
 
                 return;
             }
 
             if (thirdPartyData.TryGetDeviceType(out ushort? deviceType))
-
             {
-                if (!IsDeclined())
-                    _Database.Update(StatusOutcome.TryAnotherInterface);
-                else
-                    _Database.Update(StatusOutcome.Declined);
+                _Database.Update(StatusOutcome.TryAnotherInterface);
+
+                return;
             }
+
+            if (deviceType == DeviceTypes.Card)
+            {
+                _Database.Update(StatusOutcome.TryAnotherInterface);
+
+                return;
+            }
+
+            _Database.Update(StatusOutcome.Declined);
         }
 
         #endregion
 
-        #region S910.76 - S910.78
+        #region S11.116 - S11.118
 
-        /// <remarks>EMV Book C-2 Section S910.76 - S910.78</remarks>
+        /// <remarks>EMV Book C-2 Section S11.116 - S11.118</remarks>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="IccProtocolException"></exception>
         private bool TryWaitingForPutDataResponseAfterGeneratingAc(KernelSessionId sessionId)
@@ -265,54 +247,59 @@ public partial class WaitingForGenerateAcResponse2
 
         #endregion
 
-        #region S910.78.1 -S910.81
+        #region S11.118.1 S11.121
 
-        /// <remarks>EMV Book C-2 Section S910.78.1 -S910.81</remarks>
+        /// <remarks>EMV Book C-2 Section S11.118.1 S11.121</remarks>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         private void HandleOutMessage(Kernel2Session session)
         {
-            PosCardholderInteractionInformation pcii =
-                _Database.Get<PosCardholderInteractionInformation>(PosCardholderInteractionInformation.Tag);
-
-            if (pcii.IsSecondTapNeeded())
+            if (!_Database.TryGet(PosCardholderInteractionInformation.Tag, out PosCardholderInteractionInformation? pcii))
             {
-                HandleDisplayMessageForSecondTapNeeded(session);
+                HandleDisplayMessage(session);
 
                 return;
             }
 
-            HandleDisplayMessage(session);
+            if (!pcii!.IsSecondTapNeeded())
+            {
+                HandleDisplayMessage(session);
+
+                return;
+            }
+
+            HandleDisplayMessageForSecondTapNeeded(session);
         }
 
         #endregion
 
-        #region S910.79 - S910.80
+        #region S11.119
 
-        /// <remarks>EMV Book C-2 Section S910.79 - S910.80</remarks>
-        /// <exception cref="TerminalDataException"></exception>
-        /// <exception cref="InvalidOperationException"></exception>
-        private void HandleDisplayMessageForSecondTapNeeded(Kernel2Session session)
-        {
-            _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-            _Database.SetUiRequestOnRestartPresent(true);
-            _Database.Update(Status.ReadyToRead);
-            _Database.Update(MessageHoldTime.MinimumValue);
-
-            _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
-        }
-
-        #endregion
-
-        #region S910.81
-
-        /// <remarks>EMV Book C-2 Section S910.81</remarks>
+        /// <remarks>EMV Book C-2 Section S11.119</remarks>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
         private void HandleDisplayMessage(Kernel2Session session)
         {
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
             _Database.SetUiRequestOnRestartPresent(true);
+
+            _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+        }
+
+        #endregion
+
+        #region S11.119 - S11.120
+
+        /// <remarks>EMV Book C-2 Section S11.119 - S11.120</remarks>
+        /// <exception cref="TerminalDataException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
+        private void HandleDisplayMessageForSecondTapNeeded(Kernel2Session session)
+        {
+            _DisplayEndpoint.Request(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
+            _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
+            _Database.SetUiRequestOnRestartPresent(true);
+            _Database.Update(Status.ReadyToRead);
+            _Database.Update(MessageHoldTime.MinimumValue);
 
             _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
         }

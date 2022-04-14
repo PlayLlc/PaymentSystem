@@ -7,6 +7,7 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Display.Contracts;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.DataExchange;
@@ -276,6 +277,7 @@ public partial class S910
         /// <exception cref="InvalidOperationException"></exception>
         private void HandleDisplayMessageForSecondTapNeeded(Kernel2Session session)
         {
+            _DisplayEndpoint.Request(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
             _Database.SetUiRequestOnRestartPresent(true);
             _Database.Update(Status.ReadyToRead);

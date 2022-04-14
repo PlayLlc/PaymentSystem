@@ -83,21 +83,19 @@ public record DeviceTypes : EnumObject<ushort>
 
     static DeviceTypes()
     {
-        Card = new DeviceTypes((ushort) 0x3030);
-        SimCard = new DeviceTypes((ushort) 0x3031);
-        KeyFob = new DeviceTypes((ushort) 0x3032);
-        Watch = new DeviceTypes((ushort) 0x3033);
-        MobileTag = new DeviceTypes((ushort) 0x3034);
-        WristBand = new DeviceTypes((ushort) 0x3035);
-
-        SecureElementMnoForMobile = new DeviceTypes((ushort) 0x3037);
-        RemovableSecureElementForMobile = new DeviceTypes((ushort) 0x3038);
-        SecureElementForMobile = new DeviceTypes((ushort) 0x3039);
-
-        RemovableSecureElementMnoForTablet = new DeviceTypes((ushort) 0x30A0);
-        SecureElementMnoForTablet = new DeviceTypes((ushort) 0x30A1);
-        RemovableSecureElementForTablet = new DeviceTypes((ushort) 0x30A2);
-        SecureElementForTablet = new DeviceTypes((ushort) 0x30A3);
+        Card = new DeviceTypes(0x3030);
+        SimCard = new DeviceTypes(0x3031);
+        KeyFob = new DeviceTypes(0x3032);
+        Watch = new DeviceTypes(0x3033);
+        MobileTag = new DeviceTypes(0x3034);
+        WristBand = new DeviceTypes(0x3035);
+        SecureElementMnoForMobile = new DeviceTypes(0x3037);
+        RemovableSecureElementForMobile = new DeviceTypes(0x3038);
+        SecureElementForMobile = new DeviceTypes(0x3039);
+        RemovableSecureElementMnoForTablet = new DeviceTypes(0x30A0);
+        SecureElementMnoForTablet = new DeviceTypes(0x30A1);
+        RemovableSecureElementForTablet = new DeviceTypes(0x30A2);
+        SecureElementForTablet = new DeviceTypes(0x30A3);
 
         _ValueObjectMap = new Dictionary<ushort, DeviceTypes> {{Card, Card}}.ToImmutableSortedDictionary();
     }

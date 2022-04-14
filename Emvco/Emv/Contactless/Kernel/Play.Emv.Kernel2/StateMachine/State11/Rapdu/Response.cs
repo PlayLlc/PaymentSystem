@@ -1,4 +1,5 @@
-﻿using Play.Emv.Kernel;
+﻿using Play.Emv.Display.Contracts;
+using Play.Emv.Kernel;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Pcd.Contracts;
@@ -15,6 +16,7 @@ public partial class WaitingForGenerateAcResponse2
         private readonly DataExchangeKernelService _DataExchangeKernelService;
         private readonly IKernelEndpoint _KernelEndpoint;
         private readonly IHandlePcdRequests _PcdEndpoint;
+        private readonly IHandleDisplayRequests _DisplayEndpoint;
 
         #endregion
 
@@ -22,12 +24,13 @@ public partial class WaitingForGenerateAcResponse2
 
         public ResponseHandler(
             KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-            IHandlePcdRequests pcdEndpoint)
+            IHandlePcdRequests pcdEndpoint, IHandleDisplayRequests displayEndpoint)
         {
             _Database = database;
             _DataExchangeKernelService = dataExchangeKernelService;
             _KernelEndpoint = kernelEndpoint;
             _PcdEndpoint = pcdEndpoint;
+            _DisplayEndpoint = displayEndpoint;
         }
 
         #endregion
