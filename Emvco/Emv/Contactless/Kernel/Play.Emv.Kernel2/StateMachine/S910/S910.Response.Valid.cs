@@ -28,7 +28,7 @@ public partial class S910
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="IccProtocolException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
-        public StateId HandleValidResponse(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
+        public StateId HandleValidResponse(Kernel2Session session)
         {
             // S910.70
             BuildDataRecord();
@@ -37,9 +37,11 @@ public partial class S910
             if (!TryPreparingOutcomeForSecondTap())
                 PrepareOutcomeParameterSetForCid();
 
+            // S910.76 - S910.78
             if (TryWaitingForPutDataResponseAfterGeneratingAc(session.GetKernelSessionId()))
                 return WaitingForPutDataResponseAfterGenerateAc.StateId;
 
+            // S910.78.1 -S910.81
             HandleOutMessage(session);
 
             return Idle.StateId;

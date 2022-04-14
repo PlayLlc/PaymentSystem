@@ -8,6 +8,7 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
+using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
 using Play.Emv.Pcd.Contracts;
@@ -31,37 +32,46 @@ public partial class WaitingForGenerateAcResponse2
         public StateId ProcessWithoutCda(
             IGetKernelStateId currentStateIdRetriever, Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
         {
-            throw new NotImplementedException();
+            if (session.TryGetTornEntry(out TornEntry? result))
+            {
+                throw new TerminalDataException(
+                    $"The {nameof(AuthHandler)} could not {nameof(ProcessWithCda)} because the expected {nameof(TornEntry)} could not be retrieved from the {nameof(Kernel2Session)}");
+            }
 
-            // S910.30 - S910.31
-            if (TryHandlingForMissingMandatoryData(session.GetKernelSessionId()))
+            if (!_Database.TryGet(result!, out TornRecord? tempTornRecord))
+            {
+                throw new TerminalDataException(
+                    $"The {nameof(AuthHandler)} could not {nameof(ProcessWithCda)} because the expected temporary {nameof(TornRecord)} could not be retrieved from the {nameof(TornTransactionLog)}");
+            }
+
+            // S11.70 - S11.71
+            if (TryHandlingForMissingMandatoryData(session.GetKernelSessionId(), tempTornRecord!))
                 return currentStateIdRetriever.GetStateId();
 
-            return IsApplicationAuthenticationCryptogram()
-                ? HandleAac(currentStateIdRetriever, session)
-                : HandleIsNotAac(currentStateIdRetriever, session);
+            // S11.72 - S11.79
+            return IsApplicationAuthenticationCryptogram() ? HandleAac(session, tempTornRecord!) : HandleIsNotAac(session, tempTornRecord!);
         }
 
-        #region S910.30 - S910.31
+        #region S11.70 - S11.71
 
-        /// <remarks>EMV Book C-2 Section S910.30 - S910.31</remarks>
+        /// <remarks>EMV Book C-2 Section S11.70 - S11.71</remarks>
         /// <exception cref="TerminalDataException"></exception>
-        private bool TryHandlingForMissingMandatoryData(KernelSessionId sessionId)
+        private bool TryHandlingForMissingMandatoryData(KernelSessionId sessionId, TornRecord tempTornRecord)
         {
             if (_Database.IsPresentAndNotEmpty(ApplicationCryptogram.Tag))
                 return false;
 
             _Database.Update(Level2Error.CardDataMissing);
-            _ResponseHandler.ProcessInvalidDataResponse(sessionId);
+            _ResponseHandler.ProcessInvalidDataResponse(sessionId, tempTornRecord);
 
             return true;
         }
 
         #endregion
 
-        #region S910.32
+        #region S11.72
 
-        /// <remarks>EMV Book C-2 Section S910.32</remarks>
+        /// <remarks>EMV Book C-2 Section S11.72</remarks>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
@@ -74,9 +84,9 @@ public partial class WaitingForGenerateAcResponse2
 
         #endregion
 
-        #region S910.33
+        #region S11.73
 
-        /// <remarks>EMV Book C-2 Section S910.33</remarks>
+        /// <remarks>EMV Book C-2 Section S11.73</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private bool IsIdsReadFlagSet()
         {
@@ -94,9 +104,9 @@ public partial class WaitingForGenerateAcResponse2
 
         #endregion
 
-        #region S910.34, S910.36
+        #region S11.74, S11.76
 
-        /// <remarks>EMV Book C-2 Section S910.34, S910.36</remarks>
+        /// <remarks>EMV Book C-2 Section S11.74, S11.76</remarks>
         /// <exception cref="TerminalDataException"></exception>
         private bool IsCdaRequested() =>
             _Database.TryGet(ReferenceControlParameter.Tag, out ReferenceControlParameter? referenceControlParameter)
@@ -104,9 +114,9 @@ public partial class WaitingForGenerateAcResponse2
 
         #endregion
 
-        #region S910.35
+        #region S11.75
 
-        /// <remarks>EMV Book C-2 Section S910.35</remarks>
+        /// <remarks>EMV Book C-2 Section S11.75</remarks>
         /// <summary>
         ///     IsApplicationAuthenticationCryptogramRequested
         /// </summary>
@@ -123,41 +133,41 @@ public partial class WaitingForGenerateAcResponse2
 
         #endregion
 
-        #region S910.37
+        #region S11.77
 
-        /// <remarks>EMV Book C-2 Section S910.37</remarks>
+        /// <remarks>EMV Book C-2 Section S11.77</remarks>
         /// <summary>
         ///     HandleInvalidResponse
         /// </summary>
         /// <param name="sessionId"></param>
         /// <exception cref="TerminalDataException"></exception>
-        private void HandleInvalidResponse(KernelSessionId sessionId)
+        private void HandleInvalidResponse(KernelSessionId sessionId, TornRecord tempTornRecord)
         {
             _Database.Update(Level2Error.CardDataError);
-            _ResponseHandler.ProcessInvalidDataResponse(sessionId);
+            _ResponseHandler.ProcessInvalidDataResponse(sessionId, tempTornRecord);
         }
 
         #endregion
 
-        #region S910.38 - S910.39
+        #region S11.78 - S11.79
 
-        /// <remarks>EMV Book C-2 Section S910.37</remarks>
+        /// <remarks>EMV Book C-2 Section S11.78 - S11.79</remarks>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="BerParsingException"></exception>
         /// <exception cref="Exception"></exception>
-        private StateId HandleRelayResistanceData(IGetKernelStateId currentGetKernelStateId, Kernel2Session session)
+        private StateId HandleRelayResistanceData(Kernel2Session session)
         {
             if (_Database.IsSet(TerminalVerificationResultCodes.RelayResistancePerformed))
                 UpdateTrack2DiscretionaryData();
 
-            return _ResponseHandler.HandleValidResponse(currentGetKernelStateId, session);
+            return _ResponseHandler.HandleValidResponse(session);
         }
 
         #endregion
 
-        #region S910.39
+        #region S11.79
 
-        /// <remarks>EMV Book C-2 Section S910.39</remarks>
+        /// <remarks>EMV Book C-2 Section S11.79</remarks>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="OverflowException"></exception>
         /// <exception cref="BerParsingException"></exception>
@@ -215,49 +225,49 @@ public partial class WaitingForGenerateAcResponse2
 
         #endregion
 
-        #region S910.33, S910.35 - S910.37
+        #region S11.72 - S11.77
 
-        /// <remarks>EMV Book C-2 Section S910.33, S910.35 - S910.37</remarks>
+        /// <remarks>EMV Book C-2 Section S11.72 - S11.77</remarks>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="IccProtocolException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
-        private StateId HandleAac(IGetKernelStateId currentStateIdRetriever, Kernel2Session session)
+        private StateId HandleAac(Kernel2Session session, TornRecord tempTornRecord)
         {
             if (IsIdsReadFlagSet())
             {
-                HandleInvalidResponse(session.GetKernelSessionId());
+                HandleInvalidResponse(session.GetKernelSessionId(), tempTornRecord);
 
-                return currentStateIdRetriever.GetStateId();
+                return StateId;
             }
 
             if (!IsApplicationAuthenticationCryptogramRequested())
-                return _ResponseHandler.HandleValidResponse(currentStateIdRetriever, session);
+                return _ResponseHandler.HandleValidResponse(session);
 
             if (!IsCdaRequested())
-                return _ResponseHandler.HandleValidResponse(currentStateIdRetriever, session);
+                return _ResponseHandler.HandleValidResponse(session);
 
-            HandleInvalidResponse(session.GetKernelSessionId());
+            HandleInvalidResponse(session.GetKernelSessionId(), tempTornRecord);
 
-            return currentStateIdRetriever.GetStateId();
+            return StateId;
         }
 
         #endregion
 
-        #region S910.34, S910.38 - S910.39
+        #region S11.74, S11.77
 
-        /// <remarks>EMV Book C-2 Section S910.34, S910.38 - S910.39</remarks>
+        /// <remarks>EMV Book C-2 Section S11.74, S11.77</remarks>
         /// <exception cref="TerminalDataException"></exception>
         /// <exception cref="BerParsingException"></exception>
         /// <exception cref="Exception"></exception>
-        private StateId HandleIsNotAac(IGetKernelStateId currentGetKernelStateId, Kernel2Session session)
+        private StateId HandleIsNotAac(Kernel2Session session, TornRecord tempTornRecord)
         {
             if (!IsCdaRequested())
-                return HandleRelayResistanceData(currentGetKernelStateId, session);
+                return HandleRelayResistanceData(session);
 
-            HandleInvalidResponse(session.GetKernelSessionId());
+            HandleInvalidResponse(session.GetKernelSessionId(), tempTornRecord);
 
-            return currentGetKernelStateId.GetStateId();
+            return StateId;
         }
 
         #endregion
