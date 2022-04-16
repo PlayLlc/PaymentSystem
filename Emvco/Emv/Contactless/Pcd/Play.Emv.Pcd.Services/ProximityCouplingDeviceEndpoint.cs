@@ -1,6 +1,5 @@
 ﻿using System;
 
-using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
@@ -11,7 +10,7 @@ public class ProximityCouplingDeviceEndpoint : IMessageChannel, IHandlePcdReques
 {
     #region Static Metadata
 
-    public static readonly ChannelTypeId ChannelTypeId = ChannelType.ProximityCouplingDevice;
+    public static readonly ChannelTypeId ChannelTypeId = ProximityCouplingDeviceChannel.Id;
 
     #endregion
 

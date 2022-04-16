@@ -1,12 +1,11 @@
-﻿using Play.Emv.Acquirer.Contracts.SignalOut;
-using Play.Emv.Ber.DataElements;
+﻿using Play.Emv.Ber.DataElements;
 using Play.Emv.Configuration;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel2.StateMachine;
-using Play.Emv.Messaging;
 using Play.Emv.Reader.Contracts.SignalOut;
+using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Emv.Terminal.Session;
 using Play.Emv.Terminal.StateMachine;
@@ -53,7 +52,7 @@ internal class TerminalStateMachine
             if (_Lock.Session != null)
             {
                 throw new RequestOutOfSyncException(
-                    $"The {nameof(ActivateTerminalRequest)} can't be processed because the {nameof(ChannelType.Terminal)} already has an active session in progress");
+                    $"The {nameof(ActivateTerminalRequest)} can't be processed because the {nameof(TerminalChannel.Id)} already has an active session in progress");
             }
 
             Transaction transaction = new(new TransactionSessionId(request.GetTransactionType()), request.GetAccountType(),
@@ -66,13 +65,13 @@ internal class TerminalStateMachine
         }
     }
 
-    public void Handle(AcquirerResponseSignal request)
-    {
-        lock (_Lock)
-        {
-            _Lock.State = _Lock.State.Handle(_Lock.Session, request);
-        }
-    }
+    //public void Handle(AcquirerResponseSignal request)
+    //{
+    //    lock (_Lock)
+    //    {
+    //        _Lock.State = _Lock.State.Handle(_Lock.Session, request);
+    //    }
+    //}
 
     public void Handle(OutReaderResponse response)
     {

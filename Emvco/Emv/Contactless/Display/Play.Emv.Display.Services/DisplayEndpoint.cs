@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Play.Emv.Display.Contracts;
-using Play.Emv.Messaging;
 using Play.Messaging;
 using Play.Messaging.Exceptions;
 
@@ -11,7 +10,7 @@ public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposa
 {
     #region Static Metadata
 
-    public static readonly ChannelTypeId ChannelTypeId = ChannelType.Display;
+    public static readonly ChannelTypeId ChannelTypeId = DisplayChannel.Id;
 
     #endregion
 

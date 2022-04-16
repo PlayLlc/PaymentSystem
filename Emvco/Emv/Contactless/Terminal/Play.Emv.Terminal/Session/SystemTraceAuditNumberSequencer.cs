@@ -1,5 +1,6 @@
 ﻿using System;
 
+using Play.Emv.Acquirer.Contracts;
 using Play.Emv.Acquirer.Contracts.SignalOut;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;

@@ -1,4 +1,6 @@
-﻿using AutoFixture;
+﻿using System;
+
+using AutoFixture;
 
 using Play.Ber.Exceptions;
 using Play.Emv.Ber;

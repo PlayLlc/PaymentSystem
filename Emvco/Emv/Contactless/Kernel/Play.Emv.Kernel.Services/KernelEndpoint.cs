@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Terminal.Contracts.SignalOut;
 using Play.Messaging;
@@ -13,7 +12,7 @@ public class KernelEndpoint : IMessageChannel, IHandleKernelRequests, ISendKerne
 {
     #region Static Metadata
 
-    public static readonly ChannelTypeId ChannelTypeId = ChannelType.Kernel;
+    public static readonly ChannelTypeId ChannelTypeId = KernelChannel.Id;
 
     #endregion
 

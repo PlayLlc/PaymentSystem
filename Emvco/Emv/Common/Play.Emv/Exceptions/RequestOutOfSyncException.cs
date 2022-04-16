@@ -2,7 +2,6 @@
 using System.Runtime.CompilerServices;
 
 using Play.Emv.Ber.Enums;
-using Play.Emv.Messaging;
 using Play.Messaging;
 
 namespace Play.Emv.Exceptions;
@@ -16,9 +15,9 @@ public class RequestOutOfSyncException : InvalidSignalRequest
     #region Constructor
 
     public RequestOutOfSyncException(
-        Message message, ChannelType channelType, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
+        Message message, ChannelTypeId channelType, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(RequestOutOfSyncException), fileName, memberName, lineNumber)} \n\rThe request [{message.GetType().FullName}] is invalid for the current state of the [{ChannelType.GetChannelTypeName(channelType)}] channel")
+        $"{TraceExceptionMessage(typeof(RequestOutOfSyncException), fileName, memberName, lineNumber)} \n\rThe request [{message.GetType().FullName}] is invalid for the current state of the channel with the ID: [{channelType}]")
     { }
 
     public RequestOutOfSyncException(

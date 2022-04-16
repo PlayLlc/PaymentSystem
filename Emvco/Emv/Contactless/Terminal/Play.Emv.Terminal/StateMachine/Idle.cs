@@ -7,7 +7,6 @@ using Play.Emv.Configuration;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Messaging;
 using Play.Emv.Reader.Contracts;
 using Play.Emv.Reader.Contracts.SignalIn;
 using Play.Emv.Reader.Contracts.SignalOut;
@@ -96,7 +95,7 @@ internal class Idle : TerminalState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override TerminalState Handle(TerminalSession session, OutReaderResponse signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
+        throw new RequestOutOfSyncException(signal, TerminalChannel.Id);
 
     /// <summary>
     ///     Handle
@@ -106,7 +105,7 @@ internal class Idle : TerminalState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override TerminalState Handle(TerminalSession session, QueryKernelResponse signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
+        throw new RequestOutOfSyncException(signal, TerminalChannel.Id);
 
     /// <summary>
     ///     Handle
@@ -116,7 +115,7 @@ internal class Idle : TerminalState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override TerminalState Handle(TerminalSession session, StopReaderAcknowledgedResponse signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
+        throw new RequestOutOfSyncException(signal, TerminalChannel.Id);
 
     /// <summary>
     ///     There shouldn't be any incoming responses from the Acquirer while we're in the <see cref="Idle" /> state. There are
@@ -128,7 +127,7 @@ internal class Idle : TerminalState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override TerminalState Handle(TerminalSession? session, AcquirerResponseSignal signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
+        throw new RequestOutOfSyncException(signal, TerminalChannel.Id);
 
     /// <summary>
     ///     Handle
@@ -138,7 +137,7 @@ internal class Idle : TerminalState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override TerminalState Handle(TerminalSession session, QueryTerminalRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
+        throw new RequestOutOfSyncException(signal, TerminalChannel.Id);
 
     #endregion
 }

@@ -1,8 +1,6 @@
 ﻿using System;
 
-using Play.Emv.Acquirer.Contracts.SignalOut;
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Messaging;
 using Play.Emv.Reader.Contracts.SignalOut;
 using Play.Emv.Terminal.Configuration;
 using Play.Emv.Terminal.Contracts;
@@ -43,7 +41,7 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
 
     #region Instance Members
 
-    public ChannelTypeId GetChannelTypeId() => ChannelType.Selection;
+    public ChannelTypeId GetChannelTypeId() => TerminalChannel.Id;
     public ChannelIdentifier GetChannelIdentifier() => ChannelIdentifier;
 
     #region Requests
@@ -124,11 +122,6 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
         _TerminalProcess.Enqueue(message);
     }
 
-    void IHandleResponsesToTerminal.Handle(AcquirerResponseSignal message)
-    {
-        _TerminalProcess.Enqueue(message);
-    }
-
     #endregion
 
     public static TerminalEndpoint Create(
@@ -141,4 +134,9 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
     }
 
     #endregion
+
+    //void IHandleResponsesToTerminal.Handle(AcquirerResponseSignal message)
+    //{
+    //    _TerminalProcess.Enqueue(message);
+    //}
 }

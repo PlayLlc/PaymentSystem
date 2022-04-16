@@ -7,7 +7,6 @@ using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
-using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 
 namespace Play.Emv.Kernel2.StateMachine;
@@ -47,7 +46,7 @@ public partial class WaitingForMagStripeReadRecordResponse : KernelState
 
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, ActivateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     #endregion
 
@@ -59,7 +58,7 @@ public partial class WaitingForMagStripeReadRecordResponse : KernelState
     /// <param name="signal"></param>
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+    public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     #endregion
 
@@ -77,7 +76,7 @@ public partial class WaitingForMagStripeReadRecordResponse : KernelState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     /// <summary>
     ///     Handle
@@ -87,7 +86,7 @@ public partial class WaitingForMagStripeReadRecordResponse : KernelState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     #endregion
 }

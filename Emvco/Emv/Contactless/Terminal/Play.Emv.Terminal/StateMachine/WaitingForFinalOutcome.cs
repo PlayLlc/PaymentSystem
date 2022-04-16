@@ -6,8 +6,8 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
-using Play.Emv.Messaging;
 using Play.Emv.Reader.Contracts.SignalOut;
+using Play.Emv.Terminal.Contracts;
 using Play.Emv.Terminal.Contracts.SignalIn;
 using Play.Emv.Terminal.DataExchange;
 using Play.Emv.Terminal.Session;
@@ -58,7 +58,7 @@ internal class WaitingForFinalOutcome : TerminalState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override TerminalState Handle(TerminalSession session, ActivateTerminalRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
+        throw new RequestOutOfSyncException(signal, TerminalChannel.Id);
 
     /// <summary>
     ///     Handle
@@ -73,7 +73,7 @@ internal class WaitingForFinalOutcome : TerminalState
         if (session.GetTransactionSessionId() != signal.GetTransactionSessionId())
         {
             throw new RequestOutOfSyncException(
-                $"The {nameof(QueryTerminalRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(ChannelType.Terminal)} session has a {nameof(TransactionSessionId)} of: [{session.GetTransactionSessionId()}]");
+                $"The {nameof(QueryTerminalRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(TerminalChannel)} session has a {nameof(TransactionSessionId)} of: [{session.GetTransactionSessionId()}]");
         }
 
         if (!signal.TryGetKernelSessionId(out KernelSessionId? kernelSessionId))
@@ -88,7 +88,7 @@ internal class WaitingForFinalOutcome : TerminalState
         // HACK: Need to inject logic to determine whether or not we communicate with the acquirer
 
         AcquirerMessageFactory factory = _AcquirerEndpoint.GetMessageFactory(session!.MessageTypeIndicator);
-        DataNeeded neededData = factory.GetDataNeeded(session!.MessageTypeIndicator);
+        DataNeeded neededData = new(factory.GetDataNeeded(session!.MessageTypeIndicator));
 
         _DataExchangeTerminalService.Enqueue(neededData);
         _DataExchangeTerminalService.QueryKernel(session.GetTransactionSessionId(), kernelSessionId!.Value.GetKernelId());
@@ -109,7 +109,7 @@ internal class WaitingForFinalOutcome : TerminalState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override TerminalState Handle(TerminalSession? session, AcquirerResponseSignal signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
+        throw new RequestOutOfSyncException(signal, TerminalChannel.Id);
 
     /// <summary>
     ///     Handle

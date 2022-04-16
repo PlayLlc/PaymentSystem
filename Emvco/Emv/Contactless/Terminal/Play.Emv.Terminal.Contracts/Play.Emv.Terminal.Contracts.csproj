@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\Interchange\Source\Acquirer\Play.Emv.Acquirer.Contracts\Play.Emv.Acquirer.Contracts.csproj" />
     <ProjectReference Include="..\..\..\Common\Play.Emv\Play.Emv.csproj" />
   </ItemGroup>
 

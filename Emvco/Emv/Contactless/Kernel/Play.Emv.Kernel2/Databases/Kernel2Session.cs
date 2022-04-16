@@ -1,7 +1,6 @@
 ﻿using Play.Emv.Ber;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Identifiers;
-using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Messaging;
 

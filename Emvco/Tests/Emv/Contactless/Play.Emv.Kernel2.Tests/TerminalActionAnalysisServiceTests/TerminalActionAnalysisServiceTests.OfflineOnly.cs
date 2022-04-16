@@ -1,4 +1,6 @@
-﻿using Play.Ber.Exceptions;
+﻿using System;
+
+using Play.Ber.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;

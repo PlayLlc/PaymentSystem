@@ -174,6 +174,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Testing.Emv.Contactles
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Testing.Infrastructure", "Tests\Common\Play.Testing.Infrastructure\Play.Testing.Infrastructure.csproj", "{5C16FBC9-A94F-4640-840E-B263DD47833A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Acquirer", "Acquirer", "{69C1955C-655F-4958-8C6B-243C39CEF0D7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play.Emv.Acquirer.Contracts", "..\..\Interchange\Source\Acquirer\Play.Emv.Acquirer.Contracts\Play.Emv.Acquirer.Contracts.csproj", "{93C93ACC-F0FB-4AE8-B1D3-569CF7036109}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -420,6 +424,10 @@ Global
 		{5C16FBC9-A94F-4640-840E-B263DD47833A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C16FBC9-A94F-4640-840E-B263DD47833A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C16FBC9-A94F-4640-840E-B263DD47833A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93C93ACC-F0FB-4AE8-B1D3-569CF7036109}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93C93ACC-F0FB-4AE8-B1D3-569CF7036109}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93C93ACC-F0FB-4AE8-B1D3-569CF7036109}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93C93ACC-F0FB-4AE8-B1D3-569CF7036109}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -502,6 +510,8 @@ Global
 		{80F6B483-7E2A-4BAA-AFB8-E4EC11201315} = {247ED294-E784-42BB-92C7-3DEBFB90580A}
 		{F32E9845-5246-45F8-AEB7-99B0BFD1D9CD} = {247ED294-E784-42BB-92C7-3DEBFB90580A}
 		{5C16FBC9-A94F-4640-840E-B263DD47833A} = {247ED294-E784-42BB-92C7-3DEBFB90580A}
+		{69C1955C-655F-4958-8C6B-243C39CEF0D7} = {4AB74B06-60FD-45F7-B46A-809A7A5DC33F}
+		{93C93ACC-F0FB-4AE8-B1D3-569CF7036109} = {69C1955C-655F-4958-8C6B-243C39CEF0D7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E9927CF8-C10C-47E1-87FD-7ACEEBCD340D}

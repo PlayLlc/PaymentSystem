@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Messaging;
+﻿using Play.Messaging;
 
 namespace Play.Emv.Kernel.Contracts
 {
-    public readonly record struct Kernel2Channel
+    public readonly record struct KernelChannel
     {
         #region Static Metadata
 
@@ -24,12 +18,12 @@ namespace Play.Emv.Kernel.Contracts
 
         #region Constructor
 
-        static Kernel2Channel()
+        static KernelChannel()
         {
-            Id = new ChannelTypeId(nameof(Kernel2Channel));
+            Id = new ChannelTypeId(nameof(KernelChannel));
         }
 
-        private Kernel2Channel(ChannelTypeId value)
+        private KernelChannel(ChannelTypeId value)
         {
             _Value = value;
         }
@@ -38,7 +32,7 @@ namespace Play.Emv.Kernel.Contracts
 
         #region Operator Overrides
 
-        public static explicit operator ChannelTypeId(Kernel2Channel value) => value._Value;
+        public static explicit operator ChannelTypeId(KernelChannel value) => value._Value;
 
         #endregion
     }

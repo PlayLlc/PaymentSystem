@@ -7,7 +7,6 @@ using Play.Emv.Ber.Exceptions;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
-using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Selection.Contracts;
 using Play.Emv.Selection.Start;

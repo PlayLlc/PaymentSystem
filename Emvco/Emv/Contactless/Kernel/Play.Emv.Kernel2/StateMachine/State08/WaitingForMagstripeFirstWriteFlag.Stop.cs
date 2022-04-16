@@ -1,4 +1,6 @@
-﻿using Play.Emv.Ber;
+﻿using System;
+
+using Play.Emv.Ber;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.State;

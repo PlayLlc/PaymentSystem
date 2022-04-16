@@ -1,4 +1,5 @@
-﻿using Play.Emv.Ber;
+﻿using Play.Emv.Acquirer.Contracts;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Messaging;
 using Play.Messaging;
@@ -10,7 +11,7 @@ public record ActivateTerminalRequest : RequestSignal
     #region Static Metadata
 
     public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(ActivateTerminalRequest));
-    public static readonly ChannelTypeId ChannelTypeId = ChannelType.Terminal;
+    public static readonly ChannelTypeId ChannelTypeId = TerminalChannel.Id;
 
     #endregion
 

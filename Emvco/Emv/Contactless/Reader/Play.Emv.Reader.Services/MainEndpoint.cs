@@ -3,8 +3,8 @@
 using Play.Emv.Display.Contracts;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Services;
-using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
+using Play.Emv.Reader.Contracts;
 using Play.Emv.Reader.Contracts.SignalIn;
 using Play.Emv.Reader.Contracts.SignalOut;
 using Play.Emv.Selection.Contracts;
@@ -17,7 +17,7 @@ public class MainEndpoint : IMessageChannel, IReaderEndpoint, IHandleResponsesTo
 {
     #region Static Metadata
 
-    public static readonly ChannelTypeId SelectionSessionId = ChannelType.Reader;
+    public static readonly ChannelTypeId SelectionSessionId = ReaderChannel.Id;
 
     #endregion
 

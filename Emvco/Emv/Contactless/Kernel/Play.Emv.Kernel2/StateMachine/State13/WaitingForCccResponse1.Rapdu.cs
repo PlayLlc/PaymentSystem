@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
-
-using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs;
 using Play.Emv.Ber;
@@ -15,7 +12,6 @@ using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.State;
-using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Globalization.Time.Seconds;
 

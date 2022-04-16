@@ -9,7 +9,6 @@ using Play.Emv.Kernel.Services;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Services.BalanceReading;
 using Play.Emv.Kernel2.Services.PrepareGenerateAc;
-using Play.Emv.Messaging;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security;
 
