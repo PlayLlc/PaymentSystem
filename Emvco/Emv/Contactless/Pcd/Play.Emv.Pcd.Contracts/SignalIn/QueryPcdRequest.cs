@@ -14,7 +14,7 @@ public record QueryPcdRequest : RequestSignal
 {
     #region Static Metadata
 
-    public static readonly ChannelTypeId ChannelTypeId = ChannelType.ProximityCouplingDevice;
+    public static readonly ChannelTypeId ChannelTypeId = ProximityCouplingDeviceChannel.Id;
 
     #endregion
 

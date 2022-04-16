@@ -12,7 +12,7 @@ public record ActivatePcdRequest : RequestSignal
     #region Static Metadata
 
     public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(ActivatePcdRequest));
-    public static readonly ChannelTypeId ChannelTypeId = ChannelType.ProximityCouplingDevice;
+    public static readonly ChannelTypeId ChannelTypeId = ProximityCouplingDeviceChannel.Id;
 
     #endregion
 

@@ -12,7 +12,7 @@ public record StopPcdAcknowledgedResponse : ResponseSignal
     #region Static Metadata
 
     public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(StopPcdAcknowledgedResponse));
-    public static readonly ChannelTypeId ChannelTypeId = ChannelType.ProximityCouplingDevice;
+    public static readonly ChannelTypeId ChannelTypeId = ProximityCouplingDeviceChannel.Id;
 
     #endregion
 
