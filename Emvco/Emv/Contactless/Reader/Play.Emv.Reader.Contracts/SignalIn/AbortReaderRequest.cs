@@ -9,7 +9,7 @@ public record AbortReaderRequest : RequestSignal, IExchangeDataWithTheTerminal
     #region Static Metadata
 
     public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(AbortReaderRequest));
-    public static readonly ChannelTypeId ChannelTypeId = ChannelType.Reader;
+    public static readonly ChannelTypeId ChannelTypeId = ReaderChannel.Id;
 
     #endregion
 

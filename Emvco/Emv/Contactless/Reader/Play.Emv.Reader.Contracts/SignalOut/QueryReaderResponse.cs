@@ -12,7 +12,7 @@ public record QueryReaderResponse : ResponseSignal, IExchangeDataWithTheTerminal
     #region Static Metadata
 
     public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(QueryReaderResponse));
-    public static readonly ChannelTypeId ChannelTypeId = ChannelType.Reader;
+    public static readonly ChannelTypeId ChannelTypeId = ReaderChannel.Id;
 
     #endregion
 

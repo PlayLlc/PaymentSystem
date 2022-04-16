@@ -10,7 +10,7 @@ public record OutReaderResponse : ResponseSignal
     #region Static Metadata
 
     public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(OutReaderResponse));
-    public static readonly ChannelTypeId ChannelTypeId = ChannelType.Reader;
+    public static readonly ChannelTypeId ChannelTypeId = ReaderChannel.Id;
 
     #endregion
 
