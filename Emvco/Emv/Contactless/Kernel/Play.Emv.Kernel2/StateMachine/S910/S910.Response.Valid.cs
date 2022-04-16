@@ -297,7 +297,7 @@ internal partial class S910
         private void HandleDisplayMessage(Kernel2Session session)
         {
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-            _Database.SetUiRequestOnRestartPresent(true);
+            _Database.SetUiRequestOnOutcomePresent(true);
 
             _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
         }

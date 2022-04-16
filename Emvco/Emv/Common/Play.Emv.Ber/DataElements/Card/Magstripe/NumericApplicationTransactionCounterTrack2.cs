@@ -30,7 +30,7 @@ public record NumericApplicationTransactionCounterTrack2 : DataElement<byte>
 
     #region Instance Members
 
-    public int GetSetBitCount() => _Value.GetBitCount();
+    public int GetSetBitCount() => _Value.GetSetBitCount();
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 

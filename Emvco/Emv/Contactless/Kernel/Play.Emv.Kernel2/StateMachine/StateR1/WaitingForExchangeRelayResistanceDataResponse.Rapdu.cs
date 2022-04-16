@@ -82,7 +82,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         _Database.Update(new MessageHoldTime(0));
         _Database.Update(StatusOutcome.EndApplication);
         _Database.Update(StartOutcome.B);
-        _Database.SetUiRequestOnRestartPresent(true);
+        _Database.SetUiRequestOnOutcomePresent(true);
         _Database.Update(signal.GetLevel1Error());
         _Database.Update(MessageOnErrorIdentifiers.TryAgain);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
@@ -111,7 +111,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         _Database.Update(Level2Error.StatusBytes);
         _Database.Update(signal.GetStatusWords());
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-        _Database.SetUiRequestOnRestartPresent(true);
+        _Database.SetUiRequestOnOutcomePresent(true);
 
         _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
 
@@ -189,7 +189,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.CardDataError);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-        _Database.SetUiRequestOnRestartPresent(true);
+        _Database.SetUiRequestOnOutcomePresent(true);
 
         _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
     }

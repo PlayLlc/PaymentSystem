@@ -248,11 +248,8 @@ public class NumericCodec : PlayCodec
 
     #region Deprecated
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
+
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T value)
@@ -280,12 +277,8 @@ public class NumericCodec : PlayCodec
         return Encode(Unsafe.As<_T, BigInteger>(ref value));
     }
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="length"></param>
-    /// <returns></returns>
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
+
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T value, int length)
     {
@@ -314,11 +307,8 @@ public class NumericCodec : PlayCodec
         return Encode(Unsafe.As<_T, BigInteger>(ref value), length);
     }
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
+
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T[] value)
     {
@@ -334,12 +324,8 @@ public class NumericCodec : PlayCodec
         return Encode(Unsafe.As<_T[], byte[]>(ref value));
     }
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="length"></param>
-    /// <returns></returns>
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
+
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T[] value, int length)
     {
@@ -355,12 +341,8 @@ public class NumericCodec : PlayCodec
         return Encode(Unsafe.As<_T[], byte[]>(ref value), length);
     }
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="buffer"></param>
-    /// <param name="offset"></param>
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
+
     /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
     {
@@ -391,13 +373,8 @@ public class NumericCodec : PlayCodec
             Encode(Unsafe.As<_T, BigInteger>(ref value), buffer, ref offset);
     }
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="length"></param>
-    /// <param name="buffer"></param>
-    /// <param name="offset"></param>
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
+
     /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset)
     {
@@ -430,12 +407,8 @@ public class NumericCodec : PlayCodec
             Encode(Unsafe.As<_T, BigInteger>(ref value), length, buffer, ref offset);
     }
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="buffer"></param>
-    /// <param name="offset"></param>
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
+
     /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
     {
@@ -445,13 +418,8 @@ public class NumericCodec : PlayCodec
             throw new CodecParsingException(this, typeof(_T));
     }
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="length"></param>
-    /// <param name="buffer"></param>
-    /// <param name="offset"></param>
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
+
     /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
     {
@@ -462,23 +430,6 @@ public class NumericCodec : PlayCodec
     }
 
     #endregion
-
-    /// <param name="value"></param>
-    /// <param name="buffer"></param>
-    /// <param name="offset">The number of bytes to offset</param>
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="PlayInternalException"></exception>
-    public void Encode(ReadOnlySpan<Nibble> value, Span<byte> buffer, ref int offset)
-    {
-        int byteCount = (value.Length / 2) + (value.Length % 2);
-
-        if (byteCount < (buffer.Length - offset))
-            throw new CodecParsingException($"The {nameof(buffer)} argument was too small to encode the provided value");
-
-        value.CopyTo(buffer[offset..(byteCount + offset)]);
-
-        offset += byteCount;
-    }
 
     public byte[] Encode(ReadOnlySpan<char> value) => Encode(value, value.Length);
 
@@ -647,13 +598,25 @@ public class NumericCodec : PlayCodec
         return buffer.Length;
     }
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="length"></param>
-    /// <param name="buffer"></param>
-    /// <param name="offset"></param>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
+    public void Encode(ReadOnlySpan<Nibble> value, Span<byte> buffer)
+    {
+        int byteCount = (value.Length / 2) + (value.Length % 2);
+
+        if (byteCount < buffer.Length)
+            throw new CodecParsingException($"The {nameof(buffer)} argument was too small to encode the provided value");
+
+        // BUG: Numeric Encoding is left padded. This looks like it's right padded
+        for (int i = 0; i < value.Length; i++)
+        {
+            if ((i % 2) == 0)
+                buffer[i / 2] = (byte) (value[i] << 4);
+            else
+                buffer[i / 2] |= value[i];
+        }
+    }
+
     /// <exception cref="CodecParsingException"></exception>
     public void Encode(ReadOnlySpan<char> value, int length, Span<byte> buffer, ref int offset)
     {
@@ -758,6 +721,24 @@ public class NumericCodec : PlayCodec
         }
 
         return resultBuffer;
+    }
+
+    public Nibble[] DecodeToNibbles(ReadOnlySpan<byte> value)
+    {
+        Nibble[] result = new Nibble[value.Length * 2];
+
+        for (int i = 0; i < result.Length; i++)
+        {
+            if (!IsValid(value[i]))
+                throw new CodecParsingException($"The argument provided was not in a valid {nameof(NumericCodec)} format");
+
+            if ((i % 2) == 0)
+                result[i] = new Nibble((byte) (value[i / 2] >> 4));
+            else
+                result[i] = new Nibble(value[i / 2].GetMaskedValue(0xF0));
+        }
+
+        return result;
     }
 
     public byte DecodeToByte(ReadOnlySpan<byte> value)

@@ -112,7 +112,7 @@ public partial class WaitingForGenerateAcResponse2
                 _Database.SetIsDataRecordPresent(true);
                 _Database.CreateEmvDataRecord(_DataExchangeKernelService);
                 _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-                _Database.SetUiRequestOnRestartPresent(true);
+                _Database.SetUiRequestOnOutcomePresent(true);
             }
             catch (TerminalDataException)
             {
@@ -132,7 +132,7 @@ public partial class WaitingForGenerateAcResponse2
 
         #endregion
 
-        #region S11.95
+        #region S11.95, S11.102
 
         /// <remarks>EMV Book C-2 S11.95</remarks>
         private void HandleInvalidOutcome(KernelSessionId sessionId)
@@ -142,7 +142,7 @@ public partial class WaitingForGenerateAcResponse2
                 _Database.Update(StatusOutcome.EndApplication);
                 _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
                 _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-                _Database.SetUiRequestOnRestartPresent(true);
+                _Database.SetUiRequestOnOutcomePresent(true);
             }
             catch (TerminalDataException)
             {

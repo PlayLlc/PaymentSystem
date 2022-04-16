@@ -1,6 +1,6 @@
 ﻿using Play.Emv.Ber.DataElements;
 
-namespace Play.Emv.Ber.ValueTypes;
+namespace Play.Emv.Ber;
 
 /// <summary>
 ///     A key that identifies a <see cref="Record" />

@@ -18,6 +18,7 @@ public class KernelSession
 {
     #region Instance Values
 
+    // TODO: These session variables can be moved to the KernelDatabase's Scratchpad
     public readonly StopwatchManager Stopwatch = new();
     public readonly TimeoutManager Timer = new();
     private readonly KernelSessionId _KernelSessionId;

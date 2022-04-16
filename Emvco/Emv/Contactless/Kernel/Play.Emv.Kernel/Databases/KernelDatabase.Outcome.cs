@@ -102,7 +102,6 @@ public partial class KernelDatabase
     }
 
     /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
     public Outcome GetOutcome() =>
         new(GetErrorIndication(), GetOutcomeParameterSet(), GetDataRecord(), GetDiscretionaryData(), GetUserInterfaceRequestData());
 
@@ -140,6 +139,7 @@ public partial class KernelDatabase
         KernelOutcome.CreateMagstripeDiscretionaryData(this, dataExchanger);
     }
 
+    // BUG: You need to differentiate between the MessageOnErrorIdentifiers and the MessageIdentifiers. They serve two different purposes
     /// <exception cref="TerminalDataException"></exception>
     public void Update(MessageIdentifiers value)
     {
@@ -387,6 +387,29 @@ public partial class KernelDatabase
 
     /// <exception cref="TerminalDataException"></exception>
     public void SetUiRequestOnRestartPresent(bool value)
+    {
+        try
+        {
+            _OutcomeParameterSetBuilder.Reset(GetOutcomeParameterSet());
+            _OutcomeParameterSetBuilder.SetIsUiRequestOnRestartPresent(value);
+            Update(_OutcomeParameterSetBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(OutcomeParameterSet)}", exception);
+        }
+    }
+
+    /// <exception cref="TerminalDataException"></exception>
+    public void SetUiRequestOnOutcomePresent(bool value)
     {
         try
         {

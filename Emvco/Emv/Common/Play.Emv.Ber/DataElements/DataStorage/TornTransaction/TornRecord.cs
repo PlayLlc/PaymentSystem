@@ -3,9 +3,8 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core;
 using Play.Emv.Ber.Exceptions;
-using Play.Emv.Ber.ValueTypes;
-using Play.Emv.Kernel.Services;
 using Play.Globalization.Time;
 using Play.Globalization.Time.Seconds;
 
@@ -62,7 +61,7 @@ public record TornRecord : DataExchangeResponse
     [SuppressMessage("Design", "Ex0100:Member may throw undocumented exception", Justification = "<Pending>")]
     public static TornRecord CreateEmptyTornRecord()
     {
-        ApplicationPan mandatoryRecordObject1 = new(0);
+        ApplicationPan mandatoryRecordObject1 = new(new PrimaryAccountNumber(Array.Empty<Nibble>()));
         ApplicationPanSequenceNumber mandatoryRecordObject2 = new(0);
 
         return new TornRecord(Record.Create(new PrimitiveValue[] {mandatoryRecordObject1, mandatoryRecordObject2}));

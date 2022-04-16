@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Immutable;
 
 using Play.Core;
-using Play.Core.Extensions;
 
-namespace Play.Emv.Ber.Enumsd;
+namespace Play.Emv.Ber.Enums;
 
 public record DeviceTypes : EnumObject<ushort>
 {

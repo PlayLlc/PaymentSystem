@@ -13,7 +13,7 @@ namespace Play.Emv.Ber.DataElements;
 /// <summary>
 ///     Valid cardholder account number
 /// </summary>
-public record ApplicationPan : DataElement<BigInteger>
+public record ApplicationPan : DataElement<PrimaryAccountNumber>
 {
     #region Static Metadata
 
@@ -26,7 +26,7 @@ public record ApplicationPan : DataElement<BigInteger>
 
     #region Constructor
 
-    public ApplicationPan(BigInteger value) : base(value)
+    public ApplicationPan(PrimaryAccountNumber value) : base(value)
     { }
 
     #endregion
@@ -50,7 +50,7 @@ public record ApplicationPan : DataElement<BigInteger>
     {
         const byte minDataStorageIdLength = 8;
 
-        Span<byte> valueBuffer = _Value.ToByteArray().RemoveLeftPadding(new Nibble(0xF));
+        Span<byte> valueBuffer = _Value.Encode().RemoveLeftPadding(new Nibble(0xF));
 
         int resultByteCount = valueBuffer.Length + (sequenceNumber == null ? 0 : 1);
 
@@ -74,9 +74,10 @@ public record ApplicationPan : DataElement<BigInteger>
     /// <param name="issuerIdentifier"></param>
     /// <returns></returns>
     /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
     public bool IsIssuerIdentifierMatching(IssuerIdentificationNumber issuerIdentifier)
     {
-        uint thisPan = PlayCodec.NumericCodec.DecodeToUInt16(PlayCodec.NumericCodec.Encode(_Value));
+        uint thisPan = PlayCodec.NumericCodec.DecodeToUInt16(PlayCodec.NumericCodec.Encode(_Value.Encode()[2..8]));
 
         return thisPan == (uint) issuerIdentifier;
     }
@@ -95,43 +96,31 @@ public record ApplicationPan : DataElement<BigInteger>
     }
 
     /// <exception cref="OverflowException"></exception>
-    private bool IsCheckSumValid()
-    {
-        Nibble[] pan = _Value.ToByteArray().AsNibbleArray();
-
-        for (int i = pan.Length - 1, j = 0; i >= 0; i--, j++)
-        {
-            if ((j % 2) != 0)
-                pan[i] *= 2;
-        }
-
-        int sum = 0;
-
-        for (int i = 0; i < pan.Length; i++)
-            sum += (pan[i] % 10) + ((pan[i] / 10) % 10);
-
-        return (sum % 10) == 0;
-    }
+    private bool IsCheckSumValid() => _Value.IsCheckSumValid();
 
     #endregion
 
     #region Serialization
 
     /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
     public static ApplicationPan Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
     public override ApplicationPan Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
     public static ApplicationPan Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteCount, Tag);
 
-        BigInteger result = PlayCodec.NumericCodec.DecodeToBigInteger(value);
+        Nibble[] result = PlayCodec.NumericCodec.DecodeToNibbles(value);
 
-        Check.Primitive.ForMaxCharLength(result.GetNumberOfDigits(), _MaxCharCount, Tag);
+        Check.Primitive.ForMaxCharLength(result.Length, _MaxCharCount, Tag);
 
-        return new ApplicationPan(result);
+        return new ApplicationPan(new PrimaryAccountNumber(result));
     }
 
     #endregion

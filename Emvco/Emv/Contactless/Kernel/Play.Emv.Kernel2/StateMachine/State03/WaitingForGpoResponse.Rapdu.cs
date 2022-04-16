@@ -202,7 +202,7 @@ public partial class WaitingForGpoResponse : KernelState
         _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _Database.GetErrorIndication());
-        _Database.SetUiRequestOnRestartPresent(true);
+        _Database.SetUiRequestOnOutcomePresent(true);
 
         _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
     }

@@ -22,9 +22,21 @@ public readonly record struct NumberOfNonZeroBits
         _Value = (byte) (punatc.GetSetBitCount() - natc.GetSetBitCount());
     }
 
+    public NumberOfNonZeroBits(PositionOfCardVerificationCode3Track2 value)
+    {
+        _Value = (byte) value.GetSetBitCount();
+    }
+
+    private NumberOfNonZeroBits(byte value)
+    {
+        _Value = value;
+    }
+
     #endregion
 
     #region Instance Members
+
+    public NumberOfNonZeroBits AsPlusFiveModuloTen() => new((byte) ((_Value + 5) % 10));
 
     /// <summary>
     ///     Validates whether the Track 2 object that initialized this object are in a valid range

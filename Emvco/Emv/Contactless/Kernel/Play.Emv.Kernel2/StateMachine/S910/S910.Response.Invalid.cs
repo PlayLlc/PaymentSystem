@@ -100,7 +100,7 @@ internal partial class S910
                 _Database.SetIsDataRecordPresent(true);
                 _Database.CreateEmvDataRecord(_DataExchangeKernelService);
                 _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-                _Database.SetUiRequestOnRestartPresent(true);
+                _Database.SetUiRequestOnOutcomePresent(true);
             }
             catch (TerminalDataException)
             {
@@ -128,7 +128,7 @@ internal partial class S910
                 _Database.Update(StatusOutcome.EndApplication);
                 _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
                 _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-                _Database.SetUiRequestOnRestartPresent(true);
+                _Database.SetUiRequestOnOutcomePresent(true);
             }
             catch (TerminalDataException)
             {

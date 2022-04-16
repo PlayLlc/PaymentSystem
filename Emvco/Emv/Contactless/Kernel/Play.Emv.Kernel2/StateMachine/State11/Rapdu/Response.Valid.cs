@@ -6,7 +6,6 @@ using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
 using Play.Emv.Ber.Enums;
-using Play.Emv.Ber.Enumsd;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Identifiers;
@@ -297,7 +296,7 @@ public partial class WaitingForGenerateAcResponse2
         {
             _DisplayEndpoint.Request(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-            _Database.SetUiRequestOnRestartPresent(true);
+            _Database.SetUiRequestOnOutcomePresent(true);
             _Database.Update(Status.ReadyToRead);
             _Database.Update(MessageHoldTime.MinimumValue);
 

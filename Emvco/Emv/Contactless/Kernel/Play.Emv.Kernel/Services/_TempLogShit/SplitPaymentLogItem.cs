@@ -1,10 +1,9 @@
 ﻿using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
-using Play.Emv.Ber.ValueTypes;
 using Play.Globalization.Currency;
 
-namespace Play.Emv.Kernel.Services;
+namespace Play.Emv.Kernel.Services._TempLogShit;
 
 /// <summary>
 ///     Maintains a log of transactions to aid in Split Payment scenarios. The <see cref="ICoordinateSplitPayments" /> will

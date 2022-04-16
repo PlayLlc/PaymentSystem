@@ -34,8 +34,6 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     #endregion
 
-    #region RAPDU
-
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="BerParsingException"></exception>
@@ -120,7 +118,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         _Database.Update(Level2Error.StatusBytes);
         _Database.Update(signal.GetStatusWords());
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-        _Database.SetUiRequestOnRestartPresent(true);
+        _Database.SetUiRequestOnOutcomePresent(true);
 
         _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
 
@@ -205,7 +203,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         database.Update(Level2Error.ParsingError);
         database.CreateEmvDiscretionaryData(dataExchanger);
-        database.SetUiRequestOnRestartPresent(true);
+        database.SetUiRequestOnOutcomePresent(true);
 
         kernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
     }
@@ -467,8 +465,6 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
         _PcdEndpoint.Request(ReadRecordRequest.Create(session.GetTransactionSessionId(), recordRange.GetShortFileIdentifier()));
     }
-
-    #endregion
 
     #endregion
 }

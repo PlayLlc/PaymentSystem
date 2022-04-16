@@ -367,7 +367,7 @@ public class S456 : CommonProcessing
         _Database.Update(StatusOutcome.EndApplication);
         _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.CardDataMissing);
-        _Database.SetUiRequestOnRestartPresent(true);
+        _Database.SetUiRequestOnOutcomePresent(true);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
         _KernelEndpoint.Request(new StopKernelRequest(sessionId));
@@ -427,7 +427,7 @@ public class S456 : CommonProcessing
         _Database.Update(StatusOutcome.EndApplication);
         _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.CardDataError);
-        _Database.SetUiRequestOnRestartPresent(true);
+        _Database.SetUiRequestOnOutcomePresent(true);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
         _KernelEndpoint.Request(new StopKernelRequest(sessionId));
@@ -621,7 +621,7 @@ public class S456 : CommonProcessing
         _Database.Update(StatusOutcome.EndApplication);
         _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.CardDataError);
-        _Database.SetUiRequestOnRestartPresent(true);
+        _Database.SetUiRequestOnOutcomePresent(true);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
         _KernelEndpoint.Request(new StopKernelRequest(sessionId));

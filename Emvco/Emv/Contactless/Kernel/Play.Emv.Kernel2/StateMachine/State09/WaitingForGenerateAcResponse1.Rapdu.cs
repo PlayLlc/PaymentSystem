@@ -6,7 +6,6 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
-using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
@@ -165,7 +164,7 @@ public partial class WaitingForGenerateAcResponse1
 
             _Database.Update(StatusOutcome.EndApplication);
             _Database.Update(StartOutcome.B);
-            _Database.SetUiRequestOnRestartPresent(true);
+            _Database.SetUiRequestOnOutcomePresent(true);
             _Database.Update(signal.GetLevel1Error());
             _Database.Update(MessageOnErrorIdentifiers.TryAgain);
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);

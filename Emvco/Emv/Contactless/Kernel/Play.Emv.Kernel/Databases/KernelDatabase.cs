@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Core;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
@@ -32,6 +33,7 @@ public partial class KernelDatabase : IManageKernelDatabaseLifetime
         _PersistentValues = persistentValues;
         _KnownObjects = knownObjects;
         _Database = new SortedDictionary<Tag, PrimitiveValue?>();
+        FailedMagstripeCounter = new SequenceCounter(0, int.MaxValue, 1);
         SeedDatabase();
     }
 

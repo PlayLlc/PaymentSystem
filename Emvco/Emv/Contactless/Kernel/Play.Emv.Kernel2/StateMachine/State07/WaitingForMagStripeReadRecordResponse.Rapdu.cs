@@ -128,7 +128,7 @@ public partial class WaitingForMagStripeReadRecordResponse
             _Database.Update(Level2Error.StatusBytes);
             _Database.Update(signal.GetStatusWords());
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-            _Database.SetUiRequestOnRestartPresent(true);
+            _Database.SetUiRequestOnOutcomePresent(true);
 
             return true;
         }
@@ -223,7 +223,7 @@ public partial class WaitingForMagStripeReadRecordResponse
             _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
             _Database.Update(Level2Error.ParsingError);
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-            _Database.SetUiRequestOnRestartPresent(true);
+            _Database.SetUiRequestOnOutcomePresent(true);
         }
         catch (TerminalDataException)
         {
@@ -285,7 +285,7 @@ public partial class WaitingForMagStripeReadRecordResponse
             _Database.Update(StatusOutcome.EndApplication);
             _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
             _Database.Update(Level2Error.CardDataMissing);
-            _Database.SetUiRequestOnRestartPresent(true);
+            _Database.SetUiRequestOnOutcomePresent(true);
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
             _KernelEndpoint.Request(new StopKernelRequest(sessionId));
@@ -404,7 +404,7 @@ public partial class WaitingForMagStripeReadRecordResponse
             _Database.Update(StatusOutcome.EndApplication);
             _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
             _Database.Update(Level2Error.CardDataMissing);
-            _Database.SetUiRequestOnRestartPresent(true);
+            _Database.SetUiRequestOnOutcomePresent(true);
             _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
         }
         catch (TerminalDataException)

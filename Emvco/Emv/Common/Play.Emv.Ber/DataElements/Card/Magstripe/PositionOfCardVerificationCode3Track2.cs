@@ -2,6 +2,7 @@
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -31,6 +32,7 @@ public record PositionOfCardVerificationCode3Track2 : DataElement<ulong>
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
+    public int GetSetBitCount() => _Value.GetSetBitCount();
 
     #endregion
 

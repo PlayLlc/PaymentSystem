@@ -1,4 +1,6 @@
-﻿using Play.Emv.Ber.DataElements;
+﻿using Play.Core;
+using Play.Emv.Ber;
+using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Kernel.Services;
 
@@ -8,6 +10,7 @@ public partial class KernelDatabase
 {
     #region Instance Values
 
+    public SequenceCounterThreshold FailedMagstripeCounter;
     private readonly ScratchPad _ScratchPad;
 
     #endregion
