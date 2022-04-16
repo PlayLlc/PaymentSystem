@@ -11,7 +11,7 @@ public record QueryTerminalRequest : RequestSignal, IExchangeDataWithTheKernel
     #region Static Metadata
 
     public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(QueryTerminalRequest));
-    public static readonly ChannelTypeId ChannelTypeId = ChannelType.Terminal;
+    public static readonly ChannelTypeId ChannelTypeId = TerminalChannel.Id;
 
     #endregion
 
