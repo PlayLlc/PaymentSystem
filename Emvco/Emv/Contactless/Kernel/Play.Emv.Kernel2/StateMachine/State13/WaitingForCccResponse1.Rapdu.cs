@@ -62,7 +62,7 @@ public partial class WaitingForCccResponse1
         UpdateTrack2Data();
 
         // S13.20 - S13.22
-        UpdateTrack1Data();
+        UpdateTrack1Data(nun);
 
         // S13.42.1 - S13.43 
         return _KernelStateResolver.GetKernelState(Idle.StateId);
@@ -320,7 +320,7 @@ public partial class WaitingForCccResponse1
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    private void UpdateTrack2Data()
+    private void UpdateTrack2Data(NumberOfNonZeroBits nun)
     {
         _Database.FailedMagstripeCounter.Reset();
         PositionOfCardVerificationCode3Track2 pcvc = _Database.Get<PositionOfCardVerificationCode3Track2>(PositionOfCardVerificationCode3Track2.Tag);

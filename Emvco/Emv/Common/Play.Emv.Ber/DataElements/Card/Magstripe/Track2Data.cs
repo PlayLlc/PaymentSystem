@@ -65,18 +65,25 @@ public record Track2Data : DataElement<Track2>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public Track2Data UpdateDiscretionaryData(
-        CardholderVerificationCode3Track2 cvc, PositionOfCardVerificationCode3Track2 pcvc, PunatcTrack2 punatc, UnpredictableNumber unpredictableNumber,
-        NumericApplicationTransactionCounterTrack2 natc, ApplicationTransactionCounter atc)
+        NumberOfNonZeroBits nun, CardholderVerificationCode3Track2 cvc, PositionOfCardVerificationCode3Track2 pcvc, PunatcTrack2 punatc,
+        UnpredictableNumber unpredictableNumber, NumericApplicationTransactionCounterTrack2 natc, ApplicationTransactionCounter atc)
     {
+        //char[] discretionaryData = GetTrack1DiscretionaryData().AsCharArray();
+        //byte qNumberOfChars = new NumberOfNonZeroBits(pcvc);
+        //byte nunNumberOfChars = nun;
+        //byte tNumberOfChars = new NumberOfNonZeroBits(natc);
+
         Nibble[] discretionaryData = GetTrack2DiscretionaryData().AsNibbleArray();
+        byte qNumberOfDigits = new NumberOfNonZeroBits(pcvc);
+        byte nunNumberOfDigits = (byte) nun;
+        byte tNumberOfDigits = (byte) natc;
 
-        // BUG: We need separately the BCD number aaaand the digits. You can't use digitsToCopy.Length
-        // Convert the binary encoded CVC3 (Track2) to the BCD encoding of the corresponding number expressed in base 10. 
-        Nibble[] digitsToCopy = PlayCodec.NumericCodec.DecodeToNibbles(cvc.EncodeValue());
+        ReadOnlySpan<Nibble> pcvcIndexArray = pcvc.GetBitFlagIndex();
+        ReadOnlySpan<Nibble> punatcIndexArray = punatc.GetBitFlagIndex();
 
-        UpdateDiscretionaryData(discretionaryData, digitsToCopy, pcvc);
-        UpdateDiscretionaryData(discretionaryData, digitsToCopy.Length, unpredictableNumber, punatc);
-        UpdateDiscretionaryData(discretionaryData, digitsToCopy.Length, natc, atc, punatc);
+        UpdateDiscretionaryData(discretionaryData, qNumberOfDigits, cvc, pcvcIndexArray);
+        UpdateDiscretionaryData(discretionaryData, nunNumberOfDigits, unpredictableNumber, punatcIndexArray[^nunNumberOfDigits..]);
+        UpdateDiscretionaryData(discretionaryData, tNumberOfDigits, natc, atc, punatcIndexArray[tNumberOfDigits..]);
         UpdateDiscretionaryData(discretionaryData, punatc, natc);
 
         return new Track2Data(new Track2(discretionaryData));
@@ -87,20 +94,19 @@ public record Track2Data : DataElement<Track2>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    private void UpdateDiscretionaryData(Nibble[] discretionaryData, Nibble[] digitsToCopy, PositionOfCardVerificationCode3Track2 pcvc)
+    private void UpdateDiscretionaryData(
+        Span<Nibble> discretionaryData, byte qNumberOfDigits, CardholderVerificationCode3Track2 cvc, ReadOnlySpan<Nibble> pcvcIndexArray)
     {
-        // The eligible positions are indicated by the q non-zero bits in PCVC3(Track2). 
-        Nibble[] indexArray = pcvc.GetBitFlagIndex();
+        ReadOnlySpan<Nibble> digitsToCopy = PlayCodec.NumericCodec.DecodeToNibbles(cvc.EncodeValue())[^qNumberOfDigits..];
 
-        if (indexArray.Length > digitsToCopy.Length)
+        if (pcvcIndexArray.Length > digitsToCopy.Length)
         {
             throw new TerminalDataException(
-                $"The {nameof(PositionOfCardVerificationCode3Track2)} could not {nameof(UpdateDiscretionaryData)} because the length of the {nameof(digitsToCopy)} was less than the length of the {nameof(indexArray)}");
+                $"The {nameof(PositionOfCardVerificationCode3Track2)} could not {nameof(UpdateDiscretionaryData)} because the length of the {nameof(digitsToCopy)} was less than the length of the {nameof(pcvcIndexArray)}");
         }
 
-        // Copy the (indexArray.Length) least significant digits of the (digitsToCopy) into Discretionary Data
-        for (int i = 0, j = indexArray.Length - 1; i < indexArray.Length; i++, j--)
-            discretionaryData[indexArray[i]] = digitsToCopy[j];
+        for (int i = 0; i < qNumberOfDigits; i++)
+            discretionaryData[pcvcIndexArray[i]] = digitsToCopy[i];
     }
 
     /// <remarks>EMVco Book C-2 Section S13.18</remarks>
@@ -109,19 +115,19 @@ public record Track2Data : DataElement<Track2>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    private void UpdateDiscretionaryData(Nibble[] discretionaryData, int numberOfDigits, UnpredictableNumber unpredictableNumber, PunatcTrack2 punatc)
+    private void UpdateDiscretionaryData(
+        Span<Nibble> discretionaryData, int nunNumberOfDigits, UnpredictableNumber unpredictableNumber, ReadOnlySpan<Nibble> punatcIndexArray)
     {
-        Nibble[] digitsToCopy = unpredictableNumber.GetDigits(unpredictableNumber);
-        Nibble[] indexArray = punatc.GetBitFlagIndex()[..numberOfDigits];
+        ReadOnlySpan<Nibble> digitsToCopy = unpredictableNumber.GetDigits()[^nunNumberOfDigits..];
 
-        if (indexArray.Length > digitsToCopy.Length)
+        if (punatcIndexArray.Length > digitsToCopy.Length)
         {
             throw new TerminalDataException(
-                $"The {nameof(PositionOfCardVerificationCode3Track2)} could not {nameof(UpdateDiscretionaryData)} because the length of the {nameof(digitsToCopy)} was less than the length of the {nameof(indexArray)}");
+                $"The {nameof(PositionOfCardVerificationCode3Track2)} could not {nameof(UpdateDiscretionaryData)} because the length of the {nameof(digitsToCopy)} was less than the length of the {nameof(punatcIndexArray)}");
         }
 
-        for (int i = 0, j = digitsToCopy.Length - 1; (i < indexArray.Length) && (j > 0); i++, j--)
-            discretionaryData[indexArray[i]] = digitsToCopy[j];
+        for (int i = 0; i < nunNumberOfDigits; i++)
+            discretionaryData[punatcIndexArray[i]] = digitsToCopy[i];
     }
 
     /// <remarks>EMVco Book C-2 Section S13.18</remarks>
@@ -129,27 +135,27 @@ public record Track2Data : DataElement<Track2>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="OverflowException"></exception>
     private void UpdateDiscretionaryData(
-        Nibble[] discretionaryData, int numberOfDigits, NumericApplicationTransactionCounterTrack2 natc, ApplicationTransactionCounter atc, PunatcTrack2 punatc)
+        Span<Nibble> discretionaryData, int tNumberOfDigits, NumericApplicationTransactionCounterTrack2 natc, ApplicationTransactionCounter atc,
+        ReadOnlySpan<Nibble> punatcIndexArray)
     {
         if ((byte) natc == 0)
             return;
 
-        Nibble[] digitsToCopy = PlayCodec.NumericCodec.DecodeToNibbles(atc.EncodeValue())[^numberOfDigits..];
-        Nibble[] indexArray = punatc.GetBitFlagIndex()[numberOfDigits..];
+        Nibble[] digitsToCopy = PlayCodec.NumericCodec.DecodeToNibbles(atc.EncodeValue())[^tNumberOfDigits..];
 
-        if (indexArray.Length > digitsToCopy.Length)
+        if (punatcIndexArray.Length > digitsToCopy.Length)
         {
             throw new TerminalDataException(
-                $"The {nameof(PositionOfCardVerificationCode3Track2)} could not {nameof(UpdateDiscretionaryData)} because the length of the {nameof(digitsToCopy)} was less than the length of the {nameof(indexArray)}");
+                $"The {nameof(PositionOfCardVerificationCode3Track2)} could not {nameof(UpdateDiscretionaryData)} because the length of the {nameof(digitsToCopy)} was less than the length of the {nameof(punatcIndexArray)}");
         }
 
-        for (int i = 0, j = indexArray.Length - 1; (i < indexArray.Length) && (j > 0); i++, j--)
-            discretionaryData[indexArray[i]] = digitsToCopy[j];
+        for (int i = 0; i < tNumberOfDigits; i++)
+            discretionaryData[punatcIndexArray[i]] = digitsToCopy[i];
     }
 
     /// <summary>Copy nUN' into the least significant digit of the 'Discretionary Data' in Track 2 Data</summary>
     /// <remarks>EMVco Book C-2 Section S13.19</remarks>
-    private void UpdateDiscretionaryData(Nibble[] discretionaryData, PunatcTrack2 punatc, NumericApplicationTransactionCounterTrack2 natc)
+    private void UpdateDiscretionaryData(Span<Nibble> discretionaryData, PunatcTrack2 punatc, NumericApplicationTransactionCounterTrack2 natc)
     {
         NumberOfNonZeroBits nun = new(punatc, natc);
         discretionaryData[^1] = (byte) nun;

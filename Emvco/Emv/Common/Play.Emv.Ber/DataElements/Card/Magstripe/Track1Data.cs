@@ -59,7 +59,7 @@ public record Track1Data : DataElement<Track1>
         byte tNumberOfChars = new NumberOfNonZeroBits(natc);
 
         ReadOnlySpan<Nibble> pcvcIndexArray = pcvc.GetBitFlagIndex();
-        Nibble[] punatcIndexArray = punatc.GetBitFlagIndex();
+        ReadOnlySpan<Nibble> punatcIndexArray = punatc.GetBitFlagIndex();
 
         UpdateDiscretionaryData(discretionaryData, qNumberOfChars, cvc, pcvcIndexArray);
         UpdateDiscretionaryData(discretionaryData, unpredictableNumber, punatcIndexArray[^nunNumberOfChars..]);
