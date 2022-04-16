@@ -4,6 +4,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 
@@ -41,19 +42,13 @@ public record Track2Data : DataElement<Track2>
 
     #region Instance Members
 
-    /// <summary>
-    ///     GetPrimaryAccountNumber
-    /// </summary>
-    /// <returns></returns>
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public TrackPrimaryAccountNumber GetPrimaryAccountNumber() => _Value.GetPrimaryAccountNumber();
 
-    /// <summary>
-    ///     GetTrack2DiscretionaryData
-    /// </summary>
-    /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
@@ -69,15 +64,18 @@ public record Track2Data : DataElement<Track2>
     #region Serialization
 
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Exception"></exception>
+    /// <exception cref="OverflowException"></exception>
     public static Track2Data Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
     public override Track2Data Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Exception"></exception>
-    public static Track2Data Decode(ReadOnlySpan<byte> value) => new Track2Data(new Track2(value.AsNibbleArray()));
+    /// <exception cref="OverflowException"></exception>
+    public static Track2Data Decode(ReadOnlySpan<byte> value) => new(new Track2(value.AsNibbleArray()));
 
     public new byte[] EncodeValue() => _Value.Encode();
     public new byte[] EncodeValue(int length) => _Value.Encode()[..length];

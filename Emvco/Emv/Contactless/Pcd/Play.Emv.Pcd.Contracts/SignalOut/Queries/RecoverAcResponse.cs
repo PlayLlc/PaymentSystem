@@ -4,6 +4,7 @@ using System.Linq;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
 using Play.Emv.Icc;
@@ -34,7 +35,7 @@ public record RecoverAcResponse : QueryPcdResponse
 
     /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public PrimitiveValue[] GetPrimitiveDataObjects()
     {
@@ -45,7 +46,7 @@ public record RecoverAcResponse : QueryPcdResponse
     }
 
     /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
-    /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     private static IEnumerable<PrimitiveValue> DecodePrimitiveValues(TagLengthValue[] values)
     {
         // TODO: Validate mandatory data objects
