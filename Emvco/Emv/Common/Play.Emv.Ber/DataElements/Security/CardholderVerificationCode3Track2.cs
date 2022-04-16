@@ -30,17 +30,6 @@ public record CardholderVerificationCode3Track2 : DataElement<ushort>, IEquality
 
     #region Instance Members
 
-    public static bool EqualsStatic(CardholderVerificationCode3Track2? x, CardholderVerificationCode3Track2? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
@@ -81,6 +70,12 @@ public record CardholderVerificationCode3Track2 : DataElement<ushort>, IEquality
     }
 
     public int GetHashCode(CardholderVerificationCode3Track2 obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Operator Overrides
+
+    public static explicit operator ushort(CardholderVerificationCode3Track2 value) => value._Value;
 
     #endregion
 }

@@ -58,4 +58,10 @@ public record NumericApplicationTransactionCounterTrack1 : DataElement<ulong>
     public new byte[] EncodeValue() => EncodeValue(_ByteLength);
 
     #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator ulong(NumericApplicationTransactionCounterTrack1 value) => value._Value;
+
+    #endregion
 }

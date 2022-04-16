@@ -2,6 +2,9 @@
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core;
+using Play.Core.Extensions;
+using Play.Core.Specifications;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -29,8 +32,23 @@ public record PositionOfCardVerificationCode3Track1 : DataElement<ulong>
 
     #region Instance Members
 
+    public int GetSetBitCount() => _Value.GetSetBitCount();
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
+
+    internal Nibble[] GetBitFlagIndex()
+    {
+        Nibble[] result = new Nibble[_Value.GetSetBitCount()];
+        ulong bufferValue = _Value;
+
+        for (byte i = 0, j = 0; i < Specs.Integer.Int64.BitCount; i++)
+        {
+            if (bufferValue.IsBitSet(Bits.One))
+                result[j++] = i;
+        }
+
+        return result;
+    }
 
     #endregion
 

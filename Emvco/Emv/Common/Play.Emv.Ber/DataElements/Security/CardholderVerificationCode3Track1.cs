@@ -3,6 +3,9 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core;
+using Play.Core.Extensions;
+using Play.Core.Specifications;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -29,6 +32,8 @@ public record CardholderVerificationCode3Track1 : DataElement<ushort>, IEquality
     #endregion
 
     #region Instance Members
+
+    public char[] AsCharArray() => PlayCodec.NumericCodec.DecodeToChars(EncodeValue());
 
     public static bool EqualsStatic(CardholderVerificationCode3Track1? x, CardholderVerificationCode3Track1? y)
     {
@@ -81,6 +86,12 @@ public record CardholderVerificationCode3Track1 : DataElement<ushort>, IEquality
     }
 
     public int GetHashCode(CardholderVerificationCode3Track1 obj) => obj.GetHashCode();
+
+    #endregion
+
+    #region Operator Overrides
+
+    public static explicit operator ushort(CardholderVerificationCode3Track1 value) => value._Value;
 
     #endregion
 }

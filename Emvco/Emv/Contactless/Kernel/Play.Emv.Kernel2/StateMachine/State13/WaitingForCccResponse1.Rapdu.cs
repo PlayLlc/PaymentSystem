@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Threading;
 
+using Play.Ber.Exceptions;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
+using Play.Core;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
@@ -54,6 +57,12 @@ public partial class WaitingForCccResponse1
         // S13.15 - S13.16
         if (TryHandlingMissingCvc3Track1Data(session))
             return _KernelStateResolver.GetKernelState(StateId);
+
+        // S13.18 - S13.19
+        UpdateTrack2Data();
+
+        // S13.20 - S13.22
+        UpdateTrack1Data();
 
         // S13.42.1 - S13.43 
         return _KernelStateResolver.GetKernelState(Idle.StateId);
@@ -304,40 +313,52 @@ public partial class WaitingForCccResponse1
 
     #region ___Update Discretionary Data in Track 1 & 2
 
+    #region S13.18 - S13.19
+
     /// <exception cref="TerminalDataException"></exception>
-    private void UpdateTrackData()
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    private void UpdateTrack2Data()
     {
         _Database.FailedMagstripeCounter.Reset();
-        NumberOfNonZeroBits q = new(_Database.Get<PositionOfCardVerificationCode3Track2>(PositionOfCardVerificationCode3Track2.Tag));
-        NumericApplicationTransactionCounterTrack2 t =
+        PositionOfCardVerificationCode3Track2 pcvc = _Database.Get<PositionOfCardVerificationCode3Track2>(PositionOfCardVerificationCode3Track2.Tag);
+        NumericApplicationTransactionCounterTrack2 natc =
             _Database.Get<NumericApplicationTransactionCounterTrack2>(NumericApplicationTransactionCounterTrack2.Tag);
+        ApplicationTransactionCounter atc = _Database.Get<ApplicationTransactionCounter>(ApplicationTransactionCounter.Tag);
+        PunatcTrack2 punatc = _Database.Get<PunatcTrack2>(PunatcTrack2.Tag);
         CardholderVerificationCode3Track2 cvc = _Database.Get<CardholderVerificationCode3Track2>(CardholderVerificationCode3Track2.Tag);
+        UnpredictableNumber unpredictableNumber = _Database.Get<UnpredictableNumber>(UnpredictableNumber.Tag);
         Track2Data track2 = _Database.Get<Track2Data>(Track2Data.Tag);
-        ushort cvcBase10 = PlayCodec.NumericCodec.DecodeToUInt16(t.EncodeValue());
 
-        /*
-         * 1) Convert the binary encoded CVC3 (Track2) to the BCD encoding of the corresponding number expressed in base 10.
-         *
-         * numberOfDigitsToCopy = (byte)q;
-         * digitsToCopy = cvcBase10.ToNibbleArray()[^numberOfDigitsToCopy..];
-         *
-         * Copy the rightmost digits of cvcBase10 to Discretionary Data - the position of the bits to copy dictated by set bits in PCVC3
-         *
-         * 2) Copy the q least significant digits of the BCD encoded CVC3 (Track2) in the eligible positions of the
-         * 'Discretionary Data' in Track 2 Data. The eligible positions are indicated by the q non-zero bits in PCVC3(Track2). 
-         *
-         * 3) Replace the nUN least significant eligible positions of the 'Discretionary Data' in Track 2 Data by the nUN least
-         * significant digits of Unpredictable Number (Numeric). The eligible positions in the 'Discretionary Data' in Track 2
-         * Data are indicated by the nUN least significant non-zero bits in PUNATC(Track2).
-         *
-         * 4) If t ≠ 0, convert the Application Transaction Counter to the BCD encoding of the corresponding number expressed
-         * in base 10.
-         *
-         * 5) Replace the t most significant eligible positions of the 'Discretionary Data' in Track 2 Data by the t least
-         * significant digits of the BCD encoded Application Transaction Counter. The eligible positions in the
-         * 'Discretionary Data' in Track 2 Data are indicated by the t most significant non-zero bits in PUNATC(Track2).
-         */
+        _Database.Update(track2.UpdateDiscretionaryData(cvc, pcvc, punatc, unpredictableNumber, natc, atc));
     }
+
+    #endregion
+
+    #region S13.20 - S13.22
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    private void UpdateTrack1Data(NumberOfNonZeroBits nun)
+    {
+        if (_Database.TryGet(Track1Data.Tag, out Track1Data? track1))
+            return;
+
+        PositionOfCardVerificationCode3Track1 pcvc = _Database.Get<PositionOfCardVerificationCode3Track1>(PositionOfCardVerificationCode3Track1.Tag);
+        NumericApplicationTransactionCounterTrack1 natc =
+            _Database.Get<NumericApplicationTransactionCounterTrack1>(NumericApplicationTransactionCounterTrack1.Tag);
+        ApplicationTransactionCounter atc = _Database.Get<ApplicationTransactionCounter>(ApplicationTransactionCounter.Tag);
+        PunatcTrack1 punatc = _Database.Get<PunatcTrack1>(PunatcTrack1.Tag);
+        CardholderVerificationCode3Track1 cvc = _Database.Get<CardholderVerificationCode3Track1>(CardholderVerificationCode3Track1.Tag);
+        UnpredictableNumberNumeric unpredictableNumber = _Database.Get<UnpredictableNumberNumeric>(UnpredictableNumberNumeric.Tag);
+
+        _Database.Update(track1!.UpdateDiscretionaryData(nun, cvc, pcvc, punatc, unpredictableNumber, natc, atc));
+    }
+
+    #endregion
 
     #endregion
 

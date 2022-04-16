@@ -2,6 +2,7 @@
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Core.Extensions.Arrays;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -30,6 +31,7 @@ public record Track1DiscretionaryData : DataElement<char[]>
 
     #region Instance Members
 
+    public char[] AsCharArray() => _Value.CopyValue();
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
@@ -37,7 +39,14 @@ public record Track1DiscretionaryData : DataElement<char[]>
 
     #region Serialization
 
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public static Track1DiscretionaryData Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="DataElementParsingException"></exception>
     public override Track1DiscretionaryData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="InvalidOperationException"></exception>

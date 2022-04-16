@@ -58,4 +58,10 @@ public record NumericApplicationTransactionCounterTrack2 : DataElement<byte>
     public new byte[] EncodeValue() => EncodeValue(_ByteLength);
 
     #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator byte(NumericApplicationTransactionCounterTrack2 value) => value._Value;
+
+    #endregion
 }

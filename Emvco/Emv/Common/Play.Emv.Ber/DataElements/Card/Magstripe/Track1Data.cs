@@ -4,6 +4,8 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Codecs.Exceptions;
+using Play.Core;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -13,23 +15,19 @@ namespace Play.Emv.Ber.DataElements;
 ///     sentinel, end sentinel and LRC. The Track 1 Data may be present in the file read using the READ RECORD command
 ///     during a mag-stripe mode transaction. It is made up of the following sub-fields:
 /// </summary>
-public record Track1Data : DataElement<BigInteger>
+public record Track1Data : DataElement<Track1>
 {
     #region Static Metadata
 
     public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialCodec.EncodingId;
     public static readonly Tag Tag = 0x56;
     private const byte _MaxByteLength = 76;
-    private const byte _StartSentinel = (byte) '%';
-    private const byte _FormatCode = (byte) 'B';
-    private const byte _FieldSeparator = (byte) '^';
-    private const byte _EndSentinel = (byte) '?';
 
     #endregion
 
     #region Constructor
 
-    public Track1Data(BigInteger value) : base(value)
+    public Track1Data(Track1 value) : base(value)
     { }
 
     #endregion
@@ -39,70 +37,88 @@ public record Track1Data : DataElement<BigInteger>
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
-    /// <summary>
-    ///     GetTrack1DiscretionaryData
-    /// </summary>
-    /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
-    public Track1DiscretionaryData GetTrack1DiscretionaryData()
-    {
-        ReadOnlySpan<byte> value = _Value.ToByteArray();
+    public Track1DiscretionaryData GetTrack1DiscretionaryData() => _Value.GetDiscretionaryData();
 
-        return Track1DiscretionaryData.Decode(value[GetDiscretionaryDataOffset(value)..]);
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    public TrackPrimaryAccountNumber GetPrimaryAccountNumber() => _Value.GetPrimaryAccountNumber();
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    public Track1Data UpdateDiscretionaryData(
+        NumberOfNonZeroBits nun, CardholderVerificationCode3Track1 cvc, PositionOfCardVerificationCode3Track1 pcvc, PunatcTrack1 punatc,
+        UnpredictableNumberNumeric unpredictableNumber, NumericApplicationTransactionCounterTrack1 natc, ApplicationTransactionCounter atc)
+    {
+        char[] discretionaryData = GetTrack1DiscretionaryData().AsCharArray();
+        byte qNumberOfChars = new NumberOfNonZeroBits(pcvc);
+        byte nunNumberOfChars = nun;
+        byte tNumberOfChars = new NumberOfNonZeroBits(natc);
+
+        ReadOnlySpan<Nibble> pcvcIndexArray = pcvc.GetBitFlagIndex();
+        Nibble[] punatcIndexArray = punatc.GetBitFlagIndex();
+
+        UpdateDiscretionaryData(discretionaryData, qNumberOfChars, cvc, pcvcIndexArray);
+        UpdateDiscretionaryData(discretionaryData, unpredictableNumber, punatcIndexArray[^nunNumberOfChars..]);
+        UpdateDiscretionaryData(discretionaryData, natc, atc, punatcIndexArray[..tNumberOfChars]);
+
+        return new Track1Data(new Track1(PlayCodec.AlphaNumericSpecialCodec.Encode(discretionaryData)));
     }
 
-    /// <summary>
-    ///     GetSecondFieldSeparatorOffset
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="BerParsingException"></exception>
-    private int GetSecondFieldSeparatorOffset(ReadOnlySpan<byte> value)
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    private void UpdateDiscretionaryData(
+        Span<char> discretionaryData, int qNumberOfDigits, CardholderVerificationCode3Track1 cvc, ReadOnlySpan<Nibble> pcvcIndexArray)
     {
-        int offset = 0;
+        ReadOnlySpan<char> digitsToCopy = cvc.AsCharArray()[^qNumberOfDigits..];
 
-        for (int j = 0; j < 2; offset++)
+        if (pcvcIndexArray.Length < digitsToCopy.Length)
         {
-            if (value[offset] == _FieldSeparator)
-                j++;
+            throw new TerminalDataException(
+                $"The {nameof(PositionOfCardVerificationCode3Track2)} could not {nameof(UpdateDiscretionaryData)} because the length of the {nameof(digitsToCopy)} was less than the length of the {nameof(pcvcIndexArray)}");
         }
 
-        if (offset != 2)
-            throw new BerParsingException($"The {nameof(Track1Data)} could not find the 2nd field separator");
-
-        return offset;
+        for (int i = 0; i < qNumberOfDigits; i++)
+            discretionaryData[pcvcIndexArray[i]] = digitsToCopy[i];
     }
 
-    private int GetExpiryDateOffset(ReadOnlySpan<byte> value) => GetSecondFieldSeparatorOffset(value) + 1;
-    private int GetServiceCodeOffset(ReadOnlySpan<byte> value) => GetExpiryDateOffset(value) + 4;
-    private int GetDiscretionaryDataOffset(ReadOnlySpan<byte> value) => GetExpiryDateOffset(value) + 3;
-
-    /// <exception cref="CardDataException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    public ApplicationPan GetPrimaryAccountNumber(PunatcTrack1 value)
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    private void UpdateDiscretionaryData(Span<char> discretionaryData, UnpredictableNumberNumeric unpredictableNumber, ReadOnlySpan<Nibble> punatcIndexArray)
     {
-        int offset = 0;
+        ReadOnlySpan<char> digitsToCopy = unpredictableNumber.AsCharArray()[^punatcIndexArray.Length..];
 
-        ReadOnlySpan<byte> buffer = _Value.ToByteArray();
-
-        if (buffer[0] == _StartSentinel)
-            offset++;
-
-        if (buffer[offset++] != _FormatCode)
-            throw new CardDataException($"The {nameof(ApplicationPan)} was provided in an unknown format");
-
-        int startRange = offset;
-
-        for (; offset < ApplicationPan.GetMaxByteCount(); offset++)
+        if (punatcIndexArray.Length < digitsToCopy.Length)
         {
-            if (buffer[offset] == _FieldSeparator)
-                return ApplicationPan.Decode(buffer[startRange..offset]);
+            throw new TerminalDataException(
+                $"The {nameof(PositionOfCardVerificationCode3Track2)} could not {nameof(UpdateDiscretionaryData)} because the length of the {nameof(digitsToCopy)} was less than the length of the {nameof(punatcIndexArray)}");
         }
 
-        throw new CardDataException($"The {nameof(ApplicationPan)} was provided in an unknown format");
+        for (int i = 0; i < punatcIndexArray.Length; i++)
+            discretionaryData[punatcIndexArray[i]] = digitsToCopy[i];
+    }
+
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    private void UpdateDiscretionaryData(
+        Span<char> discretionaryData, NumericApplicationTransactionCounterTrack1 natc, ApplicationTransactionCounter atc, ReadOnlySpan<Nibble> punatcIndexArray)
+    {
+        if ((byte) natc == 0)
+            return;
+
+        ReadOnlySpan<char> digitsToCopy = atc.AsCharArray()[..punatcIndexArray.Length];
+
+        if (punatcIndexArray.Length < digitsToCopy.Length)
+        {
+            throw new TerminalDataException(
+                $"The {nameof(PositionOfCardVerificationCode3Track2)} could not {nameof(UpdateDiscretionaryData)} because the length of the {nameof(digitsToCopy)} was less than the length of the {nameof(punatcIndexArray)}");
+        }
+
+        for (int i = 0; i < punatcIndexArray.Length; i++)
+            discretionaryData[punatcIndexArray[i]] = digitsToCopy[i];
     }
 
     #endregion
@@ -113,6 +129,9 @@ public record Track1Data : DataElement<BigInteger>
     /// <exception cref="Exception"></exception>
     public static Track1Data Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="Exception"></exception>
     public override Track1Data Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="InvalidOperationException"></exception>
@@ -122,9 +141,10 @@ public record Track1Data : DataElement<BigInteger>
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        char[] result = PlayCodec.AlphaNumericSpecialCodec.DecodeToChars(value);
+        if (!PlayCodec.AlphaNumericSpecialCodec.IsValid(value))
+            throw new DataElementParsingException($"The {nameof(Track1Data)} could not be parsed because it was in an incorrect format");
 
-        return new Track1Data(new BigInteger(value));
+        return new Track1Data(new Track1(value));
     }
 
     #endregion

@@ -2,6 +2,8 @@
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core;
+using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -28,9 +30,24 @@ public record UnpredictableNumber : DataElement<uint>, IEqualityComparer<Unpredi
 
     #region Instance Members
 
+    internal Nibble[] GetDigits()
+    {
+        byte digitsToCopy = new NumberOfNonZeroBits(this);
+        Nibble[] result = new Nibble[3];
+
+        for (int i = result.Length - 1; i > 0; i--)
+        {
+            result[i] = (byte) (digitsToCopy % 10);
+            digitsToCopy /= 10;
+        }
+
+        return result;
+    }
+
     public ushort GetByteCount() => _ByteLength;
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
+    public int GetSetBitCount() => _Value.GetSetBitCount();
 
     #endregion
 

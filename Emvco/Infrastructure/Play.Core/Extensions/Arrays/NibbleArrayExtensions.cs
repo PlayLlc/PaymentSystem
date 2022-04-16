@@ -1,6 +1,9 @@
 ﻿using System;
 
+using Microsoft.Toolkit.HighPerformance.Buffers;
+
 using Play.Core.Exceptions;
+using Play.Core.Specifications;
 
 namespace Play.Core.Extensions;
 
@@ -27,6 +30,27 @@ public static class NibbleArrayExtensions
         }
 
         return result;
+    }
+
+    /// <exception cref="OverflowException"></exception>
+    public static Nibble[] CopyValue(this Nibble[] value)
+    {
+        if (value.Length > Specs.ByteArray.StackAllocateCeiling)
+        {
+            using SpanOwner<Nibble> spanOwner = SpanOwner<Nibble>.Allocate(value.Length);
+            Span<Nibble> buffer = spanOwner.Span;
+
+            value.AsSpan().CopyTo(buffer);
+
+            return buffer.ToArray();
+        }
+        else
+        {
+            Span<Nibble> buffer = stackalloc Nibble[value.Length];
+            value.AsSpan().CopyTo(buffer);
+
+            return buffer.ToArray();
+        }
     }
 
     /// <summary>

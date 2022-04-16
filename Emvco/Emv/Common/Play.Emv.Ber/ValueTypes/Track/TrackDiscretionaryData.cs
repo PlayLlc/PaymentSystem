@@ -8,7 +8,7 @@ namespace Play.Emv.Ber
     {
         #region Static Metadata
 
-        private const byte _MaxCharLength = 11;
+        private const byte _MaxNibbleLength = 11;
 
         #endregion
 
@@ -23,7 +23,7 @@ namespace Play.Emv.Ber
         /// <exception cref="TerminalDataException"></exception>
         public TrackDiscretionaryData(ReadOnlySpan<Nibble> value)
         {
-            if (value.Length > _MaxCharLength)
+            if (value.Length > _MaxNibbleLength)
             {
                 throw new TerminalDataException(new ArgumentOutOfRangeException(
                     $"The {nameof(TrackDiscretionaryData)} could not be initialized because the value was too large"));
@@ -37,7 +37,9 @@ namespace Play.Emv.Ber
         #region Instance Members
 
         public int GetCharCount() => _Value.Length;
-        internal ReadOnlySpan<Nibble> AsNibbleArray() => _Value;
+
+        /// <exception cref="OverflowException"></exception>
+        public Nibble[] AsNibbleArray() => _Value.CopyValue();
 
         /// <exception cref="OverflowException"></exception>
         public int GetByteCount() => (_Value.Length / 2) + (_Value.Length % 2);

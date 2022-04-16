@@ -84,7 +84,7 @@ public readonly struct ShortDate
             month = (byte) (value[2] * 10);
             month += value[3];
 
-            _Value = new DateTimeUtc(new DateTime((byte) year, (byte) month, 1, 0, 0, 0, 0, DateTimeKind.Utc));
+            _Value = new DateTimeUtc(new DateTime(year, month, 1, 0, 0, 0, 0, DateTimeKind.Utc));
         }
 
         if (value.Length == 6)
@@ -96,7 +96,7 @@ public readonly struct ShortDate
             byte day = (byte) (value[4] * 10);
             day += value[5];
 
-            _Value = new DateTimeUtc(new DateTime((byte) year, (byte) month, day, 0, 0, 0, 0, DateTimeKind.Utc));
+            _Value = new DateTimeUtc(new DateTime(year, month, day, 0, 0, 0, 0, DateTimeKind.Utc));
         }
 
         throw new PlayInternalException(new ArgumentOutOfRangeException(nameof(value),

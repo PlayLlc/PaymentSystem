@@ -33,6 +33,12 @@ public record ApplicationTransactionCounter : DataElement<ushort>, IEqualityComp
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
+    /// <summary>
+    ///     Returns the an Ascii encoded char array of this value's Numeric (BCD) digits
+    /// </summary>
+    /// <returns></returns>
+    public char[] AsCharArray() => PlayCodec.NumericCodec.DecodeToChars(EncodeValue());
+
     #endregion
 
     #region Serialization
