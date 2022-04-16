@@ -25,7 +25,7 @@ public record ActivateKernelRequest : RequestSignal
     #region Static Metadata
 
     public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(ActivateKernelRequest));
-    public static readonly ChannelTypeId ChannelTypeId = ChannelType.Kernel;
+    public static readonly ChannelTypeId ChannelTypeId = KernelChannel.Id;
 
     #endregion
 

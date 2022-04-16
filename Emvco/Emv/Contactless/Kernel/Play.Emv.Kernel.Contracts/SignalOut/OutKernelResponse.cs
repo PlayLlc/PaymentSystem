@@ -10,7 +10,7 @@ public record OutKernelResponse : ResponseSignal
     #region Static Metadata
 
     public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(OutKernelResponse));
-    public static readonly ChannelTypeId ChannelTypeId = ChannelType.Kernel;
+    public static readonly ChannelTypeId ChannelTypeId = KernelChannel.Id;
 
     #endregion
 

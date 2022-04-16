@@ -15,7 +15,7 @@ public record UpdateKernelRequest : RequestSignal, IExchangeDataWithTheTerminal
     #region Static Metadata
 
     public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(UpdateKernelRequest));
-    public static readonly ChannelTypeId ChannelTypeId = ChannelType.Kernel;
+    public static readonly ChannelTypeId ChannelTypeId = KernelChannel.Id;
 
     #endregion
 
