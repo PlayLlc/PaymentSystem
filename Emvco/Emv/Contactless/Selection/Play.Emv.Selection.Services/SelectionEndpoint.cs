@@ -11,7 +11,7 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
 {
     #region Static Metadata
 
-    public static readonly ChannelTypeId ChannelTypeId = ChannelType.Selection;
+    public static readonly ChannelTypeId ChannelTypeId = SelectionChannel.Id;
 
     #endregion
 
@@ -39,7 +39,7 @@ public class SelectionEndpoint : IMessageChannel, IHandleSelectionRequests, ISen
 
     #region Instance Members
 
-    public ChannelTypeId GetChannelTypeId() => ChannelType.Selection;
+    public ChannelTypeId GetChannelTypeId() => ChannelTypeId;
     public ChannelIdentifier GetChannelIdentifier() => ChannelIdentifier;
 
     #region Requests

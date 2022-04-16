@@ -69,7 +69,7 @@ internal class SelectionStateMachine
             if (_Lock.Session.GetTransactionSessionId() != request.GetTransactionSessionId())
             {
                 throw new RequestOutOfSyncException(
-                    $"The {nameof(StopSelectionRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{request.GetTransactionSessionId()}] but the current {nameof(ChannelType.Selection)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
+                    $"The {nameof(StopSelectionRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{request.GetTransactionSessionId()}] but the current {nameof(SelectionChannel.Id)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
             }
 
             _Lock.Session = null;
@@ -123,7 +123,7 @@ internal class SelectionStateMachine
             if (_Lock.Session.GetTransactionSessionId() != response.GetTransactionSessionId())
             {
                 throw new RequestOutOfSyncException(
-                    $"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{response.GetTransactionSessionId()}] but the current {nameof(ChannelType.Selection)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
+                    $"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{response.GetTransactionSessionId()}] but the current {nameof(SelectionChannel.Id)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
             }
 
             _CombinationSelector.ProcessPpseResponse(response.GetTransactionSessionId(), _CandidateList, _PreProcessingIndicators,
@@ -150,7 +150,7 @@ internal class SelectionStateMachine
             if (_Lock.Session!.GetTransactionSessionId() != response.GetTransactionSessionId())
             {
                 throw new RequestOutOfSyncException(
-                    $"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{response.GetTransactionSessionId()}] but the current {nameof(ChannelType.Selection)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
+                    $"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{response.GetTransactionSessionId()}] but the current {nameof(SelectionChannel.Id)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
             }
 
             _CombinationSelector.ProcessPointOfInteractionResponse(response.GetTransactionSessionId(), _CandidateList,
@@ -176,7 +176,7 @@ internal class SelectionStateMachine
             if (_Lock.Session!.GetTransactionSessionId() != response.GetTransactionSessionId())
             {
                 throw new RequestOutOfSyncException(
-                    $"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{response.GetTransactionSessionId()}] but the current {nameof(ChannelType.Selection)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
+                    $"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{response.GetTransactionSessionId()}] but the current {nameof(SelectionChannel.Id)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
             }
 
             if (!_CombinationSelector.TrySelectApplet(response.GetTransactionSessionId(), _CandidateList, _Lock.Session.GetOutcome(),

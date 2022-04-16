@@ -87,7 +87,7 @@ public class Kernel2StateMachine : KernelStateMachine
             if (_Lock.Session.GetTransactionSessionId() != signal.GetTransactionSessionId())
             {
                 throw new RequestOutOfSyncException(
-                    $"The {nameof(StopKernelRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(ChannelType.Kernel)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
+                    $"The {nameof(StopKernelRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(KernelChannel.Id)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
             }
 
             _Lock.KernelState = _Lock.KernelState.Handle(_Lock.Session, signal);
@@ -113,7 +113,7 @@ public class Kernel2StateMachine : KernelStateMachine
             if (_Lock.Session.GetTransactionSessionId() != signal.GetTransactionSessionId())
             {
                 throw new RequestOutOfSyncException(
-                    $"The {nameof(QueryPcdResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(ChannelType.Kernel)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
+                    $"The {nameof(QueryPcdResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(KernelChannel.Id)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
             }
 
             _Lock.KernelState = _Lock.KernelState.Handle(_Lock.Session, signal);
@@ -138,7 +138,7 @@ public class Kernel2StateMachine : KernelStateMachine
             if (_Lock.Session.GetTransactionSessionId() != signal.GetTransactionSessionId())
             {
                 throw new RequestOutOfSyncException(
-                    $"The {nameof(QueryTerminalResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(ChannelType.Kernel)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
+                    $"The {nameof(QueryTerminalResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(KernelChannel.Id)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
             }
 
             _Lock.KernelState = _Lock.KernelState.Handle(_Lock.Session, signal);
@@ -163,7 +163,7 @@ public class Kernel2StateMachine : KernelStateMachine
             if (_Lock.Session.GetTransactionSessionId() != signal.GetTransactionSessionId())
             {
                 throw new RequestOutOfSyncException(
-                    $"The {nameof(UpdateKernelRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(ChannelType.Kernel)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
+                    $"The {nameof(UpdateKernelRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(KernelChannel.Id)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
             }
 
             // BUG: Pass this to the DEK Manager
@@ -189,7 +189,7 @@ public class Kernel2StateMachine : KernelStateMachine
             if (_Lock.Session.GetTransactionSessionId() != signal.GetTransactionSessionId())
             {
                 throw new RequestOutOfSyncException(
-                    $"The {nameof(QueryKernelRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(ChannelType.Kernel)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
+                    $"The {nameof(QueryKernelRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{signal.GetTransactionSessionId()}] but the current {nameof(KernelChannel.Id)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
             }
 
             // BUG: Pass this to the DEK Manager

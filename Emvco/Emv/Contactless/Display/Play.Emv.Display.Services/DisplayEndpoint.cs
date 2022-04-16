@@ -37,7 +37,7 @@ public class DisplayEndpoint : IMessageChannel, IHandleDisplayRequests, IDisposa
 
     #region Instance Members
 
-    public ChannelTypeId GetChannelTypeId() => ChannelType.Selection;
+    public ChannelTypeId GetChannelTypeId() => ChannelTypeId;
     public ChannelIdentifier GetChannelIdentifier() => ChannelIdentifier;
 
     #region Requests

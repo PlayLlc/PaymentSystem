@@ -33,7 +33,7 @@ public partial class KernelDatabase : IManageKernelDatabaseLifetime
         _PersistentValues = persistentValues;
         _KnownObjects = knownObjects;
         _Database = new SortedDictionary<Tag, PrimitiveValue?>();
-        FailedMagstripeCounter = new SequenceCounter(0, int.MaxValue, 1);
+        FailedMagstripeCounter = new SequenceCounterThreshold(0, int.MaxValue, 1);
         SeedDatabase();
     }
 

@@ -36,8 +36,7 @@ public partial class WaitingForGpoResponse : KernelState
 
         if (signal is not GetProcessingOptionsResponse rapdu)
         {
-            throw new RequestOutOfSyncException(
-                $"The request is invalid for the current state of the [{ChannelType.GetChannelTypeName(ChannelType.Kernel)}] channel");
+            throw new RequestOutOfSyncException($"The request is invalid for the current state of the [{nameof(KernelChannel)}] channel");
         }
 
         if (TryHandleL1Error(session, rapdu))

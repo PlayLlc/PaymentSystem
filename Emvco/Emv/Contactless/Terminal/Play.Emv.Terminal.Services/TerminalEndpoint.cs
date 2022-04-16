@@ -15,7 +15,7 @@ public class TerminalEndpoint : IMessageChannel, IHandleTerminalRequests, ISendT
 {
     #region Static Metadata
 
-    public static readonly ChannelTypeId ChannelTypeId = ChannelType.Terminal;
+    public static readonly ChannelTypeId ChannelTypeId = TerminalChannel.Id;
 
     #endregion
 
