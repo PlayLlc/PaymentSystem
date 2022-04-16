@@ -64,10 +64,11 @@ public partial class WaitingForGenerateAcResponse2
         if (TryHandlingCardDataError(kernel2Session, tempTornRecord!))
             return _KernelStateResolver.GetKernelState(StateId);
 
+        // S11.22 - S11.24
+        HandleBalanceReading(kernel2Session, rapdu);
+
         return _KernelStateResolver.GetKernelState(ProcessCardholderAuthenticationMethod(kernel2Session, rapdu, tempTornRecord!));
     }
-
-    #region L1 Error
 
     #region S11.1, S11.11 - S11.17
 
@@ -175,12 +176,9 @@ public partial class WaitingForGenerateAcResponse2
 
     #endregion
 
-    #endregion
-
-    #region L2 Error
-
     #region S11.5 - S11.10
 
+    /// <remarks>Book C-2 Section S11.5 - S11.10</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool TryHandlingL2Error(Kernel2Session session, RecoverAcResponse rapdu, TornRecord tempTornRecord)
     {
@@ -206,6 +204,7 @@ public partial class WaitingForGenerateAcResponse2
 
     #region S11.5
 
+    /// <remarks>Book C-2 Section S11.5</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void RemoveTornEntryFrom(Kernel2Session session)
     {
@@ -222,6 +221,7 @@ public partial class WaitingForGenerateAcResponse2
 
     #region S11.7
 
+    /// <remarks>Book C-2 Section S11.7</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void HandleLStatusBytesError(KernelSessionId sessionId, TornRecord tempTornRecord)
     {
@@ -233,6 +233,7 @@ public partial class WaitingForGenerateAcResponse2
 
     #region S11.8 - S11.10
 
+    /// <remarks>Book C-2 Section S11.8 - S11.10</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
@@ -278,6 +279,7 @@ public partial class WaitingForGenerateAcResponse2
 
     #region S11.10
 
+    /// <remarks>Book C-2 Section S11.10</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void HandleBerParsingError(KernelSessionId sessionId, TornRecord tempTornRecord)
     {
@@ -287,12 +289,9 @@ public partial class WaitingForGenerateAcResponse2
 
     #endregion
 
-    #endregion
-
-    #region Balance Read & Card Write...CDA
-
     #region S11.18 - S11.19
 
+    /// <remarks>Book C-2 Section S11.18 - S11.19</remarks>
     private bool TryHandlingMissingCardData(Kernel2Session session, TornRecord tempTornRecord)
     {
         if (_Database.IsPresentAndNotEmpty(ApplicationTransactionCounter.Tag))
@@ -307,6 +306,7 @@ public partial class WaitingForGenerateAcResponse2
 
     #region S11.20 - S11.21
 
+    /// <remarks>Book C-2 Section S11.20 - S11.21</remarks>
     private bool TryHandlingCardDataError(Kernel2Session session, TornRecord tempTornRecord)
     {
         if (!IsCryptogramInformationDataValid())
@@ -320,6 +320,9 @@ public partial class WaitingForGenerateAcResponse2
 
     #endregion
 
+    #region S11.20
+
+    /// <remarks>Book C-2 Section S11.20</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     private bool IsCryptogramInformationDataValid()
@@ -337,6 +340,7 @@ public partial class WaitingForGenerateAcResponse2
 
     #region S11.22 - S11.24
 
+    /// <remarks>Book C-2 Section S11.22 - S11.24</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void HandleBalanceReading(Kernel2Session session, RecoverAcResponse rapdu)
     {
@@ -350,6 +354,9 @@ public partial class WaitingForGenerateAcResponse2
 
     #endregion
 
+    #region S11.24
+
+    /// <remarks>Book C-2 Section S11.24</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void SetDisplayMessage()
     {
@@ -359,8 +366,11 @@ public partial class WaitingForGenerateAcResponse2
         _DisplayEndpoint.Request(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
     }
 
+    #endregion
+
     #region S11.25
 
+    /// <remarks>Book C-2 Section S11.25</remarks>
     private StateId ProcessCardholderAuthenticationMethod(Kernel2Session session, RecoverAcResponse rapdu, TornRecord tempTornRecord)
     {
         if (_Database.IsPresentAndNotEmpty(SignedDynamicApplicationData.Tag))

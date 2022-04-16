@@ -53,4 +53,10 @@ public record MagstripeCvmCapabilityNoCvmRequired : DataElement<byte>
     public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator byte(MagstripeCvmCapabilityNoCvmRequired value) => value._Value;
+
+    #endregion
 }

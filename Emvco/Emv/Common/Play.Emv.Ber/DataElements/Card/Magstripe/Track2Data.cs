@@ -33,10 +33,6 @@ public record Track2Data : DataElement<Track2>
 
     #region Constructor
 
-    /// <summary>
-    ///     ctor
-    /// </summary>
-    /// <param name="value"></param>
     /// <exception cref="DataElementParsingException"></exception>
     public Track2Data(Track2 value) : base(value)
     { }
@@ -58,7 +54,7 @@ public record Track2Data : DataElement<Track2>
     ///     significant digits of the BCD encoded Application Transaction Counter. The eligible positions in the 'Discretionary
     ///     Data' in Track 2 Data are indicated by the t most significant non-zero bits in PUNATC(Track2).
     /// </summary>
-    /// <remarks>EMVco Book C-2 Section S13.18</remarks>
+    /// <remarks>EMVco Book C-2 Section S13.17 - S13.19</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="BerParsingException"></exception>
@@ -68,11 +64,6 @@ public record Track2Data : DataElement<Track2>
         NumberOfNonZeroBits nun, CardholderVerificationCode3Track2 cvc, PositionOfCardVerificationCode3Track2 pcvc, PunatcTrack2 punatc,
         UnpredictableNumber unpredictableNumber, NumericApplicationTransactionCounterTrack2 natc, ApplicationTransactionCounter atc)
     {
-        //char[] discretionaryData = GetTrack1DiscretionaryData().AsCharArray();
-        //byte qNumberOfChars = new NumberOfNonZeroBits(pcvc);
-        //byte nunNumberOfChars = nun;
-        //byte tNumberOfChars = new NumberOfNonZeroBits(natc);
-
         Nibble[] discretionaryData = GetTrack2DiscretionaryData().AsNibbleArray();
         byte qNumberOfDigits = new NumberOfNonZeroBits(pcvc);
         byte nunNumberOfDigits = (byte) nun;

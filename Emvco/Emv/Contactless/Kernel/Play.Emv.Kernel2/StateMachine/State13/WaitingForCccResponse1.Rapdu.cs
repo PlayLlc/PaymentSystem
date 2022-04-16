@@ -24,6 +24,10 @@ public partial class WaitingForCccResponse1
 {
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         ComputeCryptographicChecksumResponse rapdu = (ComputeCryptographicChecksumResponse) signal;
@@ -32,7 +36,7 @@ public partial class WaitingForCccResponse1
         if (TryHandlingL1Error(session.GetKernelSessionId(), signal))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        // S13.9 - S13.10
+        // S13.6, S13.9 - S13.10
         if (TryHandlingStatusBytesError(session, signal))
             return _KernelStateResolver.GetKernelState(StateId);
 
@@ -47,8 +51,8 @@ public partial class WaitingForCccResponse1
         if (TryHandlingMissingCardData(session))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        // S13.14.2 -  S13.14.4
-        if (TryHandlingDoubleTapResponse())
+        // S13.14.2 -  S13.14.3, S13.41 - S13.45
+        if (TryHandlingDoubleTapResponse(session))
             return _KernelStateResolver.GetKernelState(Idle.StateId);
 
         // S13.14.5 - S13.14.8
@@ -58,11 +62,14 @@ public partial class WaitingForCccResponse1
         if (TryHandlingMissingCvc3Track1Data(session))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        // S13.18 - S13.19
-        UpdateTrack2Data();
+        // S13.17 - S13.19
+        UpdateTrack2Data(nun);
 
         // S13.20 - S13.22
         UpdateTrack1Data(nun);
+
+        // S13.24 - S13.26
+        HandleOnlineResponse(session);
 
         // S13.42.1 - S13.43 
         return _KernelStateResolver.GetKernelState(Idle.StateId);
@@ -135,7 +142,7 @@ public partial class WaitingForCccResponse1
 
     #endregion
 
-    #region S13.9 - S13.10
+    #region S13.6, S13.9 - S13.10
 
     /// <remarks>Book C-2 Section S13.9 - S13.10</remarks>
     /// <exception cref="TerminalDataException"></exception>
@@ -249,34 +256,51 @@ public partial class WaitingForCccResponse1
 
     #endregion
 
-    #region S13.14.2 -  S13.14.4
+    #region S13.14.2 -  S13.14.3, S13.41 - S13.45
 
     /// <remarks>Book C-2 Section S13.14.2 -  S13.14.4</remarks>
-    /// <exception cref="TerminalDataException"></exception>
-    private bool TryHandlingDoubleTapResponse()
+    private bool TryHandlingDoubleTapResponse(KernelSession session)
     {
-        if (_Database.IsPresentAndNotEmpty(CardholderVerificationCode3Track2.Tag))
-            return false;
-
-        if (!_Database.IsPresentAndNotEmpty(PosCardholderInteractionInformation.Tag))
-            return false;
-
-        if (_Database.Get<PosCardholderInteractionInformation>(PosCardholderInteractionInformation.Tag).IsSecondTapNeeded())
+        try
         {
-            HandleDoubleTapResponse();
+            if (_Database.IsPresentAndNotEmpty(CardholderVerificationCode3Track2.Tag))
+                return false;
+
+            if (!_Database.IsPresentAndNotEmpty(PosCardholderInteractionInformation.Tag))
+                return false;
+
+            if (_Database.Get<PosCardholderInteractionInformation>(PosCardholderInteractionInformation.Tag).IsSecondTapNeeded())
+            {
+                HandleDoubleTapResponse(session);
+
+                return true;
+            }
+
+            HandleDeclinedResponse(session);
 
             return true;
         }
+        catch (TerminalDataException)
+        {
+            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
+            // HACK: This is in case there's an exception retrieving the OUT response from the database, but we should probably do something better here
+            _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        }
+        catch (Exception)
+        {
+            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
+            // HACK: This is in case there's an exception retrieving the OUT response from the database, but we should probably do something better here
+            _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        }
 
-        HandleDeclinedResponse();
-
-        return true;
+        return false;
     }
 
     #endregion
 
     #region S13.14.5 - S13.14.8
 
+    /// <remarks>Book C-2 Section S13.14.5 - S13.14.8</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private NumberOfNonZeroBits CalculateNun()
     {
@@ -293,6 +317,7 @@ public partial class WaitingForCccResponse1
 
     #region S13.15 - S13.16
 
+    /// <remarks>Book C-2 Section S13.15 - S13.16</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool TryHandlingMissingCvc3Track1Data(KernelSession session)
     {
@@ -311,10 +336,9 @@ public partial class WaitingForCccResponse1
 
     #endregion
 
-    #region ___Update Discretionary Data in Track 1 & 2
+    #region S13.17 - S13.19
 
-    #region S13.18 - S13.19
-
+    /// <remarks>Book C-2 Section S13.17 - S13.19</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="BerParsingException"></exception>
@@ -332,13 +356,14 @@ public partial class WaitingForCccResponse1
         UnpredictableNumber unpredictableNumber = _Database.Get<UnpredictableNumber>(UnpredictableNumber.Tag);
         Track2Data track2 = _Database.Get<Track2Data>(Track2Data.Tag);
 
-        _Database.Update(track2.UpdateDiscretionaryData(cvc, pcvc, punatc, unpredictableNumber, natc, atc));
+        _Database.Update(track2.UpdateDiscretionaryData(nun, cvc, pcvc, punatc, unpredictableNumber, natc, atc));
     }
 
     #endregion
 
     #region S13.20 - S13.22
 
+    /// <remarks>Book C-2 Section S13.20 - S13.22</remarks>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
@@ -360,9 +385,96 @@ public partial class WaitingForCccResponse1
 
     #endregion
 
+    #region S13.24 - S13.26
+
+    /// <remarks>Book C-2 Section S13.24 - S13.26</remarks>
+    private void HandleOnlineResponse(KernelSession session)
+    {
+        try
+        {
+            if (IsCvmLimitExceeded())
+            {
+                HandleOnlineCvmRequiredResponse(session);
+
+                return;
+            }
+
+            HandleOnlineNoCvmRequiredResponse(session);
+        }
+        catch (TerminalDataException)
+        {
+            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
+            // HACK: This is in case there's an exception retrieving the OUT response from the database, but we should probably do something better here
+        }
+        catch (Exception)
+        {
+            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
+            // HACK: This is in case there's an exception retrieving the OUT response from the database, but we should probably do something better here
+        }
+        finally
+        {
+            _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+        }
+    }
+
     #endregion
 
-    #region ___Online OUT Responses and Stuff
+    #region S13.24 - S13.26
+
+    /// <remarks>Book C-2 Section S13.24 - S13.26</remarks>
+    /// <exception cref="TerminalDataException"></exception>
+    private bool IsCvmLimitExceeded()
+    {
+        // BUG: We need to make sure that we're grabbing the correct currency code when comparing units of money. Take a look at the specification and see when you're supposed to be using TransactionReferenceCurrencyCode
+        TransactionCurrencyCode transactionCurrencyCode = _Database.Get<TransactionCurrencyCode>(TransactionCurrencyCode.Tag);
+        AmountAuthorizedNumeric amountAuthorizedNumeric = _Database.Get<AmountAuthorizedNumeric>(AmountAuthorizedNumeric.Tag);
+        ReaderCvmRequiredLimit readerCvmRequiredLimit = _Database.Get<ReaderCvmRequiredLimit>(ReaderCvmRequiredLimit.Tag);
+
+        return amountAuthorizedNumeric.AsMoney(transactionCurrencyCode) > readerCvmRequiredLimit.AsMoney(transactionCurrencyCode);
+    }
+
+    #endregion
+
+    #region S13.25
+
+    /// <remarks>Book C-2 Section S13.25</remarks>
+    /// <exception cref="TerminalDataException"></exception>
+    private void HandleOnlineNoCvmRequiredResponse(KernelSession session)
+    {
+        _Database.Update(StatusOutcome.OnlineRequest);
+        MagstripeCvmCapabilityNoCvmRequired cvmCapability = _Database.Get<MagstripeCvmCapabilityNoCvmRequired>(MagstripeCvmCapabilityNoCvmRequired.Tag);
+
+        if ((byte) cvmCapability! == CvmCodes.SignaturePaper)
+            _Database.SetIsReceiptPresent(true);
+
+        _Database.Update(CvmPerformedOutcome.Get((byte) cvmCapability));
+
+        _Database.SetIsDataRecordPresent(true);
+        _Database.CreateMagstripeDataRecord(_DataExchangeKernelService);
+        _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
+
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+    }
+
+    #endregion
+
+    #region S13.26
+
+    /// <remarks>Book C-2 Section S13.26</remarks>
+    /// <exception cref="TerminalDataException"></exception>
+    private void HandleOnlineCvmRequiredResponse(KernelSession session)
+    {
+        _Database.Update(StatusOutcome.OnlineRequest);
+        MagstripeCvmCapabilityCvmRequired cvmCapability = _Database.Get<MagstripeCvmCapabilityCvmRequired>(MagstripeCvmCapabilityCvmRequired.Tag);
+
+        _Database.Update(CvmPerformedOutcome.Get((byte) cvmCapability));
+        _Database.SetIsReceiptPresent(true);
+        _Database.SetIsDataRecordPresent(true);
+        _Database.CreateMagstripeDataRecord(_DataExchangeKernelService);
+        _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
+
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+    }
 
     #endregion
 
@@ -378,48 +490,81 @@ public partial class WaitingForCccResponse1
         // S13.31
         _Database.FailedMagstripeCounter.Increment();
 
-        try
-        {
-            _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-            _Database.Update(Status.NotReady);
-            _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
-            _Database.Update(StatusOutcome.EndApplication);
-            _Database.Update(StartOutcome.B);
-            _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-            _Database.SetUiRequestOnOutcomePresent(true);
-            _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
-            _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
-        }
-        catch (TerminalDataException)
-        {
-            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-        }
-        catch (Exception)
-        {
-            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
-        }
-        finally
-        {
-            // HACK: This is incase there's an exception retrieving the OUT response from the database, but we should probably do something better here
-            _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
-        }
+        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(Status.NotReady);
+        _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
+        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StartOutcome.B);
+        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
+        _Database.SetUiRequestOnOutcomePresent(true);
+        _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
     }
-
-    #endregion
-
-    #region S13.41, S13.44 - S13.45
-
-    /// <remarks>Book C-2 Section S13.41, S13.44 - S13.45</remarks>
-    private void HandleDoubleTapResponse()
-    { }
 
     #endregion
 
     #region S13.42.1 - S13.43
 
     /// <remarks>Book C-2 Section S13.42.1 - S13.43</remarks>
-    private void HandleDeclinedResponse()
-    { }
+    /// <exception cref="TerminalDataException"></exception>
+    private void HandleDeclinedResponse(KernelSession session)
+    {
+        Sleep();
+
+        _Database.FailedMagstripeCounter.Increment();
+
+        _Database.Update(MessageHoldTime.MinimumValue);
+        _Database.Update(Status.ReadyToRead);
+        _Database.SetUiRequestOnRestartPresent(true);
+        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StartOutcome.B);
+        _Database.SetIsDataRecordPresent(true);
+        _Database.CreateMagstripeDataRecord(_DataExchangeKernelService);
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+    }
+
+    #endregion
+
+    #region 13.44
+
+    /// <remarks>Book C-2 Section 13.44</remarks>
+    /// <exception cref="TerminalDataException"></exception>
+    private void DisplayPhoneMessage()
+    {
+        PhoneMessageTable phoneMessageTable = _Database.Get<PhoneMessageTable>(PhoneMessageTable.Tag);
+        PosCardholderInteractionInformation pcii = _Database.Get<PosCardholderInteractionInformation>(PosCardholderInteractionInformation.Tag);
+
+        if (!phoneMessageTable.TryGetMatch(pcii, out MessageTableEntry? messageTableEntry))
+            return;
+
+        _Database.Update(MessageIdentifiers.Get(messageTableEntry!.GetMessageIdentifier()));
+        _Database.Update(messageTableEntry.GetStatus());
+    }
+
+    #endregion
+
+    #region S13.44 - S13.45
+
+    /// <remarks>Book C-2 Section S13.41, S13.44 - S13.45</remarks>
+    /// <exception cref="TerminalDataException"></exception>
+    private void HandleDoubleTapResponse(KernelSession session)
+    {
+        DisplayPhoneMessage();
+        Sleep();
+        _Database.FailedMagstripeCounter.Increment();
+
+        _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
+        _Database.Update(MessageIdentifiers.Declined);
+        _Database.Update(Status.NotReady);
+        _Database.Update(StatusOutcome.Declined);
+        _Database.SetIsDataRecordPresent(true);
+        _Database.SetUiRequestOnOutcomePresent(true);
+        _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
+        _Database.CreateMagstripeDataRecord(_DataExchangeKernelService);
+
+        _Database.Update(StartOutcome.B);
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+    }
 
     #endregion
 }

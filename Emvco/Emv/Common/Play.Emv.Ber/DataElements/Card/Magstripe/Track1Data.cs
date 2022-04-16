@@ -46,6 +46,21 @@ public record Track1Data : DataElement<Track1>
     /// <exception cref="OverflowException"></exception>
     public TrackPrimaryAccountNumber GetPrimaryAccountNumber() => _Value.GetPrimaryAccountNumber();
 
+    /// <summary>
+    ///     q := Number of non-zero bits in PCVC3(Track2)
+    ///     t := NATC(Track2)
+    ///     Convert the binary encoded CVC3 (Track2) to the BCD encoding of the corresponding number expressed in base 10. Copy
+    ///     the q least significant digits of the BCD encoded CVC3 (Track2) in the eligible positions of the 'Discretionary
+    ///     Data' in Track 2 Data. The eligible positions are indicated by the q non-zero bits in PCVC3(Track2). Replace the
+    ///     nUN least significant eligible positions of the 'Discretionary Data' in Track 2 Data by the nUN least significant
+    ///     digits of Unpredictable Number (Numeric). The eligible positions in the 'Discretionary Data' in Track 2 Data are
+    ///     indicated by the nUN least significant non-zero bits in PUNATC(Track2). If t ≠ 0, convert the Application
+    ///     Transaction Counter to the BCD encoding of the corresponding number expressed in base 10. Replace the t most
+    ///     significant eligible positions of the 'Discretionary Data' in Track 2 Data by the t least significant digits of the
+    ///     BCD encoded Application Transaction Counter. The eligible positions in the 'Discretionary Data' in Track 2 Data are
+    ///     indicated by the t most significant non-zero bits in PUNATC(Track2).
+    /// </summary>
+    /// <remarks>EMVco Book C-2 Section S13.20 - S13.22</remarks>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
