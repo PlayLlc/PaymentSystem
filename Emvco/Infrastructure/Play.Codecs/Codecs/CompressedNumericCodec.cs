@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs.Exceptions;
+using Play.Core;
 using Play.Core.Extensions;
 using Play.Core.Specifications;
 
@@ -56,6 +57,20 @@ public class CompressedNumericCodec : PlayCodec
 
         return padCount;
     }
+
+    #region Decode To Nibbles
+
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    public Nibble[] DecodeToNibbles(ReadOnlySpan<byte> value)
+    {
+        ReadOnlySpan<Nibble> nibbles = value.AsNibbleArray();
+        int charCount = GetCharCount(value);
+
+        return nibbles[..^(nibbles.Length - charCount)].ToArray();
+    }
+
+    #endregion
 
     #endregion
 
@@ -121,15 +136,17 @@ public class CompressedNumericCodec : PlayCodec
     private const char _PaddingCharKey = 'F';
     private const byte _PaddedLeftNibble = 0xF0;
     private const byte _PaddedRightNibble = 0xF;
+    private static readonly Nibble _PaddedNibble = Nibble.MaxValue;
     private const byte _PaddedByte = 0xFF;
 
     #endregion
 
     #region Count
 
-    // HACK: We're removing the dynamic decoding capability and using explicit decoding calls
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     public override ushort GetByteCount<T>(T value) where T : struct => checked((ushort) Unsafe.SizeOf<T>());
 
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     public override ushort GetByteCount<T>(T[] value) where T : struct
     {
         // HACK: We're removing the dynamic decoding capability and using explicit decoding calls
@@ -142,9 +159,37 @@ public class CompressedNumericCodec : PlayCodec
         throw new NotImplementedException();
     }
 
-    public int GetByteCount(char[] chars, int index, int count) => GetMaxByteCount(count);
     public int GetMaxByteCount(int charCount) => charCount / 2;
-    public int GetCharCount(byte[] bytes, int index, int count) => GetMaxCharCount(count);
+
+    public int GetCharCount(ReadOnlySpan<byte> value)
+    {
+        for (int i = value.Length - 1, j = 0; i > 0; i--)
+        {
+            if (value[i].GetMaskedValue(_PaddedLeftNibble) != _PaddedRightNibble)
+                return (value.Length * 2) - j;
+
+            j++;
+
+            if (value[i].GetMaskedValue(_PaddedRightNibble) == _PaddedLeftNibble)
+                return (value.Length * 2) - j;
+
+            j++;
+        }
+
+        return 0;
+    }
+
+    public int GetCharCount(ReadOnlySpan<Nibble> value)
+    {
+        for (int i = value.Length - 1; i > 0; i--)
+        {
+            if (value[i] == _PaddedNibble)
+                return value.Length - i;
+        }
+
+        return 0;
+    }
+
     public int GetMaxCharCount(int byteCount) => byteCount * 2;
 
     #endregion

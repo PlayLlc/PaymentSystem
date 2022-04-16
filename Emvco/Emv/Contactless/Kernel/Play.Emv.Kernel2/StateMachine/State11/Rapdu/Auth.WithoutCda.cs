@@ -162,9 +162,10 @@ public partial class WaitingForGenerateAcResponse2
                 return;
 
             Track2EquivalentData track2EquivalentDataBuffer = _Database.Get<Track2EquivalentData>(Track2EquivalentData.Tag);
+            TrackPrimaryAccountNumber pan = track2EquivalentDataBuffer.GetPrimaryAccountNumber();
             Nibble[] discretionaryDataBuffer;
 
-            if (track2EquivalentDataBuffer.GetNumberOfDigitsInPrimaryAccountNumber() <= 16)
+            if (pan.GetCharCount() <= 16)
             {
                 discretionaryDataBuffer = new Nibble[]
                 {
@@ -186,7 +187,7 @@ public partial class WaitingForGenerateAcResponse2
             ReadOnlySpan<Nibble> deviceRelayResistanceEntropyNibbles = deviceRelayResistanceEntropy.EncodeValue()[^2..].AsNibbleArray();
             deviceRelayResistanceEntropyNibbles.CopyTo(discretionaryDataBuffer[2..]);
 
-            if (track2EquivalentDataBuffer.GetNumberOfDigitsInPrimaryAccountNumber() <= 16)
+            if (pan.GetCharCount() <= 16)
             {
                 byte entropySeed = deviceRelayResistanceEntropy.EncodeValue()[^3];
                 discretionaryDataBuffer[4] = new Nibble((byte) (entropySeed / 100));

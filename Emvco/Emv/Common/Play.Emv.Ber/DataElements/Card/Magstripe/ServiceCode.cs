@@ -7,6 +7,9 @@ using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
 
+/// <summary>
+///     Service code as defined in Track 1 Data and Track 2 Data
+/// </summary>
 public record ServiceCode : DataElement<ushort>
 {
     #region Static Metadata

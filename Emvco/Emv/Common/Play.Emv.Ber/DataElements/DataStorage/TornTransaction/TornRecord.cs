@@ -61,7 +61,7 @@ public record TornRecord : DataExchangeResponse
     [SuppressMessage("Design", "Ex0100:Member may throw undocumented exception", Justification = "<Pending>")]
     public static TornRecord CreateEmptyTornRecord()
     {
-        ApplicationPan mandatoryRecordObject1 = new(new PrimaryAccountNumber(Array.Empty<Nibble>()));
+        ApplicationPan mandatoryRecordObject1 = new(new TrackPrimaryAccountNumber(Array.Empty<Nibble>()));
         ApplicationPanSequenceNumber mandatoryRecordObject2 = new(0);
 
         return new TornRecord(Record.Create(new PrimitiveValue[] {mandatoryRecordObject1, mandatoryRecordObject2}));

@@ -14,6 +14,24 @@ namespace Play.Codecs;
 
 public class NumericCodec : PlayCodec
 {
+    #region Instance Members
+
+    #region Decode To Nibbles
+
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    public Nibble[] DecodeToNibbles(ReadOnlySpan<byte> value)
+    {
+        ReadOnlySpan<Nibble> nibbles = value.AsNibbleArray();
+        int charCount = GetCharCount(value);
+
+        return nibbles[^charCount..].ToArray();
+    }
+
+    #endregion
+
+    #endregion
+
     #region Serialization
 
     #region Decode To DecodedMetadata
@@ -114,6 +132,7 @@ public class NumericCodec : PlayCodec
 
     #region Metadata
 
+    private const byte _PadValue = 0;
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public static readonly PlayEncodingId EncodingId = new(typeof(NumericCodec));
 
@@ -127,6 +146,7 @@ public class NumericCodec : PlayCodec
 
     #region Count
 
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     public override ushort GetByteCount<T>(T[] value) where T : struct
     {
         if (typeof(T) == typeof(char))
@@ -135,9 +155,28 @@ public class NumericCodec : PlayCodec
         throw new NotImplementedException();
     }
 
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     public override ushort GetByteCount<T>(T value) where T : struct => checked((ushort) Unsafe.SizeOf<T>());
     public int GetMaxByteCount(int charCount) => charCount / 2;
     public int GetMaxCharCount(int byteCount) => byteCount * 2;
+
+    public int GetCharCount(ReadOnlySpan<byte> value)
+    {
+        for (int i = 0, j = 0; i < value.Length; i++)
+        {
+            if ((value[i] >> 4) != _PadValue)
+                return (value.Length * 2) - j;
+
+            j++;
+
+            if (value[i].GetMaskedValue(0xF0) != _PadValue)
+                return (value.Length * 2) - j;
+
+            j++;
+        }
+
+        return 0;
+    }
 
     #endregion
 
@@ -721,24 +760,6 @@ public class NumericCodec : PlayCodec
         }
 
         return resultBuffer;
-    }
-
-    public Nibble[] DecodeToNibbles(ReadOnlySpan<byte> value)
-    {
-        Nibble[] result = new Nibble[value.Length * 2];
-
-        for (int i = 0; i < result.Length; i++)
-        {
-            if (!IsValid(value[i]))
-                throw new CodecParsingException($"The argument provided was not in a valid {nameof(NumericCodec)} format");
-
-            if ((i % 2) == 0)
-                result[i] = new Nibble((byte) (value[i / 2] >> 4));
-            else
-                result[i] = new Nibble(value[i / 2].GetMaskedValue(0xF0));
-        }
-
-        return result;
     }
 
     public byte DecodeToByte(ReadOnlySpan<byte> value)

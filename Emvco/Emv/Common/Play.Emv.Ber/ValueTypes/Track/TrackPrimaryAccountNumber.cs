@@ -3,8 +3,15 @@ using Play.Core.Extensions;
 
 namespace Play.Emv.Ber;
 
-public readonly record struct PrimaryAccountNumber
+public readonly record struct TrackPrimaryAccountNumber
 {
+    #region Static Metadata
+
+    public const byte MaxNumberOfDigits = 19;
+    public const byte MaxByteCount = 10;
+
+    #endregion
+
     #region Instance Values
 
     private readonly Nibble[] _Value;
@@ -13,7 +20,7 @@ public readonly record struct PrimaryAccountNumber
 
     #region Constructor
 
-    public PrimaryAccountNumber(ReadOnlySpan<Nibble> value)
+    public TrackPrimaryAccountNumber(ReadOnlySpan<Nibble> value)
     {
         _Value = value.ToArray();
     }
@@ -21,6 +28,8 @@ public readonly record struct PrimaryAccountNumber
     #endregion
 
     #region Instance Members
+
+    public int GetCharCount() => _Value.Length;
 
     /// <exception cref="OverflowException"></exception>
     public bool IsCheckSumValid()

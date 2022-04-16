@@ -1,82 +1,43 @@
-﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                        xmlns:s="clr-namespace:System;assembly=mscorlib"
-                        xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml"
-                        xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=codec/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=database/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=database_005Cdefaults/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=database_005Cdefaults/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements/@EntryIndexedValue">False</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cacquirer/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Ccard/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Ccard_005Chce/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Ccard_005Cicc/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Ccard_005Cicc_005Crelayresistanceprotocol/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Ccard_005Cmagstripe/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Ccvm/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cdataexchange/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cdatastorage/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cdatastorage_005Cintegrateddatastorage/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cdatastorage_005Cstandalonedatastorage/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cdatastorage_005Ctorntransaction/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cdatastorage_005Ctransactioncounter/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cinterchange/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cissuer/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Ckernel/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cmerchant/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Coutcome/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cproximitycouplingdevice/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Creader/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Csecurity/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cterminal/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cterminal_005Cconfiguration/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cterminal_005Crelayresistance/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cterminal_005Cterminalactionanalysis/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Ctransaction/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=templates_005Ccommands/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=templates_005Cfilecontrolinformation/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=templates_005Cfilecontrolinformation_005Capplicationdefinitionfile/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=templates_005Cfilecontrolinformation_005Cdirectorydefinitionfile/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=templates_005Cfilecontrolinformation_005Cproximitypaymentsystemenvironment/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=templates_005Crecords/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=templates_005Cresponsemessages/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=templates_005Cresponsemessages_005Cprocessingoptionsresponse/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cacquirer/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Ccard/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Ccard_005Chce/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Ccard_005Cicc/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Ccard_005Cicc_005Crelayresistanceprotocol/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Ccard_005Cmagstripe/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Ccvm/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cdataexchange/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cdatastorage/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cdatastorage_005Cintegrateddatastorage/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cdatastorage_005Cstandalonedatastorage/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cdatastorage_005Ctorntransaction/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cdatastorage_005Ctransactioncounter/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cinterchange/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cissuer/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Ckernel/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cmerchant/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Coutcome/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cproximitycouplingdevice/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Creader/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Csecurity/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cterminal/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cterminal_005Cconfiguration/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cterminal_005Crelayresistance/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Cterminal_005Cterminalactionanalysis/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=dataelements_005Ctransaction/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=templates_005Ccommands/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=templates_005Cfilecontrolinformation/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=templates_005Cfilecontrolinformation_005Capplicationdefinitionfile/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=templates_005Cfilecontrolinformation_005Cdirectorydefinitionfile/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=templates_005Cfilecontrolinformation_005Cproximitypaymentsystemenvironment/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=templates_005Crecords/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=templates_005Cresponsemessages/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=templates_005Cresponsemessages_005Cprocessingoptionsresponse/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=valuetypes/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=valuetypes_005Cinterchange/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean
-		x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=valuetypes_005Cmessagetableentry/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=valuetypes_005Cinterchange/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=valuetypes_005Cmessagetableentry/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=valuetypes_005Ctrack/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

@@ -10,6 +10,14 @@ public readonly record struct DateTimeUtc
     #region Instance Values
 
     private readonly DateTime _Value;
+    public int Year => _Value.Year;
+    public int Month => _Value.Year;
+    public int Day => _Value.Year;
+    public int Hour => _Value.Hour;
+    public int Minute => _Value.Minute;
+    public int Second => _Value.Second;
+    public static DateTimeUtc Now => new(DateTime.UtcNow.Date);
+    public static DateTimeUtc Today => new(DateTime.UtcNow);
 
     #endregion
 
@@ -45,19 +53,6 @@ public readonly record struct DateTimeUtc
 
         _Value = DateTime.UtcNow;
     }
-
-    #endregion
-
-    #region Instance Members
-
-    public int Year() => _Value.Year;
-    public int Month() => _Value.Year;
-    public int Day() => _Value.Year;
-    public int Hour() => _Value.Hour;
-    public int Minute() => _Value.Minute;
-    public int Second() => _Value.Second;
-    public static DateTimeUtc Now() => new(DateTime.UtcNow.Date);
-    public static DateTimeUtc Today() => new(DateTime.UtcNow);
 
     #endregion
 

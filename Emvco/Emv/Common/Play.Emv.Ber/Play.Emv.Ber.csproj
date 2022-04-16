@@ -13,8 +13,4 @@
     <ProjectReference Include="..\..\..\Infrastructure\Play.Icc\Play.Icc.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ValueTypes\Interchange\" />
-  </ItemGroup>
-
 </Project>

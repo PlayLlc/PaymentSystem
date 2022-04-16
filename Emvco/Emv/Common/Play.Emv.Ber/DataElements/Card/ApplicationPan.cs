@@ -13,7 +13,7 @@ namespace Play.Emv.Ber.DataElements;
 /// <summary>
 ///     Valid cardholder account number
 /// </summary>
-public record ApplicationPan : DataElement<PrimaryAccountNumber>
+public record ApplicationPan : DataElement<TrackPrimaryAccountNumber>
 {
     #region Static Metadata
 
@@ -26,7 +26,7 @@ public record ApplicationPan : DataElement<PrimaryAccountNumber>
 
     #region Constructor
 
-    public ApplicationPan(PrimaryAccountNumber value) : base(value)
+    public ApplicationPan(TrackPrimaryAccountNumber value) : base(value)
     { }
 
     #endregion
@@ -116,11 +116,11 @@ public record ApplicationPan : DataElement<PrimaryAccountNumber>
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteCount, Tag);
 
-        Nibble[] result = PlayCodec.NumericCodec.DecodeToNibbles(value);
+        Nibble[] result = PlayCodec.CompressedNumericCodec.DecodeToNibbles(value);
 
         Check.Primitive.ForMaxCharLength(result.Length, _MaxCharCount, Tag);
 
-        return new ApplicationPan(new PrimaryAccountNumber(result));
+        return new ApplicationPan(new TrackPrimaryAccountNumber(result));
     }
 
     #endregion

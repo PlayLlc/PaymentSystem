@@ -167,7 +167,9 @@ internal partial class S910
             Track2EquivalentData track2EquivalentDataBuffer = _Database.Get<Track2EquivalentData>(Track2EquivalentData.Tag);
             Nibble[] discretionaryDataBuffer;
 
-            if (track2EquivalentDataBuffer.GetNumberOfDigitsInPrimaryAccountNumber() <= 16)
+            TrackPrimaryAccountNumber pan = track2EquivalentDataBuffer.GetPrimaryAccountNumber();
+
+            if (pan.GetCharCount() <= 16)
             {
                 discretionaryDataBuffer = new Nibble[]
                 {
@@ -189,7 +191,7 @@ internal partial class S910
             ReadOnlySpan<Nibble> deviceRelayResistanceEntropyNibbles = deviceRelayResistanceEntropy.EncodeValue()[^2..].AsNibbleArray();
             deviceRelayResistanceEntropyNibbles.CopyTo(discretionaryDataBuffer[2..]);
 
-            if (track2EquivalentDataBuffer.GetNumberOfDigitsInPrimaryAccountNumber() <= 16)
+            if (pan.GetCharCount() <= 16)
             {
                 byte entropySeed = deviceRelayResistanceEntropy.EncodeValue()[^3];
                 discretionaryDataBuffer[4] = new Nibble((byte) (entropySeed / 100));

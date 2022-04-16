@@ -12,6 +12,7 @@ public readonly record struct Nibble
     #region Static Metadata
 
     public static readonly Nibble MaxValue = new(0xF);
+    public static readonly Nibble MinValue = new(0);
     private const byte _UnrelatedBits = 0xF0;
 
     #endregion
