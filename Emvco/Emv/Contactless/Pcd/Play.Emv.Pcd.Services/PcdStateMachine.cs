@@ -49,7 +49,7 @@ internal class PcdStateMachine
             if (_PcdSessionLock.Session != null)
             {
                 throw new RequestOutOfSyncException(
-                    $"The {nameof(ActivatePcdRequest)} can't be processed because a {nameof(ChannelType.ProximityCouplingDevice)} already exists for {nameof(TransactionSessionId)}: [{_PcdSessionLock.Session!.TransactionSessionId}]");
+                    $"The {nameof(ActivatePcdRequest)} can't be processed because a {nameof(ProximityCouplingDeviceChannel.Id)} already exists for {nameof(TransactionSessionId)}: [{_PcdSessionLock.Session!.TransactionSessionId}]");
             }
 
             _PcdSessionLock.Session = new PcdSession(request.GetTransactionSessionId());
@@ -163,13 +163,13 @@ internal class PcdStateMachine
             if (_PcdSessionLock.Session == null)
             {
                 throw new RequestOutOfSyncException(
-                    $"The {nameof(QueryPcdRequest)} can't be processed because a {nameof(ChannelType.ProximityCouplingDevice)} session does not exist");
+                    $"The {nameof(QueryPcdRequest)} can't be processed because a {nameof(ProximityCouplingDeviceChannel.Id)} session does not exist");
             }
 
             if (request.GetTransactionSessionId() != _PcdSessionLock.Session.TransactionSessionId)
             {
                 throw new RequestOutOfSyncException(
-                    $"The {nameof(QueryPcdRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{request.GetTransactionSessionId()}] but the current {nameof(ChannelType.ProximityCouplingDevice)} session has a {nameof(TransactionSessionId)} of: [{_PcdSessionLock.Session.TransactionSessionId}]");
+                    $"The {nameof(QueryPcdRequest)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{request.GetTransactionSessionId()}] but the current {nameof(ProximityCouplingDeviceChannel.Id)} session has a {nameof(TransactionSessionId)} of: [{_PcdSessionLock.Session.TransactionSessionId}]");
             }
 
             switch (request)

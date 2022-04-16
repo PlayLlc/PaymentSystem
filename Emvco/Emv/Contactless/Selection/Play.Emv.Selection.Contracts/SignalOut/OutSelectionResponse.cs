@@ -11,7 +11,7 @@ public record OutSelectionResponse : ResponseSignal
     #region Static Metadata
 
     public static readonly MessageTypeId MessageTypeId = CreateMessageTypeId(typeof(OutSelectionResponse));
-    public static readonly ChannelTypeId ChannelTypeId = ChannelType.Selection;
+    public static readonly ChannelTypeId ChannelTypeId = SelectionChannel.Id;
 
     #endregion
 

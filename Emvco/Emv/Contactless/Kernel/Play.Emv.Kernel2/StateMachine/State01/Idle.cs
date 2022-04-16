@@ -56,7 +56,7 @@ public partial class Idle : KernelState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     #endregion
 
@@ -72,7 +72,7 @@ public partial class Idle : KernelState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     /// <summary>
     ///     Handle
@@ -82,7 +82,7 @@ public partial class Idle : KernelState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     /// <summary>
     ///     Handle
@@ -92,7 +92,7 @@ public partial class Idle : KernelState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     #endregion
 }

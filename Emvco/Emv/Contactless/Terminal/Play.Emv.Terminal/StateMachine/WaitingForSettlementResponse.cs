@@ -65,7 +65,7 @@ public class WaitingForSettlementResponse : TerminalState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override TerminalState Handle(TerminalSession session, OutReaderResponse signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
+        throw new RequestOutOfSyncException(signal, TerminalChannel.Id);
 
     /// <summary>
     ///     Handle
@@ -75,7 +75,7 @@ public class WaitingForSettlementResponse : TerminalState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override TerminalState Handle(TerminalSession session, QueryKernelResponse signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
+        throw new RequestOutOfSyncException(signal, TerminalChannel.Id);
 
     /// <summary>
     ///     Handle
@@ -85,7 +85,7 @@ public class WaitingForSettlementResponse : TerminalState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override TerminalState Handle(TerminalSession session, StopReaderAcknowledgedResponse signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
+        throw new RequestOutOfSyncException(signal, TerminalChannel.Id);
 
     /// <summary>
     ///     Handle
@@ -99,7 +99,7 @@ public class WaitingForSettlementResponse : TerminalState
         if (session != null)
         {
             throw new RequestOutOfSyncException(
-                $"The {nameof(ActivateTerminalRequest)} can't be processed because the {nameof(ChannelType.Terminal)} already has an active session in progress");
+                $"The {nameof(ActivateTerminalRequest)} can't be processed because the {nameof(TerminalChannel.Id)} already has an active session in progress");
         }
 
         _SequenceGenerator.Reset(signal);
@@ -115,7 +115,7 @@ public class WaitingForSettlementResponse : TerminalState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override TerminalState Handle(TerminalSession session, QueryTerminalRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Terminal);
+        throw new RequestOutOfSyncException(signal, TerminalChannel.Id);
 
     #endregion
 }

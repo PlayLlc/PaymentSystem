@@ -51,7 +51,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, ActivateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     #endregion
 
@@ -63,7 +63,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <param name="signal"></param>
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+    public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     #endregion
 
@@ -73,15 +73,15 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryTerminalResponse signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     #endregion
 }

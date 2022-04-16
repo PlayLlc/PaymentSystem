@@ -54,14 +54,14 @@ public partial class WaitingForGpoResponse : KernelState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, ActivateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     #endregion
 
     #region CLEAN
 
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+    public override KernelState Handle(CleanKernelRequest signal) => throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     #endregion
 
@@ -77,7 +77,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     /// <summary>
     ///     Handle
@@ -87,7 +87,7 @@ public partial class WaitingForGpoResponse : KernelState
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, ChannelType.Kernel);
+        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     #endregion
 }
