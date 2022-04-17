@@ -69,7 +69,7 @@ internal class SystemTraceAuditNumberSequencer : IGenerateSequenceTraceAuditNumb
     // BUG: We're probably going to want to enqueue a signal in the Terminal Process, or maybe run this as a separate process that communicates independently with the Acquirer when the STAN reaches a threshold
     private void SendReconciliationMessage()
     {
-        _TerminalEndpoint.Request(new InitiateSettlementRequest(DateTimeUtc.Now()));
+        _TerminalEndpoint.Request(new InitiateSettlementRequest(DateTimeUtc.Now));
     }
 
     #endregion

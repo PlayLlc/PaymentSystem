@@ -36,7 +36,7 @@ public class Record : IEqualityComparer<Record>, IEquatable<Record>
     {
         _Key = key;
         _Value = value;
-        _CommitTimeStamp = DateTimeUtc.Now();
+        _CommitTimeStamp = DateTimeUtc.Now;
     }
 
     #endregion
@@ -74,8 +74,7 @@ public class Record : IEqualityComparer<Record>, IEquatable<Record>
             buffer.Add(cardRiskManagementDataObjectList1RelatedData!);
         if (database.TryGet(CvmResults.Tag, out CvmResults? cvmResults))
             buffer.Add(cvmResults!);
-        if (database.TryGet(DataRecoveryDataObjectListRelatedData.Tag,
-            out DataRecoveryDataObjectListRelatedData? dataRecoveryDataObjectListRelatedData))
+        if (database.TryGet(DataRecoveryDataObjectListRelatedData.Tag, out DataRecoveryDataObjectListRelatedData? dataRecoveryDataObjectListRelatedData))
             buffer.Add(dataRecoveryDataObjectListRelatedData!);
         if (database.TryGet(DataStorageSummary1.Tag, out DataStorageSummary1? dataStorageSummary1))
             buffer.Add(dataStorageSummary1!);
@@ -110,24 +109,20 @@ public class Record : IEqualityComparer<Record>, IEquatable<Record>
             buffer.Add(terminalRelayResistanceEntropy!);
         if (database.TryGet(DeviceRelayResistanceEntropy.Tag, out DeviceRelayResistanceEntropy? deviceRelayResistanceEntropy))
             buffer.Add(deviceRelayResistanceEntropy!);
-        if (database.TryGet(MinTimeForProcessingRelayResistanceApdu.Tag,
-            out MinTimeForProcessingRelayResistanceApdu? minTimeForProcessingRelayResistanceApdu))
+        if (database.TryGet(MinTimeForProcessingRelayResistanceApdu.Tag, out MinTimeForProcessingRelayResistanceApdu? minTimeForProcessingRelayResistanceApdu))
             buffer.Add(minTimeForProcessingRelayResistanceApdu!);
-        if (database.TryGet(MaxTimeForProcessingRelayResistanceApdu.Tag,
-            out MaxTimeForProcessingRelayResistanceApdu? maxTimeForProcessingRelayResistanceApdu))
+        if (database.TryGet(MaxTimeForProcessingRelayResistanceApdu.Tag, out MaxTimeForProcessingRelayResistanceApdu? maxTimeForProcessingRelayResistanceApdu))
             buffer.Add(maxTimeForProcessingRelayResistanceApdu!);
         if (database.TryGet(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag,
             out DeviceEstimatedTransmissionTimeForRelayResistanceRapdu? deviceEstimatedTransmissionTimeForRelayResistanceRapdu))
             buffer.Add(deviceEstimatedTransmissionTimeForRelayResistanceRapdu!);
-        if (database.TryGet(MeasuredRelayResistanceProcessingTime.Tag,
-            out MeasuredRelayResistanceProcessingTime? measuredRelayResistanceProcessingTime))
+        if (database.TryGet(MeasuredRelayResistanceProcessingTime.Tag, out MeasuredRelayResistanceProcessingTime? measuredRelayResistanceProcessingTime))
             buffer.Add(measuredRelayResistanceProcessingTime!);
         if (database.TryGet(RelayResistanceProtocolCounter.Tag, out RelayResistanceProtocolCounter? relayResistanceProtocolCounter))
             buffer.Add(relayResistanceProtocolCounter!);
 
         ApplicationPan applicationPan = database.Get<ApplicationPan>(ApplicationPan.Tag);
-        ApplicationPanSequenceNumber applicationPanSequenceNumber =
-            database.Get<ApplicationPanSequenceNumber>(ApplicationPanSequenceNumber.Tag);
+        ApplicationPanSequenceNumber applicationPanSequenceNumber = database.Get<ApplicationPanSequenceNumber>(ApplicationPanSequenceNumber.Tag);
 
         return new Record(new RecordKey(applicationPan, applicationPanSequenceNumber), buffer.ToArray());
     }

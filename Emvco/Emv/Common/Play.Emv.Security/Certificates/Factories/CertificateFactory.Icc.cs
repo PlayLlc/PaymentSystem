@@ -57,9 +57,7 @@ internal partial class CertificateFactory
 
             iccModulusLength = decodedSignature.GetMessage1()[18];
             byte iccExponentLength = decodedSignature.GetMessage1()[19];
-            exponent = iccExponentLength > 1
-                ? new IccPublicKeyExponent(PublicKeyExponent._65537)
-                : new IccPublicKeyExponent(PublicKeyExponent._3);
+            exponent = iccExponentLength > 1 ? new IccPublicKeyExponent(PublicKeyExponent._65537) : new IccPublicKeyExponent(PublicKeyExponent._3);
         }
         catch (CodecParsingException exception)
         {
@@ -98,15 +96,14 @@ internal partial class CertificateFactory
         }
 
         // Step 9
-        if (DateTimeUtc.Today() > expirationDate)
+        if (DateTimeUtc.Today > expirationDate)
         {
             throw new CryptographicAuthenticationMethodFailedException(
                 $"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the {nameof(IccPublicKeyCertificate)} has expired");
         }
 
         // Step 10
-        if (!PublicKeyAlgorithmIndicator.TryGet(decodedSignature.GetMessage1()[17],
-            out PublicKeyAlgorithmIndicator? publicKeyAlgorithmIndicator))
+        if (!PublicKeyAlgorithmIndicator.TryGet(decodedSignature.GetMessage1()[17], out PublicKeyAlgorithmIndicator? publicKeyAlgorithmIndicator))
         {
             throw new CryptographicAuthenticationMethodFailedException(
                 $"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the {nameof(PublicKeyAlgorithmIndicator)} value: [{decodedSignature.GetMessage1()[17]}] could not be recognized");
@@ -116,8 +113,7 @@ internal partial class CertificateFactory
             decodedSignature.GetMessage1(), iccPublicKeyRemainder?.AsPublicKeyRemainder());
 
         return new DecodedIccPublicKeyCertificate(new DateRange(ShortDate.Min, expirationDate), serialNumber, hashAlgorithmIndicator,
-            publicKeyAlgorithmIndicator!,
-            new PublicKeyInfo(publicKeyModulus, exponent.AsPublicKeyExponent(), iccPublicKeyRemainder?.AsPublicKeyRemainder()));
+            publicKeyAlgorithmIndicator!, new PublicKeyInfo(publicKeyModulus, exponent.AsPublicKeyExponent(), iccPublicKeyRemainder?.AsPublicKeyRemainder()));
     }
 
     #endregion

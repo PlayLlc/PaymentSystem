@@ -51,7 +51,7 @@ public record TornRecord : DataExchangeResponse
     public TornRecord(params PrimitiveValue[] values) : base(InitializeTornEntryValues(values, out TornEntry tornEntry))
     {
         _Key = tornEntry;
-        _CommitTimeStamp = DateTimeUtc.Now();
+        _CommitTimeStamp = DateTimeUtc.Now;
     }
 
     #endregion
@@ -106,7 +106,7 @@ public record TornRecord : DataExchangeResponse
 
     public bool HasRecordExpired(Seconds timeout)
     {
-        Seconds timeElapsed = DateTimeUtc.Now() - _CommitTimeStamp;
+        Seconds timeElapsed = DateTimeUtc.Now - _CommitTimeStamp;
 
         return timeElapsed >= timeout;
     }

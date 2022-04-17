@@ -36,11 +36,11 @@ public record TransactionDate : DataElement<uint>, IEqualityComparer<Transaction
 
     private static uint GetNumeric(DateTimeUtc value)
     {
-        int result = value.Year();
+        int result = value.Year;
         result *= 100;
-        result += value.Month();
+        result += value.Month;
         result *= 100;
-        result += value.Day();
+        result += value.Day;
 
         return (uint) result;
     }

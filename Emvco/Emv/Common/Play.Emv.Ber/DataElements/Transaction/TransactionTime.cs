@@ -36,11 +36,11 @@ public record TransactionTime : DataElement<uint>, IEqualityComparer<Transaction
 
     private static uint GetNumeric(DateTimeUtc value)
     {
-        int result = value.Hour();
+        int result = value.Hour;
         result *= 100;
-        result += value.Minute();
+        result += value.Minute;
         result *= 100;
-        result += value.Second();
+        result += value.Second;
 
         return (uint) result;
     }

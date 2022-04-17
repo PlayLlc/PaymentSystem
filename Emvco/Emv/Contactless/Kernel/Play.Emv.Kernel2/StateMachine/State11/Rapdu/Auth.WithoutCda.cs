@@ -182,8 +182,7 @@ public partial class WaitingForGenerateAcResponse2
             RelayResistanceProtocolCounter? rrpCounter = _Database.Get<RelayResistanceProtocolCounter>(RelayResistanceProtocolCounter.Tag);
             discretionaryDataBuffer[1] = new Nibble((byte) rrpCounter!);
 
-            DeviceRelayResistanceEntropy? deviceRelayResistanceEntropy =
-                _Database.Get<DeviceRelayResistanceEntropy>(DeviceRelayResistanceEntropy.Tag);
+            DeviceRelayResistanceEntropy? deviceRelayResistanceEntropy = _Database.Get<DeviceRelayResistanceEntropy>(DeviceRelayResistanceEntropy.Tag);
             ReadOnlySpan<Nibble> deviceRelayResistanceEntropyNibbles = deviceRelayResistanceEntropy.EncodeValue()[^2..].AsNibbleArray();
             deviceRelayResistanceEntropyNibbles.CopyTo(discretionaryDataBuffer[2..]);
 
@@ -195,8 +194,7 @@ public partial class WaitingForGenerateAcResponse2
                 discretionaryDataBuffer[6] = new Nibble((byte) (entropySeed % 100));
             }
 
-            MeasuredRelayResistanceProcessingTime time =
-                _Database.Get<MeasuredRelayResistanceProcessingTime>(MeasuredRelayResistanceProcessingTime.Tag);
+            MeasuredRelayResistanceProcessingTime time = _Database.Get<MeasuredRelayResistanceProcessingTime>(MeasuredRelayResistanceProcessingTime.Tag);
             Milliseconds timeInMilliseconds = (RelaySeconds) time;
 
             ushort timeSeed = (ushort) ((ushort) timeInMilliseconds > 999 ? 999 : (ushort) timeInMilliseconds);
@@ -205,7 +203,7 @@ public partial class WaitingForGenerateAcResponse2
             discretionaryDataBuffer[^2] = new Nibble((byte) ((timeSeed / 10) % 10));
             discretionaryDataBuffer[^1] = new Nibble((byte) (timeSeed % 100));
 
-            _Database.Update(track2EquivalentDataBuffer.UpdateDiscretionaryData(discretionaryDataBuffer));
+            _Database.Update(track2EquivalentDataBuffer.UpdateDiscretionaryData(new TrackDiscretionaryData(discretionaryDataBuffer)));
         }
 
         #endregion

@@ -355,8 +355,7 @@ public partial class WaitingForMagStripeReadRecordResponse
                 return false;
             }
 
-            if (!_Database.TryGet(NumericApplicationTransactionCounterTrack1.Tag,
-                out NumericApplicationTransactionCounterTrack1? natcTrack1))
+            if (!_Database.TryGet(NumericApplicationTransactionCounterTrack1.Tag, out NumericApplicationTransactionCounterTrack1? natcTrack1))
             {
                 HandleMagstripeDataIsInvalid(sessionId);
 

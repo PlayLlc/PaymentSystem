@@ -24,8 +24,7 @@ internal partial class CertificateFactory
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    public DecodedIssuerPublicKeyCertificate RecoverIssuerCertificate(
-        ITlvReaderAndWriter tlvDatabase, ICertificateDatabase certificateDatabase)
+    public DecodedIssuerPublicKeyCertificate RecoverIssuerCertificate(ITlvReaderAndWriter tlvDatabase, ICertificateDatabase certificateDatabase)
     {
         try
         {
@@ -48,8 +47,7 @@ internal partial class CertificateFactory
             byte[] concatenatedValues = GetConcatenatedValuesForHash(caPublicKey, decodedSignature, issuerRemainder, issuerExponent);
 
             // Step 6
-            HashAlgorithmIndicator hashAlgorithmIndicator =
-                DecodedIssuerPublicKeyCertificate.GetHashAlgorithmIndicator(decodedSignature.GetMessage1());
+            HashAlgorithmIndicator hashAlgorithmIndicator = DecodedIssuerPublicKeyCertificate.GetHashAlgorithmIndicator(decodedSignature.GetMessage1());
 
             // Step 7
             ValidateHashedResult(hashAlgorithmIndicator, concatenatedValues, decodedSignature);
@@ -61,8 +59,7 @@ internal partial class CertificateFactory
             ValidateExpiryDate(decodedSignature.GetMessage1());
 
             // Step 10
-            ValidateIssuerCertificate(certificateDatabase, caPublicKey.GetRegisteredApplicationProviderIndicator(),
-                caPublicKey.GetPublicKeySerialNumber());
+            ValidateIssuerCertificate(certificateDatabase, caPublicKey.GetRegisteredApplicationProviderIndicator(), caPublicKey.GetPublicKeySerialNumber());
 
             // Step 11
             ValidateIssuerPublicKeyAlgorithmIndicator(decodedSignature.GetMessage1());
@@ -141,8 +138,8 @@ internal partial class CertificateFactory
         Span<byte> buffer = spanOwner.Span;
 
         decodedSignature.GetMessage1()[2..(2 + 14)].ToArray().AsSpan().CopyTo(buffer);
-        DecodedIssuerPublicKeyCertificate.GetPublicKeyModulus(caPublicKeyCertificate, decodedSignature, publicKeyRemainder).AsByteArray()
-            .AsSpan().CopyTo(buffer[17..]);
+        DecodedIssuerPublicKeyCertificate.GetPublicKeyModulus(caPublicKeyCertificate, decodedSignature, publicKeyRemainder).AsByteArray().AsSpan()
+            .CopyTo(buffer[17..]);
         publicKeyExponent.Encode().AsSpan().CopyTo(buffer[^publicKeyExponent.GetByteCount()..]);
 
         return buffer.ToArray();
@@ -158,8 +155,7 @@ internal partial class CertificateFactory
     /// </summary>
     /// <remarks>EMV Book 2 Section 6.3 Step 2, 3, 5 - 7 </remarks>
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
-    private void ValidateHashedResult(
-        HashAlgorithmIndicator hashAlgorithmIndicator, ReadOnlySpan<byte> concatenatedValues, DecodedSignature decodedSignature)
+    private void ValidateHashedResult(HashAlgorithmIndicator hashAlgorithmIndicator, ReadOnlySpan<byte> concatenatedValues, DecodedSignature decodedSignature)
     {
         if (!_SignatureService.IsSignatureValid(hashAlgorithmIndicator, concatenatedValues, decodedSignature))
         {
@@ -216,7 +212,7 @@ internal partial class CertificateFactory
     {
         ShortDate expiryDate = DecodedIssuerPublicKeyCertificate.GetCertificateExpirationDate(message1);
 
-        ShortDate today = ShortDate.Today();
+        ShortDate today = ShortDate.Today;
 
         if (expiryDate < today)
         {

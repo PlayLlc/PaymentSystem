@@ -26,8 +26,7 @@ internal class TerminalStateMachine
     #region Constructor
 
     public TerminalStateMachine(
-        TerminalConfiguration terminalConfiguration, IGetTerminalState terminalStateResolver,
-        IGenerateSequenceTraceAuditNumbers sequenceGenerator)
+        TerminalConfiguration terminalConfiguration, IGetTerminalState terminalStateResolver, IGenerateSequenceTraceAuditNumbers sequenceGenerator)
     {
         _TerminalConfiguration = terminalConfiguration;
         _SequenceGenerator = sequenceGenerator;
@@ -57,8 +56,8 @@ internal class TerminalStateMachine
 
             Transaction transaction = new(new TransactionSessionId(request.GetTransactionType()), request.GetAccountType(),
                 request.GetAmountAuthorizedNumeric(), request.GetAmountOtherNumeric(), request.GetTransactionType(),
-                _TerminalConfiguration.GetLanguagePreference(), _TerminalConfiguration.GetTerminalCountryCode(),
-                new TransactionDate(DateTimeUtc.Now()), new TransactionTime(DateTimeUtc.Now()));
+                _TerminalConfiguration.GetLanguagePreference(), _TerminalConfiguration.GetTerminalCountryCode(), new TransactionDate(DateTimeUtc.Now),
+                new TransactionTime(DateTimeUtc.Now));
 
             _Lock.Session = new TerminalSession(_SequenceGenerator.Generate(), request.GetMessageTypeIndicator(), transaction);
             _Lock.State = _Lock.State.Handle(_Lock.Session, request);
