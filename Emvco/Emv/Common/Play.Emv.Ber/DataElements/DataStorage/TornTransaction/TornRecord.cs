@@ -44,7 +44,7 @@ public record TornRecord : DataExchangeResponse
     public TornRecord(Record record) : base(record.GetValues())
     {
         _Key = new TornEntry(record.GetKey());
-        _CommitTimeStamp = DateTimeUtc.Now();
+        _CommitTimeStamp = DateTimeUtc.Now;
     }
 
     /// <exception cref="TerminalDataException"></exception>
