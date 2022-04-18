@@ -46,24 +46,11 @@ public record Track1Data : DataElement<Track1>
     /// <exception cref="OverflowException"></exception>
     public TrackPrimaryAccountNumber GetPrimaryAccountNumber() => _Value.GetPrimaryAccountNumber();
 
-    /// <summary>
-    ///     q := Number of non-zero bits in PCVC3(Track2)
-    ///     t := NATC(Track2)
-    ///     Convert the binary encoded CVC3 (Track2) to the BCD encoding of the corresponding number expressed in base 10. Copy
-    ///     the q least significant digits of the BCD encoded CVC3 (Track2) in the eligible positions of the 'Discretionary
-    ///     Data' in Track 2 Data. The eligible positions are indicated by the q non-zero bits in PCVC3(Track2). Replace the
-    ///     nUN least significant eligible positions of the 'Discretionary Data' in Track 2 Data by the nUN least significant
-    ///     digits of Unpredictable Number (Numeric). The eligible positions in the 'Discretionary Data' in Track 2 Data are
-    ///     indicated by the nUN least significant non-zero bits in PUNATC(Track2). If t ≠ 0, convert the Application
-    ///     Transaction Counter to the BCD encoding of the corresponding number expressed in base 10. Replace the t most
-    ///     significant eligible positions of the 'Discretionary Data' in Track 2 Data by the t least significant digits of the
-    ///     BCD encoded Application Transaction Counter. The eligible positions in the 'Discretionary Data' in Track 2 Data are
-    ///     indicated by the t most significant non-zero bits in PUNATC(Track2).
-    /// </summary>
-    /// <remarks>EMVco Book C-2 Section S13.20 - S13.22</remarks>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <remarks>EMVco Book C-2 Section S13.20 - S13.22 && S14.29 - S14.30</remarks>
     public Track1Data UpdateDiscretionaryData(
         NumberOfNonZeroBits nun, CardholderVerificationCode3Track1 cvc, PositionOfCardVerificationCode3Track1 pcvc, PunatcTrack1 punatc,
         UnpredictableNumberNumeric unpredictableNumber, NumericApplicationTransactionCounterTrack1 natc, ApplicationTransactionCounter atc)
@@ -79,12 +66,24 @@ public record Track1Data : DataElement<Track1>
         UpdateDiscretionaryData(discretionaryData, qNumberOfChars, cvc, pcvcIndexArray);
         UpdateDiscretionaryData(discretionaryData, unpredictableNumber, punatcIndexArray[^nunNumberOfChars..]);
         UpdateDiscretionaryData(discretionaryData, natc, atc, punatcIndexArray[..tNumberOfChars]);
+        UpdateDiscretionaryData(discretionaryData, nun);
 
         return new Track1Data(new Track1(PlayCodec.AlphaNumericSpecialCodec.Encode(discretionaryData)));
     }
 
+    /// <summary>
+    ///     Convert the binary encoded CVC3 (Track1) to the BCD encoding of the corresponding number expressed in base 10.
+    ///     Convert the q least significant digits of the BCD encoded CVC3 (Track1) into ASCII format and copy the q ASCII
+    ///     encoded CVC3 (Track1) characters into the eligible positions of the 'Discretionary Data' in Track 1 Data. The
+    ///     eligible positions are indicated by the q non-zero bits in PCVC3(Track1).
+    /// </summary>
+    /// <param name="discretionaryData"></param>
+    /// <param name="qNumberOfDigits">Number of non-zero bits in PositionOfCardVerificationCode3Track2</param>
+    /// <param name="cvc"></param>
+    /// <param name="pcvcIndexArray"></param>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
+    /// <remarks>EMVco Book C-2 Section S13.21 && S14.29</remarks>
     private void UpdateDiscretionaryData(
         Span<char> discretionaryData, int qNumberOfDigits, CardholderVerificationCode3Track1 cvc, ReadOnlySpan<Nibble> pcvcIndexArray)
     {
@@ -100,8 +99,18 @@ public record Track1Data : DataElement<Track1>
             discretionaryData[pcvcIndexArray[i]] = digitsToCopy[i];
     }
 
+    /// <summary>
+    ///     Convert the BCD encoded Unpredictable Number (Numeric) into ASCII format and replace the nUN least significant
+    ///     eligible positions of the 'Discretionary Data' in Track 1 Data by the nUN least significant characters of the ASCII
+    ///     encoded Unpredictable Number (Numeric). The eligible positions in the 'Discretionary Data' in Track 1 Data are
+    ///     indicated by the nUN least significant non-zero bits in PUNATC(Track1).
+    /// </summary>
+    /// <param name="discretionaryData"></param>
+    /// <param name="unpredictableNumber"></param>
+    /// <param name="punatcIndexArray"></param>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
+    /// <remarks>EMVco Book C-2 Section S13.21 && S14.29</remarks>
     private void UpdateDiscretionaryData(Span<char> discretionaryData, UnpredictableNumberNumeric unpredictableNumber, ReadOnlySpan<Nibble> punatcIndexArray)
     {
         ReadOnlySpan<char> digitsToCopy = unpredictableNumber.AsCharArray()[^punatcIndexArray.Length..];
@@ -116,8 +125,16 @@ public record Track1Data : DataElement<Track1>
             discretionaryData[punatcIndexArray[i]] = digitsToCopy[i];
     }
 
+    /// <summary>
+    ///     If t ≠ 0, convert the Application Transaction Counter to the BCD encoding of the corresponding number
+    ///     expressed in base 10. Convert the t least significant digits of the BCD encoded Application Transaction Counter
+    ///     into ASCII format. Replace the t most significant eligible positions of the 'Discretionary Data' in Track 1 Data by
+    ///     the t ASCII encoded Application Transaction Counter characters. The eligible positions in the 'Discretionary Data'
+    ///     in Track 1 Data are indicated by the t most significant nonzero bits in PUNATC(Track1).
+    /// </summary>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <remarks>EMVco Book C-2 Section S13.21 && S14.29</remarks>
     private void UpdateDiscretionaryData(
         Span<char> discretionaryData, NumericApplicationTransactionCounterTrack1 natc, ApplicationTransactionCounter atc, ReadOnlySpan<Nibble> punatcIndexArray)
     {
@@ -134,6 +151,12 @@ public record Track1Data : DataElement<Track1>
 
         for (int i = 0; i < punatcIndexArray.Length; i++)
             discretionaryData[punatcIndexArray[i]] = digitsToCopy[i];
+    }
+
+    /// <exception cref="CodecParsingException"></exception>
+    private void UpdateDiscretionaryData(Span<char> discretionaryData, NumberOfNonZeroBits nun)
+    {
+        discretionaryData[^1] = PlayCodec.AlphaNumericCodec.DecodeToChar((byte) nun);
     }
 
     #endregion

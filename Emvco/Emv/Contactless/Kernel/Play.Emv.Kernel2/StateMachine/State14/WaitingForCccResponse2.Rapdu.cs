@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
 
+using Play.Ber.Exceptions;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
@@ -18,8 +20,12 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForCccResponse2
 {
-    /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
@@ -53,9 +59,19 @@ public partial class WaitingForCccResponse2
         if (TryHandlingInvalidOfflinePin(session))
             return _KernelStateResolver.GetKernelState(StateId);
 
+        // S14.24 - S14.25
         NumberOfNonZeroBits nun = GetNumberOfNonZeroBits();
 
-        throw new NotImplementedException();
+        // S14.25.1 - S14.27
+        UpdateTrack2Data(nun);
+
+        // S14.28 - S14.30
+        UpdateTrack1Data(nun);
+
+        // S14.32 - S14.34
+        HandleOnlineResponse(session);
+
+        return _KernelStateResolver.GetKernelState(Idle.StateId);
     }
 
     #region S14.1 - S14.5
@@ -127,6 +143,7 @@ public partial class WaitingForCccResponse2
 
     #region S14.9 - S14.10
 
+    /// <remarks>Book C-2 Section S14.9 - S14.10</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool TryHandlingStatusBytesError(KernelSession session, QueryPcdResponse signal)
     {
@@ -144,6 +161,7 @@ public partial class WaitingForCccResponse2
 
     #region S14.11 - S14.13
 
+    /// <remarks>Book C-2 Section S14.11 - S14.13</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool TryHandlingBerParsingException(KernelSession session, ComputeCryptographicChecksumResponse signal)
     {
@@ -173,6 +191,7 @@ public partial class WaitingForCccResponse2
 
     #region S14.13
 
+    /// <remarks>Book C-2 Section S14.13</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void HandleBerParsingException(KernelSession session)
     {
@@ -184,6 +203,7 @@ public partial class WaitingForCccResponse2
 
     #region S14.12.1
 
+    /// <remarks>Book C-2 Section S14.12.1</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void SetDisplayMessage()
     {
@@ -197,6 +217,7 @@ public partial class WaitingForCccResponse2
 
     #region S14.14 - S14.17
 
+    /// <remarks>Book C-2 Section S14.14 - S14.17</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool TryHandlingMissingCardData(KernelSession session)
     {
@@ -234,6 +255,7 @@ public partial class WaitingForCccResponse2
 
     #region S14.17
 
+    /// <remarks>Book C-2 Section S14.17</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void HandleMissingCardData(KernelSession session)
     {
@@ -245,6 +267,7 @@ public partial class WaitingForCccResponse2
 
     #region S14.15, S14.19.1 - S14.23
 
+    /// <remarks>Book C-2 Section S14.15, S14.19.1 - S14.23</remarks>
     private bool TryHandlingDoubleTapResponse(KernelSession session)
     {
         try
@@ -283,6 +306,7 @@ public partial class WaitingForCccResponse2
 
     #region S14.19.2.1 - S14.19.3
 
+    /// <remarks>Book C-2 Section S14.19.2.1 - S14.19.3</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void HandleDeclinedResponse(KernelSession session)
     {
@@ -302,6 +326,7 @@ public partial class WaitingForCccResponse2
 
     #region S14.20 - S14.21.1
 
+    /// <remarks>Book C-2 Section S14.20 - S14.21.1</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private bool TryHandlingInvalidOfflinePin(KernelSession session)
     {
@@ -322,6 +347,8 @@ public partial class WaitingForCccResponse2
 
     #region S14.21
 
+    /// <remarks>Book C-2 Section S14.21</remarks>
+    /// <exception cref="TerminalDataException"></exception>
     private bool IsCvmLimitExceeded()
     {
         // BUG: We need to make sure that we're grabbing the correct currency code when comparing units of money. Take a look at the specification and see when you're supposed to be using TransactionReferenceCurrencyCode
@@ -336,6 +363,7 @@ public partial class WaitingForCccResponse2
 
     #region S14.21.1
 
+    /// <remarks>Book C-2 Section S14.21.1</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void HandleInvalidOfflinePin(KernelSession session)
     {
@@ -347,6 +375,7 @@ public partial class WaitingForCccResponse2
 
     #region S14.22 - S14.23
 
+    /// <remarks>Book C-2 Section S14.22 - S14.23</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void HandleDoubleTapResponse(KernelSession session)
     {
@@ -371,6 +400,7 @@ public partial class WaitingForCccResponse2
 
     #region S14.22
 
+    /// <remarks>Book C-2 Section S14.22</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void DisplayPhoneMessage()
     {
@@ -388,6 +418,7 @@ public partial class WaitingForCccResponse2
 
     #region S14.24 - S14.25
 
+    /// <remarks>Book C-2 Section S14.24 - S14.25</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private NumberOfNonZeroBits GetNumberOfNonZeroBits()
     {
@@ -405,6 +436,7 @@ public partial class WaitingForCccResponse2
 
     #region S14.25.1 - S14.26
 
+    /// <remarks>Book C-2 Section S14.25.1 - S14.26</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="BerParsingException"></exception>
@@ -427,12 +459,105 @@ public partial class WaitingForCccResponse2
 
     #endregion
 
-    #region S14.27
+    #region S14.28 - S14.30
+
+    /// <remarks>Book C-2 Section S14.28 - S14.30</remarks>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    private void UpdateTrack1Data(NumberOfNonZeroBits nun)
+    {
+        if (_Database.TryGet(Track1Data.Tag, out Track1Data? track1))
+            return;
+
+        PositionOfCardVerificationCode3Track1 pcvc = _Database.Get<PositionOfCardVerificationCode3Track1>(PositionOfCardVerificationCode3Track1.Tag);
+        NumericApplicationTransactionCounterTrack1 natc =
+            _Database.Get<NumericApplicationTransactionCounterTrack1>(NumericApplicationTransactionCounterTrack1.Tag);
+        ApplicationTransactionCounter atc = _Database.Get<ApplicationTransactionCounter>(ApplicationTransactionCounter.Tag);
+        PunatcTrack1 punatc = _Database.Get<PunatcTrack1>(PunatcTrack1.Tag);
+        CardholderVerificationCode3Track1 cvc = _Database.Get<CardholderVerificationCode3Track1>(CardholderVerificationCode3Track1.Tag);
+        UnpredictableNumberNumeric unpredictableNumber = _Database.Get<UnpredictableNumberNumeric>(UnpredictableNumberNumeric.Tag);
+
+        _Database.Update(track1!.UpdateDiscretionaryData(nun, cvc, pcvc, punatc, unpredictableNumber, natc, atc));
+    }
 
     #endregion
 
-    #region S14.40 - S14.43 - Invalid Response
+    #region S14.32 - S14.34
 
+    /// <remarks>Book C-2 Section S14.32 - S14.34</remarks>
+    private void HandleOnlineResponse(KernelSession session)
+    {
+        try
+        {
+            if (IsCvmLimitExceeded())
+            {
+                HandleOnlineCvmRequiredResponse(session);
+
+                return;
+            }
+
+            HandleOnlineNoCvmRequiredResponse(session);
+        }
+        catch (TerminalDataException)
+        {
+            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
+            // HACK: This is in case there's an exception retrieving the OUT response from the database, but we should probably do something better here
+        }
+        catch (Exception)
+        {
+            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
+            // HACK: This is in case there's an exception retrieving the OUT response from the database, but we should probably do something better here
+        }
+        finally
+        {
+            _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+        }
+    }
+
+    #endregion
+
+    #region S14.33
+
+    /// <remarks>Book C-2 Section S14.33</remarks>
+    /// <exception cref="TerminalDataException"></exception>
+    private void HandleOnlineNoCvmRequiredResponse(KernelSession session)
+    {
+        _Database.Update(StatusOutcome.OnlineRequest);
+        _Database.Update(CvmPerformedOutcome.NoCvm);
+        _Database.SetIsDataRecordPresent(true);
+        _Database.CreateMagstripeDataRecord(_DataExchangeKernelService);
+        _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
+
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+    }
+
+    #endregion
+
+    #region S14.34
+
+    /// <remarks>Book C-2 Section S14.34</remarks>
+    /// <exception cref="TerminalDataException"></exception>
+    private void HandleOnlineCvmRequiredResponse(KernelSession session)
+    {
+        _Database.Update(StatusOutcome.OnlineRequest);
+        _Database.Update(CvmPerformedOutcome.ConfirmationCodeVerified);
+
+        if (IsCvmLimitExceeded())
+            _Database.SetIsReceiptPresent(true);
+        _Database.SetIsDataRecordPresent(true);
+        _Database.CreateMagstripeDataRecord(_DataExchangeKernelService);
+        _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
+
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+    }
+
+    #endregion
+
+    #region S14.40 - S14.43
+
+    /// <remarks>Book C-2 Section S14.40 - S14.43</remarks>
     /// <exception cref="TerminalDataException"></exception>
     private void HandleInvalidResponse(KernelSession session)
     {
