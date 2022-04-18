@@ -23,6 +23,7 @@ public class TestingFixture : CustomFixture
 
     protected override void SetupCustomConstructors(SpecimenBuilderFactory factory)
     {
+        //
         factory.Build(RegisteredApplicationProviderIndicatorSpecimenBuilder.Id);
         factory.Build(Alpha2LanguageCodeBuilder.Id);
         factory.Build(EnumObjectBuilder.Id);
