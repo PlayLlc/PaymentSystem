@@ -310,7 +310,7 @@ public partial class WaitingForCccResponse1
         if (_Database.TryGet(PosCardholderInteractionInformation.Tag, out PosCardholderInteractionInformation? pcii))
             return nun;
 
-        return !pcii!.IsOnDeviceCvmVerificationSuccessful() ? nun : nun.AsPlusFiveModuloTen();
+        return !pcii!.IsOfflineDeviceCvmVerificationSuccessful() ? nun : nun.AsPlusFiveModuloTen();
     }
 
     #endregion

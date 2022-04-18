@@ -2,9 +2,11 @@
 using System.Threading;
 
 using Play.Emv.Ber;
+using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
@@ -17,21 +19,49 @@ namespace Play.Emv.Kernel2.StateMachine;
 public partial class WaitingForCccResponse2
 {
     /// <exception cref="RequestOutOfSyncException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public override KernelState Handle(KernelSession session, QueryPcdResponse signal)
     {
         HandleRequestOutOfSync(session, signal);
 
+        ComputeCryptographicChecksumResponse rapdu = (ComputeCryptographicChecksumResponse) signal;
+
         // S13.1 - S13.5
-        if (TryHandlingL1Error(session.GetKernelSessionId(), signal))
+        if (TryHandlingL1Error(session.GetKernelSessionId(), rapdu))
             return _KernelStateResolver.GetKernelState(StateId);
+
+        // S13.9 - S13.10
+        if (TryHandlingL1Error(session.GetKernelSessionId(), rapdu))
+            return _KernelStateResolver.GetKernelState(StateId);
+
+        // S14.11 - S14.13
+        if (TryHandlingBerParsingException(session, rapdu))
+            return _KernelStateResolver.GetKernelState(StateId);
+
+        // S14.12.1
+        SetDisplayMessage();
+
+        //  S14.14 - S14.17
+        if (TryHandlingMissingCardData(session))
+            return _KernelStateResolver.GetKernelState(StateId);
+
+        // S14.15, S14.19.1 - S14.23
+        if (TryHandlingDoubleTapResponse(session))
+            return _KernelStateResolver.GetKernelState(Idle.StateId);
+
+        // S14.20 - S14.21.1
+        if (TryHandlingInvalidOfflinePin(session))
+            return _KernelStateResolver.GetKernelState(StateId);
+
+        NumberOfNonZeroBits nun = GetNumberOfNonZeroBits();
 
         throw new NotImplementedException();
     }
 
-    #region S13.1 - S13.5
+    #region S14.1 - S14.5
 
     /// <remarks>Book C-2 Section S14.1 - S14.5</remarks>
-    private bool TryHandlingL1Error(KernelSessionId sessionId, QueryPcdResponse rapdu)
+    private bool TryHandlingL1Error(KernelSessionId sessionId, ComputeCryptographicChecksumResponse rapdu)
     {
         if (@rapdu.IsLevel1ErrorPresent())
             return false;
@@ -91,6 +121,306 @@ public partial class WaitingForCccResponse2
         {
             _KernelEndpoint.Request(new StopKernelRequest(sessionId));
         }
+    }
+
+    #endregion
+
+    #region S14.9 - S14.10
+
+    /// <exception cref="TerminalDataException"></exception>
+    private bool TryHandlingStatusBytesError(KernelSession session, QueryPcdResponse signal)
+    {
+        if (!signal.IsLevel2ErrorPresent())
+            return false;
+
+        _Database.Update(Level2Error.StatusBytes);
+
+        HandleInvalidResponse(session);
+
+        return true;
+    }
+
+    #endregion
+
+    #region S14.11 - S14.13
+
+    /// <exception cref="TerminalDataException"></exception>
+    private bool TryHandlingBerParsingException(KernelSession session, ComputeCryptographicChecksumResponse signal)
+    {
+        try
+        {
+            _Database.Update(signal.GetPrimitiveDataObjects());
+
+            return false;
+        }
+        catch (TerminalDataException)
+        {
+            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
+            HandleBerParsingException(session);
+
+            return true;
+        }
+        catch (Exception)
+        {
+            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
+            HandleBerParsingException(session);
+
+            return true;
+        }
+    }
+
+    #endregion
+
+    #region S14.13
+
+    /// <exception cref="TerminalDataException"></exception>
+    private void HandleBerParsingException(KernelSession session)
+    {
+        _Database.Update(Level2Error.ParsingError);
+        HandleInvalidResponse(session);
+    }
+
+    #endregion
+
+    #region S14.12.1
+
+    /// <exception cref="TerminalDataException"></exception>
+    private void SetDisplayMessage()
+    {
+        _Database.Update(MessageIdentifiers.ClearDisplay);
+        _Database.Update(Status.CardReadSuccessful);
+        _Database.Update(MessageHoldTime.MinimumValue);
+        _DisplayEndpoint.Request(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
+    }
+
+    #endregion
+
+    #region S14.14 - S14.17
+
+    /// <exception cref="TerminalDataException"></exception>
+    private bool TryHandlingMissingCardData(KernelSession session)
+    {
+        if (!_Database.IsPresentAndNotEmpty(ApplicationTransactionCounter.Tag))
+        {
+            HandleMissingCardData(session);
+
+            return true;
+        }
+
+        if (!_Database.IsPresentAndNotEmpty(PosCardholderInteractionInformation.Tag))
+        {
+            HandleMissingCardData(session);
+
+            return true;
+        }
+
+        if (!_Database.IsPresentAndNotEmpty(CardholderVerificationCode3Track2.Tag))
+            return false;
+
+        if (!_Database.IsPresentAndNotEmpty(Track1Data.Tag))
+            return false;
+
+        if (!_Database.IsPresentAndNotEmpty(CardholderVerificationCode3Track1.Tag))
+        {
+            HandleMissingCardData(session);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    #endregion
+
+    #region S14.17
+
+    /// <exception cref="TerminalDataException"></exception>
+    private void HandleMissingCardData(KernelSession session)
+    {
+        _Database.Update(Level2Error.CardDataMissing);
+        HandleInvalidResponse(session);
+    }
+
+    #endregion
+
+    #region S14.15, S14.19.1 - S14.23
+
+    private bool TryHandlingDoubleTapResponse(KernelSession session)
+    {
+        try
+        {
+            if (_Database.IsPresentAndNotEmpty(CardholderVerificationCode3Track2.Tag))
+                return false;
+
+            if (_Database.Get<PosCardholderInteractionInformation>(PosCardholderInteractionInformation.Tag).IsSecondTapNeeded())
+            {
+                HandleDoubleTapResponse(session);
+
+                return true;
+            }
+
+            HandleDeclinedResponse(session);
+
+            return true;
+        }
+        catch (TerminalDataException)
+        {
+            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
+            // HACK: This is in case there's an exception retrieving the OUT response from the database, but we should probably do something better here
+            _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        }
+        catch (Exception)
+        {
+            // TODO: Log exception. We need to make sure we stop execution of the transaction but don't terminate the application due to an unhandled exception
+            // HACK: This is in case there's an exception retrieving the OUT response from the database, but we should probably do something better here
+            _KernelEndpoint.Request(new StopKernelRequest(session.GetKernelSessionId()));
+        }
+
+        return false;
+    }
+
+    #endregion
+
+    #region S14.19.2.1 - S14.19.3
+
+    /// <exception cref="TerminalDataException"></exception>
+    private void HandleDeclinedResponse(KernelSession session)
+    {
+        Sleep();
+        _Database.FailedMagstripeCounter.Increment();
+        _Database.Update(MessageHoldTime.MinimumValue);
+        _Database.Update(Status.ReadyToRead);
+        _Database.SetUiRequestOnRestartPresent(true);
+        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StartOutcome.B);
+        _Database.SetIsDataRecordPresent(true);
+        _Database.CreateMagstripeDataRecord(_DataExchangeKernelService);
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+    }
+
+    #endregion
+
+    #region S14.20 - S14.21.1
+
+    /// <exception cref="TerminalDataException"></exception>
+    private bool TryHandlingInvalidOfflinePin(KernelSession session)
+    {
+        PosCardholderInteractionInformation pcii = _Database.Get<PosCardholderInteractionInformation>(PosCardholderInteractionInformation.Tag);
+
+        if (pcii.IsOfflineDeviceCvmVerificationSuccessful())
+            return false;
+
+        if (!IsCvmLimitExceeded())
+            return false;
+
+        HandleInvalidOfflinePin(session);
+
+        return true;
+    }
+
+    #endregion
+
+    #region S14.21
+
+    private bool IsCvmLimitExceeded()
+    {
+        // BUG: We need to make sure that we're grabbing the correct currency code when comparing units of money. Take a look at the specification and see when you're supposed to be using TransactionReferenceCurrencyCode
+        TransactionCurrencyCode transactionCurrencyCode = _Database.Get<TransactionCurrencyCode>(TransactionCurrencyCode.Tag);
+        AmountAuthorizedNumeric amountAuthorizedNumeric = _Database.Get<AmountAuthorizedNumeric>(AmountAuthorizedNumeric.Tag);
+        ReaderCvmRequiredLimit readerCvmRequiredLimit = _Database.Get<ReaderCvmRequiredLimit>(ReaderCvmRequiredLimit.Tag);
+
+        return amountAuthorizedNumeric.AsMoney(transactionCurrencyCode) > readerCvmRequiredLimit.AsMoney(transactionCurrencyCode);
+    }
+
+    #endregion
+
+    #region S14.21.1
+
+    /// <exception cref="TerminalDataException"></exception>
+    private void HandleInvalidOfflinePin(KernelSession session)
+    {
+        _Database.Update(Level2Error.CardDataError);
+        HandleInvalidResponse(session);
+    }
+
+    #endregion
+
+    #region S14.24 - S14.25
+
+    /// <exception cref="TerminalDataException"></exception>
+    private NumberOfNonZeroBits GetNumberOfNonZeroBits()
+    {
+        PosCardholderInteractionInformation pcii = _Database.Get<PosCardholderInteractionInformation>(PosCardholderInteractionInformation.Tag);
+        NumberOfNonZeroBits numberOfNonZeroBits = new(_Database.Get<PunatcTrack2>(PunatcTrack2.Tag),
+            _Database.Get<NumericApplicationTransactionCounterTrack2>(NumericApplicationTransactionCounterTrack2.Tag));
+
+        if (pcii.IsOfflineDeviceCvmVerificationSuccessful())
+            return numberOfNonZeroBits;
+
+        return numberOfNonZeroBits.AsPlusFiveModuloTen();
+    }
+
+    #endregion
+
+    #region S14.22 - S14.23
+
+    /// <exception cref="TerminalDataException"></exception>
+    private void HandleDoubleTapResponse(KernelSession session)
+    {
+        DisplayPhoneMessage();
+        Sleep();
+        _Database.FailedMagstripeCounter.Increment();
+
+        _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
+        _Database.Update(MessageIdentifiers.Declined);
+        _Database.Update(Status.NotReady);
+        _Database.Update(StatusOutcome.Declined);
+        _Database.SetIsDataRecordPresent(true);
+        _Database.SetUiRequestOnOutcomePresent(true);
+        _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
+        _Database.CreateMagstripeDataRecord(_DataExchangeKernelService);
+
+        _Database.Update(StartOutcome.B);
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
+    }
+
+    #endregion
+
+    #region S14.22
+
+    /// <exception cref="TerminalDataException"></exception>
+    private void DisplayPhoneMessage()
+    {
+        PhoneMessageTable phoneMessageTable = _Database.Get<PhoneMessageTable>(PhoneMessageTable.Tag);
+        PosCardholderInteractionInformation pcii = _Database.Get<PosCardholderInteractionInformation>(PosCardholderInteractionInformation.Tag);
+
+        if (!phoneMessageTable.TryGetMatch(pcii, out MessageTableEntry? messageTableEntry))
+            return;
+
+        _Database.Update(MessageIdentifiers.Get(messageTableEntry!.GetMessageIdentifier()));
+        _Database.Update(messageTableEntry.GetStatus());
+    }
+
+    #endregion
+
+    #region S14.40 - S14.43 - Invalid Response
+
+    /// <exception cref="TerminalDataException"></exception>
+    private void HandleInvalidResponse(KernelSession session)
+    {
+        Sleep();
+
+        _Database.FailedMagstripeCounter.Increment();
+
+        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
+        _Database.Update(Status.NotReady);
+        _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
+        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StartOutcome.B);
+        _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
+        _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
+        _Database.SetUiRequestOnOutcomePresent(true);
+        _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
     }
 
     #endregion

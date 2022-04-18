@@ -28,11 +28,11 @@ public record PosCardholderInteractionInformation : DataElement<uint>, IEquality
     #region Instance Members
 
     public bool IsSecondTapRequiredForWallet() => _Value.IsBitSet(1);
-    public bool IsOnDeviceCvmRequired() => _Value.IsBitSet(9);
+    public bool IsOfflineDeviceCvmRequired() => _Value.IsBitSet(9);
     public bool IsAcknowledgementRequired() => _Value.IsBitSet(10);
     public bool IsOfflinePinChangeRequired() => _Value.IsBitSet(11);
     public bool IsContextConflicting() => _Value.IsBitSet(12);
-    public bool IsOnDeviceCvmVerificationSuccessful() => _Value.IsBitSet(9);
+    public bool IsOfflineDeviceCvmVerificationSuccessful() => _Value.IsBitSet(9);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
