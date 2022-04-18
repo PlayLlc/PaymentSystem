@@ -17,20 +17,19 @@ public class PutDataCApduSignal : CApduSignal
 {
     #region Constructor
 
-    private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class, instruction, parameter1,
-        parameter2)
+    private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class, instruction, parameter1, parameter2)
     { }
 
-    private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint? le) : base(@class, instruction,
-        parameter1, parameter2, le)
+    private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, uint? le) : base(@class, instruction, parameter1, parameter2,
+        le)
     { }
 
-    private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) : base(@class,
-        instruction, parameter1, parameter2, data)
+    private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) : base(@class, instruction, parameter1,
+        parameter2, data)
     { }
 
-    private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint? le) : base(
-        @class, instruction, parameter1, parameter2, data, le)
+    private PutDataCApduSignal(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint? le) : base(@class, instruction,
+        parameter1, parameter2, data, le)
     { }
 
     #endregion
@@ -55,8 +54,7 @@ public class PutDataCApduSignal : CApduSignal
         PutDataApduCommand? command = PutDataApduCommand.Create(ProprietaryMessageIdentifier._8x, (ushort) value.GetTag(),
             value.EncodeValue(EmvCodec.GetBerCodec()).AsSpan());
 
-        return new PutDataCApduSignal(command.GetClass(), command.GetInstruction(), command.GetParameter1(), command.GetParameter2(),
-            command.GetData());
+        return new PutDataCApduSignal(command.GetClass(), command.GetInstruction(), command.GetParameter1(), command.GetParameter2(), command.GetData());
     }
 
     #endregion
@@ -68,7 +66,7 @@ public class PutDataCApduSignal : CApduSignal
     {
         #region Static Metadata
 
-        private static readonly ImmutableSortedDictionary<Tag, DataObject> _Map;
+        private static readonly ImmutableSortedDictionary<Tag, DataObject> _ValueObjectMap;
         public static readonly DataObject UnprotectedDataEnvelope1 = new(0x9F75);
         public static readonly DataObject UnprotectedDataEnvelope2 = new(0x9F76);
         public static readonly DataObject UnprotectedDataEnvelope3 = new(0x9F77);
@@ -81,7 +79,7 @@ public class PutDataCApduSignal : CApduSignal
 
         static DataObject()
         {
-            _Map = new Dictionary<Tag, DataObject>()
+            _ValueObjectMap = new Dictionary<Tag, DataObject>()
             {
                 {UnprotectedDataEnvelope1, UnprotectedDataEnvelope1},
                 {UnprotectedDataEnvelope2, UnprotectedDataEnvelope2},
@@ -98,7 +96,8 @@ public class PutDataCApduSignal : CApduSignal
 
         #region Instance Members
 
-        public static bool Exists(Tag value) => _Map.ContainsKey(value);
+        public static DataObject[] GetAll() => _ValueObjectMap.Values.ToArray();
+        public static bool Exists(Tag value) => _ValueObjectMap.ContainsKey(value);
         public Tag GetTag() => _Value;
 
         #endregion

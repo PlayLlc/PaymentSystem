@@ -8,14 +8,8 @@ namespace Play.Globalization.Language;
 /// <summary>
 ///     ISO 639-1 compliant identifiers relating language
 /// </summary>
-public readonly struct Alpha2LanguageCode
+public readonly record struct Alpha2LanguageCode
 {
-    #region Static Metadata
-
-    private static readonly AlphaNumericCodec _AlphaNumericCodecCodec = PlayCodec.AlphaNumericCodec;
-
-    #endregion
-
     #region Instance Values
 
     // The alpha 2 language identifiers will all be simple ascii so a byte for each char is fine here
@@ -26,49 +20,49 @@ public readonly struct Alpha2LanguageCode
 
     #region Constructor
 
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     public Alpha2LanguageCode(ReadOnlySpan<byte> value)
     {
-        CheckCore.ForEmptySequence(value, nameof(value));
         CheckCore.ForExactLength(value, 2, nameof(value));
 
-        if (!_AlphaNumericCodecCodec.IsValid(value))
+        if (!PlayCodec.AlphabeticCodec.IsValid(value))
         {
-            throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} was expecting a decimal representation of an AsciiCodec alphabetic character");
+            throw new PlayInternalException(new ArgumentOutOfRangeException(nameof(value),
+                $"The argument {nameof(value)} was expecting a decimal representation of an AsciiCodec alphabetic character"));
         }
 
         _FirstChar = value[0];
         _SecondChar = value[1];
     }
 
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     public Alpha2LanguageCode(ReadOnlySpan<char> value)
     {
-        CheckCore.ForEmptySequence(value, nameof(value));
         CheckCore.ForExactLength(value, 2, nameof(value));
 
-        if (!_AlphaNumericCodecCodec.IsValid(value))
+        if (!PlayCodec.AlphabeticCodec.IsValid(value))
         {
-            throw new ArgumentOutOfRangeException(nameof(value),
-                $"The argument {nameof(value)} was expecting a decimal representation of an AsciiCodec alphabetic character");
+            throw new PlayInternalException(new ArgumentOutOfRangeException(nameof(value),
+                $"The argument {nameof(value)} was expecting a decimal representation of an AsciiCodec alphabetic character"));
         }
 
         _FirstChar = (byte) value[0];
         _SecondChar = (byte) value[1];
     }
 
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     public Alpha2LanguageCode(byte firstChar, byte secondChar)
     {
-        if (!_AlphaNumericCodecCodec.IsValid(firstChar))
+        if (!PlayCodec.AlphabeticCodec.IsValid(firstChar))
         {
-            throw new ArgumentOutOfRangeException(nameof(firstChar), $"The argument {firstChar} was out of range of an alphabetic AsciiCodec value");
+            throw new PlayInternalException(new ArgumentOutOfRangeException(nameof(firstChar),
+                $"The argument {firstChar} was out of range of an alphabetic AsciiCodec value"));
         }
 
-        if (!_AlphaNumericCodecCodec.IsValid(secondChar))
+        if (!PlayCodec.AlphaNumericCodec.IsValid(secondChar))
         {
-            throw new ArgumentOutOfRangeException(nameof(firstChar), $"The argument {firstChar} was out of range of an alphabetic AsciiCodec value");
+            throw new PlayInternalException(new ArgumentOutOfRangeException(nameof(firstChar),
+                $"The argument {firstChar} was out of range of an alphabetic AsciiCodec value"));
         }
 
         _FirstChar = firstChar;
@@ -88,28 +82,19 @@ public readonly struct Alpha2LanguageCode
 
     #region Equality
 
-    public override bool Equals(object? obj) => obj is Alpha2LanguageCode languageCode && Equals(languageCode);
-    public bool Equals(Alpha2LanguageCode other) => (_FirstChar == other._FirstChar) && (_SecondChar == other._SecondChar);
-    public bool Equals(Alpha2LanguageCode x, Alpha2LanguageCode y) => x.Equals(y);
-
-    public override int GetHashCode()
+    public int CompareTo(Alpha2LanguageCode other)
     {
-        const int hash = 470621;
+        if (other._FirstChar == _FirstChar)
+            return _SecondChar.CompareTo(other._SecondChar);
 
-        return unchecked((hash * _FirstChar.GetHashCode()) + (hash * _SecondChar.GetHashCode()));
+        return _FirstChar.CompareTo(other._FirstChar);
     }
 
     #endregion
 
     #region Operator Overrides
 
-    public static bool operator ==(Alpha2LanguageCode left, Alpha2LanguageCode right) =>
-        (left._FirstChar == right._FirstChar) && (left._SecondChar == right._SecondChar);
-
     public static explicit operator ushort(Alpha2LanguageCode value) => (ushort) ((value._FirstChar << 8) | value._SecondChar);
-    public static implicit operator char[](Alpha2LanguageCode value) => value.AsCharArray();
-    public static implicit operator ReadOnlySpan<char>(Alpha2LanguageCode value) => value.AsReadOnlySpan();
-    public static bool operator !=(Alpha2LanguageCode left, Alpha2LanguageCode right) => !(left == right);
 
     #endregion
 }

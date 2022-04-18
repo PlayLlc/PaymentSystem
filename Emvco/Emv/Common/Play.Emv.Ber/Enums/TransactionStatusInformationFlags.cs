@@ -61,10 +61,8 @@ public sealed record TransactionStatusInformationFlags : EnumObject<ushort>
 
     #region Instance Members
 
-    public int CompareTo(TransactionStatusInformationFlags other) => _Value.CompareTo(other._Value);
-
-    public static bool TryGet(ushort value, out TransactionStatusInformationFlags? result) =>
-        _ValueObjectMap.TryGetValue(value, out result);
+    public static TransactionStatusInformationFlags[] GetAll() => _ValueObjectMap.Values.ToArray();
+    public static bool TryGet(ushort value, out TransactionStatusInformationFlags? result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion
 
@@ -85,6 +83,7 @@ public sealed record TransactionStatusInformationFlags : EnumObject<ushort>
 
     public override int GetHashCode() => 470621 * _Value.GetHashCode();
     public int GetHashCode(TransactionStatusInformationFlags obj) => obj.GetHashCode();
+    public int CompareTo(TransactionStatusInformationFlags other) => _Value.CompareTo(other._Value);
 
     #endregion
 

@@ -10,7 +10,7 @@ public sealed record OdaStatusTypes : EnumObject<byte>
 
     public static readonly OdaStatusTypes Cda = new(0b10000000);
     public static readonly OdaStatusTypes NotAvailable = new(0);
-    private static readonly Dictionary<byte, OdaStatusTypes> _ValueMap = new() {{Cda, Cda}};
+    private static readonly Dictionary<byte, OdaStatusTypes> _ValueObjectMap = new() {{Cda, Cda}, {NotAvailable, NotAvailable}};
 
     #endregion
 
@@ -23,7 +23,8 @@ public sealed record OdaStatusTypes : EnumObject<byte>
 
     #region Instance Members
 
-    public static bool IsValid(byte value) => _ValueMap.ContainsKey(value);
+    public static OdaStatusTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
+    public static bool IsValid(byte value) => _ValueObjectMap.ContainsKey(value);
 
     /// <summary>
     ///     Get
@@ -35,13 +36,13 @@ public sealed record OdaStatusTypes : EnumObject<byte>
     {
         const byte bitMask = 0b00111111;
 
-        if (!_ValueMap.ContainsKey(value.GetMaskedValue(bitMask)))
+        if (!_ValueObjectMap.ContainsKey(value.GetMaskedValue(bitMask)))
         {
             throw new DataElementParsingException(new ArgumentOutOfRangeException(nameof(value),
                 $"No {nameof(OdaStatusTypes)} could be retrieved because the argument provided does not match a definition value"));
         }
 
-        return _ValueMap[value.GetMaskedValue(bitMask)];
+        return _ValueObjectMap[value.GetMaskedValue(bitMask)];
     }
 
     #endregion

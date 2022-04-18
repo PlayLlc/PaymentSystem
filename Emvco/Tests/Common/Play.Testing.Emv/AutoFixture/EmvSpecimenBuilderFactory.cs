@@ -16,7 +16,7 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
     public static List<SpecimenBuilder> CreateSpecimenBuilders()
     {
         List<SpecimenBuilder> downStreamBuilders = TestingSpecimenBuilderFactory.CreateSpecimenBuilders();
-        List<SpecimenBuilder> currentModuleBuilders = new()
+        HashSet<SpecimenBuilder> currentModuleBuilders = new()
         {
             new AlternateInterfacePreferenceOutcomeBuilder(),
             new CertificateSerialNumberBuilder(),
@@ -36,7 +36,7 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
             new ValueQualifierBuilder()
         };
 
-        return downStreamBuilders.Union(currentModuleBuilders).ToList();
+        return currentModuleBuilders.Concat(downStreamBuilders).ToList();
     }
 
     #endregion

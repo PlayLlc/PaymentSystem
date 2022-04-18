@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Play.Ber.Identifiers;
 using Play.Core;
@@ -29,7 +30,7 @@ public record DekResponseType : EnumObject<Tag>
         {TornRecord, () => Ber.DataElements.TornRecord.Empty}
     };
 
-    private static readonly Dictionary<Tag, DekResponseType> _TagMap = new()
+    private static readonly Dictionary<Tag, DekResponseType> _ValueObjectMap = new()
     {
         {TagsToWriteBeforeGenAc, TagsToWriteBeforeGenAc},
         {TagsToWriteAfterGenAc, TagsToWriteAfterGenAc},
@@ -52,16 +53,17 @@ public record DekResponseType : EnumObject<Tag>
 
     #region Instance Members
 
+    public static DekResponseType[] GetAll() => _ValueObjectMap.Values.ToArray();
+
     /// <exception cref="TerminalDataException"></exception>
     public static DekResponseType Get(Tag tag)
     {
-        if (!_TagMap.ContainsKey(tag))
+        if (!_ValueObjectMap.ContainsKey(tag))
         {
-            throw new TerminalDataException(
-                $"The {nameof(Tag)} argument with the value {tag} could not be recognized for a {nameof(DekResponseType)}");
+            throw new TerminalDataException($"The {nameof(Tag)} argument with the value {tag} could not be recognized for a {nameof(DekResponseType)}");
         }
 
-        return _TagMap[tag];
+        return _ValueObjectMap[tag];
     }
 
     public static DataExchangeResponse GetDefaultList(DekResponseType listType) => _DefaultMap[listType].Invoke();

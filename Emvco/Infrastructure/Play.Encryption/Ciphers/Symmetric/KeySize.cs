@@ -35,8 +35,7 @@ public sealed record KeySize : EnumObject<ushort>, IEqualityComparer<KeySize>
         _256 = new KeySize(__256);
 
         _ValueObjectMap =
-            new Dictionary<ushort, KeySize> {{__64, _64}, {__128, _128}, {__192, _192}, {__256, _256}}.ToImmutableSortedDictionary(
-                a => a.Key, b => b.Value);
+            new Dictionary<ushort, KeySize> {{__64, _64}, {__128, _128}, {__192, _192}, {__256, _256}}.ToImmutableSortedDictionary(a => a.Key, b => b.Value);
     }
 
     private KeySize(ushort value) : base(value)
@@ -46,6 +45,7 @@ public sealed record KeySize : EnumObject<ushort>, IEqualityComparer<KeySize>
 
     #region Instance Members
 
+    public static KeySize[] GetAll() => _ValueObjectMap.Values.ToArray();
     public int GetBitSize() => _Value;
     public int GetByteSize() => _Value / 8;
     public static bool TryGet(ushort value, out KeySize? result) => _ValueObjectMap.TryGetValue(value, out result);

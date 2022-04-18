@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Play.Ber.Identifiers;
 using Play.Core;
@@ -15,9 +16,16 @@ public record DetResponseType : EnumObject<Tag>
 
     //public static readonly DetResponseType TornRecord = new(DataElements.TornRecord.Tag);
 
-    private static readonly Dictionary<DetResponseType, Func<DataExchangeResponse>> _Defaults = new()
+    private static readonly Dictionary<DetResponseType, Func<DataExchangeResponse>> _Default = new()
     {
         {DataToSend, () => new DataToSend()}
+
+        //{TornRecord, () => new TornRecord()}
+    };
+
+    private static readonly Dictionary<Tag, DetResponseType> _ValueObjectMap = new()
+    {
+        {DataToSend, DataToSend}
 
         //{TornRecord, () => new TornRecord()}
     };
@@ -36,6 +44,8 @@ public record DetResponseType : EnumObject<Tag>
 
     #region Instance Members
 
+    public static DetResponseType[] GetAll() => _ValueObjectMap.Values.ToArray();
+
     /// <summary>
     ///     GetName
     /// </summary>
@@ -50,7 +60,7 @@ public record DetResponseType : EnumObject<Tag>
         throw new InvalidOperationException();
     }
 
-    public static DataExchangeResponse GetDefault(DetResponseType listType) => _Defaults[listType].Invoke();
+    public static DataExchangeResponse GetDefault(DetResponseType listType) => _Default[listType].Invoke();
 
     #endregion
 

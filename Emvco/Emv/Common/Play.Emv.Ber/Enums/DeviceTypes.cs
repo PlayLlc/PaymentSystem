@@ -99,6 +99,12 @@ public record DeviceTypes : EnumObject<ushort>
 
     #endregion
 
+    #region Instance Members
+
+    public static DeviceTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    #endregion
+
     #region Operator Overrides
 
     public static implicit operator ushort(DeviceTypes value) => value._Value;

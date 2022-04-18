@@ -1,10 +1,14 @@
-﻿using Play.Core;
+﻿using System.Collections.Immutable;
+
+using Play.Core;
 
 namespace Play.Emv.Ber.Enums;
 
 public record TransactionTypes : EnumObject<byte>
 {
     #region Static Metadata
+
+    private static readonly ImmutableSortedDictionary<ushort, TransactionTypes> _ValueObjectMap;
 
     /// <summary>
     ///     A purchase of goods and services that are debited from the cardholders account
@@ -246,10 +250,75 @@ public record TransactionTypes : EnumObject<byte>
         CorporateDatedPayment = new TransactionTypes(0x5F);
         PinChange = new TransactionTypes(0x90);
         PinVerify = new TransactionTypes(0x91);
+
+        _ValueObjectMap = new Dictionary<ushort, TransactionTypes>
+        {
+            {GoodsAndServicesDebit, GoodsAndServicesDebit},
+            {CashAdvance, CashAdvance},
+            {AdjustmentDebit, AdjustmentDebit},
+            {CheckGuaranteeDebit, CheckGuaranteeDebit},
+            {CheckVerificationDebit, CheckVerificationDebit},
+            {EuroCheckDebit, EuroCheckDebit},
+            {TravelersCheckDebit, TravelersCheckDebit},
+            {LetterOfCreditDebit, LetterOfCreditDebit},
+            {GiroPostalBankingDebit, GiroPostalBankingDebit},
+            {GoodsAndServicesWithCashDisbursementDebit, GoodsAndServicesWithCashDisbursementDebit},
+            {PhoneTopUpPrivate, PhoneTopUpPrivate},
+            {FeeCollectionDebit, FeeCollectionDebit},
+            {NonCashFinancialInstrumentDebit, NonCashFinancialInstrumentDebit},
+            {QuasiCashAndScripDebit, QuasiCashAndScripDebit},
+            {FastCashDebit, FastCashDebit},
+            {PrivateUseDebit, PrivateUseDebit},
+            {ReturnCredit, ReturnCredit},
+            {DepositCredit, DepositCredit},
+            {AdjustmentCredit, AdjustmentCredit},
+            {CheckDepositGuaranteeCredit, CheckDepositGuaranteeCredit},
+            {CheckDepositCredit, CheckDepositCredit},
+            {DepositWithCashBackCredit, DepositWithCashBackCredit},
+            {CheckDepositWithCashBackCredit, CheckDepositWithCashBackCredit},
+            {FundsDisbursement, FundsDisbursement},
+            {PrepaidLoadCredit, PrepaidLoadCredit},
+            {OriginalCredits, OriginalCredits},
+            {CashDepositWithCashBack, CashDepositWithCashBack},
+            {CashDeposit, CashDeposit},
+            {SplitDeposit, SplitDeposit},
+            {InquiryAvailableFundsInquiry, InquiryAvailableFundsInquiry},
+            {InquiryBalanceInquiry, InquiryBalanceInquiry},
+            {CardVerification, CardVerification},
+            {StatementPrintInboundOutbound, StatementPrintInboundOutbound},
+            {MiniStatementInquiryCheckClearInboundOutbound, MiniStatementInquiryCheckClearInboundOutbound},
+            {MiniStatementInquiryLastDebitCreditInboundOutbound, MiniStatementInquiryLastDebitCreditInboundOutbound},
+            {MiniStatementInquiryLastSourceInboundOutbound, MiniStatementInquiryLastSourceInboundOutbound},
+            {MiniStatementInquiryLastCheckInboundOutbound, MiniStatementInquiryLastCheckInboundOutbound},
+            {MiniStatementInquiryLastDebitInboundOutbound, MiniStatementInquiryLastDebitInboundOutbound},
+            {MiniStatementInquiryLastCreditInboundOutbound, MiniStatementInquiryLastCreditInboundOutbound},
+            {TransferCardholderAccountsTransfer, TransferCardholderAccountsTransfer},
+            {TransferPrivateUse, TransferPrivateUse},
+            {TransferFuture, TransferFuture},
+            {TransferRecurring, TransferRecurring},
+            {PaymentCanIncludeBothAFromAndToAccountType, PaymentCanIncludeBothAFromAndToAccountType},
+            {PaymentToOnlyAToAccountIsPresent, PaymentToOnlyAToAccountIsPresent},
+            {PaymentEnclosed, PaymentEnclosed},
+            {PaymentPrivateUse, PaymentPrivateUse},
+            {PaymentPaymentFuture, PaymentPaymentFuture},
+            {PaymentRecurring, PaymentRecurring},
+            {BulkAuthorization, BulkAuthorization},
+            {ReturnPayment, ReturnPayment},
+            {SchemeReturnPayment, SchemeReturnPayment},
+            {CorporateDatedPayment, CorporateDatedPayment},
+            {PinChange, PinChange},
+            {PinVerify, PinVerify}
+        }.ToImmutableSortedDictionary();
     }
 
     private TransactionTypes(byte value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public static TransactionTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     #endregion
 }

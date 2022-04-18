@@ -29,9 +29,8 @@ public record Level3Error : EnumObject<byte>
         Ok = new Level3Error(ok);
         Stop = new Level3Error(stop);
         TimeOut = new Level3Error(timeOut);
-        _ValueObjectMap =
-            new Dictionary<byte, Level3Error> {{amountNotPresent, AmountNotPresent}, {ok, Ok}, {stop, Stop}, {timeOut, TimeOut}}
-                .ToImmutableSortedDictionary();
+        _ValueObjectMap = new Dictionary<byte, Level3Error> {{amountNotPresent, AmountNotPresent}, {ok, Ok}, {stop, Stop}, {timeOut, TimeOut}}
+            .ToImmutableSortedDictionary();
     }
 
     private Level3Error(byte value) : base(value)
@@ -41,6 +40,7 @@ public record Level3Error : EnumObject<byte>
 
     #region Instance Members
 
+    public static Level3Error[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static Level3Error Get(byte value) => _ValueObjectMap[value];
 
     #endregion

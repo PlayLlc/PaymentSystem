@@ -23,10 +23,9 @@ public class CaPublicKeyCertificate : PublicKeyCertificate
     #region Constructor
 
     public CaPublicKeyCertificate(
-        CaPublicKeyCertificateIdentifier id, bool isRevoked, CertificateSerialNumber certificateSerialNumber,
-        HashAlgorithmIndicator hashAlgorithmIndicator, PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator, DateRange validityPeriod,
-        PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber, hashAlgorithmIndicator, publicKeyAlgorithmIndicator, validityPeriod,
-        publicKeyInfo)
+        CaPublicKeyCertificateIdentifier id, bool isRevoked, CertificateSerialNumber certificateSerialNumber, HashAlgorithmIndicator hashAlgorithmIndicator,
+        PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator, DateRange validityPeriod, PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber,
+        hashAlgorithmIndicator, publicKeyAlgorithmIndicator, validityPeriod, publicKeyInfo)
     {
         _Id = id;
         _IsRevoked = isRevoked;
@@ -58,10 +57,7 @@ public class CaPublicKeyCertificate : PublicKeyCertificate
     public CaPublicKeyIndex GetCaPublicKeyIndex() => _Id.GetCaPublicKeyIndex();
     public BigInteger GetChecksum() => CalculateChecksum(_Id, GetPublicKeyModulus(), GetPublicKeyExponent());
     public CaPublicKeyCertificateIdentifier GetId() => _Id;
-
-    public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
-        _Id.GetRegisteredApplicationProviderIndicator();
-
+    public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() => _Id.GetRegisteredApplicationProviderIndicator();
     public bool IsRevoked() => _IsRevoked ? _IsRevoked : IsExpired();
 
     #endregion

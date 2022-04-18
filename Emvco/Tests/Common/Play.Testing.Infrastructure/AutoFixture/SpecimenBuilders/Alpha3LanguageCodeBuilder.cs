@@ -10,7 +10,7 @@ public class Alpha3LanguageCodeBuilder : SpecimenBuilder
     #region Static Metadata
 
     private static readonly List<Language> _Languages = LanguageCodeRepository.GetAll();
-    public static readonly SpecimenBuilderId Id = new(nameof(Alpha2LanguageCodeBuilder));
+    public static readonly SpecimenBuilderId Id = new(nameof(Alpha3LanguageCodeBuilder));
 
     #endregion
 

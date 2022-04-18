@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 
 using Play.Core;
 using Play.Icc.Exceptions;
@@ -58,10 +59,10 @@ public sealed record RegisteredApplicationProviderIndicators : EnumObject<Regist
 
     #region Instance Members
 
-    public int CompareTo(RegisteredApplicationProviderIndicators other) => _Value.CompareTo(other._Value);
-
     public static bool TryGet(RegisteredApplicationProviderIndicator value, out RegisteredApplicationProviderIndicators? result) =>
         _ValueObjectMap.TryGetValue(value, out result);
+
+    public static RegisteredApplicationProviderIndicators[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     #endregion
 
@@ -88,24 +89,20 @@ public sealed record RegisteredApplicationProviderIndicators : EnumObject<Regist
     }
 
     public int GetHashCode(RegisteredApplicationProviderIndicators obj) => obj.GetHashCode();
+    public int CompareTo(RegisteredApplicationProviderIndicators other) => _Value.CompareTo(other._Value);
 
     #endregion
 
     #region Operator Overrides
 
-    public static bool operator ==(RegisteredApplicationProviderIndicator left, RegisteredApplicationProviderIndicators right) =>
-        right.Equals(left);
+    public static bool operator ==(RegisteredApplicationProviderIndicator left, RegisteredApplicationProviderIndicators right) => right.Equals(left);
+    public static bool operator ==(RegisteredApplicationProviderIndicators left, RegisteredApplicationProviderIndicator right) => left.Equals(right);
 
-    public static bool operator ==(RegisteredApplicationProviderIndicators left, RegisteredApplicationProviderIndicator right) =>
-        left.Equals(right);
-
-    public static explicit operator RegisteredApplicationProviderIndicator(
-        RegisteredApplicationProviderIndicators registeredApplicationProviderIndicators) =>
+    public static explicit operator RegisteredApplicationProviderIndicator(RegisteredApplicationProviderIndicators registeredApplicationProviderIndicators) =>
         registeredApplicationProviderIndicators._Value;
 
     /// <exception cref="IccProtocolException" />
-    public static explicit operator RegisteredApplicationProviderIndicators(
-        RegisteredApplicationProviderIndicator registeredApplicationProviderIndicator)
+    public static explicit operator RegisteredApplicationProviderIndicators(RegisteredApplicationProviderIndicator registeredApplicationProviderIndicator)
     {
         if (!TryGet(registeredApplicationProviderIndicator, out RegisteredApplicationProviderIndicators result))
         {
@@ -116,11 +113,8 @@ public sealed record RegisteredApplicationProviderIndicators : EnumObject<Regist
         return result;
     }
 
-    public static bool operator !=(RegisteredApplicationProviderIndicator left, RegisteredApplicationProviderIndicators right) =>
-        !right.Equals(left);
-
-    public static bool operator !=(RegisteredApplicationProviderIndicators left, RegisteredApplicationProviderIndicator right) =>
-        !(left == right);
+    public static bool operator !=(RegisteredApplicationProviderIndicator left, RegisteredApplicationProviderIndicators right) => !right.Equals(left);
+    public static bool operator !=(RegisteredApplicationProviderIndicators left, RegisteredApplicationProviderIndicator right) => !(left == right);
 
     #endregion
 }

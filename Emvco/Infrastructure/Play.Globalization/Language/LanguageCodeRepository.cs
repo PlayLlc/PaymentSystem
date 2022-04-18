@@ -12,8 +12,8 @@ public static class LanguageCodeRepository
 {
     #region Static Metadata
 
-    private static readonly ImmutableSortedDictionary<Alpha2LanguageCode, Language> _Alpha2LanguageCodesMap;
-    private static readonly ImmutableSortedDictionary<Alpha3LanguageCode, Language> _Alpha3LanguageCodesMap;
+    private static readonly ImmutableDictionary<Alpha2LanguageCode, Language> _Alpha2LanguageCodesMap;
+    private static readonly ImmutableDictionary<Alpha3LanguageCode, Language> _Alpha3LanguageCodesMap;
 
     #endregion
 
@@ -23,8 +23,8 @@ public static class LanguageCodeRepository
     {
         HashSet<Language> mapper = new(CreateLanguageCodes());
 
-        _Alpha2LanguageCodesMap = mapper.ToImmutableSortedDictionary(a => a.GetAlpha2Code(), b => b);
-        _Alpha3LanguageCodesMap = mapper.ToImmutableSortedDictionary(a => a.GetAlpha3Code(), b => b);
+        _Alpha2LanguageCodesMap = mapper.ToImmutableDictionary(a => a.GetAlpha2Code(), b => b);
+        _Alpha3LanguageCodesMap = mapper.ToImmutableDictionary(a => a.GetAlpha3Code(), b => b);
     }
 
     #endregion
@@ -35,10 +35,14 @@ public static class LanguageCodeRepository
     public static bool TryGetAlpha2LanguageCode(Alpha3LanguageCode value, out Language? result) => _Alpha3LanguageCodesMap.TryGetValue(value, out result);
     public static bool TryGetAlpha3LanguageCode(Alpha2LanguageCode value, out Language? result) => _Alpha2LanguageCodesMap.TryGetValue(value, out result);
 
-    private static List<Language> CreateLanguageCodes() =>
-        new()
+    private static List<Language> CreateLanguageCodes()
+    {
+        HashSet<Language> result = new();
+
+        result.Add(new Language(new Alpha2LanguageCode("ab"), new Alpha3LanguageCode("abk"), "Abkhazian"));
+
+        return new List<Language>
         {
-            new Language(new Alpha2LanguageCode("ab"), new Alpha3LanguageCode("abk"), "Abkhazian"),
             new Language(new Alpha2LanguageCode("aa"), new Alpha3LanguageCode("aar"), "Afar"),
             new Language(new Alpha2LanguageCode("af"), new Alpha3LanguageCode("afr"), "Afrikaans"),
             new Language(new Alpha2LanguageCode("ak"), new Alpha3LanguageCode("aka"), "Akan"),
@@ -221,6 +225,7 @@ public static class LanguageCodeRepository
             new Language(new Alpha2LanguageCode("za"), new Alpha3LanguageCode("zha"), "Zhuang, Chuang"),
             new Language(new Alpha2LanguageCode("zu"), new Alpha3LanguageCode("zul"), "Zulu")
         };
+    }
 
     #endregion
 }

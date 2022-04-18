@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
 
+using Play.Core.Exceptions;
 using Play.Unmanaged;
 
 namespace Play.Core;
@@ -12,9 +14,15 @@ namespace Play.Core;
 ///     The concrete implementation of this base class must not expose a constructor. There should only be publicly static
 ///     instances. No instantiation from outside the derived class should be allowed
 /// </remarks>
-public abstract record EnumObject<T> : IEquatable<T>, IEqualityComparer<T>, IComparable<T>, IEqualityComparer<EnumObject<T>>,
-    IComparable<EnumObject<T>> where T : unmanaged
+public abstract record EnumObject<T> : IEquatable<T>, IEqualityComparer<T>, IComparable<T>, IEqualityComparer<EnumObject<T>>, IComparable<EnumObject<T>>
+    where T : unmanaged
 {
+    #region Static Metadata
+
+    private const string _GetAllStaticMethod = "GetAll";
+
+    #endregion
+
     #region Instance Values
 
     protected readonly T _Value;
@@ -23,10 +31,13 @@ public abstract record EnumObject<T> : IEquatable<T>, IEqualityComparer<T>, ICom
 
     #region Constructor
 
+    /// <exception cref="PlayInternalException"></exception>
     protected EnumObject()
-    { }
+    {
+        Validate(GetType());
+    }
 
-    protected EnumObject(T value)
+    protected EnumObject(T value) : base()
     {
         _Value = value;
     }
@@ -35,43 +46,14 @@ public abstract record EnumObject<T> : IEquatable<T>, IEqualityComparer<T>, ICom
 
     #region Instance Members
 
-    public int CompareTo(T other) => UnmanagedConverter.CompareTo(_Value, other);
-
-    public int CompareTo(EnumObject<T>? other)
+    /// <exception cref="PlayInternalException"></exception>
+    protected static void Validate(Type type)
     {
-        if (other is null)
-            return 1;
-
-        return UnmanagedConverter.CompareTo(_Value, other);
-    }
-
-    /// <summary>
-    ///     GetValues
-    /// </summary>
-    /// <param name="type"></param>
-    /// <returns></returns>
-    /// <exception cref="TypeInitializationException"></exception>
-    protected static Dictionary<T, EnumObject<T>> GetValues(Type type)
-    {
-        HashSet<EnumObject<T>> rawValues = new();
-
-        FieldInfo[] fields = type.GetFields(BindingFlags.Public | BindingFlags.Static);
-
-        foreach (FieldInfo fieldInfo in fields)
+        if (type.GetMethod(_GetAllStaticMethod, BindingFlags.Public | BindingFlags.Static) is null)
         {
-            if (fieldInfo.IsPublic && fieldInfo.IsStatic && fieldInfo.IsInitOnly && (fieldInfo.FieldType.BaseType == typeof(EnumObject<T>)))
-            {
-                if (!rawValues.Add((EnumObject<T>) fieldInfo.GetRawConstantValue()))
-                {
-                    throw new TypeInitializationException(type.FullName,
-                        new InvalidOperationException(
-                            $"The {type.Name} declares two instances with the same underlying {typeof(T)} values. "
-                            + "Please ensure unique values for the enum"));
-                }
-            }
+            throw new PlayInternalException(
+                $"The {nameof(EnumObject<T>)} must implement a static public method called {_GetAllStaticMethod} that returns a list of all of the {nameof(EnumObject<T>)} instance objects");
         }
-
-        return rawValues.ToDictionary(a => a._Value, b => b);
     }
 
     #endregion
@@ -95,6 +77,15 @@ public abstract record EnumObject<T> : IEquatable<T>, IEqualityComparer<T>, ICom
     public int GetHashCode(T obj) => UnmanagedConverter.GetHashCode(obj);
     public int GetHashCode(EnumObject<T> obj) => UnmanagedConverter.GetHashCode(obj._Value);
     public int GetHashCode(int hash) => unchecked(hash * _Value.GetHashCode());
+    public int CompareTo(T other) => UnmanagedConverter.CompareTo(_Value, other);
+
+    public int CompareTo(EnumObject<T>? other)
+    {
+        if (other is null)
+            return 1;
+
+        return UnmanagedConverter.CompareTo(_Value, other);
+    }
 
     #endregion
 
@@ -107,4 +98,27 @@ public abstract record EnumObject<T> : IEquatable<T>, IEqualityComparer<T>, ICom
     public static bool operator !=(T left, EnumObject<T> right) => !right!._Value.Equals(left);
 
     #endregion
+
+    ///// <exception cref="TypeInitializationException"></exception>
+    //protected static Dictionary<T, EnumObject<T>> GetValues(Type type)
+    //{
+    //    HashSet<EnumObject<T>> rawValues = new();
+
+    //    FieldInfo[] fields = type.GetFields(BindingFlags.Public | BindingFlags.Static);
+
+    //    foreach (FieldInfo fieldInfo in fields)
+    //    {
+    //        if (fieldInfo.IsPublic && fieldInfo.IsStatic && fieldInfo.IsInitOnly && (fieldInfo.FieldType.BaseType == typeof(EnumObject<T>)))
+    //        {
+    //            if (!rawValues.Add((EnumObject<T>) fieldInfo.GetRawConstantValue()))
+    //            {
+    //                throw new TypeInitializationException(type.FullName,
+    //                    new InvalidOperationException($"The {type.Name} declares two instances with the same underlying {typeof(T)} values. "
+    //                        + "Please ensure unique values for the enum"));
+    //            }
+    //        }
+    //    }
+
+    //    return rawValues.ToDictionary(a => a._Value, b => b);
+    //}
 }

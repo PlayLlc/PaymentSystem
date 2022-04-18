@@ -93,6 +93,7 @@ public record Level2Error : EnumObject<byte>
 
     #region Instance Members
 
+    public static Level2Error[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static Level2Error Get(byte value) => _ValueObjectMap[value];
 
     #endregion

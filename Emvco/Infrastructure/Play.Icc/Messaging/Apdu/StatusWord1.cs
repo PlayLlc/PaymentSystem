@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 
 using Play.Core;
 
@@ -111,8 +112,7 @@ public sealed record StatusWord1 : EnumObject<StatusWord>, IEqualityComparer<Sta
         const byte internalException = 0x6F;
 
         Unknown = new StatusWord1(unknown, StatusWordInfo.Info, $"The {nameof(StatusWord1)} was not recognized in this code base");
-        _61 = new StatusWord1(responseBytesStillAvailable, StatusWordInfo.Info,
-            "Normal response indicating that response bytes are still available");
+        _61 = new StatusWord1(responseBytesStillAvailable, StatusWordInfo.Info, "Normal response indicating that response bytes are still available");
         _62 = new StatusWord1(nonVolatileMemoryUnchanged, StatusWordInfo.Warning, "The non-volatile state of the ICC remains unchanged");
         _63 = new StatusWord1(nonVolatileMemoryChanged, StatusWordInfo.Warning, "The non-volatile state of the ICC has changed");
         _64 = new StatusWord1(nonVolatileMemoryUnchangedError, StatusWordInfo.Error,
@@ -126,7 +126,21 @@ public sealed record StatusWord1 : EnumObject<StatusWord>, IEqualityComparer<Sta
         _6C = new StatusWord1(wrongExpectedLength, StatusWordInfo.Error, "The expected length, Le, was incorrect");
         _6F = new StatusWord1(internalException, StatusWordInfo.Error, "An internal exception occurred");
 
-        _ValueObjectMap = GetValues(typeof(StatusWord1)).ToImmutableSortedDictionary(a => a.Key, b => (StatusWord1) b.Value);
+        _ValueObjectMap = new Dictionary<StatusWord, StatusWord1>()
+        {
+            {Unknown, Unknown},
+            {_61, _61},
+            {_62, _62},
+            {_63, _63},
+            {_64, _64},
+            {_65, _65},
+            {_67, _67},
+            {_68, _68},
+            {_69, _69},
+            {_6A, _6A},
+            {_6C, _6C},
+            {_6F, _6F}
+        }.ToImmutableSortedDictionary();
     }
 
     private StatusWord1(StatusWord value, StatusWordInfo statusWordInfo, string description = "") : base(value)
@@ -139,6 +153,7 @@ public sealed record StatusWord1 : EnumObject<StatusWord>, IEqualityComparer<Sta
 
     #region Instance Members
 
+    public static StatusWord1[] GetAll() => _ValueObjectMap.Values.ToArray();
     public string GetDescription() => _Description;
     public StatusWordInfo GetStatusWordInfo() => _StatusWordInfo;
     public static bool TryGet(StatusWord value, out StatusWord1? result) => _ValueObjectMap.TryGetValue(value, out result);

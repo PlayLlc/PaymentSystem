@@ -6,6 +6,7 @@ using Play.Core.Extensions;
 
 namespace Play.Globalization.Time;
 
+// TODO: This is actually super unwieldy to use. Let's add some more constructors
 /// <summary>
 ///     Supports short date values in the formats YYMMDD or YYMM
 /// </summary>

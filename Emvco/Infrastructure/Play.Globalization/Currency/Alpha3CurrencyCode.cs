@@ -1,8 +1,12 @@
 ﻿using System;
 
+using Play.Codecs;
+using Play.Core.Exceptions;
+using Play.Globalization.Language;
+
 namespace Play.Globalization.Currency;
 
-public readonly struct Alpha3CurrencyCode
+public readonly record struct Alpha3CurrencyCode
 {
     #region Instance Values
 
@@ -15,14 +19,16 @@ public readonly struct Alpha3CurrencyCode
 
     #region Constructor
 
+    /// <exception cref="PlayInternalException"></exception>
     public Alpha3CurrencyCode(ReadOnlySpan<char> value)
     {
-        // HACK: This validation causes circular references. Let's try and create an EnumObject or something similar that allows some validation logic
-        //if (!CurrencyCodeRepository.IsValid(value))
-        //{
-        //    throw new ArgumentOutOfRangeException(nameof(value),
-        //        $"The argument {nameof(value)} must be 3 digits or less according to ISO 4217");
-        //}
+        CheckCore.ForExactLength(value, 3, nameof(value));
+
+        if (!PlayCodec.AlphabeticCodec.IsValid(value))
+        {
+            throw new PlayInternalException(new ArgumentOutOfRangeException(nameof(value),
+                $"The argument {nameof(value)} was expecting a decimal representation of an AsciiCodec alphabetic character"));
+        }
 
         _FirstChar = (byte) value[0];
         _SecondChar = (byte) value[1];
@@ -45,9 +51,6 @@ public readonly struct Alpha3CurrencyCode
 
     #region Equality
 
-    public override bool Equals(object? obj) => obj is Alpha3CurrencyCode countryCodeAlpha2 && Equals(countryCodeAlpha2);
-    public bool Equals(Alpha3CurrencyCode other) => (_FirstChar == other._FirstChar) && (_SecondChar == other._SecondChar) && (_ThirdChar == other._ThirdChar);
-
     public bool Equals(ReadOnlySpan<char> other)
     {
         if (other.Length != 3)
@@ -56,13 +59,15 @@ public readonly struct Alpha3CurrencyCode
         return (_FirstChar == (byte) other[0]) && (_SecondChar == (byte) other[1]) && (_ThirdChar == (byte) other[2]);
     }
 
-    public bool Equals(Alpha3CurrencyCode x, Alpha3CurrencyCode y) => x.Equals(y);
-
-    public override int GetHashCode()
+    public int CompareTo(Alpha3CurrencyCode other)
     {
-        const int hash = 857;
+        if (other._FirstChar != _FirstChar)
+            return _FirstChar.CompareTo(other._FirstChar);
 
-        return unchecked((hash * _FirstChar.GetHashCode()) + (hash * _SecondChar.GetHashCode())) + (hash * _ThirdChar.GetHashCode());
+        if (other._SecondChar != _SecondChar)
+            return _SecondChar.CompareTo(other._SecondChar);
+
+        return _ThirdChar.CompareTo(other._ThirdChar);
     }
 
     #endregion

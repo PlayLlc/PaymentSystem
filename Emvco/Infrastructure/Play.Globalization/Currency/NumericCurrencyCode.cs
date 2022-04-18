@@ -1,6 +1,8 @@
-﻿namespace Play.Globalization.Currency;
+﻿using Play.Globalization.Language;
 
-public readonly struct NumericCurrencyCode
+namespace Play.Globalization.Currency;
+
+public readonly record struct NumericCurrencyCode
 {
     #region Instance Values
 
@@ -26,31 +28,13 @@ public readonly struct NumericCurrencyCode
 
     #region Equality
 
-    public bool Equals(NumericCurrencyCode other) => _Value == other._Value;
-    public bool Equals(NumericCurrencyCode x, NumericCurrencyCode y) => x.Equals(y);
-    public override bool Equals(object? obj) => obj is NumericCurrencyCode Currency && Equals(Currency);
-    public int GetHashCode(NumericCurrencyCode obj) => obj.GetHashCode();
-
-    public override int GetHashCode()
-    {
-        const int hash = 832399;
-
-        unchecked
-        {
-            int result = 0;
-            result += hash * _Value.GetHashCode();
-
-            return result;
-        }
-    }
+    public int CompareTo(NumericCurrencyCode other) => _Value.CompareTo(other._Value);
 
     #endregion
 
     #region Operator Overrides
 
-    public static bool operator ==(NumericCurrencyCode left, NumericCurrencyCode right) => left.Equals(right);
-    public static explicit operator ushort(NumericCurrencyCode value) => value._Value;
-    public static bool operator !=(NumericCurrencyCode left, NumericCurrencyCode right) => !left.Equals(right);
+    public static implicit operator ushort(NumericCurrencyCode value) => value._Value;
 
     #endregion
 }

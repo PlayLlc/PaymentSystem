@@ -4,6 +4,8 @@ using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 
+using Play.Core.Exceptions;
+
 namespace Play.Globalization.Currency;
 
 // HACK: That's a lot of memory. Let's make sure we're using values from the database and not storing these values in code. A Terminal will pull the globalization configuration directly from the database so this is only for testing and stuff
@@ -11,9 +13,9 @@ public static class CurrencyCodeRepository
 {
     #region Static Metadata
 
-    private static readonly ImmutableSortedDictionary<Alpha3CurrencyCode, Currency> _Alpha3CurrencyMap;
+    private static readonly ImmutableDictionary<Alpha3CurrencyCode, Currency> _Alpha3CurrencyMap;
     private static readonly char[] _Buffer = new char[3];
-    private static readonly ImmutableSortedDictionary<NumericCurrencyCode, Currency> _NumericCurrencyMap;
+    private static readonly ImmutableDictionary<NumericCurrencyCode, Currency> _NumericCurrencyMap;
 
     #endregion
 
@@ -23,8 +25,8 @@ public static class CurrencyCodeRepository
     {
         List<Currency> mapper = CreateCurrencyCodes(GetFormatMap());
 
-        _NumericCurrencyMap = mapper.ToImmutableSortedDictionary(a => a.GetNumericCode(), b => b);
-        _Alpha3CurrencyMap = mapper.ToImmutableSortedDictionary(a => a.GetAlpha3Code(), b => b);
+        _NumericCurrencyMap = mapper.ToImmutableDictionary(a => a.GetNumericCode(), b => b);
+        _Alpha3CurrencyMap = mapper.ToImmutableDictionary(a => a.GetAlpha3Code(), b => b);
     }
 
     #endregion
@@ -42,238 +44,248 @@ public static class CurrencyCodeRepository
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    public static Currency ResolveCurrency(ushort numericCurrencyCode, string alpha3CurrencyCode, Dictionary<string, NumberFormatInfo> formatMap)
+    /// <exception cref="PlayInternalException"></exception>
+    public static Currency? ResolveCurrency(ushort numericCurrencyCode, string alpha3CurrencyCode, Dictionary<string, NumberFormatInfo> formatMap)
     {
         // We're throwing here because there's adding and subtracting we have to do when processing transactions
         // so we need to make sure we only include currencies when we're able to determine their precision
+        //if (!formatMap.ContainsKey(alpha3CurrencyCode))
+        //    return new Currency(new NumericCurrencyCode(numericCurrencyCode), new Alpha3CurrencyCode(alpha3CurrencyCode),
+        //        string.Empty, 0);
+
         if (!formatMap.ContainsKey(alpha3CurrencyCode))
-            throw new InvalidOperationException();
+            return null;
 
         return new Currency(new NumericCurrencyCode(numericCurrencyCode), new Alpha3CurrencyCode(alpha3CurrencyCode),
             formatMap[alpha3CurrencyCode].CurrencySymbol, formatMap[alpha3CurrencyCode].CurrencyDecimalDigits);
     }
 
-    private static List<Currency> CreateCurrencyCodes(Dictionary<string, NumberFormatInfo> formatMap) =>
-        new()
-        {
-            ResolveCurrency(971, "AFN", formatMap),
-            ResolveCurrency(008, "ALL", formatMap),
-            ResolveCurrency(012, "DZD", formatMap),
-            ResolveCurrency(840, "USD", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(973, "AOA", formatMap),
-            ResolveCurrency(951, "XCD", formatMap),
-            ResolveCurrency(951, "XCD", formatMap),
-            ResolveCurrency(032, "ARS", formatMap),
-            ResolveCurrency(051, "AMD", formatMap),
-            ResolveCurrency(533, "AWG", formatMap),
-            ResolveCurrency(036, "AUD", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(944, "AZN", formatMap),
-            ResolveCurrency(044, "BSD", formatMap),
-            ResolveCurrency(048, "BHD", formatMap),
-            ResolveCurrency(050, "BDT", formatMap),
-            ResolveCurrency(052, "BBD", formatMap),
-            ResolveCurrency(933, "BYN", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(084, "BZD", formatMap),
-            ResolveCurrency(952, "XOF", formatMap),
-            ResolveCurrency(060, "BMD", formatMap),
-            ResolveCurrency(064, "BTN", formatMap),
-            ResolveCurrency(356, "INR", formatMap),
-            ResolveCurrency(068, "BOB", formatMap),
-            ResolveCurrency(984, "BOV", formatMap),
-            ResolveCurrency(840, "USD", formatMap),
-            ResolveCurrency(977, "BAM", formatMap),
-            ResolveCurrency(072, "BWP", formatMap),
-            ResolveCurrency(578, "NOK", formatMap),
-            ResolveCurrency(986, "BRL", formatMap),
-            ResolveCurrency(840, "USD", formatMap),
-            ResolveCurrency(096, "BND", formatMap),
-            ResolveCurrency(975, "BGN", formatMap),
-            ResolveCurrency(952, "XOF", formatMap),
-            ResolveCurrency(108, "BIF", formatMap),
-            ResolveCurrency(132, "CVE", formatMap),
-            ResolveCurrency(116, "KHR", formatMap),
-            ResolveCurrency(950, "XAF", formatMap),
-            ResolveCurrency(124, "CAD", formatMap),
-            ResolveCurrency(136, "KYD", formatMap),
-            ResolveCurrency(950, "XAF", formatMap),
-            ResolveCurrency(950, "XAF", formatMap),
-            ResolveCurrency(990, "CLF", formatMap),
-            ResolveCurrency(152, "CLP", formatMap),
-            ResolveCurrency(156, "CNY", formatMap),
-            ResolveCurrency(036, "AUD", formatMap),
-            ResolveCurrency(036, "AUD", formatMap),
-            ResolveCurrency(170, "COP", formatMap),
-            ResolveCurrency(970, "COU", formatMap),
-            ResolveCurrency(174, "KMF", formatMap),
-            ResolveCurrency(976, "CDF", formatMap),
-            ResolveCurrency(950, "XAF", formatMap),
-            ResolveCurrency(554, "NZD", formatMap),
-            ResolveCurrency(188, "CRC", formatMap),
-            ResolveCurrency(191, "HRK", formatMap),
-            ResolveCurrency(931, "CUC", formatMap),
-            ResolveCurrency(192, "CUP", formatMap),
-            ResolveCurrency(532, "ANG", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(203, "CZK", formatMap),
-            ResolveCurrency(952, "XOF", formatMap),
-            ResolveCurrency(208, "DKK", formatMap),
-            ResolveCurrency(262, "DJF", formatMap),
-            ResolveCurrency(951, "XCD", formatMap),
-            ResolveCurrency(214, "DOP", formatMap),
-            ResolveCurrency(840, "USD", formatMap),
-            ResolveCurrency(818, "EGP", formatMap),
-            ResolveCurrency(222, "SVC", formatMap),
-            ResolveCurrency(840, "USD", formatMap),
-            ResolveCurrency(950, "XAF", formatMap),
-            ResolveCurrency(232, "ERN", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(230, "ETB", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(238, "FKP", formatMap),
-            ResolveCurrency(208, "DKK", formatMap),
-            ResolveCurrency(242, "FJD", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(953, "XPF", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(950, "XAF", formatMap),
-            ResolveCurrency(270, "GMD", formatMap),
-            ResolveCurrency(981, "GEL", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(936, "GHS", formatMap),
-            ResolveCurrency(292, "GIP", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(208, "DKK", formatMap),
-            ResolveCurrency(951, "XCD", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(840, "USD", formatMap),
-            ResolveCurrency(320, "GTQ", formatMap),
-            ResolveCurrency(826, "GBP", formatMap),
-            ResolveCurrency(324, "GNF", formatMap),
-            ResolveCurrency(952, "XOF", formatMap),
-            ResolveCurrency(328, "GYD", formatMap),
-            ResolveCurrency(332, "HTG", formatMap),
-            ResolveCurrency(840, "USD", formatMap),
-            ResolveCurrency(036, "AUD", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(340, "HNL", formatMap),
-            ResolveCurrency(344, "HKD", formatMap),
-            ResolveCurrency(348, "HUF", formatMap),
-            ResolveCurrency(352, "ISK", formatMap),
-            ResolveCurrency(356, "INR", formatMap),
-            ResolveCurrency(360, "IDR", formatMap),
-            ResolveCurrency(960, "XDR", formatMap),
-            ResolveCurrency(364, "IRR", formatMap),
-            ResolveCurrency(368, "IQD", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(826, "GBP", formatMap),
-            ResolveCurrency(376, "ILS", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(388, "JMD", formatMap),
-            ResolveCurrency(392, "JPY", formatMap),
-            ResolveCurrency(826, "GBP", formatMap),
-            ResolveCurrency(400, "JOD", formatMap),
-            ResolveCurrency(398, "KZT", formatMap),
-            ResolveCurrency(404, "KES", formatMap),
-            ResolveCurrency(036, "AUD", formatMap),
-            ResolveCurrency(408, "KPW", formatMap),
-            ResolveCurrency(410, "KRW", formatMap),
-            ResolveCurrency(414, "KWD", formatMap),
-            ResolveCurrency(417, "KGS", formatMap),
-            ResolveCurrency(418, "LAK", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(422, "LBP", formatMap),
-            ResolveCurrency(426, "LSL", formatMap),
-            ResolveCurrency(710, "ZAR", formatMap),
-            ResolveCurrency(430, "LRD", formatMap),
-            ResolveCurrency(434, "LYD", formatMap),
-            ResolveCurrency(756, "CHF", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(446, "MOP", formatMap),
-            ResolveCurrency(969, "MGA", formatMap),
-            ResolveCurrency(454, "MWK", formatMap),
-            ResolveCurrency(458, "MYR", formatMap),
-            ResolveCurrency(462, "MVR", formatMap),
-            ResolveCurrency(952, "XOF", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(840, "USD", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(929, "MRU", formatMap),
-            ResolveCurrency(480, "MUR", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(965, "XUA", formatMap),
-            ResolveCurrency(484, "MXN", formatMap),
-            ResolveCurrency(979, "MXV", formatMap),
-            ResolveCurrency(840, "USD", formatMap),
-            ResolveCurrency(498, "MDL", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(496, "MNT", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(951, "XCD", formatMap),
-            ResolveCurrency(504, "MAD", formatMap),
-            ResolveCurrency(943, "MZN", formatMap),
-            ResolveCurrency(104, "MMK", formatMap),
-            ResolveCurrency(516, "NAD", formatMap),
-            ResolveCurrency(710, "ZAR", formatMap),
-            ResolveCurrency(036, "AUD", formatMap),
-            ResolveCurrency(524, "NPR", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(953, "XPF", formatMap),
-            ResolveCurrency(554, "NZD", formatMap),
-            ResolveCurrency(558, "NIO", formatMap),
-            ResolveCurrency(952, "XOF", formatMap),
-            ResolveCurrency(566, "NGN", formatMap),
-            ResolveCurrency(554, "NZD", formatMap),
-            ResolveCurrency(036, "AUD", formatMap),
-            ResolveCurrency(840, "USD", formatMap),
-            ResolveCurrency(578, "NOK", formatMap),
-            ResolveCurrency(512, "OMR", formatMap),
-            ResolveCurrency(586, "PKR", formatMap),
-            ResolveCurrency(840, "USD", formatMap),
-            ResolveCurrency(590, "PAB", formatMap),
-            ResolveCurrency(840, "USD", formatMap),
-            ResolveCurrency(598, "PGK", formatMap),
-            ResolveCurrency(600, "PYG", formatMap),
-            ResolveCurrency(604, "PEN", formatMap),
-            ResolveCurrency(608, "PHP", formatMap),
-            ResolveCurrency(554, "NZD", formatMap),
-            ResolveCurrency(985, "PLN", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(840, "USD", formatMap),
-            ResolveCurrency(634, "QAR", formatMap),
-            ResolveCurrency(807, "MKD", formatMap),
-            ResolveCurrency(946, "RON", formatMap),
-            ResolveCurrency(643, "RUB", formatMap),
-            ResolveCurrency(646, "RWF", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(654, "SHP", formatMap),
-            ResolveCurrency(951, "XCD", formatMap),
-            ResolveCurrency(951, "XCD", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(951, "XCD", formatMap),
-            ResolveCurrency(882, "WST", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(930, "STN", formatMap),
-            ResolveCurrency(682, "SAR", formatMap),
-            ResolveCurrency(952, "XOF", formatMap),
-            ResolveCurrency(941, "RSD", formatMap),
-            ResolveCurrency(690, "SCR", formatMap),
-            ResolveCurrency(694, "SLL", formatMap),
-            ResolveCurrency(702, "SGD", formatMap),
-            ResolveCurrency(532, "ANG", formatMap),
-            ResolveCurrency(994, "XSU", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(978, "EUR", formatMap),
-            ResolveCurrency(090, "SBD", formatMap),
-            ResolveCurrency(706, "SOS", formatMap)
-        };
+    private static List<Currency> CreateCurrencyCodes(Dictionary<string, NumberFormatInfo> formatMap)
+    {
+        HashSet<Currency?> hash = new();
+
+        hash.Add(ResolveCurrency(971, "AFN", formatMap));
+        hash.Add(ResolveCurrency(008, "ALL", formatMap));
+        hash.Add(ResolveCurrency(012, "DZD", formatMap));
+        hash.Add(ResolveCurrency(840, "USD", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(973, "AOA", formatMap));
+        hash.Add(ResolveCurrency(951, "XCD", formatMap));
+        hash.Add(ResolveCurrency(951, "XCD", formatMap));
+        hash.Add(ResolveCurrency(032, "ARS", formatMap));
+        hash.Add(ResolveCurrency(051, "AMD", formatMap));
+        hash.Add(ResolveCurrency(533, "AWG", formatMap));
+        hash.Add(ResolveCurrency(036, "AUD", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(944, "AZN", formatMap));
+        hash.Add(ResolveCurrency(044, "BSD", formatMap));
+        hash.Add(ResolveCurrency(048, "BHD", formatMap));
+        hash.Add(ResolveCurrency(050, "BDT", formatMap));
+        hash.Add(ResolveCurrency(052, "BBD", formatMap));
+        hash.Add(ResolveCurrency(933, "BYN", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(084, "BZD", formatMap));
+        hash.Add(ResolveCurrency(952, "XOF", formatMap));
+        hash.Add(ResolveCurrency(060, "BMD", formatMap));
+        hash.Add(ResolveCurrency(064, "BTN", formatMap));
+        hash.Add(ResolveCurrency(356, "INR", formatMap));
+        hash.Add(ResolveCurrency(068, "BOB", formatMap));
+        hash.Add(ResolveCurrency(984, "BOV", formatMap));
+        hash.Add(ResolveCurrency(840, "USD", formatMap));
+        hash.Add(ResolveCurrency(977, "BAM", formatMap));
+        hash.Add(ResolveCurrency(072, "BWP", formatMap));
+        hash.Add(ResolveCurrency(578, "NOK", formatMap));
+        hash.Add(ResolveCurrency(986, "BRL", formatMap));
+        hash.Add(ResolveCurrency(840, "USD", formatMap));
+        hash.Add(ResolveCurrency(096, "BND", formatMap));
+        hash.Add(ResolveCurrency(975, "BGN", formatMap));
+        hash.Add(ResolveCurrency(952, "XOF", formatMap));
+        hash.Add(ResolveCurrency(108, "BIF", formatMap));
+        hash.Add(ResolveCurrency(132, "CVE", formatMap));
+        hash.Add(ResolveCurrency(116, "KHR", formatMap));
+        hash.Add(ResolveCurrency(950, "XAF", formatMap));
+        hash.Add(ResolveCurrency(124, "CAD", formatMap));
+        hash.Add(ResolveCurrency(136, "KYD", formatMap));
+        hash.Add(ResolveCurrency(950, "XAF", formatMap));
+        hash.Add(ResolveCurrency(950, "XAF", formatMap));
+        hash.Add(ResolveCurrency(990, "CLF", formatMap));
+        hash.Add(ResolveCurrency(152, "CLP", formatMap));
+        hash.Add(ResolveCurrency(156, "CNY", formatMap));
+        hash.Add(ResolveCurrency(036, "AUD", formatMap));
+        hash.Add(ResolveCurrency(036, "AUD", formatMap));
+        hash.Add(ResolveCurrency(170, "COP", formatMap));
+        hash.Add(ResolveCurrency(970, "COU", formatMap));
+        hash.Add(ResolveCurrency(174, "KMF", formatMap));
+        hash.Add(ResolveCurrency(976, "CDF", formatMap));
+        hash.Add(ResolveCurrency(950, "XAF", formatMap));
+        hash.Add(ResolveCurrency(554, "NZD", formatMap));
+        hash.Add(ResolveCurrency(188, "CRC", formatMap));
+        hash.Add(ResolveCurrency(191, "HRK", formatMap));
+        hash.Add(ResolveCurrency(931, "CUC", formatMap));
+        hash.Add(ResolveCurrency(192, "CUP", formatMap));
+        hash.Add(ResolveCurrency(532, "ANG", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(203, "CZK", formatMap));
+        hash.Add(ResolveCurrency(952, "XOF", formatMap));
+        hash.Add(ResolveCurrency(208, "DKK", formatMap));
+        hash.Add(ResolveCurrency(262, "DJF", formatMap));
+        hash.Add(ResolveCurrency(951, "XCD", formatMap));
+        hash.Add(ResolveCurrency(214, "DOP", formatMap));
+        hash.Add(ResolveCurrency(840, "USD", formatMap));
+        hash.Add(ResolveCurrency(818, "EGP", formatMap));
+        hash.Add(ResolveCurrency(222, "SVC", formatMap));
+        hash.Add(ResolveCurrency(840, "USD", formatMap));
+        hash.Add(ResolveCurrency(950, "XAF", formatMap));
+        hash.Add(ResolveCurrency(232, "ERN", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(230, "ETB", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(238, "FKP", formatMap));
+        hash.Add(ResolveCurrency(208, "DKK", formatMap));
+        hash.Add(ResolveCurrency(242, "FJD", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(953, "XPF", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(950, "XAF", formatMap));
+        hash.Add(ResolveCurrency(270, "GMD", formatMap));
+        hash.Add(ResolveCurrency(981, "GEL", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(936, "GHS", formatMap));
+        hash.Add(ResolveCurrency(292, "GIP", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(208, "DKK", formatMap));
+        hash.Add(ResolveCurrency(951, "XCD", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(840, "USD", formatMap));
+        hash.Add(ResolveCurrency(320, "GTQ", formatMap));
+        hash.Add(ResolveCurrency(826, "GBP", formatMap));
+        hash.Add(ResolveCurrency(324, "GNF", formatMap));
+        hash.Add(ResolveCurrency(952, "XOF", formatMap));
+        hash.Add(ResolveCurrency(328, "GYD", formatMap));
+        hash.Add(ResolveCurrency(332, "HTG", formatMap));
+        hash.Add(ResolveCurrency(840, "USD", formatMap));
+        hash.Add(ResolveCurrency(036, "AUD", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(340, "HNL", formatMap));
+        hash.Add(ResolveCurrency(344, "HKD", formatMap));
+        hash.Add(ResolveCurrency(348, "HUF", formatMap));
+        hash.Add(ResolveCurrency(352, "ISK", formatMap));
+        hash.Add(ResolveCurrency(356, "INR", formatMap));
+        hash.Add(ResolveCurrency(360, "IDR", formatMap));
+        hash.Add(ResolveCurrency(960, "XDR", formatMap));
+        hash.Add(ResolveCurrency(364, "IRR", formatMap));
+        hash.Add(ResolveCurrency(368, "IQD", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(826, "GBP", formatMap));
+        hash.Add(ResolveCurrency(376, "ILS", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(388, "JMD", formatMap));
+        hash.Add(ResolveCurrency(392, "JPY", formatMap));
+        hash.Add(ResolveCurrency(826, "GBP", formatMap));
+        hash.Add(ResolveCurrency(400, "JOD", formatMap));
+        hash.Add(ResolveCurrency(398, "KZT", formatMap));
+        hash.Add(ResolveCurrency(404, "KES", formatMap));
+        hash.Add(ResolveCurrency(036, "AUD", formatMap));
+        hash.Add(ResolveCurrency(408, "KPW", formatMap));
+        hash.Add(ResolveCurrency(410, "KRW", formatMap));
+        hash.Add(ResolveCurrency(414, "KWD", formatMap));
+        hash.Add(ResolveCurrency(417, "KGS", formatMap));
+        hash.Add(ResolveCurrency(418, "LAK", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(422, "LBP", formatMap));
+        hash.Add(ResolveCurrency(426, "LSL", formatMap));
+        hash.Add(ResolveCurrency(710, "ZAR", formatMap));
+        hash.Add(ResolveCurrency(430, "LRD", formatMap));
+        hash.Add(ResolveCurrency(434, "LYD", formatMap));
+        hash.Add(ResolveCurrency(756, "CHF", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(446, "MOP", formatMap));
+        hash.Add(ResolveCurrency(969, "MGA", formatMap));
+        hash.Add(ResolveCurrency(454, "MWK", formatMap));
+        hash.Add(ResolveCurrency(458, "MYR", formatMap));
+        hash.Add(ResolveCurrency(462, "MVR", formatMap));
+        hash.Add(ResolveCurrency(952, "XOF", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(840, "USD", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(929, "MRU", formatMap));
+        hash.Add(ResolveCurrency(480, "MUR", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(965, "XUA", formatMap));
+        hash.Add(ResolveCurrency(484, "MXN", formatMap));
+        hash.Add(ResolveCurrency(979, "MXV", formatMap));
+        hash.Add(ResolveCurrency(840, "USD", formatMap));
+        hash.Add(ResolveCurrency(498, "MDL", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(496, "MNT", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(951, "XCD", formatMap));
+        hash.Add(ResolveCurrency(504, "MAD", formatMap));
+        hash.Add(ResolveCurrency(943, "MZN", formatMap));
+        hash.Add(ResolveCurrency(104, "MMK", formatMap));
+        hash.Add(ResolveCurrency(516, "NAD", formatMap));
+        hash.Add(ResolveCurrency(710, "ZAR", formatMap));
+        hash.Add(ResolveCurrency(036, "AUD", formatMap));
+        hash.Add(ResolveCurrency(524, "NPR", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(953, "XPF", formatMap));
+        hash.Add(ResolveCurrency(554, "NZD", formatMap));
+        hash.Add(ResolveCurrency(558, "NIO", formatMap));
+        hash.Add(ResolveCurrency(952, "XOF", formatMap));
+        hash.Add(ResolveCurrency(566, "NGN", formatMap));
+        hash.Add(ResolveCurrency(554, "NZD", formatMap));
+        hash.Add(ResolveCurrency(036, "AUD", formatMap));
+        hash.Add(ResolveCurrency(840, "USD", formatMap));
+        hash.Add(ResolveCurrency(578, "NOK", formatMap));
+        hash.Add(ResolveCurrency(512, "OMR", formatMap));
+        hash.Add(ResolveCurrency(586, "PKR", formatMap));
+        hash.Add(ResolveCurrency(840, "USD", formatMap));
+        hash.Add(ResolveCurrency(590, "PAB", formatMap));
+        hash.Add(ResolveCurrency(840, "USD", formatMap));
+        hash.Add(ResolveCurrency(598, "PGK", formatMap));
+        hash.Add(ResolveCurrency(600, "PYG", formatMap));
+        hash.Add(ResolveCurrency(604, "PEN", formatMap));
+        hash.Add(ResolveCurrency(608, "PHP", formatMap));
+        hash.Add(ResolveCurrency(554, "NZD", formatMap));
+        hash.Add(ResolveCurrency(985, "PLN", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(840, "USD", formatMap));
+        hash.Add(ResolveCurrency(634, "QAR", formatMap));
+        hash.Add(ResolveCurrency(807, "MKD", formatMap));
+        hash.Add(ResolveCurrency(946, "RON", formatMap));
+        hash.Add(ResolveCurrency(643, "RUB", formatMap));
+        hash.Add(ResolveCurrency(646, "RWF", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(654, "SHP", formatMap));
+        hash.Add(ResolveCurrency(951, "XCD", formatMap));
+        hash.Add(ResolveCurrency(951, "XCD", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(951, "XCD", formatMap));
+        hash.Add(ResolveCurrency(882, "WST", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(930, "STN", formatMap));
+        hash.Add(ResolveCurrency(682, "SAR", formatMap));
+        hash.Add(ResolveCurrency(952, "XOF", formatMap));
+        hash.Add(ResolveCurrency(941, "RSD", formatMap));
+        hash.Add(ResolveCurrency(690, "SCR", formatMap));
+        hash.Add(ResolveCurrency(694, "SLL", formatMap));
+        hash.Add(ResolveCurrency(702, "SGD", formatMap));
+        hash.Add(ResolveCurrency(532, "ANG", formatMap));
+        hash.Add(ResolveCurrency(994, "XSU", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(978, "EUR", formatMap));
+        hash.Add(ResolveCurrency(090, "SBD", formatMap));
+        hash.Add(ResolveCurrency(706, "SOS", formatMap));
+
+        hash.RemoveWhere(a => a is null);
+
+        return hash.Cast<Currency>().ToList();
+    }
 
     public static bool IsValid(ushort numericCode)
     {

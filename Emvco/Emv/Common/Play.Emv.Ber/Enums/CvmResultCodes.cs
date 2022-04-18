@@ -1,10 +1,14 @@
-﻿using Play.Core;
+﻿using System.Collections.Immutable;
+
+using Play.Core;
 
 namespace Play.Emv.Ber.Enums;
 
 public record CvmResultCodes : EnumObject<byte>
 {
     #region Static Metadata
+
+    private static readonly ImmutableSortedDictionary<byte, CvmResultCodes> _ValueObjectMap;
 
     /// <remarks>Hex: 0x00; Decimal: 0</remarks>
     public static readonly CvmResultCodes Unknown;
@@ -24,10 +28,17 @@ public record CvmResultCodes : EnumObject<byte>
         Unknown = new CvmResultCodes(0);
         Failed = new CvmResultCodes(1);
         Successful = new CvmResultCodes(2);
+        _ValueObjectMap = new Dictionary<byte, CvmResultCodes> {{Unknown, Unknown}, {Failed, Failed}, {Successful, Successful}}.ToImmutableSortedDictionary();
     }
 
     private CvmResultCodes(byte value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public static CvmResultCodes[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     #endregion
 }

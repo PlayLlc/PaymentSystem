@@ -1,4 +1,6 @@
-﻿using Play.Core;
+﻿using System.Collections.Immutable;
+
+using Play.Core;
 
 namespace Play.Emv.Ber.Enums.Interchange;
 
@@ -8,6 +10,24 @@ namespace Play.Emv.Ber.Enums.Interchange;
 public record PosEntryModes : EnumObject<byte>
 {
     #region Static Metadata
+
+    private static readonly ImmutableSortedDictionary<ushort, PosEntryModes> _ValueObjectMap = new Dictionary<ushort, PosEntryModes>
+    {
+        {Unknown, Unknown},
+        {ManualEntry, ManualEntry},
+        {Magstripe, Magstripe},
+        {TrackData, TrackData},
+        {ManualEntryFallback, ManualEntryFallback},
+        {Contact, Contact},
+        {ContactWithoutCvvFallback, ContactWithoutCvvFallback},
+        {MagstripeFallback, MagstripeFallback},
+        {Token, Token},
+        {OnFile, OnFile},
+        {Ecommerce, Ecommerce},
+        {QrCode, QrCode},
+        {Barcode, Barcode},
+        {Contactless, Contactless}
+    }.ToImmutableSortedDictionary();
 
     private static readonly PosEntryModes _Unknown = new(0);
     private static readonly PosEntryModes _ManualEntry = new(1);
@@ -30,6 +50,8 @@ public record PosEntryModes : EnumObject<byte>
     ///     The terminal automates the extraction of Track 2 data after reading the Magstripe
     /// </summary>
     public static readonly PosEntryModes TrackData = _TrackData;
+
+    public static readonly PosEntryModes Magstripe = _Magstripe;
 
     /// <summary>
     ///     Final fallback mode used when the other EMV Modes are unavailable
@@ -78,6 +100,12 @@ public record PosEntryModes : EnumObject<byte>
 
     public PosEntryModes(byte value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public static PosEntryModes[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     #endregion
 }

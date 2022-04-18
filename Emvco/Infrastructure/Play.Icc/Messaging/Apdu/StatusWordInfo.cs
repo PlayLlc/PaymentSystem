@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 
 using Play.Core;
 
@@ -49,6 +50,7 @@ public sealed record StatusWordInfo : EnumObject<byte>, IEqualityComparer<Status
 
     #region Instance Members
 
+    public static StatusWordInfo[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static bool TryGet(byte value, out StatusWordInfo? result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion

@@ -49,9 +49,7 @@ public sealed record BlockCipherAlgorithm : EnumObject<byte>, IEqualityComparer<
         TripleDes = new BlockCipherAlgorithm(tripleDes);
         Aes = new BlockCipherAlgorithm(aes);
 
-        _ValueObjectMap =
-            new Dictionary<byte, BlockCipherAlgorithm> {{tripleDes, TripleDes}, {aes, Aes}}.ToImmutableSortedDictionary(a => a.Key,
-                b => b.Value);
+        _ValueObjectMap = new Dictionary<byte, BlockCipherAlgorithm> {{tripleDes, TripleDes}, {aes, Aes}}.ToImmutableSortedDictionary(a => a.Key, b => b.Value);
     }
 
     private BlockCipherAlgorithm(byte value) : base(value)
@@ -61,6 +59,7 @@ public sealed record BlockCipherAlgorithm : EnumObject<byte>, IEqualityComparer<
 
     #region Instance Members
 
+    public static BlockCipherAlgorithm[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static bool TryGet(byte value, out BlockCipherAlgorithm? result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion

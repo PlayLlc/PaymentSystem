@@ -29,7 +29,7 @@ public record HashAlgorithmIndicator : EnumObject<byte>
 
     #region Instance Members
 
-    public int CompareTo(HashAlgorithmIndicator? other) => _Value.CompareTo(other._Value);
+    public static HashAlgorithmIndicator[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     public static HashAlgorithmIndicator Get(byte value)
     {
@@ -41,6 +41,12 @@ public record HashAlgorithmIndicator : EnumObject<byte>
 
     public static bool IsValid(byte value) => _ValueObjectMap.ContainsKey(value);
     public static bool TryGet(byte value, out HashAlgorithmIndicator? result) => _ValueObjectMap.TryGetValue(value, out result);
+
+    #endregion
+
+    #region Equality
+
+    public int CompareTo(HashAlgorithmIndicator? other) => _Value.CompareTo(other._Value);
 
     #endregion
 }

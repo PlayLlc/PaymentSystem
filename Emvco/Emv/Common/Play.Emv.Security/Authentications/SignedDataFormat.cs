@@ -37,8 +37,7 @@ internal sealed record SignedDataFormat : EnumObject<byte>, IEqualityComparer<Si
         _5 = new SignedDataFormat(__5);
 
         _ValueObjectMap =
-            new Dictionary<byte, SignedDataFormat> {{notAvailable, NotAvailable}, {__3, _3}, {__5, _5}}.ToImmutableSortedDictionary(
-                a => a.Key, b => b.Value);
+            new Dictionary<byte, SignedDataFormat> {{notAvailable, NotAvailable}, {__3, _3}, {__5, _5}}.ToImmutableSortedDictionary(a => a.Key, b => b.Value);
     }
 
     private SignedDataFormat(byte value) : base(value)
@@ -48,6 +47,7 @@ internal sealed record SignedDataFormat : EnumObject<byte>, IEqualityComparer<Si
 
     #region Instance Members
 
+    public static SignedDataFormat[] GetAll() => _ValueObjectMap.Values.ToArray();
     public int GetByteSize() => _Value;
     public static bool TryGet(byte value, out SignedDataFormat? result) => _ValueObjectMap.TryGetValue(value, out result);
 

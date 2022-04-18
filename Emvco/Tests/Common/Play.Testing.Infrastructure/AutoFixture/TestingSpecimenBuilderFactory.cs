@@ -21,13 +21,15 @@ public class TestingSpecimenBuilderFactory : SpecimenBuilderFactory
     public static List<SpecimenBuilder> CreateSpecimenBuilders() =>
         new()
         {
+            new EnumObjectBuilder(),
             new Alpha2LanguageCodeBuilder(),
             new Alpha3CurrencyCodeBuilder(),
             new Alpha3LanguageCodeBuilder(),
             new DateTimeUtcBuilder(),
             new NumericCurrencyCodeBuilder(),
             new RegisteredApplicationProviderIndicatorSpecimenBuilder(),
-            new ShortDateBuilder()
+            new ShortDateBuilder(),
+            new DateRangeBuilder()
         };
 
     #endregion

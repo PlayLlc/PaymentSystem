@@ -46,6 +46,7 @@ public record Level1Error : EnumObject<byte>
 
     #region Instance Members
 
+    public static Level1Error[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static Level1Error Get(byte value) => _ValueObjectMap[value];
 
     #endregion

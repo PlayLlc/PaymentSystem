@@ -50,11 +50,9 @@ public sealed record CryptogramTypes : EnumObject<byte>
 
     #region Instance Members
 
+    public static CryptogramTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static bool IsValid(byte value) => _ValueObjectMap.ContainsKey(value.GetMaskedValue(_UnrelatedBits));
-    public int CompareTo(CryptogramTypes other) => _Value.CompareTo(other._Value);
-
-    public static bool TryGet(byte value, out CryptogramTypes? result) =>
-        _ValueObjectMap.TryGetValue(value.GetMaskedValue(_UnrelatedBits), out result);
+    public static bool TryGet(byte value, out CryptogramTypes? result) => _ValueObjectMap.TryGetValue(value.GetMaskedValue(_UnrelatedBits), out result);
 
     #endregion
 
@@ -64,6 +62,7 @@ public sealed record CryptogramTypes : EnumObject<byte>
     public bool Equals(CryptogramTypes x, CryptogramTypes y) => x.Equals(y);
     public override int GetHashCode() => 12251 * _Value.GetHashCode();
     public int GetHashCode(CryptogramTypes obj) => obj.GetHashCode();
+    public int CompareTo(CryptogramTypes other) => _Value.CompareTo(other._Value);
 
     #endregion
 

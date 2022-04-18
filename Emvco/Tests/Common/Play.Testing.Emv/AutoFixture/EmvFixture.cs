@@ -27,10 +27,12 @@ public class EmvFixture : CustomFixture
 
     protected override void SetupCustomConstructors(SpecimenBuilderFactory factory)
     {
-        factory.Build(RegisteredApplicationProviderIndicatorSpecimenBuilder.Id);
-        factory.Build(CertificateSerialNumberBuilder.Id);
         factory.Build(AlternateInterfacePreferenceOutcomeBuilder.Id);
+        factory.Build(CertificateSerialNumberBuilder.Id);
         factory.Build(CvmPerformedOutcomeBuilder.Id);
+        factory.Build(CvmRuleBuilder.Id);
+        factory.Build(MessageOnErrorIdentifiersBuilder.Id);
+        factory.Build(MessageTableEntryBuilder.Id);
         factory.Build(OnlineResponseOutcomeBuilder.Id);
         factory.Build(PinBlockBuilder.Id);
         factory.Build(SdsSchemeIndicatorBuilder.Id);
@@ -38,18 +40,18 @@ public class EmvFixture : CustomFixture
         factory.Build(StatusBuilder.Id);
         factory.Build(StatusOutcomeBuilder.Id);
         factory.Build(TerminalCategoryCodeBuilder.Id);
-        factory.Build(ValueQualifierBuilder.Id);
-        factory.Build(TransactionTypeBuilder.Id);
-        factory.Build(CvmRuleBuilder.Id);
-        factory.Build(MessageOnErrorIdentifiersBuilder.Id);
-        factory.Build(MessageTableEntryBuilder.Id);
         factory.Build(TerminalVerificationResultCodesBuilder.Id);
+        factory.Build(TransactionTypeBuilder.Id);
+        factory.Build(ValueQualifierBuilder.Id);
     }
 
     protected override void CustomizeFixture(IFixture fixture, SpecimenBuilderFactory factory)
     {
         foreach (ISpecimenBuilder item in factory.Create())
             fixture.Customizations.Add(item);
+
+        CustomizePrimitives(fixture);
+        CustomizeTemplates(fixture);
     }
 
     private static void CustomizePrimitives(IFixture fixture)

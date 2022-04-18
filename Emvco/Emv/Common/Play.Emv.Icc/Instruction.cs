@@ -69,6 +69,7 @@ internal record Instruction : EnumObject<byte>, IComparable<Instruction>
 
     #region Instance Members
 
+    public static Instruction[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static Instruction Get(byte value) => _ValueObjectMap[value];
 
     #endregion

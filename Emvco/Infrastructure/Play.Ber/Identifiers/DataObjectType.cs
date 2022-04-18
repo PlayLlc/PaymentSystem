@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 
 using Play.Ber.Exceptions;
 using Play.Core;
@@ -28,8 +29,7 @@ public sealed record DataObjectType : EnumObject<byte>, IEqualityComparer<DataOb
         Primitive = new DataObjectType(_Primitive);
         Constructed = new DataObjectType(_Constructed);
 
-        _ValueObjectMap = new Dictionary<byte, DataObjectType> {{_Primitive, Primitive}, {_Constructed, Constructed}}
-            .ToImmutableSortedDictionary();
+        _ValueObjectMap = new Dictionary<byte, DataObjectType> {{_Primitive, Primitive}, {_Constructed, Constructed}}.ToImmutableSortedDictionary();
     }
 
     private DataObjectType(byte value) : base(value)
@@ -39,6 +39,7 @@ public sealed record DataObjectType : EnumObject<byte>, IEqualityComparer<DataOb
 
     #region Instance Members
 
+    public static DataObjectType[] GetAll() => _ValueObjectMap.Values.ToArray();
     public bool IsPrimitive() => _Value == _Primitive;
     public static bool TryGet(byte value, out DataObjectType? result) => _ValueObjectMap.TryGetValue(value, out result);
 

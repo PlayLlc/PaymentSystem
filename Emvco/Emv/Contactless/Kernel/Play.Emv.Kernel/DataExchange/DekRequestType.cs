@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Play.Ber.Identifiers;
 using Play.Core;
@@ -23,7 +24,7 @@ public record DekRequestType : EnumObject<Tag>
         {DataNeeded, () => new DataNeeded()}, {TagsToRead, () => new TagsToRead()}
     };
 
-    private static readonly Dictionary<Tag, DekRequestType> _TagMap = new() {{DataNeeded, DataNeeded}, {TagsToRead, TagsToRead}};
+    private static readonly Dictionary<Tag, DekRequestType> _ValueObjectMap = new() {{DataNeeded, DataNeeded}, {TagsToRead, TagsToRead}};
 
     #endregion
 
@@ -39,18 +40,16 @@ public record DekRequestType : EnumObject<Tag>
 
     #region Instance Members
 
+    public static DekRequestType[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static DataExchangeRequest GetDefaultList(DekRequestType type) => _ListMap[type].Invoke();
 
     /// <exception cref="TerminalDataException"></exception>
     public static DekRequestType Get(Tag tag)
     {
-        if (!_TagMap.ContainsKey(tag))
-        {
-            throw new TerminalDataException(
-                $"The {nameof(Tag)} argument with the value {tag} could not be recognized for a {nameof(DekRequestType)}");
-        }
+        if (!_ValueObjectMap.ContainsKey(tag))
+            throw new TerminalDataException($"The {nameof(Tag)} argument with the value {tag} could not be recognized for a {nameof(DekRequestType)}");
 
-        return _TagMap[tag];
+        return _ValueObjectMap[tag];
     }
 
     #endregion

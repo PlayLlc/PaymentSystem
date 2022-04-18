@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 
 using Play.Ber.Exceptions;
 using Play.Core;
@@ -57,6 +58,7 @@ public sealed record ClassType : EnumObject<byte>, IEqualityComparer<ClassType>
 
     #region Instance Members
 
+    public static ClassType[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static bool IsUniversal(byte tag) => tag.GetMaskedValue(UnrelatedBits).AreAnyBitsSet(0xFF);
     public static bool IsApplicationSpecific(byte tag) => tag.GetMaskedValue(UnrelatedBits) == _Application;
     public static bool TryGet(byte value, out ClassType result) => _ValueObjectMap.TryGetValue(value, out result);

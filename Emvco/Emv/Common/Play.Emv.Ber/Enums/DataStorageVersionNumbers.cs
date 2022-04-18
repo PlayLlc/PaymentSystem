@@ -12,7 +12,7 @@ public sealed record DataStorageVersionNumbers : EnumObject<byte>
     public static readonly DataStorageVersionNumbers Version1 = new(0b1);
     public static readonly DataStorageVersionNumbers Version2 = new(0b10);
 
-    private static readonly Dictionary<byte, DataStorageVersionNumbers> _ValueMap = new()
+    private static readonly Dictionary<byte, DataStorageVersionNumbers> _ValueObjectMap = new()
     {
         {NotSupported, NotSupported}, {Version1, Version1}, {Version2, Version2}
     };
@@ -28,7 +28,8 @@ public sealed record DataStorageVersionNumbers : EnumObject<byte>
 
     #region Instance Members
 
-    public static bool IsValid(byte value) => _ValueMap.ContainsKey(value);
+    public static DataStorageVersionNumbers[] GetAll() => _ValueObjectMap.Values.ToArray();
+    public static bool IsValid(byte value) => _ValueObjectMap.ContainsKey(value);
 
     /// <summary>
     ///     Get
@@ -40,13 +41,13 @@ public sealed record DataStorageVersionNumbers : EnumObject<byte>
     {
         const byte bitMask = 0b00111111;
 
-        if (!_ValueMap.ContainsKey(value.GetMaskedValue(bitMask)))
+        if (!_ValueObjectMap.ContainsKey(value.GetMaskedValue(bitMask)))
         {
             throw new DataElementParsingException(new ArgumentOutOfRangeException(nameof(value),
                 $"No {nameof(DataStorageVersionNumbers)} could be retrieved because the argument provided does not match a definition value"));
         }
 
-        return _ValueMap[value.GetMaskedValue(bitMask)];
+        return _ValueObjectMap[value.GetMaskedValue(bitMask)];
     }
 
     #endregion

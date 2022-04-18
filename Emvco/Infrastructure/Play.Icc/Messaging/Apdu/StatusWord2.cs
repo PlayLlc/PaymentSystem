@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 
 using Play.Core;
 
@@ -35,7 +36,7 @@ public sealed record StatusWord2 : EnumObject<StatusWord>, IEqualityComparer<Sta
 
         Unknown = new StatusWord2(unknown, StatusWordInfo.Info, $"The {nameof(StatusWord2)} value is unknown to this code base");
 
-        _ValueObjectMap = GetValues(typeof(StatusWord2)).ToImmutableSortedDictionary(a => a.Key, b => (StatusWord2) b.Value);
+        _ValueObjectMap = new Dictionary<StatusWord, StatusWord2>() {{Unknown, Unknown}}.ToImmutableSortedDictionary();
     }
 
     private StatusWord2(StatusWord value, StatusWordInfo statusWordInfo, string description = "") : base(value)
@@ -48,6 +49,7 @@ public sealed record StatusWord2 : EnumObject<StatusWord>, IEqualityComparer<Sta
 
     #region Instance Members
 
+    public static StatusWord2[] GetAll() => _ValueObjectMap.Values.ToArray();
     public string GetDescription() => _Description;
     public StatusWordInfo GetStatusWordInfo() => _StatusWordInfo;
     public static bool TryGet(StatusWord value, out StatusWord2? result) => _ValueObjectMap.TryGetValue(value, out result);

@@ -53,6 +53,7 @@ public sealed record BlockPaddingMode : EnumObject<byte>, IEqualityComparer<Bloc
 
     #region Instance Members
 
+    public static BlockPaddingMode[] GetAll() => _ValueObjectMap.Values.ToArray();
     public PaddingMode AsPaddingMode() => (PaddingMode) _Value;
     public static bool TryGet(byte value, out BlockPaddingMode? result) => _ValueObjectMap.TryGetValue(value, out result);
 

@@ -40,8 +40,7 @@ public sealed record BlockCipherMode : EnumObject<byte>, IEqualityComparer<Block
         Cbc = new BlockCipherMode(cbc);
         Ecb = new BlockCipherMode(ecb);
 
-        _ValueObjectMap =
-            new Dictionary<byte, BlockCipherMode> {{cbc, Cbc}, {ecb, Ecb}}.ToImmutableSortedDictionary(a => a.Key, b => b.Value);
+        _ValueObjectMap = new Dictionary<byte, BlockCipherMode> {{cbc, Cbc}, {ecb, Ecb}}.ToImmutableSortedDictionary(a => a.Key, b => b.Value);
     }
 
     private BlockCipherMode(byte value) : base(value)
@@ -51,6 +50,7 @@ public sealed record BlockCipherMode : EnumObject<byte>, IEqualityComparer<Block
 
     #region Instance Members
 
+    public static BlockCipherMode[] GetAll() => _ValueObjectMap.Values.ToArray();
     public CipherMode AsCipherMode() => (CipherMode) _Value;
     public static bool TryGet(byte value, out BlockCipherMode? result) => _ValueObjectMap.TryGetValue(value, out result);
 

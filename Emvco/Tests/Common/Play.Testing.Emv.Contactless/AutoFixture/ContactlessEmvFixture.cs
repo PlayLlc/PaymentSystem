@@ -10,11 +10,11 @@ using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders;
 
 namespace Play.Testing.Emv.Contactless.AutoFixture;
 
-public class ContactlessEmvFixture : CustomFixture
+public class ContactlessEmvFixture : EmvFixture
 {
     #region Instance Members
 
-    public override IFixture Create()
+    public new IFixture Create()
     {
         IFixture fixture = new Fixture().Customize(new AutoMoqCustomization());
         ContactlessEmvSpecimenBuilderFactory builder = new();
@@ -25,31 +25,13 @@ public class ContactlessEmvFixture : CustomFixture
         return fixture;
     }
 
-    protected override void SetupCustomConstructors(SpecimenBuilderFactory factory)
-    {
-        factory.Build(RegisteredApplicationProviderIndicatorSpecimenBuilder.Id);
-        factory.Build(CertificateSerialNumberBuilder.Id);
-        factory.Build(Emv.AlternateInterfacePreferenceOutcomeBuilder.Id);
-        factory.Build(Emv.CvmPerformedOutcomeBuilder.Id);
-        factory.Build(Emv.OnlineResponseOutcomeBuilder.Id);
-        factory.Build(Emv.PinBlockBuilder.Id);
-        factory.Build(Emv.SdsSchemeIndicatorBuilder.Id);
-        factory.Build(Emv.StartOutcomeBuilder.Id);
-        factory.Build(Emv.StatusBuilder.Id);
-        factory.Build(Emv.StatusOutcomeBuilder.Id);
-        factory.Build(Emv.TerminalCategoryCodeBuilder.Id);
-        factory.Build(Emv.ValueQualifierBuilder.Id);
-        factory.Build(Emv.TransactionTypeBuilder.Id);
-        factory.Build(Emv.CvmRuleBuilder.Id);
-        factory.Build(Emv.MessageOnErrorIdentifiersBuilder.Id);
-        factory.Build(Emv.MessageTableEntryBuilder.Id);
-        factory.Build(Emv.TerminalVerificationResultCodesBuilder.Id);
-    }
-
     protected override void CustomizeFixture(IFixture fixture, SpecimenBuilderFactory factory)
     {
         foreach (ISpecimenBuilder item in factory.Create())
             fixture.Customizations.Add(item);
+
+        CustomizePrimitives(fixture);
+        CustomizeTemplates(fixture);
     }
 
     private static void CustomizePrimitives(IFixture fixture)

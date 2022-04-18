@@ -31,8 +31,8 @@ internal sealed record CertificateSources : EnumObject<byte>, IEqualityComparer<
         Icc = new CertificateSources(0x04);
 
         _ValueObjectMap =
-            new Dictionary<byte, CertificateSources> {{Issuer, Issuer}, {Icc, Icc}, {CertificateAuthority, CertificateAuthority}}
-                .ToImmutableSortedDictionary(a => a.Key, b => b.Value);
+            new Dictionary<byte, CertificateSources> {{Issuer, Issuer}, {Icc, Icc}, {CertificateAuthority, CertificateAuthority}}.ToImmutableSortedDictionary(
+                a => a.Key, b => b.Value);
     }
 
     private CertificateSources(byte value) : base(value)
@@ -42,6 +42,7 @@ internal sealed record CertificateSources : EnumObject<byte>, IEqualityComparer<
 
     #region Instance Members
 
+    public static CertificateSources[] GetAll() => _ValueObjectMap.Values.ToArray();
     public int GetByteSize() => _Value;
     public static bool TryGet(byte value, out CertificateSources? result) => _ValueObjectMap.TryGetValue(value, out result);
 

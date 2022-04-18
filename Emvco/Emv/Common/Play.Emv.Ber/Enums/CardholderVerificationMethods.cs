@@ -68,6 +68,8 @@ public record CardholderVerificationMethods : EnumObject<byte>
 
     #region Instance Members
 
+    public static CardholderVerificationMethods[] GetAll() => _ValueObjectMap.Values.ToArray();
+
     /// <exception cref="InvalidOperationException"></exception>
     public static CardholderVerificationMethods Get(CvmCode cvmCode)
     {

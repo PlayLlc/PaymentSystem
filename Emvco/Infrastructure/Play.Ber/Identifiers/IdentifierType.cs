@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 
 using Play.Core;
 
@@ -10,9 +11,9 @@ public sealed record IdentifierType : EnumObject<byte>, IEqualityComparer<Identi
 {
     #region Static Metadata
 
-    private static readonly ImmutableSortedDictionary<byte, IdentifierType> _ValueObjectMap;
     public static readonly IdentifierType LongIdentifier;
     public static readonly IdentifierType ShortIdentifier;
+    private static readonly Dictionary<byte, IdentifierType> _ValueObjectMap = new() {{LongIdentifier, LongIdentifier}, {ShortIdentifier, ShortIdentifier}};
 
     #endregion
 
@@ -26,8 +27,6 @@ public sealed record IdentifierType : EnumObject<byte>, IEqualityComparer<Identi
 
         ShortIdentifier = new IdentifierType(shortIdentifier);
         LongIdentifier = new IdentifierType(longIdentifier);
-
-        _ValueObjectMap = GetValues(typeof(IdentifierType)).ToImmutableSortedDictionary(a => a.Key, b => (IdentifierType) b.Value);
     }
 
     private IdentifierType(byte value) : base(value)
@@ -37,6 +36,7 @@ public sealed record IdentifierType : EnumObject<byte>, IEqualityComparer<Identi
 
     #region Instance Members
 
+    public static IdentifierType[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static bool TryGet(byte value, out IdentifierType? result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion

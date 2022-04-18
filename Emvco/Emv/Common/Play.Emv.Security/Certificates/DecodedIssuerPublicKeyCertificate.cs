@@ -80,9 +80,7 @@ internal class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
         if (IsIssuerPublicKeySplit(caPublicKeyCertificate, decodedSignature.GetMessage1()))
         {
             if (remainder.IsEmpty())
-            {
                 throw new CryptographicAuthenticationMethodFailedException($"A {nameof(PublicKeyRemainder)} was expected but could not be retrieved");
-            }
 
             Span<byte> modulusBuffer = stackalloc byte[GetIssuerPublicKeyLength(decodedSignature.GetMessage1())];
             decodedSignature.GetMessage1()[GetLeftmostIssuerPublicKeyRange(caPublicKeyCertificate)].CopyTo(modulusBuffer);
