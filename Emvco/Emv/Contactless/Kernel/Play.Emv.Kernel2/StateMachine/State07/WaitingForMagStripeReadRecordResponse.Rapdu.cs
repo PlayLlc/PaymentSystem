@@ -420,15 +420,16 @@ public partial class WaitingForMagStripeReadRecordResponse
 
     #region S7.23
 
-    /// <remarks>Book C-2 Section S7.23</remarks>
-    /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
+    /// <remarks>Book C-2 Section S7.23</remarks>
     private void UpdateDiscretionaryTrackData()
     {
-        Track2DiscretionaryData track2DiscretionaryData = _Database.Get<Track2Data>(Track2Data.Tag).GetTrack2DiscretionaryData();
-        _Database.Update(track2DiscretionaryData);
+        TrackDiscretionaryData track2DiscretionaryData = _Database.Get<Track2Data>(Track2Data.Tag).GetTrack2DiscretionaryData();
+        _Database.Update(new Track2DiscretionaryData(track2DiscretionaryData));
 
         if (!_Database.TryGet(Track1Data.Tag, out Track1Data? track1Data))
             return;

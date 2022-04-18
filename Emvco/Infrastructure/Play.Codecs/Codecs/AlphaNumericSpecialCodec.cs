@@ -4,38 +4,25 @@ using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs.Exceptions;
+using Play.Core;
+using Play.Core.Extensions;
 using Play.Core.Specifications;
 
 namespace Play.Codecs;
 
 public class AlphaNumericSpecialCodec : PlayCodec
 {
-    #region Serialization
-
-    #region Decode To DecodedMetadata
-
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
-    {
-        char[] valueResult = DecodeToChars(value);
-
-        return new DecodedResult<char[]>(valueResult, valueResult.Length);
-    }
-
-    #endregion
-
-    #endregion
-
     #region Metadata
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public static readonly PlayEncodingId EncodingId = new(typeof(AlphaNumericSpecialCodec));
 
     // 32 - 126
-    private static readonly ImmutableSortedDictionary<char, byte> _ByteMap =
-        Enumerable.Range(32, (126 - 32) + 1).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
+    private static readonly ImmutableSortedDictionary<char, byte> _ByteMap = Enumerable.Range(32, (126 - 32) + 1)
+        .ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
 
-    private static readonly ImmutableSortedDictionary<byte, char> _CharMap =
-        Enumerable.Range(32, (126 - 32) + 1).ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
+    private static readonly ImmutableSortedDictionary<byte, char> _CharMap = Enumerable.Range(32, (126 - 32) + 1)
+        .ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
 
     #endregion
 
@@ -125,6 +112,7 @@ public class AlphaNumericSpecialCodec : PlayCodec
         }
     }
 
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T[] value) where T : struct
@@ -132,20 +120,20 @@ public class AlphaNumericSpecialCodec : PlayCodec
         if (typeof(T) == typeof(char))
             return Encode<char>(Unsafe.As<T[], char[]>(ref value));
 
-        throw new CodecParsingException(
-            $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+        throw new CodecParsingException($"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }
 
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T[] value, int length) where T : struct
     {
         if (typeof(T) == typeof(char))
             return Encode(Unsafe.As<T[], char[]>(ref value), length);
 
-        throw new CodecParsingException(
-            $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+        throw new CodecParsingException($"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }
 
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     /// <summary>
     ///     Encode
     /// </summary>
@@ -153,9 +141,9 @@ public class AlphaNumericSpecialCodec : PlayCodec
     /// <returns></returns>
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T value) where T : struct =>
-        throw new CodecParsingException(
-            $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+        throw new CodecParsingException($"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
 
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     /// <summary>
     ///     Encode
     /// </summary>
@@ -164,9 +152,27 @@ public class AlphaNumericSpecialCodec : PlayCodec
     /// <returns></returns>
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T value, int length) where T : struct =>
-        throw new CodecParsingException(
-            $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+        throw new CodecParsingException($"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
 
+    public byte[] Encode(ReadOnlySpan<Nibble> value)
+    {
+        if ((value.Length % 2) != 0)
+        {
+            throw new CodecParsingException(
+                $"the {nameof(AlphaNumericSpecialCodec)} could not {nameof(Encode)} the argument because the value was not a multiple of 2");
+        }
+
+        return value.AsByteArray();
+    }
+
+    public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
+    {
+        Encode(chars[charIndex..(charIndex + charCount)]).AsSpan().CopyTo(bytes[byteIndex..]);
+
+        return charCount;
+    }
+
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     /// <summary>
     ///     Encode
     /// </summary>
@@ -176,10 +182,10 @@ public class AlphaNumericSpecialCodec : PlayCodec
     /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
     {
-        throw new CodecParsingException(
-            $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+        throw new CodecParsingException($"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }
 
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     /// <summary>
     ///     Encode
     /// </summary>
@@ -190,10 +196,10 @@ public class AlphaNumericSpecialCodec : PlayCodec
     /// <exception cref="CodecParsingException"></exception>
     public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
-        throw new CodecParsingException(
-            $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
+        throw new CodecParsingException($"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }
 
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     /// <summary>
     ///     Encode
     /// </summary>
@@ -206,12 +212,10 @@ public class AlphaNumericSpecialCodec : PlayCodec
         if (typeof(T) == typeof(char))
             Encode<char>(Unsafe.As<T[], char[]>(ref value), buffer, ref offset);
         else
-        {
-            throw new CodecParsingException(
-                $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
-        }
+            throw new CodecParsingException($"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }
 
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     /// <summary>
     ///     Encode
     /// </summary>
@@ -225,17 +229,7 @@ public class AlphaNumericSpecialCodec : PlayCodec
         if (typeof(T) == typeof(char))
             Encode(Unsafe.As<T[], char[]>(ref value), length, buffer, ref offset);
         else
-        {
-            throw new CodecParsingException(
-                $"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
-        }
-    }
-
-    public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
-    {
-        Encode(chars[charIndex..(charIndex + charCount)]).AsSpan().CopyTo(bytes[byteIndex..]);
-
-        return charCount;
+            throw new CodecParsingException($"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }
 
     public void Encode(ReadOnlySpan<char> value, Span<byte> buffer, ref int offset)
@@ -296,6 +290,30 @@ public class AlphaNumericSpecialCodec : PlayCodec
         result = DecodeToString(value);
 
         return true;
+    }
+
+    #endregion
+
+    #region Decode To Nibbles
+
+    /// <exception cref="OverflowException"></exception>
+    public Nibble[] DecodeToNibbles(ReadOnlySpan<byte> value)
+    {
+        ReadOnlySpan<Nibble> nibbles = value.AsNibbleArray();
+        int charCount = value.Length * 2;
+
+        return nibbles[^charCount..].ToArray();
+    }
+
+    #endregion
+
+    #region Decode To DecodedMetadata
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        char[] valueResult = DecodeToChars(value);
+
+        return new DecodedResult<char[]>(valueResult, valueResult.Length);
     }
 
     #endregion

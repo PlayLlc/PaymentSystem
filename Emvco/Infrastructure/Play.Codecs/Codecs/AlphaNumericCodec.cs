@@ -4,7 +4,9 @@ using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs.Exceptions;
+using Play.Core;
 using Play.Core.Exceptions;
+using Play.Core.Extensions;
 using Play.Core.Specifications;
 
 namespace Play.Codecs;
@@ -47,13 +49,11 @@ public class AlphaNumericCodec : PlayCodec
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public static readonly PlayEncodingId EncodingId = new(typeof(AlphaNumericCodec));
 
-    private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = Enumerable.Range(0, 10)
-        .Concat(Enumerable.Range(48, (57 - 48) + 1)).Concat(Enumerable.Range(65, (90 - 65) + 1))
-        .Concat(Enumerable.Range(97, (122 - 97) + 1)).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
+    private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = Enumerable.Range(0, 10).Concat(Enumerable.Range(48, (57 - 48) + 1))
+        .Concat(Enumerable.Range(65, (90 - 65) + 1)).Concat(Enumerable.Range(97, (122 - 97) + 1)).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
 
-    private static readonly ImmutableSortedDictionary<byte, char> _CharMapper = Enumerable.Range(0, 10)
-        .Concat(Enumerable.Range(48, (57 - 48) + 1)).Concat(Enumerable.Range(65, (90 - 65) + 1))
-        .Concat(Enumerable.Range(97, (122 - 97) + 1)).ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
+    private static readonly ImmutableSortedDictionary<byte, char> _CharMapper = Enumerable.Range(0, 10).Concat(Enumerable.Range(48, (57 - 48) + 1))
+        .Concat(Enumerable.Range(65, (90 - 65) + 1)).Concat(Enumerable.Range(97, (122 - 97) + 1)).ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
 
     #endregion
 
@@ -262,6 +262,17 @@ public class AlphaNumericCodec : PlayCodec
         }
 
         return byteArray;
+    }
+
+    public byte[] Encode(ReadOnlySpan<Nibble> value)
+    {
+        if ((value.Length % 2) != 0)
+        {
+            throw new CodecParsingException(
+                $"the {nameof(AlphaNumericSpecialCodec)} could not {nameof(Encode)} the argument because the value was not a multiple of 2");
+        }
+
+        return value.AsByteArray();
     }
 
     public PlayEncodingId GetPlayEncodingId() => EncodingId;

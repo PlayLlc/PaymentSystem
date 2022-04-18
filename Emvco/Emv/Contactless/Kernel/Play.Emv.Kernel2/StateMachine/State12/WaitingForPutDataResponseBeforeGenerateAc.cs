@@ -24,9 +24,9 @@ public partial class WaitingForPutDataResponseBeforeGenerateAc : KernelState
 
     public WaitingForPutDataResponseBeforeGenerateAc(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
-        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
-        IHandleDisplayRequests displayEndpoint, PrepareGenerateAcService prepareGenAcService) : base(database, dataExchangeKernelService,
-        kernelEndpoint, tornTransactionLog, kernelStateResolver, pcdEndpoint, displayEndpoint)
+        IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, IHandleDisplayRequests displayEndpoint,
+        PrepareGenerateAcService prepareGenAcService) : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog, kernelStateResolver,
+        pcdEndpoint, displayEndpoint)
     {
         _PrepareGenAcService = prepareGenAcService;
     }
@@ -44,8 +44,7 @@ public partial class WaitingForPutDataResponseBeforeGenerateAc : KernelState
     #region ACT
 
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, ActivateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
+    public override KernelState Handle(KernelSession session, ActivateKernelRequest signal) => throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     #endregion
 
@@ -58,13 +57,12 @@ public partial class WaitingForPutDataResponseBeforeGenerateAc : KernelState
 
     #region DET
 
+    // BUG: Need to make sure you're properly implementing each DEK handler for each state
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
+    public override KernelState Handle(KernelSession session, QueryKernelRequest signal) => throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) =>
-        throw new RequestOutOfSyncException(signal, KernelChannel.Id);
+    public override KernelState Handle(KernelSession session, UpdateKernelRequest signal) => throw new RequestOutOfSyncException(signal, KernelChannel.Id);
 
     #endregion
 }

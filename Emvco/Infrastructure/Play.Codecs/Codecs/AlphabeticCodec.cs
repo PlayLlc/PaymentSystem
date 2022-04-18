@@ -4,7 +4,9 @@ using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Codecs.Exceptions;
+using Play.Core;
 using Play.Core.Exceptions;
+using Play.Core.Extensions;
 using Play.Core.Specifications;
 
 namespace Play.Codecs;
@@ -36,8 +38,7 @@ public class AlphabeticCodec : PlayCodec
 
     #region Decode To DecodedMetadata
 
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) =>
-        new DecodedResult<char[]>(AlphabeticCodec.DecodeToChars(value), value.Length);
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value) => new DecodedResult<char[]>(AlphabeticCodec.DecodeToChars(value), value.Length);
 
     #endregion
 
@@ -48,11 +49,11 @@ public class AlphabeticCodec : PlayCodec
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public static readonly PlayEncodingId EncodingId = new(typeof(AlphabeticCodec));
 
-    private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = Enumerable.Range(65, (90 - 65) + 1)
-        .Concat(Enumerable.Range(97, (122 - 97) + 1)).ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
+    private static readonly ImmutableSortedDictionary<char, byte> _ByteMapper = Enumerable.Range(65, (90 - 65) + 1).Concat(Enumerable.Range(97, (122 - 97) + 1))
+        .ToImmutableSortedDictionary(a => (char) a, b => (byte) b);
 
-    private static readonly ImmutableSortedDictionary<byte, char> _CharMapper = Enumerable.Range(65, (90 - 65) + 1)
-        .Concat(Enumerable.Range(97, (122 - 97) + 1)).ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
+    private static readonly ImmutableSortedDictionary<byte, char> _CharMapper = Enumerable.Range(65, (90 - 65) + 1).Concat(Enumerable.Range(97, (122 - 97) + 1))
+        .ToImmutableSortedDictionary(a => (byte) a, b => (char) b);
 
     #endregion
 
@@ -186,11 +187,14 @@ public class AlphabeticCodec : PlayCodec
         return false;
     }
 
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T value) where T : struct => throw new NotImplementedException();
 
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     public override byte[] Encode<T>(T value, int length) where T : struct => throw new NotImplementedException();
 
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<T>(T[] value) where T : struct
     {
@@ -200,6 +204,7 @@ public class AlphabeticCodec : PlayCodec
         throw new NotImplementedException();
     }
 
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public override byte[] Encode<T>(T[] value, int length) where T : struct
@@ -266,16 +271,30 @@ public class AlphabeticCodec : PlayCodec
         return byteArray;
     }
 
+    public byte[] Encode(ReadOnlySpan<Nibble> value)
+    {
+        if ((value.Length % 2) != 0)
+        {
+            throw new CodecParsingException(
+                $"the {nameof(AlphaNumericSpecialCodec)} could not {nameof(Encode)} the argument because the value was not a multiple of 2");
+        }
+
+        return value.AsByteArray();
+    }
+
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     public override void Encode<T>(T value, Span<byte> buffer, ref int offset) where T : struct
     {
         throw new NotImplementedException();
     }
 
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     public override void Encode<T>(T value, int length, Span<byte> buffer, ref int offset) where T : struct
     {
         throw new NotImplementedException();
     }
 
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     /// <summary>
     ///     Encode
     /// </summary>
@@ -291,6 +310,7 @@ public class AlphabeticCodec : PlayCodec
         throw new CodecParsingException(this, typeof(T));
     }
 
+    // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     /// <summary>
     ///     Encode
     /// </summary>

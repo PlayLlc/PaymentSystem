@@ -187,7 +187,7 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
             _Value |= (ulong) statusWords >> offset;
         }
 
-        public void Set(MessageIdentifiers value)
+        public void Set(MessageOnErrorIdentifiers value)
         {
             _Value.ClearBits(byte.MaxValue);
             _Value |= (ulong) value;

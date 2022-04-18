@@ -49,8 +49,7 @@ public partial class KernelDatabase
     public OutcomeParameterSet GetOutcomeParameterSet() => (OutcomeParameterSet) Get(OutcomeParameterSet.Tag);
 
     /// <exception cref="TerminalDataException"></exception>
-    private TerminalVerificationResults GetTerminalVerificationResults() =>
-        (TerminalVerificationResults) Get(TerminalVerificationResults.Tag);
+    private TerminalVerificationResults GetTerminalVerificationResults() => (TerminalVerificationResults) Get(TerminalVerificationResults.Tag);
 
     /// <exception cref="TerminalDataException"></exception>
     public UserInterfaceRequestData GetUserInterfaceRequestData()
@@ -102,8 +101,7 @@ public partial class KernelDatabase
     }
 
     /// <exception cref="TerminalDataException"></exception>
-    public Outcome GetOutcome() =>
-        new(GetErrorIndication(), GetOutcomeParameterSet(), GetDataRecord(), GetDiscretionaryData(), GetUserInterfaceRequestData());
+    public Outcome GetOutcome() => new(GetErrorIndication(), GetOutcomeParameterSet(), GetDataRecord(), GetDiscretionaryData(), GetUserInterfaceRequestData());
 
     #endregion
 
@@ -139,7 +137,29 @@ public partial class KernelDatabase
         KernelOutcome.CreateMagstripeDiscretionaryData(this, dataExchanger);
     }
 
-    // BUG: You need to differentiate between the MessageOnErrorIdentifiers and the MessageIdentifiers. They serve two different purposes
+    /// <exception cref="TerminalDataException"></exception>
+    public void Update(MessageOnErrorIdentifiers value)
+    {
+        try
+        {
+            _ErrorIndicationBuilder.Reset(GetErrorIndication());
+            _ErrorIndicationBuilder.Set(value);
+            Update(_ErrorIndicationBuilder.Complete());
+        }
+        catch (DataElementParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
+        }
+        catch (CodecParsingException exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
+        }
+        catch (Exception exception)
+        {
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
+        }
+    }
+
     /// <exception cref="TerminalDataException"></exception>
     public void Update(MessageIdentifiers value)
     {
@@ -151,18 +171,15 @@ public partial class KernelDatabase
         }
         catch (DataElementParsingException exception)
         {
-            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
-                exception);
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
         }
         catch (CodecParsingException exception)
         {
-            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
-                exception);
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
         }
         catch (Exception exception)
         {
-            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
-                exception);
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
         }
     }
 
@@ -177,18 +194,15 @@ public partial class KernelDatabase
         }
         catch (DataElementParsingException exception)
         {
-            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
-                exception);
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
         }
         catch (CodecParsingException exception)
         {
-            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
-                exception);
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
         }
         catch (Exception exception)
         {
-            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
-                exception);
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
         }
     }
 
@@ -203,18 +217,15 @@ public partial class KernelDatabase
         }
         catch (DataElementParsingException exception)
         {
-            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
-                exception);
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
         }
         catch (CodecParsingException exception)
         {
-            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
-                exception);
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
         }
         catch (Exception exception)
         {
-            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
-                exception);
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
         }
     }
 
@@ -229,18 +240,15 @@ public partial class KernelDatabase
         }
         catch (DataElementParsingException exception)
         {
-            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
-                exception);
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
         }
         catch (CodecParsingException exception)
         {
-            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
-                exception);
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
         }
         catch (Exception exception)
         {
-            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}",
-                exception);
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(UserInterfaceRequestData)}", exception);
         }
     }
 
@@ -255,18 +263,15 @@ public partial class KernelDatabase
         }
         catch (DataElementParsingException exception)
         {
-            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(TerminalVerificationResults)}",
-                exception);
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(TerminalVerificationResults)}", exception);
         }
         catch (CodecParsingException exception)
         {
-            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(TerminalVerificationResults)}",
-                exception);
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(TerminalVerificationResults)}", exception);
         }
         catch (Exception exception)
         {
-            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(TerminalVerificationResults)}",
-                exception);
+            throw new TerminalDataException($"An error occurred while writing a value to the {nameof(TerminalVerificationResults)}", exception);
         }
     }
 
