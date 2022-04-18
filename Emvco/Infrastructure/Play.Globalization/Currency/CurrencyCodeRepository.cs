@@ -31,6 +31,7 @@ public static class CurrencyCodeRepository
 
     #region Instance Members
 
+    public static List<Currency> GetAll() => _Alpha3CurrencyMap.Values.ToList();
     public static Currency Get(NumericCurrencyCode numericCode) => _NumericCurrencyMap[numericCode];
     public static Currency Get(Alpha3CurrencyCode alphaCode) => _Alpha3CurrencyMap[alphaCode];
 
@@ -277,19 +278,6 @@ public static class CurrencyCodeRepository
     public static bool IsValid(ushort numericCode)
     {
         return _NumericCurrencyMap.Keys.Any(a => (ushort) a == numericCode);
-    }
-
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public static bool IsValid(ReadOnlySpan<char> alpha3Code)
-    {
-        if (alpha3Code.Length != 3)
-            throw new ArgumentOutOfRangeException(nameof(alpha3Code), $"The argument {nameof(alpha3Code)} must be three characters in length");
-
-        _Buffer[0] = alpha3Code[0];
-        _Buffer[1] = alpha3Code[1];
-        _Buffer[2] = alpha3Code[2];
-
-        return _Alpha3CurrencyMap.Keys.Any(a => a == _Buffer);
     }
 
     #endregion

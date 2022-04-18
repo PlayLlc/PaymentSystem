@@ -4,6 +4,12 @@ namespace Play.Testing;
 
 public abstract class SpecimenBuilder : ISpecimenBuilder
 {
+    #region Static Metadata
+
+    protected static Random _Random = new();
+
+    #endregion
+
     #region Instance Members
 
     public abstract SpecimenBuilderId GetId();

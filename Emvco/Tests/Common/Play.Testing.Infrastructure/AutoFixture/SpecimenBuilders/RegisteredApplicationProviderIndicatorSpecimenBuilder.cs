@@ -1,7 +1,6 @@
 ﻿using AutoFixture.Kernel;
 
 using Play.Core.Extensions;
-using Play.Globalization.Time;
 using Play.Icc.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Randoms;
@@ -39,96 +38,6 @@ public class RegisteredApplicationProviderIndicatorSpecimenBuilder : SpecimenBui
         const ulong unrelatedValues = 0xFFFFFF0000000000;
 
         return Randomize.Integers.ULong().GetMaskedValue(unrelatedValues);
-    }
-
-    #endregion
-}
-
-public class ShortDateBuilder : SpecimenBuilder
-{
-    #region Static Metadata
-
-    public static readonly SpecimenBuilderId Id = new(nameof(ShortDateBuilder));
-
-    #endregion
-
-    #region Instance Members
-
-    public override SpecimenBuilderId GetId() => new(nameof(ShortDateBuilder));
-
-    /// <exception cref="IccProtocolException"></exception>
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
-    public override object Create(object request, ISpecimenContext context)
-    {
-        Type? type = request as Type;
-
-        if (type == null)
-            return new NoSpecimen();
-
-        if (type != typeof(ShortDate))
-            return new NoSpecimen();
-
-        return ShortDate.Today;
-    }
-
-    #endregion
-}
-
-public class DateTimeUtcBuilder : SpecimenBuilder
-{
-    #region Static Metadata
-
-    public static readonly SpecimenBuilderId Id = new(nameof(DateTimeUtcBuilder));
-
-    #endregion
-
-    #region Instance Members
-
-    public override SpecimenBuilderId GetId() => new(nameof(DateTimeUtcBuilder));
-
-    /// <exception cref="IccProtocolException"></exception>
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
-    public override object Create(object request, ISpecimenContext context)
-    {
-        Type? type = request as Type;
-
-        if (type == null)
-            return new NoSpecimen();
-
-        if (type != typeof(ShortDate))
-            return new NoSpecimen();
-
-        return DateTimeUtc.Now;
-    }
-
-    #endregion
-}
-
-public class Alpha2LanguageCodeBuilder : SpecimenBuilder
-{
-    #region Static Metadata
-
-    public static readonly SpecimenBuilderId Id = new(nameof(Alpha2LanguageCodeBuilder));
-
-    #endregion
-
-    #region Instance Members
-
-    public override SpecimenBuilderId GetId() => new(nameof(Alpha2LanguageCodeBuilder));
-
-    /// <exception cref="IccProtocolException"></exception>
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
-    public override object Create(object request, ISpecimenContext context)
-    {
-        Type? type = request as Type;
-
-        if (type == null)
-            return new NoSpecimen();
-
-        if (type != typeof(ShortDate))
-            return new NoSpecimen();
-
-        return DateTimeUtc.Now;
     }
 
     #endregion
