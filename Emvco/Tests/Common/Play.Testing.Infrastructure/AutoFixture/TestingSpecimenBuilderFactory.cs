@@ -18,7 +18,7 @@ public class TestingSpecimenBuilderFactory : SpecimenBuilderFactory
 
     #region Instance Members
 
-    public static List<SpecimenBuilder> CreateSpecimenBuilders() => new List<SpecimenBuilder> {new RegisteredApplicationProviderIndicatorSpecimenBuilder()};
+    public static List<SpecimenBuilder> CreateSpecimenBuilders() => new() {new RegisteredApplicationProviderIndicatorSpecimenBuilder()};
 
     #endregion
 }
