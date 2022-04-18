@@ -12,16 +12,6 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForPdolData : KernelState
 {
-    #region Instance Members
-
-    #region STOP
-
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
@@ -41,10 +31,7 @@ public partial class WaitingForPdolData : KernelState
         // BUG: I think the book says to clear the database and session on stop but i think our implementation might still use DEK to grab the required data before sending it to the acquirer. Check the pattern in the book and your implementation
         Clear();
 
-        return _KernelStateResolver.GetKernelState(StateId);
+        // CHECK: See how you're handling your OUT Kernel and OUT Reader signals. Make sure the logic is correct with respect to this kernel and state implementation
+        return _KernelStateResolver.GetKernelState(Idle.StateId);
     }
-
-    #endregion
-
-    #endregion
 }

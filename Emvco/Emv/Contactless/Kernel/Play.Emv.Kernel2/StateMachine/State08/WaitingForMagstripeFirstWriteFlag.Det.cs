@@ -4,6 +4,7 @@ using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
@@ -19,7 +20,7 @@ public partial class WaitingForMagstripeFirstWriteFlag
     // BUG: Need to make sure you're properly implementing each DEK handler for each state
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryTerminalResponse signal)
     {
         if (TryHandleTimeout(session))

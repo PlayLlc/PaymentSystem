@@ -19,7 +19,7 @@ public partial class WaitingForGenerateAcResponse2
     {
         HandleRequestOutOfSync(session, signal);
 
-        // CHECK: The S10 algorithm only specified to recursively set the state on a STOP signal. Check the specs to make sure that's valid with all STOP signal rules
+        // CHECK: The S11 algorithm only specified to recursively set the state on a STOP signal. Check the specs to make sure that's valid with all STOP signal rules
         return _KernelStateResolver.GetKernelState(StateId);
     }
 

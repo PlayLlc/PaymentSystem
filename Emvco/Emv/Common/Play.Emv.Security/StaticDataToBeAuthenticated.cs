@@ -2,6 +2,7 @@
 using Play.Ber.Identifiers;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.Templates;
 using Play.Emv.Pcd.Contracts;
 using Play.Emv.Security.Exceptions;
@@ -78,7 +79,7 @@ public class StaticDataToBeAuthenticated
     /// <param name="database"></param>
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public void Enqueue(StaticDataAuthenticationTagList tagList, IReadTlvDatabase database)
     {
         Tag[] requiredTags = tagList.GetRequiredTags();

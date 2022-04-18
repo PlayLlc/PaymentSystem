@@ -12,10 +12,6 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForGetDataResponse : KernelState
 {
-    #region Instance Members
-
-    #region STOP
-
     /// <summary>
     ///     Handle
     /// </summary>
@@ -43,10 +39,7 @@ public partial class WaitingForGetDataResponse : KernelState
         // BUG: I think the book says to clear the database and session on stop but i think our implementation might still use DEK to grab the required data before sending it to the acquirer. Check the pattern in the book and your implementation
         Clear();
 
+        // CHECK: See how you're handling your OUT Kernel and OUT Reader signals. Make sure the logic is correct with respect to this kernel and state implementation
         return _KernelStateResolver.GetKernelState(Idle.StateId);
     }
-
-    #endregion
-
-    #endregion
 }

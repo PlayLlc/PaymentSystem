@@ -12,10 +12,6 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForEmvReadRecordResponse : KernelState
 {
-    #region Instance Members
-
-    #region STOP
-
     /// <exception cref="RequestOutOfSyncException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
@@ -35,10 +31,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
         Clear();
 
+        // CHECK: See how you're handling your OUT Kernel and OUT Reader signals. Make sure the logic is correct with respect to this kernel and state implementation
         return _KernelStateResolver.GetKernelState(Idle.StateId);
     }
-
-    #endregion
-
-    #endregion
 }

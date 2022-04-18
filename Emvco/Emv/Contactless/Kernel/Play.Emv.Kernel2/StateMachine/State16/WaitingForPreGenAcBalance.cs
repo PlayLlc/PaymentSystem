@@ -13,11 +13,17 @@ using Play.Emv.Terminal.Contracts.SignalOut;
 
 namespace Play.Emv.Kernel2.StateMachine;
 
-public partial class WaitingForCccResponse2 : KernelState
+public partial class WaitingForPreGenAcBalance : KernelState
 {
+    #region Instance Values
+
+    private readonly OfflineBalanceReader _BalanceReader;
+
+    #endregion
+
     #region Constructor
 
-    public WaitingForCccResponse2(
+    public WaitingForPreGenAcBalance(
         KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IKernelEndpoint kernelEndpoint,
         IManageTornTransactions tornTransactionLog, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint, IHandleDisplayRequests displayEndpoint)
         : base(database, dataExchangeKernelService, kernelEndpoint, tornTransactionLog, kernelStateResolver, pcdEndpoint, displayEndpoint)
@@ -27,7 +33,7 @@ public partial class WaitingForCccResponse2 : KernelState
 
     #region Static Metadata
 
-    public static readonly StateId StateId = new(nameof(WaitingForCccResponse2));
+    public static readonly StateId StateId = new(nameof(WaitingForPreGenAcBalance));
 
     #endregion
 
@@ -48,8 +54,6 @@ public partial class WaitingForCccResponse2 : KernelState
     #endregion
 
     #region DET
-
-    // BUG: Need to make sure you're properly implementing each DEK handler for each state
 
     /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, QueryKernelRequest signal) => throw new RequestOutOfSyncException(signal, KernelChannel.Id);

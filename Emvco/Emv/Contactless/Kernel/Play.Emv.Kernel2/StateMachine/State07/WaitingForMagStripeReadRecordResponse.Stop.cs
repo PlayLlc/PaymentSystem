@@ -2,6 +2,8 @@
 
 using Play.Emv.Ber;
 using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Exceptions;
+using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.State;
 
@@ -9,21 +11,9 @@ namespace Play.Emv.Kernel2.StateMachine;
 
 public partial class WaitingForMagStripeReadRecordResponse
 {
-    #region Instance Members
-
-    #region STOP
-
-    #region S7.7 - S7.8
-
-    /// <summary>
-    ///     Handle
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="signal"></param>
-    /// <returns></returns>
-    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Play.Emv.Exceptions.RequestOutOfSyncException"></exception>
+    /// <exception cref="RequestOutOfSyncException"></exception>
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
         HandleRequestOutOfSync(session, signal);
@@ -38,12 +28,7 @@ public partial class WaitingForMagStripeReadRecordResponse
         // BUG: I think the book says to clear the database and session on stop but i think our implementation might still use DEK to grab the required data before sending it to the acquirer. Check the pattern in the book and your implementation
         Clear();
 
+        // CHECK: See how you're handling your OUT Kernel and OUT Reader signals. Make sure the logic is correct with respect to this kernel and state implementation
         return _KernelStateResolver.GetKernelState(Idle.StateId);
     }
-
-    #endregion
-
-    #endregion
-
-    #endregion
 }

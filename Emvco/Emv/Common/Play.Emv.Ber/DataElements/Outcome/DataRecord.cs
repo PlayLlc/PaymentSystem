@@ -3,6 +3,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
+using Play.Emv.Ber.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Ber.DataElements;
@@ -29,15 +30,14 @@ public record DataRecord : DataExchangeResponse, IEqualityComparer<DataRecord>
 
     #region Instance Members
 
-    public static DataRecord CreateMagstripeDataRecord(IReadTlvDatabase database) =>
-        new(RetrieveMagstripeDataRecordObjects(database).ToArray());
+    public static DataRecord CreateMagstripeDataRecord(IReadTlvDatabase database) => new(RetrieveMagstripeDataRecordObjects(database).ToArray());
 
     /// <summary>
     ///     RetrieveMagstripeDataRecordObjects
     /// </summary>
     /// <param name="database"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public static IEnumerable<PrimitiveValue> RetrieveMagstripeDataRecordObjects(IReadTlvDatabase database)
     {
         if (database.TryGet(ApplicationLabel.Tag, out ApplicationLabel? applicationLabel))
@@ -48,8 +48,7 @@ public record DataRecord : DataExchangeResponse, IEqualityComparer<DataRecord>
             yield return dedicatedFileName!;
         if (database.TryGet(IssuerCodeTableIndex.Tag, out IssuerCodeTableIndex? issuerCodeTableIndex))
             yield return issuerCodeTableIndex!;
-        if (database.TryGet(MagstripeApplicationVersionNumberReader.Tag,
-            out MagstripeApplicationVersionNumberReader? magstripeApplicationVersionNumberReader))
+        if (database.TryGet(MagstripeApplicationVersionNumberReader.Tag, out MagstripeApplicationVersionNumberReader? magstripeApplicationVersionNumberReader))
             yield return magstripeApplicationVersionNumberReader!;
         if (database.TryGet(PaymentAccountReference.Tag, out PaymentAccountReference? paymentAccountReference))
             yield return paymentAccountReference!;

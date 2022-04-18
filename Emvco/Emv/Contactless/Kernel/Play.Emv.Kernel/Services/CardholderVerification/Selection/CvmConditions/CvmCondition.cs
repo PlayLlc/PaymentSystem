@@ -2,6 +2,7 @@
 
 using Play.Ber.Identifiers;
 using Play.Emv.Ber;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Kernel.Databases;
 using Play.Globalization.Currency;
 
@@ -44,10 +45,7 @@ internal abstract record CvmCondition
             {amountInApplicationCurrencyAndUnderXValueCondition.GetConditionCode(), amountInApplicationCurrencyAndUnderXValueCondition},
             {amountInApplicationCurrencyAndUnderYValueCondition.GetConditionCode(), amountInApplicationCurrencyAndUnderYValueCondition},
             {manualCashCondition.GetConditionCode(), manualCashCondition},
-            {
-                notUnattendedCashOrManualCashOrPurchaseWithCashback.GetConditionCode(),
-                notUnattendedCashOrManualCashOrPurchaseWithCashback
-            },
+            {notUnattendedCashOrManualCashOrPurchaseWithCashback.GetConditionCode(), notUnattendedCashOrManualCashOrPurchaseWithCashback},
             {purchaseWithCashbackCondition.GetConditionCode(), purchaseWithCashbackCondition},
             {supportsCvmCondition.GetConditionCode(), supportsCvmCondition}
         };
@@ -81,7 +79,7 @@ internal abstract record CvmCondition
     /// <param name="xAmount"></param>
     /// <param name="yAmount"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     public static bool IsCvmSupported(KernelDatabase database, CvmConditionCode code, Money xAmount, Money yAmount)
     {
         if (!_Conditions.ContainsKey(code))
@@ -103,7 +101,7 @@ internal abstract record CvmCondition
     /// </summary>
     /// <param name="database"></param>
     /// <returns></returns>
-    /// <exception cref="Play.Emv.Ber.Exceptions.TerminalDataException"></exception>
+    /// <exception cref="TerminalDataException"></exception>
     private bool IsRequiredDataPresent(IReadTlvDatabase database)
     {
         if (_RequiredData.Length == 0)
