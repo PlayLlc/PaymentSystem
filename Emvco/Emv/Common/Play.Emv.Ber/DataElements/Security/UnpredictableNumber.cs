@@ -32,7 +32,7 @@ public record UnpredictableNumber : DataElement<uint>, IEqualityComparer<Unpredi
 
     internal Nibble[] GetDigits()
     {
-        byte digitsToCopy = new NumberOfNonZeroBits(this);
+        byte digitsToCopy = (byte) GetSetBitCount();
         Nibble[] result = new Nibble[3];
 
         for (int i = result.Length - 1; i > 0; i--)

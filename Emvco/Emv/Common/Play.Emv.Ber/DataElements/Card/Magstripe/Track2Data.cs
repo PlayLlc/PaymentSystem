@@ -41,20 +41,7 @@ public record Track2Data : DataElement<Track2>
 
     #region Instance Members
 
-    /// <summary>
-    ///     1) Convert the binary encoded CVC3 (Track2) to the BCD encoding of the corresponding number expressed in base 10.
-    ///     2) Copy the q least significant digits of the BCD encoded CVC3 (Track2) in the eligible positions of the
-    ///     'Discretionary Data' in Track 2 Data. The eligible positions are indicated by the q non-zero bits in PCVC3(Track2).
-    ///     3) Replace the nUN least significant eligible positions of the 'Discretionary Data' in Track 2 Data by the nUN
-    ///     least significant digits of Unpredictable Number (Numeric). The eligible positions in the 'Discretionary Data' in
-    ///     Track 2 Data are indicated by the nUN least significant non-zero bits in PUNATC(Track2).
-    ///     4) If t ≠ 0, convert the Application Transaction Counter to the BCD encoding of the corresponding number
-    ///     expressed in base 10.
-    ///     5) Replace the t most significant eligible positions of the 'Discretionary Data' in Track 2 Data by the t least
-    ///     significant digits of the BCD encoded Application Transaction Counter. The eligible positions in the 'Discretionary
-    ///     Data' in Track 2 Data are indicated by the t most significant non-zero bits in PUNATC(Track2).
-    /// </summary>
-    /// <remarks>EMVco Book C-2 Section S13.17 - S13.19</remarks>
+    /// <remarks>EMVco Book C-2 Section S13.17 - S13.19 && S14.26 - S14.27</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="BerParsingException"></exception>
@@ -65,7 +52,7 @@ public record Track2Data : DataElement<Track2>
         UnpredictableNumber unpredictableNumber, NumericApplicationTransactionCounterTrack2 natc, ApplicationTransactionCounter atc)
     {
         Nibble[] discretionaryData = GetTrack2DiscretionaryData().AsNibbleArray();
-        byte qNumberOfDigits = new NumberOfNonZeroBits(pcvc);
+        byte qNumberOfDigits = (byte) pcvc.GetSetBitCount();
         byte nunNumberOfDigits = (byte) nun;
         byte tNumberOfDigits = (byte) natc;
 
@@ -75,16 +62,26 @@ public record Track2Data : DataElement<Track2>
         UpdateDiscretionaryData(discretionaryData, qNumberOfDigits, cvc, pcvcIndexArray);
         UpdateDiscretionaryData(discretionaryData, nunNumberOfDigits, unpredictableNumber, punatcIndexArray[^nunNumberOfDigits..]);
         UpdateDiscretionaryData(discretionaryData, tNumberOfDigits, natc, atc, punatcIndexArray[tNumberOfDigits..]);
-        UpdateDiscretionaryData(discretionaryData, punatc, natc);
+        UpdateDiscretionaryData(discretionaryData, nun);
 
         return new Track2Data(new Track2(discretionaryData));
     }
 
-    /// <remarks>EMVco Book C-2 Section S13.18</remarks>
+    /// <summary>
+    ///     Convert the binary encoded CVC3 (Track2) to the BCD encoding of the corresponding number expressed in base 10. Copy
+    ///     the qNumberOfDigits least significant digits of the BCD encoded CVC3 (Track2) in the eligible positions of the
+    ///     'Discretionary Data' in Track 2 Data. The eligible positions are indicated by the qNumberOfDigits non-zero bits in
+    ///     PCVC3(Track2).
+    /// </summary>
+    /// <param name="discretionaryData"></param>
+    /// <param name="qNumberOfDigits">Number of non-zero bits in PositionOfCardVerificationCode3Track2</param>
+    /// <param name="cvc"></param>
+    /// <param name="pcvcIndexArray"></param>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
+    /// <remarks>EMVco Book C-2 Section S13.18 && S14.26</remarks>
     private void UpdateDiscretionaryData(
         Span<Nibble> discretionaryData, byte qNumberOfDigits, CardholderVerificationCode3Track2 cvc, ReadOnlySpan<Nibble> pcvcIndexArray)
     {
@@ -100,12 +97,22 @@ public record Track2Data : DataElement<Track2>
             discretionaryData[pcvcIndexArray[i]] = digitsToCopy[i];
     }
 
-    /// <remarks>EMVco Book C-2 Section S13.18</remarks>
+    /// <summary>
+    ///     Replace the nunNumberOfDigits least significant eligible positions of the 'Discretionary Data' in Track 2 Data by
+    ///     the nunNumberOfDigits least significant digits of Unpredictable Number (Numeric). The eligible positions in the
+    ///     'Discretionary Data' in Track 2 Data are indicated by the nunNumberOfDigits least significant non-zero bits in
+    ///     PUNATC(Track2).
+    /// </summary>
+    /// <param name="discretionaryData"></param>
+    /// <param name="nunNumberOfDigits">The integer value of the <see cref="NumberOfNonZeroBits" /> calculated by the Kernel</param>
+    /// <param name="unpredictableNumber"></param>
+    /// <param name="punatcIndexArray"></param>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="TerminalDataException"></exception>
+    /// <remarks>EMVco Book C-2 Section S13.18 && S14.26</remarks>
     private void UpdateDiscretionaryData(
         Span<Nibble> discretionaryData, int nunNumberOfDigits, UnpredictableNumber unpredictableNumber, ReadOnlySpan<Nibble> punatcIndexArray)
     {
@@ -121,7 +128,20 @@ public record Track2Data : DataElement<Track2>
             discretionaryData[punatcIndexArray[i]] = digitsToCopy[i];
     }
 
-    /// <remarks>EMVco Book C-2 Section S13.18</remarks>
+    /// <summary>
+    ///     If t ≠ 0, convert the Application Transaction Counter to the BCD encoding of the corresponding number expressed
+    ///     in base 10. Replace the t most significant eligible positions of the 'Discretionary Data' in Track 2 Data by the t
+    ///     least significant digits of the BCD encoded Application Transaction Counter. The eligible positions in the
+    ///     'Discretionary Data' in Track 2 Data are indicated by the t most significant non-zero bits in PUNATC(Track2).
+    /// </summary>
+    /// <remarks>EMVco Book C-2 Section S13.18 && S14.26</remarks>
+    /// <param name="discretionaryData"></param>
+    /// <param name="tNumberOfDigits">
+    ///     The integer value of the <see cref="NumericApplicationTransactionCounterTrack2" />
+    /// </param>
+    /// <param name="natc"></param>
+    /// <param name="atc"></param>
+    /// <param name="punatcIndexArray"></param>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="OverflowException"></exception>
@@ -145,10 +165,9 @@ public record Track2Data : DataElement<Track2>
     }
 
     /// <summary>Copy nUN' into the least significant digit of the 'Discretionary Data' in Track 2 Data</summary>
-    /// <remarks>EMVco Book C-2 Section S13.19</remarks>
-    private void UpdateDiscretionaryData(Span<Nibble> discretionaryData, PunatcTrack2 punatc, NumericApplicationTransactionCounterTrack2 natc)
+    /// <remarks>EMVco Book C-2 Section S13.19 && S14.27</remarks>
+    private void UpdateDiscretionaryData(Span<Nibble> discretionaryData, NumberOfNonZeroBits nun)
     {
-        NumberOfNonZeroBits nun = new(punatc, natc);
         discretionaryData[^1] = (byte) nun;
     }
 

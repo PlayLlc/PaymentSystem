@@ -16,39 +16,9 @@ public readonly record struct NumberOfNonZeroBits
 
     #region Constructor
 
-    public NumberOfNonZeroBits(PositionOfCardVerificationCode3Track1 pcvc)
-    {
-        _Value = (byte) pcvc.GetSetBitCount();
-    }
-
-    public NumberOfNonZeroBits(NumericApplicationTransactionCounterTrack1 value)
-    {
-        _Value = (byte) value.GetSetBitCount();
-    }
-
     public NumberOfNonZeroBits(PunatcTrack2 punatc, NumericApplicationTransactionCounterTrack2 natc)
     {
         _Value = (byte) (punatc.GetSetBitCount() - natc.GetSetBitCount());
-    }
-
-    public NumberOfNonZeroBits(PositionOfCardVerificationCode3Track2 value)
-    {
-        _Value = (byte) value.GetSetBitCount();
-    }
-
-    public NumberOfNonZeroBits(PunatcTrack1 value)
-    {
-        _Value = (byte) value.GetSetBitCount();
-    }
-
-    public NumberOfNonZeroBits(UnpredictableNumber value)
-    {
-        _Value = (byte) value.GetSetBitCount();
-    }
-
-    public NumberOfNonZeroBits(UnpredictableNumberNumeric value)
-    {
-        _Value = (byte) value.GetSetBitCount();
     }
 
     private NumberOfNonZeroBits(byte value)

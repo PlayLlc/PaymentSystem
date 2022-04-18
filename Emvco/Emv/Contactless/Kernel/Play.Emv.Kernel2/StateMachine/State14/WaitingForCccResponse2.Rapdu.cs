@@ -345,23 +345,6 @@ public partial class WaitingForCccResponse2
 
     #endregion
 
-    #region S14.24 - S14.25
-
-    /// <exception cref="TerminalDataException"></exception>
-    private NumberOfNonZeroBits GetNumberOfNonZeroBits()
-    {
-        PosCardholderInteractionInformation pcii = _Database.Get<PosCardholderInteractionInformation>(PosCardholderInteractionInformation.Tag);
-        NumberOfNonZeroBits numberOfNonZeroBits = new(_Database.Get<PunatcTrack2>(PunatcTrack2.Tag),
-            _Database.Get<NumericApplicationTransactionCounterTrack2>(NumericApplicationTransactionCounterTrack2.Tag));
-
-        if (pcii.IsOfflineDeviceCvmVerificationSuccessful())
-            return numberOfNonZeroBits;
-
-        return numberOfNonZeroBits.AsPlusFiveModuloTen();
-    }
-
-    #endregion
-
     #region S14.22 - S14.23
 
     /// <exception cref="TerminalDataException"></exception>
@@ -400,6 +383,51 @@ public partial class WaitingForCccResponse2
         _Database.Update(MessageIdentifiers.Get(messageTableEntry!.GetMessageIdentifier()));
         _Database.Update(messageTableEntry.GetStatus());
     }
+
+    #endregion
+
+    #region S14.24 - S14.25
+
+    /// <exception cref="TerminalDataException"></exception>
+    private NumberOfNonZeroBits GetNumberOfNonZeroBits()
+    {
+        PosCardholderInteractionInformation pcii = _Database.Get<PosCardholderInteractionInformation>(PosCardholderInteractionInformation.Tag);
+        NumberOfNonZeroBits numberOfNonZeroBits = new(_Database.Get<PunatcTrack2>(PunatcTrack2.Tag),
+            _Database.Get<NumericApplicationTransactionCounterTrack2>(NumericApplicationTransactionCounterTrack2.Tag));
+
+        if (pcii.IsOfflineDeviceCvmVerificationSuccessful())
+            return numberOfNonZeroBits;
+
+        return numberOfNonZeroBits.AsPlusFiveModuloTen();
+    }
+
+    #endregion
+
+    #region S14.25.1 - S14.26
+
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    private void UpdateTrack2Data(NumberOfNonZeroBits nun)
+    {
+        _Database.FailedMagstripeCounter.Reset();
+        PositionOfCardVerificationCode3Track2 pcvc = _Database.Get<PositionOfCardVerificationCode3Track2>(PositionOfCardVerificationCode3Track2.Tag);
+        NumericApplicationTransactionCounterTrack2 natc =
+            _Database.Get<NumericApplicationTransactionCounterTrack2>(NumericApplicationTransactionCounterTrack2.Tag);
+        ApplicationTransactionCounter atc = _Database.Get<ApplicationTransactionCounter>(ApplicationTransactionCounter.Tag);
+        PunatcTrack2 punatc = _Database.Get<PunatcTrack2>(PunatcTrack2.Tag);
+        CardholderVerificationCode3Track2 cvc = _Database.Get<CardholderVerificationCode3Track2>(CardholderVerificationCode3Track2.Tag);
+        UnpredictableNumber unpredictableNumber = _Database.Get<UnpredictableNumber>(UnpredictableNumber.Tag);
+        Track2Data track2 = _Database.Get<Track2Data>(Track2Data.Tag);
+
+        _Database.Update(track2.UpdateDiscretionaryData(nun, cvc, pcvc, punatc, unpredictableNumber, natc, atc));
+    }
+
+    #endregion
+
+    #region S14.27
 
     #endregion
 

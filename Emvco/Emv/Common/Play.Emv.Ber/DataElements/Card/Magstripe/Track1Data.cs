@@ -69,9 +69,9 @@ public record Track1Data : DataElement<Track1>
         UnpredictableNumberNumeric unpredictableNumber, NumericApplicationTransactionCounterTrack1 natc, ApplicationTransactionCounter atc)
     {
         char[] discretionaryData = GetTrack1DiscretionaryData().AsCharArray();
-        byte qNumberOfChars = new NumberOfNonZeroBits(pcvc);
+        byte qNumberOfChars = (byte) pcvc.GetSetBitCount();
         byte nunNumberOfChars = nun;
-        byte tNumberOfChars = new NumberOfNonZeroBits(natc);
+        byte tNumberOfChars = (byte) natc.GetSetBitCount();
 
         ReadOnlySpan<Nibble> pcvcIndexArray = pcvc.GetBitFlagIndex();
         ReadOnlySpan<Nibble> punatcIndexArray = punatc.GetBitFlagIndex();
