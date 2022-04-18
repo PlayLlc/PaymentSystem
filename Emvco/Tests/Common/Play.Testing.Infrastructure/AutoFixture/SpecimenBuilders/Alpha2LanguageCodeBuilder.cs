@@ -16,7 +16,7 @@ public class Alpha2LanguageCodeBuilder : SpecimenBuilder
 
     #region Instance Members
 
-    public override SpecimenBuilderId GetId() => new(nameof(Alpha2LanguageCodeBuilder));
+    public override SpecimenBuilderId GetId() => Id;
 
     /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>

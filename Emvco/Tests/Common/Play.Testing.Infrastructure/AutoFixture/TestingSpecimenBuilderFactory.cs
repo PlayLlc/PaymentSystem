@@ -18,7 +18,17 @@ public class TestingSpecimenBuilderFactory : SpecimenBuilderFactory
 
     #region Instance Members
 
-    public static List<SpecimenBuilder> CreateSpecimenBuilders() => new() {new RegisteredApplicationProviderIndicatorSpecimenBuilder()};
+    public static List<SpecimenBuilder> CreateSpecimenBuilders() =>
+        new()
+        {
+            new Alpha2LanguageCodeBuilder(),
+            new Alpha3CurrencyCodeBuilder(),
+            new Alpha3LanguageCodeBuilder(),
+            new DateTimeUtcBuilder(),
+            new NumericCurrencyCodeBuilder(),
+            new RegisteredApplicationProviderIndicatorSpecimenBuilder(),
+            new ShortDateBuilder()
+        };
 
     #endregion
 }

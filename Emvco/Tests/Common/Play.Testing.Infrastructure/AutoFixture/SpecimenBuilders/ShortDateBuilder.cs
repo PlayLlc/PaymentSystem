@@ -15,7 +15,7 @@ public class ShortDateBuilder : SpecimenBuilder
 
     #region Instance Members
 
-    public override SpecimenBuilderId GetId() => new(nameof(ShortDateBuilder));
+    public override SpecimenBuilderId GetId() => Id;
 
     /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>

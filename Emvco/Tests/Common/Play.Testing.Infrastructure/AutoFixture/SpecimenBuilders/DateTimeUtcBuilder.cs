@@ -15,7 +15,7 @@ public class DateTimeUtcBuilder : SpecimenBuilder
 
     #region Instance Members
 
-    public override SpecimenBuilderId GetId() => new(nameof(DateTimeUtcBuilder));
+    public override SpecimenBuilderId GetId() => Id;
 
     /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
@@ -26,7 +26,7 @@ public class DateTimeUtcBuilder : SpecimenBuilder
         if (type == null)
             return new NoSpecimen();
 
-        if (type != typeof(ShortDate))
+        if (type != typeof(DateTimeUtc))
             return new NoSpecimen();
 
         return DateTimeUtc.Now;

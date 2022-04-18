@@ -17,7 +17,7 @@ public class RegisteredApplicationProviderIndicatorSpecimenBuilder : SpecimenBui
 
     #region Instance Members
 
-    public override SpecimenBuilderId GetId() => new(nameof(RegisteredApplicationProviderIndicatorSpecimenBuilder));
+    public override SpecimenBuilderId GetId() => Id;
 
     /// <exception cref="IccProtocolException"></exception>
     public override object Create(object request, ISpecimenContext context)
