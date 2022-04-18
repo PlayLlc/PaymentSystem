@@ -1,10 +1,7 @@
-﻿using System.Numerics;
-
-using Play.Ber.DataObjects;
+﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Codecs;
-using Play.Core;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Time;
@@ -54,8 +51,7 @@ public record Track2EquivalentData : DataElement<Track2>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="Exception"></exception>
-    public Track2EquivalentData UpdateDiscretionaryData(TrackDiscretionaryData discretionaryData) =>
-        new(_Value.CreateUpdate(discretionaryData));
+    public Track2EquivalentData UpdateDiscretionaryData(TrackDiscretionaryData discretionaryData) => new(_Value.CreateUpdate(discretionaryData));
 
     #endregion
 

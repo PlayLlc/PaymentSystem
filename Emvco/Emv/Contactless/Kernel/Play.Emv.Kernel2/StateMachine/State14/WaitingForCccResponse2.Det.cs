@@ -1,5 +1,4 @@
 ﻿using Play.Emv.Exceptions;
-using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.State;
 using Play.Emv.Terminal.Contracts.SignalOut;
 

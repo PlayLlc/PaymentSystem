@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Infrastructure\Play.Globalization\Play.Globalization.csproj" />
     <ProjectReference Include="..\Play.Testing\Play.Testing.csproj" />
   </ItemGroup>
 

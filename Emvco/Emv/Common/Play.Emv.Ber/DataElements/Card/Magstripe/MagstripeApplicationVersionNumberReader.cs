@@ -14,7 +14,7 @@ public record MagstripeApplicationVersionNumberReader : DataElement<RelaySeconds
     #region Static Metadata
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
-    public static readonly Tag Tag = 0xDF8305;
+    public static readonly Tag Tag = 0x9F6D;
     private const byte _ByteLength = 2;
 
     #endregion

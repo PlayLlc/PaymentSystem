@@ -16,23 +16,22 @@ public abstract record TerminalConfiguration
     private readonly MerchantCategoryCode _MerchantCategoryCode;
     private readonly MerchantNameAndLocation _MerchantNameAndLocation;
     private readonly AcquirerIdentifier _AcquirerIdentifier;
-    private readonly TerminalIdentification _TerminalIdentification;
     private readonly InterfaceDeviceSerialNumber _InterfaceDeviceSerialNumber;
-    private readonly LanguagePreference _LanguagePreference;
+    private readonly TerminalIdentification _TerminalIdentification;
     private readonly TerminalCapabilities _TerminalCapabilities;
     private readonly TerminalCountryCode _TerminalCountryCode;
     private readonly TerminalFloorLimit _TerminalFloorLimit;
     private readonly TerminalType _TerminalType;
-    private readonly TransactionCurrencyCode _TransactionCurrencyCode;
-    private readonly ApplicationVersionNumberReader _ApplicationVersionNumberReader;
-    private readonly DataStorageRequestedOperatorId _DataStorageRequestedOperatorId;
-
-    // BUG: TerminalRiskManagementData is transient per transaction. This should live with the transaction session, not the terminal configuration
-    private readonly TerminalRiskManagementData _TerminalRiskManagementData;
-    private readonly PoiInformation _PoiInformation;
     private readonly AdditionalTerminalCapabilities _AdditionalTerminalCapabilities;
     private readonly TransactionReferenceCurrencyCode _TransactionReferenceCurrencyCode;
     private readonly TransactionReferenceCurrencyExponent _TransactionReferenceCurrencyExponent;
+    private readonly PoiInformation _PoiInformation;
+    private readonly LanguagePreference _LanguagePreference;
+    private readonly TransactionCurrencyCode _TransactionCurrencyCode;
+
+    // BUG: TerminalRiskManagementData is transient per transaction. This should live with the transaction session, not the terminal configuration
+    private readonly TerminalRiskManagementData _TerminalRiskManagementData;
+    private readonly DataStorageRequestedOperatorId _DataStorageRequestedOperatorId;
     private readonly Probability _BiasedRandomSelectionProbability;
     private readonly Probability _RandomSelectionTargetProbability;
 
@@ -49,12 +48,10 @@ public abstract record TerminalConfiguration
     #region Constructor
 
     protected TerminalConfiguration(
-        TerminalIdentification terminalIdentification, MerchantIdentifier merchantIdentifier,
-        InterfaceDeviceSerialNumber interfaceDeviceSerialNumber, TransactionCurrencyCode transactionCurrencyCode,
-        TerminalCapabilities terminalCapabilities, TerminalFloorLimit terminalFloorLimit, TerminalType terminalType,
-        TerminalCountryCode terminalCountryCode, MerchantCategoryCode merchantCategoryCode, LanguagePreference languagePreference,
-        ApplicationVersionNumberReader applicationVersionNumberReader, MerchantNameAndLocation merchantNameAndLocation,
-        TerminalRiskManagementData terminalRiskManagementData, Probability biasedRandomSelectionProbability,
+        TerminalIdentification terminalIdentification, MerchantIdentifier merchantIdentifier, InterfaceDeviceSerialNumber interfaceDeviceSerialNumber,
+        TransactionCurrencyCode transactionCurrencyCode, TerminalCapabilities terminalCapabilities, TerminalFloorLimit terminalFloorLimit,
+        TerminalType terminalType, TerminalCountryCode terminalCountryCode, MerchantCategoryCode merchantCategoryCode, LanguagePreference languagePreference,
+        MerchantNameAndLocation merchantNameAndLocation, TerminalRiskManagementData terminalRiskManagementData, Probability biasedRandomSelectionProbability,
         Probability randomSelectionTargetProbability, ulong thresholdValueForBiasedRandomSelection, PoiInformation poiInformation,
         AdditionalTerminalCapabilities additionalTerminalCapabilities, TransactionReferenceCurrencyCode transactionReferenceCurrencyCode,
         TransactionReferenceCurrencyExponent transactionReferenceCurrencyExponent, AcquirerIdentifier acquirerIdentifier,
@@ -70,7 +67,6 @@ public abstract record TerminalConfiguration
         _LanguagePreference = languagePreference;
         _MerchantIdentifier = merchantIdentifier;
         _InterfaceDeviceSerialNumber = interfaceDeviceSerialNumber;
-        _ApplicationVersionNumberReader = applicationVersionNumberReader;
         _MerchantNameAndLocation = merchantNameAndLocation;
         _TerminalRiskManagementData = terminalRiskManagementData;
         _BiasedRandomSelectionProbability = biasedRandomSelectionProbability;
@@ -93,7 +89,6 @@ public abstract record TerminalConfiguration
         _TagLengthValues.Add(_LanguagePreference);
         _TagLengthValues.Add(_MerchantIdentifier);
         _TagLengthValues.Add(_InterfaceDeviceSerialNumber);
-        _TagLengthValues.Add(_ApplicationVersionNumberReader);
         _TagLengthValues.Add(_MerchantNameAndLocation);
         _TagLengthValues.Add(_TerminalRiskManagementData);
         _TagLengthValues.Add(_PoiInformation);
@@ -118,11 +113,9 @@ public abstract record TerminalConfiguration
     // HACK: This is not implemented. Find how we're supposed to store the random and biased percentages and biased threshold value
     public TerminalRiskConfiguration GetTerminalRiskConfiguration(CultureProfile culture) =>
         new(culture, _TerminalRiskManagementData, _BiasedRandomSelectionProbability,
-            new Money(_ThresholdValueForBiasedRandomSelection, culture.GetNumericCurrencyCode()), _RandomSelectionTargetProbability,
-            _TerminalFloorLimit);
+            new Money(_ThresholdValueForBiasedRandomSelection, culture.GetNumericCurrencyCode()), _RandomSelectionTargetProbability, _TerminalFloorLimit);
 
     public MerchantNameAndLocation GetMerchantNameAndLocation() => _MerchantNameAndLocation;
-    public ApplicationVersionNumberReader AsApplicationVersionNumberTerminal() => _ApplicationVersionNumberReader;
     public TagLengthValue[] AsTagLengthValues() => _TagLengthValues.ToArray();
     public MerchantCategoryCode GetMerchantCategoryCode() => _MerchantCategoryCode;
     public TransactionCurrencyCode GetTransactionCurrencyCode() => _TransactionCurrencyCode;

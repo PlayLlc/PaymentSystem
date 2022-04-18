@@ -1,38 +1,17 @@
-﻿using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders;
-
-namespace Play.Testing.Emv.Contactless.AutoFixture;
+﻿namespace Play.Testing.Emv.Contactless.AutoFixture;
 
 public class ContactlessEmvSpecimenBuilderFactory : SpecimenBuilderFactory
 {
     #region Constructor
 
-    public ContactlessEmvSpecimenBuilderFactory() : base(SetupSpecimenBuilders())
+    public ContactlessEmvSpecimenBuilderFactory() : base(CreateSpecimenBuilders())
     { }
 
     #endregion
 
     #region Instance Members
 
-    private static List<SpecimenBuilder> SetupSpecimenBuilders() =>
-        new()
-        {
-            new RegisteredApplicationProviderIndicatorSpecimenBuilder(),
-            new AlternateInterfacePreferenceOutcomeBuilder(),
-            new CvmPerformedOutcomeBuilder(),
-            new OnlineResponseOutcomeBuilder(),
-            new PinBlockBuilder(),
-            new SdsSchemeIndicatorBuilder(),
-            new StartOutcomeBuilder(),
-            new StatusBuilder(),
-            new StatusOutcomeBuilder(),
-            new TerminalCategoryCodeBuilder(),
-            new ValueQualifierBuilder(),
-            new TransactionTypeBuilder(),
-            new CvmRuleBuilder(),
-            new MessageOnErrorIdentifiersBuilder(),
-            new MessageTableEntryBuilder(),
-            new TerminalVerificationResultCodesBuilder()
-        };
+    private static List<SpecimenBuilder> CreateSpecimenBuilders() => EmvSpecimenBuilderFactory.CreateSpecimenBuilders();
 
     #endregion
 }

@@ -28,6 +28,7 @@ public class ContactlessEmvFixture : CustomFixture
     protected override void SetupCustomConstructors(SpecimenBuilderFactory factory)
     {
         factory.Build(RegisteredApplicationProviderIndicatorSpecimenBuilder.Id);
+        factory.Build(CertificateSerialNumberBuilder.Id);
         factory.Build(Emv.AlternateInterfacePreferenceOutcomeBuilder.Id);
         factory.Build(Emv.CvmPerformedOutcomeBuilder.Id);
         factory.Build(Emv.OnlineResponseOutcomeBuilder.Id);

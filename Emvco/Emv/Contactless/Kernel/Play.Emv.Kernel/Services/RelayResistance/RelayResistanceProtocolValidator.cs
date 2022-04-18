@@ -76,18 +76,15 @@ internal class RelayResistanceProtocolValidator
     private MeasuredRelayResistanceProcessingTime CalculateMeasuredRrpTime(Seconds timeElapsed, IReadTlvDatabase tlvDatabase)
     {
         TerminalExpectedTransmissionTimeForRelayResistanceCapdu terminalExpectedCapduTransmissionTime =
-            (TerminalExpectedTransmissionTimeForRelayResistanceCapdu) tlvDatabase.Get(
-                TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Tag);
+            (TerminalExpectedTransmissionTimeForRelayResistanceCapdu) tlvDatabase.Get(TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Tag);
 
         TerminalExpectedTransmissionTimeForRelayResistanceRapdu terminalExpectedRapduTransmissionTime =
-            (TerminalExpectedTransmissionTimeForRelayResistanceRapdu) tlvDatabase.Get(
-                TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Tag);
+            (TerminalExpectedTransmissionTimeForRelayResistanceRapdu) tlvDatabase.Get(TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Tag);
         DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceExpectedRapduTransmissionTime =
-            (DeviceEstimatedTransmissionTimeForRelayResistanceRapdu) tlvDatabase.Get(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu
-                .Tag);
+            (DeviceEstimatedTransmissionTimeForRelayResistanceRapdu) tlvDatabase.Get(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag);
 
-        MeasuredRelayResistanceProcessingTime processingTime = MeasuredRelayResistanceProcessingTime.Create(timeElapsed,
-            terminalExpectedCapduTransmissionTime, terminalExpectedRapduTransmissionTime, deviceExpectedRapduTransmissionTime);
+        MeasuredRelayResistanceProcessingTime processingTime = MeasuredRelayResistanceProcessingTime.Create(timeElapsed, terminalExpectedCapduTransmissionTime,
+            terminalExpectedRapduTransmissionTime, deviceExpectedRapduTransmissionTime);
 
         return processingTime;
     }
@@ -100,8 +97,7 @@ internal class RelayResistanceProtocolValidator
     {
         MinTimeForProcessingRelayResistanceApdu minTimeForProcessingRelayResistanceApdu =
             (MinTimeForProcessingRelayResistanceApdu) tlvDatabase.Get(MinTimeForProcessingRelayResistanceApdu.Tag);
-        MinimumRelayResistanceGracePeriod minGracePeriod =
-            (MinimumRelayResistanceGracePeriod) tlvDatabase.Get(MinimumRelayResistanceGracePeriod.Tag);
+        MinimumRelayResistanceGracePeriod minGracePeriod = (MinimumRelayResistanceGracePeriod) tlvDatabase.Get(MinimumRelayResistanceGracePeriod.Tag);
 
         RelaySeconds expectedProcessingTime = (RelaySeconds) minTimeForProcessingRelayResistanceApdu - (RelaySeconds) minGracePeriod;
 

@@ -2,7 +2,6 @@
 using Play.Emv.Acquirer.Contracts.SignalIn;
 using Play.Emv.Acquirer.Contracts.SignalOut;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums.Interchange;
 using Play.Emv.Configuration;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
@@ -43,10 +42,10 @@ internal class Idle : TerminalState
     #region Constructor
 
     public Idle(
-        DataExchangeTerminalService dataExchangeTerminalService, TerminalConfiguration terminalConfiguration,
-        IGetTerminalState terminalStateResolver, ISettlementReconciliationService settlementReconciliationService,
-        IGenerateSequenceTraceAuditNumbers sequenceGenerator, IHandleAcquirerRequests acquirerEndpoint,
-        IHandleTerminalRequests terminalEndpoint, IHandleReaderRequests readerEndpoint) : base(dataExchangeTerminalService)
+        DataExchangeTerminalService dataExchangeTerminalService, TerminalConfiguration terminalConfiguration, IGetTerminalState terminalStateResolver,
+        ISettlementReconciliationService settlementReconciliationService, IGenerateSequenceTraceAuditNumbers sequenceGenerator,
+        IHandleAcquirerRequests acquirerEndpoint, IHandleTerminalRequests terminalEndpoint, IHandleReaderRequests readerEndpoint) : base(
+        dataExchangeTerminalService)
     {
         _TerminalConfiguration = terminalConfiguration;
         _TerminalStateResolver = terminalStateResolver;
@@ -65,8 +64,7 @@ internal class Idle : TerminalState
 
     public override TerminalState Handle(TerminalSession? session, InitiateSettlementRequest signal)
     {
-        AcquirerMessageFactory settlementRequestFactory =
-            _AcquirerEndpoint.GetMessageFactory((ushort) ReconciliationRequestSignal.MessageTypeIndicator);
+        AcquirerMessageFactory settlementRequestFactory = _AcquirerEndpoint.GetMessageFactory((ushort) ReconciliationRequestSignal.MessageTypeIndicator);
 
         AcquirerRequestSignal settlementRequest =
             _SettlementReconciliationService.CreateSettlementRequest(settlementRequestFactory, signal.SettlementRequestDateTimeUtc);
@@ -94,8 +92,7 @@ internal class Idle : TerminalState
     /// <param name="signal"></param>
     /// <returns></returns>
     /// <exception cref="RequestOutOfSyncException"></exception>
-    public override TerminalState Handle(TerminalSession session, OutReaderResponse signal) =>
-        throw new RequestOutOfSyncException(signal, TerminalChannel.Id);
+    public override TerminalState Handle(TerminalSession session, OutReaderResponse signal) => throw new RequestOutOfSyncException(signal, TerminalChannel.Id);
 
     /// <summary>
     ///     Handle

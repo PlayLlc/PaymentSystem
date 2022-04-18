@@ -20,9 +20,9 @@ internal class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
     #region Constructor
 
     public DecodedIssuerPublicKeyCertificate(
-        CertificateSerialNumber certificateSerialNumber, HashAlgorithmIndicator hashAlgorithmIndicator,
-        PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator, DateRange validityPeriod, PublicKeyInfo publicKeyInfo) : base(
-        certificateSerialNumber, hashAlgorithmIndicator, publicKeyAlgorithmIndicator, validityPeriod, publicKeyInfo)
+        CertificateSerialNumber certificateSerialNumber, HashAlgorithmIndicator hashAlgorithmIndicator, PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator,
+        DateRange validityPeriod, PublicKeyInfo publicKeyInfo) : base(certificateSerialNumber, hashAlgorithmIndicator, publicKeyAlgorithmIndicator,
+        validityPeriod, publicKeyInfo)
     { }
 
     #endregion
@@ -52,19 +52,15 @@ internal class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
         PublicKeyModulus publicKeyModulus = GetPublicKeyModulus(caPublicKeyCertificate, decodedSignature, issuerRemainder);
         PublicKeyInfo publicKeyInfo = new(publicKeyModulus, issuerExponent.AsPublicKeyExponent());
 
-        return new DecodedIssuerPublicKeyCertificate(serialNumber, hashAlgorithm, publicKeyAlgorithmIndicator, validityPeriod,
-            publicKeyInfo);
+        return new DecodedIssuerPublicKeyCertificate(serialNumber, hashAlgorithm, publicKeyAlgorithmIndicator, validityPeriod, publicKeyInfo);
     }
 
     internal static HashAlgorithmIndicator GetHashAlgorithmIndicator(Message1 message1) => HashAlgorithmIndicator.Get(message1[11]);
     private static CertificateSerialNumber GetCertificateSerialNumber(Message1 message1) => new(message1[new Range(7, 10)]);
-
-    internal static PublicKeyAlgorithmIndicator GetPublicKeyAlgorithmIndicator(Message1 message1) =>
-        PublicKeyAlgorithmIndicator.Get(message1[12]);
+    internal static PublicKeyAlgorithmIndicator GetPublicKeyAlgorithmIndicator(Message1 message1) => PublicKeyAlgorithmIndicator.Get(message1[12]);
 
     /// <exception cref="CodecParsingException"></exception>
-    internal static ShortDate GetCertificateExpirationDate(Message1 message1) =>
-        new(PlayCodec.NumericCodec.DecodeToUInt16(message1[new Range(5, 7)]));
+    internal static ShortDate GetCertificateExpirationDate(Message1 message1) => new(PlayCodec.NumericCodec.DecodeToUInt16(message1[new Range(5, 7)]));
 
     private static bool IsIssuerPublicKeySplit(CaPublicKeyCertificate caPublicKeyCertificate, Message1 message1) =>
         GetIssuerPublicKeyLength(message1) > caPublicKeyCertificate.GetPublicKeyModulus().GetByteCount();
@@ -85,8 +81,7 @@ internal class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
         {
             if (remainder.IsEmpty())
             {
-                throw new CryptographicAuthenticationMethodFailedException(
-                    $"A {nameof(PublicKeyRemainder)} was expected but could not be retrieved");
+                throw new CryptographicAuthenticationMethodFailedException($"A {nameof(PublicKeyRemainder)} was expected but could not be retrieved");
             }
 
             Span<byte> modulusBuffer = stackalloc byte[GetIssuerPublicKeyLength(decodedSignature.GetMessage1())];

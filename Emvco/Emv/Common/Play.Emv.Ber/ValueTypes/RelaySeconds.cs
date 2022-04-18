@@ -3,7 +3,8 @@
 namespace Play.Emv.Ber;
 
 /// <summary>
-///     A <see cref="RelaySecond" /> is a unit of time equal to 100 microseconds. It's used along with the Relay Resistance
+///     A <see cref="RelaySeconds" /> is a unit of time equal to 100 microseconds. It's used along with the Relay
+///     Resistance
 ///     Protocol to to help ensure that a 'Relay Attack' is not taking place
 /// </summary>
 public readonly record struct RelaySeconds

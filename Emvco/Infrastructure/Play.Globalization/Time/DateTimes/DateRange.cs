@@ -13,6 +13,7 @@ public readonly struct DateRange
 
     #region Constructor
 
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public DateRange(ShortDate activationDate, ShortDate expiryDate)
     {
         if (activationDate > expiryDate)

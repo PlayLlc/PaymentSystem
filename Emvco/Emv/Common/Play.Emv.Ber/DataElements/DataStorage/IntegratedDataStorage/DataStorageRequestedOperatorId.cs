@@ -7,7 +7,7 @@ using Play.Emv.Ber.Exceptions;
 namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
-///     Contains the Terminal determined operator identifier for data  storage. It is sent to the Card in the GET
+///     Contains the Terminal determined operator identifier for data storage. It is sent to the Card in the GET
 ///     PROCESSING  OPTIONS command.
 /// </summary>
 public record DataStorageRequestedOperatorId : DataElement<ulong>

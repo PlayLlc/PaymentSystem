@@ -28,6 +28,7 @@ public class EmvFixture : CustomFixture
     protected override void SetupCustomConstructors(SpecimenBuilderFactory factory)
     {
         factory.Build(RegisteredApplicationProviderIndicatorSpecimenBuilder.Id);
+        factory.Build(CertificateSerialNumberBuilder.Id);
         factory.Build(AlternateInterfacePreferenceOutcomeBuilder.Id);
         factory.Build(CvmPerformedOutcomeBuilder.Id);
         factory.Build(OnlineResponseOutcomeBuilder.Id);

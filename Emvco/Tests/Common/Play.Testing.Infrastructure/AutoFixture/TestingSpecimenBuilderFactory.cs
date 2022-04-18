@@ -7,18 +7,18 @@ namespace Play.Testing.Infrastructure.AutoFixture;
 /// <summary>
 ///     A builder that builds a list of custom <see cref="ISpecimenBuilder" /> implementations
 /// </summary>
-internal class TestingSpecimenBuilderFactory : SpecimenBuilderFactory
+public class TestingSpecimenBuilderFactory : SpecimenBuilderFactory
 {
     #region Constructor
 
-    public TestingSpecimenBuilderFactory() : base(SetupSpecimenBuilders())
+    public TestingSpecimenBuilderFactory() : base(CreateSpecimenBuilders())
     { }
 
     #endregion
 
     #region Instance Members
 
-    private static List<SpecimenBuilder> SetupSpecimenBuilders() => new() {new RegisteredApplicationProviderIndicatorSpecimenBuilder()};
+    public static List<SpecimenBuilder> CreateSpecimenBuilders() => new List<SpecimenBuilder> {new RegisteredApplicationProviderIndicatorSpecimenBuilder()};
 
     #endregion
 }

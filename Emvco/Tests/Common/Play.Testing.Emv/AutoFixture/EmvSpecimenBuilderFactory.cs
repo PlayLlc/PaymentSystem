@@ -1,24 +1,29 @@
-﻿using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders;
+﻿using Play.Testing.Infrastructure.AutoFixture;
 
 namespace Play.Testing.Emv;
 
-internal class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
+public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
 {
     #region Constructor
 
-    public EmvSpecimenBuilderFactory() : base(SetupSpecimenBuilders())
+    public EmvSpecimenBuilderFactory() : base(CreateSpecimenBuilders())
     { }
 
     #endregion
 
     #region Instance Members
 
-    private static List<SpecimenBuilder> SetupSpecimenBuilders() =>
-        new()
+    public static List<SpecimenBuilder> CreateSpecimenBuilders()
+    {
+        List<SpecimenBuilder> downStreamBuilders = TestingSpecimenBuilderFactory.CreateSpecimenBuilders();
+        List<SpecimenBuilder> currentModuleBuilders = new()
         {
-            new RegisteredApplicationProviderIndicatorSpecimenBuilder(),
             new AlternateInterfacePreferenceOutcomeBuilder(),
+            new CertificateSerialNumberBuilder(),
             new CvmPerformedOutcomeBuilder(),
+            new CvmRuleBuilder(),
+            new MessageOnErrorIdentifiersBuilder(),
+            new MessageTableEntryBuilder(),
             new OnlineResponseOutcomeBuilder(),
             new PinBlockBuilder(),
             new SdsSchemeIndicatorBuilder(),
@@ -26,13 +31,13 @@ internal class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
             new StatusBuilder(),
             new StatusOutcomeBuilder(),
             new TerminalCategoryCodeBuilder(),
-            new ValueQualifierBuilder(),
+            new TerminalVerificationResultCodesBuilder(),
             new TransactionTypeBuilder(),
-            new CvmRuleBuilder(),
-            new MessageOnErrorIdentifiersBuilder(),
-            new MessageTableEntryBuilder(),
-            new TerminalVerificationResultCodesBuilder()
+            new ValueQualifierBuilder()
         };
+
+        return downStreamBuilders.Union(currentModuleBuilders).ToList();
+    }
 
     #endregion
 }

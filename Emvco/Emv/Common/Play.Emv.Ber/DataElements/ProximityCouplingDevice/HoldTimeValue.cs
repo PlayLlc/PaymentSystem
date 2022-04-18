@@ -10,7 +10,7 @@ namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
 ///     Indicates the time that the field is to be turned off after the transaction is completed if requested to do so by
-///     the  cardholder device
+///     the cardholder device
 /// </summary>
 public record HoldTimeValue : DataElement<Deciseconds>, IEqualityComparer<HoldTimeValue>
 {

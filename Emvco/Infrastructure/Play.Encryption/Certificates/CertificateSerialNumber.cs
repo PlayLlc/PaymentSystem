@@ -1,11 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Numerics;
-
-using Microsoft.Toolkit.HighPerformance.Buffers;
+﻿using Play.Codecs;
 
 namespace Play.Encryption.Certificates;
 
-public readonly struct CertificateSerialNumber
+public readonly record struct CertificateSerialNumber
 {
     #region Static Metadata
 
@@ -15,7 +12,7 @@ public readonly struct CertificateSerialNumber
 
     #region Instance Values
 
-    private readonly BigInteger _Value;
+    private readonly uint _Value;
 
     #endregion
 
@@ -25,63 +22,17 @@ public readonly struct CertificateSerialNumber
     public CertificateSerialNumber(ReadOnlySpan<byte> value)
     {
         if (value.Length != _ByteCount)
-        {
-            throw new ArgumentOutOfRangeException(nameof(value),
-                $"{nameof(CertificateSerialNumber)} was expecting a value with {_ByteCount} bytes");
-        }
+            throw new ArgumentOutOfRangeException(nameof(value), $"{nameof(CertificateSerialNumber)} was expecting a value with {_ByteCount} bytes");
 
-        _Value = new BigInteger(value.ToArray());
+        _Value = PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(value);
     }
 
     #endregion
 
     #region Instance Members
 
-    public BigInteger AsBigInteger() => _Value;
-    public byte[] AsByteArray() => _Value.ToByteArray();
-    public int GetByteCount() => _Value.GetByteCount();
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(CertificateSerialNumber other)
-    {
-        if (GetByteCount() != other.GetByteCount())
-            return false;
-
-        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(GetByteCount());
-
-        ReadOnlySpan<byte> thisBuffer = AsByteArray();
-        ReadOnlySpan<byte> otherBuffer = other.AsByteArray();
-
-        for (int i = 0; i < GetByteCount(); i++)
-        {
-            if (thisBuffer[i] != otherBuffer[i])
-                return false;
-        }
-
-        return true;
-    }
-
-    public bool Equals(CertificateSerialNumber x, CertificateSerialNumber y) => x.Equals(y);
-
-    public override bool Equals([AllowNull] object obj) =>
-        obj is CertificateSerialNumber publicKeySerialNumber && Equals(publicKeySerialNumber);
-
-    public int GetHashCode(CertificateSerialNumber obj) => obj.GetHashCode();
-    public override int GetHashCode() => unchecked(85691 * _Value.GetHashCode());
-
-    #endregion
-
-    #region Operator Overrides
-
-    public static bool operator ==(CertificateSerialNumber left, CertificateSerialNumber right) => left._Value == right._Value;
-    public static bool operator >(CertificateSerialNumber left, CertificateSerialNumber right) => left._Value > right._Value;
-    public static bool operator >=(CertificateSerialNumber left, CertificateSerialNumber right) => left._Value >= right._Value;
-    public static bool operator !=(CertificateSerialNumber left, CertificateSerialNumber right) => !(left == right);
-    public static bool operator <(CertificateSerialNumber left, CertificateSerialNumber right) => left._Value < right._Value;
-    public static bool operator <=(CertificateSerialNumber left, CertificateSerialNumber right) => left._Value <= right._Value;
+    public byte[] Encode() => PlayCodec.UnsignedIntegerCodec.Encode(_Value);
+    public int GetByteCount() => _ByteCount;
 
     #endregion
 }

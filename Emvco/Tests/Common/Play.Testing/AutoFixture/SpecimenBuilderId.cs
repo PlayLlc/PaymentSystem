@@ -14,7 +14,16 @@ public readonly record struct SpecimenBuilderId
 
     public SpecimenBuilderId(ReadOnlySpan<char> value)
     {
-        _Value = PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(PlayCodec.UnicodeCodec.Encode(value));
+        const uint hash = 13;
+        uint result = 0;
+
+        unchecked
+        {
+            foreach (byte encoding in PlayCodec.UnicodeCodec.Encode(value))
+                result += encoding * hash;
+        }
+
+        _Value = result;
     }
 
     #endregion

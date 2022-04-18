@@ -2,9 +2,7 @@
 using System.Threading;
 
 using Play.Ber.Exceptions;
-using Play.Codecs;
 using Play.Codecs.Exceptions;
-using Play.Core;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;

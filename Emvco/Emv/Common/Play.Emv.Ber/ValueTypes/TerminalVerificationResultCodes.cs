@@ -47,46 +47,35 @@ public record TerminalVerificationResultCodes : EnumObject<TerminalVerificationR
 
     static TerminalVerificationResultCodes()
     {
-        ulong a = ((ulong) 0).SetBit(30);
         ApplicationNotYetEffective = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(30)));
         CardAppearsOnTerminalExceptionFile = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(37)));
-        CardholderVerificationWasNotSuccessful =
-            new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(24)));
+        CardholderVerificationWasNotSuccessful = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(24)));
         CombinationDataAuthenticationFailed = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(35)));
-        DefaultTransactionCertificateDataObjectListUsed =
-            new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(8)));
+        DefaultTransactionCertificateDataObjectListUsed = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(8)));
         DynamicDataAuthenticationFailed = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(36)));
         ExpiredApplication = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(31)));
-        IccAndTerminalHaveDifferentApplicationVersions =
-            new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(32)));
+        IccAndTerminalHaveDifferentApplicationVersions = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(32)));
         IccDataMissing = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(38)));
         IssuerAuthenticationFailed = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(7)));
         LowerConsecutiveOfflineLimitExceeded = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(15)));
         MerchantForcedTransactionOnline = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(12)));
         NewCard = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(28)));
-        OfflineDataAuthenticationWasNotPerformed =
-            new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(40)));
+        OfflineDataAuthenticationWasNotPerformed = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(40)));
         OnlinePinEntered = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(19)));
-        PinEntryRequiredAndPinPadNotPresentOrNotWorking =
-            new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(21)));
-        PinEntryRequiredPinPadPresentButPinWasNotEntered =
-            new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(20)));
+        PinEntryRequiredAndPinPadNotPresentOrNotWorking = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(21)));
+        PinEntryRequiredPinPadPresentButPinWasNotEntered = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(20)));
         PinTryLimitExceeded = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(22)));
         RelayResistanceThresholdExceeded = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(4)));
         RelayResistanceTimeLimitsExceeded = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(3)));
         RelayResistancePerformed = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(2)));
         RelayResistanceNotPerformed = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(1)));
 
-        RequestedServiceNotAllowedForCardProduct =
-            new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(29)));
-        ScriptProcessingFailedAfterFinalGenerateAc =
-            new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(5)));
-        ScriptProcessingFailedBeforeFinalGenerateAc =
-            new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(6)));
+        RequestedServiceNotAllowedForCardProduct = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(29)));
+        ScriptProcessingFailedAfterFinalGenerateAc = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(5)));
+        ScriptProcessingFailedBeforeFinalGenerateAc = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(6)));
         StaticDataAuthenticationFailed = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(39)));
         TransactionExceedsFloorLimit = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(16)));
-        TransactionSelectedRandomlyForOnlineProcessing =
-            new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(13)));
+        TransactionSelectedRandomlyForOnlineProcessing = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(13)));
         UnrecognizedCvm = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(23)));
         UpperConsecutiveOfflineLimitExceeded = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(14)));
 

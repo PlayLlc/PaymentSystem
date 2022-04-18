@@ -1,5 +1,4 @@
 ﻿using Play.Emv.Acquirer.Contracts;
-using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Identifiers;
 using Play.Emv.Outcomes;
@@ -21,8 +20,7 @@ public class TerminalSession
 
     #region Constructor
 
-    public TerminalSession(
-        SystemTraceAuditNumber systemTraceAuditNumber, MessageTypeIndicator messageTypeIndicator, Transaction transaction)
+    public TerminalSession(SystemTraceAuditNumber systemTraceAuditNumber, MessageTypeIndicator messageTypeIndicator, Transaction transaction)
     {
         SystemTraceAuditNumber = systemTraceAuditNumber;
         MessageTypeIndicator = messageTypeIndicator;

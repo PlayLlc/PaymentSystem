@@ -6,7 +6,8 @@ using System.Linq;
 
 namespace Play.Globalization.Currency;
 
-internal static class CurrencyCodeRepository
+// HACK: That's a lot of memory. Let's make sure we're using values from the database and not storing these values in code. A Terminal will pull the globalization configuration directly from the database so this is only for testing and stuff
+public static class CurrencyCodeRepository
 {
     #region Static Metadata
 
@@ -20,7 +21,7 @@ internal static class CurrencyCodeRepository
 
     static CurrencyCodeRepository()
     {
-        List<Currency> mapper = GetCurrencyCodes(GetFormatMap());
+        List<Currency> mapper = CreateCurrencyCodes(GetFormatMap());
 
         _NumericCurrencyMap = mapper.ToImmutableSortedDictionary(a => a.GetNumericCode(), b => b);
         _Alpha3CurrencyMap = mapper.ToImmutableSortedDictionary(a => a.GetAlpha3Code(), b => b);
@@ -35,14 +36,12 @@ internal static class CurrencyCodeRepository
 
     private static Dictionary<string, NumberFormatInfo> GetFormatMap()
     {
-        return CultureInfo.GetCultures(CultureTypes.AllCultures).Where(x => !x.Equals(CultureInfo.InvariantCulture))
-            .Where(x => !x.IsNeutralCulture).DistinctBy(a => new RegionInfo(a.LCID).ISOCurrencySymbol)
-            .ToDictionary(a => new RegionInfo(a.LCID).ISOCurrencySymbol, b => b.NumberFormat);
+        return CultureInfo.GetCultures(CultureTypes.AllCultures).Where(x => !x.Equals(CultureInfo.InvariantCulture)).Where(x => !x.IsNeutralCulture)
+            .DistinctBy(a => new RegionInfo(a.LCID).ISOCurrencySymbol).ToDictionary(a => new RegionInfo(a.LCID).ISOCurrencySymbol, b => b.NumberFormat);
     }
 
     /// <exception cref="InvalidOperationException"></exception>
-    public static Currency ResolveCurrency(
-        ushort numericCurrencyCode, string alpha3CurrencyCode, Dictionary<string, NumberFormatInfo> formatMap)
+    public static Currency ResolveCurrency(ushort numericCurrencyCode, string alpha3CurrencyCode, Dictionary<string, NumberFormatInfo> formatMap)
     {
         // We're throwing here because there's adding and subtracting we have to do when processing transactions
         // so we need to make sure we only include currencies when we're able to determine their precision
@@ -53,7 +52,7 @@ internal static class CurrencyCodeRepository
             formatMap[alpha3CurrencyCode].CurrencySymbol, formatMap[alpha3CurrencyCode].CurrencyDecimalDigits);
     }
 
-    private static List<Currency> GetCurrencyCodes(Dictionary<string, NumberFormatInfo> formatMap) =>
+    private static List<Currency> CreateCurrencyCodes(Dictionary<string, NumberFormatInfo> formatMap) =>
         new()
         {
             ResolveCurrency(971, "AFN", formatMap),
@@ -284,10 +283,7 @@ internal static class CurrencyCodeRepository
     public static bool IsValid(ReadOnlySpan<char> alpha3Code)
     {
         if (alpha3Code.Length != 3)
-        {
-            throw new ArgumentOutOfRangeException(nameof(alpha3Code),
-                $"The argument {nameof(alpha3Code)} must be three characters in length");
-        }
+            throw new ArgumentOutOfRangeException(nameof(alpha3Code), $"The argument {nameof(alpha3Code)} must be three characters in length");
 
         _Buffer[0] = alpha3Code[0];
         _Buffer[1] = alpha3Code[1];

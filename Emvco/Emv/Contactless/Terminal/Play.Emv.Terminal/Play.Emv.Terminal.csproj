@@ -7,10 +7,13 @@
 
   <ItemGroup>
     <Compile Remove="Configuration\Merchant\**" />
+    <Compile Remove="Configuration\Transaction\**" />
     <Compile Remove="Outcomes\**" />
     <EmbeddedResource Remove="Configuration\Merchant\**" />
+    <EmbeddedResource Remove="Configuration\Transaction\**" />
     <EmbeddedResource Remove="Outcomes\**" />
     <None Remove="Configuration\Merchant\**" />
+    <None Remove="Configuration\Transaction\**" />
     <None Remove="Outcomes\**" />
   </ItemGroup>
 
@@ -19,10 +22,6 @@
     <ProjectReference Include="..\..\Kernel\Play.Emv.Kernel.Contracts\Play.Emv.Kernel.Contracts.csproj" />
     <ProjectReference Include="..\..\Reader\Play.Emv.Reader.Contracts\Play.Emv.Reader.Contracts.csproj" />
     <ProjectReference Include="..\Play.Emv.Terminal.Contracts\Play.Emv.Terminal.Contracts.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Configuration\Transaction\" />
   </ItemGroup>
 
 </Project>

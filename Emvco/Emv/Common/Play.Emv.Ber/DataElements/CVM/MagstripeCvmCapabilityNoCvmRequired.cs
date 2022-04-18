@@ -11,7 +11,7 @@ public record MagstripeCvmCapabilityNoCvmRequired : DataElement<byte>
     #region Static Metadata
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
-    public static readonly Tag Tag = 0xDF811E;
+    public static readonly Tag Tag = 0xDF812C;
     private const byte _ByteLength = 1;
 
     #endregion

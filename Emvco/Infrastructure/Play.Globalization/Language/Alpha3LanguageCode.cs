@@ -27,6 +27,7 @@ public readonly struct Alpha3LanguageCode
 
     #region Constructor
 
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public Alpha3LanguageCode(ReadOnlySpan<byte> value)
     {
         CheckCore.ForExactLength(value, 3, nameof(value));
@@ -42,6 +43,7 @@ public readonly struct Alpha3LanguageCode
         _ThirdChar = value[2];
     }
 
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public Alpha3LanguageCode(ReadOnlySpan<char> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -72,10 +74,7 @@ public readonly struct Alpha3LanguageCode
     #region Equality
 
     public override bool Equals(object? obj) => obj is Alpha3LanguageCode languageCode && Equals(languageCode);
-
-    public bool Equals(Alpha3LanguageCode other) =>
-        (_FirstChar == other._FirstChar) && (_SecondChar == other._SecondChar) && (_ThirdChar == other._ThirdChar);
-
+    public bool Equals(Alpha3LanguageCode other) => (_FirstChar == other._FirstChar) && (_SecondChar == other._SecondChar) && (_ThirdChar == other._ThirdChar);
     public bool Equals(Alpha3LanguageCode x, Alpha3LanguageCode y) => x.Equals(y);
 
     public override int GetHashCode()

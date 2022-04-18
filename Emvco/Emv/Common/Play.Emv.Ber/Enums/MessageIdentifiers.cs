@@ -186,9 +186,7 @@ public record MessageIdentifiers : EnumObject<byte>
     #region Instance Members
 
     public static MessageIdentifiers[] GetAll() => _ValueObjectMap.Values.ToArray();
-
-    public static MessageIdentifiers Get(byte value) =>
-        _ValueObjectMap.TryGetValue(value, out MessageIdentifiers? result) ? result : NotAvailable;
+    public static MessageIdentifiers Get(byte value) => _ValueObjectMap.TryGetValue(value, out MessageIdentifiers? result) ? result : NotAvailable;
 
     public static MessageIdentifiers Get(MessageIdentifier value) =>
         _ValueObjectMap.TryGetValue((byte) value, out MessageIdentifiers? result) ? result : NotAvailable;
@@ -198,6 +196,7 @@ public record MessageIdentifiers : EnumObject<byte>
     #region Operator Overrides
 
     public static explicit operator BigInteger(MessageIdentifiers value) => value._Value;
+    public static implicit operator MessageIdentifier(MessageIdentifiers value) => new(value._Value);
 
     #endregion
 }

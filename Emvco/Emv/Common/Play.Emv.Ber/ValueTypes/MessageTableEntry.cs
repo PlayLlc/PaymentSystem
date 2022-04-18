@@ -35,6 +35,14 @@ public partial record MessageTableEntry
         _Status = new Status(value[7]);
     }
 
+    internal MessageTableEntry(PciiMask mask, PciiValue value, MessageIdentifier messageIdentifier, Status status)
+    {
+        _Mask = mask;
+        _Value = value;
+        _MessageIdentifier = messageIdentifier;
+        _Status = status;
+    }
+
     #endregion
 
     #region Instance Members

@@ -26,6 +26,7 @@ public readonly struct Alpha2LanguageCode
 
     #region Constructor
 
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public Alpha2LanguageCode(ReadOnlySpan<byte> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -41,6 +42,7 @@ public readonly struct Alpha2LanguageCode
         _SecondChar = value[1];
     }
 
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public Alpha2LanguageCode(ReadOnlySpan<char> value)
     {
         CheckCore.ForEmptySequence(value, nameof(value));
@@ -56,18 +58,17 @@ public readonly struct Alpha2LanguageCode
         _SecondChar = (byte) value[1];
     }
 
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public Alpha2LanguageCode(byte firstChar, byte secondChar)
     {
         if (!_AlphaNumericCodecCodec.IsValid(firstChar))
         {
-            throw new ArgumentOutOfRangeException(nameof(firstChar),
-                $"The argument {firstChar} was out of range of an alphabetic AsciiCodec value");
+            throw new ArgumentOutOfRangeException(nameof(firstChar), $"The argument {firstChar} was out of range of an alphabetic AsciiCodec value");
         }
 
         if (!_AlphaNumericCodecCodec.IsValid(secondChar))
         {
-            throw new ArgumentOutOfRangeException(nameof(firstChar),
-                $"The argument {firstChar} was out of range of an alphabetic AsciiCodec value");
+            throw new ArgumentOutOfRangeException(nameof(firstChar), $"The argument {firstChar} was out of range of an alphabetic AsciiCodec value");
         }
 
         _FirstChar = firstChar;

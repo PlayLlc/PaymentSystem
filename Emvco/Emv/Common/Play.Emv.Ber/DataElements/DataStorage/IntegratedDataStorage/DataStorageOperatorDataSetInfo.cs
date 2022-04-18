@@ -15,7 +15,7 @@ public record DataStorageOperatorDataSetInfo : DataElement<byte>
 {
     #region Static Metadata
 
-    public static readonly Tag Tag = 0x9F54;
+    public static readonly Tag Tag = 0xDF62;
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
     private const byte _ByteLength = 1;
 

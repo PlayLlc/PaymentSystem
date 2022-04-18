@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
 using Play.Core.Specifications;
 
-namespace Play.Core.Extensions.Spans;
+namespace Play.Core.Extensions;
 
-public static class SpanExtensions
+public static partial class SpanExtensions
 {
     #region Instance Members
 
