@@ -2,6 +2,7 @@
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -22,6 +23,12 @@ public record PostGenAcPutDataStatus : DataElement<byte>, IEqualityComparer<Post
 
     #endregion
 
+    #region Instance Values
+
+    public static PostGenAcPutDataStatus Completed { get; } = new(0b10000000);
+
+    #endregion
+
     #region Constructor
 
     public PostGenAcPutDataStatus(byte value) : base(value)
@@ -33,6 +40,7 @@ public record PostGenAcPutDataStatus : DataElement<byte>, IEqualityComparer<Post
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
+    public bool IsCompleted() => _Value.IsBitSet(Bits.Eight);
 
     #endregion
 
