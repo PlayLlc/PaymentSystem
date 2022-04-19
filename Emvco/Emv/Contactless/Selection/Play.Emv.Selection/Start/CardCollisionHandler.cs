@@ -1,6 +1,5 @@
 ﻿using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Outcomes;
 using Play.Emv.Pcd.Contracts;
@@ -59,7 +58,7 @@ public class CardCollisionHandler
     {
         UserInterfaceRequestData.Builder builder = UserInterfaceRequestData.GetBuilder();
         builder.Set(MessageIdentifiers.PleasePresentOneCardOnly);
-        builder.Set(Status.ReadyToRead);
+        builder.Set(Statuses.ReadyToRead);
         outcome.Update(builder);
 
         _ = outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData);
@@ -75,7 +74,7 @@ public class CardCollisionHandler
     {
         UserInterfaceRequestData.Builder builder = UserInterfaceRequestData.GetBuilder();
         builder.Set(MessageIdentifiers.PleasePresentOneCardOnly);
-        builder.Set(Status.ProcessingError);
+        builder.Set(Statuses.ProcessingError);
         outcome.Update(builder);
 
         _ = outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData);

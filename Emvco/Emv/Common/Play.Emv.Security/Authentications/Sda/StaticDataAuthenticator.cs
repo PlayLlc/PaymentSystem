@@ -30,19 +30,15 @@ internal class StaticDataAuthenticator
     #region Instance Members
 
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
-    public void Authenticate(
-        ITlvReaderAndWriter tlvDatabase, ICertificateDatabase certificateDatabase, StaticDataToBeAuthenticated staticDataToBeAuthenticated)
+    public void Authenticate(ITlvReaderAndWriter tlvDatabase, ICertificateDatabase certificateDatabase, StaticDataToBeAuthenticated staticDataToBeAuthenticated)
     {
         try
         {
-            DecodedIssuerPublicKeyCertificate recoveredIssuerCertificate =
-                _CertificateFactory.RecoverIssuerCertificate(tlvDatabase, certificateDatabase);
+            DecodedIssuerPublicKeyCertificate recoveredIssuerCertificate = _CertificateFactory.RecoverIssuerCertificate(tlvDatabase, certificateDatabase);
 
-            SignedStaticApplicationData signedStaticApplicationData =
-                tlvDatabase.Get<SignedStaticApplicationData>(SignedStaticApplicationData.Tag);
+            SignedStaticApplicationData signedStaticApplicationData = tlvDatabase.Get<SignedStaticApplicationData>(SignedStaticApplicationData.Tag);
 
-            ValidateStaticDataToBeAuthenticated(recoveredIssuerCertificate!, signedStaticApplicationData,
-                staticDataToBeAuthenticated.Encode());
+            ValidateStaticDataToBeAuthenticated(recoveredIssuerCertificate!, signedStaticApplicationData, staticDataToBeAuthenticated.Encode());
         }
         catch (TerminalDataException)
         {
@@ -70,8 +66,7 @@ internal class StaticDataAuthenticator
     {
         try
         {
-            TerminalVerificationResults terminalVerificationResults =
-                database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
+            TerminalVerificationResults terminalVerificationResults = database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
 
             TerminalVerificationResults.Builder tvrBuilder = TerminalVerificationResults.GetBuilder();
             tvrBuilder.Reset(terminalVerificationResults);
@@ -92,8 +87,7 @@ internal class StaticDataAuthenticator
         DecodedIssuerPublicKeyCertificate decodedCertificateResult, SignedStaticApplicationData signedStaticApplicationData,
         ReadOnlySpan<byte> staticDataToBeAuthenticated)
     {
-        if (!_SignedStaticApplicationDataDecoder.IsValid(decodedCertificateResult!, signedStaticApplicationData,
-            staticDataToBeAuthenticated.ToArray()))
+        if (!_SignedStaticApplicationDataDecoder.IsValid(decodedCertificateResult!, signedStaticApplicationData, staticDataToBeAuthenticated.ToArray()))
         {
             throw new CryptographicAuthenticationMethodFailedException(
                 $"The {nameof(StaticDataAuthenticator)} failed Static Data Authentication because the constraint {nameof(ValidateStaticDataToBeAuthenticated)} was invalid");

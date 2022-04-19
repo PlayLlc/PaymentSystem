@@ -1,5 +1,4 @@
 ﻿using Play.Emv.Ber;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;

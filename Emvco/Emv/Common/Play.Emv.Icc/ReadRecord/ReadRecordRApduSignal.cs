@@ -1,4 +1,4 @@
-﻿using Play.Emv.Ber.Enums;
+﻿using Play.Emv.Ber;
 using Play.Icc.FileSystem.ElementaryFiles;
 using Play.Icc.Messaging.Apdu;
 

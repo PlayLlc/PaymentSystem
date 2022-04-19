@@ -3,7 +3,7 @@ using System.Numerics;
 
 using Play.Core;
 
-namespace Play.Emv.Ber.Enums;
+namespace Play.Emv.Ber;
 
 /// <summary>
 ///     Indicates the text string to be displayed, with the different standard messages defined in  Book A section 9.4. If

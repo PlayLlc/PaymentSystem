@@ -23,10 +23,10 @@ public class TerminalCategoryCodeBuilder : SpecimenBuilder
         if (type == null)
             return new NoSpecimen();
 
-        if (type != typeof(TerminalCategoryCode))
+        if (type != typeof(TerminalCategoryCodes))
             return new NoSpecimen();
 
-        TerminalCategoryCode[] all = TerminalCategoryCode.GetAll();
+        TerminalCategoryCodes[] all = TerminalCategoryCodes.GetAll();
 
         return all[new Random().Next(0, all.Length - 1)];
     }

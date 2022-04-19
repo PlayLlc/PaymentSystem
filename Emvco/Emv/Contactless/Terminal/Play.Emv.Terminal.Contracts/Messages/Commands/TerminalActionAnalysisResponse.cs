@@ -1,4 +1,4 @@
-﻿using Play.Emv.Ber.Enums;
+﻿using Play.Emv.Ber;
 
 namespace Play.Emv.Terminal.Contracts.Messages.Commands;
 

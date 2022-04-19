@@ -3,7 +3,6 @@
 using Play.Ber.DataObjects;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
@@ -25,20 +24,16 @@ public class S78 : CommonProcessing
     #region Instance Values
 
     private readonly IGenerateUnpredictableNumber _UnpredictableNumberGenerator;
-
-    protected override StateId[] _ValidStateIds { get; } =
-    {
-        WaitingForMagStripeReadRecordResponse.StateId, WaitingForMagstripeFirstWriteFlag.StateId
-    };
+    protected override StateId[] _ValidStateIds { get; } = {WaitingForMagStripeReadRecordResponse.StateId, WaitingForMagstripeFirstWriteFlag.StateId};
 
     #endregion
 
     #region Constructor
 
     public S78(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
-        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint, IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(
-        database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IKernelEndpoint kernelEndpoint, IGenerateUnpredictableNumber unpredictableNumberGenerator) : base(database, dataExchangeKernelService,
+        kernelStateResolver, pcdEndpoint, kernelEndpoint)
     {
         _UnpredictableNumberGenerator = unpredictableNumberGenerator;
     }
@@ -118,8 +113,7 @@ public class S78 : CommonProcessing
 
     /// <remarks>EMV Book C-2 Section S78.2</remarks>
     /// <exception cref="TerminalDataException"></exception>
-    private void EnqueueProceedToFirstWriteFlag() =>
-        _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, ProceedToFirstWriteFlag.Tag);
+    private void EnqueueProceedToFirstWriteFlag() => _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, ProceedToFirstWriteFlag.Tag);
 
     #endregion
 
@@ -257,7 +251,7 @@ public class S78 : CommonProcessing
     {
         _Database.Update(FieldOffRequestOutcome.NotAvailable);
         _Database.Update(StatusOutcome.SelectNext);
-        _Database.Update(StartOutcome.C);
+        _Database.Update(StartOutcomes.C);
         _Database.Update(Level2Error.MaxLimitExceeded);
         _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
 

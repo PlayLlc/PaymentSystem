@@ -3,7 +3,6 @@
 using Play.Ber.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
@@ -113,8 +112,8 @@ public partial class PrepareGenerateAcService
 
             DataStorageDataObjectList dsDol = _Database.Get<DataStorageDataObjectList>(DataStorageDataObjectList.Tag);
 
-            GenerateApplicationCryptogramRequest? capdu = GenerateApplicationCryptogramRequest.Create(session.GetTransactionSessionId(),
-                referenceControlParam, cdol1RelatedData, dsDol.AsDataObjectListResult(_Database));
+            GenerateApplicationCryptogramRequest? capdu = GenerateApplicationCryptogramRequest.Create(session.GetTransactionSessionId(), referenceControlParam,
+                cdol1RelatedData, dsDol.AsDataObjectListResult(_Database));
 
             _PcdEndpoint.Request(capdu);
         }

@@ -6,7 +6,6 @@ using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.Templates;
 using Play.Emv.Exceptions;
@@ -35,9 +34,7 @@ public partial class WaitingForGpoResponse : KernelState
         HandleRequestOutOfSync(session, signal);
 
         if (signal is not GetProcessingOptionsResponse rapdu)
-        {
             throw new RequestOutOfSyncException($"The request is invalid for the current state of the [{nameof(KernelChannel)}] channel");
-        }
 
         if (TryHandleL1Error(session, rapdu))
             return _KernelStateResolver.GetKernelState(StateId);
@@ -52,8 +49,7 @@ public partial class WaitingForGpoResponse : KernelState
             return _KernelStateResolver.GetKernelState(StateId);
 
         Kernel2Session kernel2Session = (Kernel2Session) session;
-        ApplicationInterchangeProfile applicationInterchangeProfile =
-            _Database.Get<ApplicationInterchangeProfile>(ApplicationInterchangeProfile.Tag);
+        ApplicationInterchangeProfile applicationInterchangeProfile = _Database.Get<ApplicationInterchangeProfile>(ApplicationInterchangeProfile.Tag);
         ApplicationFileLocator applicationFileLocator = _Database.Get<ApplicationFileLocator>(ApplicationFileLocator.Tag);
         KernelConfiguration kernelConfiguration = _Database.Get<KernelConfiguration>(KernelConfiguration.Tag);
 
@@ -78,10 +74,10 @@ public partial class WaitingForGpoResponse : KernelState
             return false;
 
         _Database.Update(MessageIdentifiers.TryAgain);
-        _Database.Update(Status.ReadyToRead);
+        _Database.Update(Statuses.ReadyToRead);
         _Database.Update(new MessageHoldTime(0));
         _Database.Update(StatusOutcome.EndApplication);
-        _Database.Update(StartOutcome.B);
+        _Database.Update(StartOutcomes.B);
         _Database.SetUiRequestOnRestartPresent(true);
         _Database.Update(signal.GetLevel1Error());
         _Database.Update(MessageOnErrorIdentifiers.TryAgain);
@@ -105,7 +101,7 @@ public partial class WaitingForGpoResponse : KernelState
             return false;
 
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Status.NotReady);
+        _Database.Update(Statuses.NotReady);
         _Database.Update(StatusOutcome.EndApplication);
         _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.StatusBytes);
@@ -195,7 +191,7 @@ public partial class WaitingForGpoResponse : KernelState
     {
         _Database.Update(level2Error);
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Status.NotReady);
+        _Database.Update(Statuses.NotReady);
         _Database.Update(StatusOutcome.EndApplication);
         _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
@@ -254,7 +250,7 @@ public partial class WaitingForGpoResponse : KernelState
     private void HandleBerParsingException(KernelSession session)
     {
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Status.NotReady);
+        _Database.Update(Statuses.NotReady);
         _Database.Update(StatusOutcome.EndApplication);
         _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.ParsingError);
@@ -276,8 +272,8 @@ public partial class WaitingForGpoResponse : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="RequestOutOfSyncException"></exception>
     private KernelState HandleEmvMode(
-        Kernel2Session session, Message message, ApplicationFileLocator applicationFileLocator,
-        ApplicationInterchangeProfile applicationInterchangeProfile, KernelConfiguration kernelConfiguration)
+        Kernel2Session session, Message message, ApplicationFileLocator applicationFileLocator, ApplicationInterchangeProfile applicationInterchangeProfile,
+        KernelConfiguration kernelConfiguration)
     {
         SetActiveAflForEmvMode(session, applicationFileLocator, kernelConfiguration);
 
@@ -292,8 +288,7 @@ public partial class WaitingForGpoResponse : KernelState
     #region S3.30 - S3.32
 
     /// <remarks>EMV Book C-2 Section S3.30 - S3.32</remarks>
-    private static void SetActiveAflForEmvMode(
-        Kernel2Session session, ApplicationFileLocator applicationFileLocator, KernelConfiguration kernelConfiguration)
+    private static void SetActiveAflForEmvMode(Kernel2Session session, ApplicationFileLocator applicationFileLocator, KernelConfiguration kernelConfiguration)
     {
         // S3.30
         if (applicationFileLocator.IsOptimizedForEmv(kernelConfiguration))
@@ -369,8 +364,7 @@ public partial class WaitingForGpoResponse : KernelState
         TerminalRelayResistanceEntropy terminalEntropy = CreateTerminalEntropy();
 
         // S3.62
-        ExchangeRelayResistanceDataRequest capdu =
-            ExchangeRelayResistanceDataRequest.Create(session.GetTransactionSessionId(), terminalEntropy);
+        ExchangeRelayResistanceDataRequest capdu = ExchangeRelayResistanceDataRequest.Create(session.GetTransactionSessionId(), terminalEntropy);
 
         // HACK: We need to create another object that is just a stopwatch and not a timeout manager
         // S3.63

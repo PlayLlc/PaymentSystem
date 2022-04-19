@@ -8,7 +8,6 @@ using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
@@ -85,10 +84,10 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
             return false;
 
         _Database.Update(MessageIdentifiers.TryAgain);
-        _Database.Update(Status.ReadyToRead);
+        _Database.Update(Statuses.ReadyToRead);
         _Database.Update(new MessageHoldTime(0));
         _Database.Update(StatusOutcome.EndApplication);
-        _Database.Update(StartOutcome.B);
+        _Database.Update(StartOutcomes.B);
         _Database.SetUiRequestOnRestartPresent(true);
         _Database.Update(signal.GetLevel1Error());
         _Database.Update(MessageOnErrorIdentifiers.TryAgain);
@@ -112,7 +111,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
             return false;
 
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Status.NotReady);
+        _Database.Update(Statuses.NotReady);
         _Database.Update(StatusOutcome.EndApplication);
         _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.StatusBytes);
@@ -256,8 +255,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    private void UpdateDataNeededWhenIdsIsSupported(
-        Kernel2Session session, ReadRecordResponse rapdu, Tag[] resolvedRecords, bool isRecordSigned)
+    private void UpdateDataNeededWhenIdsIsSupported(Kernel2Session session, ReadRecordResponse rapdu, Tag[] resolvedRecords, bool isRecordSigned)
     {
         if (!_Database.IsPresent(DataStorageRequestedOperatorId.Tag))
         {

@@ -38,7 +38,7 @@ namespace Play.Core.Tests.Tests.Extensions.Integers
         {
             ulong testData = 0b10000010000000000000010000000010;
             ulong expected = 0b11000010000000000000010000000010;
-            ulong actual = testData.SetBit(1);
+            ulong actual = testData.SetBit(31);
             Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
         }
 

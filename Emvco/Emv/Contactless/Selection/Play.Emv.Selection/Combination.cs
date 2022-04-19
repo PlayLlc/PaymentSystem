@@ -1,7 +1,6 @@
 ﻿using Play.Core.Extensions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Templates;
 using Play.Emv.Identifiers;
 using Play.Icc.FileSystem.DedicatedFiles;
@@ -35,20 +34,6 @@ public class Combination : IEqualityComparer<Combination>, IEquatable<Combinatio
 
     #region Instance Members
 
-    public int CompareTo(Combination? other)
-    {
-        if (other == null)
-            return -1;
-
-        if (_ApplicationPriorityRank > other._ApplicationPriorityRank)
-            return -1;
-
-        if (_ApplicationPriorityRank == other._ApplicationPriorityRank)
-            return 0;
-
-        return 1;
-    }
-
     public static Combination Create(DirectoryEntry directoryEntry, PreProcessingIndicator preProcessingIndicator)
     {
         if (!preProcessingIndicator.IsExtendedSelectionSupported())
@@ -58,12 +43,10 @@ public class Combination : IEqualityComparer<Combination>, IEquatable<Combinatio
         }
 
         DedicatedFileName? applicationId = directoryEntry.TrGetExtendedSelection(out ExtendedSelection? extendedSelectionResult)
-            ? new DedicatedFileName(preProcessingIndicator.GetApplicationIdentifier().AsByteArray()
-                .ConcatArrays(extendedSelectionResult!.AsByteArray()))
+            ? new DedicatedFileName(preProcessingIndicator.GetApplicationIdentifier().AsByteArray().ConcatArrays(extendedSelectionResult!.AsByteArray()))
             : preProcessingIndicator.GetApplicationIdentifier();
 
-        return new Combination(preProcessingIndicator.GetKey(), applicationId, directoryEntry.GetApplicationPriorityRank(),
-            preProcessingIndicator);
+        return new Combination(preProcessingIndicator.GetKey(), applicationId, directoryEntry.GetApplicationPriorityRank(), preProcessingIndicator);
     }
 
     public DedicatedFileName GetApplicationIdentifier() => _ApplicationId;
@@ -87,6 +70,20 @@ public class Combination : IEqualityComparer<Combination>, IEquatable<Combinatio
 
     public bool Equals(Combination? other) => throw new NotImplementedException();
     public int GetHashCode(Combination obj) => throw new NotImplementedException();
+
+    public int CompareTo(Combination? other)
+    {
+        if (other == null)
+            return -1;
+
+        if (_ApplicationPriorityRank > other._ApplicationPriorityRank)
+            return -1;
+
+        if (_ApplicationPriorityRank == other._ApplicationPriorityRank)
+            return 0;
+
+        return 1;
+    }
 
     #endregion
 }

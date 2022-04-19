@@ -6,7 +6,6 @@ using Play.Ber.Identifiers;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements.Display;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
@@ -59,12 +58,12 @@ public partial class WaitingForGetDataResponse : KernelState
             return false;
 
         _Database.Update(MessageIdentifiers.TryAgain);
-        _Database.Update(Status.ReadyToRead);
+        _Database.Update(Statuses.ReadyToRead);
         _Database.Update(new MessageHoldTime(0));
 
         _Database.Update(StatusOutcome.EndApplication);
 
-        _Database.Update(StartOutcome.B);
+        _Database.Update(StartOutcomes.B);
         _Database.SetUiRequestOnRestartPresent(true);
         _Database.Update(signal.GetLevel1Error());
         _Database.Update(MessageOnErrorIdentifiers.TryAgain);

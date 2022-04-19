@@ -6,7 +6,6 @@ using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
@@ -116,10 +115,10 @@ public partial class WaitingForCccResponse2
         try
         {
             _Database.Update(MessageIdentifiers.TryAgain);
-            _Database.Update(Status.ReadyToRead);
+            _Database.Update(Statuses.ReadyToRead);
             _Database.Update(MessageHoldTime.MinimumValue);
             _Database.Update(StatusOutcome.EndApplication);
-            _Database.Update(StartOutcome.B);
+            _Database.Update(StartOutcomes.B);
             _Database.SetUiRequestOnRestartPresent(true);
             _Database.Update(rapdu.GetLevel1Error());
             _Database.Update(MessageOnErrorIdentifiers.TryAgain);
@@ -208,7 +207,7 @@ public partial class WaitingForCccResponse2
     private void SetDisplayMessage()
     {
         _Database.Update(MessageIdentifiers.ClearDisplay);
-        _Database.Update(Status.CardReadSuccessful);
+        _Database.Update(Statuses.CardReadSuccessful);
         _Database.Update(MessageHoldTime.MinimumValue);
         _DisplayEndpoint.Request(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
     }
@@ -313,10 +312,10 @@ public partial class WaitingForCccResponse2
         Sleep();
         _Database.FailedMagstripeCounter.Increment();
         _Database.Update(MessageHoldTime.MinimumValue);
-        _Database.Update(Status.ReadyToRead);
+        _Database.Update(Statuses.ReadyToRead);
         _Database.SetUiRequestOnRestartPresent(true);
         _Database.Update(StatusOutcome.EndApplication);
-        _Database.Update(StartOutcome.B);
+        _Database.Update(StartOutcomes.B);
         _Database.SetIsDataRecordPresent(true);
         _Database.CreateMagstripeDataRecord(_DataExchangeKernelService);
         _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
@@ -385,14 +384,14 @@ public partial class WaitingForCccResponse2
 
         _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
         _Database.Update(MessageIdentifiers.Declined);
-        _Database.Update(Status.NotReady);
+        _Database.Update(Statuses.NotReady);
         _Database.Update(StatusOutcome.Declined);
         _Database.SetIsDataRecordPresent(true);
         _Database.SetUiRequestOnOutcomePresent(true);
         _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
         _Database.CreateMagstripeDataRecord(_DataExchangeKernelService);
 
-        _Database.Update(StartOutcome.B);
+        _Database.Update(StartOutcomes.B);
         _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
     }
 
@@ -566,10 +565,10 @@ public partial class WaitingForCccResponse2
         _Database.FailedMagstripeCounter.Increment();
 
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Status.NotReady);
+        _Database.Update(Statuses.NotReady);
         _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
         _Database.Update(StatusOutcome.EndApplication);
-        _Database.Update(StartOutcome.B);
+        _Database.Update(StartOutcomes.B);
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
         _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
         _Database.SetUiRequestOnOutcomePresent(true);

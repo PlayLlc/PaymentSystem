@@ -9,8 +9,9 @@ using Play.Emv.Ber.Exceptions;
 namespace Play.Emv.Ber.DataElements;
 
 /// <summary>
-///     Specifies Terminal Category Codes for the PICC that are specific to <see cref="TerminalCategoryCode.TransitGate" />
-///     and <see cref="TerminalCategoryCode.Loyalty" />. If the terminal does not belong to one of those categories, the
+///     Specifies Terminal Category Codes for the PICC that are specific to
+///     <see cref="TerminalCategoryCodes.TransitGate" />
+///     and <see cref="TerminalCategoryCodes.Loyalty" />. If the terminal does not belong to one of those categories, the
 ///     Terminal Category ID L V is not listed in this object
 /// </summary>
 public record PoiInformation : DataElement<BigInteger>, IEqualityComparer<PoiInformation>
@@ -38,9 +39,9 @@ public record PoiInformation : DataElement<BigInteger>, IEqualityComparer<PoiInf
     // BUG: Double check this logic is correct. Is the Terminal Category Code derived from the Merchant Category Code?
     private bool IsTerminalMatch(MerchantCategoryCode merchantCategoryCode) => throw new NotImplementedException();
 
-    public TerminalCategoryCode[] GetTerminalCategoryCodes()
+    public TerminalCategoryCodes[] GetTerminalCategoryCodes()
     {
-        HashSet<TerminalCategoryCode> buffer = new();
+        HashSet<TerminalCategoryCodes> buffer = new();
         ReadOnlySpan<byte> temp = _Value.ToByteArray();
 
         while (true)
@@ -48,7 +49,7 @@ public record PoiInformation : DataElement<BigInteger>, IEqualityComparer<PoiInf
             if (temp.Length < 2)
                 break;
 
-            buffer.Add(TerminalCategoryCode.Get(temp[..1]));
+            buffer.Add(TerminalCategoryCodes.Get(temp[..1]));
             temp = temp[..(2 + temp[2])];
         }
 

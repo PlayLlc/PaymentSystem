@@ -4,7 +4,6 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -27,8 +26,8 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
     public CryptogramInformationData(byte value) : base(value)
     { }
 
-    public CryptogramInformationData(CryptogramTypes cryptogramTypes, bool isCombinedDataAuthenticationSupported) : base(
-        Create(cryptogramTypes, isCombinedDataAuthenticationSupported))
+    public CryptogramInformationData(CryptogramTypes cryptogramTypes, bool isCombinedDataAuthenticationSupported) : base(Create(cryptogramTypes,
+        isCombinedDataAuthenticationSupported))
     { }
 
     #endregion
@@ -55,8 +54,7 @@ public record CryptogramInformationData : DataElement<byte>, IEqualityComparer<C
     {
         if (!CryptogramTypes.TryGet(_Value, out CryptogramTypes? result))
         {
-            throw new DataElementParsingException(
-                $"The {nameof(CryptogramInformationData)} expected a {nameof(CryptogramTypes)} but none could be found");
+            throw new DataElementParsingException($"The {nameof(CryptogramInformationData)} expected a {nameof(CryptogramTypes)} but none could be found");
         }
 
         return result!;

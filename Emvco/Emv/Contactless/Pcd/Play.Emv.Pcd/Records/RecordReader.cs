@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Play.Emv.Ber.Enums;
+using Play.Emv.Ber;
 using Play.Emv.Icc;
 using Play.Emv.Pcd.Contracts;
 
@@ -30,8 +30,7 @@ public class RecordReader : IReadRecords
     {
         try
         {
-            ReadRecordRApduSignal response = new(await _PcdTransceiver.Transceive(command.Serialize()).ConfigureAwait(false),
-                command.GetShortFileId());
+            ReadRecordRApduSignal response = new(await _PcdTransceiver.Transceive(command.Serialize()).ConfigureAwait(false), command.GetShortFileId());
 
             // TODO Handle for Status  Words
 

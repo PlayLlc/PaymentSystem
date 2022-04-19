@@ -7,7 +7,6 @@ using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataElements.Display;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Currency;
 using Play.Globalization.Time.Seconds;
@@ -17,8 +16,7 @@ namespace Play.Emv.Ber.DataElements;
 /// <summary>
 ///     Description: Combines all parameters to be sent with the OUT DataExchangeSignal or MSG DataExchangeSignal.
 /// </summary>
-public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimitiveValueMetadata,
-    IEqualityComparer<UserInterfaceRequestData>
+public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimitiveValueMetadata, IEqualityComparer<UserInterfaceRequestData>
 {
     #region Static Metadata
 
@@ -44,19 +42,14 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
 
     #region Instance Members
 
-    public ulong? GetAmount() =>
-        GetValueQualifier() == ValueQualifier.None ? null : ((ulong) (_Value >> _MoneyOffset)).GetMaskedValue(0xFFFF000000000000);
-
+    public ulong? GetAmount() => GetValueQualifier() == ValueQualifier.None ? null : ((ulong) (_Value >> _MoneyOffset)).GetMaskedValue(0xFFFF000000000000);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public static Builder GetBuilder() => new();
     public NumericCurrencyCode GetCurrencyCode() => new((ushort) (_Value >> _CurrencyCodeOffset));
-
-    public MessageHoldTime GetHoldTimeValue() =>
-        new(new Milliseconds((long) ((ulong) (_Value >> _HoldTimeOffset)).GetMaskedValue(0xFFFF000000000000)));
-
+    public MessageHoldTime GetHoldTimeValue() => new(new Milliseconds((long) ((ulong) (_Value >> _HoldTimeOffset)).GetMaskedValue(0xFFFF000000000000)));
     public LanguagePreference GetLanguagePreference() => new((ulong) (_Value >> _LanguagePreferenceOffset));
     public MessageIdentifiers GetMessageIdentifier() => MessageIdentifiers.Get((byte) (_Value >> _MessageIdentifierOffset));
-    public Status GetStatus() => Status.Get((byte) (_Value >> _StatusOffset));
+    public Statuses GetStatus() => Statuses.Get((byte) (_Value >> _StatusOffset));
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
     public ValueQualifier GetValueQualifier() => ValueQualifier.Get((byte) (_Value >> _ValueQualifierOffset));
@@ -106,8 +99,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
 
     #region Operator Overrides
 
-    public static UserInterfaceRequestData operator |(UserInterfaceRequestData left, UserInterfaceRequestData right) =>
-        new(left._Value | right._Value);
+    public static UserInterfaceRequestData operator |(UserInterfaceRequestData left, UserInterfaceRequestData right) => new(left._Value | right._Value);
 
     #endregion
 
@@ -123,7 +115,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
         internal Builder()
         {
             Set(MessageIdentifiers.NotAvailable);
-            Set(Status.NotAvailable);
+            Set(Statuses.NotAvailable);
             Set(MessageHoldTime.MinimumValue);
 
             //Set(LanguagePreference);
@@ -145,7 +137,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
             _Value |= (BigInteger) bitsToSet << _MessageIdentifierOffset;
         }
 
-        public void Set(Status bitsToSet)
+        public void Set(Statuses bitsToSet)
         {
             _Value.ClearBits(byte.MaxValue << _StatusOffset);
             _Value |= (BigInteger) bitsToSet << _StatusOffset;

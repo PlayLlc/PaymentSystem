@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 
 using Play.Codecs.Exceptions;
-using Play.Emv.Ber.Enums;
+using Play.Emv.Ber;
 
 namespace Play.Emv.Exceptions;
 
@@ -12,16 +12,13 @@ public class NoMatchingApplicationCryptogramForIntegratedStorageException : Code
     #region Constructor
 
     public NoMatchingApplicationCryptogramForIntegratedStorageException(
-        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
+        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0) : base(
         $"{TraceExceptionMessage(typeof(NoMatchingApplicationCryptogramForIntegratedStorageException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public NoMatchingApplicationCryptogramForIntegratedStorageException(
-        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(NoMatchingApplicationCryptogramForIntegratedStorageException), fileName, memberName, lineNumber)}",
-        innerException)
+        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(NoMatchingApplicationCryptogramForIntegratedStorageException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public NoMatchingApplicationCryptogramForIntegratedStorageException(

@@ -6,7 +6,6 @@ using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Kernel.Contracts;
@@ -78,10 +77,10 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         session.Stopwatch.Stop();
 
         _Database.Update(MessageIdentifiers.TryAgain);
-        _Database.Update(Status.ReadyToRead);
+        _Database.Update(Statuses.ReadyToRead);
         _Database.Update(new MessageHoldTime(0));
         _Database.Update(StatusOutcome.EndApplication);
-        _Database.Update(StartOutcome.B);
+        _Database.Update(StartOutcomes.B);
         _Database.SetUiRequestOnOutcomePresent(true);
         _Database.Update(signal.GetLevel1Error());
         _Database.Update(MessageOnErrorIdentifiers.TryAgain);
@@ -105,7 +104,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
             return false;
 
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Status.NotReady);
+        _Database.Update(Statuses.NotReady);
         _Database.Update(StatusOutcome.EndApplication);
         _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.StatusBytes);
@@ -131,19 +130,16 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     private MeasuredRelayResistanceProcessingTime CalculateMeasuredRrpTime(Microseconds timeElapsed)
     {
         TerminalExpectedTransmissionTimeForRelayResistanceCapdu terminalExpectedCapduTransmissionTime =
-            (TerminalExpectedTransmissionTimeForRelayResistanceCapdu) _Database.Get(TerminalExpectedTransmissionTimeForRelayResistanceCapdu
-                .Tag);
+            (TerminalExpectedTransmissionTimeForRelayResistanceCapdu) _Database.Get(TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Tag);
 
         TerminalExpectedTransmissionTimeForRelayResistanceRapdu terminalExpectedRapduTransmissionTime =
-            (TerminalExpectedTransmissionTimeForRelayResistanceRapdu) _Database.Get(TerminalExpectedTransmissionTimeForRelayResistanceRapdu
-                .Tag);
+            (TerminalExpectedTransmissionTimeForRelayResistanceRapdu) _Database.Get(TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Tag);
 
         DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceExpectedRapduTransmissionTime =
-            (DeviceEstimatedTransmissionTimeForRelayResistanceRapdu) _Database.Get(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu
-                .Tag);
+            (DeviceEstimatedTransmissionTimeForRelayResistanceRapdu) _Database.Get(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag);
 
-        MeasuredRelayResistanceProcessingTime processingTime = MeasuredRelayResistanceProcessingTime.Create(timeElapsed,
-            terminalExpectedCapduTransmissionTime, terminalExpectedRapduTransmissionTime, deviceExpectedRapduTransmissionTime);
+        MeasuredRelayResistanceProcessingTime processingTime = MeasuredRelayResistanceProcessingTime.Create(timeElapsed, terminalExpectedCapduTransmissionTime,
+            terminalExpectedRapduTransmissionTime, deviceExpectedRapduTransmissionTime);
 
         _Database.Update(processingTime);
 
@@ -163,8 +159,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     {
         MinTimeForProcessingRelayResistanceApdu minTimeForProcessingRelayResistanceApdu =
             _Database.Get<MinTimeForProcessingRelayResistanceApdu>(MinTimeForProcessingRelayResistanceApdu.Tag);
-        MinimumRelayResistanceGracePeriod minGracePeriod =
-            _Database.Get<MinimumRelayResistanceGracePeriod>(MinimumRelayResistanceGracePeriod.Tag);
+        MinimumRelayResistanceGracePeriod minGracePeriod = _Database.Get<MinimumRelayResistanceGracePeriod>(MinimumRelayResistanceGracePeriod.Tag);
 
         RelaySeconds minRelayTime = (RelaySeconds) minTimeForProcessingRelayResistanceApdu - minGracePeriod;
 
@@ -184,7 +179,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     private void HandleRelayResistanceProtocolFailed(KernelSession session, QueryPcdResponse signal)
     {
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Status.NotReady);
+        _Database.Update(Statuses.NotReady);
         _Database.Update(StatusOutcome.EndApplication);
         _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.CardDataError);
@@ -297,17 +292,14 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
             return false;
 
         DeviceEstimatedTransmissionTimeForRelayResistanceRapdu deviceEstimate =
-            _Database.Get<DeviceEstimatedTransmissionTimeForRelayResistanceRapdu>(
-                DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag);
+            _Database.Get<DeviceEstimatedTransmissionTimeForRelayResistanceRapdu>(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag);
         TerminalExpectedTransmissionTimeForRelayResistanceRapdu terminalEstimate =
-            _Database.Get<TerminalExpectedTransmissionTimeForRelayResistanceRapdu>(TerminalExpectedTransmissionTimeForRelayResistanceRapdu
-                .Tag);
+            _Database.Get<TerminalExpectedTransmissionTimeForRelayResistanceRapdu>(TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Tag);
         RelayResistanceTransmissionTimeMismatchThreshold mismatchThreshold =
             _Database.Get<RelayResistanceTransmissionTimeMismatchThreshold>(RelayResistanceTransmissionTimeMismatchThreshold.Tag);
         MinTimeForProcessingRelayResistanceApdu minThreshold =
             _Database.Get<MinTimeForProcessingRelayResistanceApdu>(MinTimeForProcessingRelayResistanceApdu.Tag);
-        RelayResistanceAccuracyThreshold accuracyThreshold =
-            _Database.Get<RelayResistanceAccuracyThreshold>(RelayResistanceAccuracyThreshold.Tag);
+        RelayResistanceAccuracyThreshold accuracyThreshold = _Database.Get<RelayResistanceAccuracyThreshold>(RelayResistanceAccuracyThreshold.Tag);
 
         // TODO: You need to double check this logic - You created the 'RelaySeconds' half way in between so double check you're using the * 100 correctly
 
@@ -369,8 +361,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
         MaxTimeForProcessingRelayResistanceApdu maxProcessingTime =
             _Database.Get<MaxTimeForProcessingRelayResistanceApdu>(MaxTimeForProcessingRelayResistanceApdu.Tag);
 
-        MaximumRelayResistanceGracePeriod maxGraceTime =
-            _Database.Get<MaximumRelayResistanceGracePeriod>(MaximumRelayResistanceGracePeriod.Tag);
+        MaximumRelayResistanceGracePeriod maxGraceTime = _Database.Get<MaximumRelayResistanceGracePeriod>(MaximumRelayResistanceGracePeriod.Tag);
 
         RelaySeconds maxRelayTime = (RelaySeconds) maxProcessingTime + maxGraceTime;
 
@@ -428,7 +419,7 @@ public partial class WaitingForExchangeRelayResistanceDataResponse : KernelState
     private void HandleBerParsingException(KernelSession session, QueryPcdResponse signal)
     {
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Status.NotReady);
+        _Database.Update(Statuses.NotReady);
         _Database.Update(StatusOutcome.EndApplication);
         _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.ParsingError);

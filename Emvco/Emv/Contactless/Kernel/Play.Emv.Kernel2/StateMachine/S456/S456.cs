@@ -4,7 +4,6 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
@@ -54,12 +53,11 @@ public class S456 : CommonProcessing
     #region Constructor
 
     public S456(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
-        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint, IReadOfflineBalance offlineBalanceReader,
-        IValidateCombinationCapability combinationCapabilityValidator, IValidateCombinationCompatibility combinationCompatibilityValidator,
-        ISelectCardholderVerificationMethod cardholderVerificationMethodSelector, IPerformTerminalActionAnalysis terminalActionAnalyzer,
-        IManageTornTransactions tornTransactionManager) : base(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint,
-        kernelEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IKernelEndpoint kernelEndpoint, IReadOfflineBalance offlineBalanceReader, IValidateCombinationCapability combinationCapabilityValidator,
+        IValidateCombinationCompatibility combinationCompatibilityValidator, ISelectCardholderVerificationMethod cardholderVerificationMethodSelector,
+        IPerformTerminalActionAnalysis terminalActionAnalyzer, IManageTornTransactions tornTransactionManager) : base(database, dataExchangeKernelService,
+        kernelStateResolver, pcdEndpoint, kernelEndpoint)
     {
         _OfflineBalanceReader = offlineBalanceReader;
         _CombinationCapabilityValidator = combinationCapabilityValidator;
@@ -327,7 +325,7 @@ public class S456 : CommonProcessing
     {
         _Database.Update(FieldOffRequestOutcome.NotAvailable);
         _Database.Update(StatusOutcome.SelectNext);
-        _Database.Update(StartOutcome.C);
+        _Database.Update(StartOutcomes.C);
         _Database.Update(Level2Error.MaxLimitExceeded);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
@@ -365,7 +363,7 @@ public class S456 : CommonProcessing
             return false;
 
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Status.NotReady);
+        _Database.Update(Statuses.NotReady);
         _Database.Update(StatusOutcome.EndApplication);
         _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.CardDataMissing);
@@ -425,7 +423,7 @@ public class S456 : CommonProcessing
     private void HandleIntegratedDataStorageError(KernelSessionId sessionId)
     {
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Status.NotReady);
+        _Database.Update(Statuses.NotReady);
         _Database.Update(StatusOutcome.EndApplication);
         _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.CardDataError);
@@ -619,7 +617,7 @@ public class S456 : CommonProcessing
     private void HandleStaticDataAuthenticationError(KernelSessionId sessionId)
     {
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-        _Database.Update(Status.NotReady);
+        _Database.Update(Statuses.NotReady);
         _Database.Update(StatusOutcome.EndApplication);
         _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.CardDataError);
@@ -800,8 +798,8 @@ public class S456 : CommonProcessing
             return false;
 
         if (!_TornTransactionManager.TryGet(
-            new TornEntry(_Database.Get<ApplicationPan>(ApplicationPan.Tag),
-                _Database.Get<ApplicationPanSequenceNumber>(ApplicationPanSequenceNumber.Tag)), out TornRecord? tornRecord))
+            new TornEntry(_Database.Get<ApplicationPan>(ApplicationPan.Tag), _Database.Get<ApplicationPanSequenceNumber>(ApplicationPanSequenceNumber.Tag)),
+            out TornRecord? tornRecord))
             return false;
 
         session.Update(tornRecord!.GetKey());

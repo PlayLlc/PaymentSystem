@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 
 using Play.Codecs.Exceptions;
-using Play.Emv.Ber.Enums;
+using Play.Emv.Ber;
 
 namespace Play.Emv.Exceptions;
 
@@ -15,21 +15,19 @@ public class MaxLimitExceededException : CodecParsingException
     #region Constructor
 
     public MaxLimitExceededException(
-        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
+        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0) : base(
         $"{TraceExceptionMessage(typeof(MaxLimitExceededException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public MaxLimitExceededException(
-        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(MaxLimitExceededException), fileName, memberName, lineNumber)}", innerException)
+        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(MaxLimitExceededException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public MaxLimitExceededException(
         string message, Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(MaxLimitExceededException), fileName, memberName, lineNumber)} {message}", innerException)
+        [CallerLineNumber] int lineNumber = 0) : base($"{TraceExceptionMessage(typeof(MaxLimitExceededException), fileName, memberName, lineNumber)} {message}",
+        innerException)
     { }
 
     #endregion

@@ -23,10 +23,10 @@ public class StartOutcomeBuilder : SpecimenBuilder
         if (type == null)
             return new NoSpecimen();
 
-        if (type != typeof(StartOutcome))
+        if (type != typeof(StartOutcomes))
             return new NoSpecimen();
 
-        StartOutcome[] all = StartOutcome.GetAll();
+        StartOutcomes[] all = StartOutcomes.GetAll();
 
         return all[new Random().Next(0, all.Length - 1)];
     }

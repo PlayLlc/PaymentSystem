@@ -1,6 +1,5 @@
 ﻿using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Identifiers;
 using Play.Icc.FileSystem.DedicatedFiles;
 
@@ -47,12 +46,12 @@ public class TransactionProfile : IEquatable<TransactionProfile>, IEqualityCompa
     #region Constructor
 
     public TransactionProfile(
-        MerchantIdentifier merchantIdentifier, TerminalIdentification terminalIdentification,
-        InterfaceDeviceSerialNumber interfaceDeviceSerialNumber, CombinationCompositeKey key,
-        ApplicationPriorityIndicator applicationPriorityIndicator, ReaderContactlessTransactionLimit readerContactlessTransactionLimit,
-        ReaderCvmRequiredLimit readerCvmRequiredLimit, TerminalFloorLimit terminalFloorLimit,
-        TerminalTransactionQualifiers terminalTransactionQualifiers, TerminalCategoriesSupportedList terminalCategoriesSupportedList,
-        bool isStatusCheckSupported, bool isZeroAmountAllowed, bool isZeroAmountAllowedForOffline, bool isExtendedSelectionSupported)
+        MerchantIdentifier merchantIdentifier, TerminalIdentification terminalIdentification, InterfaceDeviceSerialNumber interfaceDeviceSerialNumber,
+        CombinationCompositeKey key, ApplicationPriorityIndicator applicationPriorityIndicator,
+        ReaderContactlessTransactionLimit readerContactlessTransactionLimit, ReaderCvmRequiredLimit readerCvmRequiredLimit,
+        TerminalFloorLimit terminalFloorLimit, TerminalTransactionQualifiers terminalTransactionQualifiers,
+        TerminalCategoriesSupportedList terminalCategoriesSupportedList, bool isStatusCheckSupported, bool isZeroAmountAllowed,
+        bool isZeroAmountAllowedForOffline, bool isExtendedSelectionSupported)
     {
         _Key = key;
         _ApplicationPriorityIndicator = applicationPriorityIndicator;

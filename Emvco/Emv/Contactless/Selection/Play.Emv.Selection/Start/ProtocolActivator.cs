@@ -1,6 +1,5 @@
 ﻿using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Identifiers;
 using Play.Emv.Outcomes;
@@ -43,8 +42,7 @@ public class ProtocolActivator
     ///     for new transactions with a fixed amount or as Start B after Outcome Processing.
     /// </summary>
     public void ActivateProtocol(
-        TransactionSessionId transactionSessionId, Outcome outcome, PreProcessingIndicators preProcessingIndicators,
-        CandidateList candidateList)
+        TransactionSessionId transactionSessionId, Outcome outcome, PreProcessingIndicators preProcessingIndicators, CandidateList candidateList)
     {
         ProcessIfActivationIsNotARestart(outcome, preProcessingIndicators, candidateList);
         ProcessIfActivationIsARestart(outcome);
@@ -71,8 +69,7 @@ public class ProtocolActivator
     /// <param name="preProcessingIndicators"></param>
     /// <param name="candidateList"></param>
     /// <remarks>EMVco Book B Section 3.2.1.1</remarks>
-    private void ProcessIfActivationIsNotARestart(
-        Outcome outcome, PreProcessingIndicators preProcessingIndicators, CandidateList candidateList)
+    private void ProcessIfActivationIsNotARestart(Outcome outcome, PreProcessingIndicators preProcessingIndicators, CandidateList candidateList)
     {
         if (outcome.IsRestart())
             return;
@@ -92,7 +89,7 @@ public class ProtocolActivator
     {
         UserInterfaceRequestData.Builder? builder = UserInterfaceRequestData.GetBuilder();
         builder.Set(MessageIdentifiers.PresentCard);
-        builder.Set(Status.ReadyToRead);
+        builder.Set(Statuses.ReadyToRead);
 
         return new DisplayMessageRequest(builder.Complete());
     }
@@ -126,7 +123,7 @@ public class ProtocolActivator
     {
         UserInterfaceRequestData.Builder? builder = UserInterfaceRequestData.GetBuilder();
         builder.Set(MessageIdentifiers.PresentCard);
-        builder.Set(Status.ReadyToRead);
+        builder.Set(Statuses.ReadyToRead);
         outcome.Update(builder);
 
         _ = outcome.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData);

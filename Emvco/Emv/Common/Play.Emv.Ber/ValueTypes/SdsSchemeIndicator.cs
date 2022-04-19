@@ -92,7 +92,6 @@ public readonly record struct SdsSchemeIndicator
 
     #region Equality
 
-    public override bool Equals(object? obj) => obj is SdsSchemeIndicator sdsSchemeIndicator && Equals(sdsSchemeIndicator);
     public bool Equals(SdsSchemeIndicator other) => _Value == other._Value;
     public bool Equals(SdsSchemeIndicator x, SdsSchemeIndicator y) => x.Equals(y);
     public bool Equals(byte other) => _Value == other;
@@ -108,7 +107,6 @@ public readonly record struct SdsSchemeIndicator
 
     #region Operator Overrides
 
-    public static bool operator ==(SdsSchemeIndicator left, SdsSchemeIndicator right) => left._Value == right._Value;
     public static bool operator ==(SdsSchemeIndicator left, byte right) => left._Value == right;
     public static bool operator ==(byte left, SdsSchemeIndicator right) => left == right._Value;
     public static explicit operator byte(SdsSchemeIndicator value) => value._Value;
@@ -118,7 +116,6 @@ public readonly record struct SdsSchemeIndicator
     public static explicit operator uint(SdsSchemeIndicator value) => value._Value;
     public static explicit operator long(SdsSchemeIndicator value) => value._Value;
     public static explicit operator ulong(SdsSchemeIndicator value) => value._Value;
-    public static bool operator !=(SdsSchemeIndicator left, SdsSchemeIndicator right) => !(left == right);
     public static bool operator !=(SdsSchemeIndicator left, byte right) => !(left == right);
     public static bool operator !=(byte left, SdsSchemeIndicator right) => !(left == right);
 

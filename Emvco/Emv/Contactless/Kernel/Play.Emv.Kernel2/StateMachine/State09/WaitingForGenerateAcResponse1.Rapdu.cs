@@ -4,7 +4,6 @@ using Play.Core.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
@@ -124,7 +123,7 @@ public partial class WaitingForGenerateAcResponse1
         try
         {
             _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-            _Database.Update(Status.NotReady);
+            _Database.Update(Statuses.NotReady);
             _Database.Update(StatusOutcome.EndApplication);
             _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
             _Database.Update(signal.GetLevel1Error());
@@ -159,11 +158,11 @@ public partial class WaitingForGenerateAcResponse1
         {
             // HACK: Move exception handling to a single exception handler
             _Database.Update(MessageIdentifiers.TryAgain);
-            _Database.Update(Status.ReadyToRead);
+            _Database.Update(Statuses.ReadyToRead);
             _Database.Update(MessageHoldTime.MinimumValue);
 
             _Database.Update(StatusOutcome.EndApplication);
-            _Database.Update(StartOutcome.B);
+            _Database.Update(StartOutcomes.B);
             _Database.SetUiRequestOnOutcomePresent(true);
             _Database.Update(signal.GetLevel1Error());
             _Database.Update(MessageOnErrorIdentifiers.TryAgain);
@@ -193,8 +192,7 @@ public partial class WaitingForGenerateAcResponse1
     /// <exception cref="Play.Codecs.Exceptions.CodecParsingException"></exception>
     private void HandleTornTransaction(KernelSessionId sessionId, QueryPcdResponse signal)
     {
-        DataRecoveryDataObjectListRelatedData? drDol = _Database.Get<DataRecoveryDataObjectList>(DataRecoveryDataObjectList.Tag)
-            .AsRelatedData(_Database);
+        DataRecoveryDataObjectListRelatedData? drDol = _Database.Get<DataRecoveryDataObjectList>(DataRecoveryDataObjectList.Tag).AsRelatedData(_Database);
         _TornTransactionLog.Add(new TornRecord(Record.Create(_Database)), _Database);
 
         HandleL1ErrorTryAgain(sessionId, signal);
@@ -303,8 +301,7 @@ public partial class WaitingForGenerateAcResponse1
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    private bool TryHandleMissingMandatoryDataObjects(
-        Kernel2Session session, GenerateApplicationCryptogramResponse rapdu, out StateId? stateId)
+    private bool TryHandleMissingMandatoryDataObjects(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu, out StateId? stateId)
     {
         if (!_Database.IsPresentAndNotEmpty(ApplicationTransactionCounter.Tag))
         {
@@ -354,8 +351,7 @@ public partial class WaitingForGenerateAcResponse1
     /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="IccProtocolException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    private bool TryHandleInvalidCryptogramInformationData(
-        Kernel2Session session, GenerateApplicationCryptogramResponse rapdu, out StateId? stateId)
+    private bool TryHandleInvalidCryptogramInformationData(Kernel2Session session, GenerateApplicationCryptogramResponse rapdu, out StateId? stateId)
     {
         CryptogramInformationData cid = _Database.Get<CryptogramInformationData>(CryptogramInformationData.Tag);
 
@@ -428,7 +424,7 @@ public partial class WaitingForGenerateAcResponse1
     private void SetDisplayMessage()
     {
         _Database.Update(MessageIdentifiers.ClearDisplay);
-        _Database.Update(Status.CardReadSuccessful);
+        _Database.Update(Statuses.CardReadSuccessful);
         _Database.Update(MessageHoldTime.MinimumValue);
 
         _DisplayEndpoint.Request(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));

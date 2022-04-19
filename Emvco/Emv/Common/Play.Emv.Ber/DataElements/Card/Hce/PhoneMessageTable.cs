@@ -6,7 +6,6 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Exceptions;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -45,16 +44,16 @@ public record PhoneMessageTable : DataElement<MessageTableEntry[]>, IEqualityCom
         return new PhoneMessageTable(new MessageTableEntry[]
         {
             new(new PciiMask((uint) 0x000001), new PciiValue((uint) 000001), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions,
-                Status.NotReady),
+                Statuses.NotReady),
             new(new PciiMask((uint) 0x000800), new PciiValue((uint) 000800), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions,
-                Status.NotReady),
+                Statuses.NotReady),
             new(new PciiMask((uint) 0x000400), new PciiValue((uint) 000400), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions,
-                Status.NotReady),
+                Statuses.NotReady),
             new(new PciiMask((uint) 0x000100), new PciiValue((uint) 000100), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions,
-                Status.NotReady),
+                Statuses.NotReady),
             new(new PciiMask((uint) 0x000200), new PciiValue((uint) 000200), (MessageIdentifier) MessageIdentifiers.SeePhoneForInstructions,
-                Status.NotReady),
-            new(new PciiMask((uint) 0x000000), new PciiValue((uint) 000000), (MessageIdentifier) MessageIdentifiers.Declined, Status.NotReady)
+                Statuses.NotReady),
+            new(new PciiMask((uint) 0x000000), new PciiValue((uint) 000000), (MessageIdentifier) MessageIdentifiers.Declined, Statuses.NotReady)
         });
     }
 

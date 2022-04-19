@@ -1,5 +1,4 @@
 ﻿using Play.Emv.Ber;
-using Play.Emv.Ber.Enums;
 
 namespace Play.Emv.Terminal.Contracts.Messages.Commands;
 
@@ -28,8 +27,7 @@ public class TerminalRiskManagementResponse
 
     #region Constructor
 
-    public TerminalRiskManagementResponse(
-        TerminalVerificationResult terminalVerificationResult, TransactionStatusInformationFlags transactionStatus)
+    public TerminalRiskManagementResponse(TerminalVerificationResult terminalVerificationResult, TransactionStatusInformationFlags transactionStatus)
     {
         _TerminalVerificationResult = terminalVerificationResult;
         _TransactionStatus = transactionStatus;

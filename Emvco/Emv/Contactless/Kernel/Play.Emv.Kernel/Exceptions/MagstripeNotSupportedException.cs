@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 
 using Play.Core.Exceptions;
-using Play.Emv.Ber.Enums;
+using Play.Emv.Ber;
 
 namespace Play.Emv.Kernel.Exceptions;
 
@@ -21,15 +21,13 @@ public class MagstripeNotSupportedException : PlayException
     { }
 
     public MagstripeNotSupportedException(
-        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
+        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0) : base(
         $"{TraceExceptionMessage(typeof(MagstripeNotSupportedException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public MagstripeNotSupportedException(
-        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(MagstripeNotSupportedException), fileName, memberName, lineNumber)}", innerException)
+        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(MagstripeNotSupportedException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public MagstripeNotSupportedException(

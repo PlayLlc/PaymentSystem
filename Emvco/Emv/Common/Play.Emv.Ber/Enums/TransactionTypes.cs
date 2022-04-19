@@ -2,7 +2,7 @@
 
 using Play.Core;
 
-namespace Play.Emv.Ber.Enums;
+namespace Play.Emv.Ber;
 
 public record TransactionTypes : EnumObject<byte>
 {

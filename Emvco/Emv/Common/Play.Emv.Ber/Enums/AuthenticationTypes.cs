@@ -2,7 +2,7 @@
 
 using Play.Core;
 
-namespace Play.Emv.Ber.Enums;
+namespace Play.Emv.Ber;
 
 public sealed record AuthenticationTypes : EnumObject<byte>
 {

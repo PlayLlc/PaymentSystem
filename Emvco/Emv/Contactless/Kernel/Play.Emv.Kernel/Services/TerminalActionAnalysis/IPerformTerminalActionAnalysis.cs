@@ -1,4 +1,4 @@
-﻿using Play.Emv.Ber.Enums;
+﻿using Play.Emv.Ber;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
 

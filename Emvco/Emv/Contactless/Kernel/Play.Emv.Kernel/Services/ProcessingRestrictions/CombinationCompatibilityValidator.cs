@@ -35,8 +35,7 @@ public class CombinationCompatibilityValidator : IValidateCombinationCapability
 
         ApplicationVersionNumberCard versionNumberCard = database.Get<ApplicationVersionNumberCard>(ApplicationVersionNumberCard.Tag);
 
-        ApplicationVersionNumberReader versionNumberReader =
-            database.Get<ApplicationVersionNumberReader>(ApplicationVersionNumberReader.Tag);
+        ApplicationVersionNumberReader versionNumberReader = database.Get<ApplicationVersionNumberReader>(ApplicationVersionNumberReader.Tag);
 
         if ((ushort) versionNumberCard != (ushort) versionNumberReader)
             database.Set(TerminalVerificationResultCodes.IccAndTerminalHaveDifferentApplicationVersions);

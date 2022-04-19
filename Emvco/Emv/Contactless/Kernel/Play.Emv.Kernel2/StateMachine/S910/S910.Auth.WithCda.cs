@@ -3,7 +3,6 @@
 using Play.Core.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.State;
@@ -26,8 +25,7 @@ internal partial class S910
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="IccProtocolException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
-        public StateId ProcessWithCda(
-            IGetKernelStateId currentStateIdRetriever, Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
+        public StateId ProcessWithCda(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, GenerateApplicationCryptogramResponse rapdu)
         {
             // S910.1
             if (!TryRetrievePublicKeys(session, rapdu, session.GetStaticDataToBeAuthenticated()))
@@ -288,8 +286,7 @@ internal partial class S910
         /// <exception cref="DataElementParsingException"></exception>
         /// <exception cref="IccProtocolException"></exception>
         /// <exception cref="InvalidOperationException"></exception>
-        private bool TryHandleIdsWriteFlagNotSet(
-            IGetKernelStateId currentStateIdRetriever, Kernel2Session session, out StateId? successfulResponseStateId)
+        private bool TryHandleIdsWriteFlagNotSet(IGetKernelStateId currentStateIdRetriever, Kernel2Session session, out StateId? successfulResponseStateId)
         {
             if (!_Database.IsIntegratedDataStorageWriteFlagSet())
             {

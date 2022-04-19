@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Play.Emv.Ber.Enums;
+using Play.Emv.Ber;
 using Play.Emv.Icc;
 using Play.Emv.Pcd.Contracts;
 
@@ -30,8 +30,7 @@ public class ApplicationDefinitionFileInfoSelector : ISelectApplicationDefinitio
     {
         try
         {
-            GetFileControlInformationRApduSignal
-                response = new(await _PcdTransceiver.Transceive(command.Serialize()).ConfigureAwait(false));
+            GetFileControlInformationRApduSignal response = new(await _PcdTransceiver.Transceive(command.Serialize()).ConfigureAwait(false));
 
             return new SelectApplicationDefinitionFileInfoResponse(command.GetCorrelationId(), command.GetTransactionSessionId(), response);
         }

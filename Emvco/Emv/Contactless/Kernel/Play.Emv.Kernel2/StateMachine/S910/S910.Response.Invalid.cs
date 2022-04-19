@@ -3,7 +3,6 @@
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
@@ -82,7 +81,7 @@ internal partial class S910
         private void SetDisplayMessage()
         {
             _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-            _Database.Update(Status.NotReady);
+            _Database.Update(Statuses.NotReady);
             _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
         }
 

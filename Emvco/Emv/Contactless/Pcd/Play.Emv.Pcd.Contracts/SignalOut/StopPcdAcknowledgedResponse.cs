@@ -1,4 +1,4 @@
-﻿using Play.Emv.Ber.Enums;
+﻿using Play.Emv.Ber;
 using Play.Emv.Identifiers;
 using Play.Emv.Messaging;
 using Play.Messaging;
@@ -25,8 +25,8 @@ public record StopPcdAcknowledgedResponse : ResponseSignal
 
     #region Constructor
 
-    public StopPcdAcknowledgedResponse(CorrelationId correlationId, TransactionSessionId transactionSessionId, Level1Error level1Error) :
-        base(correlationId, MessageTypeId, ChannelTypeId)
+    public StopPcdAcknowledgedResponse(CorrelationId correlationId, TransactionSessionId transactionSessionId, Level1Error level1Error) : base(correlationId,
+        MessageTypeId, ChannelTypeId)
     {
         _TransactionSessionId = transactionSessionId;
         _Level1Error = level1Error;

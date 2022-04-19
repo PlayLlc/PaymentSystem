@@ -1,8 +1,8 @@
 ﻿using System;
 
 using Play.Ber.Exceptions;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
@@ -55,8 +55,7 @@ public partial class PrepareGenerateAcService
             if (!_Database.IsOnDeviceCardholderVerificationSupported())
                 return false;
 
-            if (!_Database.Get<ApplicationInterchangeProfile>(ApplicationInterchangeProfile.Tag)
-                .IsOnDeviceCardholderVerificationSupported())
+            if (!_Database.Get<ApplicationInterchangeProfile>(ApplicationInterchangeProfile.Tag).IsOnDeviceCardholderVerificationSupported())
                 return false;
 
             return true;

@@ -3,7 +3,7 @@
 using Play.Core;
 using Play.Core.Extensions;
 
-namespace Play.Emv.Ber.Enums;
+namespace Play.Emv.Ber;
 
 public record CvmCodes : EnumObject<byte>
 {

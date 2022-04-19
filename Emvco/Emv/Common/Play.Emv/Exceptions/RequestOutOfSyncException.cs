@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-using Play.Emv.Ber.Enums;
+using Play.Emv.Ber;
 using Play.Messaging;
 
 namespace Play.Emv.Exceptions;
@@ -21,21 +21,19 @@ public class RequestOutOfSyncException : InvalidSignalRequest
     { }
 
     public RequestOutOfSyncException(
-        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
+        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0) : base(
         $"{TraceExceptionMessage(typeof(RequestOutOfSyncException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public RequestOutOfSyncException(
-        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(RequestOutOfSyncException), fileName, memberName, lineNumber)}", innerException)
+        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(RequestOutOfSyncException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public RequestOutOfSyncException(
         string message, Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(RequestOutOfSyncException), fileName, memberName, lineNumber)} {message}", innerException)
+        [CallerLineNumber] int lineNumber = 0) : base($"{TraceExceptionMessage(typeof(RequestOutOfSyncException), fileName, memberName, lineNumber)} {message}",
+        innerException)
     { }
 
     #endregion

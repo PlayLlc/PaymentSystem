@@ -6,7 +6,6 @@ using Play.Core.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
@@ -80,11 +79,11 @@ public partial class WaitingForRecoverAcResponse
         try
         {
             _Database.Update(MessageIdentifiers.TryAgain);
-            _Database.Update(Status.ReadyToRead);
+            _Database.Update(Statuses.ReadyToRead);
             _Database.Update(MessageHoldTime.MinimumValue);
             _Database.Update(signal.GetLevel1Error());
             _Database.Update(StatusOutcome.EndApplication);
-            _Database.Update(StartOutcome.B);
+            _Database.Update(StartOutcomes.B);
             _Database.Update(MessageOnErrorIdentifiers.TryAgain);
             _Database.SetUiRequestOnRestartPresent(true);
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
@@ -348,7 +347,7 @@ public partial class WaitingForRecoverAcResponse
         if (_DataExchangeKernelService.IsEmpty(DekResponseType.TagsToWriteAfterGenAc))
         {
             _Database.Update(MessageIdentifiers.ClearDisplay);
-            _Database.Update(Status.CardReadSuccessful);
+            _Database.Update(Statuses.CardReadSuccessful);
             _Database.Update(MessageHoldTime.MinimumValue);
             _DisplayEndpoint.Request(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
         }

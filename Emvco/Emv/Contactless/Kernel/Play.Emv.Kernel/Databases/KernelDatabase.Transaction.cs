@@ -3,9 +3,8 @@
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
-using Play.Emv.Ber.Enums.Interchange;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Ber.Interchange;
 
 namespace Play.Emv.Kernel.Databases;
 
@@ -93,21 +92,16 @@ public partial class KernelDatabase
             return AuthenticationTypes.None;
 
         ApplicationInterchangeProfile applicationInterchangeProfile =
-            ApplicationInterchangeProfile.Decode(((ApplicationInterchangeProfile) Get(ApplicationInterchangeProfile.Tag)).EncodeValue()
-                .AsSpan());
-        TerminalCapabilities terminalCapabilities =
-            TerminalCapabilities.Decode(((TerminalCapabilities) Get(TerminalCapabilities.Tag)).EncodeValue().AsSpan());
+            ApplicationInterchangeProfile.Decode(((ApplicationInterchangeProfile) Get(ApplicationInterchangeProfile.Tag)).EncodeValue().AsSpan());
+        TerminalCapabilities terminalCapabilities = TerminalCapabilities.Decode(((TerminalCapabilities) Get(TerminalCapabilities.Tag)).EncodeValue().AsSpan());
 
-        if (applicationInterchangeProfile.IsCombinedDataAuthenticationSupported()
-            && terminalCapabilities.IsCombinedDataAuthenticationSupported())
+        if (applicationInterchangeProfile.IsCombinedDataAuthenticationSupported() && terminalCapabilities.IsCombinedDataAuthenticationSupported())
             return AuthenticationTypes.CombinedDataAuthentication;
 
-        if (applicationInterchangeProfile.IsDynamicDataAuthenticationSupported()
-            && terminalCapabilities.IsDynamicDataAuthenticationSupported())
+        if (applicationInterchangeProfile.IsDynamicDataAuthenticationSupported() && terminalCapabilities.IsDynamicDataAuthenticationSupported())
             return AuthenticationTypes.DynamicDataAuthentication;
 
-        if (applicationInterchangeProfile.IsStaticDataAuthenticationSupported()
-            && terminalCapabilities.IsStaticDataAuthenticationSupported())
+        if (applicationInterchangeProfile.IsStaticDataAuthenticationSupported() && terminalCapabilities.IsStaticDataAuthenticationSupported())
             return AuthenticationTypes.CombinedDataAuthentication;
 
         return AuthenticationTypes.None;
@@ -145,8 +139,7 @@ public partial class KernelDatabase
     /// <summary>
     ///     A transaction at an unattended terminal where the cardholder receives cash, such as an ATM withdrawal
     /// </summary>
-    public bool IsUnattendedCashTransaction() =>
-        GetTerminalType().IsEnvironmentType(TerminalType.EnvironmentType.Unattended) && IsCashTransaction();
+    public bool IsUnattendedCashTransaction() => GetTerminalType().IsEnvironmentType(TerminalType.EnvironmentType.Unattended) && IsCashTransaction();
 
     /// <summary>
     ///     A purchase transaction in which the cardholder receives cash from a self service kiosk or cashier

@@ -6,7 +6,6 @@ using Play.Ber.InternalFactories;
 using Play.Core.Extensions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Globalization.Country;
 using Play.Globalization.Currency;
 
@@ -77,10 +76,9 @@ public class ProcessingOptionsDataObjectListTestTlv : TestTlv
     {
         return new TagLength[]
         {
-            new(0x9F66, 0x04), new(AmountAuthorizedNumeric.Tag, 0x06), new(AmountOtherNumeric.Tag, 0x06),
-            new(TerminalCountryCode.Tag, 0x02), new(TerminalVerificationResults.Tag, 0x05), new(TransactionCurrencyCode.Tag, 0x02),
-            new(TransactionDate.Tag, 0x03), new(TransactionType.Tag, 0x01), new(UnpredictableNumber.Tag, 0x04),
-            new(MerchantNameAndLocation.Tag, 0x14)
+            new(0x9F66, 0x04), new(AmountAuthorizedNumeric.Tag, 0x06), new(AmountOtherNumeric.Tag, 0x06), new(TerminalCountryCode.Tag, 0x02),
+            new(TerminalVerificationResults.Tag, 0x05), new(TransactionCurrencyCode.Tag, 0x02), new(TransactionDate.Tag, 0x03),
+            new(TransactionType.Tag, 0x01), new(UnpredictableNumber.Tag, 0x04), new(MerchantNameAndLocation.Tag, 0x14)
         };
     }
 

@@ -5,7 +5,6 @@ using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
@@ -61,10 +60,10 @@ public partial class WaitingForPreGenAcBalance
         try
         {
             _Database.Update(MessageIdentifiers.TryAgain);
-            _Database.Update(Status.ReadyToRead);
+            _Database.Update(Statuses.ReadyToRead);
             _Database.Update(MessageHoldTime.MinimumValue);
             _Database.Update(StatusOutcome.EndApplication);
-            _Database.Update(StartOutcome.B);
+            _Database.Update(StartOutcomes.B);
             _Database.SetUiRequestOnRestartPresent(true);
             _Database.Update(rapdu.GetLevel1Error());
             _Database.Update(MessageOnErrorIdentifiers.TryAgain);

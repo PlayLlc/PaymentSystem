@@ -4,7 +4,6 @@ using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Outcomes;
@@ -207,7 +206,7 @@ public partial class KernelDatabase
     }
 
     /// <exception cref="TerminalDataException"></exception>
-    public void Update(Status value)
+    public void Update(Statuses value)
     {
         try
         {
@@ -368,7 +367,7 @@ public partial class KernelDatabase
     }
 
     /// <exception cref="TerminalDataException"></exception>
-    public void Update(StartOutcome value)
+    public void Update(StartOutcomes value)
     {
         try
         {

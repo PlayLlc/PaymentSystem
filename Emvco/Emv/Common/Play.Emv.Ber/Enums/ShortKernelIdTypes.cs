@@ -5,7 +5,7 @@ using Play.Core.Extensions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 
-namespace Play.Emv.Ber.Enums;
+namespace Play.Emv.Ber;
 
 public sealed record ShortKernelIdTypes : EnumObject<byte>, IEqualityComparer<ShortKernelIdTypes>
 {

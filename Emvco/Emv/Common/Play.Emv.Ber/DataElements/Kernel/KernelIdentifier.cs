@@ -3,7 +3,6 @@ using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Currency;
 using Play.Icc.FileSystem.DedicatedFiles;
@@ -141,8 +140,7 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
         return true;
     }
 
-    public static bool TryGetDefaultKernelIdentifier(
-        ApplicationDedicatedFileName applicationDedicatedFileName, out KernelIdentifier? kernelIdentifier)
+    public static bool TryGetDefaultKernelIdentifier(ApplicationDedicatedFileName applicationDedicatedFileName, out KernelIdentifier? kernelIdentifier)
     {
         RegisteredApplicationProviderIndicator rid = applicationDedicatedFileName.GetRegisteredApplicationProviderIndicator();
 

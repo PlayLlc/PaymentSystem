@@ -3,7 +3,6 @@
 using Play.Ber.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
@@ -30,8 +29,7 @@ public partial class PrepareGenerateAcService
         #region Constructor
 
         public NoIntegratedDataStorage(
-            KernelDatabase database, IHandlePcdRequests pcdEndpoint, ReadIntegratedDataStorage readIntegratedDataStorage,
-            CdaFailure cdaFailure)
+            KernelDatabase database, IHandlePcdRequests pcdEndpoint, ReadIntegratedDataStorage readIntegratedDataStorage, CdaFailure cdaFailure)
         {
             _Database = database;
             _PcdEndpoint = pcdEndpoint;
@@ -78,8 +76,7 @@ public partial class PrepareGenerateAcService
         /// <exception cref="TerminalDataException"></exception>
         private bool IsCdaSupportedByApplicationForAcTypes()
         {
-            ApplicationCapabilitiesInformation aci =
-                _Database.Get<ApplicationCapabilitiesInformation>(ApplicationCapabilitiesInformation.Tag);
+            ApplicationCapabilitiesInformation aci = _Database.Get<ApplicationCapabilitiesInformation>(ApplicationCapabilitiesInformation.Tag);
 
             return aci.CombinedDataAuthenticationIndicator();
         }

@@ -1,6 +1,5 @@
 ﻿using Play.Core.Extensions;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber;
@@ -51,9 +50,7 @@ public readonly record struct CvmCode
             return terminalCapabilities.IsEncipheredPinForOfflineVerificationSupported();
 
         if (_Value == CvmCodes.OfflineEncipheredPinAndSignature)
-        {
             return terminalCapabilities.IsEncipheredPinForOfflineVerificationSupported() && terminalCapabilities.IsSignaturePaperSupported();
-        }
 
         if (_Value == CvmCodes.OfflinePlaintextPin)
             return terminalCapabilities.IsPlaintextPinForIccVerificationSupported();

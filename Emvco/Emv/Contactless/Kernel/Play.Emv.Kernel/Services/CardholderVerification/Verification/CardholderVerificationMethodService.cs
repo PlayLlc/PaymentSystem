@@ -1,5 +1,4 @@
 ﻿using Play.Emv.Ber;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Kernel.Databases;
 
 namespace Play.Emv.Kernel.Services.Verification;

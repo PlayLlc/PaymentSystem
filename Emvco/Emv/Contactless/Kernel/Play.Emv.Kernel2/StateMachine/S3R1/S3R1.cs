@@ -6,7 +6,6 @@ using Play.Ber.Identifiers;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
@@ -31,19 +30,15 @@ public class S3R1 : CommonProcessing
 {
     #region Instance Values
 
-    protected override StateId[] _ValidStateIds { get; } =
-    {
-        WaitingForGpoResponse.StateId, WaitingForExchangeRelayResistanceDataResponse.StateId
-    };
+    protected override StateId[] _ValidStateIds { get; } = {WaitingForGpoResponse.StateId, WaitingForExchangeRelayResistanceDataResponse.StateId};
 
     #endregion
 
     #region Constructor
 
     public S3R1(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
-        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint) : base(database, dataExchangeKernelService, kernelStateResolver,
-        pcdEndpoint, kernelEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IKernelEndpoint kernelEndpoint) : base(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
     { }
 
     #endregion
@@ -123,7 +118,7 @@ public class S3R1 : CommonProcessing
     {
         _Database.Update(Level2Error.CardDataError);
         _Database.Update(MessageIdentifiers.CardError);
-        _Database.Update(Status.NotReady);
+        _Database.Update(Statuses.NotReady);
         _Database.Update(StatusOutcome.EndApplication);
         _Database.Update(MessageOnErrorIdentifiers.TryAgain);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
@@ -245,8 +240,7 @@ public class S3R1 : CommonProcessing
     private void StopReadingIntegratedStorage()
     {
         IntegratedDataStorageStatus idsStatus =
-            IntegratedDataStorageStatus.Decode(((IntegratedDataStorageStatus) _Database.Get(IntegratedDataStorageStatus.Tag)).EncodeValue()
-                .AsSpan());
+            IntegratedDataStorageStatus.Decode(((IntegratedDataStorageStatus) _Database.Get(IntegratedDataStorageStatus.Tag)).EncodeValue().AsSpan());
 
         _Database.Update(idsStatus.SetRead(false));
     }
@@ -329,8 +323,7 @@ public class S3R1 : CommonProcessing
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    private bool DoesTheCardAndTerminalSupportCombinedDataAuth() =>
-        _Database.GetAuthenticationType() == AuthenticationTypes.CombinedDataAuthentication;
+    private bool DoesTheCardAndTerminalSupportCombinedDataAuth() => _Database.GetAuthenticationType() == AuthenticationTypes.CombinedDataAuthentication;
 
     #endregion
 

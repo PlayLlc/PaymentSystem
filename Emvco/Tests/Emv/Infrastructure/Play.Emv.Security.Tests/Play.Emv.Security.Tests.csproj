@@ -20,4 +20,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Emv\Common\Play.Emv.Security\Play.Emv.Security.csproj" />
+    <ProjectReference Include="..\..\..\Common\Play.Testing.Emv\Play.Testing.Emv.csproj" />
+  </ItemGroup>
+
 </Project>

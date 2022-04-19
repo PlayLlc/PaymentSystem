@@ -31,27 +31,11 @@ public abstract record EnumObject<T> : IEquatable<T>, IEqualityComparer<T>, ICom
 
     /// <exception cref="PlayInternalException"></exception>
     protected EnumObject()
-    {
-        Validate(GetType());
-    }
+    { }
 
     protected EnumObject(T value) : base()
     {
         _Value = value;
-    }
-
-    #endregion
-
-    #region Instance Members
-
-    /// <exception cref="PlayInternalException"></exception>
-    protected static void Validate(Type type)
-    {
-        if (type.GetMethod(_GetAllStaticMethod, BindingFlags.Public | BindingFlags.Static) is null)
-        {
-            throw new PlayInternalException(
-                $"The {nameof(EnumObject<T>)} must implement a static public method called {_GetAllStaticMethod} that returns a list of all of the {nameof(EnumObject<T>)} instance objects");
-        }
     }
 
     #endregion

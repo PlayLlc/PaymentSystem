@@ -29,8 +29,7 @@ internal class CombinedDataAuthenticator
 
     #region Constructor
 
-    public CombinedDataAuthenticator(
-        HashAlgorithmProvider hashAlgorithmProvider, SignatureService signatureService, CertificateFactory certificateFactory)
+    public CombinedDataAuthenticator(HashAlgorithmProvider hashAlgorithmProvider, SignatureService signatureService, CertificateFactory certificateFactory)
     {
         _Codec = EmvCodec.GetBerCodec();
         _HashAlgorithmProvider = hashAlgorithmProvider;
@@ -49,8 +48,7 @@ internal class CombinedDataAuthenticator
     {
         try
         {
-            SignedDynamicApplicationData signedDynamicApplicationData =
-                database.Get<SignedDynamicApplicationData>(SignedDynamicApplicationData.Tag);
+            SignedDynamicApplicationData signedDynamicApplicationData = database.Get<SignedDynamicApplicationData>(SignedDynamicApplicationData.Tag);
 
             DecodedIccPublicKeyCertificate decodedIccCertificate =
                 _CertificateFactory.RecoverIccCertificate(database, certificateDatabase, staticDataToBeAuthenticated);
@@ -59,8 +57,7 @@ internal class CombinedDataAuthenticator
             ValidateEncipheredSignatureLength(signedDynamicApplicationData, decodedIccCertificate);
 
             // Step 2, Step 
-            DecodedSignedDynamicApplicationDataCda decodedSignature =
-                RecoverSignedDynamicApplicationData(decodedIccCertificate, signedDynamicApplicationData);
+            DecodedSignedDynamicApplicationDataCda decodedSignature = RecoverSignedDynamicApplicationData(decodedIccCertificate, signedDynamicApplicationData);
 
             // Step 3 is covered by SignatureService.IsSignatureValid() below
 
@@ -90,8 +87,7 @@ internal class CombinedDataAuthenticator
             ReadOnlySpan<byte> concatenatedTransactionData = ConcatenateTransactionDataHashCode(database, rapdu);
 
             // Step 11
-            Hash transactionDataHashCode =
-                ProduceTransactionDataHashCode(decodedSignature.GetHashAlgorithmIndicator(), concatenatedTransactionData);
+            Hash transactionDataHashCode = ProduceTransactionDataHashCode(decodedSignature.GetHashAlgorithmIndicator(), concatenatedTransactionData);
 
             // Step 12
             ValidateTransactionDataHashCode(decodedSignature, transactionDataHashCode);
@@ -129,8 +125,7 @@ internal class CombinedDataAuthenticator
     {
         try
         {
-            TerminalVerificationResults terminalVerificationResults =
-                database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
+            TerminalVerificationResults terminalVerificationResults = database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
             TerminalVerificationResults.Builder tvrBuilder = TerminalVerificationResults.GetBuilder();
             tvrBuilder.Reset(terminalVerificationResults);
             tvrBuilder.Set(TerminalVerificationResultCodes.CombinationDataAuthenticationFailed);
@@ -223,8 +218,7 @@ internal class CombinedDataAuthenticator
     #region 6.6.2 Step 8
 
     /// <remarks>EMV Book 2 Section 6.6.2 Step 8</remarks>
-    private Hash ProduceHashResultForDynamicData(
-        HashAlgorithmIndicator hashAlgorithmIndicator, ReadOnlySpan<byte> transactionDataHashCodeInput) =>
+    private Hash ProduceHashResultForDynamicData(HashAlgorithmIndicator hashAlgorithmIndicator, ReadOnlySpan<byte> transactionDataHashCodeInput) =>
         _HashAlgorithmProvider.Generate(transactionDataHashCodeInput, hashAlgorithmIndicator);
 
     #endregion
@@ -313,8 +307,7 @@ internal class CombinedDataAuthenticator
     #region 6.6.2 Step 11
 
     /// <remarks>EMV Book 2 Section 6.6.2 Step 11</remarks>
-    private Hash ProduceTransactionDataHashCode(
-        HashAlgorithmIndicator hashAlgorithmIndicator, ReadOnlySpan<byte> transactionDataHashCodeInput) =>
+    private Hash ProduceTransactionDataHashCode(HashAlgorithmIndicator hashAlgorithmIndicator, ReadOnlySpan<byte> transactionDataHashCodeInput) =>
         _HashAlgorithmProvider.Generate(transactionDataHashCodeInput, hashAlgorithmIndicator);
 
     #endregion

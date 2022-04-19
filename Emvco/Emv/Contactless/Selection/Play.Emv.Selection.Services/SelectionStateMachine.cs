@@ -2,7 +2,6 @@
 
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
@@ -32,8 +31,8 @@ internal class SelectionStateMachine
     #region Constructor
 
     public SelectionStateMachine(
-        IHandlePcdRequests pcdClient, IHandleDisplayRequests displayEndpoint, TransactionProfile[] transactionProfiles,
-        PoiInformation poiInformation, SelectionProcess selectionProcess, ISendSelectionResponses endpointClient)
+        IHandlePcdRequests pcdClient, IHandleDisplayRequests displayEndpoint, TransactionProfile[] transactionProfiles, PoiInformation poiInformation,
+        SelectionProcess selectionProcess, ISendSelectionResponses endpointClient)
     {
         _PcdClient = pcdClient;
         _EndpointClient = endpointClient;
@@ -126,8 +125,8 @@ internal class SelectionStateMachine
                     $"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{response.GetTransactionSessionId()}] but the current {nameof(SelectionChannel.Id)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
             }
 
-            _CombinationSelector.ProcessPpseResponse(response.GetTransactionSessionId(), _CandidateList, _PreProcessingIndicators,
-                _Lock.Session.GetOutcome(), _Lock.Session.GetTransactionType(), response);
+            _CombinationSelector.ProcessPpseResponse(response.GetTransactionSessionId(), _CandidateList, _PreProcessingIndicators, _Lock.Session.GetOutcome(),
+                _Lock.Session.GetTransactionType(), response);
         }
     }
 
@@ -153,8 +152,8 @@ internal class SelectionStateMachine
                     $"The {nameof(SelectApplicationDefinitionFileInfoResponse)} can't be processed because the {nameof(TransactionSessionId)} from the request is [{response.GetTransactionSessionId()}] but the current {nameof(SelectionChannel.Id)} session has a {nameof(TransactionSessionId)} of: [{_Lock.Session.GetTransactionSessionId()}]");
             }
 
-            _CombinationSelector.ProcessPointOfInteractionResponse(response.GetTransactionSessionId(), _CandidateList,
-                _PreProcessingIndicators, _Lock.Session.GetOutcome(), _Lock.Session.GetTransactionType(), response);
+            _CombinationSelector.ProcessPointOfInteractionResponse(response.GetTransactionSessionId(), _CandidateList, _PreProcessingIndicators,
+                _Lock.Session.GetOutcome(), _Lock.Session.GetTransactionType(), response);
         }
     }
 
@@ -182,15 +181,13 @@ internal class SelectionStateMachine
             if (!_CombinationSelector.TrySelectApplet(response.GetTransactionSessionId(), _CandidateList, _Lock.Session.GetOutcome(),
                 _CandidateList.ElementAt(0), response, out CombinationOutcome? combinationOutcome))
             {
-                _CombinationSelector.ProcessInvalidAppletResponse(response.GetTransactionSessionId(), _CandidateList,
-                    _Lock.Session.GetOutcome());
+                _CombinationSelector.ProcessInvalidAppletResponse(response.GetTransactionSessionId(), _CandidateList, _Lock.Session.GetOutcome());
 
                 return;
             }
 
-            _CombinationSelector.ProcessValidApplet(response.GetTransactionSessionId(), response.GetCorrelationId(),
-                _Lock.Session.GetTransaction(), combinationOutcome!,
-                _PreProcessingIndicators[combinationOutcome!.Combination.GetCombinationCompositeKey()].AsPreProcessingIndicatorResult(),
+            _CombinationSelector.ProcessValidApplet(response.GetTransactionSessionId(), response.GetCorrelationId(), _Lock.Session.GetTransaction(),
+                combinationOutcome!, _PreProcessingIndicators[combinationOutcome!.Combination.GetCombinationCompositeKey()].AsPreProcessingIndicatorResult(),
                 response, _EndpointClient.Send);
         }
     }
@@ -254,16 +251,16 @@ internal class SelectionStateMachine
     /// <exception cref="InvalidSignalRequest"></exception>
     private void ProcessEntryPoint(ActivateSelectionRequest request)
     {
-        if (request.GetStartOutcome() == StartOutcome.A)
+        if (request.GetStartOutcome() == StartOutcomes.A)
             ProcessAtA(request.GetTransaction());
-        else if (request.GetStartOutcome() == StartOutcome.B)
+        else if (request.GetStartOutcome() == StartOutcomes.B)
             ProcessAtB(request.GetTransaction());
-        else if (request.GetStartOutcome() == StartOutcome.C)
+        else if (request.GetStartOutcome() == StartOutcomes.C)
             ProcessAtC(request.GetTransaction());
         else
         {
             throw new InvalidSignalRequest(
-                $"A {nameof(StartOutcome)} of type {nameof(StartOutcome.A)}, {nameof(StartOutcome.A)}, or {nameof(StartOutcome.A)} was expected but the value {request.GetStartOutcome()} was found");
+                $"A {nameof(StartOutcomes)} of type {nameof(StartOutcomes.A)}, {nameof(StartOutcomes.A)}, or {nameof(StartOutcomes.A)} was expected but the value {request.GetStartOutcome()} was found");
         }
     }
 
@@ -273,23 +270,22 @@ internal class SelectionStateMachine
 
     private void ProcessAtA(Transaction transaction)
     {
-        _Preprocessor.SetPreprocessingIndicators(transaction.GetOutcome(), _PreProcessingIndicators,
-            transaction.GetAmountAuthorizedNumeric(), transaction.GetCultureProfile());
+        _Preprocessor.SetPreprocessingIndicators(transaction.GetOutcome(), _PreProcessingIndicators, transaction.GetAmountAuthorizedNumeric(),
+            transaction.GetCultureProfile());
 
         ProcessAtB(transaction);
     }
 
     private void ProcessAtB(Transaction transaction)
     {
-        _ProtocolActivator.ActivateProtocol(transaction.GetTransactionSessionId(), transaction.GetOutcome(), _PreProcessingIndicators,
-            _CandidateList);
+        _ProtocolActivator.ActivateProtocol(transaction.GetTransactionSessionId(), transaction.GetOutcome(), _PreProcessingIndicators, _CandidateList);
         _PcdClient.Request(new ActivatePcdRequest(transaction.GetTransactionSessionId()));
     }
 
     private void ProcessAtC(Transaction transaction)
     {
-        _CombinationSelector.Start(transaction.GetTransactionSessionId(), _CandidateList, _PreProcessingIndicators,
-            transaction.GetOutcome(), transaction.GetTransactionType());
+        _CombinationSelector.Start(transaction.GetTransactionSessionId(), _CandidateList, _PreProcessingIndicators, transaction.GetOutcome(),
+            transaction.GetTransactionType());
     }
 
     #endregion
@@ -308,8 +304,7 @@ internal class SelectionStateMachine
         {
             Type d1 = typeof(DataElement<>);
 
-            ObjectHandle? a =
-                Activator.CreateInstance(typeof(AmountAuthorizedNumeric).AssemblyQualifiedName, nameof(AmountAuthorizedNumeric));
+            ObjectHandle? a = Activator.CreateInstance(typeof(AmountAuthorizedNumeric).AssemblyQualifiedName, nameof(AmountAuthorizedNumeric));
 
             return Session != null;
         }

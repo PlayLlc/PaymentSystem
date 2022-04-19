@@ -3,7 +3,6 @@
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Kernel.Databases;
 using Play.Globalization.Currency;
@@ -20,8 +19,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     /// <exception cref="InvalidOperationException"></exception>
     public void Process(KernelDatabase database)
     {
-        ApplicationInterchangeProfile applicationInterchangeProfile =
-            database.Get<ApplicationInterchangeProfile>(ApplicationInterchangeProfile.Tag);
+        ApplicationInterchangeProfile applicationInterchangeProfile = database.Get<ApplicationInterchangeProfile>(ApplicationInterchangeProfile.Tag);
 
         AmountAuthorizedNumeric amountAuthorizedNumeric = database.Get<AmountAuthorizedNumeric>(AmountAuthorizedNumeric.Tag);
 
@@ -99,8 +97,7 @@ public class CardholderVerificationMethodSelector : ISelectCardholderVerificatio
     /// <remarks>EMV Book C-2 Section CVM.2 - CVM.4 & EMV Book 3 Section 10.5</remarks>
     /// <exception cref="TerminalDataException"></exception>
     public void CreateResultForOfflineVerification(
-        KernelDatabase database, NumericCurrencyCode currencyCode, AmountAuthorizedNumeric transactionAmount,
-        ReaderCvmRequiredLimit readerCvmThreshold)
+        KernelDatabase database, NumericCurrencyCode currencyCode, AmountAuthorizedNumeric transactionAmount, ReaderCvmRequiredLimit readerCvmThreshold)
     {
         if (!database!.IsPlaintextPinForIccVerificationSupported())
             database.Set(TerminalVerificationResultCodes.PinEntryRequiredAndPinPadNotPresentOrNotWorking);

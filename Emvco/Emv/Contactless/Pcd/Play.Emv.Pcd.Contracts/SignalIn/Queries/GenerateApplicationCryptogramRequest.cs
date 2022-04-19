@@ -1,5 +1,5 @@
-﻿using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
+﻿using Play.Emv.Ber;
+using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;
@@ -17,8 +17,8 @@ public record GenerateApplicationCryptogramRequest : QueryPcdRequest
 
     #region Constructor
 
-    private GenerateApplicationCryptogramRequest(TransactionSessionId transactionSessionId, CApduSignal cApduSignal) : base(cApduSignal,
-        MessageTypeId, transactionSessionId)
+    private GenerateApplicationCryptogramRequest(TransactionSessionId transactionSessionId, CApduSignal cApduSignal) : base(cApduSignal, MessageTypeId,
+        transactionSessionId)
     { }
 
     #endregion
@@ -27,8 +27,7 @@ public record GenerateApplicationCryptogramRequest : QueryPcdRequest
 
     public static GenerateApplicationCryptogramRequest Create(
         TransactionSessionId sessionId, ReferenceControlParameter referenceControlParameter,
-        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectList1RelatedData,
-        DataObjectListResult? dataStorageDataObjectListResult = null)
+        CardRiskManagementDataObjectList1RelatedData cardRiskManagementDataObjectList1RelatedData, DataObjectListResult? dataStorageDataObjectListResult = null)
     {
         if (dataStorageDataObjectListResult is null)
         {

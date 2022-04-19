@@ -2,7 +2,6 @@
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
@@ -98,10 +97,10 @@ public partial class WaitingForPutDataResponseAfterGenerateAc
     /// <exception cref="TerminalDataException"></exception>
     private void HandleDoubleTapRequiredResponse(KernelSession session)
     {
-        _Database.Update(Status.CardReadSuccessful);
+        _Database.Update(Statuses.CardReadSuccessful);
         _DisplayEndpoint.Request(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
-        _Database.Update(Status.ReadyToRead);
+        _Database.Update(Statuses.ReadyToRead);
         _Database.Update(MessageHoldTime.MinimumValue);
         _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));
     }
@@ -116,7 +115,7 @@ public partial class WaitingForPutDataResponseAfterGenerateAc
     {
         UserInterfaceRequestData.Builder builder = UserInterfaceRequestData.GetBuilder();
         builder.Set(MessageIdentifiers.ClearDisplay);
-        builder.Set(Status.CardReadSuccessful);
+        builder.Set(Statuses.CardReadSuccessful);
         builder.Set(MessageHoldTime.MinimumValue);
         _DisplayEndpoint.Request(new DisplayMessageRequest(builder.Complete()));
 

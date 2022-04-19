@@ -2,8 +2,8 @@
 
 using Play.Ber.Exceptions;
 using Play.Core.Exceptions;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Exceptions;
@@ -34,10 +34,9 @@ internal partial class S910 : CommonProcessing
     #region Constructor
 
     public S910(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
-        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint, IAuthenticateTransactionSession authenticationService,
-        IHandleDisplayRequests displayEndpoint) : base(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint,
-        kernelEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IKernelEndpoint kernelEndpoint, IAuthenticateTransactionSession authenticationService, IHandleDisplayRequests displayEndpoint) : base(database,
+        dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
     {
         _DisplayEndpoint = displayEndpoint;
         _ResponseHandler = new ResponseHandler(database, dataExchangeKernelService, kernelEndpoint, pcdEndpoint, displayEndpoint);

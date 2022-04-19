@@ -5,7 +5,6 @@ using Play.Core.Extensions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Display.Contracts;
 using Play.Emv.Identifiers;
@@ -64,8 +63,7 @@ internal partial class S910
         /// <exception cref="TerminalDataException"></exception>
         private bool TryPreparingOutcomeForSecondTap()
         {
-            PosCardholderInteractionInformation pcii =
-                _Database.Get<PosCardholderInteractionInformation>(PosCardholderInteractionInformation.Tag);
+            PosCardholderInteractionInformation pcii = _Database.Get<PosCardholderInteractionInformation>(PosCardholderInteractionInformation.Tag);
 
             if (!pcii.IsSecondTapNeeded())
                 return false;
@@ -85,7 +83,7 @@ internal partial class S910
         private void PrepareOutcomeParameterSetForPcii()
         {
             _Database.Update(StatusOutcome.EndApplication);
-            _Database.Update(StartOutcome.B);
+            _Database.Update(StartOutcomes.B);
         }
 
         #endregion
@@ -97,8 +95,7 @@ internal partial class S910
         private void AttemptToSetPciiDisplayMessage()
         {
             PhoneMessageTable phoneMessageTable = _Database.Get<PhoneMessageTable>(PhoneMessageTable.Tag);
-            PosCardholderInteractionInformation pcii =
-                _Database.Get<PosCardholderInteractionInformation>(PosCardholderInteractionInformation.Tag);
+            PosCardholderInteractionInformation pcii = _Database.Get<PosCardholderInteractionInformation>(PosCardholderInteractionInformation.Tag);
 
             if (!phoneMessageTable.TryGetMatch(pcii, out MessageTableEntry? messageTableEntry))
                 return;
@@ -256,8 +253,7 @@ internal partial class S910
         /// <exception cref="InvalidOperationException"></exception>
         private void HandleOutMessage(Kernel2Session session)
         {
-            PosCardholderInteractionInformation pcii =
-                _Database.Get<PosCardholderInteractionInformation>(PosCardholderInteractionInformation.Tag);
+            PosCardholderInteractionInformation pcii = _Database.Get<PosCardholderInteractionInformation>(PosCardholderInteractionInformation.Tag);
 
             if (pcii.IsSecondTapNeeded())
             {
@@ -281,7 +277,7 @@ internal partial class S910
             _DisplayEndpoint.Request(new DisplayMessageRequest(_Database.GetUserInterfaceRequestData()));
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
             _Database.SetUiRequestOnRestartPresent(true);
-            _Database.Update(Status.ReadyToRead);
+            _Database.Update(Statuses.ReadyToRead);
             _Database.Update(MessageHoldTime.MinimumValue);
 
             _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));

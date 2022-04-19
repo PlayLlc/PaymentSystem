@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 
 using Play.Core.Exceptions;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Globalization;
 
 namespace Play.Emv.Display.Contracts;
@@ -21,8 +21,7 @@ public class DisplayMessages
     #region Constructor
 
     public DisplayMessages(
-        LanguagePreference languagePreference, TerminalCountryCode terminalCountryCode,
-        Dictionary<MessageIdentifiers, DisplayMessage> displayMessages)
+        LanguagePreference languagePreference, TerminalCountryCode terminalCountryCode, Dictionary<MessageIdentifiers, DisplayMessage> displayMessages)
     {
         _CultureProfile = new CultureProfile(terminalCountryCode.AsCountryCode(), languagePreference.GetPreferredLanguage());
         CheckCore.ForEmptySequence(displayMessages, nameof(displayMessages));

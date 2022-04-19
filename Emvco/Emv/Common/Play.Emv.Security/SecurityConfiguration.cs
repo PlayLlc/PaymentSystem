@@ -1,6 +1,9 @@
 ﻿using System.Collections.Immutable;
+using System.Runtime.CompilerServices;
 
 using Play.Core.Exceptions;
+
+[assembly: InternalsVisibleTo("Play.Emv.Kernel2.Tests")]
 
 namespace Play.Emv.Security;
 
@@ -36,8 +39,7 @@ public class SecurityConfiguration
         return _CertificateMap.Values.Where(a => a.IsRevoked()).ToArray();
     }
 
-    public bool IsRevoked(CaPublicKeyCertificateIdentifier caPublicKeyCertificateIdentifier) =>
-        _CertificateMap.ContainsKey(caPublicKeyCertificateIdentifier);
+    public bool IsRevoked(CaPublicKeyCertificateIdentifier caPublicKeyCertificateIdentifier) => _CertificateMap.ContainsKey(caPublicKeyCertificateIdentifier);
 
     #endregion
 }

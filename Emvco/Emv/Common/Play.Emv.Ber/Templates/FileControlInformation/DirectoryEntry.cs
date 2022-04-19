@@ -6,7 +6,6 @@ using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.Templates;
@@ -19,8 +18,7 @@ public class DirectoryEntry : Template
 
     public static Tag[] ChildTags =
     {
-        ApplicationDedicatedFileName.Tag, ApplicationLabel.Tag, ApplicationPriorityIndicator.Tag, ExtendedSelection.Tag,
-        KernelIdentifier.Tag
+        ApplicationDedicatedFileName.Tag, ApplicationLabel.Tag, ApplicationPriorityIndicator.Tag, ExtendedSelection.Tag, KernelIdentifier.Tag
     };
 
     #endregion
@@ -161,8 +159,7 @@ public class DirectoryEntry : Template
         return result;
     }
 
-    private static bool TryGetDefaultKernelIdentifier(
-        ApplicationDedicatedFileName applicationDedicatedFileName, out KernelIdentifier kernelIdentifier) =>
+    private static bool TryGetDefaultKernelIdentifier(ApplicationDedicatedFileName applicationDedicatedFileName, out KernelIdentifier kernelIdentifier) =>
         KernelIdentifier.TryGetDefaultKernelIdentifier(applicationDedicatedFileName, out kernelIdentifier);
 
     protected override IEncodeBerDataObjects?[] GetChildren()
@@ -190,15 +187,13 @@ public class DirectoryEntry : Template
         ExtendedSelection? extendedSelection = null;
 
         ApplicationDedicatedFileName applicationDedicatedFileName =
-            encodedTlvSiblings.TryGetValueOctetsOfSibling(ApplicationDedicatedFileName.Tag,
-                out ReadOnlyMemory<byte> rawApplicationDedicatedFileName)
+            encodedTlvSiblings.TryGetValueOctetsOfSibling(ApplicationDedicatedFileName.Tag, out ReadOnlyMemory<byte> rawApplicationDedicatedFileName)
                 ? ApplicationDedicatedFileName.Decode(rawApplicationDedicatedFileName)
                 : throw new CardDataMissingException(
                     $"A problem occurred while decoding {nameof(DirectoryEntry)}. A {nameof(ApplicationDedicatedFileName)} was expected but could not be found");
 
         ApplicationPriorityIndicator applicationPriorityIndicator =
-            encodedTlvSiblings.TryGetValueOctetsOfSibling(ApplicationPriorityIndicator.Tag,
-                out ReadOnlyMemory<byte> rawApplicationPriorityIndicator)
+            encodedTlvSiblings.TryGetValueOctetsOfSibling(ApplicationPriorityIndicator.Tag, out ReadOnlyMemory<byte> rawApplicationPriorityIndicator)
                 ? ApplicationPriorityIndicator.Decode(rawApplicationPriorityIndicator)
                 : new ApplicationPriorityIndicator(0);
 
@@ -214,8 +209,7 @@ public class DirectoryEntry : Template
         if ((kernelIdentifier == null) && TryGetDefaultKernelIdentifier(applicationDedicatedFileName, out KernelIdentifier kernelIdDefault))
             kernelIdentifier = kernelIdDefault;
 
-        return new DirectoryEntry(applicationDedicatedFileName, applicationPriorityIndicator, applicationLabel, kernelIdentifier,
-            extendedSelection);
+        return new DirectoryEntry(applicationDedicatedFileName, applicationPriorityIndicator, applicationLabel, kernelIdentifier, extendedSelection);
     }
 
     #endregion

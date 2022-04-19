@@ -5,7 +5,6 @@ using Play.Ber.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
@@ -61,10 +60,10 @@ public partial class WaitingForPutDataResponseBeforeGenerateAc
                 return false;
 
             _Database.Update(MessageIdentifiers.TryAgain);
-            _Database.Update(Status.ReadyToRead);
+            _Database.Update(Statuses.ReadyToRead);
             _Database.Update(MessageHoldTime.MinimumValue);
             _Database.Update(StatusOutcome.EndApplication);
-            _Database.Update(StartOutcome.B);
+            _Database.Update(StartOutcomes.B);
             _Database.SetUiRequestOnRestartPresent(true);
             _Database.Update(rapdu.GetLevel1Error());
             _Database.Update(MessageOnErrorIdentifiers.TryAgain);
@@ -167,8 +166,8 @@ public partial class WaitingForPutDataResponseBeforeGenerateAc
             return false;
 
         if (!_Database.TryGet(
-            new TornEntry(_Database.Get<ApplicationPan>(ApplicationPan.Tag),
-                _Database.Get<ApplicationPanSequenceNumber>(ApplicationPanSequenceNumber.Tag)), out TornRecord? tornRecord))
+            new TornEntry(_Database.Get<ApplicationPan>(ApplicationPan.Tag), _Database.Get<ApplicationPanSequenceNumber>(ApplicationPanSequenceNumber.Tag)),
+            out TornRecord? tornRecord))
             return false;
 
         session.Update(tornRecord!.GetKey());

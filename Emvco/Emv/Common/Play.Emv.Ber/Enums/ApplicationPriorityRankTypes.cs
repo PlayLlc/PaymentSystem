@@ -3,7 +3,7 @@ using System.Collections.Immutable;
 using Play.Core;
 using Play.Core.Extensions;
 
-namespace Play.Emv.Ber.Enums;
+namespace Play.Emv.Ber;
 
 public sealed record ApplicationPriorityRankTypes : EnumObject<ApplicationPriorityRank>
 {

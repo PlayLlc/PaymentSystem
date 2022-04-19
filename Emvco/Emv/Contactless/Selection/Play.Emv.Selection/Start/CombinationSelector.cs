@@ -2,7 +2,6 @@
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.Templates;
 using Play.Emv.Identifiers;
@@ -46,10 +45,10 @@ public class CombinationSelector
     #region Instance Members
 
     public void Start(
-        TransactionSessionId transactionSessionId, in CandidateList candidateList, in PreProcessingIndicators preProcessingIndicators,
-        in Outcome outcome, in TransactionType transactionType)
+        TransactionSessionId transactionSessionId, in CandidateList candidateList, in PreProcessingIndicators preProcessingIndicators, in Outcome outcome,
+        in TransactionType transactionType)
     {
-        if (outcome.GetStartOutcome() == StartOutcome.B)
+        if (outcome.GetStartOutcome() == StartOutcomes.B)
         {
             // BUG: It looks like I added this here because some state logic wasn't implemented. Check the specification and correct this part of the flow
             if (1 == 2)
@@ -77,13 +76,11 @@ public class CombinationSelector
     }
 
     public void ProcessValidApplet(
-        TransactionSessionId transactionSessionId, CorrelationId correlationId, Transaction transaction,
-        CombinationOutcome combinationOutcome, PreProcessingIndicatorResult preProcessingIndicatorResult,
-        SelectApplicationDefinitionFileInfoResponse appletFci, Action<OutSelectionResponse> callback)
+        TransactionSessionId transactionSessionId, CorrelationId correlationId, Transaction transaction, CombinationOutcome combinationOutcome,
+        PreProcessingIndicatorResult preProcessingIndicatorResult, SelectApplicationDefinitionFileInfoResponse appletFci, Action<OutSelectionResponse> callback)
     {
-        OutSelectionResponse outSelectionResponse = new(correlationId, transaction,
-            combinationOutcome.Combination.GetCombinationCompositeKey(), preProcessingIndicatorResult.GetTerminalTransactionQualifiers(),
-            appletFci);
+        OutSelectionResponse outSelectionResponse = new(correlationId, transaction, combinationOutcome.Combination.GetCombinationCompositeKey(),
+            preProcessingIndicatorResult.GetTerminalTransactionQualifiers(), appletFci);
 
         callback.Invoke(outSelectionResponse);
     }
@@ -109,7 +106,7 @@ public class CombinationSelector
             builder.SetIsUiRequestOnOutcomePresent(true);
 
             userInterfaceRequestDataBuilder.Set(MessageIdentifiers.ErrorUseAnotherCard);
-            userInterfaceRequestDataBuilder.Set(Status.ReadyToRead);
+            userInterfaceRequestDataBuilder.Set(Statuses.ReadyToRead);
             userInterfaceRequestDataBuilder.Set(new MessageHoldTime(Milliseconds.Zero));
         }
 
@@ -134,8 +131,8 @@ public class CombinationSelector
     /// <param name="sendPoiInformationResponse"></param>
     /// <exception cref="DataElementParsingException"></exception>
     public void ProcessPointOfInteractionResponse(
-        TransactionSessionId transactionSessionId, CandidateList candidateList, PreProcessingIndicators preProcessingIndicators,
-        Outcome outcome, TransactionType transactionType, SendPoiInformationResponse sendPoiInformationResponse)
+        TransactionSessionId transactionSessionId, CandidateList candidateList, PreProcessingIndicators preProcessingIndicators, Outcome outcome,
+        TransactionType transactionType, SendPoiInformationResponse sendPoiInformationResponse)
     {
         if (sendPoiInformationResponse.GetStatusWords() == StatusWords._9000)
         {
@@ -200,8 +197,7 @@ public class CombinationSelector
     /// <param name="fileControlInformationTemplatePpse"></param>
     /// <exception cref="DataElementParsingException"></exception>
     private void PopulateCandidateList(
-        PreProcessingIndicators preProcessingIndicators, TransactionType transactionType,
-        FileControlInformationPpse fileControlInformationTemplatePpse)
+        PreProcessingIndicators preProcessingIndicators, TransactionType transactionType, FileControlInformationPpse fileControlInformationTemplatePpse)
     {
         List<DirectoryEntry> directoryEntries = fileControlInformationTemplatePpse.GetDirectoryEntries();
         HashSet<Combination> combinations = new();
@@ -229,8 +225,8 @@ public class CombinationSelector
                 continue;
             }
 
-            CombinationCompositeKey combinationKey = new(directoryEntry.GetApplicationDedicatedFileName().AsDedicatedFileName(),
-                kernelIdentifier!.AsKernelId(), transactionType);
+            CombinationCompositeKey combinationKey = new(directoryEntry.GetApplicationDedicatedFileName().AsDedicatedFileName(), kernelIdentifier!.AsKernelId(),
+                transactionType);
 
             combinations.Add(CreateCombination(preProcessingIndicators, combinationKey, directoryEntry));
         }
@@ -240,7 +236,7 @@ public class CombinationSelector
     {
         UserInterfaceRequestData.Builder? userInterfaceRequestDataBuilder = UserInterfaceRequestData.GetBuilder();
         userInterfaceRequestDataBuilder.Set(MessageIdentifiers.ErrorUseAnotherCard);
-        userInterfaceRequestDataBuilder.Set(Status.ReadyToRead);
+        userInterfaceRequestDataBuilder.Set(Statuses.ReadyToRead);
 
         OutcomeParameterSet.Builder? outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
         outcomeParameterSetBuilder.SetIsUiRequestOnOutcomePresent(true);
@@ -266,16 +262,15 @@ public class CombinationSelector
     /// <param name="response"></param>
     /// <exception cref="DataElementParsingException"></exception>
     public void ProcessPpseResponse(
-        TransactionSessionId transactionSessionId, CandidateList candidateList, PreProcessingIndicators preProcessingIndicators,
-        Outcome outcome, TransactionType transactionType, SelectProximityPaymentSystemEnvironmentResponse response)
+        TransactionSessionId transactionSessionId, CandidateList candidateList, PreProcessingIndicators preProcessingIndicators, Outcome outcome,
+        TransactionType transactionType, SelectProximityPaymentSystemEnvironmentResponse response)
     {
         if (!response.TryGetFileControlInformation(out FileControlInformationPpse? ppseFileControlInformation))
         {
             if (ppseFileControlInformation!.IsPointOfInteractionApduCommandRequested())
                 ProcessStep1A(transactionSessionId, ppseFileControlInformation);
 
-            ProcessStep2(transactionSessionId, candidateList, preProcessingIndicators, outcome, transactionType,
-                ppseFileControlInformation);
+            ProcessStep2(transactionSessionId, candidateList, preProcessingIndicators, outcome, transactionType, ppseFileControlInformation);
 
             return;
         }
@@ -304,8 +299,8 @@ public class CombinationSelector
     /// <param name="fileControlInformationPpse"></param>
     /// <exception cref="DataElementParsingException"></exception>
     private void ProcessStep2(
-        TransactionSessionId transactionSessionId, CandidateList candidateList, PreProcessingIndicators preProcessingIndicators,
-        Outcome outcome, TransactionType transactionType, FileControlInformationPpse fileControlInformationPpse)
+        TransactionSessionId transactionSessionId, CandidateList candidateList, PreProcessingIndicators preProcessingIndicators, Outcome outcome,
+        TransactionType transactionType, FileControlInformationPpse fileControlInformationPpse)
     {
         if (fileControlInformationPpse.IsDirectoryEntryListEmpty())
             /*return*/
@@ -336,8 +331,7 @@ public class CombinationSelector
     /// </remarks>
     private void SelectApplicationFileControlInformation(TransactionSessionId transactionSessionId, Combination combination)
     {
-        _PcdEndpoint.Request(
-            SelectApplicationDefinitionFileInfoRequest.Create(transactionSessionId, combination.GetApplicationIdentifier()));
+        _PcdEndpoint.Request(SelectApplicationDefinitionFileInfoRequest.Create(transactionSessionId, combination.GetApplicationIdentifier()));
     }
 
     /// <exception cref="InvalidOperationException">Ignore.</exception>
@@ -361,11 +355,9 @@ public class CombinationSelector
     // TODO: We should not be passing an empty array to the fileControlInformationTemplatePpse. We need to be
     // TODO: using the Data Exchange mechanisms and sending this C-APDU once we have been notified that the values
     // TODO: requested 
-    private void SendPointOfInteractionApduCommand(
-        TransactionSessionId transactionSessionId, FileControlInformationPpse fileControlInformationTemplatePpse)
+    private void SendPointOfInteractionApduCommand(TransactionSessionId transactionSessionId, FileControlInformationPpse fileControlInformationTemplatePpse)
     {
-        CommandTemplate? commandTemplate =
-            fileControlInformationTemplatePpse.AsCommandTemplate(_Codec, _PoiInformation, Array.Empty<PrimitiveValue>());
+        CommandTemplate? commandTemplate = fileControlInformationTemplatePpse.AsCommandTemplate(_Codec, _PoiInformation, Array.Empty<PrimitiveValue>());
 
         _PcdEndpoint.Request(SendPoiInformationRequest.Create(transactionSessionId, commandTemplate));
     }

@@ -6,7 +6,6 @@ using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.Templates;
 using Play.Emv.Exceptions;
@@ -82,7 +81,7 @@ public partial class Idle : KernelState
     private void HandleBerEncodingException(CorrelationId correlationId, KernelSessionId kernelSessionId)
     {
         _Database.Update(StatusOutcome.SelectNext);
-        _Database.Update(StartOutcome.C);
+        _Database.Update(StartOutcomes.C);
 
         _KernelEndpoint.Send(new OutKernelResponse(correlationId, kernelSessionId, _Database.GetOutcome()));
     }
@@ -432,8 +431,7 @@ public partial class Idle : KernelState
         if (!_Database.IsPresentAndNotEmpty(DataStorageId.Tag))
             return HandlePdolData(session);
 
-        ApplicationCapabilitiesInformation applicationCapabilitiesInformation =
-            (ApplicationCapabilitiesInformation) applicationCapabilitiesInformationTlv!;
+        ApplicationCapabilitiesInformation applicationCapabilitiesInformation = (ApplicationCapabilitiesInformation) applicationCapabilitiesInformationTlv!;
 
         if (applicationCapabilitiesInformation.GetDataStorageVersionNumber() == DataStorageVersionNumbers.Version1)
             SetIntegratedDataStorageReadStatus();

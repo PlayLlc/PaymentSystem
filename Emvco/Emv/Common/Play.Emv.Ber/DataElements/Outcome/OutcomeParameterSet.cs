@@ -35,7 +35,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
     static OutcomeParameterSet()
     {
         Builder builder = GetBuilder();
-        builder.Set(StartOutcome.NotAvailable);
+        builder.Set(StartOutcomes.NotAvailable);
         builder.Set(CvmPerformedOutcome.NotAvailable);
         builder.Set(OnlineResponseOutcome.NotAvailable);
         Default = builder.Complete();
@@ -56,7 +56,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
     public CvmPerformedOutcome GetCvmPerformed() => CvmPerformedOutcome.Get((byte) (_Value >> _CvmOutcomeOffset));
     public FieldOffRequestOutcome GetFieldOffRequestOutcome() => new((byte) (_Value >> _FieldOffRequestOutcomeOffset));
     public OnlineResponseOutcome GetOnlineResponseOutcome() => OnlineResponseOutcome.Get((byte) (_Value >> _OnlineResponseOutcomeOffset));
-    public StartOutcome GetStartOutcome() => StartOutcome.Get((byte) (_Value >> _StartOutcomeOffset));
+    public StartOutcomes GetStartOutcome() => StartOutcomes.Get((byte) (_Value >> _StartOutcomeOffset));
     public StatusOutcome GetStatusOutcome() => StatusOutcome.Get((byte) (_Value >> _StatusOutcomeOffset));
     public override Tag GetTag() => Tag;
 
@@ -135,7 +135,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
         {
             // Initialize all values as their default values
             Set(StatusOutcome.NotAvailable);
-            Set(StartOutcome.NotAvailable);
+            Set(StartOutcomes.NotAvailable);
             Set(OnlineResponseOutcome.NotAvailable);
             Set(CvmPerformedOutcome.NotAvailable);
             Set(AlternateInterfacePreferenceOutcome.NotAvailable);
@@ -157,7 +157,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
             _Value |= (ulong) bitsToSet << _StatusOutcomeOffset;
         }
 
-        public void Set(StartOutcome bitsToSet)
+        public void Set(StartOutcomes bitsToSet)
         {
             _Value.ClearBits((ulong) byte.MaxValue << _StartOutcomeOffset);
             _Value |= (ulong) bitsToSet << _StartOutcomeOffset;

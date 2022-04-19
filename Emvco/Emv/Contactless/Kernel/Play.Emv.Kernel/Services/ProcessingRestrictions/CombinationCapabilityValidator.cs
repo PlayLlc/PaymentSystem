@@ -4,7 +4,6 @@ using Play.Codecs.Exceptions;
 using Play.Core.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Kernel.Databases;
 
@@ -61,8 +60,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="InvalidOperationException"></exception>
     private bool IsTerminalAnAtm(KernelDatabase database)
     {
-        AdditionalTerminalCapabilities additionalTerminalCapabilities =
-            database.Get<AdditionalTerminalCapabilities>(AdditionalTerminalCapabilities.Tag);
+        AdditionalTerminalCapabilities additionalTerminalCapabilities = database.Get<AdditionalTerminalCapabilities>(AdditionalTerminalCapabilities.Tag);
 
         if (!additionalTerminalCapabilities.Cash())
             return false;
@@ -73,8 +71,8 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
             TerminalType.TerminalOperatorType.FinancialInstitution);
         TerminalType offlineAtm = new(TerminalType.EnvironmentType.Unattended, TerminalType.CommunicationType.OfflineOnly,
             TerminalType.TerminalOperatorType.FinancialInstitution);
-        TerminalType onlineAndOfflineAtm = new(TerminalType.EnvironmentType.Unattended,
-            TerminalType.CommunicationType.OnlineAndOfflineCapable, TerminalType.TerminalOperatorType.FinancialInstitution);
+        TerminalType onlineAndOfflineAtm = new(TerminalType.EnvironmentType.Unattended, TerminalType.CommunicationType.OnlineAndOfflineCapable,
+            TerminalType.TerminalOperatorType.FinancialInstitution);
 
         if (terminalType == onlineAtm)
             return true;
@@ -172,8 +170,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="PlayInternalException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private void InitializeCashTransactionCompatibilityFlags(
-        ApplicationUsageControl applicationUsageControl, TerminalCountryCode terminalCountryCode, IssuerCountryCode issuerCountryCode,
-        KernelDatabase database)
+        ApplicationUsageControl applicationUsageControl, TerminalCountryCode terminalCountryCode, IssuerCountryCode issuerCountryCode, KernelDatabase database)
     {
         if (!IsCashTransaction(database))
             return;
@@ -249,8 +246,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     private void InitializeCountryCompatibilityFlags(
-        ApplicationUsageControl applicationUsageControl, TerminalCountryCode terminalCountryCode, IssuerCountryCode issuerCountryCode,
-        KernelDatabase database)
+        ApplicationUsageControl applicationUsageControl, TerminalCountryCode terminalCountryCode, IssuerCountryCode issuerCountryCode, KernelDatabase database)
     {
         if (!IsPurchaseTransaction(database))
             return;
@@ -326,8 +322,7 @@ public class CombinationCapabilityValidator : IValidateCombinationCompatibility
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     private void InitializeCashbackCompatibilityFlags(
-        ApplicationUsageControl applicationUsageControl, TerminalCountryCode terminalCountryCode, IssuerCountryCode issuerCountryCode,
-        KernelDatabase database)
+        ApplicationUsageControl applicationUsageControl, TerminalCountryCode terminalCountryCode, IssuerCountryCode issuerCountryCode, KernelDatabase database)
     {
         if (!IsCashbackRequested(database))
             return;

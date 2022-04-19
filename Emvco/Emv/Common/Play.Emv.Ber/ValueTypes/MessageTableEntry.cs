@@ -17,7 +17,7 @@ public partial record MessageTableEntry
     private readonly PciiMask _Mask;
     private readonly PciiValue _Value;
     private readonly MessageIdentifier _MessageIdentifier;
-    private readonly Status _Status;
+    private readonly Statuses _Statuses;
 
     #endregion
 
@@ -32,15 +32,15 @@ public partial record MessageTableEntry
         _Mask = new PciiMask(PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(value[..3]));
         _Value = new PciiValue(PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(value[3..6]));
         _MessageIdentifier = new MessageIdentifier(value[6]);
-        _Status = new Status(value[7]);
+        _Statuses = new Statuses(value[7]);
     }
 
-    internal MessageTableEntry(PciiMask mask, PciiValue value, MessageIdentifier messageIdentifier, Status status)
+    internal MessageTableEntry(PciiMask mask, PciiValue value, MessageIdentifier messageIdentifier, Statuses statuses)
     {
         _Mask = mask;
         _Value = value;
         _MessageIdentifier = messageIdentifier;
-        _Status = status;
+        _Statuses = statuses;
     }
 
     #endregion
@@ -52,13 +52,13 @@ public partial record MessageTableEntry
         _Mask.Decode(buffer, ref offset);
         _Value.Decode(buffer, ref offset);
         _MessageIdentifier.Decode(buffer, ref offset);
-        _Status.Decode(buffer, ref offset);
+        _Statuses.Decode(buffer, ref offset);
     }
 
     public bool IsMessageMatch(PosCardholderInteractionInformation pcii) => pcii.GetMaskedValue(this) == _Value;
     internal PciiMask GetPciiMask() => _Mask;
     public MessageIdentifier GetMessageIdentifier() => _MessageIdentifier;
-    public Status GetStatus() => _Status;
+    public Statuses GetStatus() => _Statuses;
 
     #endregion
 

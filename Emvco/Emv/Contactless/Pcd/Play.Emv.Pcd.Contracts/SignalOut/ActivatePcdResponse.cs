@@ -1,4 +1,4 @@
-﻿using Play.Emv.Ber.Enums;
+﻿using Play.Emv.Ber;
 using Play.Emv.Identifiers;
 using Play.Emv.Messaging;
 using Play.Messaging;
@@ -28,8 +28,8 @@ public record ActivatePcdResponse : ResponseSignal
     #region Constructor
 
     public ActivatePcdResponse(
-        CorrelationId correlationId, bool isCollisionDetected, Level1Error level1Error, TransactionSessionId transactionSessionId) : base(
-        correlationId, MessageTypeId, ChannelTypeId)
+        CorrelationId correlationId, bool isCollisionDetected, Level1Error level1Error, TransactionSessionId transactionSessionId) : base(correlationId,
+        MessageTypeId, ChannelTypeId)
     {
         _Level1Error = level1Error;
         _TransactionSessionId = transactionSessionId;

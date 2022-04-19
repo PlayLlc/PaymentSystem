@@ -72,8 +72,7 @@ public class Outcome
         _TerminalVerificationResults = new TerminalVerificationResults(0);
     }
 
-    public Outcome(
-        OutcomeParameterSet outcomeParameterSet, DiscretionaryData discretionaryData, UserInterfaceRequestData userInterfaceRequestData)
+    public Outcome(OutcomeParameterSet outcomeParameterSet, DiscretionaryData discretionaryData, UserInterfaceRequestData userInterfaceRequestData)
     {
         _OutcomeParameterSet = outcomeParameterSet;
         _DiscretionaryData = discretionaryData;
@@ -83,8 +82,8 @@ public class Outcome
     }
 
     public Outcome(
-        ErrorIndication errorIndication, OutcomeParameterSet outcomeParameterSet, DataRecord? dataRecord = null,
-        DiscretionaryData? discretionaryData = null, UserInterfaceRequestData? userInterfaceRequestData = null)
+        ErrorIndication errorIndication, OutcomeParameterSet outcomeParameterSet, DataRecord? dataRecord = null, DiscretionaryData? discretionaryData = null,
+        UserInterfaceRequestData? userInterfaceRequestData = null)
     {
         _ErrorIndication = errorIndication;
         _OutcomeParameterSet = outcomeParameterSet;
@@ -113,7 +112,7 @@ public class Outcome
     }
 
     public FieldOffRequestOutcome GetFieldOffRequestOutcome() => _OutcomeParameterSet.GetFieldOffRequestOutcome();
-    public StartOutcome GetStartOutcome() => _OutcomeParameterSet.GetStartOutcome();
+    public StartOutcomes GetStartOutcome() => _OutcomeParameterSet.GetStartOutcome();
     public StatusOutcome GetStatusOutcome() => _OutcomeParameterSet.GetStatusOutcome();
     public Milliseconds GetTimeout() => _OutcomeParameterSet.GetTimeout();
     public ErrorIndication GetErrorIndication() => _ErrorIndication;

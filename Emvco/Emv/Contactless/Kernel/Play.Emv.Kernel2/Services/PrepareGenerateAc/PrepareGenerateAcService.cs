@@ -4,7 +4,6 @@ using Play.Ber.Exceptions;
 using Play.Core.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
@@ -47,9 +46,8 @@ public partial class PrepareGenerateAcService : CommonProcessing
     #region Constructor
 
     public PrepareGenerateAcService(
-        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver,
-        IHandlePcdRequests pcdEndpoint, IKernelEndpoint kernelEndpoint) : base(database, dataExchangeKernelService, kernelStateResolver,
-        pcdEndpoint, kernelEndpoint)
+        KernelDatabase database, DataExchangeKernelService dataExchangeKernelService, IGetKernelState kernelStateResolver, IHandlePcdRequests pcdEndpoint,
+        IKernelEndpoint kernelEndpoint) : base(database, dataExchangeKernelService, kernelStateResolver, pcdEndpoint, kernelEndpoint)
     {
         _CdaFailure = new CdaFailure(database, pcdEndpoint);
         _ReadIds = new ReadIntegratedDataStorage(database, pcdEndpoint);
@@ -94,8 +92,7 @@ public partial class PrepareGenerateAcService : CommonProcessing
             return writeIdsFlowStateIdResult!.Value;
 
         // GAC.10 - GAC13
-        if (TryHandlingIdsNoMatchingAc(currentStateIdRetriever, session, message, dsOdsInfoForReader,
-            out StateId? idsNoMatchingAcErrorStateId))
+        if (TryHandlingIdsNoMatchingAc(currentStateIdRetriever, session, message, dsOdsInfoForReader, out StateId? idsNoMatchingAcErrorStateId))
             return idsNoMatchingAcErrorStateId!.Value;
 
         return _ReadIds.Process(currentStateIdRetriever, session, message);
@@ -184,8 +181,8 @@ public partial class PrepareGenerateAcService : CommonProcessing
     /// <remarks>EMV Book C-2 GAC.7 - GAC-9</remarks>
     /// <exception cref="PlayInternalException"></exception>
     private bool TryHandlingIdsWrite(
-        IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message,
-        DataStorageOperatorDataSetInfoForReader dsOdsInfoForReader, out StateId? result)
+        IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message, DataStorageOperatorDataSetInfoForReader dsOdsInfoForReader,
+        out StateId? result)
     {
         if (IsAcTypeRankedHigherThanDsAcType(session))
         {
@@ -282,8 +279,8 @@ public partial class PrepareGenerateAcService : CommonProcessing
 
     /// <remarks>EMV Book C-2 GAC.10 - GAC13</remarks>
     private bool TryHandlingIdsNoMatchingAc(
-        IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message,
-        DataStorageOperatorDataSetInfoForReader dsOdsInfoForReader, out StateId? result)
+        IGetKernelStateId currentStateIdRetriever, Kernel2Session session, Message message, DataStorageOperatorDataSetInfoForReader dsOdsInfoForReader,
+        out StateId? result)
     {
         if (!IsStopIfNoDsOdsTermSet(dsOdsInfoForReader))
         {
@@ -297,7 +294,7 @@ public partial class PrepareGenerateAcService : CommonProcessing
             result = currentStateIdRetriever.GetStateId();
             _Database.Update(Level2Error.IdsNoMatchingAc);
             _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
-            _Database.Update(Status.NotReady);
+            _Database.Update(Statuses.NotReady);
             _Database.Update(StatusOutcome.EndApplication);
             _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);

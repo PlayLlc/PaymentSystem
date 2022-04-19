@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 
 using Play.Codecs.Exceptions;
-using Play.Emv.Ber.Enums;
+using Play.Emv.Ber;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Icc;
 using Play.Emv.Pcd.Contracts;
@@ -36,8 +36,7 @@ public class RelayResistanceDataExchanger : IExchangeRelayResistanceData
     {
         try
         {
-            ExchangeRelayResistanceDataRApduSignal response =
-                new(await _PcdTransceiver.Transceive(command.Serialize()).ConfigureAwait(false));
+            ExchangeRelayResistanceDataRApduSignal response = new(await _PcdTransceiver.Transceive(command.Serialize()).ConfigureAwait(false));
 
             // TODO Handle for Status  Words
 

@@ -4,7 +4,6 @@ using Play.Ber.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
@@ -27,8 +26,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     public CryptogramTypes Process(TransactionSessionId sessionId, KernelDatabase database)
     {
         ActionFlag resultFlag = ActionFlag.None;
-        TerminalVerificationResults terminalVerificationResults =
-            database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
+        TerminalVerificationResults terminalVerificationResults = database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
 
         ProcessDenialActionCodes(database, terminalVerificationResults, ref resultFlag);
         ProcessOnlineActionCodes(database, terminalVerificationResults, ref resultFlag);
@@ -60,8 +58,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         TerminalActionCodeDenial terminalActionCodeDenial = database.Get<TerminalActionCodeDenial>(TerminalActionCodeDenial.Tag);
         IssuerActionCodeDenial issuerActionCodeDefault = database.Get<IssuerActionCodeDenial>(IssuerActionCodeDenial.Tag);
 
-        ActionCodes denialActionCodes =
-            new((ulong) terminalActionCodeDenial.AsActionCodes() | (ulong) issuerActionCodeDefault.AsActionCodes());
+        ActionCodes denialActionCodes = new((ulong) terminalActionCodeDenial.AsActionCodes() | (ulong) issuerActionCodeDefault.AsActionCodes());
 
         return denialActionCodes;
     }
@@ -73,8 +70,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <param name="terminalVerificationResults"></param>
     /// <param name="flag"></param>
     /// <exception cref="TerminalDataException"></exception>
-    private static void ProcessDenialActionCodes(
-        KernelDatabase database, TerminalVerificationResults terminalVerificationResults, ref ActionFlag flag)
+    private static void ProcessDenialActionCodes(KernelDatabase database, TerminalVerificationResults terminalVerificationResults, ref ActionFlag flag)
     {
         if (!((ulong) terminalVerificationResults).AreAnyBitsSet((ulong) GetDenialActionCodes(database)))
             return;
@@ -92,8 +88,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         TerminalActionCodeDefault terminalActionCodeDenial = database.Get<TerminalActionCodeDefault>(TerminalActionCodeDefault.Tag);
         IssuerActionCodeDefault issuerActionCodeDefault = database.Get<IssuerActionCodeDefault>(IssuerActionCodeDefault.Tag);
 
-        ActionCodes denialActionCodes =
-            new((ulong) terminalActionCodeDenial.AsActionCodes() | (ulong) issuerActionCodeDefault.AsActionCodes());
+        ActionCodes denialActionCodes = new((ulong) terminalActionCodeDenial.AsActionCodes() | (ulong) issuerActionCodeDefault.AsActionCodes());
 
         return denialActionCodes;
     }
@@ -103,8 +98,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     ///     terminal is for any reason unable to process the transaction online
     /// </summary>
     /// <exception cref="TerminalDataException"></exception>
-    private void ProcessDefaultActionCodes(
-        KernelDatabase database, TerminalVerificationResults terminalVerificationResult, ref ActionFlag flag)
+    private void ProcessDefaultActionCodes(KernelDatabase database, TerminalVerificationResults terminalVerificationResult, ref ActionFlag flag)
     {
         ActionCodes defaultActionCodes = GetDefaultActionCodes(database);
         OutcomeParameterSet outcomeParameterSet = database.GetOutcomeParameterSet();
@@ -113,8 +107,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
             ProcessDefaultActionCodesForOfflineOnlyTerminals(defaultActionCodes, terminalVerificationResult, ref flag);
         else
         {
-            ProcessDefaultActionCodesForOnlineCapableTerminals(outcomeParameterSet, defaultActionCodes, terminalVerificationResult,
-                ref flag);
+            ProcessDefaultActionCodesForOnlineCapableTerminals(outcomeParameterSet, defaultActionCodes, terminalVerificationResult, ref flag);
         }
     }
 
@@ -126,8 +119,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     }
 
     private void ProcessDefaultActionCodesForOnlineCapableTerminals(
-        OutcomeParameterSet outcomeParameterSet, ActionCodes defaultActionCodes, TerminalVerificationResults terminalVerificationResult,
-        ref ActionFlag flag)
+        OutcomeParameterSet outcomeParameterSet, ActionCodes defaultActionCodes, TerminalVerificationResults terminalVerificationResult, ref ActionFlag flag)
     {
         if (!outcomeParameterSet.IsTimeout())
             return;
@@ -146,15 +138,13 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         TerminalActionCodeOnline terminalActionCodeOnline = database.Get<TerminalActionCodeOnline>(TerminalActionCodeOnline.Tag);
         IssuerActionCodeOnline issuerActionCodeOnline = database.Get<IssuerActionCodeOnline>(IssuerActionCodeOnline.Tag);
 
-        ActionCodes denialActionCodes =
-            new((ulong) terminalActionCodeOnline.AsActionCodes() | (ulong) issuerActionCodeOnline.AsActionCodes());
+        ActionCodes denialActionCodes = new((ulong) terminalActionCodeOnline.AsActionCodes() | (ulong) issuerActionCodeOnline.AsActionCodes());
 
         return denialActionCodes;
     }
 
     /// <exception cref="TerminalDataException"></exception>
-    private void ProcessOnlineActionCodes(
-        KernelDatabase database, TerminalVerificationResults terminalVerificationResult, ref ActionFlag flag)
+    private void ProcessOnlineActionCodes(KernelDatabase database, TerminalVerificationResults terminalVerificationResult, ref ActionFlag flag)
     {
         ActionCodes actionCodes = GetOnlineActionCodes(database);
 
@@ -197,8 +187,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    private CryptogramTypes CreateProceedOfflineResponse(TransactionSessionId sessionId, KernelDatabase database) =>
-        CryptogramTypes.TransactionCryptogram;
+    private CryptogramTypes CreateProceedOfflineResponse(TransactionSessionId sessionId, KernelDatabase database) => CryptogramTypes.TransactionCryptogram;
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>

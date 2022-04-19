@@ -4,7 +4,6 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -33,8 +32,7 @@ public record ReferenceControlParameter : DataElement<byte>, IEqualityComparer<R
     }
 
     /// <exception cref="CardDataException"></exception>
-    public ReferenceControlParameter(CryptogramType cryptogramType, bool isCdaSignatureRequested) : base(Create(cryptogramType,
-        isCdaSignatureRequested))
+    public ReferenceControlParameter(CryptogramType cryptogramType, bool isCdaSignatureRequested) : base(Create(cryptogramType, isCdaSignatureRequested))
     {
         if (!CryptogramTypes.IsValid((byte) cryptogramType))
             throw new CardDataException($"The argument {nameof(cryptogramType)} was not recognized as a valid {nameof(CryptogramTypes)}");
@@ -59,8 +57,7 @@ public record ReferenceControlParameter : DataElement<byte>, IEqualityComparer<R
     {
         if (!CryptogramTypes.TryGet(_Value, out CryptogramTypes? result))
         {
-            throw new DataElementParsingException(
-                $"The {nameof(CryptogramInformationData)} expected a {nameof(CryptogramTypes)} but none could be found");
+            throw new DataElementParsingException($"The {nameof(CryptogramInformationData)} expected a {nameof(CryptogramTypes)} but none could be found");
         }
 
         return result!;

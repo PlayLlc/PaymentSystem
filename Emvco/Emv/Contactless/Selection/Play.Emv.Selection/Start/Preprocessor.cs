@@ -1,6 +1,5 @@
 ﻿using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Outcomes;
 using Play.Globalization;
 using Play.Globalization.Time.Seconds;
@@ -42,7 +41,7 @@ public class Preprocessor
         outcomeParameterSetBuilder.SetIsDiscretionaryDataPresent(false);
         outcomeParameterSetBuilder.Set(new Milliseconds(0));
         userInterfaceSetter.Set(MessageIdentifiers.PleaseInsertOrSwipeCard);
-        userInterfaceSetter.Set(Status.ProcessingError);
+        userInterfaceSetter.Set(Statuses.ProcessingError);
 
         outcome.Update(outcomeParameterSetBuilder);
         outcome.Update(userInterfaceSetter);

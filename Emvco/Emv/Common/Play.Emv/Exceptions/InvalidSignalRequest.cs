@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 
 using Play.Core.Exceptions;
-using Play.Emv.Ber.Enums;
+using Play.Emv.Ber;
 
 namespace Play.Emv.Exceptions;
 
@@ -16,21 +16,19 @@ public class InvalidSignalRequest : PlayInternalException
     #region Constructor
 
     public InvalidSignalRequest(
-        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
+        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0) : base(
         $"{TraceExceptionMessage(typeof(InvalidSignalRequest), fileName, memberName, lineNumber)} {message}")
     { }
 
     public InvalidSignalRequest(
-        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(InvalidSignalRequest), fileName, memberName, lineNumber)}", innerException)
+        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(InvalidSignalRequest), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public InvalidSignalRequest(
         string message, Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(InvalidSignalRequest), fileName, memberName, lineNumber)} {message}", innerException)
+        [CallerLineNumber] int lineNumber = 0) : base($"{TraceExceptionMessage(typeof(InvalidSignalRequest), fileName, memberName, lineNumber)} {message}",
+        innerException)
     { }
 
     #endregion

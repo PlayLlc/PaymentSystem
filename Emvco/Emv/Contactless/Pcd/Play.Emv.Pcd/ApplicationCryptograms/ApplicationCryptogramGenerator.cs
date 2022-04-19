@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 
 using Play.Ber.Exceptions;
-using Play.Emv.Ber.Enums;
+using Play.Emv.Ber;
 using Play.Emv.Icc;
 using Play.Emv.Pcd.Contracts;
 
@@ -33,8 +33,7 @@ public class ApplicationCryptogramGenerator : IGenerateApplicationCryptogram
     {
         try
         {
-            GenerateApplicationCryptogramRApduSignal response = new(await _PcdTransceiver
-                .Transceive(command.Serialize()).ConfigureAwait(false));
+            GenerateApplicationCryptogramRApduSignal response = new(await _PcdTransceiver.Transceive(command.Serialize()).ConfigureAwait(false));
 
             return new GenerateApplicationCryptogramResponse(command.GetCorrelationId(), command.GetTransactionSessionId(), response);
         }

@@ -1,8 +1,11 @@
 using System.Collections.Immutable;
+using System.Numerics;
+
+using Play.Core;
 
 namespace Play.Emv.Ber;
 
-public readonly record struct StatusOutcome
+public record StatusOutcome : EnumObject<byte>
 {
     #region Static Metadata
 
@@ -136,7 +139,7 @@ public readonly record struct StatusOutcome
         }.ToImmutableSortedDictionary();
     }
 
-    private StatusOutcome(byte value)
+    private StatusOutcome(byte value) : base(value)
     {
         _Value = value;
     }
@@ -152,34 +155,15 @@ public readonly record struct StatusOutcome
     public static StatusOutcome Get(byte value)
     {
         if (!_ValueObjectMap.TryGetValue(value, out StatusOutcome result))
-        {
             throw new ArgumentOutOfRangeException($"The argument {nameof(value)} with a value of {value} is not a valid value for {nameof(StatusOutcome)}");
-        }
 
         return result;
     }
 
     #endregion
 
-    #region Equality
-
-    public override bool Equals(object? obj) => obj is StatusOutcome outcomeParameterStatus && Equals(outcomeParameterStatus);
-    public bool Equals(StatusOutcome other) => _Value == other._Value;
-    public bool Equals(StatusOutcome x, StatusOutcome y) => x.Equals(y);
-    public bool Equals(byte other) => _Value == other;
-
-    public override int GetHashCode()
-    {
-        const int hash = 673459;
-
-        return hash + _Value.GetHashCode();
-    }
-
-    #endregion
-
     #region Operator Overrides
 
-    public static bool operator ==(StatusOutcome left, StatusOutcome right) => left._Value == right._Value;
     public static bool operator ==(StatusOutcome left, byte right) => left._Value == right;
     public static bool operator ==(byte left, StatusOutcome right) => left == right._Value;
     public static explicit operator byte(StatusOutcome value) => value._Value;
@@ -189,7 +173,6 @@ public readonly record struct StatusOutcome
     public static explicit operator uint(StatusOutcome value) => value._Value;
     public static explicit operator long(StatusOutcome value) => value._Value;
     public static explicit operator ulong(StatusOutcome value) => value._Value;
-    public static bool operator !=(StatusOutcome left, StatusOutcome right) => !(left == right);
     public static bool operator !=(StatusOutcome left, byte right) => !(left == right);
     public static bool operator !=(byte left, StatusOutcome right) => !(left == right);
 

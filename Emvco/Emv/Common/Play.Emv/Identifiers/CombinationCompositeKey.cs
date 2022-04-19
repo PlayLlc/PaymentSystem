@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 using Play.Emv.Ber;
-using Play.Emv.Ber.Enums;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Identifiers;
@@ -47,9 +46,7 @@ public class CombinationCompositeKey : IEquatable<CombinationCompositeKey>, IEqu
         if (other == null)
             return false;
 
-        return (_DedicatedFileName == other._DedicatedFileName)
-            && (_KernelIdTypes == other._KernelIdTypes)
-            && (_TransactionType == other._TransactionType);
+        return (_DedicatedFileName == other._DedicatedFileName) && (_KernelIdTypes == other._KernelIdTypes) && (_TransactionType == other._TransactionType);
     }
 
     public bool Equals(CombinationCompositeKey? x, CombinationCompositeKey? y)
@@ -70,9 +67,7 @@ public class CombinationCompositeKey : IEquatable<CombinationCompositeKey>, IEqu
     {
         const int hash = 3345659;
 
-        return unchecked((_DedicatedFileName.GetHashCode() * hash)
-            + (_KernelIdTypes.GetHashCode() * hash)
-            + (_TransactionType.GetHashCode() * hash));
+        return unchecked((_DedicatedFileName.GetHashCode() * hash) + (_KernelIdTypes.GetHashCode() * hash) + (_TransactionType.GetHashCode() * hash));
     }
 
     #endregion

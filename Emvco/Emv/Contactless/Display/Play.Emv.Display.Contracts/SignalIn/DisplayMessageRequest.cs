@@ -1,6 +1,5 @@
 ﻿using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Messaging;
 using Play.Messaging;
 
@@ -38,7 +37,7 @@ public record DisplayMessageRequest : RequestSignal
     public LanguagePreference GetLanguagePreference() => _UserInterfaceRequestData.GetLanguagePreference();
     public MessageIdentifiers GetMessageIdentifier() => _UserInterfaceRequestData.GetMessageIdentifier();
     public UserInterfaceRequestData GetUserInterfaceRequestData() => _UserInterfaceRequestData;
-    public Status GetStatus() => _UserInterfaceRequestData.GetStatus();
+    public Statuses GetStatus() => _UserInterfaceRequestData.GetStatus();
 
     #endregion
 }

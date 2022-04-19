@@ -55,9 +55,6 @@ public readonly record struct AlternateInterfacePreferenceOutcome
 
     #region Equality
 
-    public override bool Equals(object? obj) =>
-        obj is AlternateInterfacePreferenceOutcome outcomeParameterSetAlternateInterfacePreference && Equals(outcomeParameterSetAlternateInterfacePreference);
-
     public bool Equals(AlternateInterfacePreferenceOutcome other) => _Value == other._Value;
     public bool Equals(AlternateInterfacePreferenceOutcome x, AlternateInterfacePreferenceOutcome y) => x.Equals(y);
     public bool Equals(byte other) => _Value == other;
@@ -73,7 +70,6 @@ public readonly record struct AlternateInterfacePreferenceOutcome
 
     #region Operator Overrides
 
-    public static bool operator ==(AlternateInterfacePreferenceOutcome left, AlternateInterfacePreferenceOutcome right) => left._Value == right._Value;
     public static bool operator ==(AlternateInterfacePreferenceOutcome left, byte right) => left._Value == right;
     public static bool operator ==(byte left, AlternateInterfacePreferenceOutcome right) => left == right._Value;
     public static explicit operator byte(AlternateInterfacePreferenceOutcome value) => value._Value;
@@ -83,7 +79,6 @@ public readonly record struct AlternateInterfacePreferenceOutcome
     public static explicit operator uint(AlternateInterfacePreferenceOutcome value) => value._Value;
     public static explicit operator long(AlternateInterfacePreferenceOutcome value) => value._Value;
     public static explicit operator ulong(AlternateInterfacePreferenceOutcome value) => value._Value;
-    public static bool operator !=(AlternateInterfacePreferenceOutcome left, AlternateInterfacePreferenceOutcome right) => !(left == right);
     public static bool operator !=(AlternateInterfacePreferenceOutcome left, byte right) => !(left == right);
     public static bool operator !=(byte left, AlternateInterfacePreferenceOutcome right) => !(left == right);
 

@@ -3,7 +3,6 @@
 using Play.Ber.DataObjects;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;
 using Play.Emv.Messaging;
@@ -31,8 +30,8 @@ public record QueryPcdResponse : ResponseSignal
     #region Constructor
 
     public QueryPcdResponse(
-        CorrelationId correlationId, MessageTypeId messageTypeId, TransactionSessionId transactionSessionId, RApduSignal rApduSignal) :
-        base(correlationId, messageTypeId, ChannelTypeId)
+        CorrelationId correlationId, MessageTypeId messageTypeId, TransactionSessionId transactionSessionId, RApduSignal rApduSignal) : base(correlationId,
+        messageTypeId, ChannelTypeId)
     {
         _TransactionSessionId = transactionSessionId;
         _RApduSignal = rApduSignal;

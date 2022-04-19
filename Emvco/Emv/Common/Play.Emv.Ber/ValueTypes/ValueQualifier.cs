@@ -71,7 +71,6 @@ public readonly record struct ValueQualifier
 
     #region Equality
 
-    public override bool Equals(object? obj) => obj is ValueQualifier ValueQualifier && Equals(ValueQualifier);
     public bool Equals(ValueQualifier other) => _Value == other._Value;
     public bool Equals(ValueQualifier x, ValueQualifier y) => x.Equals(y);
     public bool Equals(byte other) => _Value == other;
@@ -81,7 +80,6 @@ public readonly record struct ValueQualifier
 
     #region Operator Overrides
 
-    public static bool operator ==(ValueQualifier left, ValueQualifier right) => left._Value == right._Value;
     public static bool operator ==(ValueQualifier left, byte right) => left._Value == right;
     public static bool operator ==(byte left, ValueQualifier right) => left == right._Value;
     public static explicit operator byte(ValueQualifier value) => value._Value;
@@ -92,7 +90,6 @@ public readonly record struct ValueQualifier
     public static explicit operator long(ValueQualifier value) => value._Value;
     public static explicit operator ulong(ValueQualifier value) => value._Value;
     public static explicit operator BigInteger(ValueQualifier value) => value._Value;
-    public static bool operator !=(ValueQualifier left, ValueQualifier right) => !(left == right);
     public static bool operator !=(ValueQualifier left, byte right) => !(left == right);
     public static bool operator !=(byte left, ValueQualifier right) => !(left == right);
 

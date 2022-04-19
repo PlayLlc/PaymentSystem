@@ -35,7 +35,7 @@ public record ActivateSelectionRequest : RequestSignal
 
     public AmountAuthorizedNumeric GetAmountAuthorizedNumeric() => _Transaction.GetAmountAuthorizedNumeric();
     public ref readonly Outcome GetOutcome() => ref _Transaction.GetOutcome();
-    public StartOutcome GetStartOutcome() => _Transaction.GetOutcome().GetStartOutcome();
+    public StartOutcomes GetStartOutcome() => _Transaction.GetOutcome().GetStartOutcome();
     public Transaction GetTransaction() => _Transaction;
     public TransactionSessionId GetTransactionSessionId() => _Transaction.GetTransactionSessionId();
 

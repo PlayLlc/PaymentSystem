@@ -33,13 +33,11 @@ internal class DynamicDataAuthenticator
     #region Instance Members
 
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
-    public void Authenticate(
-        ITlvReaderAndWriter database, ICertificateDatabase certificateDatabase, StaticDataToBeAuthenticated staticDataToBeAuthenticated)
+    public void Authenticate(ITlvReaderAndWriter database, ICertificateDatabase certificateDatabase, StaticDataToBeAuthenticated staticDataToBeAuthenticated)
     {
         try
         {
-            SignedDynamicApplicationData signedDynamicApplicationData =
-                database.Get<SignedDynamicApplicationData>(SignedDynamicApplicationData.Tag);
+            SignedDynamicApplicationData signedDynamicApplicationData = database.Get<SignedDynamicApplicationData>(SignedDynamicApplicationData.Tag);
 
             DecodedIccPublicKeyCertificate decodedIccCertificate =
                 _CertificateFactory.RecoverIccCertificate(database, certificateDatabase, staticDataToBeAuthenticated);
@@ -56,8 +54,8 @@ internal class DynamicDataAuthenticator
             // Step 4
             ValidateSignedDataFormat(decodedSignature.GetSignedDataFormat());
 
-            DataObjectListResult ddolResult = database
-                .Get<DynamicDataAuthenticationDataObjectList>(DynamicDataAuthenticationDataObjectList.Tag).AsDataObjectListResult(database);
+            DataObjectListResult ddolResult = database.Get<DynamicDataAuthenticationDataObjectList>(DynamicDataAuthenticationDataObjectList.Tag)
+                .AsDataObjectListResult(database);
 
             // Step 5 
             ReadOnlySpan<byte> concatenatedSeed = ReconstructDynamicDataToBeSigned(decodedSignature, ddolResult);
@@ -83,8 +81,7 @@ internal class DynamicDataAuthenticator
     {
         try
         {
-            TerminalVerificationResults terminalVerificationResults =
-                database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
+            TerminalVerificationResults terminalVerificationResults = database.Get<TerminalVerificationResults>(TerminalVerificationResults.Tag);
 
             TerminalVerificationResults.Builder builder = TerminalVerificationResults.GetBuilder();
             builder.Reset(terminalVerificationResults);
@@ -105,8 +102,7 @@ internal class DynamicDataAuthenticator
     ///     Book 2 Section 6.5.2 Step 1
     /// </remarks>
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
-    private void ValidateEncipheredSignatureLength(
-        SignedDynamicApplicationData signedDynamicApplicationData, PublicKeyCertificate issuerPublicKeyCertificate)
+    private void ValidateEncipheredSignatureLength(SignedDynamicApplicationData signedDynamicApplicationData, PublicKeyCertificate issuerPublicKeyCertificate)
     {
         if (signedDynamicApplicationData.GetByteCount() != issuerPublicKeyCertificate.GetPublicKeyModulus().GetByteCount())
         {
@@ -148,8 +144,7 @@ internal class DynamicDataAuthenticator
     #region 6.5.2 Step 5
 
     /// <exception cref="BerParsingException"></exception>
-    private byte[] ReconstructDynamicDataToBeSigned(
-        DecodedSignedDynamicApplicationData signedData, DataObjectListResult dynamicDataObjectListResult) =>
+    private byte[] ReconstructDynamicDataToBeSigned(DecodedSignedDynamicApplicationData signedData, DataObjectListResult dynamicDataObjectListResult) =>
         signedData.GetMessage1().AsSpan().ConcatArrays(dynamicDataObjectListResult.AsByteArray());
 
     #endregion
@@ -165,8 +160,7 @@ internal class DynamicDataAuthenticator
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
     /// <exception cref="BerParsingException"></exception>
     private void ValidateSignedData(
-        DecodedSignedDynamicApplicationData decodedSignature, ReadOnlySpan<byte> concatenatedValue,
-        DataObjectListResult dynamicDataObjectListResult)
+        DecodedSignedDynamicApplicationData decodedSignature, ReadOnlySpan<byte> concatenatedValue, DataObjectListResult dynamicDataObjectListResult)
     {
         if (!_SignatureService.IsSignatureValid(decodedSignature.GetHashAlgorithmIndicator(),
             ReconstructDynamicDataToBeSigned(decodedSignature, dynamicDataObjectListResult), decodedSignature))

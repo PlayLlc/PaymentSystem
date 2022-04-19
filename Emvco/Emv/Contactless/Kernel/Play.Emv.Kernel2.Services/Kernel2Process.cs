@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Services;
 

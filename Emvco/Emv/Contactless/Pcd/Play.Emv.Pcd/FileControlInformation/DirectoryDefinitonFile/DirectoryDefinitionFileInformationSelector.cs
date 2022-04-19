@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Play.Emv.Ber.Enums;
+using Play.Emv.Ber;
 using Play.Emv.Ber.Templates;
 using Play.Emv.Icc;
 using Play.Emv.Pcd.Contracts;
@@ -32,13 +32,11 @@ public class DirectoryDefinitionFileInformationSelector : ISelectDirectoryDefini
         try
         {
             GetFileControlInformationRApduSignal response = new(await _PcdTransceiver
-                .Transceive(GetFileControlInformationCApduSignal.Get(command.GetDirectoryDefinitionFileName()).Serialize())
-                .ConfigureAwait(false));
+                .Transceive(GetFileControlInformationCApduSignal.Get(command.GetDirectoryDefinitionFileName()).Serialize()).ConfigureAwait(false));
 
             FileControlInformationDdf template = FileControlInformationDdf.Decode(response.GetData());
 
-            return new SelectDirectoryDefinitionFileResponse(command.GetCorrelationId(), command.GetTransactionSessionId(), template,
-                response);
+            return new SelectDirectoryDefinitionFileResponse(command.GetCorrelationId(), command.GetTransactionSessionId(), template, response);
         }
 
         catch (PcdProtocolException)
