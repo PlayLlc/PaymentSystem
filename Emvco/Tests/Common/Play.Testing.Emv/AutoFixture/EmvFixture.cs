@@ -6,7 +6,6 @@ using Play.Core.Extensions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
 using Play.Testing.Emv.Ber.Constructed;
-using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders;
 
 namespace Play.Testing.Emv;
 

@@ -16,6 +16,7 @@ public abstract class SpecimenBuilderFactory
     protected SpecimenBuilderFactory(List<SpecimenBuilder> map)
     {
         _Buffer = new List<ISpecimenBuilder>();
+
         _Map = map.ToDictionary(a => a.GetId(), b => (ISpecimenBuilder) b);
     }
 

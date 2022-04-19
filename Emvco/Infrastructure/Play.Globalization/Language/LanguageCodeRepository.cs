@@ -2,8 +2,6 @@
 using System.Collections.Immutable;
 using System.Linq;
 
-using Play.Globalization.Currency;
-
 namespace Play.Globalization.Language;
 
 // HACK: That's a lot of memory. Let's make sure we're using values from the database and not storing these values in code. A Terminal will pull the globalization configuration directly from the database so this is only for testing and stuff 

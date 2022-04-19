@@ -82,10 +82,10 @@ public readonly record struct Tag
     ///     <see cref="ITUT_X690" /> 8.1.2.1
     /// </remarks>
     /// <exception cref="BerParsingException"></exception>
-    public readonly ClassType GetClass() => GetClass(_Value);
+    public readonly ClassTypes GetClass() => GetClass(_Value);
 
     /// <exception cref="BerParsingException"></exception>
-    private static ClassType GetClass(uint value)
+    private static ClassTypes GetClass(uint value)
     {
         if (IsShortTag(value))
             return ShortIdentifier.GetClassType((byte) value);
@@ -110,7 +110,7 @@ public readonly record struct Tag
     }
 
     /// <exception cref="BerParsingException"></exception>
-    public readonly ClassType GetClassType() => GetClassType(_Value);
+    public readonly ClassTypes GetClassType() => GetClassType(_Value);
 
     /// <summary>
     ///     GetClassType
@@ -118,7 +118,7 @@ public readonly record struct Tag
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
-    private static ClassType GetClassType(uint value)
+    private static ClassTypes GetClassType(uint value)
     {
         if (IsShortTag(value))
             return ShortIdentifier.GetClassType((byte) value);
@@ -150,10 +150,10 @@ public readonly record struct Tag
     public readonly bool IsConstructed() => !GetDataObject().IsPrimitive();
 
     /// <exception cref="BerParsingException"></exception>
-    public readonly bool IsUniversal() => ClassType.IsUniversal(GetClassType());
+    public readonly bool IsUniversal() => ClassTypes.IsUniversal(GetClassType());
 
     /// <exception cref="BerParsingException"></exception>
-    public readonly bool IsApplicationSpecific() => ClassType.IsUniversal(GetClassType());
+    public readonly bool IsApplicationSpecific() => ClassTypes.IsUniversal(GetClassType());
 
     private static bool IsShortTag(uint value) => ShortIdentifier.IsValid(value);
 
@@ -162,8 +162,6 @@ public readonly record struct Tag
     public static bool IsValid(uint value) => ShortIdentifier.IsValid(value) || LongIdentifier.IsValid(value);
 
     public static bool IsValid(ReadOnlySpan<byte> value) => ShortIdentifier.IsValid(value) || LongIdentifier.IsValid(value);
-    public int CompareTo(Tag other) => _Value.CompareTo(other._Value);
-    public int CompareTo(uint other) => _Value.CompareTo(other);
 
     #endregion
 
@@ -196,6 +194,9 @@ public readonly record struct Tag
             return largePrime + _Value.GetHashCode();
         }
     }
+
+    public int CompareTo(Tag other) => _Value.CompareTo(other._Value);
+    public int CompareTo(uint other) => _Value.CompareTo(other);
 
     #endregion
 

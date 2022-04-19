@@ -1,6 +1,7 @@
 ﻿using System.Collections.Immutable;
 
 using Play.Core;
+using Play.Core.Exceptions;
 using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.DataElements;
@@ -31,14 +32,17 @@ public partial record TerminalType
         #region Constructor
 
         /// <exception cref="TypeInitializationException"></exception>
+        /// <exception cref="PlayInternalException"></exception>
         static TerminalOperatorType()
         {
             FinancialInstitution = new TerminalOperatorType(_FinancialInstitution);
             Merchant = new TerminalOperatorType(_Merchant);
             Cardholder = new TerminalOperatorType(_Merchant);
 
-            _ValueObjectMap = GetValues(typeof(TerminalOperatorType))
-                .ToImmutableSortedDictionary(a => a.Key, b => (TerminalOperatorType) b.Value);
+            _ValueObjectMap = new Dictionary<byte, TerminalOperatorType>()
+            {
+                {FinancialInstitution, FinancialInstitution}, {Merchant, Merchant}, {Cardholder, Cardholder}
+            }.ToImmutableSortedDictionary();
         }
 
         private TerminalOperatorType(byte value) : base(value)
@@ -50,15 +54,6 @@ public partial record TerminalType
 
         private static byte ClearUnrelatedDigit(byte value) => (byte) ((byte) (value / 10) * 10);
         public static bool IsOperatorType(byte value, TerminalOperatorType operatorType) => ClearUnrelatedDigit(value) == operatorType;
-
-        public int CompareTo(TerminalOperatorType? other)
-        {
-            if (other is null)
-                return 1;
-
-            return _Value.CompareTo(other._Value);
-        }
-
         public static bool TryGet(byte value, out TerminalOperatorType result) => _ValueObjectMap.TryGetValue(value, out result);
 
         #endregion
@@ -78,6 +73,14 @@ public partial record TerminalType
 
         public override int GetHashCode() => 47533 * _Value.GetHashCode();
         public int GetHashCode(TerminalOperatorType obj) => obj.GetHashCode();
+
+        public int CompareTo(TerminalOperatorType? other)
+        {
+            if (other is null)
+                return 1;
+
+            return _Value.CompareTo(other._Value);
+        }
 
         #endregion
 

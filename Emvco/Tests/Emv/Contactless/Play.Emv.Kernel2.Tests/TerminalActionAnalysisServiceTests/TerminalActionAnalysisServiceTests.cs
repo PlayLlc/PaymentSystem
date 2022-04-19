@@ -67,9 +67,8 @@ public partial class TerminalActionAnalysisServiceTests
     }
 
     private TerminalActionAnalysisCommand GetTerminalActionAnalysisCommand(TerminalVerificationResults terminalVerificationResults) =>
-        new(_Fixture.Freeze<TransactionSessionId>(), OutcomeParameterSet.Default, terminalVerificationResults,
-            _Fixture.Create<ApplicationInterchangeProfile>(), _Fixture.Create<DataObjectListResult>(),
-            _Fixture.Create<DataObjectListResult>());
+        new(_Fixture.Freeze<TransactionSessionId>(), OutcomeParameterSet.Default, terminalVerificationResults, _Fixture.Create<ApplicationInterchangeProfile>(),
+            _Fixture.Create<DataObjectListResult>(), _Fixture.Create<DataObjectListResult>());
 
     private TerminalActionAnalysisCommand GetTerminalActionAnalysisCommand(
         TerminalVerificationResults terminalVerificationResults, OnlineResponseOutcome onlineResponseOutcome)
@@ -77,9 +76,8 @@ public partial class TerminalActionAnalysisServiceTests
         OutcomeParameterSet.Builder outcomeBuilder = OutcomeParameterSet.GetBuilder();
         outcomeBuilder.Set(onlineResponseOutcome);
 
-        return new TerminalActionAnalysisCommand(_Fixture.Freeze<TransactionSessionId>(), outcomeBuilder.Complete(),
-            terminalVerificationResults, _Fixture.Create<ApplicationInterchangeProfile>(), _Fixture.Create<DataObjectListResult>(),
-            _Fixture.Create<DataObjectListResult>());
+        return new TerminalActionAnalysisCommand(_Fixture.Freeze<TransactionSessionId>(), outcomeBuilder.Complete(), terminalVerificationResults,
+            _Fixture.Create<ApplicationInterchangeProfile>(), _Fixture.Create<DataObjectListResult>(), _Fixture.Create<DataObjectListResult>());
     }
 
     #endregion

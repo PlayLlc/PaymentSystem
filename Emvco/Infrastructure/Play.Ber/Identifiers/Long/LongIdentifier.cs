@@ -50,7 +50,7 @@ internal static partial class LongIdentifier
     ///     The GetClassType of the Tag
     /// </summary>
     /// <remarks><see cref="ITUT_X690" /> Section 8.1.2.2 a</remarks>
-    public static ClassType GetClassType(uint value) => LeadingOctet.GetClassType(GetLeadingOctet(value));
+    public static ClassTypes GetClassType(uint value) => LeadingOctet.GetClassType(GetLeadingOctet(value));
 
     /// <summary>
     ///     Represents the Data Object type in the Value field of the BER-TLV object
@@ -81,8 +81,7 @@ internal static partial class LongIdentifier
             catch (OverflowException exception)
             {
                 throw new InvalidOperationException(
-                    "Uh oh, something wasn't coded correctly. This code base only supports a Long Length object with 3 bytes or less",
-                    exception);
+                    "Uh oh, something wasn't coded correctly. This code base only supports a Long Length object with 3 bytes or less", exception);
             }
         }
     }
@@ -108,8 +107,7 @@ internal static partial class LongIdentifier
             }
             catch (OverflowException exception)
             {
-                throw new BerParsingException(
-                    $"This code base only supports a Long Length object with {MaxLongIdentifierByteCount} bytes or less", exception);
+                throw new BerParsingException($"This code base only supports a Long Length object with {MaxLongIdentifierByteCount} bytes or less", exception);
             }
         }
     }
@@ -124,8 +122,7 @@ internal static partial class LongIdentifier
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static bool IsValid(uint value) =>
-        LeadingOctet.IsValid(GetLeadingOctet(value)) && SubsequentOctets.IsValid(GetSubsequentOctets(value));
+    public static bool IsValid(uint value) => LeadingOctet.IsValid(GetLeadingOctet(value)) && SubsequentOctets.IsValid(GetSubsequentOctets(value));
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>

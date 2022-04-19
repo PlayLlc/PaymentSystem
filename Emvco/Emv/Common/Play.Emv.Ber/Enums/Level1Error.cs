@@ -39,7 +39,7 @@ public record Level1Error : EnumObject<byte>
         }.ToImmutableSortedDictionary();
     }
 
-    private Level1Error(byte value) : base(value)
+    protected Level1Error(byte value) : base(value)
     { }
 
     #endregion

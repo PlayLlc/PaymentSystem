@@ -16,13 +16,13 @@ public partial class TagTests
     [Fact]
     public void Byte_WithApplicationClassFlag_CreatesTagWithCorrectClass()
     {
-        byte testValue = ShortIdentifier.TagNumber.MaxValue.GetMaskedValue(0b11000000).SetBits((byte) ClassType.Application);
+        byte testValue = ShortIdentifier.TagNumber.MaxValue.GetMaskedValue(0b11000000).SetBits((byte) ClassTypes.Application);
 
         Tag sut = new(testValue);
 
-        ClassType? result = sut.GetClass();
+        ClassTypes? result = sut.GetClass();
 
-        Assert.Equal(result, ClassType.Application);
+        Assert.Equal(result, ClassTypes.Application);
     }
 
     [Fact]
@@ -40,14 +40,13 @@ public partial class TagTests
     [Fact]
     public void Byte_WithContextSpecificClassFlag_CreatesTagWithCorrectClass()
     {
-        byte testValue = ShortIdentifier.TagNumber.MaxValue.GetMaskedValue(Bits.Eight, Bits.Seven)
-            .SetBits((byte) ClassType.ContextSpecific);
+        byte testValue = ShortIdentifier.TagNumber.MaxValue.GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassTypes.ContextSpecific);
 
         Tag sut = new(testValue);
 
-        ClassType? result = sut.GetClass();
+        ClassTypes? result = sut.GetClass();
 
-        Assert.Equal(result, ClassType.ContextSpecific);
+        Assert.Equal(result, ClassTypes.ContextSpecific);
     }
 
     [Fact]
@@ -65,13 +64,13 @@ public partial class TagTests
     [Fact]
     public void Byte_WithPrivateClassFlag_CreatesTagWithCorrectClass()
     {
-        byte testValue = ShortIdentifier.TagNumber.MaxValue.GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassType.Private);
+        byte testValue = ShortIdentifier.TagNumber.MaxValue.GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassTypes.Private);
 
         Tag sut = new(testValue);
 
-        ClassType? result = sut.GetClass();
+        ClassTypes? result = sut.GetClass();
 
-        Assert.Equal(result, ClassType.Private);
+        Assert.Equal(result, ClassTypes.Private);
     }
 
     [Fact]
@@ -80,9 +79,9 @@ public partial class TagTests
         byte testValue = ShortIdentifier.TagNumber.MaxValue.GetMaskedValue(Bits.Eight, Bits.Seven);
         Tag sut = new(testValue);
 
-        ClassType? result = sut.GetClass();
+        ClassTypes? result = sut.GetClass();
 
-        Assert.Equal(result, ClassType.Universal);
+        Assert.Equal(result, ClassTypes.Universal);
     }
 
     /// <summary>
@@ -105,14 +104,13 @@ public partial class TagTests
     [Fact]
     public void RandomByte_WithApplicationClassFlag_CreatesTagWithCorrectClass()
     {
-        byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven)
-            .SetBits((byte) ClassType.Application);
+        byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassTypes.Application);
 
         Tag sut = new(testValue);
 
-        ClassType? result = sut.GetClass();
+        ClassTypes? result = sut.GetClass();
 
-        Assert.Equal(result, ClassType.Application);
+        Assert.Equal(result, ClassTypes.Application);
     }
 
     [Fact]
@@ -130,14 +128,13 @@ public partial class TagTests
     [Fact]
     public void RandomByte_WithContextSpecificClassFlag_CreatesTagWithCorrectClass()
     {
-        byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven)
-            .SetBits((byte) ClassType.ContextSpecific);
+        byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassTypes.ContextSpecific);
 
         Tag sut = new(testValue);
 
-        ClassType? result = sut.GetClass();
+        ClassTypes? result = sut.GetClass();
 
-        Assert.Equal(result, ClassType.ContextSpecific);
+        Assert.Equal(result, ClassTypes.ContextSpecific);
     }
 
     [Fact]
@@ -155,28 +152,27 @@ public partial class TagTests
     [Fact]
     public void RandomByte_WithPrivateClassFlag_CreatesTagWithCorrectClass()
     {
-        byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven)
-            .SetBits((byte) ClassType.ContextSpecific);
+        byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassTypes.ContextSpecific);
 
         Tag sut = new(testValue);
 
-        ClassType? result = sut.GetClass();
+        ClassTypes? result = sut.GetClass();
 
-        Assert.Equal(result, ClassType.ContextSpecific);
+        Assert.Equal(result, ClassTypes.ContextSpecific);
     }
 
     // TODO: WARNING - This test is failing indeterminately. That means there is a bug
     [Fact]
     public void RandomByte_WithUniversalClassFlag_CreatesTagWithCorrectClass()
     {
-        byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassType.Universal);
+        byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).GetMaskedValue(Bits.Eight, Bits.Seven).SetBits((byte) ClassTypes.Universal);
         testValue = (testValue & 0b00011111) == 0 ? (byte) (testValue - 1) : testValue;
 
         Tag sut = new(testValue);
 
-        ClassType? result = sut.GetClass();
+        ClassTypes? result = sut.GetClass();
 
-        Assert.Equal(result, ClassType.Universal);
+        Assert.Equal(result, ClassTypes.Universal);
     }
 
     /// <summary>
@@ -203,7 +199,7 @@ public partial class TagTests
     [Fact]
     public void RandomShortIdentifierComponentParts_WhenInitializing_CreatesByteWithCorrectValue()
     {
-        ClassType? expectedClassType = ShortIdentifierTestValueFactory.GetClassType(_Random);
+        ClassTypes? expectedClassType = ShortIdentifierTestValueFactory.GetClassType(_Random);
         DataObjectType? expectedDataObjectType = ShortIdentifierTestValueFactory.GetDataObjectType(_Random);
         byte expectedTagNumber = ShortIdentifierTestValueFactory.GetTagNumber(_Random);
 

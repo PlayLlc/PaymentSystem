@@ -9,23 +9,23 @@ using Play.Core.Extensions;
 
 namespace Play.Ber.Identifiers;
 
-public sealed record ClassType : EnumObject<byte>, IEqualityComparer<ClassType>
+public sealed record ClassTypes : EnumObject<byte>, IEqualityComparer<ClassTypes>
 {
     #region Static Metadata
 
-    private static readonly ImmutableSortedDictionary<byte, ClassType> _ValueObjectMap;
+    private static readonly ImmutableSortedDictionary<byte, ClassTypes> _ValueObjectMap;
 
     /// <remarks>DecimalValue: 64; HexValue: 0x40</remarks>
-    public static readonly ClassType Application;
+    public static readonly ClassTypes Application;
 
     /// <remarks>DecimalValue: 128; HexValue: 0x80</remarks>
-    public static readonly ClassType ContextSpecific;
+    public static readonly ClassTypes ContextSpecific;
 
     /// <remarks>DecimalValue: 192; HexValue: 0xC0</remarks>
-    public static readonly ClassType Private;
+    public static readonly ClassTypes Private;
 
     /// <remarks>DecimalValue: 0; HexValue: 0x0</remarks>
-    public static readonly ClassType Universal;
+    public static readonly ClassTypes Universal;
 
     private const byte _Universal = 0;
     private const byte _Application = (byte) Bits.Seven;
@@ -38,38 +38,38 @@ public sealed record ClassType : EnumObject<byte>, IEqualityComparer<ClassType>
     #region Constructor
 
     /// <exception cref="TypeInitializationException"></exception>
-    static ClassType()
+    static ClassTypes()
     {
-        Application = new ClassType(_Application);
-        ContextSpecific = new ClassType(_ContextSpecific);
-        Private = new ClassType(_Private);
-        Universal = new ClassType(_Universal);
+        Application = new ClassTypes(_Application);
+        ContextSpecific = new ClassTypes(_ContextSpecific);
+        Private = new ClassTypes(_Private);
+        Universal = new ClassTypes(_Universal);
 
-        _ValueObjectMap = new Dictionary<byte, ClassType>
+        _ValueObjectMap = new Dictionary<byte, ClassTypes>
         {
             {_Application, Application}, {_ContextSpecific, ContextSpecific}, {_Private, Private}, {_Universal, Universal}
         }.ToImmutableSortedDictionary();
     }
 
-    private ClassType(byte value) : base(value)
+    private ClassTypes(byte value) : base(value)
     { }
 
     #endregion
 
     #region Instance Members
 
-    public static ClassType[] GetAll() => _ValueObjectMap.Values.ToArray();
+    public static ClassTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static bool IsUniversal(byte tag) => tag.GetMaskedValue(UnrelatedBits).AreAnyBitsSet(0xFF);
     public static bool IsApplicationSpecific(byte tag) => tag.GetMaskedValue(UnrelatedBits) == _Application;
-    public static bool TryGet(byte value, out ClassType result) => _ValueObjectMap.TryGetValue(value, out result);
+    public static bool TryGet(byte value, out ClassTypes result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion
 
     #region Equality
 
-    public bool Equals(ClassType? other) => other is not null && (other._Value == _Value);
+    public bool Equals(ClassTypes? other) => other is not null && (other._Value == _Value);
 
-    public bool Equals(ClassType? x, ClassType? y)
+    public bool Equals(ClassTypes? x, ClassTypes? y)
     {
         if (x is null)
             return y is null;
@@ -80,7 +80,7 @@ public sealed record ClassType : EnumObject<byte>, IEqualityComparer<ClassType>
         return x.Equals(y);
     }
 
-    public int GetHashCode(ClassType other) => other.GetHashCode();
+    public int GetHashCode(ClassTypes other) => other.GetHashCode();
 
     public override int GetHashCode()
     {
@@ -93,7 +93,7 @@ public sealed record ClassType : EnumObject<byte>, IEqualityComparer<ClassType>
 
     #region Operator Overrides
 
-    public static bool operator ==(ClassType left, byte right)
+    public static bool operator ==(ClassTypes left, byte right)
     {
         if (left is null)
             return false;
@@ -101,7 +101,7 @@ public sealed record ClassType : EnumObject<byte>, IEqualityComparer<ClassType>
         return left._Value == right;
     }
 
-    public static bool operator ==(byte left, ClassType right)
+    public static bool operator ==(byte left, ClassTypes right)
     {
         if (right is null)
             return false;
@@ -109,21 +109,21 @@ public sealed record ClassType : EnumObject<byte>, IEqualityComparer<ClassType>
         return right._Value == left;
     }
 
-    public static explicit operator byte(ClassType classType) => classType._Value;
+    public static explicit operator byte(ClassTypes classTypes) => classTypes._Value;
 
-    public static explicit operator ClassType(byte classType)
+    public static explicit operator ClassTypes(byte classType)
     {
-        if (!TryGet(classType, out ClassType result))
+        if (!TryGet(classType, out ClassTypes result))
         {
             throw new BerParsingException(new ArgumentOutOfRangeException(nameof(classType),
-                $"The {nameof(ClassType)} could not be found from the number supplied to the argument: {classType}"));
+                $"The {nameof(ClassTypes)} could not be found from the number supplied to the argument: {classType}"));
         }
 
         return result;
     }
 
-    public static bool operator !=(ClassType left, byte right) => !(left == right);
-    public static bool operator !=(byte left, ClassType right) => !(left == right);
+    public static bool operator !=(ClassTypes left, byte right) => !(left == right);
+    public static bool operator !=(byte left, ClassTypes right) => !(left == right);
 
     #endregion
 }

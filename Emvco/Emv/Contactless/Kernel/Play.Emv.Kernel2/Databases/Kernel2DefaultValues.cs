@@ -4,6 +4,7 @@ using System.Numerics;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
+using Play.Core.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
@@ -32,7 +33,7 @@ public class Kernel2DefaultValues : DefaultValues
     /// <exception cref="Ber.Exceptions.DataElementParsingException"></exception>
     /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
     /// <exception cref="Codecs.Exceptions.CodecParsingException"></exception>
-    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    /// <exception cref="PlayInternalException"></exception>
     private static PrimitiveValue[] GetKernel2Defaults()
     {
         return new PrimitiveValue[]

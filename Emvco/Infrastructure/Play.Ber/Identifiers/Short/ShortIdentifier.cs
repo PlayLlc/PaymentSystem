@@ -29,15 +29,15 @@ internal static class ShortIdentifier
     #region Instance Members
 
     /// <summary>
-    ///     Returns the <see cref="ClassType" /> of the BER-TLV object
+    ///     Returns the <see cref="ClassTypes" /> of the BER-TLV object
     /// </summary>
     /// <remarks>
     ///     <see cref="ITUT_X690" /> Section 8.1.2.2 a
     /// </remarks>
     /// <param name="value"></param>
-    /// <returns cref="ClassType">ClassType</returns>
+    /// <returns cref="ClassTypes">ClassType</returns>
     /// <exception cref="BerParsingException"></exception>
-    public static ClassType GetClassType(byte value) => (ClassType) value.GetMaskedValue(ClassType.UnrelatedBits);
+    public static ClassTypes GetClassType(byte value) => (ClassTypes) value.GetMaskedValue(ClassTypes.UnrelatedBits);
 
     /// <summary>
     ///     Returns the <see cref="DataObjectType" /> type of the BER-TLV Value field
@@ -47,8 +47,7 @@ internal static class ShortIdentifier
     /// </remarks>
     /// <param name="value"></param>
     /// <returns></returns>
-    public static DataObjectType GetDataObject(byte value) =>
-        value.IsBitSet(Bits.Six) ? DataObjectType.Constructed : DataObjectType.Primitive;
+    public static DataObjectType GetDataObject(byte value) => value.IsBitSet(Bits.Six) ? DataObjectType.Constructed : DataObjectType.Primitive;
 
     /// <summary>
     ///     The Tag Number of this Short Identifier. A number between 0-30

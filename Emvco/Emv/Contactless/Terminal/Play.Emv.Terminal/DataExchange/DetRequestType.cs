@@ -4,7 +4,6 @@ using System.Linq;
 
 using Play.Ber.Identifiers;
 using Play.Core;
-using Play.Emv.Security.Authentications;
 
 namespace Play.Emv.Terminal.DataExchange;
 

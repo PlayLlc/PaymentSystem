@@ -1,6 +1,4 @@
-﻿using Play.Globalization.Language;
-
-namespace Play.Globalization.Currency;
+﻿namespace Play.Globalization.Currency;
 
 public readonly record struct NumericCurrencyCode
 {

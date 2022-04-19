@@ -6,7 +6,6 @@ using Play.Core.Extensions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
 using Play.Testing.Emv.Ber.Constructed;
-using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders;
 
 namespace Play.Testing.Emv.Contactless.AutoFixture;
 
@@ -32,6 +31,19 @@ public class ContactlessEmvFixture : EmvFixture
 
         CustomizePrimitives(fixture);
         CustomizeTemplates(fixture);
+        CustomizeMembers(fixture);
+    }
+
+    private static void CustomizeMembers(IFixture fixture)
+    {
+        CustomizePublicKeyAlgorithmIndicatorMembers(fixture);
+    }
+
+    private static void CustomizePublicKeyAlgorithmIndicatorMembers(IFixture fixture)
+    {
+        //Mock<PublicKeyAlgorithmIndicator> mock = new();
+        //Mock.Setup(PublicKeyAlgorithmIndicator.Get(It.IsAny<byte>())).Returns(PublicKeyAlgorithmIndicator.Rsa);
+        //fixture.Register(() => mock.Object);
     }
 
     private static void CustomizePrimitives(IFixture fixture)
