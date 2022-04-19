@@ -5,7 +5,7 @@ namespace Play.Emv.Ber;
 /// <summary>
 ///     The encrypted PIN Block encoded as specified in EMV Book 3 Table 24
 /// </summary>
-public readonly struct PinBlock
+public readonly record struct PinBlock
 {
     #region Instance Values
 

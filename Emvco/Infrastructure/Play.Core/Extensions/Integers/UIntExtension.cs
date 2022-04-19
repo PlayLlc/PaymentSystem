@@ -39,9 +39,7 @@ public static class UIntExtension
     }
 
     public static byte GetMostSignificantByte(this uint value) =>
-        (byte) (value.GetMostSignificantBit().TryGetRemainder(8, out int resultWithoutRemainder) == 0
-            ? resultWithoutRemainder
-            : resultWithoutRemainder + 1);
+        (byte) (value.GetMostSignificantBit().TryGetRemainder(8, out int resultWithoutRemainder) == 0 ? resultWithoutRemainder : resultWithoutRemainder + 1);
 
     public static byte GetNumberOfDigits(this uint value)
     {
@@ -100,23 +98,16 @@ public static class UIntExtension
         return 0;
     }
 
-    public static uint SetBit(this in uint input, Bits bitToSet, byte bytePosition)
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public static uint SetBit(this in uint input, byte bitPosition)
     {
-        if (bytePosition > Specs.Integer.UInt32.ByteCount)
-            throw new ArgumentOutOfRangeException(nameof(bytePosition));
+        if (bitPosition > Specs.Integer.UInt32.BitCount)
+            throw new ArgumentOutOfRangeException(nameof(bitPosition));
 
-        return input | ((uint) bitToSet << ((bytePosition * 8) - 8));
+        return input | ((uint) bitPosition - 8);
     }
 
     public static uint SetBits(this in uint input, uint bitsToSet) => input | bitsToSet;
-
-    public static uint SetBits(this in uint input, byte bitsToSet, byte bytePosition)
-    {
-        if (bytePosition > Specs.Integer.UInt32.ByteCount)
-            throw new ArgumentOutOfRangeException(nameof(bytePosition));
-
-        return input | (uint) (bitsToSet << (bytePosition * 8));
-    }
 
     /// <summary>
     ///     Returns the value of the remainder, or 0 if there is no remainder. The out variable will return the result

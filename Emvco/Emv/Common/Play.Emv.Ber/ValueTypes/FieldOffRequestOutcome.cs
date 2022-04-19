@@ -4,7 +4,7 @@ namespace Play.Emv.Ber;
 ///     The kernel indicates whether to turn off the field (without card removal procedure). The hold time will
 ///     delay the processing of the next change to the field until it has elapsed.
 /// </summary>
-public readonly struct FieldOffRequestOutcome
+public readonly record struct FieldOffRequestOutcome
 {
     #region Static Metadata
 
@@ -37,9 +37,6 @@ public readonly struct FieldOffRequestOutcome
 
     #region Equality
 
-    public override bool Equals(object? obj) =>
-        obj is FieldOffRequestOutcome outcomeParameterSetFieldOffRequest && Equals(outcomeParameterSetFieldOffRequest);
-
     public bool Equals(FieldOffRequestOutcome other) => _Value == other._Value;
     public bool Equals(FieldOffRequestOutcome x, FieldOffRequestOutcome y) => x.Equals(y);
     public bool Equals(byte other) => _Value == other;
@@ -55,11 +52,9 @@ public readonly struct FieldOffRequestOutcome
 
     #region Operator Overrides
 
-    public static bool operator ==(FieldOffRequestOutcome left, FieldOffRequestOutcome right) => left._Value == right._Value;
     public static bool operator ==(FieldOffRequestOutcome left, byte right) => left._Value == right;
     public static bool operator ==(byte left, FieldOffRequestOutcome right) => left == right._Value;
     public static explicit operator ulong(FieldOffRequestOutcome value) => (ulong) (value._Value << _BitOffset);
-    public static bool operator !=(FieldOffRequestOutcome left, FieldOffRequestOutcome right) => !(left == right);
     public static bool operator !=(FieldOffRequestOutcome left, byte right) => !(left == right);
     public static bool operator !=(byte left, FieldOffRequestOutcome right) => !(left == right);
 

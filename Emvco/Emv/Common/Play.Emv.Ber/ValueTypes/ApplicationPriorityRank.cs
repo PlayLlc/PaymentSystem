@@ -2,7 +2,7 @@ using Play.Core.Extensions;
 
 namespace Play.Emv.Ber;
 
-public readonly struct ApplicationPriorityRank
+public readonly record struct ApplicationPriorityRank
 {
     #region Instance Values
 
@@ -20,15 +20,8 @@ public readonly struct ApplicationPriorityRank
 
     #endregion
 
-    #region Instance Members
-
-    public int CompareTo(ApplicationPriorityRank other) => _Value.CompareTo(other._Value);
-
-    #endregion
-
     #region Equality
 
-    public override bool Equals(object? obj) => obj is ApplicationPriorityRank applicationPriorityRank && Equals(applicationPriorityRank);
     public bool Equals(ApplicationPriorityRank other) => _Value == other._Value;
     public bool Equals(ApplicationPriorityRank x, ApplicationPriorityRank y) => x.Equals(y);
     public bool Equals(byte other) => _Value == other;
@@ -40,11 +33,12 @@ public readonly struct ApplicationPriorityRank
         return hash + _Value.GetHashCode();
     }
 
+    public int CompareTo(ApplicationPriorityRank other) => _Value.CompareTo(other._Value);
+
     #endregion
 
     #region Operator Overrides
 
-    public static bool operator ==(ApplicationPriorityRank left, ApplicationPriorityRank right) => left._Value == right._Value;
     public static bool operator ==(ApplicationPriorityRank left, byte right) => left._Value == right;
     public static bool operator ==(byte left, ApplicationPriorityRank right) => left == right._Value;
     public static explicit operator byte(ApplicationPriorityRank value) => value._Value;
@@ -56,7 +50,6 @@ public readonly struct ApplicationPriorityRank
     public static explicit operator ulong(ApplicationPriorityRank value) => value._Value;
     public static bool operator >(ApplicationPriorityRank left, ApplicationPriorityRank right) => left._Value > right._Value;
     public static bool operator >=(ApplicationPriorityRank left, ApplicationPriorityRank right) => left._Value >= right._Value;
-    public static bool operator !=(ApplicationPriorityRank left, ApplicationPriorityRank right) => !(left == right);
     public static bool operator !=(ApplicationPriorityRank left, byte right) => !(left == right);
     public static bool operator !=(byte left, ApplicationPriorityRank right) => !(left == right);
     public static bool operator <(ApplicationPriorityRank left, ApplicationPriorityRank right) => left._Value < right._Value;

@@ -5,7 +5,7 @@ namespace Play.Emv.Ber;
 /// <summary>
 ///     An intermediate value returned from a section of processing
 /// </summary>
-public struct TerminalVerificationResult
+public readonly record struct TerminalVerificationResult
 {
     #region Instance Values
 

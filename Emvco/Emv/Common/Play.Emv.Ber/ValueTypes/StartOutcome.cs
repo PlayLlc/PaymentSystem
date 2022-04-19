@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 
 namespace Play.Emv.Ber;
 
-public readonly struct StartOutcome
+public readonly record struct StartOutcome
 {
     #region Static Metadata
 
@@ -46,8 +46,7 @@ public readonly struct StartOutcome
         C = new StartOutcome(c);
         D = new StartOutcome(d);
         NotAvailable = new StartOutcome(notAvailable);
-        _ValueObjectMap = new Dictionary<byte, StartOutcome> {{a, A}, {b, B}, {c, C}, {d, D}, {notAvailable, NotAvailable}}
-            .ToImmutableSortedDictionary();
+        _ValueObjectMap = new Dictionary<byte, StartOutcome> {{a, A}, {b, B}, {c, C}, {d, D}, {notAvailable, NotAvailable}}.ToImmutableSortedDictionary();
     }
 
     private StartOutcome(byte value)
@@ -65,8 +64,7 @@ public readonly struct StartOutcome
     {
         if (!TryGet(value, out StartOutcome result))
         {
-            throw new ArgumentOutOfRangeException(
-                $"The argument {nameof(value)} with a value of {value} is not a valid value for {nameof(StartOutcome)}");
+            throw new ArgumentOutOfRangeException($"The argument {nameof(value)} with a value of {value} is not a valid value for {nameof(StartOutcome)}");
         }
 
         return result;

@@ -1,6 +1,6 @@
 ﻿namespace Play.Emv.Ber;
 
-public readonly struct CvmConditionCode
+public readonly record struct CvmConditionCode
 {
     #region Instance Values
 

@@ -2,7 +2,7 @@
 
 namespace Play.Emv.Ber;
 
-public record CvmRule
+public readonly record struct CvmRule
 {
     #region Instance Values
 

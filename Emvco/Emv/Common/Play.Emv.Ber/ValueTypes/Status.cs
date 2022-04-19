@@ -12,7 +12,7 @@ namespace Play.Emv.Ber;
 ///     If the Status value is not recognised, the reader should ignore it and the current status of lights
 ///     or LEDS should not be changed and no audio signal should be produced as a result of the User Interface Request
 /// </summary>
-public readonly struct Status
+public readonly record struct Status
 {
     #region Static Metadata
 

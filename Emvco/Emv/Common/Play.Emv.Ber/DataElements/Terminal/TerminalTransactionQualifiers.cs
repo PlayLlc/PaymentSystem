@@ -64,8 +64,8 @@ public record TerminalTransactionQualifiers : DataElement<uint>, IEqualityCompar
         return new TerminalTransactionQualifiers(_Value.GetMaskedValue(bitMask));
     }
 
-    public TerminalTransactionQualifiers SetCvmRequired() => new(_Value.SetBit(Bits.Seven, 2));
-    public TerminalTransactionQualifiers SetOnlineCryptogramRequired() => new(_Value.SetBit(Bits.Eight, 2));
+    public TerminalTransactionQualifiers SetCvmRequired() => new(_Value.SetBit(15));
+    public TerminalTransactionQualifiers SetOnlineCryptogramRequired() => new(_Value.SetBit(16));
 
     #endregion
 

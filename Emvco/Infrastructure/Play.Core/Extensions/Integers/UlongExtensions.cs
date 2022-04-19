@@ -155,9 +155,7 @@ public static class UlongExtensions
     }
 
     public static byte GetMostSignificantByte(this in ulong value) =>
-        (byte) (value.GetMostSignificantBit().TryGetRemainder(8, out int resultWithoutRemainder) == 0
-            ? resultWithoutRemainder
-            : resultWithoutRemainder + 1);
+        (byte) (value.GetMostSignificantBit().TryGetRemainder(8, out int resultWithoutRemainder) == 0 ? resultWithoutRemainder : resultWithoutRemainder + 1);
 
     public static byte GetNumberOfDigits(this in ulong value)
     {
@@ -202,20 +200,12 @@ public static class UlongExtensions
         return 0;
     }
 
-    public static ulong SetBit(this in ulong input, Bits bitToSet, byte bytePosition)
+    public static ulong SetBit(this in ulong input, byte bitPosition)
     {
-        if (bytePosition > Specs.Integer.UInt64.ByteCount)
-            throw new ArgumentOutOfRangeException(nameof(bytePosition));
+        if (bitPosition > Specs.Integer.UInt64.BitCount)
+            throw new ArgumentOutOfRangeException(nameof(bitPosition));
 
-        return input | ((ulong) bitToSet << ((bytePosition * 8) - 8));
-    }
-
-    public static ulong SetBit(this in ulong input, byte bitToSet)
-    {
-        if (bitToSet > Specs.Integer.UInt64.ByteCount)
-            throw new ArgumentOutOfRangeException(nameof(bitToSet));
-
-        return input | ((ulong) 1 << (bitToSet - 1));
+        return input | ((ulong) 1 << (bitPosition - 1));
     }
 
     public static ulong SetBits(this ulong input, ulong bitsToSet) => input | bitsToSet;

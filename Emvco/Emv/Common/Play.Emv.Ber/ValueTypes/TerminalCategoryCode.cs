@@ -13,7 +13,7 @@ namespace Play.Emv.Ber;
 ///     unattended ticketing kiosks). '00 02' = Loyalty; the terminal facilitates a loyalty program using POI Information.
 ///     All other values are RFU for this specification.
 /// </summary>
-public readonly struct TerminalCategoryCode
+public readonly record struct TerminalCategoryCode
 {
     #region Static Metadata
 
@@ -48,9 +48,8 @@ public readonly struct TerminalCategoryCode
         TransitGate = new TerminalCategoryCode(1);
         Loyalty = new TerminalCategoryCode(2);
 
-        _ValueObjectMap =
-            new Dictionary<ushort, TerminalCategoryCode> {{unknown, Unknown}, {terminalGateValue, TransitGate}, {loyaltyValue, Loyalty}}
-                .ToImmutableSortedDictionary();
+        _ValueObjectMap = new Dictionary<ushort, TerminalCategoryCode> {{unknown, Unknown}, {terminalGateValue, TransitGate}, {loyaltyValue, Loyalty}}
+            .ToImmutableSortedDictionary();
     }
 
     private TerminalCategoryCode(ushort value)

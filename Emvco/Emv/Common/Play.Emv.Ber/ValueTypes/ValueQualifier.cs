@@ -5,7 +5,7 @@ using Play.Core.Extensions;
 
 namespace Play.Emv.Ber;
 
-public readonly struct ValueQualifier
+public readonly record struct ValueQualifier
 {
     #region Static Metadata
 
@@ -40,8 +40,7 @@ public readonly struct ValueQualifier
         Amount = new ValueQualifier(amount);
         Balance = new ValueQualifier(balance);
 
-        _ValueObjectMap = new Dictionary<byte, ValueQualifier> {{none, None}, {amount, Amount}, {balance, Balance}}
-            .ToImmutableSortedDictionary();
+        _ValueObjectMap = new Dictionary<byte, ValueQualifier> {{none, None}, {amount, Amount}, {balance, Balance}}.ToImmutableSortedDictionary();
     }
 
     private ValueQualifier(byte value)

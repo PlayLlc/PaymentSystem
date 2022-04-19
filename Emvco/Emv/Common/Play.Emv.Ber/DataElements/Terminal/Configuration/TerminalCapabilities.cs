@@ -27,8 +27,8 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
     public TerminalCapabilities(uint value) : base(value)
     { }
 
-    public TerminalCapabilities(CardDataInputCapability cardDataInputCapability, SecurityCapability securityCapability) : base(
-        (uint) (securityCapability << 16) | cardDataInputCapability)
+    public TerminalCapabilities(CardDataInputCapability cardDataInputCapability, SecurityCapability securityCapability) : base((uint) (securityCapability << 16)
+        | cardDataInputCapability)
     { }
 
     #endregion
@@ -121,7 +121,7 @@ public record TerminalCapabilities : DataElement<uint>, IEqualityComparer<Termin
         public void SetCardVerificationMethodNotRequired(bool value)
         {
             if (value)
-                _Value.SetBit(Bits.Four, 2);
+                _Value.SetBit(12);
 
             _Value.ClearBit(Bits.Four, 2);
         }

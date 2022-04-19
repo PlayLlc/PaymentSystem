@@ -3,7 +3,7 @@
 /// <summary>
 ///     The underlying value for Action Codes such as TerminalActionCodeDefault, IssuerActionCodeDefault, etc
 /// </summary>
-public readonly struct ActionCodes
+public readonly record struct ActionCodes
 {
     #region Instance Values
 

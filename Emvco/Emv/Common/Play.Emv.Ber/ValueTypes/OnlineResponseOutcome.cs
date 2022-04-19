@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 
 namespace Play.Emv.Ber;
 
-public readonly struct OnlineResponseOutcome
+public readonly record struct OnlineResponseOutcome
 {
     #region Static Metadata
 
@@ -44,9 +44,6 @@ public readonly struct OnlineResponseOutcome
 
     #region Equality
 
-    public override bool Equals(object? obj) =>
-        obj is OnlineResponseOutcome outcomeParameterSetOnlineResponseData && Equals(outcomeParameterSetOnlineResponseData);
-
     public bool Equals(OnlineResponseOutcome other) => _Value == other._Value;
     public bool Equals(OnlineResponseOutcome x, OnlineResponseOutcome y) => x.Equals(y);
     public bool Equals(byte other) => _Value == other;
@@ -62,7 +59,6 @@ public readonly struct OnlineResponseOutcome
 
     #region Operator Overrides
 
-    public static bool operator ==(OnlineResponseOutcome left, OnlineResponseOutcome right) => left._Value == right._Value;
     public static bool operator ==(OnlineResponseOutcome left, byte right) => left._Value == right;
     public static bool operator ==(byte left, OnlineResponseOutcome right) => left == right._Value;
     public static explicit operator byte(OnlineResponseOutcome value) => value._Value;
@@ -72,7 +68,6 @@ public readonly struct OnlineResponseOutcome
     public static explicit operator uint(OnlineResponseOutcome value) => value._Value;
     public static explicit operator long(OnlineResponseOutcome value) => value._Value;
     public static explicit operator ulong(OnlineResponseOutcome value) => value._Value;
-    public static bool operator !=(OnlineResponseOutcome left, OnlineResponseOutcome right) => !(left == right);
     public static bool operator !=(OnlineResponseOutcome left, byte right) => !(left == right);
     public static bool operator !=(byte left, OnlineResponseOutcome right) => !(left == right);
 

@@ -4,7 +4,7 @@ using Play.Core.Extensions;
 
 namespace Play.Emv.Ber;
 
-public readonly struct CvmPerformedOutcome
+public readonly record struct CvmPerformedOutcome
 {
     #region Static Metadata
 
@@ -87,7 +87,6 @@ public readonly struct CvmPerformedOutcome
 
     #region Equality
 
-    public override bool Equals(object? obj) => obj is CvmPerformedOutcome cVm && Equals(cVm);
     public bool Equals(CvmPerformedOutcome other) => _Value == other._Value;
     public bool Equals(CvmPerformedOutcome x, CvmPerformedOutcome y) => x.Equals(y);
     public bool Equals(byte other) => _Value == other;
@@ -103,7 +102,6 @@ public readonly struct CvmPerformedOutcome
 
     #region Operator Overrides
 
-    public static bool operator ==(CvmPerformedOutcome left, CvmPerformedOutcome right) => left._Value == right._Value;
     public static bool operator ==(CvmPerformedOutcome left, byte right) => left._Value == right;
     public static bool operator ==(byte left, CvmPerformedOutcome right) => left == right._Value;
     public static explicit operator byte(CvmPerformedOutcome value) => value._Value;
@@ -113,7 +111,6 @@ public readonly struct CvmPerformedOutcome
     public static explicit operator uint(CvmPerformedOutcome value) => value._Value;
     public static explicit operator long(CvmPerformedOutcome value) => value._Value;
     public static explicit operator ulong(CvmPerformedOutcome value) => value._Value;
-    public static bool operator !=(CvmPerformedOutcome left, CvmPerformedOutcome right) => !(left == right);
     public static bool operator !=(CvmPerformedOutcome left, byte right) => !(left == right);
     public static bool operator !=(byte left, CvmPerformedOutcome right) => !(left == right);
 

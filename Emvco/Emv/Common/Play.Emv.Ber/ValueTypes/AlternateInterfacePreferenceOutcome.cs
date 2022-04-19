@@ -4,7 +4,7 @@ using Play.Core.Extensions;
 
 namespace Play.Emv.Ber;
 
-public readonly struct AlternateInterfacePreferenceOutcome
+public readonly record struct AlternateInterfacePreferenceOutcome
 {
     #region Static Metadata
 
@@ -26,8 +26,7 @@ public readonly struct AlternateInterfacePreferenceOutcome
         const byte notAvailable = 15;
 
         NotAvailable = new AlternateInterfacePreferenceOutcome(notAvailable);
-        _ValueObjectMap = new Dictionary<byte, AlternateInterfacePreferenceOutcome> {{notAvailable, NotAvailable}}
-            .ToImmutableSortedDictionary();
+        _ValueObjectMap = new Dictionary<byte, AlternateInterfacePreferenceOutcome> {{notAvailable, NotAvailable}}.ToImmutableSortedDictionary();
     }
 
     private AlternateInterfacePreferenceOutcome(byte value)
@@ -57,8 +56,7 @@ public readonly struct AlternateInterfacePreferenceOutcome
     #region Equality
 
     public override bool Equals(object? obj) =>
-        obj is AlternateInterfacePreferenceOutcome outcomeParameterSetAlternateInterfacePreference
-        && Equals(outcomeParameterSetAlternateInterfacePreference);
+        obj is AlternateInterfacePreferenceOutcome outcomeParameterSetAlternateInterfacePreference && Equals(outcomeParameterSetAlternateInterfacePreference);
 
     public bool Equals(AlternateInterfacePreferenceOutcome other) => _Value == other._Value;
     public bool Equals(AlternateInterfacePreferenceOutcome x, AlternateInterfacePreferenceOutcome y) => x.Equals(y);
@@ -75,9 +73,7 @@ public readonly struct AlternateInterfacePreferenceOutcome
 
     #region Operator Overrides
 
-    public static bool operator ==(AlternateInterfacePreferenceOutcome left, AlternateInterfacePreferenceOutcome right) =>
-        left._Value == right._Value;
-
+    public static bool operator ==(AlternateInterfacePreferenceOutcome left, AlternateInterfacePreferenceOutcome right) => left._Value == right._Value;
     public static bool operator ==(AlternateInterfacePreferenceOutcome left, byte right) => left._Value == right;
     public static bool operator ==(byte left, AlternateInterfacePreferenceOutcome right) => left == right._Value;
     public static explicit operator byte(AlternateInterfacePreferenceOutcome value) => value._Value;

@@ -4,7 +4,7 @@ using Play.Core.Extensions;
 
 namespace Play.Emv.Ber;
 
-public readonly struct SdsSchemeIndicator
+public readonly record struct SdsSchemeIndicator
 {
     #region Static Metadata
 

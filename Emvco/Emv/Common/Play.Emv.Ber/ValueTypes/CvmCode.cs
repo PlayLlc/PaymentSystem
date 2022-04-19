@@ -5,7 +5,7 @@ using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber;
 
-public readonly struct CvmCode
+public readonly record struct CvmCode
 {
     #region Instance Values
 
@@ -52,8 +52,7 @@ public readonly struct CvmCode
 
         if (_Value == CvmCodes.OfflineEncipheredPinAndSignature)
         {
-            return terminalCapabilities.IsEncipheredPinForOfflineVerificationSupported()
-                && terminalCapabilities.IsSignaturePaperSupported();
+            return terminalCapabilities.IsEncipheredPinForOfflineVerificationSupported() && terminalCapabilities.IsSignaturePaperSupported();
         }
 
         if (_Value == CvmCodes.OfflinePlaintextPin)

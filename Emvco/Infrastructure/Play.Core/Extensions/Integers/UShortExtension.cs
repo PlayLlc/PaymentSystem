@@ -40,9 +40,7 @@ public static class UShortExtension
     }
 
     public static byte GetMostSignificantByte(this in ushort value) =>
-        (byte) (value.GetMostSignificantBit().TryGetRemainder(8, out byte resultWithoutRemainder) == 0
-            ? resultWithoutRemainder
-            : resultWithoutRemainder + 1);
+        (byte) (value.GetMostSignificantBit().TryGetRemainder(8, out byte resultWithoutRemainder) == 0 ? resultWithoutRemainder : resultWithoutRemainder + 1);
 
     public static byte GetNumberOfDigits(this in ushort value)
     {
@@ -83,6 +81,15 @@ public static class UShortExtension
         }
 
         return 0;
+    }
+
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public static ushort SetBit(this in ushort input, byte bitPosition)
+    {
+        if (bitPosition > Specs.Integer.UInt32.BitCount)
+            throw new ArgumentOutOfRangeException(nameof(bitPosition));
+
+        return (ushort) (input | (bitPosition - 8));
     }
 
     /// <summary>
