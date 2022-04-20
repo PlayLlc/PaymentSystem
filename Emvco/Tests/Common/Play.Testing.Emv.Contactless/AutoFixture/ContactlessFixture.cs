@@ -9,20 +9,31 @@ using Play.Testing.Emv.Ber.Constructed;
 
 namespace Play.Testing.Emv.Contactless.AutoFixture;
 
-public class ContactlessEmvFixture : EmvFixture
+public class ContactlessFixture : EmvFixture
 {
     #region Instance Members
 
     public new IFixture Create()
     {
         IFixture fixture = new Fixture().Customize(new AutoMoqCustomization());
-        ContactlessEmvSpecimenBuilderFactory builder = new();
+        ContactlessSpecimenBuilderFactory builder = new();
 
-        SetupCustomConstructors(builder);
+        SetupCustomBuilders(builder);
         CustomizeFixture(fixture, builder);
 
         return fixture;
     }
+
+    protected override void SetupCustomBuilders(SpecimenBuilderFactory factory)
+    {
+        // Setup upstream builders
+        base.SetupCustomBuilders(factory);
+
+        // Setup custom builder specific to this module's context
+        factory.Build(CertificateAuthorityDatasetBuilder.Id);
+    }
+
+    #region Customize Fixture
 
     protected override void CustomizeFixture(IFixture fixture, SpecimenBuilderFactory factory)
     {
@@ -32,6 +43,10 @@ public class ContactlessEmvFixture : EmvFixture
         CustomizePrimitives(fixture);
         CustomizeTemplates(fixture);
     }
+
+    #endregion
+
+    #region Customize Primitive Values
 
     private static void CustomizePrimitives(IFixture fixture)
     {
@@ -43,6 +58,10 @@ public class ContactlessEmvFixture : EmvFixture
             0x01, 0x9F, 0x37, 0x04, 0x9F, 0x4E, 0x14
         }.AsBigInteger()));
     }
+
+    #endregion
+
+    #region Customize Constructed Values
 
     // TODO: This is just a cookbook example of how we would register these before a test. Each registration should probably move to its own method or builder class, or maybe we use the TestTlv objects and have methods for registering itself with different values for different scenarios
     private static void CustomizeTemplates(IFixture fixture)
@@ -90,6 +109,8 @@ public class ContactlessEmvFixture : EmvFixture
 
         fixture.Register(() => ProcessingOptions.Decode(new ProcessingOptionsTestTlv().EncodeTagLengthValue().AsMemory()));
     }
+
+    #endregion
 
     #endregion
 }

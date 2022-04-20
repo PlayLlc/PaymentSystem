@@ -20,5 +20,8 @@
 	<ItemGroup>
 	  <PackageReference Include="Microsoft.Toolkit.HighPerformance" Version="7.1.2" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Extensions\Lists\" />
+	</ItemGroup>
 
 </Project>

@@ -11,8 +11,4 @@
     <ProjectReference Include="..\Play.Testing.Emv\Play.Testing.Emv.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="AutoFixture\Builders\" />
-  </ItemGroup>
-
 </Project>

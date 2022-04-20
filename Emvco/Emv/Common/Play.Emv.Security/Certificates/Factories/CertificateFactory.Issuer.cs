@@ -64,7 +64,7 @@ internal partial class CertificateFactory
             // Step 11
             ValidateIssuerPublicKeyAlgorithmIndicator(decodedSignature.GetMessage1());
 
-            return DecodedIssuerPublicKeyCertificate.Create(caPublicKey, issuerRemainder, issuerExponent, decodedSignature);
+            return DecodedIssuerPublicKeyCertificate.Create(caPublicKey, issuerRemainder, issuerExponent, decodedSignature, hashAlgorithmIndicator);
         }
         catch (TerminalDataException exception)
         {

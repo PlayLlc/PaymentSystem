@@ -5,11 +5,14 @@ using AutoFixture.Kernel;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
+using Play.Encryption.Certificates;
+using Play.Encryption.Ciphers.Hashing;
 using Play.Testing.Emv.Ber.Constructed;
+using Play.Testing.Infrastructure.AutoFixture;
 
 namespace Play.Testing.Emv;
 
-public class EmvFixture : CustomFixture
+public class EmvFixture : TestingFixture
 {
     #region Instance Members
 
@@ -18,14 +21,18 @@ public class EmvFixture : CustomFixture
         IFixture fixture = new Fixture().Customize(new AutoMoqCustomization());
         EmvSpecimenBuilderFactory builder = new();
 
-        SetupCustomConstructors(builder);
+        SetupCustomBuilders(builder);
         CustomizeFixture(fixture, builder);
 
         return fixture;
     }
 
-    protected override void SetupCustomConstructors(SpecimenBuilderFactory factory)
+    protected override void SetupCustomBuilders(SpecimenBuilderFactory factory)
     {
+        // Setup upstream builders
+        base.SetupCustomBuilders(factory);
+
+        // Setup custom builder specific to this module's context
         factory.Build(AlternateInterfacePreferenceOutcomeBuilder.Id);
         factory.Build(CertificateSerialNumberBuilder.Id);
         factory.Build(CvmPerformedOutcomeBuilder.Id);
@@ -44,6 +51,8 @@ public class EmvFixture : CustomFixture
         factory.Build(ValueQualifierBuilder.Id);
     }
 
+    #region Customize Fixture
+
     protected override void CustomizeFixture(IFixture fixture, SpecimenBuilderFactory factory)
     {
         foreach (ISpecimenBuilder item in factory.Create())
@@ -51,11 +60,15 @@ public class EmvFixture : CustomFixture
 
         CustomizePrimitives(fixture);
         CustomizeTemplates(fixture);
+        CustomizeEnumObjects(fixture);
     }
+
+    #endregion
+
+    #region Customize Primitive Values
 
     private static void CustomizePrimitives(IFixture fixture)
     {
-        // TODO: Maybe add a builder pattern for registrations for specific use cases of each primitive so you can reuse them for the templates and custom fixtures?
         fixture.Register<ProcessingOptionsDataObjectList>(() => new ProcessingOptionsDataObjectList(new byte[]
         {
             0x9F, 0x66, 0x04, 0x9F, 0x02, 0x06, 0x9F, 0x03, 0x06, 0x9F,
@@ -64,7 +77,10 @@ public class EmvFixture : CustomFixture
         }.AsBigInteger()));
     }
 
-    // TODO: This is just a cookbook example of how we would register these before a test. Each registration should probably move to its own method or builder class, or maybe we use the TestTlv objects and have methods for registering itself with different values for different scenarios
+    #endregion
+
+    #region Customize Constructed Values
+
     private static void CustomizeTemplates(IFixture fixture)
     {
         fixture.Register(() => FileControlInformationPpse.Decode(new byte[]
@@ -110,6 +126,18 @@ public class EmvFixture : CustomFixture
 
         fixture.Register(() => ProcessingOptions.Decode(new ProcessingOptionsTestTlv().EncodeTagLengthValue().AsMemory()));
     }
+
+    #endregion
+
+    #region Customize Enum Objects
+
+    protected static void CustomizeEnumObjects(IFixture fixture)
+    {
+        fixture.Register(() => HashAlgorithmIndicator.Sha1);
+        fixture.Register(() => PublicKeyAlgorithmIndicator.Rsa);
+    }
+
+    #endregion
 
     #endregion
 }

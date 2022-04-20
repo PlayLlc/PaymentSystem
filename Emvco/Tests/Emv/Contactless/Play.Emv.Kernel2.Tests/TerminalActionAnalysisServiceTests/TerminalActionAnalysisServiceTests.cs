@@ -34,7 +34,7 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     public TerminalActionAnalysisServiceTests()
     {
-        _Fixture = new ContactlessEmvFixture().Create();
+        _Fixture = new ContactlessFixture().Create();
         _Database = _Fixture.Create<KernelDatabase>();
     }
 

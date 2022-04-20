@@ -15,13 +15,13 @@ public class TestingFixture : CustomFixture
     {
         IFixture fixture = new Fixture().Customize(new AutoMoqCustomization());
         TestingSpecimenBuilderFactory factory = new();
-        SetupCustomConstructors(factory);
+        SetupCustomBuilders(factory);
         CustomizeFixture(fixture, factory);
 
         return fixture;
     }
 
-    protected override void SetupCustomConstructors(SpecimenBuilderFactory factory)
+    protected override void SetupCustomBuilders(SpecimenBuilderFactory factory)
     {
         //
         factory.Build(RegisteredApplicationProviderIndicatorSpecimenBuilder.Id);

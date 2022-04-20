@@ -31,21 +31,12 @@ internal class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
 
     internal CertificateSources GetCertificateFormat() => _CertificateSources;
 
-    /// <summary>
-    ///     Create
-    /// </summary>
-    /// <param name="caPublicKeyCertificate"></param>
-    /// <param name="issuerRemainder"></param>
-    /// <param name="issuerExponent"></param>
-    /// <param name="decodedSignature"></param>
-    /// <returns></returns>
     /// <exception cref="CodecParsingException"></exception>
     internal static DecodedIssuerPublicKeyCertificate Create(
         CaPublicKeyCertificate caPublicKeyCertificate, IssuerPublicKeyRemainder issuerRemainder, IssuerPublicKeyExponent issuerExponent,
-        DecodedSignature decodedSignature)
+        DecodedSignature decodedSignature, HashAlgorithmIndicator hashAlgorithm)
     {
         CertificateSerialNumber serialNumber = GetCertificateSerialNumber(decodedSignature.GetMessage1());
-        HashAlgorithmIndicator hashAlgorithm = GetHashAlgorithmIndicator(decodedSignature.GetMessage1());
         PublicKeyAlgorithmIndicator publicKeyAlgorithmIndicator = GetPublicKeyAlgorithmIndicator(decodedSignature.GetMessage1());
         DateRange validityPeriod = new(ShortDate.Min, GetCertificateExpirationDate(decodedSignature.GetMessage1()));
 

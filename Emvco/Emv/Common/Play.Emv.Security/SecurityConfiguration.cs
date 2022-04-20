@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using Play.Core.Exceptions;
 
 [assembly: InternalsVisibleTo("Play.Emv.Kernel2.Tests")]
+[assembly: InternalsVisibleTo("Play.Emv.Security.Tests")]
 
 namespace Play.Emv.Security;
 

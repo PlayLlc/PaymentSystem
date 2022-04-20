@@ -15,8 +15,11 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
 
     public static List<SpecimenBuilder> CreateSpecimenBuilders()
     {
-        List<SpecimenBuilder> downStreamBuilders = TestingSpecimenBuilderFactory.CreateSpecimenBuilders();
-        HashSet<SpecimenBuilder> currentModuleBuilders = new()
+        // Add upstream builders
+        List<SpecimenBuilder> currentModuleBuilders = TestingSpecimenBuilderFactory.CreateSpecimenBuilders();
+
+        // Add context specific SpecimenBuilders here
+        currentModuleBuilders.AddRange(new List<SpecimenBuilder>()
         {
             new AlternateInterfacePreferenceOutcomeBuilder(),
             new CertificateSerialNumberBuilder(),
@@ -34,9 +37,9 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
             new TerminalVerificationResultCodesBuilder(),
             new TransactionTypeBuilder(),
             new ValueQualifierBuilder()
-        };
+        });
 
-        return currentModuleBuilders.Concat(downStreamBuilders).ToList();
+        return currentModuleBuilders;
     }
 
     #endregion
