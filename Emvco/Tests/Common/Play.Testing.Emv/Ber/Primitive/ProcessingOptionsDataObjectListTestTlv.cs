@@ -6,6 +6,8 @@ using Play.Ber.InternalFactories;
 using Play.Core.Extensions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.ValueTypes;
 using Play.Globalization.Country;
 using Play.Globalization.Currency;
 

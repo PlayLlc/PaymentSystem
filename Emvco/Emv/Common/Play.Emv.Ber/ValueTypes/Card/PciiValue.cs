@@ -1,7 +1,7 @@
 ﻿using Play.Core.Exceptions;
 using Play.Core.Extensions;
 
-namespace Play.Emv.Ber;
+namespace Play.Emv.Ber.ValueTypes.Card;
 
 internal readonly record struct PciiValue
 {

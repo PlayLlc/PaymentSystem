@@ -2,7 +2,7 @@
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
 
-namespace Play.Emv.Ber;
+namespace Play.Emv.Ber.Enums;
 
 public sealed record OdaStatusTypes : EnumObject<byte>
 {

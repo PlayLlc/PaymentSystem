@@ -8,6 +8,7 @@ using Play.Core.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
+using Play.Emv.Ber.Enums;
 using Play.Globalization.Country;
 using Play.Globalization.Time.Seconds;
 

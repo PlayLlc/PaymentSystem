@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.Ber;
+﻿namespace Play.Emv.Ber.ValueTypes;
 
 /// <summary>
 ///     The underlying value for Action Codes such as TerminalActionCodeDefault, IssuerActionCodeDefault, etc

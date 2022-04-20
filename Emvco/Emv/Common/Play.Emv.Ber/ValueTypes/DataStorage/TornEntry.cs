@@ -1,6 +1,6 @@
 ﻿using Play.Emv.Ber.DataElements;
 
-namespace Play.Emv.Ber;
+namespace Play.Emv.Ber.ValueTypes.DataStorage;
 
 public record TornEntry : RecordKey
 {

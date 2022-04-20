@@ -7,6 +7,7 @@ using Play.Codecs.Exceptions;
 using Play.Core;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Ber.ValueTypes;
 
 namespace Play.Emv.Ber.DataElements;
 
@@ -82,8 +83,7 @@ public record ApplicationPan : DataElement<TrackPrimaryAccountNumber>
         return thisPan == (uint) issuerIdentifier;
     }
 
-    private DataStorageId CreateDataStorageIdMinimumLengthDataStorageId(
-        ReadOnlySpan<byte> value, ApplicationPanSequenceNumber? sequenceNumber)
+    private DataStorageId CreateDataStorageIdMinimumLengthDataStorageId(ReadOnlySpan<byte> value, ApplicationPanSequenceNumber? sequenceNumber)
     {
         Span<byte> resultBuffer = stackalloc byte[8];
 

@@ -1,7 +1,7 @@
 ﻿using Play.Core;
 using Play.Core.Extensions;
 
-namespace Play.Emv.Ber;
+namespace Play.Emv.Ber.ValueTypes;
 
 public readonly record struct TrackPrimaryAccountNumber
 {

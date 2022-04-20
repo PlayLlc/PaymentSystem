@@ -3,7 +3,7 @@ using System.Numerics;
 
 using Play.Core;
 
-namespace Play.Emv.Ber;
+namespace Play.Emv.Ber.Enums;
 
 // TODO: This needs to be separated into an Enum and a struct value type. This enum is too large for a struct because of all the static metadata
 

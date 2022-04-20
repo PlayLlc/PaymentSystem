@@ -1,9 +1,8 @@
 using System.Collections.Immutable;
-using System.Numerics;
 
 using Play.Core;
 
-namespace Play.Emv.Ber;
+namespace Play.Emv.Ber.Enums;
 
 public record StatusOutcome : EnumObject<byte>
 {

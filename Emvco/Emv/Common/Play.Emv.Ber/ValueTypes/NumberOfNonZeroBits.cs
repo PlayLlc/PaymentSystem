@@ -1,6 +1,6 @@
 ﻿using Play.Emv.Ber.DataElements;
 
-namespace Play.Emv.Ber;
+namespace Play.Emv.Ber.ValueTypes;
 
 /// <summary>
 ///     Number of non-zero bits in PUNATC(Track2) – NATC(Track2)

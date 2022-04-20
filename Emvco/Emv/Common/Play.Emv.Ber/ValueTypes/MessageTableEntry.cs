@@ -1,8 +1,10 @@
 ﻿using Play.Codecs;
 using Play.Core.Exceptions;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.ValueTypes.Card;
 
-namespace Play.Emv.Ber;
+namespace Play.Emv.Ber.ValueTypes;
 
 public partial record MessageTableEntry
 {

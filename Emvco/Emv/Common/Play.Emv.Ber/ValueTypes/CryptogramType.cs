@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.Ber;
+﻿namespace Play.Emv.Ber.ValueTypes;
 
 public readonly record struct CryptogramType
 {

@@ -1,4 +1,4 @@
-namespace Play.Emv.Ber;
+namespace Play.Emv.Ber.ValueTypes;
 
 /// <summary>
 ///     The kernel indicates whether to turn off the field (without card removal procedure). The hold time will

@@ -2,6 +2,7 @@
 
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.ValueTypes.DataStorage;
 using Play.Emv.Kernel.Services;
 
 namespace Play.Emv.Kernel.Databases;
@@ -36,8 +37,7 @@ public class ScratchPad
     {
         if (!_TornTransactionLogs.TryGetValue(applicationId, out TornTransactionLog? tornTransactionLog))
         {
-            _TornTransactionLogs.Add(applicationId,
-                new TornTransactionLog(_MaxNumberOfTornTransactionLogRecords, _MaxLifetimeOfTornTransactionLogRecords));
+            _TornTransactionLogs.Add(applicationId, new TornTransactionLog(_MaxNumberOfTornTransactionLogRecords, _MaxLifetimeOfTornTransactionLogRecords));
         }
 
         return tornTransactionLog!;

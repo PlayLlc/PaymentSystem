@@ -3,8 +3,9 @@
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Enums.Interchange;
 using Play.Emv.Ber.Exceptions;
-using Play.Emv.Ber.Interchange;
 
 namespace Play.Emv.Kernel.Databases;
 

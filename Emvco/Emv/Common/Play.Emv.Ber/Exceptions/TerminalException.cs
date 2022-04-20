@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 
 using Play.Core.Exceptions;
+using Play.Emv.Ber.Enums;
 
 namespace Play.Emv.Ber.Exceptions;
 

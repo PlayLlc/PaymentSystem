@@ -5,6 +5,7 @@ using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Ber.ValueTypes;
 
 namespace Play.Emv.Ber.DataElements;
 

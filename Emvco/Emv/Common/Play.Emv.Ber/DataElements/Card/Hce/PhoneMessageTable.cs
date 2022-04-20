@@ -6,7 +6,10 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Exceptions;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Ber.ValueTypes;
+using Play.Emv.Ber.ValueTypes.Card;
 
 namespace Play.Emv.Ber.DataElements;
 

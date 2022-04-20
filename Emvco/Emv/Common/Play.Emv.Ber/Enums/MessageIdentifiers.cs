@@ -2,8 +2,9 @@
 using System.Numerics;
 
 using Play.Core;
+using Play.Emv.Ber.ValueTypes;
 
-namespace Play.Emv.Ber;
+namespace Play.Emv.Ber.Enums;
 
 /// <summary>
 ///     Indicates the text string to be displayed, with the different standard messages defined in  Book A section 9.4. If

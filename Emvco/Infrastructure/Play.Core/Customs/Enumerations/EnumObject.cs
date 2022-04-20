@@ -7,7 +7,6 @@ using Play.Unmanaged;
 
 namespace Play.Core;
 
-// HACK: This object and all the objects implementing this object should be a class not a record. The objects implementing this  class should also implement value equality for its type by implementing IEquatable, IEqualityComparer and overriding operators == and !=. Changing this to a class is a micro-optimization - it would mean that there are no value copies when a reference is passed to a method argument or referenced as a variable, instead every enum object would be a reference object. This is a low priority fix
 /// <remarks>
 ///     The concrete implementation of this base class must not expose a constructor. There should only be publicly static
 ///     instances. No instantiation from outside the derived class should be allowed
@@ -15,12 +14,6 @@ namespace Play.Core;
 public abstract record EnumObject<T> : IEquatable<T>, IEqualityComparer<T>, IComparable<T>, IEqualityComparer<EnumObject<T>>, IComparable<EnumObject<T>>
     where T : unmanaged
 {
-    #region Static Metadata
-
-    private const string _GetAllStaticMethod = "GetAll";
-
-    #endregion
-
     #region Instance Values
 
     protected readonly T _Value;
@@ -29,14 +22,22 @@ public abstract record EnumObject<T> : IEquatable<T>, IEqualityComparer<T>, ICom
 
     #region Constructor
 
-    /// <exception cref="PlayInternalException"></exception>
     protected EnumObject()
-    { }
+    {
+        _Value = default;
+    }
 
     protected EnumObject(T value) : base()
     {
         _Value = value;
     }
+
+    #endregion
+
+    #region Instance Members
+
+    public abstract EnumObject<T>[] GetAll();
+    public abstract bool TryGet(T value, out EnumObject<T>? result);
 
     #endregion
 
@@ -80,27 +81,4 @@ public abstract record EnumObject<T> : IEquatable<T>, IEqualityComparer<T>, ICom
     public static bool operator !=(T left, EnumObject<T> right) => !right!._Value.Equals(left);
 
     #endregion
-
-    ///// <exception cref="TypeInitializationException"></exception>
-    //protected static Dictionary<T, EnumObject<T>> GetValues(Type type)
-    //{
-    //    HashSet<EnumObject<T>> rawValues = new();
-
-    //    FieldInfo[] fields = type.GetFields(BindingFlags.Public | BindingFlags.Static);
-
-    //    foreach (FieldInfo fieldInfo in fields)
-    //    {
-    //        if (fieldInfo.IsPublic && fieldInfo.IsStatic && fieldInfo.IsInitOnly && (fieldInfo.FieldType.BaseType == typeof(EnumObject<T>)))
-    //        {
-    //            if (!rawValues.Add((EnumObject<T>) fieldInfo.GetRawConstantValue()))
-    //            {
-    //                throw new TypeInitializationException(type.FullName,
-    //                    new InvalidOperationException($"The {type.Name} declares two instances with the same underlying {typeof(T)} values. "
-    //                        + "Please ensure unique values for the enum"));
-    //            }
-    //        }
-    //    }
-
-    //    return rawValues.ToDictionary(a => a._Value, b => b);
-    //}
 }

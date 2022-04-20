@@ -4,6 +4,8 @@ using System.Linq;
 
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.ValueTypes;
 
 namespace Play.Emv.Kernel2.Tests.TerminalActionAnalysisServiceTests;
 

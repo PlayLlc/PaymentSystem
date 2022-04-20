@@ -2,6 +2,7 @@
 
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
+using Play.Emv.Ber.Enums;
 
 namespace Play.Emv.Security.Exceptions;
 

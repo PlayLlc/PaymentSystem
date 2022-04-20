@@ -2,6 +2,7 @@
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Kernel.Databases;
 using Play.Globalization.Currency;
 
@@ -26,8 +27,7 @@ internal record ManualCashCondition : CvmCondition
     public override CvmConditionCode GetConditionCode() => Code;
 
     /// <exception cref="CodecParsingException"></exception>
-    protected override bool IsConditionSatisfied(KernelDatabase database, Money xAmount, Money yAmount) =>
-        database.IsManualCashTransaction();
+    protected override bool IsConditionSatisfied(KernelDatabase database, Money xAmount, Money yAmount) => database.IsManualCashTransaction();
 
     #endregion
 }

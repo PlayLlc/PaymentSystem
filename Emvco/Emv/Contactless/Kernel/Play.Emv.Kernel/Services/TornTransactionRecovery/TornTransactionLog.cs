@@ -4,6 +4,7 @@ using System.Linq;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Ber.ValueTypes.DataStorage;
 using Play.Emv.Kernel.DataExchange;
 using Play.Globalization.Time.Seconds;
 

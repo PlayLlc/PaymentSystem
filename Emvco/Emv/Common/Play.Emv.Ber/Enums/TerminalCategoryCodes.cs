@@ -2,7 +2,7 @@
 
 using Play.Core;
 
-namespace Play.Emv.Ber;
+namespace Play.Emv.Ber.Enums;
 
 /// <summary>
 ///     Indicates the terminal category to which the terminal belongs. For terminals that do not belong to a terminal

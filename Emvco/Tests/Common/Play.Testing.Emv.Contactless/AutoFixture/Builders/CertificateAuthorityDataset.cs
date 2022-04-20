@@ -1,12 +1,10 @@
 ﻿using AutoFixture.Kernel;
 
-using Play.Emv.Ber;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Security;
 using Play.Icc.FileSystem.DedicatedFiles;
-using Play.Randoms;
 
-namespace Play.Testing.Emv;
+namespace Play.Testing.Emv.Contactless.AutoFixture;
 
 public class CertificateAuthorityDatasetBuilder : SpecimenBuilder
 {

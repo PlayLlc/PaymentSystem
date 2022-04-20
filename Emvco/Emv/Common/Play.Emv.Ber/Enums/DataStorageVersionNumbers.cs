@@ -1,8 +1,9 @@
 ﻿using Play.Core;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Ber.ValueTypes;
 
-namespace Play.Emv.Ber;
+namespace Play.Emv.Ber.Enums;
 
 public sealed record DataStorageVersionNumbers : EnumObject<byte>
 {

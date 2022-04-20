@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 
 using Play.Core.Extensions;
 
-namespace Play.Emv.Ber;
+namespace Play.Emv.Ber.ValueTypes;
 
 public readonly record struct SdsSchemeIndicator
 {

@@ -3,6 +3,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Ber.ValueTypes;
 using Play.Globalization.Time.Seconds;
 
 namespace Play.Emv.Ber.DataElements;
@@ -41,10 +42,9 @@ public record MeasuredRelayResistanceProcessingTime : DataElement<RelaySeconds>
     {
         RelaySeconds timeElapsedInRelaySeconds = new(timeElapsed);
 
-        RelaySeconds fastestExpectedTransmissionTime =
-            terminalExpectedRapduTransmissionTime < (RelaySeconds) deviceEstimatedTransmissionTime
-                ? deviceEstimatedTransmissionTime
-                : terminalExpectedRapduTransmissionTime;
+        RelaySeconds fastestExpectedTransmissionTime = terminalExpectedRapduTransmissionTime < (RelaySeconds) deviceEstimatedTransmissionTime
+            ? deviceEstimatedTransmissionTime
+            : terminalExpectedRapduTransmissionTime;
 
         RelaySeconds expectedResponseTime = new(terminalExpectedCapduTransmissionTime - fastestExpectedTransmissionTime);
         RelaySeconds processingTime = timeElapsedInRelaySeconds - expectedResponseTime;

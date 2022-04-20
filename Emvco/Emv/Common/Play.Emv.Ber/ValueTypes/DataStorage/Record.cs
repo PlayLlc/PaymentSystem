@@ -3,7 +3,7 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Time;
 
-namespace Play.Emv.Ber;
+namespace Play.Emv.Ber.ValueTypes.DataStorage;
 
 /// <summary>
 ///     A snapshot of a transaction that has previously been processed by this payment system

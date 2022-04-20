@@ -4,6 +4,7 @@ using Play.Codecs.Exceptions;
 using Play.Core.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Kernel.Databases;
 

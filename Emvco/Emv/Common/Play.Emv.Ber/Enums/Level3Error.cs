@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 
 using Play.Core;
 
-namespace Play.Emv.Ber;
+namespace Play.Emv.Ber.Enums;
 
 public record Level3Error : EnumObject<byte>
 {
@@ -33,6 +33,10 @@ public record Level3Error : EnumObject<byte>
             .ToImmutableSortedDictionary();
     }
 
+    /// <exception cref="Core.Exceptions.PlayInternalException"></exception>
+    public Level3Error() : base()
+    { }
+
     private Level3Error(byte value) : base(value)
     { }
 
@@ -40,8 +44,21 @@ public record Level3Error : EnumObject<byte>
 
     #region Instance Members
 
-    public static Level3Error[] GetAll() => _ValueObjectMap.Values.ToArray();
-    public static Level3Error Get(byte value) => _ValueObjectMap[value];
+    public override Level3Error[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out Level3Error? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     #endregion
 }

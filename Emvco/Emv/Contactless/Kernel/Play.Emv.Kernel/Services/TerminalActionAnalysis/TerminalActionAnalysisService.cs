@@ -4,7 +4,9 @@ using Play.Ber.Exceptions;
 using Play.Core.Extensions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
 
@@ -106,9 +108,7 @@ public class TerminalActionAnalysisService : IPerformTerminalActionAnalysis
         if (database.IsTerminalType(TerminalType.CommunicationType.OfflineOnly))
             ProcessDefaultActionCodesForOfflineOnlyTerminals(defaultActionCodes, terminalVerificationResult, ref flag);
         else
-        {
             ProcessDefaultActionCodesForOnlineCapableTerminals(outcomeParameterSet, defaultActionCodes, terminalVerificationResult, ref flag);
-        }
     }
 
     private void ProcessDefaultActionCodesForOfflineOnlyTerminals(

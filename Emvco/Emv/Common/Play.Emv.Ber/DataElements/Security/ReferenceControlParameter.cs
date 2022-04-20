@@ -4,7 +4,9 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Core.Extensions;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Ber.ValueTypes;
 
 namespace Play.Emv.Ber.DataElements;
 
@@ -56,9 +58,7 @@ public record ReferenceControlParameter : DataElement<byte>, IEqualityComparer<R
     public CryptogramTypes GetCryptogramType()
     {
         if (!CryptogramTypes.TryGet(_Value, out CryptogramTypes? result))
-        {
             throw new DataElementParsingException($"The {nameof(CryptogramInformationData)} expected a {nameof(CryptogramTypes)} but none could be found");
-        }
 
         return result!;
     }

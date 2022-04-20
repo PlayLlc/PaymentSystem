@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using Play.Emv.Ber;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Templates;
 using Play.Emv.Icc;
 using Play.Emv.Pcd.Contracts;

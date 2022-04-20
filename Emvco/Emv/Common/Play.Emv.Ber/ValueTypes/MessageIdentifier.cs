@@ -1,4 +1,4 @@
-﻿namespace Play.Emv.Ber;
+﻿namespace Play.Emv.Ber.ValueTypes;
 
 /// <summary>
 ///     Indicates the text string to be displayed, with the different standard messages defined in  Book A section 9.4. If

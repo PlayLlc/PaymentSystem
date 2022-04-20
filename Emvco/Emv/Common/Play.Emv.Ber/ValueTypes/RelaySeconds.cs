@@ -1,6 +1,6 @@
 ﻿using Play.Globalization.Time.Seconds;
 
-namespace Play.Emv.Ber;
+namespace Play.Emv.Ber.ValueTypes;
 
 /// <summary>
 ///     A <see cref="RelaySeconds" /> is a unit of time equal to 100 microseconds. It's used along with the Relay

@@ -2,7 +2,7 @@
 using Play.Core.Exceptions;
 using Play.Globalization.Time;
 
-namespace Play.Emv.Ber;
+namespace Play.Emv.Ber.ValueTypes;
 
 /// <summary>
 ///     A short date 'YYMM' value that represents the end of a validity period

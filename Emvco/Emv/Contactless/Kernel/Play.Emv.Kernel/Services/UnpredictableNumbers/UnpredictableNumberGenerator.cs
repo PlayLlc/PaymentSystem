@@ -3,6 +3,7 @@
 using Play.Codecs;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.ValueTypes;
 using Play.Randoms;
 
 namespace Play.Emv.Kernel.Services;
@@ -26,8 +27,7 @@ internal class UnpredictableNumberGenerator : IGenerateUnpredictableNumber
     {
         UnpredictableNumber offset = GenerateUnpredictableNumber();
         uint rightPaddedZeroDigitCount = (uint) (8 - nun);
-        uint rightPaddedResult = (uint) ((uint) ((uint) offset / Math.Pow(10, rightPaddedZeroDigitCount))
-            * Math.Pow(10, rightPaddedZeroDigitCount));
+        uint rightPaddedResult = (uint) ((uint) ((uint) offset / Math.Pow(10, rightPaddedZeroDigitCount)) * Math.Pow(10, rightPaddedZeroDigitCount));
 
         return UnpredictableNumber.Decode(PlayCodec.CompressedNumericCodec.Encode(rightPaddedResult).AsSpan());
     }

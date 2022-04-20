@@ -2,6 +2,7 @@
 using System.Collections.Immutable;
 
 using Play.Emv.Ber;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Display.Contracts;
 using Play.Globalization;
 

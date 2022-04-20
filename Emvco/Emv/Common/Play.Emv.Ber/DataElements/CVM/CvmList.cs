@@ -4,6 +4,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Ber.ValueTypes;
 using Play.Globalization.Currency;
 
 namespace Play.Emv.Ber.DataElements;
@@ -63,12 +64,8 @@ public record CvmList : DataElement<BigInteger>, IResolveXAndYAmountForCvmSelect
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-
-    public Money GetXAmount(NumericCurrencyCode currencyCode) =>
-        new(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray().AsSpan()[..4]), currencyCode);
-
-    public Money GetYAmount(NumericCurrencyCode currencyCode) =>
-        new(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray().AsSpan()[4..8]), currencyCode);
+    public Money GetXAmount(NumericCurrencyCode currencyCode) => new(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray().AsSpan()[..4]), currencyCode);
+    public Money GetYAmount(NumericCurrencyCode currencyCode) => new(PlayCodec.BinaryCodec.DecodeToUInt64(_Value.ToByteArray().AsSpan()[4..8]), currencyCode);
 
     #endregion
 

@@ -2,6 +2,7 @@
 using Play.Core.Extensions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
 using Play.Emv.Security.Certificates;
 using Play.Emv.Security.Certificates.Factories;

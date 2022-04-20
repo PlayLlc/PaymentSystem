@@ -3,6 +3,7 @@ using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
+using Play.Emv.Ber.ValueTypes;
 
 namespace Play.Emv.Ber.DataElements;
 
@@ -40,8 +41,7 @@ public record DeviceEstimatedTransmissionTimeForRelayResistanceRapdu : DataEleme
     /// <exception cref="CodecParsingException"></exception>
     public static DeviceEstimatedTransmissionTimeForRelayResistanceRapdu Decode(ReadOnlyMemory<byte> value) => Decode(value.Span);
 
-    public override DeviceEstimatedTransmissionTimeForRelayResistanceRapdu Decode(TagLengthValue value) =>
-        Decode(value.EncodeValue().AsSpan());
+    public override DeviceEstimatedTransmissionTimeForRelayResistanceRapdu Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
