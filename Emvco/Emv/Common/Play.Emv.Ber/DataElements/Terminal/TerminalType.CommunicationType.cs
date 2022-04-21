@@ -65,6 +65,22 @@ public partial record TerminalType
             return false;
         }
 
+        public override CommunicationType[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+        public override bool TryGet(byte value, out EnumObject<byte>? result)
+        {
+            if (_ValueObjectMap.TryGetValue(value, out CommunicationType? enumResult))
+            {
+                result = enumResult;
+
+                return true;
+            }
+
+            result = null;
+
+            return false;
+        }
+
         public static bool IsCommunicationType(byte value, CommunicationType communicationType) => ClearUnusedDigits(value) == communicationType;
 
         public static byte ClearUnusedDigits(byte value)

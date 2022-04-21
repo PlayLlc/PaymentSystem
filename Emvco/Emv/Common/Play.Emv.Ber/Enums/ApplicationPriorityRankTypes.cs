@@ -75,19 +75,6 @@ public sealed record ApplicationPriorityRankTypes : EnumObject<ApplicationPriori
 
     #endregion
 
-    #region Instance Members
-
-    public static ApplicationPriorityRankTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
-
-    public static ApplicationPriorityRankTypes Get(byte value)
-    {
-        const byte bitMask = 0b11110000;
-
-        return _ValueObjectMap[value.GetMaskedValue(bitMask)];
-    }
-
-    #endregion
-
     #region Equality
 
     public int CompareTo(ApplicationPriorityRankTypes other) => _Value.CompareTo(other._Value);

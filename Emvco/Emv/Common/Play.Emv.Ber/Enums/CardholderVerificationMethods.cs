@@ -85,6 +85,22 @@ public record CardholderVerificationMethods : EnumObject<byte>
         return false;
     }
 
+    public override CardholderVerificationMethods[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out CardholderVerificationMethods? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
+
     public static CardholderVerificationMethods[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     /// <exception cref="InvalidOperationException"></exception>

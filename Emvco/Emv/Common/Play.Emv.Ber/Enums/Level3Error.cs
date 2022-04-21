@@ -76,5 +76,21 @@ public record Level3Error : EnumObject<byte>
         return false;
     }
 
+    public override Level3Error[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out Level3Error? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
+
     #endregion
 }

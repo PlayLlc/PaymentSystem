@@ -117,6 +117,22 @@ public record CvmCodes : EnumObject<byte>
         return false;
     }
 
+    public override CvmCodes[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out CvmCodes? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
+
     public static CvmCodes[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     /// <exception cref="InvalidOperationException"></exception>

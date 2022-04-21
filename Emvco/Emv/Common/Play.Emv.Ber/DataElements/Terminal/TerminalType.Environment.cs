@@ -57,6 +57,22 @@ public partial record TerminalType
             return false;
         }
 
+        public override EnvironmentType[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+        public override bool TryGet(byte value, out EnumObject<byte>? result)
+        {
+            if (_ValueObjectMap.TryGetValue(value, out EnvironmentType? enumResult))
+            {
+                result = enumResult;
+
+                return true;
+            }
+
+            result = null;
+
+            return false;
+        }
+
         public static bool IsEnvironmentType(byte value, EnvironmentType environmentType) => environmentType == Attended ? value < 4 : value > 3;
         public static bool TryGet(byte value, out EnvironmentType result) => _ValueObjectMap.TryGetValue(value, out result);
 
