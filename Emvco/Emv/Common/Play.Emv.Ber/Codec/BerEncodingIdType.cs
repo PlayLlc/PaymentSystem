@@ -34,4 +34,24 @@ public record BerEncodingIdType : EnumObject<PlayEncodingId>
     { }
 
     #endregion
+
+    #region Instance Members
+
+    public override BerEncodingIdType[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<PlayEncodingId>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out BerEncodingIdType? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
+
+    #endregion
 }

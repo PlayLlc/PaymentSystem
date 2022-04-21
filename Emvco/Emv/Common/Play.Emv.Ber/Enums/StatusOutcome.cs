@@ -147,6 +147,22 @@ public record StatusOutcome : EnumObject<byte>
 
     #region Instance Members
 
+    public override StatusOutcome[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out StatusOutcome? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
+
     // TODO:
     // public static readonly StatusOutcome RequestOnlinePin;
     public static StatusOutcome[] GetAll() => _ValueObjectMap.Values.ToArray();

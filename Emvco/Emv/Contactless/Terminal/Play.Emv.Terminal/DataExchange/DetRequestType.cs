@@ -31,6 +31,22 @@ public record DetRequestType : EnumObject<Tag>
 
     #region Instance Members
 
+    public override DetRequestType[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<Tag>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out DetRequestType? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
+
     public static DetRequestType[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     #endregion

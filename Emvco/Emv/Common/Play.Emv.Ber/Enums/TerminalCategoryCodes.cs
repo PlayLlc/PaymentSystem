@@ -61,6 +61,22 @@ public record TerminalCategoryCodes : EnumObject<ushort>
 
     #region Instance Members
 
+    public override TerminalCategoryCodes[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<ushort>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out TerminalCategoryCodes? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
+
     public static TerminalCategoryCodes[] GetAll() => _ValueObjectMap.Values.ToArray();
     public byte[] AsByteArray() => Encode(_Value);
 

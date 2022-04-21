@@ -41,6 +41,26 @@ public record AuthenticationTypes : EnumObject<byte>
 
     #endregion
 
+    #region Instance Members
+
+    public override AuthenticationTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out AuthenticationTypes? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
+
+    #endregion
+
     #region Equality
 
     public bool Equals(AuthenticationTypes x, AuthenticationTypes y) => x.Equals(y);

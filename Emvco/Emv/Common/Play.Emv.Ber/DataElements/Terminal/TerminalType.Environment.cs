@@ -41,17 +41,23 @@ public partial record TerminalType
 
         #region Instance Members
 
-        public static bool IsEnvironmentType(byte value, EnvironmentType environmentType) =>
-            environmentType == Attended ? value < 4 : value > 3;
+        public override EnvironmentType[] GetAll() => _ValueObjectMap.Values.ToArray();
 
-        public int CompareTo(EnvironmentType? other)
+        public override bool TryGet(byte value, out EnumObject<byte>? result)
         {
-            if (other is null)
-                return 1;
+            if (_ValueObjectMap.TryGetValue(value, out EnvironmentType? enumResult))
+            {
+                result = enumResult;
 
-            return _Value.CompareTo(other._Value);
+                return true;
+            }
+
+            result = null;
+
+            return false;
         }
 
+        public static bool IsEnvironmentType(byte value, EnvironmentType environmentType) => environmentType == Attended ? value < 4 : value > 3;
         public static bool TryGet(byte value, out EnvironmentType result) => _ValueObjectMap.TryGetValue(value, out result);
 
         #endregion
@@ -71,6 +77,14 @@ public partial record TerminalType
 
         public override int GetHashCode() => 4679537 * _Value.GetHashCode();
         public int GetHashCode(EnvironmentType obj) => obj.GetHashCode();
+
+        public int CompareTo(EnvironmentType? other)
+        {
+            if (other is null)
+                return 1;
+
+            return _Value.CompareTo(other._Value);
+        }
 
         #endregion
 

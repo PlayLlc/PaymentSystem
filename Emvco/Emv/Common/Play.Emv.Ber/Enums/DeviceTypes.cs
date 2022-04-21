@@ -101,6 +101,22 @@ public record DeviceTypes : EnumObject<ushort>
 
     #region Instance Members
 
+    public override DeviceTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<ushort>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out DeviceTypes? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
+
     public static DeviceTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     #endregion
