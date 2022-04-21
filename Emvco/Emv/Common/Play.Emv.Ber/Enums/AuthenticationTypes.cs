@@ -4,7 +4,7 @@ using Play.Core;
 
 namespace Play.Emv.Ber.Enums;
 
-public sealed record AuthenticationTypes : EnumObject<byte>
+public record AuthenticationTypes : EnumObject<byte>
 {
     #region Static Metadata
 
