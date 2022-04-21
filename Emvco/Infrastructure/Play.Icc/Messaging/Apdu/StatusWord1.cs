@@ -7,8 +7,9 @@ using Play.Core;
 
 namespace Play.Icc.Messaging.Apdu;
 
-public sealed record StatusWord1 : EnumObject<StatusWord>, IEqualityComparer<StatusWord> { public override StatusWord1[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<StatusWord>? result) { if (_ValueObjectMap.TryGetValue(value, out StatusWord1? enumResult)) { result = enumResult; return true; } result = null; return false; }
- #region Static Metadata
+public sealed record StatusWord1 : EnumObject<StatusWord>, IEqualityComparer<StatusWord>
+{
+    #region Static Metadata
 
     /// <summary>
     ///     Normal response indicating that response bytes are still available
@@ -151,6 +152,22 @@ public sealed record StatusWord1 : EnumObject<StatusWord>, IEqualityComparer<Sta
     #endregion
 
     #region Instance Members
+
+    public override StatusWord1[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<StatusWord>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out StatusWord1? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static StatusWord1[] GetAll() => _ValueObjectMap.Values.ToArray();
     public string GetDescription() => _Description;
