@@ -41,13 +41,6 @@ public record AuthenticationTypes : EnumObject<byte>
 
     #endregion
 
-    #region Instance Members
-
-    public static AuthenticationTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
-    public static bool TryGet(byte value, out AuthenticationTypes result) => _ValueObjectMap.TryGetValue(value, out result);
-
-    #endregion
-
     #region Equality
 
     public bool Equals(AuthenticationTypes x, AuthenticationTypes y) => x.Equals(y);
