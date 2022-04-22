@@ -12,7 +12,7 @@ using Play.Testing.Extensions;
 
 namespace Play.Testing.Emv.Contactless.AutoFixture;
 
-public class ContactlessFixture : EmvFixture
+public partial class ContactlessFixture : EmvFixture
 {
     #region Instance Members
 
