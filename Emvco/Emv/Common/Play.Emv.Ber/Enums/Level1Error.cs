@@ -8,6 +8,7 @@ public record Level1Error : EnumObject<byte>
 {
     #region Static Metadata
 
+    public static readonly Level1Error Empty = new();
     private static readonly ImmutableSortedDictionary<byte, Level1Error> _ValueObjectMap;
     public static readonly Level1Error Ok;
     public static readonly Level1Error ProtocolError;
@@ -21,6 +22,9 @@ public record Level1Error : EnumObject<byte>
     #endregion
 
     #region Constructor
+
+    public Level1Error() : base()
+    { }
 
     static Level1Error()
     {
@@ -45,6 +49,22 @@ public record Level1Error : EnumObject<byte>
     #endregion
 
     #region Instance Members
+
+    public override Level1Error[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out Level1Error? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static Level1Error[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static Level1Error Get(byte value) => _ValueObjectMap[value];

@@ -13,6 +13,7 @@ public record DekResponseType : EnumObject<Tag>
 {
     #region Static Metadata
 
+    public static readonly DekResponseType Empty = new();
     public static readonly DekResponseType TagsToWriteBeforeGenAc = new(Ber.DataElements.TagsToWriteBeforeGenAc.Tag);
     public static readonly DekResponseType TagsToWriteAfterGenAc = new(Ber.DataElements.TagsToWriteAfterGenAc.Tag);
     public static readonly DekResponseType DataToSend = new(Ber.DataElements.DataToSend.Tag);
@@ -43,6 +44,9 @@ public record DekResponseType : EnumObject<Tag>
 
     #region Constructor
 
+    public DekResponseType() : base()
+    { }
+
     public DekResponseType(Tag original) : base(original)
     { }
 
@@ -53,15 +57,29 @@ public record DekResponseType : EnumObject<Tag>
 
     #region Instance Members
 
+    public override DekResponseType[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(Tag value, out EnumObject<Tag>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out DekResponseType? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
+
     public static DekResponseType[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     /// <exception cref="TerminalDataException"></exception>
     public static DekResponseType Get(Tag tag)
     {
         if (!_ValueObjectMap.ContainsKey(tag))
-        {
             throw new TerminalDataException($"The {nameof(Tag)} argument with the value {tag} could not be recognized for a {nameof(DekResponseType)}");
-        }
 
         return _ValueObjectMap[tag];
     }

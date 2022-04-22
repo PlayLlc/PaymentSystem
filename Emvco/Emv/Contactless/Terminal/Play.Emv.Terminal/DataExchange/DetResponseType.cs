@@ -12,6 +12,7 @@ public record DetResponseType : EnumObject<Tag>
 {
     #region Static Metadata
 
+    public static readonly DetResponseType Empty = new();
     public static readonly DetResponseType DataToSend = new(Ber.DataElements.DataToSend.Tag);
 
     //public static readonly DetResponseType TornRecord = new(DataElements.TornRecord.Tag);
@@ -34,6 +35,9 @@ public record DetResponseType : EnumObject<Tag>
 
     #region Constructor
 
+    public DetResponseType() : base()
+    { }
+
     public DetResponseType(Tag original) : base(original)
     { }
 
@@ -43,6 +47,22 @@ public record DetResponseType : EnumObject<Tag>
     #endregion
 
     #region Instance Members
+
+    public override DetResponseType[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(Tag value, out EnumObject<Tag>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out DetResponseType? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static DetResponseType[] GetAll() => _ValueObjectMap.Values.ToArray();
 

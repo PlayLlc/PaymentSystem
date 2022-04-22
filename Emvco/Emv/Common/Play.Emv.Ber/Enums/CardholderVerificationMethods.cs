@@ -10,6 +10,7 @@ public record CardholderVerificationMethods : EnumObject<byte>
 {
     #region Static Metadata
 
+    public static readonly CardholderVerificationMethods Empty = new();
     private static readonly ImmutableSortedDictionary<byte, CardholderVerificationMethods> _ValueObjectMap;
 
     /// <summary>
@@ -45,6 +46,9 @@ public record CardholderVerificationMethods : EnumObject<byte>
 
     #region Constructor
 
+    public CardholderVerificationMethods() : base()
+    { }
+
     static CardholderVerificationMethods()
     {
         OfflinePlaintextPin = new CardholderVerificationMethods(0b00000001);
@@ -68,6 +72,22 @@ public record CardholderVerificationMethods : EnumObject<byte>
     #endregion
 
     #region Instance Members
+
+    public override CardholderVerificationMethods[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out CardholderVerificationMethods? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static CardholderVerificationMethods[] GetAll() => _ValueObjectMap.Values.ToArray();
 

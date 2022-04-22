@@ -8,6 +8,7 @@ public record Level3Error : EnumObject<byte>
 {
     #region Static Metadata
 
+    public static readonly Level3Error Empty = new();
     private static readonly ImmutableSortedDictionary<byte, Level3Error> _ValueObjectMap;
     public static readonly Level3Error AmountNotPresent;
     public static readonly Level3Error Ok;
@@ -17,6 +18,9 @@ public record Level3Error : EnumObject<byte>
     #endregion
 
     #region Constructor
+
+    public Level3Error() : base()
+    { }
 
     static Level3Error()
     {
@@ -43,6 +47,22 @@ public record Level3Error : EnumObject<byte>
     #endregion
 
     #region Instance Members
+
+    public override Level3Error[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out Level3Error? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public override Level3Error[] GetAll() => _ValueObjectMap.Values.ToArray();
 

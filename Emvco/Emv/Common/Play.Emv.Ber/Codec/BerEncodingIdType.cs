@@ -7,6 +7,7 @@ public record BerEncodingIdType : EnumObject<PlayEncodingId>
 {
     #region Static Metadata
 
+    public static readonly BerEncodingIdType Empty = new();
     public static readonly BerEncodingIdType AlphabeticCodec;
     public static readonly BerEncodingIdType AlphaNumericCodec;
     public static readonly BerEncodingIdType AlphaNumericSpecialCodec;
@@ -18,6 +19,9 @@ public record BerEncodingIdType : EnumObject<PlayEncodingId>
     #endregion
 
     #region Constructor
+
+    public BerEncodingIdType() : base()
+    { }
 
     static BerEncodingIdType()
     {
@@ -32,6 +36,26 @@ public record BerEncodingIdType : EnumObject<PlayEncodingId>
 
     public BerEncodingIdType(PlayEncodingId value) : base(value)
     { }
+
+    #endregion
+
+    #region Instance Members
+
+    public override BerEncodingIdType[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(PlayEncodingId value, out EnumObject<PlayEncodingId>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out BerEncodingIdType? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     #endregion
 }

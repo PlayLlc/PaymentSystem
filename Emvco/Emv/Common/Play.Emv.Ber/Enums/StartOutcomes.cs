@@ -8,6 +8,7 @@ public record StartOutcomes : EnumObject<byte>
 {
     #region Static Metadata
 
+    public static readonly StartOutcomes Empty = new();
     private static readonly ImmutableSortedDictionary<byte, StartOutcomes> _ValueObjectMap;
 
     /// <value>Decimal: 0; HexadecimalCodec: 0x0</value>
@@ -28,6 +29,9 @@ public record StartOutcomes : EnumObject<byte>
     #endregion
 
     #region Constructor
+
+    public StartOutcomes() : base()
+    { }
 
     static StartOutcomes()
     {
@@ -51,6 +55,22 @@ public record StartOutcomes : EnumObject<byte>
     #endregion
 
     #region Instance Members
+
+    public override StartOutcomes[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out StartOutcomes? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static StartOutcomes[] GetAll() => _ValueObjectMap.Values.ToArray();
 

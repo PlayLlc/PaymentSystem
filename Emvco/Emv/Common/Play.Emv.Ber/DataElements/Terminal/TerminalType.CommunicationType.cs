@@ -11,6 +11,7 @@ public partial record TerminalType
     {
         #region Static Metadata
 
+        public static readonly CommunicationType Empty = new();
         private static readonly ImmutableSortedDictionary<byte, CommunicationType> _ValueObjectMap;
 
         /// <remarks>DecimalValue: 3; HexValue: 0x3</remarks>
@@ -25,6 +26,9 @@ public partial record TerminalType
         #endregion
 
         #region Constructor
+
+        public CommunicationType() : base()
+        { }
 
         static CommunicationType()
         {
@@ -49,8 +53,23 @@ public partial record TerminalType
 
         #region Instance Members
 
-        public static bool IsCommunicationType(byte value, CommunicationType communicationType) =>
-            ClearUnusedDigits(value) == communicationType;
+        public override CommunicationType[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+        public override bool TryGet(byte value, out EnumObject<byte>? result)
+        {
+            if (_ValueObjectMap.TryGetValue(value, out CommunicationType? enumResult))
+            {
+                result = enumResult;
+
+                return true;
+            }
+
+            result = null;
+
+            return false;
+        }
+
+        public static bool IsCommunicationType(byte value, CommunicationType communicationType) => ClearUnusedDigits(value) == communicationType;
 
         public static byte ClearUnusedDigits(byte value)
         {
@@ -60,14 +79,6 @@ public partial record TerminalType
                 return (byte) (result - 3);
 
             return result;
-        }
-
-        public int CompareTo(CommunicationType? other)
-        {
-            if (other is null)
-                return 1;
-
-            return _Value.CompareTo(other._Value);
         }
 
         public static bool TryGet(byte value, out CommunicationType result) => _ValueObjectMap.TryGetValue(value, out result);
@@ -89,6 +100,14 @@ public partial record TerminalType
 
         public override int GetHashCode() => 4679537 * _Value.GetHashCode();
         public int GetHashCode(CommunicationType obj) => obj.GetHashCode();
+
+        public int CompareTo(CommunicationType? other)
+        {
+            if (other is null)
+                return 1;
+
+            return _Value.CompareTo(other._Value);
+        }
 
         #endregion
 

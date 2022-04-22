@@ -17,6 +17,7 @@ public record TerminalCategoryCodes : EnumObject<ushort>
 {
     #region Static Metadata
 
+    public static readonly TerminalCategoryCodes Empty = new();
     private static readonly ImmutableSortedDictionary<ushort, TerminalCategoryCodes> _ValueObjectMap;
 
     /// <value>decimal: 2; hexadecimal: 0x02</value>
@@ -37,6 +38,9 @@ public record TerminalCategoryCodes : EnumObject<ushort>
     #endregion
 
     #region Constructor
+
+    public TerminalCategoryCodes() : base()
+    { }
 
     static TerminalCategoryCodes()
     {
@@ -60,6 +64,22 @@ public record TerminalCategoryCodes : EnumObject<ushort>
     #endregion
 
     #region Instance Members
+
+    public override TerminalCategoryCodes[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(ushort value, out EnumObject<ushort>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out TerminalCategoryCodes? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static TerminalCategoryCodes[] GetAll() => _ValueObjectMap.Values.ToArray();
     public byte[] AsByteArray() => Encode(_Value);

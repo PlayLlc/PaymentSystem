@@ -8,6 +8,7 @@ public record TransactionTypes : EnumObject<byte>
 {
     #region Static Metadata
 
+    public static readonly TransactionTypes Empty = new();
     private static readonly ImmutableSortedDictionary<ushort, TransactionTypes> _ValueObjectMap;
 
     /// <summary>
@@ -193,6 +194,9 @@ public record TransactionTypes : EnumObject<byte>
 
     #region Constructor
 
+    public TransactionTypes() : base()
+    { }
+
     static TransactionTypes()
     {
         GoodsAndServicesDebit = new TransactionTypes(0x0);
@@ -317,6 +321,22 @@ public record TransactionTypes : EnumObject<byte>
     #endregion
 
     #region Instance Members
+
+    public override TransactionTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out TransactionTypes? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static TransactionTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
 

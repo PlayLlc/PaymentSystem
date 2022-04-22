@@ -18,6 +18,7 @@ public record Statuses : EnumObject<byte>
 {
     #region Static Metadata
 
+    public static readonly Statuses Empty = new();
     private static readonly ImmutableSortedDictionary<byte, Statuses> _ValueObjectMap;
 
     /// <value>Decimal: 1; HexadecimalCodec: 0x1</value>
@@ -50,6 +51,9 @@ public record Statuses : EnumObject<byte>
     #endregion
 
     #region Constructor
+
+    public Statuses() : base()
+    { }
 
     static Statuses()
     {
@@ -89,6 +93,22 @@ public record Statuses : EnumObject<byte>
     #endregion
 
     #region Instance Members
+
+    public override Statuses[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out Statuses? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static Statuses[] GetAll() => _ValueObjectMap.Values.ToArray();
 

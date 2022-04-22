@@ -8,6 +8,7 @@ public record StatusOutcome : EnumObject<byte>
 {
     #region Static Metadata
 
+    public static readonly StatusOutcome Empty = new();
     private static readonly ImmutableSortedDictionary<byte, StatusOutcome> _ValueObjectMap;
 
     /// <summary>
@@ -106,6 +107,9 @@ public record StatusOutcome : EnumObject<byte>
 
     #region Constructor
 
+    public StatusOutcome() : base()
+    { }
+
     static StatusOutcome()
     {
         const byte notAvailable = 0;
@@ -146,6 +150,22 @@ public record StatusOutcome : EnumObject<byte>
     #endregion
 
     #region Instance Members
+
+    public override StatusOutcome[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out StatusOutcome? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     // TODO:
     // public static readonly StatusOutcome RequestOnlinePin;

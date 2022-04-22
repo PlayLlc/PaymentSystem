@@ -8,6 +8,7 @@ public record Level2Error : EnumObject<byte>
 {
     #region Static Metadata
 
+    public static readonly Level2Error Empty = new();
     private static readonly ImmutableSortedDictionary<byte, Level2Error> _ValueObjectMap;
     public static readonly Level2Error CryptographicAuthenticationMethodFailed;
     public static readonly Level2Error CardDataError;
@@ -29,6 +30,9 @@ public record Level2Error : EnumObject<byte>
     #endregion
 
     #region Constructor
+
+    public Level2Error() : base()
+    { }
 
     static Level2Error()
     {
@@ -92,6 +96,22 @@ public record Level2Error : EnumObject<byte>
     #endregion
 
     #region Instance Members
+
+    public override Level2Error[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out Level2Error? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static Level2Error[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static Level2Error Get(byte value) => _ValueObjectMap[value];

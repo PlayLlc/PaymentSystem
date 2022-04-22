@@ -10,6 +10,7 @@ public record CvmCodes : EnumObject<byte>
 {
     #region Static Metadata
 
+    public static readonly CvmCodes Empty = new();
     private static readonly ImmutableSortedDictionary<byte, CvmCodes> _ValueObjectMap;
 
     /// <remarks>Hex: 0x00; Decimal: 0; Binary: 0b00000000 </remarks>
@@ -70,6 +71,9 @@ public record CvmCodes : EnumObject<byte>
 
     #region Constructor
 
+    public CvmCodes() : base()
+    { }
+
     static CvmCodes()
     {
         Fail = new CvmCodes(0b00000000);
@@ -100,6 +104,22 @@ public record CvmCodes : EnumObject<byte>
     #endregion
 
     #region Instance Members
+
+    public override CvmCodes[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out CvmCodes? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static CvmCodes[] GetAll() => _ValueObjectMap.Values.ToArray();
 

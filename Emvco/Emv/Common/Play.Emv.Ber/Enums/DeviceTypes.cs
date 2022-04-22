@@ -8,6 +8,7 @@ public record DeviceTypes : EnumObject<ushort>
 {
     #region Static Metadata
 
+    public static readonly DeviceTypes Empty = new();
     private static readonly ImmutableSortedDictionary<ushort, DeviceTypes> _ValueObjectMap;
 
     /// <remarks>Hexadecimal: 0x3030, an: 00 </remarks>
@@ -75,6 +76,9 @@ public record DeviceTypes : EnumObject<ushort>
 
     #region Constructor
 
+    public DeviceTypes() : base()
+    { }
+
     static DeviceTypes()
     {
         Card = new DeviceTypes(0x3030);
@@ -101,7 +105,21 @@ public record DeviceTypes : EnumObject<ushort>
 
     #region Instance Members
 
-    public static DeviceTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
+    public override DeviceTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(ushort value, out EnumObject<ushort>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out DeviceTypes? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     #endregion
 

@@ -11,6 +11,7 @@ public record DetRequestType : EnumObject<Tag>
 {
     #region Static Metadata
 
+    public static readonly DetRequestType Empty = new();
     public static readonly DetRequestType DataNeeded = new(Ber.DataElements.DataNeeded.Tag);
     public static readonly DetRequestType TagsToRead = new(Ber.DataElements.TagsToRead.Tag);
 
@@ -21,6 +22,9 @@ public record DetRequestType : EnumObject<Tag>
 
     #region Constructor
 
+    public DetRequestType() : base()
+    { }
+
     public DetRequestType(Tag original) : base(original)
     { }
 
@@ -30,6 +34,22 @@ public record DetRequestType : EnumObject<Tag>
     #endregion
 
     #region Instance Members
+
+    public override DetRequestType[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(Tag value, out EnumObject<Tag>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out DetRequestType? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static DetRequestType[] GetAll() => _ValueObjectMap.Values.ToArray();
 

@@ -10,6 +10,7 @@ public record TerminalVerificationResultCodes : EnumObject<TerminalVerificationR
 {
     #region Static Metadata
 
+    public static readonly TerminalVerificationResultCodes Empty = new();
     private static readonly ImmutableSortedDictionary<TerminalVerificationResult, TerminalVerificationResultCodes> _Map;
     public static TerminalVerificationResultCodes ApplicationNotYetEffective;
     public static TerminalVerificationResultCodes CardAppearsOnTerminalExceptionFile;
@@ -45,6 +46,9 @@ public record TerminalVerificationResultCodes : EnumObject<TerminalVerificationR
     #endregion
 
     #region Constructor
+
+    public TerminalVerificationResultCodes() : base()
+    { }
 
     static TerminalVerificationResultCodes()
     {
@@ -121,6 +125,22 @@ public record TerminalVerificationResultCodes : EnumObject<TerminalVerificationR
     #endregion
 
     #region Instance Members
+
+    public override TerminalVerificationResultCodes[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(TerminalVerificationResult value, out EnumObject<TerminalVerificationResult>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out TerminalVerificationResultCodes? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static TerminalVerificationResultCodes[] GetAll() => _Map.Values.ToArray();
 

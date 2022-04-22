@@ -13,6 +13,8 @@ public record DekRequestType : EnumObject<Tag>
 {
     #region Static Metadata
 
+    public static readonly DekRequestType Empty = new();
+
     // away from card (Enqueued) and sent
     public static readonly DekRequestType DataNeeded = new(Ber.DataElements.DataNeeded.Tag);
 
@@ -30,6 +32,9 @@ public record DekRequestType : EnumObject<Tag>
 
     #region Constructor
 
+    public DekRequestType() : base()
+    { }
+
     public DekRequestType(Tag original) : base(original)
     { }
 
@@ -39,6 +44,22 @@ public record DekRequestType : EnumObject<Tag>
     #endregion
 
     #region Instance Members
+
+    public override DekRequestType[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(Tag value, out EnumObject<Tag>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out DekRequestType? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static DekRequestType[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static DataExchangeRequest GetDefaultList(DekRequestType type) => _ListMap[type].Invoke();
