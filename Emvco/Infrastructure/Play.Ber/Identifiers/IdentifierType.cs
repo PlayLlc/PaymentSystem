@@ -6,8 +6,9 @@ using Play.Core;
 
 namespace Play.Ber.Identifiers;
 
-public sealed record IdentifierType : EnumObject<byte>, IEqualityComparer<byte> { public override IdentifierType[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<byte>? result) { if (_ValueObjectMap.TryGetValue(value, out IdentifierType? enumResult)) { result = enumResult; return true; } result = null; return false; }
- #region Static Metadata
+public sealed record IdentifierType : EnumObject<byte>, IEqualityComparer<IdentifierType>
+{
+    #region Static Metadata
 
     public static readonly IdentifierType LongIdentifier;
     public static readonly IdentifierType ShortIdentifier;

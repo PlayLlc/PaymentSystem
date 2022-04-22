@@ -9,8 +9,9 @@ using Play.Core.Extensions;
 
 namespace Play.Ber.Identifiers;
 
-public sealed record DataObjectType : EnumObject<byte>, IEqualityComparer<byte> { public override DataObjectType[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<byte>? result) { if (_ValueObjectMap.TryGetValue(value, out DataObjectType? enumResult)) { result = enumResult; return true; } result = null; return false; }
- #region Static Metadata
+public sealed record DataObjectType : EnumObject<byte>, IEqualityComparer<DataObjectType>
+{
+    #region Static Metadata
 
     private static readonly ImmutableSortedDictionary<byte, DataObjectType> _ValueObjectMap;
     public static readonly DataObjectType Constructed;

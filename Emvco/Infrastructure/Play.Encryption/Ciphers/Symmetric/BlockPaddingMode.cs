@@ -8,8 +8,9 @@ namespace Play.Encryption.Ciphers.Symmetric;
 /// <summary>
 ///     Specifies the type of padding to add when the message block is shorter than the block size
 /// </summary>
-public sealed record BlockPaddingMode : EnumObject<byte>, IEqualityComparer<byte> { public override BlockPaddingMode[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<byte>? result) { if (_ValueObjectMap.TryGetValue(value, out BlockPaddingMode? enumResult)) { result = enumResult; return true; } result = null; return false; }
- #region Static Metadata
+public sealed record BlockPaddingMode : EnumObject<byte>, IEqualityComparer<BlockPaddingMode>
+{
+    #region Static Metadata
 
     private static readonly ImmutableSortedDictionary<byte, BlockPaddingMode> _ValueObjectMap;
     public static readonly BlockPaddingMode None;
@@ -52,22 +53,7 @@ public sealed record BlockPaddingMode : EnumObject<byte>, IEqualityComparer<byte
 
     #region Instance Members
 
-    public override BlockPaddingMode[] GetAll() => _ValueObjectMap.Values.ToArray();
-
-    public override bool TryGet(byte value, out EnumObject<byte>? result)
-    {
-        if (_ValueObjectMap.TryGetValue(value, out BlockPaddingMode? enumResult))
-        {
-            result = enumResult;
-
-            return true;
-        }
-
-        result = null;
-
-        return false;
-    }
-     
+    public static BlockPaddingMode[] GetAll() => _ValueObjectMap.Values.ToArray();
     public PaddingMode AsPaddingMode() => (PaddingMode) _Value;
     public static bool TryGet(byte value, out BlockPaddingMode? result) => _ValueObjectMap.TryGetValue(value, out result);
 
