@@ -7,9 +7,9 @@ namespace Play.Emv.Ber.DataElements;
 
 public partial record TerminalType
 {
-    public record CommunicationType : EnumObject<byte> { public override CommunicationType[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<byte>? result) { if (_ValueObjectMap.TryGetValue(value, out CommunicationType? enumResult)) { result = enumResult; return true; } result = null; return false; }
- public CommunicationType() : base() { } public static readonly CommunicationType Empty = new(); 
-#region Static Metadata
+    public record CommunicationType : EnumObject<byte>
+    {
+        #region Static Metadata
 
         private static readonly ImmutableSortedDictionary<byte, CommunicationType> _ValueObjectMap;
 

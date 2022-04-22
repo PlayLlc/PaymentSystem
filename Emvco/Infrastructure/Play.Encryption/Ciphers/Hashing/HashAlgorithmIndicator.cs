@@ -2,9 +2,9 @@
 
 namespace Play.Encryption.Ciphers.Hashing;
 
-public record HashAlgorithmIndicator : EnumObject<byte> { public override HashAlgorithmIndicator[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<byte>? result) { if (_ValueObjectMap.TryGetValue(value, out HashAlgorithmIndicator? enumResult)) { result = enumResult; return true; } result = null; return false; }
- public HashAlgorithmIndicator() : base() { } public static readonly HashAlgorithmIndicator Empty = new(); 
-#region Static Metadata
+public record HashAlgorithmIndicator : EnumObject<byte>
+{
+    #region Static Metadata
 
     private static readonly Dictionary<byte, HashAlgorithmIndicator> _ValueObjectMap;
     public static readonly HashAlgorithmIndicator NotAvailable = new(0x00);

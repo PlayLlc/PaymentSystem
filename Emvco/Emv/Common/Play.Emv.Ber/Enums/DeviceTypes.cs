@@ -4,9 +4,9 @@ using Play.Core;
 
 namespace Play.Emv.Ber.Enums;
 
-public record DeviceTypes : EnumObject<ushort> { public override DeviceTypes[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<ushort>? result) { if (_ValueObjectMap.TryGetValue(value, out DeviceTypes? enumResult)) { result = enumResult; return true; } result = null; return false; }
- public DeviceTypes() : base() { } public static readonly DeviceTypes Empty = new(); 
-#region Static Metadata
+public record DeviceTypes : EnumObject<ushort>
+{
+    #region Static Metadata
 
     private static readonly ImmutableSortedDictionary<ushort, DeviceTypes> _ValueObjectMap;
 

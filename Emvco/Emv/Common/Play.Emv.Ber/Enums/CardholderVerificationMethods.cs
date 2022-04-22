@@ -6,9 +6,9 @@ using Play.Emv.Ber.ValueTypes;
 
 namespace Play.Emv.Ber.Enums;
 
-public record CardholderVerificationMethods : EnumObject<byte> { public override CardholderVerificationMethods[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<byte>? result) { if (_ValueObjectMap.TryGetValue(value, out CardholderVerificationMethods? enumResult)) { result = enumResult; return true; } result = null; return false; }
- public CardholderVerificationMethods() : base() { } public static readonly CardholderVerificationMethods Empty = new(); 
-#region Static Metadata
+public record CardholderVerificationMethods : EnumObject<byte>
+{
+    #region Static Metadata
 
     private static readonly ImmutableSortedDictionary<byte, CardholderVerificationMethods> _ValueObjectMap;
 

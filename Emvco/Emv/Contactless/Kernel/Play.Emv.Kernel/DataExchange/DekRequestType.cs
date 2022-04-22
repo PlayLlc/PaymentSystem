@@ -9,9 +9,9 @@ using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Kernel.DataExchange;
 
-public record DekRequestType : EnumObject<Tag> { public override DekRequestType[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<Tag>? result) { if (_ValueObjectMap.TryGetValue(value, out DekRequestType? enumResult)) { result = enumResult; return true; } result = null; return false; }
- public DekRequestType() : base() { } public static readonly DekRequestType Empty = new(); 
-#region Static Metadata
+public record DekRequestType : EnumObject<Tag>
+{
+    #region Static Metadata
 
     // away from card (Enqueued) and sent
     public static readonly DekRequestType DataNeeded = new(Ber.DataElements.DataNeeded.Tag);

@@ -11,9 +11,9 @@ namespace Play.Emv.Ber.Enums;
 ///     the Message EncodingId is not recognized, the reader should ignore it and the message currently displayed should
 ///     not be changed as a result of the User Interface Request.
 /// </summary>
-public record MessageIdentifiers : EnumObject<byte> { public override MessageIdentifiers[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<byte>? result) { if (_ValueObjectMap.TryGetValue(value, out MessageIdentifiers? enumResult)) { result = enumResult; return true; } result = null; return false; }
- public MessageIdentifiers() : base() { } public static readonly MessageIdentifiers Empty = new(); 
-#region Static Metadata
+public record MessageIdentifiers : EnumObject<byte>
+{
+    #region Static Metadata
 
     private static readonly ImmutableSortedDictionary<byte, MessageIdentifiers> _ValueObjectMap;
     public static readonly MessageIdentifiers Amount;

@@ -8,9 +8,9 @@ namespace Play.Emv.Ber.DataElements;
 
 public partial record TerminalType
 {
-    public record TerminalOperatorType : EnumObject<byte> { public override TerminalOperatorType[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<byte>? result) { if (_ValueObjectMap.TryGetValue(value, out TerminalOperatorType? enumResult)) { result = enumResult; return true; } result = null; return false; }
- public TerminalOperatorType() : base() { } public static readonly TerminalOperatorType Empty = new(); 
-#region Static Metadata
+    public record TerminalOperatorType : EnumObject<byte>
+    {
+        #region Static Metadata
 
         private static readonly ImmutableSortedDictionary<byte, TerminalOperatorType> _ValueObjectMap;
 

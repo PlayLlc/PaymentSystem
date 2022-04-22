@@ -13,9 +13,9 @@ namespace Play.Emv.Ber.Enums;
 ///     unattended ticketing kiosks). '00 02' = Loyalty; the terminal facilitates a loyalty program using POI Information.
 ///     All other values are RFU for this specification.
 /// </summary>
-public record TerminalCategoryCodes : EnumObject<ushort> { public override TerminalCategoryCodes[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<ushort>? result) { if (_ValueObjectMap.TryGetValue(value, out TerminalCategoryCodes? enumResult)) { result = enumResult; return true; } result = null; return false; }
- public TerminalCategoryCodes() : base() { } public static readonly TerminalCategoryCodes Empty = new(); 
-#region Static Metadata
+public record TerminalCategoryCodes : EnumObject<ushort>
+{
+    #region Static Metadata
 
     private static readonly ImmutableSortedDictionary<ushort, TerminalCategoryCodes> _ValueObjectMap;
 

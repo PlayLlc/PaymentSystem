@@ -9,9 +9,9 @@ using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Kernel.DataExchange;
 
-public record DekResponseType : EnumObject<Tag> { public override DekResponseType[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<Tag>? result) { if (_ValueObjectMap.TryGetValue(value, out DekResponseType? enumResult)) { result = enumResult; return true; } result = null; return false; }
- public DekResponseType() : base() { } public static readonly DekResponseType Empty = new(); 
-#region Static Metadata
+public record DekResponseType : EnumObject<Tag>
+{
+    #region Static Metadata
 
     public static readonly DekResponseType TagsToWriteBeforeGenAc = new(Ber.DataElements.TagsToWriteBeforeGenAc.Tag);
     public static readonly DekResponseType TagsToWriteAfterGenAc = new(Ber.DataElements.TagsToWriteAfterGenAc.Tag);
