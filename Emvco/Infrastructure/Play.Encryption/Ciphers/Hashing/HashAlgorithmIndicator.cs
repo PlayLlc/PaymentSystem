@@ -45,22 +45,6 @@ public record HashAlgorithmIndicator : EnumObject<byte>
         return false;
     }
 
-    public override HashAlgorithmIndicator[] GetAll() => _ValueObjectMap.Values.ToArray();
-
-    public override bool TryGet(byte value, out EnumObject<byte>? result)
-    {
-        if (_ValueObjectMap.TryGetValue(value, out HashAlgorithmIndicator? enumResult))
-        {
-            result = enumResult;
-
-            return true;
-        }
-
-        result = null;
-
-        return false;
-    }
-
     public static HashAlgorithmIndicator[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     public static HashAlgorithmIndicator Get(byte value)

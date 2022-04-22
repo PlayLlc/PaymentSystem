@@ -68,22 +68,6 @@ public partial record TerminalType
             return false;
         }
 
-        public override TerminalOperatorType[] GetAll() => _ValueObjectMap.Values.ToArray();
-
-        public override bool TryGet(byte value, out EnumObject<byte>? result)
-        {
-            if (_ValueObjectMap.TryGetValue(value, out TerminalOperatorType? enumResult))
-            {
-                result = enumResult;
-
-                return true;
-            }
-
-            result = null;
-
-            return false;
-        }
-
         private static byte ClearUnrelatedDigit(byte value) => (byte) ((byte) (value / 10) * 10);
         public static bool IsOperatorType(byte value, TerminalOperatorType operatorType) => ClearUnrelatedDigit(value) == operatorType;
         public static bool TryGet(byte value, out TerminalOperatorType result) => _ValueObjectMap.TryGetValue(value, out result);

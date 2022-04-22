@@ -121,22 +121,6 @@ public record PosEntryModes : EnumObject<byte>
         return false;
     }
 
-    public override PosEntryModes[] GetAll() => _ValueObjectMap.Values.ToArray();
-
-    public override bool TryGet(byte value, out EnumObject<byte>? result)
-    {
-        if (_ValueObjectMap.TryGetValue(value, out PosEntryModes? enumResult))
-        {
-            result = enumResult;
-
-            return true;
-        }
-
-        result = null;
-
-        return false;
-    }
-
     public static PosEntryModes[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     #endregion

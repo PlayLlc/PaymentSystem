@@ -62,22 +62,6 @@ public record Level1Error : EnumObject<byte>
         return false;
     }
 
-    public override Level1Error[] GetAll() => _ValueObjectMap.Values.ToArray();
-
-    public override bool TryGet(byte value, out EnumObject<byte>? result)
-    {
-        if (_ValueObjectMap.TryGetValue(value, out Level1Error? enumResult))
-        {
-            result = enumResult;
-
-            return true;
-        }
-
-        result = null;
-
-        return false;
-    }
-
     public static Level1Error[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static Level1Error Get(byte value) => _ValueObjectMap[value];
 

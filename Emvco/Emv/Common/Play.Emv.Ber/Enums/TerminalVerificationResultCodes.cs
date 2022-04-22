@@ -138,22 +138,6 @@ public record TerminalVerificationResultCodes : EnumObject<TerminalVerificationR
         return false;
     }
 
-    public override TerminalVerificationResultCodes[] GetAll() => _ValueObjectMap.Values.ToArray();
-
-    public override bool TryGet(byte value, out EnumObject<TerminalVerificationResult>? result)
-    {
-        if (_ValueObjectMap.TryGetValue(value, out TerminalVerificationResultCodes? enumResult))
-        {
-            result = enumResult;
-
-            return true;
-        }
-
-        result = null;
-
-        return false;
-    }
-
     public static TerminalVerificationResultCodes[] GetAll() => _Map.Values.ToArray();
 
     #endregion

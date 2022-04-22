@@ -106,22 +106,6 @@ public record Statuses : EnumObject<byte>
         return false;
     }
 
-    public override Statuses[] GetAll() => _ValueObjectMap.Values.ToArray();
-
-    public override bool TryGet(byte value, out EnumObject<byte>? result)
-    {
-        if (_ValueObjectMap.TryGetValue(value, out Statuses? enumResult))
-        {
-            result = enumResult;
-
-            return true;
-        }
-
-        result = null;
-
-        return false;
-    }
-
     public static Statuses[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     /// <exception cref="ArgumentOutOfRangeException"></exception>
