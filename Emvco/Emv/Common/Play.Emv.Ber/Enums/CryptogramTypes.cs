@@ -71,7 +71,6 @@ public sealed record CryptogramTypes : EnumObject<byte>
         return false;
     }
 
-    public static CryptogramTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static bool IsValid(byte value) => _ValueObjectMap.ContainsKey(value.GetMaskedValue(_UnrelatedBits));
     public static bool TryGet(byte value, out CryptogramTypes? result) => _ValueObjectMap.TryGetValue(value.GetMaskedValue(_UnrelatedBits), out result);
 

@@ -64,8 +64,6 @@ public record DetResponseType : EnumObject<Tag>
         return false;
     }
 
-    public static DetResponseType[] GetAll() => _ValueObjectMap.Values.ToArray();
-
     /// <summary>
     ///     GetName
     /// </summary>

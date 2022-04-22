@@ -82,8 +82,6 @@ public sealed record RegisteredApplicationProviderIndicators : EnumObject<Regist
     public static bool TryGet(RegisteredApplicationProviderIndicator value, out RegisteredApplicationProviderIndicators? result) =>
         _ValueObjectMap.TryGetValue(value, out result);
 
-    public static RegisteredApplicationProviderIndicators[] GetAll() => _ValueObjectMap.Values.ToArray();
-
     #endregion
 
     #region Equality

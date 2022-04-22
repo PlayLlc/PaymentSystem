@@ -116,7 +116,6 @@ public class PutDataCApduSignal : CApduSignal
             return false;
         }
 
-        public static DataObject[] GetAll() => _ValueObjectMap.Values.ToArray();
         public static bool Exists(Tag value) => _ValueObjectMap.ContainsKey(value);
         public Tag GetTag() => _Value;
 

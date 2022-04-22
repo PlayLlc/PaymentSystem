@@ -49,7 +49,6 @@ public sealed record DataStorageVersionNumbers : EnumObject<byte>
         return false;
     }
 
-    public static DataStorageVersionNumbers[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static bool IsValid(byte value) => _ValueObjectMap.ContainsKey(value);
 
     /// <summary>

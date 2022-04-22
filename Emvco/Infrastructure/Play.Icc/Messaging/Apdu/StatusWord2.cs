@@ -69,7 +69,6 @@ public sealed record StatusWord2 : EnumObject<StatusWord>, IEqualityComparer<Sta
         return false;
     }
 
-    public static StatusWord2[] GetAll() => _ValueObjectMap.Values.ToArray();
     public string GetDescription() => _Description;
     public StatusWordInfo GetStatusWordInfo() => _StatusWordInfo;
     public static bool TryGet(StatusWord value, out StatusWord2? result) => _ValueObjectMap.TryGetValue(value, out result);

@@ -121,8 +121,6 @@ public record CvmCodes : EnumObject<byte>
         return false;
     }
 
-    public static CvmCodes[] GetAll() => _ValueObjectMap.Values.ToArray();
-
     /// <exception cref="InvalidOperationException"></exception>
     public static CvmCodes Get(CvmCode cvmCode)
     {

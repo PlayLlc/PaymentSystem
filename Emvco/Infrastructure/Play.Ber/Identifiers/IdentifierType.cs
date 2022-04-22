@@ -55,7 +55,6 @@ public sealed record IdentifierType : EnumObject<byte>, IEqualityComparer<byte>
         return false;
     }
 
-    public static IdentifierType[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static bool TryGet(byte value, out IdentifierType? result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion

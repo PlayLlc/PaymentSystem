@@ -27,7 +27,7 @@ public class TerminalCategoryCodeBuilder : SpecimenBuilder
         if (type != typeof(TerminalCategoryCodes))
             return new NoSpecimen();
 
-        TerminalCategoryCodes[] all = TerminalCategoryCodes.GetAll();
+        TerminalCategoryCodes[] all = TerminalCategoryCodes.Empty.GetAll();
 
         return all[new Random().Next(0, all.Length - 1)];
     }

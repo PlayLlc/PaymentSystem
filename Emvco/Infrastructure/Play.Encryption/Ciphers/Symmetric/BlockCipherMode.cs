@@ -70,7 +70,6 @@ public sealed record BlockCipherMode : EnumObject<byte>, IEqualityComparer<byte>
         return false;
     }
 
-    public static BlockCipherMode[] GetAll() => _ValueObjectMap.Values.ToArray();
     public CipherMode AsCipherMode() => (CipherMode) _Value;
     public static bool TryGet(byte value, out BlockCipherMode? result) => _ValueObjectMap.TryGetValue(value, out result);
 

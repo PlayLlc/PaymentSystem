@@ -70,7 +70,6 @@ public sealed record StatusWordInfo : EnumObject<byte>, IEqualityComparer<byte>
         return false;
     }
 
-    public static StatusWordInfo[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static bool TryGet(byte value, out StatusWordInfo? result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion

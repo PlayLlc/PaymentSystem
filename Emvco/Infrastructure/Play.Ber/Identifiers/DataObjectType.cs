@@ -59,7 +59,6 @@ public sealed record DataObjectType : EnumObject<byte>, IEqualityComparer<byte>
         return false;
     }
 
-    public static DataObjectType[] GetAll() => _ValueObjectMap.Values.ToArray();
     public bool IsPrimitive() => _Value == _Primitive;
     public static bool TryGet(byte value, out DataObjectType? result) => _ValueObjectMap.TryGetValue(value, out result);
 

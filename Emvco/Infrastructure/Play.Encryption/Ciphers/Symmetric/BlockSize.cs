@@ -58,7 +58,6 @@ public sealed record BlockSize : EnumObject<byte>, IEqualityComparer<byte>
         return false;
     }
 
-    public static BlockSize[] GetAll() => _ValueObjectMap.Values.ToArray();
     public int GetByteSize() => _Value;
     public static bool TryGet(byte value, out BlockSize? result) => _ValueObjectMap.TryGetValue(value, out result);
 

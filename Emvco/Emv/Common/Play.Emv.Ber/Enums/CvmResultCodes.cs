@@ -58,7 +58,5 @@ public record CvmResultCodes : EnumObject<byte>
         return false;
     }
 
-    public static CvmResultCodes[] GetAll() => _ValueObjectMap.Values.ToArray();
-
     #endregion
 }

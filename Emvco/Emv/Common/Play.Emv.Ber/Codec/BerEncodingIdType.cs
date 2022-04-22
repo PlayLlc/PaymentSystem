@@ -7,6 +7,7 @@ public record BerEncodingIdType : EnumObject<PlayEncodingId>
 {
     #region Static Metadata
 
+    private static readonly Dictionary<PlayEncodingId, BerEncodingIdType> _ValueObjectMap;
     public static readonly BerEncodingIdType Empty = new();
     public static readonly BerEncodingIdType AlphabeticCodec;
     public static readonly BerEncodingIdType AlphaNumericCodec;
@@ -32,6 +33,17 @@ public record BerEncodingIdType : EnumObject<PlayEncodingId>
         NumericCodec = new BerEncodingIdType(Codecs.NumericCodec.EncodingId);
         UnsignedBinaryCodec = new BerEncodingIdType(UnsignedIntegerCodec.EncodingId);
         VariableCodec = new BerEncodingIdType(HexadecimalCodec.EncodingId);
+
+        _ValueObjectMap = new Dictionary<PlayEncodingId, BerEncodingIdType>
+        {
+            {AlphabeticCodec, AlphabeticCodec},
+            {AlphaNumericCodec, AlphaNumericCodec},
+            {AlphaNumericSpecialCodec, AlphaNumericSpecialCodec},
+            {CompressedNumericCodec, CompressedNumericCodec},
+            {NumericCodec, NumericCodec},
+            {UnsignedBinaryCodec, UnsignedBinaryCodec},
+            {VariableCodec, VariableCodec}
+        };
     }
 
     public BerEncodingIdType(PlayEncodingId value) : base(value)

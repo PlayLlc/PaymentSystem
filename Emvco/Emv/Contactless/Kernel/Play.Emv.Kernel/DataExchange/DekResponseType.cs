@@ -73,8 +73,6 @@ public record DekResponseType : EnumObject<Tag>
         return false;
     }
 
-    public static DekResponseType[] GetAll() => _ValueObjectMap.Values.ToArray();
-
     /// <exception cref="TerminalDataException"></exception>
     public static DekResponseType Get(Tag tag)
     {

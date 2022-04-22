@@ -68,7 +68,6 @@ internal sealed record SignedDataFormat : EnumObject<byte>, IEqualityComparer<by
         return false;
     }
 
-    public static SignedDataFormat[] GetAll() => _ValueObjectMap.Values.ToArray();
     public int GetByteSize() => _Value;
     public static bool TryGet(byte value, out SignedDataFormat? result) => _ValueObjectMap.TryGetValue(value, out result);
 

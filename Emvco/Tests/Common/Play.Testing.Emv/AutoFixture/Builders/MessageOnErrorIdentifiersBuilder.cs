@@ -28,7 +28,7 @@ public class MessageOnErrorIdentifiersBuilder : SpecimenBuilder
         if (type != typeof(MessageOnErrorIdentifiers))
             return new NoSpecimen();
 
-        MessageIdentifiers[] all = MessageIdentifiers.GetAll();
+        MessageIdentifiers[] all = MessageIdentifiers.Empty.GetAll();
 
         return (MessageOnErrorIdentifiers) all[new Random().Next(0, all.Length - 1)];
     }

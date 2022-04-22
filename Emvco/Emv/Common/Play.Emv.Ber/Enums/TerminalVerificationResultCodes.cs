@@ -11,7 +11,7 @@ public record TerminalVerificationResultCodes : EnumObject<TerminalVerificationR
     #region Static Metadata
 
     public static readonly TerminalVerificationResultCodes Empty = new();
-    private static readonly ImmutableSortedDictionary<TerminalVerificationResult, TerminalVerificationResultCodes> _Map;
+    private static readonly ImmutableSortedDictionary<TerminalVerificationResult, TerminalVerificationResultCodes> _ValueObjectMap;
     public static TerminalVerificationResultCodes ApplicationNotYetEffective;
     public static TerminalVerificationResultCodes CardAppearsOnTerminalExceptionFile;
     public static TerminalVerificationResultCodes CardholderVerificationWasNotSuccessful;
@@ -84,7 +84,7 @@ public record TerminalVerificationResultCodes : EnumObject<TerminalVerificationR
         UnrecognizedCvm = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(23)));
         UpperConsecutiveOfflineLimitExceeded = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(14)));
 
-        _Map = new Dictionary<TerminalVerificationResult, TerminalVerificationResultCodes>()
+        _ValueObjectMap = new Dictionary<TerminalVerificationResult, TerminalVerificationResultCodes>()
         {
             {ApplicationNotYetEffective, ApplicationNotYetEffective},
             {CardAppearsOnTerminalExceptionFile, CardAppearsOnTerminalExceptionFile},
@@ -141,8 +141,6 @@ public record TerminalVerificationResultCodes : EnumObject<TerminalVerificationR
 
         return false;
     }
-
-    public static TerminalVerificationResultCodes[] GetAll() => _Map.Values.ToArray();
 
     #endregion
 }

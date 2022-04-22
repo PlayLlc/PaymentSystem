@@ -81,7 +81,6 @@ public sealed record TransactionStatusInformationFlags : EnumObject<ushort>
         return false;
     }
 
-    public static TransactionStatusInformationFlags[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static bool TryGet(ushort value, out TransactionStatusInformationFlags? result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion

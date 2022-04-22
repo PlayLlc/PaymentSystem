@@ -65,7 +65,6 @@ public sealed record KeySize : EnumObject<ushort>, IEqualityComparer<ushort>
         return false;
     }
 
-    public static KeySize[] GetAll() => _ValueObjectMap.Values.ToArray();
     public int GetBitSize() => _Value;
     public int GetByteSize() => _Value / 8;
     public static bool TryGet(ushort value, out KeySize? result) => _ValueObjectMap.TryGetValue(value, out result);

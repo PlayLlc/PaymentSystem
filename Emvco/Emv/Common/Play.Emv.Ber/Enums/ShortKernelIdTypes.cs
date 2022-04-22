@@ -87,8 +87,6 @@ public sealed record ShortKernelIdTypes : EnumObject<byte>, IEqualityComparer<by
         return false;
     }
 
-    public static ShortKernelIdTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
-
     /// <summary>
     ///     Get
     /// </summary>

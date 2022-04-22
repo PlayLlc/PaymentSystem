@@ -28,7 +28,7 @@ public class TerminalVerificationResultCodesBuilder : SpecimenBuilder
         if (type != typeof(TerminalVerificationResultCodes))
             return new NoSpecimen();
 
-        TerminalVerificationResultCodes[]? all = TerminalVerificationResultCodes.GetAll();
+        TerminalVerificationResultCodes[]? all = TerminalVerificationResultCodes.Empty.GetAll();
 
         return all[new Random().Next(0, all.Length - 1)];
     }

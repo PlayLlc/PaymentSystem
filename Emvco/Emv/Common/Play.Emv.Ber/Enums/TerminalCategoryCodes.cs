@@ -81,7 +81,6 @@ public record TerminalCategoryCodes : EnumObject<ushort>
         return false;
     }
 
-    public static TerminalCategoryCodes[] GetAll() => _ValueObjectMap.Values.ToArray();
     public byte[] AsByteArray() => Encode(_Value);
 
     public static TerminalCategoryCodes Get(ReadOnlySpan<byte> value)

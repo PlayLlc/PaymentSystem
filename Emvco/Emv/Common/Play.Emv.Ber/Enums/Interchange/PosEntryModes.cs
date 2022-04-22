@@ -126,7 +126,5 @@ public record PosEntryModes : EnumObject<byte>
         return false;
     }
 
-    public static PosEntryModes[] GetAll() => _ValueObjectMap.Values.ToArray();
-
     #endregion
 }

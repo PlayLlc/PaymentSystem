@@ -49,8 +49,6 @@ public record HashAlgorithmIndicator : EnumObject<byte>
         return false;
     }
 
-    public static HashAlgorithmIndicator[] GetAll() => _ValueObjectMap.Values.ToArray();
-
     public static HashAlgorithmIndicator Get(byte value)
     {
         if (!_ValueObjectMap.TryGetValue(value, out HashAlgorithmIndicator? result))

@@ -61,7 +61,6 @@ public record DekRequestType : EnumObject<Tag>
         return false;
     }
 
-    public static DekRequestType[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static DataExchangeRequest GetDefaultList(DekRequestType type) => _ListMap[type].Invoke();
 
     /// <exception cref="TerminalDataException"></exception>

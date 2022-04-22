@@ -62,7 +62,6 @@ internal sealed record CertificateSources : EnumObject<byte>, IEqualityComparer<
         return false;
     }
 
-    public static CertificateSources[] GetAll() => _ValueObjectMap.Values.ToArray();
     public int GetByteSize() => _Value;
     public static bool TryGet(byte value, out CertificateSources? result) => _ValueObjectMap.TryGetValue(value, out result);
 

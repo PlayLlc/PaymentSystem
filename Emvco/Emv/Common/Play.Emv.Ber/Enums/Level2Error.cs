@@ -113,7 +113,5 @@ public record Level2Error : EnumObject<byte>
         return false;
     }
 
-    public static Level2Error[] GetAll() => _ValueObjectMap.Values.ToArray();
-
     #endregion
 }

@@ -110,8 +110,6 @@ public record Statuses : EnumObject<byte>
         return false;
     }
 
-    public static Statuses[] GetAll() => _ValueObjectMap.Values.ToArray();
-
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static Statuses Get(byte value)
     {

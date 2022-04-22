@@ -167,10 +167,6 @@ public record StatusOutcome : EnumObject<byte>
         return false;
     }
 
-    // TODO:
-    // public static readonly StatusOutcome RequestOnlinePin;
-    public static StatusOutcome[] GetAll() => _ValueObjectMap.Values.ToArray();
-
     public static StatusOutcome Get(byte value)
     {
         if (!_ValueObjectMap.TryGetValue(value, out StatusOutcome result))

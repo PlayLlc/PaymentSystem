@@ -338,7 +338,5 @@ public record TransactionTypes : EnumObject<byte>
         return false;
     }
 
-    public static TransactionTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
-
     #endregion
 }

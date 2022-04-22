@@ -79,7 +79,6 @@ public sealed record BlockCipherAlgorithm : EnumObject<byte>, IEqualityComparer<
         return false;
     }
 
-    public static BlockCipherAlgorithm[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static bool TryGet(byte value, out BlockCipherAlgorithm? result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion

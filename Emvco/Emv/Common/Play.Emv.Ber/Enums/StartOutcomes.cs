@@ -72,8 +72,6 @@ public record StartOutcomes : EnumObject<byte>
         return false;
     }
 
-    public static StartOutcomes[] GetAll() => _ValueObjectMap.Values.ToArray();
-
     public static StartOutcomes Get(byte value)
     {
         if (!TryGet(value, out StartOutcomes result))

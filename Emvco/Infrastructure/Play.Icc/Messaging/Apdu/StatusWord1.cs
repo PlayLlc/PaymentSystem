@@ -174,7 +174,6 @@ public sealed record StatusWord1 : EnumObject<StatusWord>, IEqualityComparer<Sta
         return false;
     }
 
-    public static StatusWord1[] GetAll() => _ValueObjectMap.Values.ToArray();
     public string GetDescription() => _Description;
     public StatusWordInfo GetStatusWordInfo() => _StatusWordInfo;
     public static bool TryGet(StatusWord value, out StatusWord1? result) => _ValueObjectMap.TryGetValue(value, out result);

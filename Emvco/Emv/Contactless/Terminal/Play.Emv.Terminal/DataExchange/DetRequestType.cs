@@ -51,8 +51,6 @@ public record DetRequestType : EnumObject<Tag>
         return false;
     }
 
-    public static DetRequestType[] GetAll() => _ValueObjectMap.Values.ToArray();
-
     #endregion
 
     #region Operator Overrides

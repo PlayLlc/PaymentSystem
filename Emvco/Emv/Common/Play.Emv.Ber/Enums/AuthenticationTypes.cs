@@ -63,7 +63,6 @@ public sealed record AuthenticationTypes : EnumObject<byte>
         return false;
     }
 
-    public static AuthenticationTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static bool TryGet(byte value, out AuthenticationTypes result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion
