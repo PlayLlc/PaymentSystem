@@ -25,7 +25,6 @@ public partial class TerminalActionAnalysisServiceTests : TestBase
     #region Instance Values
 
     private readonly IFixture _Fixture;
-    private readonly KernelDatabase _Database;
 
     #endregion
 
@@ -37,7 +36,6 @@ public partial class TerminalActionAnalysisServiceTests : TestBase
     {
         _Fixture = new ContactlessFixture().Create();
         CustomizeModuleObjects(_Fixture);
-        _Database = _Fixture.Create<KernelDatabase>()!;
     }
 
     #endregion
@@ -49,28 +47,19 @@ public partial class TerminalActionAnalysisServiceTests : TestBase
         fixture.Register<KnownObjects>(fixture.Create<Kernel2KnownObjects>);
     }
 
-    private KernelDatabase GetKernelDatabaseForOfflineOnly()
+    private void GetKernelDatabaseForOfflineOnly()
     {
-        KernelDatabaseFactory.KernelDatabaseBuilder? builder = KernelDatabaseFactory.GetBuilder();
-        builder.SetOfflineOnlyTerminal();
-
-        return builder.Complete();
+        _Fixture.Register(() => new TerminalType(TerminalType.CommunicationType.OnlineOnly));
     }
 
-    private KernelDatabase GetKernelDatabaseForOnlineOnly()
+    private void GetKernelDatabaseForOnlineOnly()
     {
-        KernelDatabaseFactory.KernelDatabaseBuilder? builder = KernelDatabaseFactory.GetBuilder();
-        builder.SetOnlineOnlyTerminal();
-
-        return builder.Complete();
+        _Fixture.Register(() => new TerminalType(TerminalType.CommunicationType.OnlineOnly));
     }
 
-    private KernelDatabase GetKernelDatabaseForOnlineAndOfflineCapable()
+    private void GetKernelDatabaseForOnlineAndOfflineCapable()
     {
-        KernelDatabaseFactory.KernelDatabaseBuilder? builder = KernelDatabaseFactory.GetBuilder();
-        builder.SetOnlineAndOfflineCapableTerminal();
-
-        return builder.Complete();
+        _Fixture.Register(() => new TerminalType(TerminalType.CommunicationType.OnlineAndOfflineCapable));
     }
 
     private TerminalActionAnalysisCommand GetTerminalActionAnalysisCommand(TerminalVerificationResults terminalVerificationResults) =>
