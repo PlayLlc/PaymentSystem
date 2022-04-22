@@ -2,7 +2,6 @@
 using AutoFixture.AutoMoq;
 using AutoFixture.Kernel;
 
-using Play.Encryption.Certificates;
 using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders;
 using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilderss;
 

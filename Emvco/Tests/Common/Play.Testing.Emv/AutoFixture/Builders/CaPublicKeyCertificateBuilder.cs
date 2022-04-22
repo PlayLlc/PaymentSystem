@@ -1,10 +1,4 @@
-﻿using AutoFixture.Kernel;
-
-using Play.Emv.Security;
-using Play.Icc.FileSystem.DedicatedFiles;
-using Play.Emv.Ber.DataElements;
-
-namespace Play.Testing.Emv.Contactless.AutoFixture.Buildersdd
+﻿namespace Play.Testing.Emv.Contactless.AutoFixture.Buildersdd
 {
     //public class CaPublicKeyCertificateBuilder : SpecimenBuilder
     //{

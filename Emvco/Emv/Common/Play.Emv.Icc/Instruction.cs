@@ -1,6 +1,5 @@
 ﻿using System.Collections.Immutable;
 
-using Play.Ber.Identifiers;
 using Play.Core;
 
 namespace Play.Emv.Icc;

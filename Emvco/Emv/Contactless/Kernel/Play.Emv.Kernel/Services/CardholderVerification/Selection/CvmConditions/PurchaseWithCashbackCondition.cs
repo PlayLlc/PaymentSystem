@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Play.Ber.Identifiers;
-using Play.Emv.Ber;
 using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Kernel.Databases;
 using Play.Globalization.Currency;

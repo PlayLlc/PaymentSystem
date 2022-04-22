@@ -1,6 +1,4 @@
-﻿using System.Collections.Immutable;
-
-using AutoFixture;
+﻿using AutoFixture;
 using AutoFixture.AutoMoq;
 using AutoFixture.Kernel;
 
@@ -9,8 +7,6 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
 using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Services;
-using Play.Emv.Security;
-using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Testing.Emv.Ber.Constructed;
 using Play.Testing.Extensions;
 

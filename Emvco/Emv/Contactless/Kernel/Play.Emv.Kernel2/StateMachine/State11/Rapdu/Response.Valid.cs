@@ -2,7 +2,6 @@
 
 using Play.Ber.DataObjects;
 using Play.Core.Extensions;
-using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
 using Play.Emv.Ber.Enums;

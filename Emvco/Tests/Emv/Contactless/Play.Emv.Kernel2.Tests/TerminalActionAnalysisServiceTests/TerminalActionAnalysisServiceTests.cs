@@ -1,29 +1,20 @@
 ﻿using System;
-using System.Collections.Immutable;
-using System.Linq;
 
 using AutoFixture;
 
 using Play.Ber.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
 using Play.Testing.Emv.Contactless;
 using Play.Testing.Emv.Contactless.AutoFixture;
-using Play.Emv.Kernel.Contracts;
-using Play.Emv.Kernel.Services;
 
 using Xunit;
 
 using Play.Emv.Kernel2.Databases;
-using Play.Emv.Security;
-using Play.Encryption.Certificates;
-using Play.Encryption.Ciphers.Hashing;
-using Play.Globalization.Time;
 using Play.Testing.BaseTestClasses;
 
 namespace Play.Emv.Kernel2.Tests.TerminalActionAnalysisServiceTests;
@@ -40,9 +31,6 @@ public partial class TerminalActionAnalysisServiceTests : TestBase
 
     #region Constructor
 
-    /// <summary>
-    ///     ctor
-    /// </summary>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public TerminalActionAnalysisServiceTests()

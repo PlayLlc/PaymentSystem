@@ -3,7 +3,6 @@
 using Play.Ber.Exceptions;
 using Play.Core;
 using Play.Core.Extensions;
-using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;

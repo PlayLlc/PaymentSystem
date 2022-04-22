@@ -1,5 +1,4 @@
-﻿using Play.Emv.Ber;
-using Play.Emv.Ber.Enums;
+﻿using Play.Emv.Ber.Enums;
 using Play.Emv.Identifiers;
 
 namespace Play.Emv.DataExchange;

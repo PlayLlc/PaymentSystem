@@ -8,7 +8,6 @@ using Play.Core;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
-using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.Templates;
 using Play.Icc.FileSystem.DedicatedFiles;
 

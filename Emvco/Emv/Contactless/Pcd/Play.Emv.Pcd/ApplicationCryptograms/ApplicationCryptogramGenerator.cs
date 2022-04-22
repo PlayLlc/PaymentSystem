@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 
 using Play.Ber.Exceptions;
-using Play.Emv.Ber;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Icc;
 using Play.Emv.Pcd.Contracts;

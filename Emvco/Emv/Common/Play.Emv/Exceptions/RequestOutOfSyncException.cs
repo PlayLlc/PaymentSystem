@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-using Play.Emv.Ber;
 using Play.Emv.Ber.Enums;
 using Play.Messaging;
 
