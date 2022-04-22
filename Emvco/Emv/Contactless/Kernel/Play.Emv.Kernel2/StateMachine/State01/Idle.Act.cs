@@ -12,6 +12,7 @@ using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Exceptions;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Contracts;
+using Play.Emv.Kernel.Databases;
 using Play.Emv.Kernel.DataExchange;
 using Play.Emv.Kernel.State;
 using Play.Emv.Kernel2.Databases;
@@ -38,22 +39,20 @@ public partial class Idle : KernelState
 
         Kernel2Session kernel2Session = (Kernel2Session) session;
 
-        if (!TryInitialize(signal.GetCorrelationId(), signal.GetKernelSessionId(), signal.GetTransaction()))
+        if (!TryInitialize(signal.GetCorrelationId(), signal.GetKernelSessionId()))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        if (!TryParseTemplateAndAddTransactionDataToDatabase(signal, out FileControlInformationAdf? fci))
+        if (TryHandlingBerEncodingException(signal))
             return _KernelStateResolver.GetKernelState(StateId);
 
-        UpdateLanguagePreferences(kernel2Session, fci!);
-        HandleSupportForFieldOffDetection(kernel2Session, fci!);
+        UpdateLanguagePreferences();
+
+        HandleSupportForFieldOffDetection();
         InitializeEmvDataObjects();
 
-        // HACK: Should we be pulling 'TagsToRead' directly from the ACT signal? What if the process changes the value before we get here? We should probably flatten the ActivateKernelRequest, or just only expose the ToTagLengthValue() method. That would allow us to strongly type the required objects for the Signal and force us to use the KernelDatabase to retrieve stateful values
-        signal.TryGetTagsToRead(out TagsToRead? tagsToRead);
-        InitializeDataExchangeObjects(tagsToRead);
+        InitializeDataExchangeObjects();
 
-        // HACK: Same as above
-        HandleProcessingOptionsDataObjectList(kernel2Session, signal.GetFileControlInformationCardResponse().GetFileControlInformation());
+        HandleProcessingOptionsDataObjectList(kernel2Session, signal.GetRapdu().GetFileControlInformation());
 
         InitializeAcPutData();
         UpdateIntegratedDataStorage();
@@ -68,10 +67,15 @@ public partial class Idle : KernelState
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    private void UpdateLanguagePreferences(Kernel2Session session, FileControlInformationAdf fci)
+    private void UpdateLanguagePreferences()
     {
-        if (fci.TryGetLanguagePreference(out LanguagePreference? languagePreference))
-            _Database.Update(languagePreference!);
+        if (_Database.TryGet(LanguagePreference.Tag, out LanguagePreference? languagePreference))
+        {
+            throw new InvalidOperationException(
+                $"The {nameof(Idle)} state could not process the {nameof(ActivateKernelRequest)} because no {nameof(LanguagePreference)} was found in the {nameof(KernelDatabase)}");
+        }
+
+        _Database.Update(languagePreference!);
     }
 
     /// <remarks>Book C-2 Section 6.3.3 - S1.7</remarks>
@@ -87,41 +91,29 @@ public partial class Idle : KernelState
         _KernelEndpoint.Send(new OutKernelResponse(correlationId, kernelSessionId, _Database.GetOutcome()));
     }
 
-    /// <summary>
-    ///     HandleSupportForFieldOffDetection
-    /// </summary>
-    /// <param name="session"></param>
-    /// <param name="fci"></param>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    private void HandleSupportForFieldOffDetection(Kernel2Session session, FileControlInformationAdf fci)
+    private void HandleSupportForFieldOffDetection()
     {
-        if (fci!.TryGetApplicationCapabilitiesInformation(out ApplicationCapabilitiesInformation? result))
-        {
-            if (result!.IsSupportForFieldOffDetectionSet())
-            {
-                byte holdTime = ((MessageHoldTime) _Database.Get(MessageHoldTime.Tag)).EncodeValue()[0];
-                _Database.Update(new FieldOffRequestOutcome(holdTime));
-            }
-        }
+        if (!_Database.IsPresentAndNotEmpty(ApplicationCapabilitiesInformation.Tag))
+            return;
+
+        if (!_Database.Get<ApplicationCapabilitiesInformation>(ApplicationCapabilitiesInformation.Tag).IsSupportForFieldOffDetectionSet())
+            return;
+
+        byte holdTime = ((MessageHoldTime) _Database.Get(MessageHoldTime.Tag)).EncodeValue()[0];
+        _Database.Update(new FieldOffRequestOutcome(holdTime));
     }
 
     #endregion
 
     #region S1.7 & S1.8
 
-    /// <remarks>Book C-2 Section 6.3.3 - S1.7 & S1.8</remarks>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="TerminalDataException"></exception>
-    /// <exception cref="DataElementParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    private bool TryParseTemplateAndAddTransactionDataToDatabase(ActivateKernelRequest signal, out FileControlInformationAdf? result)
+    private bool TryHandlingBerEncodingException(ActivateKernelRequest signal)
     {
         try
         {
-            _Database.Update(signal.AsPrimitiveValues());
-            result = signal.GetFileControlInformationCardResponse().GetFileControlInformation();
+            _Database.Update(signal.GetPrimitiveValues());
 
             return true;
         }
@@ -130,6 +122,8 @@ public partial class Idle : KernelState
             /* logging */
             _Database.Update(Level2Error.ParsingError);
             HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
+
+            return true;
         }
 
         catch (CardDataMissingException)
@@ -137,11 +131,17 @@ public partial class Idle : KernelState
             /* logging */
             _Database.Update(Level2Error.CardDataError);
             HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
+
+            return true;
         }
+        catch (Exception)
+        {
+            /* logging */
+            _Database.Update(Level2Error.CardDataError);
+            HandleBerEncodingException(signal.GetCorrelationId(), signal.GetKernelSessionId());
 
-        result = null;
-
-        return false;
+            return true;
+        }
     }
 
     /// <remarks>Book C-2 Section 6.2.3; Book C-2 Section 6.3.3 - S1.7 & S1.8</remarks>
@@ -150,12 +150,11 @@ public partial class Idle : KernelState
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    private bool TryInitialize(CorrelationId correlationId, KernelSessionId kernelSessionId, Transaction transaction)
+    private bool TryInitialize(CorrelationId correlationId, KernelSessionId kernelSessionId)
     {
         try
         {
             _Database.Activate(kernelSessionId);
-            _Database.Update(transaction.AsPrimitiveValues());
 
             OutcomeParameterSet.Builder outcomeParameterSetBuilder = OutcomeParameterSet.GetBuilder();
             UserInterfaceRequestData.Builder userInterfaceBuilder = UserInterfaceRequestData.GetBuilder();
@@ -217,19 +216,15 @@ public partial class Idle : KernelState
     /// <remarks>Book C-2 Section 6.3.3 - S1.10</remarks>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="TerminalDataException"></exception>
-    private void InitializeDataExchangeObjects(TagsToRead? tagsToRead)
+    private void InitializeDataExchangeObjects()
     {
         // TODO: DataExchangeKernelService
         _DataExchangeKernelService.Initialize(new DataNeeded());
         _DataExchangeKernelService.Initialize(new DataToSend());
         _DataExchangeKernelService.Initialize(new TagsToRead());
 
-        if (tagsToRead != null)
-        {
-            _DataExchangeKernelService.Enqueue(DekRequestType.TagsToRead, tagsToRead.GetTagsToReadYet());
-
-            // TODO: TagsToReadYet.Update(tagsToRead);
-        }
+        if (_Database.TryGet(TagsToRead.Tag, out TagsToRead? tagsToRead))
+            _DataExchangeKernelService.Enqueue(DekRequestType.TagsToRead, tagsToRead!.GetTagsToReadYet());
         else
             _DataExchangeKernelService.Enqueue(DekRequestType.DataNeeded, TagsToRead.Tag);
     }

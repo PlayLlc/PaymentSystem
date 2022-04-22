@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using Play.Ber.DataObjects;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Enums;
+using Play.Emv.Ber.Templates;
 using Play.Emv.Identifiers;
 using Play.Emv.Messaging;
 using Play.Emv.Outcomes;
@@ -31,13 +34,37 @@ public record ActivateKernelRequest : RequestSignal
 
     #region Instance Values
 
-    private readonly CombinationCompositeKey _CombinationCompositeKey;
-    private readonly TerminalTransactionQualifiers _TerminalTransactionQualifiers;
-    private readonly SelectApplicationDefinitionFileInfoResponse _FileControlInformation;
+    // Session Info Shit 
     private readonly KernelSessionId _KernelSessionId;
-    private readonly StatusWords _StatusWordsForSelectAid;
-    private readonly TagsToRead? _TagsToRead;
-    private readonly Transaction _Transaction;
+
+    // RAPDU
+    private readonly SelectApplicationDefinitionFileInfoResponse _Rapdu;
+
+    // Terminal
+    private readonly AccountType _AccountType;
+    private readonly LanguagePreference _LanguagePreference;
+    private readonly TerminalCountryCode _TerminalCountryCode;
+
+    // Application Shit 
+    private readonly KernelId _KernelId;
+    private readonly TransactionType _TransactionType;
+    private readonly TagsToRead _TagsToRead;
+    private readonly TerminalTransactionQualifiers _TerminalTransactionQualifiers;
+
+    // Transaction Shit
+    private readonly TransactionDate _TransactionDate;
+    private readonly TransactionTime _TransactionTime;
+    private readonly AmountAuthorizedNumeric _AmountAuthorizedNumeric;
+    private readonly AmountOtherNumeric _AmountOtherNumeric;
+    private readonly TransactionCurrencyExponent _TransactionCurrencyExponent;
+
+    // Outcome 
+    private readonly DataRecord _DataRecord;
+    private readonly DiscretionaryData _DiscretionaryData;
+    private readonly TerminalVerificationResults _TerminalVerificationResults;
+    private readonly ErrorIndication _ErrorIndication;
+    private readonly OutcomeParameterSet _OutcomeParameterSet;
+    private readonly UserInterfaceRequestData _UserInterfaceRequestData;
 
     #endregion
 
@@ -45,74 +72,66 @@ public record ActivateKernelRequest : RequestSignal
 
     public ActivateKernelRequest(
         KernelSessionId kernelSessionId, CombinationCompositeKey combinationCompositeKey, Transaction transaction, TagsToRead? tagsToRead,
-        TerminalTransactionQualifiers terminalTransactionQualifiers, SelectApplicationDefinitionFileInfoResponse fileControlInformation,
-        StatusWords statusWordsForSelectAid) : base(MessageTypeId, ChannelTypeId)
+        TerminalTransactionQualifiers terminalTransactionQualifiers, SelectApplicationDefinitionFileInfoResponse rapdu) : base(MessageTypeId, ChannelTypeId)
     {
         _KernelSessionId = kernelSessionId;
-        _Transaction = transaction;
-        _TagsToRead = tagsToRead;
-        _CombinationCompositeKey = combinationCompositeKey;
+        _Rapdu = rapdu;
+        _AccountType = transaction.GetAccountType();
+        _LanguagePreference = transaction.GetLanguagePreference();
+        _TerminalCountryCode = transaction.GetTerminalCountryCode();
+
+        _KernelId = combinationCompositeKey.GetKernelId();
+        _TransactionType = transaction.GetTransactionType();
+        _TagsToRead = tagsToRead ?? new TagsToRead();
         _TerminalTransactionQualifiers = terminalTransactionQualifiers;
-        _FileControlInformation = fileControlInformation;
-        _StatusWordsForSelectAid = statusWordsForSelectAid;
+        _TransactionDate = transaction.GetTransactionDate();
+        _TransactionTime = transaction.GetTransactionTime();
+        _AmountAuthorizedNumeric = transaction.GetAmountAuthorizedNumeric();
+        _AmountOtherNumeric = transaction.GetAmountOtherNumeric();
+        _TransactionCurrencyExponent = transaction.GetTransactionCurrencyExponent();
+        _TerminalVerificationResults = transaction.GetTerminalVerificationResults();
+        _ErrorIndication = transaction.GetErrorIndication();
+        _OutcomeParameterSet = transaction.GetOutcomeParameterSet();
+
+        _DataRecord = transaction.TryGetDataRecord(out DataRecord? dataRecord) ? dataRecord! : new DataRecord();
+        _DiscretionaryData = transaction.TryGetDiscretionaryData(out DiscretionaryData? discretionaryData) ? discretionaryData! : new DiscretionaryData();
+        _UserInterfaceRequestData = transaction.TryGetUserInterfaceRequestData(out UserInterfaceRequestData? userInterfaceRequestData)
+            ? userInterfaceRequestData!
+            : UserInterfaceRequestData.GetBuilder().Complete();
     }
 
     #endregion
 
     #region Instance Members
 
-    public PrimitiveValue[] AsPrimitiveValues()
+    public PrimitiveValue[] GetPrimitiveValues()
     {
-        List<PrimitiveValue> buffer = new();
+        List<PrimitiveValue> values = _Rapdu.AsPrimitiveValues().ToList();
 
-        // TODO: Do we need to flatten the primitive values returned from the ICC when
-        // TODO: inserting into the DB?
-        buffer.AddRange(_FileControlInformation.GetFileControlInformation().GetPrimitiveDescendants());
+        values.Add(_AccountType);
+        values.Add(_LanguagePreference);
+        values.Add(_TerminalCountryCode);
+        values.Add(_KernelId);
+        values.Add(_TransactionType);
+        values.Add(_TagsToRead);
+        values.Add(_TerminalTransactionQualifiers);
+        values.Add(_TransactionDate);
+        values.Add(_TransactionTime);
+        values.Add(_AmountAuthorizedNumeric);
+        values.Add(_AmountOtherNumeric);
+        values.Add(_TransactionCurrencyExponent);
+        values.Add(_DataRecord);
+        values.Add(_DiscretionaryData);
+        values.Add(_TerminalVerificationResults);
+        values.Add(_ErrorIndication);
+        values.Add(_OutcomeParameterSet);
+        values.Add(_UserInterfaceRequestData);
 
-        if (_TagsToRead != null)
-            buffer.Add(_TagsToRead);
-        buffer.AddRange(_Transaction.AsPrimitiveValues());
-
-        return buffer.ToArray();
+        return values.ToArray();
     }
 
-    public TransactionSessionId GetTransactionSessionId() => _Transaction.GetTransactionSessionId();
-    public TerminalVerificationResults GetTerminalVerificationResults() => _Transaction.GetTerminalVerificationResults();
-    public Transaction GetTransaction() => _Transaction;
-    public SelectApplicationDefinitionFileInfoResponse GetFileControlInformationCardResponse() => _FileControlInformation;
-    public AmountAuthorizedNumeric GetAmountAuthorizedNumeric() => _Transaction.GetAmountAuthorizedNumeric();
-    public AmountOtherNumeric GetAmountOtherNumeric() => _Transaction.GetAmountOtherNumeric();
-    public DedicatedFileName GetApplicationIdentifier() => _CombinationCompositeKey.GetApplicationId();
-    public CombinationCompositeKey GetCombinationCompositeKey() => _CombinationCompositeKey;
-    public CultureProfile GetCultureProfile() => _Transaction.GetCultureProfile();
-    public KernelId GetKernelId() => _CombinationCompositeKey.GetKernelId();
+    public SelectApplicationDefinitionFileInfoResponse GetRapdu() => _Rapdu;
     public KernelSessionId GetKernelSessionId() => _KernelSessionId;
-    public Alpha2LanguageCode GetLanguageCode() => GetCultureProfile().GetAlpha2LanguageCode();
-    public ref readonly Outcome GetOutcome() => ref _Transaction.GetOutcome();
-    public TerminalTransactionQualifiers GetTerminalTransactionQualifiers() => _TerminalTransactionQualifiers;
-
-    public RegisteredApplicationProviderIndicator GetRegisteredApplicationProviderIndicator() =>
-        _CombinationCompositeKey.GetRegisteredApplicationProviderIndicator();
-
-    public StatusWords GetStatusWordsForSelectAid() => _StatusWordsForSelectAid;
-
-    public bool TryGetTagsToRead(out TagsToRead? result)
-    {
-        if (_TagsToRead is null)
-        {
-            result = null;
-
-            return false;
-        }
-
-        result = _TagsToRead;
-
-        return true;
-    }
-
-    public Alpha2CountryCode GetTerminalCountryCode() => GetCultureProfile().GetAlpha2CountryCode();
-    public Alpha3CurrencyCode GetTransactionCurrencyCode() => GetCultureProfile().GetAlpha3CurrencyCode();
-    public TransactionType GetTransactionType() => _CombinationCompositeKey.GetTransactionType();
 
     #endregion
 }
