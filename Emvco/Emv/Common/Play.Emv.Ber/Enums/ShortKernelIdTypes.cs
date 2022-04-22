@@ -7,9 +7,8 @@ using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.Enums;
 
-public sealed record ShortKernelIdTypes : EnumObject<byte>, IEqualityComparer<byte>
-{
-    #region Static Metadata
+public sealed record ShortKernelIdTypes : EnumObject<byte>, IEqualityComparer<byte> { public override ShortKernelIdTypes[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<byte>? result) { if (_ValueObjectMap.TryGetValue(value, out ShortKernelIdTypes? enumResult)) { result = enumResult; return true; } result = null; return false; }
+ #region Static Metadata
 
     private static readonly ImmutableSortedDictionary<byte, ShortKernelIdTypes> _ValueObjectMap;
     public static readonly ShortKernelIdTypes Kernel8;
@@ -66,22 +65,6 @@ public sealed record ShortKernelIdTypes : EnumObject<byte>, IEqualityComparer<by
     #endregion
 
     #region Instance Members
-
-    public override ShortKernelIdTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
-
-    public override bool TryGet(byte value, out EnumObject<byte>? result)
-    {
-        if (_ValueObjectMap.TryGetValue(value, out ShortKernelIdTypes? enumResult))
-        {
-            result = enumResult;
-
-            return true;
-        }
-
-        result = null;
-
-        return false;
-    }
 
     public static ShortKernelIdTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
 

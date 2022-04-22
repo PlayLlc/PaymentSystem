@@ -9,9 +9,8 @@ using Play.Core.Extensions;
 
 namespace Play.Ber.Identifiers;
 
-public sealed record ClassTypes : EnumObject<byte>, IEqualityComparer<byte>
-{
-    #region Static Metadata
+public sealed record ClassTypes : EnumObject<byte>, IEqualityComparer<byte> { public override ClassTypes[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<byte>? result) { if (_ValueObjectMap.TryGetValue(value, out ClassTypes? enumResult)) { result = enumResult; return true; } result = null; return false; }
+ #region Static Metadata
 
     private static readonly ImmutableSortedDictionary<byte, ClassTypes> _ValueObjectMap;
 
@@ -57,22 +56,6 @@ public sealed record ClassTypes : EnumObject<byte>, IEqualityComparer<byte>
     #endregion
 
     #region Instance Members
-
-    public override ClassTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
-
-    public override bool TryGet(byte value, out EnumObject<byte>? result)
-    {
-        if (_ValueObjectMap.TryGetValue(value, out ClassTypes? enumResult))
-        {
-            result = enumResult;
-
-            return true;
-        }
-
-        result = null;
-
-        return false;
-    }
 
     public static bool IsUniversal(byte tag) => tag.GetMaskedValue(UnrelatedBits).AreAnyBitsSet(0xFF);
     public static bool IsApplicationSpecific(byte tag) => tag.GetMaskedValue(UnrelatedBits) == _Application;

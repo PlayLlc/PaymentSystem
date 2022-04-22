@@ -7,9 +7,8 @@ namespace Play.Encryption.Ciphers.Symmetric;
 /// <summary>
 ///     Specifies the block cipher mode to use for encryption
 /// </summary>
-public sealed record BlockCipherAlgorithm : EnumObject<byte>, IEqualityComparer<byte>
-{
-    #region Static Metadata
+public sealed record BlockCipherAlgorithm : EnumObject<byte>, IEqualityComparer<byte> { public override BlockCipherAlgorithm[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<byte>? result) { if (_ValueObjectMap.TryGetValue(value, out BlockCipherAlgorithm? enumResult)) { result = enumResult; return true; } result = null; return false; }
+ #region Static Metadata
 
     private static readonly ImmutableSortedDictionary<byte, BlockCipherAlgorithm> _ValueObjectMap;
 
@@ -58,22 +57,6 @@ public sealed record BlockCipherAlgorithm : EnumObject<byte>, IEqualityComparer<
     #endregion
 
     #region Instance Members
-
-    public override BlockCipherAlgorithm[] GetAll() => _ValueObjectMap.Values.ToArray();
-
-    public override bool TryGet(byte value, out EnumObject<byte>? result)
-    {
-        if (_ValueObjectMap.TryGetValue(value, out BlockCipherAlgorithm? enumResult))
-        {
-            result = enumResult;
-
-            return true;
-        }
-
-        result = null;
-
-        return false;
-    }
 
     public static BlockCipherAlgorithm[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static bool TryGet(byte value, out BlockCipherAlgorithm? result) => _ValueObjectMap.TryGetValue(value, out result);

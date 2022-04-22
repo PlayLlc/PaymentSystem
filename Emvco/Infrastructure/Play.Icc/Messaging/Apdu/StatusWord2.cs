@@ -7,9 +7,8 @@ using Play.Core;
 
 namespace Play.Icc.Messaging.Apdu;
 
-public sealed record StatusWord2 : EnumObject<StatusWord>, IEqualityComparer<StatusWord>
-{
-    #region Static Metadata
+public sealed record StatusWord2 : EnumObject<StatusWord>, IEqualityComparer<StatusWord> { public override StatusWord2[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<StatusWord>? result) { if (_ValueObjectMap.TryGetValue(value, out StatusWord2? enumResult)) { result = enumResult; return true; } result = null; return false; }
+ #region Static Metadata
 
     private static readonly ImmutableSortedDictionary<StatusWord, StatusWord2> _ValueObjectMap;
 
@@ -48,22 +47,6 @@ public sealed record StatusWord2 : EnumObject<StatusWord>, IEqualityComparer<Sta
     #endregion
 
     #region Instance Members
-
-    public override StatusWord2[] GetAll() => _ValueObjectMap.Values.ToArray();
-
-    public override bool TryGet(byte value, out EnumObject<StatusWord>? result)
-    {
-        if (_ValueObjectMap.TryGetValue(value, out StatusWord2? enumResult))
-        {
-            result = enumResult;
-
-            return true;
-        }
-
-        result = null;
-
-        return false;
-    }
 
     public static StatusWord2[] GetAll() => _ValueObjectMap.Values.ToArray();
     public string GetDescription() => _Description;
