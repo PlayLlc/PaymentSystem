@@ -47,20 +47,9 @@ public partial class TerminalActionAnalysisServiceTests : TestBase
     /// <exception cref="BerParsingException"></exception>
     public TerminalActionAnalysisServiceTests()
     {
-        try
-        {
-            _Fixture = new ContactlessFixture().Create();
-            MessageIdentifiers? aaaa = _Fixture.Create<MessageIdentifiers>()!;
-            CustomizeModuleObjects(_Fixture);
-
-            _Fixture.Create<ScratchPad>();
-            KernelDatabase a = _Fixture.Create<KernelDatabase>()!;
-            _Database = a;
-        }
-        catch (Exception)
-        {
-            Console.WriteLine("ValueStreamMapping");
-        }
+        _Fixture = new ContactlessFixture().Create();
+        CustomizeModuleObjects(_Fixture);
+        _Database = _Fixture.Create<KernelDatabase>()!;
     }
 
     #endregion
