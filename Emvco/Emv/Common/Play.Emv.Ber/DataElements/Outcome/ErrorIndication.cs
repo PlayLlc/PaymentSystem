@@ -3,6 +3,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core;
 using Play.Core.Extensions;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
@@ -67,9 +68,9 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
     //}
     public static Builder GetBuilder() => new();
     public override PlayEncodingId GetEncodingId() => EncodingId;
-    public Level1Error GetL1() => Level1Error.Get((byte) (_Value >> 40));
-    public Level2Error GetL2() => Level2Error.Get((byte) (_Value >> 32));
-    public Level3Error GetL3() => Level3Error.Get((byte) (_Value >> 24));
+    public Level1Error GetL1() => !Level1Error.Empty.TryGet((byte) (_Value >> 40), out EnumObject<byte>? result) ? Level1Error.Ok : (Level1Error) result!;
+    public Level2Error GetL2() => !Level2Error.Empty.TryGet((byte) (_Value >> 40), out EnumObject<byte>? result) ? Level2Error.Ok : (Level2Error) result!;
+    public Level3Error GetL3() => !Level3Error.Empty.TryGet((byte) (_Value >> 40), out EnumObject<byte>? result) ? Level3Error.Ok : (Level3Error) result!;
     public MessageOnErrorIdentifiers GetMessageIdentifier() => (MessageOnErrorIdentifiers) MessageOnErrorIdentifiers.Get((byte) _Value);
     public StatusWords GetStatusWords() => new(new StatusWord((byte) (_Value >> 16)), new StatusWord((byte) (_Value >> 8)));
     public override Tag GetTag() => Tag;

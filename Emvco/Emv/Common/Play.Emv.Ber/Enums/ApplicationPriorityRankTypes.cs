@@ -111,4 +111,10 @@ public sealed record ApplicationPriorityRankTypes : EnumObject<byte>
     public int CompareTo(ApplicationPriorityRankTypes other) => _Value.CompareTo(other._Value);
 
     #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator ApplicationPriorityRank(ApplicationPriorityRankTypes enumObject) => new(enumObject._Value);
+
+    #endregion
 }

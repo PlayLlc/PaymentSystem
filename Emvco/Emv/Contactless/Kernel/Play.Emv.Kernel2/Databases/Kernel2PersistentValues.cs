@@ -20,7 +20,7 @@ public class Kernel2PersistentValues : PersistentValues
 
     public Kernel2PersistentValues(params PrimitiveValue[] values)
     {
-        Kernel2KnownObjects knownObjects = new();
+        Kernel2KnownObjects knownObjects = Kernel2KnownObjects.Empty;
         EmvBook3DefaultValues book3Defaults = new();
         Kernel2DefaultValues kernel2Defaults = new();
 

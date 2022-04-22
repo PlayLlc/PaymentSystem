@@ -8,14 +8,14 @@ namespace Play.Emv.Ber;
 ///     Represents all of the known <see cref="PrimitiveValue" /> objects within a bounded context, such as a specific
 ///     kernel implementation
 /// </summary>
-public abstract record KnownObjects : EnumObject<Tag>
+public abstract record KnownObjects : EnumObject<uint>
 {
     #region Constructor
 
     protected KnownObjects()
     { }
 
-    protected KnownObjects(Tag value) : base(value)
+    protected KnownObjects(uint value) : base(value)
     { }
 
     #endregion

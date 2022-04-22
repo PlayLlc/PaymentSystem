@@ -4,9 +4,11 @@ using System.Collections.Immutable;
 using System.Linq;
 
 using Play.Ber.Identifiers;
+using Play.Core;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Ber.Templates;
 using Play.Icc.FileSystem.DedicatedFiles;
 
@@ -16,7 +18,8 @@ public sealed record Kernel2KnownObjects : KnownObjects
 {
     #region Static Metadata
 
-    private static readonly ImmutableSortedDictionary<Tag, Kernel2KnownObjects> _ValueObjectMap;
+    public static readonly Kernel2KnownObjects Empty = new();
+    private static readonly ImmutableSortedDictionary<uint, Kernel2KnownObjects> _ValueObjectMap;
 
     #endregion
 
@@ -31,7 +34,7 @@ public sealed record Kernel2KnownObjects : KnownObjects
     /// <exception cref="TypeInitializationException"></exception>
     static Kernel2KnownObjects()
     {
-        _ValueObjectMap = new Dictionary<Tag, Kernel2KnownObjects>
+        _ValueObjectMap = new Dictionary<uint, Kernel2KnownObjects>
         {
             {AccountType.Tag, new(AccountType.Tag)},
             {AcquirerIdentifier.Tag, new(AcquirerIdentifier.Tag)},
@@ -94,10 +97,7 @@ public sealed record Kernel2KnownObjects : KnownObjects
             {Track2DiscretionaryData.Tag, new(Track2DiscretionaryData.Tag)},
             {DedicatedFileName.Tag, new(DedicatedFileName.Tag)},
             {DefaultUnpredictableNumberDataObjectList.Tag, new(DefaultUnpredictableNumberDataObjectList.Tag)},
-            {
-                DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag,
-                new(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag)
-            },
+            {DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag, new(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag)},
             {DeviceRelayResistanceEntropy.Tag, new(DeviceRelayResistanceEntropy.Tag)},
             {DiscretionaryData.Tag, new(DiscretionaryData.Tag)},
             {ErrorIndication.Tag, new(ErrorIndication.Tag)},
@@ -182,14 +182,8 @@ public sealed record Kernel2KnownObjects : KnownObjects
             {TerminalActionCodeOnline.Tag, new(TerminalActionCodeOnline.Tag)},
             {TerminalCapabilities.Tag, new(TerminalCapabilities.Tag)},
             {TerminalCountryCode.Tag, new(TerminalCountryCode.Tag)},
-            {
-                TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Tag,
-                new(TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Tag)
-            },
-            {
-                TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Tag,
-                new(TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Tag)
-            },
+            {TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Tag, new(TerminalExpectedTransmissionTimeForRelayResistanceCapdu.Tag)},
+            {TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Tag, new(TerminalExpectedTransmissionTimeForRelayResistanceRapdu.Tag)},
             {TerminalIdentification.Tag, new(TerminalIdentification.Tag)},
             {TerminalRelayResistanceEntropy.Tag, new(TerminalRelayResistanceEntropy.Tag)},
             {TerminalRiskManagementData.Tag, new(TerminalRiskManagementData.Tag)},
@@ -220,7 +214,7 @@ public sealed record Kernel2KnownObjects : KnownObjects
         }.ToImmutableSortedDictionary();
     }
 
-    public Kernel2KnownObjects()
+    private Kernel2KnownObjects()
     { }
 
     private Kernel2KnownObjects(Tag value) : base(value)
@@ -230,6 +224,22 @@ public sealed record Kernel2KnownObjects : KnownObjects
 
     #region Instance Members
 
+    public override Kernel2KnownObjects[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(uint value, out EnumObject<uint>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out Kernel2KnownObjects? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
+
     public override bool Exists(Tag value) => _ValueObjectMap.ContainsKey(value);
 
     public static IEnumerator<Tag> GetEnumerator()
@@ -237,8 +247,7 @@ public sealed record Kernel2KnownObjects : KnownObjects
         return _ValueObjectMap.Values.Select(a => (Tag) a).GetEnumerator();
     }
 
-    public static bool IsKnown(Tag tag) => _ValueObjectMap.ContainsKey(tag);
-    public static bool TryGet(Tag value, out Kernel2KnownObjects result) => _ValueObjectMap.TryGetValue(value, out result);
+    public static bool IsKnown(uint tag) => _ValueObjectMap.ContainsKey(tag);
 
     #endregion
 
@@ -265,25 +274,13 @@ public sealed record Kernel2KnownObjects : KnownObjects
     }
 
     public static int GetHashCode(Kernel2KnownObjects obj) => obj.GetHashCode();
-    public int CompareTo(Kernel2KnownObjects other) => _Value._Value.CompareTo(other._Value);
+    public int CompareTo(Kernel2KnownObjects other) => _Value.CompareTo(other._Value);
 
     #endregion
 
     #region Operator Overrides
 
-    public static explicit operator Tag(Kernel2KnownObjects registeredApplicationProviderIndicators) =>
-        registeredApplicationProviderIndicators._Value;
-
-    public static explicit operator Kernel2KnownObjects(Tag registeredApplicationProviderIndicator)
-    {
-        if (!TryGet(registeredApplicationProviderIndicator, out Kernel2KnownObjects result))
-        {
-            throw new ArgumentOutOfRangeException(nameof(registeredApplicationProviderIndicator),
-                $"The {nameof(Kernel2KnownObjects)} could not be found from the number supplied to the argument: {registeredApplicationProviderIndicator}");
-        }
-
-        return result;
-    }
+    public static explicit operator Tag(Kernel2KnownObjects registeredApplicationProviderIndicators) => registeredApplicationProviderIndicators._Value;
 
     #endregion
 }

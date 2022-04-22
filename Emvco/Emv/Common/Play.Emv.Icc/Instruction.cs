@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 
+using Play.Ber.Identifiers;
 using Play.Core;
 
 namespace Play.Emv.Icc;
@@ -69,9 +70,21 @@ internal record Instruction : EnumObject<byte>, IComparable<Instruction>
 
     #region Instance Members
 
-    public static Instruction[] GetAll() => _ValueObjectMap.Values.ToArray();
-    public static Instruction Get(byte value) => _ValueObjectMap[value];
-    public override bool TryGet(byte value, out EnumObject<byte>? result) => throw new NotImplementedException();
+    public override Instruction[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out Instruction? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     #endregion
 
