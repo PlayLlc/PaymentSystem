@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 
+using Play.Core;
 using Play.Core.Extensions;
 
 namespace Play.Icc.Messaging.Apdu;
@@ -14,10 +16,11 @@ namespace Play.Icc.Messaging.Apdu;
 /// <remarks>
 ///     <see cref="ISO7816.Part4" /> Section 5.4.1 Table 9/>
 /// </remarks>
-public readonly struct SecureMessaging
+public record SecureMessaging : EnumObject<byte>
 {
     #region Static Metadata
 
+    public static readonly SecureMessaging Empty = new();
     private static readonly ImmutableSortedDictionary<byte, SecureMessaging> _ValueObjectMap;
 
     /// <value>Decimal: 12; Hexadecimal: 0xC</value>
@@ -34,13 +37,10 @@ public readonly struct SecureMessaging
 
     #endregion
 
-    #region Instance Values
-
-    private readonly byte _Value;
-
-    #endregion
-
     #region Constructor
+
+    public SecureMessaging() : base()
+    { }
 
     static SecureMessaging()
     {
@@ -56,17 +56,12 @@ public readonly struct SecureMessaging
 
         _ValueObjectMap = new Dictionary<byte, SecureMessaging>
         {
-            {notRecognized, NotRecognized},
-            {proprietary, Proprietary},
-            {notAuthenticated, NotAuthenticated},
-            {authenticated, Authenticated}
+            {notRecognized, NotRecognized}, {proprietary, Proprietary}, {notAuthenticated, NotAuthenticated}, {authenticated, Authenticated}
         }.ToImmutableSortedDictionary();
     }
 
-    private SecureMessaging(byte value)
-    {
-        _Value = value;
-    }
+    private SecureMessaging(byte value) : base(value)
+    { }
 
     #endregion
 
@@ -80,13 +75,26 @@ public readonly struct SecureMessaging
     }
 
     public static bool IsValid(byte value) => _ValueObjectMap.ContainsKey(value);
+    public override SecureMessaging[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out SecureMessaging? innerResult))
+        {
+            result = innerResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     #endregion
 
     #region Equality
 
-    public override bool Equals(object? obj) => obj is SecureMessaging secureMessaging && Equals(secureMessaging);
-    public bool Equals(SecureMessaging other) => _Value == other._Value;
     public bool Equals(SecureMessaging x, SecureMessaging y) => x.Equals(y);
     public bool Equals(byte other) => _Value == other;
 
@@ -101,7 +109,6 @@ public readonly struct SecureMessaging
 
     #region Operator Overrides
 
-    public static bool operator ==(SecureMessaging left, SecureMessaging right) => left._Value == right._Value;
     public static bool operator ==(SecureMessaging left, byte right) => left._Value == right;
     public static bool operator ==(byte left, SecureMessaging right) => left == right._Value;
 
@@ -114,7 +121,6 @@ public readonly struct SecureMessaging
     public static explicit operator long(SecureMessaging value) => value._Value;
     public static explicit operator ulong(SecureMessaging value) => value._Value;
     public static implicit operator byte(SecureMessaging value) => value._Value;
-    public static bool operator !=(SecureMessaging left, SecureMessaging right) => !(left == right);
     public static bool operator !=(SecureMessaging left, byte right) => !(left == right);
     public static bool operator !=(byte left, SecureMessaging right) => !(left == right);
 

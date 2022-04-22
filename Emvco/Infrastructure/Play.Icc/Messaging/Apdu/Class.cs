@@ -4,7 +4,7 @@
 ///     the class byte CLA of a command is used to indicate to what extent the command and the response comply with ISO/IEC
 ///     7816-4 and when applicable, the format of secure messaging and the logical channel number.
 /// </summary>
-internal readonly struct Class
+internal record Class
 {
     #region Instance Values
 
@@ -50,8 +50,6 @@ internal readonly struct Class
 
     #region Equality
 
-    public override bool Equals(object? obj) => obj is Class @class && Equals(@class);
-    public bool Equals(Class other) => _Value == other._Value;
     public bool Equals(Class x, Class y) => x.Equals(y);
     public bool Equals(byte other) => _Value == other;
 
@@ -66,7 +64,6 @@ internal readonly struct Class
 
     #region Operator Overrides
 
-    public static bool operator ==(Class left, Class right) => left._Value == right._Value;
     public static bool operator ==(Class left, byte right) => left._Value == right;
     public static bool operator ==(byte left, Class right) => left == right._Value;
 
@@ -79,7 +76,6 @@ internal readonly struct Class
     public static explicit operator long(Class value) => value._Value;
     public static explicit operator ulong(Class value) => value._Value;
     public static implicit operator byte(Class value) => value._Value;
-    public static bool operator !=(Class left, Class right) => !(left == right);
     public static bool operator !=(Class left, byte right) => !(left == right);
     public static bool operator !=(byte left, Class right) => !(left == right);
 

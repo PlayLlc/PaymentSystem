@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 
+using Play.Core;
 using Play.Core.Extensions;
 using Play.Icc.Exceptions;
 
@@ -18,10 +20,11 @@ namespace Play.Icc.Messaging.Apdu;
 ///     of the behavior of the SELECT FILE command file accessing commands using a short EF identifier.
 /// </summary>
 /// <remarks>ISO-IEC 7816 section 5.5.1</remarks>
-public readonly struct LogicalChannel
+public record LogicalChannel : EnumObject<byte>
 {
     #region Static Metadata
 
+    public static readonly LogicalChannel Empty = new();
     private static readonly ImmutableSortedDictionary<byte, LogicalChannel> _ValueObjectMap;
 
     /// <summary>
@@ -42,13 +45,10 @@ public readonly struct LogicalChannel
 
     #endregion
 
-    #region Instance Values
-
-    private readonly byte _Value;
-
-    #endregion
-
     #region Constructor
+
+    public LogicalChannel() : base()
+    { }
 
     static LogicalChannel()
     {
@@ -73,17 +73,31 @@ public readonly struct LogicalChannel
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="IccProtocolException"></exception>
-    private LogicalChannel(byte value)
+    private LogicalChannel(byte value) : base(value)
     {
         if (value > 3)
             throw new IccProtocolException(nameof(value));
-
-        _Value = value;
     }
 
     #endregion
 
     #region Instance Members
+
+    public override LogicalChannel[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out LogicalChannel? innerResult))
+        {
+            result = innerResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static LogicalChannel Get(byte value)
     {
@@ -98,10 +112,7 @@ public readonly struct LogicalChannel
 
     #region Equality
 
-    public override bool Equals(object? obj) => obj is LogicalChannel logicalChannel && Equals(logicalChannel);
-    public bool Equals(LogicalChannel other) => _Value == other._Value;
     public bool Equals(LogicalChannel x, LogicalChannel y) => x.Equals(y);
-    public bool Equals(byte other) => _Value == other;
 
     public override int GetHashCode()
     {
@@ -114,7 +125,6 @@ public readonly struct LogicalChannel
 
     #region Operator Overrides
 
-    public static bool operator ==(LogicalChannel left, LogicalChannel right) => left._Value == right._Value;
     public static bool operator ==(LogicalChannel left, byte right) => left._Value == right;
     public static bool operator ==(byte left, LogicalChannel right) => left == right._Value;
 
@@ -127,7 +137,6 @@ public readonly struct LogicalChannel
     public static explicit operator long(LogicalChannel value) => value._Value;
     public static explicit operator ulong(LogicalChannel value) => value._Value;
     public static implicit operator byte(LogicalChannel value) => value._Value;
-    public static bool operator !=(LogicalChannel left, LogicalChannel right) => !(left == right);
     public static bool operator !=(LogicalChannel left, byte right) => !(left == right);
     public static bool operator !=(byte left, LogicalChannel right) => !(left == right);
 
