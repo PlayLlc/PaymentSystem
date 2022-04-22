@@ -4,10 +4,11 @@ using Play.Core;
 
 namespace Play.Emv.Security.Certificates;
 
-internal sealed record CertificateSources : EnumObject<byte>, IEqualityComparer<CertificateSources>
+internal sealed record CertificateSources : EnumObject<byte>, IEqualityComparer<byte>
 {
     #region Static Metadata
 
+    public static readonly CertificateSources Empty = new();
     private static readonly ImmutableSortedDictionary<byte, CertificateSources> _ValueObjectMap;
 
     /// <value>Decimal: 0; Hexadecimal: 0x00</value>
@@ -22,6 +23,9 @@ internal sealed record CertificateSources : EnumObject<byte>, IEqualityComparer<
     #endregion
 
     #region Constructor
+
+    public CertificateSources() : base()
+    { }
 
     /// <exception cref="TypeInitializationException"></exception>
     static CertificateSources()
@@ -41,6 +45,22 @@ internal sealed record CertificateSources : EnumObject<byte>, IEqualityComparer<
     #endregion
 
     #region Instance Members
+
+    public override CertificateSources[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out CertificateSources? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static CertificateSources[] GetAll() => _ValueObjectMap.Values.ToArray();
     public int GetByteSize() => _Value;

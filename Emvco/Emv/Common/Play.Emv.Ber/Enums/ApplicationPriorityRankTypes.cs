@@ -97,8 +97,6 @@ public sealed record ApplicationPriorityRankTypes : EnumObject<ApplicationPriori
         return false;
     }
 
-    public static ApplicationPriorityRankTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
-
     public static ApplicationPriorityRankTypes Get(byte value)
     {
         const byte bitMask = 0b11110000;

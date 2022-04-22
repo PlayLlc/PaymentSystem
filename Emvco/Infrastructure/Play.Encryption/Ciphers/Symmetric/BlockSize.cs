@@ -7,10 +7,11 @@ namespace Play.Encryption.Ciphers.Symmetric;
 /// <summary>
 ///     The block size used by a block cipher
 /// </summary>
-public sealed record BlockSize : EnumObject<byte>, IEqualityComparer<BlockSize>
+public sealed record BlockSize : EnumObject<byte>, IEqualityComparer<byte>
 {
     #region Static Metadata
 
+    public static readonly BlockSize Empty = new();
     public static readonly BlockSize _16;
     public static readonly BlockSize _8;
     private static readonly ImmutableSortedDictionary<byte, BlockSize> _ValueObjectMap;
@@ -18,6 +19,9 @@ public sealed record BlockSize : EnumObject<byte>, IEqualityComparer<BlockSize>
     #endregion
 
     #region Constructor
+
+    public BlockSize() : base()
+    { }
 
     /// <exception cref="TypeInitializationException"></exception>
     static BlockSize()
@@ -37,6 +41,22 @@ public sealed record BlockSize : EnumObject<byte>, IEqualityComparer<BlockSize>
     #endregion
 
     #region Instance Members
+
+    public override BlockSize[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out BlockSize? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static BlockSize[] GetAll() => _ValueObjectMap.Values.ToArray();
     public int GetByteSize() => _Value;

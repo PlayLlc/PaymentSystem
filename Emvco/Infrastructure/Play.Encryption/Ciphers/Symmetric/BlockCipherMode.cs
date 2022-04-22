@@ -8,10 +8,11 @@ namespace Play.Encryption.Ciphers.Symmetric;
 /// <summary>
 ///     Specifies the block cipher mode to use for encryption
 /// </summary>
-public sealed record BlockCipherMode : EnumObject<byte>, IEqualityComparer<BlockCipherMode>
+public sealed record BlockCipherMode : EnumObject<byte>, IEqualityComparer<byte>
 {
     #region Static Metadata
 
+    public static readonly BlockCipherMode Empty = new();
     private static readonly ImmutableSortedDictionary<byte, BlockCipherMode> _ValueObjectMap;
 
     /// <summary>
@@ -31,6 +32,9 @@ public sealed record BlockCipherMode : EnumObject<byte>, IEqualityComparer<Block
 
     #region Constructor
 
+    public BlockCipherMode() : base()
+    { }
+
     /// <exception cref="TypeInitializationException"></exception>
     static BlockCipherMode()
     {
@@ -49,6 +53,22 @@ public sealed record BlockCipherMode : EnumObject<byte>, IEqualityComparer<Block
     #endregion
 
     #region Instance Members
+
+    public override BlockCipherMode[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out BlockCipherMode? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static BlockCipherMode[] GetAll() => _ValueObjectMap.Values.ToArray();
     public CipherMode AsCipherMode() => (CipherMode) _Value;

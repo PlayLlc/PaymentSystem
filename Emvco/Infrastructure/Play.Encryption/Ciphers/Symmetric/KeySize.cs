@@ -7,10 +7,11 @@ namespace Play.Encryption.Ciphers.Symmetric;
 /// <summary>
 ///     A Block Cipher algorithm key size in bits
 /// </summary>
-public sealed record KeySize : EnumObject<ushort>, IEqualityComparer<KeySize>
+public sealed record KeySize : EnumObject<ushort>, IEqualityComparer<ushort>
 {
     #region Static Metadata
 
+    public static readonly KeySize Empty = new();
     public static readonly KeySize _128;
     public static readonly KeySize _192;
     public static readonly KeySize _256;
@@ -20,6 +21,9 @@ public sealed record KeySize : EnumObject<ushort>, IEqualityComparer<KeySize>
     #endregion
 
     #region Constructor
+
+    public KeySize() : base()
+    { }
 
     /// <exception cref="TypeInitializationException"></exception>
     static KeySize()
@@ -44,6 +48,22 @@ public sealed record KeySize : EnumObject<ushort>, IEqualityComparer<KeySize>
     #endregion
 
     #region Instance Members
+
+    public override KeySize[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(ushort value, out EnumObject<ushort>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out KeySize? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static KeySize[] GetAll() => _ValueObjectMap.Values.ToArray();
     public int GetBitSize() => _Value;

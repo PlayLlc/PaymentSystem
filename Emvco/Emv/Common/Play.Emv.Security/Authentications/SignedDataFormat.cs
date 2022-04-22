@@ -4,9 +4,11 @@ using Play.Core;
 
 namespace Play.Emv.Security.Authentications;
 
-internal sealed record SignedDataFormat : EnumObject<byte>, IEqualityComparer<SignedDataFormat>
+internal sealed record SignedDataFormat : EnumObject<byte>, IEqualityComparer<byte>
 {
     #region Static Metadata
+
+    public static readonly SignedDataFormat Empty = new();
 
     /// <summary>
     ///     Specifies that the signed data is signed using dynamic application data
@@ -24,6 +26,9 @@ internal sealed record SignedDataFormat : EnumObject<byte>, IEqualityComparer<Si
     #endregion
 
     #region Constructor
+
+    public SignedDataFormat() : base()
+    { }
 
     /// <exception cref="TypeInitializationException"></exception>
     static SignedDataFormat()
@@ -46,6 +51,22 @@ internal sealed record SignedDataFormat : EnumObject<byte>, IEqualityComparer<Si
     #endregion
 
     #region Instance Members
+
+    public override SignedDataFormat[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out SignedDataFormat? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static SignedDataFormat[] GetAll() => _ValueObjectMap.Values.ToArray();
     public int GetByteSize() => _Value;

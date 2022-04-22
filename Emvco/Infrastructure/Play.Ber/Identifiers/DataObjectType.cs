@@ -9,10 +9,11 @@ using Play.Core.Extensions;
 
 namespace Play.Ber.Identifiers;
 
-public sealed record DataObjectType : EnumObject<byte>, IEqualityComparer<DataObjectType>
+public sealed record DataObjectType : EnumObject<byte>, IEqualityComparer<byte>
 {
     #region Static Metadata
 
+    public static readonly DataObjectType Empty = new();
     private static readonly ImmutableSortedDictionary<byte, DataObjectType> _ValueObjectMap;
     public static readonly DataObjectType Constructed;
     public static readonly DataObjectType Primitive;
@@ -22,6 +23,9 @@ public sealed record DataObjectType : EnumObject<byte>, IEqualityComparer<DataOb
     #endregion
 
     #region Constructor
+
+    public DataObjectType() : base()
+    { }
 
     /// <exception cref="TypeInitializationException"></exception>
     static DataObjectType()
@@ -38,6 +42,22 @@ public sealed record DataObjectType : EnumObject<byte>, IEqualityComparer<DataOb
     #endregion
 
     #region Instance Members
+
+    public override DataObjectType[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out DataObjectType? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static DataObjectType[] GetAll() => _ValueObjectMap.Values.ToArray();
     public bool IsPrimitive() => _Value == _Primitive;

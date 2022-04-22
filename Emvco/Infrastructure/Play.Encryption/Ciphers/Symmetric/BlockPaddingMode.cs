@@ -8,16 +8,20 @@ namespace Play.Encryption.Ciphers.Symmetric;
 /// <summary>
 ///     Specifies the type of padding to add when the message block is shorter than the block size
 /// </summary>
-public sealed record BlockPaddingMode : EnumObject<byte>, IEqualityComparer<BlockPaddingMode>
+public sealed record BlockPaddingMode : EnumObject<byte>, IEqualityComparer<byte>
 {
     #region Static Metadata
 
+    public static readonly BlockPaddingMode Empty = new();
     private static readonly ImmutableSortedDictionary<byte, BlockPaddingMode> _ValueObjectMap;
     public static readonly BlockPaddingMode None;
 
     #endregion
 
     #region Constructor
+
+    public BlockPaddingMode() : base()
+    { }
 
     /// <exception cref="TypeInitializationException"></exception>
     static BlockPaddingMode()
@@ -52,6 +56,22 @@ public sealed record BlockPaddingMode : EnumObject<byte>, IEqualityComparer<Bloc
     #endregion
 
     #region Instance Members
+
+    public override BlockPaddingMode[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out BlockPaddingMode? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static BlockPaddingMode[] GetAll() => _ValueObjectMap.Values.ToArray();
     public PaddingMode AsPaddingMode() => (PaddingMode) _Value;

@@ -7,9 +7,11 @@ using Play.Core;
 
 namespace Play.Icc.Messaging.Apdu;
 
-public sealed record StatusWord1 : EnumObject<StatusWord>, IEqualityComparer<StatusWord1>
+public sealed record StatusWord1 : EnumObject<StatusWord>, IEqualityComparer<StatusWord>
 {
     #region Static Metadata
+
+    public static readonly StatusWord1 Empty = new();
 
     /// <summary>
     ///     Normal response indicating that response bytes are still available
@@ -95,6 +97,9 @@ public sealed record StatusWord1 : EnumObject<StatusWord>, IEqualityComparer<Sta
 
     #region Constructor
 
+    public StatusWord1() : base()
+    { }
+
     /// <exception cref="TypeInitializationException"></exception>
     static StatusWord1()
     {
@@ -152,6 +157,22 @@ public sealed record StatusWord1 : EnumObject<StatusWord>, IEqualityComparer<Sta
     #endregion
 
     #region Instance Members
+
+    public override StatusWord1[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(StatusWord value, out EnumObject<StatusWord>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out StatusWord1? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static StatusWord1[] GetAll() => _ValueObjectMap.Values.ToArray();
     public string GetDescription() => _Description;

@@ -6,10 +6,11 @@ using Play.Core;
 
 namespace Play.Ber.Identifiers;
 
-public sealed record IdentifierType : EnumObject<byte>, IEqualityComparer<IdentifierType>
+public sealed record IdentifierType : EnumObject<byte>, IEqualityComparer<byte>
 {
     #region Static Metadata
 
+    public static readonly IdentifierType Empty = new();
     public static readonly IdentifierType LongIdentifier;
     public static readonly IdentifierType ShortIdentifier;
     private static readonly Dictionary<byte, IdentifierType> _ValueObjectMap = new() {{LongIdentifier, LongIdentifier}, {ShortIdentifier, ShortIdentifier}};
@@ -17,6 +18,9 @@ public sealed record IdentifierType : EnumObject<byte>, IEqualityComparer<Identi
     #endregion
 
     #region Constructor
+
+    public IdentifierType() : base()
+    { }
 
     /// <exception cref="TypeInitializationException"></exception>
     static IdentifierType()
@@ -34,6 +38,22 @@ public sealed record IdentifierType : EnumObject<byte>, IEqualityComparer<Identi
     #endregion
 
     #region Instance Members
+
+    public override IdentifierType[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out IdentifierType? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static IdentifierType[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static bool TryGet(byte value, out IdentifierType? result) => _ValueObjectMap.TryGetValue(value, out result);

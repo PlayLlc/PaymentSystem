@@ -71,6 +71,7 @@ internal record Instruction : EnumObject<byte>, IComparable<Instruction>
 
     public static Instruction[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static Instruction Get(byte value) => _ValueObjectMap[value];
+    public override bool TryGet(byte value, out EnumObject<byte>? result) => throw new NotImplementedException();
 
     #endregion
 

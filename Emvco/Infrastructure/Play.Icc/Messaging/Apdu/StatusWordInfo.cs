@@ -7,10 +7,11 @@ using Play.Core;
 
 namespace Play.Icc.Messaging.Apdu;
 
-public sealed record StatusWordInfo : EnumObject<byte>, IEqualityComparer<StatusWordInfo>
+public sealed record StatusWordInfo : EnumObject<byte>, IEqualityComparer<byte>
 {
     #region Static Metadata
 
+    public static readonly StatusWordInfo Empty = new();
     private static readonly ImmutableSortedDictionary<byte, StatusWordInfo> _ValueObjectMap;
     public static readonly StatusWordInfo Error;
     public static readonly StatusWordInfo Info;
@@ -21,6 +22,9 @@ public sealed record StatusWordInfo : EnumObject<byte>, IEqualityComparer<Status
     #endregion
 
     #region Constructor
+
+    public StatusWordInfo() : base()
+    { }
 
     /// <exception cref="TypeInitializationException"></exception>
     static StatusWordInfo()
@@ -49,6 +53,22 @@ public sealed record StatusWordInfo : EnumObject<byte>, IEqualityComparer<Status
     #endregion
 
     #region Instance Members
+
+    public override StatusWordInfo[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out StatusWordInfo? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static StatusWordInfo[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static bool TryGet(byte value, out StatusWordInfo? result) => _ValueObjectMap.TryGetValue(value, out result);
