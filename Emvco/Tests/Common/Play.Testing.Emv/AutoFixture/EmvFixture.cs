@@ -5,9 +5,11 @@ using AutoFixture.Kernel;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
+using Play.Emv.Security;
 using Play.Encryption.Certificates;
 using Play.Encryption.Ciphers.Hashing;
 using Play.Testing.Emv.Ber.Constructed;
+using Play.Testing.Extensions;
 using Play.Testing.Infrastructure.AutoFixture;
 
 namespace Play.Testing.Emv;
@@ -55,12 +57,15 @@ public class EmvFixture : TestingFixture
 
     protected override void CustomizeFixture(IFixture fixture, SpecimenBuilderFactory factory)
     {
+        base.CustomizeFixture(fixture, factory);
+
         foreach (ISpecimenBuilder item in factory.Create())
             fixture.Customizations.Add(item);
 
         CustomizePrimitives(fixture);
         CustomizeTemplates(fixture);
         CustomizeEnumObjects(fixture);
+        CustomizeObjects(fixture);
     }
 
     #endregion
@@ -138,6 +143,11 @@ public class EmvFixture : TestingFixture
     }
 
     #endregion
+
+    private static void CustomizeObjects(IFixture fixture)
+    {
+        fixture.RegisterCollections<CaPublicKeyCertificate>();
+    }
 
     #endregion
 }

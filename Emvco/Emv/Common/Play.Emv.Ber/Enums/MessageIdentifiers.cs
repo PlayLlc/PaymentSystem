@@ -60,7 +60,7 @@ public record MessageIdentifiers : EnumObject<byte>
 
     static MessageIdentifiers()
     {
-        #region consts
+        #region Common
 
         const byte notAvailable = 0;
         const byte amount = 1;
@@ -83,6 +83,8 @@ public record MessageIdentifiers : EnumObject<byte>
         const byte useMagStripe = 18;
         const byte tryAgain = 19;
 
+        #endregion
+
         #region Contactless Only
 
         const byte welcome = 20;
@@ -98,8 +100,6 @@ public record MessageIdentifiers : EnumObject<byte>
         const byte clearDisplay = 30;
         const byte seePhoneForInstructions = 32;
         const byte presentCardAgain = 33;
-
-        #endregion
 
         #endregion
 
@@ -145,39 +145,39 @@ public record MessageIdentifiers : EnumObject<byte>
 
         _ValueObjectMap = new Dictionary<byte, MessageIdentifiers>
         {
-            {amount, Amount},
-            {amountOk, AmountOk},
-            {approved, Approved},
-            {callYourBank, CallYourBank},
-            {cancelOrEnter, CancelOrEnter},
-            {cardError, CardError},
-            {declined, Declined},
-            {enterAmount, EnterAmount},
-            {enterPin, EnterPin},
-            {incorrectPin, IncorrectPin},
-            {insertCard, InsertCard},
-            {notAccepted, NotAccepted},
-            {pinOk, PinOk},
-            {pleaseWait, PleaseWait},
-            {processingError, ProcessingError},
-            {removeCard, RemoveCard},
-            {useChipReader, UseChipReader},
-            {useMagStripe, UseMagStripe},
-            {tryAgain, TryAgain},
-            {welcome, Welcome},
-            {presentCard, PresentCard},
-            {processing, Processing},
-            {cardReadOkRemoveCard, CardReadOkRemoveCard},
-            {pleaseInsertOrSwipeCard, PleaseInsertOrSwipeCard},
-            {pleasePresentOneCardOnly, PleasePresentOneCardOnly},
-            {approvedPleaseSign, ApprovedPleaseSign},
-            {authorizingPleaseWait, AuthorizingPleaseWait},
-            {insertSwipeOrTryAnotherCard, ErrorUseAnotherCard},
-            {pleaseInsertCard, PleaseInsertCard},
-            {clearDisplay, ClearDisplay},
-            {seePhoneForInstructions, SeePhoneForInstructions},
-            {seePhoneForInstructions, SeePhoneForInstructions},
-            {presentCardAgain, PresentCardAgain}
+            {NotAvailable, NotAvailable},
+            {Amount, Amount},
+            {AmountOk, AmountOk},
+            {Approved, Approved},
+            {CallYourBank, CallYourBank},
+            {CancelOrEnter, CancelOrEnter},
+            {CardError, CardError},
+            {Declined, Declined},
+            {EnterAmount, EnterAmount},
+            {EnterPin, EnterPin},
+            {IncorrectPin, IncorrectPin},
+            {InsertCard, InsertCard},
+            {NotAccepted, NotAccepted},
+            {PinOk, PinOk},
+            {PleaseWait, PleaseWait},
+            {ProcessingError, ProcessingError},
+            {RemoveCard, RemoveCard},
+            {UseChipReader, UseChipReader},
+            {UseMagStripe, UseMagStripe},
+            {TryAgain, TryAgain},
+            {Welcome, Welcome},
+            {PresentCard, PresentCard},
+            {Processing, Processing},
+            {CardReadOkRemoveCard, CardReadOkRemoveCard},
+            {PleaseInsertOrSwipeCard, PleaseInsertOrSwipeCard},
+            {PleasePresentOneCardOnly, PleasePresentOneCardOnly},
+            {ApprovedPleaseSign, ApprovedPleaseSign},
+            {AuthorizingPleaseWait, AuthorizingPleaseWait},
+            {ErrorUseAnotherCard, ErrorUseAnotherCard},
+            {PleaseInsertCard, PleaseInsertCard},
+            {ClearDisplay, ClearDisplay},
+            {SeePhoneForInstructions, SeePhoneForInstructions},
+            {PresentCardAgain, PresentCardAgain}
         }.ToImmutableSortedDictionary();
 
         #endregion

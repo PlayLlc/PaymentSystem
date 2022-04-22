@@ -1,23 +1,35 @@
 ﻿using System;
+using System.Collections.Immutable;
+using System.Linq;
 
 using AutoFixture;
 
 using Play.Ber.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
 using Play.Testing.Emv.Contactless;
 using Play.Testing.Emv.Contactless.AutoFixture;
+using Play.Emv.Kernel.Contracts;
+using Play.Emv.Kernel.Services;
 
 using Xunit;
+
+using Play.Emv.Kernel2.Databases;
+using Play.Emv.Security;
+using Play.Encryption.Certificates;
+using Play.Encryption.Ciphers.Hashing;
+using Play.Globalization.Time;
+using Play.Testing.BaseTestClasses;
 
 namespace Play.Emv.Kernel2.Tests.TerminalActionAnalysisServiceTests;
 
 [Trait("Type", "Unit")]
-public partial class TerminalActionAnalysisServiceTests
+public partial class TerminalActionAnalysisServiceTests : TestBase
 {
     #region Instance Values
 
@@ -35,13 +47,30 @@ public partial class TerminalActionAnalysisServiceTests
     /// <exception cref="BerParsingException"></exception>
     public TerminalActionAnalysisServiceTests()
     {
-        _Fixture = new ContactlessFixture().Create();
-        _Database = _Fixture.Create<KernelDatabase>();
+        try
+        {
+            _Fixture = new ContactlessFixture().Create();
+            MessageIdentifiers? aaaa = _Fixture.Create<MessageIdentifiers>()!;
+            CustomizeModuleObjects(_Fixture);
+
+            _Fixture.Create<ScratchPad>();
+            KernelDatabase a = _Fixture.Create<KernelDatabase>()!;
+            _Database = a;
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("ValueStreamMapping");
+        }
     }
 
     #endregion
 
     #region Instance Members
+
+    public sealed override void CustomizeModuleObjects(IFixture fixture)
+    {
+        fixture.Register<KnownObjects>(fixture.Create<Kernel2KnownObjects>);
+    }
 
     private KernelDatabase GetKernelDatabaseForOfflineOnly()
     {

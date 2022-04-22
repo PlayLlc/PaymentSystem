@@ -1,6 +1,8 @@
 ﻿using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Exceptions;
 using Play.Emv.Security.Exceptions;
 using Play.Encryption.Certificates;
 using Play.Encryption.Ciphers.Hashing;
@@ -48,7 +50,17 @@ internal class DecodedIssuerPublicKeyCertificate : PublicKeyCertificate
 
     internal static HashAlgorithmIndicator GetHashAlgorithmIndicator(Message1 message1) => HashAlgorithmIndicator.Get(message1[11]);
     private static CertificateSerialNumber GetCertificateSerialNumber(Message1 message1) => new(message1[new Range(7, 10)]);
-    internal static PublicKeyAlgorithmIndicator GetPublicKeyAlgorithmIndicator(Message1 message1) => PublicKeyAlgorithmIndicator.Get(message1[12]);
+
+    internal static PublicKeyAlgorithmIndicator GetPublicKeyAlgorithmIndicator(Message1 message1)
+    {
+        if (!PublicKeyAlgorithmIndicator.Empty.TryGet(message1[12], out EnumObject<byte>? result))
+        {
+            throw new TerminalDataException(
+                $"The {nameof(DecodedIssuerPublicKeyCertificate)} could not execute: [{nameof(GetPublicKeyAlgorithmIndicator)}] because the {nameof(PublicKeyAlgorithmIndicator)} could not be resolved");
+        }
+
+        return (PublicKeyAlgorithmIndicator) result!;
+    }
 
     /// <exception cref="CodecParsingException"></exception>
     internal static ShortDate GetCertificateExpirationDate(Message1 message1) => new(PlayCodec.NumericCodec.DecodeToUInt16(message1[new Range(5, 7)]));

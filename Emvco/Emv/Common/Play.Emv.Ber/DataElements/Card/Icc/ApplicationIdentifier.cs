@@ -12,7 +12,7 @@ namespace Play.Emv.Ber.DataElements;
 /// <summary>
 ///     Identifies the application as described in ISO/IEC 7816-5
 /// </summary>
-public record ApplicationIdentifier : DataElement<BigInteger>, IEqualityComparer<ApplicationIdentifier>
+public record ApplicationIdentifier : DataElement<BigInteger>, IEqualityComparer<ApplicationIdentifier>, IComparable<ApplicationIdentifier>
 {
     #region Static Metadata
 
@@ -93,6 +93,7 @@ public record ApplicationIdentifier : DataElement<BigInteger>, IEqualityComparer
     }
 
     public int GetHashCode(ApplicationIdentifier obj) => obj.GetHashCode();
+    public int CompareTo(ApplicationIdentifier? other) => other is null ? 1 : _Value.CompareTo(other._Value);
 
     #endregion
 

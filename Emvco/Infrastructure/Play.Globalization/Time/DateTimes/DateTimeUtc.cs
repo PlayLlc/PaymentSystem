@@ -11,8 +11,8 @@ public readonly record struct DateTimeUtc
 
     private readonly DateTime _Value;
     public int Year => _Value.Year;
-    public int Month => _Value.Year;
-    public int Day => _Value.Year;
+    public int Month => _Value.Month;
+    public int Day => _Value.Day;
     public int Hour => _Value.Hour;
     public int Minute => _Value.Minute;
     public int Second => _Value.Second;

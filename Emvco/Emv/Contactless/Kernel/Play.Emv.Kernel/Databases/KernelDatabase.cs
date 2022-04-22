@@ -28,7 +28,7 @@ public partial class KernelDatabase : IManageKernelDatabaseLifetime
         CertificateAuthorityDataset[] certificateAuthorityDataset, PersistentValues persistentValues, KnownObjects knownObjects, ScratchPad scratchPad)
     {
         _ScratchPad = scratchPad;
-        _Certificates = certificateAuthorityDataset.ToImmutableSortedDictionary(a => a.GetRid(), b => b);
+        _Certificates = certificateAuthorityDataset.ToImmutableDictionary(a => a.GetRid(), b => b);
         _PersistentValues = persistentValues;
         _KnownObjects = knownObjects;
         _Database = new SortedDictionary<Tag, PrimitiveValue?>();
@@ -53,9 +53,7 @@ public partial class KernelDatabase : IManageKernelDatabaseLifetime
     public virtual void Activate(KernelSessionId kernelSessionId)
     {
         if (IsActive())
-        {
             throw new InvalidOperationException($"A command to initialize the Kernel Database was invoked but the {nameof(KernelDatabase)} is already active");
-        }
 
         _KernelSessionId = kernelSessionId;
     }

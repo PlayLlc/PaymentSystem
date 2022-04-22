@@ -54,7 +54,6 @@ public readonly struct RegisteredApplicationProviderIndicator
     #region Instance Members
 
     public byte[] AsByteArray() => PlayCodec.UnsignedIntegerCodec.Encode(_Value);
-    public int CompareTo(RegisteredApplicationProviderIndicator other) => _Value.CompareTo(other);
     public int GetByteCount() => ByteCount;
 
     #endregion
@@ -65,8 +64,7 @@ public readonly struct RegisteredApplicationProviderIndicator
     public bool Equals(RegisteredApplicationProviderIndicator x, RegisteredApplicationProviderIndicator y) => x.Equals(y);
 
     public override bool Equals(object? obj) =>
-        obj is RegisteredApplicationProviderIndicator registeredApplicationProviderIndicator
-        && Equals(registeredApplicationProviderIndicator);
+        obj is RegisteredApplicationProviderIndicator registeredApplicationProviderIndicator && Equals(registeredApplicationProviderIndicator);
 
     public int GetHashCode(RegisteredApplicationProviderIndicator other) => other.GetHashCode();
 
@@ -77,17 +75,15 @@ public readonly struct RegisteredApplicationProviderIndicator
         return hash + _Value.GetHashCode();
     }
 
+    public int CompareTo(RegisteredApplicationProviderIndicator other) => _Value.CompareTo(other);
+
     #endregion
 
     #region Operator Overrides
 
-    public static bool operator ==(RegisteredApplicationProviderIndicator left, RegisteredApplicationProviderIndicator right) =>
-        left._Value == right._Value;
-
+    public static bool operator ==(RegisteredApplicationProviderIndicator left, RegisteredApplicationProviderIndicator right) => left._Value == right._Value;
     public static implicit operator ulong(RegisteredApplicationProviderIndicator value) => value._Value;
-
-    public static bool operator !=(RegisteredApplicationProviderIndicator left, RegisteredApplicationProviderIndicator right) =>
-        !(left == right);
+    public static bool operator !=(RegisteredApplicationProviderIndicator left, RegisteredApplicationProviderIndicator right) => !(left == right);
 
     #endregion
 }

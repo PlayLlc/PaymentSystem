@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
+using AutoFixture;
+
 using Xunit.Sdk;
 
 namespace Play.Testing.BaseTestClasses;
@@ -8,6 +10,8 @@ namespace Play.Testing.BaseTestClasses;
 public abstract class TestBase
 {
     #region Instance Members
+
+    public abstract void CustomizeModuleObjects(IFixture fixture);
 
     /// <summary>
     ///     This method is used to intercept exceptions that happen in the 'Arrange' section of a unit test. Expressive

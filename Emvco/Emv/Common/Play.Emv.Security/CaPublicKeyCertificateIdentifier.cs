@@ -21,7 +21,8 @@ public class CaPublicKeyCertificateIdentifier : IEqualityComparer<CaPublicKeyCer
     #region Constructor
 
     public CaPublicKeyCertificateIdentifier(
-        CaPublicKeyIndex caPublicKeyIndex, RegisteredApplicationProviderIndicator registeredApplicationProviderIndicator)
+        CaPublicKeyIndex caPublicKeyIndex,
+        RegisteredApplicationProviderIndicator registeredApplicationProviderIndicator)
     {
         _RegisteredApplicationProviderIndicator = registeredApplicationProviderIndicator;
         _Index = caPublicKeyIndex;

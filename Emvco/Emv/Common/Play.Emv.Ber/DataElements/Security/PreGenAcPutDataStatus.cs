@@ -18,7 +18,7 @@ public record PreGenAcPutDataStatus : DataElement<byte>, IEqualityComparer<PreGe
     #region Static Metadata
 
     public static readonly PlayEncodingId EncodingId = BinaryCodec.EncodingId;
-    public static readonly Tag Tag = 0xDF810E;
+    public static readonly Tag Tag = 0xDF810F;
     private static readonly PreGenAcPutDataStatus _DefaultComplete = new(0x80);
     private const byte _ByteLength = 1;
 

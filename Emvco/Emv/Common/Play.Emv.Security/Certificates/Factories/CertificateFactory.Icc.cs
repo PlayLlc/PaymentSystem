@@ -1,5 +1,6 @@
 ﻿using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
@@ -103,7 +104,7 @@ internal partial class CertificateFactory
         }
 
         // Step 10
-        if (!PublicKeyAlgorithmIndicator.TryGet(decodedSignature.GetMessage1()[17], out PublicKeyAlgorithmIndicator? publicKeyAlgorithmIndicator))
+        if (!PublicKeyAlgorithmIndicator.Empty.TryGet(decodedSignature.GetMessage1()[17], out EnumObject<byte>? publicKeyAlgorithmIndicator))
         {
             throw new CryptographicAuthenticationMethodFailedException(
                 $"The {nameof(DecodedIccPublicKeyCertificate)} could not be created because the {nameof(PublicKeyAlgorithmIndicator)} value: [{decodedSignature.GetMessage1()[17]}] could not be recognized");
@@ -113,7 +114,8 @@ internal partial class CertificateFactory
             decodedSignature.GetMessage1(), iccPublicKeyRemainder?.AsPublicKeyRemainder());
 
         return new DecodedIccPublicKeyCertificate(new DateRange(ShortDate.Min, expirationDate), serialNumber, hashAlgorithmIndicator,
-            publicKeyAlgorithmIndicator!, new PublicKeyInfo(publicKeyModulus, exponent.AsPublicKeyExponent(), iccPublicKeyRemainder?.AsPublicKeyRemainder()));
+            (PublicKeyAlgorithmIndicator) publicKeyAlgorithmIndicator!,
+            new PublicKeyInfo(publicKeyModulus, exponent.AsPublicKeyExponent(), iccPublicKeyRemainder?.AsPublicKeyRemainder()));
     }
 
     #endregion

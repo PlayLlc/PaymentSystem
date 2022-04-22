@@ -18,6 +18,9 @@ public class Kernel2PersistentValues : PersistentValues
 
     #region Constructor
 
+    public Kernel2PersistentValues()
+    { }
+
     public Kernel2PersistentValues(params PrimitiveValue[] values)
     {
         Kernel2KnownObjects knownObjects = Kernel2KnownObjects.Empty;

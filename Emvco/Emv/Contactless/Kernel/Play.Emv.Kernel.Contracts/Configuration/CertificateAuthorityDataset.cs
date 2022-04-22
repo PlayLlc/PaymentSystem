@@ -26,8 +26,7 @@ public class CertificateAuthorityDataset
     #region Constructor
 
     public CertificateAuthorityDataset(
-        RegisteredApplicationProviderIndicator registeredApplicationProviderIndicator,
-        CaPublicKeyCertificate[] certificateAuthorityPublicKeyCertificates)
+        RegisteredApplicationProviderIndicator registeredApplicationProviderIndicator, CaPublicKeyCertificate[] certificateAuthorityPublicKeyCertificates)
     {
         CheckCore.ForNullOrEmptySequence(certificateAuthorityPublicKeyCertificates, nameof(certificateAuthorityPublicKeyCertificates));
 

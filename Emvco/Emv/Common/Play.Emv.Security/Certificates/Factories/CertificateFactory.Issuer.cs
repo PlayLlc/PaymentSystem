@@ -2,6 +2,7 @@
 
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
@@ -250,7 +251,7 @@ internal partial class CertificateFactory
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
     private static void ValidateIssuerPublicKeyAlgorithmIndicator(Message1 message1)
     {
-        if (!PublicKeyAlgorithmIndicator.Exists((byte) DecodedIssuerPublicKeyCertificate.GetPublicKeyAlgorithmIndicator(message1)))
+        if (!PublicKeyAlgorithmIndicator.Empty.TryGet(message1[12], out EnumObject<byte>? result))
         {
             throw new CryptographicAuthenticationMethodFailedException(
                 $"Authentication failed because the {nameof(ValidateIssuerPublicKeyAlgorithmIndicator)} constraint was invalid while trying to recover the signed {nameof(IssuerPublicKeyCertificate)}");

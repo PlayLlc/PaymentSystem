@@ -193,9 +193,7 @@ public sealed record Kernel2KnownObjects : KnownObjects
             {TimeoutValue.Tag, new(TimeoutValue.Tag)},
             {TornRecord.Tag, new(TornRecord.Tag)},
             {Track1Data.Tag, new(Track1Data.Tag)},
-            {Track1DiscretionaryData.Tag, new(Track1DiscretionaryData.Tag)},
             {Track2Data.Tag, new(Track2Data.Tag)},
-            {Track2DiscretionaryData.Tag, new(Track2DiscretionaryData.Tag)},
             {Track2EquivalentData.Tag, new(Track2EquivalentData.Tag)},
             {TransactionCategoryCode.Tag, new(TransactionCategoryCode.Tag)},
             {TransactionCurrencyCode.Tag, new(TransactionCurrencyCode.Tag)},
@@ -214,7 +212,7 @@ public sealed record Kernel2KnownObjects : KnownObjects
         }.ToImmutableSortedDictionary();
     }
 
-    private Kernel2KnownObjects()
+    public Kernel2KnownObjects() : base()
     { }
 
     private Kernel2KnownObjects(Tag value) : base(value)

@@ -191,7 +191,7 @@ public readonly record struct Tag
 
         unchecked // overflow is fine, just wraps
         {
-            return largePrime + _Value.GetHashCode();
+            return largePrime * _Value.GetHashCode();
         }
     }
 

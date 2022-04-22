@@ -15,7 +15,7 @@ public partial class KernelDatabase : ICertificateDatabase
 {
     #region Instance Values
 
-    private readonly ImmutableSortedDictionary<RegisteredApplicationProviderIndicator, CertificateAuthorityDataset> _Certificates;
+    private readonly ImmutableDictionary<RegisteredApplicationProviderIndicator, CertificateAuthorityDataset> _Certificates;
 
     #endregion
 
@@ -32,8 +32,7 @@ public partial class KernelDatabase : ICertificateDatabase
     {
         if (!IsActive())
         {
-            throw new TerminalDataException(
-                $"The method {nameof(IsRevoked)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            throw new TerminalDataException($"The method {nameof(IsRevoked)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         if (!TryGet(rid, caPublicKeyIndex, out CaPublicKeyCertificate? result))
@@ -79,8 +78,7 @@ public partial class KernelDatabase : ICertificateDatabase
     {
         if (!IsActive())
         {
-            throw new TerminalDataException(
-                $"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
+            throw new TerminalDataException($"The method {nameof(TryGet)} cannot be accessed because the {nameof(KernelDatabase)} is not active");
         }
 
         if (!_Certificates.TryGetValue(rid, out CertificateAuthorityDataset? dataset))

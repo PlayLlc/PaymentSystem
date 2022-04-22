@@ -12,6 +12,11 @@ public record PublicKeyRemainder
 
     #region Constructor
 
+    public PublicKeyRemainder()
+    {
+        _Value = 0;
+    }
+
     public PublicKeyRemainder(ReadOnlySpan<byte> value)
     {
         _Value = new BigInteger(value.ToArray());

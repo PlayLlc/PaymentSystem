@@ -9,7 +9,7 @@ public class ResponseMessageTemplateFormat2 : ConstructedValue
 {
     #region Static Metadata
 
-    public static readonly Tag Tag = 0x80;
+    public static readonly Tag Tag = 0x77;
 
     #endregion
 
@@ -42,8 +42,7 @@ public class ResponseMessageTemplateFormat2 : ConstructedValue
         }
     }
 
-    public static TagLengthValue[] DecodeValue(BerCodec codec, ReadOnlyMemory<byte> rawBer) =>
-        codec.DecodeSiblings(rawBer).AsTagLengthValues();
+    public static TagLengthValue[] DecodeValue(BerCodec codec, ReadOnlyMemory<byte> rawBer) => codec.DecodeSiblings(rawBer).AsTagLengthValues();
 
     #endregion
 

@@ -2,7 +2,9 @@
 using AutoFixture.AutoMoq;
 using AutoFixture.Kernel;
 
+using Play.Encryption.Certificates;
 using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders;
+using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilderss;
 
 namespace Play.Testing.Infrastructure.AutoFixture;
 
@@ -23,7 +25,6 @@ public class TestingFixture : CustomFixture
 
     protected override void SetupCustomBuilders(SpecimenBuilderFactory factory)
     {
-        //
         factory.Build(RegisteredApplicationProviderIndicatorSpecimenBuilder.Id);
         factory.Build(Alpha2LanguageCodeBuilder.Id);
         factory.Build(EnumObjectBuilder.Id);
@@ -33,6 +34,7 @@ public class TestingFixture : CustomFixture
         factory.Build(NumericCurrencyCodeBuilder.Id);
         factory.Build(ShortDateBuilder.Id);
         factory.Build(DateRangeBuilder.Id);
+        factory.Build(PublicKeyExponentBuilder.Id);
     }
 
     protected override void CustomizeFixture(IFixture fixture, SpecimenBuilderFactory factory)

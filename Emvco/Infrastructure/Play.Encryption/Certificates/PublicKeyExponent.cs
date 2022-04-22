@@ -1,6 +1,7 @@
 ﻿using System.Collections.Immutable;
 
 using Play.Codecs;
+using Play.Core;
 using Play.Core.Extensions;
 
 namespace Play.Encryption.Certificates;
@@ -8,9 +9,11 @@ namespace Play.Encryption.Certificates;
 /// <remarks>
 ///     Book 2 Section 5.2 lists the valid exponent values
 /// </remarks>
-public readonly record struct PublicKeyExponent
+public record PublicKeyExponent : EnumObject<uint>
 {
     #region Static Metadata
+
+    public static readonly PublicKeyExponent Empty = new();
 
     /// <value>Decimal: 3</value>
     /// >
@@ -24,13 +27,10 @@ public readonly record struct PublicKeyExponent
 
     #endregion
 
-    #region Instance Values
-
-    private readonly uint _Value;
-
-    #endregion
-
     #region Constructor
+
+    public PublicKeyExponent() : base()
+    { }
 
     static PublicKeyExponent()
     {
@@ -42,21 +42,35 @@ public readonly record struct PublicKeyExponent
         _ValueObjectMap = new Dictionary<uint, PublicKeyExponent> {{__3, _3}, {__65537, _65537}}.ToImmutableSortedDictionary();
     }
 
-    private PublicKeyExponent(uint value)
-    {
-        _Value = value;
-    }
+    private PublicKeyExponent(uint value) : base(value)
+    { }
 
     #endregion
 
     #region Instance Members
+
+    public override PublicKeyExponent[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(uint value, out EnumObject<uint>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out PublicKeyExponent? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public byte[] Encode() => PlayCodec.UnsignedIntegerCodec.Encode(_Value);
 
     /// <exception cref="InvalidOperationException"></exception>
     public static PublicKeyExponent Create(uint value)
     {
-        if (!_ValueObjectMap.TryGetValue(value, out PublicKeyExponent result))
+        if (!_ValueObjectMap.TryGetValue(value, out PublicKeyExponent? result))
         {
             throw new InvalidOperationException(
                 $"The argument {nameof(value)} is invalid. Valid values for this object are: {string.Join(',', _ValueObjectMap.Keys.Select(a => $" {a}"))}");

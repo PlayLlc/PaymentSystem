@@ -1,11 +1,18 @@
-﻿using AutoFixture;
+﻿using System.Collections.Immutable;
+
+using AutoFixture;
 using AutoFixture.AutoMoq;
 using AutoFixture.Kernel;
 
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
+using Play.Emv.Kernel.Contracts;
+using Play.Emv.Kernel.Services;
+using Play.Emv.Security;
+using Play.Icc.FileSystem.DedicatedFiles;
 using Play.Testing.Emv.Ber.Constructed;
+using Play.Testing.Extensions;
 
 namespace Play.Testing.Emv.Contactless.AutoFixture;
 
@@ -30,18 +37,21 @@ public class ContactlessFixture : EmvFixture
         base.SetupCustomBuilders(factory);
 
         // Setup custom builder specific to this module's context
-        factory.Build(CertificateAuthorityDatasetBuilder.Id);
+        //factory.Build(CertificateAuthorityDatasetBuilder.Id);
     }
 
     #region Customize Fixture
 
     protected override void CustomizeFixture(IFixture fixture, SpecimenBuilderFactory factory)
     {
+        base.CustomizeFixture(fixture, factory);
+
         foreach (ISpecimenBuilder item in factory.Create())
             fixture.Customizations.Add(item);
 
         CustomizePrimitives(fixture);
         CustomizeTemplates(fixture);
+        CustomizeObjects(fixture);
     }
 
     #endregion
@@ -58,6 +68,8 @@ public class ContactlessFixture : EmvFixture
             0x01, 0x9F, 0x37, 0x04, 0x9F, 0x4E, 0x14
         }.AsBigInteger()));
     }
+
+    #endregion
 
     #endregion
 
@@ -108,6 +120,15 @@ public class ContactlessFixture : EmvFixture
         }.AsMemory()));
 
         fixture.Register(() => ProcessingOptions.Decode(new ProcessingOptionsTestTlv().EncodeTagLengthValue().AsMemory()));
+    }
+
+    #region Customize Objects
+
+    private static void CustomizeObjects(IFixture fixture)
+    {
+        fixture.Register(() => fixture.CreateMany<CertificateAuthorityDataset>().ToArray());
+        fixture.RegisterCollections<CertificateAuthorityDataset>();
+        fixture.RegisterCollections<ApplicationIdentifier, TornTransactionLog>();
     }
 
     #endregion

@@ -17,7 +17,7 @@ public class ContactlessSpecimenBuilderFactory : SpecimenBuilderFactory
         List<SpecimenBuilder> builders = EmvSpecimenBuilderFactory.CreateSpecimenBuilders();
 
         // Add context specific SpecimenBuilders here
-        builders.AddRange(new List<SpecimenBuilder>() {new CertificateAuthorityDatasetBuilder()});
+        //builders.AddRange(new List<SpecimenBuilder>() {new CertificateAuthorityDatasetBuilder()});
 
         return builders;
     }
