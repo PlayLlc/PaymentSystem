@@ -3,9 +3,9 @@ using Play.Core;
 
 namespace Play.Emv.Ber;
 
-public record BerEncodingIdType : EnumObject<PlayEncodingId>
-{
-    #region Static Metadata
+public record BerEncodingIdType : EnumObject<PlayEncodingId> { public override BerEncodingIdType[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<PlayEncodingId>? result) { if (_ValueObjectMap.TryGetValue(value, out BerEncodingIdType? enumResult)) { result = enumResult; return true; } result = null; return false; }
+ public BerEncodingIdType() : base() { } public static readonly BerEncodingIdType Empty = new(); 
+#region Static Metadata
 
     public static readonly BerEncodingIdType AlphabeticCodec;
     public static readonly BerEncodingIdType AlphaNumericCodec;

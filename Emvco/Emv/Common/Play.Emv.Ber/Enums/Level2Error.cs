@@ -4,9 +4,9 @@ using Play.Core;
 
 namespace Play.Emv.Ber.Enums;
 
-public record Level2Error : EnumObject<byte>
-{
-    #region Static Metadata
+public record Level2Error : EnumObject<byte> { public override Level2Error[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<byte>? result) { if (_ValueObjectMap.TryGetValue(value, out Level2Error? enumResult)) { result = enumResult; return true; } result = null; return false; }
+ public Level2Error() : base() { } public static readonly Level2Error Empty = new(); 
+#region Static Metadata
 
     private static readonly ImmutableSortedDictionary<byte, Level2Error> _ValueObjectMap;
     public static readonly Level2Error CryptographicAuthenticationMethodFailed;

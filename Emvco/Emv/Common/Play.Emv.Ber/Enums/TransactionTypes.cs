@@ -4,9 +4,9 @@ using Play.Core;
 
 namespace Play.Emv.Ber.Enums;
 
-public record TransactionTypes : EnumObject<byte>
-{
-    #region Static Metadata
+public record TransactionTypes : EnumObject<byte> { public override TransactionTypes[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<byte>? result) { if (_ValueObjectMap.TryGetValue(value, out TransactionTypes? enumResult)) { result = enumResult; return true; } result = null; return false; }
+ public TransactionTypes() : base() { } public static readonly TransactionTypes Empty = new(); 
+#region Static Metadata
 
     private static readonly ImmutableSortedDictionary<ushort, TransactionTypes> _ValueObjectMap;
 

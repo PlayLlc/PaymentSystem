@@ -6,10 +6,11 @@ using Play.Emv.Ber.ValueTypes;
 
 namespace Play.Emv.Ber.Enums;
 
-public record CvmCodes : EnumObject<byte>
-{
-    #region Static Metadata
+public record CvmCodes : EnumObject<byte> { public override CvmCodes[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<byte>? result) { if (_ValueObjectMap.TryGetValue(value, out CvmCodes? enumResult)) { result = enumResult; return true; } result = null; return false; }
+ public CvmCodes() : base() { } public static readonly CvmCodes Empty = new(); 
+#region Static Metadata
 
+    public static readonly CvmCodes Empty = new();
     private static readonly ImmutableSortedDictionary<byte, CvmCodes> _ValueObjectMap;
 
     /// <remarks>Hex: 0x00; Decimal: 0; Binary: 0b00000000 </remarks>
@@ -70,6 +71,9 @@ public record CvmCodes : EnumObject<byte>
 
     #region Constructor
 
+    public CvmCodes() : base()
+    { }
+
     static CvmCodes()
     {
         Fail = new CvmCodes(0b00000000);
@@ -101,7 +105,22 @@ public record CvmCodes : EnumObject<byte>
 
     #region Instance Members
 
-    public static CvmCodes[] GetAll() => _ValueObjectMap.Values.ToArray();
+    public override CvmCodes[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out CvmCodes? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
+     
 
     /// <exception cref="InvalidOperationException"></exception>
     public static CvmCodes Get(CvmCode cvmCode)

@@ -4,9 +4,9 @@ using Play.Core;
 
 namespace Play.Emv.Ber.Enums;
 
-public record Level1Error : EnumObject<byte>
-{
-    #region Static Metadata
+public record Level1Error : EnumObject<byte> { public override Level1Error[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<byte>? result) { if (_ValueObjectMap.TryGetValue(value, out Level1Error? enumResult)) { result = enumResult; return true; } result = null; return false; }
+ public Level1Error() : base() { } public static readonly Level1Error Empty = new(); 
+#region Static Metadata
 
     private static readonly ImmutableSortedDictionary<byte, Level1Error> _ValueObjectMap;
     public static readonly Level1Error Ok;

@@ -6,9 +6,9 @@ using Play.Emv.Ber.ValueTypes;
 
 namespace Play.Emv.Ber.Enums;
 
-public record TerminalVerificationResultCodes : EnumObject<TerminalVerificationResult>
-{
-    #region Static Metadata
+public record TerminalVerificationResultCodes : EnumObject<TerminalVerificationResult> { public override TerminalVerificationResultCodes[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<TerminalVerificationResult>? result) { if (_ValueObjectMap.TryGetValue(value, out TerminalVerificationResultCodes? enumResult)) { result = enumResult; return true; } result = null; return false; }
+ public TerminalVerificationResultCodes() : base() { } public static readonly TerminalVerificationResultCodes Empty = new(); 
+#region Static Metadata
 
     private static readonly ImmutableSortedDictionary<TerminalVerificationResult, TerminalVerificationResultCodes> _Map;
     public static TerminalVerificationResultCodes ApplicationNotYetEffective;

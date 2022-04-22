@@ -8,9 +8,9 @@ using Play.Emv.Ber.DataElements;
 
 namespace Play.Emv.Terminal.DataExchange;
 
-public record DetResponseType : EnumObject<Tag>
-{
-    #region Static Metadata
+public record DetResponseType : EnumObject<Tag> { public override DetResponseType[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<Tag>? result) { if (_ValueObjectMap.TryGetValue(value, out DetResponseType? enumResult)) { result = enumResult; return true; } result = null; return false; }
+ public DetResponseType() : base() { } public static readonly DetResponseType Empty = new(); 
+#region Static Metadata
 
     public static readonly DetResponseType DataToSend = new(Ber.DataElements.DataToSend.Tag);
 

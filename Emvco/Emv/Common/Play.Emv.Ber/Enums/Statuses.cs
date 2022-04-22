@@ -14,9 +14,9 @@ namespace Play.Emv.Ber.Enums;
 ///     If the Status value is not recognized, the reader should ignore it and the current status of lights
 ///     or LEDS should not be changed and no audio signal should be produced as a result of the User Interface Request
 /// </summary>
-public record Statuses : EnumObject<byte>
-{
-    #region Static Metadata
+public record Statuses : EnumObject<byte> { public override Statuses[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<byte>? result) { if (_ValueObjectMap.TryGetValue(value, out Statuses? enumResult)) { result = enumResult; return true; } result = null; return false; }
+ public Statuses() : base() { } public static readonly Statuses Empty = new(); 
+#region Static Metadata
 
     private static readonly ImmutableSortedDictionary<byte, Statuses> _ValueObjectMap;
 

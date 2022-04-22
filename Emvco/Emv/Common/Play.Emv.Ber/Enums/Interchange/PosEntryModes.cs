@@ -7,9 +7,9 @@ namespace Play.Emv.Ber.Enums.Interchange;
 /// <summary>
 ///     Card brands such as Mastercard and Visa will have proprietary POS Entry Mode values they use internally
 /// </summary>
-public record PosEntryModes : EnumObject<byte>
-{
-    #region Static Metadata
+public record PosEntryModes : EnumObject<byte> { public override PosEntryModes[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<byte>? result) { if (_ValueObjectMap.TryGetValue(value, out PosEntryModes? enumResult)) { result = enumResult; return true; } result = null; return false; }
+ public PosEntryModes() : base() { } public static readonly PosEntryModes Empty = new(); 
+#region Static Metadata
 
     private static readonly ImmutableSortedDictionary<ushort, PosEntryModes> _ValueObjectMap = new Dictionary<ushort, PosEntryModes>
     {

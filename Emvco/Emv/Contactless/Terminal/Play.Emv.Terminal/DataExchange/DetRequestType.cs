@@ -7,9 +7,9 @@ using Play.Core;
 
 namespace Play.Emv.Terminal.DataExchange;
 
-public record DetRequestType : EnumObject<Tag>
-{
-    #region Static Metadata
+public record DetRequestType : EnumObject<Tag> { public override DetRequestType[] GetAll() => _ValueObjectMap.Values.ToArray(); public override bool TryGet(byte value, out EnumObject<Tag>? result) { if (_ValueObjectMap.TryGetValue(value, out DetRequestType? enumResult)) { result = enumResult; return true; } result = null; return false; }
+ public DetRequestType() : base() { } public static readonly DetRequestType Empty = new(); 
+#region Static Metadata
 
     public static readonly DetRequestType DataNeeded = new(Ber.DataElements.DataNeeded.Tag);
     public static readonly DetRequestType TagsToRead = new(Ber.DataElements.TagsToRead.Tag);
