@@ -186,22 +186,6 @@ public record MessageIdentifiers : EnumObject<byte>
 
     #region Instance Members
 
-    public override MessageIdentifiers[] GetAll() => _ValueObjectMap.Values.ToArray();
-
-    public override bool TryGet(byte value, out EnumObject<byte>? result)
-    {
-        if (_ValueObjectMap.TryGetValue(value, out MessageIdentifiers? enumResult))
-        {
-            result = enumResult;
-
-            return true;
-        }
-
-        result = null;
-
-        return false;
-    }
-
     public static MessageIdentifiers[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static MessageIdentifiers Get(byte value) => _ValueObjectMap.TryGetValue(value, out MessageIdentifiers? result) ? result : NotAvailable;
 

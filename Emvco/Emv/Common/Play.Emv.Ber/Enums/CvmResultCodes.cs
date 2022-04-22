@@ -38,22 +38,6 @@ public record CvmResultCodes : EnumObject<byte>
 
     #region Instance Members
 
-    public override CvmResultCodes[] GetAll() => _ValueObjectMap.Values.ToArray();
-
-    public override bool TryGet(byte value, out EnumObject<byte>? result)
-    {
-        if (_ValueObjectMap.TryGetValue(value, out CvmResultCodes? enumResult))
-        {
-            result = enumResult;
-
-            return true;
-        }
-
-        result = null;
-
-        return false;
-    }
-
     public static CvmResultCodes[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     #endregion
