@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using Play.Ber.DataObjects;
 using Play.Emv.Ber;
 using Play.Emv.Ber.Enums;
 using Play.Icc.FileSystem.DedicatedFiles;
@@ -37,6 +38,16 @@ public class CombinationCompositeKey : IEquatable<CombinationCompositeKey>, IEqu
         _DedicatedFileName.GetRegisteredApplicationProviderIdentifier();
 
     public TransactionType GetTransactionType() => _TransactionType;
+
+    public PrimitiveValue[] AsPrimitiveValues()
+    {
+        PrimitiveValue[] values = new PrimitiveValue[3];
+        values[0] = _DedicatedFileName;
+        values[1] = _KernelIdTypes;
+        values[2] = _TransactionType;
+
+        return values;
+    }
 
     #endregion
 

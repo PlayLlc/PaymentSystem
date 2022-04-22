@@ -71,7 +71,7 @@ public record ActivateKernelRequest : RequestSignal
 
         if (_TagsToRead != null)
             buffer.Add(_TagsToRead);
-        buffer.AddRange(_Transaction.AsPrimitiveValueArray());
+        buffer.AddRange(_Transaction.AsPrimitiveValues());
 
         return buffer.ToArray();
     }

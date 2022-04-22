@@ -27,7 +27,7 @@ public partial class TerminalActionAnalysisServiceTests
     {
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults(0));
-        GetKernelDatabaseForOnlineOnly();
+        GetKernelDatabaseForOnlineOnly(_Fixture);
 
         CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), _Fixture.Create<KernelDatabase>());
         Assertion(() => { Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, actual); });
@@ -43,7 +43,7 @@ public partial class TerminalActionAnalysisServiceTests
     {
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode));
-        GetKernelDatabaseForOnlineOnly();
+        GetKernelDatabaseForOnlineOnly(_Fixture);
 
         CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), _Fixture.Create<KernelDatabase>());
         Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, actual);
@@ -59,7 +59,7 @@ public partial class TerminalActionAnalysisServiceTests
     {
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode));
-        GetKernelDatabaseForOnlineOnly();
+        GetKernelDatabaseForOnlineOnly(_Fixture);
 
         CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), _Fixture.Create<KernelDatabase>());
 
@@ -80,7 +80,7 @@ public partial class TerminalActionAnalysisServiceTests
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command =
             GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) terminalActionCode | (ulong) issuerActionCodes));
-        GetKernelDatabaseForOnlineOnly();
+        GetKernelDatabaseForOnlineOnly(_Fixture);
 
         CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), _Fixture.Create<KernelDatabase>());
         Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, actual);
@@ -96,7 +96,7 @@ public partial class TerminalActionAnalysisServiceTests
     {
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode));
-        GetKernelDatabaseForOnlineOnly();
+        GetKernelDatabaseForOnlineOnly(_Fixture);
 
         CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), _Fixture.Create<KernelDatabase>());
         Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, actual);
@@ -116,7 +116,7 @@ public partial class TerminalActionAnalysisServiceTests
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command =
             GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) terminalActionCode | (ulong) issuerActionCodes));
-        GetKernelDatabaseForOnlineOnly();
+        GetKernelDatabaseForOnlineOnly(_Fixture);
 
         CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), _Fixture.Create<KernelDatabase>());
         Assert.Equal(CryptogramTypes.AuthorizationRequestCryptogram, actual);
@@ -137,7 +137,7 @@ public partial class TerminalActionAnalysisServiceTests
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode),
             OnlineResponseOutcome.NotAvailable);
-        GetKernelDatabaseForOnlineOnly();
+        GetKernelDatabaseForOnlineOnly(_Fixture);
 
         CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), _Fixture.Create<KernelDatabase>());
         Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual);
@@ -154,7 +154,7 @@ public partial class TerminalActionAnalysisServiceTests
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode),
             OnlineResponseOutcome.NotAvailable);
-        GetKernelDatabaseForOnlineOnly();
+        GetKernelDatabaseForOnlineOnly(_Fixture);
 
         CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), _Fixture.Create<KernelDatabase>());
         Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual);
@@ -174,7 +174,7 @@ public partial class TerminalActionAnalysisServiceTests
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(
             new TerminalVerificationResults((ulong) terminalActionCode | (ulong) issuerActionCodes), OnlineResponseOutcome.NotAvailable);
-        GetKernelDatabaseForOnlineOnly();
+        GetKernelDatabaseForOnlineOnly(_Fixture);
 
         CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), _Fixture.Create<KernelDatabase>());
         Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual);
@@ -190,7 +190,7 @@ public partial class TerminalActionAnalysisServiceTests
     {
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode));
-        GetKernelDatabaseForOnlineOnly();
+        GetKernelDatabaseForOnlineOnly(_Fixture);
 
         CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), _Fixture.Create<KernelDatabase>());
         Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual);
@@ -206,7 +206,7 @@ public partial class TerminalActionAnalysisServiceTests
     {
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command = GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) actionCode));
-        GetKernelDatabaseForOnlineOnly();
+        GetKernelDatabaseForOnlineOnly(_Fixture);
 
         CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), _Fixture.Create<KernelDatabase>());
         Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual);
@@ -226,7 +226,7 @@ public partial class TerminalActionAnalysisServiceTests
         TerminalActionAnalysisService sut = new();
         TerminalActionAnalysisCommand command =
             GetTerminalActionAnalysisCommand(new TerminalVerificationResults((ulong) terminalActionCode | (ulong) issuerActionCodes));
-        GetKernelDatabaseForOnlineOnly();
+        GetKernelDatabaseForOnlineOnly(_Fixture);
 
         CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), _Fixture.Create<KernelDatabase>());
         Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual);

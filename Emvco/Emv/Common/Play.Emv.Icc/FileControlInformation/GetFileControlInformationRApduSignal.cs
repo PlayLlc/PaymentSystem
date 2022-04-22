@@ -6,10 +6,10 @@ public class GetFileControlInformationRApduSignal : RApduSignal
 {
     #region Constructor
 
-    public GetFileControlInformationRApduSignal(byte[] response) : base(response)
+    public GetFileControlInformationRApduSignal(ReadOnlySpan<byte> response) : base(response.ToArray())
     { }
 
-    public GetFileControlInformationRApduSignal(byte[] response, Level1Error level1Error) : base(response, level1Error)
+    public GetFileControlInformationRApduSignal(ReadOnlySpan<byte> response, Level1Error level1Error) : base(response.ToArray(), level1Error)
     { }
 
     #endregion

@@ -32,7 +32,7 @@ public static class UShortExtension
     public static byte GetMostSignificantBit(this in ushort value)
     {
         if (value == 0)
-            return 1;
+            return 0;
 
         byte bitLog = (byte) Math.Log2(value);
 

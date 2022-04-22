@@ -31,8 +31,8 @@ public class Transaction
 
     public Transaction(
         TransactionSessionId transactionSessionId, AccountType accountType, AmountAuthorizedNumeric amountAuthorizedNumeric,
-        AmountOtherNumeric amountOtherNumeric, TransactionType transactionType, LanguagePreference languagePreference,
-        TerminalCountryCode terminalCountryCode, TransactionDate transactionDate, TransactionTime transactionTime)
+        AmountOtherNumeric amountOtherNumeric, TransactionType transactionType, LanguagePreference languagePreference, TerminalCountryCode terminalCountryCode,
+        TransactionDate transactionDate, TransactionTime transactionTime)
     {
         _AccountType = accountType;
         _TransactionSessionId = transactionSessionId;
@@ -55,7 +55,7 @@ public class Transaction
     public TransactionTime GetTransactionTime() => _TransactionTime;
     public OutcomeParameterSet GetOutcomeParameterSet() => _Outcome.GetOutcomeParameterSet();
 
-    public PrimitiveValue[] AsPrimitiveValueArray()
+    public PrimitiveValue[] AsPrimitiveValues()
     {
         List<PrimitiveValue> buffer = new()
         {
@@ -73,7 +73,7 @@ public class Transaction
             _TransactionDate
         };
 
-        buffer.AddRange(_Outcome.AsPrimitiveValueArray());
+        buffer.AddRange(_Outcome.AsPrimitiveValues());
 
         return buffer.ToArray();
     }

@@ -98,7 +98,7 @@ public class Outcome
 
     #region Instance Members
 
-    public PrimitiveValue[] AsPrimitiveValueArray()
+    public PrimitiveValue[] AsPrimitiveValues()
     {
         List<PrimitiveValue> buffer = new() {_ErrorIndication, _OutcomeParameterSet, _TerminalVerificationResults};
 

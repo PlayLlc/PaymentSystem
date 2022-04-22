@@ -1,4 +1,5 @@
-﻿using Play.Emv.Ber.Templates;
+﻿using Play.Ber.DataObjects;
+using Play.Emv.Ber.Templates;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;
 using Play.Messaging;
@@ -16,8 +17,8 @@ public record SelectApplicationDefinitionFileInfoResponse : QueryPcdResponse
     #region Constructor
 
     public SelectApplicationDefinitionFileInfoResponse(
-        CorrelationId correlation, TransactionSessionId transactionSessionId, GetFileControlInformationRApduSignal responseApduSignal) :
-        base(correlation, MessageTypeId, transactionSessionId, responseApduSignal)
+        CorrelationId correlation, TransactionSessionId transactionSessionId, GetFileControlInformationRApduSignal responseApduSignal) : base(correlation,
+        MessageTypeId, transactionSessionId, responseApduSignal)
     { }
 
     #endregion
@@ -25,6 +26,7 @@ public record SelectApplicationDefinitionFileInfoResponse : QueryPcdResponse
     #region Instance Members
 
     public FileControlInformationAdf GetFileControlInformation() => FileControlInformationAdf.Decode(GetData());
+    public PrimitiveValue[] AsPrimitiveValues() => GetFileControlInformation().GetPrimitiveDescendants();
 
     #endregion
 }
