@@ -6,7 +6,7 @@ using Play.Emv.Ber.ValueTypes;
 
 namespace Play.Emv.Ber.Enums;
 
-public sealed record ApplicationPriorityRankTypes : EnumObject<ApplicationPriorityRank>
+public sealed record ApplicationPriorityRankTypes : EnumObject<byte>
 {
     #region Static Metadata
 
@@ -38,22 +38,22 @@ public sealed record ApplicationPriorityRankTypes : EnumObject<ApplicationPriori
 
     static ApplicationPriorityRankTypes()
     {
-        NotAvailable = new ApplicationPriorityRankTypes(new ApplicationPriorityRank(0));
-        First = new ApplicationPriorityRankTypes(new ApplicationPriorityRank(1));
-        Second = new ApplicationPriorityRankTypes(new ApplicationPriorityRank(2));
-        Third = new ApplicationPriorityRankTypes(new ApplicationPriorityRank(3));
-        Fourth = new ApplicationPriorityRankTypes(new ApplicationPriorityRank(4));
-        Fifth = new ApplicationPriorityRankTypes(new ApplicationPriorityRank(5));
-        Sixth = new ApplicationPriorityRankTypes(new ApplicationPriorityRank(6));
-        Seventh = new ApplicationPriorityRankTypes(new ApplicationPriorityRank(7));
-        Eighth = new ApplicationPriorityRankTypes(new ApplicationPriorityRank(8));
-        Ninth = new ApplicationPriorityRankTypes(new ApplicationPriorityRank(9));
-        Tenth = new ApplicationPriorityRankTypes(new ApplicationPriorityRank(10));
-        Eleventh = new ApplicationPriorityRankTypes(new ApplicationPriorityRank(11));
-        Twelveth = new ApplicationPriorityRankTypes(new ApplicationPriorityRank(12));
-        Thirteenth = new ApplicationPriorityRankTypes(new ApplicationPriorityRank(13));
-        Fourteenth = new ApplicationPriorityRankTypes(new ApplicationPriorityRank(14));
-        Fifteenth = new ApplicationPriorityRankTypes(new ApplicationPriorityRank(15));
+        NotAvailable = new ApplicationPriorityRankTypes(0);
+        First = new ApplicationPriorityRankTypes(1);
+        Second = new ApplicationPriorityRankTypes(2);
+        Third = new ApplicationPriorityRankTypes(3);
+        Fourth = new ApplicationPriorityRankTypes(4);
+        Fifth = new ApplicationPriorityRankTypes(5);
+        Sixth = new ApplicationPriorityRankTypes(6);
+        Seventh = new ApplicationPriorityRankTypes(7);
+        Eighth = new ApplicationPriorityRankTypes(8);
+        Ninth = new ApplicationPriorityRankTypes(9);
+        Tenth = new ApplicationPriorityRankTypes(10);
+        Eleventh = new ApplicationPriorityRankTypes(11);
+        Twelveth = new ApplicationPriorityRankTypes(12);
+        Thirteenth = new ApplicationPriorityRankTypes(13);
+        Fourteenth = new ApplicationPriorityRankTypes(14);
+        Fifteenth = new ApplicationPriorityRankTypes(15);
         _ValueObjectMap = new Dictionary<byte, ApplicationPriorityRankTypes>
         {
             {1, First},
@@ -74,7 +74,7 @@ public sealed record ApplicationPriorityRankTypes : EnumObject<ApplicationPriori
         }.ToImmutableSortedDictionary();
     }
 
-    public ApplicationPriorityRankTypes(ApplicationPriorityRank value) : base(value)
+    private ApplicationPriorityRankTypes(byte value) : base(value)
     { }
 
     #endregion
@@ -83,7 +83,7 @@ public sealed record ApplicationPriorityRankTypes : EnumObject<ApplicationPriori
 
     public override ApplicationPriorityRankTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
 
-    public override bool TryGet(ApplicationPriorityRank value, out EnumObject<ApplicationPriorityRank>? result)
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
     {
         if (_ValueObjectMap.TryGetValue(value, out ApplicationPriorityRankTypes? enumResult))
         {
