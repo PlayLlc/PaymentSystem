@@ -10,6 +10,7 @@ public sealed record CryptogramTypes : EnumObject<byte>
 {
     #region Static Metadata
 
+    public static readonly CryptogramTypes Empty = new();
     private static readonly ImmutableSortedDictionary<byte, CryptogramTypes> _ValueObjectMap;
 
     /// <value>Binary: 0000 0000; Hexadecimal: 0x00</value>
@@ -26,6 +27,9 @@ public sealed record CryptogramTypes : EnumObject<byte>
     #endregion
 
     #region Constructor
+
+    public CryptogramTypes() : base()
+    { }
 
     static CryptogramTypes()
     {
@@ -50,6 +54,22 @@ public sealed record CryptogramTypes : EnumObject<byte>
     #endregion
 
     #region Instance Members
+
+    public override CryptogramTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out CryptogramTypes? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static CryptogramTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static bool IsValid(byte value) => _ValueObjectMap.ContainsKey(value.GetMaskedValue(_UnrelatedBits));

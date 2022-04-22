@@ -10,6 +10,7 @@ public sealed record ApplicationPriorityRankTypes : EnumObject<ApplicationPriori
 {
     #region Static Metadata
 
+    public static readonly ApplicationPriorityRankTypes Empty = new();
     private static readonly ImmutableSortedDictionary<byte, ApplicationPriorityRankTypes> _ValueObjectMap;
     public static readonly ApplicationPriorityRankTypes Eighth;
     public static readonly ApplicationPriorityRankTypes Eleventh;
@@ -31,6 +32,9 @@ public sealed record ApplicationPriorityRankTypes : EnumObject<ApplicationPriori
     #endregion
 
     #region Constructor
+
+    public ApplicationPriorityRankTypes() : base()
+    { }
 
     static ApplicationPriorityRankTypes()
     {
@@ -76,6 +80,22 @@ public sealed record ApplicationPriorityRankTypes : EnumObject<ApplicationPriori
     #endregion
 
     #region Instance Members
+
+    public override ApplicationPriorityRankTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(ApplicationPriorityRank value, out EnumObject<ApplicationPriorityRank>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out ApplicationPriorityRankTypes? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static ApplicationPriorityRankTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
 

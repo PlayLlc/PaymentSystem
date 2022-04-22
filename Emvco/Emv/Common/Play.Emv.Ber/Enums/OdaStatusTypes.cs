@@ -8,6 +8,7 @@ public sealed record OdaStatusTypes : EnumObject<byte>
 {
     #region Static Metadata
 
+    public static readonly OdaStatusTypes Empty = new();
     public static readonly OdaStatusTypes Cda = new(0b10000000);
     public static readonly OdaStatusTypes NotAvailable = new(0);
     private static readonly Dictionary<byte, OdaStatusTypes> _ValueObjectMap = new() {{Cda, Cda}, {NotAvailable, NotAvailable}};
@@ -16,12 +17,31 @@ public sealed record OdaStatusTypes : EnumObject<byte>
 
     #region Constructor
 
+    public OdaStatusTypes() : base()
+    { }
+
     private OdaStatusTypes(byte value) : base(value)
     { }
 
     #endregion
 
     #region Instance Members
+
+    public override OdaStatusTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out OdaStatusTypes? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static OdaStatusTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static bool IsValid(byte value) => _ValueObjectMap.ContainsKey(value);

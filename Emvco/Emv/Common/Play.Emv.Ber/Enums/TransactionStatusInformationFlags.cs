@@ -12,6 +12,7 @@ public sealed record TransactionStatusInformationFlags : EnumObject<ushort>
 {
     #region Static Metadata
 
+    public static readonly TransactionStatusInformationFlags Empty = new();
     private static readonly ImmutableSortedDictionary<ushort, TransactionStatusInformationFlags> _ValueObjectMap;
     public static readonly TransactionStatusInformationFlags CardholderVerificationPerformed;
     public static readonly TransactionStatusInformationFlags CardRiskManagementPerformed;
@@ -24,6 +25,9 @@ public sealed record TransactionStatusInformationFlags : EnumObject<ushort>
     #endregion
 
     #region Constructor
+
+    public TransactionStatusInformationFlags() : base()
+    { }
 
     static TransactionStatusInformationFlags()
     {
@@ -60,6 +64,22 @@ public sealed record TransactionStatusInformationFlags : EnumObject<ushort>
     #endregion
 
     #region Instance Members
+
+    public override TransactionStatusInformationFlags[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(ushort value, out EnumObject<ushort>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out TransactionStatusInformationFlags? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static TransactionStatusInformationFlags[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static bool TryGet(ushort value, out TransactionStatusInformationFlags? result) => _ValueObjectMap.TryGetValue(value, out result);

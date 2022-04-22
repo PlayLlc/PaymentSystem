@@ -66,6 +66,7 @@ public class PutDataCApduSignal : CApduSignal
     {
         #region Static Metadata
 
+        public static readonly DataObject Empty = new();
         private static readonly ImmutableSortedDictionary<Tag, DataObject> _ValueObjectMap;
         public static readonly DataObject UnprotectedDataEnvelope1 = new(0x9F75);
         public static readonly DataObject UnprotectedDataEnvelope2 = new(0x9F76);
@@ -76,6 +77,9 @@ public class PutDataCApduSignal : CApduSignal
         #endregion
 
         #region Constructor
+
+        public DataObject() : base()
+        { }
 
         static DataObject()
         {
@@ -95,6 +99,22 @@ public class PutDataCApduSignal : CApduSignal
         #endregion
 
         #region Instance Members
+
+        public override DataObject[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+        public override bool TryGet(Tag value, out EnumObject<Tag>? result)
+        {
+            if (_ValueObjectMap.TryGetValue(value, out DataObject? enumResult))
+            {
+                result = enumResult;
+
+                return true;
+            }
+
+            result = null;
+
+            return false;
+        }
 
         public static DataObject[] GetAll() => _ValueObjectMap.Values.ToArray();
         public static bool Exists(Tag value) => _ValueObjectMap.ContainsKey(value);

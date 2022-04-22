@@ -8,6 +8,7 @@ public sealed record AuthenticationTypes : EnumObject<byte>
 {
     #region Static Metadata
 
+    public static readonly AuthenticationTypes Empty = new();
     private static readonly ImmutableSortedDictionary<byte, AuthenticationTypes> _ValueObjectMap;
     public static readonly AuthenticationTypes CombinedDataAuthentication;
     public static readonly AuthenticationTypes DynamicDataAuthentication;
@@ -17,6 +18,9 @@ public sealed record AuthenticationTypes : EnumObject<byte>
     #endregion
 
     #region Constructor
+
+    public AuthenticationTypes() : base()
+    { }
 
     static AuthenticationTypes()
     {
@@ -42,6 +46,22 @@ public sealed record AuthenticationTypes : EnumObject<byte>
     #endregion
 
     #region Instance Members
+
+    public override AuthenticationTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out AuthenticationTypes? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static AuthenticationTypes[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static bool TryGet(byte value, out AuthenticationTypes result) => _ValueObjectMap.TryGetValue(value, out result);

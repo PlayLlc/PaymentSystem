@@ -8,6 +8,7 @@ public sealed record KernelType : EnumObject<byte>
 {
     #region Static Metadata
 
+    public static readonly KernelType Empty = new();
     private static readonly ImmutableSortedDictionary<byte, KernelType> _ValueObjectMap;
     public static readonly KernelType DomesticEmvCoKernel;
     public static readonly KernelType International;
@@ -16,6 +17,9 @@ public sealed record KernelType : EnumObject<byte>
     #endregion
 
     #region Constructor
+
+    public KernelType() : base()
+    { }
 
     static KernelType()
     {
@@ -28,9 +32,7 @@ public sealed record KernelType : EnumObject<byte>
         ProprietaryDomesticEmvCoKernel = new KernelType(proprietaryDomesticEmvCoKernel);
         _ValueObjectMap = new Dictionary<byte, KernelType>
         {
-            {international, International},
-            {domesticEmvCoKernel, DomesticEmvCoKernel},
-            {proprietaryDomesticEmvCoKernel, ProprietaryDomesticEmvCoKernel}
+            {international, International}, {domesticEmvCoKernel, DomesticEmvCoKernel}, {proprietaryDomesticEmvCoKernel, ProprietaryDomesticEmvCoKernel}
         }.ToImmutableSortedDictionary();
     }
 
@@ -41,7 +43,22 @@ public sealed record KernelType : EnumObject<byte>
 
     #region Instance Members
 
-    public int CompareTo(KernelType other) => _Value.CompareTo(other._Value);
+    public override KernelType[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out KernelType? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
+
     public static bool TryGet(byte value, out KernelType? result) => _ValueObjectMap.TryGetValue(value, out result);
 
     #endregion
@@ -63,13 +80,13 @@ public sealed record KernelType : EnumObject<byte>
 
     public override int GetHashCode() => 470621 * _Value.GetHashCode();
     public int GetHashCode(KernelType obj) => obj.GetHashCode();
+    public int CompareTo(KernelType other) => _Value.CompareTo(other._Value);
 
     #endregion
 
     #region Operator Overrides
 
-    public static explicit operator byte(KernelType registeredApplicationProviderIndicators) =>
-        registeredApplicationProviderIndicators._Value;
+    public static explicit operator byte(KernelType registeredApplicationProviderIndicators) => registeredApplicationProviderIndicators._Value;
 
     #endregion
 }

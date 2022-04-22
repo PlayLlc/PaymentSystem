@@ -12,6 +12,7 @@ public sealed record RegisteredApplicationProviderIndicators : EnumObject<Regist
 {
     #region Static Metadata
 
+    public static readonly RegisteredApplicationProviderIndicators Empty = new();
     private static readonly ImmutableSortedDictionary<ulong, RegisteredApplicationProviderIndicators> _ValueObjectMap;
     public static readonly RegisteredApplicationProviderIndicators AmericanExpress;
     public static readonly RegisteredApplicationProviderIndicators ChinaUnionPay;
@@ -23,6 +24,9 @@ public sealed record RegisteredApplicationProviderIndicators : EnumObject<Regist
     #endregion
 
     #region Constructor
+
+    public RegisteredApplicationProviderIndicators() : base()
+    { }
 
     /// <exception cref="TypeInitializationException"></exception>
     static RegisteredApplicationProviderIndicators()
@@ -58,6 +62,22 @@ public sealed record RegisteredApplicationProviderIndicators : EnumObject<Regist
     #endregion
 
     #region Instance Members
+
+    public override RegisteredApplicationProviderIndicators[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(RegisteredApplicationProviderIndicator value, out EnumObject<RegisteredApplicationProviderIndicator>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out RegisteredApplicationProviderIndicators? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static bool TryGet(RegisteredApplicationProviderIndicator value, out RegisteredApplicationProviderIndicators? result) =>
         _ValueObjectMap.TryGetValue(value, out result);

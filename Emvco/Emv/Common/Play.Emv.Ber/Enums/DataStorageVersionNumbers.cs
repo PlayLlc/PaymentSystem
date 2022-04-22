@@ -9,6 +9,7 @@ public sealed record DataStorageVersionNumbers : EnumObject<byte>
 {
     #region Static Metadata
 
+    public static readonly DataStorageVersionNumbers Empty = new();
     public static readonly DataStorageVersionNumbers NotSupported = new(0);
     public static readonly DataStorageVersionNumbers Version1 = new(0b1);
     public static readonly DataStorageVersionNumbers Version2 = new(0b10);
@@ -22,12 +23,31 @@ public sealed record DataStorageVersionNumbers : EnumObject<byte>
 
     #region Constructor
 
+    public DataStorageVersionNumbers() : base()
+    { }
+
     private DataStorageVersionNumbers(byte value) : base(new DataStorageVersionNumber(value))
     { }
 
     #endregion
 
     #region Instance Members
+
+    public override DataStorageVersionNumbers[] GetAll() => _ValueObjectMap.Values.ToArray();
+
+    public override bool TryGet(byte value, out EnumObject<byte>? result)
+    {
+        if (_ValueObjectMap.TryGetValue(value, out DataStorageVersionNumbers? enumResult))
+        {
+            result = enumResult;
+
+            return true;
+        }
+
+        result = null;
+
+        return false;
+    }
 
     public static DataStorageVersionNumbers[] GetAll() => _ValueObjectMap.Values.ToArray();
     public static bool IsValid(byte value) => _ValueObjectMap.ContainsKey(value);
