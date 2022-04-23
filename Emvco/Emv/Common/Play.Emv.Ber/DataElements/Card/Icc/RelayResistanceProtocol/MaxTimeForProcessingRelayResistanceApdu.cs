@@ -50,7 +50,7 @@ public record MaxTimeForProcessingRelayResistanceApdu : DataElement<RelaySeconds
         return new MaxTimeForProcessingRelayResistanceApdu(result);
     }
 
-    public new byte[] EncodeValue() => Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
     public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion

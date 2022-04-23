@@ -146,7 +146,7 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
         return new ApplicationDedicatedFileName(result);
     }
 
-    public new byte[] EncodeValue() => Codec.EncodeValue(EncodingId, _Value);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value);
     public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion

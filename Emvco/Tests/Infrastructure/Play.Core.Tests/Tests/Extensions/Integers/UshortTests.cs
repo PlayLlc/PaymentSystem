@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 using Play.Core.Extensions;
 using Play.Core.Specifications;
-using Play.Core.Tests.Data.Fixtures;
 using Play.Testing.BaseTestClasses;
 
 using Xunit;
@@ -63,29 +62,11 @@ namespace Play.Core.Tests.Tests.Extensions.Integers
         }
 
         [Fact]
-        public void Ushort_GetMostSignificantBit11_3_ReturnsExpectedResult()
-        {
-            ushort testData = 0b0000010110110110;
-            int expected = 11;
-            int actual = testData.GetMostSignificantBit();
-            Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
-        }
-
-        [Fact]
         public void Ushort_GetMostSignificantBit16_ReturnsExpectedResult()
         {
             ushort testData = ushort.MaxValue;
             int expected = Specs.Integer.UInt16.BitCount;
             int actual = testData.GetMostSignificantBit();
-            Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
-        }
-
-        [Theory]
-        [MemberData(nameof(IntFixture.MostSignificantBit.ForUShort), 50, MemberType = typeof(IntFixture.MostSignificantBit))]
-        public void RandomByteArray_InvokesConcatArrays_CreatesValueCopyWithCorrectLength(int actual, ushort testData)
-        {
-            int expected = testData.GetMostSignificantBit();
-
             Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
         }
 

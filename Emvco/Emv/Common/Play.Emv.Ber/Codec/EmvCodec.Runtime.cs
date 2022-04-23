@@ -13,7 +13,7 @@ public partial class EmvCodec : BerCodec
 {
     #region Static Metadata
 
-    private static readonly ImmutableDictionary<Tag, PrimitiveValue> _DefaultPrimitiveMap;
+    private static readonly ImmutableSortedDictionary<Tag, PrimitiveValue> _DefaultPrimitiveMap;
 
     #endregion
 
@@ -29,7 +29,7 @@ public partial class EmvCodec : BerCodec
     /// <exception cref="ReflectionTypeLoadException"></exception>
     static EmvCodec()
     {
-        _DefaultPrimitiveMap = GetDefaultPrimitiveValues().ToDictionary(a => a.GetTag(), b => b).ToImmutableDictionary();
+        _DefaultPrimitiveMap = GetDefaultPrimitiveValues().ToDictionary(a => a.GetTag(), b => b).ToImmutableSortedDictionary();
     }
 
     #endregion
@@ -44,7 +44,8 @@ public partial class EmvCodec : BerCodec
 
         HashSet<PrimitiveValue> codecs = new();
 
-        foreach (Type type in uniqueAssemblies.GetTypes().Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(PrimitiveValue))))
+        foreach (Type type in uniqueAssemblies.GetTypes()
+            .Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(PrimitiveValue))))
             codecs.Add((PrimitiveValue) FormatterServices.GetUninitializedObject(type));
 
         List<Tag> tags = new();
@@ -62,7 +63,7 @@ public partial class EmvCodec : BerCodec
         }
 
         HashSet<Tag> distinct = new(tags);
-        List<Tag> duplicates = tags.Except(distinct.ToList()).ToList();
+        IEnumerable<Tag> duplicates = tags.Except(distinct.ToList());
 
         foreach (Tag tag in duplicates)
             Console.WriteLine($"{tag}");

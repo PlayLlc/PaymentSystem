@@ -132,7 +132,7 @@ public record TornRecord : DataExchangeResponse
 
     #region Serialization
 
-    public override TornRecord Decode(TagLengthValue value) => new(Codec.DecodePrimitiveValuesAtRuntime(value.EncodeValue().AsSpan()));
+    public override TornRecord Decode(TagLengthValue value) => new(_Codec.DecodePrimitiveValuesAtRuntime(value.EncodeValue().AsSpan()));
 
     #endregion
 

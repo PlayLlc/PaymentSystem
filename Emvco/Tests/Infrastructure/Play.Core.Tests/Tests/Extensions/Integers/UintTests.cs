@@ -1,6 +1,5 @@
 ﻿using Play.Core.Extensions;
 using Play.Core.Specifications;
-using Play.Core.Tests.Data.Fixtures;
 using Play.Testing.BaseTestClasses;
 
 using Xunit;
@@ -48,29 +47,20 @@ public class UintTests : TestBase
     }
 
     [Fact]
-    public void Uint_GetMostSignificantBit10_ReturnsExpectedResult()
+    public void Uint_GetMostSignificantBit14_ReturnsExpectedResult()
     {
-        uint testData = 0b0000001000000000;
-        int expected = 10;
+        uint testData = 12345;
+        int expected = 14;
         int actual = testData.GetMostSignificantBit();
         Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
     [Fact]
-    public void Uint_GetMostSignificantBit32_ReturnsExpectedResult()
+    public void Uint_GetMostSignificantBit16_ReturnsExpectedResult()
     {
-        uint testData = 0b10000000000000000000000000000000;
-        int expected = 32;
+        uint testData = uint.MaxValue;
+        int expected = Specs.Integer.UInt32.BitCount;
         int actual = testData.GetMostSignificantBit();
-        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
-    }
-
-    [Theory]
-    [MemberData(nameof(IntFixture.MostSignificantBit.ForUInt), 50, MemberType = typeof(IntFixture.MostSignificantBit))]
-    public void RandomByteArray_InvokesConcatArrays_CreatesValueCopyWithCorrectLength(int actual, uint testData)
-    {
-        int expected = testData.GetMostSignificantBit();
-
         Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 

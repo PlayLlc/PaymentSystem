@@ -52,20 +52,17 @@ public partial class TerminalActionAnalysisServiceTests : TestBase
 
     private static void GetKernelDatabaseForOfflineOnly(IFixture fixture)
     {
-        KernelDatabase database = fixture.Create<KernelDatabase>();
-        database.Update(new TerminalType(TerminalType.CommunicationType.OnlineOnly));
+        fixture.Register(() => new TerminalType(TerminalType.CommunicationType.OnlineOnly));
     }
 
     private void GetKernelDatabaseForOnlineOnly(IFixture fixture)
     {
-        KernelDatabase database = fixture.Create<KernelDatabase>();
-        database.Update(new TerminalType(TerminalType.CommunicationType.OnlineOnly));
+        fixture.Register(() => new TerminalType(TerminalType.CommunicationType.OnlineOnly));
     }
 
     private void GetKernelDatabaseForOnlineAndOfflineCapable(IFixture fixture)
     {
-        KernelDatabase database = fixture.Create<KernelDatabase>();
-        database.Update(new TerminalType(TerminalType.CommunicationType.OnlineAndOfflineCapable));
+        fixture.Register(() => new TerminalType(TerminalType.CommunicationType.OnlineAndOfflineCapable));
     }
 
     private TerminalActionAnalysisCommand GetTerminalActionAnalysisCommand(TerminalVerificationResults terminalVerificationResults) =>

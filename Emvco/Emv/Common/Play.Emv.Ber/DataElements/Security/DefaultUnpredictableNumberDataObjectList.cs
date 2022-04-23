@@ -3,7 +3,6 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -33,10 +32,13 @@ public record DefaultUnpredictableNumberDataObjectList : DataObjectList, IEquali
     /// <param name="value"></param>
     /// <exception cref="CardDataMissingException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public DefaultUnpredictableNumberDataObjectList(params TagLength[] value) : base(value)
+    public DefaultUnpredictableNumberDataObjectList(BigInteger value) : base(value)
     {
-        if (value.All(a => a.GetTag() != UnpredictableNumber.Tag))
-            throw new CardDataMissingException($"The {nameof(DefaultUnpredictableNumberDataObjectList)} must contain a tag for {nameof(UnpredictableNumber)}");
+        if (!_Codec.IsTagPresent(UnpredictableNumber.Tag, value.ToByteArray()))
+        {
+            throw new CardDataMissingException(
+                $"The {nameof(DefaultUnpredictableNumberDataObjectList)} must contain a tag for {nameof(UnpredictableNumber)}");
+        }
     }
 
     #endregion
@@ -63,7 +65,7 @@ public record DefaultUnpredictableNumberDataObjectList : DataObjectList, IEquali
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        return new DefaultUnpredictableNumberDataObjectList(Codec.DecodeTagLengthPairs(value));
+        return new DefaultUnpredictableNumberDataObjectList(new BigInteger(value));
     }
 
     #endregion

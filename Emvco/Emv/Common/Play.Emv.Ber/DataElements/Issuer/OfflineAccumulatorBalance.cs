@@ -59,7 +59,7 @@ public record OfflineAccumulatorBalance : DataElement<ulong>, IEqualityComparer<
         return new OfflineAccumulatorBalance(result);
     }
 
-    public new byte[] EncodeValue() => Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
     public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion

@@ -48,7 +48,7 @@ public abstract record DataExchangeRequest : DataExchangeList<Tag>
     /// <exception cref="BerParsingException"></exception>
     public new byte[] EncodeTagLengthValue()
     {
-        return Codec.EncodeTagLengthValue(GetTag(), _Value.SelectMany(a => a.Serialize()).ToList().AsSpan());
+        return _Codec.EncodeTagLengthValue(GetTag(), _Value.SelectMany(a => a.Serialize()).ToList().AsSpan());
     }
 
     #endregion

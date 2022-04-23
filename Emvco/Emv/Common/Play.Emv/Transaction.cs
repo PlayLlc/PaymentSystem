@@ -25,6 +25,7 @@ public class Transaction
     private readonly TransactionTime _TransactionTime;
     private readonly TransactionSessionId _TransactionSessionId;
     private readonly TransactionType _TransactionType;
+    private readonly TransactionCurrencyExponent _TransactionCurrencyExponent;
 
     #endregion
 
@@ -33,7 +34,7 @@ public class Transaction
     public Transaction(
         TransactionSessionId transactionSessionId, AccountType accountType, AmountAuthorizedNumeric amountAuthorizedNumeric,
         AmountOtherNumeric amountOtherNumeric, TransactionType transactionType, LanguagePreference languagePreference, TerminalCountryCode terminalCountryCode,
-        TransactionDate transactionDate, TransactionTime transactionTime)
+        TransactionDate transactionDate, TransactionTime transactionTime, TransactionCurrencyExponent transactionCurrencyExponent)
     {
         _AccountType = accountType;
         _TransactionSessionId = transactionSessionId;
@@ -42,6 +43,7 @@ public class Transaction
         _TransactionType = transactionType;
         _TransactionDate = transactionDate;
         _TransactionTime = transactionTime;
+        _TransactionCurrencyExponent = transactionCurrencyExponent;
         _LanguagePreference = languagePreference;
         _TerminalCountryCode = terminalCountryCode;
 
@@ -81,6 +83,7 @@ public class Transaction
 
     // BUG: This should return the TransactionCurrencyExponent. You can get that from the CultureProfile
     public ErrorIndication GetErrorIndication() => _Outcome.GetErrorIndication();
+    public TransactionCurrencyExponent GetTransactionCurrencyExponent() => _TransactionCurrencyExponent;
     public bool TryGetDataRecord(out DataRecord? result) => _Outcome.TryGetDataRecord(out result);
     public bool TryGetDiscretionaryData(out DiscretionaryData? result) => _Outcome.TryGetDiscretionaryData(out result);
     public AmountAuthorizedNumeric GetAmountAuthorizedNumeric() => _AmountAuthorizedNumeric;

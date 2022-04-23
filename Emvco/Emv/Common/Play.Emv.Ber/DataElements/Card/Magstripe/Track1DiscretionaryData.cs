@@ -56,7 +56,7 @@ public record Track1DiscretionaryData : DataElement<char[]>
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        DecodedResult<char[]> result = Codec.Decode(EncodingId, value) as DecodedResult<char[]>
+        DecodedResult<char[]> result = _Codec.Decode(EncodingId, value) as DecodedResult<char[]>
             ?? throw new DataElementParsingException(
                 $"The {nameof(Track1DiscretionaryData)} could not be initialized because the {nameof(NumericCodec)} returned a null {nameof(DecodedResult<char[]>)}");
 

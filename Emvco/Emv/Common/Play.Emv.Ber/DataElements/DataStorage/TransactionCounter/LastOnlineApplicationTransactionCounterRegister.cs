@@ -31,7 +31,7 @@ public record LastOnlineApplicationTransactionCounterRegister : DataElement<usho
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public byte[] Encode() => Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public byte[] Encode() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 
@@ -54,7 +54,7 @@ public record LastOnlineApplicationTransactionCounterRegister : DataElement<usho
         return new LastOnlineApplicationTransactionCounterRegister(result);
     }
 
-    public new byte[] EncodeValue() => Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
     public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion

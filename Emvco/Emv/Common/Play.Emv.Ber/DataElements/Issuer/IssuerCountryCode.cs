@@ -66,7 +66,7 @@ public record IssuerCountryCode : DataElement<NumericCountryCode>, IEqualityComp
         return new IssuerCountryCode(new NumericCountryCode(result));
     }
 
-    public new byte[] EncodeValue() => Codec.EncodeValue(EncodingId, (ushort) _Value, _ByteLength);
+    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, (ushort) _Value, _ByteLength);
     public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion

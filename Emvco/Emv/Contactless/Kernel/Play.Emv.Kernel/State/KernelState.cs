@@ -105,7 +105,7 @@ public abstract class KernelState : IGetKernelStateId
     /// <exception cref="RequestOutOfSyncException"></exception>
     protected static void HandleRequestOutOfSync(KernelSession session, ActivateKernelRequest signal)
     {
-        if (signal.GetKernelSessionId().GetTransactionSessionId() != session.GetTransactionSessionId())
+        if (signal.GetTransactionSessionId() != session.GetTransactionSessionId())
             throw new RequestOutOfSyncException($"The request is invalid for the current state of the [{nameof(KernelChannel)}] channel");
     }
 

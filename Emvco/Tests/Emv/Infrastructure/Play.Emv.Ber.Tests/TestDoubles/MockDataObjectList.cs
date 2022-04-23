@@ -5,7 +5,6 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
-using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Emv.Ber.DataElements;
 
@@ -22,7 +21,7 @@ public record MockDataObjectList : DataObjectList
 
     #region Constructor
 
-    public MockDataObjectList(params TagLength[] value) : base(value)
+    public MockDataObjectList(byte[] value) : base(new BigInteger(value))
     { }
 
     #endregion
@@ -41,7 +40,7 @@ public record MockDataObjectList : DataObjectList
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static MockDataObjectList Decode(ReadOnlySpan<byte> value) => new(EmvCodec.GetBerCodec().DecodeTagLengthPairs(value.ToArray()));
+    public static MockDataObjectList Decode(ReadOnlySpan<byte> value) => new(value.ToArray());
 
     public override MockDataObjectList Decode(TagLengthValue value) => new(Decode(value.EncodeValue().AsSpan()));
 

@@ -29,7 +29,7 @@ public record SelectionDataObjectList : DataObjectList, IEqualityComparer<Select
 
     #region Constructor
 
-    public SelectionDataObjectList(params TagLength[] value) : base(value)
+    public SelectionDataObjectList(BigInteger value) : base(value)
     { }
 
     #endregion
@@ -65,7 +65,7 @@ public record SelectionDataObjectList : DataObjectList, IEqualityComparer<Select
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static SelectionDataObjectList Decode(ReadOnlySpan<byte> value) => new(Codec.DecodeTagLengthPairs(value));
+    public static SelectionDataObjectList Decode(ReadOnlySpan<byte> value) => new(new BigInteger(value.ToArray()));
 
     #endregion
 

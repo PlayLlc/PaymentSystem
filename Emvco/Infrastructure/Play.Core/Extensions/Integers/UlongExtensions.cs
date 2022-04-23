@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Runtime.CompilerServices;
 using System.Text;
 
 using Play.Core.Specifications;
@@ -145,29 +144,14 @@ public static class UlongExtensions
 
     public static ulong GetMaskedValue(this ulong value, in ulong mask) => value & ~mask;
 
-    public static int GetMostSignificantBit(this ulong value)
+    public static int GetMostSignificantBit(this in ulong value)
     {
         if (value == 0)
-            return 0;
+            return 1;
 
-        if (value < uint.MaxValue)
-            return (int) Math.Log(value, 2) + 1;
+        int bitLog = (int) Math.Log2(value);
 
-        ulong buffer = value;
-        int offset = 0;
-
-        for (int i = 0; i < Specs.Integer.Int64.BitCount; i++)
-        {
-            if (buffer == 0)
-                return offset;
-
-            if ((buffer % 10) != 0)
-                offset = i + 1;
-
-            buffer >>= 1;
-        }
-
-        return offset;
+        return bitLog + 1;
     }
 
     public static byte GetMostSignificantByte(this in ulong value) =>
@@ -175,10 +159,9 @@ public static class UlongExtensions
 
     public static byte GetNumberOfDigits(this in ulong value)
     {
+        int a = value.GetMostSignificantBit();
+        double power = Math.Pow(2, value.GetMostSignificantBit());
         double count = Math.Log10(Math.Pow(2, value.GetMostSignificantBit()));
-
-        if (count == 0)
-            return 1;
 
         return (byte) ((count % 1) == 0 ? count : count + 1);
     }

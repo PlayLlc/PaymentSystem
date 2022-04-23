@@ -30,20 +30,25 @@ public class GetProcessingOptionsCApduSignalTests
         ProcessingOptionsDataObjectListTestTlv testData = new();
         ProcessingOptionsDataObjectList pdol = ProcessingOptionsDataObjectList.Decode(testData.EncodeValue().AsSpan());
 
-        GetProcessingOptionsCApduSignal sut = GetProcessingOptionsCApduSignal.Create(pdol.AsDataObjectListResult(testData.GetTerminalValues()));
+        //GetProcessingOptionsCApduSignal sut =
+        //    GetProcessingOptionsCApduSignal.Create(pdol.AsDataObjectListResult(testData.GetTerminalValues()));
 
-        Assert.NotNull(sut);
-    }
-
-    [Fact]
-    public void CApduSignal_Initializing_CreatesExpectedResult()
-    {
-        ProcessingOptionsDataObjectListTestTlv testData = new();
-        ProcessingOptionsDataObjectList pdol = ProcessingOptionsDataObjectList.Decode(testData.EncodeValue().AsSpan());
-        GetProcessingOptionsCApduSignal sut = GetProcessingOptionsCApduSignal.Create(pdol.AsDataObjectListResult(testData.GetTerminalValues()));
-
-        Assert.NotNull(sut);
+        //Assert.NotNull(sut);
     }
 
     #endregion
+
+    //[Fact]
+    //public void CApduSignal_Initializing_CreatesExpectedResult()
+    //{
+    //    throw new Exception();
+
+    //    //ProcessingOptionsDataObjectListTestTlv testData = new();
+    //    //ProcessingOptionsDataObjectList pdol = ProcessingOptionsDataObjectList.Decode(testData.EncodeValue().AsSpan());
+    //    //GetProcessingOptionsCApduSignal sut = GetProcessingOptionsCApduSignal.Create(pdol.AsDataObjectListResult(testData.GetTerminalValues()));
+
+    //    //Assert.NotNull(sut);
+
+    //    //DataObjectListResult testDataDolr = new(testData.GetTerminalValues());
+    //}
 }

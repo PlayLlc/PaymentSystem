@@ -23,9 +23,9 @@ public static class UIntExtension
     public static int GetMostSignificantBit(this uint value)
     {
         if (value == 0)
-            return 0;
+            return 1;
 
-        int bitLog = (int) Math.Log(value, 2);
+        int bitLog = (int) Math.Log2(value);
 
         return bitLog + 1;
     }
@@ -44,9 +44,6 @@ public static class UIntExtension
     public static byte GetNumberOfDigits(this uint value)
     {
         double count = Math.Log10(Math.Pow(2, value.GetMostSignificantBit()));
-
-        if (count == 0)
-            return 1;
 
         return (byte) ((count % 1) == 0 ? count : count + 1);
     }

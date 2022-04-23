@@ -31,7 +31,7 @@ public class UnsignedIntegerTests : TestBase
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="Exceptions.CodecParsingException"></exception>
     [Theory]
-    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 50, 1, 300, MemberType = typeof(UnsignedIntegerFixture))]
+    [MemberData(nameof(UnsignedIntegerFixture.GetRandomBytes), 100, 1, 300, MemberType = typeof(UnsignedIntegerFixture))]
     public void RandomByteEncoding_DecodingThenEncoding_ReturnsExpectedResult(byte[] expected)
     {
         string? decoded = _SystemUnderTest.DecodeToString(expected);
@@ -41,7 +41,7 @@ public class UnsignedIntegerTests : TestBase
     }
 
     [Theory]
-    [MemberData(nameof(UnsignedIntegerFixture.GetRandomUShort), 50, MemberType = typeof(UnsignedIntegerFixture))]
+    [MemberData(nameof(UnsignedIntegerFixture.GetRandomUShort), 100, MemberType = typeof(UnsignedIntegerFixture))]
     public void RandomDecodedUShort_EncodingThenDecoding_ReturnsExpectedResult(ushort expected)
     {
         byte[]? decoded = _SystemUnderTest.Encode(expected);
@@ -51,7 +51,7 @@ public class UnsignedIntegerTests : TestBase
     }
 
     [Theory]
-    [MemberData(nameof(UnsignedIntegerFixture.GetRandomUInt), 50, MemberType = typeof(UnsignedIntegerFixture))]
+    [MemberData(nameof(UnsignedIntegerFixture.GetRandomUInt), 100, MemberType = typeof(UnsignedIntegerFixture))]
     public void RandomDecodedUInt_EncodingThenDecoding_ReturnsExpectedResult(uint expected)
     {
         byte[]? decoded = _SystemUnderTest.Encode(expected);
@@ -61,7 +61,7 @@ public class UnsignedIntegerTests : TestBase
     }
 
     [Theory]
-    [MemberData(nameof(UnsignedIntegerFixture.GetRandomULong), 50, MemberType = typeof(UnsignedIntegerFixture))]
+    [MemberData(nameof(UnsignedIntegerFixture.GetRandomULong), 100, MemberType = typeof(UnsignedIntegerFixture))]
     public void RandomDecodedULong_EncodingThenDecoding_ReturnsExpectedResult(ulong expected)
     {
         byte[]? decoded = _SystemUnderTest.Encode(expected);

@@ -34,7 +34,7 @@ public static class UShortExtension
         if (value == 0)
             return 0;
 
-        int bitLog = (int) Math.Log(value, 2);
+        byte bitLog = (byte) Math.Log2(value);
 
         return (byte) (bitLog + 1);
     }
@@ -44,9 +44,6 @@ public static class UShortExtension
 
     public static byte GetNumberOfDigits(this in ushort value)
     {
-        if (value == 0)
-            return 1;
-
         double count = Math.Log10(Math.Pow(2, value.GetMostSignificantBit()));
 
         return (byte) ((count % 1) == 0 ? count : count + 1);

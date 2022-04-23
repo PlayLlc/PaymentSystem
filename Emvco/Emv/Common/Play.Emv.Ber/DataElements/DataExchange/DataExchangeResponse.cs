@@ -51,20 +51,20 @@ public abstract record DataExchangeResponse : DataExchangeList<PrimitiveValue>
     /// <exception cref="BerParsingException"></exception>
     public new byte[] EncodeValue()
     {
-        return _Value.ToArray().SelectMany(a => a.EncodeTagLengthValue(Codec)).ToArray();
+        return _Value.ToArray().SelectMany(a => a.EncodeTagLengthValue(_Codec)).ToArray();
     }
 
     /// <exception cref="OverflowException"></exception>
     public new byte[] EncodeTagLengthValue()
     {
-        int byteCount = (int) _Value.Sum(a => a.GetTagLengthValueByteCount(Codec));
+        int byteCount = (int) _Value.Sum(a => a.GetTagLengthValueByteCount(_Codec));
 
         Span<byte> result = stackalloc byte[byteCount];
 
         for (int i = 0, j = 0; i < _Value.Count; i++)
         {
-            _Value.ElementAt(i).EncodeTagLengthValue(Codec).AsSpan().CopyTo(result[j..]);
-            j += (int) _Value.ElementAt(i).GetTagLengthValueByteCount(Codec);
+            _Value.ElementAt(i).EncodeTagLengthValue(_Codec).AsSpan().CopyTo(result[j..]);
+            j += (int) _Value.ElementAt(i).GetTagLengthValueByteCount(_Codec);
         }
 
         return result.ToArray();

@@ -43,10 +43,10 @@ public sealed record DataToSend : DataExchangeResponse, IEqualityComparer<DataTo
 
     /// <exception cref="NotImplementedException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static DataToSend Decode(ReadOnlyMemory<byte> value) => new(Codec.DecodePrimitiveValuesAtRuntime(value.Span).ToArray());
+    public static DataToSend Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodePrimitiveValuesAtRuntime(value.Span).ToArray());
 
     /// <exception cref="BerParsingException"></exception>
-    public static DataToSend Decode(ReadOnlySpan<byte> value) => new(Codec.DecodePrimitiveValuesAtRuntime(value.ToArray()).ToArray());
+    public static DataToSend Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodePrimitiveValuesAtRuntime(value.ToArray()).ToArray());
 
     /// <exception cref="NotImplementedException"></exception>
     /// <exception cref="BerParsingException"></exception>

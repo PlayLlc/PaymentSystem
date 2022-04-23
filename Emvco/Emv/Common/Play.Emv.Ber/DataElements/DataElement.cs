@@ -7,22 +7,13 @@ public abstract record DataElement<T>(T _Value) : PrimitiveValue, IEncodeDataEle
 {
     #region Static Metadata
 
-    protected static readonly EmvCodec _Codec;
+    protected static readonly EmvCodec _Codec = new();
 
     #endregion
 
     #region Instance Values
 
     protected readonly T _Value = _Value;
-
-    #endregion
-
-    #region Constructor
-
-    static DataElement()
-    {
-        _Codec = new EmvCodec();
-    }
 
     #endregion
 

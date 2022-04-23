@@ -79,7 +79,7 @@ public record DataNeeded : DataExchangeRequest
             return new DataNeeded(Array.Empty<Tag>());
 
         // This Value field is already BER encoded, which is what this object's _Value field requires
-        return new DataNeeded(Codec.DecodeTagSequence(value.ToArray()));
+        return new DataNeeded(_Codec.DecodeTagSequence(value.ToArray()));
     }
 
     #endregion
