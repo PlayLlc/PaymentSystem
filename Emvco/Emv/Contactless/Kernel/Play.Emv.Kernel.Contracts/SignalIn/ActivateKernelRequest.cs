@@ -56,7 +56,6 @@ public record ActivateKernelRequest : RequestSignal
     private readonly TransactionTime _TransactionTime;
     private readonly AmountAuthorizedNumeric _AmountAuthorizedNumeric;
     private readonly AmountOtherNumeric _AmountOtherNumeric;
-    private readonly TransactionCurrencyExponent _TransactionCurrencyExponent;
 
     // Outcome 
     private readonly DataRecord _DataRecord;
@@ -88,7 +87,6 @@ public record ActivateKernelRequest : RequestSignal
         _TransactionTime = transaction.GetTransactionTime();
         _AmountAuthorizedNumeric = transaction.GetAmountAuthorizedNumeric();
         _AmountOtherNumeric = transaction.GetAmountOtherNumeric();
-        _TransactionCurrencyExponent = transaction.GetTransactionCurrencyExponent();
         _TerminalVerificationResults = transaction.GetTerminalVerificationResults();
         _ErrorIndication = transaction.GetErrorIndication();
         _OutcomeParameterSet = transaction.GetOutcomeParameterSet();
@@ -119,7 +117,6 @@ public record ActivateKernelRequest : RequestSignal
         values.Add(_TransactionTime);
         values.Add(_AmountAuthorizedNumeric);
         values.Add(_AmountOtherNumeric);
-        values.Add(_TransactionCurrencyExponent);
         values.Add(_DataRecord);
         values.Add(_DiscretionaryData);
         values.Add(_TerminalVerificationResults);

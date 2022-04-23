@@ -73,7 +73,7 @@ public record UnpredictableNumberNumeric : DataElement<uint>, IEqualityComparer<
         return new UnpredictableNumberNumeric(PlayCodec.NumericCodec.DecodeToUInt32(value));
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue() => Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 

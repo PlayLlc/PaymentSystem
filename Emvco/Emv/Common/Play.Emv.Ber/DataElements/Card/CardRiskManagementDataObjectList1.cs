@@ -4,6 +4,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 
@@ -27,7 +28,7 @@ public record CardRiskManagementDataObjectList1 : DataObjectList
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public CardRiskManagementDataObjectList1(BigInteger value) : base(value)
+    public CardRiskManagementDataObjectList1(params TagLength[] value) : base(value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
     }
@@ -51,7 +52,7 @@ public record CardRiskManagementDataObjectList1 : DataObjectList
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static CardRiskManagementDataObjectList1 Decode(ReadOnlySpan<byte> value) => new(new BigInteger(value.ToArray()));
+    public static CardRiskManagementDataObjectList1 Decode(ReadOnlySpan<byte> value) => new(Codec.DecodeTagLengthPairs(value));
 
     #endregion
 }

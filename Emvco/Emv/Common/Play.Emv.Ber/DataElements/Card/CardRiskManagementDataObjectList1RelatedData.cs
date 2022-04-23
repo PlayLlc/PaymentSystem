@@ -4,6 +4,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
 using Play.Codecs;
 
 namespace Play.Emv.Ber.DataElements;
@@ -23,7 +24,7 @@ public record CardRiskManagementDataObjectList1RelatedData : DataObjectList
     #region Constructor
 
     /// <exception cref="BerParsingException"></exception>
-    public CardRiskManagementDataObjectList1RelatedData(BigInteger value) : base(value)
+    public CardRiskManagementDataObjectList1RelatedData(params TagLength[] value) : base(value)
     { }
 
     #endregion
@@ -43,7 +44,7 @@ public record CardRiskManagementDataObjectList1RelatedData : DataObjectList
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static CardRiskManagementDataObjectList1 Decode(ReadOnlySpan<byte> value) => new(new BigInteger(value.ToArray()));
+    public static CardRiskManagementDataObjectList1 Decode(ReadOnlySpan<byte> value) => new(Codec.DecodeTagLengthPairs(value));
 
     #endregion
 }

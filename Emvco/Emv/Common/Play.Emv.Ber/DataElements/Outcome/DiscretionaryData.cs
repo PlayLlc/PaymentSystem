@@ -39,10 +39,10 @@ public record DiscretionaryData : DataExchangeResponse, IEqualityComparer<Discre
     public override DiscretionaryData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
 
     /// <exception cref="BerParsingException"></exception>
-    public static DiscretionaryData Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodePrimitiveValuesAtRuntime(value.Span).ToArray());
+    public static DiscretionaryData Decode(ReadOnlyMemory<byte> value) => new(Codec.DecodePrimitiveValuesAtRuntime(value.Span).ToArray());
 
     /// <exception cref="BerParsingException"></exception>
-    public static DiscretionaryData Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodePrimitiveValuesAtRuntime(value).ToArray());
+    public static DiscretionaryData Decode(ReadOnlySpan<byte> value) => new(Codec.DecodePrimitiveValuesAtRuntime(value).ToArray());
 
     #endregion
 

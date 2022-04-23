@@ -31,7 +31,7 @@ public record ResponseMessageTemplateFormat1 : DataElement<byte[]>, IEqualityCom
     ///     Gets the sequence of <see cref="TagLengthValue" /> objects in this object's Value field
     /// </summary>
     /// <returns></returns>
-    public TagLengthValue[] DecodeValue() => _Codec.DecodeSiblings(_Value).AsTagLengthValues();
+    public TagLengthValue[] DecodeValue() => Codec.DecodeSiblings(_Value).AsTagLengthValues();
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
@@ -48,7 +48,7 @@ public record ResponseMessageTemplateFormat1 : DataElement<byte[]>, IEqualityCom
     /// <exception cref="DataElementParsingException"></exception>
     public static ResponseMessageTemplateFormat1 Decode(ReadOnlySpan<byte> value)
     {
-        DecodedResult<byte[]> result = _Codec.Decode(EncodingId, value) as DecodedResult<byte[]>
+        DecodedResult<byte[]> result = Codec.Decode(EncodingId, value) as DecodedResult<byte[]>
             ?? throw new DataElementParsingException(
                 $"The {nameof(ResponseMessageTemplateFormat1)} could not be initialized because the {nameof(BerEncodingIdType.VariableCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
 

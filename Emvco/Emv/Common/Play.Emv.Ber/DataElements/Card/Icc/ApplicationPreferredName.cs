@@ -63,7 +63,7 @@ public record ApplicationPreferredName : DataElement<char[]>, IEqualityComparer<
                 $"The Primitive Value {nameof(ApplicationPreferredName)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
         }
 
-        DecodedResult<char[]> result = _Codec.Decode(EncodingId, value) as DecodedResult<char[]>
+        DecodedResult<char[]> result = Codec.Decode(EncodingId, value) as DecodedResult<char[]>
             ?? throw new DataElementParsingException(
                 $"The {nameof(ApplicationPreferredName)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
 

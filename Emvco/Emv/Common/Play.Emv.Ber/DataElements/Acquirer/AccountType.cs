@@ -58,12 +58,12 @@ public record AccountType : DataElement<byte>, IEqualityComparer<AccountType>
 
         PlayCodec.NumericCodec.DecodeToByte(value);
 
-        DecodedResult<byte> result = _Codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataElementParsingException(EncodingId);
+        DecodedResult<byte> result = Codec.Decode(EncodingId, value).ToByteResult() ?? throw new DataElementParsingException(EncodingId);
 
         return new AccountType(result.Value);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue() => Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 

@@ -41,7 +41,7 @@ public record MerchantNameAndLocation : DataElement<char[]>, IEqualityComparer<M
     /// <exception cref="BerParsingException"></exception>
     public static MerchantNameAndLocation Decode(ReadOnlySpan<byte> value)
     {
-        DecodedResult<char[]> result = _Codec.Decode(EncodingId, value) as DecodedResult<char[]>
+        DecodedResult<char[]> result = Codec.Decode(EncodingId, value) as DecodedResult<char[]>
             ?? throw new DataElementParsingException(
                 $"The {nameof(MerchantNameAndLocation)} could not be initialized because the {nameof(AlphaNumericSpecialCodec)} returned a null {nameof(DecodedResult<char[]>)}");
 

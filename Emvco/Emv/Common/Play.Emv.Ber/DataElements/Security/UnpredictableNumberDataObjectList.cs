@@ -4,6 +4,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 
@@ -28,7 +29,7 @@ public record UnpredictableNumberDataObjectList : DataObjectList
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public UnpredictableNumberDataObjectList(BigInteger value) : base(value)
+    public UnpredictableNumberDataObjectList(params TagLength[] value) : base(value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
     }
@@ -52,7 +53,8 @@ public record UnpredictableNumberDataObjectList : DataObjectList
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static UnpredictableNumberDataObjectList Decode(ReadOnlySpan<byte> value) => new(new BigInteger(value.ToArray()));
+    public static UnpredictableNumberDataObjectList Decode(ReadOnlySpan<byte> value) =>
+        new UnpredictableNumberDataObjectList(Codec.DecodeTagLengthPairs(value));
 
     #endregion
 }

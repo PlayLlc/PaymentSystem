@@ -13,36 +13,13 @@ namespace Play.Emv.Ber.DataElements;
 ///     This object encapsulates Primitive <see cref="TagLength" /> Values requested by the ICC. These are ordered by the
 ///     expected concatenated response values
 /// </summary>
-public abstract record DataObjectList : DataElement<BigInteger>
+public abstract record DataObjectList : DataElement<TagLength[]>
 {
-    #region Instance Values
-
-    private TagLength[]? _DataObjects;
-
-    /// <summary>
-    ///     DataObjects
-    /// </summary>
-    /// <exception cref="BerParsingException" accessor="get"></exception>
-    private TagLength[] DataObjects
-    {
-        get
-        {
-            if (_DataObjects != null)
-                return _DataObjects;
-
-            _DataObjects = _Codec.DecodeTagLengthPairs(_Value.ToByteArray());
-
-            return _DataObjects;
-        }
-    }
-
-    #endregion
-
     #region Constructor
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    protected DataObjectList(BigInteger value) : base(value)
+    protected DataObjectList(TagLength[] value) : base(value)
     { }
 
     #endregion
@@ -51,7 +28,7 @@ public abstract record DataObjectList : DataElement<BigInteger>
 
     public bool IsObjectPresent(Tag tagToSearch)
     {
-        return _DataObjects?.Any(a => a.GetTag() == tagToSearch) ?? false;
+        return _Value.Any(a => a.GetTag() == tagToSearch);
     }
 
     /// <summary>
@@ -62,7 +39,7 @@ public abstract record DataObjectList : DataElement<BigInteger>
     /// <exception cref="TerminalDataException"></exception>
     public bool IsRequestedDataAvailable(IReadTlvDatabase database)
     {
-        foreach (TagLength item in DataObjects)
+        foreach (TagLength item in _Value)
         {
             if (!database.IsKnown(item.GetTag()))
                 return false;
@@ -80,7 +57,7 @@ public abstract record DataObjectList : DataElement<BigInteger>
     {
         List<Tag> result = new();
 
-        foreach (TagLength item in DataObjects)
+        foreach (TagLength item in _Value)
         {
             if (!database.IsPresentAndNotEmpty(item.GetTag()))
                 result.Add(item.GetTag());
@@ -101,13 +78,13 @@ public abstract record DataObjectList : DataElement<BigInteger>
             return false;
         }
 
-        result = new PrimitiveValue[DataObjects.Length];
+        result = new PrimitiveValue[_Value.Length];
 
-        for (int i = 0; i < DataObjects.Length; i++)
+        for (int i = 0; i < _Value.Length; i++)
         {
-            if (!database.TryGet(DataObjects[i].GetTag(), out PrimitiveValue? primitiveValue))
+            if (!database.TryGet(_Value[i].GetTag(), out PrimitiveValue? primitiveValue))
             {
-                result[i] = new UnknownPrimitiveValue(DataObjects[i]);
+                result[i] = new UnknownPrimitiveValue(_Value[i]);
 
                 continue;
             }
@@ -124,17 +101,17 @@ public abstract record DataObjectList : DataElement<BigInteger>
     /// <remarks>Book 3 Section 5.4</remarks>
     public virtual DataObjectListResult AsDataObjectListResult(PrimitiveValue[] dataObjects)
     {
-        ValidateCommandTemplate(dataObjects);
+        //ValidateCommandTemplate(dataObjects); 
 
         // HACK: You have a weird pattern going on. You first decode to DataObjectListResult, and then to a Command Template. This probably needs to be refactored to be more clear
-        PrimitiveValue[] result = new PrimitiveValue[DataObjects.Length];
+        PrimitiveValue[] result = new PrimitiveValue[_Value.Length];
 
-        for (int i = 0; i < DataObjects.Length; i++)
+        for (int i = 0; i < _Value.Length; i++)
         {
-            if (dataObjects.All(a => a.GetTag() != DataObjects[i].GetTag()))
-                result[i] = new UnknownPrimitiveValue(DataObjects[i].GetTag(), DataObjects[i].GetLength());
+            if (dataObjects.All(a => a.GetTag() != _Value[i].GetTag()))
+                result[i] = new UnknownPrimitiveValue(_Value[i].GetTag(), _Value[i].GetLength());
 
-            result[i] = dataObjects.First(a => a.GetTag() == DataObjects[i].GetTag());
+            result[i] = dataObjects.First(a => a.GetTag() == _Value[i].GetTag());
         }
 
         return new DataObjectListResult(result.ToArray());
@@ -154,15 +131,15 @@ public abstract record DataObjectList : DataElement<BigInteger>
 
         // HACK: You have a weird pattern going on. You first decode to DataObjectListResult, and then to a Command Template. This probably needs to be refactored to be more clear
 
-        PrimitiveValue[] buffer = new PrimitiveValue[DataObjects.Length];
+        PrimitiveValue[] buffer = new PrimitiveValue[_Value.Length];
 
-        for (int i = 0; i < DataObjects.Length; i++)
+        for (int i = 0; i < _Value.Length; i++)
         {
-            if (result[i].GetValueByteCount(_Codec) == DataObjects[i].GetValueByteCount())
+            if (result[i].GetValueByteCount(_Codec) == _Value[i].GetValueByteCount())
                 continue;
 
-            if (result[i].GetValueByteCount(_Codec) > DataObjects[i].GetValueByteCount())
-                buffer[i] = _Codec.DecodePrimitiveValueAtRuntime(result[i].EncodeValue(_Codec)[..DataObjects[i].GetValueByteCount()]);
+            if (result[i].GetValueByteCount(_Codec) > _Value[i].GetValueByteCount())
+                buffer[i] = _Codec.DecodePrimitiveValueAtRuntime(result[i].EncodeValue(_Codec)[.._Value[i].GetValueByteCount()]);
             else
                 buffer[i] = result[i];
         }
@@ -176,7 +153,7 @@ public abstract record DataObjectList : DataElement<BigInteger>
     /// <returns></returns>
     public int GetValueByteCountOfCommandTemplate()
     {
-        return _DataObjects?.Sum(a => a.GetValueByteCount()) ?? 0;
+        return _Value?.Sum(a => a.GetValueByteCount()) ?? 0;
     }
 
     /// <exception cref="TerminalDataException"></exception>
@@ -194,7 +171,7 @@ public abstract record DataObjectList : DataElement<BigInteger>
     /// <exception cref="BerParsingException"></exception>
     public bool Contains(Tag tag)
     {
-        return DataObjects.Any(a => a.GetTag() == tag);
+        return _Value.Any(a => a.GetTag() == tag);
     }
 
     /// <summary>
@@ -202,9 +179,9 @@ public abstract record DataObjectList : DataElement<BigInteger>
     /// </summary>
     /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
-    public int GetValueByteCount()
+    public new int GetValueByteCount()
     {
-        return DataObjects.Sum(a => a.GetTagLengthByteCount());
+        return _Value.Sum(a => a.GetTagLengthByteCount());
     }
 
     /// <summary>
@@ -214,10 +191,10 @@ public abstract record DataObjectList : DataElement<BigInteger>
     /// <exception cref="BerParsingException"></exception>
     public int GetCommandTemplateByteCount()
     {
-        return DataObjects.Sum(a => a.GetLengthByteCount());
+        return _Value.Sum(a => a.GetLengthByteCount());
     }
 
-    public TagLength[] GetRequestedItems() => DataObjects;
+    public TagLength[] GetRequestedItems() => _Value;
 
     /// <summary>
     ///     ValidateCommandTemplate
@@ -228,10 +205,10 @@ public abstract record DataObjectList : DataElement<BigInteger>
     {
         for (int i = 0; i < value.Length; i++)
         {
-            if (DataObjects.All(a => a.GetTag() != value[i].GetTag()))
+            if (_Value.All(a => a.GetTag() != value[i].GetTag()))
             {
                 throw new BerParsingException(new ArgumentOutOfRangeException(
-                    $"The argument {nameof(value)} did not contain a value for the requested object with the tag: {DataObjects[i].GetTag()}"));
+                    $"The argument {nameof(value)} did not contain a value for the requested object with the tag: {_Value[i].GetTag()}"));
             }
         }
     }

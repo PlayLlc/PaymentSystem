@@ -57,7 +57,7 @@ public record ReaderContactlessFloorLimit : DataElement<ulong>, IEqualityCompare
         return new ReaderContactlessFloorLimit(result);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue() => Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 

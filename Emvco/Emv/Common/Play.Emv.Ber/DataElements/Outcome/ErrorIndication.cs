@@ -101,7 +101,7 @@ public record ErrorIndication : DataElement<ulong>, IEqualityComparer<ErrorIndic
         return new ErrorIndication(result);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue() => Codec.EncodeValue(EncodingId, _Value, _ByteLength);
     public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion

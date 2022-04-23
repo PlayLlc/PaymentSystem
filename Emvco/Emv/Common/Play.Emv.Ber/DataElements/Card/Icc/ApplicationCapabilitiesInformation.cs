@@ -51,7 +51,7 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
     public override Tag GetTag() => Tag;
     public bool SupportForBalanceReading() => _Value.IsBitSet(10);
     public bool IsSupportForFieldOffDetectionSet() => _Value.IsBitSet(11);
-    public byte[] Encode() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public byte[] Encode() => Codec.EncodeValue(EncodingId, _Value, _ByteLength);
 
     #endregion
 
@@ -72,7 +72,7 @@ public record ApplicationCapabilitiesInformation : DataElement<uint>, IEqualityC
         return new ApplicationCapabilitiesInformation(result);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public new byte[] EncodeValue() => Codec.EncodeValue(EncodingId, _Value, _ByteLength);
     public new byte[] EncodeValue(int length) => EncodeValue();
 
     #endregion

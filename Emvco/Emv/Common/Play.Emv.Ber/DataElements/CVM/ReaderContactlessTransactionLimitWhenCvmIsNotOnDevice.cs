@@ -46,7 +46,7 @@ public record ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice : ReaderCont
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        DecodedResult<ulong> result = _Codec.Decode(EncodingId, value).ToUInt64Result()
+        DecodedResult<ulong> result = Codec.Decode(EncodingId, value).ToUInt64Result()
             ?? throw new DataElementParsingException(EncodingId);
 
         return new ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice(result.Value);

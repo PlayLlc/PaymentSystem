@@ -4,6 +4,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 
@@ -34,7 +35,7 @@ public record DataStorageDataObjectList : DataObjectList
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="DataElementParsingException"></exception>
-    public DataStorageDataObjectList(BigInteger value) : base(value)
+    public DataStorageDataObjectList(params TagLength[] value) : base(value)
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
     }
@@ -56,7 +57,7 @@ public record DataStorageDataObjectList : DataObjectList
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static DataStorageDataObjectList Decode(ReadOnlySpan<byte> value) => new(new BigInteger(value.ToArray()));
+    public static DataStorageDataObjectList Decode(ReadOnlySpan<byte> value) => new(Codec.DecodeTagLengthPairs(value));
 
     #endregion
 

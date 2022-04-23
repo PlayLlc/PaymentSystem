@@ -29,8 +29,7 @@ internal class MainStateMachine
     #region Constructor
 
     public MainStateMachine(
-        IHandleSelectionRequests selectionEndpoint, KernelRetriever kernelRetriever, IHandleDisplayRequests displayEndpoint,
-        IReaderEndpoint readerEndpoint)
+        IHandleSelectionRequests selectionEndpoint, KernelRetriever kernelRetriever, IHandleDisplayRequests displayEndpoint, IReaderEndpoint readerEndpoint)
     {
         _ReaderEndpoint = readerEndpoint;
         _SelectionEndpoint = selectionEndpoint;
@@ -73,8 +72,7 @@ internal class MainStateMachine
         {
             if (_Lock.Session == null)
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(OutSelectionResponse)} can't be processed because the transaction is no longer processing");
+                throw new RequestOutOfSyncException($"The {nameof(OutSelectionResponse)} can't be processed because the transaction is no longer processing");
             }
 
             if (_Lock.Session.KernelSessionId != null)
@@ -85,8 +83,7 @@ internal class MainStateMachine
 
             if (request.GetErrorIndication().IsErrorPresent())
             {
-                _OutcomeProcessor.Process(_Lock.Session.ActSignalCorrelationId, _Lock.Session.GetTransactionSessionId(),
-                    _Lock.Session.Transaction);
+                _OutcomeProcessor.Process(_Lock.Session.ActSignalCorrelationId, _Lock.Session.GetTransactionSessionId(), _Lock.Session.Transaction);
                 _SelectionEndpoint.Request(new StopSelectionRequest(_Lock.Session.GetTransactionSessionId()));
 
                 return;
@@ -96,9 +93,8 @@ internal class MainStateMachine
 
             _Lock.Session = _Lock.Session with {KernelSessionId = kernelSessionId};
 
-            ActivateKernelRequest activateKernelRequest = new(kernelSessionId, request.GetCombinationCompositeKey()!,
-                request.GetTransaction(), _Lock?.Session.TagsToRead, request.GetTerminalTransactionQualifiers()!,
-                request.GetApplicationFileInformationResponse()!, request.GetApplicationFileInformationResponse()!.GetStatusWords());
+            ActivateKernelRequest activateKernelRequest = new(kernelSessionId, request.GetCombinationCompositeKey()!, request.GetTransaction(),
+                _Lock?.Session.TagsToRead, request.GetTerminalTransactionQualifiers()!, request.GetApplicationFileInformationResponse()!);
 
             _KernelRetriever.Enqueue(activateKernelRequest);
         }
@@ -115,15 +111,13 @@ internal class MainStateMachine
         {
             if (_Lock.Session == null)
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(OutKernelResponse)} can't be processed because the transaction is no longer processing");
+                throw new RequestOutOfSyncException($"The {nameof(OutKernelResponse)} can't be processed because the transaction is no longer processing");
             }
 
             if (!_Lock.TryGetKernelSessionId(out KernelSessionId? kernelSessionId))
             {
                 // The lifetime of the Kernel is managed here Process M. The active kernel should not have stopped at this point
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(OutKernelResponse)} can't be processed because the Kernel is no longer active");
+                throw new RequestOutOfSyncException($"The {nameof(OutKernelResponse)} can't be processed because the Kernel is no longer active");
             }
 
             _OutcomeProcessor.Process(_Lock.Session.ActSignalCorrelationId, request.GetKernelSessionId(), _Lock.Session.Transaction);
@@ -147,8 +141,7 @@ internal class MainStateMachine
         {
             if (_Lock.Session == null)
             {
-                throw new RequestOutOfSyncException(
-                    $"The {nameof(OutKernelResponse)} can't be processed because the transaction is no longer processing");
+                throw new RequestOutOfSyncException($"The {nameof(OutKernelResponse)} can't be processed because the transaction is no longer processing");
             }
 
             // HACK: Send STOP signal if Selection process is active
@@ -162,8 +155,7 @@ internal class MainStateMachine
             if (_Lock.TryGetKernelSessionId(out KernelSessionId? kernelSessionId))
                 _KernelRetriever.Enqueue(new StopKernelRequest(kernelSessionId!.Value));
 
-            _OutcomeProcessor.Process(_Lock.Session.ActSignalCorrelationId, _Lock.Session.GetTransactionSessionId(),
-                _Lock.Session.Transaction);
+            _OutcomeProcessor.Process(_Lock.Session.ActSignalCorrelationId, _Lock.Session.GetTransactionSessionId(), _Lock.Session.Transaction);
         }
     }
 

@@ -2,6 +2,7 @@
 
 using Play.Ber.Exceptions;
 using Play.Core.Extensions.IEnumerable;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Exceptions;
@@ -47,10 +48,9 @@ public partial class PrepareGenerateAcService
             _Database.Update(referenceControlParam);
 
             _Database.Get<CardRiskManagementDataObjectList1>(CryptogramInformationData.Tag);
-            CardRiskManagementDataObjectList1? cardRiskManagementDataObjectList1 =
+            CardRiskManagementDataObjectList1 cardRiskManagementDataObjectList1 =
                 _Database.Get<CardRiskManagementDataObjectList1>(CardRiskManagementDataObjectList1.Tag);
-            CardRiskManagementDataObjectList1RelatedData? cdol1RelatedData = new(cardRiskManagementDataObjectList1
-                .AsCommandTemplate(_Database).EncodeValue().AsBigInteger());
+            CardRiskManagementDataObjectList1RelatedData cdol1RelatedData = new(cardRiskManagementDataObjectList1.GetRequestedItems());
 
             _PcdEndpoint.Request(GenerateApplicationCryptogramRequest.Create(session.GetTransactionSessionId(), referenceControlParam, cdol1RelatedData));
 

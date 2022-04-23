@@ -7,7 +7,6 @@ public class TransactionConfiguration
     #region Instance Values
 
     private readonly TransactionCurrencyCode _TransactionCurrencyCode;
-    private readonly TransactionCurrencyExponent _TransactionCurrencyExponent;
     private readonly TransactionReferenceCurrencyCode _TransactionReferenceCurrencyCode;
 
     //private readonly TransactionReferenceCurrencyConversion _TransactionReferenceCurrencyConversion;
@@ -18,12 +17,10 @@ public class TransactionConfiguration
     #region Constructor
 
     public TransactionConfiguration(
-        TransactionCurrencyCode transactionCurrencyCode, TransactionCurrencyExponent transactionCurrencyExponent,
-        TransactionReferenceCurrencyCode transactionReferenceCurrencyCode,
+        TransactionCurrencyCode transactionCurrencyCode, TransactionReferenceCurrencyCode transactionReferenceCurrencyCode,
         TransactionReferenceCurrencyExponent transactionReferenceCurrencyExponent)
     {
         _TransactionCurrencyCode = transactionCurrencyCode;
-        _TransactionCurrencyExponent = transactionCurrencyExponent;
         _TransactionReferenceCurrencyCode = transactionReferenceCurrencyCode;
         _TransactionReferenceCurrencyExponent = transactionReferenceCurrencyExponent;
     }

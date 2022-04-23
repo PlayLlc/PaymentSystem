@@ -37,25 +37,25 @@ public record TagsToWriteBeforeGenAc : DataExchangeResponse, IEqualityComparer<T
     /// <exception cref="CodecParsingException"></exception>
     private static IEnumerable<PrimitiveValue> ResolveTagsToWrite(ReadOnlySpan<byte> value)
     {
-        TagLengthValue[] tlv = _Codec.DecodeTagLengthValues(value).Where(a => _KnownPutDataTags.Any(b => b == a.GetTag())).ToArray();
+        TagLengthValue[] tlv = Codec.DecodeTagLengthValues(value).Where(a => _KnownPutDataTags.Any(b => b == a.GetTag())).ToArray();
         PrimitiveValue[] result = new PrimitiveValue[tlv.Length];
 
         for (int i = 0; i < tlv.Length; i++)
         {
             if (tlv[i].GetTag() == UnprotectedDataEnvelope1.Tag)
-                result[i] = UnprotectedDataEnvelope1.Decode(tlv[i].EncodeValue(_Codec).AsSpan());
+                result[i] = UnprotectedDataEnvelope1.Decode(tlv[i].EncodeValue(Codec).AsSpan());
 
             if (tlv[i].GetTag() == UnprotectedDataEnvelope2.Tag)
-                result[i] = UnprotectedDataEnvelope2.Decode(tlv[i].EncodeValue(_Codec).AsSpan());
+                result[i] = UnprotectedDataEnvelope2.Decode(tlv[i].EncodeValue(Codec).AsSpan());
 
             if (tlv[i].GetTag() == UnprotectedDataEnvelope3.Tag)
-                result[i] = UnprotectedDataEnvelope3.Decode(tlv[i].EncodeValue(_Codec).AsSpan());
+                result[i] = UnprotectedDataEnvelope3.Decode(tlv[i].EncodeValue(Codec).AsSpan());
 
             if (tlv[i].GetTag() == UnprotectedDataEnvelope4.Tag)
-                result[i] = UnprotectedDataEnvelope4.Decode(tlv[i].EncodeValue(_Codec).AsSpan());
+                result[i] = UnprotectedDataEnvelope4.Decode(tlv[i].EncodeValue(Codec).AsSpan());
 
             if (tlv[i].GetTag() == UnprotectedDataEnvelope5.Tag)
-                result[i] = UnprotectedDataEnvelope5.Decode(tlv[i].EncodeValue(_Codec).AsSpan());
+                result[i] = UnprotectedDataEnvelope5.Decode(tlv[i].EncodeValue(Codec).AsSpan());
         }
 
         return result;
