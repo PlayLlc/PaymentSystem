@@ -23,6 +23,7 @@ public class TerminalActionAnalysisServiceFactory
         IssuerActionCodesDenial = GetIssuerActionCodesDenial();
         IssuerActionCodesOnline = GetIssuerActionCodesOnline();
         IssuerActionCodesDefault = GetIssuerActionCodesDefault();
+
         TerminalActionCodesDenial = GetTerminalActionCodesDenial();
         TerminalActionCodesOnline = GetTerminalActionCodesOnline();
         TerminalActionCodesDefault = GetTerminalActionCodesDefault();
@@ -93,10 +94,10 @@ public class TerminalActionAnalysisServiceFactory
             new ActionCodes((ulong) (TerminalVerificationResult) TerminalVerificationResultCodes.StaticDataAuthenticationFailed)
         };
 
-    public static ActionCodes GetRandomIssuerActionCodeOnline() => IssuerActionCodesOnline.ElementAt(_Random.Next(0, IssuerActionCodesDefault.Count - 1));
+    public static ActionCodes GetRandomIssuerActionCodeOnline() => IssuerActionCodesOnline.ElementAt(_Random.Next(0, IssuerActionCodesOnline.Count - 1));
     public static ActionCodes GetRandomIssuerActionCodeDefault() => IssuerActionCodesDefault.ElementAt(_Random.Next(0, IssuerActionCodesDefault.Count - 1));
     public static ActionCodes GetRandomIssuerActionCodeDenial() => IssuerActionCodesDenial.ElementAt(_Random.Next(0, IssuerActionCodesDenial.Count - 1));
-    public static ActionCodes GetRandomTerminalActionCodeOnline() => TerminalActionCodesOnline.ElementAt(_Random.Next(0, TerminalActionCodesDefault.Count - 1));
+    public static ActionCodes GetRandomTerminalActionCodeOnline() => TerminalActionCodesOnline.ElementAt(_Random.Next(0, TerminalActionCodesOnline.Count - 1));
 
     public static ActionCodes GetRandomTerminalActionCodeDefault() =>
         TerminalActionCodesDefault.ElementAt(_Random.Next(0, TerminalActionCodesDefault.Count - 1));

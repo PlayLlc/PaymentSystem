@@ -41,7 +41,7 @@ namespace Play.Testing.Emv.Contactless.AutoFixture
             fixture.Register<KnownObjects>(fixture.Create<Kernel2KnownObjects>);
             KernelDatabase database = fixture.Create<KernelDatabase>();
             database.Activate(fixture.Create<KernelSessionId>());
-            fixture.Register(() => database);
+            fixture.Freeze<KernelDatabase>();
         }
 
         private static void SetupDatabase(IFixture fixture)
@@ -91,7 +91,7 @@ namespace Play.Testing.Emv.Contactless.AutoFixture
             TransactionDate transactionDate = fixture.Create<TransactionDate>();
             TransactionTime transactionTime = fixture.Create<TransactionTime>();
             TransactionSessionId transactionSessionId = fixture.Create<TransactionSessionId>();
-            TransactionType? transactionType = fixture.Create<TransactionType>();
+            TransactionType transactionType = fixture.Create<TransactionType>();
             LanguagePreference languagePreference = fixture.Create<LanguagePreference>();
             AmountAuthorizedNumeric amountAuthorized = fixture.Create<AmountAuthorizedNumeric>();
             AmountOtherNumeric amountOther = fixture.Create<AmountOtherNumeric>();

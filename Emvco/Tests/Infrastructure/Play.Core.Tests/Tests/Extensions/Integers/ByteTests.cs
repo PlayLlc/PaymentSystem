@@ -11,78 +11,69 @@ using Play.Testing.BaseTestClasses;
 
 using Xunit;
 
-namespace Play.Core.Tests.Tests.Extensions.Integers
+namespace Play.Core.Tests.Tests.Extensions.Integersd
 {
-    public class UshortTests : TestBase
+    public class ByteTests : TestBase
     {
         #region Instance Members
 
         [Fact]
-        public void Ushort_GetNumberOfDigits5_ReturnsExpectedResult()
+        public void Byte_GetNumberOfDigits3_ReturnsExpectedResult()
         {
-            ushort testData = 12345;
-            int expected = Specs.Integer.UInt16.MaxDigits;
+            byte testData = byte.MaxValue;
+            int expected = Specs.Integer.UInt8.MaxDigits;
             byte actual = testData.GetNumberOfDigits();
             Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
         }
 
         [Fact]
-        public void Ushort_GetNumberOfDigits3_ReturnsExpectedResult()
+        public void Byte_GetNumberOfDigits2_ReturnsExpectedResult()
         {
-            ushort testData = 123;
-            int expected = 3;
+            byte testData = 12;
+            int expected = 2;
             byte actual = testData.GetNumberOfDigits();
             Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
         }
 
         [Fact]
-        public void Ushort_GetNumberOfDigits0_ReturnsExpectedResult()
+        public void Byte_GetNumberOfDigits0_ReturnsExpectedResult()
         {
-            ushort testData = 0;
+            byte testData = 0;
             int expected = 1;
             byte actual = testData.GetNumberOfDigits();
             Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
         }
 
         [Fact]
-        public void Ushort_GetMostSignificantBit0_ReturnsExpectedResult()
+        public void Byte_GetMostSignificantBit0_ReturnsExpectedResult()
         {
-            ushort testData = 0;
+            byte testData = 0;
             int expected = 0;
             int actual = testData.GetMostSignificantBit();
             Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
         }
 
         [Fact]
-        public void Ushort_GetMostSignificantBit14_ReturnsExpectedResult()
+        public void Byte_GetMostSignificantBit14_ReturnsExpectedResult()
         {
-            ushort testData = 12345;
-            int expected = 14;
+            byte testData = 12;
+            int expected = 4;
             int actual = testData.GetMostSignificantBit();
             Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
         }
 
         [Fact]
-        public void Ushort_GetMostSignificantBit11_3_ReturnsExpectedResult()
+        public void Byte_GetMostSignificantBit16_ReturnsExpectedResult()
         {
-            ushort testData = 0b0000010110110110;
-            int expected = 11;
-            int actual = testData.GetMostSignificantBit();
-            Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
-        }
-
-        [Fact]
-        public void Ushort_GetMostSignificantBit16_ReturnsExpectedResult()
-        {
-            ushort testData = ushort.MaxValue;
-            int expected = Specs.Integer.UInt16.BitCount;
+            byte testData = byte.MaxValue;
+            int expected = Specs.Integer.UInt8.BitCount;
             int actual = testData.GetMostSignificantBit();
             Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
         }
 
         [Theory]
-        [MemberData(nameof(IntFixture.MostSignificantBit.ForUShort), 50, MemberType = typeof(IntFixture.MostSignificantBit))]
-        public void RandomByteArray_InvokesConcatArrays_CreatesValueCopyWithCorrectLength(int actual, ushort testData)
+        [MemberData(nameof(IntFixture.MostSignificantBit.ForByte), 50, MemberType = typeof(IntFixture.MostSignificantBit))]
+        public void RandomByteArray_InvokesConcatArrays_CreatesValueCopyWithCorrectLength(int actual, byte testData)
         {
             int expected = testData.GetMostSignificantBit();
 
