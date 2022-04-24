@@ -1,7 +1,6 @@
 ﻿using AutoFixture.Kernel;
 
 using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders;
-using Play.Testing.Infrastructure.AutoFixture.SpecimenBuilderss;
 
 namespace Play.Testing.Infrastructure.AutoFixture;
 

@@ -1,4 +1,4 @@
-﻿namespace Play.Testing.Emv.Contactless.AutoFixture.Buildersdd
+﻿namespace Play.Testing.Emv
 {
     //public class CaPublicKeyCertificateBuilder : SpecimenBuilder
     //{

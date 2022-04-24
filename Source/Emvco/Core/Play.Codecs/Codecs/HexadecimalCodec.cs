@@ -12,58 +12,6 @@ namespace Play.Codecs;
 
 public class HexadecimalCodec : PlayCodec
 {
-    #region Instance Members
-
-    /// <summary>
-    ///     Returns an unsigned integer from the Hexadecimal string provided
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    public ulong DecodeToUIn64(ReadOnlySpan<char> value) => UnsignedIntegerCodec.DecodeToUInt64(Encode(value));
-
-    #endregion
-
-    #region Serialization
-
-    #region Decode To DecodedMetadata
-
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
-    {
-        ReadOnlySpan<byte> trimmedValue = value.TrimStart((byte) 0);
-
-        if (value.Length == Specs.Integer.UInt8.ByteCount)
-            return new DecodedResult<byte>(trimmedValue[0], value.Length * 2);
-
-        if (value.Length <= Specs.Integer.UInt16.ByteCount)
-        {
-            ushort shortResult = UnsignedIntegerCodec.DecodeToUInt16(trimmedValue);
-
-            return new DecodedResult<ushort>(shortResult, value.Length * 2);
-        }
-
-        if (value.Length <= Specs.Integer.UInt32.ByteCount)
-        {
-            uint intResult = UnsignedIntegerCodec.DecodeToUInt32(trimmedValue);
-
-            return new DecodedResult<uint>(intResult, value.Length * 2);
-        }
-
-        if (value.Length <= Specs.Integer.UInt64.ByteCount)
-        {
-            ulong longResult = UnsignedIntegerCodec.DecodeToUInt64(trimmedValue);
-
-            return new DecodedResult<ulong>(longResult, value.Length * 2);
-        }
-
-        BigInteger bigIntegerResult = UnsignedIntegerCodec.DecodeToBigInteger(trimmedValue);
-
-        return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
-    }
-
-    #endregion
-
-    #endregion
-
     #region Metadata
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
@@ -72,6 +20,15 @@ public class HexadecimalCodec : PlayCodec
     #endregion
 
     #region Count
+
+    // DEPRECATING: This method will eventually be deprecated in favor of a method that passes in a Span<T> buffer
+    public override ushort GetByteCount<_T>(_T[] value)
+    {
+        if (!typeof(_T).IsByte())
+            throw new CodecParsingException(this, typeof(_T));
+
+        return (ushort) value.Length;
+    }
 
     public int GetByteCount(char[] chars, int index, int count)
     {
@@ -93,8 +50,10 @@ public class HexadecimalCodec : PlayCodec
     }
 
     public ushort GetByteCount(string value) => (ushort) ((value.Length / 2) + (value.Length % 2));
-    public override ushort GetByteCount<_T>(_T value) => throw new NotImplementedException();
-    public override ushort GetByteCount<_T>(_T[] value) => throw new NotImplementedException();
+    public ushort GetByteCount(ReadOnlySpan<byte> value) => (ushort) value.Length;
+
+    // DEPRECATING: This method will eventually be deprecated in favor of a method that passes in a Span<T> buffer
+    public override ushort GetByteCount<_T>(_T value) => (ushort) Unsafe.SizeOf<_T>();
 
     public int GetCharCount(byte[] bytes, int index, int count)
     {
@@ -167,30 +126,6 @@ public class HexadecimalCodec : PlayCodec
     ///     Encodes a sequence of characters into a byte array
     /// </summary>
     /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="EncodingException"></exception>
-    public bool TryEncode(ReadOnlySpan<char> value, out byte[] result)
-    {
-        try
-        {
-            CheckCore.ForEmptySequence(value, nameof(value));
-
-            result = Encode(value);
-
-            return true;
-        }
-        catch (CodecParsingException)
-        {
-            result = new byte[0];
-
-            return false;
-        }
-    }
-
-    /// <summary>
-    ///     Encodes a sequence of characters into a byte array
-    /// </summary>
-    /// <param name="value"></param>
     /// < returns></returns>
     /// < exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
@@ -219,11 +154,7 @@ public class HexadecimalCodec : PlayCodec
     public byte[] Encode(ulong value) => UnsignedIntegerCodec.Encode(value);
     public byte[] Encode(BigInteger value) => value.ToByteArray();
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    // DEPRECATING: This method will eventually be deprecated in favor of a method that passes in a Span<T> buffer
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T value)
@@ -250,12 +181,7 @@ public class HexadecimalCodec : PlayCodec
         return Encode(Unsafe.As<_T, BigInteger>(ref value));
     }
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="length"></param>
-    /// <returns></returns>
+    // DEPRECATING: This method will eventually be deprecated in favor of a method that passes in a Span<T> buffer
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public override byte[] Encode<_T>(_T value, int length)
@@ -284,12 +210,62 @@ public class HexadecimalCodec : PlayCodec
         return Encode(Unsafe.As<_T, BigInteger>(ref value), length);
     }
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="buffer"></param>
-    /// <param name="offset"></param>
+    // DEPRECATING: This method will eventually be deprecated in favor of a method that passes in a Span<T> buffer
+    /// <exception cref="CodecParsingException"></exception>
+    public override byte[] Encode<_T>(_T[] value)
+    {
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+            return Encode(Unsafe.As<_T[], char[]>(ref value));
+        if (type.IsByte())
+            return Unsafe.As<_T[], byte[]>(ref value).ToArray();
+
+        throw new CodecParsingException(this, type);
+    }
+
+    // DEPRECATING: This method will eventually be deprecated in favor of a method that passes in a Span<T> buffer
+    /// <exception cref="CodecParsingException"></exception>
+    public override byte[] Encode<_T>(_T[] value, int length)
+    {
+        Type type = typeof(_T);
+
+        if (type.IsChar())
+            return Encode(Unsafe.As<_T[], char[]>(ref value)[..length]);
+        if (type.IsByte())
+            return Encode(Unsafe.As<_T[], byte[]>(ref value)[..length]);
+
+        throw new CodecParsingException(this, type);
+    }
+
+    /// <exception cref="CodecParsingException"></exception>
+    public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
+    {
+        CheckCore.ForEmptySequence(chars, nameof(chars));
+
+        if ((charCount + charIndex) > chars.Length)
+            throw new ArgumentOutOfRangeException();
+
+        if (byteIndex > (bytes.Length - 1))
+            throw new ArgumentOutOfRangeException();
+
+        int indexRangeEnd = charIndex + charCount;
+        int indexRangeLength = indexRangeEnd - charIndex;
+        int bytesEncoded = indexRangeLength / 2;
+
+        if (bytes.Length < (byteIndex + bytesEncoded))
+            throw new ArgumentOutOfRangeException(nameof(bytes), "The byte buffer passed to the argument is smaller than expected");
+
+        if ((indexRangeLength % 2) != 0)
+            throw new ArgumentOutOfRangeException();
+
+        for (int i = charIndex, j = byteIndex; i <= indexRangeEnd; i += 2, j++)
+            bytes[j] = (byte) ((DecodeToByte(chars[i]) << 4) | DecodeToByte(chars[i + 1]));
+
+        return bytesEncoded;
+    }
+
+    // DEPRECATING: This method will eventually be deprecated in favor of a method that passes in a Span<T> buffer
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
@@ -320,13 +296,7 @@ public class HexadecimalCodec : PlayCodec
             Encode(Unsafe.As<_T, BigInteger>(ref value), buffer, ref offset);
     }
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="length"></param>
-    /// <param name="buffer"></param>
-    /// <param name="offset"></param>
+    // DEPRECATING: This method will eventually be deprecated in favor of a method that passes in a Span<T> buffer
     /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T value, int length, Span<byte> buffer, ref int offset)
     {
@@ -359,49 +329,7 @@ public class HexadecimalCodec : PlayCodec
             Encode(Unsafe.As<_T, BigInteger>(ref value), buffer, ref offset);
     }
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="CodecParsingException"></exception>
-    public override byte[] Encode<_T>(_T[] value)
-    {
-        Type type = typeof(_T);
-
-        if (type.IsChar())
-            return Encode(Unsafe.As<_T[], char[]>(ref value));
-        if (type.IsByte())
-            return Encode(Unsafe.As<_T[], byte[]>(ref value));
-
-        throw new CodecParsingException(this, type);
-    }
-
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="length"></param>
-    /// <returns></returns>
-    /// <exception cref="CodecParsingException"></exception>
-    public override byte[] Encode<_T>(_T[] value, int length)
-    {
-        Type type = typeof(_T);
-
-        if (type.IsChar())
-            return Encode(Unsafe.As<_T[], char[]>(ref value)[..length]);
-        if (type.IsByte())
-            return Encode(Unsafe.As<_T[], byte[]>(ref value)[..length]);
-
-        throw new CodecParsingException(this, type);
-    }
-
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="buffer"></param>
-    /// <param name="offset"></param>
+    // DEPRECATING: This method will eventually be deprecated in favor of a method that passes in a Span<T> buffer
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T[] value, Span<byte> buffer, ref int offset)
@@ -416,13 +344,7 @@ public class HexadecimalCodec : PlayCodec
             throw new CodecParsingException(this, type);
     }
 
-    /// <summary>
-    ///     Encode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="length"></param>
-    /// <param name="buffer"></param>
-    /// <param name="offset"></param>
+    // DEPRECATING: This method will eventually be deprecated in favor of a method that passes in a Span<T> buffer
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T[] value, int length, Span<byte> buffer, ref int offset)
@@ -435,33 +357,6 @@ public class HexadecimalCodec : PlayCodec
             Encode(Unsafe.As<_T[], byte[]>(ref value)[..length], buffer, ref offset);
         else
             throw new CodecParsingException(this, type);
-    }
-
-    /// <exception cref="CodecParsingException"></exception>
-    public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
-    {
-        CheckCore.ForEmptySequence(chars, nameof(chars));
-
-        if ((charCount + charIndex) > chars.Length)
-            throw new ArgumentOutOfRangeException();
-
-        if (byteIndex > (bytes.Length - 1))
-            throw new ArgumentOutOfRangeException();
-
-        int indexRangeEnd = charIndex + charCount;
-        int indexRangeLength = indexRangeEnd - charIndex;
-        int bytesEncoded = indexRangeLength / 2;
-
-        if (bytes.Length < (byteIndex + bytesEncoded))
-            throw new ArgumentOutOfRangeException(nameof(bytes), "The byte buffer passed to the argument is smaller than expected");
-
-        if ((indexRangeLength % 2) != 0)
-            throw new ArgumentOutOfRangeException();
-
-        for (int i = charIndex, j = byteIndex; i <= indexRangeEnd; i += 2, j++)
-            bytes[j] = (byte) ((DecodeToByte(chars[i]) << 4) | DecodeToByte(chars[i + 1]));
-
-        return bytesEncoded;
     }
 
     public void Encode(byte value, Span<byte> buffer, ref int offset)
@@ -590,15 +485,6 @@ public class HexadecimalCodec : PlayCodec
         }
     }
 
-    private static void ToCharsBuffer(byte value, Span<char> buffer, int startingIndex = 0)
-    {
-        uint difference = (((value & 0xF0U) << 4) + (value & 0x0FU)) - 0x8989U;
-        uint packedResult = (((uint) -(int) difference & 0x7070U) >> 4) + difference + 0xB9B9U;
-
-        buffer[startingIndex + 1] = (char) (packedResult & 0xFF);
-        buffer[startingIndex] = (char) (packedResult >> 8);
-    }
-
     #endregion
 
     #region Decode To String
@@ -694,6 +580,63 @@ public class HexadecimalCodec : PlayCodec
         byte result = Lookup.CharToHex[value];
 
         return result == 0xFF ? throw new CodecParsingException(CodecParsingException.ByteWasOutOfRangeOfHexadecimalCharacter) : result;
+    }
+
+    #endregion
+
+    #region Decode To DecodedMetadata
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        ReadOnlySpan<byte> trimmedValue = value.TrimStart((byte) 0);
+
+        if (value.Length == Specs.Integer.UInt8.ByteCount)
+            return new DecodedResult<byte>(trimmedValue[0], value.Length * 2);
+
+        if (value.Length <= Specs.Integer.UInt16.ByteCount)
+        {
+            ushort shortResult = UnsignedIntegerCodec.DecodeToUInt16(trimmedValue);
+
+            return new DecodedResult<ushort>(shortResult, value.Length * 2);
+        }
+
+        if (value.Length <= Specs.Integer.UInt32.ByteCount)
+        {
+            uint intResult = UnsignedIntegerCodec.DecodeToUInt32(trimmedValue);
+
+            return new DecodedResult<uint>(intResult, value.Length * 2);
+        }
+
+        if (value.Length <= Specs.Integer.UInt64.ByteCount)
+        {
+            ulong longResult = UnsignedIntegerCodec.DecodeToUInt64(trimmedValue);
+
+            return new DecodedResult<ulong>(longResult, value.Length * 2);
+        }
+
+        BigInteger bigIntegerResult = UnsignedIntegerCodec.DecodeToBigInteger(trimmedValue);
+
+        return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    /// <summary>
+    ///     Returns an unsigned integer from the Hexadecimal string provided
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public ulong DecodeToUIn64(ReadOnlySpan<char> value) => UnsignedIntegerCodec.DecodeToUInt64(Encode(value));
+
+    private static void ToCharsBuffer(byte value, Span<char> buffer, int startingIndex = 0)
+    {
+        uint difference = (((value & 0xF0U) << 4) + (value & 0x0FU)) - 0x8989U;
+        uint packedResult = (((uint) -(int) difference & 0x7070U) >> 4) + difference + 0xB9B9U;
+
+        buffer[startingIndex + 1] = (char) (packedResult & 0xFF);
+        buffer[startingIndex] = (char) (packedResult >> 8);
     }
 
     #endregion

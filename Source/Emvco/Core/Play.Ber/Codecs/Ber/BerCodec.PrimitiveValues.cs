@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
 
@@ -17,8 +19,7 @@ public partial class BerCodec
 {
     #region Instance Members
 
-    public T? AsPrimitive<T>(Func<ReadOnlyMemory<byte>, T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings)
-        where T : PrimitiveValue
+    public T? AsPrimitive<T>(Func<ReadOnlyMemory<byte>, T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings) where T : PrimitiveValue
     {
         if (!encodedTlvSiblings.TryGetValueOctetsOfSibling(tag, out ReadOnlyMemory<byte> rawDedicatedFileName))
             return null;
@@ -26,8 +27,7 @@ public partial class BerCodec
         return decodeFunc.Invoke(rawDedicatedFileName);
     }
 
-    public T? AsPrimitive<T>(Func<ReadOnlyMemory<byte>, BerCodec, T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings)
-        where T : PrimitiveValue
+    public T? AsPrimitive<T>(Func<ReadOnlyMemory<byte>, BerCodec, T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings) where T : PrimitiveValue
     {
         if (!encodedTlvSiblings.TryGetValueOctetsOfSibling(tag, out ReadOnlyMemory<byte> rawDedicatedFileName))
             return null;
@@ -43,12 +43,8 @@ public partial class BerCodec
     }
 
     public ushort GetByteCount(PlayEncodingId playEncodingId, dynamic value) => _ValueFactory.GetByteCount(playEncodingId, value);
-
-    public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T value) where T : struct =>
-        _ValueFactory.GetByteCount(playEncodingId, value);
-
-    public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T[] value) where T : struct =>
-        _ValueFactory.GetByteCount(playEncodingId, value);
+    public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T value) where T : struct => _ValueFactory.GetByteCount(playEncodingId, value);
+    public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T[] value) where T : struct => _ValueFactory.GetByteCount(playEncodingId, value);
 
     #endregion
 
@@ -61,7 +57,6 @@ public partial class BerCodec
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public DecodedMetadata Decode(PlayEncodingId codecIdentifier, ReadOnlySpan<byte> value)
     {
@@ -74,24 +69,13 @@ public partial class BerCodec
     // TODO: This is syntactic sugar and isn't very efficient. Ensure this isn't a bottleneck when
     // TODO: running benchmark testing 
     // TODO: WARNING=================================================================================
-    public byte[] EncodeValue(PlayEncodingId playEncodingId, dynamic value) => this.EncodeValue(playEncodingId, value);
-    public byte[] EncodeValue(PlayEncodingId playEncodingId, dynamic value, int length) => this.EncodeValue(playEncodingId, value, length);
+    public byte[] EncodeValue(PlayEncodingId playEncodingId, dynamic value) => _ValueFactory.Encode(playEncodingId, value);
+    public byte[] EncodeValue(PlayEncodingId playEncodingId, dynamic value, int length) => _ValueFactory.Encode(playEncodingId, value, length);
     public byte[] EncodeValue<T>(PlayEncodingId playEncodingId, T value) where T : struct => _ValueFactory.Encode(playEncodingId, value);
-
-    public byte[] EncodeValue<T>(PlayEncodingId playEncodingId, T value, int length) where T : struct =>
-        _ValueFactory.Encode(playEncodingId, value, length);
-
+    public byte[] EncodeValue<T>(PlayEncodingId playEncodingId, T value, int length) where T : struct => _ValueFactory.Encode(playEncodingId, value, length);
     public byte[] EncodeValue<T>(PlayEncodingId playEncodingId, T[] value) where T : struct => _ValueFactory.Encode(playEncodingId, value);
+    public byte[] EncodeValue<T>(PlayEncodingId playEncodingId, T[] value, int length) where T : struct => _ValueFactory.Encode(playEncodingId, value, length);
 
-    public byte[] EncodeValue<T>(PlayEncodingId playEncodingId, T[] value, int length) where T : struct =>
-        _ValueFactory.Encode(playEncodingId, value, length);
-
-    /// <summary>
-    ///     EncodeTagLengthValue
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="length"></param>
-    /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
     public byte[] EncodeTagLengthValue(PrimitiveValue value, int length)
     {

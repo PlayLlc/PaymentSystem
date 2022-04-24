@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Core.Extensions;
+﻿using Play.Core.Extensions;
 using Play.Core.Specifications;
 using Play.Core.Tests.Data.Fixtures;
 using Play.Testing.BaseTestClasses;
 
 using Xunit;
 
-namespace Play.Core.Tests.Tests.Extensions.Integersd
+namespace Play.Core.Tests.Tests.Extensions.Integers
 {
     public class ByteTests : TestBase
     {

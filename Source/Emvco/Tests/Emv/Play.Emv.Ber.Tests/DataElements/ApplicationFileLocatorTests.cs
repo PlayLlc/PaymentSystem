@@ -3,6 +3,7 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Exceptions;
 using Play.Testing.Emv.Ber.Primitive;
 
 using Xunit;
@@ -99,7 +100,7 @@ public class ApplicationFileLocatorTests
     {
         ApplicationFileLocatorTestTlv testData = new(new byte[] {0x08, 0x01, 0x03, 0x00, 0x10, 0x01, 0x01});
 
-        Assert.Throws<ArgumentOutOfRangeException>(() => ApplicationFileLocator.Decode(testData.EncodeValue().AsSpan()));
+        Assert.Throws<DataElementParsingException>(() => ApplicationFileLocator.Decode(testData.EncodeValue().AsSpan()));
     }
 
     /// <summary>

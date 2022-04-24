@@ -10,8 +10,7 @@ public abstract record DataExchangeResponse : DataExchangeList<PrimitiveValue>
 
     protected static readonly Tag[] _KnownPutDataTags =
     {
-        UnprotectedDataEnvelope1.Tag, UnprotectedDataEnvelope2.Tag, UnprotectedDataEnvelope3.Tag, UnprotectedDataEnvelope4.Tag,
-        UnprotectedDataEnvelope5.Tag
+        UnprotectedDataEnvelope1.Tag, UnprotectedDataEnvelope2.Tag, UnprotectedDataEnvelope3.Tag, UnprotectedDataEnvelope4.Tag, UnprotectedDataEnvelope5.Tag
     };
 
     #endregion
@@ -49,7 +48,7 @@ public abstract record DataExchangeResponse : DataExchangeList<PrimitiveValue>
     /// </summary>
     /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
-    public new byte[] EncodeValue()
+    public override byte[] EncodeValue()
     {
         return _Value.ToArray().SelectMany(a => a.EncodeTagLengthValue(_Codec)).ToArray();
     }

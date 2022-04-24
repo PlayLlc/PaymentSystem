@@ -6,6 +6,7 @@ using Microsoft.Toolkit.HighPerformance.Buffers;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.Lengths;
+using Play.Codecs;
 
 namespace Play.Ber.InternalFactories;
 
@@ -22,7 +23,6 @@ internal sealed class TagLengthFactory
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     internal TagLength[] GetTagLengthArray(ReadOnlySpan<byte> value)
     {
         if (value.IsEmpty)
@@ -31,15 +31,12 @@ internal sealed class TagLengthFactory
         int bufferIndex = 0;
 
         using SpanOwner<TagLength> tagLengthOwner = SpanOwner<TagLength>.Allocate(value.Length / 2);
-
         Span<TagLength> buffer = tagLengthOwner.Span;
+
+        Console.WriteLine(PlayCodec.HexadecimalCodec.DecodeToString(value));
 
         for (int spanIndex = 0; spanIndex < value.Length; bufferIndex++)
         {
-            TagLength hello = ParseFirst(value[spanIndex..]);
-            Tag tag = hello.GetTag();
-            Length length = hello.GetLength();
-
             buffer[bufferIndex] = ParseFirst(value[spanIndex..]);
             spanIndex += buffer[bufferIndex].GetTagLengthValueByteCount();
         }
@@ -49,7 +46,6 @@ internal sealed class TagLengthFactory
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     internal Dictionary<Tag, TagLength[]> ParseDescendents(ReadOnlySpan<byte> value, TagLength parent)
     {
         if (parent.GetTag().GetDataObject() != DataObjectType.Constructed)
@@ -68,8 +64,8 @@ internal sealed class TagLengthFactory
 
             if (currentChild.GetTag().GetDataObject() == DataObjectType.Constructed)
             {
-                foreach (KeyValuePair<Tag, TagLength[]> keyValuePair in ParseDescendents(
-                    parentContentOctets[j..currentChild.GetTagLengthValueByteCount()], currentChild))
+                foreach (KeyValuePair<Tag, TagLength[]> keyValuePair in ParseDescendents(parentContentOctets[j..currentChild.GetTagLengthValueByteCount()],
+                    currentChild))
                     descendents.Add(keyValuePair.Key, keyValuePair.Value);
             }
 
@@ -81,13 +77,10 @@ internal sealed class TagLengthFactory
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     internal TagLength ParseFirst(ReadOnlySpan<byte> value)
     {
         Tag tag = new(value);
         Length length = Length.Parse(value[tag.GetByteCount()..]);
-
-        //Length length = new(value[tag.GetTagLengthValueByteCount()..]);
 
         return new TagLength(tag, length);
     }

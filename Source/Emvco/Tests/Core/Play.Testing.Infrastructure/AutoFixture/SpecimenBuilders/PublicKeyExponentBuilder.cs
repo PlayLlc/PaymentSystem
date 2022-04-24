@@ -4,7 +4,7 @@ using Play.Core.Exceptions;
 using Play.Encryption.Certificates;
 using Play.Icc.Exceptions;
 
-namespace Play.Testing.Infrastructure.AutoFixture.SpecimenBuilderss
+namespace Play.Testing.Infrastructure.AutoFixture.SpecimenBuilders
 {
     public class PublicKeyExponentBuilder : SpecimenBuilder
     {

@@ -37,7 +37,7 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
     /// <exception cref="DataElementParsingException"></exception>
     public TransactionType(byte value) : base(value)
     {
-        Validate(value);
+        Check.Primitive.ForMaxCharLength(value, _CharLength, Tag);
     }
 
     #endregion
@@ -47,20 +47,6 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    /// <summary>
-    ///     Validate
-    /// </summary>
-    /// <param name="value"></param>
-    /// <exception cref="DataElementParsingException"></exception>
-    private void Validate(byte value)
-    {
-        if (value.GetNumberOfDigits() != _CharLength)
-        {
-            throw new DataElementParsingException(
-                $"The Primitive Value {nameof(TransactionType)} could not be initialized because the decoded character length was out of range. The decoded character length was {value.GetNumberOfDigits()} but must be {_CharLength} bytes in length");
-        }
-    }
 
     #endregion
 
@@ -85,8 +71,8 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
         return new TransactionType(result);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public new byte[] EncodeValue(int length) => EncodeValue();
+    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value, length);
 
     #endregion
 

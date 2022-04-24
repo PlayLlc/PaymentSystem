@@ -74,6 +74,9 @@ public record UnprotectedDataEnvelope1 : DataElement<BigInteger>, IEqualityCompa
         return new UnprotectedDataEnvelope1(result);
     }
 
+    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value);
+    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value, length);
+
     #endregion
 
     #region Equality

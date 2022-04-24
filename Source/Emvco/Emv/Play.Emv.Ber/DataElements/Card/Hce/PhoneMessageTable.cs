@@ -97,7 +97,7 @@ public record PhoneMessageTable : DataElement<MessageTableEntry[]>, IEqualityCom
         return new PhoneMessageTable(result);
     }
 
-    public new byte[] EncodeValue()
+    public override byte[] EncodeValue()
     {
         using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(_Value.Length * 8);
         Span<byte> buffer = spanOwner.Span;
@@ -109,7 +109,7 @@ public record PhoneMessageTable : DataElement<MessageTableEntry[]>, IEqualityCom
         return buffer.ToArray();
     }
 
-    public new byte[] EncodeValue(int length) => EncodeValue();
+    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(EncodeValue(), length);
 
     #endregion
 

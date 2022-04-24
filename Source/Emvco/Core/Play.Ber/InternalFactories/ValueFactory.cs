@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Codecs;
 
@@ -135,6 +137,16 @@ internal sealed class ValueFactory
         }
 
         return codec!.Decode(value);
+    }
+
+    public byte[] EncodeValue(PlayEncodingId encodingId, TagLength[] value)
+    {
+        return value.SelectMany(a => a.Encode()).ToArray();
+    }
+
+    public byte[] EncodeValue(PlayEncodingId encodingId, TagLengthValue[] value)
+    {
+        return value.SelectMany(a => a.EncodeValue()).ToArray();
     }
 
     #endregion

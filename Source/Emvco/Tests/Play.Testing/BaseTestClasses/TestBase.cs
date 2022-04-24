@@ -3,6 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 
 using AutoFixture;
 
+using Play.Ber.DataObjects;
+
 using Xunit.Sdk;
 
 namespace Play.Testing.BaseTestClasses;
@@ -98,7 +100,7 @@ public abstract class TestBase
             {
                 Debug.WriteLine(message);
 
-                throw new PlayUnitTestActException(message, exception);
+                throw new PlayUnitTestAssertionException(message, exception);
             }
 
             throw new PlayUnitTestAssertionException(message, exception);
@@ -109,7 +111,7 @@ public abstract class TestBase
             {
                 Debug.WriteLine(message);
 
-                throw new PlayUnitTestActException(message, exception);
+                throw new PlayUnitTestAssertionException(message, exception);
             }
 
             throw new PlayUnitTestAssertionException(message, exception);
@@ -125,6 +127,10 @@ public abstract class TestBase
             #region Instance Members
 
             public static string Message(string expected, string actual) => $"\n\n\t\texpected\t: {expected}; \n\t\tactual\t\t: {actual};";
+
+            public static string Message(TagLengthValue expected, TagLengthValue actual) =>
+                $"\n\n\t\texpected\t: {expected.EncodeTagLengthValue()}; \n\t\tactual\t\t: {actual.EncodeTagLengthValue()};";
+
             public static string Message(byte expected, byte actual) => $"\n\n\t\texpected\t: {expected}; \n\t\tactual\t\t: {actual};";
             public static string Message(int expected, int actual) => $"\n\n\t\texpected\t: {expected}; \n\t\tactual\t\t: {actual};";
             public static string Message(ushort expected, ushort actual) => $"\n\n\t\texpected\t: {expected}; \n\t\tactual\t\t: {actual};";

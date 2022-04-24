@@ -65,8 +65,8 @@ public record TerminalCountryCode : DataElement<NumericCountryCode>, IEqualityCo
         return new TerminalCountryCode(new NumericCountryCode(result));
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public new byte[] EncodeValue(int length) => EncodeValue();
+    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value, length);
 
     #endregion
 

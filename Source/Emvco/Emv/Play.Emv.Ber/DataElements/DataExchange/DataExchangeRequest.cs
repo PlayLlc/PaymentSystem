@@ -34,7 +34,7 @@ public abstract record DataExchangeRequest : DataExchangeList<Tag>
     #region Serialization
 
     /// <exception cref="OverflowException"></exception>
-    public new byte[] EncodeValue()
+    public override byte[] EncodeValue()
     {
         Span<byte> buffer = stackalloc byte[_Value.Sum(a => a.GetByteCount())];
         int offset = 0;
@@ -43,12 +43,6 @@ public abstract record DataExchangeRequest : DataExchangeList<Tag>
             _Value.ElementAt(i).Serialize(buffer, ref offset);
 
         return buffer.ToArray();
-    }
-
-    /// <exception cref="BerParsingException"></exception>
-    public new byte[] EncodeTagLengthValue()
-    {
-        return _Codec.EncodeTagLengthValue(GetTag(), _Value.SelectMany(a => a.Serialize()).ToList().AsSpan());
     }
 
     #endregion

@@ -75,7 +75,6 @@ public partial class BerCodec
     /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     public EncodedTlvSiblings DecodeChildren(ReadOnlyMemory<byte> value)
     {
         TagLength tagLength = _TagLengthFactory.ParseFirst(value.Span);
@@ -186,9 +185,6 @@ public partial class BerCodec
     {
         if (!children.Any())
             return EncodeEmptyDataObject(parent);
-
-        byte[]? contentOctets = parent.EncodeValue(this);
-        Length length = new(parent.GetValueByteCount(this));
 
         TagLength tagLength = new(parent.GetTag(), new Length(parent.GetValueByteCount(this)));
 

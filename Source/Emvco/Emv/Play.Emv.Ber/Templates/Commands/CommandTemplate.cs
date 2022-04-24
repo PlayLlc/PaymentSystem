@@ -49,5 +49,8 @@ public record CommandTemplate : DataElement<BigInteger>
     /// <exception cref="BerParsingException"></exception>
     public static CommandTemplate Decode(ReadOnlySpan<byte> value) => new(new BigInteger(value.ToArray()));
 
+    public override byte[] EncodeValue() => _Value.ToByteArray();
+    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(_Value.ToByteArray(), length);
+
     #endregion
 }

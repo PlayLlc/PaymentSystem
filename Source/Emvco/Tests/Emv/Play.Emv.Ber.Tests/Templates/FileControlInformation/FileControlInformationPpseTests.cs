@@ -1,6 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Emv.Ber.Templates;
+using Play.Testing.BaseTestClasses;
 using Play.Testing.Emv.Ber.Constructed;
 using Play.Testing.Emv.Ber.Primitive;
 
@@ -8,47 +9,32 @@ using Xunit;
 
 namespace Play.Emv.Ber.Tests.Templates.FileControlInformation;
 
-public class FileControlInformationPpseTests
+public class FileControlInformationPpseTests : TestBase
 {
     #region Instance Members
 
-    /// <summary>
-    ///     BerEncoding_DeserializingTemplate_CreatesConstructedValue
-    /// </summary>
     /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void BerEncoding_DeserializingTemplate_CreatesConstructedValue()
     {
         FileControlInformationPpseTestTlv testData = new();
 
-        DedicatedFileNameTestTlv? firstChild = new();
-        FileControlInformationProprietaryPpseTestTlv? secondChild = new();
-
-        byte[]? testValue = testData.EncodeTagLengthValue();
-
         FileControlInformationPpse sut = FileControlInformationPpse.Decode(testData.EncodeTagLengthValue());
         Assert.NotNull(sut);
     }
 
-    /// <summary>
-    ///     BerEncoding_DeserializingDTemplate_CorrectlyCreatesChildDataElements
-    /// </summary>
     /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void BerEncoding_DeserializingDTemplate_CorrectlyCreatesChildDataElements()
     {
         FileControlInformationPpseTestTlv testData = new();
         FileControlInformationPpse sut = FileControlInformationPpse.Decode(testData.EncodeTagLengthValue());
-        byte[] testValue = sut.EncodeTagLengthValue();
+        byte[]? expected = testData.EncodeTagLengthValue();
+        byte[] actual = sut.EncodeTagLengthValue();
 
-        byte[]? expectedResult = testData.EncodeTagLengthValue();
-
-        Assert.Equal(expectedResult, testValue);
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
-    /// <summary>
-    ///     Template_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult
-    /// </summary>
     /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void Template_InvokingGetTagLengthValueByteCount_ReturnsExpectedResult()
@@ -60,9 +46,6 @@ public class FileControlInformationPpseTests
         Assert.NotNull(sut);
     }
 
-    /// <summary>
-    ///     Template_InvokingGetValueByteCount_ReturnsExpectedResult
-    /// </summary>
     /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void Template_InvokingGetValueByteCount_ReturnsExpectedResult()
@@ -73,20 +56,16 @@ public class FileControlInformationPpseTests
         Assert.True(sut.GetValueByteCount() == testData.EncodeValue().Length);
     }
 
-    /// <summary>
-    ///     Template_InvokingAsTagLengthValue_ReturnsExpectedResult
-    /// </summary>
     /// <exception cref="BerParsingException"></exception>
     [Fact]
     public void Template_InvokingAsTagLengthValue_ReturnsExpectedResult()
     {
         FileControlInformationPpseTestTlv testData = new();
         FileControlInformationPpse sut = FileControlInformationPpse.Decode(testData.EncodeTagLengthValue());
+        TagLengthValue expected = new(FileControlInformationPpse.Tag, testData.EncodeTagLengthValue());
+        TagLengthValue actual = sut.AsTagLengthValue();
 
-        TagLengthValue testValue = sut.AsTagLengthValue();
-
-        //TagLengthValue expectedResult = testData.AsPrimitiveValue();
-        //Assert.Equal(expectedResult, testValue);
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
     #endregion

@@ -139,15 +139,15 @@ public record ApplicationDedicatedFileName : DataElement<BigInteger>, IEqualityC
     public static ApplicationDedicatedFileName Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
-        Check.Primitive.ForMinimumLength(value, _MaxByteLength, Tag);
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
         BigInteger result = PlayCodec.BinaryCodec.DecodeToBigInteger(value);
 
         return new ApplicationDedicatedFileName(result);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value);
-    public new byte[] EncodeValue(int length) => EncodeValue();
+    public override byte[] EncodeValue() => _Value.ToByteArray();
+    public override byte[] EncodeValue(int length) => PlayCodec.BinaryCodec.Encode(_Value.ToByteArray(), length);
 
     #endregion
 

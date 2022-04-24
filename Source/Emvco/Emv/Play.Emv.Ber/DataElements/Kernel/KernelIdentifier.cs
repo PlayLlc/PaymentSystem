@@ -214,9 +214,9 @@ public record KernelIdentifier : DataElement<ulong>, IEqualityComparer<KernelIde
     public static KernelIdentifier Decode(ReadOnlySpan<byte> value)
     {
         Check.Primitive.ForMinimumLength(value, _MinByteLength, Tag);
-        Check.Primitive.ForMinimumLength(value, _MaxByteLength, Tag);
+        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        ushort result = PlayCodec.BinaryCodec.DecodeToUInt16(value);
+        ulong result = PlayCodec.BinaryCodec.DecodeToUInt64(value);
 
         return new KernelIdentifier(result);
     }

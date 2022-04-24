@@ -112,7 +112,7 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>, IEqualityC
         return new LanguagePreference(GetAlpha2LanguageCodes(value));
     }
 
-    public new byte[] EncodeValue()
+    public override byte[] EncodeValue()
     {
         Span<byte> buffer = stackalloc byte[_Value.Length];
 

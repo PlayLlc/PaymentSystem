@@ -55,8 +55,8 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
         return new MerchantCategoryCode(result);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public new byte[] EncodeValue(int length) => EncodeValue();
+    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value, length);
 
     #endregion
 
@@ -138,10 +138,7 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
     public static readonly MerchantCategoryCode DanceHallsStudiosAndSchools = new(7911);
     public static readonly MerchantCategoryCode DatingAndEscortServices = new(7273);
     public static readonly MerchantCategoryCode DepartmentStores = new(5311);
-
-    public static readonly MerchantCategoryCode
-        DirectMarketingCatalogAndCatalogAndRetailMerchantDirectMarketingOutboundTelemarketingMerchant = new(5965);
-
+    public static readonly MerchantCategoryCode DirectMarketingCatalogAndCatalogAndRetailMerchantDirectMarketingOutboundTelemarketingMerchant = new(5965);
     public static readonly MerchantCategoryCode DirectMarketingCatalogMerchant = new(5964);
     public static readonly MerchantCategoryCode DirectMarketingContinuitysubscriptionMerchant = new(5968);
     public static readonly MerchantCategoryCode DirectMarketingInboundTeleservicesMerchant = new(5967);
@@ -152,10 +149,7 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
     public static readonly MerchantCategoryCode DisinfectingServices = new(7342);
     public static readonly MerchantCategoryCode DoorToDoorSales = new(5963);
     public static readonly MerchantCategoryCode DraperyWindowCoveringAndUpholsteryStores = new(5714);
-
-    public static readonly MerchantCategoryCode DrinkingPlacesAlcoholicBeveragesBarsTavernsCocktailLoungesNightclubsAndDiscotheques =
-        new(5813);
-
+    public static readonly MerchantCategoryCode DrinkingPlacesAlcoholicBeveragesBarsTavernsCocktailLoungesNightclubsAndDiscotheques = new(5813);
     public static readonly MerchantCategoryCode DrugsDrugProprietorsAndDruggistsSundries = new(5122);
     public static readonly MerchantCategoryCode DrugStoresAndPharmacies = new(5912);
     public static readonly MerchantCategoryCode DryCleaners = new(7216);
@@ -210,10 +204,7 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
     public static readonly MerchantCategoryCode LeatherFoodsStores = new(5948);
     public static readonly MerchantCategoryCode LodgingHotelsMotelsResortsCentralReservationServicesNotElsewhereClassified = new(7011);
     public static readonly MerchantCategoryCode LumberAndBuildingMaterialsStores = new(5211);
-
-    public static readonly MerchantCategoryCode
-        MailOrderHousesIncludingCatalogOrderStoresBookrecordClubsNoLongerPermittedForSOriginalPresentments = new(5961);
-
+    public static readonly MerchantCategoryCode MailOrderHousesIncludingCatalogOrderStoresBookrecordClubsNoLongerPermittedForSOriginalPresentments = new(5961);
     public static readonly MerchantCategoryCode ManagementConsultingAndPublicRelationsServices = new(7392);
     public static readonly MerchantCategoryCode MassageParlors = new(7297);
     public static readonly MerchantCategoryCode MeatProvisionersFreezerAndLocker = new(5422);
@@ -239,10 +230,7 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
     public static readonly MerchantCategoryCode MusicStoresMusicalInstrumentsPianoSheetMusic = new(5733);
     public static readonly MerchantCategoryCode NewsDealersAndNewsstands = new(5994);
     public static readonly MerchantCategoryCode NondurableGoodsNotElsewhereClassified = new(5199);
-
-    public static readonly MerchantCategoryCode NonFinancialInstitutionsForeignCurrencyMoneyOrdersNotWireTransferAndTravelersCheques =
-        new(6051);
-
+    public static readonly MerchantCategoryCode NonFinancialInstitutionsForeignCurrencyMoneyOrdersNotWireTransferAndTravelersCheques = new(6051);
     public static readonly MerchantCategoryCode NurseriesLawnAndGardenSupplyStore = new(5261);
     public static readonly MerchantCategoryCode NutStores = new(5441);
     public static readonly MerchantCategoryCode OfficeAndCommercialFurniture = new(5021);
@@ -286,8 +274,7 @@ public record MerchantCategoryCode : DataElement<ushort>, IEqualityComparer<Merc
     public static readonly MerchantCategoryCode TaxPreparationService = new(7276);
 
     public static readonly MerchantCategoryCode
-        TelecommunicationServiceIncludingLocalAndLongDistanceCallsCreditCardCallsCallsThroughUseOfMagneticstripReadingTelephonesAndFaxServices =
-            new(4814);
+        TelecommunicationServiceIncludingLocalAndLongDistanceCallsCreditCardCallsCallsThroughUseOfMagneticstripReadingTelephonesAndFaxServices = new(4814);
 
     public static readonly MerchantCategoryCode TelegraphServices = new(4821);
     public static readonly MerchantCategoryCode TentAndAwningShops = new(5998);

@@ -11,8 +11,9 @@ namespace Play.Codecs;
 
 public class BinaryCodec : PlayCodec
 {
-    #region Static Metadata
+    #region Metadata
 
+    public override PlayEncodingId GetEncodingId() => EncodingId;
     public static readonly PlayEncodingId EncodingId = new(typeof(BinaryCodec));
 
     private static readonly Dictionary<byte, char[]> _CharArrayMap = new()
@@ -57,62 +58,22 @@ public class BinaryCodec : PlayCodec
 
     #endregion
 
-    #region Instance Members
-
-    public override PlayEncodingId GetEncodingId() => EncodingId;
-
-    #region Decode To Chars
-
-    public void DecodeToChars(byte value, int offset, Span<char> buffer)
-    {
-        _CharArrayMap[value.GetMaskedValue(0xF0)].CopyTo(buffer[..(offset + 4)]);
-        _CharArrayMap[(byte) (value >> 4)].CopyTo(buffer[(offset + 4)..]);
-    }
-
-    #endregion
-
-    #endregion
-
-    #region Serialization
-
-    #region Decode To DecodedMetadata
-
-    // HACK: We're removing the dynamic decoding capability and using explicit decoding calls
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
-    {
-        if (value.Length <= Specs.Integer.UInt8.ByteCount)
-            return new DecodedResult<byte>(value[0], value[0].GetNumberOfDigits());
-        if (value.Length <= Specs.Integer.UInt16.ByteCount)
-            return new DecodedResult<ushort>(UnsignedIntegerCodec.DecodeToUInt16(value), value[0].GetNumberOfDigits());
-        if (value.Length <= Specs.Integer.UInt32.ByteCount)
-            return new DecodedResult<uint>(UnsignedIntegerCodec.DecodeToUInt32(value), value[0].GetNumberOfDigits());
-        if (value.Length <= Specs.Integer.UInt64.ByteCount)
-            return new DecodedResult<ulong>(UnsignedIntegerCodec.DecodeToUInt64(value), value[0].GetNumberOfDigits());
-
-        return new DecodedResult<BigInteger>(UnsignedIntegerCodec.DecodeToBigInteger(value), value[0].GetNumberOfDigits());
-    }
-
-    #endregion
-
-    #endregion
-
     #region Count
 
     public int GetByteCount(char[] chars, int index, int count) => (count / 8) + (count % 8);
     public int GetMaxByteCount(int charCount) => (charCount / 8) + (charCount % 8);
 
-    /// <summary>
-    ///     GetByteCount
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public override ushort GetByteCount<T>(T value) where T : struct
     {
         // HACK: We're removing the dynamic decoding capability and using explicit decoding calls
+        Type type = typeof(T);
         nint byteSize = Unsafe.SizeOf<T>();
+
+        if (!type.IsNumericType())
+            throw new CodecParsingException($"The {nameof(BinaryCodec)} could not find the byte count for a type of {typeof(T)}");
 
         if (byteSize <= Specs.Integer.UInt8.ByteCount)
             return 1;
@@ -122,8 +83,10 @@ public class BinaryCodec : PlayCodec
             return Unsafe.As<T, uint>(ref value).GetMostSignificantByte();
         if (byteSize <= Specs.Integer.UInt64.ByteCount)
             return Unsafe.As<T, ulong>(ref value).GetMostSignificantByte();
+        if (byteSize <= Specs.Integer.UInt64.ByteCount)
+            return Unsafe.As<T, ulong>(ref value).GetMostSignificantByte();
 
-        throw new CodecParsingException($"The {nameof(BinaryCodec)} could not find the byte count for a type of {typeof(T)}");
+        return checked((ushort) Unsafe.As<T, BigInteger>(ref value).GetByteCount());
     }
 
     public override ushort GetByteCount<T>(T[] value) where T : struct => checked((ushort) value.Length);
@@ -133,24 +96,6 @@ public class BinaryCodec : PlayCodec
     #endregion
 
     #region Validation
-
-    private void Validate(ReadOnlySpan<char> value)
-    {
-        if ((value.Length % 8) != 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(value),
-                $"The {nameof(BinaryCodec)} Encoding expects a string that is divisible by 8");
-        }
-
-        for (int i = 0; i < value.Length; i++)
-        {
-            if ((value[i] != '0') && (value[i] != '1'))
-            {
-                throw new ArgumentOutOfRangeException(
-                    $"The {nameof(BinaryCodec)} Encoding expects all string values to be either a '1' or a '0'");
-            }
-        }
-    }
 
     public bool IsValid(ReadOnlySpan<char> value)
     {
@@ -168,25 +113,11 @@ public class BinaryCodec : PlayCodec
 
     public override bool IsValid(ReadOnlySpan<byte> value) => true;
 
-    protected void Validate(ReadOnlySpan<byte> value)
-    { }
-
     #endregion
 
     #region Encode
 
     public bool TryEncoding(ReadOnlySpan<char> value, out byte[] result) => throw new NotImplementedException();
-
-    /// <exception cref="CodecParsingException"></exception>
-    private void Encode(char[] charBuffer, int offset, Span<byte> buffer)
-    {
-        if (charBuffer.Length != 8)
-            throw new CodecParsingException(new ArgumentOutOfRangeException(nameof(charBuffer), "The sequence must have a length of 8"));
-
-        buffer[offset] = (byte) (_NibbleMap[charBuffer[..4]] >> 4);
-        buffer[offset] = _NibbleMap[charBuffer[4..]];
-        buffer.Clear();
-    }
 
     /// <summary>
     ///     Encode
@@ -361,9 +292,7 @@ public class BinaryCodec : PlayCodec
     public void Encode(uint value, Span<byte> buffer, ref int offset) => UnsignedIntegerCodec.Encode(value, buffer, ref offset);
     public void Encode(uint value, int length, Span<byte> buffer, ref int offset) => UnsignedIntegerCodec.Encode(value, buffer, ref offset);
     public void Encode(ulong value, Span<byte> buffer, ref int offset) => UnsignedIntegerCodec.Encode(value, buffer, ref offset);
-
-    public void Encode(ulong value, int length, Span<byte> buffer, ref int offset) =>
-        UnsignedIntegerCodec.Encode(value, buffer, ref offset);
+    public void Encode(ulong value, int length, Span<byte> buffer, ref int offset) => UnsignedIntegerCodec.Encode(value, buffer, ref offset);
 
     /// <summary>
     ///     Encode
@@ -457,10 +386,7 @@ public class BinaryCodec : PlayCodec
         if (type.IsChar())
             Encode(Unsafe.As<T[], char[]>(ref value), buffer, ref offset);
         else if (typeof(T).IsNumericType())
-        {
-            throw new CodecParsingException(
-                $"The {nameof(BinaryCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
-        }
+            throw new CodecParsingException($"The {nameof(BinaryCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
         else
             Encode(Unsafe.As<T[], byte[]>(ref value), buffer, ref offset);
     }
@@ -483,10 +409,7 @@ public class BinaryCodec : PlayCodec
         else if (type.IsNumericType())
             Encode(Unsafe.As<T[], byte[]>(ref value), length, buffer, ref offset);
         else
-        {
-            throw new CodecParsingException(
-                $"The {nameof(BinaryCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
-        }
+            throw new CodecParsingException($"The {nameof(BinaryCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }
 
     /// <summary>
@@ -507,6 +430,27 @@ public class BinaryCodec : PlayCodec
             value[j..(j + 8)].CopyTo(charBuffer);
             Encode(charBuffer, i + offset++, buffer);
         }
+    }
+
+    /// <exception cref="CodecParsingException"></exception>
+    private void Encode(char[] charBuffer, int offset, Span<byte> buffer)
+    {
+        if (charBuffer.Length != 8)
+            throw new CodecParsingException(new ArgumentOutOfRangeException(nameof(charBuffer), "The sequence must have a length of 8"));
+
+        buffer[offset] = (byte) (_NibbleMap[charBuffer[..4]] >> 4);
+        buffer[offset] = _NibbleMap[charBuffer[4..]];
+        buffer.Clear();
+    }
+
+    #endregion
+
+    #region Decode To Chars
+
+    public void DecodeToChars(byte value, int offset, Span<char> buffer)
+    {
+        _CharArrayMap[value.GetMaskedValue(0xF0)].CopyTo(buffer[..(offset + 4)]);
+        _CharArrayMap[(byte) (value >> 4)].CopyTo(buffer[(offset + 4)..]);
     }
 
     #endregion
@@ -550,10 +494,48 @@ public class BinaryCodec : PlayCodec
     #region Decode To Integers
 
     public BigInteger DecodeToBigInteger(ReadOnlySpan<byte> value) => UnsignedIntegerCodec.DecodeToBigInteger(value);
+    public byte DecodeToByte(ReadOnlySpan<byte> value) => UnsignedIntegerCodec.DecodeToByte(value);
     public uint DecodeToUInt32(ReadOnlySpan<byte> value) => UnsignedIntegerCodec.DecodeToUInt32(value);
     public ulong DecodeToUInt64(ReadOnlySpan<byte> value) => UnsignedIntegerCodec.DecodeToUInt64(value);
     public ushort DecodeToUInt16(ReadOnlySpan<byte> value) => UnsignedIntegerCodec.DecodeToUInt16(value);
-    public byte DecodeToByte(ReadOnlySpan<byte> value) => UnsignedIntegerCodec.DecodeToByte(value);
+
+    #endregion
+
+    #region Decode To DecodedMetadata
+
+    // HACK: We're removing the dynamic decoding capability and using explicit decoding calls
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        if (value.Length <= Specs.Integer.UInt8.ByteCount)
+            return new DecodedResult<byte>(value[0], value[0].GetNumberOfDigits());
+        if (value.Length <= Specs.Integer.UInt16.ByteCount)
+            return new DecodedResult<ushort>(UnsignedIntegerCodec.DecodeToUInt16(value), value[0].GetNumberOfDigits());
+        if (value.Length <= Specs.Integer.UInt32.ByteCount)
+            return new DecodedResult<uint>(UnsignedIntegerCodec.DecodeToUInt32(value), value[0].GetNumberOfDigits());
+        if (value.Length <= Specs.Integer.UInt64.ByteCount)
+            return new DecodedResult<ulong>(UnsignedIntegerCodec.DecodeToUInt64(value), value[0].GetNumberOfDigits());
+
+        return new DecodedResult<BigInteger>(UnsignedIntegerCodec.DecodeToBigInteger(value), value[0].GetNumberOfDigits());
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    private void Validate(ReadOnlySpan<char> value)
+    {
+        if ((value.Length % 8) != 0)
+            throw new ArgumentOutOfRangeException(nameof(value), $"The {nameof(BinaryCodec)} Encoding expects a string that is divisible by 8");
+
+        for (int i = 0; i < value.Length; i++)
+        {
+            if ((value[i] != '0') && (value[i] != '1'))
+                throw new ArgumentOutOfRangeException($"The {nameof(BinaryCodec)} Encoding expects all string values to be either a '1' or a '0'");
+        }
+    }
+
+    protected void Validate(ReadOnlySpan<byte> value)
+    { }
 
     #endregion
 }

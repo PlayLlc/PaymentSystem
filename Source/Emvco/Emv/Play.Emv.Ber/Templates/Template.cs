@@ -30,6 +30,7 @@ public abstract class Template : ConstructedValue
     /// <exception cref="BerParsingException"></exception>
     public uint GetTagLengthValueByteCount() => GetTagLengthValueByteCount(_Codec);
 
+    //public TagLengthValue AsTagLengthValue() => new(GetTag(), GetChildren().SelectMany(a => a.EncodeValue(_Codec)).ToArray());
     public TagLengthValue AsTagLengthValue() => AsTagLengthValue(_Codec);
     public ushort GetValueByteCount() => _Codec.GetValueByteCount(GetChildren());
     public override ushort GetValueByteCount(BerCodec codec) => GetValueByteCount();

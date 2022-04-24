@@ -36,7 +36,8 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
             new TerminalCategoryCodeBuilder(),
             new TerminalVerificationResultCodesBuilder(),
             new TransactionTypeBuilder(),
-            new ValueQualifierBuilder()
+            new ValueQualifierBuilder(),
+            new DirectoryEntryBuilder()
         });
 
         return currentModuleBuilders;

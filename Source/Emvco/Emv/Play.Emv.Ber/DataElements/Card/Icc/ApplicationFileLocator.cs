@@ -22,7 +22,7 @@ public record ApplicationFileLocator : DataElement<byte[]>, IEqualityComparer<Ap
 {
     #region Static Metadata
 
-    public static readonly PlayEncodingId EncodingId = BerEncodingIdType.VariableCodec;
+    public static readonly PlayEncodingId EncodingId = HexadecimalCodec.EncodingId;
     public static readonly Tag Tag = 0x94;
     private const byte _MaxByteLength = 248;
     private const byte _ByteLengthMultiple = 4;
@@ -36,7 +36,7 @@ public record ApplicationFileLocator : DataElement<byte[]>, IEqualityComparer<Ap
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="DataElementParsingException"></exception>
-    public ApplicationFileLocator(byte[] value) : base(value)
+    public ApplicationFileLocator(ReadOnlySpan<byte> value) : base(value.ToArray())
     {
         Validate(value);
     }
@@ -132,20 +132,11 @@ public record ApplicationFileLocator : DataElement<byte[]>, IEqualityComparer<Ap
     {
         Validate(value);
 
-        DecodedResult<byte[]> result = _Codec.Decode(EncodingId, value) as DecodedResult<byte[]>
-            ?? throw new DataElementParsingException(
-                $"The {nameof(ApplicationFileLocator)} could not be initialized because the {nameof(BerEncodingIdType.VariableCodec)} returned a null {nameof(DecodedResult<byte[]>)}");
-
-        return new ApplicationFileLocator(result.Value);
+        return new ApplicationFileLocator(value);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, GetValueByteCount());
-    public new byte[] EncodeTagLengthValue() => _Codec.EncodeTagLengthValue(this, GetValueByteCount());
-
-    public override byte[] EncodeValue(BerCodec codec) =>
-        codec.EncodeValue(EncodingId, _Value, _Value.Length + (_Value.Length % _ByteLengthMultiple));
-
-    public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
+    public override byte[] EncodeValue() => _Value;
+    public override byte[] EncodeValue(int length) => PlayCodec.HexadecimalCodec.Encode(_Value, length);
 
     #endregion
 

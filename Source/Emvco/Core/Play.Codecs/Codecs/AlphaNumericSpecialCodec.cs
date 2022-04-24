@@ -118,7 +118,7 @@ public class AlphaNumericSpecialCodec : PlayCodec
     public override byte[] Encode<T>(T[] value) where T : struct
     {
         if (typeof(T) == typeof(char))
-            return Encode<char>(Unsafe.As<T[], char[]>(ref value));
+            return Encode(Unsafe.As<T[], char[]>(ref value).AsSpan());
 
         throw new CodecParsingException($"The {nameof(AlphaNumericSpecialCodec)} does not have the capability to {nameof(Encode)} the type: [{typeof(T)}]");
     }

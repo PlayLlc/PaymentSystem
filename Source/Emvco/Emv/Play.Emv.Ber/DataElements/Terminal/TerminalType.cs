@@ -28,8 +28,8 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
     public TerminalType(byte value) : base(value)
     { }
 
-    public TerminalType(EnvironmentType environmentType, CommunicationType communicationType, TerminalOperatorType terminalOperatorType) :
-        base((byte) (environmentType + communicationType + terminalOperatorType))
+    public TerminalType(EnvironmentType environmentType, CommunicationType communicationType, TerminalOperatorType terminalOperatorType) : base(
+        (byte) (environmentType + communicationType + terminalOperatorType))
     { }
 
     #endregion
@@ -82,10 +82,7 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
     }
 
     public bool IsOperatorType(TerminalOperatorType operatorType) => TerminalOperatorType.IsOperatorType(_Value, operatorType);
-
-    public bool IsCommunicationType(CommunicationType communicationType) =>
-        CommunicationType.IsCommunicationType(_Value, communicationType);
-
+    public bool IsCommunicationType(CommunicationType communicationType) => CommunicationType.IsCommunicationType(_Value, communicationType);
     public bool IsEnvironmentType(EnvironmentType operatorType) => EnvironmentType.IsEnvironmentType(_Value, operatorType);
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
@@ -110,8 +107,8 @@ public partial record TerminalType : DataElement<byte>, IEqualityComparer<Termin
         return new TerminalType(result);
     }
 
-    public new byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
-    public new byte[] EncodeValue(int length) => EncodeValue();
+    public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value, length);
 
     #endregion
 

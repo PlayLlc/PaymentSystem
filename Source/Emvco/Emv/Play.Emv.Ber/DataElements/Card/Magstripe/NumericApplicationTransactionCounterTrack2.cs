@@ -55,7 +55,8 @@ public record NumericApplicationTransactionCounterTrack2 : DataElement<byte>
         return new NumericApplicationTransactionCounterTrack2(result);
     }
 
-    public new byte[] EncodeValue() => EncodeValue(_ByteLength);
+    public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
 
     #endregion
 

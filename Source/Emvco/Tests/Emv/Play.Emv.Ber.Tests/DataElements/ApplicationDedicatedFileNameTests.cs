@@ -4,13 +4,14 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
+using Play.Testing.BaseTestClasses;
 using Play.Testing.Emv.Ber.Primitive;
 
 using Xunit;
 
 namespace Play.Emv.Ber.Tests.DataElements;
 
-public class ApplicationDedicatedFileNameTests
+public class ApplicationDedicatedFileNameTests : TestBase
 {
     #region Instance Members
 
@@ -39,10 +40,10 @@ public class ApplicationDedicatedFileNameTests
     {
         ApplicationDedicatedFileNameTestTlv testData = new();
         ApplicationDedicatedFileName sut = ApplicationDedicatedFileName.Decode(testData.EncodeValue().AsSpan());
-        byte[] expectedResult = testData.EncodeValue();
-        byte[]? testValue = sut.EncodeValue();
+        byte[] expected = testData.EncodeValue();
+        byte[]? actual = sut.EncodeValue();
 
-        Assert.Equal(testValue, expectedResult);
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
     /// <summary>
@@ -56,10 +57,10 @@ public class ApplicationDedicatedFileNameTests
     {
         ApplicationDedicatedFileNameTestTlv testData = new();
         ApplicationDedicatedFileName sut = ApplicationDedicatedFileName.Decode(testData.EncodeValue().AsSpan());
-        byte[] expectedResult = testData.EncodeTagLengthValue();
-        byte[]? testValue = sut.EncodeTagLengthValue();
+        byte[] expected = testData.EncodeTagLengthValue();
+        byte[]? actual = sut.EncodeTagLengthValue();
 
-        Assert.Equal(testValue, expectedResult);
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
     /// <summary>
@@ -73,9 +74,10 @@ public class ApplicationDedicatedFileNameTests
     {
         ApplicationDedicatedFileNameTestTlv testData = new();
         ApplicationDedicatedFileName sut = ApplicationDedicatedFileName.Decode(testData.EncodeValue().AsSpan());
-        TagLengthValue? testValue = sut.AsTagLengthValue();
-        TagLengthValue expectedResult = new(ApplicationDedicatedFileName.Tag, testData.EncodeValue());
-        Assert.Equal(testValue, expectedResult);
+        TagLengthValue? actual = sut.AsTagLengthValue();
+        TagLengthValue expected = new(ApplicationDedicatedFileName.Tag, testData.EncodeValue());
+
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
     /// <summary>
@@ -90,14 +92,10 @@ public class ApplicationDedicatedFileNameTests
         ApplicationDedicatedFileNameTestTlv testData = new();
 
         ApplicationDedicatedFileName sut = ApplicationDedicatedFileName.Decode(testData.EncodeValue().AsSpan());
-        byte[]? encoded = sut.EncodeValue();
-        TagLengthValue? tlv = sut.AsTagLengthValue();
-        byte[]? tlvRaw = tlv.EncodeTagLengthValue();
-        byte[] testValue = sut.AsTagLengthValue().EncodeTagLengthValue();
-        byte[] expectedResult = testData.EncodeTagLengthValue();
-        TagLengthValue? expectedResultTlv = new(testData.GetTag(), testData.EncodeValue());
+        byte[] actual = sut.AsTagLengthValue().EncodeTagLengthValue();
+        byte[] expected = testData.EncodeTagLengthValue();
 
-        Assert.Equal(testValue, expectedResult);
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
     #endregion

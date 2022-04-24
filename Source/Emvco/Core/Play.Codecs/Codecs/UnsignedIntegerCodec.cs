@@ -10,45 +10,6 @@ namespace Play.Codecs;
 
 public class UnsignedIntegerCodec : PlayCodec
 {
-    #region Serialization
-
-    #region Decode To DecodedMetadata
-
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
-    {
-        if (value.Length == Specs.Integer.UInt8.ByteCount)
-            return new DecodedResult<byte>(value[0], value[0].GetNumberOfDigits());
-
-        if (value.Length <= Specs.Integer.UInt16.ByteCount)
-        {
-            ushort byteResult = DecodeToUInt16(value);
-
-            return new DecodedResult<ushort>(byteResult, byteResult.GetNumberOfDigits());
-        }
-
-        if (value.Length <= Specs.Integer.Int32.ByteCount)
-        {
-            uint byteResult = DecodeToUInt32(value);
-
-            return new DecodedResult<uint>(byteResult, byteResult.GetNumberOfDigits());
-        }
-
-        if (value.Length <= Specs.Integer.Int64.ByteCount)
-        {
-            ulong byteResult = DecodeToUInt64(value);
-
-            return new DecodedResult<ulong>(byteResult, byteResult.GetNumberOfDigits());
-        }
-
-        BigInteger bigIntegerResult = DecodeToBigInteger(value);
-
-        return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
-    }
-
-    #endregion
-
-    #endregion
-
     #region Metadata
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
@@ -99,7 +60,7 @@ public class UnsignedIntegerCodec : PlayCodec
     /// <exception cref="CodecParsingException"></exception>
     public override ushort GetByteCount<_T>(_T[] value)
     {
-        if (!typeof(_T).IsUnsignedInteger())
+        if (!typeof(_T).IsByte())
             throw new CodecParsingException(this, typeof(_T));
 
         return (ushort) value.Length;
@@ -205,26 +166,27 @@ public class UnsignedIntegerCodec : PlayCodec
         return value is >= minIntegerChar and <= maxIntegerChar;
     }
 
-    /// <summary>
-    ///     Validate
-    /// </summary>
-    /// <param name="value"></param>
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="CodecParsingException"></exception>
-    protected void Validate(ReadOnlySpan<char> value)
-    {
-        foreach (char character in value)
-        {
-            if (!IsValid(character))
-                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
-        }
-    }
-
     #endregion
 
     #region Encode
 
-    #region Integer Encoding
+    // DEPRECATING: This method will eventually be deprecated in favor of a method that passes in a Span<T> buffer
+    public bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
+    {
+        if (!IsValid(value))
+        {
+            result = Array.Empty<byte>();
+
+            return false;
+        }
+
+        result = new byte[value.Length];
+
+        for (int i = 0; i < value.Length; i++)
+            result[i] = _ByteMap[value[i]];
+
+        return true;
+    }
 
     // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     public byte[] Encode(ulong value, bool trimEmptyBytes = false)
@@ -288,60 +250,6 @@ public class UnsignedIntegerCodec : PlayCodec
 
     // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     public byte[] Encode(BigInteger value) => value.ToByteArray();
-
-    public void Encode(ushort value, Span<byte> buffer, bool trimEmptyBytes = false)
-    {
-        LocalEncode(value, buffer, trimEmptyBytes ? value.GetMostSignificantByte() : Specs.Integer.UInt16.ByteCount);
-
-        static void LocalEncode(ushort valueToTrim, Span<byte> buffer, byte length)
-        {
-            byte bitShift = 0;
-
-            for (int i = length - 1; i >= 0; i--)
-            {
-                buffer[i] = (byte) (valueToTrim >> bitShift);
-                bitShift += 8;
-            }
-        }
-    }
-
-    public void Encode(uint value, Span<byte> buffer, bool trimEmptyBytes = false)
-    {
-        LocalEncode(value, buffer, trimEmptyBytes ? value.GetMostSignificantByte() : Specs.Integer.UInt32.ByteCount);
-
-        static void LocalEncode(uint valueToTrim, Span<byte> buffer, byte length)
-        {
-            byte bitShift = 0;
-
-            for (int i = length - 1; i >= 0; i--)
-            {
-                buffer[i] = (byte) (valueToTrim >> bitShift);
-                bitShift += 8;
-            }
-        }
-    }
-
-    public void Encode(ulong value, Span<byte> buffer, bool trimEmptyBytes = false)
-    {
-        LocalEncode(value, buffer, trimEmptyBytes ? value.GetMostSignificantByte() : Specs.Integer.UInt64.ByteCount);
-
-        static void LocalEncode(ulong valueToTrim, Span<byte> buffer, byte length)
-        {
-            byte bitShift = 0;
-
-            for (int i = length - 1; i >= 0; i--)
-            {
-                buffer[i] = (byte) (valueToTrim >> bitShift);
-                bitShift += 8;
-            }
-        }
-    }
-
-    public void Encode(BigInteger value, Span<byte> buffer) => value.ToByteArray().AsSpan().CopyTo(buffer);
-
-    #endregion
-
-    #region Generic Encoding
 
     // DEPRECATING: This method will eventually be deprecated in favor of using strongly typed arguments instead of generic constraints. We will also include a Span<byte> in the argument as a buffer as opposed to returning a new byte[]
     /// <exception cref="CodecParsingException"></exception>
@@ -431,6 +339,75 @@ public class UnsignedIntegerCodec : PlayCodec
         return Encode(Unsafe.As<_T[], byte[]>(ref value), length);
     }
 
+    /// <exception cref="CodecParsingException"></exception>
+    public byte[] Encode(ReadOnlySpan<char> value)
+    {
+        // HACK: This isn't the most efficient if we're initializing an extra BigInteger buffer. Figure out the correct way to do this without using the BigInteger as a crutch
+
+        Validate(value);
+        BigInteger buffer = 0;
+
+        for (int i = 0; i < (value.Length - 1); i++)
+        {
+            buffer += _ByteMap[value[i]];
+            buffer *= 10;
+        }
+
+        buffer += _ByteMap[value[^1]];
+
+        return buffer.ToByteArray();
+    }
+
+    public void Encode(ushort value, Span<byte> buffer, bool trimEmptyBytes = false)
+    {
+        LocalEncode(value, buffer, trimEmptyBytes ? value.GetMostSignificantByte() : Specs.Integer.UInt16.ByteCount);
+
+        static void LocalEncode(ushort valueToTrim, Span<byte> buffer, byte length)
+        {
+            byte bitShift = 0;
+
+            for (int i = length - 1; i >= 0; i--)
+            {
+                buffer[i] = (byte) (valueToTrim >> bitShift);
+                bitShift += 8;
+            }
+        }
+    }
+
+    public void Encode(uint value, Span<byte> buffer, bool trimEmptyBytes = false)
+    {
+        LocalEncode(value, buffer, trimEmptyBytes ? value.GetMostSignificantByte() : Specs.Integer.UInt32.ByteCount);
+
+        static void LocalEncode(uint valueToTrim, Span<byte> buffer, byte length)
+        {
+            byte bitShift = 0;
+
+            for (int i = length - 1; i >= 0; i--)
+            {
+                buffer[i] = (byte) (valueToTrim >> bitShift);
+                bitShift += 8;
+            }
+        }
+    }
+
+    public void Encode(ulong value, Span<byte> buffer, bool trimEmptyBytes = false)
+    {
+        LocalEncode(value, buffer, trimEmptyBytes ? value.GetMostSignificantByte() : Specs.Integer.UInt64.ByteCount);
+
+        static void LocalEncode(ulong valueToTrim, Span<byte> buffer, byte length)
+        {
+            byte bitShift = 0;
+
+            for (int i = length - 1; i >= 0; i--)
+            {
+                buffer[i] = (byte) (valueToTrim >> bitShift);
+                bitShift += 8;
+            }
+        }
+    }
+
+    public void Encode(BigInteger value, Span<byte> buffer) => value.ToByteArray().AsSpan().CopyTo(buffer);
+
     // DEPRECATING: This method will eventually be deprecated in favor of using strongly typed arguments instead of generic constraints. We will also include a Span<byte> in the argument as a buffer as opposed to returning a new byte[]
     /// <exception cref="CodecParsingException"></exception>
     public override void Encode<_T>(_T value, Span<byte> buffer, ref int offset)
@@ -516,49 +493,6 @@ public class UnsignedIntegerCodec : PlayCodec
 
     #endregion
 
-    #region Character Encoding
-
-    // DEPRECATING: This method will eventually be deprecated in favor of a method that passes in a Span<T> buffer
-    public bool TryEncoding(ReadOnlySpan<char> value, out byte[] result)
-    {
-        if (!IsValid(value))
-        {
-            result = Array.Empty<byte>();
-
-            return false;
-        }
-
-        result = new byte[value.Length];
-
-        for (int i = 0; i < value.Length; i++)
-            result[i] = _ByteMap[value[i]];
-
-        return true;
-    }
-
-    /// <exception cref="CodecParsingException"></exception>
-    public byte[] Encode(ReadOnlySpan<char> value)
-    {
-        // HACK: This isn't the most efficient if we're initializing an extra BigInteger buffer. Figure out the correct way to do this without using the BigInteger as a crutch
-
-        Validate(value);
-        BigInteger buffer = 0;
-
-        for (int i = 0; i < (value.Length - 1); i++)
-        {
-            buffer += _ByteMap[value[i]];
-            buffer *= 10;
-        }
-
-        buffer += _ByteMap[value[^1]];
-
-        return buffer.ToByteArray();
-    }
-
-    #endregion
-
-    #endregion
-
     #region Decode To Chars
 
     public int DecodeToChars(byte[] bytes, int byteIndex, int byteCount, char[] chars, int charIndex)
@@ -641,6 +575,14 @@ public class UnsignedIntegerCodec : PlayCodec
 
     public BigInteger DecodeToBigInteger(ReadOnlySpan<byte> value) => new(value);
 
+    public byte DecodeToByte(ReadOnlySpan<byte> value)
+    {
+        if (value.Length == 0)
+            return 0;
+
+        return value[0];
+    }
+
     public uint DecodeToUInt32(ReadOnlySpan<byte> value)
     {
         const byte byteLength = Specs.Integer.UInt32.ByteCount;
@@ -672,14 +614,6 @@ public class UnsignedIntegerCodec : PlayCodec
         if (value.Length == 0)
             return 0;
 
-        if (value.Length < byteLength)
-        {
-            Span<byte> buffer = stackalloc byte[byteLength];
-            value.CopyTo(buffer);
-
-            return DecodeToUInt64(value);
-        }
-
         if (value.Length > byteLength)
             return DecodeToUInt64(value[..byteLength]);
 
@@ -703,14 +637,6 @@ public class UnsignedIntegerCodec : PlayCodec
         if (value.Length == 0)
             return 0;
 
-        if (value.Length < byteLength)
-        {
-            Span<byte> buffer = stackalloc byte[byteLength];
-            value.CopyTo(buffer);
-
-            return DecodeToUInt16(value);
-        }
-
         if (value.Length > byteLength)
             return DecodeToUInt16(value[..byteLength]);
 
@@ -727,12 +653,58 @@ public class UnsignedIntegerCodec : PlayCodec
         return result;
     }
 
-    public byte DecodeToByte(ReadOnlySpan<byte> value)
-    {
-        if (value.Length == 0)
-            return 0;
+    #endregion
 
-        return value[0];
+    #region Decode To DecodedMetadata
+
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        if (value.Length == Specs.Integer.UInt8.ByteCount)
+            return new DecodedResult<byte>(value[0], value[0].GetNumberOfDigits());
+
+        if (value.Length <= Specs.Integer.UInt16.ByteCount)
+        {
+            ushort byteResult = DecodeToUInt16(value);
+
+            return new DecodedResult<ushort>(byteResult, byteResult.GetNumberOfDigits());
+        }
+
+        if (value.Length <= Specs.Integer.Int32.ByteCount)
+        {
+            uint byteResult = DecodeToUInt32(value);
+
+            return new DecodedResult<uint>(byteResult, byteResult.GetNumberOfDigits());
+        }
+
+        if (value.Length <= Specs.Integer.Int64.ByteCount)
+        {
+            ulong byteResult = DecodeToUInt64(value);
+
+            return new DecodedResult<ulong>(byteResult, byteResult.GetNumberOfDigits());
+        }
+
+        BigInteger bigIntegerResult = DecodeToBigInteger(value);
+
+        return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    /// <summary>
+    ///     Validate
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    protected void Validate(ReadOnlySpan<char> value)
+    {
+        foreach (char character in value)
+        {
+            if (!IsValid(character))
+                throw new CodecParsingException(CodecParsingException.CharacterArrayContainsInvalidValue);
+        }
     }
 
     #endregion

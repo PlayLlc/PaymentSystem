@@ -5,13 +5,14 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
+using Play.Testing.BaseTestClasses;
 using Play.Testing.Emv.Ber.Primitive;
 
 using Xunit;
 
 namespace Play.Emv.Ber.Tests.DataElements;
 
-public class AmountAuthorizedNumericTests
+public class AmountAuthorizedNumericTests : TestBase
 {
     #region Instance Values
 
@@ -32,7 +33,7 @@ public class AmountAuthorizedNumericTests
     {
         AmountAuthorizedNumericTestTlv testData = new();
         AmountAuthorizedNumeric testValue = AmountAuthorizedNumeric.Decode(testData.EncodeValue().AsSpan());
-        Assert.NotNull(testValue);
+        Assertion(() => Assert.NotNull(testValue));
     }
 
     /// <summary>
@@ -49,7 +50,7 @@ public class AmountAuthorizedNumericTests
         byte[] expectedResult = testData.EncodeValue();
         byte[]? testValue = sut.EncodeValue();
 
-        Assert.Equal(testValue, expectedResult);
+        Assertion(() => Assert.Equal(testValue, expectedResult));
     }
 
     /// <summary>
@@ -63,10 +64,10 @@ public class AmountAuthorizedNumericTests
     {
         AmountAuthorizedNumericTestTlv testData = new();
         AmountAuthorizedNumeric sut = AmountAuthorizedNumeric.Decode(testData.EncodeValue().AsSpan());
-        byte[] expectedResult = testData.EncodeTagLengthValue();
-        byte[]? testValue = sut.EncodeTagLengthValue();
+        byte[] expected = testData.EncodeTagLengthValue();
+        byte[] actual = sut.EncodeTagLengthValue();
 
-        Assert.Equal(testValue, expectedResult);
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
     /// <summary>
@@ -80,9 +81,10 @@ public class AmountAuthorizedNumericTests
     {
         AmountAuthorizedNumericTestTlv testData = new();
         AmountAuthorizedNumeric sut = AmountAuthorizedNumeric.Decode(testData.EncodeValue().AsSpan());
-        TagLengthValue? testValue = sut.AsTagLengthValue();
-        TagLengthValue expectedResult = new(AmountAuthorizedNumeric.Tag, testData.EncodeValue());
-        Assert.Equal(testValue, expectedResult);
+        TagLengthValue expected = new(AmountAuthorizedNumeric.Tag, testData.EncodeValue());
+        TagLengthValue? actual = sut.AsTagLengthValue();
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
+        ;
     }
 
     // TODO: WARNING - this test is failing indeterminately. There is a bug here
@@ -97,9 +99,9 @@ public class AmountAuthorizedNumericTests
     {
         AmountAuthorizedNumericTestTlv testData = new();
         AmountAuthorizedNumeric sut = AmountAuthorizedNumeric.Decode(testData.EncodeValue().AsSpan());
-        byte[] testValue = sut.AsTagLengthValue().EncodeTagLengthValue();
-        byte[] expectedResult = testData.EncodeTagLengthValue();
-        Assert.Equal(testValue, expectedResult);
+        byte[] expected = testData.EncodeTagLengthValue();
+        byte[] actual = sut.AsTagLengthValue().EncodeTagLengthValue();
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
     #endregion

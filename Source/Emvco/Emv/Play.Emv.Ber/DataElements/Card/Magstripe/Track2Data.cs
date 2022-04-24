@@ -208,8 +208,8 @@ public record Track2Data : DataElement<Track2>
     /// <exception cref="OverflowException"></exception>
     public static Track2Data Decode(ReadOnlySpan<byte> value) => new(new Track2(value.AsNibbleArray()));
 
-    public new byte[] EncodeValue() => _Value.Encode();
-    public new byte[] EncodeValue(int length) => _Value.Encode()[..length];
+    public override byte[] EncodeValue() => _Value.Encode();
+    public override byte[] EncodeValue(int length) => _Value.Encode()[..length];
 
     #endregion
 }

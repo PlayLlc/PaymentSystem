@@ -71,7 +71,8 @@ public record PositionOfCardVerificationCode3Track1 : DataElement<ulong>
         return new PositionOfCardVerificationCode3Track1(result);
     }
 
-    public new byte[] EncodeValue() => EncodeValue(_ByteLength);
+    public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
+    public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
 
     #endregion
 }
