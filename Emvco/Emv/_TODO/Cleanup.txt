@@ -1,4 +1,0 @@
-----------------------------------------
-Each process has its own unique session struct. Is this overkill? Unify the session keys
-if we don't need type uniqueness when finding equality
-----------------------------------------
