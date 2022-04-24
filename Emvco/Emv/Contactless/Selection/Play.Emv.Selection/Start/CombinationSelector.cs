@@ -38,7 +38,7 @@ public class CombinationSelector
     {
         _PoiInformation = poiInformation;
         _PcdEndpoint = pcdEndpoint;
-        _Codec = EmvCodec.GetBerCodec();
+        _Codec = EmvCodec.GetCodec();
     }
 
     #endregion
@@ -358,9 +358,8 @@ public class CombinationSelector
     // TODO: requested 
     private void SendPointOfInteractionApduCommand(TransactionSessionId transactionSessionId, FileControlInformationPpse fileControlInformationTemplatePpse)
     {
-        CommandTemplate? commandTemplate = fileControlInformationTemplatePpse.AsCommandTemplate(_Codec, _PoiInformation, Array.Empty<PrimitiveValue>());
-
-        _PcdEndpoint.Request(SendPoiInformationRequest.Create(transactionSessionId, commandTemplate));
+        throw new NotImplementedException(
+            $"The {nameof(CombinationSelector)} has not been implemented yet. The Kernel TLV Database has not been initialized at this point. Figure out how you're going to implement this section for the SEND POI information");
     }
 
     private void ValidateVisaRequirement(

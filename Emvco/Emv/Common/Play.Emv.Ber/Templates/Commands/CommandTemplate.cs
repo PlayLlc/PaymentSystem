@@ -26,7 +26,7 @@ public record CommandTemplate : DataElement<BigInteger>
     public CommandTemplate(BigInteger value) : base(value)
     { }
 
-    public CommandTemplate(DataObjectListResult value) : base(new BigInteger(value.Encode()))
+    public CommandTemplate(DataObjectListResult value) : base(new BigInteger(value.EncodeValue()))
     { }
 
     #endregion

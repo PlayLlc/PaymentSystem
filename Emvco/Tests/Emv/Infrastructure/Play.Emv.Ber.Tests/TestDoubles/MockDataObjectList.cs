@@ -41,7 +41,7 @@ public record MockDataObjectList : DataObjectList
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static MockDataObjectList Decode(ReadOnlySpan<byte> value) => new(EmvCodec.GetBerCodec().DecodeTagLengthPairs(value.ToArray()));
+    public static MockDataObjectList Decode(ReadOnlySpan<byte> value) => new(EmvCodec.GetCodec().DecodeTagLengthPairs(value.ToArray()));
 
     public override MockDataObjectList Decode(TagLengthValue value) => new(Decode(value.EncodeValue().AsSpan()));
 

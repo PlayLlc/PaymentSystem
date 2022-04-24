@@ -20,24 +20,24 @@ public record GetDataResponse : QueryPcdResponse
 
     private static readonly Tag[] _KnownTags =
     {
-        OfflineAccumulatorBalance.Tag, ProtectedDataEnvelope1.Tag, ProtectedDataEnvelope2.Tag, ProtectedDataEnvelope3.Tag,
-        ProtectedDataEnvelope4.Tag, ProtectedDataEnvelope5.Tag, UnprotectedDataEnvelope1.Tag, UnprotectedDataEnvelope2.Tag,
-        UnprotectedDataEnvelope3.Tag, UnprotectedDataEnvelope1.Tag, UnprotectedDataEnvelope4.Tag, UnprotectedDataEnvelope5.Tag
+        OfflineAccumulatorBalance.Tag, ProtectedDataEnvelope1.Tag, ProtectedDataEnvelope2.Tag, ProtectedDataEnvelope3.Tag, ProtectedDataEnvelope4.Tag,
+        ProtectedDataEnvelope5.Tag, UnprotectedDataEnvelope1.Tag, UnprotectedDataEnvelope2.Tag, UnprotectedDataEnvelope3.Tag, UnprotectedDataEnvelope1.Tag,
+        UnprotectedDataEnvelope4.Tag, UnprotectedDataEnvelope5.Tag
     };
 
     #endregion
 
     #region Constructor
 
-    public GetDataResponse(CorrelationId correlation, TransactionSessionId transactionSessionId, GetDataRApduSignal response) : base(
-        correlation, MessageTypeId, transactionSessionId, response)
+    public GetDataResponse(CorrelationId correlation, TransactionSessionId transactionSessionId, GetDataRApduSignal response) : base(correlation, MessageTypeId,
+        transactionSessionId, response)
     { }
 
     #endregion
 
     #region Instance Members
 
-    public TagLengthValue GetTagLengthValueResult() => EmvCodec.GetBerCodec().DecodeTagLengthValue(GetRApduSignal().GetData().AsSpan());
+    public TagLengthValue GetTagLengthValueResult() => EmvCodec.GetCodec().DecodeTagLengthValue(GetRApduSignal().GetData().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>

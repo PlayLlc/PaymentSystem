@@ -40,7 +40,7 @@ public class RecoverApplicationCryptogramRApduSignal : RApduSignal
     /// <exception cref="BerParsingException"></exception>
     public PrimitiveValue[] ParseDataObjects()
     {
-        EmvCodec codec = EmvCodec.GetBerCodec();
+        EmvCodec codec = EmvCodec.GetCodec();
 
         TagLengthValue[] dataObjects = ResponseMessageTemplateFormat2.Decode(codec, _Data).GetTlvChildren();
         EncodedTlvSiblings siblings = codec.DecodeSiblings(GetData());

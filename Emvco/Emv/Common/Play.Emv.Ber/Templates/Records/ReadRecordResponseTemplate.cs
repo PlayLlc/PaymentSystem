@@ -1,6 +1,7 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
 
 namespace Play.Emv.Ber.Templates;
 
@@ -37,8 +38,23 @@ public abstract class ReadRecordResponseTemplate : Template
     public byte[] AsByteArray() => _Values;
 
     /// <exception cref="BerParsingException"></exception>
-    public static PrimitiveValue[] GetPrimitiveValuesFromRecords(ReadOnlySpan<byte> value) =>
-        _Codec.DecodePrimitiveValuesAtRuntime(value).ToArray();
+    public static PrimitiveValue[] GetPrimitiveValuesFromRecords(IResolveKnownObjectsAtRuntime runtimeCodec, ReadOnlyMemory<byte> value)
+    {
+        List<PrimitiveValue> buffer = new();
+
+        EncodedTlvSiblings siblings = _Codec.DecodeSiblings(value);
+
+        foreach (Tag tag in siblings.GetTags())
+        {
+            if (!siblings.TryGetValueOctetsOfSibling(tag, out ReadOnlyMemory<byte> rawResult))
+                continue;
+
+            if (runtimeCodec.TryDecodingAtRuntime(tag, rawResult, out PrimitiveValue? result))
+                buffer.Add(result!);
+        }
+
+        return buffer.ToArray();
+    }
 
     #endregion
 }

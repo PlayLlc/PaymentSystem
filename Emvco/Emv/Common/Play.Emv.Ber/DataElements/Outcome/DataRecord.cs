@@ -2,6 +2,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Emv.Ber.Exceptions;
 using Play.Icc.FileSystem.DedicatedFiles;
@@ -133,14 +134,82 @@ public record DataRecord : DataExchangeResponse, IEqualityComparer<DataRecord>
     #region Serialization
 
     /// <exception cref="BerParsingException"></exception>
-    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
-
-    /// <exception cref="BerParsingException"></exception>
-    public static DataRecord Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodePrimitiveValuesAtRuntime(value).ToArray());
+    public override PrimitiveValue Decode(TagLengthValue value) => Decode(value.EncodeValue().AsMemory());
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static DataRecord Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodePrimitiveValuesAtRuntime(value.Span).ToArray());
+    public static DataRecord Decode(ReadOnlyMemory<byte> value)
+    {
+        List<PrimitiveValue> buffer = new();
+        EncodedTlvSiblings siblings = _Codec.DecodeSiblings(value);
+
+        if (siblings.TryGetValueOctetsOfSibling(AmountAuthorizedNumeric.Tag, out ReadOnlyMemory<byte> amountAuthorizedNumeric))
+            buffer.Add(AmountAuthorizedNumeric.Decode(amountAuthorizedNumeric));
+        if (siblings.TryGetValueOctetsOfSibling(AmountOtherNumeric.Tag, out ReadOnlyMemory<byte> amountOtherNumeric))
+            buffer.Add(AmountOtherNumeric.Decode(amountOtherNumeric));
+        if (siblings.TryGetValueOctetsOfSibling(ApplicationCryptogram.Tag, out ReadOnlyMemory<byte> applicationCryptogram))
+            buffer.Add(ApplicationCryptogram.Decode(applicationCryptogram));
+        if (siblings.TryGetValueOctetsOfSibling(ApplicationExpirationDate.Tag, out ReadOnlyMemory<byte> applicationExpirationDate))
+            buffer.Add(ApplicationExpirationDate.Decode(applicationExpirationDate));
+        if (siblings.TryGetValueOctetsOfSibling(ApplicationInterchangeProfile.Tag, out ReadOnlyMemory<byte> applicationInterchangeProfile))
+            buffer.Add(ApplicationInterchangeProfile.Decode(applicationInterchangeProfile));
+        if (siblings.TryGetValueOctetsOfSibling(ApplicationLabel.Tag, out ReadOnlyMemory<byte> applicationLabel))
+            buffer.Add(ApplicationLabel.Decode(applicationLabel));
+        if (siblings.TryGetValueOctetsOfSibling(ApplicationPan.Tag, out ReadOnlyMemory<byte> applicationPan))
+            buffer.Add(ApplicationPan.Decode(applicationPan));
+        if (siblings.TryGetValueOctetsOfSibling(ApplicationPanSequenceNumber.Tag, out ReadOnlyMemory<byte> applicationPanSequenceNumber))
+            buffer.Add(ApplicationPanSequenceNumber.Decode(applicationPanSequenceNumber));
+        if (siblings.TryGetValueOctetsOfSibling(ApplicationPreferredName.Tag, out ReadOnlyMemory<byte> applicationPreferredName))
+            buffer.Add(ApplicationPreferredName.Decode(applicationPreferredName));
+        if (siblings.TryGetValueOctetsOfSibling(ApplicationTransactionCounter.Tag, out ReadOnlyMemory<byte> applicationTransactionCounter))
+            buffer.Add(ApplicationTransactionCounter.Decode(applicationTransactionCounter));
+        if (siblings.TryGetValueOctetsOfSibling(ApplicationUsageControl.Tag, out ReadOnlyMemory<byte> applicationUsageControl))
+            buffer.Add(ApplicationUsageControl.Decode(applicationUsageControl));
+        if (siblings.TryGetValueOctetsOfSibling(ApplicationVersionNumberReader.Tag, out ReadOnlyMemory<byte> applicationVersionNumberReader))
+            buffer.Add(ApplicationVersionNumberReader.Decode(applicationVersionNumberReader));
+        if (siblings.TryGetValueOctetsOfSibling(CryptogramInformationData.Tag, out ReadOnlyMemory<byte> cryptogramInformationData))
+            buffer.Add(CryptogramInformationData.Decode(cryptogramInformationData));
+        if (siblings.TryGetValueOctetsOfSibling(CvmResults.Tag, out ReadOnlyMemory<byte> cvmResults))
+            buffer.Add(CvmResults.Decode(cvmResults));
+        if (siblings.TryGetValueOctetsOfSibling(DedicatedFileName.Tag, out ReadOnlySpan<byte> dedicatedFileName))
+            buffer.Add(new DedicatedFileName(dedicatedFileName));
+        if (siblings.TryGetValueOctetsOfSibling(InterfaceDeviceSerialNumber.Tag, out ReadOnlyMemory<byte> interfaceDeviceSerialNumber))
+            buffer.Add(InterfaceDeviceSerialNumber.Decode(interfaceDeviceSerialNumber));
+        if (siblings.TryGetValueOctetsOfSibling(IssuerApplicationData.Tag, out ReadOnlyMemory<byte> issuerApplicationData))
+            buffer.Add(IssuerApplicationData.Decode(issuerApplicationData));
+        if (siblings.TryGetValueOctetsOfSibling(IssuerCodeTableIndex.Tag, out ReadOnlyMemory<byte> issuerCodeTableIndex))
+            buffer.Add(IssuerCodeTableIndex.Decode(issuerCodeTableIndex));
+        if (siblings.TryGetValueOctetsOfSibling(PaymentAccountReference.Tag, out ReadOnlyMemory<byte> paymentAccountReference))
+            buffer.Add(PaymentAccountReference.Decode(paymentAccountReference));
+        if (siblings.TryGetValueOctetsOfSibling(TerminalCapabilities.Tag, out ReadOnlyMemory<byte> terminalCapabilities))
+            buffer.Add(TerminalCapabilities.Decode(terminalCapabilities));
+        if (siblings.TryGetValueOctetsOfSibling(TerminalCountryCode.Tag, out ReadOnlyMemory<byte> terminalCountryCode))
+            buffer.Add(TerminalCountryCode.Decode(terminalCountryCode));
+        if (siblings.TryGetValueOctetsOfSibling(TerminalType.Tag, out ReadOnlyMemory<byte> terminalType))
+            buffer.Add(TerminalType.Decode(terminalType));
+        if (siblings.TryGetValueOctetsOfSibling(TerminalVerificationResults.Tag, out ReadOnlyMemory<byte> terminalVerificationResults))
+            buffer.Add(TerminalVerificationResults.Decode(terminalVerificationResults));
+        if (siblings.TryGetValueOctetsOfSibling(Track2EquivalentData.Tag, out ReadOnlyMemory<byte> track2EquivalentData))
+            buffer.Add(Track2EquivalentData.Decode(track2EquivalentData));
+        if (siblings.TryGetValueOctetsOfSibling(TransactionCategoryCode.Tag, out ReadOnlyMemory<byte> transactionCategoryCode))
+            buffer.Add(TransactionCategoryCode.Decode(transactionCategoryCode));
+        if (siblings.TryGetValueOctetsOfSibling(TransactionCurrencyCode.Tag, out ReadOnlyMemory<byte> transactionCurrencyCode))
+            buffer.Add(TransactionCurrencyCode.Decode(transactionCurrencyCode));
+        if (siblings.TryGetValueOctetsOfSibling(TransactionDate.Tag, out ReadOnlyMemory<byte> transactionDate))
+            buffer.Add(TransactionDate.Decode(transactionDate));
+        if (siblings.TryGetValueOctetsOfSibling(TransactionType.Tag, out ReadOnlyMemory<byte> transactionType))
+            buffer.Add(TransactionType.Decode(transactionType));
+        if (siblings.TryGetValueOctetsOfSibling(UnpredictableNumber.Tag, out ReadOnlyMemory<byte> unpredictableNumber))
+            buffer.Add(UnpredictableNumber.Decode(unpredictableNumber));
+        if (siblings.TryGetValueOctetsOfSibling(MagstripeApplicationVersionNumberReader.Tag, out ReadOnlyMemory<byte> magstripeApplicationVersionNumberReader))
+            buffer.Add(MagstripeApplicationVersionNumberReader.Decode(magstripeApplicationVersionNumberReader));
+        if (siblings.TryGetValueOctetsOfSibling(Track1Data.Tag, out ReadOnlyMemory<byte> track1Data))
+            buffer.Add(Track1Data.Decode(track1Data));
+        if (siblings.TryGetValueOctetsOfSibling(Track2Data.Tag, out ReadOnlyMemory<byte> track2Data))
+            buffer.Add(Track2Data.Decode(track2Data));
+
+        return new DataRecord(buffer.ToArray());
+    }
 
     #endregion
 

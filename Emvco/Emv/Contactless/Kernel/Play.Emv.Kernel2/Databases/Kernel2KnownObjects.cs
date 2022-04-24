@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
+using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Core;
 using Play.Emv.Ber;
@@ -100,8 +101,6 @@ public sealed record Kernel2KnownObjects : KnownObjects
             {DeviceRelayResistanceEntropy.Tag, new(DeviceRelayResistanceEntropy.Tag)},
             {DiscretionaryData.Tag, new(DiscretionaryData.Tag)},
             {ErrorIndication.Tag, new(ErrorIndication.Tag)},
-            {FileControlInformationProprietaryTemplate.Tag, new(FileControlInformationProprietaryTemplate.Tag)},
-            {FileControlInformationTemplate.Tag, new(FileControlInformationTemplate.Tag)},
             {HoldTimeValue.Tag, new(HoldTimeValue.Tag)},
             {IccDynamicNumber.Tag, new(IccDynamicNumber.Tag)},
             {IccPublicKeyCertificate.Tag, new(IccPublicKeyCertificate.Tag)},

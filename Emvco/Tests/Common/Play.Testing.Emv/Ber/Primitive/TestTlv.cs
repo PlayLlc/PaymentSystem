@@ -43,16 +43,11 @@ public abstract class TestTlv : IDecodeDataElement
 
     #region Instance Members
 
-    protected static PrimitiveValue GetDefaultPrimitiveValue(Type primitiveValue) =>
-        (PrimitiveValue) FormatterServices.GetUninitializedObject(primitiveValue);
-
+    protected static PrimitiveValue GetDefaultPrimitiveValue(Type primitiveValue) => (PrimitiveValue) FormatterServices.GetUninitializedObject(primitiveValue);
     public abstract Tag GetTag();
     protected TagLength GetTagLength() => new(GetTag(), EncodeValue());
     public int GetTagLengthValueByteCount() => new TagLength(GetTag(), EncodeValue()).GetTagLengthValueByteCount();
     public int GetValueByteCount() => _ContentOctets.Length;
-
-    /// <exception cref="BerParsingException"></exception>
-    public PrimitiveValue AsPrimitiveValue() => EmvCodec.GetBerCodec().DecodePrimitiveValueAtRuntime(EncodeTagLengthValue().AsSpan());
 
     /// <summary>
     ///     ParseChildren
@@ -65,8 +60,7 @@ public abstract class TestTlv : IDecodeDataElement
     {
         if (children.Length > childIndex.Length)
         {
-            throw new ArgumentOutOfRangeException(nameof(childIndex),
-                $"The argument {nameof(childIndex)} has fewer items than argument {nameof(children)}");
+            throw new ArgumentOutOfRangeException(nameof(childIndex), $"The argument {nameof(childIndex)} has fewer items than argument {nameof(children)}");
         }
 
         Span<byte> buffer = stackalloc byte[children.Sum(a => a.GetTagLengthValueByteCount())];

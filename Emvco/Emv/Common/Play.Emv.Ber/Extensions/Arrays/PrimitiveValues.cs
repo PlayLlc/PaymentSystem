@@ -8,7 +8,7 @@ public static partial class PrimitiveValues
 
     public static byte[] Encode(this PrimitiveValue[] value)
     {
-        return value.SelectMany(a => a.EncodeValue(EmvCodec.GetBerCodec())).ToArray();
+        return value.SelectMany(a => a.EncodeValue(EmvCodec.GetCodec())).ToArray();
     }
 
     #endregion

@@ -12,7 +12,7 @@ namespace Play.Emv.Ber.DataElements;
 /// <summary>
 ///     Command data field of the GENERATE AC command, coded according to CDOL1.
 /// </summary>
-public record CardRiskManagementDataObjectList1RelatedData : DataObjectList
+public record CardRiskManagementDataObjectList1RelatedData : DataElement<TagLengthValue[]>
 {
     #region Static Metadata
 
@@ -24,7 +24,7 @@ public record CardRiskManagementDataObjectList1RelatedData : DataObjectList
     #region Constructor
 
     /// <exception cref="BerParsingException"></exception>
-    public CardRiskManagementDataObjectList1RelatedData(params TagLength[] value) : base(value)
+    public CardRiskManagementDataObjectList1RelatedData(DataObjectListResult value) : base(value.AsTagLengthValues())
     { }
 
     #endregion

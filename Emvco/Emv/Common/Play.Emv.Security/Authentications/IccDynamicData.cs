@@ -60,7 +60,7 @@ internal class IccDynamicData
     /// <exception cref="InvalidOperationException"></exception>
     private IEnumerable<PrimitiveValue> DecodeAdditionalData(ReadOnlySpan<byte> value)
     {
-        EmvCodec codec = EmvCodec.GetBerCodec();
+        EmvCodec codec = EmvCodec.GetCodec();
         TagLengthValue[] values = codec.DecodeTagLengthValues(_Value.AsSpan()[(GetIccDynamicNumberLength() + 30)..]);
 
         for (int i = 0; i < values.Length; i++)

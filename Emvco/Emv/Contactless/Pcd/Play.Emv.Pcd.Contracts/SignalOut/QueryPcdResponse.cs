@@ -17,7 +17,7 @@ public record QueryPcdResponse : ResponseSignal
     #region Static Metadata
 
     public static readonly ChannelTypeId ChannelTypeId = ProximityCouplingDeviceChannel.Id;
-    protected static readonly EmvCodec _Codec = EmvCodec.GetBerCodec();
+    protected static readonly EmvCodec _Codec = EmvCodec.GetCodec();
 
     #endregion
 

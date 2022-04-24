@@ -1,4 +1,5 @@
 ﻿using Play.Ber.DataObjects;
+using Play.Ber.InternalFactories;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Exceptions;
 using Play.Globalization.Time;
@@ -179,6 +180,91 @@ public class Record : IEqualityComparer<Record>, IEquatable<Record>
         buffer.RemoveAll(a => a is null);
 
         return new Record(new RecordKey(applicationPan, applicationPanSequenceNumber), buffer.ToArray() as PrimitiveValue[]);
+    }
+
+    #endregion
+
+    #region Serialization
+
+    public static Record Decode(EmvCodec codec, ReadOnlyMemory<byte> value)
+    {
+        List<PrimitiveValue> buffer = new();
+        EncodedTlvSiblings siblings = codec.DecodeSiblings(value);
+
+        if (!siblings.TryGetValueOctetsOfSibling(ApplicationPan.Tag, out ReadOnlySpan<byte> applicationPanRaw))
+            throw new TerminalDataException($"The {nameof(Record)} could not {nameof(Decode)} because the {nameof(ApplicationPan)} was not present");
+
+        if (!siblings.TryGetValueOctetsOfSibling(ApplicationPan.Tag, out ReadOnlySpan<byte> applicationPanSequenceNumberRaw))
+        {
+            throw new TerminalDataException(
+                $"The {nameof(Record)} could not {nameof(Decode)} because the {nameof(ApplicationPanSequenceNumber)} was not present");
+        }
+
+        ApplicationPan applicationPan = ApplicationPan.Decode(applicationPanRaw);
+        ApplicationPanSequenceNumber applicationPanSequenceNumber = ApplicationPanSequenceNumber.Decode(applicationPanRaw);
+
+        buffer.Add(applicationPan);
+        buffer.Add(applicationPanSequenceNumber);
+
+        if (siblings.TryGetValueOctetsOfSibling(AmountAuthorizedNumeric.Tag, out ReadOnlySpan<byte> amountAuthorizedNumeric))
+            buffer.Add(AmountAuthorizedNumeric.Decode(amountAuthorizedNumeric));
+        if (siblings.TryGetValueOctetsOfSibling(AmountOtherNumeric.Tag, out ReadOnlySpan<byte> amountOtherNumeric))
+            buffer.Add(AmountOtherNumeric.Decode(amountOtherNumeric));
+        if (siblings.TryGetValueOctetsOfSibling(BalanceReadBeforeGenAc.Tag, out ReadOnlySpan<byte> balanceReadBeforeGenAc))
+            buffer.Add(BalanceReadBeforeGenAc.Decode(balanceReadBeforeGenAc));
+        if (siblings.TryGetValueOctetsOfSibling(CardRiskManagementDataObjectList1RelatedData.Tag,
+            out ReadOnlySpan<byte> cardRiskManagementDataObjectList1RelatedData))
+            buffer.Add(CardRiskManagementDataObjectList1RelatedData.Decode(cardRiskManagementDataObjectList1RelatedData));
+        if (siblings.TryGetValueOctetsOfSibling(CvmResults.Tag, out ReadOnlySpan<byte> cvmResults))
+            buffer.Add(CvmResults.Decode(cvmResults));
+        if (siblings.TryGetValueOctetsOfSibling(DataRecoveryDataObjectListRelatedData.Tag, out ReadOnlySpan<byte> dataRecoveryDataObjectListRelatedData))
+            buffer.Add(DataRecoveryDataObjectListRelatedData.Decode(dataRecoveryDataObjectListRelatedData));
+        if (siblings.TryGetValueOctetsOfSibling(DataStorageSummary1.Tag, out ReadOnlySpan<byte> dataStorageSummary1))
+            buffer.Add(DataStorageSummary1.Decode(dataStorageSummary1));
+        if (siblings.TryGetValueOctetsOfSibling(DataStorageSummaryStatus.Tag, out ReadOnlySpan<byte> dataStorageSummaryStatus))
+            buffer.Add(DataStorageSummaryStatus.Decode(dataStorageSummaryStatus));
+        if (siblings.TryGetValueOctetsOfSibling(InterfaceDeviceSerialNumber.Tag, out ReadOnlySpan<byte> interfaceDeviceSerialNumber))
+            buffer.Add(InterfaceDeviceSerialNumber.Decode(interfaceDeviceSerialNumber));
+        if (siblings.TryGetValueOctetsOfSibling(ProcessingOptionsDataObjectListRelatedData.Tag,
+            out ReadOnlySpan<byte> processingOptionsDataObjectListRelatedData))
+            buffer.Add(ProcessingOptionsDataObjectListRelatedData.Decode(processingOptionsDataObjectListRelatedData));
+        if (siblings.TryGetValueOctetsOfSibling(ReferenceControlParameter.Tag, out ReadOnlySpan<byte> referenceControlParameter))
+            buffer.Add(ReferenceControlParameter.Decode(referenceControlParameter));
+        if (siblings.TryGetValueOctetsOfSibling(TerminalCapabilities.Tag, out ReadOnlySpan<byte> terminalCapabilities))
+            buffer.Add(TerminalCapabilities.Decode(terminalCapabilities));
+        if (siblings.TryGetValueOctetsOfSibling(TerminalCountryCode.Tag, out ReadOnlySpan<byte> terminalCountryCode))
+            buffer.Add(TerminalCountryCode.Decode(terminalCountryCode));
+        if (siblings.TryGetValueOctetsOfSibling(TerminalType.Tag, out ReadOnlySpan<byte> terminalType))
+            buffer.Add(TerminalType.Decode(terminalType));
+        if (siblings.TryGetValueOctetsOfSibling(TerminalVerificationResults.Tag, out ReadOnlySpan<byte> terminalVerificationResults))
+            buffer.Add(TerminalVerificationResults.Decode(terminalVerificationResults));
+        if (siblings.TryGetValueOctetsOfSibling(TransactionCategoryCode.Tag, out ReadOnlySpan<byte> transactionCategoryCode))
+            buffer.Add(TransactionCategoryCode.Decode(transactionCategoryCode));
+        if (siblings.TryGetValueOctetsOfSibling(TransactionCurrencyCode.Tag, out ReadOnlySpan<byte> transactionCurrencyCode))
+            buffer.Add(TransactionCurrencyCode.Decode(transactionCurrencyCode));
+        if (siblings.TryGetValueOctetsOfSibling(TransactionDate.Tag, out ReadOnlySpan<byte> transactionDate))
+            buffer.Add(TransactionDate.Decode(transactionDate));
+        if (siblings.TryGetValueOctetsOfSibling(TransactionTime.Tag, out ReadOnlySpan<byte> transactionTime))
+            buffer.Add(TransactionTime.Decode(transactionTime));
+        if (siblings.TryGetValueOctetsOfSibling(UnpredictableNumber.Tag, out ReadOnlySpan<byte> unpredictableNumber))
+            buffer.Add(UnpredictableNumber.Decode(unpredictableNumber));
+        if (siblings.TryGetValueOctetsOfSibling(TerminalRelayResistanceEntropy.Tag, out ReadOnlySpan<byte> terminalRelayResistanceEntropy))
+            buffer.Add(TerminalRelayResistanceEntropy.Decode(terminalRelayResistanceEntropy));
+        if (siblings.TryGetValueOctetsOfSibling(DeviceRelayResistanceEntropy.Tag, out ReadOnlySpan<byte> deviceRelayResistanceEntropy))
+            buffer.Add(DeviceRelayResistanceEntropy.Decode(deviceRelayResistanceEntropy));
+        if (siblings.TryGetValueOctetsOfSibling(MinTimeForProcessingRelayResistanceApdu.Tag, out ReadOnlySpan<byte> minTimeForProcessingRelayResistanceApdu))
+            buffer.Add(MinTimeForProcessingRelayResistanceApdu.Decode(minTimeForProcessingRelayResistanceApdu));
+        if (siblings.TryGetValueOctetsOfSibling(MaxTimeForProcessingRelayResistanceApdu.Tag, out ReadOnlySpan<byte> maxTimeForProcessingRelayResistanceApdu))
+            buffer.Add(MaxTimeForProcessingRelayResistanceApdu.Decode(maxTimeForProcessingRelayResistanceApdu));
+        if (siblings.TryGetValueOctetsOfSibling(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Tag,
+            out ReadOnlySpan<byte> deviceEstimatedTransmissionTimeForRelayResistanceRapdu))
+            buffer.Add(DeviceEstimatedTransmissionTimeForRelayResistanceRapdu.Decode(deviceEstimatedTransmissionTimeForRelayResistanceRapdu));
+        if (siblings.TryGetValueOctetsOfSibling(MeasuredRelayResistanceProcessingTime.Tag, out ReadOnlySpan<byte> measuredRelayResistanceProcessingTime))
+            buffer.Add(MeasuredRelayResistanceProcessingTime.Decode(measuredRelayResistanceProcessingTime));
+        if (siblings.TryGetValueOctetsOfSibling(RelayResistanceProtocolCounter.Tag, out ReadOnlySpan<byte> relayResistanceProtocolCounter))
+            buffer.Add(RelayResistanceProtocolCounter.Decode(relayResistanceProtocolCounter));
+
+        return new Record(new RecordKey(applicationPan, applicationPanSequenceNumber), buffer.ToArray());
     }
 
     #endregion

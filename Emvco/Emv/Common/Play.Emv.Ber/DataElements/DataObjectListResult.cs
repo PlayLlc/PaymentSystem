@@ -16,7 +16,7 @@ public class DataObjectListResult : IEqualityComparer<DataObjectListResult>, IEq
 {
     #region Static Metadata
 
-    private static readonly EmvCodec _Codec = EmvCodec.GetBerCodec();
+    private static readonly EmvCodec _Codec = EmvCodec.GetCodec();
 
     #endregion
 
@@ -61,9 +61,17 @@ public class DataObjectListResult : IEqualityComparer<DataObjectListResult>, IEq
         return new CommandTemplate(new BigInteger(buffer.ToArray()));
     }
 
-    public TagLengthValue[] AsPrimitiveValues() => _Value;
+    public TagLengthValue[] AsTagLengthValues() => _Value;
     public int ByteCount() => (int) _Value.Sum(a => a.GetTagLengthValueByteCount(_Codec));
-    public byte[] Encode() => _Value.Encode();
+
+    #endregion
+
+    #region Serialization
+
+    public byte[] EncodeValue()
+    {
+        return _Value.SelectMany(a => a.EncodeValue()).ToArray();
+    }
 
     #endregion
 

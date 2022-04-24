@@ -2,7 +2,10 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
 using Play.Codecs;
+using Play.Emv.Ber.Exceptions;
+using Play.Emv.Ber.ValueTypes.DataStorage;
 
 namespace Play.Emv.Ber.DataElements;
 
@@ -36,13 +39,42 @@ public record DiscretionaryData : DataExchangeResponse, IEqualityComparer<Discre
 
     #region Serialization
 
-    public override DiscretionaryData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsSpan());
+    public override DiscretionaryData Decode(TagLengthValue value) => Decode(value.EncodeValue().AsMemory());
 
-    /// <exception cref="BerParsingException"></exception>
-    public static DiscretionaryData Decode(ReadOnlyMemory<byte> value) => new(_Codec.DecodePrimitiveValuesAtRuntime(value.Span).ToArray());
+    public static DiscretionaryData Decode(ReadOnlyMemory<byte> value)
+    {
+        List<PrimitiveValue> buffer = new();
+        EncodedTlvSiblings siblings = _Codec.DecodeSiblings(value);
 
-    /// <exception cref="BerParsingException"></exception>
-    public static DiscretionaryData Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodePrimitiveValuesAtRuntime(value).ToArray());
+        if (siblings.TryGetValueOctetsOfSibling(ApplicationCapabilitiesInformation.Tag, out ReadOnlySpan<byte> applicationCapabilitiesInformation))
+            buffer.Add(ApplicationCapabilitiesInformation.Decode(applicationCapabilitiesInformation));
+        if (siblings.TryGetValueOctetsOfSibling(ApplicationCurrencyCode.Tag, out ReadOnlySpan<byte> applicationCurrencyCode))
+            buffer.Add(ApplicationCurrencyCode.Decode(applicationCurrencyCode));
+        if (siblings.TryGetValueOctetsOfSibling(BalanceReadAfterGenAc.Tag, out ReadOnlySpan<byte> balanceReadAfterGenAc))
+            buffer.Add(BalanceReadAfterGenAc.Decode(balanceReadAfterGenAc));
+        if (siblings.TryGetValueOctetsOfSibling(BalanceReadBeforeGenAc.Tag, out ReadOnlySpan<byte> balanceReadBeforeGenAc))
+            buffer.Add(BalanceReadBeforeGenAc.Decode(balanceReadBeforeGenAc));
+        if (siblings.TryGetValueOctetsOfSibling(DataStorageSummary3.Tag, out ReadOnlySpan<byte> dataStorageSummary3))
+            buffer.Add(DataStorageSummary3.Decode(dataStorageSummary3));
+        if (siblings.TryGetValueOctetsOfSibling(DataStorageSummaryStatus.Tag, out ReadOnlySpan<byte> dataStorageSummaryStatus))
+            buffer.Add(DataStorageSummaryStatus.Decode(dataStorageSummaryStatus));
+        if (siblings.TryGetValueOctetsOfSibling(ErrorIndication.Tag, out ReadOnlySpan<byte> errorIndication))
+            buffer.Add(ErrorIndication.Decode(errorIndication));
+        if (siblings.TryGetValueOctetsOfSibling(PostGenAcPutDataStatus.Tag, out ReadOnlySpan<byte> postGenAcPutDataStatus))
+            buffer.Add(PostGenAcPutDataStatus.Decode(postGenAcPutDataStatus));
+        if (siblings.TryGetValueOctetsOfSibling(PreGenAcPutDataStatus.Tag, out ReadOnlySpan<byte> preGenAcPutDataStatus))
+            buffer.Add(PreGenAcPutDataStatus.Decode(preGenAcPutDataStatus));
+        if (siblings.TryGetValueOctetsOfSibling(ThirdPartyData.Tag, out ReadOnlySpan<byte> thirdPartyData))
+            buffer.Add(ThirdPartyData.Decode(thirdPartyData));
+        if (siblings.TryGetValueOctetsOfSibling(TornRecord.Tag, out ReadOnlyMemory<byte> tornRecord))
+            buffer.Add(TornRecord.Decode(tornRecord));
+        if (siblings.TryGetValueOctetsOfSibling(Track1DiscretionaryData.Tag, out ReadOnlyMemory<byte> track1DiscretionaryData))
+            buffer.Add(Track1DiscretionaryData.Decode(track1DiscretionaryData));
+        if (siblings.TryGetValueOctetsOfSibling(Track2DiscretionaryData.Tag, out ReadOnlyMemory<byte> track2DiscretionaryData))
+            buffer.Add(Track2DiscretionaryData.Decode(track2DiscretionaryData));
+
+        return new DiscretionaryData(buffer.ToArray());
+    }
 
     #endregion
 

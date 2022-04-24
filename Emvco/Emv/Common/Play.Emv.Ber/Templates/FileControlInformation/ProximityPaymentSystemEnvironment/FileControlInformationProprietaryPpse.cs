@@ -23,8 +23,7 @@ public class FileControlInformationProprietaryPpse : FileControlInformationPropr
 
     #region Constructor
 
-    public FileControlInformationProprietaryPpse(
-        FileControlInformationIssuerDiscretionaryDataPpse fileControlInformationProprietaryDataPpse)
+    public FileControlInformationProprietaryPpse(FileControlInformationIssuerDiscretionaryDataPpse fileControlInformationProprietaryDataPpse)
     {
         _FileControlInformationIssuerDiscretionaryDataPpse = fileControlInformationProprietaryDataPpse;
     }
@@ -35,11 +34,10 @@ public class FileControlInformationProprietaryPpse : FileControlInformationPropr
 
     public override Tag[] GetChildTags() => ChildTags;
 
-    public CommandTemplate AsCommandTemplate(PoiInformation poiInformation, PrimitiveValue[] selectionDataObjectListValues) =>
-        _FileControlInformationIssuerDiscretionaryDataPpse.AsCommandTemplate(_Codec, poiInformation, selectionDataObjectListValues);
+    public CommandTemplate AsCommandTemplate(PoiInformation poiInformation, IReadTlvDatabase database) =>
+        _FileControlInformationIssuerDiscretionaryDataPpse.AsCommandTemplate(_Codec, poiInformation, database);
 
-    public CommandTemplate AsCommandTemplate(IReadTlvDatabase database) =>
-        _FileControlInformationIssuerDiscretionaryDataPpse.AsCommandTemplate(database);
+    public CommandTemplate AsCommandTemplate(IReadTlvDatabase database) => _FileControlInformationIssuerDiscretionaryDataPpse.AsCommandTemplate(database);
 
     public ApplicationDedicatedFileName[] GetApplicationDedicatedFileNames() =>
         _FileControlInformationIssuerDiscretionaryDataPpse.GetApplicationDedicatedFileNames();
@@ -71,8 +69,8 @@ public class FileControlInformationProprietaryPpse : FileControlInformationPropr
     public static FileControlInformationProprietaryPpse Decode(EncodedTlvSiblings encodedTlvSiblings)
     {
         FileControlInformationIssuerDiscretionaryDataPpse fciProprietary =
-            _Codec.AsConstructed(FileControlInformationIssuerDiscretionaryDataPpse.Decode,
-                FileControlInformationIssuerDiscretionaryDataTemplate.Tag, encodedTlvSiblings)
+            _Codec.AsConstructed(FileControlInformationIssuerDiscretionaryDataPpse.Decode, FileControlInformationIssuerDiscretionaryDataTemplate.Tag,
+                encodedTlvSiblings)
             ?? throw new CardDataMissingException(
                 $"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataPpse)}. A {nameof(FileControlInformationIssuerDiscretionaryDataPpse)} was expected but could not be found");
 
@@ -84,16 +82,14 @@ public class FileControlInformationProprietaryPpse : FileControlInformationPropr
     #region Equality
 
     public override bool Equals(ConstructedValue? other) =>
-        other is FileControlInformationProprietaryPpse fileControlInformationProprietaryTemplate
-        && Equals(fileControlInformationProprietaryTemplate);
+        other is FileControlInformationProprietaryPpse fileControlInformationProprietaryTemplate && Equals(fileControlInformationProprietaryTemplate);
 
     public bool Equals(FileControlInformationProprietaryPpse? other)
     {
         if (other == null)
             return false;
 
-        return (other.GetTag() == Tag)
-            && _FileControlInformationIssuerDiscretionaryDataPpse.Equals(other._FileControlInformationIssuerDiscretionaryDataPpse);
+        return (other.GetTag() == Tag) && _FileControlInformationIssuerDiscretionaryDataPpse.Equals(other._FileControlInformationIssuerDiscretionaryDataPpse);
     }
 
     public override bool Equals(ConstructedValue? x, ConstructedValue? y)
@@ -116,8 +112,7 @@ public class FileControlInformationProprietaryPpse : FileControlInformationPropr
     }
 
     public override bool Equals(object? obj) =>
-        obj is FileControlInformationProprietaryPpse fileControlInformationProprietaryTemplate
-        && Equals(fileControlInformationProprietaryTemplate);
+        obj is FileControlInformationProprietaryPpse fileControlInformationProprietaryTemplate && Equals(fileControlInformationProprietaryTemplate);
 
     public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
     public int GetHashCode(FileControlInformationProprietaryPpse obj) => obj.GetHashCode();

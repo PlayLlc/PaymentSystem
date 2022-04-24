@@ -32,7 +32,7 @@ internal class CombinedDataAuthenticator
 
     public CombinedDataAuthenticator(HashAlgorithmProvider hashAlgorithmProvider, SignatureService signatureService, CertificateFactory certificateFactory)
     {
-        _Codec = EmvCodec.GetBerCodec();
+        _Codec = EmvCodec.GetCodec();
         _HashAlgorithmProvider = hashAlgorithmProvider;
         _SignatureService = signatureService;
         _CertificateFactory = certificateFactory;

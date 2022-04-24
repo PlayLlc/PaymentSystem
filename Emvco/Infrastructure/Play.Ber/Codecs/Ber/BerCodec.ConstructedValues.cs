@@ -49,8 +49,7 @@ public partial class BerCodec
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
-    public T? AsConstructed<T>(Func<EncodedTlvSiblings, T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings)
-        where T : ConstructedValue
+    public T? AsConstructed<T>(Func<EncodedTlvSiblings, T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings) where T : ConstructedValue
     {
         if (!encodedTlvSiblings.TryGetValueOctetsOfSibling(tag, out ReadOnlyMemory<byte> rawValueContent))
             return null;
@@ -61,8 +60,7 @@ public partial class BerCodec
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
-    public T? AsConstructed<T>(Func<BerCodec, EncodedTlvSiblings, T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings)
-        where T : ConstructedValue
+    public T? AsConstructed<T>(Func<BerCodec, EncodedTlvSiblings, T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings) where T : ConstructedValue
     {
         if (!encodedTlvSiblings.TryGetValueOctetsOfSibling(tag, out ReadOnlyMemory<byte> rawValueContent))
             return null;

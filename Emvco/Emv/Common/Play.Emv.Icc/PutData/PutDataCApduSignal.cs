@@ -52,7 +52,7 @@ public class PutDataCApduSignal : CApduSignal
         }
 
         PutDataApduCommand? command = PutDataApduCommand.Create(ProprietaryMessageIdentifier._8x, (ushort) value.GetTag(),
-            value.EncodeValue(EmvCodec.GetBerCodec()).AsSpan());
+            value.EncodeValue(EmvCodec.GetCodec()).AsSpan());
 
         return new PutDataCApduSignal(command.GetClass(), command.GetInstruction(), command.GetParameter1(), command.GetParameter2(), command.GetData());
     }

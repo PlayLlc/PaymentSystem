@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 
+using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
@@ -29,8 +31,7 @@ public class GetProcessingOptionsCApduSignalTests
     {
         ProcessingOptionsDataObjectListTestTlv testData = new();
         ProcessingOptionsDataObjectList pdol = ProcessingOptionsDataObjectList.Decode(testData.EncodeValue().AsSpan());
-
-        GetProcessingOptionsCApduSignal sut = GetProcessingOptionsCApduSignal.Create(pdol.AsDataObjectListResult(testData.GetTerminalValues()));
+        GetProcessingOptionsCApduSignal sut = GetProcessingOptionsCApduSignal.Create(new DataObjectListResult(pdol.AsTagLengthValue(_Codec)));
 
         Assert.NotNull(sut);
     }
@@ -40,7 +41,7 @@ public class GetProcessingOptionsCApduSignalTests
     {
         ProcessingOptionsDataObjectListTestTlv testData = new();
         ProcessingOptionsDataObjectList pdol = ProcessingOptionsDataObjectList.Decode(testData.EncodeValue().AsSpan());
-        GetProcessingOptionsCApduSignal sut = GetProcessingOptionsCApduSignal.Create(pdol.AsDataObjectListResult(testData.GetTerminalValues()));
+        GetProcessingOptionsCApduSignal sut = GetProcessingOptionsCApduSignal.Create(new DataObjectListResult(pdol.AsTagLengthValue(_Codec)));
 
         Assert.NotNull(sut);
     }

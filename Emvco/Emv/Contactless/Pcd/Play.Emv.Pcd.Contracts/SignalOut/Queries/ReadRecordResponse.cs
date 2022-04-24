@@ -1,5 +1,6 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
+using Play.Emv.Ber;
 using Play.Emv.Ber.Templates;
 using Play.Emv.Icc;
 using Play.Emv.Identifiers;
@@ -24,8 +25,8 @@ public record ReadRecordResponse : QueryPcdResponse
 
     #region Constructor
 
-    public ReadRecordResponse(CorrelationId correlationId, TransactionSessionId transactionSessionId, ReadRecordRApduSignal rApdu) : base(
-        correlationId, MessageTypeId, transactionSessionId, rApdu)
+    public ReadRecordResponse(CorrelationId correlationId, TransactionSessionId transactionSessionId, ReadRecordRApduSignal rApdu) : base(correlationId,
+        MessageTypeId, transactionSessionId, rApdu)
     { }
 
     #endregion
@@ -35,7 +36,8 @@ public record ReadRecordResponse : QueryPcdResponse
     public ShortFileId GetShortFileId() => _ShortFileId;
 
     /// <exception cref="BerParsingException"></exception>
-    public PrimitiveValue[] GetPrimitiveDataObjects() => ReadRecordResponseTemplate.GetPrimitiveValuesFromRecords(GetData());
+    public PrimitiveValue[] GetPrimitiveDataObjects(IResolveKnownObjectsAtRuntime runtimeCodec) =>
+        ReadRecordResponseTemplate.GetPrimitiveValuesFromRecords(runtimeCodec, GetData());
 
     public int GetValueByteCount() => GetData().Length;
 

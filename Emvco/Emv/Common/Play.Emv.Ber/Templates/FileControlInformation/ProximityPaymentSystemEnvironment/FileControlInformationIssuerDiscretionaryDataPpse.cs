@@ -72,17 +72,17 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
     /// <param name="selectionDataObjectListValues"></param>
     /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
-    public CommandTemplate AsCommandTemplate(BerCodec codec, PoiInformation poiInformation, PrimitiveValue[] selectionDataObjectListValues)
+    public CommandTemplate AsCommandTemplate(BerCodec codec, PoiInformation poiInformation, IReadTlvDatabase database)
     {
         if ((_SelectionDataObjectList != null) && (!_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))
-            return _SelectionDataObjectList.AsCommandTemplate(selectionDataObjectListValues);
+            return _SelectionDataObjectList.AsCommandTemplate(database);
 
         if (_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false)
             return CommandTemplate.Decode(poiInformation.EncodeValue().AsSpan());
 
         if ((_SelectionDataObjectList != null) && (_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))
         {
-            Span<byte> dolEncoding = _SelectionDataObjectList.AsCommandTemplate(selectionDataObjectListValues).EncodeValue();
+            Span<byte> dolEncoding = _SelectionDataObjectList.AsCommandTemplate(database).EncodeValue();
             Span<byte> terminalCategoryEncoding = poiInformation.EncodeValue(codec);
 
             return CommandTemplate.Decode(dolEncoding.ConcatArrays(terminalCategoryEncoding).AsSpan());
@@ -104,8 +104,7 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
         if ((_SelectionDataObjectList != null) && (!_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))
             return _SelectionDataObjectList.AsCommandTemplate(database);
 
-        if (database.IsPresentAndNotEmpty(PoiInformation.Tag)
-            && (_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))
+        if (database.IsPresentAndNotEmpty(PoiInformation.Tag) && (_TerminalCategoriesSupportedList?.IsPointOfInteractionApduCommandRequested() ?? false))
             return CommandTemplate.Decode(database.Get(PoiInformation.Tag).EncodeValue(_Codec).AsSpan());
 
         if ((_SelectionDataObjectList != null)
@@ -151,8 +150,7 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
 
     #region Serialization
 
-    public static FileControlInformationIssuerDiscretionaryDataPpse Decode(ReadOnlyMemory<byte> value) =>
-        Decode(_Codec.DecodeChildren(value));
+    public static FileControlInformationIssuerDiscretionaryDataPpse Decode(ReadOnlyMemory<byte> value) => Decode(_Codec.DecodeChildren(value));
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
@@ -170,8 +168,7 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
 
         SetOf<DirectoryEntry> directoryEntry = new(sequenceOfResult.ToArray().Select(DirectoryEntry.Decode).ToArray());
 
-        if (encodedTlvSiblings.TryGetValueOctetsOfSibling(TerminalCategoriesSupportedList.Tag,
-            out ReadOnlyMemory<byte> rawTerminalCategoriesSupportedList))
+        if (encodedTlvSiblings.TryGetValueOctetsOfSibling(TerminalCategoriesSupportedList.Tag, out ReadOnlyMemory<byte> rawTerminalCategoriesSupportedList))
         {
             terminalCategoriesSupportedList =
                 (_Codec.Decode(TerminalCategoriesSupportedList.EncodingId, rawTerminalCategoriesSupportedList.Span) as
@@ -181,12 +178,10 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
         if (encodedTlvSiblings.TryGetValueOctetsOfSibling(SelectionDataObjectList.Tag, out ReadOnlyMemory<byte> rawSelectionDataObjectList))
         {
             selectionDataObjectList =
-                ((DecodedResult<SelectionDataObjectList>) _Codec.Decode(SelectionDataObjectList.EncodingId,
-                    rawSelectionDataObjectList.Span)).Value;
+                ((DecodedResult<SelectionDataObjectList>) _Codec.Decode(SelectionDataObjectList.EncodingId, rawSelectionDataObjectList.Span)).Value;
         }
 
-        return new FileControlInformationIssuerDiscretionaryDataPpse(directoryEntry, terminalCategoriesSupportedList,
-            selectionDataObjectList);
+        return new FileControlInformationIssuerDiscretionaryDataPpse(directoryEntry, terminalCategoriesSupportedList, selectionDataObjectList);
     }
 
     #endregion
@@ -201,8 +196,7 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
         if (_DirectoryEntry.Count != other._DirectoryEntry.Count)
             return false;
 
-        if (!_TerminalCategoriesSupportedList?.Equals(other._TerminalCategoriesSupportedList)
-            ?? (other._TerminalCategoriesSupportedList == null))
+        if (!_TerminalCategoriesSupportedList?.Equals(other._TerminalCategoriesSupportedList) ?? (other._TerminalCategoriesSupportedList == null))
             return false;
 
         return _DirectoryEntry.All(other._DirectoryEntry.Contains);

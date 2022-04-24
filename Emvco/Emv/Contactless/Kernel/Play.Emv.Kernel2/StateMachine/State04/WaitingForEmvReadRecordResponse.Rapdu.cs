@@ -153,9 +153,11 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     {
         try
         {
-            PrimitiveValue[] records = session.ResolveActiveTag(rapdu);
+            EmvRuntimeCodec runtimeCodec = EmvRuntimeCodec.GetCodec();
 
-            _Database.Update(rapdu.GetPrimitiveDataObjects());
+            PrimitiveValue[] records = session.ResolveActiveTag(runtimeCodec, rapdu);
+
+            _Database.Update(rapdu.GetPrimitiveDataObjects(runtimeCodec));
 
             resolvedRecords = records.Select(a => a.GetTag()).ToArray();
 
@@ -364,7 +366,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
             return;
 
         //  S4.35
-        session.EnqueueStaticDataToBeAuthenticated(EmvCodec.GetBerCodec(), rapdu);
+        session.EnqueueStaticDataToBeAuthenticated(EmvCodec.GetCodec(), rapdu);
     }
 
     #endregion

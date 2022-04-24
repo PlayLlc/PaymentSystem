@@ -26,6 +26,11 @@ public abstract record DataObjectList : DataElement<TagLength[]>
 
     #region Instance Members
 
+    public int GetValueByteCountOfCommandTemplate()
+    {
+        return _Value?.Sum(a => a.GetValueByteCount()) ?? 0;
+    }
+
     /// <summary>
     ///     IsRequestedDataAvailable
     /// </summary>

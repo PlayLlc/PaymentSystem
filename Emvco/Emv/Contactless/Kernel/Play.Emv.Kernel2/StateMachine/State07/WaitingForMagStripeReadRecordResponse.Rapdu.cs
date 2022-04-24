@@ -3,6 +3,7 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Codecs.Exceptions;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
 using Play.Emv.Ber.Enums;
@@ -163,12 +164,13 @@ public partial class WaitingForMagStripeReadRecordResponse
     {
         try
         {
-            PrimitiveValue[] records = session.ResolveActiveTag(rapdu);
+            EmvRuntimeCodec runtimeCodec = EmvRuntimeCodec.GetCodec();
+            PrimitiveValue[] records = session.ResolveActiveTag(runtimeCodec, rapdu);
             _Database.Update(records);
 
             HandleUnpredictableNumberDataObjectList();
 
-            _Database.Update(rapdu.GetPrimitiveDataObjects());
+            _Database.Update(rapdu.GetPrimitiveDataObjects(runtimeCodec));
 
             return true;
         }

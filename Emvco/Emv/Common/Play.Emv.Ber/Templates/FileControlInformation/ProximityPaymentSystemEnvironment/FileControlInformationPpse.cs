@@ -26,8 +26,7 @@ public class FileControlInformationPpse : FileControlInformationTemplate
 
     #region Constructor
 
-    public FileControlInformationPpse(
-        DedicatedFileName? dedicatedFileName, FileControlInformationProprietaryPpse fileControlInformationProprietaryPpsePpse)
+    public FileControlInformationPpse(DedicatedFileName? dedicatedFileName, FileControlInformationProprietaryPpse fileControlInformationProprietaryPpsePpse)
     {
         _DedicatedFileName = dedicatedFileName;
         _FileControlInformationProprietaryPpse = fileControlInformationProprietaryPpsePpse;
@@ -39,16 +38,11 @@ public class FileControlInformationPpse : FileControlInformationTemplate
 
     public override Tag[] GetChildTags() => ChildTags;
 
-    public CommandTemplate
-        AsCommandTemplate(BerCodec codec, PoiInformation poiInformation, PrimitiveValue[] selectionDataObjectListValues) =>
-        _FileControlInformationProprietaryPpse.AsCommandTemplate(poiInformation, selectionDataObjectListValues);
+    public CommandTemplate AsCommandTemplate(BerCodec codec, PoiInformation poiInformation, IReadTlvDatabase database) =>
+        _FileControlInformationProprietaryPpse.AsCommandTemplate(poiInformation, database);
 
-    public CommandTemplate AsCommandTemplate(IReadTlvDatabase database) =>
-        _FileControlInformationProprietaryPpse.AsCommandTemplate(database);
-
-    public ApplicationDedicatedFileName[] GetApplicationDedicatedFileNames() =>
-        _FileControlInformationProprietaryPpse.GetApplicationDedicatedFileNames();
-
+    public CommandTemplate AsCommandTemplate(IReadTlvDatabase database) => _FileControlInformationProprietaryPpse.AsCommandTemplate(database);
+    public ApplicationDedicatedFileName[] GetApplicationDedicatedFileNames() => _FileControlInformationProprietaryPpse.GetApplicationDedicatedFileNames();
     public TagLength[] GetDataObjectsRequestedByCard() => _FileControlInformationProprietaryPpse.GetDataObjectsRequestedByCard();
 
     public bool TryGetDedicatedFileName(out DedicatedFileName? result)
@@ -71,8 +65,7 @@ public class FileControlInformationPpse : FileControlInformationTemplate
     public bool IsDirectoryEntryListEmpty() => _FileControlInformationProprietaryPpse.IsDirectoryEntryListEmpty();
 
     public bool IsPointOfInteractionApduCommandRequested() =>
-        _FileControlInformationProprietaryPpse.GetFileControlInformationIssuerDiscretionaryData()
-            .IsPointOfInteractionApduCommandRequested();
+        _FileControlInformationProprietaryPpse.GetFileControlInformationIssuerDiscretionaryData().IsPointOfInteractionApduCommandRequested();
 
     protected override IEncodeBerDataObjects?[] GetChildren()
     {
@@ -93,8 +86,7 @@ public class FileControlInformationPpse : FileControlInformationTemplate
         DedicatedFileName? dedicatedFileName = _Codec.AsPrimitive(DedicatedFileName.Decode, DedicatedFileName.Tag, encodedTlvSiblings);
 
         FileControlInformationProprietaryPpse fciProprietaryPpse =
-            _Codec.AsConstructed(FileControlInformationProprietaryPpse.Decode, FileControlInformationProprietaryTemplate.Tag,
-                encodedTlvSiblings)
+            _Codec.AsConstructed(FileControlInformationProprietaryPpse.Decode, FileControlInformationProprietaryTemplate.Tag, encodedTlvSiblings)
             ?? throw new CardDataMissingException(
                 $"A problem occurred while decoding {nameof(FileControlInformationPpse)}. A {nameof(FileControlInformationProprietaryPpse)} was expected but could not be found");
 

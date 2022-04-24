@@ -13,7 +13,7 @@ public class StaticDataToBeAuthenticated
 {
     #region Static Metadata
 
-    private static readonly EmvCodec _Codec = EmvCodec.GetBerCodec();
+    private static readonly EmvCodec _Codec = EmvCodec.GetCodec();
 
     #endregion
 

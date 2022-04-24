@@ -7,15 +7,13 @@ using Play.Codecs;
 
 namespace Play.Ber.DataObjects;
 
-public abstract record PrimitiveValue : IEqualityComparer<PrimitiveValue>, IEncodeBerDataObjects, IRetrievePrimitiveValueMetadata,
-    IDecodeDataElement
+public abstract record PrimitiveValue : IEqualityComparer<PrimitiveValue>, IEncodeBerDataObjects, IRetrievePrimitiveValueMetadata, IDecodeDataElement
 {
     #region Instance Members
 
     public TagLengthValue AsTagLengthValue(BerCodec codec)
     {
         Tag tag = GetTag();
-        byte[]? contentOctets = EncodeValue(codec);
 
         return new TagLengthValue(GetTag(), EncodeValue(codec));
     }

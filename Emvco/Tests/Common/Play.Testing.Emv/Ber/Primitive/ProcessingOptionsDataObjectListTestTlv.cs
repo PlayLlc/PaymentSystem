@@ -61,9 +61,18 @@ public class ProcessingOptionsDataObjectListTestTlv : TestTlv
 
     #region Instance Members
 
+    public TagLengthValue[] AsTagLengthValues()
+    {
+        List<TagLengthValue> result = new();
+        foreach (var value in _TerminalValues.Values)
+            result.Add(new TagLengthValue(value.GetTag(), value.EncodeValue(EmvCodec.GetCodec())));
+
+        return result.ToArray();
+    }
+
     public static void RegisterDefault(IFixture fixture)
     {
-        EmvCodec codec = EmvCodec.GetBerCodec();
+        EmvCodec codec = EmvCodec.GetCodec();
 
         fixture.Register(() => new ProcessingOptionsDataObjectList(codec.DecodeTagLengthPairs(new byte[]
         {

@@ -1,4 +1,5 @@
 ﻿using Play.Ber.DataObjects;
+using Play.Ber.Identifiers;
 
 namespace Play.Emv.Ber;
 
@@ -6,9 +7,7 @@ public interface IResolveKnownObjectsAtRuntime
 {
     #region Instance Members
 
-    public PrimitiveValue DecodePrimitiveValueAtRuntime(ReadOnlySpan<byte> value);
-    public PrimitiveValue[] DecodePrimitiveValuesAtRuntime(ReadOnlySpan<byte> value);
-    public bool TryDecodingPrimitiveValueAtRuntime(ReadOnlySpan<byte> value, out PrimitiveValue? result);
+    public bool TryDecodingAtRuntime(Tag tag, ReadOnlyMemory<byte> value, out PrimitiveValue? primitiveValue);
 
     #endregion
 }

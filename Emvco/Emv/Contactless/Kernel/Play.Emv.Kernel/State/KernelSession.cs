@@ -53,8 +53,7 @@ public class KernelSession
     public StaticDataToBeAuthenticated GetStaticDataToBeAuthenticated() => _StaticDataToBeAuthenticated;
 
     /// <exception cref="Security.Exceptions.CryptographicAuthenticationMethodFailedException"></exception>
-    public void EnqueueStaticDataToBeAuthenticated(EmvCodec codec, ReadRecordResponse rapdu) =>
-        _StaticDataToBeAuthenticated.Enqueue(codec, rapdu);
+    public void EnqueueStaticDataToBeAuthenticated(EmvCodec codec, ReadRecordResponse rapdu) => _StaticDataToBeAuthenticated.Enqueue(codec, rapdu);
 
     /// <param name="tagList"></param>
     /// <param name="database"></param>
@@ -81,11 +80,11 @@ public class KernelSession
     public bool IsActiveTagEmpty() => _ActiveApplicationFileLocator.IsEmpty();
 
     /// <exception cref="BerParsingException"></exception>
-    public PrimitiveValue[] ResolveActiveTag(ReadRecordResponse rapdu)
+    public PrimitiveValue[] ResolveActiveTag(IResolveKnownObjectsAtRuntime runtimeCodec, ReadRecordResponse rapdu)
     {
         _ = _ActiveApplicationFileLocator.TryDequeue(out RecordRange? result);
 
-        return rapdu.GetPrimitiveDataObjects();
+        return rapdu.GetPrimitiveDataObjects(runtimeCodec);
     }
 
     public void ClearActiveTags() => _ActiveApplicationFileLocator.Clear();
