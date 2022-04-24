@@ -5,9 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Configuration\" />
-    <Folder Include="Issuer\" />
-    <Folder Include="Merchant\" />
+    <Compile Remove="Configuration\**" />
+    <Compile Remove="Issuer\**" />
+    <Compile Remove="Merchant\**" />
+    <EmbeddedResource Remove="Configuration\**" />
+    <EmbeddedResource Remove="Issuer\**" />
+    <EmbeddedResource Remove="Merchant\**" />
+    <None Remove="Configuration\**" />
+    <None Remove="Issuer\**" />
+    <None Remove="Merchant\**" />
   </ItemGroup>
 
   <ItemGroup>
