@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Infrastructure\Play.Encryption\Play.Encryption.csproj" />
-    <ProjectReference Include="..\..\..\Infrastructure\Play.Globalization\Play.Globalization.csproj" />
-    <ProjectReference Include="..\Play.Testing\Play.Testing.csproj" />
+    <ProjectReference Include="..\..\..\Core\Play.Encryption\Play.Encryption.csproj" />
+    <ProjectReference Include="..\..\..\Core\Play.Globalization\Play.Globalization.csproj" />
+    <ProjectReference Include="..\..\Play.Testing\Play.Testing.csproj" />
   </ItemGroup>
 
 </Project>

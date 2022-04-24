@@ -7,9 +7,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\Emv\Common\Play.Emv.Ber\Play.Emv.Ber.csproj" />
-		<ProjectReference Include="..\..\..\Emv\Common\Play.Emv.Security\Play.Emv.Security.csproj" />
-		<ProjectReference Include="..\Play.Testing.Infrastructure\Play.Testing.Infrastructure.csproj" />
+	  <ProjectReference Include="..\..\..\Emv\Play.Emv.Ber\Play.Emv.Ber.csproj" />
+	  <ProjectReference Include="..\..\..\Emv\Play.Emv.Security\Play.Emv.Security.csproj" />
+	  <ProjectReference Include="..\..\Core\Play.Testing.Infrastructure\Play.Testing.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

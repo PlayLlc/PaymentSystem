@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Emv\Play.Emv.Security\Play.Emv.Security.csproj" />
     <ProjectReference Include="..\..\Display\Play.Emv.Display.Contracts\Play.Emv.Display.Contracts.csproj" />
     <ProjectReference Include="..\..\Terminal\Play.Emv.Terminal.Contracts\Play.Emv.Terminal.Contracts.csproj" />
     <ProjectReference Include="..\Play.Emv.Kernel.Contracts\Play.Emv.Kernel.Contracts.csproj" />

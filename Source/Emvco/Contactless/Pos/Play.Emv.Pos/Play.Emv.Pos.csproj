@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Play.Emv\Play.Emv.csproj" />
+    <ProjectReference Include="..\..\..\Emv\Play.Emv\Play.Emv.csproj" />
   </ItemGroup>
 
 </Project>

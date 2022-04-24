@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Emv\Common\Play.Emv.Icc\Play.Emv.Icc.csproj" />
-    <ProjectReference Include="..\..\..\Common\Play.Testing.Emv\Play.Testing.Emv.csproj" />
+    <ProjectReference Include="..\..\..\Emv\Play.Emv.Icc\Play.Emv.Icc.csproj" />
+    <ProjectReference Include="..\Play.Testing.Emv\Play.Testing.Emv.csproj" />
   </ItemGroup>
 
 </Project>
