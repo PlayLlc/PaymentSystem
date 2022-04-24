@@ -66,7 +66,7 @@ public partial class PrepareGenerateAcService
         #region GAC.40
 
         /// <remarks>Book C-2 Section GAC.40</remarks>
-        private bool IsDataStorageDigestHashPresent(DataStorageDataObjectList dsdol) => dsdol.IsObjectPresent(DataStorageDigestHash.Tag);
+        private bool IsDataStorageDigestHashPresent(DataStorageDataObjectList dsdol) => dsdol.Exists(DataStorageDigestHash.Tag);
 
         #endregion
 

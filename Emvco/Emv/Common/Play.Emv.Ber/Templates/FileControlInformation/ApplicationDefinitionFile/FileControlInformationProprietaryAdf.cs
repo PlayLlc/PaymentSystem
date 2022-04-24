@@ -27,8 +27,7 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
     public FileControlInformationProprietaryAdf(
         FileControlInformationIssuerDiscretionaryDataAdf fileControlInformationIssuerDiscretionaryData, ApplicationLabel? applicationLabel,
         ApplicationPriorityIndicator? applicationPriorityIndicator, ProcessingOptionsDataObjectList? processingOptionsDataObjectList,
-        LanguagePreference? languagePreference, IssuerCodeTableIndex? issuerCodeTableIndex,
-        ApplicationPreferredName? applicationPreferredName)
+        LanguagePreference? languagePreference, IssuerCodeTableIndex? issuerCodeTableIndex, ApplicationPreferredName? applicationPreferredName)
     {
         _FileControlInformationIssuerDiscretionaryDataAdf = fileControlInformationIssuerDiscretionaryData;
         _ApplicationLabel = applicationLabel;
@@ -51,8 +50,7 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
     public bool TryGetApplicationCapabilitiesInformation(out ApplicationCapabilitiesInformation? result) =>
         _FileControlInformationIssuerDiscretionaryDataAdf.TryGetApplicationCapabilitiesInformation(out result);
 
-    public Tag[] GetRequestedDataObjects() =>
-        _ProcessingOptionsDataObjectList?.GetRequestedItems().Select(a => a.GetTag()).ToArray() ?? Array.Empty<Tag>();
+    public Tag[] GetRequestedDataObjects() => _ProcessingOptionsDataObjectList?.GetRequestedItems().Select(a => a.GetTag()).ToArray() ?? Array.Empty<Tag>();
 
     public bool TryGetProcessingOptionsDataObjectList(out ProcessingOptionsDataObjectList? result)
     {
@@ -91,8 +89,7 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
     }
 
     // BUG: I'm pretty sure this needs to be wrapped in a PDOL Related Data object
-    public CommandTemplate GetProcessingOptionsRelatedData(IReadTlvDatabase database) =>
-        _ProcessingOptionsDataObjectList!.AsCommandTemplate(database);
+    public CommandTemplate GetProcessingOptionsRelatedData(IReadTlvDatabase database) => _ProcessingOptionsDataObjectList!.AsCommandTemplate(database);
 
     public bool TryGetLanguagePreference(out LanguagePreference? result)
     {
@@ -112,21 +109,19 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
     {
         return new[]
         {
-            ApplicationLabel.Tag, ApplicationPreferredName.Tag, ApplicationPriorityIndicator.Tag,
-            FileControlInformationIssuerDiscretionaryDataAdf.Tag, IssuerCodeTableIndex.Tag, LanguagePreference.Tag,
-            ProcessingOptionsDataObjectList.Tag
+            ApplicationLabel.Tag, ApplicationPreferredName.Tag, ApplicationPriorityIndicator.Tag, FileControlInformationIssuerDiscretionaryDataAdf.Tag,
+            IssuerCodeTableIndex.Tag, LanguagePreference.Tag, ProcessingOptionsDataObjectList.Tag
         };
     }
 
-    public bool IsDataObjectRequested(Tag tag) => _ProcessingOptionsDataObjectList?.Contains(tag) ?? false;
+    public bool IsDataObjectRequested(Tag tag) => _ProcessingOptionsDataObjectList?.Exists(tag) ?? false;
 
     protected override IEncodeBerDataObjects?[] GetChildren()
     {
         return new IEncodeBerDataObjects?[]
         {
-            _ApplicationLabel, _ApplicationPreferredName, _ApplicationPriorityIndicator,
-            _FileControlInformationIssuerDiscretionaryDataAdf, _IssuerCodeTableIndex, _LanguagePreference,
-            _ProcessingOptionsDataObjectList
+            _ApplicationLabel, _ApplicationPreferredName, _ApplicationPriorityIndicator, _FileControlInformationIssuerDiscretionaryDataAdf,
+            _IssuerCodeTableIndex, _LanguagePreference, _ProcessingOptionsDataObjectList
         };
     }
 
@@ -143,8 +138,7 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
     public static FileControlInformationProprietaryAdf Decode(EncodedTlvSiblings encodedChildren)
     {
         FileControlInformationIssuerDiscretionaryDataAdf fciProprietaryTemplate =
-            _Codec.AsConstructed(FileControlInformationIssuerDiscretionaryDataAdf.Decode,
-                FileControlInformationIssuerDiscretionaryDataAdf.Tag, encodedChildren)
+            _Codec.AsConstructed(FileControlInformationIssuerDiscretionaryDataAdf.Decode, FileControlInformationIssuerDiscretionaryDataAdf.Tag, encodedChildren)
             ?? throw new CardDataMissingException(
                 $"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataAdf)}. A {nameof(FileControlInformationIssuerDiscretionaryDataAdf)} was expected but could not be found");
 
@@ -179,8 +173,8 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
             // TODO: Logging
         }
 
-        return new FileControlInformationProprietaryAdf(fciProprietaryTemplate, applicationLabel, applicationPriorityIndicator,
-            processingOptionsDataObjectList, languagePreference, issuerCodeTableIndex, applicationPreferredName);
+        return new FileControlInformationProprietaryAdf(fciProprietaryTemplate, applicationLabel, applicationPriorityIndicator, processingOptionsDataObjectList,
+            languagePreference, issuerCodeTableIndex, applicationPreferredName);
     }
 
     #endregion
@@ -188,8 +182,7 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
     #region Equality
 
     public override bool Equals(ConstructedValue? other) =>
-        other is FileControlInformationProprietaryAdf fileControlInformationProprietaryTemplate
-        && Equals(fileControlInformationProprietaryTemplate);
+        other is FileControlInformationProprietaryAdf fileControlInformationProprietaryTemplate && Equals(fileControlInformationProprietaryTemplate);
 
     public bool Equals(FileControlInformationProprietaryAdf? other)
     {
@@ -227,8 +220,7 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
     }
 
     public override bool Equals(object? obj) =>
-        obj is FileControlInformationProprietaryAdf fileControlInformationProprietaryTemplate
-        && Equals(fileControlInformationProprietaryTemplate);
+        obj is FileControlInformationProprietaryAdf fileControlInformationProprietaryTemplate && Equals(fileControlInformationProprietaryTemplate);
 
     public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
     public int GetHashCode(FileControlInformationProprietaryTemplate obj) => obj.GetHashCode();

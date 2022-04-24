@@ -22,13 +22,13 @@ public class DataObjectListResult : IEqualityComparer<DataObjectListResult>, IEq
 
     #region Instance Values
 
-    private readonly PrimitiveValue[] _Value;
+    private readonly TagLengthValue[] _Value;
 
     #endregion
 
     #region Constructor
 
-    public DataObjectListResult(params PrimitiveValue[] value)
+    public DataObjectListResult(params TagLengthValue[] value)
     {
         _Value = value;
     }
@@ -61,7 +61,7 @@ public class DataObjectListResult : IEqualityComparer<DataObjectListResult>, IEq
         return new CommandTemplate(new BigInteger(buffer.ToArray()));
     }
 
-    public PrimitiveValue[] AsPrimitiveValues() => _Value;
+    public TagLengthValue[] AsPrimitiveValues() => _Value;
     public int ByteCount() => (int) _Value.Sum(a => a.GetTagLengthValueByteCount(_Codec));
     public byte[] Encode() => _Value.Encode();
 

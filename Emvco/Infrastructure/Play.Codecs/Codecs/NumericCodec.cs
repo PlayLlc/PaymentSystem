@@ -14,125 +14,8 @@ namespace Play.Codecs;
 
 public class NumericCodec : PlayCodec
 {
-    #region Instance Members
-
-    #region Decode To Nibbles
-
-    /// <exception cref="CodecParsingException"></exception>
-    /// <exception cref="OverflowException"></exception>
-    public Nibble[] DecodeToNibbles(ReadOnlySpan<byte> value)
-    {
-        ReadOnlySpan<Nibble> nibbles = value.AsNibbleArray();
-        int charCount = GetCharCount(value);
-
-        return nibbles[^charCount..].ToArray();
-    }
-
-    #endregion
-
-    #endregion
-
-    #region Serialization
-
-    #region Decode To DecodedMetadata
-
-    /// <summary>
-    ///     Decode
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="Exceptions.CodecParsingException"></exception>
-    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
-    {
-        ReadOnlySpan<byte> trimmedValue = value.TrimStart((byte) 0);
-
-        if (value.Length == Specs.Integer.UInt8.ByteCount)
-        {
-            byte byteResult = DecodeToByte(trimmedValue[0]);
-
-            return new DecodedResult<byte>(byteResult, value.Length * 2);
-        }
-
-        if (value.Length <= Specs.Integer.UInt16.ByteCount)
-        {
-            ushort shortResult = DecodeToUInt16(trimmedValue);
-
-            return new DecodedResult<ushort>(shortResult, value.Length * 2);
-        }
-
-        if (value.Length <= Specs.Integer.UInt32.ByteCount)
-        {
-            uint intResult = DecodeToUInt32(trimmedValue);
-
-            return new DecodedResult<uint>(intResult, value.Length * 2);
-        }
-
-        if (value.Length <= Specs.Integer.UInt64.ByteCount)
-        {
-            ulong longResult = DecodeToUInt64(trimmedValue);
-
-            return new DecodedResult<ulong>(longResult, value.Length * 2);
-        }
-
-        BigInteger bigIntegerResult = DecodeToBigInteger(trimmedValue);
-
-        return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
-    }
-
-    #endregion
-
-    #endregion
-
-    #region Decode To DecodedMetadata
-
-    ///// <summary>
-    /////     Decode
-    ///// </summary>
-    ///// <param name="value"></param>
-    ///// <returns></returns>
-    ///// <exception cref="Exceptions.CodecParsingException"></exception>
-    //public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
-    //{
-    //    ReadOnlySpan<byte> trimmedValue = value.TrimStart((byte) 0);
-
-    //    if (value.Length == Specs.Integer.UInt8.ByteCount)
-    //    {
-    //        byte byteResult = DecodeToByte(trimmedValue[0]);
-
-    //        return new DecodedResult<byte>(byteResult, value.Length * 2);
-    //    }
-
-    //    if (value.Length <= Specs.Integer.UInt16.ByteCount)
-    //    {
-    //        ushort shortResult = DecodeToUInt16(trimmedValue);
-
-    //        return new DecodedResult<ushort>(shortResult, value.Length * 2);
-    //    }
-
-    //    if (value.Length <= Specs.Integer.UInt32.ByteCount)
-    //    {
-    //        uint intResult = DecodeToUInt32(trimmedValue);
-
-    //        return new DecodedResult<uint>(intResult, value.Length * 2);
-    //    }
-
-    //    if (value.Length <= Specs.Integer.UInt64.ByteCount)
-    //    {
-    //        ulong longResult = DecodeToUInt64(trimmedValue);
-
-    //        return new DecodedResult<ulong>(longResult, value.Length * 2);
-    //    }
-
-    //    BigInteger bigIntegerResult = DecodeToBigInteger(trimmedValue);
-
-    //    return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
-    //}
-
-    #endregion
-
     #region Metadata
 
-    private const byte _PadValue = 0;
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public static readonly PlayEncodingId EncodingId = new(typeof(NumericCodec));
 
@@ -141,6 +24,8 @@ public class NumericCodec : PlayCodec
 
     private static readonly ImmutableSortedDictionary<byte, char> _CharMap =
         Enumerable.Range(0, 10).ToImmutableSortedDictionary(a => (byte) a, b => (char) (b + 48));
+
+    private const byte _PadValue = 0;
 
     #endregion
 
@@ -158,7 +43,6 @@ public class NumericCodec : PlayCodec
     // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
     public override ushort GetByteCount<T>(T value) where T : struct => checked((ushort) Unsafe.SizeOf<T>());
     public int GetMaxByteCount(int charCount) => charCount / 2;
-    public int GetMaxCharCount(int byteCount) => byteCount * 2;
 
     public int GetCharCount(ReadOnlySpan<byte> value)
     {
@@ -178,31 +62,11 @@ public class NumericCodec : PlayCodec
         return 0;
     }
 
+    public int GetMaxCharCount(int byteCount) => byteCount * 2;
+
     #endregion
 
     #region Validation
-
-    /// <summary>
-    ///     Validate
-    /// </summary>
-    /// <param name="value"></param>
-    /// <exception cref="CodecParsingException"></exception>
-    private void Validate(byte value)
-    {
-        if (!IsValid(value))
-            throw new CodecParsingException(CodecParsingException.ByteArrayContainsInvalidValue);
-    }
-
-    /// <summary>
-    ///     Validate
-    /// </summary>
-    /// <param name="value"></param>
-    /// <exception cref="CodecParsingException"></exception>
-    public void Validate(ReadOnlySpan<byte> value)
-    {
-        if (!IsValid(value))
-            throw new CodecParsingException(CodecParsingException.ByteArrayContainsInvalidValue);
-    }
 
     public bool IsValid(ReadOnlySpan<char> value)
     {
@@ -284,8 +148,6 @@ public class NumericCodec : PlayCodec
             return buffer.ToArray();
         }
     }
-
-    #region Deprecated
 
     // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
 
@@ -380,6 +242,278 @@ public class NumericCodec : PlayCodec
         return Encode(Unsafe.As<_T[], byte[]>(ref value), length);
     }
 
+    public byte[] Encode(ReadOnlySpan<char> value) => Encode(value, value.Length);
+
+    public byte[] Encode(ReadOnlySpan<char> value, int length)
+    {
+        int byteSize = (value.Length / 2) + (value.Length % 2);
+
+        if (byteSize == length)
+            return HexadecimalCodec.Encode(value);
+
+        if (byteSize > length)
+            return HexadecimalCodec.Encode(value)[^length..];
+
+        byte[] result = new byte[length];
+
+        Array.ConstrainedCopy(HexadecimalCodec.Encode(value), 0, result, length - byteSize, byteSize);
+
+        return result;
+    }
+
+    public byte[] Encode(byte value)
+    {
+        byte numberOfDigits = value.GetNumberOfDigits();
+        byte[] buffer = new byte[(numberOfDigits / 2) + (numberOfDigits % 2)];
+
+        for (int i = buffer.Length - 1; i >= 0; i--)
+        {
+            buffer[i] = (byte) (value % 10);
+            value /= 10;
+            buffer[i] += (byte) ((value % 10) * 10);
+            value /= 10;
+        }
+
+        return buffer;
+    }
+
+    public byte[] Encode(ushort value)
+    {
+        byte numberOfDigits = value.GetNumberOfDigits();
+        byte[] buffer = new byte[(numberOfDigits / 2) + (numberOfDigits % 2)];
+
+        for (int i = buffer.Length - 1; i >= 0; i--)
+        {
+            buffer[i] = (byte) (value % 10);
+            value /= 10;
+            buffer[i] += (byte) ((value % 10) * 10);
+            value /= 10;
+        }
+
+        return buffer;
+    }
+
+    public byte[] Encode(ushort value, int length)
+    {
+        byte[] buffer;
+
+        if (length == Specs.Integer.UInt16.ByteCount)
+        {
+            buffer = new byte[Specs.Integer.UInt16.ByteCount];
+
+            for (int i = buffer.Length - 1; i >= 0; i--)
+            {
+                buffer[i] = (byte) (value % 10);
+                value /= 10;
+                buffer[i] += (byte) ((value % 10) * 10);
+                value /= 10;
+            }
+
+            return buffer;
+        }
+
+        if (length < Specs.Integer.UInt16.ByteCount)
+        {
+            buffer = new byte[Specs.Integer.UInt16.ByteCount];
+
+            for (int i = buffer.Length - 1; i >= 0; i--)
+            {
+                buffer[i] = (byte) (value % 10);
+                value /= 10;
+                buffer[i] += (byte) ((value % 10) * 10);
+                value /= 10;
+            }
+
+            return buffer[^length..];
+        }
+
+        buffer = new byte[length];
+
+        for (int i = buffer.Length - 1; i >= 0; i--)
+        {
+            buffer[i] = (byte) (value % 10);
+            value /= 10;
+            buffer[i] += (byte) ((value % 10) * 10);
+            value /= 10;
+        }
+
+        return buffer;
+    }
+
+    public byte[] Encode(uint value, int length)
+    {
+        byte[] buffer;
+
+        if (length == Specs.Integer.UInt32.ByteCount)
+        {
+            buffer = new byte[Specs.Integer.UInt32.ByteCount];
+
+            for (int i = buffer.Length - 1; i >= 0; i--)
+            {
+                buffer[i] = (byte) (value % 10);
+                value /= 10;
+                buffer[i] += (byte) ((value % 10) * 10);
+                value /= 10;
+            }
+
+            return buffer;
+        }
+
+        if (length < Specs.Integer.UInt32.ByteCount)
+        {
+            buffer = new byte[Specs.Integer.UInt32.ByteCount];
+
+            for (int i = buffer.Length - 1; i >= 0; i--)
+            {
+                buffer[i] = (byte) (value % 10);
+                value /= 10;
+                buffer[i] += (byte) ((value % 10) * 10);
+                value /= 10;
+            }
+
+            return buffer[^length..];
+        }
+
+        buffer = new byte[length];
+
+        for (int i = buffer.Length - 1; i >= 0; i--)
+        {
+            buffer[i] = (byte) (value % 10);
+            value /= 10;
+            buffer[i] += (byte) ((value % 10) * 10);
+            value /= 10;
+        }
+
+        return buffer;
+    }
+
+    public byte[] Encode(uint value)
+    {
+        byte numberOfDigits = value.GetNumberOfDigits();
+        byte[] buffer = new byte[(numberOfDigits / 2) + (numberOfDigits % 2)];
+
+        for (int i = buffer.Length - 1; i >= 0; i--)
+        {
+            buffer[i] = (byte) (value % 10);
+            value /= 10;
+            buffer[i] += (byte) ((value % 10) * 10);
+            value /= 10;
+        }
+
+        return buffer;
+    }
+
+    public byte[] Encode(ulong value)
+    {
+        byte numberOfDigits = value.GetNumberOfDigits();
+        byte[] buffer = new byte[(numberOfDigits / 2) + (numberOfDigits % 2)];
+
+        for (int i = buffer.Length - 1; i >= 0; i--)
+        {
+            buffer[i] = (byte) (value % 10);
+            value /= 10;
+            buffer[i] += (byte) ((value % 10) * 10);
+            value /= 10;
+        }
+
+        return buffer;
+    }
+
+    public byte[] Encode(ulong value, int length)
+    {
+        byte[] buffer;
+
+        if (length == Specs.Integer.UInt64.ByteCount)
+        {
+            buffer = new byte[Specs.Integer.UInt64.ByteCount];
+
+            for (int i = buffer.Length - 1; i >= 0; i--)
+            {
+                buffer[i] = (byte) (value % 10);
+                value /= 10;
+                buffer[i] += (byte) ((value % 10) * 10);
+                value /= 10;
+            }
+
+            return buffer;
+        }
+
+        if (length < Specs.Integer.UInt64.ByteCount)
+        {
+            buffer = new byte[Specs.Integer.UInt64.ByteCount];
+
+            for (int i = buffer.Length - 1; i >= 0; i--)
+            {
+                buffer[i] = (byte) (value % 10);
+                value /= 10;
+                buffer[i] += (byte) ((value % 10) * 10);
+                value /= 10;
+            }
+
+            return buffer[^length..];
+        }
+
+        buffer = new byte[length];
+
+        for (int i = buffer.Length - 1; i >= 0; i--)
+        {
+            buffer[i] = (byte) (value % 10);
+            value /= 10;
+            buffer[i] += (byte) ((value % 10) * 10);
+            value /= 10;
+        }
+
+        return buffer;
+    }
+
+    // TODO: This is likely wrong
+    public byte[] Encode(BigInteger value)
+    {
+        int numberOfDigits = value.GetNumberOfDigits();
+        byte[] buffer = new byte[(numberOfDigits / 2) + (numberOfDigits % 2)];
+
+        for (int i = buffer.Length - 1; i >= 0; i--)
+        {
+            buffer[i] = (byte) (value % 10);
+            value /= 10;
+            buffer[i] += (byte) ((value % 10) * 10);
+            value /= 10;
+        }
+
+        return buffer;
+    }
+
+    // TODO: This is likely wrong
+    /// <exception cref="OverflowException"></exception>
+    public byte[] Encode(BigInteger value, int length)
+    {
+        byte[] buffer = new byte[length];
+
+        for (int i = buffer.Length - 1; i >= 0; i--)
+        {
+            buffer[i] = (byte) (value % 10);
+            value /= 10;
+
+            if (value == 0)
+                break;
+
+            buffer[i] += (byte) ((value % 10) * 10);
+            value /= 10;
+        }
+
+        return buffer;
+    }
+
+    public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
+    {
+        ReadOnlySpan<byte> buffer = Encode(chars[charIndex..(charIndex + charCount)]);
+
+        for (int i = 0, j = byteIndex; i < (buffer.Length + byteIndex); i++, j++)
+            bytes[j] = buffer[i];
+
+        return buffer.Length;
+    }
+
     // DEPRECATING: This method will eventually be deprecated in favor of passing in a Span<byte> buffer as opposed to returning a byte[]
 
     /// <exception cref="CodecParsingException"></exception>
@@ -466,175 +600,6 @@ public class NumericCodec : PlayCodec
             Encode(Unsafe.As<_T[], char[]>(ref value), length);
         else
             throw new CodecParsingException(this, typeof(_T));
-    }
-
-    #endregion
-
-    public byte[] Encode(ReadOnlySpan<char> value) => Encode(value, value.Length);
-
-    public byte[] Encode(ReadOnlySpan<char> value, int length)
-    {
-        int byteSize = (value.Length / 2) + (value.Length % 2);
-
-        if (byteSize == length)
-            return HexadecimalCodec.Encode(value);
-
-        if (byteSize > length)
-            return HexadecimalCodec.Encode(value)[^length..];
-
-        byte[] result = new byte[length];
-
-        Array.ConstrainedCopy(HexadecimalCodec.Encode(value), 0, result, length - byteSize, byteSize);
-
-        return result;
-    }
-
-    public byte[] Encode(byte value)
-    {
-        byte numberOfDigits = value.GetNumberOfDigits();
-        byte[] buffer = new byte[(numberOfDigits / 2) + (numberOfDigits % 2)];
-
-        for (int i = buffer.Length - 1; i >= 0; i--)
-        {
-            buffer[i] = (byte) (value % 10);
-            value /= 10;
-            buffer[i] += (byte) ((value % 10) * 10);
-            value /= 10;
-        }
-
-        return buffer;
-    }
-
-    public byte[] Encode(ushort value)
-    {
-        byte numberOfDigits = value.GetNumberOfDigits();
-        byte[] buffer = new byte[(numberOfDigits / 2) + (numberOfDigits % 2)];
-
-        for (int i = buffer.Length - 1; i >= 0; i--)
-        {
-            buffer[i] = (byte) (value % 10);
-            value /= 10;
-            buffer[i] += (byte) ((value % 10) * 10);
-            value /= 10;
-        }
-
-        return buffer;
-    }
-
-    public byte[] Encode(uint value, int length)
-    {
-        // xx xx x0
-        byte[] buffer = new byte[length];
-
-        int valueNumericByteCount = (value.GetNumberOfDigits() / 2) + (value.GetNumberOfDigits() % 2);
-
-        if (length < valueNumericByteCount)
-            value /= (uint) Math.Pow(10, (valueNumericByteCount - length) * 2);
-
-        for (int i = buffer.Length - 1, j = 0; i >= 0; i--, j += 2)
-        {
-            buffer[i] = (byte) (value % 10);
-            value /= 10;
-            buffer[i] += (byte) ((value % 10) * 10);
-            value /= 10;
-        }
-
-        return buffer;
-    }
-
-    public byte[] Encode(uint value)
-    {
-        byte numberOfDigits = value.GetNumberOfDigits();
-        byte[] buffer = new byte[(numberOfDigits / 2) + (numberOfDigits % 2)];
-
-        for (int i = buffer.Length - 1; i >= 0; i--)
-        {
-            buffer[i] = (byte) (value % 10);
-            value /= 10;
-            buffer[i] += (byte) ((value % 10) * 10);
-            value /= 10;
-        }
-
-        return buffer;
-    }
-
-    public byte[] Encode(ulong value)
-    {
-        byte numberOfDigits = value.GetNumberOfDigits();
-        byte[] buffer = new byte[(numberOfDigits / 2) + (numberOfDigits % 2)];
-
-        for (int i = buffer.Length - 1; i >= 0; i--)
-        {
-            buffer[i] = (byte) (value % 10);
-            value /= 10;
-            buffer[i] += (byte) ((value % 10) * 10);
-            value /= 10;
-        }
-
-        return buffer;
-    }
-
-    public byte[] Encode(ulong value, int length)
-    {
-        byte[] buffer = new byte[length];
-
-        for (int i = buffer.Length - 1; i >= 0; i--)
-        {
-            buffer[i] = (byte) (value % 10);
-            value /= 10;
-            buffer[i] += (byte) ((value % 10) * 10);
-            value /= 10;
-        }
-
-        return buffer;
-    }
-
-    // TODO: This is likely wrong
-    public byte[] Encode(BigInteger value)
-    {
-        int numberOfDigits = value.GetNumberOfDigits();
-        byte[] buffer = new byte[(numberOfDigits / 2) + (numberOfDigits % 2)];
-
-        for (int i = buffer.Length - 1; i >= 0; i--)
-        {
-            buffer[i] = (byte) (value % 10);
-            value /= 10;
-            buffer[i] += (byte) ((value % 10) * 10);
-            value /= 10;
-        }
-
-        return buffer;
-    }
-
-    // TODO: This is likely wrong
-    /// <exception cref="OverflowException"></exception>
-    public byte[] Encode(BigInteger value, int length)
-    {
-        byte[] buffer = new byte[length];
-
-        for (int i = buffer.Length - 1; i >= 0; i--)
-        {
-            buffer[i] = (byte) (value % 10);
-            value /= 10;
-
-            if (value == 0)
-                break;
-
-            buffer[i] += (byte) ((value % 10) * 10);
-            value /= 10;
-        }
-
-        return buffer;
-    }
-
-    public int Encode(char[] chars, int charIndex, int charCount, byte[] bytes, int byteIndex)
-    {
-        ReadOnlySpan<byte> buffer = Encode(chars[charIndex..(charIndex + charCount)]);
-
-        for (int i = 0, j = byteIndex; i < (buffer.Length + byteIndex); i++, j++)
-            bytes[j] = buffer[i];
-
-        return buffer.Length;
     }
 
     /// <exception cref="CodecParsingException"></exception>
@@ -724,20 +689,6 @@ public class NumericCodec : PlayCodec
     #region Decode To String
 
     public string DecodeToString(ReadOnlySpan<byte> value) => new(DecodeToChars(value));
-
-    public bool TryDecodeToString(ReadOnlySpan<byte> value, out string result)
-    {
-        if (!IsValid(value))
-        {
-            result = string.Empty;
-
-            return false;
-        }
-
-        result = DecodeToString(value);
-
-        return true;
-    }
 
     #endregion
 
@@ -852,4 +803,148 @@ public class NumericCodec : PlayCodec
     }
 
     #endregion
+
+    #region Decode To Nibbles
+
+    /// <exception cref="CodecParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    public Nibble[] DecodeToNibbles(ReadOnlySpan<byte> value)
+    {
+        ReadOnlySpan<Nibble> nibbles = value.AsNibbleArray();
+        int charCount = GetCharCount(value);
+
+        return nibbles[^charCount..].ToArray();
+    }
+
+    #endregion
+
+    #region Decode To DecodedMetadata
+
+    /// <summary>
+    ///     Decode
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="Exceptions.CodecParsingException"></exception>
+    public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    {
+        ReadOnlySpan<byte> trimmedValue = value.TrimStart((byte) 0);
+
+        if (value.Length == Specs.Integer.UInt8.ByteCount)
+        {
+            byte byteResult = DecodeToByte(trimmedValue[0]);
+
+            return new DecodedResult<byte>(byteResult, value.Length * 2);
+        }
+
+        if (value.Length <= Specs.Integer.UInt16.ByteCount)
+        {
+            ushort shortResult = DecodeToUInt16(trimmedValue);
+
+            return new DecodedResult<ushort>(shortResult, value.Length * 2);
+        }
+
+        if (value.Length <= Specs.Integer.UInt32.ByteCount)
+        {
+            uint intResult = DecodeToUInt32(trimmedValue);
+
+            return new DecodedResult<uint>(intResult, value.Length * 2);
+        }
+
+        if (value.Length <= Specs.Integer.UInt64.ByteCount)
+        {
+            ulong longResult = DecodeToUInt64(trimmedValue);
+
+            return new DecodedResult<ulong>(longResult, value.Length * 2);
+        }
+
+        BigInteger bigIntegerResult = DecodeToBigInteger(trimmedValue);
+
+        return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
+    }
+
+    #endregion
+
+    #region Instance Members
+
+    /// <summary>
+    ///     Validate
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="CodecParsingException"></exception>
+    private void Validate(byte value)
+    {
+        if (!IsValid(value))
+            throw new CodecParsingException(CodecParsingException.ByteArrayContainsInvalidValue);
+    }
+
+    /// <summary>
+    ///     Validate
+    /// </summary>
+    /// <param name="value"></param>
+    /// <exception cref="CodecParsingException"></exception>
+    public void Validate(ReadOnlySpan<byte> value)
+    {
+        if (!IsValid(value))
+            throw new CodecParsingException(CodecParsingException.ByteArrayContainsInvalidValue);
+    }
+
+    public bool TryDecodeToString(ReadOnlySpan<byte> value, out string result)
+    {
+        if (!IsValid(value))
+        {
+            result = string.Empty;
+
+            return false;
+        }
+
+        result = DecodeToString(value);
+
+        return true;
+    }
+
+    #endregion
+
+    ///// <summary>
+    /////     Decode
+    ///// </summary>
+    ///// <param name="value"></param>
+    ///// <returns></returns>
+    ///// <exception cref="Exceptions.CodecParsingException"></exception>
+    //public override DecodedMetadata Decode(ReadOnlySpan<byte> value)
+    //{
+    //    ReadOnlySpan<byte> trimmedValue = value.TrimStart((byte) 0);
+
+    //    if (value.Length == Specs.Integer.UInt8.ByteCount)
+    //    {
+    //        byte byteResult = DecodeToByte(trimmedValue[0]);
+
+    //        return new DecodedResult<byte>(byteResult, value.Length * 2);
+    //    }
+
+    //    if (value.Length <= Specs.Integer.UInt16.ByteCount)
+    //    {
+    //        ushort shortResult = DecodeToUInt16(trimmedValue);
+
+    //        return new DecodedResult<ushort>(shortResult, value.Length * 2);
+    //    }
+
+    //    if (value.Length <= Specs.Integer.UInt32.ByteCount)
+    //    {
+    //        uint intResult = DecodeToUInt32(trimmedValue);
+
+    //        return new DecodedResult<uint>(intResult, value.Length * 2);
+    //    }
+
+    //    if (value.Length <= Specs.Integer.UInt64.ByteCount)
+    //    {
+    //        ulong longResult = DecodeToUInt64(trimmedValue);
+
+    //        return new DecodedResult<ulong>(longResult, value.Length * 2);
+    //    }
+
+    //    BigInteger bigIntegerResult = DecodeToBigInteger(trimmedValue);
+
+    //    return new DecodedResult<BigInteger>(bigIntegerResult, value.Length * 2);
+    //}
 }

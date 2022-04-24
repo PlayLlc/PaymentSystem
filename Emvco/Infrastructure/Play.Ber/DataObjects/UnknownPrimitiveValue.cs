@@ -101,11 +101,19 @@ public record UnknownPrimitiveValue : PrimitiveValue
     public override UnknownPrimitiveValue Decode(TagLengthValue value) => new(value.GetTag(), value.GetLength());
 
     /// <exception cref="BerParsingException"></exception>
-    public override byte[] EncodeValue(BerCodec codec) => Encode();
+    public override byte[] EncodeValue(BerCodec codec) => new byte[_Length.GetContentLength()];
 
-    public override byte[] EncodeValue(BerCodec codec, int length) => Encode(length);
-    public new byte[] EncodeTagLengthValue(BerCodec codec, int length) => throw new NotImplementedException();
-    public new byte[] EncodeTagLengthValue(BerCodec codec) => throw new NotImplementedException();
+    public override byte[] EncodeValue(BerCodec codec, int length) => new byte[length];
+
+    public new byte[] EncodeTagLengthValue(BerCodec codec)
+    {
+        Span<byte> result = new byte[_Tag.GetByteCount() + _Length.GetContentLength() + _Length.GetContentLength()];
+
+        _Tag.Serialize().CopyTo(result);
+        _Length.Serialize().CopyTo(result[_Tag.GetByteCount()..]);
+
+        throw new NotImplementedException();
+    }
 
     #endregion
 

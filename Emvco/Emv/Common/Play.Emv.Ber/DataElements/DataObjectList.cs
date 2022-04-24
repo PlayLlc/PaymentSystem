@@ -26,11 +26,6 @@ public abstract record DataObjectList : DataElement<TagLength[]>
 
     #region Instance Members
 
-    public bool IsObjectPresent(Tag tagToSearch)
-    {
-        return _Value?.Any(a => a.GetTag() == tagToSearch) ?? false;
-    }
-
     /// <summary>
     ///     IsRequestedDataAvailable
     /// </summary>
@@ -66,102 +61,34 @@ public abstract record DataObjectList : DataElement<TagLength[]>
         return result.ToArray();
     }
 
-    /// <exception cref="OverflowException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="TerminalDataException"></exception>
-    public bool TryGetRequestedDataItems(IReadTlvDatabase database, out PrimitiveValue[] result)
-    {
-        if (!IsRequestedDataAvailable(database))
-        {
-            result = Array.Empty<PrimitiveValue>();
-
-            return false;
-        }
-
-        result = new PrimitiveValue[_Value.Length];
-
-        for (int i = 0; i < _Value.Length; i++)
-        {
-            if (!database.TryGet(_Value[i].GetTag(), out PrimitiveValue? primitiveValue))
-            {
-                result[i] = new UnknownPrimitiveValue(_Value[i]);
-
-                continue;
-            }
-
-            result[i] = primitiveValue!;
-        }
-
-        return true;
-    }
-
-    // TODO: Should this DataObjectListResult pattern be updated? We have RelatedData objects, Command templates, etc. Should we be doing a covariant return type for each DOL?
-
-    /// <exception cref="BerParsingException"></exception>
-    /// <remarks>Book 3 Section 5.4</remarks>
-    public virtual DataObjectListResult AsDataObjectListResult(PrimitiveValue[] dataObjects)
-    {
-        ValidateCommandTemplate(dataObjects);
-
-        // HACK: You have a weird pattern going on. You first decode to DataObjectListResult, and then to a Command Template. This probably needs to be refactored to be more clear
-        PrimitiveValue[] result = new PrimitiveValue[_Value.Length];
-
-        for (int i = 0; i < _Value.Length; i++)
-        {
-            if (dataObjects.All(a => a.GetTag() != _Value[i].GetTag()))
-                result[i] = new UnknownPrimitiveValue(_Value[i].GetTag(), _Value[i].GetLength());
-
-            result[i] = dataObjects.First(a => a.GetTag() == _Value[i].GetTag());
-        }
-
-        return new DataObjectListResult(result.ToArray());
-    }
-
     /// <remarks>Book 3 Section 5.4</remarks>
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="OverflowException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public virtual DataObjectListResult AsDataObjectListResult(IReadTlvDatabase database)
     {
-        if (!TryGetRequestedDataItems(database, out PrimitiveValue[] result))
-        {
-            throw new TerminalDataException(
-                $"The method {nameof(AsDataObjectListResult)} could not be processed because a requested data item was not present in the database");
-        }
-
-        // HACK: You have a weird pattern going on. You first decode to DataObjectListResult, and then to a Command Template. This probably needs to be refactored to be more clear
-
-        PrimitiveValue[] buffer = new PrimitiveValue[_Value.Length];
+        TagLengthValue[] buffer = new TagLengthValue[_Value.Length];
 
         for (int i = 0; i < _Value.Length; i++)
-        {
-            if (result[i].GetValueByteCount(_Codec) == _Value[i].GetValueByteCount())
-                continue;
-
-            if (result[i].GetValueByteCount(_Codec) > _Value[i].GetValueByteCount())
-                buffer[i] = _Codec.DecodePrimitiveValueAtRuntime(result[i].EncodeValue(_Codec)[.._Value[i].GetValueByteCount()]);
-            else
-                buffer[i] = result[i];
-        }
+            buffer[i] = ResolveDataObject(database, _Value[i]);
 
         return new DataObjectListResult(buffer);
     }
 
-    /// <summary>
-    ///     Gets the byte count of the value field for the command template this data object list will create
-    /// </summary>
-    /// <returns></returns>
-    public int GetValueByteCountOfCommandTemplate()
+    /// <remarks>EMVco Book 3 Section 5.4</remarks>
+    private static TagLengthValue ResolveDataObject(IReadTlvDatabase database, TagLength requestedDataObject)
     {
-        return _Value?.Sum(a => a.GetValueByteCount()) ?? 0;
+        if (!database.IsPresentAndNotEmpty(requestedDataObject.GetTag()))
+            return new UnknownPrimitiveValue(requestedDataObject).AsTagLengthValue(_Codec);
+
+        PrimitiveValue persistedValue = database.Get(requestedDataObject.GetTag());
+
+        return new TagLengthValue(requestedDataObject.GetTag(), persistedValue.EncodeValue(_Codec, requestedDataObject.GetValueByteCount()));
     }
 
     /// <exception cref="TerminalDataException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public virtual CommandTemplate AsCommandTemplate(IReadTlvDatabase database) => AsDataObjectListResult(database).AsCommandTemplate();
-
-    /// <exception cref="BerParsingException"></exception>
-    public virtual CommandTemplate AsCommandTemplate(PrimitiveValue[] values) => AsDataObjectListResult(values).AsCommandTemplate();
 
     /// <summary>
     ///     Contains
@@ -169,7 +96,7 @@ public abstract record DataObjectList : DataElement<TagLength[]>
     /// <param name="tag"></param>
     /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
-    public bool Contains(Tag tag)
+    public bool Exists(Tag tag)
     {
         return _Value.Any(a => a.GetTag() == tag);
     }
@@ -184,34 +111,7 @@ public abstract record DataObjectList : DataElement<TagLength[]>
         return _Value.Sum(a => a.GetTagLengthByteCount());
     }
 
-    /// <summary>
-    ///     GetCommandTemplateByteCount
-    /// </summary>
-    /// <returns></returns>
-    /// <exception cref="BerParsingException"></exception>
-    public int GetCommandTemplateByteCount()
-    {
-        return _Value.Sum(a => a.GetLengthByteCount());
-    }
-
     public TagLength[] GetRequestedItems() => _Value;
-
-    /// <summary>
-    ///     ValidateCommandTemplate
-    /// </summary>
-    /// <param name="value"></param>
-    /// <exception cref="BerParsingException"></exception>
-    private void ValidateCommandTemplate(PrimitiveValue[] value)
-    {
-        for (int i = 0; i < value.Length; i++)
-        {
-            if (_Value.All(a => a.GetTag() != value[i].GetTag()))
-            {
-                throw new BerParsingException(new ArgumentOutOfRangeException(
-                    $"The argument {nameof(value)} did not contain a value for the requested object with the tag: {_Value[i].GetTag()}"));
-            }
-        }
-    }
 
     #endregion
 }

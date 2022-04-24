@@ -4,6 +4,7 @@ using System.Numerics;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
 using Play.Core.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
@@ -39,10 +40,9 @@ public class Kernel2DefaultValues : DefaultValues
         return new PrimitiveValue[]
         {
             new ApplicationVersionNumberReader(0x02), new AdditionalTerminalCapabilities(0x00), new CardDataInputCapability(0x00),
-            new CvmCapabilityCvmRequired(0x00), new CvmCapabilityNoCvmRequired(0x00),
-            new UnpredictableNumberDataObjectList(new BigInteger(new byte[] {0x9F, 0x6A, 0x04})), new HoldTimeValue(new Deciseconds(0x0D)),
-            new KernelConfiguration(0x00), ShortKernelIdTypes.Kernel2, new MagstripeApplicationVersionNumberReader(0x01),
-            new MagstripeCvmCapabilityCvmRequired(0xF0), new MagstripeCvmCapabilityNoCvmRequired(0xF0),
+            new CvmCapabilityCvmRequired(0x00), new CvmCapabilityNoCvmRequired(0x00), new UnpredictableNumberDataObjectList(new TagLength(0x9F6A, 0x04)),
+            new HoldTimeValue(new Deciseconds(0x0D)), new KernelConfiguration(0x00), ShortKernelIdTypes.Kernel2,
+            new MagstripeApplicationVersionNumberReader(0x01), new MagstripeCvmCapabilityCvmRequired(0xF0), new MagstripeCvmCapabilityNoCvmRequired(0xF0),
             MaxLifetimeOfTornTransactionLogRecords.Decode(new byte[] {0x1, 0x2C}.AsSpan()), new MaxNumberOfTornTransactionLogRecords(0x00),
             new MessageHoldTime(0x13), new MaximumRelayResistanceGracePeriod(0x32), new MinimumRelayResistanceGracePeriod(0x14),
             new ReaderContactlessFloorLimit(0x00), new ReaderContactlessTransactionLimitWhenCvmIsNotOnDevice(0x00),
