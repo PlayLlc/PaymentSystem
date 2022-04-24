@@ -57,7 +57,8 @@ internal class TerminalStateMachine
             Transaction transaction = new(new TransactionSessionId(request.GetTransactionType()), request.GetAccountType(),
                 request.GetAmountAuthorizedNumeric(), request.GetAmountOtherNumeric(), request.GetTransactionType(),
                 _TerminalConfiguration.GetLanguagePreference(), _TerminalConfiguration.GetTerminalCountryCode(), new TransactionDate(DateTimeUtc.Now),
-                new TransactionTime(DateTimeUtc.Now));
+                new TransactionTime(DateTimeUtc.Now), _TerminalConfiguration.GetTransactionCurrencyExponent(),
+                _TerminalConfiguration.GetTransactionCurrencyCode());
 
             _Lock.Session = new TerminalSession(_SequenceGenerator.Generate(), request.GetMessageTypeIndicator(), transaction);
             _Lock.State = _Lock.State.Handle(_Lock.Session, request);

@@ -25,6 +25,7 @@ public class Transaction
     private readonly TransactionTime _TransactionTime;
     private readonly TransactionSessionId _TransactionSessionId;
     private readonly TransactionType _TransactionType;
+    private readonly TransactionCurrencyCode _TransactionCurrencyCode;
     private readonly TransactionCurrencyExponent _TransactionCurrencyExponent;
 
     #endregion
@@ -34,7 +35,8 @@ public class Transaction
     public Transaction(
         TransactionSessionId transactionSessionId, AccountType accountType, AmountAuthorizedNumeric amountAuthorizedNumeric,
         AmountOtherNumeric amountOtherNumeric, TransactionType transactionType, LanguagePreference languagePreference, TerminalCountryCode terminalCountryCode,
-        TransactionDate transactionDate, TransactionTime transactionTime, TransactionCurrencyExponent transactionCurrencyExponent)
+        TransactionDate transactionDate, TransactionTime transactionTime, TransactionCurrencyExponent transactionCurrencyExponent,
+        TransactionCurrencyCode transactionCurrencyCode)
     {
         _AccountType = accountType;
         _TransactionSessionId = transactionSessionId;
@@ -43,9 +45,10 @@ public class Transaction
         _TransactionType = transactionType;
         _TransactionDate = transactionDate;
         _TransactionTime = transactionTime;
-        _TransactionCurrencyExponent = transactionCurrencyExponent;
-        _LanguagePreference = languagePreference;
         _TerminalCountryCode = terminalCountryCode;
+        _TransactionCurrencyExponent = transactionCurrencyExponent;
+        _TransactionCurrencyCode = transactionCurrencyCode;
+        _LanguagePreference = languagePreference;
 
         _Outcome = new Outcome();
     }
@@ -73,7 +76,9 @@ public class Transaction
             _AmountAuthorizedNumeric,
             _AmountOtherNumeric,
             _TransactionType,
-            _TransactionDate
+            _TransactionDate,
+            _TransactionCurrencyCode,
+            _TransactionCurrencyExponent
         };
 
         buffer.AddRange(_Outcome.AsPrimitiveValues());

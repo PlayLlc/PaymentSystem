@@ -4,6 +4,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -28,9 +29,9 @@ public record DataRecoveryDataObjectList : DataObjectList
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public DataRecoveryDataObjectList(BigInteger value) : base(value)
+    public DataRecoveryDataObjectList(params TagLength[] value) : base(value)
     {
-        Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
+        Check.Primitive.ForMaximumLength(value.Sum(a => a.GetTagLengthByteCount()), _MaxByteLength, Tag);
     }
 
     #endregion
@@ -59,7 +60,7 @@ public record DataRecoveryDataObjectList : DataObjectList
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static DataRecoveryDataObjectList Decode(ReadOnlySpan<byte> value) => new(new BigInteger(value));
+    public static DataRecoveryDataObjectList Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodeTagLengthPairs(value.ToArray()));
 
     #endregion
 }

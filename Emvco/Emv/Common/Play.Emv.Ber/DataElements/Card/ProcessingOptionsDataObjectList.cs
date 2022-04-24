@@ -4,6 +4,7 @@ using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
 using Play.Codecs;
 
 namespace Play.Emv.Ber.DataElements;
@@ -27,7 +28,7 @@ public record ProcessingOptionsDataObjectList : DataObjectList
 
     #region Constructor
 
-    public ProcessingOptionsDataObjectList(BigInteger value) : base(value)
+    public ProcessingOptionsDataObjectList(params TagLength[] value) : base(value)
     { }
 
     #endregion
@@ -60,7 +61,8 @@ public record ProcessingOptionsDataObjectList : DataObjectList
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static ProcessingOptionsDataObjectList Decode(ReadOnlySpan<byte> value) => new(new BigInteger(value.ToArray()));
+    public static ProcessingOptionsDataObjectList Decode(ReadOnlySpan<byte> value) =>
+        new ProcessingOptionsDataObjectList(_Codec.DecodeTagLengthPairs(value.ToArray()));
 
     #endregion
 

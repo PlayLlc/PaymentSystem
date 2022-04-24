@@ -132,6 +132,7 @@ public record ActivateKernelRequest : RequestSignal
 
     public SelectApplicationDefinitionFileInfoResponse GetRapdu() => _Rapdu;
     public KernelSessionId GetKernelSessionId() => _KernelSessionId;
+    public TransactionSessionId GetTransactionSessionId() => _KernelSessionId.GetTransactionSessionId();
 
     #endregion
 }

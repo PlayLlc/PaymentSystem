@@ -98,8 +98,11 @@ namespace Play.Testing.Emv.Contactless.AutoFixture
             AccountType accountType = fixture.Create<AccountType>();
             TerminalCountryCode terminalCountryCode = fixture.Create<TerminalCountryCode>();
 
+            TransactionCurrencyExponent transactionCurrencyExponent = fixture.Create<TransactionCurrencyExponent>();
+            TransactionCurrencyCode transactionCurrencyCode = fixture.Create<TransactionCurrencyCode>();
+
             return new Transaction(transactionSessionId, accountType, amountAuthorized, amountOther, transactionType, languagePreference, terminalCountryCode,
-                transactionDate, transactionTime);
+                transactionDate, transactionTime, transactionCurrencyExponent, transactionCurrencyCode);
         }
 
         #endregion

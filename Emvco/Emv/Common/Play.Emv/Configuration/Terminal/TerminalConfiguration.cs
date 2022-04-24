@@ -28,6 +28,7 @@ public abstract record TerminalConfiguration
     private readonly PoiInformation _PoiInformation;
     private readonly LanguagePreference _LanguagePreference;
     private readonly TransactionCurrencyCode _TransactionCurrencyCode;
+    private readonly TransactionCurrencyExponent _TransactionCurrencyExponent;
 
     // BUG: TerminalRiskManagementData is transient per transaction. This should live with the transaction session, not the terminal configuration
     private readonly TerminalRiskManagementData _TerminalRiskManagementData;
@@ -55,7 +56,7 @@ public abstract record TerminalConfiguration
         Probability randomSelectionTargetProbability, ulong thresholdValueForBiasedRandomSelection, PoiInformation poiInformation,
         AdditionalTerminalCapabilities additionalTerminalCapabilities, TransactionReferenceCurrencyCode transactionReferenceCurrencyCode,
         TransactionReferenceCurrencyExponent transactionReferenceCurrencyExponent, AcquirerIdentifier acquirerIdentifier,
-        DataStorageRequestedOperatorId dataStorageRequestedOperatorId)
+        DataStorageRequestedOperatorId dataStorageRequestedOperatorId, TransactionCurrencyExponent transactionCurrencyExponent)
     {
         _TerminalIdentification = terminalIdentification;
         _TransactionCurrencyCode = transactionCurrencyCode;
@@ -78,6 +79,7 @@ public abstract record TerminalConfiguration
         _TransactionReferenceCurrencyExponent = transactionReferenceCurrencyExponent;
         _AcquirerIdentifier = acquirerIdentifier;
         _DataStorageRequestedOperatorId = dataStorageRequestedOperatorId;
+        _TransactionCurrencyExponent = transactionCurrencyExponent;
 
         _TagLengthValues.Add(_TerminalIdentification);
         _TagLengthValues.Add(_TransactionCurrencyCode);
@@ -96,12 +98,14 @@ public abstract record TerminalConfiguration
         _TagLengthValues.Add(_TransactionReferenceCurrencyCode);
         _TagLengthValues.Add(_TransactionReferenceCurrencyExponent);
         _TagLengthValues.Add(_AcquirerIdentifier);
+        _TagLengthValues.Add(_TransactionCurrencyExponent);
     }
 
     #endregion
 
     #region Instance Members
 
+    public TransactionCurrencyExponent GetTransactionCurrencyExponent() => _TransactionCurrencyExponent;
     public TerminalRiskManagementData GetTerminalRiskManagementData() => _TerminalRiskManagementData;
     public AcquirerIdentifier GetAcquirerIdentifier() => _AcquirerIdentifier;
     public TerminalCapabilities GetTerminalCapabilities() => _TerminalCapabilities;

@@ -3,6 +3,7 @@ using System.Numerics;
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
+using Play.Ber.InternalFactories;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.Exceptions;
@@ -29,13 +30,10 @@ public record DynamicDataAuthenticationDataObjectList : DataObjectList, IEqualit
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="CardDataMissingException"></exception>
-    public DynamicDataAuthenticationDataObjectList(BigInteger value) : base(value)
+    public DynamicDataAuthenticationDataObjectList(params TagLength[] value) : base(value)
     {
-        if (!_Codec.IsTagPresent(UnpredictableNumber.Tag, value.ToByteArray()))
-        {
-            throw new CardDataMissingException(
-                $"The {nameof(DynamicDataAuthenticationDataObjectList)} must contain a tag for {nameof(UnpredictableNumber)}");
-        }
+        if (value.All(a => a.GetTag() != UnpredictableNumber.Tag))
+            throw new CardDataMissingException($"The {nameof(DynamicDataAuthenticationDataObjectList)} must contain a tag for {nameof(UnpredictableNumber)}");
     }
 
     #endregion
@@ -62,7 +60,7 @@ public record DynamicDataAuthenticationDataObjectList : DataObjectList, IEqualit
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        return new DynamicDataAuthenticationDataObjectList(new BigInteger(value));
+        return new DynamicDataAuthenticationDataObjectList(_Codec.DecodeTagLengthPairs(value.ToArray()));
     }
 
     #endregion
