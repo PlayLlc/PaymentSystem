@@ -2,8 +2,6 @@
 
 using Play.Codecs;
 using Play.Codecs.Exceptions;
-using Play.Codecs.Metadata;
-using Play.Codecs.Strings;
 using Play.Emv.Codecs.Exceptions;
 
 namespace Play.Emv.Codecs;
@@ -145,8 +143,7 @@ public class AlphabeticEmvCodec : IPlayCodec
     #region Serialization
 
     /// <exception cref="EncodingException"></exception>
-    public DecodedMetadata Decode(ReadOnlySpan<byte> value) =>
-        new DecodedResult<char[]>(PlayEncoding.Alphabetic.GetChars(value), value.Length);
+    public DecodedMetadata Decode(ReadOnlySpan<byte> value) => new DecodedResult<char[]>(PlayEncoding.Alphabetic.GetChars(value), value.Length);
 
     #endregion
 }

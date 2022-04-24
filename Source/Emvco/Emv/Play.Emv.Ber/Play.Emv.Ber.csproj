@@ -7,10 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Infrastructure\Play.Ber\Play.Ber.csproj" />
-    <ProjectReference Include="..\..\..\Infrastructure\Play.Encryption\Play.Encryption.csproj" />
-    <ProjectReference Include="..\..\..\Infrastructure\Play.Globalization\Play.Globalization.csproj" />
-    <ProjectReference Include="..\..\..\Infrastructure\Play.Icc\Play.Icc.csproj" />
+    <ProjectReference Include="..\..\Core\Play.Encryption\Play.Encryption.csproj" />
+    <ProjectReference Include="..\..\Core\Play.Globalization\Play.Globalization.csproj" />
+    <ProjectReference Include="..\..\Core\Play.Icc\Play.Icc.csproj" />
   </ItemGroup>
 
 </Project>

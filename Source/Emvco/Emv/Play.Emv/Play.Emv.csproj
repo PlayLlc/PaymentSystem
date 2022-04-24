@@ -12,10 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Infrastructure\Play.Encryption\Play.Encryption.csproj" />
-    <ProjectReference Include="..\..\..\Infrastructure\Play.Events\Play.Events.csproj" />
-    <ProjectReference Include="..\..\..\Infrastructure\Play.Globalization\Play.Globalization.csproj" />
-    <ProjectReference Include="..\..\..\Infrastructure\Play.Messaging\Play.Messaging.csproj" />
+    <ProjectReference Include="..\..\Core\Play.Encryption\Play.Encryption.csproj" />
+    <ProjectReference Include="..\..\Core\Play.Globalization\Play.Globalization.csproj" />
+    <ProjectReference Include="..\..\Core\Play.Messaging\Play.Messaging.csproj" />
     <ProjectReference Include="..\Play.Emv.Icc\Play.Emv.Icc.csproj" />
   </ItemGroup>
 
