@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using AutoFixture;
+﻿using AutoFixture;
 
 using Play.Ber.DataObjects;
 

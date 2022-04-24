@@ -1,20 +1,12 @@
 ﻿using System;
 using System.Linq;
 
-using AutoFixture;
-
-using Moq;
-
-using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Ber.Lengths;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Templates;
 using Play.Emv.Ber.Tests.TestDoubles;
-using Play.Testing.Emv;
-using Play.Testing.Emv.Ber.Primitive;
 
 using Xunit;
 

@@ -3,7 +3,6 @@ using Play.Ber.Exceptions;
 using Play.Emv.Ber.Templates;
 using Play.Testing.BaseTestClasses;
 using Play.Testing.Emv.Ber.Constructed;
-using Play.Testing.Emv.Ber.Primitive;
 
 using Xunit;
 

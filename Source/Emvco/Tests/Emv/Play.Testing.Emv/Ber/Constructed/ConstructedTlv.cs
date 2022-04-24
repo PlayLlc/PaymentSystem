@@ -10,5 +10,8 @@ public abstract class ConstructedTlv : TestTlv
     protected ConstructedTlv(Tag[] childRank, params TestTlv[] children) : base(childRank, children)
     { }
 
+    protected ConstructedTlv(byte[] value) : base(value)
+    { }
+
     #endregion
 }

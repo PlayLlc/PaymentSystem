@@ -4,7 +4,6 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
-using Play.Emv.Ber;
 
 namespace Play.Testing.Emv.Ber.Primitive;
 
@@ -59,9 +58,7 @@ public abstract class TestTlv : IDecodeDataElement
     private static byte[] ParseChildren(Tag[] childIndex, TestTlv[] children)
     {
         if (children.Length > childIndex.Length)
-        {
             throw new ArgumentOutOfRangeException(nameof(childIndex), $"The argument {nameof(childIndex)} has fewer items than argument {nameof(children)}");
-        }
 
         Span<byte> buffer = stackalloc byte[children.Sum(a => a.GetTagLengthValueByteCount())];
 

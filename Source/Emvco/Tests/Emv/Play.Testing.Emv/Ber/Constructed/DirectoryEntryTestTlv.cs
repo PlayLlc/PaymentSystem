@@ -1,87 +1,28 @@
-﻿using Play.Ber.Identifiers;
+﻿using Play.Ber.DataObjects;
+using Play.Ber.Identifiers;
+using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.Templates;
 using Play.Testing.Emv.Ber.Primitive;
-
-using DirectoryEntry = Play.Emv.Ber.Templates.DirectoryEntry;
 
 namespace Play.Testing.Emv.Ber.Constructed;
 
-//public class FileControlInformationPpse
-//{
-//    #region Static Metadata
-
-//    public static byte[] ValueBytes =
-//    {
-//        0x84, 0x0E, 0x32, 0x50, 0x41, 0x59, 0x2E, 0x53, 0x59, 0x53,
-//        0x2E, 0x44, 0x44, 0x46, 0x30, 0x31, 0xA5, 0x3B, 0xBF, 0x0C,
-//        0x38, 0x61, 0x1A, 0x4F, 0x07, 0xA0, 0x00, 0x00, 0x00, 0x03,
-//        0x10, 0x10, 0x87, 0x01, 0x01, 0x9F, 0x2A, 0x01, 0x03, 0x42,
-//        0x03, 0x40, 0x81, 0x38, 0x5F, 0x55, 0x02, 0x55, 0x53, 0x61,
-//        0x1A, 0x4F, 0x07, 0xA0, 0x00, 0x00, 0x00, 0x98, 0x08, 0x40,
-//        0x87, 0x01, 0x02, 0x9F, 0x2A, 0x01, 0x03, 0x42, 0x03, 0x40,
-//        0x81, 0x38, 0x5F, 0x55, 0x02, 0x55, 0x53, 0x90, 0x00
-//    };
-
-//    public static byte[] TlvBytes =
-//    {
-//        0x6F, 0x4D, 0x84, 0x0E, 0x32, 0x50, 0x41, 0x59, 0x2E, 0x53,
-//        0x59, 0x53, 0x2E, 0x44, 0x44, 0x46, 0x30, 0x31, 0xA5, 0x3B,
-//        0xBF, 0x0C, 0x38, 0x61, 0x1A, 0x4F, 0x07, 0xA0, 0x00, 0x00,
-//        0x00, 0x03, 0x10, 0x10, 0x87, 0x01, 0x01, 0x9F, 0x2A, 0x01,
-//        0x03, 0x42, 0x03, 0x40, 0x81, 0x38, 0x5F, 0x55, 0x02, 0x55,
-//        0x53, 0x61, 0x1A, 0x4F, 0x07, 0xA0, 0x00, 0x00, 0x00, 0x98,
-//        0x08, 0x40, 0x87, 0x01, 0x02, 0x9F, 0x2A, 0x01, 0x03, 0x42,
-//        0x03, 0x40, 0x81, 0x38, 0x5F, 0x55, 0x02, 0x55, 0x53, 0x90,
-//        0x00
-//    };
-
-//    public const string ValueHex =
-//        "6F4D840E325041592E5359532E4444463031A53BBF0C38611A4F07A00000000310108701019F2A010342034081385F55025553611A4F07A00000009808408701029F2A010342034081385F550255539000";
-
-//    #endregion
-
-//    public class Children
-//    {
-//        public class DedicatedFileName
-//        {
-//            #region Static Metadata
-
-//            public static readonly byte[] ValueBytes =
-//            {
-//                0x32, 0x50, 0x41, 0x59, 0x2E, 0x53, 0x59, 0x53, 0x2E, 0x44,
-//                0x44, 0x46, 0x30, 0x31
-//            };
-
-//            public static readonly byte[] TlvBytes =
-//            {
-//                0x84, 0x0E, 0x32, 0x50, 0x41, 0x59, 0x2E, 0x53, 0x59, 0x53,
-//                0x2E, 0x44, 0x44, 0x46, 0x30, 0x31
-//            };
-
-//            public const string ValuHex = "840E325041592E5359532E4444463031";
-
-//            #endregion
-//        }
-
-//        public class FileControlInformationProprietary
-//        {
-//            #region Static Metadata
-
-//            public static readonly byte[] ValueBytes = FileControlInformationProprietaryPpse.ValueBytes;
-//            public static readonly byte[] TlvBytes = FileControlInformationProprietaryPpse.TlvBytes;
-//            public const string ValuHex = FileControlInformationProprietaryPpse.ValueHex;
-
-//            #endregion
-//        }
-//    }
-//}
-
-public class DirectoryEntryTestTlv : ConstructedTlv
+public class DirectoryEntryTestTlv : TestTlv
 {
     #region Static Metadata
 
-    private static readonly TestTlv[] _DefaultChildren =
+    private static readonly byte[] _DefaultContentOctets =
     {
-        new ApplicationDedicatedFileNameTestTlv(), new ApplicationPriorityIndicatorTestTlv(), new KernelIdentifierTestTlv()
+        0x61, 0x1A, 0x4F, 0x07, 0xA0, 0x00, 0x00, 0x00, 0x03, 0x10,
+        0x10, 0x87, 0x01, 0x01, 0x9F, 0x2A, 0x01, 0x03, 0x42, 0x03,
+        0x40, 0x81, 0x38, 0x5F, 0x55, 0x02, 0x5F, 0x55, 0x02, 0x55,
+        0x53
+    };
+
+    private static readonly TagLengthValue[] _DefaultChildren = new TagLengthValue[]
+    {
+        new(ApplicationIdentifier.Tag, new byte[] {0xA0, 0x00, 0x00, 0x00, 0x03, 0x10, 0x10}.AsSpan()),
+        new(ApplicationPriorityIndicator.Tag, new byte[] {0x87, 0x01, 0x01}), new(KernelIdentifier.Tag, new byte[] {0x03}),
+        new(IssuerIdentificationNumber.Tag, new byte[] {0x40, 0x81, 0x38}), new(IssuerCountryCodeAlpha2.Tag, new byte[] {0x55, 0x53})
     };
 
     private static readonly Tag[] _ChildIndex = DirectoryEntry.ChildTags;
@@ -90,16 +31,18 @@ public class DirectoryEntryTestTlv : ConstructedTlv
 
     #region Constructor
 
-    public DirectoryEntryTestTlv() : base(_ChildIndex, _DefaultChildren)
+    public DirectoryEntryTestTlv() : base()
     { }
 
-    public DirectoryEntryTestTlv(TestTlv[] children) : base(_ChildIndex, children)
+    public DirectoryEntryTestTlv(byte[] value) : base(value)
     { }
 
     #endregion
 
     #region Instance Members
 
+    public static TagLengthValue[] GetChildren() => _DefaultChildren;
+    public static byte[] GetRawTagLengthValue() => _DefaultContentOctets;
     public override Tag GetTag() => DirectoryEntry.Tag;
 
     #endregion

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Numerics;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;

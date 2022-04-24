@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Play.Core.Extensions;
+﻿using Play.Core.Extensions;
 using Play.Core.Specifications;
 using Play.Core.Tests.Data.Fixtures;
 using Play.Testing.BaseTestClasses;

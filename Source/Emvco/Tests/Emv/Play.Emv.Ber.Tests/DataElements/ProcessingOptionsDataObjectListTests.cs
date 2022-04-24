@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Linq;
-
-using Moq;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Templates;
 using Play.Testing.Emv.Ber.Primitive;
 
 using Xunit;

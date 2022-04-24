@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Play.Ber.DataObjects;
-using Play.Ber.Exceptions;
-using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Templates;
-using Play.Testing.BaseTestClasses;
-using Play.Testing.Emv.Ber.Primitive;
-
-using Xunit;
-
-namespace Play.Emv.Ber.Tests;
+﻿namespace Play.Emv.Ber.Tests;
 
 //public class DataObjectListResultTests : TestBase
 //{

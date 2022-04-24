@@ -2,7 +2,6 @@
 using AutoFixture.AutoMoq;
 using AutoFixture.Kernel;
 
-using Play.Core.Extensions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
@@ -10,7 +9,6 @@ using Play.Emv.Security;
 using Play.Encryption.Certificates;
 using Play.Encryption.Ciphers.Hashing;
 using Play.Testing.Emv.Ber.Constructed;
-using Play.Testing.Emv.Extensions;
 using Play.Testing.Extensions;
 using Play.Testing.Infrastructure.AutoFixture;
 
@@ -129,7 +127,7 @@ public class EmvFixture : TestingFixture
         {
             0x61, 0x1A, 0x4F, 0x07, 0xA0, 0x00, 0x00, 0x00, 0x03, 0x10,
             0x10, 0x87, 0x01, 0x01, 0x9F, 0x2A, 0x01, 0x03, 0x42, 0x03,
-            0x40, 0x81, 0x38, 0x5F, 0x55
+            0x40, 0x81, 0x38, 0x5F, 0x55, 0x02, 0x55, 0x53
         }.AsMemory()));
 
         fixture.Register(() => ProcessingOptions.Decode(new ProcessingOptionsTestTlv().EncodeTagLengthValue().AsMemory()));

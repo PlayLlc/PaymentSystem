@@ -1,7 +1,4 @@
-﻿using Microsoft.Toolkit.HighPerformance;
-
-using Play.Ber.Exceptions;
-using Play.Ber.Identifiers;
+﻿using Play.Ber.Identifiers;
 
 namespace Play.Emv.Ber.DataElements;
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
-using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Core;
 using Play.Emv.Ber;

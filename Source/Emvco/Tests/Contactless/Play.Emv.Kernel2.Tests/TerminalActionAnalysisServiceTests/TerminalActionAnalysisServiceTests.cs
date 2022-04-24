@@ -3,26 +3,15 @@
 using AutoFixture;
 
 using Play.Ber.Exceptions;
-using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.Enums;
-using Play.Emv.Ber.Templates;
 using Play.Emv.Ber.ValueTypes;
-using Play.Emv.Icc;
 using Play.Emv.Identifiers;
-using Play.Emv.Kernel.Contracts;
 using Play.Emv.Kernel.Databases;
 using Play.Emv.Terminal.Contracts.Messages.Commands;
 using Play.Testing.Emv.Contactless.AutoFixture;
 
 using Xunit;
 
-using Play.Emv.Kernel2.Databases;
-using Play.Emv.Outcomes;
-using Play.Emv.Pcd.Contracts;
-using Play.Icc.FileSystem.DedicatedFiles;
-using Play.Icc.Messaging.Apdu;
-using Play.Messaging;
 using Play.Testing.BaseTestClasses;
 
 namespace Play.Emv.Kernel2.Tests.TerminalActionAnalysisServiceTests;

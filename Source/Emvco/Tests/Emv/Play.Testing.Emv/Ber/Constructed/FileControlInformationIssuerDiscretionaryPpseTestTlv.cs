@@ -10,12 +10,13 @@ public class FileControlInformationIssuerDiscretionaryPpseTestTlv : ConstructedT
 
     private static readonly TestTlv[] _DefaultChildren =
     {
-        new DirectoryEntryTestTlv(),
-        new DirectoryEntryTestTlv(new TestTlv[]
-        {
-            new ApplicationDedicatedFileNameTestTlv(new byte[] {0xA0, 0x00, 0x00, 0x00, 0x98, 0x08, 0x40}),
-            new ApplicationPriorityIndicatorTestTlv(new byte[] {0x02}), new KernelIdentifierTestTlv(new byte[] {0x03})
-        })
+        new DirectoryEntryTestTlv(), new DirectoryEntryTestTlv()
+
+        //new DirectoryEntryTestTlv(new TestTlv[]
+        //{
+        //    new ApplicationDedicatedFileNameTestTlv(new byte[] {0xA0, 0x00, 0x00, 0x00, 0x98, 0x08, 0x40}),
+        //    new ApplicationPriorityIndicatorTestTlv(new byte[] {0x02}), new KernelIdentifierTestTlv(new byte[] {0x03})
+        //})
     };
 
     private static readonly Tag[] _ChildIndex = FileControlInformationIssuerDiscretionaryDataPpse.ChildTags;

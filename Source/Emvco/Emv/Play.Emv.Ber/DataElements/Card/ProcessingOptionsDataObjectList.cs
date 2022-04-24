@@ -1,5 +1,3 @@
-using System.Numerics;
-
 using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
@@ -61,8 +59,7 @@ public record ProcessingOptionsDataObjectList : DataObjectList
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static ProcessingOptionsDataObjectList Decode(ReadOnlySpan<byte> value) =>
-        new ProcessingOptionsDataObjectList(_Codec.DecodeTagLengthPairs(value.ToArray()));
+    public static ProcessingOptionsDataObjectList Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodeTagLengthPairs(value.ToArray()));
 
     #endregion
 

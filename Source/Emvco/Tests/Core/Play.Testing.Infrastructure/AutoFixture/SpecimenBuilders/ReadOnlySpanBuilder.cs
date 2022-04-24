@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using AutoFixture.Kernel;
+﻿using AutoFixture.Kernel;
 
 using Play.Core.Exceptions;
 using Play.Globalization.Language;

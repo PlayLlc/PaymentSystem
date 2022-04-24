@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
-using System.Runtime.Serialization;
 
-using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
-using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
-using Play.Emv.Ber.Templates;
 using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Ber;

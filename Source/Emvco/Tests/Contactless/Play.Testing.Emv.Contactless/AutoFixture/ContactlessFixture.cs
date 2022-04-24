@@ -2,7 +2,6 @@
 using AutoFixture.AutoMoq;
 using AutoFixture.Kernel;
 
-using Play.Core.Extensions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
