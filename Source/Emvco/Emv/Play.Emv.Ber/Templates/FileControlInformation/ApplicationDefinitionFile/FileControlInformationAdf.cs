@@ -37,6 +37,8 @@ public record FileControlInformationAdf : FileControlInformationTemplate
     public bool TryGetProcessingOptionsDataObjectList(out ProcessingOptionsDataObjectList? result) =>
         _FileControlInformationProprietary.TryGetProcessingOptionsDataObjectList(out result);
 
+    /// <exception cref="TerminalDataException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public bool GetProcessingOptionsDataObjectListResult(IReadTlvDatabase database, out CommandTemplate? result) =>
         _FileControlInformationProprietary.TryGetProcessingOptionsRelatedData(database, out result);
 
@@ -49,7 +51,9 @@ public record FileControlInformationAdf : FileControlInformationTemplate
         return new[] {DedicatedFileName.Tag, FileControlInformationProprietaryTemplate.Tag};
     }
 
+    /// <exception cref="OverflowException"></exception>
     public override ushort GetValueByteCount(BerCodec codec) => GetValueByteCount();
+
     public bool IsDataObjectRequested(Tag tag) => _FileControlInformationProprietary.IsDataObjectRequested(tag);
     public bool IsNetworkOf(RegisteredApplicationProviderIndicators rid) => rid == _DedicatedFileName.GetRegisteredApplicationProviderIdentifier();
 
@@ -65,6 +69,10 @@ public record FileControlInformationAdf : FileControlInformationTemplate
 
     #region Serialization
 
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CardDataMissingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static FileControlInformationAdf Decode(ReadOnlyMemory<byte> rawBer) => Decode(_Codec.DecodeChildren(rawBer));
 
     /// <exception cref="InvalidOperationException"></exception>

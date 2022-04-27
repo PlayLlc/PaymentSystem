@@ -3,6 +3,7 @@
 using AutoFixture;
 
 using Play.Ber.Exceptions;
+using Play.Codecs;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
 using Play.Testing.BaseTestClasses;

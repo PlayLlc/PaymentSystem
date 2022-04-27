@@ -88,9 +88,6 @@ public record FileControlInformationProprietaryAdf : FileControlInformationPropr
         return true;
     }
 
-    // BUG: I'm pretty sure this needs to be wrapped in a PDOL Related Data object
-    public CommandTemplate GetProcessingOptionsRelatedData(IReadTlvDatabase database) => _ProcessingOptionsDataObjectList!.AsCommandTemplate(database);
-
     public bool TryGetLanguagePreference(out LanguagePreference? result)
     {
         if (_LanguagePreference != null)
@@ -129,6 +126,10 @@ public record FileControlInformationProprietaryAdf : FileControlInformationPropr
 
     #region Serialization
 
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="CardDataMissingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public static FileControlInformationProprietaryAdf Decode(ReadOnlyMemory<byte> rawBer) => Decode(_Codec.DecodeChildren(rawBer));
 
     /// <exception cref="BerParsingException"></exception>
