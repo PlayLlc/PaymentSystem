@@ -99,9 +99,9 @@ public readonly record struct Tag
     /// <remarks>
     ///     <see cref="ITUT_X690" /> Section 8.1.2.5
     /// </remarks>
-    public readonly DataObjectType GetDataObject() => GetDataObject(_Value);
+    public readonly DataObjectTypes GetDataObject() => GetDataObject(_Value);
 
-    private static DataObjectType GetDataObject(uint value)
+    private static DataObjectTypes GetDataObject(uint value)
     {
         if (IsShortTag(value))
             return ShortIdentifier.GetDataObject((byte) value);

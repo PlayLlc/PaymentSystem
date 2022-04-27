@@ -34,7 +34,6 @@ internal sealed class ValueFactory
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T value) where T : struct
     {

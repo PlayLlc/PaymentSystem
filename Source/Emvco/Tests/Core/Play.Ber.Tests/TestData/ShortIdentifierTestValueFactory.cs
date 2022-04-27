@@ -18,7 +18,7 @@ internal class ShortIdentifierTestValueFactory
         ClassTypes.Application, ClassTypes.ContextSpecific, ClassTypes.Private, ClassTypes.Universal
     };
 
-    private static readonly List<DataObjectType> _DataObjectTypeValues = new() {DataObjectType.Primitive, DataObjectType.Constructed};
+    private static readonly List<DataObjectTypes> _DataObjectTypeValues = new() {DataObjectTypes.Primitive, DataObjectTypes.Constructed};
 
     #endregion
 
@@ -33,7 +33,7 @@ internal class ShortIdentifierTestValueFactory
             .SetBits((byte) random.Next(0, ShortIdentifier.TagNumber.MaxValue)));
 
     public static ClassTypes GetClassType(Random random) => _ClassTypeValues.ElementAt(random.Next(0, _ClassTypeValues.Count - 1));
-    public static DataObjectType GetDataObjectType(Random random) => _DataObjectTypeValues.ElementAt(random.Next(0, _DataObjectTypeValues.Count - 1));
+    public static DataObjectTypes GetDataObjectType(Random random) => _DataObjectTypeValues.ElementAt(random.Next(0, _DataObjectTypeValues.Count - 1));
     public static byte GetTagNumber(Random random) => ((byte) random.Next(0, ShortIdentifier.TagNumber.MaxValue)).GetMaskedValue(0b11100000);
 
     #endregion

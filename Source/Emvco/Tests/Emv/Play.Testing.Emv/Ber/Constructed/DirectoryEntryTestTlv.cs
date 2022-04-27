@@ -31,6 +31,7 @@ public class DirectoryEntryTestTlv : TestTlv
     };
 
     private static readonly Tag[] _ChildIndex = DirectoryEntry.ChildTags;
+    private static readonly Tag Tag = DirectoryEntry.Tag;
 
     #endregion
 
@@ -46,6 +47,7 @@ public class DirectoryEntryTestTlv : TestTlv
 
     #region Instance Members
 
+    public static TagLengthValue AsTagLengthValue() => new(Tag, _DefaultContentOctets);
     public static TagLengthValue[] GetChildren() => _DefaultChildren;
     public static byte[] GetRawTagLengthValue() => _RawTagLengthValue;
     public override Tag GetTag() => DirectoryEntry.Tag;

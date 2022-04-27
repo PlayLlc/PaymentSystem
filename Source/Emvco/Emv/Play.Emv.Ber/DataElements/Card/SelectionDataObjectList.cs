@@ -63,7 +63,7 @@ public record SelectionDataObjectList : DataObjectList, IEqualityComparer<Select
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static SelectionDataObjectList Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodeTagLengthPairs(value.ToArray()));
+    public static SelectionDataObjectList Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodeTagLengths(value.ToArray()));
 
     #endregion
 

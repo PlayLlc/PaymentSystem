@@ -87,7 +87,7 @@ public record TagsToRead : DataExchangeRequest
         if (value.IsEmpty)
             return new TagsToRead();
 
-        return new TagsToRead(_Codec.DecodeTagSequence(value.Span));
+        return new TagsToRead(_Codec.DecodeTags(value.Span));
     }
 
     /// <exception cref="InvalidOperationException"></exception>
@@ -98,7 +98,7 @@ public record TagsToRead : DataExchangeRequest
             return new TagsToRead();
 
         // This Value field is already BER encoded, which is what this object's _Value field requires
-        return new TagsToRead(_Codec.DecodeTagSequence(value));
+        return new TagsToRead(_Codec.DecodeTags(value));
     }
 
     #endregion

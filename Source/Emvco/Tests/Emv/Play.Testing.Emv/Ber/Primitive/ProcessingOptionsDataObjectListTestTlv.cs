@@ -76,7 +76,7 @@ public class ProcessingOptionsDataObjectListTestTlv : TestTlv
     {
         EmvCodec codec = EmvCodec.GetCodec();
 
-        fixture.Register(() => new ProcessingOptionsDataObjectList(codec.DecodeTagLengthPairs(new byte[]
+        fixture.Register(() => new ProcessingOptionsDataObjectList(codec.DecodeTagLengths(new byte[]
         {
             0x9F, 0x66, 0x04, 0x9F, 0x02, 0x06, 0x9F, 0x03, 0x06, 0x9F,
             0x1A, 0x02, 0x95, 0x05, 0x5F, 0x2A, 0x02, 0x9A, 0x03, 0x9C,

@@ -61,7 +61,7 @@ public record DefaultUnpredictableNumberDataObjectList : DataObjectList, IEquali
     {
         Check.Primitive.ForExactLength(value, _ByteLength, Tag);
 
-        return new DefaultUnpredictableNumberDataObjectList(_Codec.DecodeTagLengthPairs(value.ToArray()));
+        return new DefaultUnpredictableNumberDataObjectList(_Codec.DecodeTagLengths(value.ToArray()));
     }
 
     #endregion

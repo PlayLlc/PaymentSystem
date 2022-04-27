@@ -80,7 +80,7 @@ public class EmvFixture : TestingFixture
 
     private static void CustomizePrimitives(IFixture fixture)
     {
-        fixture.Register(() => new ProcessingOptionsDataObjectList(EmvCodec.GetCodec().DecodeTagLengthPairs(new byte[]
+        fixture.Register(() => new ProcessingOptionsDataObjectList(EmvCodec.GetCodec().DecodeTagLengths(new byte[]
         {
             0x9F, 0x66, 0x04, 0x9F, 0x02, 0x06, 0x9F, 0x03, 0x06, 0x9F,
             0x1A, 0x02, 0x95, 0x05, 0x5F, 0x2A, 0x02, 0x9A, 0x03, 0x9C,

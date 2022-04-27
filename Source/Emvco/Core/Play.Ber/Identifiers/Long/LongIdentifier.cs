@@ -58,7 +58,7 @@ internal static partial class LongIdentifier
     /// <remarks>
     ///     <see cref="ITUT_X690" /> Section 8.1.2.2 b
     /// </remarks>
-    public static DataObjectType GetDataObject(uint value) => LeadingOctet.GetDataObjectType(GetLeadingOctet(value));
+    public static DataObjectTypes GetDataObject(uint value) => LeadingOctet.GetDataObjectType(GetLeadingOctet(value));
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>

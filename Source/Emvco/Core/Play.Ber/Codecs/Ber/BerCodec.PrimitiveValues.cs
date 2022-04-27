@@ -15,45 +15,10 @@ namespace Play.Ber.Codecs;
 
 public partial class BerCodec
 {
-    #region Instance Members
-
-    public T? AsPrimitive<T>(Func<ReadOnlyMemory<byte>, T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings) where T : PrimitiveValue
-    {
-        if (!encodedTlvSiblings.TryGetValueOctetsOfSibling(tag, out ReadOnlyMemory<byte> rawDedicatedFileName))
-            return null;
-
-        return decodeFunc.Invoke(rawDedicatedFileName);
-    }
-
-    public T? AsPrimitive<T>(Func<ReadOnlyMemory<byte>, BerCodec, T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings) where T : PrimitiveValue
-    {
-        if (!encodedTlvSiblings.TryGetValueOctetsOfSibling(tag, out ReadOnlyMemory<byte> rawDedicatedFileName))
-            return null;
-
-        return decodeFunc.Invoke(rawDedicatedFileName, this);
-    }
-
-    public T? AsPrimitive<T>(Func<ReadOnlyMemory<byte>, BerCodec, T> decodeFunc, ReadOnlyMemory<byte> rawEncoding) where T : PrimitiveValue
-    {
-        CheckCore.ForEmptySequence(rawEncoding, nameof(rawEncoding));
-
-        return decodeFunc.Invoke(rawEncoding, this);
-    }
-
-    public ushort GetByteCount(PlayEncodingId playEncodingId, dynamic value) => _ValueFactory.GetByteCount(playEncodingId, value);
-    public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T value) where T : struct => _ValueFactory.GetByteCount(playEncodingId, value);
-    public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T[] value) where T : struct => _ValueFactory.GetByteCount(playEncodingId, value);
-
-    #endregion
-
     #region Serialization
 
-    /// <summary>
-    ///     Decode
-    /// </summary>
-    /// <param name="codecIdentifier"></param>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    #region Decode Metadata
+
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public DecodedMetadata Decode(PlayEncodingId codecIdentifier, ReadOnlySpan<byte> value)
@@ -63,16 +28,89 @@ public partial class BerCodec
         return _ValueFactory.Decode(codecIdentifier, value);
     }
 
-    // TODO: WARNING=================================================================================
-    // TODO: This is syntactic sugar and isn't very efficient. Ensure this isn't a bottleneck when
-    // TODO: running benchmark testing 
-    // TODO: WARNING=================================================================================
+    #endregion
+
+    #endregion
+
+    #region Decode Primitive
+
+    // DEPRECATING: This method will eventually be deprecated in favor of using strongly typed arguments instead of generic constraints
+    public T? AsPrimitive<T>(Func<ReadOnlyMemory<byte>, T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings) where T : PrimitiveValue
+    {
+        if (!encodedTlvSiblings.TryGetValueOctetsOfSibling(tag, out ReadOnlyMemory<byte> rawDedicatedFileName))
+            return null;
+
+        return decodeFunc.Invoke(rawDedicatedFileName);
+    }
+
+    // DEPRECATING: This method will eventually be deprecated in favor of using strongly typed arguments instead of generic constraints
+    public T? AsPrimitive<T>(Func<ReadOnlyMemory<byte>, BerCodec, T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings) where T : PrimitiveValue
+    {
+        if (!encodedTlvSiblings.TryGetValueOctetsOfSibling(tag, out ReadOnlyMemory<byte> rawDedicatedFileName))
+            return null;
+
+        return decodeFunc.Invoke(rawDedicatedFileName, this);
+    }
+
+    // DEPRECATING: This method will eventually be deprecated in favor of using strongly typed arguments instead of generic constraints
+    public T? AsPrimitive<T>(Func<ReadOnlyMemory<byte>, BerCodec, T> decodeFunc, ReadOnlyMemory<byte> rawEncoding) where T : PrimitiveValue
+    {
+        CheckCore.ForEmptySequence(rawEncoding, nameof(rawEncoding));
+
+        return decodeFunc.Invoke(rawEncoding, this);
+    }
+
+    #endregion
+
+    #region Byte Count
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public ushort GetByteCount(PlayEncodingId playEncodingId, dynamic value) => _ValueFactory.GetByteCount(playEncodingId, value);
+
+    // DEPRECATING: This method will eventually be deprecated in favor of using strongly typed arguments instead of generic constraints
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T value) where T : struct => _ValueFactory.GetByteCount(playEncodingId, value);
+
+    // DEPRECATING: This method will eventually be deprecated in favor of using strongly typed arguments instead of generic constraints
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T[] value) where T : struct => _ValueFactory.GetByteCount(playEncodingId, value);
+
+    #endregion
+
+    #region Encode Value
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public byte[] EncodeValue(PlayEncodingId playEncodingId, dynamic value) => _ValueFactory.Encode(playEncodingId, value);
+
     public byte[] EncodeValue(PlayEncodingId playEncodingId, dynamic value, int length) => _ValueFactory.Encode(playEncodingId, value, length);
+
+    // DEPRECATING: This method will eventually be deprecated in favor of using strongly typed arguments instead of generic constraints
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public byte[] EncodeValue<T>(PlayEncodingId playEncodingId, T value) where T : struct => _ValueFactory.Encode(playEncodingId, value);
+
+    // DEPRECATING: This method will eventually be deprecated in favor of using strongly typed arguments instead of generic constraints
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public byte[] EncodeValue<T>(PlayEncodingId playEncodingId, T value, int length) where T : struct => _ValueFactory.Encode(playEncodingId, value, length);
+
+    // DEPRECATING: This method will eventually be deprecated in favor of using strongly typed arguments instead of generic constraints
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public byte[] EncodeValue<T>(PlayEncodingId playEncodingId, T[] value) where T : struct => _ValueFactory.Encode(playEncodingId, value);
+
+    // DEPRECATING: This method will eventually be deprecated in favor of using strongly typed arguments instead of generic constraints
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public byte[] EncodeValue<T>(PlayEncodingId playEncodingId, T[] value, int length) where T : struct => _ValueFactory.Encode(playEncodingId, value, length);
+
+    #endregion
+
+    #region Encode Tag Length Value
 
     /// <exception cref="BerParsingException"></exception>
     public byte[] EncodeTagLengthValue(PrimitiveValue value, int length)
@@ -95,12 +133,6 @@ public partial class BerCodec
         return buffer.ToArray();
     }
 
-    /// <summary>
-    ///     EncodeTagLengthValue
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="contentOctets"></param>
-    /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
     private byte[] EncodeTagLengthValue(PrimitiveValue value, ReadOnlySpan<byte> contentOctets)
     {
@@ -125,11 +157,6 @@ public partial class BerCodec
         }
     }
 
-    /// <summary>
-    ///     EncodeTagLengthValue
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
     public byte[] EncodeTagLengthValue(PrimitiveValue value)
     {

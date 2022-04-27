@@ -37,13 +37,14 @@ public record GetDataResponse : QueryPcdResponse
 
     #region Instance Members
 
+    /// <exception cref="Play.Ber.Exceptions.BerParsingException"></exception>
     public TagLengthValue GetTagLengthValueResult() => EmvCodec.GetCodec().DecodeTagLengthValue(GetRApduSignal().GetData().AsSpan());
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     public bool TryGetPrimitiveValue(out PrimitiveValue? result)
     {
-        uint tag = _Codec.GetFirstTag(GetData());
+        uint tag = _Codec.DecodeFirstTag(GetData());
 
         // According to Emv Book C-2 Table 5.16, these are the only possible values that can be returned
         // from a GET DATA RAPDU

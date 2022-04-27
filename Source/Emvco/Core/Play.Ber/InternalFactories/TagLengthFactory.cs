@@ -48,7 +48,7 @@ internal sealed class TagLengthFactory
     /// <exception cref="BerParsingException"></exception>
     internal Dictionary<Tag, TagLength[]> ParseDescendents(ReadOnlySpan<byte> value, TagLength parent)
     {
-        if (parent.GetTag().GetDataObject() != DataObjectType.Constructed)
+        if (parent.GetTag().GetDataObject() != DataObjectTypes.Constructed)
             throw new BerParsingException("A primitive object does not have a descendent tree to traverse");
 
         Dictionary<Tag, TagLength[]> descendents = new();
@@ -62,7 +62,7 @@ internal sealed class TagLengthFactory
         {
             TagLength currentChild = children[i];
 
-            if (currentChild.GetTag().GetDataObject() == DataObjectType.Constructed)
+            if (currentChild.GetTag().GetDataObject() == DataObjectTypes.Constructed)
             {
                 foreach (KeyValuePair<Tag, TagLength[]> keyValuePair in ParseDescendents(parentContentOctets[j..currentChild.GetTagLengthValueByteCount()],
                     currentChild))

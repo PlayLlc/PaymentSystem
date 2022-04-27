@@ -58,7 +58,7 @@ public record DataRecoveryDataObjectList : DataObjectList
 
     /// <exception cref="DataElementParsingException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    public static DataRecoveryDataObjectList Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodeTagLengthPairs(value.ToArray()));
+    public static DataRecoveryDataObjectList Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodeTagLengths(value.ToArray()));
 
     #endregion
 }

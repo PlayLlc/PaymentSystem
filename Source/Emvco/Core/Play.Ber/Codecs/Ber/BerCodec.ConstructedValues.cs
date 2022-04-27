@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.Toolkit.HighPerformance.Buffers;
@@ -8,6 +9,7 @@ using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
 using Play.Ber.Lengths;
+using Play.Codecs.Exceptions;
 using Play.Core.Exceptions;
 using Play.Core.Specifications;
 
@@ -17,7 +19,13 @@ public partial class BerCodec
 {
     #region Instance Members
 
+    /// <summary>
+    ///     This method sorts the <paramref name="dataElements" /> according to the ranked value provided by the
+    ///     <paramref name="index" />. This allows <see cref="ConstructedValue" /> objects to return their child objects
+    ///     encoded in the same order every time
+    /// </summary>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
     public IEncodeBerDataObjects[] GetIndexedDataElements(Tag[] index, IEncodeBerDataObjects[] dataElements)
     {
         CheckCore.ForMaximumLength(dataElements, index.Length,
@@ -43,6 +51,7 @@ public partial class BerCodec
         return result;
     }
 
+    // DEPRECATING: This method will eventually be deprecated in favor of using strongly typed arguments instead of generic constraints
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public _T? AsConstructed<_T>(Func<EncodedTlvSiblings, _T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings) where _T : ConstructedValue
@@ -53,19 +62,6 @@ public partial class BerCodec
         return decodeFunc.Invoke(new EncodedTlvSiblings(_TagLengthFactory.GetTagLengthArray(rawValueContent.Span), rawValueContent));
     }
 
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
-    public T? AsConstructed<T>(Func<BerCodec, EncodedTlvSiblings, T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings) where T : ConstructedValue
-    {
-        if (!encodedTlvSiblings.TryGetValueOctetsOfSibling(tag, out ReadOnlyMemory<byte> rawValueContent))
-            return null;
-
-        return decodeFunc.Invoke(this, new EncodedTlvSiblings(_TagLengthFactory.GetTagLengthArray(rawValueContent.Span), rawValueContent));
-    }
-
-    #endregion
-
     #region Byte Count
 
     /// <summary>
@@ -73,79 +69,80 @@ public partial class BerCodec
     /// </summary>
     /// <param name="children"></param>
     /// <returns></returns>
+    /// <exception cref="OverflowException"></exception>
     public ushort GetValueByteCount(params IEncodeBerDataObjects?[] children)
     {
         return checked((ushort) children.Sum(a => a?.GetTagLengthValueByteCount(this) ?? 0));
     }
 
-    public uint GetTagLengthValueByteCount(ConstructedValue parent, params IEncodeBerDataObjects?[] children)
-    {
-        uint contentOctetLength = checked((uint) children.Sum(a => a?.GetTagLengthValueByteCount(this) ?? 0));
-        TagLength tagLength = new(parent.GetTag(), contentOctetLength);
-
-        return checked((ushort) tagLength.GetTagLengthValueByteCount());
-    }
+    #endregion
 
     #endregion
 
-    #region Encoding
-
     #region Encode Value
 
-    private byte[] EncodeValue(ConstructedValue value) => value.EncodeValue(this);
-
-    /// <param name="parent"></param>
-    /// <param name="childIndex"></param>
-    /// <param name="children"></param>
-    /// <returns></returns>
+    /// <summary>
+    ///     This method is the last method to be called in a double dispatch pattern. The EncodeValue of the
+    ///     <see cref="ConstructedValue" /> is invoked, causing the <see cref="ConstructedValue" /> to invoke this method
+    /// </summary>
     /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public byte[] EncodeValue(ConstructedValue parent, Tag[] childIndex, params IEncodeBerDataObjects?[] children)
     {
         return EncodeValue(parent, GetIndexedDataElements(childIndex, children.Where(a => a != null).Select(x => x!).ToArray()));
     }
 
-    public byte[] EncodeValue(ConstructedValue parent, params IEncodeBerDataObjects?[] children)
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    private byte[] EncodeValue(TagLength parent, IReadOnlyList<IEncodeBerDataObjects> children, Span<byte> buffer)
+    {
+        if (parent.GetValueByteCount() != buffer.Length)
+        {
+            throw new CodecParsingException(
+                $"The {nameof(BerCodec)} could not {nameof(EncodeValue)} because the length of the {nameof(buffer)} provided was inconsistent with the length of the {nameof(parent)}");
+        }
+
+        for (int i = 0, j = 0; i < children.Count; i++)
+        {
+            Span<byte> encoding = children[i].EncodeTagLengthValue(this).AsSpan();
+            encoding.CopyTo(buffer[j..]);
+            j += encoding.Length;
+        }
+
+        return buffer.ToArray();
+    }
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    private byte[] EncodeValue(ConstructedValue parent, params IEncodeBerDataObjects[] children)
     {
         if (!children.Any())
             return EncodeEmptyDataObject(parent);
 
         TagLength tagLength = new(parent.GetTag(), new Length(parent.GetValueByteCount(this)));
 
-        if (tagLength.GetValueByteCount() <= Specs.ByteArray.StackAllocateCeiling)
-        {
-            Span<byte> result = stackalloc byte[tagLength.GetValueByteCount()];
+        // TODO: When benchmarking we might want to use stackalloc if the byte count is under our threshold value
+        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(tagLength.GetValueByteCount());
+        Span<byte> buffer = spanOwner.Span;
 
-            for (int i = 0, j = 0; i < children.Length; i++)
-            {
-                ReadOnlySpan<byte> encoding = children[i]?.EncodeTagLengthValue(this);
-                encoding.CopyTo(result[j..]);
-                j += encoding.Length;
-            }
-
-            return result.ToArray();
-        }
-        else
-        {
-            using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(tagLength.GetValueByteCount());
-            Span<byte> result = spanOwner.Span;
-
-            for (int i = 0, j = 0; i < children.Length; i++)
-            {
-                ReadOnlySpan<byte> encoding = children[i]?.EncodeTagLengthValue(this);
-                encoding.CopyTo(result[j..]);
-                j += encoding.Length;
-            }
-
-            return result.ToArray();
-        }
+        return EncodeValue(tagLength, children, buffer);
     }
 
     #endregion
 
     #region Encode Tag Length Value
 
+    /// <summary>
+    ///     This method is the last method to be called in a double dispatch pattern. The EncodeTagLengthValue of the
+    ///     <see cref="ConstructedValue" /> is invoked, causing the <see cref="ConstructedValue" /> to invoke this method
+    /// </summary>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
     public byte[] EncodeTagLengthValue(ConstructedValue parent, Tag[] childIndex, params IEncodeBerDataObjects?[] children)
     {
         IEncodeBerDataObjects[] indexedDataElements = GetIndexedDataElements(childIndex, children.Where(a => a != null).Select(x => x!).ToArray());
@@ -155,46 +152,25 @@ public partial class BerCodec
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public byte[] EncodeTagLengthValue(ConstructedValue parent, params IEncodeBerDataObjects[] children)
+    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    private byte[] EncodeTagLengthValue(ConstructedValue parent, params IEncodeBerDataObjects[] children)
     {
         if (!children.Any())
             return EncodeEmptyDataObject(parent);
 
         TagLength tagLength = new(parent.GetTag(), new Length(parent.GetValueByteCount(this)));
 
-        if (tagLength.GetTagLengthValueByteCount() <= Specs.ByteArray.StackAllocateCeiling)
-        {
-            Span<byte> result = stackalloc byte[(int) parent.GetTagLengthValueByteCount(this)];
-            tagLength.Encode().CopyTo(result);
+        // TODO: When benchmarking we might want to use stackalloc if the byte count is under our threshold value
+        using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(tagLength.GetTagLengthValueByteCount());
+        Span<byte> buffer = spanOwner.Span;
 
-            for (int i = 0, j = tagLength.GetValueOffset(); i < children.Length; i++)
-            {
-                Span<byte> encoding = children[i].EncodeTagLengthValue(this).AsSpan();
-                encoding.CopyTo(result[j..]);
-                j += encoding.Length;
-            }
+        tagLength.Encode().CopyTo(buffer);
 
-            return result.ToArray();
-        }
-        else
-        {
-            using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(tagLength.GetTagLengthValueByteCount());
-            Span<byte> result = spanOwner.Span;
+        EncodeValue(tagLength, children, buffer[tagLength.GetValueOffset()..]);
 
-            tagLength.Encode().CopyTo(result);
-
-            for (int i = 0, j = tagLength.GetValueOffset(); i < children.Length; i++)
-            {
-                ReadOnlySpan<byte> encoding = EncodeValue(children[i]!);
-                encoding.CopyTo(result[j..]);
-                j += encoding.Length;
-            }
-
-            return result.ToArray();
-        }
+        return buffer.ToArray();
     }
-
-    #endregion
 
     #endregion
 }

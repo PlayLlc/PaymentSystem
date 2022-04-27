@@ -26,8 +26,8 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
     #region Constructor
 
     public GenerateApplicationCryptogramResponse(
-        CorrelationId correlation, TransactionSessionId transactionSessionId, GenerateApplicationCryptogramRApduSignal response) : base(
-        correlation, MessageTypeId, transactionSessionId, response)
+        CorrelationId correlation, TransactionSessionId transactionSessionId, GenerateApplicationCryptogramRApduSignal response) : base(correlation,
+        MessageTypeId, transactionSessionId, response)
     { }
 
     #endregion
@@ -68,7 +68,7 @@ public record GenerateApplicationCryptogramResponse : QueryPcdResponse
         if (GetDataByteCount() == 0)
             return Array.Empty<PrimitiveValue>();
 
-        if (_Codec.GetFirstTag(GetData()) == ResponseMessageTemplateFormat2.Tag)
+        if (_Codec.DecodeFirstTag(GetData()) == ResponseMessageTemplateFormat2.Tag)
             ValidateFormat2Response(database);
 
         PrimitiveValue[] results = DecodePrimitiveValues(ResponseMessageTemplate.DecodeData(GetRApduSignal())).ToArray();

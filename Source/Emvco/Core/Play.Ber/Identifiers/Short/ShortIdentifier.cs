@@ -40,14 +40,14 @@ internal static class ShortIdentifier
     public static ClassTypes GetClassType(byte value) => (ClassTypes) value.GetMaskedValue(ClassTypes.UnrelatedBits);
 
     /// <summary>
-    ///     Returns the <see cref="DataObjectType" /> type of the BER-TLV Value field
+    ///     Returns the <see cref="DataObjectTypes" /> type of the BER-TLV Value field
     /// </summary>
     /// <remarks>
     ///     <see cref="ITUT_X690" /> Section 8.1.2.2 b
     /// </remarks>
     /// <param name="value"></param>
     /// <returns></returns>
-    public static DataObjectType GetDataObject(byte value) => value.IsBitSet(Bits.Six) ? DataObjectType.Constructed : DataObjectType.Primitive;
+    public static DataObjectTypes GetDataObject(byte value) => value.IsBitSet(Bits.Six) ? DataObjectTypes.Constructed : DataObjectTypes.Primitive;
 
     /// <summary>
     ///     The Tag Number of this Short Identifier. A number between 0-30

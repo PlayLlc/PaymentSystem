@@ -58,7 +58,7 @@ public record DynamicDataAuthenticationDataObjectList : DataObjectList, IEqualit
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        return new DynamicDataAuthenticationDataObjectList(_Codec.DecodeTagLengthPairs(value.ToArray()));
+        return new DynamicDataAuthenticationDataObjectList(_Codec.DecodeTagLengths(value.ToArray()));
     }
 
     #endregion

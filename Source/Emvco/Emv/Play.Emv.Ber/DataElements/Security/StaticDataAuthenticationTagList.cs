@@ -52,7 +52,7 @@ public record StaticDataAuthenticationTagList : DataElement<Tag[]>, IEqualityCom
     {
         Check.Primitive.ForMaximumLength(value, _MaxByteLength, Tag);
 
-        return new StaticDataAuthenticationTagList(_Codec.DecodeTagSequence(value));
+        return new StaticDataAuthenticationTagList(_Codec.DecodeTags(value));
     }
 
     #endregion

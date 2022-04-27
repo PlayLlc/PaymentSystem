@@ -32,9 +32,9 @@ public partial class TagTests
 
         Tag sut = new(testValue);
 
-        DataObjectType? result = sut.GetDataObject();
+        DataObjectTypes? result = sut.GetDataObject();
 
-        Assert.Equal(result, DataObjectType.Constructed);
+        Assert.Equal(result, DataObjectTypes.Constructed);
     }
 
     [Fact]
@@ -56,9 +56,9 @@ public partial class TagTests
 
         Tag sut = new(testValue);
 
-        DataObjectType? result = sut.GetDataObject();
+        DataObjectTypes? result = sut.GetDataObject();
 
-        Assert.Equal(result, DataObjectType.Primitive);
+        Assert.Equal(result, DataObjectTypes.Primitive);
     }
 
     [Fact]
@@ -116,13 +116,13 @@ public partial class TagTests
     [Fact]
     public void RandomByte_WithConstructedFlag_CreatesTagWithCorrectDataObjectType()
     {
-        byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).SetBits((byte) DataObjectType.Constructed);
+        byte testValue = ((byte) _Random.Next(0, byte.MaxValue)).SetBits((byte) DataObjectTypes.Constructed);
 
         Tag sut = new(testValue);
 
-        DataObjectType? result = sut.GetDataObject();
+        DataObjectTypes? result = sut.GetDataObject();
 
-        Assert.Equal(result, DataObjectType.Constructed);
+        Assert.Equal(result, DataObjectTypes.Constructed);
     }
 
     [Fact]
@@ -144,9 +144,9 @@ public partial class TagTests
 
         Tag sut = new(testValue);
 
-        DataObjectType? result = sut.GetDataObject();
+        DataObjectTypes? result = sut.GetDataObject();
 
-        Assert.Equal(result, DataObjectType.Primitive);
+        Assert.Equal(result, DataObjectTypes.Primitive);
     }
 
     [Fact]
@@ -200,7 +200,7 @@ public partial class TagTests
     public void RandomShortIdentifierComponentParts_WhenInitializing_CreatesByteWithCorrectValue()
     {
         ClassTypes? expectedClassType = ShortIdentifierTestValueFactory.GetClassType(_Random);
-        DataObjectType? expectedDataObjectType = ShortIdentifierTestValueFactory.GetDataObjectType(_Random);
+        DataObjectTypes? expectedDataObjectType = ShortIdentifierTestValueFactory.GetDataObjectType(_Random);
         byte expectedTagNumber = ShortIdentifierTestValueFactory.GetTagNumber(_Random);
 
         byte initializationValue = (byte) ((byte) expectedClassType | (byte) expectedDataObjectType | expectedTagNumber);

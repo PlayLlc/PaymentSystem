@@ -1,5 +1,6 @@
 ﻿using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
+using Play.Testing.BaseTestClasses;
 using Play.Testing.Emv.Ber.Constructed;
 
 using Xunit;
@@ -8,7 +9,7 @@ using DirectoryEntry = Play.Emv.Ber.Templates.DirectoryEntry;
 
 namespace Play.Emv.Ber.Tests.Templates;
 
-public class DirectoryEntryTests
+public class DirectoryEntryTests : TestBase
 {
     #region Instance Members
 
@@ -33,9 +34,9 @@ public class DirectoryEntryTests
     {
         DirectoryEntryTestTlv testData = new();
         DirectoryEntry sut = DirectoryEntry.Decode(testData.EncodeTagLengthValue());
-        byte[] testValue = sut.EncodeTagLengthValue();
-        byte[]? expectedResult = testData.EncodeTagLengthValue();
-        Assert.Equal(expectedResult, testValue);
+        byte[]? expected = testData.EncodeTagLengthValue();
+        byte[] actual = sut.EncodeTagLengthValue();
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
     /// <summary>
@@ -70,12 +71,11 @@ public class DirectoryEntryTests
     [Fact]
     public void Template_InvokingAsTagLengthValue_ReturnsExpectedResult()
     {
-        DirectoryEntryTestTlv testData = new();
-        DirectoryEntry sut = DirectoryEntry.Decode(testData.EncodeTagLengthValue());
-        TagLengthValue testValue = sut.AsTagLengthValue();
+        TagLengthValue expected = DirectoryEntryTestTlv.AsTagLengthValue();
+        DirectoryEntry sut = DirectoryEntry.Decode(expected.EncodeTagLengthValue());
+        TagLengthValue actual = sut.AsTagLengthValue();
 
-        //TagLengthValue expectedResult = testData.AsPrimitiveValue();
-        //Assert.Equal(expectedResult, testValue);
+        Assert.Equal(expected, actual);
     }
 
     #endregion

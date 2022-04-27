@@ -14,20 +14,19 @@ public class GetDataApduCommand : ApduCommand
 {
     #region Constructor
 
-    protected GetDataApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class, instruction, parameter1,
-        parameter2)
+    protected GetDataApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2) : base(@class, instruction, parameter1, parameter2)
     { }
 
-    protected GetDataApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2, uint le) : base(@class, instruction,
-        parameter1, parameter2, le)
+    protected GetDataApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2, uint le) : base(@class, instruction, parameter1, parameter2,
+        le)
     { }
 
-    protected GetDataApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) : base(@class,
-        instruction, parameter1, parameter2, data)
+    protected GetDataApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data) : base(@class, instruction,
+        parameter1, parameter2, data)
     { }
 
-    protected GetDataApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint le) : base(
-        @class, instruction, parameter1, parameter2, data, le)
+    protected GetDataApduCommand(byte @class, byte instruction, byte parameter1, byte parameter2, ReadOnlySpan<byte> data, uint le) : base(@class, instruction,
+        parameter1, parameter2, data, le)
     { }
 
     #endregion
@@ -56,7 +55,7 @@ public class GetDataApduCommand : ApduCommand
             if (!tag.IsPrimitive())
             {
                 throw new IccProtocolException(
-                    $"The {nameof(ApduCommand)} could not be generated because the argument {nameof(Tag)} had a length of 2 bytes but did not have a {nameof(DataObjectType)} of {nameof(DataObjectType.Primitive)}");
+                    $"The {nameof(ApduCommand)} could not be generated because the argument {nameof(Tag)} had a length of 2 bytes but did not have a {nameof(DataObjectTypes)} of {nameof(DataObjectTypes.Primitive)}");
             }
 
             Span<byte> buffer = stackalloc byte[2];

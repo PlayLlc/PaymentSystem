@@ -32,14 +32,14 @@ internal static partial class LongIdentifier
         public static ClassTypes GetClassType(byte value) => (ClassTypes) value.GetMaskedValue(ClassTypes.UnrelatedBits);
 
         /// <summary>
-        ///     Returns the <see cref="DataObjectType" /> type of the BER-TLV Value field
+        ///     Returns the <see cref="DataObjectTypes" /> type of the BER-TLV Value field
         /// </summary>
         /// <remarks>
         ///     <see cref="ITUT_X690" /> 8.1.2.4.1 b
         /// </remarks>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static DataObjectType GetDataObjectType(byte value) => value.IsBitSet(Bits.Six) ? DataObjectType.Constructed : DataObjectType.Primitive;
+        public static DataObjectTypes GetDataObjectType(byte value) => value.IsBitSet(Bits.Six) ? DataObjectTypes.Constructed : DataObjectTypes.Primitive;
 
         /// <summary>
         ///     Validates that the Long Identifier Flag is present for the byte

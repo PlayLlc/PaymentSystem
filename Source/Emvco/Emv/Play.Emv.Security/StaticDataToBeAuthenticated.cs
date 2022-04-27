@@ -1,4 +1,5 @@
 ﻿using Play.Ber.DataObjects;
+using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
@@ -50,9 +51,10 @@ public class StaticDataToBeAuthenticated
     /// <param name="rapdu"></param>
     /// <exception cref="CryptographicAuthenticationMethodFailedException"></exception>
     /// <remarks>EMVco Book 3 Section 10.3</remarks>
+    /// <exception cref="BerParsingException"></exception>
     public void Enqueue(EmvCodec codec, ReadRecordResponse rapdu)
     {
-        if (codec.DecodeTag(rapdu.GetData()) != ReadRecordResponseTemplate.Tag)
+        if (codec.DecodeFirstTag(rapdu.GetData()) != ReadRecordResponseTemplate.Tag)
         {
             throw new CryptographicAuthenticationMethodFailedException(
                 $"The {nameof(StaticDataToBeAuthenticated)} encountered a {nameof(ReadRecordResponse)} with a {nameof(Tag)} that was not equal to {ReadRecordResponseTemplate.Tag}");
