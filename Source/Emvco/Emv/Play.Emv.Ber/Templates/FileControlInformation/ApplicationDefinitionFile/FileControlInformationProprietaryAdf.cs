@@ -148,10 +148,11 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
     /// <exception cref="CodecParsingException"></exception>
     public static FileControlInformationProprietaryAdf Decode(EncodedTlvSiblings encodedChildren)
     {
-        FileControlInformationIssuerDiscretionaryDataAdf fciProprietaryTemplate =
-            _Codec.AsConstructed(FileControlInformationIssuerDiscretionaryDataAdf.Decode, FileControlInformationIssuerDiscretionaryDataAdf.Tag, encodedChildren)
-            ?? throw new CardDataMissingException(
-                $"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataAdf)}. A {nameof(FileControlInformationIssuerDiscretionaryDataAdf)} was expected but could not be found");
+        FileControlInformationIssuerDiscretionaryDataAdf fciProprietaryTemplate = _Codec.AsConstructed(FileControlInformationIssuerDiscretionaryDataAdf.Decode,
+            FileControlInformationIssuerDiscretionaryDataAdf.Tag, encodedChildren);
+
+        //?? throw new CardDataMissingException(
+        //    $"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataAdf)}. A {nameof(FileControlInformationIssuerDiscretionaryDataAdf)} was expected but could not be found");
 
         ApplicationLabel? applicationLabel = null;
         ApplicationPreferredName? applicationPreferredName = null;

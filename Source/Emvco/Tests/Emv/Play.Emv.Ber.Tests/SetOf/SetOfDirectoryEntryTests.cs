@@ -4,7 +4,6 @@ using AutoFixture;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
-using Play.Codecs;
 using Play.Emv.Ber.Templates;
 using Play.Testing.BaseTestClasses;
 using Play.Testing.Emv;

@@ -60,6 +60,9 @@ public class ProcessingOptionsDataObjectListTestTlv : TestTlv
 
     #region Instance Members
 
+    public int GetValueByteCount() => _DefaultContentOctets.Length;
+    public int GetTagLengthValueByteCount() => GetValueByteCount() + 3;
+
     public TagLengthValue[] AsTagLengthValues()
     {
         List<TagLengthValue> result = new();

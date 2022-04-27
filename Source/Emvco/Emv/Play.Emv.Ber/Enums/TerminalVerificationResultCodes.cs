@@ -74,7 +74,6 @@ public record TerminalVerificationResultCodes : EnumObject<TerminalVerificationR
         RelayResistanceTimeLimitsExceeded = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(3)));
         RelayResistancePerformed = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(2)));
         RelayResistanceNotPerformed = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(1)));
-
         RequestedServiceNotAllowedForCardProduct = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(29)));
         ScriptProcessingFailedAfterFinalGenerateAc = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(5)));
         ScriptProcessingFailedBeforeFinalGenerateAc = new TerminalVerificationResultCodes(new TerminalVerificationResult(((ulong) 0).SetBit(6)));
@@ -116,7 +115,7 @@ public record TerminalVerificationResultCodes : EnumObject<TerminalVerificationR
             {TransactionSelectedRandomlyForOnlineProcessing, TransactionSelectedRandomlyForOnlineProcessing},
             {UnrecognizedCvm, UnrecognizedCvm},
             {UpperConsecutiveOfflineLimitExceeded, UpperConsecutiveOfflineLimitExceeded}
-        }.ToImmutableSortedDictionary();
+        }.ToImmutableSortedDictionary(new TerminalVerificationResultComparer());
     }
 
     private TerminalVerificationResultCodes(TerminalVerificationResult value) : base(value)
@@ -143,4 +142,13 @@ public record TerminalVerificationResultCodes : EnumObject<TerminalVerificationR
     }
 
     #endregion
+
+    private class TerminalVerificationResultComparer : IComparer<TerminalVerificationResult>
+    {
+        #region Instance Members
+
+        public int Compare(TerminalVerificationResult x, TerminalVerificationResult y) => x.CompareTo(y);
+
+        #endregion
+    }
 }

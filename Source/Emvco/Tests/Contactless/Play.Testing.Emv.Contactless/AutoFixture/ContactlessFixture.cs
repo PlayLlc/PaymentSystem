@@ -48,6 +48,7 @@ public partial class ContactlessFixture : EmvFixture
         CustomizePrimitives(fixture);
         CustomizeTemplates(fixture);
         CustomizeObjects(fixture);
+        RegisterDefaultDatabase(fixture);
     }
 
     #endregion

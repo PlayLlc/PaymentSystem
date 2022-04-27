@@ -3,13 +3,14 @@
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
+using Play.Testing.BaseTestClasses;
 using Play.Testing.Emv.Ber.Primitive;
 
 using Xunit;
 
 namespace Play.Emv.Ber.Tests.DataElements;
 
-public class ProcessingOptionsDataObjectListTests
+public class ProcessingOptionsDataObjectListTests : TestBase
 {
     #region Instance Members
 
@@ -88,6 +89,35 @@ public class ProcessingOptionsDataObjectListTests
         byte[] expectedResult = testData.EncodeTagLengthValue();
 
         Assert.Equal(testValue, expectedResult);
+    }
+
+    /// <summary>
+    ///     TagLengthValue_SerializingToBer_ReturnsExpectedResult
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    [Fact]
+    public void PrimitiveValue_GetTagLengthValueByteCount_ReturnsExpectedResult()
+    {
+        ProcessingOptionsDataObjectListTestTlv testData = new();
+
+        ProcessingOptionsDataObjectList sut = ProcessingOptionsDataObjectList.Decode(testData.EncodeValue().AsSpan());
+        int expected = testData.GetTagLengthValueByteCount();
+        int actual = sut.GetTagLengthValueByteCount();
+
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
+    }
+
+    [Fact]
+    public void PrimitiveValue_GetValueByteCount_ReturnsExpectedResult()
+    {
+        ProcessingOptionsDataObjectListTestTlv testData = new();
+
+        ProcessingOptionsDataObjectList sut = ProcessingOptionsDataObjectList.Decode(testData.EncodeValue().AsSpan());
+        int expected = testData.GetValueByteCount();
+        int actual = sut.GetValueByteCount();
+
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
     #endregion

@@ -21,8 +21,7 @@ public class FileControlInformationAdf : FileControlInformationTemplate
 
     #region Constructor
 
-    public FileControlInformationAdf(
-        DedicatedFileName dedicatedFileName, FileControlInformationProprietaryAdf fileControlInformationProprietary)
+    public FileControlInformationAdf(DedicatedFileName dedicatedFileName, FileControlInformationProprietaryAdf fileControlInformationProprietary)
     {
         _DedicatedFileName = dedicatedFileName;
         _FileControlInformationProprietary = fileControlInformationProprietary;
@@ -32,9 +31,7 @@ public class FileControlInformationAdf : FileControlInformationTemplate
 
     #region Instance Members
 
-    public bool TryGetLanguagePreference(out LanguagePreference? result) =>
-        _FileControlInformationProprietary.TryGetLanguagePreference(out result);
-
+    public bool TryGetLanguagePreference(out LanguagePreference? result) => _FileControlInformationProprietary.TryGetLanguagePreference(out result);
     public Tag[] GetRequestedDataObjects() => _FileControlInformationProprietary.GetRequestedDataObjects();
 
     public bool TryGetProcessingOptionsDataObjectList(out ProcessingOptionsDataObjectList? result) =>
@@ -54,9 +51,7 @@ public class FileControlInformationAdf : FileControlInformationTemplate
 
     public override ushort GetValueByteCount(BerCodec codec) => GetValueByteCount();
     public bool IsDataObjectRequested(Tag tag) => _FileControlInformationProprietary.IsDataObjectRequested(tag);
-
-    public bool IsNetworkOf(RegisteredApplicationProviderIndicators rid) =>
-        rid == _DedicatedFileName.GetRegisteredApplicationProviderIdentifier();
+    public bool IsNetworkOf(RegisteredApplicationProviderIndicators rid) => rid == _DedicatedFileName.GetRegisteredApplicationProviderIdentifier();
 
     public bool TryGetApplicationCapabilitiesInformation(out ApplicationCapabilitiesInformation? result) =>
         _FileControlInformationProprietary.TryGetApplicationCapabilitiesInformation(out result);
@@ -74,7 +69,6 @@ public class FileControlInformationAdf : FileControlInformationTemplate
 
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     /// <exception cref="CardDataMissingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
     private static FileControlInformationAdf Decode(EncodedTlvSiblings encodedSiblings)
@@ -84,8 +78,7 @@ public class FileControlInformationAdf : FileControlInformationTemplate
                 $"A problem occurred while decoding {nameof(FileControlInformationAdf)}. A {nameof(DedicatedFileName)} was expected but could not be found");
 
         FileControlInformationProprietaryAdf fciProprietary =
-            _Codec.AsConstructed(FileControlInformationProprietaryAdf.Decode, FileControlInformationProprietaryTemplate.Tag,
-                encodedSiblings)
+            _Codec.AsConstructed(FileControlInformationProprietaryAdf.Decode, FileControlInformationProprietaryTemplate.Tag, encodedSiblings)
             ?? throw new CardDataMissingException(
                 $"A problem occurred while decoding {nameof(FileControlInformationAdf)}. A {nameof(FileControlInformationProprietaryAdf)} was expected but could not be found");
 
@@ -100,8 +93,7 @@ public class FileControlInformationAdf : FileControlInformationTemplate
     public override bool Equals(ConstructedValue? other) => other is FileControlInformationAdf adf && Equals(adf);
 
     public bool Equals(FileControlInformationAdf other) =>
-        _DedicatedFileName.Equals(other._DedicatedFileName)
-        && _FileControlInformationProprietary.Equals(other._FileControlInformationProprietary);
+        _DedicatedFileName.Equals(other._DedicatedFileName) && _FileControlInformationProprietary.Equals(other._FileControlInformationProprietary);
 
     public override bool Equals(ConstructedValue? x, ConstructedValue? y)
     {

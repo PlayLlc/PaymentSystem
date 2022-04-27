@@ -88,7 +88,7 @@ public abstract class TestTlv : IDecodeDataElement
         TagLength tagLength = GetTagLength();
         Span<byte> result = stackalloc byte[tagLength.GetTagLengthValueByteCount()];
         tagLength.Encode().AsSpan().CopyTo(result);
-        var a = EncodeValue().AsSpan().ToArray();
+        byte[]? a = EncodeValue().AsSpan().ToArray();
         a.CopyTo(result[tagLength.GetValueOffset()..]);
 
         return result.ToArray();

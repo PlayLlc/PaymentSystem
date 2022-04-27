@@ -24,8 +24,9 @@ namespace Play.Testing.Emv.Contactless.AutoFixture
         public static void RegisterDefaultDatabase(IFixture fixture)
         {
             CreateDatabase(fixture);
-            SetupDatabase(fixture);
         }
+
+        public static KernelDatabase CreateDefaultDatabase(IFixture fixture) => SetupDatabase(fixture);
 
         private static void CreateDatabase(IFixture fixture)
         {
@@ -34,13 +35,13 @@ namespace Play.Testing.Emv.Contactless.AutoFixture
 
             fixture.Register<KnownObjects>(fixture.Create<Kernel2KnownObjects>);
             KernelDatabase database = fixture.Create<KernelDatabase>();
-            database.Activate(fixture.Create<KernelSessionId>());
             fixture.Freeze<KernelDatabase>();
         }
 
-        private static void SetupDatabase(IFixture fixture)
+        private static KernelDatabase SetupDatabase(IFixture fixture)
         {
             KernelDatabase database = fixture.Create<KernelDatabase>();
+            database.Activate(fixture.Create<KernelSessionId>());
             TagsToRead tagsToRead = new();
             TerminalTransactionQualifiers ttq = fixture.Create<TerminalTransactionQualifiers>();
             SelectApplicationDefinitionFileInfoResponse rapdu = CreateSelectApplicationDefinitionFileInfoResponse(fixture);
@@ -51,6 +52,8 @@ namespace Play.Testing.Emv.Contactless.AutoFixture
             database.Update(CreateCombinationCompositeKey(fixture).AsPrimitiveValues());
             database.Update(Outcome.Default.AsPrimitiveValues());
             database.Update(GetTransaction(fixture).AsPrimitiveValues());
+
+            return database;
         }
 
         private static CombinationCompositeKey CreateCombinationCompositeKey(IFixture fixture)
@@ -73,9 +76,10 @@ namespace Play.Testing.Emv.Contactless.AutoFixture
         private static GetFileControlInformationRApduSignal CreateGetFileControlInformationRApduSignal(IFixture fixture)
         {
             FileControlInformationAdf fci = fixture.Create<FileControlInformationAdf>();
-            Span<byte> rapdu = new byte[fci.GetTagLengthValueByteCount() + StatusWords.GetByteCount()];
+            byte[] encodedFci = fci.EncodeTagLengthValue();
+            Span<byte> rapdu = new byte[encodedFci.Length + 2];
             StatusWords._9000.Encode().CopyTo(rapdu);
-            fci.EncodeTagLengthValue().CopyTo(rapdu[1..]);
+            encodedFci.CopyTo(rapdu[2..]);
 
             return new GetFileControlInformationRApduSignal(rapdu.ToArray());
         }

@@ -1,4 +1,5 @@
-﻿using Play.Testing.Infrastructure.AutoFixture;
+﻿using Play.Testing.Emv.Contactless.AutoFixture;
+using Play.Testing.Infrastructure.AutoFixture;
 
 namespace Play.Testing.Emv;
 
@@ -37,7 +38,8 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
             new TerminalVerificationResultCodesBuilder(),
             new TransactionTypeBuilder(),
             new ValueQualifierBuilder(),
-            new DirectoryEntryBuilder()
+            new DirectoryEntryBuilder(),
+            new FileControlInformationAdfBuilder()
         });
 
         return currentModuleBuilders;

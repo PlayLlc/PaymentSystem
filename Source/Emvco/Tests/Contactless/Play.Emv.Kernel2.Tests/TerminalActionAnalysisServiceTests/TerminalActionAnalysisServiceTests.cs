@@ -4,11 +4,7 @@ using AutoFixture;
 
 using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
-using Play.Emv.Ber.DataElements.Display;
-using Play.Emv.Ber.ValueTypes;
-using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
-using Play.Emv.Terminal.Contracts.Messages.Commands;
 using Play.Testing.Emv.Contactless.AutoFixture;
 
 using Xunit;
@@ -33,46 +29,34 @@ public partial class TerminalActionAnalysisServiceTests : TestBase
     public TerminalActionAnalysisServiceTests()
     {
         _Fixture = new ContactlessFixture().Create();
-        ContactlessFixture.RegisterDefaultDatabase(_Fixture);
-
-        KernelDatabase database = _Fixture.Create<KernelDatabase>();
-        database.Update(MessageHoldTime.MinimumValue);
     }
 
     #endregion
 
     #region Instance Members
 
-    private static void GetKernelDatabaseForOfflineOnly(IFixture fixture)
+    internal static KernelDatabase GetKernelDatabaseForOfflineOnly(IFixture fixture)
     {
-        KernelDatabase database = fixture.Create<KernelDatabase>();
+        KernelDatabase database = ContactlessFixture.CreateDefaultDatabase(fixture);
         database.Update(new TerminalType(TerminalType.CommunicationType.OnlineOnly));
+
+        return database;
     }
 
-    private void GetKernelDatabaseForOnlineOnly(IFixture fixture)
+    internal KernelDatabase GetKernelDatabaseForOnlineOnly(IFixture fixture)
     {
-        KernelDatabase database = fixture.Create<KernelDatabase>();
+        KernelDatabase database = ContactlessFixture.CreateDefaultDatabase(fixture);
         database.Update(new TerminalType(TerminalType.CommunicationType.OnlineOnly));
+
+        return database;
     }
 
-    private void GetKernelDatabaseForOnlineAndOfflineCapable(IFixture fixture)
+    internal KernelDatabase GetKernelDatabaseForOnlineAndOfflineCapable(IFixture fixture)
     {
-        KernelDatabase database = fixture.Create<KernelDatabase>();
+        KernelDatabase database = ContactlessFixture.CreateDefaultDatabase(fixture);
         database.Update(new TerminalType(TerminalType.CommunicationType.OnlineAndOfflineCapable));
-    }
 
-    private TerminalActionAnalysisCommand GetTerminalActionAnalysisCommand(TerminalVerificationResults terminalVerificationResults) =>
-        new(_Fixture.Freeze<TransactionSessionId>(), OutcomeParameterSet.Default, terminalVerificationResults, _Fixture.Create<ApplicationInterchangeProfile>(),
-            _Fixture.Create<DataObjectListResult>(), _Fixture.Create<DataObjectListResult>());
-
-    private TerminalActionAnalysisCommand GetTerminalActionAnalysisCommand(
-        TerminalVerificationResults terminalVerificationResults, OnlineResponseOutcome onlineResponseOutcome)
-    {
-        OutcomeParameterSet.Builder outcomeBuilder = OutcomeParameterSet.GetBuilder();
-        outcomeBuilder.Set(onlineResponseOutcome);
-
-        return new TerminalActionAnalysisCommand(_Fixture.Freeze<TransactionSessionId>(), outcomeBuilder.Complete(), terminalVerificationResults,
-            _Fixture.Create<ApplicationInterchangeProfile>(), _Fixture.Create<DataObjectListResult>(), _Fixture.Create<DataObjectListResult>());
+        return database;
     }
 
     #endregion

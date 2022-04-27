@@ -57,6 +57,12 @@ public readonly record struct TerminalVerificationResult
 
     #endregion
 
+    #region Equality
+
+    public int CompareTo(TerminalVerificationResult other) => _Value.CompareTo(other._Value);
+
+    #endregion
+
     #region Operator Overrides
 
     public static explicit operator ulong(TerminalVerificationResult value) => value._Value;

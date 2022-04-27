@@ -9,6 +9,7 @@ using Play.Emv.Security;
 using Play.Encryption.Certificates;
 using Play.Encryption.Ciphers.Hashing;
 using Play.Testing.Emv.Ber.Constructed;
+using Play.Testing.Emv.Contactless.AutoFixture;
 using Play.Testing.Extensions;
 using Play.Testing.Infrastructure.AutoFixture;
 
@@ -52,6 +53,7 @@ public class EmvFixture : TestingFixture
         factory.Build(TransactionTypeBuilder.Id);
         factory.Build(ValueQualifierBuilder.Id);
         factory.Build(DirectoryEntryBuilder.Id);
+        factory.Build(FileControlInformationAdfBuilder.Id);
     }
 
     #region Customize Fixture
