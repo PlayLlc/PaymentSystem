@@ -27,8 +27,8 @@ public record QueryPcdRequest : RequestSignal
 
     #region Constructor
 
-    protected QueryPcdRequest(CApduSignal cApduSignal, MessageTypeId messageTypeId, TransactionSessionId transactionSessionId) : base(
-        messageTypeId, ChannelTypeId)
+    protected QueryPcdRequest(CApduSignal cApduSignal, MessageTypeId messageTypeId, TransactionSessionId transactionSessionId) : base(messageTypeId,
+        ChannelTypeId)
     {
         _CApduSignal = cApduSignal;
         _TransactionSessionId = transactionSessionId;
@@ -45,7 +45,7 @@ public record QueryPcdRequest : RequestSignal
 
     #region Serialization
 
-    public byte[] Serialize() => _CApduSignal.Serialize();
+    public byte[] Serialize() => _CApduSignal.Encode();
 
     #endregion
 }

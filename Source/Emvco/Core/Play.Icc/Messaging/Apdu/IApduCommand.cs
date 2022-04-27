@@ -2,9 +2,9 @@
 
 public interface IApduCommand
 {
-    #region Serialization
+    #region Instance Members
 
-    public byte[] Serialize();
+    public byte[] Encode();
 
     #endregion
 }

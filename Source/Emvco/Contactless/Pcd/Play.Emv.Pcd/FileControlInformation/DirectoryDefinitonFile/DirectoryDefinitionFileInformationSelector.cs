@@ -32,7 +32,7 @@ public class DirectoryDefinitionFileInformationSelector : ISelectDirectoryDefini
         try
         {
             GetFileControlInformationRApduSignal response = new(await _PcdTransceiver
-                .Transceive(GetFileControlInformationCApduSignal.Get(command.GetDirectoryDefinitionFileName()).Serialize()).ConfigureAwait(false));
+                .Transceive(GetFileControlInformationCApduSignal.Get(command.GetDirectoryDefinitionFileName()).Encode()).ConfigureAwait(false));
 
             FileControlInformationDdf template = FileControlInformationDdf.Decode(response.GetData());
 

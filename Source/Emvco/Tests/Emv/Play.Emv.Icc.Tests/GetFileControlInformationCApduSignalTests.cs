@@ -33,7 +33,7 @@ public class GetFileControlInformationCApduSignalTests
     {
         GetFileControlInformationCApduSignal sut = GetFileControlInformationCApduSignal.GetProximityPaymentSystemEnvironment();
         byte[] expectedResult = ApduTestData.CApdu.Select.Ppse.PpseBytes;
-        byte[] testValue = sut.Serialize();
+        byte[] testValue = sut.Encode();
 
         Assert.Equal(expectedResult, testValue);
     }
@@ -48,11 +48,10 @@ public class GetFileControlInformationCApduSignalTests
     public void CApduSignal_InitializingWithDedicatedFileName_CreatesExpectedResult()
     {
         GetFileControlInformationCApduSignal sut =
-            GetFileControlInformationCApduSignal.Get(DedicatedFileName.Decode(ApduTestData.CApdu.Select.Applet1.DedicatedFileName.AsSpan(),
-                _Codec));
+            GetFileControlInformationCApduSignal.Get(DedicatedFileName.Decode(ApduTestData.CApdu.Select.Applet1.DedicatedFileName.AsSpan(), _Codec));
 
         byte[] expectedResult = ApduTestData.CApdu.Select.Applet1.CApdu;
-        byte[] testValue = sut.Serialize();
+        byte[] testValue = sut.Encode();
 
         Assert.Equal(expectedResult, testValue);
     }

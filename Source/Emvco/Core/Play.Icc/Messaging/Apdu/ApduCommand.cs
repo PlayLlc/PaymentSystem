@@ -75,23 +75,9 @@ public abstract class ApduCommand : IApduCommand
     public byte GetParameter2() => _Parameter2;
 
     // TODO: This was being weird
-    private byte GetByteCount() =>
+    private byte GetByteCount() => (byte) ((4 + _Data?.Length + _Lc?.GetMostSignificantByte()) ?? (0 + _Le?.GetMostSignificantByte()) ?? 0);
 
-        //byte result = 4;
-        //byte dataLength = (byte) (_Data?.Length ?? 0);
-        //byte lcLength = _Lc?.GetMostSignificantByte() ?? 0;
-        //byte leLength = _Le?.GetMostSignificantByte() ?? 0;
-        //result += dataLength;
-        //result += lcLength;
-        //result += leLength;
-        //return result;
-        (byte) ((4 + _Data?.Length + _Lc?.GetMostSignificantByte()) ?? (0 + _Le?.GetMostSignificantByte()) ?? 0);
-
-    #endregion
-
-    #region Serialization
-
-    public byte[] Serialize()
+    public byte[] Encode()
     {
         using SpanOwner<byte> spanOwner = SpanOwner<byte>.Allocate(GetByteCount());
         Span<byte> buffer = spanOwner.Span;
