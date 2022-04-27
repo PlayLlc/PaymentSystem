@@ -51,8 +51,12 @@ public partial class BerCodec
     /// <returns>
     ///     <see cref="TagLength" />
     /// </returns>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public uint GetFirstTag(ReadOnlySpan<byte> value) => _TagLengthFactory.ParseFirst(value).GetTag();
 
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     public byte[] GetContentOctets(ReadOnlySpan<byte> value) => value[_TagLengthFactory.ParseFirst(value).GetTagLengthByteCount()..].ToArray();
 
     private byte[] EncodeEmptyDataObject(IEncodeBerDataObjects value)
@@ -61,6 +65,50 @@ public partial class BerCodec
 
         return tagLength.Encode();
     }
+
+    public bool IsTagPresent(Tag tagToSearch, ReadOnlySpan<byte> value)
+    {
+        for (int i = 0; i < value.Length;)
+        {
+            Tag currentTag = new(value[i..]);
+
+            if (currentTag == tagToSearch)
+                return true;
+
+            i += currentTag.GetByteCount();
+        }
+
+        return false;
+    }
+
+    #endregion
+
+    #region Serialization
+
+    /// <summary>
+    ///     EncodeValue
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    private byte[] EncodeValue(IEncodeBerDataObjects value)
+    {
+        if (value is PrimitiveValue primitiveValue)
+            return EncodeTagLengthValue(primitiveValue);
+
+        if (value is ConstructedValue constructedValue)
+            return EncodeValue(constructedValue);
+
+        if (value is SetOf setOfValues)
+            return EncodeValue(setOfValues);
+
+        throw new BerParsingException("This exception should never be thrown");
+    }
+
+    #endregion
+
+    #region Decode
 
     /// <summary>
     ///     Parses a sequence of metadata containing concatenated Tag-Length values and returns an array
@@ -87,21 +135,6 @@ public partial class BerCodec
         }
 
         return buffer[..bufferOffset].ToArray();
-    }
-
-    public bool IsTagPresent(Tag tagToSearch, ReadOnlySpan<byte> value)
-    {
-        for (int i = 0; i < value.Length;)
-        {
-            Tag currentTag = new(value[i..]);
-
-            if (currentTag == tagToSearch)
-                return true;
-
-            i += currentTag.GetByteCount();
-        }
-
-        return false;
     }
 
     /// <summary>
@@ -146,35 +179,6 @@ public partial class BerCodec
         }
     }
 
-    #endregion
-
-    #region Serialization
-
-    /// <summary>
-    ///     EncodeValue
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    private byte[] EncodeValue(IEncodeBerDataObjects value)
-    {
-        if (value is PrimitiveValue primitiveValue)
-            return EncodeTagLengthValue(primitiveValue);
-
-        if (value is ConstructedValue constructedValue)
-            return EncodeValue(constructedValue);
-
-        if (value is SetOf setOfValues)
-            return EncodeValue(setOfValues);
-
-        throw new BerParsingException("This exception should never be thrown");
-    }
-
-    #endregion
-
-    #region Decode
-
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public EncodedTlvSiblings DecodeChildren(ReadOnlyMemory<byte> value)
@@ -184,7 +188,7 @@ public partial class BerCodec
         return DecodeSiblings(value[tagLength.GetValueOffset()..]);
     }
 
-    public EncodedTlvSiblings DecodeSiblings(ReadOnlyMemory<byte> value) => new EncodedTlvSiblings(_TagLengthFactory.GetTagLengthArray(value.Span), value);
+    public EncodedTlvSiblings DecodeSiblings(ReadOnlyMemory<byte> value) => new(_TagLengthFactory.GetTagLengthArray(value.Span), value);
 
     /// <summary>
     ///     Decodes the first <see cref="TagLength" /> found in the
@@ -233,6 +237,7 @@ public partial class BerCodec
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="OverflowException"></exception>
     public TagLengthValue[] DecodeTagLengthValues(ReadOnlySpan<byte> value)
     {
         TagLength[]? tagLengthArray = _TagLengthFactory.GetTagLengthArray(value);
