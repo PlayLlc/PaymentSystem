@@ -48,8 +48,7 @@ public partial class BerCodec
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
-    public T? AsConstructed<T>(Func<EncodedTlvSiblings, T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings) where T : ConstructedValue
+    public _T? AsConstructed<_T>(Func<EncodedTlvSiblings, _T> decodeFunc, uint tag, EncodedTlvSiblings encodedTlvSiblings) where _T : ConstructedValue
     {
         if (!encodedTlvSiblings.TryGetValueOctetsOfSibling(tag, out ReadOnlyMemory<byte> rawValueContent))
             return null;
@@ -190,7 +189,7 @@ public partial class BerCodec
 
         if (tagLength.GetTagLengthValueByteCount() <= Specs.ByteArray.StackAllocateCeiling)
         {
-            Span<byte> result = stackalloc byte[tagLength.GetTagLengthValueByteCount()];
+            Span<byte> result = stackalloc byte[(int) parent.GetTagLengthValueByteCount(this)];
             tagLength.Encode().CopyTo(result);
 
             for (int i = 0, j = tagLength.GetValueOffset(); i < children.Length; i++)

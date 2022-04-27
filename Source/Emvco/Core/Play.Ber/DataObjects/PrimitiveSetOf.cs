@@ -38,7 +38,7 @@ public abstract record PrimitiveSetOf : PrimitiveValue, IReadOnlyList<PrimitiveV
 
     public override byte[] EncodeValue(BerCodec codec) => _Values.SelectMany(a => a.EncodeTagLengthValue(codec)).ToArray();
 
-    public new byte[] EncodeTagLengthValue(BerCodec codec)
+    public override byte[] EncodeTagLengthValue(BerCodec codec)
     {
         int byteCount = (int) _Values.Sum(a => a.GetTagLengthValueByteCount(codec));
 

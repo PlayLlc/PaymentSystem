@@ -21,7 +21,7 @@ public abstract record PrimitiveValue : IEqualityComparer<PrimitiveValue>, IEnco
     public abstract PlayEncodingId GetEncodingId();
     public abstract Tag GetTag();
 
-    public uint GetTagLengthValueByteCount(BerCodec codec) =>
+    public virtual uint GetTagLengthValueByteCount(BerCodec codec) =>
         checked((uint) Tag.GetByteCount(this) + Length.GetByteCount(this, codec) + GetValueByteCount(codec));
 
     /// <summary>
@@ -46,7 +46,7 @@ public abstract record PrimitiveValue : IEqualityComparer<PrimitiveValue>, IEnco
     /// </summary>
     /// <param name="codec"></param>
     /// <returns></returns>
-    public byte[] EncodeTagLengthValue(BerCodec codec) => codec.EncodeTagLengthValue(this);
+    public virtual byte[] EncodeTagLengthValue(BerCodec codec) => codec.EncodeTagLengthValue(this);
 
     /// <summary>
     ///     Encodes this object as a Tag-Length-Value
@@ -54,7 +54,7 @@ public abstract record PrimitiveValue : IEqualityComparer<PrimitiveValue>, IEnco
     /// <param name="codec"></param>
     /// <param name="length">This parameter determines the length of the TLV Value field</param>
     /// <returns></returns>
-    public byte[] EncodeTagLengthValue(BerCodec codec, int length) => codec.EncodeTagLengthValue(this, length);
+    public virtual byte[] EncodeTagLengthValue(BerCodec codec, int length) => codec.EncodeTagLengthValue(this, length);
 
     public abstract byte[] EncodeValue(BerCodec codec);
     public abstract byte[] EncodeValue(BerCodec codec, int length);

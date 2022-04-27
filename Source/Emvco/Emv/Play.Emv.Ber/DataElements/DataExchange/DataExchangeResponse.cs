@@ -54,7 +54,7 @@ public abstract record DataExchangeResponse : DataExchangeList<PrimitiveValue>
     }
 
     /// <exception cref="OverflowException"></exception>
-    public new byte[] EncodeTagLengthValue()
+    public override byte[] EncodeTagLengthValue()
     {
         int byteCount = (int) _Value.Sum(a => a.GetTagLengthValueByteCount(_Codec));
 

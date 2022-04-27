@@ -34,7 +34,8 @@ public partial class TerminalActionAnalysisServiceTests : TestBase
         GetKernelDatabaseForOfflineOnly(_Fixture);
 
         CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), _Fixture.Create<KernelDatabase>());
-        Assertion(() => { Assert.Equal(CryptogramTypes.TransactionCryptogram, actual); });
+        Assertion(() => { Assert.Equal(CryptogramTypes.TransactionCryptogram, actual); },
+            Build.Equals.Message((byte) CryptogramTypes.TransactionCryptogram, (byte) actual));
     }
 
     /// <summary>
@@ -54,7 +55,8 @@ public partial class TerminalActionAnalysisServiceTests : TestBase
 
         CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), _Fixture.Create<KernelDatabase>());
 
-        Assertion(() => { Assert.Equal(CryptogramTypes.TransactionCryptogram, actual); }, Build.Equals.Message(CryptogramTypes.TransactionCryptogram, actual));
+        Assertion(() => { Assert.Equal(CryptogramTypes.TransactionCryptogram, actual); },
+            Build.Equals.Message((byte) CryptogramTypes.TransactionCryptogram, (byte) actual));
     }
 
     /// <summary>
@@ -73,7 +75,8 @@ public partial class TerminalActionAnalysisServiceTests : TestBase
         GetKernelDatabaseForOfflineOnly(_Fixture);
 
         CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), _Fixture.Create<KernelDatabase>());
-        Assertion(() => { Assert.Equal(CryptogramTypes.TransactionCryptogram, actual); });
+        Assertion(() => { Assert.Equal(CryptogramTypes.TransactionCryptogram, actual); },
+            Build.Equals.Message((byte) CryptogramTypes.TransactionCryptogram, (byte) actual));
     }
 
     /// <summary>
@@ -96,7 +99,8 @@ public partial class TerminalActionAnalysisServiceTests : TestBase
         GetKernelDatabaseForOfflineOnly(_Fixture);
 
         CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), _Fixture.Create<KernelDatabase>());
-        Assertion(() => { Assert.Equal(CryptogramTypes.TransactionCryptogram, actual); });
+        Assertion(() => { Assert.Equal(CryptogramTypes.TransactionCryptogram, actual); },
+            Build.Equals.Message((byte) CryptogramTypes.TransactionCryptogram, (byte) actual));
     }
 
     #endregion
@@ -120,7 +124,8 @@ public partial class TerminalActionAnalysisServiceTests : TestBase
 
         CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), _Fixture.Create<KernelDatabase>());
 
-        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual);
+        Assertion(() => { Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual); },
+            Build.Equals.Message((byte) CryptogramTypes.ApplicationAuthenticationCryptogram, (byte) actual));
     }
 
     /// <summary>
@@ -140,7 +145,8 @@ public partial class TerminalActionAnalysisServiceTests : TestBase
 
         CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), _Fixture.Create<KernelDatabase>());
 
-        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual);
+        Assertion(() => { Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual); },
+            Build.Equals.Message((byte) CryptogramTypes.ApplicationAuthenticationCryptogram, (byte) actual));
     }
 
     /// <summary>
@@ -160,7 +166,8 @@ public partial class TerminalActionAnalysisServiceTests : TestBase
 
         CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), _Fixture.Create<KernelDatabase>());
 
-        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual);
+        Assertion(() => { Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual); },
+            Build.Equals.Message((byte) CryptogramTypes.ApplicationAuthenticationCryptogram, (byte) actual));
     }
 
     /// <summary>
@@ -179,7 +186,8 @@ public partial class TerminalActionAnalysisServiceTests : TestBase
         GetKernelDatabaseForOfflineOnly(_Fixture);
 
         CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), _Fixture.Create<KernelDatabase>());
-        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual);
+        Assertion(() => { Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual); },
+            Build.Equals.Message((byte) CryptogramTypes.ApplicationAuthenticationCryptogram, (byte) actual));
     }
 
     /// <summary>
@@ -203,7 +211,8 @@ public partial class TerminalActionAnalysisServiceTests : TestBase
 
         CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), _Fixture.Create<KernelDatabase>());
 
-        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual);
+        Assertion(() => { Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual); },
+            Build.Equals.Message((byte) CryptogramTypes.ApplicationAuthenticationCryptogram, (byte) actual));
     }
 
     /// <summary>
@@ -227,7 +236,8 @@ public partial class TerminalActionAnalysisServiceTests : TestBase
 
         CryptogramTypes actual = sut.Process(command.GetTransactionSessionId(), _Fixture.Create<KernelDatabase>());
 
-        Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual);
+        Assertion(() => { Assert.Equal(CryptogramTypes.ApplicationAuthenticationCryptogram, actual); },
+            Build.Equals.Message((byte) CryptogramTypes.ApplicationAuthenticationCryptogram, (byte) actual));
     }
 
     #endregion

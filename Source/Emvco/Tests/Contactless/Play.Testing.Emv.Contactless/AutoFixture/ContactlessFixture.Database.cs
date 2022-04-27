@@ -75,7 +75,7 @@ namespace Play.Testing.Emv.Contactless.AutoFixture
             FileControlInformationAdf fci = fixture.Create<FileControlInformationAdf>();
             Span<byte> rapdu = new byte[fci.GetTagLengthValueByteCount() + StatusWords.GetByteCount()];
             StatusWords._9000.Encode().CopyTo(rapdu);
-            fci.EncodeTagLengthValue().CopyTo(rapdu[2..]);
+            fci.EncodeTagLengthValue().CopyTo(rapdu[1..]);
 
             return new GetFileControlInformationRApduSignal(rapdu.ToArray());
         }

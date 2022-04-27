@@ -117,12 +117,10 @@ public static class ByteExtensions
 
     public static byte GetNumberOfDigits(this byte value)
     {
-        double count = Math.Log10(Math.Pow(2, value.GetMostSignificantBit()));
-
-        if (count == 0)
+        if (value == 0)
             return 1;
 
-        return (byte) ((count % 1) == 0 ? count : count + 1);
+        return (byte) Math.Floor(Math.Log10(value) + 1);
     }
 
     public static byte GetRightNibble(this byte value) => value.GetMaskedValue(0b11110000);

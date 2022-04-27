@@ -28,11 +28,11 @@ public abstract class Template : ConstructedValue
     }
 
     /// <exception cref="BerParsingException"></exception>
-    public uint GetTagLengthValueByteCount() => GetTagLengthValueByteCount(_Codec);
+    public virtual uint GetTagLengthValueByteCount() => GetTagLengthValueByteCount(_Codec);
 
     //public TagLengthValue AsTagLengthValue() => new(GetTag(), GetChildren().SelectMany(a => a.EncodeValue(_Codec)).ToArray());
     public TagLengthValue AsTagLengthValue() => AsTagLengthValue(_Codec);
-    public ushort GetValueByteCount() => _Codec.GetValueByteCount(GetChildren());
+    public virtual ushort GetValueByteCount() => _Codec.GetValueByteCount(GetChildren());
     public override ushort GetValueByteCount(BerCodec codec) => GetValueByteCount();
     public abstract Tag[] GetChildTags();
     protected abstract IEncodeBerDataObjects?[] GetChildren();
@@ -41,9 +41,9 @@ public abstract class Template : ConstructedValue
 
     #region Serialization
 
-    public byte[] EncodeValue() => _Codec.EncodeValue(this, GetChildTags(), GetChildren());
+    public virtual byte[] EncodeValue() => _Codec.EncodeValue(this, GetChildTags(), GetChildren());
     public override byte[] EncodeValue(BerCodec berCodec) => EncodeValue();
-    public byte[] EncodeTagLengthValue() => _Codec.EncodeTagLengthValue(this, GetChildTags(), GetChildren());
+    public virtual byte[] EncodeTagLengthValue() => _Codec.EncodeTagLengthValue(this, GetChildTags(), GetChildren());
     public override byte[] EncodeTagLengthValue(BerCodec codec) => EncodeTagLengthValue();
 
     #endregion

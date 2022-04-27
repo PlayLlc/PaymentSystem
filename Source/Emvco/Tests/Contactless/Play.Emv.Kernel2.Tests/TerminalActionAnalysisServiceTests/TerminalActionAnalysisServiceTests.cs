@@ -4,6 +4,7 @@ using AutoFixture;
 
 using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
+using Play.Emv.Ber.DataElements.Display;
 using Play.Emv.Ber.ValueTypes;
 using Play.Emv.Identifiers;
 using Play.Emv.Kernel.Databases;
@@ -33,6 +34,9 @@ public partial class TerminalActionAnalysisServiceTests : TestBase
     {
         _Fixture = new ContactlessFixture().Create();
         ContactlessFixture.RegisterDefaultDatabase(_Fixture);
+
+        KernelDatabase database = _Fixture.Create<KernelDatabase>();
+        database.Update(MessageHoldTime.MinimumValue);
     }
 
     #endregion

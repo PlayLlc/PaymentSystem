@@ -37,7 +37,7 @@ public record TransactionType : DataElement<byte>, IEqualityComparer<Transaction
     /// <exception cref="DataElementParsingException"></exception>
     public TransactionType(byte value) : base(value)
     {
-        Check.Primitive.ForMaxCharLength(value, _CharLength, Tag);
+        Check.Primitive.ForMaxCharLength(value.GetNumberOfDigits(), _CharLength, Tag);
     }
 
     #endregion

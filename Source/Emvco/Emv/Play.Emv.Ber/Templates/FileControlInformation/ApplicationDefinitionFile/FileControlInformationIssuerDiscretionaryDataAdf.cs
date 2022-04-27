@@ -63,15 +63,18 @@ public class FileControlInformationIssuerDiscretionaryDataAdf : FileControlInfor
 
     #region Serialization
 
-    public static FileControlInformationIssuerDiscretionaryDataAdf Decode(ReadOnlyMemory<byte> value) =>
-        Decode(_Codec.DecodeChildren(value));
+    public static FileControlInformationIssuerDiscretionaryDataAdf Decode(ReadOnlyMemory<byte> value) => Decode(_Codec.DecodeChildren(value));
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
-    public static FileControlInformationIssuerDiscretionaryDataAdf Decode(EncodedTlvSiblings encodedTlvSiblings) =>
-        new(_Codec.AsPrimitive(LogEntry.Decode, LogEntry.Tag, encodedTlvSiblings),
+    public static FileControlInformationIssuerDiscretionaryDataAdf Decode(EncodedTlvSiblings encodedTlvSiblings)
+    {
+        var logEntry = _Codec.AsPrimitive(LogEntry.Decode, LogEntry.Tag, encodedTlvSiblings);
+        var aci = _Codec.AsPrimitive(ApplicationCapabilitiesInformation.Decode, ApplicationCapabilitiesInformation.Tag, encodedTlvSiblings);
+
+        return new FileControlInformationIssuerDiscretionaryDataAdf(_Codec.AsPrimitive(LogEntry.Decode, LogEntry.Tag, encodedTlvSiblings),
             _Codec.AsPrimitive(ApplicationCapabilitiesInformation.Decode, ApplicationCapabilitiesInformation.Tag, encodedTlvSiblings));
+    }
 
     #endregion
 

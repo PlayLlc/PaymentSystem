@@ -9,13 +9,13 @@ namespace Play.Core.Exceptions;
 /// <remarks>This exception is logically similar to the Level 2 'Terminal Data Error'</remarks>
 public class PlayInternalException : PlayException
 {
-    #region Static Metadata
-
-    public const string MissingAnExpectedValue = "An internal exception occurred because an expected value was missing";
-
-    #endregion
-
     #region Constructor
+
+    protected PlayInternalException(string message, Exception innerException) : base(message, innerException)
+    { }
+
+    protected PlayInternalException(string message) : base(message)
+    { }
 
     public PlayInternalException(
         string parameterName, string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
@@ -24,21 +24,19 @@ public class PlayInternalException : PlayException
     { }
 
     public PlayInternalException(
-        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
+        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0) : base(
         $"{TraceExceptionMessage(typeof(PlayInternalException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public PlayInternalException(
-        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(PlayInternalException), fileName, memberName, lineNumber)}", innerException)
+        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(PlayInternalException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public PlayInternalException(
         string message, Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(PlayInternalException), fileName, memberName, lineNumber)} {message}", innerException)
+        [CallerLineNumber] int lineNumber = 0) : base($"{TraceExceptionMessage(typeof(PlayInternalException), fileName, memberName, lineNumber)} {message}",
+        innerException)
     { }
 
     #endregion

@@ -21,6 +21,24 @@ namespace Play.Core.Tests.Tests.Extensions.Integers
         }
 
         [Fact]
+        public void Byte_GetNumberOfDigits2_127_ReturnsExpectedResult()
+        {
+            byte testData = 127;
+            int expected = 3;
+            byte actual = testData.GetNumberOfDigits();
+            Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
+        }
+
+        [Fact]
+        public void Byte_GetNumberOfDigits2_75_ReturnsExpectedResult()
+        {
+            byte testData = 75;
+            int expected = 2;
+            byte actual = testData.GetNumberOfDigits();
+            Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
+        }
+
+        [Fact]
         public void Byte_GetNumberOfDigits2_ReturnsExpectedResult()
         {
             byte testData = 12;

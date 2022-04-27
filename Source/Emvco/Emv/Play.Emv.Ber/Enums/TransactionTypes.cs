@@ -184,12 +184,6 @@ public record TransactionTypes : EnumObject<byte>
     /// <remarks>Hex: 5F: Decimal: 95</remarks>
     public static readonly TransactionTypes CorporateDatedPayment;
 
-    /// <remarks>Hex: 90: Decimal: 144</remarks>
-    public static readonly TransactionTypes PinChange;
-
-    /// <remarks>Hex: 91: Decimal: 145</remarks>
-    public static readonly TransactionTypes PinVerify;
-
     #endregion
 
     #region Constructor
@@ -252,8 +246,6 @@ public record TransactionTypes : EnumObject<byte>
         ReturnPayment = new TransactionTypes(0x5D);
         SchemeReturnPayment = new TransactionTypes(0x5E);
         CorporateDatedPayment = new TransactionTypes(0x5F);
-        PinChange = new TransactionTypes(0x90);
-        PinVerify = new TransactionTypes(0x91);
 
         _ValueObjectMap = new Dictionary<ushort, TransactionTypes>
         {
@@ -309,9 +301,7 @@ public record TransactionTypes : EnumObject<byte>
             {BulkAuthorization, BulkAuthorization},
             {ReturnPayment, ReturnPayment},
             {SchemeReturnPayment, SchemeReturnPayment},
-            {CorporateDatedPayment, CorporateDatedPayment},
-            {PinChange, PinChange},
-            {PinVerify, PinVerify}
+            {CorporateDatedPayment, CorporateDatedPayment}
         }.ToImmutableSortedDictionary();
     }
 
@@ -337,6 +327,12 @@ public record TransactionTypes : EnumObject<byte>
 
         return false;
     }
+
+    #endregion
+
+    #region Operator Overrides
+
+    public static implicit operator TransactionType(TransactionTypes value) => new(value._Value);
 
     #endregion
 }

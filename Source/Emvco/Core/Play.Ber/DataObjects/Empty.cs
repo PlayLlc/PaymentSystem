@@ -42,7 +42,7 @@ public record Empty : PrimitiveValue
     public override Empty Decode(TagLengthValue value) => new(value.GetTag());
     public override byte[] EncodeValue(BerCodec codec) => Array.Empty<byte>();
     public override byte[] EncodeValue(BerCodec codec, int length) => Array.Empty<byte>();
-    public new byte[] EncodeTagLengthValue(BerCodec codec, int length) => EncodeTagLengthValue();
+    public override byte[] EncodeTagLengthValue(BerCodec codec, int length) => EncodeTagLengthValue();
 
     /// <exception cref="Exceptions.BerParsingException"></exception>
     private byte[] EncodeTagLengthValue()

@@ -109,9 +109,9 @@ public abstract record DataObjectList : DataElement<TagLength[]>
     /// </summary>
     /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
-    public new int GetValueByteCount()
+    public override ushort GetValueByteCount()
     {
-        return _Value.Sum(a => a.GetTagLengthByteCount());
+        return (ushort) _Value.Sum(a => a.GetTagLengthValueByteCount());
     }
 
     public TagLength[] GetRequestedItems() => _Value;

@@ -105,7 +105,7 @@ public record UnknownPrimitiveValue : PrimitiveValue
 
     public override byte[] EncodeValue(BerCodec codec, int length) => new byte[length];
 
-    public new byte[] EncodeTagLengthValue(BerCodec codec)
+    public override byte[] EncodeTagLengthValue(BerCodec codec)
     {
         Span<byte> result = new byte[_Tag.GetByteCount() + _Length.GetContentLength() + _Length.GetContentLength()];
 

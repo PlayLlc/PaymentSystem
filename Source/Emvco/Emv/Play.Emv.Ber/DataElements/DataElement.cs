@@ -23,8 +23,8 @@ public abstract record DataElement<T>(T _Value) : PrimitiveValue, IEncodeDataEle
 
     // TODO: The below should not be casting to ushort. We need to change PrimitiveValue.GetTagLengthValueByteCount to
     // TODO: return a ushort instead
-    public ushort GetTagLengthValueByteCount() => (ushort) GetTagLengthValueByteCount(_Codec);
-    public ushort GetValueByteCount() => _Codec.GetByteCount(GetEncodingId(), _Value);
+    public virtual ushort GetTagLengthValueByteCount() => (ushort) GetTagLengthValueByteCount(_Codec);
+    public virtual ushort GetValueByteCount() => _Codec.GetByteCount(GetEncodingId(), _Value);
     public override ushort GetValueByteCount(BerCodec codec) => GetValueByteCount();
 
     #endregion
@@ -52,14 +52,14 @@ public abstract record DataElement<T>(T _Value) : PrimitiveValue, IEncodeDataEle
     ///     Encodes this object as a Tag-Length-Value
     /// </summary>
     /// <returns></returns>
-    public byte[] EncodeTagLengthValue() => EncodeTagLengthValue(_Codec);
+    public virtual byte[] EncodeTagLengthValue() => EncodeTagLengthValue(_Codec);
 
     /// <summary>
     ///     Encodes this object as a Tag-Length-Value
     /// </summary>
     /// <param name="length">This parameter determines the length of the TLV Value field</param>
     /// <returns></returns>
-    public byte[] EncodeTagLengthValue(int length) => EncodeTagLengthValue(_Codec, length);
+    public virtual byte[] EncodeTagLengthValue(int length) => EncodeTagLengthValue(_Codec, length);
 
     #endregion
 

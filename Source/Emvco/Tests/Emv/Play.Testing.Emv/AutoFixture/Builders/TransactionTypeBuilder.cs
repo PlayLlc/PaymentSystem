@@ -1,6 +1,7 @@
 ﻿using AutoFixture.Kernel;
 
 using Play.Emv.Ber;
+using Play.Emv.Ber.Enums;
 
 namespace Play.Testing.Emv;
 
@@ -9,6 +10,7 @@ public class TransactionTypeBuilder : SpecimenBuilder
     #region Static Metadata
 
     public static readonly SpecimenBuilderId Id = new(nameof(TransactionTypeBuilder));
+    private static readonly TransactionTypes[] _TransactionTypes = TransactionTypes.Empty.GetAll();
 
     #endregion
 
@@ -27,7 +29,7 @@ public class TransactionTypeBuilder : SpecimenBuilder
         if (type != typeof(TransactionType))
             return new NoSpecimen();
 
-        return new TransactionType((byte) new Random().Next(0, 99));
+        return (TransactionType) _TransactionTypes[_Random.Next(0, _TransactionTypes.Length - 1)];
     }
 
     #endregion

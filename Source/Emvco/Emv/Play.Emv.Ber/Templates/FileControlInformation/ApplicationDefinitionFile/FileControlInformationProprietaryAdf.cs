@@ -118,6 +118,17 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
 
     protected override IEncodeBerDataObjects?[] GetChildren()
     {
+        /*
+         * 
+    private readonly FileControlInformationIssuerDiscretionaryDataAdf _FileControlInformationIssuerDiscretionaryDataAdf;
+    private readonly ApplicationLabel? _ApplicationLabel;
+    private readonly ApplicationPreferredName? _ApplicationPreferredName;
+    private readonly ApplicationPriorityIndicator? _ApplicationPriorityIndicator;
+    private readonly IssuerCodeTableIndex? _IssuerCodeTableIndex;
+    private readonly LanguagePreference? _LanguagePreference;
+    private readonly ProcessingOptionsDataObjectList? _ProcessingOptionsDataObjectList;
+         */
+
         return new IEncodeBerDataObjects?[]
         {
             _ApplicationLabel, _ApplicationPreferredName, _ApplicationPriorityIndicator, _FileControlInformationIssuerDiscretionaryDataAdf,

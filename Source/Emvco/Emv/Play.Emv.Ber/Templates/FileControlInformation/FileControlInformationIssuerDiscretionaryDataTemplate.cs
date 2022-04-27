@@ -7,7 +7,7 @@ public abstract class FileControlInformationIssuerDiscretionaryDataTemplate : Te
 {
     #region Static Metadata
 
-    public static readonly Tag Tag = 0xBF06;
+    public static readonly Tag Tag = 0xBF0C;
 
     #endregion
 

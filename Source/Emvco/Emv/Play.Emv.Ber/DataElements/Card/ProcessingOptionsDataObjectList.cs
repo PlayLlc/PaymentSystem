@@ -35,7 +35,6 @@ public record ProcessingOptionsDataObjectList : DataObjectList
 
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
-    public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
     public static bool StaticEquals(ProcessingOptionsDataObjectList? x, ProcessingOptionsDataObjectList? y)
     {

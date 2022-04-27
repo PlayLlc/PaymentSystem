@@ -11,6 +11,9 @@ public class TerminalDataException : PlayInternalException
 {
     #region Constructor
 
+    protected TerminalDataException(string message) : base(message)
+    { }
+
     public TerminalDataException(
         string parameterName, string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
         [CallerLineNumber] int lineNumber = 0) : base(
@@ -18,21 +21,19 @@ public class TerminalDataException : PlayInternalException
     { }
 
     public TerminalDataException(
-        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
+        string message, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0) : base(
         $"{TraceExceptionMessage(typeof(TerminalDataException), fileName, memberName, lineNumber)} {message}")
     { }
 
     public TerminalDataException(
-        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(TerminalDataException), fileName, memberName, lineNumber)}", innerException)
+        Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "", [CallerLineNumber] int lineNumber = 0) :
+        base($"{TraceExceptionMessage(typeof(TerminalDataException), fileName, memberName, lineNumber)}", innerException)
     { }
 
     public TerminalDataException(
         string message, Exception innerException, [CallerFilePath] string fileName = "", [CallerMemberName] string memberName = "",
-        [CallerLineNumber] int lineNumber = 0) : base(
-        $"{TraceExceptionMessage(typeof(TerminalDataException), fileName, memberName, lineNumber)} {message}", innerException)
+        [CallerLineNumber] int lineNumber = 0) : base($"{TraceExceptionMessage(typeof(TerminalDataException), fileName, memberName, lineNumber)} {message}",
+        innerException)
     { }
 
     #endregion

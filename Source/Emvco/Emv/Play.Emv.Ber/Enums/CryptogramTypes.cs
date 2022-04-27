@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 
+using Play.Codecs;
 using Play.Core;
 using Play.Core.Extensions;
 using Play.Emv.Ber.ValueTypes;
@@ -73,6 +74,7 @@ public sealed record CryptogramTypes : EnumObject<byte>
 
     public static bool IsValid(byte value) => _ValueObjectMap.ContainsKey(value.GetMaskedValue(_UnrelatedBits));
     public static bool TryGet(byte value, out CryptogramTypes? result) => _ValueObjectMap.TryGetValue(value.GetMaskedValue(_UnrelatedBits), out result);
+    public override string ToString() => $"0x{PlayCodec.HexadecimalCodec.DecodeToString(new byte[] {_Value})}";
 
     #endregion
 
