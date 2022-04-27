@@ -1,6 +1,4 @@
-﻿using Play.Testing.Emv.AutoFixture.Builders.Templates;
-using Play.Testing.Emv.Enums;
-using Play.Testing.Infrastructure.AutoFixture;
+﻿using Play.Testing.Infrastructure.AutoFixture;
 
 namespace Play.Testing.Emv;
 

@@ -10,7 +10,7 @@ namespace Play.Emv.Ber.DataElements;
 /// <summary>
 ///     Indicates the code table according to ISO/IEC 8859 for displaying the Application Preferred Name
 /// </summary>
-public record IssuerCodeTableIndex : DataElement<byte>, IEqualityComparer<IssuerCodeTableIndex>
+public record IssuerCodeTableIndex : DataElement<byte>
 {
     #region Static Metadata
 
@@ -67,23 +67,6 @@ public record IssuerCodeTableIndex : DataElement<byte>, IEqualityComparer<Issuer
 
     public override byte[] EncodeValue() => PlayCodec.NumericCodec.Encode(_Value, _ByteLength);
     public override byte[] EncodeValue(int length) => PlayCodec.NumericCodec.Encode(_Value, length);
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(IssuerCodeTableIndex? x, IssuerCodeTableIndex? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(IssuerCodeTableIndex obj) => obj.GetHashCode();
 
     #endregion
 }

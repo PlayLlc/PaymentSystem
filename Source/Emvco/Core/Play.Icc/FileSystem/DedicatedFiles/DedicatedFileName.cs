@@ -22,7 +22,7 @@ namespace Play.Icc.FileSystem.DedicatedFiles;
 ///     Application
 ///     Identifier and extend it
 /// </remarks>
-public record DedicatedFileName : PrimitiveValue, IEqualityComparer<DedicatedFileName>
+public record DedicatedFileName : PrimitiveValue
 {
     #region Static Metadata
 
@@ -134,23 +134,6 @@ public record DedicatedFileName : PrimitiveValue, IEqualityComparer<DedicatedFil
 
     public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
     public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(DedicatedFileName? x, DedicatedFileName? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(DedicatedFileName obj) => obj.GetHashCode();
 
     #endregion
 }

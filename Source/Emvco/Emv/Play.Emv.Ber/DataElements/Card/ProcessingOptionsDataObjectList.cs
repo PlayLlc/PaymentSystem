@@ -35,17 +35,6 @@ public record ProcessingOptionsDataObjectList : DataObjectList
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
-    public static bool StaticEquals(ProcessingOptionsDataObjectList? x, ProcessingOptionsDataObjectList? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
     #endregion
 
     #region Serialization
@@ -58,23 +47,6 @@ public record ProcessingOptionsDataObjectList : DataObjectList
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public static ProcessingOptionsDataObjectList Decode(ReadOnlySpan<byte> value) => new(_Codec.DecodeTagLengths(value.ToArray()));
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(ProcessingOptionsDataObjectList? x, ProcessingOptionsDataObjectList? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(ProcessingOptionsDataObjectList obj) => obj.GetHashCode();
 
     #endregion
 }

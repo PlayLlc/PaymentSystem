@@ -10,7 +10,7 @@ namespace Play.Emv.Ber.DataElements;
 /// <summary>
 ///     Mnemonic associated with the AID according to ISO/IEC 7816-5
 /// </summary>
-public record ApplicationLabel : DataElement<char[]>, IEqualityComparer<ApplicationLabel>
+public record ApplicationLabel : DataElement<char[]>
 {
     #region Static Metadata
 
@@ -32,17 +32,6 @@ public record ApplicationLabel : DataElement<char[]>, IEqualityComparer<Applicat
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-
-    public static bool StaticEquals(ApplicationLabel? x, ApplicationLabel? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
 
     #endregion
 
@@ -71,23 +60,6 @@ public record ApplicationLabel : DataElement<char[]>, IEqualityComparer<Applicat
 
         return new ApplicationLabel(result.Value);
     }
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(ApplicationLabel? x, ApplicationLabel? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(ApplicationLabel obj) => obj.GetHashCode();
 
     #endregion
 

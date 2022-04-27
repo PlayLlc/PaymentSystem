@@ -63,6 +63,7 @@ public record FileControlInformationIssuerDiscretionaryDataAdf : FileControlInfo
 
     #region Serialization
 
+    /// <exception cref="BerParsingException"></exception>
     public static FileControlInformationIssuerDiscretionaryDataAdf Decode(ReadOnlyMemory<byte> value) => Decode(_Codec.DecodeChildren(value));
 
     /// <exception cref="BerParsingException"></exception>
@@ -75,24 +76,6 @@ public record FileControlInformationIssuerDiscretionaryDataAdf : FileControlInfo
 
         return new FileControlInformationIssuerDiscretionaryDataAdf(logEntry, aci);
     }
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(FileControlInformationIssuerDiscretionaryDataAdf? x, FileControlInformationIssuerDiscretionaryDataAdf? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(FileControlInformationIssuerDiscretionaryDataAdf obj) => obj.GetHashCode();
-    public override int GetHashCode() => (int) unchecked(((643949 * Tag) + _LogEntry?.GetHashCode()) ?? 0);
 
     #endregion
 }

@@ -94,24 +94,4 @@ public record FileControlInformationAdf : FileControlInformationTemplate
     }
 
     #endregion
-
-    #region Equality
-
-    public bool Equals(FileControlInformationAdf x, FileControlInformationAdf y) => x.Equals(y);
-
-    public override int GetHashCode()
-    {
-        const int hash = 647;
-
-        unchecked
-        {
-            int result = GetTag().GetHashCode() * hash;
-            result += _DedicatedFileName.GetHashCode();
-            result += _FileControlInformationProprietary.GetHashCode();
-
-            return result;
-        }
-    }
-
-    #endregion
 }

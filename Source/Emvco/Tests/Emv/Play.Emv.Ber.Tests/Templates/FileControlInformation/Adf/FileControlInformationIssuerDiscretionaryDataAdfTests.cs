@@ -7,7 +7,6 @@ using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Templates;
 using Play.Testing.BaseTestClasses;
 using Play.Testing.Emv;
-using Play.Testing.Emv.AutoFixture.Builders.Templates;
 
 using Xunit;
 

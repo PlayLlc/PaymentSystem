@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using AutoFixture;
 
+using Play.Ber.Codecs;
 using Play.Ber.DataObjects;
 using Play.Codecs;
 
@@ -129,6 +130,11 @@ public abstract class TestBase
 
             public static string Message(string expected, string actual) => $"\n\n\t\texpected\t: {expected}; \n\t\tactual\t\t: {actual};";
 
+            // HACK: Probs not very reliable information in a UNIT TESTING FRAMEWORK you dork
+            public static string Message(ConstructedValue expected, ConstructedValue actual, BerCodec codec) =>
+                $"\n\n\t\texpected\t: {PlayCodec.HexadecimalCodec.DecodeToString(expected.EncodeTagLengthValue(codec))}; \n\t\tactual\t\t: {PlayCodec.HexadecimalCodec.DecodeToString(actual.EncodeTagLengthValue(codec))};";
+
+            // HACK: Probs not very reliable information in a UNIT TESTING FRAMEWORK you dork
             public static string Message(TagLengthValue expected, TagLengthValue actual) =>
                 $"\n\n\t\texpected\t: {PlayCodec.HexadecimalCodec.DecodeToString(expected.EncodeTagLengthValue())}; \n\t\tactual\t\t: {PlayCodec.HexadecimalCodec.DecodeToString(actual.EncodeTagLengthValue())};";
 

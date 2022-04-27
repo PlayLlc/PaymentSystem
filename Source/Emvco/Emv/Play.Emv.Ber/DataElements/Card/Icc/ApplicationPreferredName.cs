@@ -10,12 +10,14 @@ namespace Play.Emv.Ber.DataElements;
 /// <summary>
 ///     Preferred mnemonic associated with the AID
 /// </summary>
-public record ApplicationPreferredName : DataElement<char[]>, IEqualityComparer<ApplicationPreferredName>
+public record ApplicationPreferredName : DataElement<char[]>
 {
     #region Static Metadata
 
     public static readonly Tag Tag = 0x9F12;
     public static readonly PlayEncodingId EncodingId = AlphaNumericSpecialCodec.EncodingId;
+    private const byte _MinByteLength = 1;
+    private const byte _MaxByteLength = 16;
 
     #endregion
 
@@ -31,17 +33,6 @@ public record ApplicationPreferredName : DataElement<char[]>, IEqualityComparer<
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public override Tag GetTag() => Tag;
 
-    public static bool StaticEquals(ApplicationPreferredName? x, ApplicationPreferredName? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
     #endregion
 
     #region Serialization
@@ -54,13 +45,10 @@ public record ApplicationPreferredName : DataElement<char[]>, IEqualityComparer<
     /// <exception cref="DataElementParsingException"></exception>
     public static ApplicationPreferredName Decode(ReadOnlySpan<byte> value)
     {
-        const ushort minByteLength = 1;
-        const ushort maxByteLength = 16;
-
-        if (value.Length is not >= minByteLength and <= maxByteLength)
+        if (value.Length is < _MinByteLength and <= _MaxByteLength)
         {
             throw new DataElementParsingException(
-                $"The Primitive Value {nameof(ApplicationPreferredName)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");
+                $"The Primitive Value {nameof(ApplicationPreferredName)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {_MinByteLength}-{_MaxByteLength}");
         }
 
         DecodedResult<char[]> result = _Codec.Decode(EncodingId, value) as DecodedResult<char[]>
@@ -70,25 +58,13 @@ public record ApplicationPreferredName : DataElement<char[]>, IEqualityComparer<
         return new ApplicationPreferredName(result.Value);
     }
 
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public override byte[] EncodeValue(BerCodec codec) => codec.EncodeValue(EncodingId, _Value);
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
     public override byte[] EncodeValue(BerCodec codec, int length) => codec.EncodeValue(EncodingId, _Value, length);
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(ApplicationPreferredName? x, ApplicationPreferredName? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(ApplicationPreferredName obj) => obj.GetHashCode();
 
     #endregion
 }

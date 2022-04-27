@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using AutoFixture.Kernel;
+﻿using AutoFixture.Kernel;
 
 using Play.Emv.Ber.Templates;
-using Play.Testing.Icc.Apdu;
 
-namespace Play.Testing.Emv.AutoFixture.Builders.Templates;
+namespace Play.Testing.Emv;
 
 public class FileControlInformationIssuerDiscretionaryDataAdfBuilder : SpecimenBuilder
 {

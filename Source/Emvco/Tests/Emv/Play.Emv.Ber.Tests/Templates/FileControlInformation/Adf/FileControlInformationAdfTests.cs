@@ -54,14 +54,5 @@ public class FileControlInformationAdfTests : TestBase
         Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }
 
-    [Fact]
-    public void PrimitiveValue_DecodingValue_ReturnsExpectedResult()
-    {
-        FileControlInformationAdf expected = _Fixture.Create<FileControlInformationAdf>();
-        FileControlInformationAdf actual = FileControlInformationAdf.Decode(FileControlInformationAdfBuilder.RawTagLengthValue.AsMemory());
-
-        Assertion(() => Assert.Equal(expected, actual));
-    }
-
     #endregion
 }

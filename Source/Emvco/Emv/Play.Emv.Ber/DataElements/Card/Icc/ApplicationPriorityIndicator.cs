@@ -13,7 +13,7 @@ namespace Play.Emv.Ber.DataElements;
 /// <summary>
 ///     Indicates the priority of a given application or group of applications in a directory
 /// </summary>
-public record ApplicationPriorityIndicator : DataElement<byte>, IEqualityComparer<ApplicationPriorityIndicator>
+public record ApplicationPriorityIndicator : DataElement<byte>
 {
     #region Static Metadata
 
@@ -72,23 +72,6 @@ public record ApplicationPriorityIndicator : DataElement<byte>, IEqualityCompare
 
     public override byte[] EncodeValue() => _Codec.EncodeValue(EncodingId, _Value, _ByteLength);
     public override byte[] EncodeValue(int length) => _Codec.EncodeValue(EncodingId, _Value, length);
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(ApplicationPriorityIndicator? x, ApplicationPriorityIndicator? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(ApplicationPriorityIndicator obj) => obj.GetHashCode();
 
     #endregion
 }

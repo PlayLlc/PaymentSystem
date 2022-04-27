@@ -16,7 +16,7 @@ namespace Play.Emv.Ber.DataElements;
 ///     Note: EMVCo strongly recommends that cards be personalized with data element '5F2D' coded in lowercase, but that
 ///     terminals accept the data element whether it is coded in upper or lower case.
 /// </summary>
-public record LanguagePreference : DataElement<Alpha2LanguageCode[]>, IEqualityComparer<LanguagePreference>
+public record LanguagePreference : DataElement<Alpha2LanguageCode[]>
 {
     #region Static Metadata
 
@@ -125,23 +125,6 @@ public record LanguagePreference : DataElement<Alpha2LanguageCode[]>, IEqualityC
 
         return buffer.ToArray();
     }
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(LanguagePreference? x, LanguagePreference? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(LanguagePreference obj) => obj.GetHashCode();
 
     #endregion
 

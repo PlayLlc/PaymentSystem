@@ -1,6 +1,4 @@
-﻿using Play.Testing.Benchmarks;
-
-namespace Play.Codecs.Tests.Benchmarks.Hexadecimal;
+﻿namespace Play.Codecs.Tests.Benchmarks.Hexadecimal;
 
 public partial class HexadecimalBenchmarks
 {

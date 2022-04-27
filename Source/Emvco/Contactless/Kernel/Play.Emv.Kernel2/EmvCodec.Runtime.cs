@@ -5,11 +5,12 @@ using System.Reflection;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
+using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.DataElements.Display;
 using Play.Icc.FileSystem.DedicatedFiles;
 
-namespace Play.Emv.Ber;
+namespace Play.Emv.Kernel2;
 
 public class EmvRuntimeCodec : EmvCodec, IResolveKnownObjectsAtRuntime
 {

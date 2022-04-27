@@ -2,7 +2,7 @@
 
 using Play.Emv.Ber.Enums;
 
-namespace Play.Testing.Emv.Enums;
+namespace Play.Testing.Emv;
 
 public class MessageOnErrorIdentifiersBuilder : SpecimenBuilder
 {
