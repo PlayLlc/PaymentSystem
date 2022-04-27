@@ -82,10 +82,12 @@ public partial class BerCodec
 
     #region Encode Value
 
+    // DEPRECATING: This method will eventually be deprecated in favor of using strongly typed arguments instead of generic constraints
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     public byte[] EncodeValue(PlayEncodingId playEncodingId, dynamic value) => _ValueFactory.Encode(playEncodingId, value);
 
+    // DEPRECATING: This method will eventually be deprecated in favor of using strongly typed arguments instead of generic constraints
     public byte[] EncodeValue(PlayEncodingId playEncodingId, dynamic value, int length) => _ValueFactory.Encode(playEncodingId, value, length);
 
     // DEPRECATING: This method will eventually be deprecated in favor of using strongly typed arguments instead of generic constraints
