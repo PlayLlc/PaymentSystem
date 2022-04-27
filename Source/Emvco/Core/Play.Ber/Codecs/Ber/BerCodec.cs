@@ -71,6 +71,25 @@ public partial class BerCodec
     public Tag DecodeFirstTag(ReadOnlySpan<byte> value) => _TagLengthFactory.ParseFirst(value).GetTag();
 
     /// <summary>
+    ///     Decodes the first <see cref="TagLength" /> found in the argument provided
+    /// </summary>
+    /// <param name="value"></param>
+    /// <remarks>
+    ///     This is expected to be a BER encoded Tag-Length sequence
+    /// </remarks>
+    /// <returns>
+    ///     <see cref="TagLength" />
+    /// </returns>
+    /// <exception cref="BerParsingException"></exception>
+    public TagLength DecodeFirstTagLength(ReadOnlySpan<byte> value)
+    {
+        Tag tag = new(value);
+        Length length = Length.Parse(value[tag.GetByteCount()..]);
+
+        return new TagLength(tag, length);
+    }
+
+    /// <summary>
     ///     Parses a sequence of metadata containing concatenated Tag-Length values and returns an array of the Tag-Length
     ///     pairs.
     /// </summary>
@@ -153,25 +172,6 @@ public partial class BerCodec
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public EncodedTlvSiblings DecodeSiblings(ReadOnlyMemory<byte> value) => new(_TagLengthFactory.GetTagLengthArray(value.Span), value);
-
-    /// <summary>
-    ///     Decodes the first <see cref="TagLength" /> found in the argument provided
-    /// </summary>
-    /// <param name="value"></param>
-    /// <remarks>
-    ///     This is expected to be a BER encoded Tag-Length sequence
-    /// </remarks>
-    /// <returns>
-    ///     <see cref="TagLength" />
-    /// </returns>
-    /// <exception cref="BerParsingException"></exception>
-    public TagLength DecodeFirstTagLength(ReadOnlySpan<byte> value)
-    {
-        Tag tag = new(value);
-        Length length = Length.Parse(value[tag.GetByteCount()..]);
-
-        return new TagLength(tag, length);
-    }
 
     /// <exception cref="BerParsingException"></exception>
     public TagLengthValue DecodeTagLengthValue(ReadOnlySpan<byte> value)

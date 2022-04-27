@@ -27,44 +27,6 @@ internal sealed class ValueFactory
 
     #region Instance Members
 
-    /// <summary>
-    ///     GetByteCount
-    /// </summary>
-    /// <param name="playEncodingId"></param>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T value) where T : struct
-    {
-        if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
-        {
-            throw new BerParsingException(
-                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
-        }
-
-        return codec.GetByteCount(value);
-    }
-
-    /// <summary>
-    ///     GetByteCount
-    /// </summary>
-    /// <param name="playEncodingId"></param>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="BerParsingException"></exception>
-    public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T[] value) where T : struct
-    {
-        if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
-        {
-            throw new BerParsingException(
-                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
-        }
-
-        return _BerPrimitiveCodecMap[playEncodingId].GetByteCount(value);
-    }
-
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="BerParsingException"></exception>
     internal byte[] Encode<T>(PlayEncodingId playEncodingId, T value) where T : struct
@@ -146,6 +108,36 @@ internal sealed class ValueFactory
     internal byte[] EncodeValue(PlayEncodingId encodingId, TagLengthValue[] value)
     {
         return value.SelectMany(a => a.EncodeValue()).ToArray();
+    }
+
+    #endregion
+
+    #region Byte Count
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T value) where T : struct
+    {
+        if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
+        {
+            throw new BerParsingException(
+                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
+        }
+
+        return codec.GetByteCount(value);
+    }
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public ushort GetByteCount<T>(PlayEncodingId playEncodingId, T[] value) where T : struct
+    {
+        if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
+        {
+            throw new BerParsingException(
+                $"The value could not be decoded because there is not a {nameof(PlayCodec)} configured with the {nameof(PlayEncodingId)}: {playEncodingId}");
+        }
+
+        return _BerPrimitiveCodecMap[playEncodingId].GetByteCount(value);
     }
 
     #endregion
