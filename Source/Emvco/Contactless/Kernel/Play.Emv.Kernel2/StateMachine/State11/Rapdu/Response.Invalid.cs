@@ -104,7 +104,7 @@ public partial class WaitingForGenerateAcResponse2
                 if (!_Database.Get<IntegratedDataStorageStatus>(IntegratedDataStorageStatus.Tag).IsWriteSet())
                     return false;
 
-                _Database.Update(StatusOutcome.EndApplication);
+                _Database.Update(StatusOutcomes.EndApplication);
                 _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
                 _Database.SetIsDataRecordPresent(true);
                 _Database.CreateEmvDataRecord(_DataExchangeKernelService);
@@ -136,7 +136,7 @@ public partial class WaitingForGenerateAcResponse2
         {
             try
             {
-                _Database.Update(StatusOutcome.EndApplication);
+                _Database.Update(StatusOutcomes.EndApplication);
                 _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
                 _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
                 _Database.SetUiRequestOnOutcomePresent(true);

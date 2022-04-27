@@ -119,7 +119,7 @@ public class S3R1 : CommonProcessing
         _Database.Update(Level2Error.CardDataError);
         _Database.Update(MessageIdentifiers.CardError);
         _Database.Update(Statuses.NotReady);
-        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcomes.EndApplication);
         _Database.Update(MessageOnErrorIdentifiers.TryAgain);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _Database.GetErrorIndication());

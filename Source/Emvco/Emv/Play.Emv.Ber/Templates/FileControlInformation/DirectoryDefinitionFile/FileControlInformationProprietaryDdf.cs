@@ -8,7 +8,7 @@ using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.Templates;
 
-public class FileControlInformationProprietaryDdf : FileControlInformationProprietaryTemplate
+public record FileControlInformationProprietaryDdf : FileControlInformationProprietaryTemplate
 {
     #region Instance Values
 
@@ -20,8 +20,7 @@ public class FileControlInformationProprietaryDdf : FileControlInformationPropri
     #region Constructor
 
     public FileControlInformationProprietaryDdf(
-        FileControlInformationIssuerDiscretionaryDataDdf fileControlInformationIssuerDiscretionaryData,
-        ShortFileIdentifier shortFileIdentifier)
+        FileControlInformationIssuerDiscretionaryDataDdf fileControlInformationIssuerDiscretionaryData, ShortFileIdentifier shortFileIdentifier)
     {
         _FileControlInformationIssuerDiscretionaryDataAdf = fileControlInformationIssuerDiscretionaryData;
         _ShortFileIdentifier = shortFileIdentifier;
@@ -60,8 +59,7 @@ public class FileControlInformationProprietaryDdf : FileControlInformationPropri
     public static FileControlInformationProprietaryDdf Decode(EncodedTlvSiblings encodedChildren)
     {
         FileControlInformationIssuerDiscretionaryDataDdf fciProprietaryTemplate =
-            _Codec.AsConstructed(FileControlInformationIssuerDiscretionaryDataDdf.Decode,
-                FileControlInformationIssuerDiscretionaryDataDdf.Tag, encodedChildren)
+            _Codec.AsConstructed(FileControlInformationIssuerDiscretionaryDataDdf.Decode, FileControlInformationIssuerDiscretionaryDataDdf.Tag, encodedChildren)
             ?? throw new CardDataMissingException(
                 $"A problem occurred while decoding {nameof(FileControlInformationProprietaryDdf)}. A {nameof(FileControlInformationIssuerDiscretionaryDataDdf)} was expected but could not be found");
 
@@ -76,23 +74,6 @@ public class FileControlInformationProprietaryDdf : FileControlInformationPropri
 
     #region Equality
 
-    public override bool Equals(ConstructedValue? other) =>
-        other is FileControlInformationProprietaryDdf fileControlInformationProprietaryTemplate
-        && Equals(fileControlInformationProprietaryTemplate);
-
-    public bool Equals(FileControlInformationProprietaryDdf? other)
-    {
-        if (other == null)
-            return false;
-
-        return (other.GetTag() == Tag)
-            && _ShortFileIdentifier.Equals(other._ShortFileIdentifier)
-            && _FileControlInformationIssuerDiscretionaryDataAdf.Equals(other._FileControlInformationIssuerDiscretionaryDataAdf);
-    }
-
-    public override bool Equals(ConstructedValue? x, ConstructedValue? y) =>
-        x is FileControlInformationProprietaryDdf x1 && y is FileControlInformationProprietaryDdf y1 && x1.Equals(y1);
-
     public bool Equals(FileControlInformationProprietaryDdf? x, FileControlInformationProprietaryDdf? y)
     {
         if (x is null)
@@ -104,11 +85,6 @@ public class FileControlInformationProprietaryDdf : FileControlInformationPropri
         return x.Equals(y);
     }
 
-    public override bool Equals(object? obj) =>
-        obj is FileControlInformationProprietaryDdf fileControlInformationProprietaryTemplate
-        && Equals(fileControlInformationProprietaryTemplate);
-
-    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
     public int GetHashCode(FileControlInformationProprietaryTemplate obj) => obj.GetHashCode();
 
     public override int GetHashCode()

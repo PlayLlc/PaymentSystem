@@ -114,7 +114,7 @@ public class Outcome
 
     public FieldOffRequestOutcome GetFieldOffRequestOutcome() => _OutcomeParameterSet.GetFieldOffRequestOutcome();
     public StartOutcomes GetStartOutcome() => _OutcomeParameterSet.GetStartOutcome();
-    public StatusOutcome GetStatusOutcome() => _OutcomeParameterSet.GetStatusOutcome();
+    public StatusOutcomes GetStatusOutcome() => _OutcomeParameterSet.GetStatusOutcome();
     public Milliseconds GetTimeout() => _OutcomeParameterSet.GetTimeout();
     public ErrorIndication GetErrorIndication() => _ErrorIndication;
     public bool IsErrorPresent() => _ErrorIndication.IsErrorPresent();
@@ -122,7 +122,7 @@ public class Outcome
 
     // etc
     /// <summary>
-    ///     This flag indicates if the transaction should reprocess. The <see cref="StatusOutcome" /> will determine
+    ///     This flag indicates if the transaction should reprocess. The <see cref="StatusOutcomes" /> will determine
     ///     which Start Point the processing point enters
     /// </summary>
     /// <remarks>
@@ -130,23 +130,23 @@ public class Outcome
     /// </remarks>
     public bool IsRestartedByEntryPoint()
     {
-        StatusOutcome statusOutcome = _OutcomeParameterSet.GetStatusOutcome();
+        StatusOutcomes statusOutcomes = _OutcomeParameterSet.GetStatusOutcome();
 
-        if (statusOutcome == StatusOutcome.NotAvailable)
+        if (statusOutcomes == StatusOutcomes.NotAvailable)
             return false;
 
-        if (statusOutcome == StatusOutcome.TryAgain)
+        if (statusOutcomes == StatusOutcomes.TryAgain)
             return true;
 
-        if (statusOutcome == StatusOutcome.SelectNext)
+        if (statusOutcomes == StatusOutcomes.SelectNext)
             return true;
 
         return false;
     }
 
-    public bool IsSelectNext() => GetStatusOutcome() == StatusOutcome.SelectNext;
+    public bool IsSelectNext() => GetStatusOutcome() == StatusOutcomes.SelectNext;
     public TerminalVerificationResults GetTerminalVerificationResults() => _TerminalVerificationResults;
-    public bool IsTryAgain() => GetStatusOutcome() == StatusOutcome.TryAgain;
+    public bool IsTryAgain() => GetStatusOutcome() == StatusOutcomes.TryAgain;
     public bool IsUiRequestOnOutcomePresent() => _OutcomeParameterSet.IsUiRequestOnOutcomePresent();
     public bool IsUiRequestOnRestartPresent() => _OutcomeParameterSet.IsUiRequestOnRestartPresent();
 

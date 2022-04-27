@@ -32,11 +32,15 @@ public readonly struct EncodedTlvSiblings
 
     #region Constructor
 
+    internal EncodedTlvSiblings(Memory<TagLength>? siblingMetadata, ReadOnlyMemory<byte>? siblingEncodings)
+    {
+        _SiblingMetadata = siblingMetadata is null ? new Memory<TagLength>() : siblingMetadata!.Value;
+
+        _SiblingEncodings = siblingEncodings is null ? Array.Empty<byte>() : siblingEncodings!.Value;
+    }
+
     internal EncodedTlvSiblings(Memory<TagLength> siblingMetadata, ReadOnlyMemory<byte> siblingEncodings)
     {
-        CheckCore.ForEmptySequence(siblingMetadata, nameof(siblingMetadata));
-        CheckCore.ForEmptySequence(siblingEncodings, nameof(siblingEncodings));
-
         _SiblingMetadata = siblingMetadata;
         _SiblingEncodings = siblingEncodings;
     }
@@ -202,12 +206,9 @@ public readonly struct EncodedTlvSiblings
         {
             if (tag == _SiblingMetadata.Span[i].GetTag())
             {
-                int resultOffset = offset
-                    + _SiblingMetadata.Span[i].GetTag().GetByteCount()
-                    + _SiblingMetadata.Span[i].GetLength().GetByteCount();
+                int resultOffset = offset + _SiblingMetadata.Span[i].GetTag().GetByteCount() + _SiblingMetadata.Span[i].GetLength().GetByteCount();
 
-                encodedSibling = _SiblingEncodings[resultOffset..(resultOffset + _SiblingMetadata.Span[i].GetLength().GetContentLength())]
-                    .Span;
+                encodedSibling = _SiblingEncodings[resultOffset..(resultOffset + _SiblingMetadata.Span[i].GetLength().GetContentLength())].Span;
 
                 return true;
             }
@@ -227,9 +228,7 @@ public readonly struct EncodedTlvSiblings
         {
             if (tag == _SiblingMetadata.Span[i].GetTag())
             {
-                int resultOffset = offset
-                    + _SiblingMetadata.Span[i].GetTag().GetByteCount()
-                    + _SiblingMetadata.Span[i].GetLength().GetByteCount();
+                int resultOffset = offset + _SiblingMetadata.Span[i].GetTag().GetByteCount() + _SiblingMetadata.Span[i].GetLength().GetByteCount();
 
                 encodedSibling = _SiblingEncodings[resultOffset..(resultOffset + _SiblingMetadata.Span[i].GetLength().GetContentLength())];
 

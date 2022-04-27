@@ -45,7 +45,7 @@ public partial class WaitingForMagstripeFirstWriteFlag
             if (!session.Timer.IsTimedOut())
                 return false;
 
-            _Database.Update(StatusOutcome.EndApplication);
+            _Database.Update(StatusOutcomes.EndApplication);
             _Database.Update(Level3Error.TimeOut);
             _Database.Initialize(DiscretionaryData.Tag);
             _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);

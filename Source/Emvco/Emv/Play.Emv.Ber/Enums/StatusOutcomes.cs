@@ -4,12 +4,12 @@ using Play.Core;
 
 namespace Play.Emv.Ber.Enums;
 
-public record StatusOutcome : EnumObject<byte>
+public record StatusOutcomes : EnumObject<byte>
 {
     #region Static Metadata
 
-    public static readonly StatusOutcome Empty = new();
-    private static readonly ImmutableSortedDictionary<byte, StatusOutcome> _ValueObjectMap;
+    public static readonly StatusOutcomes Empty = new();
+    private static readonly ImmutableSortedDictionary<byte, StatusOutcomes> _ValueObjectMap;
 
     /// <summary>
     ///     The kernel is satisfied that the transaction is acceptable with the selected contactless card application
@@ -20,7 +20,7 @@ public record StatusOutcome : EnumObject<byte>
     ///     A Final Outcome. Will be returned to the terminal
     /// </remarks>
     /// <value>Decimal: 16; HexadecimalCodec: 0x10</value>
-    public static readonly StatusOutcome Approved;
+    public static readonly StatusOutcomes Approved;
 
     /// <summary>
     ///     The kernel has found that the transaction is not  acceptable with the selected contactless card application
@@ -31,7 +31,7 @@ public record StatusOutcome : EnumObject<byte>
     ///     A Final Outcome. Will be returned to the terminal
     /// </remarks>
     /// <value>Decimal: 32; HexadecimalCodec: 0x20</value>
-    public static readonly StatusOutcome Declined;
+    public static readonly StatusOutcomes Declined;
 
     /// <summary>
     ///     Any of the following
@@ -47,12 +47,12 @@ public record StatusOutcome : EnumObject<byte>
     ///     A Final Outcome. Will be returned to the terminal
     /// </remarks>
     /// <value>Decimal: 64; HexadecimalCodec: 0x40</value>
-    public static readonly StatusOutcome EndApplication;
+    public static readonly StatusOutcomes EndApplication;
 
     /// The status has not yet been set
     /// </summary>
     /// <value>Decimal: 0; HexadecimalCodec: 0x0</value>
-    public static readonly StatusOutcome NotAvailable;
+    public static readonly StatusOutcomes NotAvailable;
 
     /// <summary>
     ///     The transaction requires an online authorization to determine the approved or declined status. If the kernel
@@ -63,7 +63,7 @@ public record StatusOutcome : EnumObject<byte>
     ///     A Final Outcome. Will be returned to the terminal
     /// </remarks>
     /// <value>Decimal: 48; HexadecimalCodec: 0x30</value>
-    public static readonly StatusOutcome OnlineRequest;
+    public static readonly StatusOutcomes OnlineRequest;
 
     /// <summary>
     ///     The kernel has determined that the selected Combination is unsuitable and the next Combination (if any)
@@ -73,7 +73,7 @@ public record StatusOutcome : EnumObject<byte>
     ///     An Outcome. MainProcess will initiate processing again at Entry Point Start C
     /// </remarks>
     /// <value>Decimal: 80; HexadecimalCodec: 0x50</value>
-    public static readonly StatusOutcome SelectNext;
+    public static readonly StatusOutcomes SelectNext;
 
     /// <summary>
     ///     The kernel wishes that a card be presented  again; this may be a result of an error, such as  tearing,
@@ -84,7 +84,7 @@ public record StatusOutcome : EnumObject<byte>
     ///     An Outcome. MainProcess will initiate processing again at Entry Point Start B
     /// </remarks>
     /// <value>Decimal: 112; HexadecimalCodec: 0x70</value>
-    public static readonly StatusOutcome TryAgain;
+    public static readonly StatusOutcomes TryAgain;
 
     /// <summary>
     ///     The kernel, Entry Point or Issuer is unable to complete the transaction with the selected contactless card
@@ -95,7 +95,7 @@ public record StatusOutcome : EnumObject<byte>
     ///     A Final Outcome. Will be returned to the terminal
     /// </remarks>
     /// <value>Decimal: 96; HexadecimalCodec: 0x60</value>
-    public static readonly StatusOutcome TryAnotherInterface;
+    public static readonly StatusOutcomes TryAnotherInterface;
 
     #endregion
 
@@ -107,10 +107,10 @@ public record StatusOutcome : EnumObject<byte>
 
     #region Constructor
 
-    public StatusOutcome() : base()
+    public StatusOutcomes() : base()
     { }
 
-    static StatusOutcome()
+    static StatusOutcomes()
     {
         const byte notAvailable = 0;
         const byte approved = 16;
@@ -121,15 +121,15 @@ public record StatusOutcome : EnumObject<byte>
         const byte tryAnotherInterface = 96;
         const byte tryAgain = 112;
 
-        NotAvailable = new StatusOutcome(notAvailable);
-        Approved = new StatusOutcome(approved);
-        Declined = new StatusOutcome(declined);
-        EndApplication = new StatusOutcome(endApplication);
-        OnlineRequest = new StatusOutcome(onlineRequest);
-        SelectNext = new StatusOutcome(selectNext);
-        TryAgain = new StatusOutcome(tryAgain);
-        TryAnotherInterface = new StatusOutcome(tryAnotherInterface);
-        _ValueObjectMap = new Dictionary<byte, StatusOutcome>
+        NotAvailable = new StatusOutcomes(notAvailable);
+        Approved = new StatusOutcomes(approved);
+        Declined = new StatusOutcomes(declined);
+        EndApplication = new StatusOutcomes(endApplication);
+        OnlineRequest = new StatusOutcomes(onlineRequest);
+        SelectNext = new StatusOutcomes(selectNext);
+        TryAgain = new StatusOutcomes(tryAgain);
+        TryAnotherInterface = new StatusOutcomes(tryAnotherInterface);
+        _ValueObjectMap = new Dictionary<byte, StatusOutcomes>
         {
             {notAvailable, NotAvailable},
             {approved, Approved},
@@ -142,7 +142,7 @@ public record StatusOutcome : EnumObject<byte>
         }.ToImmutableSortedDictionary();
     }
 
-    private StatusOutcome(byte value) : base(value)
+    private StatusOutcomes(byte value) : base(value)
     {
         _Value = value;
     }
@@ -151,11 +151,11 @@ public record StatusOutcome : EnumObject<byte>
 
     #region Instance Members
 
-    public override StatusOutcome[] GetAll() => _ValueObjectMap.Values.ToArray();
+    public override StatusOutcomes[] GetAll() => _ValueObjectMap.Values.ToArray();
 
     public override bool TryGet(byte value, out EnumObject<byte>? result)
     {
-        if (_ValueObjectMap.TryGetValue(value, out StatusOutcome? enumResult))
+        if (_ValueObjectMap.TryGetValue(value, out StatusOutcomes? enumResult))
         {
             result = enumResult;
 
@@ -167,10 +167,10 @@ public record StatusOutcome : EnumObject<byte>
         return false;
     }
 
-    public static StatusOutcome Get(byte value)
+    public static StatusOutcomes Get(byte value)
     {
-        if (!_ValueObjectMap.TryGetValue(value, out StatusOutcome result))
-            throw new ArgumentOutOfRangeException($"The argument {nameof(value)} with a value of {value} is not a valid value for {nameof(StatusOutcome)}");
+        if (!_ValueObjectMap.TryGetValue(value, out StatusOutcomes result))
+            throw new ArgumentOutOfRangeException($"The argument {nameof(value)} with a value of {value} is not a valid value for {nameof(StatusOutcomes)}");
 
         return result;
     }
@@ -179,17 +179,17 @@ public record StatusOutcome : EnumObject<byte>
 
     #region Operator Overrides
 
-    public static bool operator ==(StatusOutcome left, byte right) => left._Value == right;
-    public static bool operator ==(byte left, StatusOutcome right) => left == right._Value;
-    public static explicit operator byte(StatusOutcome value) => value._Value;
-    public static explicit operator short(StatusOutcome value) => value._Value;
-    public static explicit operator ushort(StatusOutcome value) => value._Value;
-    public static explicit operator int(StatusOutcome value) => value._Value;
-    public static explicit operator uint(StatusOutcome value) => value._Value;
-    public static explicit operator long(StatusOutcome value) => value._Value;
-    public static explicit operator ulong(StatusOutcome value) => value._Value;
-    public static bool operator !=(StatusOutcome left, byte right) => !(left == right);
-    public static bool operator !=(byte left, StatusOutcome right) => !(left == right);
+    public static bool operator ==(StatusOutcomes left, byte right) => left._Value == right;
+    public static bool operator ==(byte left, StatusOutcomes right) => left == right._Value;
+    public static explicit operator byte(StatusOutcomes value) => value._Value;
+    public static explicit operator short(StatusOutcomes value) => value._Value;
+    public static explicit operator ushort(StatusOutcomes value) => value._Value;
+    public static explicit operator int(StatusOutcomes value) => value._Value;
+    public static explicit operator uint(StatusOutcomes value) => value._Value;
+    public static explicit operator long(StatusOutcomes value) => value._Value;
+    public static explicit operator ulong(StatusOutcomes value) => value._Value;
+    public static bool operator !=(StatusOutcomes left, byte right) => !(left == right);
+    public static bool operator !=(byte left, StatusOutcomes right) => !(left == right);
 
     #endregion
 }

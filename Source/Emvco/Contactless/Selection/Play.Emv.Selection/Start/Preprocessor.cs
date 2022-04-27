@@ -34,7 +34,7 @@ public class Preprocessor
         if (preProcessingIndicators.Any(a => !a.Value.ContactlessApplicationNotAllowed))
             return;
 
-        outcomeParameterSetBuilder.Set(StatusOutcome.TryAnotherInterface);
+        outcomeParameterSetBuilder.Set(StatusOutcomes.TryAnotherInterface);
         outcomeParameterSetBuilder.SetIsUiRequestOnOutcomePresent(true);
         outcomeParameterSetBuilder.SetIsUiRequestOnRestartPresent(false);
         outcomeParameterSetBuilder.SetIsDataRecordPresent(false);

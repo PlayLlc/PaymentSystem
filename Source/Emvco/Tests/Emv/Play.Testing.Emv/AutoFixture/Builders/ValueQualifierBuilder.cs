@@ -1,5 +1,6 @@
 ﻿using AutoFixture.Kernel;
 
+using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.ValueTypes;
 using Play.Icc.Exceptions;
 
@@ -25,10 +26,10 @@ public class ValueQualifierBuilder : SpecimenBuilder
         if (type == null)
             return new NoSpecimen();
 
-        if (type != typeof(ValueQualifier))
+        if (type != typeof(ValueQualifiers))
             return new NoSpecimen();
 
-        ValueQualifier[] all = ValueQualifier.GetAll();
+        ValueQualifiers[] all = ValueQualifiers.Empty.GetAll();
 
         return all[new Random().Next(0, all.Length - 1)];
     }

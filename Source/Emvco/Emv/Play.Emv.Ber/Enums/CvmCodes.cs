@@ -121,15 +121,6 @@ public record CvmCodes : EnumObject<byte>
         return false;
     }
 
-    /// <exception cref="InvalidOperationException"></exception>
-    public static CvmCodes Get(CvmCode cvmCode)
-    {
-        if (_ValueObjectMap.TryGetValue(((byte) cvmCode).GetMaskedValue(_UnrelatedBits), out CvmCodes? result))
-            throw new InvalidOperationException($"The {nameof(cvmCode)} with the value: [{cvmCode}] could not be recognized");
-
-        return result!;
-    }
-
     public static bool Exists(byte value) => _ValueObjectMap.ContainsKey(value);
     public static bool Exists(CvmCode value) => _ValueObjectMap.ContainsKey((byte) value);
 

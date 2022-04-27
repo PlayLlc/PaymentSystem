@@ -76,7 +76,7 @@ public partial class WaitingForGpoResponse : KernelState
         _Database.Update(MessageIdentifiers.TryAgain);
         _Database.Update(Statuses.ReadyToRead);
         _Database.Update(new MessageHoldTime(0));
-        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcomes.EndApplication);
         _Database.Update(StartOutcomes.B);
         _Database.SetUiRequestOnRestartPresent(true);
         _Database.Update(signal.GetLevel1Error());
@@ -102,7 +102,7 @@ public partial class WaitingForGpoResponse : KernelState
 
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Statuses.NotReady);
-        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcomes.EndApplication);
         _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.StatusBytes);
         _Database.Update(signal.GetStatusWords());
@@ -192,7 +192,7 @@ public partial class WaitingForGpoResponse : KernelState
         _Database.Update(level2Error);
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Statuses.NotReady);
-        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcomes.EndApplication);
         _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _DataExchangeKernelService.Enqueue(DekResponseType.DiscretionaryData, _Database.GetErrorIndication());
@@ -251,7 +251,7 @@ public partial class WaitingForGpoResponse : KernelState
     {
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Statuses.NotReady);
-        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcomes.EndApplication);
         _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.ParsingError);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);

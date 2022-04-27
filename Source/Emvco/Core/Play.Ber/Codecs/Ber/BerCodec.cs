@@ -44,78 +44,6 @@ public partial class BerCodec
     #region Instance Members
 
     /// <summary>
-    ///     Decodes the first <see cref="TagLength" /> found in the
-    ///     <param name="value"></param>
-    /// </summary>
-    /// <param name="value"></param>
-    /// <remarks>
-    ///     This is expected to be a BER encoded Tag-Length sequence
-    /// </remarks>
-    /// <returns>
-    ///     <see cref="TagLength" />
-    /// </returns>
-    /// <exception cref="BerParsingException"></exception>
-    public TagLength DecodeTagLength(ReadOnlySpan<byte> value)
-    {
-        Tag tag = new(value);
-        Length length = Length.Parse(value[tag.GetByteCount()..]);
-
-        return new TagLength(tag, length);
-    }
-
-    /// <summary>
-    ///     DecodeTagLengthValue
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="BerParsingException"></exception>
-    public TagLengthValue DecodeTagLengthValue(ReadOnlySpan<byte> value)
-    {
-        Tag tag = new(value);
-        Length length = Length.Parse(value[tag.GetByteCount()..]);
-
-        return new TagLengthValue(tag, value[(tag.GetByteCount() + length.GetByteCount())..]);
-    }
-
-    public Tag DecodeTag(ReadOnlySpan<byte> value) => new(value);
-
-    /// <summary>
-    ///     DecodeTagLengthValues
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="BerParsingException"></exception>
-    public TagLengthValue[] DecodeTagLengthValues(ReadOnlyMemory<byte> value) => DecodeTagLengthValues(value.Span);
-
-    /// <exception cref="BerParsingException"></exception>
-    public TagLengthValue[] DecodeConstructedTagLengthValues(ReadOnlyMemory<byte> value)
-    {
-        return DecodeTagLengthValues(value).Where(a => a.GetTag().IsConstructed()).ToArray();
-    }
-
-    /// <summary>
-    ///     DecodeTagLengthValues
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    public TagLengthValue[] DecodeTagLengthValues(ReadOnlySpan<byte> value)
-    {
-        TagLength[]? tagLengthArray = _TagLengthFactory.GetTagLengthArray(value);
-
-        if (tagLengthArray.Length == 0)
-            return Array.Empty<TagLengthValue>();
-
-        TagLengthValue[] result = new TagLengthValue[tagLengthArray.Length];
-
-        for (int i = 0, j = 0; i < tagLengthArray.Length; i++)
-            result[i] = new TagLengthValue(tagLengthArray[i].GetTag(), value[j..tagLengthArray[i].GetLength().GetByteCount()]);
-
-        return result;
-    }
-
-    /// <summary>
     ///     Decodes the first <see cref="Tag" /> found in the
     ///     <param name="value"></param>
     /// </summary>
@@ -125,15 +53,13 @@ public partial class BerCodec
     /// </returns>
     public uint GetFirstTag(ReadOnlySpan<byte> value) => _TagLengthFactory.ParseFirst(value).GetTag();
 
-    public byte[] GetContentOctets(ReadOnlySpan<byte> value) =>
-        value[_TagLengthFactory.ParseFirst(value).GetTagLengthByteCount()..].ToArray();
+    public byte[] GetContentOctets(ReadOnlySpan<byte> value) => value[_TagLengthFactory.ParseFirst(value).GetTagLengthByteCount()..].ToArray();
 
     private byte[] EncodeEmptyDataObject(IEncodeBerDataObjects value)
     {
-        Span<byte> result = stackalloc byte[Tag.GetByteCount(value) + 1];
-        Tag.Serialize(value).AsSpan().CopyTo(result);
+        TagLength tagLength = new(value.GetTag(), Array.Empty<byte>());
 
-        return result.ToArray();
+        return tagLength.Encode();
     }
 
     /// <summary>
@@ -142,7 +68,6 @@ public partial class BerCodec
     /// </summary>
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="InternalEmvEncodingException"></exception>
     /// <remarks>
     ///     This method expects that the argument provided will only contain Tag-Length pairs. It will
     ///     not handle a sequence of Tag-Length-Value
@@ -244,6 +169,83 @@ public partial class BerCodec
             return EncodeValue(setOfValues);
 
         throw new BerParsingException("This exception should never be thrown");
+    }
+
+    #endregion
+
+    #region Decode
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    public EncodedTlvSiblings DecodeChildren(ReadOnlyMemory<byte> value)
+    {
+        TagLength tagLength = _TagLengthFactory.ParseFirst(value.Span);
+
+        return DecodeSiblings(value[tagLength.GetValueOffset()..]);
+    }
+
+    public EncodedTlvSiblings DecodeSiblings(ReadOnlyMemory<byte> value) => new EncodedTlvSiblings(_TagLengthFactory.GetTagLengthArray(value.Span), value);
+
+    /// <summary>
+    ///     Decodes the first <see cref="TagLength" /> found in the
+    ///     <param name="value"></param>
+    /// </summary>
+    /// <param name="value"></param>
+    /// <remarks>
+    ///     This is expected to be a BER encoded Tag-Length sequence
+    /// </remarks>
+    /// <returns>
+    ///     <see cref="TagLength" />
+    /// </returns>
+    /// <exception cref="BerParsingException"></exception>
+    public TagLength DecodeTagLength(ReadOnlySpan<byte> value)
+    {
+        Tag tag = new(value);
+        Length length = Length.Parse(value[tag.GetByteCount()..]);
+
+        return new TagLength(tag, length);
+    }
+
+    /// <summary>
+    ///     DecodeTagLengthValue
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="BerParsingException"></exception>
+    public TagLengthValue DecodeTagLengthValue(ReadOnlySpan<byte> value)
+    {
+        Tag tag = new(value);
+        Length length = Length.Parse(value[tag.GetByteCount()..]);
+
+        return new TagLengthValue(tag, value[(tag.GetByteCount() + length.GetByteCount())..]);
+    }
+
+    public Tag DecodeTag(ReadOnlySpan<byte> value) => new(value);
+
+    /// <exception cref="BerParsingException"></exception>
+    public TagLengthValue[] DecodeTagLengthValues(ReadOnlyMemory<byte> value) => DecodeTagLengthValues(value.Span);
+
+    /// <exception cref="BerParsingException"></exception>
+    public TagLengthValue[] DecodeConstructedTagLengthValues(ReadOnlyMemory<byte> value)
+    {
+        return DecodeTagLengthValues(value).Where(a => a.GetTag().IsConstructed()).ToArray();
+    }
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    public TagLengthValue[] DecodeTagLengthValues(ReadOnlySpan<byte> value)
+    {
+        TagLength[]? tagLengthArray = _TagLengthFactory.GetTagLengthArray(value);
+
+        if (tagLengthArray.Length == 0)
+            return Array.Empty<TagLengthValue>();
+
+        TagLengthValue[] result = new TagLengthValue[tagLengthArray.Length];
+
+        for (int i = 0, j = 0; i < tagLengthArray.Length; i++)
+            result[i] = new TagLengthValue(tagLengthArray[i].GetTag(), value[j..tagLengthArray[i].GetLength().GetByteCount()]);
+
+        return result;
     }
 
     #endregion

@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Play.Ber.Identifiers
+namespace Play.Ber.Identifiers;
+
+public class TagComparer : IComparer<Tag>
 {
-    public class TagComparer : IComparer<Tag>
-    {
-        #region Instance Members
+    #region Instance Members
 
-        public int Compare(Tag x, Tag y) => x.CompareTo(y);
+    public int Compare(Tag x, Tag y) => x.CompareTo(y);
 
-        #endregion
-    }
+    #endregion
 }

@@ -6,7 +6,7 @@ using Play.Icc.Messaging.Apdu;
 
 namespace Play.Emv.Ber.Templates;
 
-public abstract class ResponseMessageTemplate : Template
+public abstract record ResponseMessageTemplate : Template
 {
     #region Static Metadata
 

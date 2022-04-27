@@ -153,7 +153,7 @@ public partial class WaitingForGenerateAcResponse2
             _Database.Update(MessageIdentifiers.TryAgain);
             _Database.Update(Statuses.ReadyToRead);
             _Database.Update(MessageHoldTime.MinimumValue);
-            _Database.Update(StatusOutcome.EndApplication);
+            _Database.Update(StatusOutcomes.EndApplication);
             _Database.Update(StartOutcomes.B);
             _Database.SetUiRequestOnRestartPresent(true);
             _Database.Update(rapdu.GetLevel1Error());

@@ -3,7 +3,7 @@ using Play.Ber.Identifiers;
 
 namespace Play.Emv.Ber.Templates;
 
-public abstract class FileControlInformationIssuerDiscretionaryDataTemplate : Template
+public abstract record FileControlInformationIssuerDiscretionaryDataTemplate : Template
 {
     #region Static Metadata
 

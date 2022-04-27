@@ -102,7 +102,7 @@ public class CombinationSelector
             OutcomeParameterSet.Builder builder = OutcomeParameterSet.GetBuilder();
             UserInterfaceRequestData.Builder? userInterfaceRequestDataBuilder = UserInterfaceRequestData.GetBuilder();
 
-            builder.Set(StatusOutcome.EndApplication);
+            builder.Set(StatusOutcomes.EndApplication);
             builder.SetIsUiRequestOnOutcomePresent(true);
 
             userInterfaceRequestDataBuilder.Set(MessageIdentifiers.ErrorUseAnotherCard);

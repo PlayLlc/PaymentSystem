@@ -2,7 +2,7 @@
 
 using Play.Emv.Ber.Enums;
 
-namespace Play.Testing.Emv;
+namespace Play.Testing.Emv.Enums;
 
 public class StatusBuilder : SpecimenBuilder
 {

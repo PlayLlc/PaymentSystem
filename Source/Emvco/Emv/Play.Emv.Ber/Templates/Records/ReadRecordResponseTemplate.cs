@@ -5,7 +5,7 @@ using Play.Ber.InternalFactories;
 
 namespace Play.Emv.Ber.Templates;
 
-public abstract class ReadRecordResponseTemplate : Template
+public abstract record ReadRecordResponseTemplate : Template
 {
     #region Static Metadata
 

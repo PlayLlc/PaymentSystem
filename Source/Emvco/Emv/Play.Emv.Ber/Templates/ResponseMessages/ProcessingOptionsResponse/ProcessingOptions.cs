@@ -8,7 +8,7 @@ using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.Templates;
 
-public class ProcessingOptions : ResponseMessageTemplate
+public record ProcessingOptions : ResponseMessageTemplate
 {
     #region Static Metadata
 
@@ -39,11 +39,9 @@ public class ProcessingOptions : ResponseMessageTemplate
     /// <exception cref="CodecParsingException"></exception>
     public ProcessingOptions(TagLengthValue[] values)
     {
-        _ApplicationFileLocator =
-            ApplicationFileLocator.Decode(values.First(a => a.GetTag() == ApplicationFileLocator.Tag).EncodeValue().AsMemory());
+        _ApplicationFileLocator = ApplicationFileLocator.Decode(values.First(a => a.GetTag() == ApplicationFileLocator.Tag).EncodeValue().AsMemory());
         _ApplicationInterchangeProfile =
-            ApplicationInterchangeProfile.Decode(
-                values.First(a => a.GetTag() == ApplicationInterchangeProfile.Tag).EncodeValue().AsMemory());
+            ApplicationInterchangeProfile.Decode(values.First(a => a.GetTag() == ApplicationInterchangeProfile.Tag).EncodeValue().AsMemory());
     }
 
     #endregion
@@ -70,8 +68,7 @@ public class ProcessingOptions : ResponseMessageTemplate
     /// <exception cref="CodecParsingException"></exception>
     private static ProcessingOptions Decode(EncodedTlvSiblings encodedTlvSiblings)
     {
-        ApplicationFileLocator applicationFileLocator =
-            _Codec.AsPrimitive(ApplicationFileLocator.Decode, ApplicationFileLocator.Tag, encodedTlvSiblings)
+        ApplicationFileLocator applicationFileLocator = _Codec.AsPrimitive(ApplicationFileLocator.Decode, ApplicationFileLocator.Tag, encodedTlvSiblings)
             ?? throw new CardDataMissingException(
                 $"A problem occurred while decoding {nameof(ProcessingOptions)}. A {nameof(ApplicationFileLocator)} was expected but could not be found");
 
@@ -87,26 +84,7 @@ public class ProcessingOptions : ResponseMessageTemplate
 
     #region Equality
 
-    public override bool Equals(object? obj) => obj is ProcessingOptions processingOptions && Equals(processingOptions);
-
-    public override bool Equals(ConstructedValue? x, ConstructedValue? y)
-    {
-        if (x == null)
-            return y == null;
-
-        if (y == null)
-            return false;
-
-        return x.Equals(y);
-    }
-
     public bool Equals(ProcessingOptions x, ProcessingOptions y) => x.Equals(y);
-
-    public bool Equals(ProcessingOptions other) =>
-        _ApplicationFileLocator.Equals(other._ApplicationFileLocator)
-        && _ApplicationInterchangeProfile.Equals(other._ApplicationInterchangeProfile);
-
-    public override bool Equals(ConstructedValue? other) => other is ProcessingOptions processingOptions && Equals(processingOptions);
 
     public override int GetHashCode()
     {
@@ -115,8 +93,6 @@ public class ProcessingOptions : ResponseMessageTemplate
             return _ApplicationFileLocator.GetHashCode() + _ApplicationInterchangeProfile.GetHashCode();
         }
     }
-
-    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
 
     #endregion
 }

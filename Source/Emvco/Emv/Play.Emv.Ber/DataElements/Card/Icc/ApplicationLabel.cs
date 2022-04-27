@@ -33,6 +33,17 @@ public record ApplicationLabel : DataElement<char[]>, IEqualityComparer<Applicat
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
 
+    public static bool StaticEquals(ApplicationLabel? x, ApplicationLabel? y)
+    {
+        if (x is null)
+            return y is null;
+
+        if (y is null)
+            return false;
+
+        return x.Equals(y);
+    }
+
     #endregion
 
     #region Serialization

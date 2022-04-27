@@ -59,7 +59,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
     public FieldOffRequestOutcome GetFieldOffRequestOutcome() => new((byte) (_Value >> _FieldOffRequestOutcomeOffset));
     public OnlineResponseOutcome GetOnlineResponseOutcome() => OnlineResponseOutcome.Get((byte) (_Value >> _OnlineResponseOutcomeOffset));
     public StartOutcomes GetStartOutcome() => StartOutcomes.Get((byte) (_Value >> _StartOutcomeOffset));
-    public StatusOutcome GetStatusOutcome() => StatusOutcome.Get((byte) (_Value >> _StatusOutcomeOffset));
+    public StatusOutcomes GetStatusOutcome() => StatusOutcomes.Get((byte) (_Value >> _StatusOutcomeOffset));
     public override Tag GetTag() => Tag;
 
     public Milliseconds GetTimeout()
@@ -136,7 +136,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
         internal Builder()
         {
             // Initialize all values as their default values
-            Set(StatusOutcome.NotAvailable);
+            Set(StatusOutcomes.NotAvailable);
             Set(StartOutcomes.NotAvailable);
             Set(OnlineResponseOutcome.NotAvailable);
             Set(CvmPerformedOutcome.NotAvailable);
@@ -153,7 +153,7 @@ public record OutcomeParameterSet : DataElement<ulong>, IEqualityComparer<Outcom
             _Value = value._Value;
         }
 
-        public void Set(StatusOutcome bitsToSet)
+        public void Set(StatusOutcomes bitsToSet)
         {
             _Value.ClearBits((ulong) byte.MaxValue << _StatusOutcomeOffset);
             _Value |= (ulong) bitsToSet << _StatusOutcomeOffset;

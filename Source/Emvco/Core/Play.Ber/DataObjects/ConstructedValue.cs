@@ -8,8 +8,7 @@ using Play.Ber.Lengths;
 
 namespace Play.Ber.DataObjects;
 
-public abstract class ConstructedValue : IEncodeBerDataObjects, IRetrieveConstructedValueMetadata, IEqualityComparer<ConstructedValue>,
-    IEquatable<ConstructedValue>
+public abstract record ConstructedValue : IEncodeBerDataObjects, IRetrieveConstructedValueMetadata
 {
     #region Instance Members
 
@@ -52,14 +51,6 @@ public abstract class ConstructedValue : IEncodeBerDataObjects, IRetrieveConstru
     /// <param name="codec"></param>
     /// <returns></returns>
     public abstract byte[] EncodeTagLengthValue(BerCodec codec);
-
-    #endregion
-
-    #region Equality
-
-    public abstract bool Equals(ConstructedValue? x, ConstructedValue? y);
-    public abstract bool Equals(ConstructedValue? other);
-    public abstract int GetHashCode(ConstructedValue obj);
 
     #endregion
 }

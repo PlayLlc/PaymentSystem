@@ -80,7 +80,7 @@ public abstract class KernelState : IGetKernelStateId
     /// <exception cref="InvalidOperationException"></exception>
     private void HandleBerEncodingException(CorrelationId correlationId, KernelSessionId kernelSessionId)
     {
-        _Database.Update(StatusOutcome.SelectNext);
+        _Database.Update(StatusOutcomes.SelectNext);
         _Database.Update(StartOutcomes.C);
 
         _KernelEndpoint.Send(new OutKernelResponse(correlationId, kernelSessionId, _Database.GetOutcome()));

@@ -94,7 +94,7 @@ internal partial class S910
         {
             try
             {
-                _Database.Update(StatusOutcome.EndApplication);
+                _Database.Update(StatusOutcomes.EndApplication);
                 _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
                 _Database.SetIsDataRecordPresent(true);
                 _Database.CreateEmvDataRecord(_DataExchangeKernelService);
@@ -124,7 +124,7 @@ internal partial class S910
         {
             try
             {
-                _Database.Update(StatusOutcome.EndApplication);
+                _Database.Update(StatusOutcomes.EndApplication);
                 _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
                 _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
                 _Database.SetUiRequestOnOutcomePresent(true);

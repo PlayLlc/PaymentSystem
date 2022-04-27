@@ -2,7 +2,7 @@
 
 namespace Play.Emv.Ber.Templates;
 
-public abstract class FileControlInformationProprietaryTemplate : Template
+public abstract record FileControlInformationProprietaryTemplate : Template
 {
     #region Static Metadata
 

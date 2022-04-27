@@ -8,7 +8,7 @@ using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.Templates;
 
-public class FileControlInformationProprietaryAdf : FileControlInformationProprietaryTemplate
+public record FileControlInformationProprietaryAdf : FileControlInformationProprietaryTemplate
 {
     #region Instance Values
 
@@ -118,17 +118,6 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
 
     protected override IEncodeBerDataObjects?[] GetChildren()
     {
-        /*
-         * 
-    private readonly FileControlInformationIssuerDiscretionaryDataAdf _FileControlInformationIssuerDiscretionaryDataAdf;
-    private readonly ApplicationLabel? _ApplicationLabel;
-    private readonly ApplicationPreferredName? _ApplicationPreferredName;
-    private readonly ApplicationPriorityIndicator? _ApplicationPriorityIndicator;
-    private readonly IssuerCodeTableIndex? _IssuerCodeTableIndex;
-    private readonly LanguagePreference? _LanguagePreference;
-    private readonly ProcessingOptionsDataObjectList? _ProcessingOptionsDataObjectList;
-         */
-
         return new IEncodeBerDataObjects?[]
         {
             _ApplicationLabel, _ApplicationPreferredName, _ApplicationPriorityIndicator, _FileControlInformationIssuerDiscretionaryDataAdf,
@@ -148,11 +137,10 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
     /// <exception cref="CodecParsingException"></exception>
     public static FileControlInformationProprietaryAdf Decode(EncodedTlvSiblings encodedChildren)
     {
-        FileControlInformationIssuerDiscretionaryDataAdf fciProprietaryTemplate = _Codec.AsConstructed(FileControlInformationIssuerDiscretionaryDataAdf.Decode,
-            FileControlInformationIssuerDiscretionaryDataAdf.Tag, encodedChildren);
-
-        //?? throw new CardDataMissingException(
-        //    $"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataAdf)}. A {nameof(FileControlInformationIssuerDiscretionaryDataAdf)} was expected but could not be found");
+        FileControlInformationIssuerDiscretionaryDataAdf fciProprietaryTemplate =
+            _Codec.AsConstructed(FileControlInformationIssuerDiscretionaryDataAdf.Decode, FileControlInformationIssuerDiscretionaryDataAdf.Tag, encodedChildren)
+            ?? throw new CardDataMissingException(
+                $"A problem occurred while decoding {nameof(FileControlInformationIssuerDiscretionaryDataAdf)}. A {nameof(FileControlInformationIssuerDiscretionaryDataAdf)} was expected but could not be found");
 
         ApplicationLabel? applicationLabel = null;
         ApplicationPreferredName? applicationPreferredName = null;
@@ -187,71 +175,6 @@ public class FileControlInformationProprietaryAdf : FileControlInformationPropri
 
         return new FileControlInformationProprietaryAdf(fciProprietaryTemplate, applicationLabel, applicationPriorityIndicator, processingOptionsDataObjectList,
             languagePreference, issuerCodeTableIndex, applicationPreferredName);
-    }
-
-    #endregion
-
-    #region Equality
-
-    public override bool Equals(ConstructedValue? other) =>
-        other is FileControlInformationProprietaryAdf fileControlInformationProprietaryTemplate && Equals(fileControlInformationProprietaryTemplate);
-
-    public bool Equals(FileControlInformationProprietaryAdf? other)
-    {
-        if (other == null)
-            return false;
-
-        if (!ApplicationPreferredName.StaticEquals(_ApplicationPreferredName, other._ApplicationPreferredName))
-            return false;
-        if (!ApplicationPriorityIndicator.StaticEquals(_ApplicationPriorityIndicator, other._ApplicationPriorityIndicator))
-            return false;
-        if (!IssuerCodeTableIndex.StaticEquals(_IssuerCodeTableIndex, other._IssuerCodeTableIndex))
-            return false;
-        if (!LanguagePreference.StaticEquals(_LanguagePreference, other._LanguagePreference))
-            return false;
-        if (!ProcessingOptionsDataObjectList.StaticEquals(_ProcessingOptionsDataObjectList, other._ProcessingOptionsDataObjectList))
-            return false;
-
-        return (other.GetTag() == Tag)
-            && _ApplicationLabel.Equals(other._ApplicationLabel)
-            && _FileControlInformationIssuerDiscretionaryDataAdf.Equals(other._FileControlInformationIssuerDiscretionaryDataAdf);
-    }
-
-    public override bool Equals(ConstructedValue? x, ConstructedValue? y) =>
-        x is FileControlInformationProprietaryAdf x1 && y is FileControlInformationProprietaryAdf y1 && x1.Equals(y1);
-
-    public bool Equals(FileControlInformationProprietaryAdf? x, FileControlInformationProprietaryAdf? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public override bool Equals(object? obj) =>
-        obj is FileControlInformationProprietaryAdf fileControlInformationProprietaryTemplate && Equals(fileControlInformationProprietaryTemplate);
-
-    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
-    public int GetHashCode(FileControlInformationProprietaryTemplate obj) => obj.GetHashCode();
-
-    public override int GetHashCode()
-    {
-        const int hash = 164267;
-
-        unchecked
-        {
-            int result = GetTag().GetHashCode() * hash;
-
-            return (_ApplicationLabel.GetHashCode()
-                    + _FileControlInformationIssuerDiscretionaryDataAdf.GetHashCode()
-                    + _ApplicationPreferredName?.GetHashCode())
-                ?? (0 + _ApplicationPriorityIndicator?.GetHashCode())
-                ?? (0 + _IssuerCodeTableIndex?.GetHashCode())
-                ?? (0 + _LanguagePreference?.GetHashCode()) ?? (0 + _ProcessingOptionsDataObjectList?.GetHashCode()) ?? 0;
-        }
     }
 
     #endregion

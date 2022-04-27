@@ -96,7 +96,7 @@ public class OutcomeProcessor : IProcessOutcome
     /// </remarks>
     protected void HandleTryAgainStatus(Transaction transaction)
     {
-        if (transaction.GetOutcome().GetStatusOutcome() == StatusOutcome.SelectNext)
+        if (transaction.GetOutcome().GetStatusOutcome() == StatusOutcomes.SelectNext)
             _SelectionEndpoint.Request(new ActivateSelectionRequest(transaction));
     }
 

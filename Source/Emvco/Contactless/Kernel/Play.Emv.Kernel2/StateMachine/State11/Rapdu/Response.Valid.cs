@@ -83,7 +83,7 @@ public partial class WaitingForGenerateAcResponse2
         /// <exception cref="TerminalDataException"></exception>
         private void PrepareOutcomeParameterSetForPcii()
         {
-            _Database.Update(StatusOutcome.EndApplication);
+            _Database.Update(StatusOutcomes.EndApplication);
             _Database.Update(StartOutcomes.B);
         }
 
@@ -134,12 +134,12 @@ public partial class WaitingForGenerateAcResponse2
         /// <exception cref="TerminalDataException"></exception>
         private void PrepareOutcomeForTransactionCryptogram()
         {
-            _Database.Update(StatusOutcome.Approved);
+            _Database.Update(StatusOutcomes.Approved);
             _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
 
             if (_Database.TryGet(BalanceReadAfterGenAc.Tag, out BalanceReadAfterGenAc? balanceReadAfterGenAc))
             {
-                _Database.Update(ValueQualifier.Balance);
+                _Database.Update(ValueQualifiers.Balance);
                 _Database.Update(balanceReadAfterGenAc!);
 
                 if (_Database.TryGet(ApplicationCurrencyCode.Tag, out ApplicationCurrencyCode? currencyCode))
@@ -160,7 +160,7 @@ public partial class WaitingForGenerateAcResponse2
         /// <exception cref="TerminalDataException"></exception>
         private void PrepareOutcomeForApplicationRequestCryptogram()
         {
-            _Database.Update(StatusOutcome.OnlineRequest);
+            _Database.Update(StatusOutcomes.OnlineRequest);
             _Database.Update(MessageHoldTime.MinimumValue);
             _Database.Update(MessageIdentifiers.AuthorizingPleaseWait);
         }
@@ -185,40 +185,40 @@ public partial class WaitingForGenerateAcResponse2
 
             if (!_Database.IsIcWithContactsSupported())
             {
-                _Database.Update(StatusOutcome.Declined);
+                _Database.Update(StatusOutcomes.Declined);
 
                 return;
             }
 
             if (!_Database.TryGet(ThirdPartyData.Tag, out ThirdPartyData? thirdPartyData))
             {
-                _Database.Update(StatusOutcome.TryAnotherInterface);
+                _Database.Update(StatusOutcomes.TryAnotherInterface);
 
                 return;
             }
 
             if (!thirdPartyData!.GetUniqueIdentifier().IsBitSet(16))
             {
-                _Database.Update(StatusOutcome.TryAnotherInterface);
+                _Database.Update(StatusOutcomes.TryAnotherInterface);
 
                 return;
             }
 
             if (thirdPartyData.TryGetDeviceType(out ushort? deviceType))
             {
-                _Database.Update(StatusOutcome.TryAnotherInterface);
+                _Database.Update(StatusOutcomes.TryAnotherInterface);
 
                 return;
             }
 
             if (deviceType == DeviceTypes.Card)
             {
-                _Database.Update(StatusOutcome.TryAnotherInterface);
+                _Database.Update(StatusOutcomes.TryAnotherInterface);
 
                 return;
             }
 
-            _Database.Update(StatusOutcome.Declined);
+            _Database.Update(StatusOutcomes.Declined);
         }
 
         #endregion

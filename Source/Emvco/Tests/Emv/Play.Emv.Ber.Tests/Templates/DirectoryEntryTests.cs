@@ -6,7 +6,7 @@ using Xunit;
 
 using DirectoryEntry = Play.Emv.Ber.Templates.DirectoryEntry;
 
-namespace Play.Emv.Ber.Tests.Templates.FileControlInformation;
+namespace Play.Emv.Ber.Tests.Templates;
 
 public class DirectoryEntryTests
 {

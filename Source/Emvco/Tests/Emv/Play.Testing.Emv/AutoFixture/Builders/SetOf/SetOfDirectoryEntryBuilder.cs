@@ -1,6 +1,7 @@
 ﻿using AutoFixture.Kernel;
 
 using Play.Ber.DataObjects;
+using Play.Emv.Ber.Enums;
 using Play.Emv.Ber.Templates;
 using Play.Emv.Ber.ValueTypes;
 using Play.Icc.Exceptions;
@@ -30,7 +31,7 @@ public class SetOfDirectoryEntryBuilder : SpecimenBuilder
         if (type != typeof(SetOf<DirectoryEntry>))
             return new NoSpecimen();
 
-        ValueQualifier[] all = ValueQualifier.GetAll();
+        ValueQualifiers[] all = ValueQualifiers.Empty.GetAll();
 
         return all[new Random().Next(0, all.Length - 1)];
     }

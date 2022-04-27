@@ -83,7 +83,7 @@ internal partial class S910
         /// <exception cref="TerminalDataException"></exception>
         private void PrepareOutcomeParameterSetForPcii()
         {
-            _Database.Update(StatusOutcome.EndApplication);
+            _Database.Update(StatusOutcomes.EndApplication);
             _Database.Update(StartOutcomes.B);
         }
 
@@ -163,12 +163,12 @@ internal partial class S910
         /// <exception cref="TerminalDataException"></exception>
         private void PrepareOutcomeForTransactionCryptogram()
         {
-            _Database.Update(StatusOutcome.Approved);
+            _Database.Update(StatusOutcomes.Approved);
             _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
 
             if (_Database.TryGet(BalanceReadAfterGenAc.Tag, out BalanceReadAfterGenAc? balanceReadAfterGenAc))
             {
-                _Database.Update(ValueQualifier.Balance);
+                _Database.Update(ValueQualifiers.Balance);
                 _Database.Update(balanceReadAfterGenAc!);
 
                 if (_Database.TryGet(ApplicationCurrencyCode.Tag, out ApplicationCurrencyCode? currencyCode))
@@ -189,7 +189,7 @@ internal partial class S910
         /// <exception cref="TerminalDataException"></exception>
         private void PrepareOutcomeForApplicationRequestCryptogram()
         {
-            _Database.Update(StatusOutcome.OnlineRequest);
+            _Database.Update(StatusOutcomes.OnlineRequest);
 
             if (_Database.IsPurchaseTransaction() || _Database.IsCashTransaction())
                 _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
@@ -213,15 +213,15 @@ internal partial class S910
 
             if (!_Database.IsPurchaseTransaction() && !_Database.IsCashTransaction())
             {
-                _Database.Update(StatusOutcome.EndApplication);
+                _Database.Update(StatusOutcomes.EndApplication);
 
                 return;
             }
 
             if (!IsDeclined())
-                _Database.Update(StatusOutcome.TryAnotherInterface);
+                _Database.Update(StatusOutcomes.TryAnotherInterface);
             else
-                _Database.Update(StatusOutcome.Declined);
+                _Database.Update(StatusOutcomes.Declined);
         }
 
         #endregion

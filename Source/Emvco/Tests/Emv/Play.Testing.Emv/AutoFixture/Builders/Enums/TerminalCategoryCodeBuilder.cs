@@ -2,13 +2,13 @@
 
 using Play.Emv.Ber.Enums;
 
-namespace Play.Testing.Emv;
+namespace Play.Testing.Emv.Enums;
 
-public class StatusOutcomeBuilder : SpecimenBuilder
+public class TerminalCategoryCodeBuilder : SpecimenBuilder
 {
     #region Static Metadata
 
-    public static readonly SpecimenBuilderId Id = new(nameof(StatusOutcomeBuilder));
+    public static readonly SpecimenBuilderId Id = new(nameof(TerminalCategoryCodeBuilder));
 
     #endregion
 
@@ -23,10 +23,10 @@ public class StatusOutcomeBuilder : SpecimenBuilder
         if (type == null)
             return new NoSpecimen();
 
-        if (type != typeof(StatusOutcome))
+        if (type != typeof(TerminalCategoryCodes))
             return new NoSpecimen();
 
-        StatusOutcome[] all = StatusOutcome.Empty.GetAll();
+        TerminalCategoryCodes[] all = TerminalCategoryCodes.Empty.GetAll();
 
         return all[new Random().Next(0, all.Length - 1)];
     }

@@ -118,7 +118,7 @@ public partial class WaitingForCccResponse2
             _Database.Update(MessageIdentifiers.TryAgain);
             _Database.Update(Statuses.ReadyToRead);
             _Database.Update(MessageHoldTime.MinimumValue);
-            _Database.Update(StatusOutcome.EndApplication);
+            _Database.Update(StatusOutcomes.EndApplication);
             _Database.Update(StartOutcomes.B);
             _Database.SetUiRequestOnRestartPresent(true);
             _Database.Update(rapdu.GetLevel1Error());
@@ -315,7 +315,7 @@ public partial class WaitingForCccResponse2
         _Database.Update(MessageHoldTime.MinimumValue);
         _Database.Update(Statuses.ReadyToRead);
         _Database.SetUiRequestOnRestartPresent(true);
-        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcomes.EndApplication);
         _Database.Update(StartOutcomes.B);
         _Database.SetIsDataRecordPresent(true);
         _Database.CreateMagstripeDataRecord(_DataExchangeKernelService);
@@ -386,7 +386,7 @@ public partial class WaitingForCccResponse2
         _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
         _Database.Update(MessageIdentifiers.Declined);
         _Database.Update(Statuses.NotReady);
-        _Database.Update(StatusOutcome.Declined);
+        _Database.Update(StatusOutcomes.Declined);
         _Database.SetIsDataRecordPresent(true);
         _Database.SetUiRequestOnOutcomePresent(true);
         _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);
@@ -524,7 +524,7 @@ public partial class WaitingForCccResponse2
     /// <exception cref="TerminalDataException"></exception>
     private void HandleOnlineNoCvmRequiredResponse(KernelSession session)
     {
-        _Database.Update(StatusOutcome.OnlineRequest);
+        _Database.Update(StatusOutcomes.OnlineRequest);
         _Database.Update(CvmPerformedOutcome.NoCvm);
         _Database.SetIsDataRecordPresent(true);
         _Database.CreateMagstripeDataRecord(_DataExchangeKernelService);
@@ -541,7 +541,7 @@ public partial class WaitingForCccResponse2
     /// <exception cref="TerminalDataException"></exception>
     private void HandleOnlineCvmRequiredResponse(KernelSession session)
     {
-        _Database.Update(StatusOutcome.OnlineRequest);
+        _Database.Update(StatusOutcomes.OnlineRequest);
         _Database.Update(CvmPerformedOutcome.ConfirmationCodeVerified);
 
         if (IsCvmLimitExceeded())
@@ -568,7 +568,7 @@ public partial class WaitingForCccResponse2
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Statuses.NotReady);
         _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
-        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcomes.EndApplication);
         _Database.Update(StartOutcomes.B);
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
         _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);

@@ -12,7 +12,7 @@ public partial class WaitingForPutDataResponseBeforeGenerateAc
 
         _Database.Update(Level3Error.Stop);
 
-        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcomes.EndApplication);
 
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 

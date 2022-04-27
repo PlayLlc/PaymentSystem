@@ -126,4 +126,46 @@ public abstract record DataObjectList : DataElement<TagLength[]>
     }
 
     #endregion
+
+    #region Equality
+
+    public bool Equals(DataObjectList? x, DataObjectList? y)
+    {
+        if (x is null)
+            return y is null;
+
+        return y is not null && x!.Equals(y);
+    }
+
+    public virtual bool Equals(DataObjectList? other)
+    {
+        if (other is null)
+            return false;
+
+        if (other._Value.Length != _Value.Length)
+            return false;
+
+        for (nint i = 0; i < _Value.Length; i++)
+        {
+            if (_Value[i] != other._Value[i])
+                return false;
+        }
+
+        return true;
+    }
+
+    public override int GetHashCode()
+    {
+        const int hash = 32363;
+        int result = (int) unchecked(GetTag() * hash);
+
+        for (nint i = 0; i < _Value.Length; i++)
+            result += _Value[i].GetHashCode() * hash;
+
+        return result;
+    }
+
+    public int GetHashCode(DataObjectList obj) => obj.GetHashCode();
+
+    #endregion
 }

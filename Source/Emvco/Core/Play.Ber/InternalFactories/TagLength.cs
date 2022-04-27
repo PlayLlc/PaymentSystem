@@ -23,7 +23,6 @@ public readonly record struct TagLength
     public TagLength(Tag tag, ReadOnlySpan<byte> contentOctets)
     {
         _Tag = tag;
-        Length length = new(contentOctets);
         _Length = new Length(contentOctets);
     }
 

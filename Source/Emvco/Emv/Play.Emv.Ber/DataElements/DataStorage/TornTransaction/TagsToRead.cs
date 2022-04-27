@@ -13,7 +13,7 @@ namespace Play.Emv.Ber.DataElements;
 ///     may be provided several times by the Terminal. Therefore, the values of each of these tags must be accumulated in
 ///     the Tags To Read Yet buffer. A.1.154 Tags To Read Yet
 /// </summary>
-public record TagsToRead : DataExchangeRequest, IEqualityComparer<PrimitiveValue>
+public record TagsToRead : DataExchangeRequest
 {
     #region Static Metadata
 
@@ -100,23 +100,6 @@ public record TagsToRead : DataExchangeRequest, IEqualityComparer<PrimitiveValue
         // This Value field is already BER encoded, which is what this object's _Value field requires
         return new TagsToRead(_Codec.DecodeTagSequence(value));
     }
-
-    #endregion
-
-    #region Equality
-
-    public bool Equals(TagsToRead? x, TagsToRead? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public int GetHashCode(TagsToRead obj) => obj.GetHashCode();
 
     #endregion
 }

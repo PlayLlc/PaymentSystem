@@ -1,4 +1,5 @@
-﻿using Play.Testing.Emv.Contactless.AutoFixture;
+﻿using Play.Testing.Emv.AutoFixture.Builders.Templates;
+using Play.Testing.Emv.Enums;
 using Play.Testing.Infrastructure.AutoFixture;
 
 namespace Play.Testing.Emv;
@@ -11,6 +12,8 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
     { }
 
     #endregion
+
+    #region Instance Members
 
     #region Instance Members
 
@@ -33,16 +36,20 @@ public class EmvSpecimenBuilderFactory : SpecimenBuilderFactory
             new SdsSchemeIndicatorBuilder(),
             new StartOutcomeBuilder(),
             new StatusBuilder(),
-            new StatusOutcomeBuilder(),
+            new StatusOutcomesBuilder(),
             new TerminalCategoryCodeBuilder(),
             new TerminalVerificationResultCodesBuilder(),
             new TransactionTypeBuilder(),
             new ValueQualifierBuilder(),
             new DirectoryEntryBuilder(),
-            new FileControlInformationAdfBuilder()
+            new FileControlInformationAdfBuilder(),
+            new ProcessingOptionsDataObjectListBuilder(),
+            new FileControlInformationIssuerDiscretionaryDataAdfBuilder()
         });
 
         return currentModuleBuilders;
+
+        #endregion
     }
 
     #endregion

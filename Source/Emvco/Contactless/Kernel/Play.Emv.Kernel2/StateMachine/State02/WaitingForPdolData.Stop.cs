@@ -20,7 +20,7 @@ public partial class WaitingForPdolData : KernelState
     {
         HandleRequestOutOfSync(session, signal);
 
-        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcomes.EndApplication);
 
         if (!_Database.GetErrorIndication().IsErrorPresent())
             _Database.Update(Level3Error.Stop);

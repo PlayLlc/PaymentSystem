@@ -83,7 +83,7 @@ public partial class WaitingForRecoverAcResponse
             _Database.Update(Statuses.ReadyToRead);
             _Database.Update(MessageHoldTime.MinimumValue);
             _Database.Update(signal.GetLevel1Error());
-            _Database.Update(StatusOutcome.EndApplication);
+            _Database.Update(StatusOutcomes.EndApplication);
             _Database.Update(StartOutcomes.B);
             _Database.Update(MessageOnErrorIdentifiers.TryAgain);
             _Database.SetUiRequestOnRestartPresent(true);

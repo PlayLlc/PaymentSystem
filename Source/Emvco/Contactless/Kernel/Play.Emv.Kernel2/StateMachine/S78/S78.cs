@@ -188,7 +188,7 @@ public class S78 : CommonProcessing
     {
         try
         {
-            _Database.Update(StatusOutcome.EndApplication);
+            _Database.Update(StatusOutcomes.EndApplication);
             _Database.Update(Level3Error.AmountNotPresent);
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         }
@@ -251,7 +251,7 @@ public class S78 : CommonProcessing
     private void HandleMaxTransactionAmountExceeded(KernelSessionId sessionId)
     {
         _Database.Update(FieldOffRequestOutcome.NotAvailable);
-        _Database.Update(StatusOutcome.SelectNext);
+        _Database.Update(StatusOutcomes.SelectNext);
         _Database.Update(StartOutcomes.C);
         _Database.Update(Level2Error.MaxLimitExceeded);
         _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);

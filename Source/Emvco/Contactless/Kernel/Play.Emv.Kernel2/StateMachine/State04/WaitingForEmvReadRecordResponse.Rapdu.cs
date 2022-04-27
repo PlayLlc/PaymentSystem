@@ -87,7 +87,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
         _Database.Update(MessageIdentifiers.TryAgain);
         _Database.Update(Statuses.ReadyToRead);
         _Database.Update(new MessageHoldTime(0));
-        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcomes.EndApplication);
         _Database.Update(StartOutcomes.B);
         _Database.SetUiRequestOnRestartPresent(true);
         _Database.Update(signal.GetLevel1Error());
@@ -113,7 +113,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
 
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Statuses.NotReady);
-        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcomes.EndApplication);
         _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.StatusBytes);
         _Database.Update(signal.GetStatusWords());
@@ -201,7 +201,7 @@ public partial class WaitingForEmvReadRecordResponse : KernelState
     private static void HandleBerParsingException(
         KernelSession session, DataExchangeKernelService dataExchanger, KernelDatabase database, IHandleKernelStopRequests kernelEndpoint)
     {
-        database.Update(StatusOutcome.EndApplication);
+        database.Update(StatusOutcomes.EndApplication);
         database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         database.Update(Level2Error.ParsingError);
         database.CreateEmvDiscretionaryData(dataExchanger);

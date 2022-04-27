@@ -12,7 +12,7 @@ using Play.Emv.Ber.ValueTypes;
 
 namespace Play.Emv.Ber.Templates;
 
-public class DirectoryEntry : Template
+public record DirectoryEntry : Template
 {
     #region Static Metadata
 
@@ -220,53 +220,6 @@ public class DirectoryEntry : Template
 
         return new DirectoryEntry(applicationDedicatedFileName, applicationPriorityIndicator, applicationLabel, kernelIdentifier, extendedSelection);
     }
-
-    #endregion
-
-    #region Equality
-
-    public override bool Equals(object? obj) => obj is DirectoryEntry fci && Equals(fci);
-
-    public bool Equals(DirectoryEntry other) =>
-        _ApplicationDedicatedFileName.Equals(other._ApplicationDedicatedFileName)
-        && (_ApplicationLabel?.Equals(other!._ApplicationLabel) ?? (other!._ApplicationLabel == null))
-        && _ApplicationPriorityIndicator.Equals(other!._ApplicationPriorityIndicator)
-        && (_KernelIdentifier?.Equals(other._KernelIdentifier) ?? (other._KernelIdentifier == null))
-        && (_ExtendedSelection?.Equals(_ExtendedSelection, other._ExtendedSelection) ?? (other._ExtendedSelection == null));
-
-    public override bool Equals(ConstructedValue? other) => other is DirectoryEntry directoryEntry && Equals(directoryEntry);
-    public override bool Equals(ConstructedValue? x, ConstructedValue? y) => Equals(x as DirectoryEntry, y as DirectoryEntry);
-
-    public static bool Equals(DirectoryEntry? x, DirectoryEntry? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public override int GetHashCode()
-    {
-        const int hash = 738459837;
-
-        unchecked
-        {
-            int result = (int) (hash * GetTag());
-
-            result += _ApplicationDedicatedFileName.GetHashCode()
-                + (_ApplicationLabel?.GetHashCode() ?? 0)
-                + _ApplicationPriorityIndicator.GetHashCode()
-                + (_ExtendedSelection?.GetHashCode() ?? 0)
-                + (_KernelIdentifier?.GetHashCode() ?? 0);
-
-            return result;
-        }
-    }
-
-    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
 
     #endregion
 }

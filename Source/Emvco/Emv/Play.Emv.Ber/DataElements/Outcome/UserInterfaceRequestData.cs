@@ -5,6 +5,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Identifiers;
 using Play.Codecs;
 using Play.Codecs.Exceptions;
+using Play.Core;
 using Play.Core.Extensions;
 using Play.Emv.Ber.DataElements.Display;
 using Play.Emv.Ber.Enums;
@@ -44,7 +45,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
 
     #region Instance Members
 
-    public ulong? GetAmount() => GetValueQualifier() == ValueQualifier.None ? null : ((ulong) (_Value >> _MoneyOffset)).GetMaskedValue(0xFFFF000000000000);
+    public ulong? GetAmount() => GetValueQualifier() == ValueQualifiers.None ? null : ((ulong) (_Value >> _MoneyOffset)).GetMaskedValue(0xFFFF000000000000);
     public override PlayEncodingId GetEncodingId() => EncodingId;
     public static Builder GetBuilder() => new();
     public NumericCurrencyCode GetCurrencyCode() => new((ushort) (_Value >> _CurrencyCodeOffset));
@@ -54,7 +55,14 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
     public Statuses GetStatus() => Statuses.Get((byte) (_Value >> _StatusOffset));
     public override Tag GetTag() => Tag;
     public override ushort GetValueByteCount(BerCodec codec) => codec.GetByteCount(GetEncodingId(), _Value);
-    public ValueQualifier GetValueQualifier() => ValueQualifier.Get((byte) (_Value >> _ValueQualifierOffset));
+
+    public ValueQualifiers GetValueQualifier()
+    {
+        if (ValueQualifiers.Empty.TryGet((byte) (_Value >> _ValueQualifierOffset), out EnumObject<byte>? result))
+            return (ValueQualifiers) result!;
+
+        return ValueQualifiers.None;
+    }
 
     #endregion
 
@@ -121,7 +129,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
             Set(MessageHoldTime.MinimumValue);
 
             //Set(LanguagePreference);
-            Set(ValueQualifier.None);
+            Set(ValueQualifiers.None);
         }
 
         #endregion
@@ -157,7 +165,7 @@ public record UserInterfaceRequestData : DataElement<BigInteger>, IRetrievePrimi
             _Value |= new BigInteger(bitsToSet.EncodeValue()) << _LanguagePreferenceOffset;
         }
 
-        public void Set(ValueQualifier bitsToSet)
+        public void Set(ValueQualifiers bitsToSet)
         {
             _Value.ClearBits(byte.MaxValue << _ValueQualifierOffset);
             _Value |= (BigInteger) bitsToSet << _ValueQualifierOffset;

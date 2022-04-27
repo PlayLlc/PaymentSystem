@@ -10,7 +10,7 @@ using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Ber.Templates;
 
-public class FileControlInformationAdf : FileControlInformationTemplate
+public record FileControlInformationAdf : FileControlInformationTemplate
 {
     #region Instance Values
 
@@ -89,23 +89,6 @@ public class FileControlInformationAdf : FileControlInformationTemplate
 
     #region Equality
 
-    public override bool Equals(object? obj) => obj is FileControlInformationAdf fci && Equals(fci);
-    public override bool Equals(ConstructedValue? other) => other is FileControlInformationAdf adf && Equals(adf);
-
-    public bool Equals(FileControlInformationAdf other) =>
-        _DedicatedFileName.Equals(other._DedicatedFileName) && _FileControlInformationProprietary.Equals(other._FileControlInformationProprietary);
-
-    public override bool Equals(ConstructedValue? x, ConstructedValue? y)
-    {
-        if (x == null)
-            return y == null;
-
-        if (y == null)
-            return false;
-
-        return x.Equals(y);
-    }
-
     public bool Equals(FileControlInformationAdf x, FileControlInformationAdf y) => x.Equals(y);
 
     public override int GetHashCode()
@@ -121,8 +104,6 @@ public class FileControlInformationAdf : FileControlInformationTemplate
             return result;
         }
     }
-
-    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
 
     #endregion
 }

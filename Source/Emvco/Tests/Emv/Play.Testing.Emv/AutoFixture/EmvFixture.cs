@@ -8,8 +8,9 @@ using Play.Emv.Ber.Templates;
 using Play.Emv.Security;
 using Play.Encryption.Certificates;
 using Play.Encryption.Ciphers.Hashing;
+using Play.Testing.Emv.AutoFixture.Builders.Templates;
 using Play.Testing.Emv.Ber.Constructed;
-using Play.Testing.Emv.Contactless.AutoFixture;
+using Play.Testing.Emv.Enums;
 using Play.Testing.Extensions;
 using Play.Testing.Infrastructure.AutoFixture;
 
@@ -47,13 +48,15 @@ public class EmvFixture : TestingFixture
         factory.Build(SdsSchemeIndicatorBuilder.Id);
         factory.Build(StartOutcomeBuilder.Id);
         factory.Build(StatusBuilder.Id);
-        factory.Build(StatusOutcomeBuilder.Id);
+        factory.Build(StatusOutcomesBuilder.Id);
         factory.Build(TerminalCategoryCodeBuilder.Id);
         factory.Build(TerminalVerificationResultCodesBuilder.Id);
         factory.Build(TransactionTypeBuilder.Id);
         factory.Build(ValueQualifierBuilder.Id);
         factory.Build(DirectoryEntryBuilder.Id);
         factory.Build(FileControlInformationAdfBuilder.Id);
+        factory.Build(ProcessingOptionsDataObjectListBuilder.Id);
+        factory.Build(FileControlInformationIssuerDiscretionaryDataAdfBuilder.Id);
     }
 
     #region Customize Fixture

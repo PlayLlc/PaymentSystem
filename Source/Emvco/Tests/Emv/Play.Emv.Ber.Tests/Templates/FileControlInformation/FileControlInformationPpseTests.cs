@@ -6,7 +6,7 @@ using Play.Testing.Emv.Ber.Constructed;
 
 using Xunit;
 
-namespace Play.Emv.Ber.Tests.Templates.FileControlInformation;
+namespace Play.Emv.Ber.Tests.Templates;
 
 public class FileControlInformationPpseTests : TestBase
 {

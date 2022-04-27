@@ -8,7 +8,7 @@ using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Ber.Templates;
 
-public class FileControlInformationDdf : FileControlInformationTemplate
+public record FileControlInformationDdf : FileControlInformationTemplate
 {
     #region Instance Values
 
@@ -19,8 +19,7 @@ public class FileControlInformationDdf : FileControlInformationTemplate
 
     #region Constructor
 
-    public FileControlInformationDdf(
-        DedicatedFileName dedicatedFileName, FileControlInformationProprietaryDdf fileControlInformationProprietary)
+    public FileControlInformationDdf(DedicatedFileName dedicatedFileName, FileControlInformationProprietaryDdf fileControlInformationProprietary)
     {
         _DedicatedFileName = dedicatedFileName;
         _FileControlInformationProprietary = fileControlInformationProprietary;
@@ -61,8 +60,7 @@ public class FileControlInformationDdf : FileControlInformationTemplate
                 $"A problem occurred while decoding {nameof(FileControlInformationDdf)}. A {nameof(DedicatedFileName)} was expected but could not be found");
 
         FileControlInformationProprietaryDdf fciProprietary =
-            _Codec.AsConstructed(FileControlInformationProprietaryDdf.Decode, FileControlInformationProprietaryTemplate.Tag,
-                encodedSiblings)
+            _Codec.AsConstructed(FileControlInformationProprietaryDdf.Decode, FileControlInformationProprietaryTemplate.Tag, encodedSiblings)
             ?? throw new CardDataMissingException(
                 $"A problem occurred while decoding {nameof(FileControlInformationDdf)}. A {nameof(FileControlInformationProprietaryDdf)} was expected but could not be found");
 
@@ -72,24 +70,6 @@ public class FileControlInformationDdf : FileControlInformationTemplate
     #endregion
 
     #region Equality
-
-    public override bool Equals(object? obj) => obj is FileControlInformationDdf fci && Equals(fci);
-    public override bool Equals(ConstructedValue? other) => other is FileControlInformationDdf adf && Equals(adf);
-
-    public bool Equals(FileControlInformationDdf other) =>
-        _DedicatedFileName.Equals(other._DedicatedFileName)
-        && _FileControlInformationProprietary.Equals(other._FileControlInformationProprietary);
-
-    public override bool Equals(ConstructedValue? x, ConstructedValue? y)
-    {
-        if (x == null)
-            return y == null;
-
-        if (y == null)
-            return false;
-
-        return x.Equals(y);
-    }
 
     public bool Equals(FileControlInformationDdf x, FileControlInformationDdf y) => x.Equals(y);
 
@@ -106,8 +86,6 @@ public class FileControlInformationDdf : FileControlInformationTemplate
             return result;
         }
     }
-
-    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
 
     #endregion
 }

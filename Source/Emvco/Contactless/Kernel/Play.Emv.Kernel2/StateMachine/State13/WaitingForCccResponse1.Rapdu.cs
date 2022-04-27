@@ -117,7 +117,7 @@ public partial class WaitingForCccResponse1
             _Database.Update(MessageIdentifiers.TryAgain);
             _Database.Update(Statuses.ReadyToRead);
             _Database.Update(MessageHoldTime.MinimumValue);
-            _Database.Update(StatusOutcome.EndApplication);
+            _Database.Update(StatusOutcomes.EndApplication);
             _Database.Update(StartOutcomes.B);
             _Database.SetUiRequestOnRestartPresent(true);
             _Database.Update(rapdu.GetLevel1Error());
@@ -439,7 +439,7 @@ public partial class WaitingForCccResponse1
     /// <exception cref="TerminalDataException"></exception>
     private void HandleOnlineNoCvmRequiredResponse(KernelSession session)
     {
-        _Database.Update(StatusOutcome.OnlineRequest);
+        _Database.Update(StatusOutcomes.OnlineRequest);
         MagstripeCvmCapabilityNoCvmRequired cvmCapability = _Database.Get<MagstripeCvmCapabilityNoCvmRequired>(MagstripeCvmCapabilityNoCvmRequired.Tag);
 
         if ((byte) cvmCapability! == CvmCodes.SignaturePaper)
@@ -462,7 +462,7 @@ public partial class WaitingForCccResponse1
     /// <exception cref="TerminalDataException"></exception>
     private void HandleOnlineCvmRequiredResponse(KernelSession session)
     {
-        _Database.Update(StatusOutcome.OnlineRequest);
+        _Database.Update(StatusOutcomes.OnlineRequest);
         MagstripeCvmCapabilityCvmRequired cvmCapability = _Database.Get<MagstripeCvmCapabilityCvmRequired>(MagstripeCvmCapabilityCvmRequired.Tag);
 
         _Database.Update(CvmPerformedOutcome.Get((byte) cvmCapability));
@@ -491,7 +491,7 @@ public partial class WaitingForCccResponse1
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Statuses.NotReady);
         _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
-        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcomes.EndApplication);
         _Database.Update(StartOutcomes.B);
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
         _Database.SetUiRequestOnOutcomePresent(true);
@@ -514,7 +514,7 @@ public partial class WaitingForCccResponse1
         _Database.Update(MessageHoldTime.MinimumValue);
         _Database.Update(Statuses.ReadyToRead);
         _Database.SetUiRequestOnRestartPresent(true);
-        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcomes.EndApplication);
         _Database.Update(StartOutcomes.B);
         _Database.SetIsDataRecordPresent(true);
         _Database.CreateMagstripeDataRecord(_DataExchangeKernelService);
@@ -554,7 +554,7 @@ public partial class WaitingForCccResponse1
         _Database.Update(_Database.Get<MessageHoldTime>(MessageHoldTime.Tag));
         _Database.Update(MessageIdentifiers.Declined);
         _Database.Update(Statuses.NotReady);
-        _Database.Update(StatusOutcome.Declined);
+        _Database.Update(StatusOutcomes.Declined);
         _Database.SetIsDataRecordPresent(true);
         _Database.SetUiRequestOnOutcomePresent(true);
         _Database.CreateMagstripeDiscretionaryData(_DataExchangeKernelService);

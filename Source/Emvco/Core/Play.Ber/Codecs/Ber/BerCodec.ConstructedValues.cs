@@ -17,9 +17,6 @@ public partial class BerCodec
 {
     #region Instance Members
 
-    /// <param name="index"></param>
-    /// <param name="dataElements"></param>
-    /// <returns></returns>
     /// <exception cref="BerParsingException"></exception>
     public IEncodeBerDataObjects[] GetIndexedDataElements(Tag[] index, IEncodeBerDataObjects[] dataElements)
     {
@@ -67,29 +64,12 @@ public partial class BerCodec
         return decodeFunc.Invoke(this, new EncodedTlvSiblings(_TagLengthFactory.GetTagLengthArray(rawValueContent.Span), rawValueContent));
     }
 
-    /// <summary>
-    ///     DecodeChildren
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-    public EncodedTlvSiblings DecodeChildren(ReadOnlyMemory<byte> value)
-    {
-        TagLength tagLength = _TagLengthFactory.ParseFirst(value.Span);
-
-        return DecodeSiblings(value[tagLength.GetValueOffset()..]);
-    }
-
-    public EncodedTlvSiblings DecodeSiblings(ReadOnlyMemory<byte> value) => new(_TagLengthFactory.GetTagLengthArray(value.Span), value);
-
     #endregion
 
     #region Byte Count
 
     /// <summary>
-    ///     Gets the byte count of the Value field of the TagLengthValue object this ConstructedValue
-    ///     represents
+    ///     Gets the byte count of the Value field of the TagLengthValue object this ConstructedValue represents
     /// </summary>
     /// <param name="children"></param>
     /// <returns></returns>
@@ -106,14 +86,11 @@ public partial class BerCodec
         return checked((ushort) tagLength.GetTagLengthValueByteCount());
     }
 
-    /// <exception cref="BerParsingException"></exception>
-    /// <exception cref="InvalidOperationException"></exception>
-
-    //public uint GetTagLengthValueByteCount<T>(ConstructedValue value) where T : ConstructedValue => value.GetTagLengthValueByteCount(this);
-
     #endregion
 
     #region Encoding
+
+    #region Encode Value
 
     private byte[] EncodeValue(ConstructedValue value) => value.EncodeValue(this);
 
@@ -141,7 +118,6 @@ public partial class BerCodec
             for (int i = 0, j = 0; i < children.Length; i++)
             {
                 ReadOnlySpan<byte> encoding = children[i]?.EncodeTagLengthValue(this);
-                int encodingLength = encoding.Length;
                 encoding.CopyTo(result[j..]);
                 j += encoding.Length;
             }
@@ -164,18 +140,17 @@ public partial class BerCodec
         }
     }
 
-    /// <summary>
-    ///     EncodeTagLengthValue
-    /// </summary>
-    /// <param name="parent"></param>
-    /// <param name="childIndex"></param>
-    /// <param name="children"></param>
-    /// <returns></returns>
+    #endregion
+
+    #region Encode Tag Length Value
+
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
     public byte[] EncodeTagLengthValue(ConstructedValue parent, Tag[] childIndex, params IEncodeBerDataObjects?[] children)
     {
-        return EncodeTagLengthValue(parent, GetIndexedDataElements(childIndex, children.Where(a => a != null).Select(x => x!).ToArray()));
+        IEncodeBerDataObjects[] indexedDataElements = GetIndexedDataElements(childIndex, children.Where(a => a != null).Select(x => x!).ToArray());
+
+        return EncodeTagLengthValue(parent, indexedDataElements);
     }
 
     /// <exception cref="BerParsingException"></exception>
@@ -218,6 +193,8 @@ public partial class BerCodec
             return result.ToArray();
         }
     }
+
+    #endregion
 
     #endregion
 }

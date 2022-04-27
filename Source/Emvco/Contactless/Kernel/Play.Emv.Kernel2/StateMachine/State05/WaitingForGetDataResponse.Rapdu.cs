@@ -61,7 +61,7 @@ public partial class WaitingForGetDataResponse : KernelState
         _Database.Update(Statuses.ReadyToRead);
         _Database.Update(new MessageHoldTime(0));
 
-        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcomes.EndApplication);
 
         _Database.Update(StartOutcomes.B);
         _Database.SetUiRequestOnRestartPresent(true);

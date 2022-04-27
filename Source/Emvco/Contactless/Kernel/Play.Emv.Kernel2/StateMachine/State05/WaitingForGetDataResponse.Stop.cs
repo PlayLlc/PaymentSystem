@@ -28,7 +28,7 @@ public partial class WaitingForGetDataResponse : KernelState
 
         _Database.Update(Level3Error.Stop);
 
-        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcomes.EndApplication);
 
         // HACK: This is being called twice when a STOP signal is requested by the Kernel State itself
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);

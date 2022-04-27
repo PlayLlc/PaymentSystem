@@ -26,7 +26,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="DataElements\DataObjectLists\" />
+	  <Folder Include="Templates\FileControlInformation\Ppse\" />
 	</ItemGroup>
 
 </Project>

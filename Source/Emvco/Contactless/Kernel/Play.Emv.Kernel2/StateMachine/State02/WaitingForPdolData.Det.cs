@@ -67,7 +67,7 @@ public partial class WaitingForPdolData : KernelState
         if (!session.Timer.IsTimedOut())
             return false;
 
-        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcomes.EndApplication);
         _Database.Update(Level3Error.TimeOut);
         _Database.Initialize(DiscretionaryData.Tag);
         _DataExchangeKernelService.Initialize(DekResponseType.DiscretionaryData);

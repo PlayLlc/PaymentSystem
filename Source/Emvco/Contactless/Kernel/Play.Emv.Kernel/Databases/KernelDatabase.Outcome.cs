@@ -184,7 +184,7 @@ public partial class KernelDatabase
     }
 
     /// <exception cref="TerminalDataException"></exception>
-    public void Update(ValueQualifier value)
+    public void Update(ValueQualifiers value)
     {
         try
         {
@@ -276,7 +276,7 @@ public partial class KernelDatabase
     }
 
     /// <exception cref="TerminalDataException"></exception>
-    public void Update(StatusOutcome value)
+    public void Update(StatusOutcomes value)
     {
         try
         {

@@ -6,7 +6,7 @@ using Play.Emv.Ber.DataElements;
 
 namespace Play.Emv.Ber.Templates;
 
-public class FileControlInformationIssuerDiscretionaryDataAdf : FileControlInformationIssuerDiscretionaryDataTemplate
+public record FileControlInformationIssuerDiscretionaryDataAdf : FileControlInformationIssuerDiscretionaryDataTemplate
 {
     #region Static Metadata
 
@@ -73,21 +73,12 @@ public class FileControlInformationIssuerDiscretionaryDataAdf : FileControlInfor
         ApplicationCapabilitiesInformation? aci = _Codec.AsPrimitive(ApplicationCapabilitiesInformation.Decode, ApplicationCapabilitiesInformation.Tag,
             encodedTlvSiblings);
 
-        return new FileControlInformationIssuerDiscretionaryDataAdf(_Codec.AsPrimitive(LogEntry.Decode, LogEntry.Tag, encodedTlvSiblings),
-            _Codec.AsPrimitive(ApplicationCapabilitiesInformation.Decode, ApplicationCapabilitiesInformation.Tag, encodedTlvSiblings));
+        return new FileControlInformationIssuerDiscretionaryDataAdf(logEntry, aci);
     }
 
     #endregion
 
     #region Equality
-
-    public override bool Equals(ConstructedValue? x, ConstructedValue? y)
-    {
-        if (x == null)
-            return y == null;
-
-        return (y != null) && x.Equals(y);
-    }
 
     public bool Equals(FileControlInformationIssuerDiscretionaryDataAdf? x, FileControlInformationIssuerDiscretionaryDataAdf? y)
     {
@@ -100,28 +91,6 @@ public class FileControlInformationIssuerDiscretionaryDataAdf : FileControlInfor
         return x.Equals(y);
     }
 
-    public override bool Equals(ConstructedValue? other) => other is FileControlInformationIssuerDiscretionaryDataAdf adf && Equals(adf);
-
-    public bool Equals(FileControlInformationIssuerDiscretionaryDataAdf other)
-    {
-        if (_LogEntry is null && other._LogEntry is not null)
-            return false;
-        if (_LogEntry is not null && !_LogEntry.Equals(other._LogEntry))
-            return false;
-
-        if (_ThirdPartyData is null && other._ThirdPartyData is not null)
-            return false;
-        if (_ThirdPartyData is not null && !_ThirdPartyData.Equals(other._ThirdPartyData))
-            return false;
-
-        return true;
-    }
-
-    public override bool Equals(object? obj) =>
-        obj is FileControlInformationIssuerDiscretionaryDataAdf fileControlInformationIssuerDiscretionaryDataAdf
-        && Equals(fileControlInformationIssuerDiscretionaryDataAdf);
-
-    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
     public int GetHashCode(FileControlInformationIssuerDiscretionaryDataAdf obj) => obj.GetHashCode();
     public override int GetHashCode() => (int) unchecked(((643949 * Tag) + _LogEntry?.GetHashCode()) ?? 0);
 

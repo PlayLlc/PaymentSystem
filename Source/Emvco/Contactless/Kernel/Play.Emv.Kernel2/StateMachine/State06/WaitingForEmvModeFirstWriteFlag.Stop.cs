@@ -19,7 +19,7 @@ public partial class WaitingForEmvModeFirstWriteFlag : KernelState
     public override KernelState Handle(KernelSession session, StopKernelRequest signal)
     {
         HandleRequestOutOfSync(session, signal);
-        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcomes.EndApplication);
         _Database.Update(Level3Error.Stop);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
         _KernelEndpoint.Send(new OutKernelResponse(session.GetCorrelationId(), session.GetKernelSessionId(), _Database.GetOutcome()));

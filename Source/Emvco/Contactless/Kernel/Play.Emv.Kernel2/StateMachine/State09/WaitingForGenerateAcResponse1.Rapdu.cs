@@ -125,7 +125,7 @@ public partial class WaitingForGenerateAcResponse1
         {
             _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
             _Database.Update(Statuses.NotReady);
-            _Database.Update(StatusOutcome.EndApplication);
+            _Database.Update(StatusOutcomes.EndApplication);
             _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
             _Database.Update(signal.GetLevel1Error());
             _Database.SetIsDataRecordPresent(true);
@@ -162,7 +162,7 @@ public partial class WaitingForGenerateAcResponse1
             _Database.Update(Statuses.ReadyToRead);
             _Database.Update(MessageHoldTime.MinimumValue);
 
-            _Database.Update(StatusOutcome.EndApplication);
+            _Database.Update(StatusOutcomes.EndApplication);
             _Database.Update(StartOutcomes.B);
             _Database.SetUiRequestOnOutcomePresent(true);
             _Database.Update(signal.GetLevel1Error());

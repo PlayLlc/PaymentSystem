@@ -4,11 +4,11 @@ using Play.Emv.Ber.Enums;
 
 namespace Play.Testing.Emv;
 
-public class TerminalCategoryCodeBuilder : SpecimenBuilder
+public class StatusOutcomesBuilder : SpecimenBuilder
 {
     #region Static Metadata
 
-    public static readonly SpecimenBuilderId Id = new(nameof(TerminalCategoryCodeBuilder));
+    public static readonly SpecimenBuilderId Id = new(nameof(StatusOutcomesBuilder));
 
     #endregion
 
@@ -23,10 +23,10 @@ public class TerminalCategoryCodeBuilder : SpecimenBuilder
         if (type == null)
             return new NoSpecimen();
 
-        if (type != typeof(TerminalCategoryCodes))
+        if (type != typeof(StatusOutcomes))
             return new NoSpecimen();
 
-        TerminalCategoryCodes[] all = TerminalCategoryCodes.Empty.GetAll();
+        StatusOutcomes[] all = StatusOutcomes.Empty.GetAll();
 
         return all[new Random().Next(0, all.Length - 1)];
     }

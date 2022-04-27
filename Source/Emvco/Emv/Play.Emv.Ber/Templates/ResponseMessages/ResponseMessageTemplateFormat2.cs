@@ -5,7 +5,7 @@ using Play.Ber.Identifiers;
 
 namespace Play.Emv.Ber.Templates;
 
-public class ResponseMessageTemplateFormat2 : ConstructedValue
+public record ResponseMessageTemplateFormat2 : ConstructedValue
 {
     #region Static Metadata
 
@@ -68,39 +68,7 @@ public class ResponseMessageTemplateFormat2 : ConstructedValue
 
     #region Equality
 
-    public override bool Equals(object? obj) => obj is ResponseMessageTemplateFormat2 template && Equals(template);
-
-    public override bool Equals(ConstructedValue? x, ConstructedValue? y)
-    {
-        if (x == null)
-            return y == null;
-
-        if (y == null)
-            return false;
-
-        return x.Equals(y);
-    }
-
     public bool Equals(ResponseMessageTemplateFormat2 x, ResponseMessageTemplateFormat2 y) => x.Equals(y);
-
-    public bool Equals(ResponseMessageTemplateFormat2? other)
-    {
-        if (other is null)
-            return false;
-
-        if (other.GetTlvChildrenCount() != GetTlvChildrenCount())
-            return false;
-
-        for (int i = 0; i < _Value.Length; i++)
-        {
-            if (_Value[i] != other._Value[i])
-                return false;
-        }
-
-        return true;
-    }
-
-    public override bool Equals(ConstructedValue? other) => other is ResponseMessageTemplateFormat2 f2 && Equals(f2);
 
     public override int GetHashCode()
     {
@@ -108,13 +76,11 @@ public class ResponseMessageTemplateFormat2 : ConstructedValue
         {
             const int hash = 5059;
             int result = hash * Tag.GetHashCode();
-            result += _Value.Sum(a => a.GetHashCode() * hash);
+            result += checked(_Value.Sum(a => a.GetHashCode() * hash));
 
             return result;
         }
     }
-
-    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
 
     #endregion
 }

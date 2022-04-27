@@ -274,7 +274,7 @@ public class S456 : CommonProcessing
     /// <exception cref="InvalidOperationException"></exception>
     private void HandleLevel3Error(KernelSessionId sessionId)
     {
-        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcomes.EndApplication);
         _Database.Update(Level3Error.AmountNotPresent);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 
@@ -326,7 +326,7 @@ public class S456 : CommonProcessing
     private void HandleMaxTransactionAmountExceeded(KernelSessionId sessionId)
     {
         _Database.Update(FieldOffRequestOutcome.NotAvailable);
-        _Database.Update(StatusOutcome.SelectNext);
+        _Database.Update(StatusOutcomes.SelectNext);
         _Database.Update(StartOutcomes.C);
         _Database.Update(Level2Error.MaxLimitExceeded);
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
@@ -366,7 +366,7 @@ public class S456 : CommonProcessing
 
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Statuses.NotReady);
-        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcomes.EndApplication);
         _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.CardDataMissing);
         _Database.SetUiRequestOnOutcomePresent(true);
@@ -426,7 +426,7 @@ public class S456 : CommonProcessing
     {
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Statuses.NotReady);
-        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcomes.EndApplication);
         _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.CardDataError);
         _Database.SetUiRequestOnOutcomePresent(true);
@@ -620,7 +620,7 @@ public class S456 : CommonProcessing
     {
         _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Statuses.NotReady);
-        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcomes.EndApplication);
         _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
         _Database.Update(Level2Error.CardDataError);
         _Database.SetUiRequestOnOutcomePresent(true);

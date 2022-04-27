@@ -1,9 +1,12 @@
 ﻿using System;
 
+using AutoFixture;
+
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Testing.BaseTestClasses;
+using Play.Testing.Emv;
 using Play.Testing.Emv.Ber.Primitive;
 
 using Xunit;
@@ -12,6 +15,23 @@ namespace Play.Emv.Ber.Tests.DataElements;
 
 public class ProcessingOptionsDataObjectListTests : TestBase
 {
+    #region Instance Values
+
+    private readonly IFixture _Fixture;
+
+    #endregion
+
+    #region Constructor
+
+    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="BerParsingException"></exception>
+    public ProcessingOptionsDataObjectListTests()
+    {
+        _Fixture = new EmvFixture().Create();
+    }
+
+    #endregion
+
     #region Instance Members
 
     /// <summary>
@@ -116,6 +136,35 @@ public class ProcessingOptionsDataObjectListTests : TestBase
         ProcessingOptionsDataObjectList sut = ProcessingOptionsDataObjectList.Decode(testData.EncodeValue().AsSpan());
         int expected = testData.GetValueByteCount();
         int actual = sut.GetValueByteCount();
+
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
+    }
+
+    [Fact]
+    public void PrimitiveValue_EncodingTagLengthValue_ReturnsExpectedResult()
+    {
+        byte[] expected = ProcessingOptionsDataObjectListBuilder.RawTagLengthValue;
+        ProcessingOptionsDataObjectList sut = _Fixture.Create<ProcessingOptionsDataObjectList>();
+        byte[] actual = sut.EncodeTagLengthValue();
+
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
+    }
+
+    [Fact]
+    public void PrimitiveValue_EncodingValue_ReturnsExpectedResult()
+    {
+        byte[] expected = ProcessingOptionsDataObjectListBuilder.RawValue;
+        ProcessingOptionsDataObjectList sut = _Fixture.Create<ProcessingOptionsDataObjectList>();
+        byte[] actual = sut.EncodeValue();
+
+        Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
+    }
+
+    [Fact]
+    public void PrimitiveValue_DecodingValue_ReturnsExpectedResult()
+    {
+        ProcessingOptionsDataObjectList expected = _Fixture.Create<ProcessingOptionsDataObjectList>();
+        ProcessingOptionsDataObjectList actual = ProcessingOptionsDataObjectList.Decode(ProcessingOptionsDataObjectListBuilder.RawValue.AsSpan());
 
         Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
     }

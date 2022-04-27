@@ -7,7 +7,7 @@ using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.Templates;
 
-public class FileControlInformationProprietaryPpse : FileControlInformationProprietaryTemplate
+public record FileControlInformationProprietaryPpse : FileControlInformationProprietaryTemplate
 {
     #region Static Metadata
 
@@ -76,47 +76,6 @@ public class FileControlInformationProprietaryPpse : FileControlInformationPropr
 
         return new FileControlInformationProprietaryPpse(fciProprietary);
     }
-
-    #endregion
-
-    #region Equality
-
-    public override bool Equals(ConstructedValue? other) =>
-        other is FileControlInformationProprietaryPpse fileControlInformationProprietaryTemplate && Equals(fileControlInformationProprietaryTemplate);
-
-    public bool Equals(FileControlInformationProprietaryPpse? other)
-    {
-        if (other == null)
-            return false;
-
-        return (other.GetTag() == Tag) && _FileControlInformationIssuerDiscretionaryDataPpse.Equals(other._FileControlInformationIssuerDiscretionaryDataPpse);
-    }
-
-    public override bool Equals(ConstructedValue? x, ConstructedValue? y)
-    {
-        if (x == null)
-            return y == null;
-
-        return (y != null) && x.Equals(y);
-    }
-
-    public bool Equals(FileControlInformationProprietaryPpse? x, FileControlInformationProprietaryPpse? y)
-    {
-        if (x is null)
-            return y is null;
-
-        if (y is null)
-            return false;
-
-        return x.Equals(y);
-    }
-
-    public override bool Equals(object? obj) =>
-        obj is FileControlInformationProprietaryPpse fileControlInformationProprietaryTemplate && Equals(fileControlInformationProprietaryTemplate);
-
-    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
-    public int GetHashCode(FileControlInformationProprietaryPpse obj) => obj.GetHashCode();
-    public override int GetHashCode() => _FileControlInformationIssuerDiscretionaryDataPpse.GetHashCode();
 
     #endregion
 }

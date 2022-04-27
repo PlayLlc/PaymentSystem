@@ -5,7 +5,7 @@ using Play.Ber.Identifiers;
 
 namespace Play.Emv.Ber.Templates;
 
-public abstract class Template : ConstructedValue
+public abstract record Template : ConstructedValue
 {
     #region Static Metadata
 

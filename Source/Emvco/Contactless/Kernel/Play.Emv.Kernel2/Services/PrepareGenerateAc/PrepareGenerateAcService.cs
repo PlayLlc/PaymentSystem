@@ -296,7 +296,7 @@ public partial class PrepareGenerateAcService : CommonProcessing
             _Database.Update(Level2Error.IdsNoMatchingAc);
             _Database.Update(MessageIdentifiers.ErrorUseAnotherCard);
             _Database.Update(Statuses.NotReady);
-            _Database.Update(StatusOutcome.EndApplication);
+            _Database.Update(StatusOutcomes.EndApplication);
             _Database.Update(MessageOnErrorIdentifiers.ErrorUseAnotherCard);
             _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
             _Database.SetUiRequestOnRestartPresent(true);

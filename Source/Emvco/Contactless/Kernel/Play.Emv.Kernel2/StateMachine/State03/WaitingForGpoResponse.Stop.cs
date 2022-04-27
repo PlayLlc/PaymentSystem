@@ -22,7 +22,7 @@ public partial class WaitingForGpoResponse : KernelState
 
         _Database.Update(Level3Error.Stop);
 
-        _Database.Update(StatusOutcome.EndApplication);
+        _Database.Update(StatusOutcomes.EndApplication);
 
         _Database.CreateEmvDiscretionaryData(_DataExchangeKernelService);
 

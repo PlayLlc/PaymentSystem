@@ -11,7 +11,7 @@ using Play.Emv.Ber.Exceptions;
 
 namespace Play.Emv.Ber.Templates;
 
-public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInformationIssuerDiscretionaryDataTemplate
+public record FileControlInformationIssuerDiscretionaryDataPpse : FileControlInformationIssuerDiscretionaryDataTemplate
 {
     #region Static Metadata
 
@@ -188,23 +188,6 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
 
     #region Equality
 
-    public override bool Equals(object? obj) => obj is FileControlInformationIssuerDiscretionaryDataPpse fci && Equals(fci);
-    public override bool Equals(ConstructedValue? other) => other is FileControlInformationIssuerDiscretionaryDataPpse ppse && Equals(ppse);
-
-    public bool Equals(FileControlInformationIssuerDiscretionaryDataPpse other)
-    {
-        if (_DirectoryEntry.Count != other._DirectoryEntry.Count)
-            return false;
-
-        if (!_TerminalCategoriesSupportedList?.Equals(other._TerminalCategoriesSupportedList) ?? (other._TerminalCategoriesSupportedList == null))
-            return false;
-
-        return _DirectoryEntry.All(other._DirectoryEntry.Contains);
-    }
-
-    public override bool Equals(ConstructedValue? x, ConstructedValue? y) =>
-        Equals((FileControlInformationIssuerDiscretionaryDataPpse?) x, (FileControlInformationIssuerDiscretionaryDataPpse?) y);
-
     public static bool Equals(FileControlInformationIssuerDiscretionaryDataPpse? x, FileControlInformationIssuerDiscretionaryDataPpse? y)
     {
         if (x is null)
@@ -230,8 +213,6 @@ public class FileControlInformationIssuerDiscretionaryDataPpse : FileControlInfo
             return result;
         }
     }
-
-    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
 
     #endregion
 }

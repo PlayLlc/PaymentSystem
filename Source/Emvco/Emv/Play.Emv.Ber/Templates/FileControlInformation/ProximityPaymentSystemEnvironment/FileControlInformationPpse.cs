@@ -9,7 +9,7 @@ using Play.Icc.FileSystem.DedicatedFiles;
 
 namespace Play.Emv.Ber.Templates;
 
-public class FileControlInformationPpse : FileControlInformationTemplate
+public record FileControlInformationPpse : FileControlInformationTemplate
 {
     #region Static Metadata
 
@@ -97,25 +97,6 @@ public class FileControlInformationPpse : FileControlInformationTemplate
 
     #region Equality
 
-    public override bool Equals(object? obj) => obj is FileControlInformationPpse fci && Equals(fci);
-    public override bool Equals(ConstructedValue? other) => other is FileControlInformationPpse ppse && Equals(ppse);
-
-    public bool Equals(FileControlInformationPpse other) =>
-        (_DedicatedFileName != null)
-        && _DedicatedFileName.Equals(other._DedicatedFileName)
-        && _FileControlInformationProprietaryPpse.Equals(other._FileControlInformationProprietaryPpse);
-
-    public override bool Equals(ConstructedValue? x, ConstructedValue? y)
-    {
-        if (x == null)
-            return y == null;
-
-        if (y == null)
-            return false;
-
-        return x.Equals(y);
-    }
-
     public bool Equals(FileControlInformationPpse x, FileControlInformationPpse y) => x.Equals(y);
 
     public override int GetHashCode()
@@ -131,8 +112,6 @@ public class FileControlInformationPpse : FileControlInformationTemplate
             return result;
         }
     }
-
-    public override int GetHashCode(ConstructedValue obj) => obj.GetHashCode();
 
     #endregion
 }
