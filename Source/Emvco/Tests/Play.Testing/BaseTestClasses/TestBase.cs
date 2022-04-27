@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using AutoFixture;
 
 using Play.Ber.DataObjects;
+using Play.Codecs;
 
 using Xunit.Sdk;
 
@@ -129,7 +130,7 @@ public abstract class TestBase
             public static string Message(string expected, string actual) => $"\n\n\t\texpected\t: {expected}; \n\t\tactual\t\t: {actual};";
 
             public static string Message(TagLengthValue expected, TagLengthValue actual) =>
-                $"\n\n\t\texpected\t: {expected.EncodeTagLengthValue()}; \n\t\tactual\t\t: {actual.EncodeTagLengthValue()};";
+                $"\n\n\t\texpected\t: {PlayCodec.HexadecimalCodec.DecodeToString(expected.EncodeTagLengthValue())}; \n\t\tactual\t\t: {PlayCodec.HexadecimalCodec.DecodeToString(actual.EncodeTagLengthValue())};";
 
             public static string Message(byte expected, byte actual) => $"\n\n\t\texpected\t: {expected}; \n\t\tactual\t\t: {actual};";
             public static string Message(int expected, int actual) => $"\n\n\t\texpected\t: {expected}; \n\t\tactual\t\t: {actual};";

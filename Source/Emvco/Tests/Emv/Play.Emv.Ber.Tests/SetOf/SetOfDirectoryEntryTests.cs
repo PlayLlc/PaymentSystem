@@ -4,6 +4,7 @@ using AutoFixture;
 
 using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
+using Play.Codecs;
 using Play.Emv.Ber.Templates;
 using Play.Testing.BaseTestClasses;
 using Play.Testing.Emv;
@@ -55,10 +56,10 @@ namespace Play.Emv.Ber.Tests.SetOf
         public void BerEncoding_EncodingSetOfDirectoryEntry_SerializesExpectedValue()
         {
             byte[] expected = DirectoryEntryTestTlv.GetRawTagLengthValue();
-            var sut = DirectoryEntry.Decode(expected);
+            DirectoryEntry sut = DirectoryEntry.Decode(expected);
             byte[] actual = sut.EncodeTagLengthValue();
 
-            Assertion(() => Assert.Equal(expected, actual));
+            Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));
         }
 
         #endregion

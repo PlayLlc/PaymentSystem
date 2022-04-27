@@ -49,10 +49,10 @@ public class CommandTemplateTests : TestBase
     [Fact]
     public void ConstructedBerEncoding_DeserializingCommandTemplate_CreatesCommandTemplate()
     {
-        byte[] expectedResult = new DirectoryEntryTestTlv().EncodeTagLengthValue();
-        CommandTemplate sut = CommandTemplate.Decode(expectedResult.AsSpan());
-        byte[]? testValue = sut.EncodeValue();
-        Assert.Equal(expectedResult, testValue);
+        byte[] expected = new DirectoryEntryTestTlv().EncodeTagLengthValue();
+        CommandTemplate sut = CommandTemplate.Decode(expected.AsSpan());
+        byte[]? actual = sut.EncodeValue();
+        Assertion(() => { Assert.Equal(expected, actual); }, Build.Equals.Message(expected, actual));
     }
 
     #endregion

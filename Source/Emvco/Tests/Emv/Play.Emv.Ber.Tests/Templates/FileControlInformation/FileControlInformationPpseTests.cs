@@ -61,7 +61,7 @@ public class FileControlInformationPpseTests : TestBase
     {
         FileControlInformationPpseTestTlv testData = new();
         FileControlInformationPpse sut = FileControlInformationPpse.Decode(testData.EncodeTagLengthValue());
-        TagLengthValue expected = new(FileControlInformationPpse.Tag, testData.EncodeTagLengthValue());
+        TagLengthValue expected = new(FileControlInformationPpse.Tag, testData.EncodeValue());
         TagLengthValue actual = sut.AsTagLengthValue();
 
         Assertion(() => Assert.Equal(expected, actual), Build.Equals.Message(expected, actual));

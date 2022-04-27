@@ -117,4 +117,13 @@ public abstract record DataObjectList : DataElement<TagLength[]>
     public TagLength[] GetRequestedItems() => _Value;
 
     #endregion
+
+    #region Serialization
+
+    public override byte[] EncodeValue()
+    {
+        return _Value.SelectMany(a => a.Encode()).ToArray();
+    }
+
+    #endregion
 }

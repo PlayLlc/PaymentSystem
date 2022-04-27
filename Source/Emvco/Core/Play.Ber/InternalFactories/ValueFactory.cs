@@ -128,7 +128,7 @@ internal sealed class ValueFactory
     ///     decoded according to the format requirements of that codec
     /// </summary>
     /// <exception cref="BerParsingException"></exception>
-    public DecodedMetadata Decode(PlayEncodingId playEncodingId, ReadOnlySpan<byte> value)
+    internal DecodedMetadata Decode(PlayEncodingId playEncodingId, ReadOnlySpan<byte> value)
     {
         if (!_BerPrimitiveCodecMap.TryGetValue(playEncodingId, out PlayCodec? codec))
         {
@@ -139,12 +139,12 @@ internal sealed class ValueFactory
         return codec!.Decode(value);
     }
 
-    public byte[] EncodeValue(PlayEncodingId encodingId, TagLength[] value)
+    internal byte[] EncodeValue(PlayEncodingId encodingId, TagLength[] value)
     {
         return value.SelectMany(a => a.Encode()).ToArray();
     }
 
-    public byte[] EncodeValue(PlayEncodingId encodingId, TagLengthValue[] value)
+    internal byte[] EncodeValue(PlayEncodingId encodingId, TagLengthValue[] value)
     {
         return value.SelectMany(a => a.EncodeValue()).ToArray();
     }

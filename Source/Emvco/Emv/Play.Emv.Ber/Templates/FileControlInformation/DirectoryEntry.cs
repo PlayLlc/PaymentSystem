@@ -4,6 +4,7 @@ using Play.Ber.DataObjects;
 using Play.Ber.Exceptions;
 using Play.Ber.Identifiers;
 using Play.Ber.InternalFactories;
+using Play.Codecs;
 using Play.Codecs.Exceptions;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
@@ -168,7 +169,14 @@ public class DirectoryEntry : Template
     {
         return new IEncodeBerDataObjects?[]
         {
-            _ApplicationDedicatedFileName, _ApplicationLabel, _ApplicationPriorityIndicator, _ExtendedSelection, _KernelIdentifier
+            /*
+             * 
+    private readonly ApplicationDedicatedFileName _ApplicationDedicatedFileName;
+    private readonly ApplicationLabel? _ApplicationLabel;
+    private readonly ApplicationPriorityIndicator _ApplicationPriorityIndicator;
+    private readonly ExtendedSelection? _ExtendedSelection;
+    private readonly KernelIdentifier? _KernelIdentifier;
+             */ _ApplicationDedicatedFileName, _ApplicationLabel, _ApplicationPriorityIndicator, _ExtendedSelection, _KernelIdentifier
         };
     }
 

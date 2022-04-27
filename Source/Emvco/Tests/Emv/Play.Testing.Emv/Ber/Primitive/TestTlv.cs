@@ -33,11 +33,6 @@ public abstract class TestTlv : IDecodeDataElement
         _ContentOctets = ParseChildren(childRank, children);
     }
 
-    protected TestTlv()
-    {
-        throw new NotImplementedException();
-    }
-
     #endregion
 
     #region Instance Members
@@ -93,7 +88,8 @@ public abstract class TestTlv : IDecodeDataElement
         TagLength tagLength = GetTagLength();
         Span<byte> result = stackalloc byte[tagLength.GetTagLengthValueByteCount()];
         tagLength.Encode().AsSpan().CopyTo(result);
-        EncodeValue().AsSpan().CopyTo(result[tagLength.GetValueOffset()..]);
+        var a = EncodeValue().AsSpan().ToArray();
+        a.CopyTo(result[tagLength.GetValueOffset()..]);
 
         return result.ToArray();
     }

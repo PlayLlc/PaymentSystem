@@ -63,7 +63,7 @@ public class ProcessingOptionsDataObjectListTestTlv : TestTlv
     public TagLengthValue[] AsTagLengthValues()
     {
         List<TagLengthValue> result = new();
-        foreach (var value in _TerminalValues.Values)
+        foreach (PrimitiveValue? value in _TerminalValues.Values)
             result.Add(new TagLengthValue(value.GetTag(), value.EncodeValue(EmvCodec.GetCodec())));
 
         return result.ToArray();
