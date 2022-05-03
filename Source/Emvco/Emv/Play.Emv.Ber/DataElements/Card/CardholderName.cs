@@ -46,7 +46,7 @@ public record CardholderName : DataElement<char[]>, IEqualityComparer<Cardholder
         const ushort minByteLength = 2;
         const ushort maxByteLength = 26;
 
-        if (value.Length is not >= minByteLength and <= maxByteLength)
+        if (value.Length is < minByteLength and <= maxByteLength)
         {
             throw new DataElementParsingException(
                 $"The Primitive Value {nameof(CardholderName)} could not be initialized because the byte length provided was out of range. The byte length was {value.Length} but must be in the range of {minByteLength}-{maxByteLength}");

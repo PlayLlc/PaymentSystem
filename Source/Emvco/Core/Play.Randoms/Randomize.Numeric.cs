@@ -39,6 +39,13 @@ public partial class Randomize
             return PlayCodec.UnsignedIntegerCodec.DecodeToUInt16(buffer);
         }
 
+        public static uint UInt(int maxByteCount)
+        {
+            Span<byte> buffer = Bytes(maxByteCount);
+
+            return PlayCodec.UnsignedIntegerCodec.DecodeToUInt32(buffer);
+        }
+
         public static uint UInt()
         {
             Span<byte> buffer = Bytes(Specs.Integer.UInt32.ByteCount);

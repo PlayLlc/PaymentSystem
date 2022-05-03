@@ -1,4 +1,6 @@
-﻿using Play.Codecs;
+﻿using System.Numerics;
+
+using Play.Codecs;
 using Play.Core.Extensions;
 
 namespace Play.Randoms;
@@ -111,10 +113,7 @@ public partial class Randomize
         public static long Long(long min, long max)
         {
             if (min > max)
-            {
-                throw new ArgumentOutOfRangeException(nameof(min),
-                    $"The argument {nameof(min)} must be less than the argument {nameof(max)}");
-            }
+                throw new ArgumentOutOfRangeException(nameof(min), $"The argument {nameof(min)} must be less than the argument {nameof(max)}");
 
             if (min == max)
                 return min;
@@ -128,6 +127,22 @@ public partial class Randomize
             _Random.NextBytes(randNumberBuffer);
 
             return PlayCodec.UnsignedIntegerCodec.DecodeToUInt64(randNumberBuffer);
+        }
+
+        public static BigInteger BigInteger(int minByteCount, int maxByteCount)
+        {
+            byte[] a = new byte[_Random.Next(minByteCount, maxByteCount)];
+            _Random.NextBytes(a);
+
+            return new BigInteger(a);
+        }
+
+        public static BigInteger BigInteger()
+        {
+            byte[] a = new byte[_Random.Next(1, 50)];
+            _Random.NextBytes(a);
+
+            return new BigInteger(a);
         }
 
         private static long GetRandomFromHash(long min, long max, long hash)

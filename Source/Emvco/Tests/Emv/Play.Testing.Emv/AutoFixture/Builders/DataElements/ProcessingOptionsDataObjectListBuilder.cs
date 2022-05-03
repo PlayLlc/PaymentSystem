@@ -1,34 +1,51 @@
 ﻿using AutoFixture.Kernel;
 
+using Play.Ber.Exceptions;
+using Play.Codecs.Exceptions;
 using Play.Emv.Ber;
 using Play.Emv.Ber.DataElements;
 using Play.Emv.Ber.Enums;
+using Play.Randoms;
 
 namespace Play.Testing.Emv;
 
-public class ProcessingOptionsDataObjectListBuilder : SpecimenBuilder
+public class ProcessingOptionsDataObjectListBuilder : PrimitiveValueSpecimenBuilder<ProcessingOptionsDataObjectList>
 {
     #region Static Metadata
 
-    public static readonly byte[] RawTagLengthValue = new byte[]
-    {
-        0x9F, 0x38, 0x1B, 0x9F, 0x66, 0x04, 0x9F, 0x02, 0x06, 0x9F,
-        0x03, 0x06, 0x9F, 0x1A, 0x02, 0x95, 0x05, 0x5F, 0x2A, 0x02,
-        0x9A, 0x03, 0x9C, 0x01, 0x9F, 0x37, 0x04, 0x9F, 0x4E, 0x14
-    };
+    public static readonly SpecimenBuilderId Id = new(nameof(ProcessingOptionsDataObjectList));
 
-    public static readonly byte[] RawValue = new byte[]
-    {
-        0x9F, 0x66, 0x04, 0x9F, 0x02, 0x06, 0x9F, 0x03, 0x06, 0x9F,
-        0x1A, 0x02, 0x95, 0x05, 0x5F, 0x2A, 0x02, 0x9A, 0x03, 0x9C,
-        0x01, 0x9F, 0x37, 0x04, 0x9F, 0x4E, 0x14
-    };
+    #endregion
 
-    public static readonly SpecimenBuilderId Id = new(nameof(ProcessingOptionsDataObjectListBuilder));
+    #region Constructor
+
+    /// <exception cref="BerParsingException"></exception>
+    /// <exception cref="CodecParsingException"></exception>
+    public ProcessingOptionsDataObjectListBuilder() : base(
+        new DefaultPrimitiveValueSpecimen<ProcessingOptionsDataObjectList>(ProcessingOptionsDataObjectList.Decode(GetContentOctets().AsSpan()),
+            GetContentOctets()))
+    { }
 
     #endregion
 
     #region Instance Members
+
+    private static byte[] GetContentOctets() =>
+        new byte[]
+        {
+            0x9F, 0x66, 0x04, // PUNATC(Track2)
+            0x9F, 0x02, 0x06, // Amount Authorized (Numeric)
+            0x9F, 0x03, 0x06, // Amount Other (Numeric)
+            0x9F, 0x1A, 0x02, // Terminal Country Code
+            0x95, 0x05, // Terminal Verification Results
+
+            0x5F, 0x2A, 0x02, // Transaction Currency Code
+            0x9A, 0x03, // Transaction Date
+            0x9C, 0x01, // Transaction Type
+
+            0x9F, 0x37, 0x04, // Unpredictable Number
+            0x9F, 0x4E, 0x14 // Merchant Name and Location
+        };
 
     public override SpecimenBuilderId GetId() => Id;
 
@@ -43,7 +60,7 @@ public class ProcessingOptionsDataObjectListBuilder : SpecimenBuilder
         if (type != typeof(ProcessingOptionsDataObjectList))
             return new NoSpecimen();
 
-        return ProcessingOptionsDataObjectList.Decode(RawTagLengthValue.AsSpan());
+        return GetDefault();
     }
 
     #endregion
