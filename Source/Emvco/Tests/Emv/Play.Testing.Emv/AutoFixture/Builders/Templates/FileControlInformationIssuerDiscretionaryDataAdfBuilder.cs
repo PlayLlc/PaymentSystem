@@ -20,16 +20,29 @@ public class FileControlInformationIssuerDiscretionaryDataAdfBuilder : Construct
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="CodecParsingException"></exception>
-    public FileControlInformationIssuerDiscretionaryDataAdfBuilder() : base(
-        new DefaultConstructedValueSpecimen<FileControlInformationIssuerDiscretionaryDataAdf>(
-            FileControlInformationIssuerDiscretionaryDataAdf.Decode(GetContentOctets().AsMemory()), GetContentOctets()))
+    public FileControlInformationIssuerDiscretionaryDataAdfBuilder() : base(Goodbye())
     { }
 
     #endregion
 
     #region Instance Members
 
-    private static byte[] GetContentOctets() => new byte[] {0x00};
+    private static DefaultConstructedValueSpecimen<FileControlInformationIssuerDiscretionaryDataAdf> Goodbye()
+    {
+        FileControlInformationIssuerDiscretionaryDataAdf aa = Test();
+        DefaultConstructedValueSpecimen<FileControlInformationIssuerDiscretionaryDataAdf> a = new(aa, GetContentOctets());
+
+        return a;
+    }
+
+    private static FileControlInformationIssuerDiscretionaryDataAdf Test()
+    {
+        FileControlInformationIssuerDiscretionaryDataAdf a = FileControlInformationIssuerDiscretionaryDataAdf.Decode(new byte[] {0xBF, 0x0C, 0x00}.AsMemory());
+
+        return a;
+    }
+
+    private static byte[] GetContentOctets() => new byte[] {0xBF, 0x0C, 0x00};
     public override SpecimenBuilderId GetId() => Id;
 
     /// <exception cref="Play.Emv.Ber.Exceptions.DataElementParsingException"></exception>

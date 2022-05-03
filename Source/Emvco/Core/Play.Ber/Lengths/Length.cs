@@ -27,6 +27,13 @@ public readonly struct Length
     /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     internal Length(ReadOnlySpan<byte> contentOctets)
     {
+        if (contentOctets.Length == 0)
+        {
+            _Value = 0;
+
+            return;
+        }
+
         Span<byte> encodedContentOctets = Serialize(contentOctets);
 
         if (ShortLength.IsValid(encodedContentOctets[0]))
@@ -43,7 +50,6 @@ public readonly struct Length
 
     /// <exception cref="BerParsingException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="Exceptions._Temp.BerFormatException"></exception>
     internal Length(uint value)
     {
         if (ShortLength.IsValid((byte) value))
